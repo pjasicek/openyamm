@@ -124,6 +124,10 @@ TEST_CASE("picked save folders import without overwriting existing saves")
 
 TEST_CASE("user data folder URLs use the file scheme")
 {
+#if defined(_WIN32)
+    CHECK(OpenYAMM::Engine::folderUrl("C:/Users/player/OpenYAMM") == "file:///C:/Users/player/OpenYAMM");
+#else
     CHECK(OpenYAMM::Engine::folderUrl("/home/player/.local/share/openyamm")
           == "file:///home/player/.local/share/openyamm");
+#endif
 }

@@ -22,6 +22,7 @@
 #include <array>
 #include <cmath>
 #include <filesystem>
+#include <string>
 
 TEST_CASE("HUD label retains the final Cyrillic glyph after content width rounding")
 {
@@ -88,8 +89,6 @@ TEST_CASE("HUD font snapping preserves fitted labels at fractional viewport scal
         CHECK(renderedLayers == 2);
     }
 }
-#include <string>
-
 TEST_CASE("dimensional travel shows four portals with a column of the screen as each one's hover region")
 {
     using namespace OpenYAMM;
@@ -261,7 +260,7 @@ TEST_CASE("HUD text colour codes take no room, carry across wrapped lines and ti
 
     for (int character = font.firstChar; character <= font.lastChar; ++character)
     {
-        font.unicodeGlyphMetrics[size_t(character)] = {0, 5, 1, 0};
+        font.glyphMetrics[size_t(character)] = {0, 5, 1, 0};
     }
 
     font.mainTextureHandle = bgfx::TextureHandle {1};

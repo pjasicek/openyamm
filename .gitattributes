@@ -23,4 +23,4 @@
 /assets_dev/engine/liquids/liquids.yml -text
 
 # Unified patch context prefixes precede the upstream file's indentation.
-*.patch whitespace=-space-before-tab
+*.patch text eol=lf whitespace=-space-before-tab

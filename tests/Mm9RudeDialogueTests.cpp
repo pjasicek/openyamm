@@ -3,6 +3,7 @@
 
 #include "engine/AssetFileSystem.h"
 #include "engine/AssetScaleTier.h"
+#include "engine/TextTable.h"
 #include "game/data/GameDataLoader.h"
 #include "game/gameplay/GameMechanics.h"
 #include "game/gameplay/GameplayDialogController.h"
@@ -1437,11 +1438,26 @@ TEST_CASE("Every source MM9 RUDE skill-training row has a core trainer mapping"
     OpenYAMM::Game::Mm9RudeDialogueTable table;
     REQUIRE(table.load(assetFileSystem));
 
+    const std::optional<std::string> trainerText =
+        assetFileSystem.readTextFile("worlds/mm9/data_tables/skill_trainers.txt");
+    REQUIRE(trainerText.has_value());
+    const std::optional<OpenYAMM::Engine::TextTable> trainerRows =
+        OpenYAMM::Engine::TextTable::parseTabSeparated(*trainerText);
+    REQUIRE(trainerRows.has_value());
+    std::vector<std::vector<std::string>> rows;
+    for (size_t index = 0; index < trainerRows->getRowCount(); ++index)
+    {
+        rows.push_back(trainerRows->getRow(index));
+    }
+    OpenYAMM::Game::Mm9SkillTrainerTable trainers;
+    REQUIRE(trainers.loadFromRows(rows, table));
     size_t trainerRowCount = 0;
     for (uint32_t rudeId = 1; rudeId <= 999; ++rudeId)
     {
-        for (const OpenYAMM::Game::Mm9RudeRow &row : table.rows(rudeId))
+        const std::vector<OpenYAMM::Game::Mm9RudeRow> &rudeRows = table.rows(rudeId);
+        for (size_t rowIndex = 0; rowIndex < rudeRows.size(); ++rowIndex)
         {
+            const OpenYAMM::Game::Mm9RudeRow &row = rudeRows[rowIndex];
             if (row.next != -4)
             {
                 continue;
@@ -1449,11 +1465,12 @@ TEST_CASE("Every source MM9 RUDE skill-training row has a core trainer mapping"
 
             ++trainerRowCount;
             CHECK_MESSAGE(
-                OpenYAMM::Game::resolveMm9RudeSkillTrainerTopic(row).has_value(),
+                trainers.find(rudeId, rowIndex) != nullptr,
                 "Missing trainer mapping for RUDE ", rudeId, " source line ", row.sourceLine);
         }
     }
-    CHECK(trainerRowCount == 115);
+    CHECK_GT(trainerRowCount, 0u);
+    CHECK_EQ(trainerRowCount, trainers.entries().size());
 }
 
 TEST_CASE("MM9 world data loads transitions trainers and source monster gameplay")

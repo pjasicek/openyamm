@@ -102,7 +102,7 @@ then applies upstream migrations. The next normal save uses the current format
 (197). Original files remain intact. Full reader/runtime validation awaits the
 user's resumption of builds.
 
-## Validation and remaining limits
+## Validation before builds resumed
 
 - No game, unit-test or Vulkan builds were run: the user's build pause remains in
   force. No previous executable is presented as validation of these merged sources.
@@ -123,3 +123,68 @@ user's resumption of builds.
   checks remain outstanding until builds resume.
 
 This integration does not publish or push directly to the upstream repository.
+
+## Follow-up after builds resumed
+
+The user resumed builds and tests on 2026-11-20. The Windows Release game and all
+three test executables were built with the existing MinGW/Ninja configuration in
+`build-windows-release`, using 25 compile jobs. Vulkan remains disabled.
+
+Compilation and execution exposed additional integration issues, now corrected:
+
+- Store patches with LF so Git can apply the pinned bgfx patches on Windows.
+  Compare filesystem path components portably in the shared editor compiler and
+  link WinHTTP into the Windows unit-test target that compiles the updater.
+- Finish retiring old language parameters and menu constructors, fix the journal
+  edit-state field and normalize submitted event answers before comparing them.
+  A removed language argument must also not become a load-warning message.
+- Use the map width in the separated water-depth loader, and use the current
+  mover, trainer and item-generator APIs in regression fixtures.
+- Correct the potion action values in YAML. Dispatch Recharge Potion's wand
+  action only for wand targets so ordinary potion mixing works in both orders.
+- Cure conditions before restoring NPC-healer health: removing poison can raise
+  maximum HP, so healing against the previous maximum left the party short.
+- Bind actual enchantment tables in the Clanker fixture. Keep the authoritative
+  five-member soul-jar case, class learning limits and Normal 1 Blaster grant.
+- Port legacy translated-table tests to display-only PO checks. Update the old
+  clock/language expectations, preserve the original settings migration fixture,
+  and make filesystem/archive, URL and source-newline assertions portable.
+- Initialize settings in the Lifedrain runtime fixture. GDB traced its crash to
+  the solo-HUD check reading unbound settings. Correct the legacy HUD fixture's
+  metric array; it had incorrectly indexed an empty Unicode metric vector.
+- Use the current chest trace's English map name in the New Sorpigal scenario.
+- Account for Chedian's declared Sorcerer start in the continent test. Explicitly
+  activate Standard in the Standard party-sheet fixture so an earlier MAW test's
+  Ascension display-name override cannot leak into its Learning assertions.
+
+The old build-pause limitation above is historical; the results below supersede it.
+
+### Executed validation
+
+- Release game and all three test targets compile successfully; Vulkan is OFF.
+- Unit suite: 3,149 cases and 4,447,456 assertions passed.
+- Runtime suite: 80 cases and 5,463 assertions passed, with no failures or skips.
+- Video streaming suite: 2 cases and 132 assertions passed.
+- Eight headless scenarios passed: release save/load roundtrip, rebuilt-map save,
+  MM6 New Sorpigal storage, MM7 Hidden Tomb password, MM7 Stone City inn rest,
+  MM8 Jadame teacher ledger, and both tagged Russian-branch save imports (v89/v90).
+  The two imported saves were loaded and rewritten with the normal v197 header;
+  SHA-256 checks confirm that both original saves remain unchanged.
+- The earlier 22 Python tests passed (17 lighting geometry, 3 save tagging,
+  2 localization extraction). Diff whitespace and added C++ line-length checks pass.
+- The lighting audit still reports only the 44 optional MM9 bakes with missing
+  source BMPs described above; no MM6/MM7/MM8 stale dependencies were reported.
+  These runs validate headless behavior, not desktop GPU rendering or performance.
+
+The full CTest run passed unit and video suites. Runtime fixtures were then
+corrected and the runtime suite rerun independently. Build/test logs and isolated
+scenario artifacts are retained locally under the ignored `output/` directory.
+
+Reproduce the Windows Release build in PowerShell with the existing UCRT64 tools:
+
+```powershell
+$env:PATH = 'C:/msys64/ucrt64/bin;C:/msys64/usr/bin;' + $env:PATH
+$env:MSYSTEM = 'UCRT64'
+cmake --build build-windows-release --target openyamm openyamm_unit_tests openyamm_runtime_tests openyamm_video_streaming_tests -j25
+ctest --test-dir build-windows-release --output-on-failure --timeout 1800
+```

@@ -133,19 +133,19 @@ potions:
       - buff: {id: TempAccuracy, strength: {linear: [0, 3]}}
   246:
     name: Flaming Potion
-    item: {action: temporary_special_enchant | permanent_special_enchant, enchant: Flame}
+    item: {action: temporary_special_enchant, enchant: Flame}
   247:
     name: Freezing Potion
-    item: {action: temporary_special_enchant | permanent_special_enchant, enchant: Frost}
+    item: {action: temporary_special_enchant, enchant: Frost}
   248:
     name: Noxious Potion
-    item: {action: temporary_special_enchant | permanent_special_enchant, enchant: Poison}
+    item: {action: temporary_special_enchant, enchant: Poison}
   249:
     name: Shocking Potion
-    item: {action: temporary_special_enchant | permanent_special_enchant, enchant: Sparks}
+    item: {action: temporary_special_enchant, enchant: Sparks}
   250:
     name: Swift Potion
-    item: {action: temporary_special_enchant | permanent_special_enchant, enchant: Swift}
+    item: {action: temporary_special_enchant, enchant: Swift}
   251:
     name: Cure Paralysis
     effects:
@@ -196,7 +196,7 @@ potions:
       - cure: [Petrified]
   263:
     name: Slaying Potion
-    item: {action: temporary_special_enchant | permanent_special_enchant, enchant: DragonSlaying}
+    item: {action: permanent_special_enchant, enchant: DragonSlaying}
   264:
     name: Pure Luck
     once_per_character: true

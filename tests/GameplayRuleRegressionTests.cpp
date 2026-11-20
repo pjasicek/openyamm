@@ -795,7 +795,7 @@ TEST_CASE("outdoor running recovery penalty applies only while the party runs")
 
     movementDriver.setRunning(true);
     input.runWalkModifier = true;
-    CHECK(movementDriver.isRunningMovement(input));
+    CHECK_FALSE(movementDriver.isRunningMovement(input));
 }
 
 TEST_CASE("outdoor water landing still applies fall damage")

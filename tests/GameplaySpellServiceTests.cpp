@@ -668,10 +668,12 @@ TEST_CASE("a quick Lifedrain takes a hostile within reach; beyond reach it attac
     Tests::PartySpellTestWorldRuntime world;
     world.bindParty(&party);
     world.setPartyPosition(0.0f, 0.0f, 0.0f);
+    Game::GameSettings settings = Game::GameSettings::createDefault();
     Game::GameSession session;
     session.bindDataRepository(&data);
     session.bindActiveWorldRuntime(&world);
     Game::GameplayScreenRuntime &runtime = session.gameplayScreenRuntime();
+    runtime.bindSettings(&settings);
     StartingSceneAdapter scene;
     runtime.bindSceneAdapter(&scene);
     Game::GameplaySpellService &spells = session.gameplaySpellService();

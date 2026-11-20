@@ -22,7 +22,7 @@ bool loadOutdoorWaterDepthData(const Engine::AssetFileSystem &assets, OutdoorMap
     const std::string path = config->directory + config->shore->file;
     Engine::BinaryAssetCache cache;
     const std::optional<Engine::ImagePixelsBgra> image = Engine::loadImageAssetPixelsBgra(assets, path, cache);
-    const int size = MapCells * config->texelsPerCell;
+    const int size = OutdoorMapData::TerrainWidth * config->texelsPerCell;
     if (!image || image->width != size || image->height != size)
     {
         error = "terrain shore distance must be " + std::to_string(size) + " pixels square: " + path;

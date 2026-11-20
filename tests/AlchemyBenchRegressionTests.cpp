@@ -76,6 +76,7 @@ Party makeParty(const OpenYAMM::Tests::RegressionGameData &gameData, size_t memb
 
     Party party = {};
     party.setItemTable(&gameData.itemTable);
+    party.setItemEnchantTables(&gameData.standardItemEnchantTable, &gameData.specialItemEnchantTable);
     party.seed(seed);
     return party;
 }
@@ -393,7 +394,7 @@ TEST_CASE("Clanker's Amulet adds 15 potion power without changing alchemy master
     const AlchemyPreview withoutAmulet = AlchemyBenchRuntime::preview(party, recipe, tables, unlocked({}));
     REQUIRE(withoutAmulet.outcome == AlchemyPreviewOutcome::Known);
 
-    InventoryItem amulet = ItemGenerator::makeInventoryItem(gameData.itemTable, 1339);
+    InventoryItem amulet = ItemGenerator::makeInventoryItem(1339, gameData.itemTable, ItemGenerationMode::ChestLoot);
     REQUIRE_NE(amulet.standardEnchantId, 0u);
     CHECK_EQ(amulet.standardEnchantPower, 15u);
     amulet.identified = true;

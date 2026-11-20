@@ -15,7 +15,7 @@ public:
         DungeonTransition
     };
 
-    explicit LoadingOverlayScreen(const Engine::AssetFileSystem &assetFileSystem, const std::string &language = "en");
+    explicit LoadingOverlayScreen(const Engine::AssetFileSystem &assetFileSystem);
     ~LoadingOverlayScreen() override;
 
     AppMode mode() const override;

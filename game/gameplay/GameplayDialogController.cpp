@@ -1761,8 +1761,6 @@ NpcProfessionActionExecution executeNpcFollowerProfessionAction(
                 || professionId == NpcProfessionId::ExpertHealer
                 || professionId == NpcProfessionId::MasterHealer)
             {
-                restorePartyHealth(*context.pParty);
-
                 if (professionId == NpcProfessionId::ExpertHealer)
                 {
                     for (uint32_t condition = 0; condition < static_cast<uint32_t>(CharacterCondition::Dead);
@@ -1777,6 +1775,8 @@ NpcProfessionActionExecution executeNpcFollowerProfessionAction(
                     restorePartyMana(*context.pParty);
                 }
 
+                // Curing a stat-reducing condition can raise the maximum health again.
+                restorePartyHealth(*context.pParty);
                 applied = true;
             }
             break;

@@ -542,6 +542,7 @@ target_link_libraries(openyamm_unit_tests
         "${CMAKE_BINARY_DIR}/_deps/ffmpeg-install/lib/libswscale.a"
         "${CMAKE_BINARY_DIR}/_deps/ffmpeg-install/lib/libavutil.a"
         $<$<PLATFORM_ID:Windows>:bcrypt>
+        $<$<PLATFORM_ID:Windows>:winhttp>
 )
 
 add_dependencies(openyamm_unit_tests openyamm_ffmpeg_build)

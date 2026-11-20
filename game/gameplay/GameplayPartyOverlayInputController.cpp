@@ -61,7 +61,6 @@ bool canUseInventoryItemByDoubleClick(InventoryItemUseAction action)
         case InventoryItemUseAction::LearnSpell:
         case InventoryItemUseAction::CastScroll:
         case InventoryItemUseAction::ReadMessageScroll:
-        case InventoryItemUseAction::UseDimensionDoorScroll:
         case InventoryItemUseAction::ConsumePotion:
         case InventoryItemUseAction::UseHorseshoe:
         case InventoryItemUseAction::UseGenieLamp:

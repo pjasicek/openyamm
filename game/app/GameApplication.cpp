@@ -9353,7 +9353,7 @@ bool GameApplication::applicationTextInputActive() const
 
     return (saveGameScreen.active && saveGameScreen.editActive)
         || (gameplayScreenRuntime.journalScreenStateReadOnly().active
-            && gameplayScreenRuntime.journalScreenStateReadOnly().mapNoteEditActive)
+            && gameplayScreenRuntime.journalScreenStateReadOnly().mapNoteEditing)
         || gameplayScreenRuntime.houseBankState().inputActive()
         || GameplayUiController::characterScreenSearchActive(gameplayScreenRuntime.characterScreenReadOnly())
         || GameplayUiController::journalSearchActive(gameplayScreenRuntime.journalScreenStateReadOnly())
@@ -9549,6 +9549,7 @@ void GameApplication::finishPendingInputPrompt(bool accepted)
         return;
     }
 
+    const std::string normalizedInput = normalizePromptAnswer(submittedInput);
     bool matchedAnswer = false;
     size_t matchedAnswerIndex = 0;
     const std::vector<std::string> answers = resolvePendingInputAnswers(prompt);
@@ -11782,7 +11783,7 @@ void GameApplication::beginLoadingOverlay(LoadingOverlayScreen::Presentation pre
 
     if (m_pLoadingOverlayScreen == nullptr)
     {
-        m_pLoadingOverlayScreen = std::make_unique<LoadingOverlayScreen>(*m_pAssetFileSystem, m_settings.language);
+        m_pLoadingOverlayScreen = std::make_unique<LoadingOverlayScreen>(*m_pAssetFileSystem);
     }
 
     m_pLoadingOverlayScreen->setPresentation(presentation);
@@ -13508,7 +13509,7 @@ void GameApplication::openSaveGameScreen()
     }
     std::unique_ptr<LoadGameScreen> pScreen = std::make_unique<LoadGameScreen>(
         *m_pAssetFileSystem, m_gameSession.data(), LoadGameScreen::LoadAction{}, [this]() { openPauseMenuScreen(); },
-        true, &m_gameAudioSystem, m_settings.language);
+        true, &m_gameAudioSystem);
     std::string location = m_gameSession.currentMapFileName();
     if (const std::optional<MapAssetInfo> &map = m_gameDataLoader.getSelectedMap())
     {
@@ -13635,8 +13636,7 @@ void GameApplication::openNewGameScreen(const std::string &source)
         [this]()
         {
             openMainMenuScreen();
-        },
-        m_settings.language);
+        });
 
 
     if (!m_mainMenuChildScreensPrepared)

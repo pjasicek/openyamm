@@ -54,7 +54,7 @@ TEST_CASE("legacy Snake Temple saves keep the rear lift wall closed throughout i
         {
             std::vector<IndoorVertex> vertices(858);
             vertices[821] = {-1152, 1408, 700};
-            applyIndoorMechanismDoorToVertices(lift, distance, vertices);
+            applyIndoorMechanismDoorToVertices(lift, nullptr, distance, 1, vertices);
             CHECK_EQ(vertices[821].z, vertices[853].z);
             CHECK_EQ(vertices[821].z, vertices[857].z);
             CHECK_EQ(vertices[821].z, 700 - int(distance));

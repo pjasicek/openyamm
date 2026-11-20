@@ -609,7 +609,7 @@ std::string displayPathForDocument(
     std::error_code relativeError;
     const std::filesystem::path relativePath = std::filesystem::relative(path, editorDevelopmentRoot, relativeError);
 
-    if (!relativeError && !relativePath.empty() && !relativePath.native().starts_with(".."))
+    if (!relativeError && !relativePath.empty() && *relativePath.begin() != std::filesystem::path(".."))
     {
         return relativePath.generic_string();
     }

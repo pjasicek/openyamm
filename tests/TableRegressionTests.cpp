@@ -24,40 +24,6 @@
 
 namespace
 {
-TEST_CASE("localized spell names preserve monster lookup and canonical spell rules")
-{
-    using OpenYAMM::Game::SpellTable;
-
-    const std::vector<std::vector<std::string>> canonicalRows = {
-        {"2", "2", "Fire Bolt", "Fire", "Fire Bolt", "Fire damage"},
-        {"18", "7", "Lightning Bolt", "Air", "Lightning", "Air damage"}};
-    const std::vector<std::vector<std::string>> localizedRows = {
-        {"18", "7", "Молния", "Air", "Молния", "Air damage"},
-        {"2", "2", "Огненная стрела", "Fire", "Огненная стрела", "Fire damage"}};
-    SpellTable table;
-    REQUIRE(table.loadFromRows(localizedRows, canonicalRows));
-
-    const OpenYAMM::Game::SpellEntry *pLightning = table.findByName("lightning bolt");
-    REQUIRE(pLightning != nullptr);
-    CHECK_EQ(pLightning->id, 18);
-    CHECK_EQ(pLightning->name, "Молния");
-    CHECK_EQ(pLightning->normalizedName, "lightning bolt");
-    CHECK(table.findByName("Молния") == pLightning);
-    CHECK(table.findByName("LightningBolt") == pLightning);
-
-    const OpenYAMM::Game::SpellEntry *pFireBolt = table.findByName("fire bolt");
-    REQUIRE(pFireBolt != nullptr);
-    CHECK_EQ(pFireBolt->id, 2);
-    CHECK_EQ(pFireBolt->name, "Огненная стрела");
-    CHECK_EQ(pFireBolt->normalizedName, "fire bolt");
-    CHECK(table.findByName("Огненная стрела") == pFireBolt);
-
-    REQUIRE(table.loadFromRows(canonicalRows));
-    CHECK(table.findByName("Молния") == nullptr);
-    REQUIRE(table.findByName("lightning bolt") != nullptr);
-    CHECK_EQ(table.findByName("lightning bolt")->id, 18);
-}
-
 TEST_CASE("merged class display names hide mechanics keys")
 {
     CHECK_EQ(OpenYAMM::Game::displayClassName("GreatWyrm"), "Great Wyrm");

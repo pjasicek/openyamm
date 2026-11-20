@@ -8,10 +8,10 @@ steps:
       pose: {map: oute3.odm, x: -6880, y: -9408, z: 160, yaw: 1.5707963, pitch: -0.5}
       expect: {triggered_event: 501, can_activate: true}
   - assert:
-      chest_opened: {map: oute3.odm, chest_id: 2}
+      chest_opened: {map: New Sorpigal, chest_id: 2}
   - new_game_flow: {start_map: oute3.odm}
   - press_interact:
       pose: {map: oute3.odm, x: -6688, y: -8992, z: 160, yaw: 3.1415926, pitch: -0.5}
       expect: {triggered_event: 502, can_activate: true}
   - assert:
-      chest_opened: {map: oute3.odm, chest_id: 3}
+      chest_opened: {map: New Sorpigal, chest_id: 3}

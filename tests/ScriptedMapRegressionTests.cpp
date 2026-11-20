@@ -5580,7 +5580,7 @@ TEST_CASE("mm7 global mmmerge supplement applies hatchling fixups and has no Ver
     {
         OpenYAMM::Game::EventRuntime eventRuntime = {};
         OpenYAMM::Game::PartySeed seed = {};
-        seed.members = {makeScriptedRegressionMember(), makeScriptedRegressionMember()};
+        seed.members.assign(5, makeScriptedRegressionMember());
         OpenYAMM::Game::Party party = {};
         party.seed(seed);
         party.setClassSkillTable(&mapLoader.gameDataLoader.getClassSkillTable());
@@ -5731,6 +5731,7 @@ TEST_CASE("mm7 ancient weapon lesson preserves existing skill ranks and mastery"
     seed.members.assign(3, makeScriptedRegressionMember());
     Party party = {};
     party.seed(seed);
+    party.setClassSkillTable(&requireRegressionMapLoader().gameDataLoader.getClassSkillTable());
     party.member(0)->skills["Blaster"] = {"Blaster", 10, SkillMastery::Master};
     party.member(2)->skills["Blaster"] = {"Blaster", 7, SkillMastery::Expert};
     REQUIRE(party.member(1)->findSkill("Blaster") == nullptr);
@@ -5741,15 +5742,15 @@ TEST_CASE("mm7 ancient weapon lesson preserves existing skill ranks and mastery"
     REQUIRE(eventRuntime.executeEventById(std::nullopt, globalEventProgram, 950, runtimeState, &party));
 
     const CharacterSkill *pMaster = party.member(0)->findSkill("Blaster");
-    const CharacterSkill *pNewExpert = party.member(1)->findSkill("Blaster");
+    const CharacterSkill *pNewLearner = party.member(1)->findSkill("Blaster");
     const CharacterSkill *pExpert = party.member(2)->findSkill("Blaster");
     REQUIRE(pMaster != nullptr);
-    REQUIRE(pNewExpert != nullptr);
+    REQUIRE(pNewLearner != nullptr);
     REQUIRE(pExpert != nullptr);
     CHECK_EQ(pMaster->level, 10u);
     CHECK(pMaster->mastery == SkillMastery::Master);
-    CHECK_EQ(pNewExpert->level, 1u);
-    CHECK(pNewExpert->mastery == SkillMastery::Expert);
+    CHECK_EQ(pNewLearner->level, 1u);
+    CHECK(pNewLearner->mastery == SkillMastery::Normal);
     CHECK_EQ(pExpert->level, 7u);
     CHECK(pExpert->mastery == SkillMastery::Expert);
 }

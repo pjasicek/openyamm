@@ -1,9 +1,13 @@
 #include "engine/AssetFileSystem.h"
 #include "engine/Localization.h"
+#include "engine/TextTable.h"
+#include "game/tables/CharacterInspectTable.h"
+#include "game/tables/SpellTable.h"
 
 #include <doctest/doctest.h>
 #include <filesystem>
 #include <string>
+#include <vector>
 
 using namespace OpenYAMM;
 
@@ -96,4 +100,68 @@ TEST_CASE("MM6 Control Center terminals translate their exact runtime messages")
         CHECK_NE(translated, message);
         CHECK_EQ(translated.find("�"), std::string::npos);
     }
+}
+
+TEST_CASE("Russian display localization preserves canonical character inspection tables")
+{
+    const std::filesystem::path root = OPENYAMM_SOURCE_DIR;
+    Engine::AssetFileSystem assets;
+    REQUIRE(assets.initialize(root, root / "assets_dev", Engine::AssetScaleTier::X1, "mm6"));
+    LanguageReset reset(assets);
+    REQUIRE(Engine::activateLanguage(assets, "ru"));
+    const auto rows = [&assets](const std::string &name)
+    {
+        const std::optional<std::string> text = assets.readTextFile("engine/data_tables/english/" + name);
+        REQUIRE(text.has_value());
+        const std::optional<Engine::TextTable> table = Engine::TextTable::parseTabSeparated(*text);
+        REQUIRE(table.has_value());
+        std::vector<std::vector<std::string>> result;
+        for (size_t index = 0; index < table->getRowCount(); ++index)
+        {
+            result.push_back(table->getRow(index));
+        }
+        return result;
+    };
+    Game::CharacterInspectTable table;
+    REQUIRE(table.loadStatRows(rows("stats.txt")));
+    REQUIRE(table.loadSkillRows(rows("skill_des.txt")));
+    REQUIRE(table.loadClassRows(rows("class.txt")));
+    const Game::StatInspectEntry *pMight = table.getStat("Might");
+    const Game::SkillInspectEntry *pStaff = table.getSkill("Staff");
+    const Game::ClassInspectEntry *pKnight = table.getClass("Knight");
+    REQUIRE(pMight != nullptr);
+    REQUIRE(pStaff != nullptr);
+    REQUIRE(pKnight != nullptr);
+    CHECK_EQ(pMight->name, "Might");
+    CHECK_EQ(pStaff->name, "Staff");
+    CHECK_EQ(pKnight->name, "Knight");
+    CHECK_NE(Engine::localize(pMight->description), pMight->description);
+    CHECK_NE(Engine::localize(pStaff->description), pStaff->description);
+    CHECK_NE(Engine::localize(pKnight->description), pKnight->description);
+    CHECK_EQ(table.getStat("Might"), pMight);
+    CHECK_EQ(table.getSkill("Staff"), pStaff);
+    CHECK_EQ(table.getClass("Knight"), pKnight);
+}
+
+TEST_CASE("Russian spell display leaves canonical monster spell lookup unchanged")
+{
+    const std::filesystem::path root = OPENYAMM_SOURCE_DIR;
+    Engine::AssetFileSystem assets;
+    REQUIRE(assets.initialize(root, root / "assets_dev", Engine::AssetScaleTier::X1, "mm6"));
+    LanguageReset reset(assets);
+    REQUIRE(Engine::activateLanguage(assets, "ru"));
+    Game::SpellTable table;
+    REQUIRE(table.loadFromRows({
+        {"2", "2", "Fire Bolt", "Fire", "Fire Bolt", "Fire damage"},
+        {"18", "7", "Lightning Bolt", "Air", "Lightning", "Air damage"}}));
+    const Game::SpellEntry *pLightning = table.findByName("lightning bolt");
+    REQUIRE(pLightning != nullptr);
+    CHECK_EQ(pLightning->id, 18);
+    CHECK_EQ(pLightning->name, "Lightning Bolt");
+    CHECK_EQ(Engine::localize(pLightning->name), "Молния");
+    CHECK_EQ(table.findByName("LightningBolt"), pLightning);
+    CHECK(table.findByName("Молния") == nullptr);
+    REQUIRE(Engine::activateLanguage(assets, "en"));
+    CHECK_EQ(Engine::localize(pLightning->name), "Lightning Bolt");
+    CHECK_EQ(table.findByName("lightning bolt"), pLightning);
 }
