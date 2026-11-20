@@ -1,6 +1,8 @@
 #include "game/indoor/IndoorGameView.h"
+#include "engine/Localization.h"
 
 #include "engine/BgfxContext.h"
+#include "game/debug/AiArena.h"
 #include "game/app/GameSession.h"
 #include "game/debug/GameplayDebugTrace.h"
 #include "game/gameplay/GameplayDialogContextBuilder.h"
@@ -23,11 +25,14 @@
 #include "game/tables/MergedBaseTables.h"
 #include "game/ui/GameplayDebugOverlayRenderer.h"
 #include "game/ui/GameplayDialogueRenderer.h"
+#include "game/ui/GameplayFormationBuilder.h"
+#include "game/ui/GameplaySoloBarSelector.h"
 #include "game/ui/GameplayHudOverlaySupport.h"
 #include "game/ui/GameplayUiSkin.h"
 #include "game/gameplay/GameplayScreenRuntime.h"
 #include "game/ui/SpellbookUiLayout.h"
 #include "game/StringUtils.h"
+#include "game/mm9/Mm9RudeDialogue.h"
 
 #include <SDL3/SDL.h>
 #include <bx/math.h>
@@ -58,10 +63,10 @@ constexpr float HudFontIntegerSnapThreshold = 0.1f;
 constexpr float MaxUiViewportAspect = 4.0f / 3.0f;
 constexpr float WalkingSoundMovementSpeedThreshold = 20.0f;
 constexpr float WalkingMotionHoldSeconds = 0.125f;
+constexpr const char *UnderwaterLoopSound = "player/unwater2.wav";
 constexpr uint16_t MainViewId = 0;
 constexpr uint16_t HudViewId = 2;
 constexpr uint64_t GameplayMouseLookCursorSyncIntervalTicks = 100;
-const std::filesystem::path AutosavePath = std::filesystem::path("saves") / "autosave.oysav";
 using SpellbookPointerTargetType = IndoorSpellbookPointerTargetType;
 using SpellbookPointerTarget = IndoorSpellbookPointerTarget;
 using CharacterPointerTargetType = IndoorCharacterPointerTargetType;
@@ -75,28 +80,9 @@ struct UiViewportRect
     float height = 0.0f;
 };
 
-uint32_t makeCombatHudColor(uint8_t red, uint8_t green, uint8_t blue, uint8_t alpha)
-{
-    return (static_cast<uint32_t>(alpha) << 24)
-        | (static_cast<uint32_t>(blue) << 16)
-        | (static_cast<uint32_t>(green) << 8)
-        | static_cast<uint32_t>(red);
-}
-
-float combatDamageFontScale(int damage)
-{
-    const float damageMagnitude = std::sqrt(static_cast<float>(std::max(1, damage)));
-    return 1.55f + std::clamp(damageMagnitude / 22.0f, 0.0f, 0.75f);
-}
-
 bool windowHasInputFocus(SDL_Window *pWindow)
 {
     return pWindow != nullptr && (SDL_GetWindowFlags(pWindow) & SDL_WINDOW_INPUT_FOCUS) != 0;
-}
-
-bool isAutosavePath(const std::filesystem::path &path)
-{
-    return toLowerCopy(path.stem().string()) == "autosave";
 }
 
 struct ParsedHudFontGlyphMetrics
@@ -899,9 +885,17 @@ bool isResidentSelectionMode(const EventDialogContent &dialog)
             });
 }
 
-uint32_t currentDialogueHostHouseId(const EventRuntimeState *pEventRuntimeState)
+// An MM9 actor without a dialogue whose map script has its click event (53000 + DAT object: Thjorgard's arm wrestler,
+// Armwrestle.scr's use; Yorwick's ewe, MarySheep.scr's): a click runs that event like a dialogue actor's.
+bool mm9ActorHasOnlyUseEvent(const MapDeltaActor &actor, const std::optional<ScriptedEventProgram> &localEventProgram)
 {
-    return pEventRuntimeState != nullptr ? pEventRuntimeState->dialogueState.hostHouseId : 0;
+    if (actor.mm9RudeId > 0 || actor.mm9SourceObjectIndex == 0 || !localEventProgram.has_value())
+    {
+        return false;
+    }
+
+    const std::optional<uint16_t> useEventId = mm9RudeUseEventIdForSourceObject(actor.mm9SourceObjectIndex);
+    return useEventId.has_value() && localEventProgram->hasEvent(*useEventId);
 }
 
 bool indoorActorExplicitlyHostile(const MapDeltaActor &actor)
@@ -918,7 +912,9 @@ std::optional<GenericActorDialogResolution> resolveIndoorActorDialog(
     const GameplayActorInspectState &inspectState,
     size_t actorIndex)
 {
-    if (actor.npcId > 0)
+    // A world without MMerge street NPCs (world.yml streetNpcs: MM9) gives an actor without its own NPC no group news
+    // and no generated NPC: MM9's groups are its scripts', and its dogs and townsfolk without DoRude say nothing.
+    if (actor.npcId > 0 || !gameSession.streetNpcs())
     {
         return std::nullopt;
     }
@@ -951,8 +947,7 @@ std::string generatedActorDisplayTitle(
 
     return gameSession.data().mergedNpcProfessionTable().nameAndTitle(
         resolution.generatedName,
-        resolution.generatedProfessionId,
-        gameSession.data().localizationCatalog().language());
+        resolution.generatedProfessionId);
 }
 }
 
@@ -1003,7 +998,7 @@ void IndoorGameView::setSettingsSnapshot(const GameSettings &settings)
 
     if (!m_settings.combatText)
     {
-        m_combatFloatingTexts.clear();
+        m_combatFloatingText.clear();
     }
 
 
@@ -1030,6 +1025,8 @@ void IndoorGameView::render(int width, int height, const GameplayInputFrame &inp
     bgfx::UniformHandle invalidUniformHandle = BGFX_INVALID_HANDLE;
     hudRenderBackend.texturedProgramHandle =
         m_pIndoorRenderer != nullptr ? m_pIndoorRenderer->hudTexturedProgramHandle() : invalidProgramHandle;
+    hudRenderBackend.drawListProgramHandle =
+        m_pIndoorRenderer != nullptr ? m_pIndoorRenderer->hudDrawListProgramHandle() : invalidProgramHandle;
     hudRenderBackend.tintedProgramHandle =
         m_pIndoorRenderer != nullptr ? m_pIndoorRenderer->hudTintedProgramHandle() : invalidProgramHandle;
     hudRenderBackend.tintUniformHandle =
@@ -1213,13 +1210,15 @@ void IndoorGameView::render(int width, int height, const GameplayInputFrame &inp
     }
 
     updateFootstepAudio(deltaSeconds);
-    updateDialogueVideoPlayback(deltaSeconds);
+    updateWaterAudio();
+    m_gameSession.gameplayScreenRuntime().updateHouseDialoguePresentation(deltaSeconds);
 
     presentPendingEventFeedback();
 
     updateCombatFeedback(deltaSeconds);
 
-    if (renderWorldThisFrame)
+    // Floating combat text is HUD: none over a cinematic.
+    if (renderWorldThisFrame && !m_gameSession.cinematicRuntime().takesOverView())
     {
         renderCombatFeedbackOverlay(width, height);
     }
@@ -1231,22 +1230,6 @@ void IndoorGameView::updateCombatFeedback(float deltaSeconds)
 {
     const float elapsedSeconds = std::max(0.0f, deltaSeconds);
 
-    for (CombatFloatingText &floatingText : m_combatFloatingTexts)
-    {
-        floatingText.remainingSeconds = std::max(0.0f, floatingText.remainingSeconds - elapsedSeconds);
-    }
-
-
-    m_combatFloatingTexts.erase(
-        std::remove_if(
-            m_combatFloatingTexts.begin(),
-            m_combatFloatingTexts.end(),
-            [](const CombatFloatingText &floatingText)
-            {
-                return floatingText.remainingSeconds <= 0.0f;
-            }),
-        m_combatFloatingTexts.end());
-
     if (m_pIndoorSceneRuntime == nullptr)
     {
         return;
@@ -1255,31 +1238,8 @@ void IndoorGameView::updateCombatFeedback(float deltaSeconds)
     const std::vector<GameplayCombatFeedbackEvent> events =
         m_pIndoorSceneRuntime->worldRuntime().drainCombatFeedbackEvents();
     m_gameSession.gameplayScreenRuntime().updateEnemyHealthBars(elapsedSeconds, events);
-
-    for (const GameplayCombatFeedbackEvent &event : events)
-    {
-        if (event.actorIndex < m_pIndoorSceneRuntime->worldRuntime().mapActorCount())
-        {
-            if (event.damage > 0 && m_settings.combatText)
-            {
-                m_combatFloatingTexts.push_back(
-                    CombatFloatingText{
-                        .actorIndex = event.actorIndex,
-                        .amount = event.damage,
-                        .text = std::to_string(event.damage),
-                        .x = event.x,
-                        .y = event.y,
-                        .z = GameplayUiSkin::combatDamageTextOriginZ(event.z, event.height),
-                        .remainingSeconds = 0.6f,
-                        .durationSeconds = 0.6f,
-                        .colorAbgr = event.damage >= 100
-                            ? makeCombatHudColor(255, 225, 106, 255)
-                            : makeCombatHudColor(238, 235, 216, 255),
-                        .fontScale = combatDamageFontScale(event.damage),
-                    });
-            }
-        }
-    }
+    m_combatFloatingText.update(
+        elapsedSeconds, events, m_pIndoorSceneRuntime->worldRuntime().mapActorCount(), m_settings.combatText);
 }
 
 void IndoorGameView::renderCombatFeedbackOverlay(int width, int height)
@@ -1292,52 +1252,22 @@ void IndoorGameView::renderCombatFeedbackOverlay(int width, int height)
     GameplayScreenRuntime &screenRuntime = m_gameSession.gameplayScreenRuntime();
     screenRuntime.prepareHudView(width, height);
 
-    constexpr const char *FontName = GameplayUiSkin::CombatFontName;
-    constexpr float CombatFontScale = GameplayUiSkin::CombatDamageFontScale;
-    constexpr float DamageRisePixels = 29.0f;
-
-    if (m_settings.combatText)
-    {
-        for (const CombatFloatingText &floatingText : m_combatFloatingTexts)
+    m_combatFloatingText.render(screenRuntime, width, height,
+        [this, width, height](const bx::Vec3 &point, float &screenX, float &screenY)
         {
-            if (floatingText.remainingSeconds <= 0.0f || floatingText.durationSeconds <= 0.0f)
+            return m_pIndoorRenderer->projectGameplayWorldPointToScreen(point, width, height, screenX, screenY);
+        });
+
+    const ActorAiTrace *pAiTrace = m_pIndoorSceneRuntime->worldRuntime().actorAiTrace();
+
+    if (pAiTrace != nullptr && pAiTrace->overlayVisible())
+    {
+        renderAiTraceOverlay(screenRuntime, *pAiTrace,
+            [this, width, height](const bx::Vec3 &point, float &screenX, float &screenY)
             {
-                continue;
-            }
-
-            const float progress =
-                1.0f - std::clamp(floatingText.remainingSeconds / floatingText.durationSeconds, 0.0f, 1.0f);
-            float projectedX = 0.0f;
-            float projectedY = 0.0f;
-
-            if (!m_pIndoorRenderer->projectGameplayWorldPointToScreen(
-                    bx::Vec3{floatingText.x, floatingText.y, floatingText.z + progress * DamageRisePixels},
-                    width,
-                    height,
-                    projectedX,
-                    projectedY))
-            {
-                continue;
-            }
-
-            const float fadeStartSeconds = 0.225f;
-            const float alpha = std::clamp(floatingText.remainingSeconds / fadeStartSeconds, 0.0f, 1.0f);
-            const uint8_t alphaByte = static_cast<uint8_t>(std::round(255.0f * alpha));
-            const uint32_t textColor = (floatingText.colorAbgr & 0x00ffffffu)
-                | (static_cast<uint32_t>(alphaByte) << 24);
-            const float fontScale = CombatFontScale * std::max(0.5f, floatingText.fontScale);
-            const float textWidth = screenRuntime.measureHudTextWidth(FontName, floatingText.text) * fontScale;
-            screenRuntime.renderHudTextLine(
-                FontName,
-                textColor,
-                floatingText.text,
-                projectedX - textWidth * 0.5f,
-                projectedY,
-                fontScale);
-        }
+                return m_pIndoorRenderer->projectGameplayWorldPointToScreen(point, width, height, screenX, screenY);
+            });
     }
-
-
 }
 
 GameplayWorldUiRenderState IndoorGameView::gameplayUiRenderState(int width, int height) const
@@ -1374,14 +1304,20 @@ void IndoorGameView::shutdown()
     if (m_pGameAudioSystem != nullptr)
     {
         m_pGameAudioSystem->stopGroup(GameAudioSystem::PlaybackGroup::Walking);
+        if (m_underwaterLoopInstanceId != 0)
+        {
+            m_pGameAudioSystem->stopSoundInstance(m_underwaterLoopInstanceId);
+        }
     }
 
+    m_underwaterLoopInstanceId = 0;
     m_pAssetFileSystem = nullptr;
     m_pIndoorRenderer = nullptr;
     m_pIndoorSceneRuntime = nullptr;
     m_pGameAudioSystem = nullptr;
     m_gameSession.gameplayScreenRuntime().clearSceneAdapter(this);
     m_gameSession.gameplayScreenRuntime().bindAudioSystem(nullptr);
+    m_gameSession.gameplayScreenRuntime().resetHouseEntryAudio();
     m_map.reset();
     GameplayScreenRuntime &screenRuntime = m_gameSession.gameplayScreenRuntime();
     screenRuntime.clearHudRenderBackend();
@@ -1502,7 +1438,9 @@ bool IndoorGameView::canActivateMapActorDialogue(size_t actorIndex) const
         return false;
     }
 
-    if (actor.npcId > 0)
+    if (actor.mm9RudeId > 0
+        || actor.npcId > 0
+        || mm9ActorHasOnlyUseEvent(actor, m_pIndoorSceneRuntime->localEventProgram()))
     {
         return !runtimeState.hostileToParty;
     }
@@ -1587,9 +1525,45 @@ bool IndoorGameView::activateMapActorDialogue(size_t actorIndex)
         };
 
     GameplayDialogController::Context context = buildDialogContext(*pEventRuntimeState);
+    // The speaker turns to the party (the outdoor controller's faceTalkingActor).
+    const auto faceSpeaker = [&worldRuntime, actorIndex]()
+    {
+        worldRuntime.faceMapActorForTalk(actorIndex, worldRuntime.partyX(), worldRuntime.partyY());
+    };
+
+    // An MM9 actor without a dialogue whose map script has its click event runs that event like a dialogue actor's.
+    const bool mm9UseEventOnly = mm9ActorHasOnlyUseEvent(actor, m_pIndoorSceneRuntime->localEventProgram());
+
+    if (actor.mm9RudeId > 0 || mm9UseEventOnly)
+    {
+        faceSpeaker();
+        GameplayDialogController::Mm9ActorDialogueActivation activation = {};
+        activation.rudeId = static_cast<uint32_t>(actor.mm9RudeId);
+        activation.actorIndex = static_cast<uint32_t>(actorIndex);
+        activation.sourceObjectIndex = actor.mm9SourceObjectIndex;
+        activation.pLocalEventProgram = &m_pIndoorSceneRuntime->localEventProgram();
+        return m_gameSession.gameplayDialogController().activateMm9ActorDialogue(
+            context,
+            activation,
+            [this](size_t previousMessageCount)
+            {
+                m_gameSession.gameplayScreenRuntime().presentPendingEventDialog(
+                    previousMessageCount,
+                    false,
+                    [this](EventRuntimeState &eventRuntimeState)
+                    {
+                        return buildDialogContext(eventRuntimeState);
+                    });
+            },
+            [this]()
+            {
+                m_gameSession.gameplayScreenRuntime().presentActiveEventDialog();
+            });
+    }
 
     if (actor.npcId > 0)
     {
+        faceSpeaker();
         const GameplayDialogController::Result result =
             m_gameSession.gameplayDialogController().openNpcDialogue(
                 context,
@@ -1630,6 +1604,7 @@ bool IndoorGameView::activateMapActorDialogue(size_t actorIndex)
 
     if (resolution->opensNpcTalk)
     {
+        faceSpeaker();
         applyGenericActorDialogResolution(*pEventRuntimeState, *resolution);
         const GameplayDialogController::Result result =
             m_gameSession.gameplayDialogController().openNpcDialogue(
@@ -1653,6 +1628,7 @@ bool IndoorGameView::activateMapActorDialogue(size_t actorIndex)
         return false;
     }
 
+    faceSpeaker();
     const GameplayDialogController::Result result =
         m_gameSession.gameplayDialogController().openNpcNews(
             context,
@@ -1676,49 +1652,6 @@ void IndoorGameView::setStatusBarEvent(
     m_gameSession.gameplayScreenRuntime().setStatusBarEvent(text, durationSeconds, priority);
 }
 
-void IndoorGameView::updateDialogueVideoPlayback(float deltaSeconds)
-{
-    const EventRuntimeState *pEventRuntimeState =
-        worldRuntime() != nullptr ? worldRuntime()->eventRuntimeState() : nullptr;
-    const uint32_t hostHouseId = currentDialogueHostHouseId(pEventRuntimeState);
-    const HouseEntry *pHostHouseEntry =
-        hostHouseId != 0 ? m_gameSession.data().houseTable().get(hostHouseId) : nullptr;
-    GameplayScreenRuntime &screenRuntime = m_gameSession.gameplayScreenRuntime();
-    const EventDialogContent &activeDialog = screenRuntime.activeEventDialog();
-
-    if (!activeDialog.isActive
-        || screenRuntime.currentHudScreenState() != GameplayHudScreenState::Dialogue
-        || !activeEventDialogAllowsHouseVideoPlayback(activeDialog))
-    {
-        screenRuntime.stopHouseVideoPlayback();
-        return;
-    }
-
-    if (!activeDialog.videoName.empty())
-    {
-        if (activeDialog.videoDirectory.empty())
-        {
-            screenRuntime.playHouseVideo(activeDialog.videoName);
-        }
-        else
-        {
-            screenRuntime.playHouseVideo(activeDialog.videoName, activeDialog.videoDirectory);
-        }
-
-        screenRuntime.updateHouseVideoPlayback(deltaSeconds);
-        return;
-    }
-
-    if (pHostHouseEntry == nullptr || pHostHouseEntry->videoName.empty())
-    {
-        screenRuntime.stopHouseVideoPlayback();
-        return;
-    }
-
-    screenRuntime.playHouseVideo(pHostHouseEntry->videoName);
-    screenRuntime.updateHouseVideoPlayback(deltaSeconds);
-}
-
 void IndoorGameView::presentPendingEventFeedback()
 {
     EventRuntimeState *pEventRuntimeState =
@@ -1726,15 +1659,16 @@ void IndoorGameView::presentPendingEventFeedback()
 
     if (pEventRuntimeState != nullptr)
     {
-        for (const std::string &statusMessage : pEventRuntimeState->statusMessages)
+        for (size_t index = 0; index < pEventRuntimeState->statusMessages.size(); ++index)
         {
             setStatusBarEvent(
-                statusMessage,
-                2.0f,
+                pEventRuntimeState->statusMessages[index],
+                statusMessageSeconds(*pEventRuntimeState, index),
                 GameplayUiController::StatusBarEventPriority::High);
         }
 
         pEventRuntimeState->statusMessages.clear();
+        pEventRuntimeState->statusMessageSeconds.clear();
 
         GameplayHeldItemController::applyGrantedEventItemsToHeldInventory(
             m_gameSession.gameplayScreenRuntime(),
@@ -1772,6 +1706,7 @@ void IndoorGameView::executeActiveDialogAction()
                 *pEventRuntimeState,
                 m_gameSession.data().itemTable());
         },
+        {},
         {},
         [this](size_t previousMessageCount, bool allowNpcFallbackContent)
         {
@@ -1819,7 +1754,7 @@ bool IndoorGameView::tryCastSpellRequest(
         worldRuntime()->applyPendingSpellCastWorldEffects(resolution.castResult);
         m_gameSession.gameplaySpellService().clearPendingTargetSelection(
             screenRuntime,
-            isSpellId(resolvedRequest.spellId, SpellId::Telekinesis) ? std::string() : "Cast " + spellName);
+            GameplaySpellService::successStatusText(spellName, resolution.castResult));
         return true;
     }
 
@@ -1858,12 +1793,17 @@ bool IndoorGameView::trySaveToSelectedGameSlot()
 
 bool IndoorGameView::requestQuickSave()
 {
-    return beginSaveWithPreview(std::filesystem::path("saves") / "quicksave.oysav", "", false);
+    return beginSaveWithPreview(quickSavePath(m_gameSession.playthroughStatistics().playthroughId()), "", false);
 }
 
 bool IndoorGameView::requestTravelAutosave()
 {
-    return beginSaveWithPreview(AutosavePath, "", false);
+    return beginSaveWithPreview(autosavePath(m_gameSession.playthroughStatistics().playthroughId()), "", false);
+}
+
+bool IndoorGameView::savePreviewCapturePending() const
+{
+    return m_pendingSavePreviewCapture.active;
 }
 
 bool IndoorGameView::beginSaveWithPreview(
@@ -1943,7 +1883,17 @@ void IndoorGameView::updateFootstepAudio(float deltaSeconds)
         return;
     }
 
-    const uint32_t desiredSoundId = static_cast<uint32_t>(SoundId::WalkStoneHall);
+    // A scene's footstep sounds by the floor's texture (an MM9 open-air map's grass, rock, wood); the stone hall
+    // sound for every other floor and map.
+    uint32_t desiredSoundId = static_cast<uint32_t>(SoundId::WalkStoneHall);
+    const IndoorMapData *pMapData = m_pIndoorSceneRuntime->indoorMapData();
+    if (const IndoorFootstepSound *pFootstep =
+            pMapData != nullptr ? findIndoorFootstepSound(*pMapData, moveState.supportFaceIndex) : nullptr)
+    {
+        desiredSoundId = m_pIndoorSceneRuntime->partyRuntime().runningMovement()
+            ? pFootstep->runSoundId
+            : pFootstep->walkSoundId;
+    }
 
     if (m_activeWalkingSoundId == desiredSoundId)
     {
@@ -1954,6 +1904,50 @@ void IndoorGameView::updateFootstepAudio(float deltaSeconds)
     const bool played =
         m_pGameAudioSystem->playLoopingSound(desiredSoundId, GameAudioSystem::PlaybackGroup::Walking);
     m_activeWalkingSoundId = played ? std::optional<uint32_t>(desiredSoundId) : std::nullopt;
+}
+
+void IndoorGameView::updateWaterAudio()
+{
+    // Scene water volumes (MM9's deep water): the splash when the eye goes under, the sound out of it, the drowning
+    // ticks, and MM9's under-water loop (Sounds\Player\unwater2.wav) while the eye is under.
+    if (m_pGameAudioSystem == nullptr || m_pIndoorSceneRuntime == nullptr)
+    {
+        return;
+    }
+
+    const IndoorMapData *pMapData = m_pIndoorSceneRuntime->indoorMapData();
+
+    if (pMapData == nullptr || pMapData->waterVolumes.empty())
+    {
+        return;
+    }
+
+    IndoorPartyRuntime &partyRuntime = m_pIndoorSceneRuntime->partyRuntime();
+    std::vector<std::string> sounds;
+    partyRuntime.takeWaterSounds(sounds);
+
+    for (const std::string &sound : sounds)
+    {
+        m_pGameAudioSystem->playSoundByName(sound, GameAudioSystem::PlaybackGroup::World);
+    }
+
+    const bool gameplay = resolveGameplayHudScreenState(
+            m_gameSession.gameplayUiController(),
+            m_gameSession.gameplayScreenRuntime().activeEventDialog(),
+            worldRuntime())
+        == GameplayHudScreenState::Gameplay;
+    const bool loopWanted = gameplay && partyRuntime.eyeUnderWater();
+
+    if (loopWanted && m_underwaterLoopInstanceId == 0)
+    {
+        m_underwaterLoopInstanceId = m_pGameAudioSystem->playSoundInstanceByName(UnderwaterLoopSound,
+            GameAudioSystem::PlaybackGroup::World, SoundScope::World, std::nullopt, true);
+    }
+    else if (!loopWanted && m_underwaterLoopInstanceId != 0)
+    {
+        m_pGameAudioSystem->stopSoundInstance(m_underwaterLoopInstanceId);
+        m_underwaterLoopInstanceId = 0;
+    }
 }
 
 const GameSettings &IndoorGameView::settingsSnapshot() const
@@ -2118,6 +2112,7 @@ void IndoorGameView::updateActorInspectOverlayState(int width, int height, const
 
     actorInspectOverlay.active = true;
     actorInspectOverlay.runtimeActorIndex = pick->runtimeActorIndex;
+    actorInspectOverlay.rawNumbers = input.altHeld();
     actorInspectOverlay.sourceX = pick->sourceX;
     actorInspectOverlay.sourceY = pick->sourceY;
     actorInspectOverlay.sourceWidth = pick->sourceWidth;
@@ -2188,7 +2183,15 @@ void IndoorGameView::updateActorInspectOverlayState(int width, int height, const
 
         if (pParty != nullptr && pMember != nullptr && pStats != nullptr)
         {
-            const SpeechId speechId = GameMechanics::resolveIdentifyMonsterSpeech(*pMember, pStats->level);
+            GameplayRuntimeActorState actorState = {};
+            const int monsterLevel = pWorldRuntime->actorRuntimeState(pick->runtimeActorIndex, actorState)
+                    && actorState.rulesetFacts.level > 0
+                ? actorState.rulesetFacts.level
+                : pStats->level;
+            const SpeechId speechId = GameMechanics::resolveIdentifyMonsterSpeech(
+                pParty->rules().skills.identifyMonsterReveal(*pParty, monsterLevel),
+                *pMember,
+                monsterLevel);
 
             if (speechId != SpeechId::None)
             {
@@ -2242,7 +2245,9 @@ void IndoorGameView::updateItemInspectOverlayState(int width, int height, const 
     IndoorWorldRuntime *pWorldRuntime =
         m_pIndoorSceneRuntime != nullptr ? &m_pIndoorSceneRuntime->worldRuntime() : nullptr;
 
-    if (pWorldRuntime == nullptr)
+    // The loot summary and the formation builder cover the world.
+    if (pWorldRuntime == nullptr || screenRuntime.lootSummaryOverlayReadOnly().active
+        || GameplayFormationBuilder::isOpen(screenRuntime) || GameplaySoloBarSelector::isOpen(screenRuntime))
     {
         return;
     }
@@ -2339,8 +2344,7 @@ GameplayDialogController::Context IndoorGameView::buildDialogContext(EventRuntim
         &m_gameSession.data().mergedContinentSettingTable(),
         &m_gameSession.data().mergedTeacherTopicTable(),
         &m_gameSession.data().mergedTeacherAutonoteTable(),
-        &m_gameSession.data().spellTable(),
-        &m_gameSession.data().localizationCatalog());
+        &m_gameSession.data().spellTable());
 }
 
 } // namespace OpenYAMM::Game

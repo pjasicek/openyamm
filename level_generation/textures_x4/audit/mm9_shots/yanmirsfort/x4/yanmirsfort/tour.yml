@@ -1,0 +1,302 @@
+output_dir: /home/pjasicek/github/OpenYAMM/level_generation/textures_x4/audit/mm9_shots/yanmirsfort/x4/yanmirsfort
+settle_seconds: 2.0
+exit: true
+shots:
+- name: dungm4uan3-d49-closed-front
+  position:
+  - 13948
+  - -8847
+  - 0
+  yaw: -0.0
+  pitch: 0.051
+- name: dungm4uan3-d49-joint-graze
+  position:
+  - 14534
+  - -8967
+  - 0
+  yaw: 0.6435
+  pitch: 0.15
+- name: dungm4uan3-d49-closed-back
+  position:
+  - 15441
+  - -8847
+  - 0
+  yaw: 3.1416
+  pitch: 0.051
+- name: dungm4uan3-d49-open-front
+  position:
+  - 13948
+  - -8847
+  - 0
+  yaw: -0.0
+  pitch: 0.051
+  commands:
+  - event 124
+  settle_seconds: 5.0
+- name: ruin5x58q0-d70-closed-front
+  position:
+  - -2
+  - -10199
+  - -983
+  yaw: -0.0
+  pitch: 0.259
+- name: ruin5x58q0-d70-joint-graze
+  position:
+  - 332
+  - -10319
+  - -983
+  yaw: 0.6435
+  pitch: 0.15
+- name: ruin5x58q0-d70-closed-back
+  position:
+  - 985
+  - -10199
+  - -983
+  yaw: 3.1416
+  pitch: 0.259
+- name: yanm29w4jz-d76-closed-front
+  position:
+  - 985
+  - -8337
+  - -328
+  yaw: -3.1416
+  pitch: 0.243
+- name: yanm29w4jz-d76-joint-graze
+  position:
+  - 664
+  - -8217
+  - -328
+  yaw: -2.4981
+  pitch: 0.15
+- name: yanm29w4jz-d76-closed-back
+  position:
+  - -2
+  - -8337
+  - -328
+  yaw: 0.0
+  pitch: 0.243
+- name: yanmdqw5xs-d68-closed-front
+  position:
+  - 2084
+  - -14598
+  - -41
+  yaw: 0.0
+  pitch: 0.219
+- name: yanmdqw5xs-d68-joint-graze
+  position:
+  - 2440
+  - -14478
+  - -41
+  yaw: -0.6435
+  pitch: 0.15
+- name: yanmh7oyef-d1-closed-front
+  position:
+  - 492
+  - 2922
+  - 655
+  yaw: 1.5708
+  pitch: 0.206
+- name: yanmh7oyef-d1-joint-graze
+  position:
+  - 612
+  - 4468
+  - 655
+  yaw: 2.2143
+  pitch: 0.15
+- name: yanmh7oyef-d1-closed-back
+  position:
+  - 492
+  - 6335
+  - 655
+  yaw: -1.5708
+  pitch: 0.206
+- name: yanmh7oyef-d1-open-front
+  position:
+  - 492
+  - 2922
+  - 655
+  yaw: 1.5708
+  pitch: 0.206
+  commands:
+  - event 101
+  settle_seconds: 5.0
+- name: yanmleoxzq-d78-closed-front
+  position:
+  - 492
+  - -10494
+  - -1147
+  yaw: 1.5708
+  pitch: -0.007
+- name: yanmleoxzq-d78-joint-graze
+  position:
+  - 612
+  - -9048
+  - -1147
+  yaw: 2.2143
+  pitch: 0.15
+- name: yanmleoxzq-d78-closed-back
+  position:
+  - 492
+  - -7283
+  - -1147
+  yaw: -1.5708
+  pitch: -0.007
+- name: yanmuj86hr-d62-closed-front
+  position:
+  - 7291
+  - -5521
+  - 46
+  yaw: 1.5708
+  pitch: 0.206
+- name: yanmuj86hr-d62-joint-graze
+  position:
+  - 7411
+  - -5521
+  - 46
+  yaw: 2.2455
+  pitch: 0.15
+- name: yanmuj86hr-d62-closed-back
+  position:
+  - 7291
+  - -4941
+  - 46
+  yaw: -1.5708
+  pitch: 0.206
+- name: room17-e
+  position: &id001
+  - 2740
+  - -2296
+  - 0
+  yaw: 0.0
+  pitch: -0.12
+- name: room17-n
+  position: *id001
+  yaw: 1.5707963267948966
+  pitch: -0.12
+- name: room17-w
+  position: *id001
+  yaw: 3.141592653589793
+  pitch: -0.12
+- name: room17-s
+  position: *id001
+  yaw: -1.5707963267948966
+  pitch: -0.12
+- name: room17-up
+  position: *id001
+  yaw: 0.0
+  pitch: 0.9
+- name: room10-e
+  position: &id002
+  - 8550
+  - -9554
+  - -41
+  yaw: 0.0
+  pitch: -0.12
+- name: room10-n
+  position: *id002
+  yaw: 1.5707963267948966
+  pitch: -0.12
+- name: room10-w
+  position: *id002
+  yaw: 3.141592653589793
+  pitch: -0.12
+- name: room10-s
+  position: *id002
+  yaw: -1.5707963267948966
+  pitch: -0.12
+- name: room10-up
+  position: *id002
+  yaw: 0.0
+  pitch: 0.9
+- name: room7-e
+  position: &id003
+  - 13153
+  - -12983
+  - -41
+  yaw: 0.0
+  pitch: -0.12
+- name: room7-n
+  position: *id003
+  yaw: 1.5707963267948966
+  pitch: -0.12
+- name: room7-w
+  position: *id003
+  yaw: 3.141592653589793
+  pitch: -0.12
+- name: room7-s
+  position: *id003
+  yaw: -1.5707963267948966
+  pitch: -0.12
+- name: room7-up
+  position: *id003
+  yaw: 0.0
+  pitch: 0.9
+- name: room11-e
+  position: &id004
+  - 492
+  - -9585
+  - -9011
+  yaw: 0.0
+  pitch: -0.12
+- name: room11-n
+  position: *id004
+  yaw: 1.5707963267948966
+  pitch: -0.12
+- name: room11-w
+  position: *id004
+  yaw: 3.141592653589793
+  pitch: -0.12
+- name: room11-s
+  position: *id004
+  yaw: -1.5707963267948966
+  pitch: -0.12
+- name: room11-up
+  position: *id004
+  yaw: 0.0
+  pitch: 0.9
+- name: room22-e
+  position: &id005
+  - -5176
+  - 3522
+  - 655
+  yaw: 0.0
+  pitch: -0.12
+- name: room22-n
+  position: *id005
+  yaw: 1.5707963267948966
+  pitch: -0.12
+- name: room22-w
+  position: *id005
+  yaw: 3.141592653589793
+  pitch: -0.12
+- name: room22-s
+  position: *id005
+  yaw: -1.5707963267948966
+  pitch: -0.12
+- name: room22-up
+  position: *id005
+  yaw: 0.0
+  pitch: 0.9
+- name: room27-e
+  position: &id006
+  - 519
+  - 8156
+  - 655
+  yaw: 0.0
+  pitch: -0.12
+- name: room27-n
+  position: *id006
+  yaw: 1.5707963267948966
+  pitch: -0.12
+- name: room27-w
+  position: *id006
+  yaw: 3.141592653589793
+  pitch: -0.12
+- name: room27-s
+  position: *id006
+  yaw: -1.5707963267948966
+  pitch: -0.12
+- name: room27-up
+  position: *id006
+  yaw: 0.0
+  pitch: 0.9

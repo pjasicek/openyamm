@@ -1,0 +1,25 @@
+{
+  "family": "hyd",
+  "title": "MM6 Hydra",
+  "descriptor_ids": [
+    559,
+    560,
+    561
+  ],
+  "base_palette": 754,
+  "mask_kind": "blue",
+  "description": "Native MM6 five-headed Hydra: coiled low olive-green serpentine body with dark brown patches, tapering upcurled rattling tail, NO legs and five long individually colored serpentine necks. Purple head with white horns, green head, red head with gold crest/fins, blue head, yellow-green head. Keep all five heads and their exact native overlap, horn/fin shapes, belly plates, neck lengths and coiled snake body. No extra heads, limbs, spikes, equipment or ground shadow.",
+  "regions": "Five native differently colored heads/necks and body. Preserve their exact individual native colors, shared belly and pale teeth/horns; palette variants derived offline.",
+  "variant_names": {
+    "754": "Hydra A",
+    "755": "Hydra B",
+    "756": "Hydra C"
+  },
+  "material_mask_channels": 1,
+  "material_module": "materials.py",
+  "standing_reference_frame": 0,
+  "batch_distinct_standing": true,
+  "identity_reference_action": "walk",
+  "inventory_file": "inventory.json",
+  "matte": "magenta"
+}

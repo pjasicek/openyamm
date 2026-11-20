@@ -1,0 +1,23 @@
+{
+  "tool": "image_gen.imagegen",
+  "prompt": "Edit image 1, exact 3D guide for Traveller's Hat; image 2 is icon colour reference. Preserve EXACT 3:4 transparent canvas, three columns and four rows and the five views' positions duplicated in each half. Previous painting was oversized. Make EVERY object in its exact guide slot 3% SMALLER than the gray silhouette, centred at the original guide centre; this small registration correction is the only shape change. Do this in both paint and mask halves. Keep model shape, all gaps and openings, no redesign. TOP TWO ROWS: FRONT/BACK/LEFT then RIGHT/TOP/EMPTY. Paint realistic UNLIT BASE COLOUR, no directional shading, highlights or ambient occlusion. Warm tan woven cloth beret with rolled tan cloth rim and small tan cloth button. Soft restrained fabric grain. Cloth lining. No jewellery or metal. BOTTOM TWO ROWS: the same five objects at exactly corresponding sizes/positions, flat material IDs with no texture/shading: ALL surfaces pure BLUE #0000ff. No text, outlines, speckles, ground, shadows or glow. Empty last slots remain transparent. Output one 1536x2048 transparent PNG.",
+  "inputs": [
+    "/home/pjasicek/github/OpenYAMM/level_generation/props/items_wip_equipment_geometry_finish/codex_tex/equipment_7item095/paint_mask_guide.png",
+    "/home/pjasicek/github/OpenYAMM/level_generation/props/items_wip_equipment_geometry_finish/references/icons/7item095.png"
+  ],
+  "revision": 2,
+  "selected": false,
+  "reason": "Awaiting strict registration and PBR review",
+  "source_output": "/home/pjasicek/.codex/generated_images/01a14de2-fe9d-7f62-984f-d3dee5255cc3/exec-374736c0-87fb-40ed-99e1-c0a3d24a2f1b.png",
+  "raw_sha256": "ee9c55652692b76770e10fac510d34a64b4edd7f670a8f7f7f44aff73b1db822",
+  "dimensions": [
+    1086,
+    1448
+  ],
+  "derivation": "Unresized top/bottom half extraction; original retained byte-for-byte",
+  "input_sha256": {
+    "/home/pjasicek/github/OpenYAMM/level_generation/props/items_wip_equipment_geometry_finish/codex_tex/equipment_7item095/paint_mask_guide.png": "53c423c3a392a7fa6baf54065db6f90020112240aea3f77a300ecae293f4f037",
+    "/home/pjasicek/github/OpenYAMM/level_generation/props/items_wip_equipment_geometry_finish/references/icons/7item095.png": "5083761baaabb10feb9785dfe9204f5ed511c44adb4179500c5c352effbf6e0d"
+  },
+  "prepared_scene_sha256": "6f273e18de13722490c5340b6b02dbb52e0356c1ad7b04f6bd5ef8ed3e7f47a1"
+}

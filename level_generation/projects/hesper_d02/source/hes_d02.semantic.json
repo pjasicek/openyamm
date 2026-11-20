@@ -1,0 +1,194 @@
+{
+  "pickups": [
+    [
+      "gate",
+      751,
+      650,
+      2150,
+      0,
+      220
+    ],
+    [
+      "gal_w",
+      752,
+      1010,
+      1200,
+      0,
+      20
+    ],
+    [
+      "gal_w",
+      753,
+      1010,
+      3000,
+      0,
+      150
+    ],
+    [
+      "gal_n",
+      754,
+      1800,
+      3080,
+      0,
+      200
+    ],
+    [
+      "gal_n",
+      755,
+      3550,
+      3080,
+      0,
+      270
+    ],
+    [
+      "gal_s",
+      756,
+      2000,
+      620,
+      0,
+      45
+    ],
+    [
+      "gal_s",
+      757,
+      3700,
+      620,
+      0,
+      110
+    ],
+    [
+      "gal_e",
+      758,
+      4270,
+      2500,
+      0,
+      230
+    ],
+    [
+      "pump",
+      759,
+      4800,
+      1100,
+      -256,
+      25
+    ],
+    [
+      "pump",
+      760,
+      6350,
+      1080,
+      -256,
+      80
+    ]
+  ],
+  "arrivals": {
+    "canyon_gate": {
+      "position": [
+        300,
+        1848,
+        0
+      ],
+      "direction_degrees": 0
+    },
+    "water_works": {
+      "position": [
+        6000,
+        -100,
+        -256
+      ],
+      "direction_degrees": 90
+    }
+  },
+  "monster_packs": [
+    {
+      "label": "Acid Crawlers A \u00d74",
+      "floor": "Gallery level (z 0)",
+      "position": [
+        1124,
+        1000
+      ],
+      "count": 4
+    },
+    {
+      "label": "Acid Crawlers A \u00d73",
+      "floor": "Gallery level (z 0)",
+      "position": [
+        2600,
+        2972
+      ],
+      "count": 3
+    },
+    {
+      "label": "Brood Crawlers B \u00d73",
+      "floor": "Gallery level (z 0)",
+      "position": [
+        5600,
+        1400
+      ],
+      "count": 3
+    },
+    {
+      "label": "Seeker Drones A \u00d72 (maintenance drones)",
+      "floor": "Gallery level (z 0)",
+      "position": [
+        6400,
+        1300
+      ],
+      "count": 2
+    },
+    {
+      "label": "Glassback Pups A \u00d73",
+      "floor": "Gallery level (z 0)",
+      "position": [
+        7400,
+        2300
+      ],
+      "count": 3
+    },
+    {
+      "label": "Glassback Queen",
+      "floor": "Gallery level (z 0)",
+      "position": [
+        8200,
+        1800
+      ],
+      "count": 1
+    },
+    {
+      "label": "Draining: Acid Crawlers A \u00d74 out of the sump",
+      "floor": "Cistern floor (z -768)",
+      "position": [
+        2650,
+        1850
+      ],
+      "count": 4
+    }
+  ],
+  "door_ids": {},
+  "chest_events": {
+    "9": 0,
+    "10": 1,
+    "11": 2,
+    "13": 3,
+    "14": 4
+  },
+  "map": "hes_d02.blv",
+  "events": {
+    "2": "canyon_hatch",
+    "7": "filter_console",
+    "8": "works_door"
+  },
+  "decorations": 50,
+  "sectors": [
+    "room_gate",
+    "room_gal_w",
+    "room_gal_n",
+    "room_gal_s",
+    "room_gal_e",
+    "room_pump",
+    "room_filters",
+    "room_works",
+    "room_cistern"
+  ],
+  "doors": {}
+}

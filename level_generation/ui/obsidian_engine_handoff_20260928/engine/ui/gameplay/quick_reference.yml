@@ -1,0 +1,292 @@
+# STAGED CANDIDATE; requires the renderer/input work in INTEGRATION.md.
+screen: QuickReference
+elements:
+- id: QuickReferenceRoot
+  anchor: center
+  width: 640
+  height: 480
+  z_index: 440
+  visible: true
+  scale:
+    min: 1.0
+    max: 8.0
+  children:
+  - id: QuickReferenceBackground
+    anchor: top_left
+    offset_x: 0
+    offset_y: 0
+    width: 640
+    height: 368
+    z_index: 0
+    asset:
+      default: obsidian_quickref_surface
+  - id: QuickReferenceExitButton
+    anchor: top_left
+    offset_x: 541.333333
+    offset_y: 324.266667
+    width: 82.666667
+    height: 28.266667
+    z_index: 20
+    interactive: true
+    asset:
+      default: obsidian_button_quick_exit_normal
+      highlighted: obsidian_button_quick_exit_hover
+      pressed: obsidian_button_quick_exit_pressed
+      selected: obsidian_button_quick_exit_selected
+    text:
+      value: Exit
+      font: Fondamento
+      color: '#e8d1a4'
+      align_x: center
+      align_y: middle
+      scale: 0.416667
+    notes: 'Draft: retain the existing action/hit target. Draw a live localized Fondamento label. Font registration,
+      state text colours and disabled plate selection require renderer wiring; see design/theme.yml and INTEGRATION.md.'
+  - id: QuickReferenceNameLabel
+    anchor: top_left
+    offset_x: 21.333333
+    offset_y: 14.4
+    width: 87.466667
+    height: 25.066667
+    z_index: 10
+    text:
+      value: Name
+      font: Arrus
+      color: '#e5dcc7'
+      align_x: left
+      align_y: top
+  - id: QuickReferenceLevelLabel
+    anchor: top_left
+    offset_x: 21.333333
+    offset_y: 41.6
+    width: 87.466667
+    height: 19.533333
+    z_index: 10
+    text:
+      value: Level
+      font: Arrus
+      color: '#e5dcc7'
+      align_x: left
+      align_y: top
+  - id: QuickReferenceClassLabel
+    anchor: top_left
+    offset_x: 21.333333
+    offset_y: 63.266667
+    width: 87.466667
+    height: 19.533333
+    z_index: 10
+    text:
+      value: Class
+      font: Arrus
+      color: '#e5dcc7'
+      align_x: left
+      align_y: top
+  - id: QuickReferenceHpLabel
+    anchor: top_left
+    offset_x: 21.333333
+    offset_y: 84.933333
+    width: 87.466667
+    height: 19.533333
+    z_index: 10
+    text:
+      value: HP
+      font: Arrus
+      color: '#e5dcc7'
+      align_x: left
+      align_y: top
+  - id: QuickReferenceSpLabel
+    anchor: top_left
+    offset_x: 21.333333
+    offset_y: 106.6
+    width: 87.466667
+    height: 19.533333
+    z_index: 10
+    text:
+      value: SP
+      font: Arrus
+      color: '#e5dcc7'
+      align_x: left
+      align_y: top
+  - id: QuickReferenceAcLabel
+    anchor: top_left
+    offset_x: 21.333333
+    offset_y: 128.266667
+    width: 87.466667
+    height: 19.533333
+    z_index: 10
+    text:
+      value: AC
+      font: Arrus
+      color: '#e5dcc7'
+      align_x: left
+      align_y: top
+  - id: QuickReferenceAttackLabel
+    anchor: top_left
+    offset_x: 21.333333
+    offset_y: 149.933333
+    width: 87.466667
+    height: 19.533333
+    z_index: 10
+    text:
+      value: Attack
+      font: Arrus
+      color: '#e5dcc7'
+      align_x: left
+      align_y: top
+  - id: QuickReferenceMeleeDamageLabel
+    anchor: top_left
+    offset_x: 21.333333
+    offset_y: 171.6
+    width: 87.466667
+    height: 19.533333
+    z_index: 10
+    text:
+      value: Dmg
+      font: Arrus
+      color: '#e5dcc7'
+      align_x: left
+      align_y: top
+  - id: QuickReferenceShootLabel
+    anchor: top_left
+    offset_x: 21.333333
+    offset_y: 193.266667
+    width: 87.466667
+    height: 19.533333
+    z_index: 10
+    text:
+      value: Shoot
+      font: Arrus
+      color: '#e5dcc7'
+      align_x: left
+      align_y: top
+  - id: QuickReferenceRangedDamageLabel
+    anchor: top_left
+    offset_x: 21.333333
+    offset_y: 214.933333
+    width: 87.466667
+    height: 19.533333
+    z_index: 10
+    text:
+      value: Dmg
+      font: Arrus
+      color: '#e5dcc7'
+      align_x: left
+      align_y: top
+  - id: QuickReferenceSkillsLabel
+    anchor: top_left
+    offset_x: 21.333333
+    offset_y: 236.6
+    width: 87.466667
+    height: 19.533333
+    z_index: 10
+    text:
+      value: Skills
+      font: Arrus
+      color: '#e5dcc7'
+      align_x: left
+      align_y: top
+  - id: QuickReferencePointsLabel
+    anchor: top_left
+    offset_x: 21.333333
+    offset_y: 258.266667
+    width: 87.466667
+    height: 19.533333
+    z_index: 10
+    text:
+      value: Points
+      font: Arrus
+      color: '#e5dcc7'
+      align_x: left
+      align_y: top
+  - id: QuickReferenceConditionLabel
+    anchor: top_left
+    offset_x: 21.333333
+    offset_y: 279.933333
+    width: 87.466667
+    height: 19.533333
+    z_index: 10
+    text:
+      value: Cond
+      font: Arrus
+      color: '#e5dcc7'
+      align_x: left
+      align_y: top
+  - id: QuickReferenceQuickSpellLabel
+    anchor: top_left
+    offset_x: 21.333333
+    offset_y: 301.6
+    width: 87.466667
+    height: 19.266667
+    z_index: 10
+    text:
+      value: QSpell
+      font: Arrus
+      color: '#e5dcc7'
+      align_x: left
+      align_y: top
+  - id: QuickReferenceMemberColumn1
+    anchor: top_left
+    offset_x: 114.133333
+    offset_y: 13.333333333333334
+    width: 101.973333
+    height: 308
+    notes: New region for renderer binding; 14 live cells aligned to label rows. No HP/SP bars. Arrus 19, per-cell
+      fit floor 14.
+  - id: QuickReferenceMemberColumn2
+    anchor: top_left
+    offset_x: 216.106667
+    offset_y: 13.333333333333334
+    width: 101.973333
+    height: 308
+    notes: New region for renderer binding; 14 live cells aligned to label rows. No HP/SP bars. Arrus 19, per-cell
+      fit floor 14.
+  - id: QuickReferenceMemberColumn3
+    anchor: top_left
+    offset_x: 318.08
+    offset_y: 13.333333333333334
+    width: 101.973333
+    height: 308
+    notes: New region for renderer binding; 14 live cells aligned to label rows. No HP/SP bars. Arrus 19, per-cell
+      fit floor 14.
+  - id: QuickReferenceMemberColumn4
+    anchor: top_left
+    offset_x: 420.053333
+    offset_y: 13.333333333333334
+    width: 101.973333
+    height: 308
+    notes: New region for renderer binding; 14 live cells aligned to label rows. No HP/SP bars. Arrus 19, per-cell
+      fit floor 14.
+  - id: QuickReferenceMemberColumn5
+    anchor: top_left
+    offset_x: 522.026667
+    offset_y: 13.333333333333334
+    width: 101.973333
+    height: 308
+    notes: New region for renderer binding; 14 live cells aligned to label rows. No HP/SP bars. Arrus 19, per-cell
+      fit floor 14.
+  - id: QuickReferenceReputation
+    anchor: top_left
+    offset_x: 20.266667
+    offset_y: 330
+    width: 250
+    height: 22
+    text:
+      value: 'Reputation: {reputation}'
+      font: Arrus
+      color: '#e5dcc7'
+      align_x: left
+      align_y: top
+    notes: New layout field for existing runtime footer; bind live value and suppress duplicate hard-coded draw.
+  - id: QuickReferenceFame
+    anchor: top_left
+    offset_x: 290
+    offset_y: 330
+    width: 220
+    height: 22
+    text:
+      value: 'Fame: {fame}'
+      font: Arrus
+      color: '#e5dcc7'
+      align_x: left
+      align_y: top
+    notes: New layout field for existing runtime footer; bind live value and suppress duplicate hard-coded draw.

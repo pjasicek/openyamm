@@ -1,0 +1,72 @@
+id: levelgen.two_maps.arrivals
+world: mm8
+mode: faithful
+steps:
+- new_game_flow:
+    start_map: lg01.odm
+- assert:
+    map: lg01.odm
+- set_pose:
+    map: lg01.odm
+    x: 15360
+    y: 15800
+    z: 1536
+    yaw: 1.5707963267948966
+    pitch: 0
+- press_interact: {}
+- assert:
+    map: lg02.blv
+- set_pose:
+    map: lg02.blv
+    x: 0
+    y: -768
+    z: 768
+    yaw: -1.5707963267948966
+    pitch: 0
+- press_interact: {}
+- select_topic:
+    kind: map_transition_confirm
+    source_id: 0
+    action_id: 0
+    secondary_id: 0
+    selection_index: 0
+    house_dialog: false
+    enabled: true
+    label: OK
+- assert:
+    map: lg01.odm
+    map_transition_confirmed:
+      destination_map: lg01.odm
+      pos: (15360,14848,1536)
+- set_pose:
+    map: lg01.odm
+    x: 15360
+    y: -17280
+    z: 1280
+    yaw: 1.5707963267948966
+    pitch: 0
+- press_interact: {}
+- assert:
+    map: lg02.blv
+- set_pose:
+    map: lg02.blv
+    x: 5632
+    y: -3584
+    z: 0
+    yaw: -1.5707963267948966
+    pitch: 0
+- press_interact: {}
+- select_topic:
+    kind: map_transition_confirm
+    source_id: 0
+    action_id: 0
+    secondary_id: 0
+    selection_index: 0
+    house_dialog: false
+    enabled: true
+    label: OK
+- assert:
+    map: lg01.odm
+    map_transition_confirmed:
+      destination_map: lg01.odm
+      pos: (15360,-17408,1280)

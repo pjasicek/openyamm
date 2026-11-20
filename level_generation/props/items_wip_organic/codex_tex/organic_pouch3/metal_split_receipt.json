@@ -1,0 +1,62 @@
+[
+  {
+    "view": "front",
+    "source_scale": [
+      1.0070175438596491,
+      1.0093457943925233
+    ],
+    "aligned_silhouette_iou": 0.9808990280777538,
+    "output": "codex_tex/organic_pouch3/metal_front.png",
+    "output_sha256": "390d2045a4949993e103b3ab6aeac759445577f1974df8edce52d89c27354cfc"
+  },
+  {
+    "view": "back",
+    "source_scale": [
+      1.0035087719298246,
+      1.0093457943925233
+    ],
+    "aligned_silhouette_iou": 0.9749983197795551,
+    "output": "codex_tex/organic_pouch3/metal_back.png",
+    "output_sha256": "b28dac1ca1f63555e33ddc7af459ab2a41f17b97be15b6a7476746f362e316e2"
+  },
+  {
+    "view": "left",
+    "source_scale": [
+      1.0,
+      1.0093023255813953
+    ],
+    "aligned_silhouette_iou": 0.9778548074594333,
+    "output": "codex_tex/organic_pouch3/metal_left.png",
+    "output_sha256": "43c4cd0ce92a0945394b4b8c14bbadd836090c6193d7eb509d70ac8edfc77d0f"
+  },
+  {
+    "view": "right",
+    "source_scale": [
+      0.9977528089887641,
+      1.0046511627906978
+    ],
+    "aligned_silhouette_iou": 0.9779116163517277,
+    "output": "codex_tex/organic_pouch3/metal_right.png",
+    "output_sha256": "eae376d50c63459781b1877069e6e757f6a3b571845ca5ec280c1b4110de734a"
+  },
+  {
+    "view": "top",
+    "source_scale": [
+      1.0070175438596491,
+      1.002247191011236
+    ],
+    "aligned_silhouette_iou": 0.9769350782414307,
+    "output": "codex_tex/organic_pouch3/metal_top.png",
+    "output_sha256": "c5482f23d8b4b29f04604631c34a10420926051d465da6e7a1ddebfacf5877f8"
+  },
+  {
+    "view": "bottom",
+    "source_scale": [
+      1.0070175438596491,
+      1.002247191011236
+    ],
+    "aligned_silhouette_iou": 0.9794736105930623,
+    "output": "codex_tex/organic_pouch3/metal_bottom.png",
+    "output_sha256": "20d450833d5fa72e53efc940bf281e0a6c94ef7d02addb10b0e6edefd7cfef25"
+  }
+]

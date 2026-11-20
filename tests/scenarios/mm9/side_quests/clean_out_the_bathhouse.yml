@@ -1,0 +1,96 @@
+# MM9 side quest "Clean out the bathhouse" (guide: Side quests, Arslegard; tools/mm9_site/story/side_b.yml, quest
+# clean-out-the-bathhouse). Jokull the Ugly (RUDE 339, the Stumbling Hero) asks the party to drive Ebora out of his
+# bathhouse; the Bathhouse is walked to Ebora's tub, her three Concubines die (clear_hostiles: combat is not tested)
+# and she flees in a column of fire (EboraBath.scr :DitchTheJoint, the cinematic ebora_escape: key 349, 18 500
+# experience); Jokull hears "We cleaned out your bathhouse." (key 351). Played per tests/playthrough/PLAYBOOK.md §2: the
+# party is placed beside people and exits in the city, the dungeon is walked.
+# Research: prep/D_inventa_storca_arslegard.md.
+# Jokull's talk exit then pays (NPC339.scr :Bathhouse: 351 without 352 -> key 352, 5 000 gold and MM9's 80 000
+# experience, capped to 18 500 by mm9_quest_xp_profile.yml); it was missing until 2026-11-09.
+#   python3 tests/scenarios/mm9/side_quests/run.py clean_out_the_bathhouse [--repeat 2] [--reload]
+id: mm9.side_quests.clean_out_the_bathhouse
+title: "MM9 side quest: Jokull's bathhouse, Ebora's three Concubines, Ebora flees"
+world: mm9
+mode: faithful
+tags: [mm9, side_quests]
+steps:
+  # A party of the classes Chedian offers, at the level a party reaches Arslegard with.
+  - new_game_flow:
+      start_map: arslegardcity.blv
+      party:
+        gold: 0
+        food: 40
+        members:
+          - {name: Ragnar, class: Knight, level: 28, skills: [{name: Sword, level: 10, mastery: 2}, {name: Shield, level: 6, mastery: 2}, {name: ChainArmor, level: 6, mastery: 2}], equipment: {main_hand: 1, off_hand: 99}}
+          - {name: Hrothgar, class: Cleric, level: 28, skills: [{name: Mace, level: 8, mastery: 2}, {name: BodyMagic, level: 8, mastery: 2}, {name: SpiritMagic, level: 8, mastery: 2}], equipment: {main_hand: 66}}
+          - {name: Grisha, class: Thief, level: 28, skills: [{name: Dagger, level: 8, mastery: 2}, {name: DisarmTraps, level: 8, mastery: 3}, {name: Perception, level: 8, mastery: 3}, {name: Bow, level: 6, mastery: 2}], equipment: {main_hand: 21, bow: 56}}
+          - {name: Aelwen, class: Sorcerer, level: 28, skills: [{name: Staff, level: 6, mastery: 2}, {name: FireMagic, level: 8, mastery: 2}, {name: AirMagic, level: 8, mastery: 2}], equipment: {main_hand: 79}}
+  - setup_shortcut: {kind: immortal}
+  # Story state: the party is among Arslegard's dead (keys 97, 29: Sven fell, Forad joined) with the gate scenes behind it. Key 98: Hanndl's first refusal
+  # (FateMan.scr; without it gate_fate starts 3 s after the arrival and moves the party to the Dark Passageway). Keys
+  # 100 and 9515: the Writ of Fate shown and the Great Gate opened (WritMan.scr; without 9515 gate_writ would play): in
+  # MM9 the dead are let into Arslegard only with the Writ (a death before it is turned away, LoseMan.scr), which is the
+  # guide's "requires". Set before the arrival scenes' third poll (about 3 s).
+  - lua_event: {source: "evt.SetQuestBit(90097) evt.SetQuestBit(90029) evt.SetQuestBit(90098) evt.SetQuestBit(90100) evt.SetQuestBit(99515)"}
+  - advance_runtime: {seconds: 4}
+  - assert: {map: arslegardcity.blv, qbit_set: [90098, 99515], qbit_clear: [90348, 90349, 90351, 90352]}
+
+  # Jokull the Ugly behind the Stumbling Hero's counter (actor 0): his news leads to the errand (key 348).
+  - set_pose: {map: arslegardcity.blv, x: 16000, y: -1504, z: -491, yaw: 0, pitch: 0}
+  - advance_runtime: {seconds: 0.5}
+  - interact_actor: {actor_index: 0}
+  - select_topic: {match_label: "Can we ask you some questions?"}
+  - select_topic: {match_label: "Do you have any news?"}
+  - select_topic: {match_label: "What sort of problem?"}
+  - select_topic: {match_label: "Why doesn't he help you?"}
+  - select_topic: {match_label: "Sounds like you're in a heap of trouble alright."}
+  - select_topic: {match_label: "Why not?  We'd be happy to!"}
+  - press_action: {action: cancel_dialog}
+  - advance_runtime: {seconds: 0.5}
+  - assert: {qbit_set: [90348]}
+
+  # The Bathhouse: its door at the top of the steps in the city's south-west (ExitTrigger0), walked into from the
+  # street.
+  - set_pose: {map: arslegardcity.blv, x: 5161, y: -12700, z: -491, yaw: -1.5708, pitch: 0}
+  - advance_runtime: {seconds: 0.5}
+  - walk_to: {x: 5161, y: -13423, z: -460, plan: false, timeout_seconds: 20, expect: dialog}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.0, follow_map_move: true}
+  - assert: {map: bathhouse.blv}
+
+  # Through the great hall (Colloidal Warriors and Jellyspores die near the party), Door1 into the corridor north of the
+  # tub room, Door5 at its east end into the east room, then west through that room's archway into Ebora's tub room.
+  # Door1 and Door5 are sliding doors: a click slides them and they shut by themselves (a click on a closing one does
+  # not reopen it), so the party waits until one is shut, then clicks. The Concubines (actors 8-10, hostile) die as the
+  # party comes in; Ebora (actor 7) cannot be hurt and stays in her tub.
+  - walk_to: {x: 4240, y: -2700, z: -243, timeout_seconds: 120, clear_hostiles: 1500}
+  - play_lua: {source: 'for i = 1, 40 do local s = door_state(2); if s ~= "closing" and s ~= "opening" then break end; wait(0.25) end; if door_state(2) == "closed" then click(102); wait(2) end; log("Door1: " .. door_state(2))'}
+  - walk_to: {via: [[4240, -3000, -243]], x: 6400, y: -3191, z: -243, timeout_seconds: 60, clear_hostiles: 1500}
+  - play_lua: {source: 'for i = 1, 40 do local s = door_state(6); if s ~= "closing" and s ~= "opening" then break end; wait(0.25) end; if door_state(6) == "closed" then click(106); wait(2) end; log("Door5: " .. door_state(6))'}
+  - walk_to: {via: [[6800, -3191, -243], [6800, -4000, -243]], x: 6250, y: -4050, z: -368, plan: false, timeout_seconds: 30, clear_hostiles: 1500}
+  # The third Concubine's death sends Ebora off (ebora_escape, about 4 s; key 349 for a party on Jokull's errand).
+  - advance_runtime: {seconds: 8}
+  - play_lua:
+      source: |
+        log("Concubines dead: " .. mapvar("DeadConcubines") .. "; Ebora gone: " .. mapvar("EboraGone") .. "; " .. status())
+        if mapvar("EboraGone") ~= 1 then error("Ebora did not flee") end
+  - assert: {qbit_set: [90349], qbit_clear: [90350]}
+
+  # Back out the way the party came (Door5 has shut behind it), to the entrance's exit just west of the arrival.
+  - walk_to: {via: [[6800, -4000, -243]], x: 6800, y: -3191, z: -243, plan: false, timeout_seconds: 30}
+  - play_lua: {source: 'for i = 1, 40 do local s = door_state(6); if s ~= "closing" and s ~= "opening" then break end; wait(0.25) end; if door_state(6) == "closed" then click(106); wait(2) end; log("Door5: " .. door_state(6))'}
+  - walk_to: {via: [[6300, -3191, -243]], x: 4240, y: -3000, z: -243, timeout_seconds: 60, clear_hostiles: 1500}
+  - play_lua: {source: 'for i = 1, 40 do local s = door_state(2); if s ~= "closing" and s ~= "opening" then break end; wait(0.25) end; if door_state(2) == "closed" then click(102); wait(2) end; log("Door1: " .. door_state(2))'}
+  - walk_to: {via: [[4240, -2700, -243]], x: -1311, y: -881, z: -281, timeout_seconds: 150, clear_hostiles: 1500, expect: dialog}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.0, follow_map_move: true}
+  - assert: {map: arslegardcity.blv}
+
+  # Jokull: "We cleaned out your bathhouse." (key 351); his talk's exit pays (NPC339.scr :Bathhouse: key 352, 5 000 gold).
+  - set_pose: {map: arslegardcity.blv, x: 16000, y: -1504, z: -491, yaw: 0, pitch: 0}
+  - advance_runtime: {seconds: 0.5}
+  - interact_actor: {actor_index: 0}
+  - select_topic: {match_label: "We cleaned out your bathhouse."}
+  - press_action: {action: cancel_dialog}
+  - advance_runtime: {seconds: 0.5}
+  - assert: {qbit_set: [90351, 90352], gold: 5000}

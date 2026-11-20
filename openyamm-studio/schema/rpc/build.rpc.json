@@ -1,0 +1,133 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Map Studio RPC: build",
+  "description": "Compiling a project to its map files.",
+  "x-group": "build",
+  "methods": {
+    "run": {
+      "summary": "Compiles the project (BLV or ODM, scene, Lua). A dry run checks and compiles and writes nothing; otherwise the files go to the project's build/ folder and the build may update ids.lock.yml. Refused when the project has issues of severity error.",
+      "since": 1,
+      "lane": "interactive",
+      "backends": ["native", "wasm"],
+      "exposed": true,
+      "writes": "project",
+      "assets": "optional",
+      "errors": ["not_a_project", "has_errors"],
+      "params": {
+        "type": "object",
+        "required": ["project", "dry_run"],
+        "properties": {
+          "project": { "$ref": "common.rpc.json#/$defs/project_path" },
+          "dry_run": { "type": "boolean" }
+        },
+        "additionalProperties": false
+      },
+      "result": {
+        "type": "object",
+        "required": ["map", "kind", "counts", "files", "warnings", "ids_lock_changed"],
+        "properties": {
+          "map": { "description": "The map's file name (xd01.blv; an overlay names its base map).", "type": "string" },
+          "kind": { "enum": ["indoor", "outdoor", "overlay"] },
+          "counts": {
+            "oneOf": [
+              { "$ref": "#/$defs/indoor_counts" },
+              { "$ref": "#/$defs/outdoor_counts" },
+              { "$ref": "#/$defs/overlay_counts" }
+            ]
+          },
+          "files": {
+            "description": "Files written, relative to the build folder; empty for a dry run.",
+            "$ref": "common.rpc.json#/$defs/strings"
+          },
+          "warnings": { "$ref": "common.rpc.json#/$defs/strings" },
+          "ids_lock_changed": { "description": "Whether the build gave or dropped engine numbers (written unless a dry run).", "type": "boolean" }
+        },
+        "additionalProperties": false
+      }
+    },
+    "install": {
+      "summary": "Copies a project's last build (its build/ folder, from build.run without dry_run) into the session's mount of builds (session.configure, `serve --mount`; never assets_dev): the map files, a copy of the asset root's map_stats.txt with the map's row, the tables an outdoor map needs, and <stem>.studio.yml (the project, revision and lock hash the game's pins carry). The game and the reading methods with `built` read the mount in front of the asset root.",
+      "since": 1,
+      "lane": "jobs",
+      "backends": [
+        "native",
+        "wasm"
+      ],
+      "exposed": false,
+      "writes": "mount",
+      "assets": "required",
+      "errors": [
+        "not_a_project",
+        "no_asset_root",
+        "no_mount",
+        "has_errors",
+        "failed"
+      ],
+      "params": {
+        "type": "object",
+        "required": [
+          "project"
+        ],
+        "properties": {
+          "project": {
+            "$ref": "common.rpc.json#/$defs/project_path"
+          }
+        },
+        "additionalProperties": false
+      },
+      "result": {
+        "type": "object",
+        "required": [
+          "installed"
+        ],
+        "properties": {
+          "installed": {
+            "description": "The files written, relative to the mount.",
+            "$ref": "common.rpc.json#/$defs/strings"
+          }
+        },
+        "additionalProperties": false
+      }
+    }
+  },
+  "$defs": {
+    "indoor_counts": {
+      "type": "object",
+      "required": ["sectors", "faces", "vertices", "portals", "doors", "lights", "spawns", "entities", "events", "chests"],
+      "properties": {
+        "sectors": { "type": "integer" },
+        "faces": { "type": "integer" },
+        "vertices": { "type": "integer" },
+        "portals": { "type": "integer" },
+        "doors": { "type": "integer" },
+        "lights": { "type": "integer" },
+        "spawns": { "type": "integer" },
+        "entities": { "type": "integer" },
+        "events": { "type": "integer" },
+        "chests": { "type": "integer" }
+      },
+      "additionalProperties": false
+    },
+    "outdoor_counts": {
+      "type": "object",
+      "required": ["buildings", "faces", "vertices", "events", "entities", "spawns"],
+      "properties": {
+        "buildings": { "type": "integer" },
+        "faces": { "description": "Faces of the models.", "type": "integer" },
+        "vertices": { "type": "integer" },
+        "events": { "type": "integer" },
+        "entities": { "type": "integer" },
+        "spawns": { "type": "integer" }
+      },
+      "additionalProperties": false
+    },
+    "overlay_counts": {
+      "type": "object",
+      "required": ["replaced_events"],
+      "properties": {
+        "replaced_events": { "type": "integer" }
+      },
+      "additionalProperties": false
+    }
+  }
+}

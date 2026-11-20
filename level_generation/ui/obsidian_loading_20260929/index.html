@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="en">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Obsidian loading window — native refinement</title>
+<style>
+*{box-sizing:border-box}body{margin:0;background:#101917;color:#e5dcc7;font:16px system-ui,sans-serif}
+main{max-width:1664px;padding:26px;margin:auto}h1{font-size:26px;margin:0 0 12px}
+p{line-height:1.5;color:#bac5bd}a{color:#a9c9db}figure{margin:22px 0}
+img{display:block;width:100%;height:auto;border:1px solid #736d53}figcaption{margin-top:10px}
+nav{display:flex;gap:10px;flex-wrap:wrap}button{font:inherit;background:#203028;color:#e5dcc7;
+border:1px solid #827553;padding:9px 15px;cursor:pointer}button[aria-pressed=true]{background:#354a3d}
+</style>
+<main>
+<h1>Obsidian loading window</h1>
+<p>Native game capture. Slim 300 × 112 panel, smaller 32 × 48 hourglass, red loading bar.
+The hourglass runs four times faster here: a turn every 2.25 seconds.</p>
+<nav aria-label="Capture selection">
+<button data-shot="loading-12" aria-pressed="true">Loading</button>
+<button data-shot="loading-60" aria-pressed="false">Sand transferring</button>
+<button data-shot="loading-108" aria-pressed="false">Inverted shell</button>
+<button data-shot="entrance-dialogue" aria-pressed="false">Before</button>
+<button data-shot="after-enter" aria-pressed="false">After</button>
+</nav>
+<figure><a id="full" href="native/loading-12.png"><img id="shot" src="native/loading-12.png"
+alt="The compact Obsidian loading window over the Abandoned Temple entrance"></a>
+<figcaption id="caption">Loading — native 1600 × 900 capture.</figcaption></figure>
+<p><a href="README.md">Implementation and validation</a> · <a href="native/run.json">Native run receipt</a> ·
+<a href="../obsolete_ui_cleanup_20260929/index.html">Applied UI cleanup</a></p>
+</main>
+<script>
+for(const button of document.querySelectorAll('button'))button.onclick=()=>{
+ const path=`native/${button.dataset.shot}.png`;
+ document.getElementById('shot').src=path;document.getElementById('full').href=path;
+ document.getElementById('caption').textContent=`${button.textContent} — native 1600 × 900 capture.`;
+ for(const other of document.querySelectorAll('button'))other.setAttribute('aria-pressed',String(other===button));
+};
+</script>
+</html>

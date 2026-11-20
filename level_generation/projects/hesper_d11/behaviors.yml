@@ -1,0 +1,6 @@
+behaviors:
+  hes_ganglion: worlds/hesper/behaviors/hes_ganglion.lua
+  hes_vhorrax_honour: worlds/hesper/behaviors/hes_vhorrax_honour.lua
+  hes_vhorrax_refused: worlds/hesper/behaviors/hes_vhorrax_refused.lua
+monsters:
+  10131: hes_ganglion

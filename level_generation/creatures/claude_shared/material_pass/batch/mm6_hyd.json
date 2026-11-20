@@ -1,0 +1,225 @@
+{
+ "source": "/home/pjasicek/github/OpenYAMM/level_generation/creatures/claude_shared/material_pass/backup_pre_material_pass/mm6_hyd.glb",
+ "output": "/home/pjasicek/github/OpenYAMM/level_generation/creatures/claude_shared/material_pass/batch/mm6_hyd.glb",
+ "assignments": [
+  {
+   "match": "=Hydra_A",
+   "body": "/home/pjasicek/github/OpenYAMM/level_generation/creatures/mm6_hyd_claude/textures/hyd_body_material_classes.png",
+   "head": "/home/pjasicek/github/OpenYAMM/level_generation/creatures/mm6_hyd_claude/textures/hyd_head_material_classes.png"
+  },
+  {
+   "match": "=HeadsA_A",
+   "body": null,
+   "head": "/home/pjasicek/github/OpenYAMM/level_generation/creatures/mm6_hyd_claude/textures/hyd_head_material_classes.png"
+  }
+ ],
+ "kept_classes": [],
+ "textures": [
+  {
+   "image": "hyd_body_metal_rough",
+   "size": [
+    1024,
+    1024
+   ],
+   "materials": [
+    "Hydra_A",
+    "Hydra_B",
+    "Hydra_C",
+    "HydraB_A",
+    "HydraB_B",
+    "HydraB_C"
+   ],
+   "layout": [
+    {
+     "part": "body",
+     "box": [
+      0,
+      0,
+      1024,
+      1024
+     ]
+    }
+   ],
+   "old_factors": {
+    "metallicFactor": 0,
+    "roughnessFactor": 1.0,
+    "openyamm_specular": 0,
+    "openyamm_specular_mask": false
+   },
+   "old_r_channel": "ao",
+   "stretched_uv_triangles": 0,
+   "fit_ok": true,
+   "parts": {
+    "body": {
+     "uv_covered_texels": 538857,
+     "uv_covered_without_class": 0.01,
+     "uv_covered_without_class_far": 0.0009,
+     "class_texels_outside_uv": 0.0084,
+     "class_map": "/home/pjasicek/github/OpenYAMM/level_generation/creatures/mm6_hyd_claude/textures/hyd_body_material_classes.png",
+     "class_share_in_uv": {
+      "skin": 1.0
+     }
+    }
+   },
+   "class_share_total": {
+    "skin": 1.0
+   },
+   "kept_classes": [],
+   "kept_texels": 0,
+   "old_specular_mean_by_class": {
+    "skin": 0.0
+   },
+   "new_specular_mean_by_class": {
+    "skin": 0.237
+   },
+   "new_roughness_mean_by_class": {
+    "skin": 0.8
+   },
+   "new_factors": {
+    "metallicFactor": 1.0,
+    "roughnessFactor": 1.0,
+    "openyamm_specular": 1.0,
+    "openyamm_specular_mask": true
+   },
+   "metal_base_colour": {
+    "Hydra_A": null,
+    "Hydra_B": null,
+    "Hydra_C": null,
+    "HydraB_A": null,
+    "HydraB_B": null,
+    "HydraB_C": null
+   },
+   "new_channels": {
+    "R": {
+     "min": 0,
+     "max": 64,
+     "mean": 60.4
+    },
+    "G": {
+     "min": 179,
+     "max": 230,
+     "mean": 204.0
+    },
+    "B": {
+     "min": 0,
+     "max": 0,
+     "mean": 0.0
+    }
+   }
+  },
+  {
+   "image": "hyd_head_metal_rough",
+   "size": [
+    768,
+    512
+   ],
+   "materials": [
+    "HeadsA_A",
+    "HeadsA_B",
+    "HeadsA_C",
+    "HeadsB_A",
+    "HeadsB_B",
+    "HeadsB_C",
+    "HeadsC_A",
+    "HeadsC_B",
+    "HeadsC_C"
+   ],
+   "layout": [
+    {
+     "part": "head",
+     "box": [
+      0,
+      0,
+      768,
+      512
+     ]
+    }
+   ],
+   "old_factors": {
+    "metallicFactor": 0,
+    "roughnessFactor": 1.0,
+    "openyamm_specular": 0,
+    "openyamm_specular_mask": false
+   },
+   "old_r_channel": "ao",
+   "stretched_uv_triangles": 0,
+   "fit_ok": true,
+   "parts": {
+    "head": {
+     "uv_covered_texels": 188006,
+     "uv_covered_without_class": 0.067,
+     "uv_covered_without_class_far": 0.0018,
+     "class_texels_outside_uv": 0.0213,
+     "class_map": "/home/pjasicek/github/OpenYAMM/level_generation/creatures/mm6_hyd_claude/textures/hyd_head_material_classes.png",
+     "class_share_in_uv": {
+      "skin": 0.7211,
+      "claw": 0.0682,
+      "eye": 0.0161,
+      "mouth": 0.1946
+     }
+    }
+   },
+   "class_share_total": {
+    "skin": 0.7211,
+    "claw": 0.0682,
+    "eye": 0.0161,
+    "mouth": 0.1946
+   },
+   "kept_classes": [],
+   "kept_texels": 0,
+   "old_specular_mean_by_class": {
+    "skin": 0.0,
+    "claw": 0.0,
+    "eye": 0.0,
+    "mouth": 0.0
+   },
+   "new_specular_mean_by_class": {
+    "skin": 0.188,
+    "claw": 0.783,
+    "eye": 0.534,
+    "mouth": 0.2
+   },
+   "new_roughness_mean_by_class": {
+    "skin": 0.8,
+    "claw": 0.45,
+    "eye": 0.15,
+    "mouth": 0.45
+   },
+   "new_factors": {
+    "metallicFactor": 1.0,
+    "roughnessFactor": 1.0,
+    "openyamm_specular": 1.0,
+    "openyamm_specular_mask": true
+   },
+   "metal_base_colour": {
+    "HeadsA_A": null,
+    "HeadsA_B": null,
+    "HeadsA_C": null,
+    "HeadsB_A": null,
+    "HeadsB_B": null,
+    "HeadsB_C": null,
+    "HeadsC_A": null,
+    "HeadsC_B": null,
+    "HeadsC_C": null
+   },
+   "new_channels": {
+    "R": {
+     "min": 0,
+     "max": 255,
+     "mean": 56.6
+    },
+    "G": {
+     "min": 26,
+     "max": 230,
+     "mean": 180.9
+    },
+    "B": {
+     "min": 0,
+     "max": 0,
+     "mean": 0.0
+    }
+   }
+  }
+ ],
+ "unchanged": []
+}

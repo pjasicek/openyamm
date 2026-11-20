@@ -1,0 +1,83 @@
+{
+ "id": "20261009-2144-mm7-7d30-00",
+ "world": "mm7",
+ "maps": [
+  "7d30.blv"
+ ],
+ "created": "2026-10-09T19:44:25+00:00",
+ "textures": [
+  "mm7/banwiz-a"
+ ],
+ "requests": {
+  "mm7/banwiz-a": {
+   "name": "banwiz-a",
+   "versions": [
+    1,
+    2,
+    3,
+    4,
+    5
+   ],
+   "material": "wall of tan-grey stone bricks with a hanging purple cloth banner with crenellated top, embroidered with a golden scroll, a wand and a golden serpent; copy the composition exactly",
+   "notes": {
+    "2": "the cloth is a deep, muted red-violet like dark plum, never bright blue-violet; the banner continues seamlessly into the sharp lower banner part below the bottom edge, same red-violet tone and weave, the side borders the same dark red knot pattern on black",
+    "3": "the two side border strips are dark: deep red interlaced knotwork on near-black, as dark as in the sharp lower banner part below the bottom edge, never orange or light red; the purple cloth has one even tone that continues seamlessly into the sharp part below",
+    "4": "the cloth is a true medium violet with as much red as blue, a little dusty, never blue-violet or ultramarine, exactly the violet of the sharp lower banner part below the bottom edge which it continues seamlessly; the two side border strips are deep red knotwork on near-black, as dark as below",
+    "5": "keep the banner, rod, crossed scroll and wand and the small serpent at exactly the reference's positions and sizes; the cloth is the reference's medium violet, as much red as blue, a little dusty, continuing seamlessly into the sharp lower banner part below the bottom edge; the side border strips are deep red knotwork on near-black"
+   },
+   "match_neighbor": true,
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/banwiz-b",
+      "mm7/cwb"
+     ],
+     "fraction": 0.208
+    },
+    "2": {
+     "sources": [
+      "mm7/banwiz-b",
+      "mm7/cwb"
+     ],
+     "fraction": 0.208
+    },
+    "3": {
+     "sources": [
+      "mm7/banwiz-b",
+      "mm7/cwb"
+     ],
+     "fraction": 0.208
+    },
+    "4": {
+     "sources": [
+      "mm7/banwiz-b",
+      "mm7/cwb"
+     ],
+     "fraction": 0.208
+    },
+    "5": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {
+     "bottom": "mm7/banwiz-b"
+    },
+    "2": {
+     "bottom": "mm7/banwiz-b"
+    },
+    "3": {
+     "bottom": "mm7/banwiz-b"
+    },
+    "4": {
+     "bottom": "mm7/banwiz-b"
+    },
+    "5": {
+     "bottom": "mm7/banwiz-b"
+    }
+   },
+   "standalone": true
+  }
+ }
+}

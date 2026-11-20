@@ -1,0 +1,925 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "atmosphere.yml: sky, fog, weather, daylight, music and footsteps, schema v0",
+  "description": "The fields a scene file needs of the air: fog and the indoor ceiling value; for an outdoor map also its sky, its weather and its daily fog, as the shipped outdoor scenes hold them.",
+  "type": "object",
+  "required": [
+    "format"
+  ],
+  "properties": {
+    "format": {
+      "const": 0
+    },
+    "fog": {
+      "type": "object",
+      "x-flow": true,
+      "properties": {
+        "weak_distance": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "strong_distance": {
+          "type": "integer",
+          "minimum": 0
+        }
+      },
+      "additionalProperties": false
+    },
+    "ceiling": {
+      "description": "The scene's ceiling value. Outdoor: the flight ceiling in map units (the Plane of Water's 2000); left out or 0: the game's own.",
+      "type": "integer"
+    },
+    "flags": {
+      "description": "Outdoor: the scene's environment flags, all false when left out. underwater (the Plane of Water, the Lagoon: water fog, drowned look), no_terrain (the Plane of Air: the land is not drawn but still holds the party, so give it the height of the floor it should be), always_foggy (fog every day: the planes, the Ogre Fortress' land), red_fog (the Plane of Fire), always_dark, always_light (no day and night), foggy (the day's fog bit). Rain and snow come from `precipitation` and `weather`.",
+      "type": "object",
+      "x-flow": true,
+      "properties": {
+        "underwater": {
+          "type": "boolean"
+        },
+        "no_terrain": {
+          "type": "boolean"
+        },
+        "always_foggy": {
+          "type": "boolean"
+        },
+        "red_fog": {
+          "type": "boolean"
+        },
+        "always_dark": {
+          "type": "boolean"
+        },
+        "always_light": {
+          "type": "boolean"
+        },
+        "foggy": {
+          "type": "boolean"
+        }
+      },
+      "additionalProperties": false
+    },
+    "footsteps": {
+      "description": "Outdoor: the sounds of steps on chosen ground tiles, the scene's footstep_sound_overrides. Each entry: `tile` (one local tile number of the ODM, 0 to 255) or `tiles: [first, last]`, and the sound numbers `walk` and `run` (out04's ashes: tiles 90 to 93, walk 91, run 52). A sound 0 keeps the tile's own.",
+      "type": "array",
+      "items": {
+        "type": "object",
+        "x-flow": true,
+        "required": [
+          "walk",
+          "run"
+        ],
+        "properties": {
+          "tile": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 255
+          },
+          "tiles": {
+            "type": "array",
+            "items": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 255
+            },
+            "minItems": 2,
+            "maxItems": 2
+          },
+          "walk": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "run": {
+            "type": "integer",
+            "minimum": 0
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "sky": {
+      "description": "Outdoor: one sky for every weather, a sky texture by name (sunsetclouds on Dagger Wound, stormclds on Shadowspire); `oymap install` also writes it as the `Custom sky` of the map's row in engine/data_tables/bolster_maps.txt. Left out: the skies of the map's continent (project.yml map_stats.continent) for the hour and the weather, from clear to storm.",
+      "type": "string"
+    },
+    "weather": {
+      "description": "Outdoor: rain and snow by the world's weather chances (engine/rendering/weather/weather.yml: rain on about one day in five and snow in the winter months, in spells with clouds before and after), as the shipped maps have them. The game reads this from the map's row of engine/data_tables/bolster_maps.txt, keyed by the map's number; `oymap install` writes that row (columns Weather, Rain, Snow). Left out: as the reference map's row (project.yml map_stats.reference), and without a reference no rain or snow.",
+      "type": "object",
+      "x-flow": true,
+      "properties": {
+        "rain": {
+          "description": "Rain falls by the world's chances. false when left out.",
+          "type": "boolean"
+        },
+        "snow": {
+          "description": "Snow falls by the world's chances, in the months the world has snow. false when left out.",
+          "type": "boolean"
+        }
+      },
+      "additionalProperties": false
+    },
+    "precipitation": {
+      "description": "Outdoor: what the scene itself says falls on the map, whatever the day: none, rain or snow (the scene's weather block; a map of rain that never ends). For rain and snow that come and go by chance use `weather`. Left out: none.",
+      "enum": [
+        "none",
+        "rain",
+        "snow"
+      ]
+    },
+    "daily_fog": {
+      "description": "Outdoor: fog that comes by the day, as the shipped maps have it (Ravenshore: small 20 in a hundred from 4096 to 8192, average 10 from 0 to 4096, dense 5 from 0 to 2048). Left out: the fixed `fog`, or none.",
+      "type": "object",
+      "properties": {
+        "small": {
+          "description": "A light fog.",
+          "type": "object",
+          "x-flow": true,
+          "required": [
+            "chance",
+            "weak_distance",
+            "strong_distance"
+          ],
+          "properties": {
+            "chance": {
+              "description": "How many days in a hundred begin with this fog.",
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 100
+            },
+            "weak_distance": {
+              "description": "Where the fog begins, map units from the eye.",
+              "type": "integer",
+              "minimum": 0
+            },
+            "strong_distance": {
+              "description": "Where nothing is seen through it any more.",
+              "type": "integer",
+              "minimum": 0
+            }
+          },
+          "additionalProperties": false
+        },
+        "average": {
+          "description": "A middling fog.",
+          "type": "object",
+          "x-flow": true,
+          "required": [
+            "chance",
+            "weak_distance",
+            "strong_distance"
+          ],
+          "properties": {
+            "chance": {
+              "description": "How many days in a hundred begin with this fog.",
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 100
+            },
+            "weak_distance": {
+              "description": "Where the fog begins, map units from the eye.",
+              "type": "integer",
+              "minimum": 0
+            },
+            "strong_distance": {
+              "description": "Where nothing is seen through it any more.",
+              "type": "integer",
+              "minimum": 0
+            }
+          },
+          "additionalProperties": false
+        },
+        "dense": {
+          "description": "A thick fog.",
+          "type": "object",
+          "x-flow": true,
+          "required": [
+            "chance",
+            "weak_distance",
+            "strong_distance"
+          ],
+          "properties": {
+            "chance": {
+              "description": "How many days in a hundred begin with this fog.",
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 100
+            },
+            "weak_distance": {
+              "description": "Where the fog begins, map units from the eye.",
+              "type": "integer",
+              "minimum": 0
+            },
+            "strong_distance": {
+              "description": "Where nothing is seen through it any more.",
+              "type": "integer",
+              "minimum": 0
+            }
+          },
+          "additionalProperties": false
+        }
+      },
+      "additionalProperties": false
+    },
+    "fog_tint": {
+      "description": "Outdoor: the fog's colour, [red, green, blue] from 0 to 255. Left out: the sky's.",
+      "type": "array",
+      "items": {
+        "type": "integer",
+        "minimum": 0,
+        "maximum": 255
+      },
+      "minItems": 3,
+      "maxItems": 3,
+      "x-flow": true
+    },
+    "mist": {
+      "description": "Ground mist and local fog volumes (devdocs/MIST.md), written as the scene's `mist` block exactly as given: `layer` (or up to four `layers`) with color_rgb, base_height, falloff_height, visibility and optionally max_opacity, noise, noise_size, drift, depth; `volumes`. The build reads it with the game's own parser, so a key or a value the game refuses is refused. Indoor and outdoor maps alike. Shadowspire: out06_mist.scene.yml's layer (pale grey-green at 100, falloff 80, visibility 720); the Mad Necromancer's Lab: d20_mist.scene.yml's two `layers` (one per floor, each with a small `depth` so that the floor beneath stays clear). Left out: no mist.",
+      "type": "object"
+    },
+    "sky_theme": {
+      "description": "Outdoor: the enhanced sky's map theme (a key of `themes` in engine/rendering/sky/sky.yml: necrotic, scorched, volcanic, lush, ...), which recolours the sky, sun and clouds in every weather. The game keys themes by map file name in that file's `maps`; `oymap install` writes the map's row there (a scratch root or mount gets its own copy of the file with the row; the shipped file is never written). Left out: no theme, the plain weather look.",
+      "type": "string"
+    },
+    "open_sky": {
+      "description": "Indoor maps: the map opens to the sky (devdocs/INDOOR_OPEN_SKY.md), the scene's `sky` block exactly as given: `mode: open` and optionally `preset`, `sky_texture`, `view: outdoor`, `view_distance_scale`, `weather`. The faces drawn as sky are those with the sky bit. Checked by the game's parser. In an overlay project it replaces the base map's.",
+      "type": "object",
+      "x-flow": true,
+      "required": [
+        "mode"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "mode": {
+          "description": "open: the only mode.",
+          "enum": [
+            "open"
+          ]
+        },
+        "preset": {
+          "description": "One of the Enhanced outdoor sky's presets (cloudy, fair, ...): its day and night cycle.",
+          "type": "string",
+          "minLength": 1
+        },
+        "sky_texture": {
+          "description": "An original sky texture whose legacy preset the sky takes (plansky3).",
+          "type": "string"
+        },
+        "view": {
+          "description": "outdoor: the map is seen as an outdoor map is (view distance, haze instead of the scene's fog); scene: as before.",
+          "enum": [
+            "scene",
+            "outdoor"
+          ]
+        },
+        "view_distance_scale": {
+          "description": "With view outdoor: the player's view distance times this, over 0 to 16.",
+          "type": "number",
+          "exclusiveMinimum": 0,
+          "maximum": 16,
+          "x-unit": "none"
+        },
+        "weather": {
+          "description": "Rain or snow falls on the open sky's faces (devdocs/INDOOR_OPEN_SKY.md \"Weather\").",
+          "enum": [
+            "rain",
+            "snow",
+            "rain_and_snow"
+          ]
+        }
+      }
+    },
+    "scene_fog": {
+      "description": "Indoor maps: the scene's `fog` block exactly as given (devdocs/INDOOR_FOG.md: a colour and near and far distances, `sky`), checked by the game's parser. In an overlay project it replaces the base map's.",
+      "type": "object",
+      "x-flow": true,
+      "required": [
+        "color_rgb",
+        "near_distance",
+        "far_distance"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "color_rgb": {
+          "description": "The fog's colour, [red, green, blue] 0 to 255.",
+          "type": "array",
+          "items": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 255
+          },
+          "minItems": 3,
+          "maxItems": 3,
+          "x-flow": true,
+          "x-unit": "none",
+          "x-geom": false
+        },
+        "near_distance": {
+          "description": "Where the fog starts.",
+          "type": "number",
+          "minimum": 0,
+          "x-unit": "map"
+        },
+        "far_distance": {
+          "description": "Where the fog is full.",
+          "type": "number",
+          "minimum": 0,
+          "x-unit": "map"
+        },
+        "sky": {
+          "description": "0 to 1: the share of an open sky drawn in the fog's colour.",
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1,
+          "x-unit": "ratio"
+        },
+        "model": {
+          "description": "eye (the default) or lithtech: MM9's fog by depth from the eye's plane.",
+          "enum": [
+            "eye",
+            "lithtech"
+          ]
+        },
+        "follow_daylight": {
+          "description": "The fog's colour darkens and lightens with the day.",
+          "type": "boolean"
+        },
+        "night": {
+          "description": "The fog at night (the same words), blended in by the hour.",
+          "type": "object",
+          "x-flow": true,
+          "required": [
+            "color_rgb",
+            "near_distance",
+            "far_distance"
+          ],
+          "additionalProperties": false,
+          "properties": {
+            "color_rgb": {
+              "description": "The fog's colour, [red, green, blue] 0 to 255.",
+              "type": "array",
+              "items": {
+                "type": "number",
+                "minimum": 0,
+                "maximum": 255
+              },
+              "minItems": 3,
+              "maxItems": 3,
+              "x-flow": true,
+              "x-unit": "none",
+              "x-geom": false
+            },
+            "near_distance": {
+              "description": "Where the fog starts.",
+              "type": "number",
+              "minimum": 0,
+              "x-unit": "map"
+            },
+            "far_distance": {
+              "description": "Where the fog is full.",
+              "type": "number",
+              "minimum": 0,
+              "x-unit": "map"
+            },
+            "sky": {
+              "description": "0 to 1: the share of an open sky drawn in the fog's colour.",
+              "type": "number",
+              "minimum": 0,
+              "maximum": 1,
+              "x-unit": "ratio"
+            }
+          }
+        }
+      }
+    },
+    "daylight": {
+      "description": "Indoor maps open to the sky: the scene's `daylight` block exactly as given (ambient_rgb, sun_rgb, day_scale_rgb, night_scale_rgb, sun_gain), checked by the game's parser. In an overlay project it replaces the base map's.",
+      "type": "object",
+      "x-flow": true,
+      "required": [
+        "ambient_rgb",
+        "sun_rgb"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "ambient_rgb": {
+          "description": "The light from everywhere at noon, 0 to 255.",
+          "type": "array",
+          "items": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 255
+          },
+          "minItems": 3,
+          "maxItems": 3,
+          "x-flow": true,
+          "x-unit": "none",
+          "x-geom": false
+        },
+        "sun_rgb": {
+          "description": "The sun's light at noon, 0 to 255.",
+          "type": "array",
+          "items": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 255
+          },
+          "minItems": 3,
+          "maxItems": 3,
+          "x-flow": true,
+          "x-unit": "none",
+          "x-geom": false
+        },
+        "day_scale_rgb": {
+          "description": "The lights' scale by day, 0 to 255 (255: unchanged).",
+          "type": "array",
+          "items": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 255
+          },
+          "minItems": 3,
+          "maxItems": 3,
+          "x-flow": true,
+          "x-unit": "none",
+          "x-geom": false
+        },
+        "night_scale_rgb": {
+          "description": "The lights' scale at night, 0 to 255.",
+          "type": "array",
+          "items": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 255
+          },
+          "minItems": 3,
+          "maxItems": 3,
+          "x-flow": true,
+          "x-unit": "none",
+          "x-geom": false
+        },
+        "sun_direction": {
+          "description": "Toward the sun, [x, y, z], any length.",
+          "type": "array",
+          "items": {
+            "type": "number"
+          },
+          "minItems": 3,
+          "maxItems": 3,
+          "x-flow": true,
+          "x-unit": "none",
+          "x-geom": false
+        },
+        "sun_gain": {
+          "description": "How strongly the sun lights faces turned to it. Default 1.",
+          "type": "number",
+          "minimum": 0,
+          "x-unit": "none"
+        }
+      }
+    },
+    "terrain": {
+      "description": "Indoor maps open to the sky (MM9's regions): the scene's `terrain` block exactly as given: `materials` (a material file of worlds/<world>/terrain_materials/), `textures` (the faces drawn as terrain), optionally `grass`, `exclude_faces` (devdocs/INDOOR_OPEN_SKY.md \"Terrain\"). Checked by the game's parser. In an overlay project it replaces the base map's. Not with `ground`, which writes this block itself.",
+      "type": "object",
+      "x-flow": true,
+      "required": [
+        "materials",
+        "textures"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "materials": {
+          "description": "A material file of worlds/<world>/terrain_materials/ (isleofashes_blv.yml).",
+          "type": "string",
+          "minLength": 1
+        },
+        "textures": {
+          "description": "The textures whose faces are drawn as terrain.",
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "x-flow": true
+        },
+        "grass": {
+          "description": "A terrain decorations file of the world (worlds/<world>/terrain_decorations/), or none.",
+          "type": "string",
+          "minLength": 1
+        },
+        "exclude_faces": {
+          "description": "Faces with a terrain texture drawn as ordinary faces (under the terrain), by face index.",
+          "type": "array",
+          "items": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "x-flow": true,
+          "x-unit": "index"
+        }
+      }
+    },
+    "ground": {
+      "description": "Indoor maps open to the sky: ground drawn as an outdoor map's terrain, from blended library materials instead of its textures (devdocs/INDOOR_OPEN_SKY.md \"Terrain\"). The build rasterises the faces whose textures the layers name from above (the topmost face wins), softens the borders over `edge_softness` and writes the weight image <stem>_blv_weights0.png and the material file <stem>_blv.yml (the format of tools/terrain_materials.py) beside the map, and the scene's `terrain` block; `oymap install` puts them in worlds/<world>/terrain_materials/. The world's material file worlds/<world>/terrain_materials/world.yml gives the materials, the slope material, the softness, fringe and meadow unless said here. New maps only; not with `terrain` (which names files made elsewhere). Example: ground: {layers: [{material: grass, textures: [sturm8czwu]}, {material: dirt, textures: [dran3iqfq4]}]}.",
+      "type": "object",
+      "required": [
+        "layers"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "layers": {
+          "description": "The grounds, one weight channel each, at most four (one weight image). Each names its material and the textures of its faces.",
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 4,
+          "items": {
+            "$ref": "#/$defs/groundLayer"
+          },
+          "x-key": "material"
+        },
+        "materials": {
+          "description": "Materials of the project's own, or changes to the world's (by name).",
+          "type": "array",
+          "maxItems": 8,
+          "items": {
+            "$ref": "#/$defs/groundMaterial"
+          },
+          "x-key": "name"
+        },
+        "slope": {
+          "description": "The material on steep ground, whatever the layer (a cliff). Left out: the world's `slope`.",
+          "type": "object",
+          "x-flow": true,
+          "additionalProperties": false,
+          "properties": {
+            "material": {
+              "description": "One of the world's materials or of `materials`.",
+              "type": "string",
+              "pattern": "^[a-z0-9_]{1,40}$"
+            },
+            "start": {
+              "description": "The steepness (1 less the normal's z) where it begins. Default the world's, else 0.3.",
+              "type": "number",
+              "minimum": 0,
+              "maximum": 1,
+              "x-unit": "ratio"
+            },
+            "end": {
+              "description": "Where it covers the ground fully. Default the world's, else 0.5.",
+              "type": "number",
+              "minimum": 0,
+              "maximum": 1,
+              "x-unit": "ratio"
+            },
+            "off": {
+              "description": "true: no slope material, also none of the world's.",
+              "type": "boolean"
+            }
+          }
+        },
+        "edge_softness": {
+          "description": "How wide the border between two grounds is blended (a Gaussian of this over 32-unit weight texels). Default the world's, else 0.",
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1024,
+          "x-unit": "map"
+        },
+        "fringe": {
+          "description": "Noise that frays the borders into islands and holes. Default the world's, else none.",
+          "type": "object",
+          "x-flow": true,
+          "additionalProperties": false,
+          "properties": {
+            "strength": {
+              "description": "0 to 4.",
+              "type": "number",
+              "minimum": 0,
+              "maximum": 4,
+              "x-unit": "none"
+            },
+            "scale": {
+              "description": "The world size of one repeat of the noise (2048: clumps of about 32 units).",
+              "type": "number",
+              "minimum": 256,
+              "maximum": 65536,
+              "x-unit": "map"
+            }
+          }
+        },
+        "meadow": {
+          "description": "The colours of the driest and lushest ground for the materials with a `meadow` strength. Default the world's.",
+          "type": "object",
+          "x-flow": true,
+          "required": [
+            "dry",
+            "lush"
+          ],
+          "additionalProperties": false,
+          "properties": {
+            "dry": {
+              "description": "Multiplier of the driest ground, 0 to 2.",
+              "type": "array",
+              "items": {
+                "type": "number",
+                "minimum": 0,
+                "maximum": 2
+              },
+              "minItems": 3,
+              "maxItems": 3,
+              "x-flow": true,
+              "x-unit": "none",
+              "x-geom": false
+            },
+            "lush": {
+              "description": "Multiplier of the lushest ground, 0 to 2.",
+              "type": "array",
+              "items": {
+                "type": "number",
+                "minimum": 0,
+                "maximum": 2
+              },
+              "minItems": 3,
+              "maxItems": 3,
+              "x-flow": true,
+              "x-unit": "none",
+              "x-geom": false
+            }
+          }
+        },
+        "grass": {
+          "description": "Grass and plants over the grounds with a meadow strength: a terrain decorations file by its virtual path (worlds/mm9/terrain_decorations/drangheim_blv.yml), the scene's `terrain.grass`. Left out: none.",
+          "type": "string",
+          "pattern": "^[A-Za-z0-9_./-]+\\.yml$"
+        },
+        "covered": {
+          "description": "A floor with a ground texture 128 or more under another ground face at its centre and around it (a tunnel under a hill): textured (the default) draws it as an ordinary face with its texture (the scene's `exclude_faces`) and leaves it out of the weights; terrain keeps it ground.",
+          "enum": [
+            "textured",
+            "terrain"
+          ]
+        }
+      }
+    },
+    "notes": {
+      "$ref": "common.schema.json#/$defs/notes"
+    }
+  },
+  "additionalProperties": false,
+  "$defs": {
+    "groundLayer": {
+      "type": "object",
+      "x-flow": true,
+      "required": [
+        "material",
+        "textures"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "material": {
+          "description": "The material this ground is drawn with: one of the world's or of `materials`.",
+          "type": "string",
+          "pattern": "^[a-z0-9_]{1,40}$"
+        },
+        "textures": {
+          "description": "The surface textures whose faces are this ground (the floors, banks and slopes that carry them). A texture belongs to one layer.",
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9_-]{1,10}$"
+          },
+          "x-flow": true
+        },
+        "color": {
+          "description": "The colour this ground should read as, 0 to 255 (MM9's regions: the mean colour of the texture it replaces): its tint is this over the library material's mean colour, no channel lifted above the brightness ratio. Left out: no tint, or `tint`.",
+          "type": "array",
+          "items": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 255
+          },
+          "minItems": 3,
+          "maxItems": 3,
+          "x-flow": true,
+          "x-unit": "none",
+          "x-geom": false
+        },
+        "tint": {
+          "description": "The tint itself, 0 to 4, instead of `color`.",
+          "type": "array",
+          "items": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 4
+          },
+          "minItems": 3,
+          "maxItems": 3,
+          "x-flow": true,
+          "x-unit": "none",
+          "x-geom": false
+        },
+        "cliff_tint": {
+          "description": "The steep ground's tint where this ground is the main one, 0 to 4. Left out: the slope material's `color` (when a layer of its own has one), else this layer's, over the slope material's mean colour; without either the game takes `tint`.",
+          "type": "array",
+          "items": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 4
+          },
+          "minItems": 3,
+          "maxItems": 3,
+          "x-flow": true,
+          "x-unit": "none",
+          "x-geom": false
+        },
+        "notes": {
+          "$ref": "common.schema.json#/$defs/notes"
+        }
+      }
+    },
+    "groundMaterial": {
+      "type": "object",
+      "required": [
+        "name"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "name": {
+          "description": "The material's name: one of the world's (worlds/<world>/terrain_materials/world.yml `materials`), whose keys given here replace the world's, or a new one, which then needs `library`.",
+          "type": "string",
+          "pattern": "^[a-z0-9_]{1,40}$"
+        },
+        "library": {
+          "description": "The library material it draws (engine/terrain_materials/library.yml: grass_meadow, grass_patchy, soil, soil_stony, rock_ground, rock_cliff, rock_layered, sand_ripples, snow, ...).",
+          "type": "string",
+          "minLength": 1
+        },
+        "repeat": {
+          "description": "The world size of one repeat of its pictures. Default 512.",
+          "type": "number",
+          "minimum": 32,
+          "maximum": 8192,
+          "x-unit": "map"
+        },
+        "height_contrast": {
+          "description": "How sharply it meets another material by height. Default 0.35.",
+          "type": "number",
+          "minimum": 0.01,
+          "maximum": 1,
+          "x-unit": "ratio"
+        },
+        "normal_strength": {
+          "description": "Its relief. Default 1.",
+          "type": "number",
+          "minimum": 0,
+          "maximum": 3,
+          "x-unit": "none"
+        },
+        "cavity": {
+          "description": "How much its own height darkens it. Default 0.",
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1,
+          "x-unit": "ratio"
+        },
+        "macro_brightness": {
+          "description": "Broad brightness change over large patches. Default 0.15.",
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1,
+          "x-unit": "ratio"
+        },
+        "macro_tint": {
+          "description": "The tint of the large cloudy patches (dry grass: [1.1, 1.05, 0.85]). Default [1, 1, 1].",
+          "type": "array",
+          "items": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 3
+          },
+          "minItems": 3,
+          "maxItems": 3,
+          "x-flow": true,
+          "x-unit": "none",
+          "x-geom": false
+        },
+        "tint_scale": {
+          "description": "A variant's tone against the material it varies (its tint is its parent's times this).",
+          "type": "array",
+          "items": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 4
+          },
+          "minItems": 3,
+          "maxItems": 3,
+          "x-flow": true,
+          "x-unit": "none",
+          "x-geom": false
+        },
+        "fringe": {
+          "description": "How much the edge noise frays its borders (roads: 0.15). Default 1.",
+          "type": "number",
+          "minimum": 0,
+          "maximum": 4,
+          "x-unit": "none"
+        },
+        "meadow": {
+          "description": "How strongly the meadow's dry and lush colours tint it, and how much grass grows on it (grass 1, patchy grass 0.8). Default 0: none.",
+          "type": "number",
+          "minimum": 0,
+          "maximum": 2,
+          "x-unit": "none"
+        },
+        "variant": {
+          "description": "Another material mixed into this one in large patches (grass: grass_patches); it becomes a layer of its own without a weight. `none`: no variant, also over the world's.",
+          "type": "string",
+          "minLength": 1
+        },
+        "variant_amount": {
+          "description": "How much of the variant shows. Default 0.4.",
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1,
+          "x-unit": "ratio"
+        },
+        "notes": {
+          "$ref": "common.schema.json#/$defs/notes"
+        }
+      },
+      "x-groups": [
+        [
+          "Material",
+          [
+            "name",
+            "library",
+            "notes"
+          ]
+        ],
+        [
+          "Look",
+          [
+            "repeat",
+            "height_contrast",
+            "normal_strength",
+            "cavity",
+            "macro_brightness",
+            "macro_tint",
+            "tint_scale"
+          ]
+        ],
+        [
+          "Borders and mixing",
+          [
+            "fringe",
+            "meadow",
+            "variant",
+            "variant_amount"
+          ]
+        ]
+      ]
+    }
+  },
+  "x-groups": [
+    [
+      "File",
+      [
+        "format",
+        "notes"
+      ]
+    ],
+    [
+      "Air",
+      [
+        "fog",
+        "fog_tint",
+        "daily_fog",
+        "mist",
+        "ceiling",
+        "flags"
+      ]
+    ],
+    [
+      "Sky and weather",
+      [
+        "sky",
+        "sky_theme",
+        "weather",
+        "precipitation"
+      ]
+    ],
+    [
+      "Ground",
+      [
+        "footsteps"
+      ]
+    ],
+    [
+      "Indoor scene",
+      [
+        "open_sky",
+        "scene_fog",
+        "daylight",
+        "terrain",
+        "ground"
+      ]
+    ]
+  ]
+}

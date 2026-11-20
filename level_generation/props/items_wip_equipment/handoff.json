@@ -1,0 +1,1163 @@
+{
+  "worker": "equipment",
+  "status": "coordinator_finish_complete",
+  "batch_complete": false,
+  "assigned_icons": 95,
+  "inspected_icons": 95,
+  "kept": 18,
+  "replaced": 64,
+  "deferred": 13,
+  "unique_shapes": 83,
+  "requested_meshy_credits": 415,
+  "spent_meshy_credits": 415,
+  "pilot_credits": 20,
+  "pilot_designs": [
+    "equipment_item110",
+    "equipment_7item116",
+    "equipment_item128",
+    "equipment_7item105"
+  ],
+  "binding_changes": [],
+  "installed_models": [
+    "6boots2",
+    "6boots3",
+    "6boots4",
+    "7item116",
+    "7item119",
+    "7item312",
+    "item132",
+    "item133",
+    "item134",
+    "item135",
+    "item136",
+    "item262",
+    "6cape1",
+    "6cape2",
+    "6cape3",
+    "6cape4",
+    "6cape5",
+    "6cape6",
+    "6cape7",
+    "6nwcape",
+    "7item105",
+    "7item106",
+    "7item107",
+    "7item108",
+    "7item109",
+    "7item325",
+    "7item330",
+    "7item347",
+    "7item350",
+    "item122",
+    "item123",
+    "item126",
+    "item260",
+    "6crown2",
+    "6crown3",
+    "6crown4",
+    "6crown5",
+    "6hat2",
+    "6helm1",
+    "6helm2",
+    "6helm3",
+    "6helm4",
+    "6helm5",
+    "7item090",
+    "7item091",
+    "7item092",
+    "7item093",
+    "7item097",
+    "7item098",
+    "7item099",
+    "7item239",
+    "7item240",
+    "7item241",
+    "7item243",
+    "item109",
+    "item110",
+    "item112",
+    "item113",
+    "item114",
+    "item115",
+    "item116",
+    "item256",
+    "item257",
+    "item258"
+  ],
+  "retained_generated_keep": [
+    "item111",
+    "7item089",
+    "7item094",
+    "7item115",
+    "7item118",
+    "7item117"
+  ],
+  "budget_authority": "User approved the concrete 83-shape, 415-credit request before paid Meshy submissions.",
+  "checks": [
+    "Nine repair exports passed UV, finite attribute, winding, embedded PBR map and triangle budget checks",
+    "Eight material-label sets passed exact silhouette/interior coverage checks; PBR classes baked from reviewed mesh-face labels",
+    "Five Blender bake/material/lining/texel-domain regressions passed",
+    "Six existing item binding/collision/picking test cases passed: 975 assertions",
+    "All nine repaired models reviewed in native MM7 outdoor and MM6 indoor captures; NVIDIA/OpenGL, no game errors",
+    "64 installed coordinator models have current runtime bounds; Paladin and Seven League lengths reduced after user size review",
+    "Six KEEP source/runtime models and 18 concurrent gauntlet installations preserved; 13 geometry-worker sources untouched",
+    "No new Meshy jobs or credits; 83 historical successes, total 415 approved credits"
+  ],
+  "pending": [
+    "13 geometry repairs belong to items_wip_equipment_geometry_finish; integrate that worker's handoff when ready."
+  ],
+  "review_paths": [
+    "ledger.csv",
+    "review/texture_finish_accepted_9.png",
+    "review/texture_finish_validation.json",
+    "review/texture_finish_native.json",
+    "review/bounds_merge_applied.json"
+  ],
+  "approved_meshy_credits": 415,
+  "reserved_meshy_credits": 415,
+  "submitted_jobs": 83,
+  "hd_masters_ready": 83,
+  "shapes_downloaded": 83,
+  "shared_wrapper_change": "User explicitly requested extending tools/run_creature_blender.sh to stop per-command Blender permission prompts. Supports props/items_wip_* and script args; prior creature argv preserved; lease and path checks retained.",
+  "native_outdoor_run": "/tmp/openyamm-desktop-equipment-pilot-outdoor-gi9cr2oc/run.json",
+  "native_outdoor_gpu": "NVIDIA 0x10de / OpenGL 3.3 / Wayland",
+  "native_indoor_run": "/tmp/openyamm-desktop-equipment-pilot-indoor-op883tla/run.json",
+  "issues": {
+    "6boots1": "Visible triangular punctures across toe leather and open one-sided cuff panels under verified back-face culling.",
+    "6boots5": "Both shafts are filled by flat leather caps near the cuff instead of deep open boot interiors; silhouette/material painting cannot fix this geometry.",
+    "6boots6": "Canonical shared boot geometry has flat caps filling both shafts near the cuff instead of deep open interiors.",
+    "6boots7": "Canonical shared boot geometry has flat caps filling both shafts near the cuff instead of deep open interiors.",
+    "7item348": "The defining raised crescent-moon clasp is missing from the mesh; a painted mark cannot replace its real brooch geometry.",
+    "item124": "Folded cloak becomes a tall hollow hood/tunnel with a broad flat inner patch rather than the low leather fold stack in the source.",
+    "item125": "Rolled fold remains a stiff open tunnel of angular overlapping sheet walls; the source depicts soft low leather folds and strapped buckles.",
+    "6crown1": "Foliage forms a near-planar partial arc instead of a complete volumetric wreath; missing rear band/leaf volume remains after painting.",
+    "6hat1": "Crown/fold rises as stiff pointed fins and the brim/band has broad open gaps; it does not reproduce the soft folded feather cap.",
+    "6hat3": "Tall straight conical source becomes a strongly slouched cone; small triangular fabric punctures remain beside the hatband under culling.",
+    "7item095": "The beret has transparent triangular tears beside the crown/button and rim under verified culling.",
+    "7item096": "Large transparent triangular tears break the turban crown and gathered fabric; baseline retained.",
+    "7item344": "One eye opening is capped by leather while the other is open, and strap sections disappear under culling; eye-mask topology remains incomplete."
+  },
+  "native_gauntlet_indoor_run": "/tmp/openyamm-desktop-equipment-gauntlet-indoor-7hu7jmz1/run.json",
+  "native_cloak_gauntlet_outdoor_run": "/tmp/openyamm-desktop-equipment-cloak-gauntlet-outdoor-k48uhfpy/run.json",
+  "reconciled_unpaid_submission": "meshy/reconciliation/equipment_6crown1_st_v1_dns_20261018.json",
+  "all_assigned_entries_examined": true,
+  "decisions_complete": true,
+  "active_jobs": 0,
+  "final_bakes": 88,
+  "final_geometry_checks_passed": 88,
+  "owned_final_candidates_reviewed": 77,
+  "accepted_exports": 64,
+  "binding_updates": [
+    {
+      "icon": "6boots2",
+      "length": 51.3,
+      "bounds": [
+        -25.6,
+        -24.7,
+        0.0,
+        25.6,
+        24.7,
+        43.8
+      ],
+      "source_sha256": "2cd0182cc4de5d1edb90f35f65a57797dadb321e2072716140b74dd208da0652",
+      "runtime_sha256": "5c1357bea0a5f087caa4313150a9ddb2cf329725c9afba261121f66341e5c3bc",
+      "merged": true
+    },
+    {
+      "icon": "6boots3",
+      "length": 49.5,
+      "bounds": [
+        -24.8,
+        -22.7,
+        0.0,
+        24.8,
+        22.7,
+        41.6
+      ],
+      "source_sha256": "f2f8d28a0b214b6b565ff3e25ce27e97074b2911cff7886d8bf94e7d3160cbfe",
+      "runtime_sha256": "cb9f49cd284d8f6d381e86a1dae24399fb739b7c71457ba0b1817f07c1ba741d",
+      "merged": true
+    },
+    {
+      "icon": "6boots4",
+      "length": 51.3,
+      "bounds": [
+        -25.6,
+        -24.7,
+        0.0,
+        25.6,
+        24.7,
+        43.8
+      ],
+      "source_sha256": "e0a644bcdc1d6cb0df5466000ca6255f11e32ad2a5934b47c7774cdd68d87989",
+      "runtime_sha256": "5f8e406ed9aa192033aa1922f5546a641924b84fbfb4ebcd3fd680399010a55b",
+      "merged": true
+    },
+    {
+      "icon": "7item116",
+      "length": 57.6,
+      "bounds": [
+        -28.8,
+        -24.1,
+        0.0,
+        28.8,
+        24.1,
+        50.0
+      ],
+      "source_sha256": "2922d42cacf3bbf3ecc7c8021f4dd5548c3a0fcc6c9e3f3b01a2573155582e3d",
+      "runtime_sha256": "3898a646e41e96429e4814a27d5bcd5ed5fa452dadb8ff15a41534947aaba2eb",
+      "merged": true
+    },
+    {
+      "icon": "7item119",
+      "length": 45.0,
+      "bounds": [
+        -22.5,
+        -22.1,
+        0,
+        22.5,
+        22.1,
+        62.2
+      ],
+      "source_sha256": "ebdeb4b4442ccf3f17a308f65101727e6a8cde2a727325c6ad0edb188cbd1975",
+      "runtime_sha256": "f4feea6ab08ae8322982b33e6af3e9585e37d65a0c52c7c02d55a882d1deb215",
+      "merged": true
+    },
+    {
+      "icon": "7item312",
+      "length": 52.0,
+      "bounds": [
+        -26,
+        -25,
+        0,
+        26,
+        25,
+        57
+      ],
+      "source_sha256": "b38e21933c98c6a95fe839729e9a353fe75c03a1f30fef2f765e728e1fd4b361",
+      "runtime_sha256": "42b993f65c328ff6b0a090f6d27607203b2beb4e38e570eafe74444370d8505b",
+      "merged": true
+    },
+    {
+      "icon": "item132",
+      "length": 50.4,
+      "bounds": [
+        -23.7,
+        -25.2,
+        0.0,
+        23.7,
+        25.2,
+        50.4
+      ],
+      "source_sha256": "4ec8ead7567d6befbcd653da5ca33561c9dc1c61a2a00c95e2b49ba9d7803402",
+      "runtime_sha256": "834e0ecde4f64e12f788cb73ede12d4aa2dfde216e72c3c790817c1bbde4f6ac",
+      "merged": true
+    },
+    {
+      "icon": "item133",
+      "length": 57.1,
+      "bounds": [
+        -28.6,
+        -27.6,
+        0.0,
+        28.6,
+        27.6,
+        58.6
+      ],
+      "source_sha256": "838edbba180affaf691b660bd071ef12655d1954c26b5ea255cd13af3355a716",
+      "runtime_sha256": "550c0ac40759aa8f51b505c1f856ba4702957d2a1d448e5ebb88dd22c3ae4a92",
+      "merged": true
+    },
+    {
+      "icon": "item134",
+      "length": 46.4,
+      "bounds": [
+        -21.9,
+        -23.2,
+        0.0,
+        21.9,
+        23.2,
+        62.7
+      ],
+      "source_sha256": "25240c8c33f138693a74a6dfe302ba65a552ed2c7b72a93a5dd84b3ea9108fff",
+      "runtime_sha256": "7034af9c67b73016706e37137d36d49e0ffc1b1c419248659d2385390dd04f39",
+      "merged": true
+    },
+    {
+      "icon": "item135",
+      "length": 45.0,
+      "bounds": [
+        -22.5,
+        -19.6,
+        0.0,
+        22.5,
+        19.6,
+        50.4
+      ],
+      "source_sha256": "7429a4b4f1de5de90d49a742ffaa700abf0cc93498be46e8b129d4e94d096627",
+      "runtime_sha256": "239314136defedaf31284d36194619c7212213403c2db1ec4a14fe6bbd1e033a",
+      "merged": true
+    },
+    {
+      "icon": "item136",
+      "length": 42.3,
+      "bounds": [
+        -21.2,
+        -20.1,
+        0.0,
+        21.2,
+        20.1,
+        64.5
+      ],
+      "source_sha256": "80d02764fbea88613f01c2b6440b00a643ce9f653bf8d5a47e7872c9a668c3f8",
+      "runtime_sha256": "ae6ac2a8be40c5b92fb321fe372e321ae7d3d257038117ccfa09f6952369109f",
+      "merged": true
+    },
+    {
+      "icon": "item262",
+      "length": 52.6,
+      "bounds": [
+        -26.3,
+        -23.5,
+        0.0,
+        26.3,
+        23.5,
+        53.0
+      ],
+      "source_sha256": "3b09961f86a1afe3c9cc7ced005c723b6b76d1bcdf895c93252fd099b0aee990",
+      "runtime_sha256": "7b34801be0204ff25e8606942e5d1d61f78b7c0f0e38bd20be412a45c86817cf",
+      "merged": true
+    },
+    {
+      "icon": "6cape1",
+      "length": 93.2,
+      "bounds": [
+        -46.6,
+        -41.7,
+        0.0,
+        46.6,
+        41.7,
+        19.6
+      ],
+      "source_sha256": "a63ce57b6aac399b758343e0afcc409d525eaebc371211aa3df128ac61c96898",
+      "runtime_sha256": "b66bb6b1eeabdd100b2fd4473c4700a178e6f259b69bd029b63400e30d5233a0",
+      "merged": true
+    },
+    {
+      "icon": "6cape2",
+      "length": 92.0,
+      "bounds": [
+        -46.0,
+        -41.1,
+        0.0,
+        46.0,
+        41.1,
+        19.3
+      ],
+      "source_sha256": "cda92945c63a1aff29ea16a16b88cd48da5fb64f11f5714c94974734278191e2",
+      "runtime_sha256": "7323f19cceaf4ee962628e543b841688b62caad60b3bf1dd839f6229251167fc",
+      "merged": true
+    },
+    {
+      "icon": "6cape3",
+      "length": 95.1,
+      "bounds": [
+        -47.6,
+        -42.5,
+        0.0,
+        47.6,
+        42.5,
+        20.0
+      ],
+      "source_sha256": "24492dbd9d244e99e19be73987ee01ad33a5ea43ef2f9667ba0d771988fb0bda",
+      "runtime_sha256": "d1345c478d80669d88d637885a53095d32310448acbff0be3674556f94844008",
+      "merged": true
+    },
+    {
+      "icon": "6cape4",
+      "length": 97.0,
+      "bounds": [
+        -48.5,
+        -43.4,
+        0.0,
+        48.5,
+        43.4,
+        20.4
+      ],
+      "source_sha256": "7842ce9876cdf0c87a4f3fcc17e02d9eb741952f7587c5e40fc16a4292e4e4d7",
+      "runtime_sha256": "7a0e1f9270d8b78249cab3ba1d41be4b424bc64ce5038e764a69ae1817e8366e",
+      "merged": true
+    },
+    {
+      "icon": "6cape5",
+      "length": 100.8,
+      "bounds": [
+        -50.4,
+        -45.5,
+        0.0,
+        50.4,
+        45.5,
+        19.8
+      ],
+      "source_sha256": "45a4f6502ef9b430b84db87791a148f90ca016b13f9e862a6f1a7d3cefad0e04",
+      "runtime_sha256": "648dcbc53a017efc17e92548191a29edd7910cddc6680a6c9b7267e665edbd1f",
+      "merged": true
+    },
+    {
+      "icon": "6cape6",
+      "length": 101.4,
+      "bounds": [
+        -50.7,
+        -45.8,
+        0.0,
+        50.7,
+        45.8,
+        19.9
+      ],
+      "source_sha256": "275bfb682d00ed281f1a6d46035e0917ac81fd55ff3d446876a4e241923c6eae",
+      "runtime_sha256": "4bab3802f071e2f80ed0a9c189b6173f74813eeef428193511bccb699bcc46bd",
+      "merged": true
+    },
+    {
+      "icon": "6cape7",
+      "length": 100.8,
+      "bounds": [
+        -50.4,
+        -45.5,
+        0.0,
+        50.4,
+        45.5,
+        19.8
+      ],
+      "source_sha256": "166712afc32733e1fcc404ec94f2eb3ef6f033e76f183a245f24a76b52717e23",
+      "runtime_sha256": "2c5a1ea2867ef60a2801609afcabdf29f982b2fc092d6515109147a1e3726ca7",
+      "merged": true
+    },
+    {
+      "icon": "6nwcape",
+      "length": 86.9,
+      "bounds": [
+        -28.7,
+        -43.4,
+        0.0,
+        28.7,
+        43.4,
+        20.8
+      ],
+      "source_sha256": "516e19d28f54c5589dedbf5ca814bdbd43bf1dc90b02dfee4ed2c45fc29bd51f",
+      "runtime_sha256": "f6f235e68ed3bff0b1338eecbb2f57da2740173d4b9bea9a6845056a60290822",
+      "merged": true
+    },
+    {
+      "icon": "7item105",
+      "length": 75.0,
+      "bounds": [
+        -31.7,
+        -37.5,
+        0.0,
+        31.7,
+        37.5,
+        42.4
+      ],
+      "source_sha256": "6928abc11047f6a87fc3f85788c7719d5ee40a9e87337dcfddcf38922c860aad",
+      "runtime_sha256": "dd352f8ef68743cef0c772cbed42846a035e26c5d30effd2b60d32aff6f0bfac",
+      "merged": true
+    },
+    {
+      "icon": "7item106",
+      "length": 80.6,
+      "bounds": [
+        -40.3,
+        -34.7,
+        0.0,
+        40.3,
+        34.7,
+        52.7
+      ],
+      "source_sha256": "69e6f756e5dfd72ecc8987fa1ab69b4e88bddc0e2019bbd96452bbf26eeb7c30",
+      "runtime_sha256": "3ad43e8c0a1d8dad942f7939335f43c3b6db255bda720d0e5c4a4232f86f131c",
+      "merged": true
+    },
+    {
+      "icon": "7item107",
+      "length": 80.6,
+      "bounds": [
+        -40.3,
+        -39.0,
+        0.0,
+        40.3,
+        39.0,
+        42.3
+      ],
+      "source_sha256": "f8354aaafd010769dc30454c760a5b805a22fcf5f22747922d35a0b35a971c08",
+      "runtime_sha256": "f0440362f879b2a03e3277d224ff0c56dd064ccb96046a73e752eef523f0fe31",
+      "merged": true
+    },
+    {
+      "icon": "7item108",
+      "length": 80.6,
+      "bounds": [
+        -40.3,
+        -34.0,
+        0.0,
+        40.3,
+        34.0,
+        40.1
+      ],
+      "source_sha256": "22ba998d277dc19b76f4fae75e0b624483ccd3ac9a193bfc760a858757f667e8",
+      "runtime_sha256": "69e32b22a30a10c32359310434a36c77559be034ce90792c5106938540e12b71",
+      "merged": true
+    },
+    {
+      "icon": "7item109",
+      "length": 80.6,
+      "bounds": [
+        -40.3,
+        -40.2,
+        0.0,
+        40.3,
+        40.2,
+        31.8
+      ],
+      "source_sha256": "274ece1e08c0a7d38d68a0cc5396b49aaea5b043bcdd52ff9d0328835eceabad",
+      "runtime_sha256": "4538f21d2695980acb08db420f6608e44a7905514de6d8f4015e8ebd24820467",
+      "merged": true
+    },
+    {
+      "icon": "7item325",
+      "length": 80.0,
+      "bounds": [
+        -40.0,
+        -23.1,
+        0.0,
+        40.0,
+        23.1,
+        36.7
+      ],
+      "source_sha256": "e3b726bdb131760091cc0128cb38b36348a5e9772e8e0909aa09b7f5766dd77b",
+      "runtime_sha256": "fbf617ef8e608870c9a40f561f5368d808696f761063cc176ffe3c624a095675",
+      "merged": true
+    },
+    {
+      "icon": "7item330",
+      "length": 80.6,
+      "bounds": [
+        -40.3,
+        -38.8,
+        0.0,
+        40.3,
+        38.8,
+        43.2
+      ],
+      "source_sha256": "9d03ce5313d3e2dc1bfae80a077f280778f50c44ef68e8869bcf4314120c6824",
+      "runtime_sha256": "4f74c6b1a5443d1d820eae334326242de29870670d8f2e16420a3f59997e6289",
+      "merged": true
+    },
+    {
+      "icon": "7item347",
+      "length": 79.4,
+      "bounds": [
+        -39.7,
+        -39.4,
+        0.0,
+        39.7,
+        39.4,
+        40.1
+      ],
+      "source_sha256": "b5d523d133b1d20580e9648742523e8713fd7abd6fce678c819f48ca08ccbac7",
+      "runtime_sha256": "5835c0cb9abacdd9003afa01d082a81555a64a349e811268e4520de0901a70a3",
+      "merged": true
+    },
+    {
+      "icon": "7item350",
+      "length": 80.0,
+      "bounds": [
+        -40.0,
+        -38.0,
+        0.0,
+        40.0,
+        38.0,
+        36.7
+      ],
+      "source_sha256": "1e5a3c3417edaff5b40edfac3a3a996748bf183f65c0df348f71db74571408ec",
+      "runtime_sha256": "b016f5614af91147927523da0af9338095c56b62ad32d9daa77cf4122e54306b",
+      "merged": true
+    },
+    {
+      "icon": "item122",
+      "length": 85.7,
+      "bounds": [
+        -42.8,
+        -34.2,
+        0.0,
+        42.8,
+        34.2,
+        33.4
+      ],
+      "source_sha256": "0816639496538ab8c676cee02abbaaf4a9ad9e341515a5334f90982284a0a476",
+      "runtime_sha256": "c6807d479ff5bf6851aedae2b02cfd101b598039b0a48abe0a04ae1df3873eb1",
+      "merged": true
+    },
+    {
+      "icon": "item123",
+      "length": 88.2,
+      "bounds": [
+        -38.0,
+        -44.1,
+        0.0,
+        38.0,
+        44.1,
+        54.7
+      ],
+      "source_sha256": "b8e0156e26edf546772b919067ba7a922a8091d95a236f9abe94a6cbec6ebf98",
+      "runtime_sha256": "a519cecfef7904a414295a2abd8370c44a1bbb52566170dea26855f5e7fa2e78",
+      "merged": true
+    },
+    {
+      "icon": "item126",
+      "length": 88.2,
+      "bounds": [
+        -34.7,
+        -44.1,
+        0.0,
+        34.7,
+        44.1,
+        51.7
+      ],
+      "source_sha256": "fea86d0d6997782e63094974bfda1e783ce97f1a5b3dc254848add501bc47f41",
+      "runtime_sha256": "6e289590a74405e1e806680e244d1bf419d544a200dea0dbf9438fff1eae827f",
+      "merged": true
+    },
+    {
+      "icon": "item260",
+      "length": 88.8,
+      "bounds": [
+        -43.4,
+        -44.4,
+        0.0,
+        43.4,
+        44.4,
+        20.5
+      ],
+      "source_sha256": "bde21a5212e587e69d6b154fb22c83f6206dd0145e0cd209cfe984c88b82f470",
+      "runtime_sha256": "69591c868ce554d41c9689729a4aa534d0c147189b152ac713df2ace3a2af3d3",
+      "merged": true
+    },
+    {
+      "icon": "6crown2",
+      "length": 40.5,
+      "bounds": [
+        -20.2,
+        -19.6,
+        0.0,
+        20.2,
+        19.6,
+        9.4
+      ],
+      "source_sha256": "ac034966223e94b3ea3e832004c988d0857958a4536b9e4d2d7d43109da61a0e",
+      "runtime_sha256": "2ad78247a36d8cd34ed86d9ddad0a7ae0d506d0e40095a2a2f5f9d906efecbcd",
+      "merged": true
+    },
+    {
+      "icon": "6crown3",
+      "length": 37.8,
+      "bounds": [
+        -18.9,
+        -18.9,
+        0.0,
+        18.9,
+        18.9,
+        15.1
+      ],
+      "source_sha256": "a0fcaa87264fcbadb004d75996657f4a731f5c9d25a0391a4c57e2699b0a8f79",
+      "runtime_sha256": "322434572a3e61abee5bf020b4b148ce96da3e36adef89493d327232e974f82d",
+      "merged": true
+    },
+    {
+      "icon": "6crown4",
+      "length": 37.8,
+      "bounds": [
+        -18.9,
+        -18.9,
+        0.0,
+        18.9,
+        18.9,
+        15.1
+      ],
+      "source_sha256": "029edb6968958cb3f2a82b94f86267d357944f23a1416692b6711dc40c1d3f84",
+      "runtime_sha256": "ea200a24e11a9e4c0983289871b059cf51eb539fef43b91404f4b4983e610596",
+      "merged": true
+    },
+    {
+      "icon": "6crown5",
+      "length": 37.8,
+      "bounds": [
+        -18.9,
+        -18.9,
+        0.0,
+        18.9,
+        18.9,
+        15.1
+      ],
+      "source_sha256": "c19cf1f80163cdde1b37d9147a2fe1a3ed63da09a3191a8a9dd3c96249b76be5",
+      "runtime_sha256": "9211dc23aeac6d293f67a438a25f8c75da2bf1ad22075be6224c5de0a55b7e26",
+      "merged": true
+    },
+    {
+      "icon": "6hat2",
+      "length": 67.0,
+      "bounds": [
+        -33.5,
+        -33.5,
+        0.0,
+        33.5,
+        33.5,
+        29.1
+      ],
+      "source_sha256": "7d579f5c7314589dc5d97b66b6dab898743d5fb58f0262e15354fef08067cd2a",
+      "runtime_sha256": "b5089ee0bb4dc1ea072a51ba1fe8e2a7c0e8fc4ec2bd6326d7b7c9f1952da49f",
+      "merged": true
+    },
+    {
+      "icon": "6helm1",
+      "length": 39.6,
+      "bounds": [
+        -19.8,
+        -19.8,
+        0.0,
+        19.8,
+        19.8,
+        36.0
+      ],
+      "source_sha256": "c05d9b9d30044721c5930c745915af682f2896109b24de12e63c52c9ff48cb70",
+      "runtime_sha256": "faabfa0e441457834496cea1262b842d96856e3838961578b53ee10a12b67513",
+      "merged": true
+    },
+    {
+      "icon": "6helm2",
+      "length": 43.2,
+      "bounds": [
+        -19.6,
+        -21.6,
+        0.0,
+        19.6,
+        21.6,
+        45.0
+      ],
+      "source_sha256": "9283b007dd4d67211bd438857b3816534b6b869372fdb9d2fd7e998ab565dcee",
+      "runtime_sha256": "df47abea941d9d75ba973d228a28623894ba4eaae95127ed68151310cca78688",
+      "merged": true
+    },
+    {
+      "icon": "6helm3",
+      "length": 68.4,
+      "bounds": [
+        -34.2,
+        -23.4,
+        0.0,
+        34.2,
+        23.4,
+        59.4
+      ],
+      "source_sha256": "bba3a08b329adf5a81ab5fb3085942401ca2350178ed5af18e855ff74adfffd4",
+      "runtime_sha256": "ff89e838c3ab643e36f8652a54c8d4dd94a69d5dc0d20b7ec1782b277aa03929",
+      "merged": true
+    },
+    {
+      "icon": "6helm4",
+      "length": 55.8,
+      "bounds": [
+        -27.9,
+        -22.5,
+        0.0,
+        27.9,
+        22.5,
+        53.9
+      ],
+      "source_sha256": "96de8d92087e5e96aec159808dbd0c905aa9097b7ae2702e4d852757a7c835b3",
+      "runtime_sha256": "236ee51e58c452305ad283e5bfa12f67f2c1ab3e947e935a6268a4665fa6b2e7",
+      "merged": true
+    },
+    {
+      "icon": "6helm5",
+      "length": 50.4,
+      "bounds": [
+        -25.2,
+        -21.4,
+        0.0,
+        25.2,
+        21.4,
+        59.5
+      ],
+      "source_sha256": "b8c5733d99d18395c55855029dae28ccc9893b6e57b5468182c0a016a666f9da",
+      "runtime_sha256": "1db7d0b43a9e30990336eb921752cb290c5204bb7fd4f0b88f38799f15528ecf",
+      "merged": true
+    },
+    {
+      "icon": "7item090",
+      "length": 32.4,
+      "bounds": [
+        -16.2,
+        -16.2,
+        0.0,
+        16.2,
+        16.2,
+        32.4
+      ],
+      "source_sha256": "c470511fc205f584ee65483cc631177842d8bf0f1e8f527977db277a89bfdb98",
+      "runtime_sha256": "2b279c7500b06cc6c9eee12dc558ec798a74387e4b8f4e05b9bbf81b6770e2f4",
+      "merged": true
+    },
+    {
+      "icon": "7item091",
+      "length": 46.4,
+      "bounds": [
+        -22.3,
+        -23.2,
+        0.0,
+        22.3,
+        23.2,
+        53.6
+      ],
+      "source_sha256": "c49ead8de5dfac6076441ca01ec18186186805d8b82a5a78240fce8faa35a26b",
+      "runtime_sha256": "35c6f841a88ca0f3b506b239b9ca637e429dbb7ddd194e8aad6632e18b0ec6dd",
+      "merged": true
+    },
+    {
+      "icon": "7item092",
+      "length": 50.9,
+      "bounds": [
+        -25.4,
+        -22.9,
+        0.0,
+        25.4,
+        22.9,
+        49.0
+      ],
+      "source_sha256": "2395da408b1bb1dd95f601e24bf36f94f4715ea7a55e589709cd17b289d3c37d",
+      "runtime_sha256": "fb67ab24f6d451ce16d2a6aac6420db41cc04067be399b1fb1e1c05c8d05a99d",
+      "merged": true
+    },
+    {
+      "icon": "7item093",
+      "length": 55.4,
+      "bounds": [
+        -27.7,
+        -21.6,
+        0.0,
+        27.7,
+        21.6,
+        50.6
+      ],
+      "source_sha256": "6077abd26423a0b690fc019b079325c413bbda2e664ee94ff8c1252911c5d114",
+      "runtime_sha256": "9af10f324b002350e41a513eb08587d53412d068786747a6a96c37d49aa3a624",
+      "merged": true
+    },
+    {
+      "icon": "7item097",
+      "length": 56.7,
+      "bounds": [
+        -28.4,
+        -28.4,
+        0.0,
+        28.4,
+        28.4,
+        28.9
+      ],
+      "source_sha256": "4d6b4eb4eda560114112f3e245f04b458686e9ef7a0e43a7764a948435aeec6a",
+      "runtime_sha256": "eeb9a47d73ba7b8e9941bf7e10844375806a7fd1aab12788045bf393bba234c6",
+      "merged": true
+    },
+    {
+      "icon": "7item098",
+      "length": 53.1,
+      "bounds": [
+        -26.6,
+        -26.6,
+        0.0,
+        26.6,
+        26.6,
+        45.4
+      ],
+      "source_sha256": "c06c3158610cdabd266a076293bcdca2cee6626869e18c1d8b1bb18620001b37",
+      "runtime_sha256": "d411998f5110f56a3f73ec49e3115b0e076dacd69e5d93401482ec21f88dad81",
+      "merged": true
+    },
+    {
+      "icon": "7item099",
+      "length": 54.9,
+      "bounds": [
+        -27.4,
+        -27.4,
+        0.0,
+        27.4,
+        27.4,
+        50.3
+      ],
+      "source_sha256": "c751669a420a05d44a696eb879dafe810e72e0337092a5f33309d526d66e1552",
+      "runtime_sha256": "fc5b917408df3a7879d0740c00ba2c3a8d0e31d0d97b3790917be13064ea1852",
+      "merged": true
+    },
+    {
+      "icon": "7item239",
+      "length": 44.6,
+      "bounds": [
+        -19.9,
+        -22.3,
+        0.0,
+        19.9,
+        22.3,
+        44.9
+      ],
+      "source_sha256": "00b6ca095cfd85e6caf6c0ade3179d8849a3e6a8bb45efe32bce70c0d0d373aa",
+      "runtime_sha256": "1c5b5fff6b4174054826370bffa1b1de8d308a0c27f4fc9e72ee16107d9bef88",
+      "merged": true
+    },
+    {
+      "icon": "7item240",
+      "length": 50.4,
+      "bounds": [
+        -25.2,
+        -23.4,
+        0.0,
+        25.2,
+        23.4,
+        47.9
+      ],
+      "source_sha256": "a7664e6b2f34dc73f10be786e4b126bee55343c22a6a817a85ac922fd133269a",
+      "runtime_sha256": "04c54ec371354a8cc09bb51c4e497e86730f18d81355748575003468d5dee958",
+      "merged": true
+    },
+    {
+      "icon": "7item241",
+      "length": 47.7,
+      "bounds": [
+        -23.8,
+        -23.8,
+        0.0,
+        23.8,
+        23.8,
+        40.6
+      ],
+      "source_sha256": "fb4e9e95729b889a1dd5b37109645d146018f72b36b5ebefc25b2297bcc5be03",
+      "runtime_sha256": "dcf5f8d373c93e349bf3b8c87bd921acffa1ffc5de25d81fd53c4e6b8eaf0a5f",
+      "merged": true
+    },
+    {
+      "icon": "7item243",
+      "length": 55.8,
+      "bounds": [
+        -27.9,
+        -21.8,
+        0.0,
+        27.9,
+        21.8,
+        51.0
+      ],
+      "source_sha256": "c0f9787a500fadd94e6acea590ea8c9dd246c8edb0ce085f8dcef3ecec0f2847",
+      "runtime_sha256": "ec216eb3cd01e9f16b3dbf2c0fd42363cd5ef81f2102d32b50968d999827b2c3",
+      "merged": true
+    },
+    {
+      "icon": "item109",
+      "length": 36.0,
+      "bounds": [
+        -16.2,
+        -18.0,
+        0.0,
+        16.2,
+        18.0,
+        31.5
+      ],
+      "source_sha256": "b4d75395b660c87bcfcfcb4bbc5ccd35ac465f9b6a0358ace723431f5c15de6e",
+      "runtime_sha256": "9af7555ce255ed5289e772c10ff639f3f5f41a2e28b21833279072c3b8109d00",
+      "merged": true
+    },
+    {
+      "icon": "item110",
+      "length": 50.9,
+      "bounds": [
+        -25.4,
+        -18.5,
+        0.0,
+        25.4,
+        18.5,
+        48.5
+      ],
+      "source_sha256": "2c635668cc96100d24dc40fecd92b8dfa7817f898786d598fe4482dffe5c9cb4",
+      "runtime_sha256": "64e122540140853a36044d40183ff93f8d932e0b46cd86327eb878105ca0d9e6",
+      "merged": true
+    },
+    {
+      "icon": "item112",
+      "length": 63.0,
+      "bounds": [
+        -31.5,
+        -19.3,
+        0.0,
+        31.5,
+        19.3,
+        56.2
+      ],
+      "source_sha256": "76808b81c27c0a5237a1d058f24343ff9cd8f64773ce0e73ef4a74c6b5674423",
+      "runtime_sha256": "3899d6b8be9e3cccc250681bafed67abff0ca0d05ea380708811791b39b9ff16",
+      "merged": true
+    },
+    {
+      "icon": "item113",
+      "length": 62.6,
+      "bounds": [
+        -31.3,
+        -19.1,
+        0.0,
+        31.3,
+        19.1,
+        54.2
+      ],
+      "source_sha256": "8b31cc4dba7b74066839b3202a7b1f6eba4267f9f76f4caec4c47c77f777fad2",
+      "runtime_sha256": "ccddefd1936153b42047dc0a2e5967b9d243a285e18f0342cd8e8de4ed8f6d56",
+      "merged": true
+    },
+    {
+      "icon": "item114",
+      "length": 41.0,
+      "bounds": [
+        -20.5,
+        -16.6,
+        0.0,
+        20.5,
+        16.6,
+        26.8
+      ],
+      "source_sha256": "ba5e2e0f8250ff66aadf5ecf989a91c84cf521187c3d3726195a63ddd4d87623",
+      "runtime_sha256": "b493be52c701f3f2624843499fe8bcc2a3c8743cc6ad2681b3abaa3c94d14ff0",
+      "merged": true
+    },
+    {
+      "icon": "item115",
+      "length": 50.4,
+      "bounds": [
+        -25.2,
+        -19.7,
+        0.0,
+        25.2,
+        19.7,
+        33.0
+      ],
+      "source_sha256": "8127f4963b6f0a848ce71c78d4edc3c61c16685a858dfc21d83ee74239dcc655",
+      "runtime_sha256": "9ecb766cc303a194c2a958ee00105dc88a24ecd0afbaadb7b5f82959c38a2bb7",
+      "merged": true
+    },
+    {
+      "icon": "item116",
+      "length": 34.2,
+      "bounds": [
+        -17.1,
+        -17.1,
+        0.0,
+        17.1,
+        17.1,
+        32.9
+      ],
+      "source_sha256": "4d34ad7eebec201c611d7764302390e4c0507ef66a009db70568ce4c7cb64f12",
+      "runtime_sha256": "23ecb93b04722c7bbb018a7b4c64cf081d45cc125274bf7789953c79144b62c4",
+      "merged": true
+    },
+    {
+      "icon": "item256",
+      "length": 50.0,
+      "bounds": [
+        -25.0,
+        -25.0,
+        0.0,
+        25.0,
+        25.0,
+        49.9
+      ],
+      "source_sha256": "78e4efaf418354125ad1fb2f0602c6972271c6b05455508220cc1c8e481db57d",
+      "runtime_sha256": "186a363107b670787944b83fd8c295bffb64d1260125d1836d9138edf4075f87",
+      "merged": true
+    },
+    {
+      "icon": "item257",
+      "length": 41.9,
+      "bounds": [
+        -21.0,
+        -20.9,
+        0.0,
+        21.0,
+        20.9,
+        17.4
+      ],
+      "source_sha256": "823369c8fdce39e442653729a703de10ab77e110a8cc1347276b8e4d24cbfc01",
+      "runtime_sha256": "5127d04c05643f7d7fe89c6e9a80eb9ee18c4d44a1f1825b649d3036e36b9a7b",
+      "merged": true
+    },
+    {
+      "icon": "item258",
+      "length": 41.4,
+      "bounds": [
+        -20.7,
+        -17.6,
+        0.0,
+        20.7,
+        17.6,
+        48.7
+      ],
+      "source_sha256": "8c1a81123db2c6e71c7e14c27fd705013cfbcf4bdcbe02d20406f0776c5a04ff",
+      "runtime_sha256": "6323f40fb4e5be13080c645dd3bfe2ba8d59387366494351b8db7402fada58d8",
+      "merged": true
+    }
+  ],
+  "binding_length_changes": [
+    {
+      "icon": "7item119",
+      "previous_length": 69.3,
+      "length": 45.0,
+      "reason": "User-requested size correction to match neighbouring boots",
+      "review": "review/boot_scale_20261018/validation.json"
+    },
+    {
+      "icon": "7item312",
+      "previous_length": 77.0,
+      "length": 52.0,
+      "reason": "User-requested size correction to match neighbouring boots",
+      "review": "review/boot_scale_20261018/validation.json"
+    }
+  ],
+  "external_retained": [
+    "7item110",
+    "7item111",
+    "7item112",
+    "7item113",
+    "7item114",
+    "7item244",
+    "7item248",
+    "gontlet1",
+    "gontlet2",
+    "gontlet3",
+    "gontlet4",
+    "gontlet5",
+    "item127",
+    "item128",
+    "item129",
+    "item130",
+    "item131",
+    "item261"
+  ],
+  "stop_instruction": "Coordinator completed the explicitly resumed nine-item texture/bake and bounds scope; delegated geometry work remains with the other session.",
+  "workspace_lease_released": true,
+  "coordinator_finish_complete": true,
+  "bounds_merged": true,
+  "texture_finish_icons": [
+    "7item347",
+    "item260",
+    "6helm4",
+    "6helm5",
+    "7item098",
+    "7item241",
+    "item115",
+    "item256",
+    "7item119"
+  ]
+}

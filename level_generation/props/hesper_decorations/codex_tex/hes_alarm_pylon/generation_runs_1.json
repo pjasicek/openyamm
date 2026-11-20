@@ -1,0 +1,257 @@
+{
+  "tool": "built-in image_gen",
+  "brief": "CODEX_BRIEF_1.md",
+  "status": "generation_complete_validation_failed",
+  "corrections_per_view": 1,
+  "notes": "All outputs are byte-identical unresized tool returns. Selected means preferred available return, not brief acceptance. The tool returned 1254x1254 despite explicit 1024x1024 instructions. No resizing, alpha replacement, or further generation was performed.",
+  "runs": [
+    {
+      "view": "front",
+      "attempt": 1,
+      "prompt": "Use case: precise-object-edit. Texture-source albedo painting for the Kreegan alarm pylon. Input 1 is the exact geometry guide and EDIT TARGET. Input 2 (design_reference.png) is the approved material, design and colour authority only, NOT a camera or geometry reference. Input 3 (concept_crop.png) is supporting original concept reference. Paint only the existing guide surface. Preserve the guide silhouette EXACTLY, including alpha outline, every shape edge, opening, overlapping facet, thin hanging strand, spike, size and position in the frame. No new geometry, no missing geometry, no redesign, no cropping, no change of view or zoom. Output exactly 1024x1024 PNG with genuinely transparent background, preserving all empty space in the guide. Materials: black-violet resin and chitin, glowing orange-red core in the existing inset panels, black glass rubble at the base; follow the approved design's material placement to the extent visible on this exact geometry. This is unlit albedo for projection onto a 3D mesh: even flat shadowless viewer illumination. Represent glossy materials by their intrinsic colour and fine surface texture only. NO strong specular highlights, reflections, rim light, cast shadows, ambient occlusion darkening, background or floor. Orange core and seams have vivid glowing orange-red colour but cast NO light on adjacent surfaces, and have NO external bloom or aura. No text or labels. FRONT VIEW: Paint guide_front.png. The very tall narrow pylon stays within guide bbox x=344..679 and y=66..957 on the 1024 square canvas. Preserve the exact frontal orthographic model projection including its asymmetric long strands, side spikes, crown and base facets. Use the guide, not the three-quarter design reference, for every geometry boundary. The existing top inset and long inset shaft panels carry the orange core, encased by dark violet-black chitin.",
+      "source": "/home/pjasicek/.codex/generated_images/01a15d9d-26f6-7371-b028-7d79c4ffcf24/exec-9e86b6e9-10f6-441f-8d07-973793382182.png",
+      "output": "paint_front_attempt1.png",
+      "selected": false,
+      "reason": "Superseded by the permitted correction: wrong native size, reflective edges and silhouette mismatch.",
+      "inputs": [
+        {
+          "path": "guide_front.png",
+          "sha256": "1c748bb7d2185ee55443a01b5621fe254b579208e47cf607927516ff7aab17ae"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "ed13539045cec55e7387f7b01166151a3f1f733783c55747fbae6bae46a712db"
+        },
+        {
+          "path": "concept_crop.png",
+          "sha256": "3390f79184ab165498c817dca681e30377ca2e0818d807afa3f115bf8b6b0768"
+        }
+      ],
+      "output_sha256": "5fd11b88a131e0a1a9c6df9442ef33c68a7a9175f0e78689a8ba8726484b542f",
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "required_size": [
+          1024,
+          1024
+        ],
+        "native_size_pass": false,
+        "unresized_unedited_return": true,
+        "mode": "RGBA",
+        "has_transparency": true,
+        "alpha_bbox": [
+          49,
+          63,
+          1222,
+          1214
+        ],
+        "alpha_gt127_bbox": [
+          422,
+          66,
+          833,
+          1174
+        ],
+        "guide_alpha_bbox": [
+          344,
+          66,
+          680,
+          958
+        ],
+        "silhouette_identical": false,
+        "materials_colours": "Black-violet shell and orange-red core match the broad reference palette.",
+        "flat_even_light_pass": false,
+        "lighting_notes": "Visible bright edge accents and cavity darkening remain; unsuitable for strict unlit albedo acceptance.",
+        "transparent_background_notes": "RGBA background contains fully transparent pixels, but low-alpha stray pixels extend beyond the main subject.",
+        "accepted_against_brief": false
+      }
+    },
+    {
+      "view": "top",
+      "attempt": 1,
+      "prompt": "Use case: precise-object-edit. Texture-source albedo painting for the Kreegan alarm pylon. Input 1 is the exact geometry guide and EDIT TARGET. Input 2 (design_reference.png) is the approved material, design and colour authority only, NOT a camera or geometry reference. Input 3 (concept_crop.png) is supporting original concept reference. Paint only the existing guide surface. Preserve the guide silhouette EXACTLY, including alpha outline, every shape edge, opening, overlapping facet, thin hanging strand, spike, size and position in the frame. No new geometry, no missing geometry, no redesign, no cropping, no change of view or zoom. Output exactly 1024x1024 PNG with genuinely transparent background, preserving all empty space in the guide. Materials: black-violet resin and chitin, glowing orange-red core in the existing inset panels, black glass rubble at the base; follow the approved design's material placement to the extent visible on this exact geometry. This is unlit albedo for projection onto a 3D mesh: even flat shadowless viewer illumination. Represent glossy materials by their intrinsic colour and fine surface texture only. NO strong specular highlights, reflections, rim light, cast shadows, ambient occlusion darkening, background or floor. Orange core and seams have vivid glowing orange-red colour but cast NO light on adjacent surfaces, and have NO external bloom or aura. No text or labels. TOP VIEW: Paint guide_top.png, a strict orthographic view looking straight DOWN the vertical pylon axis. The image is mostly transparent empty space. The compact complex shape occupies ONLY x=344..679, y=330..693 in the exact 1024x1024 guide. DO NOT ENLARGE IT. Preserve every top-visible shard, horn, overlap and gap exactly as in the grey guide, including central crown and the asymmetrical black glass rubble footprint. Only top-facing portions of the orange core visible between existing geometry may appear orange. Do not show the front or side elevation. Colour the top-visible surfaces in dark black-violet chitin/resin and black glass, retaining fine material texture but no baked illumination. Return native 1024x1024, not 1536 or another size.",
+      "source": "/home/pjasicek/.codex/generated_images/01a15d9d-26f6-7371-b028-7d79c4ffcf24/exec-fbbd57a8-b272-4923-8693-7951d745a5c8.png",
+      "output": "paint_top_attempt1.png",
+      "selected": false,
+      "reason": "Superseded by the permitted correction: wrong native size, reflective edges, cavity shading and silhouette mismatch.",
+      "inputs": [
+        {
+          "path": "guide_top.png",
+          "sha256": "173e0b98e5691b597067ffea2a7f7144f63bf29bda3309788961f32a30586b30"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "ed13539045cec55e7387f7b01166151a3f1f733783c55747fbae6bae46a712db"
+        },
+        {
+          "path": "concept_crop.png",
+          "sha256": "3390f79184ab165498c817dca681e30377ca2e0818d807afa3f115bf8b6b0768"
+        }
+      ],
+      "output_sha256": "96692dea7919d55ae18e3716ccdb8f17435ecae3f18f77f43669108a04469871",
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "required_size": [
+          1024,
+          1024
+        ],
+        "native_size_pass": false,
+        "unresized_unedited_return": true,
+        "mode": "RGBA",
+        "has_transparency": true,
+        "alpha_bbox": [
+          91,
+          37,
+          1240,
+          1220
+        ],
+        "alpha_gt127_bbox": [
+          421,
+          402,
+          833,
+          852
+        ],
+        "guide_alpha_bbox": [
+          344,
+          330,
+          680,
+          694
+        ],
+        "silhouette_identical": false,
+        "materials_colours": "Black-violet shell and orange-red core match the broad reference palette.",
+        "flat_even_light_pass": false,
+        "lighting_notes": "Visible bright edge accents and cavity darkening remain; unsuitable for strict unlit albedo acceptance.",
+        "transparent_background_notes": "RGBA background contains fully transparent pixels, but low-alpha stray pixels extend beyond the main subject.",
+        "accepted_against_brief": false
+      }
+    },
+    {
+      "view": "front",
+      "attempt": 2,
+      "prompt": "Use case: precise-object-edit. Texture-source albedo painting for the Kreegan alarm pylon. Input 1 is the exact geometry guide and EDIT TARGET. Input 2 (design_reference.png) is the approved material, design and colour authority only, NOT a camera or geometry reference. Input 3 (concept_crop.png) is supporting original concept reference. Paint only the existing guide surface. Preserve the guide silhouette EXACTLY, including alpha outline, every shape edge, opening, overlapping facet, thin hanging strand, spike, size and position in the frame. No new geometry, no missing geometry, no redesign, no cropping, no change of view or zoom. Output exactly 1024x1024 PNG with genuinely transparent background, preserving all empty space in the guide. Materials: black-violet resin and chitin, glowing orange-red core in the existing inset panels, black glass rubble at the base; follow the approved design's material placement to the extent visible on this exact geometry. This is unlit albedo for projection onto a 3D mesh: even flat shadowless viewer illumination. Represent glossy materials by their intrinsic colour and fine surface texture only. NO strong specular highlights, reflections, rim light, cast shadows, ambient occlusion darkening, background or floor. Orange core and seams have vivid glowing orange-red colour but cast NO light on adjacent surfaces, and have NO external bloom or aura. No text or labels. FRONT VIEW: Paint guide_front.png. The very tall narrow pylon stays within guide bbox x=344..679 and y=66..957 on the 1024 square canvas. Preserve the exact frontal orthographic model projection including its asymmetric long strands, side spikes, crown and base facets. Use the guide, not the three-quarter design reference, for every geometry boundary. The existing top inset and long inset shaft panels carry the orange core, encased by dark violet-black chitin. CORRECTIVE REGENERATION (the only correction allowed): The first return failed native dimensions at 1254x1254 and introduced highlighted edges. Required deliverable is exactly 1024x1024 NATIVE UNRESIZED PNG. Edit the provided 1024x1024 guide in-place, with identical alpha, not a newly framed rendering. Do not rescale canvas or subject. Strictly lock the grey guide's silhouette, all internal shape edges, narrow dangling strands, their gaps and flat base. Remove silver edge shine and orange illumination on black surfaces: dark black-violet surface colour with restrained texture, uniform albedo values independent of surface orientation. Core orange only on existing inset core panels. Empty pixels must be fully transparent with no stray low-alpha colour specks. Original guide is the sole geometry authority.",
+      "source": "/home/pjasicek/.codex/generated_images/01a15d9d-26f6-7371-b028-7d79c4ffcf24/exec-bf2700f9-39df-4340-81bb-f4e038afe067.png",
+      "output": "paint_front.png",
+      "selected": true,
+      "reason": "Selected as the better available front return after the sole permitted correction; reduced highlights. Not compliant with exact size/silhouette or strict flat albedo requirements.",
+      "inputs": [
+        {
+          "path": "guide_front.png",
+          "sha256": "1c748bb7d2185ee55443a01b5621fe254b579208e47cf607927516ff7aab17ae"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "ed13539045cec55e7387f7b01166151a3f1f733783c55747fbae6bae46a712db"
+        },
+        {
+          "path": "concept_crop.png",
+          "sha256": "3390f79184ab165498c817dca681e30377ca2e0818d807afa3f115bf8b6b0768"
+        }
+      ],
+      "output_sha256": "f80b51d0e4b72a6e0074920bba11b9df7f654d2c346c2b0f6843e459d51a4bab",
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "required_size": [
+          1024,
+          1024
+        ],
+        "native_size_pass": false,
+        "unresized_unedited_return": true,
+        "mode": "RGBA",
+        "has_transparency": true,
+        "alpha_bbox": [
+          25,
+          21,
+          1202,
+          1206
+        ],
+        "alpha_gt127_bbox": [
+          417,
+          77,
+          837,
+          1177
+        ],
+        "guide_alpha_bbox": [
+          344,
+          66,
+          680,
+          958
+        ],
+        "silhouette_identical": false,
+        "materials_colours": "Black-violet shell and orange-red core match the broad reference palette.",
+        "flat_even_light_pass": false,
+        "lighting_notes": "Visible bright edge accents and cavity darkening remain; unsuitable for strict unlit albedo acceptance.",
+        "transparent_background_notes": "RGBA background contains fully transparent pixels, but low-alpha stray pixels extend beyond the main subject.",
+        "accepted_against_brief": false
+      }
+    },
+    {
+      "view": "top",
+      "attempt": 2,
+      "prompt": "Use case: precise-object-edit. Texture-source albedo painting for the Kreegan alarm pylon. Input 1 is the exact geometry guide and EDIT TARGET. Input 2 (design_reference.png) is the approved material, design and colour authority only, NOT a camera or geometry reference. Input 3 (concept_crop.png) is supporting original concept reference. Paint only the existing guide surface. Preserve the guide silhouette EXACTLY, including alpha outline, every shape edge, opening, overlapping facet, thin hanging strand, spike, size and position in the frame. No new geometry, no missing geometry, no redesign, no cropping, no change of view or zoom. Output exactly 1024x1024 PNG with genuinely transparent background, preserving all empty space in the guide. Materials: black-violet resin and chitin, glowing orange-red core in the existing inset panels, black glass rubble at the base; follow the approved design's material placement to the extent visible on this exact geometry. This is unlit albedo for projection onto a 3D mesh: even flat shadowless viewer illumination. Represent glossy materials by their intrinsic colour and fine surface texture only. NO strong specular highlights, reflections, rim light, cast shadows, ambient occlusion darkening, background or floor. Orange core and seams have vivid glowing orange-red colour but cast NO light on adjacent surfaces, and have NO external bloom or aura. No text or labels. TOP VIEW: Paint guide_top.png, a strict orthographic view looking straight DOWN the vertical pylon axis. The image is mostly transparent empty space. The compact complex shape occupies ONLY x=344..679, y=330..693 in the exact 1024x1024 guide. DO NOT ENLARGE IT. Preserve every top-visible shard, horn, overlap and gap exactly as in the grey guide, including central crown and the asymmetrical black glass rubble footprint. Only top-facing portions of the orange core visible between existing geometry may appear orange. Do not show the front or side elevation. Colour the top-visible surfaces in dark black-violet chitin/resin and black glass, retaining fine material texture but no baked illumination. Return native 1024x1024, not 1536 or another size. CORRECTIVE REGENERATION (the only correction allowed): Previous return incorrectly had 1254x1254 pixels, bright reflective edges, too much orange and dark cavity shading. Return exactly 1024x1024 native pixels matching input guide, no resizing or reframing. Copy the guide's alpha silhouette exactly; all pixels outside it fully transparent with no stray specks. Treat this as a flat material-colour paintover of the grey guide. Flatten all directional shading, occlusion and edge reflections; keep uniformly legible dark violet-black material colours. Orange appears only in core material actually visible in this overhead view, no orange reflected lighting across rubble. Preserve every original guide facet and opening; do not invent additional fragments or change their boundaries. The subject must retain original guide bbox (344,330)-(680,694).",
+      "source": "/home/pjasicek/.codex/generated_images/01a15d9d-26f6-7371-b028-7d79c4ffcf24/exec-510c5a6e-8cd2-4724-ad5d-e2397e316791.png",
+      "output": "paint_top.png",
+      "selected": true,
+      "reason": "Selected as the better available top return after the sole permitted correction; reduced silver shine. Not compliant with exact size/silhouette or strict flat albedo requirements.",
+      "inputs": [
+        {
+          "path": "guide_top.png",
+          "sha256": "173e0b98e5691b597067ffea2a7f7144f63bf29bda3309788961f32a30586b30"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "ed13539045cec55e7387f7b01166151a3f1f733783c55747fbae6bae46a712db"
+        },
+        {
+          "path": "concept_crop.png",
+          "sha256": "3390f79184ab165498c817dca681e30377ca2e0818d807afa3f115bf8b6b0768"
+        }
+      ],
+      "output_sha256": "2017cdf6df078d4b4e04cd5337c8ab918735a3d3fcb1a6f4c326b027cc5bcb4b",
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "required_size": [
+          1024,
+          1024
+        ],
+        "native_size_pass": false,
+        "unresized_unedited_return": true,
+        "mode": "RGBA",
+        "has_transparency": true,
+        "alpha_bbox": [
+          17,
+          119,
+          1240,
+          1214
+        ],
+        "alpha_gt127_bbox": [
+          421,
+          403,
+          833,
+          851
+        ],
+        "guide_alpha_bbox": [
+          344,
+          330,
+          680,
+          694
+        ],
+        "silhouette_identical": false,
+        "materials_colours": "Black-violet shell and orange-red core match the broad reference palette.",
+        "flat_even_light_pass": false,
+        "lighting_notes": "Visible bright edge accents and cavity darkening remain; unsuitable for strict unlit albedo acceptance.",
+        "transparent_background_notes": "RGBA background contains fully transparent pixels, but low-alpha stray pixels extend beyond the main subject.",
+        "accepted_against_brief": false
+      }
+    }
+  ]
+}

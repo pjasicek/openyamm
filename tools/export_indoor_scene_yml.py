@@ -63,13 +63,13 @@ DLV_FORMATS: dict[str, dict[str, object]] = {
             "npc_id": 0x20,
             "attributes": 0x24,
             "hp": 0x28,
-            "hostility_type": 0x3D,
             "monster_info_id": 0x5C,
             "monster_id": 0x86,
             "radius": 0x88,
             "height": 0x8A,
             "move_speed": 0x8C,
             "position": 0x8E,
+            "yaw": 0x9A,
             "sector_id": 0x9E,
             "current_action_animation": 0xB2,
             "carried_item_id": 0xB4,
@@ -90,13 +90,13 @@ DLV_FORMATS: dict[str, dict[str, object]] = {
             "npc_id": 0x20,
             "attributes": 0x24,
             "hp": 0x28,
-            "hostility_type": 0x2C,
             "monster_info_id": 0x6A,
             "monster_id": 0x7C,
             "radius": 0x90,
             "height": 0x92,
             "move_speed": 0x94,
             "position": 0x96,
+            "yaw": 0xA2,
             "sector_id": 0xA6,
             "current_action_animation": 0xBA,
             "carried_item_id": 0xBC,
@@ -284,10 +284,8 @@ def parse_actor_vector(
             "npc_id": reader.read_i16(actor_offset + actor_offsets["npc_id"], f"actor {actor_index} npc id"),
             "attributes": reader.read_u32(actor_offset + actor_offsets["attributes"], f"actor {actor_index} attributes"),
             "hp": reader.read_i16(actor_offset + actor_offsets["hp"], f"actor {actor_index} hp"),
-            "hostility_type": reader.read_u8(
-                actor_offset + actor_offsets["hostility_type"],
-                f"actor {actor_index} hostility type"
-            ),
+            # Not authored: the raw field (0x3D) is a snapshot of the monster table's Hst, and 0x2C is a live pointer.
+            "hostility_type": 0,
             "monster_info_id": reader.read_i16(
                 actor_offset + actor_offsets["monster_info_id"],
                 f"actor {actor_index} monster info id"
@@ -309,6 +307,11 @@ def parse_actor_vector(
             },
             "sprite_ids": [],
             "sector_id": reader.read_i16(actor_offset + actor_offsets["sector_id"], f"actor {actor_index} sector id"),
+            # The placement's facing (MM's yawAngle, 2048 units a turn; most are 0, facing +X).
+            "initial_yaw_units": reader.read_u16(
+                actor_offset + actor_offsets["yaw"],
+                f"actor {actor_index} yaw"
+            ) % 2048,
             "current_action_animation": reader.read_u16(
                 actor_offset + actor_offsets["current_action_animation"],
                 f"actor {actor_index} current action animation"
@@ -1163,6 +1166,8 @@ def render_scene_yaml(scene_model: dict[str, object]) -> str:
             lines.append(f"      group: {actor['group']}")
             lines.append(f"      ally: {actor['ally']}")
             lines.append(f"      unique_name_index: {actor['unique_name_index']}")
+            if actor["initial_yaw_units"]:
+                lines.append(f"      initial_yaw_units: {actor['initial_yaw_units']}")
 
     sprite_objects = initial_state["sprite_objects"]
     if not sprite_objects:

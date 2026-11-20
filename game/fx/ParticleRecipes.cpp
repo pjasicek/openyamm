@@ -54,7 +54,7 @@ constexpr uint32_t ProjectileFxBloodRed = 0xff0000f0u;
 constexpr uint32_t ProjectileFxRed = 0xff0000ffu;
 constexpr uint32_t ProjectileFxWhite = 0xffffffffu;
 
-constexpr std::array<std::string_view, 60> ProjectileRecipeNames = {
+constexpr std::array<std::string_view, 64> ProjectileRecipeNames = {
     "none",
     "fire_bolt",
     "fireball",
@@ -111,6 +111,10 @@ constexpr std::array<std::string_view, 60> ProjectileRecipeNames = {
     "berserk",
     "enslave",
     "control_undead",
+    "fire_trap",
+    "elec_trap",
+    "cold_trap",
+    "poison_trap",
     "armageddon",
     "generic_particle_trail",
     "generic_fire_trail",
@@ -687,6 +691,27 @@ ProjectileRecipe classifyProjectileRecipe(
 {
     if (spellId <= 0)
     {
+        // Chest traps share the monster missiles' sprites, so their names decide first.
+        if (equalsToken(objectName, "firetrap"))
+        {
+            return ProjectileRecipe::FireTrap;
+        }
+
+        if (equalsToken(objectName, "electrap"))
+        {
+            return ProjectileRecipe::ElecTrap;
+        }
+
+        if (equalsToken(objectName, "coldtrap"))
+        {
+            return ProjectileRecipe::ColdTrap;
+        }
+
+        if (equalsToken(objectName, "poisontrap"))
+        {
+            return ProjectileRecipe::PoisonTrap;
+        }
+
         if (equalsToken(objectName, "air") || equalsToken(spriteName, "spell101"))
         {
             return ProjectileRecipe::MonsterAirBolt;

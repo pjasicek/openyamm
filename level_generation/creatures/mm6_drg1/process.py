@@ -1,0 +1,27 @@
+"""Extract flying dragon sources and retain native tone, including disintegration."""
+from pathlib import Path
+import sys,json
+import numpy as np
+from PIL import Image
+ROOT=Path(__file__).resolve().parent
+sys.path.insert(0,str(ROOT.parent/'mm6_peasants'))
+import process_family
+from materials import coverage
+
+def main():
+    process_family.run('drg1')
+    for folder in ['cleaned','aligned_2x']:
+        for p in (ROOT/folder).glob('*.png'):
+            im=Image.open(p).convert('RGBA');a=np.array(im);c=a[:,:,:3].astype(float)
+            gain=.84
+            if p.stem.startswith('drg1de'):
+                fire=np.clip((c[:,:,0]-c[:,:,1]-8)/22,0,1)
+                gain=.84+.16*fire
+            c*=np.asarray(gain)[...,None] if np.ndim(gain) else gain
+            a[:,:,:3]=np.round(np.clip(c,0,255)).astype(np.uint8);im=Image.fromarray(a);im.save(p)
+            if folder=='aligned_2x':
+                w=np.array(coverage(im))
+                if p.stem=='drg1deh0':w[:]=0
+                Image.fromarray(w,'RGBA').save(ROOT/'masks_2x'/p.name)
+    (ROOT/'tone.json').write_text(json.dumps({'body_gain':.84,'warm_disintegration_gain':1.,'ash_mask':'zero'},indent=2)+'\n')
+if __name__=='__main__':main()

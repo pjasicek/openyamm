@@ -1,0 +1,55 @@
+id: rulesets.maw_assassin_attack_spell
+title: Ruleset - an Assassin's attack spell the rules refuse (too few combo points) attacks with the weapon instead; with the points the spell is cast
+world: mm6
+mode: faithful
+tags: [rulesets, maw]
+steps:
+  - new_game_flow:
+      start_map: oute3.odm
+      ruleset: {id: maw, difficulty: maw, progression: free}
+      party:
+        gold: 0
+        food: 10
+        members:
+          - name: Shade
+            class: Assassin
+            level: 30
+            skills:
+              - {name: Sword, level: 10, mastery: 2}
+              - {name: EarthMagic, level: 8, mastery: 2}
+            # Blades (39): Assassination at Expert, three combo points.
+            spells: [39]
+            equipment: {}
+  - grant_item: {item_id: 1, equip: main_hand, rarity: 1, item_power: 20, drop_level: 20}
+  # A Crystal Guardian beside the party, tough enough to take every blow (healed after each).
+  - spawn_actor: {monster_id: 150, near_party: true}
+  # Blades costs three combo points. With none the rules refuse it, so the attack swings the sword.
+  - console: {line: ruleset counter 1 0, expect_contains: Counter set}
+  - party_attack:
+      actor_index: last
+      count: 20
+      attack_spell: Blades
+      min_weapon_attacks: 20
+      min_hit_rate: 0.2
+      report: true
+  # With five points the attack casts Blades at its target instead: no swing, and three of the points are spent...
+  - console: {line: ruleset counter 1 5, expect_contains: Counter set}
+  - party_attack:
+      actor_index: last
+      count: 1
+      attack_spell: Blades
+      max_weapon_attacks: 0
+      report: true
+  # ...so the next attack, two points left, is refused again and swings the sword.
+  - party_attack:
+      actor_index: last
+      count: 1
+      attack_spell: Blades
+      min_weapon_attacks: 1
+      report: true
+  # Cast directly, Blades takes the points too.
+  - console: {line: ruleset counter 1 5, expect_contains: Counter set}
+  - cast_spell: {spell_id: 39, actor_index: last, expect: applied}
+  # And with no points, the rules refuse the cast itself.
+  - console: {line: ruleset counter 1 0, expect_contains: Counter set}
+  - cast_spell: {spell_id: 39, actor_index: last, expect: refused}

@@ -1,0 +1,295 @@
+{
+  "brief": "CODEX_BRIEF_1.md",
+  "brief_sha256": "0cdf192048dfe0023659eba18dcc455604139666f215ded99c8c607695ffc8d4",
+  "tool": "built-in image_gen",
+  "status": "outputs_saved_but_not_fully_brief_compliant",
+  "selection_policy": "Preserve the best native return from at most two generations per view. Selected does not imply all checks pass.",
+  "limitations": [
+    "All four built-in returns are 1254x1254 despite explicit 1024x1024 requests.",
+    "Exact silhouette and flat albedo lighting were not achieved.",
+    "No resizing, cropping, alpha repair or other image post-processing was performed.",
+    "The one corrective regeneration per view allowance is exhausted."
+  ],
+  "runs": [
+    {
+      "view": "front",
+      "attempt": 1,
+      "prompt": "Use case: precise-object-edit.\nAsset type: 1024 x 1024 transparent RGBA texture-source painting (albedo) of the Hatchery tower game model.\nInputs, in order: Image 1 is the exact grey orthographic geometry guide and EDIT TARGET. Image 2, design_reference.png, is the approved material and colour authority only; its camera, shape proportions and dramatic lighting must not be copied. Image 3, concept_crop.png, is supporting design reference only.\nEdit ONLY the surface colours of image 1. Preserve its exact pixel-aligned silhouette, original size and location on the 1024 x 1024 canvas, all shape edges, openings, occlusions and small protrusions. Keep every transparent pixel transparent. Do not invent geometry, extra horns, windows, lattice openings, objects or spikes. Do not move, smooth, round, reshape, rotate, rescale or crop the model. The guide fixes the geometry even when the design reference differs.\nMaterials: paint the approved design's black-violet resin lattice and chitin onto the corresponding existing lattice/ribs and plates; orange arched openings/sacs onto the existing recessed areas; warm ivory bone on the central spike and the corresponding large bone horns and entrance arch. Use the design reference's material colour detail, including its fine warm ochre seams, at the existing guide surface locations. Resin is a glossy material, but this is its base-colour/albedo pass without baked specular lighting.\nLighting: EVEN, FLAT, SHADOWLESS illumination from the viewer. No cast shadows, no ambient-occlusion darkening, no strong specular highlights or reflections, no rim light, no gradients caused by light direction, no darkened underside lighting. Orange sacs/seams are painted at their saturated glowing orange colour, with no bloom, halo, flare or light cast on adjacent material. Detailed material pigment is allowed; directional or dramatic light is not.\nBackground: genuine alpha transparency, no background colour, no floor, no scene, no grid or checkerboard painted in. No text, labels, border or watermark.\nOutput one single unresized 1024 x 1024 PNG matching image 1, not a comparison sheet.\nView: FRONT. Image 1 is guide_front.png. Preserve this exact front orthographic view, asymmetrical arrangement and margins (guide alpha bounds x=142..881, y=66..957). The sharp central spire tip and all base tips must remain in the same pixels. Paint on top of this guide, do not redraw the reference tower.",
+      "source": "/home/pjasicek/.codex/generated_images/01a16897-4e3f-7932-a857-bca90368cf35/exec-64e646ab-1fdd-4232-861b-0b6b1488707e.png",
+      "selected": false,
+      "reason": "Superseded by the correction, which better preserves the guide's angular forms. This attempt has the wrong native dimensions, silhouette/detail drift and baked highlights/shading.",
+      "tool": "built-in image_gen",
+      "inputs": [
+        {
+          "path": "guide_front.png",
+          "sha256": "e718c125b1d3668d6fe4c428b0f948c96ece5e6c1a69fcf4a0b85e25dcd65817",
+          "role": "edit target; geometry and alpha authority"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "e75d732c6a6e3df00722e8a65c038cf46263673fcef0523771ceef11b890d39d",
+          "role": "material and colour authority"
+        },
+        {
+          "path": "concept_crop.png",
+          "sha256": "a34f07d3e9387f257e099d165073a8d5c289bfaa38f573bb1e43c233a99aeb9a",
+          "role": "supporting original concept"
+        }
+      ],
+      "checks": {
+        "native_dimensions": [
+          1254,
+          1254
+        ],
+        "required_dimensions": [
+          1024,
+          1024
+        ],
+        "dimensions_match": false,
+        "mode": "RGBA",
+        "transparent_background": true,
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "alpha_bounds": [
+          25,
+          21,
+          1246,
+          1254
+        ],
+        "bounds_alpha_at_least_128": [
+          173,
+          71,
+          1081,
+          1177
+        ],
+        "guide_alpha_bounds": [
+          142,
+          66,
+          882,
+          958
+        ],
+        "silhouette_identical": false,
+        "unresized_return": true,
+        "materials_and_colours": "Required black-violet, orange and ivory palette is present.",
+        "flat_even_light": false,
+        "lighting_notes": "Strong edge glints and shaded cavities remain.",
+        "silhouette_notes": "Outline and internal details are reinterpreted; not pixel-identical to the guide."
+      },
+      "output": "/home/pjasicek/.codex/generated_images/01a16897-4e3f-7932-a857-bca90368cf35/exec-64e646ab-1fdd-4232-861b-0b6b1488707e.png",
+      "output_sha256": "6968cb61b1d19a0cfeeb7f57d4d09e9dca58923fc85fc3c022a1386e73c701d4",
+      "meets_all_brief_requirements": false
+    },
+    {
+      "view": "front",
+      "attempt": 2,
+      "prompt": "CORRECTIVE REGENERATION. Native output resolution: exactly 1024 x 1024 pixels. Use image 1 as the immutable edit canvas, retaining its 1024-pixel width and 1024-pixel height. Do not create a larger image.\nUse case: precise-object-edit.\nAsset type: 1024 x 1024 transparent RGBA texture-source painting (albedo) of the Hatchery tower game model.\nInputs, in order: Image 1 is the exact grey orthographic geometry guide and EDIT TARGET. Image 2, design_reference.png, is the approved material and colour authority only; its camera, shape proportions and dramatic lighting must not be copied. Image 3, concept_crop.png, is supporting design reference only.\nEdit ONLY the surface colours of image 1. Preserve its exact pixel-aligned silhouette, original size and location on the 1024 x 1024 canvas, all shape edges, openings, occlusions and small protrusions. Keep every transparent pixel transparent. Do not invent geometry, extra horns, windows, lattice openings, objects or spikes. Do not move, smooth, round, reshape, rotate, rescale or crop the model. The guide fixes the geometry even when the design reference differs.\nMaterials: paint the approved design's black-violet resin lattice and chitin onto the corresponding existing lattice/ribs and plates; orange arched openings/sacs onto the existing recessed areas; warm ivory bone on the central spike and the corresponding large bone horns and entrance arch. Use the design reference's material colour detail, including its fine warm ochre seams, at the existing guide surface locations. Resin is a glossy material, but this is its base-colour/albedo pass without baked specular lighting.\nLighting: EVEN, FLAT, SHADOWLESS illumination from the viewer. No cast shadows, no ambient-occlusion darkening, no strong specular highlights or reflections, no rim light, no gradients caused by light direction, no darkened underside lighting. Orange sacs/seams are painted at their saturated glowing orange colour, with no bloom, halo, flare or light cast on adjacent material. Detailed material pigment is allowed; directional or dramatic light is not.\nBackground: genuine alpha transparency, no background colour, no floor, no scene, no grid or checkerboard painted in. No text, labels, border or watermark.\nOutput one single unresized 1024 x 1024 PNG matching image 1, not a comparison sheet.\nView: FRONT. Image 1 is guide_front.png. Preserve this exact front orthographic view, asymmetrical arrangement and margins (guide alpha bounds x=142..881, y=66..957). The sharp central spire tip and all base tips must remain in the same pixels. Paint on top of this guide, do not redraw the reference tower.\nCorrection focus: strict guide registration. The previous attempt enlarged the canvas and shifted or reinterpreted geometry, which is unusable for texture projection. Trace the existing guide's exact faceted outer boundary and every original internal hole. Preserve its alpha channel exactly. Recolour the existing pixels rather than generating a new tower from the design reference. The guide's straight-edged front geometry and low-resolution shape should remain recognizable unchanged. Transfer only material pigment; do not transfer the reference's white reflective highlights or dark lighting. Ivory is even warm ivory, black-violet chitin has even dark plum pigment, orange is even luminous orange colour. No bright edge glints, deep shaded cavities, reflected light or extra dimensional relief. Export the single 1024x1024 transparent PNG directly.",
+      "source": "/home/pjasicek/.codex/generated_images/01a16897-4e3f-7932-a857-bca90368cf35/exec-353eb31c-375a-43c9-96bb-d103806fde4d.png",
+      "selected": true,
+      "reason": "Best available within the one-correction limit: closer angular geometry. Selected for preservation only, not accepted as fully brief-compliant: native dimensions, exact silhouette and flat-light checks still fail.",
+      "tool": "built-in image_gen",
+      "inputs": [
+        {
+          "path": "guide_front.png",
+          "sha256": "e718c125b1d3668d6fe4c428b0f948c96ece5e6c1a69fcf4a0b85e25dcd65817",
+          "role": "edit target; geometry and alpha authority"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "e75d732c6a6e3df00722e8a65c038cf46263673fcef0523771ceef11b890d39d",
+          "role": "material and colour authority"
+        },
+        {
+          "path": "concept_crop.png",
+          "sha256": "a34f07d3e9387f257e099d165073a8d5c289bfaa38f573bb1e43c233a99aeb9a",
+          "role": "supporting original concept"
+        }
+      ],
+      "checks": {
+        "native_dimensions": [
+          1254,
+          1254
+        ],
+        "required_dimensions": [
+          1024,
+          1024
+        ],
+        "dimensions_match": false,
+        "mode": "RGBA",
+        "transparent_background": true,
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "alpha_bounds": [
+          0,
+          23,
+          1232,
+          1254
+        ],
+        "bounds_alpha_at_least_128": [
+          171,
+          76,
+          1083,
+          1176
+        ],
+        "guide_alpha_bounds": [
+          142,
+          66,
+          882,
+          958
+        ],
+        "silhouette_identical": false,
+        "unresized_return": true,
+        "materials_and_colours": "Required black-violet, orange and ivory palette is present.",
+        "flat_even_light": false,
+        "lighting_notes": "Edge highlights and shaded cavities remain despite the albedo instruction.",
+        "silhouette_notes": "Closer faceted outline, but shape edges and openings are not identical to the guide."
+      },
+      "output": "paint_front.png",
+      "output_sha256": "c94eaaa563130866f04cd11c703559ff702dd24ebb86d00ce3e0a04acf44427f",
+      "meets_all_brief_requirements": false
+    },
+    {
+      "view": "top",
+      "attempt": 1,
+      "prompt": "Use case: precise-object-edit.\nAsset type: 1024 x 1024 transparent RGBA texture-source painting (albedo) of the Hatchery tower game model.\nInputs, in order: Image 1 is the exact grey orthographic geometry guide and EDIT TARGET. Image 2, design_reference.png, is the approved material and colour authority only; its camera, shape proportions and dramatic lighting must not be copied. Image 3, concept_crop.png, is supporting design reference only.\nEdit ONLY the surface colours of image 1. Preserve its exact pixel-aligned silhouette, original size and location on the 1024 x 1024 canvas, all shape edges, openings, occlusions and small protrusions. Keep every transparent pixel transparent. Do not invent geometry, extra horns, windows, lattice openings, objects or spikes. Do not move, smooth, round, reshape, rotate, rescale or crop the model. The guide fixes the geometry even when the design reference differs.\nMaterials: paint the approved design's black-violet resin lattice and chitin onto the corresponding existing lattice/ribs and plates; orange arched openings/sacs onto the existing recessed areas; warm ivory bone on the central spike and the corresponding large bone horns and entrance arch. Use the design reference's material colour detail, including its fine warm ochre seams, at the existing guide surface locations. Resin is a glossy material, but this is its base-colour/albedo pass without baked specular lighting.\nLighting: EVEN, FLAT, SHADOWLESS illumination from the viewer. No cast shadows, no ambient-occlusion darkening, no strong specular highlights or reflections, no rim light, no gradients caused by light direction, no darkened underside lighting. Orange sacs/seams are painted at their saturated glowing orange colour, with no bloom, halo, flare or light cast on adjacent material. Detailed material pigment is allowed; directional or dramatic light is not.\nBackground: genuine alpha transparency, no background colour, no floor, no scene, no grid or checkerboard painted in. No text, labels, border or watermark.\nOutput one single unresized 1024 x 1024 PNG matching image 1, not a comparison sheet.\nView: TOP. Image 1 is guide_top.png. Preserve its EXACT top-down orthographic view, irregular radial silhouette and surface layout. Look straight down at the central spire's tip as in the guide. Do not turn it into a front view, oblique view or circular mandala. Alpha bounds x=142..881, y=128..895 on the unchanged 1024 x 1024 canvas. Preserve the large smooth shell areas at lower-left, the serrated rims and overlapping pointed ribs exactly. Paint only existing recessed sacs orange; do not add windows where the guide has solid plates. CRITICAL: Output dimensions must be exactly 1024 x 1024 pixels, identical to input image 1; no upscaling. Treat input image 1 as the base edit image, preserve its alpha mask exactly.",
+      "source": "/home/pjasicek/.codex/generated_images/01a16897-4e3f-7932-a857-bca90368cf35/exec-7ca45484-7864-4d54-9ed7-61eb450504a0.png",
+      "selected": false,
+      "reason": "Superseded by the correction, which better preserves solid shell panels and reduces highlights. This attempt changes the large plates, adds painted recesses, and has wrong dimensions.",
+      "tool": "built-in image_gen",
+      "inputs": [
+        {
+          "path": "guide_top.png",
+          "sha256": "aec91684d3def676a4a3a33b9f3345f59452f7d21b0906bf67f4d3c6b629db0f",
+          "role": "edit target; geometry and alpha authority"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "e75d732c6a6e3df00722e8a65c038cf46263673fcef0523771ceef11b890d39d",
+          "role": "material and colour authority"
+        },
+        {
+          "path": "concept_crop.png",
+          "sha256": "a34f07d3e9387f257e099d165073a8d5c289bfaa38f573bb1e43c233a99aeb9a",
+          "role": "supporting original concept"
+        }
+      ],
+      "checks": {
+        "native_dimensions": [
+          1254,
+          1254
+        ],
+        "required_dimensions": [
+          1024,
+          1024
+        ],
+        "dimensions_match": false,
+        "mode": "RGBA",
+        "transparent_background": true,
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "alpha_bounds": [
+          0,
+          0,
+          1240,
+          1254
+        ],
+        "bounds_alpha_at_least_128": [
+          169,
+          146,
+          1086,
+          1101
+        ],
+        "guide_alpha_bounds": [
+          142,
+          128,
+          882,
+          896
+        ],
+        "silhouette_identical": false,
+        "unresized_return": true,
+        "materials_and_colours": "Required palette is present, but ivory and orange cover surfaces that should remain solid chitin.",
+        "flat_even_light": false,
+        "lighting_notes": "Bright specular edges and deep shaded recesses remain.",
+        "silhouette_notes": "Overall top-view arrangement follows the guide, but outline and internal details drift."
+      },
+      "output": "/home/pjasicek/.codex/generated_images/01a16897-4e3f-7932-a857-bca90368cf35/exec-7ca45484-7864-4d54-9ed7-61eb450504a0.png",
+      "output_sha256": "1092e3f4333de734493ef7deddd4a75a1dc57b63bb8386c34a65611cdb123726",
+      "meets_all_brief_requirements": false
+    },
+    {
+      "view": "top",
+      "attempt": 2,
+      "prompt": "CORRECTIVE REGENERATION. Image 1 is the 1024x1024 edit target. Return EXACTLY 1024x1024 pixels, with the original alpha mask unchanged. This output will be projected onto the exact mesh shown, so every original shape must remain pixel-aligned.\nUse case: precise-object-edit.\nAsset type: 1024 x 1024 transparent RGBA texture-source painting (albedo) of the Hatchery tower game model.\nInputs, in order: Image 1 is the exact grey orthographic geometry guide and EDIT TARGET. Image 2, design_reference.png, is the approved material and colour authority only; its camera, shape proportions and dramatic lighting must not be copied. Image 3, concept_crop.png, is supporting design reference only.\nEdit ONLY the surface colours of image 1. Preserve its exact pixel-aligned silhouette, original size and location on the 1024 x 1024 canvas, all shape edges, openings, occlusions and small protrusions. Keep every transparent pixel transparent. Do not invent geometry, extra horns, windows, lattice openings, objects or spikes. Do not move, smooth, round, reshape, rotate, rescale or crop the model. The guide fixes the geometry even when the design reference differs.\nMaterials: paint the approved design's black-violet resin lattice and chitin onto the corresponding existing lattice/ribs and plates; orange arched openings/sacs onto the existing recessed areas; warm ivory bone on the central spike and the corresponding large bone horns and entrance arch. Use the design reference's material colour detail, including its fine warm ochre seams, at the existing guide surface locations. Resin is a glossy material, but this is its base-colour/albedo pass without baked specular lighting.\nLighting: EVEN, FLAT, SHADOWLESS illumination from the viewer. No cast shadows, no ambient-occlusion darkening, no strong specular highlights or reflections, no rim light, no gradients caused by light direction, no darkened underside lighting. Orange sacs/seams are painted at their saturated glowing orange colour, with no bloom, halo, flare or light cast on adjacent material. Detailed material pigment is allowed; directional or dramatic light is not.\nBackground: genuine alpha transparency, no background colour, no floor, no scene, no grid or checkerboard painted in. No text, labels, border or watermark.\nOutput one single unresized 1024 x 1024 PNG matching image 1, not a comparison sheet.\nView: TOP. Image 1 is guide_top.png. Preserve its EXACT top-down orthographic view, irregular radial silhouette and surface layout. Look straight down at the central spire's tip as in the guide. Do not turn it into a front view, oblique view or circular mandala. Alpha bounds x=142..881, y=128..895 on the unchanged 1024 x 1024 canvas. Preserve the large smooth shell areas at lower-left, the serrated rims and overlapping pointed ribs exactly. Paint only existing recessed sacs orange; do not add windows where the guide has solid plates. CRITICAL: Output dimensions must be exactly 1024 x 1024 pixels, identical to input image 1; no upscaling. Treat input image 1 as the base edit image, preserve its alpha mask exactly.\nCorrection focus: strict flat albedo painted on unchanged guide geometry. Keep the guide's wide solid shell panels solid, including the large smooth lower-left shell. Do not create extra holes, radial ornament or recessed glowing pockets inside those surfaces. Colour existing chitin dark black-violet, corresponding bone horns/spire and entrance shell warm ivory, existing exposed sacs saturated orange. Omit all the reference's light-and-shadow modelling: no white glints, dark shaded folds, bright edge highlights or reflected orange light. Material pigments and fine surface pattern only, evenly lit. The resulting shape and alpha must be precisely image 1 at 1024x1024, not a stylized or more detailed reinterpretation of its structure.",
+      "source": "/home/pjasicek/.codex/generated_images/01a16897-4e3f-7932-a857-bca90368cf35/exec-05c082a0-ee17-4fe1-9f50-5c4f12eb24ca.png",
+      "selected": true,
+      "reason": "Best available within the one-correction limit: preserves broad solid chitin panels and has less pronounced lighting. Selected for preservation only, not accepted as fully brief-compliant: native dimensions, exact silhouette and flat-light checks still fail.",
+      "tool": "built-in image_gen",
+      "inputs": [
+        {
+          "path": "guide_top.png",
+          "sha256": "aec91684d3def676a4a3a33b9f3345f59452f7d21b0906bf67f4d3c6b629db0f",
+          "role": "edit target; geometry and alpha authority"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "e75d732c6a6e3df00722e8a65c038cf46263673fcef0523771ceef11b890d39d",
+          "role": "material and colour authority"
+        },
+        {
+          "path": "concept_crop.png",
+          "sha256": "a34f07d3e9387f257e099d165073a8d5c289bfaa38f573bb1e43c233a99aeb9a",
+          "role": "supporting original concept"
+        }
+      ],
+      "checks": {
+        "native_dimensions": [
+          1254,
+          1254
+        ],
+        "required_dimensions": [
+          1024,
+          1024
+        ],
+        "dimensions_match": false,
+        "mode": "RGBA",
+        "transparent_background": true,
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "alpha_bounds": [
+          0,
+          12,
+          1251,
+          1254
+        ],
+        "bounds_alpha_at_least_128": [
+          173,
+          156,
+          1082,
+          1099
+        ],
+        "guide_alpha_bounds": [
+          142,
+          128,
+          882,
+          896
+        ],
+        "silhouette_identical": false,
+        "unresized_return": true,
+        "materials_and_colours": "Required black-violet, orange and ivory palette is present; broad solid shell panels are retained.",
+        "flat_even_light": false,
+        "lighting_notes": "Reduced highlights, but baked edge lighting and shaded recesses remain.",
+        "silhouette_notes": "Overall top-view silhouette follows the guide, but shape edges and openings are not identical."
+      },
+      "output": "paint_top.png",
+      "output_sha256": "3d671f85b516d496f64b8e741f6b5306868e53cc454e178957c6a429bebcead2",
+      "meets_all_brief_requirements": false
+    }
+  ]
+}

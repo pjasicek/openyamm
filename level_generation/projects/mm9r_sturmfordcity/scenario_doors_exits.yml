@@ -1,0 +1,135 @@
+# Written by make_scenarios.py from the built map; rerun it after convert.py.
+id: mm9r.sturmfordcity_doors_exits
+title: Sturmford City (native BLV) - a shop's double door, a locked facade door, the exits
+world: mm9
+mode: faithful
+tags:
+- mm9
+- mm9_rework
+- draft
+steps:
+- load_map:
+    map: sturmfordcity.blv
+- note:
+    text: 'GenStoreDoor1/2 (doors 48, event 110): shut, stops the party, opens on its click; the party walks into the general
+      store.'
+- assert:
+    mechanism:
+      id: 48
+      state: closed
+- movement_segment:
+    input: forward
+    seconds: 0.8
+    actor_collision: false
+    actor_ai: false
+    start:
+      map: sturmfordcity.blv
+      x: 8816
+      y: 4314
+      z: 19723
+      yaw_degrees: 0
+      pitch: 0
+    expect_stop:
+      map: sturmfordcity.blv
+      x: 9076
+      y: 4314
+      z: 19723
+      yaw_degrees: 0
+      pitch: 0
+    loose_tolerance: true
+    tolerance_xy: 60
+    tolerance_z: 40
+- execute_event:
+    id: 110
+- advance_runtime:
+    seconds: 3
+- assert:
+    mechanism:
+      id: 48
+      state: open
+- movement_segment:
+    input: forward
+    seconds: 0.8
+    actor_collision: false
+    actor_ai: false
+    start:
+      map: sturmfordcity.blv
+      x: 8816
+      y: 4314
+      z: 19723
+      yaw_degrees: 0
+      pitch: 0
+    expect_stop:
+      map: sturmfordcity.blv
+      x: 9416
+      y: 4314
+      z: 19723
+      yaw_degrees: 0
+      pitch: 0
+    loose_tolerance: true
+    tolerance_xy: 140
+    tolerance_z: 40
+- note:
+    text: 'Door14 (a facade door, Locked, MoveDist 0): a click says it is locked; it stays shut.'
+- execute_event:
+    id: 230
+- advance_runtime:
+    seconds: 1
+- assert:
+    mechanism:
+      id: 15
+      state: closed
+- note:
+    text: 'ExitDock (DAT object 771): south off the docks to the Sturmford wilderness.'
+- movement_segment:
+    input: forward
+    seconds: 0.9
+    actor_collision: false
+    actor_ai: false
+    start:
+      map: sturmfordcity.blv
+      x: 2089
+      y: -952
+      z: 19723
+      yaw_degrees: 270
+      pitch: 0
+    expect_stop:
+      map: sturmfordcity.blv
+      x: 2089
+      y: -1552
+      z: 19723
+      yaw_degrees: 270
+      pitch: 0
+    loose_tolerance: true
+    tolerance_xy: 400
+    tolerance_z: 200
+- assert:
+    map_transition_requested:
+      source_kind: mm9_exit_trigger
+      source_id: 771
+- load_map:
+    map: sturmfordcity.blv
+- note:
+    text: 'The sewer hatch over ExitS (RotatingDoor7, door 88): opened, the party drops down the shaft into ExitS''s volume
+      (to Beethoven).'
+- execute_event:
+    id: 240
+- advance_runtime:
+    seconds: 3
+- assert:
+    mechanism:
+      id: 88
+      state: open
+- set_pose:
+    map: sturmfordcity.blv
+    x: 1085
+    y: 52
+    z: 19700
+    yaw: 0.0
+    pitch: 0.0
+- advance_runtime:
+    seconds: 2
+- assert:
+    map_transition_requested:
+      source_kind: mm9_exit_trigger
+      source_id: 766

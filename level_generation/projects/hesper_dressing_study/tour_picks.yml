@@ -1,0 +1,196 @@
+lincoln:
+  world: mm7
+  map: 7d23.blv
+  shots:
+  - [hall_s1, sector, 1]
+  - [long_hall_s3, sector, 3]
+  - [machine_s37, sector, 37]
+  - [machine_s32, sector, 32]
+  - [quarters_s23, sector, 23]
+  - [corridor_s11, sector, 11]
+  - [chest_room_s20, sector, 20]
+  - [panel_face81, face, 81, 300]
+control_center:
+  world: mm6
+  map: sci-fi.blv
+  shots:
+  - [huge_s5, sector, 5, -0.2]
+  - [hall_s1, sector, 1]
+  - [storage_s34, sector, 34]
+  - [pipes_s23, sector, 23]
+  - [corridor_s11, sector, 11]
+  - [console_room_s18, sector, 18]
+  - [room_s49, sector, 49]
+  - [screen_face2918, face, 2918, 350]
+hive:
+  world: mm6
+  map: hive.blv
+  shots:
+  - [huge_s79, sector, 79, -0.2]
+  - [hall_s4, sector, 4]
+  - [hall_s35, sector, 35]
+  - [corridor_s39, sector, 39]
+  - [chest_room_s58, sector, 58]
+  - [room_s50, sector, 50]
+  - [switch_face2242, face, 2242, 300]
+red_dwarf:
+  world: mm7
+  map: 7d34.blv
+  shots:
+  - [cabinet_hall_s45, sector, 45]
+  - [cabinet_room_s31, sector, 31]
+  - [long_mine_s27, sector, 27]
+  - [empty_big_s51, sector, 51]
+  - [entry_s2, sector, 2]
+  - [water_s23, sector, 23]
+  - [mine_room_s48, sector, 48]
+snergle:
+  world: mm6
+  map: 6d09.blv
+  shots:
+  - [sacks_s17, sector, 17]
+  - [barrels_s38, sector, 38]
+  - [library_s40, sector, 40]
+  - [beds_s22, sector, 22]
+  - [mine_s14, sector, 14]
+  - [corridor_s33, sector, 33]
+  - [chests_s25, sector, 25]
+wine_cellar:
+  world: mm7
+  map: 7d16.blv
+  shots:
+  - [racks_s1, sector, 1]
+  - [button_room_s5, sector, 5]
+  - [beds_s3, sector, 3]
+  - [corridor_s4, sector, 4]
+  - [button_face862, face, 862, 320]
+tidewater:
+  world: mm7
+  map: 7d17.blv
+  shots:
+  - [huge_s5, sector, 5, -0.2]
+  - [huge_s9, sector, 9, -0.15]
+  - [hall_s2, sector, 2, -0.15]
+  - [beds_s3, sector, 3]
+  - [room_s6, sector, 6]
+harmondale:
+  world: mm7
+  map: 7d29.blv
+  shots:
+  - [hall_s33, sector, 33, -0.15]
+  - [library_s18, sector, 18]
+  - [pillars_s32, sector, 32]
+  - [quarters_s49, sector, 49]
+  - [corridor_s43, sector, 43]
+  - [cells_s22, sector, 22]
+  - [stores_s37, sector, 37]
+smugglers_cove:
+  world: mm8
+  map: d07.blv
+  shots:
+  - [cavern_s9, sector, 9, -0.15]
+  - [crates_s6, sector, 6]
+  - [crates_s7, sector, 7]
+  - [quarters_s12, sector, 12]
+  - [cavern_s16, sector, 16]
+  - [cave_s2, sector, 2]
+  - [keep_s10, sector, 10]
+levers_mm6:
+  world: mm6
+  map: 6d18.blv
+  shots:
+  - [lever_ev4, mech, 4]
+  - [lever_ev8, mech, 8]
+  - [lever_ev3, mech, 3, 250]
+levers_mm7:
+  world: mm7
+  map: mdk02.blv
+  shots:
+  - [lever_ev452, mech, 452, 250]
+  - [lever_ev451, mech, 451, 400]
+levers_mm8:
+  world: mm8
+  map: d24.blv
+  shots:
+  - [lever_ev13, mech, 13]
+  - [lever_ev14, mech, 14, 250]
+  - [letter_panel_ev11, mech, 11, 400]
+levers_mm8b:
+  world: mm8
+  map: d19.blv
+  shots:
+  - [lever_ev23, mech, 23]
+  - [lever_ev21, mech, 21, 250]
+  - [button_ev13, mech, 13]
+buttons_mm7:
+  world: mm7
+  map: 7d10.blv
+  shots:
+  - [button_ev5, mech, 5]
+  - [button_ev10, mech, 10, 250]
+retake_hive:
+  world: mm6
+  map: hive.blv
+  shots:
+  - [huge_s79, open, 79, -0.2]
+  - [hall_s4_b, open, 4, -0.15]
+  - [hall_s35_b, open, 35, -0.15]
+retake_tidewater:
+  world: mm7
+  map: 7d17.blv
+  shots:
+  - [huge_s5, open, 5, -0.2]
+  - [huge_s9_b, open, 9, -0.15]
+  - [hall_s2_b, open, 2, -0.1]
+retake_smugglers:
+  world: mm8
+  map: d07.blv
+  shots:
+  - [cavern_s9, open, 9, -0.15]
+  - [cavern_s14, open, 14, -0.15]
+  - [cavern_s16_b, open, 16, -0.12]
+retake_big:
+  world: mm6
+  map: sci-fi.blv
+  shots:
+  - [huge_s5_b, open, 5, -0.2]
+  - [hall_s1_b, open, 1, -0.15]
+retake_big2:
+  world: mm7
+  map: 7d34.blv
+  shots:
+  - [hall_s45_b, open, 45, -0.12]
+  - [big_s51_b, open, 51, -0.12]
+  - [hall_s27_b, open, 27, -0.12]
+retake_big3:
+  world: mm7
+  map: 7d23.blv
+  shots:
+  - [hall_s1_b, open, 1, -0.15]
+  - [hall_s4_b, open, 4, -0.15]
+  - [machine_s33, open, 33, -0.12]
+retake_big4:
+  world: mm7
+  map: 7d29.blv
+  shots:
+  - [hall_s33_b, open, 33, -0.15]
+  - [hall_s18_b, open, 18, -0.12]
+  - [hall_s38, open, 38, -0.12]
+industrial_forge:
+  world: mm6
+  map: 6d18.blv
+  shots:
+  - [forge_lava_s36, open, 36, -0.15]
+  - [forge_lava_s36_b, sector, 36, -0.15]
+industrial_sewer6:
+  world: mm6
+  map: sewer.blv
+  shots:
+  - [sewer_s82, open, 82, -0.15]
+  - [sewer_s82_b, sector, 82, -0.15]
+industrial_sewer7:
+  world: mm7
+  map: d01.blv
+  shots:
+  - [sewer_s30, open, 30, -0.15]
+  - [sewer_s30_b, sector, 30, -0.15]

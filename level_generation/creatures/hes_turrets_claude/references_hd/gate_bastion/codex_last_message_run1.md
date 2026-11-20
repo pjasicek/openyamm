@@ -1,0 +1,3 @@
+Saved [00_three_quarter.png](/home/pjasicek/github/OpenYAMM/level_generation/creatures/hes_turrets_claude/references_hd/gate_bastion/00_three_quarter.png) using built-in image generation. Verified 1536×1024 RGBA transparency; prompts and checks recorded in `generation_runs.json`.
+
+Stopped after one correction; no other views generated. Remaining deviations: tight bottom margin and far shoulder insufficiently raised.

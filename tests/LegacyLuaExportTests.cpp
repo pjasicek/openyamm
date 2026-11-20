@@ -123,11 +123,15 @@ TEST_CASE("levitate pressure trap export respects each worlds event semantics")
 
     const ScriptedEventProgram puzzle = exportPressureTrapProgram(
         readBinaryFixture(worlds / "mm6/_legacy/events/6D08.EVT"), LegacyEventVersion::Mm6, "6d08.blv");
-    for (uint16_t eventId : {22, 23, 25, 32, 34, 35, 36, 39, 40, 41, 42})
+    for (uint16_t eventId : {25, 32, 34, 35, 36, 39, 40, 41, 42})
     {
         CHECK(puzzle.isLevitateSensitivePressurePlate(eventId, 0x84000100));
     }
-    CHECK_FALSE(puzzle.isLevitateSensitivePressurePlate(24, 0x84000100));
+    // Plates 22/23 are the pair the genie gate needs stepped on; 24 is the gate itself.
+    for (uint16_t eventId : {22, 23, 24})
+    {
+        CHECK_FALSE(puzzle.isLevitateSensitivePressurePlate(eventId, 0x84000100));
+    }
 
     const ScriptedEventProgram encounter = exportPressureTrapProgram(
         readBinaryFixture(worlds / "mm7/_legacy/events/7out02.EVT"), LegacyEventVersion::Mm7);
@@ -920,6 +924,33 @@ TEST_CASE("legacy lua exporter preserves mm8 indoor light group ids")
     CHECK(buttonLua.find("evt.SetLight(5, 0)") != std::string::npos);
     CHECK(buttonLua.find("evt.SetLight(5, 1)") != std::string::npos);
     CHECK(buttonLua.find("evt.SetLight(4, 0)") == std::string::npos);
+}
+
+TEST_CASE("legacy lua exporter keeps the sign of a SetTexture reference")
+{
+    // MMerge's MM6 maps name one face by its index, negated ("the facet itself"); MM7 and MM8 name a cog (positive).
+    const std::filesystem::path sourceRoot = OPENYAMM_SOURCE_DIR;
+    const std::vector<uint8_t> evtBytes =
+        readBinaryFixture(sourceRoot / "assets_dev/worlds/mm6/_legacy/events/6D13.EVT");
+    const std::vector<uint8_t> strBytes =
+        readBinaryFixture(sourceRoot / "assets_dev/worlds/mm6/_legacy/events/6D13.STR");
+
+    OpenYAMM::Game::EvtProgram evtProgram = {};
+    REQUIRE(evtProgram.loadFromBytes(evtBytes));
+
+    OpenYAMM::Game::StrTable strTable = {};
+    REQUIRE(strTable.loadFromBytes(strBytes));
+
+    OpenYAMM::Game::LegacyLuaExportLookups lookups = {};
+    const std::string lua = OpenYAMM::Game::generateLegacyEventLuaChunk(
+        evtProgram,
+        strTable,
+        lookups,
+        OpenYAMM::Game::LegacyLuaExportScope::Map,
+        OpenYAMM::Game::LegacyEventVersion::Mm6);
+
+    CHECK(lua.find("evt.SetTexture(-949, \"d6flora\")") != std::string::npos);
+    CHECK(lua.find("evt.SetTexture(949,") == std::string::npos);
 }
 
 TEST_CASE("legacy lua exporter keeps mm6 indoor light ids zero based")

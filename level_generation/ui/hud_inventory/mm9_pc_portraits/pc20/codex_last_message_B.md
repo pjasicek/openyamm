@@ -1,0 +1,3 @@
+Saved [raw_B.png](level_generation/ui/hud_inventory/mm9_pc_portraits/pc20/raw_B.png) and [generation_B.json](level_generation/ui/hud_inventory/mm9_pc_portraits/pc20/generation_B.json) with exact prompts and hashes. Used built-in image generation; verified 7×4 layout and real transparency.
+
+One corrective generation made. Some poses and eye colours still deviate from the brief; recorded in the JSON. No pixel edits or runtime checks.

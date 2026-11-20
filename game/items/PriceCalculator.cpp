@@ -7,6 +7,8 @@
 #include "game/tables/ItemTable.h"
 #include "game/party/Party.h"
 #include "game/party/SkillData.h"
+#include "game/rules/GameRules.h"
+#include "game/rules/ItemRules.h"
 
 #include <algorithm>
 #include <cmath>
@@ -39,7 +41,9 @@ int masteryMerchantMultiplier(SkillMastery mastery)
     }
 }
 
-int conditionDaysPassed(const Character &member, CharacterCondition condition, float gameMinutes)
+// MM6 0x49e910, MM7 0x4b7fa3, MM8 0x4b65cf: the weekday on which the condition was inflicted, plus one (1-7), not
+// the days since then; 0 when the member does not have it.
+int conditionWeekdayMultiplier(const Character &member, CharacterCondition condition)
 {
     const size_t conditionIndex = static_cast<size_t>(condition);
 
@@ -48,31 +52,22 @@ int conditionDaysPassed(const Character &member, CharacterCondition condition, f
         return 0;
     }
 
-    const float startGameMinutes = member.conditionStartGameMinutes[conditionIndex];
-
-    if (startGameMinutes <= 0.0f || gameMinutes < startGameMinutes)
-    {
-        return 1;
-    }
-
-    return static_cast<int>(std::floor((gameMinutes - startGameMinutes) / MinutesPerDay)) + 1;
+    const float startGameMinutes = std::max(0.0f, member.conditionStartGameMinutes[conditionIndex]);
+    return static_cast<int>(std::floor(startGameMinutes / MinutesPerDay)) % 7 + 1;
 }
 
-int highestMinorConditionDaysPassed(const Character &member, float gameMinutes)
+int highestMinorConditionWeekdayMultiplier(const Character &member)
 {
-    int highestDaysPassed = 1;
+    int highestMultiplier = 1;
 
     for (size_t conditionIndex = 0; conditionIndex <= static_cast<size_t>(CharacterCondition::Unconscious);
         ++conditionIndex)
     {
-        const int daysPassed = conditionDaysPassed(
-            member,
-            static_cast<CharacterCondition>(conditionIndex),
-            gameMinutes);
-        highestDaysPassed = std::max(highestDaysPassed, daysPassed);
+        const int multiplier = conditionWeekdayMultiplier(member, static_cast<CharacterCondition>(conditionIndex));
+        highestMultiplier = std::max(highestMultiplier, multiplier);
     }
 
-    return highestDaysPassed;
+    return highestMultiplier;
 }
 
 int classTierForClassName(const std::string &className)
@@ -133,22 +128,28 @@ int PriceCalculator::playerMerchant(const Character *pCharacter, int effectiveRe
         return 0;
     }
 
+    if (const std::optional<int> value = boundGameRules().items.merchantValue(*pCharacter))
+    {
+        return *value;
+    }
+
     const CharacterSkill *pMerchant = pCharacter->findSkill("Merchant");
     const int merchantBonus = std::max(0, pCharacter->merchantBonus);
     const int skillBonus = pCharacter->skillBonus("Merchant");
 
-    if (pMerchant == nullptr || pMerchant->mastery == SkillMastery::None)
-    {
-        return std::min(merchantBonus + skillBonus - effectiveReputation, 100);
-    }
+    const bool hasOwnSkill = pMerchant != nullptr && pMerchant->mastery != SkillMastery::None;
 
-    if (pMerchant->mastery == SkillMastery::Grandmaster)
+    if (hasOwnSkill && pMerchant->mastery == SkillMastery::Grandmaster)
     {
         return 100;
     }
 
-    const int bonus = (static_cast<int>(pMerchant->level) + skillBonus)
-        * masteryMerchantMultiplier(pMerchant->mastery) + merchantBonus;
+    // Without a Merchant skill of their own, hireling and item levels trade at Normal mastery.
+    const int skillLevel = (hasOwnSkill ? static_cast<int>(pMerchant->level) : 0) + skillBonus;
+    const SkillMastery mastery = hasOwnSkill ? pMerchant->mastery : SkillMastery::Normal;
+    const int bonus = hasOwnSkill || skillLevel > 0
+        ? skillLevel * masteryMerchantMultiplier(mastery) + merchantBonus
+        : 0;
 
     if (bonus <= 0)
     {
@@ -156,6 +157,26 @@ int PriceCalculator::playerMerchant(const Character *pCharacter, int effectiveRe
     }
 
     return std::min(bonus - effectiveReputation + 7, 100);
+}
+
+const Character *PriceCalculator::rulesMerchantMember(const Party &party)
+{
+    const ItemRules &rules = gameRulesFor(&party).items;
+    const Character *pBest = nullptr;
+    int bestValue = -1;
+
+    for (const Character &member : party.members())
+    {
+        const std::optional<int> value = rules.merchantValue(member);
+
+        if (value && *value > bestValue)
+        {
+            pBest = &member;
+            bestValue = *value;
+        }
+    }
+
+    return pBest;
 }
 
 int PriceCalculator::applyMerchantDiscount(const Character *pCharacter, int goldAmount, int effectiveReputation)
@@ -198,7 +219,8 @@ int PriceCalculator::itemSellingPrice(
     float priceMultiplier,
     const StandardItemEnchantTable *pStandardEnchantTable,
     const SpecialItemEnchantTable *pSpecialEnchantTable,
-    int effectiveReputation)
+    int effectiveReputation,
+    int resaleCapPercent)
 {
     if (item.broken)
     {
@@ -216,7 +238,9 @@ int PriceCalculator::itemSellingPrice(
     const int result = static_cast<int>(
         static_cast<float>(realValue) / (priceMultiplier + 2.0f)
         + static_cast<float>(realValue * merchant) / 100.0f);
-    return std::clamp(result, 1, realValue) * std::max(1u, item.quantity);
+    const int cap = std::max(1, static_cast<int>(static_cast<int64_t>(realValue) * std::clamp(resaleCapPercent, 1, 100)
+        / 100));
+    return std::clamp(result, 1, cap) * std::max(1u, item.quantity);
 }
 
 int PriceCalculator::itemIdentificationPrice(
@@ -306,7 +330,7 @@ int PriceCalculator::tavernFoodPrice(
     return std::max(minimumPrice, applyMerchantDiscount(pCharacter, basePrice, effectiveReputation));
 }
 
-int PriceCalculator::templeHealPrice(const Character *pCharacter, const HouseEntry &houseEntry, float gameMinutes)
+int PriceCalculator::templeHealPrice(const Character *pCharacter, const HouseEntry &houseEntry)
 {
     const Character dummy = {};
     const Character &member = pCharacter != nullptr ? *pCharacter : dummy;
@@ -315,29 +339,30 @@ int PriceCalculator::templeHealPrice(const Character *pCharacter, const HouseEnt
 
     if (member.conditions.test(static_cast<size_t>(CharacterCondition::Eradicated)))
     {
-        conditionTimeMultiplier = conditionDaysPassed(member, CharacterCondition::Eradicated, gameMinutes);
+        conditionTimeMultiplier = conditionWeekdayMultiplier(member, CharacterCondition::Eradicated);
         baseConditionMultiplier = 10;
     }
     else if (member.conditions.test(static_cast<size_t>(CharacterCondition::Petrified)))
     {
-        conditionTimeMultiplier = conditionDaysPassed(member, CharacterCondition::Petrified, gameMinutes);
+        conditionTimeMultiplier = conditionWeekdayMultiplier(member, CharacterCondition::Petrified);
         baseConditionMultiplier = 5;
     }
     else if (member.conditions.test(static_cast<size_t>(CharacterCondition::Dead)))
     {
-        conditionTimeMultiplier = conditionDaysPassed(member, CharacterCondition::Dead, gameMinutes);
+        conditionTimeMultiplier = conditionWeekdayMultiplier(member, CharacterCondition::Dead);
         baseConditionMultiplier = 5;
     }
     else if (member.conditions.any())
     {
-        conditionTimeMultiplier = highestMinorConditionDaysPassed(member, gameMinutes);
+        conditionTimeMultiplier = highestMinorConditionWeekdayMultiplier(member);
     }
 
     const int result = static_cast<int>(
         static_cast<double>(conditionTimeMultiplier)
         * static_cast<double>(baseConditionMultiplier)
         * static_cast<double>(houseEntry.priceMultiplier));
-    return std::clamp(result, 1, 10000);
+    // The originals have no upper cap.
+    return std::max(result, 1);
 }
 
 int PriceCalculator::trainingPrice(
@@ -359,14 +384,7 @@ int PriceCalculator::trainingPrice(
         return 0;
     }
 
-    const uint64_t experienceForNextLevel =
-        1000ull * static_cast<uint64_t>(pCharacter->level) * static_cast<uint64_t>(pCharacter->level + 1) / 2ull;
-
-    if (pCharacter->experience < experienceForNextLevel)
-    {
-        return 0;
-    }
-
+    // Whether the character has the experience is the party's rules' call (HouseInteraction checks it first).
     const int classTier = std::max(1, classTierForClassName(canonicalClassName(pCharacter->className)));
     const int basePrice = std::max(
             1,

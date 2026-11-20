@@ -1,0 +1,18 @@
+{
+  "tool": "image_gen.imagegen",
+  "prompt": "Technical size correction to image 1 ONLY. Preserve exact 1:2 portrait transparent canvas. Image 2 is the target gray guide. Both top and bottom square contain a top-view boot pair. KEEP WIDTH UNCHANGED. Make the TOP square boot pair 9% SHORTER VERTICALLY, keeping its centre. Make the BOTTOM material-mask boot pair 9% SHORTER VERTICALLY, keeping its centre. Do not change any shapes within the pair except this vertical compression. Keep oxblood leather colours, horn and steel detail exactly. Keep flat GREEN leather, YELLOW horn, RED metal in lower mask. No new objects or shadows. Background transparent. Output 1024x2048 PNG. This exact vertical compression is mandatory; do not repaint or enlarge.",
+  "inputs": [
+    "/home/pjasicek/github/OpenYAMM/level_generation/props/items_wip_equipment_geometry_finish/codex_tex/equipment_6boots5/pair_top_raw_v1.png",
+    "/home/pjasicek/github/OpenYAMM/level_generation/props/items_wip_equipment_geometry_finish/codex_tex/equipment_6boots5/guide_pair_top.png"
+  ],
+  "revision": 2,
+  "source_output": "/home/pjasicek/.codex/generated_images/01a14de2-fe9d-7f62-984f-d3dee5255cc3/exec-b32b918b-7d30-4fbd-9a01-647a4042d0fb.png",
+  "raw_sha256": "ac7ff86aa339fd9707b6d70152b8f8459e5c446d651225d7c623188cdf1b385b",
+  "dimensions": [
+    887,
+    1774
+  ],
+  "derivation": "Unresized top/bottom square extraction",
+  "selected": false,
+  "reason": "Generated trial not selected. Original paintings and masks register after restoring source pair proportions; see reused_original_views.json."
+}

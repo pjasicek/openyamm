@@ -1,12 +1,18 @@
 #include "doctest/doctest.h"
 
+#include "engine/AssetFileSystem.h"
+#include "engine/AssetScaleTier.h"
 #include "game/FaceEnums.h"
+#include "game/data/GameDataLoader.h"
+#include "game/indoor/IndoorGeometryUtils.h"
 #include "game/indoor/IndoorMovementController.h"
 #include "game/indoor/IndoorPathfindingBuilder.h"
 #include "game/pathfinding/ActorPathRuntime.h"
+#include "game/pathfinding/PathPlanner.h"
 #include "tests/RegressionMapLoader.h"
 
 #include <cmath>
+#include <filesystem>
 #include <utility>
 #include <vector>
 
@@ -78,6 +84,47 @@ TEST_CASE("indoor pathfinding builder converts BLV faces into walkable and block
             {-50.0f, 0.0f, 0.0f},
             {50.0f, 0.0f, 0.0f},
             makeIndoorPathObject()));
+}
+
+TEST_CASE("indoor pathfinding builder blocks at the scene's monster-only walls only")
+{
+    IndoorMapData mapData = {};
+    mapData.vertices = {
+        {-100, -100, 0}, {100, -100, 0}, {100, 100, 0}, {-100, 100, 0},
+        {0, -40, 0}, {0, 40, 0}, {0, 40, 120}, {0, -40, 120}
+    };
+    const uint32_t hidden = faceAttributeBit(FaceAttribute::Invisible) | faceAttributeBit(FaceAttribute::Untouchable);
+    mapData.faces = {makeIndoorFace({0, 1, 2, 3}, 3), makeIndoorFace({4, 5, 6, 7}, 1, hidden)};
+
+    // An untouchable face blocks no path (every MM6-MM8 map)...
+    const IndoorPathMapBuildResult open = IndoorPathfindingBuilder::buildPathMap(mapData, mapData.vertices);
+    CHECK(open.pathMap.canReachDirectly({-50.0f, 0.0f, 0.0f}, {50.0f, 0.0f, 0.0f}, makeIndoorPathObject()));
+    // ...unless the scene lists it as a monster barrier.
+    mapData.actorBarrierFaceIds = {1};
+    const IndoorPathMapBuildResult barred = IndoorPathfindingBuilder::buildPathMap(mapData, mapData.vertices);
+    CHECK_FALSE(barred.pathMap.canReachDirectly({-50.0f, 0.0f, 0.0f}, {50.0f, 0.0f, 0.0f}, makeIndoorPathObject()));
+}
+
+TEST_CASE("indoor pathfinding builder blocks at a door MM9 monsters open only while it stands open")
+{
+    IndoorMapData mapData = {};
+    mapData.vertices = {
+        {-100, -100, 0}, {100, -100, 0}, {100, 100, 0}, {-100, 100, 0},
+        {0, -40, 0}, {0, 40, 0}, {0, 40, 120}, {0, -40, 120}
+    };
+    mapData.faces = {makeIndoorFace({0, 1, 2, 3}, 3), makeIndoorFace({4, 5, 6, 7}, 1)};
+    mapData.aiDoors = {OpenYAMM::Game::IndoorAiDoor{7, {7}, 1.0f}};
+    mapData.aiDoorFaces = {{uint16_t(1), 7u}};
+
+    // Shut, the monsters' routes run through it (they open it walking into it)...
+    const IndoorPathMapBuildResult shut = IndoorPathfindingBuilder::buildPathMap(mapData, mapData.vertices);
+    CHECK_EQ(shut.skippedFaceCount, 1u);
+    CHECK(shut.pathMap.canReachDirectly({-50.0f, 0.0f, 0.0f}, {50.0f, 0.0f, 0.0f}, makeIndoorPathObject()));
+    // ...open, its leaf stands where it swung to and blocks there (Thjorad Mine's slag extractor hatch).
+    const IndoorPathMapBuildResult open =
+        IndoorPathfindingBuilder::buildPathMap(mapData, mapData.vertices, nullptr, nullptr, 512.0f, {7u});
+    CHECK_EQ(open.skippedFaceCount, 0u);
+    CHECK_FALSE(open.pathMap.canReachDirectly({-50.0f, 0.0f, 0.0f}, {50.0f, 0.0f, 0.0f}, makeIndoorPathObject()));
 }
 
 TEST_CASE("indoor pathfinding builder keeps portals non-blocking")
@@ -704,3 +751,91 @@ TEST_CASE("naga vault actors enter the hallway over its low threshold")
 }
 
 TEST_SUITE_END();
+
+TEST_CASE("Thjorad Mine walkers climb the west ramp and walk round the open slag extractor hatch")
+{
+    using namespace OpenYAMM::Game;
+    OpenYAMM::Engine::AssetFileSystem assets;
+    const std::filesystem::path root = OPENYAMM_SOURCE_DIR;
+    REQUIRE(assets.initialize(root, root / "assets_dev", OpenYAMM::Engine::AssetScaleTier::X1, "mm9"));
+    GameDataLoader data;
+    REQUIRE(data.loadForHeadlessGameplay(assets));
+    REQUIRE(data.loadMapByFileNameForHeadlessGameplay(assets, "thjoradmine.blv"));
+    const MapAssetInfo &map = *data.getSelectedMap();
+    REQUIRE(map.indoorMapData);
+    REQUIRE(map.indoorMapDeltaData);
+    IndoorMapData geometry = *map.indoorMapData;
+
+    // The hatch (door 10) swung open across the corridor west of Door0.
+    constexpr uint32_t HatchDoorId = 10;
+    bool hatchFound = false;
+
+    for (const MapDeltaDoor &door : map.indoorMapDeltaData->doors)
+    {
+        if (door.doorId == HatchDoorId)
+        {
+            applyIndoorMechanismDoorToVertices(
+                door, findIndoorMoverDefinition(geometry, HatchDoorId), 0.0f, 1, geometry.vertices);
+            hatchFound = true;
+        }
+    }
+
+    REQUIRE(hatchFound);
+
+    SUBCASE("Hjarrand's route from MMarker1 to MMarker2 passes north of the leaf and ends within his arrival")
+    {
+        const IndoorPathMapBuildResult build = IndoorPathfindingBuilder::buildPathMap(
+            geometry, geometry.vertices, nullptr, nullptr, 256.0f, {HatchDoorId});
+        PathPlanRequest request = {};
+        request.source = {-2551.0f, 1064.5f, 0.0f};
+        request.target = {-3092.0f, 1065.0f, 0.0f};
+        request.object.radius = 42.0f;
+        request.object.height = 85.0f;
+        request.object.stepLength = 40.0f;
+        request.object.stepHeight = 40.0f;
+        request.object.dropHeight = IndoorActorMaxDropHeight;
+        request.object.riserHeight = 80.0f;
+        request.allowPartialPath = true;
+        request.allowDirect = false;
+        // ScriptedActorMoveArrivalDistance past his radius, less a waypoint's reach (IndoorWorldRuntime).
+        request.goalDistance = 42.0f;
+        PathPlanner planner;
+        const PathPlanResult result = planner.plan(build.pathMap, request);
+        REQUIRE(result.status == PathPlanStatus::Success);
+        REQUIRE_FALSE(result.waypoints.empty());
+        CHECK(result.waypoints.size() < 30u);
+        const PathPoint &end = result.waypoints.back();
+        CHECK(std::hypot(end.x - request.target.x, end.y - request.target.y) <= request.goalDistance);
+
+        for (const PathPoint &waypoint : result.waypoints)
+        {
+            CHECK(std::fabs(waypoint.z) < 1.0f);
+        }
+    }
+
+    SUBCASE("a body at the foot of the ramp north of the landing walks up it")
+    {
+        const IndoorMovementController controller(geometry, &map.indoorMapDeltaData, nullptr);
+        IndoorMoveState state = {};
+        state.x = -3613.37f;
+        state.y = 160.7f;
+        state.footZ = 328.0f;
+        state.eyeHeight = 85.0f;
+        state.sectorId = 42;
+        state.eyeSectorId = 42;
+        state.supportFaceIndex = 7685;
+        state.grounded = true;
+        const IndoorBodyDimensions body{42.0f, 85.0f};
+
+        for (int step = 0; step < 128; ++step)
+        {
+            state = controller.resolveMove(state, body, -0.5956f * 192.0f, 0.8033f * 192.0f, false, 1.0f / 128.0f,
+                nullptr, 45, false, nullptr, false, false, 420.0f, 1.0f, false, false, true, true, true);
+        }
+
+        INFO("position=" << state.x << "," << state.y << "," << state.footZ);
+        CHECK(state.y > 250.0f);
+        CHECK(state.footZ > 330.0f);
+        CHECK(state.grounded);
+    }
+}

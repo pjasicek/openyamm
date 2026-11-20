@@ -1,0 +1,39 @@
+# MM9 promotion playthrough, segment 37: the Ranger's Trial taken (guide: side_c.yml "find-everstrike", step 1). By
+# sea from Thjorgard to Frosgard (outdoors the party is moved), the road gate into Frosgard City, Fenja Tree-friend
+# near the bank (RUDE 181; MM9 gave the trial after the Crusader promotion only, waived: promotions.yml rude 181, key
+# 137): "We've heard you can promote Crusaders to Rangers.", "Yes." (key 240), both tasks heard, "We will do these
+# tasks" (keys 238: Everstrike, 239: the Dungeon of Secrets), "Goodbye". Her second task is the Dungeon of Secrets
+# ("go from one end of the dungeon to the other"); Chadwick Boorsley's trap course is that dungeon (his "We are here
+# for the trial." needs key 239, and Fenja's hand-in needs his key 245).
+#   python3 tests/playthrough/mm9/promotions/run.py 37
+id: mm9.promotions.37_fenja_trials
+title: "MM9 promotions 37: Fenja Tree-friend's Ranger's Trial: Everstrike and the Dungeon of Secrets"
+world: mm9
+mode: faithful
+tags: [mm9, playthrough, promotions]
+steps:
+  - load_game: {path: output/playthrough/mm9/promotions/checkpoints/36_tymon_scholar_done.oysav}
+  - setup_shortcut: {kind: immortal}
+  - assert: {qbit_set: [90205, 90294], qbit_clear: [90238, 90239, 90240, 90249]}
+
+  - travel: {map: frosgard.blv, days: 3}
+  - set_pose: {map: frosgard.blv, x: 1783, y: 3700, z: 1738, yaw: -1.5708, pitch: 0}
+  - advance_runtime: {seconds: 0.5}
+  - walk_to: {x: 1783, y: 3250, z: 1738, timeout_seconds: 20, expect: dialog}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.0, follow_map_move: true}
+  - assert: {map: frosgardcity.blv}
+
+  # Fenja Tree-friend (actor 45) outside near the bank.
+  - set_pose: {map: frosgardcity.blv, x: 4260, y: 4150, z: -5, yaw: 1.5708, pitch: 0}
+  - advance_runtime: {seconds: 0.5}
+  - interact_actor: {actor_index: 45}
+  - select_topic: {match_label: "We've heard you can promote Crusaders to Rangers."}
+  - select_topic: {match_label: "Yes."}
+  - select_topic: {match_label: "Tell us about the first task."}
+  - select_topic: {match_label: "Tell us about the second task."}
+  - select_topic: {match_label: "We will do these tasks"}
+  - select_topic: {match_label: "Goodbye"}
+  - advance_runtime: {seconds: 0.5}
+  - assert: {qbit_set: [90238, 90239, 90240], qbit_clear: [90241, 90245, 90249]}
+  - save_game: {name: "37 Fenja's trials", path: output/playthrough/mm9/promotions/checkpoints/37_fenja_trials.oysav}

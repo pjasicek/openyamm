@@ -117,6 +117,37 @@ TEST_CASE("path map walking rejects segments through void")
     CHECK_FALSE(map.traceWalkSegment({10.0f, 50.0f, 0.0f}, {150.0f, 50.0f, 0.0f}, object));
 }
 
+TEST_CASE("path map walking climbs a stair whose treads are shorter than the body's radius")
+{
+    // Four 32 risers on 48 treads, rising toward +x from x 0 (D8's Fab Line A stair), then a landing at 128.
+    std::vector<OpenYAMM::Game::PathFacet> facets = {makeFloor(-400.0f, 0.0f, -300.0f, 300.0f, 0.0f)};
+    for (int step = 0; step < 4; ++step)
+    {
+        const float x = float(step) * 48.0f;
+        const float top = float(step + 1) * 32.0f;
+        facets.push_back(makeWall(x, -300.0f, 300.0f, top - 32.0f, top));
+        facets.push_back(makeFloor(x, step == 3 ? 600.0f : x + 48.0f, -300.0f, 300.0f, top));
+    }
+    PathMap map;
+    map.setFacets(facets);
+    PathObject object = {};
+    object.radius = 55.0f;
+    object.height = 208.0f;
+    object.stepHeight = 40.0f;
+    object.dropHeight = 512.0f;
+    // Without the indoor riser rule the side probes stop at the next riser.
+    CHECK_FALSE(map.traceWalkSegment({-300.0f, 0.0f, 0.0f}, {450.0f, 0.0f, 128.0f}, object));
+    object.riserHeight = 80.0f;
+    CHECK(map.traceWalkSegment({-300.0f, 0.0f, 0.0f}, {450.0f, 0.0f, 128.0f}, object));
+    CHECK(map.traceWalkSegment({450.0f, 0.0f, 128.0f}, {-300.0f, 0.0f, 0.0f}, object));
+
+    // A ledge of 96 in one step still stops it.
+    PathMap ledge;
+    ledge.setFacets({makeFloor(-400.0f, 0.0f, -300.0f, 300.0f, 0.0f), makeWall(0.0f, -300.0f, 300.0f, 0.0f, 96.0f),
+        makeFloor(0.0f, 600.0f, -300.0f, 300.0f, 96.0f)});
+    CHECK_FALSE(ledge.traceWalkSegment({-300.0f, 0.0f, 0.0f}, {450.0f, 0.0f, 96.0f}, object));
+}
+
 TEST_CASE("path map walking checks full height beneath ceilings")
 {
     PathFacet ceiling = makeFloor(50.0f, 200.0f, -100.0f, 100.0f, 120.0f);
@@ -161,6 +192,121 @@ TEST_CASE("path map full body clearance respects climbable risers")
                 makeWall(0.0f, -200.0f, 200.0f, 0.0f, rise)});
             CHECK_EQ(map.traceWalkSegment({-180.0f, 0.0f, 0.0f}, {180.0f, 0.0f, rise}, object), rise <= 40.0f);
         }
+    }
+}
+
+namespace
+{
+PathFacet makeCeiling(float minX, float maxX, float minY, float maxY, float z)
+{
+    PathFacet facet = makeFloor(minX, maxX, minY, maxY, z);
+    facet.kind = PathFacetKind::Ceiling;
+    facet.blocking = true;
+    facet.walkableFloor = false;
+    std::swap(facet.vertices[1], facet.vertices[3]);
+    return facet;
+}
+
+// MM9's slab stair (the Thousand Terrors' spiral, straightened at radius 300): 30-unit rises on 120-unit treads
+// toward +x from x 0, each tread a 15-thick slab (its top, its underside and its front face) over an open slot, then a
+// landing at 180.
+std::vector<PathFacet> makeSlabStair()
+{
+    std::vector<PathFacet> facets = {makeFloor(-600.0f, 0.0f, -400.0f, 400.0f, 0.0f)};
+
+    for (int step = 0; step < 6; ++step)
+    {
+        const float x = static_cast<float>(step) * 120.0f;
+        const float top = static_cast<float>(step + 1) * 30.0f;
+        const float endX = step == 5 ? 1400.0f : x + 120.0f;
+        facets.push_back(makeFloor(x, endX, -400.0f, 400.0f, top));
+        facets.push_back(makeCeiling(x, endX, -400.0f, 400.0f, top - 15.0f));
+        facets.push_back(makeWall(x, -400.0f, 400.0f, top - 15.0f, top));
+    }
+
+    return facets;
+}
+
+PathObject makeSquatBody(float riserHeight)
+{
+    // A Reptilian Terror: wider than it is tall.
+    PathObject object = {};
+    object.radius = 190.0f;
+    object.height = 256.0f;
+    object.stepHeight = 40.0f;
+    object.dropHeight = 100.0f;
+    object.riserHeight = riserHeight;
+    return object;
+}
+}
+
+TEST_CASE("path map squat body climbs slab treads whose undersides lie in its upper sphere")
+{
+    PathMap map;
+    map.setFacets(makeSlabStair());
+    // The sphere model (no indoor riser rule): the next slab's underside, 15 above the feet, stops every step.
+    CHECK_FALSE(map.traceWalkSegment({-400.0f, 0.0f, 0.0f}, {1100.0f, 0.0f, 180.0f}, makeSquatBody(0.0f)));
+    // Indoors (the riser rule), its upper sphere passes the steps it climbs: up and back down.
+    CHECK(map.traceWalkSegment({-400.0f, 0.0f, 0.0f}, {1100.0f, 0.0f, 180.0f}, makeSquatBody(80.0f)));
+    CHECK(map.traceWalkSegment({1100.0f, 0.0f, 180.0f}, {-400.0f, 0.0f, 0.0f}, makeSquatBody(80.0f)));
+
+    // A body taller than it is wide keeps its upper sphere and climbs as before.
+    PathObject tall = {};
+    tall.radius = 65.0f;
+    tall.height = 179.0f;
+    tall.stepHeight = 40.0f;
+    tall.dropHeight = 100.0f;
+    tall.riserHeight = 80.0f;
+    CHECK(map.traceWalkSegment({-400.0f, 0.0f, 0.0f}, {1100.0f, 0.0f, 180.0f}, tall));
+}
+
+TEST_CASE("path map squat body is still blocked by low ceilings, railings and narrow doorways")
+{
+    const PathObject squat = makeSquatBody(80.0f);
+
+    // Overhead clearance is the body's height, not twice its radius.
+    for (const float ceilingZ : {200.0f, 260.0f})
+    {
+        CAPTURE(ceilingZ);
+        PathMap map;
+        map.setFacets({makeFloor(-600.0f, 600.0f, -400.0f, 400.0f, 0.0f),
+            makeCeiling(100.0f, 400.0f, -400.0f, 400.0f, ceilingZ)});
+        CHECK_EQ(map.traceWalkSegment({-400.0f, 0.0f, 0.0f}, {250.0f, 0.0f, 0.0f}, squat), ceilingZ > 256.0f);
+        CHECK_FALSE(map.traceWalkSegment({-400.0f, 0.0f, 0.0f}, {250.0f, 0.0f, 0.0f}, makeSquatBody(0.0f)));
+    }
+
+    // A 70 railing with no tread on top is not a riser: the floor on both sides is at 0.
+    PathMap railing;
+    railing.setFacets({makeFloor(-600.0f, 600.0f, -400.0f, 400.0f, 0.0f),
+        makeWall(0.0f, -400.0f, 400.0f, 0.0f, 70.0f)});
+    CHECK_FALSE(railing.traceWalkSegment({-400.0f, 0.0f, 0.0f}, {400.0f, 0.0f, 0.0f}, squat));
+
+    // A raised floor's edge that the body only runs along (a stair's side) is not a riser it climbs.
+    PathMap platform;
+    platform.setFacets({makeFloor(-600.0f, 0.0f, -400.0f, 400.0f, 0.0f),
+        makeFloor(0.0f, 600.0f, -400.0f, 400.0f, 60.0f), makeWall(0.0f, -400.0f, 400.0f, 0.0f, 60.0f)});
+    PathObject smaller = makeSquatBody(80.0f);
+    smaller.radius = 100.0f;
+    smaller.height = 150.0f;
+    CHECK_FALSE(platform.traceWalkSegment({-150.0f, -200.0f, 0.0f}, {-40.0f, 200.0f, 0.0f}, smaller));
+    CHECK(platform.traceWalkSegment({-150.0f, -200.0f, 0.0f}, {-110.0f, 200.0f, 0.0f}, smaller));
+
+    // Jambs 200 apart stop a body 380 wide; 400 apart they let it through. A lintel under its height stops it.
+    for (const float halfGap : {100.0f, 200.0f})
+    {
+        CAPTURE(halfGap);
+        PathMap doorway;
+        doorway.setFacets({makeFloor(-600.0f, 600.0f, -600.0f, 600.0f, 0.0f),
+            makeWall(0.0f, halfGap, 600.0f, 0.0f, 400.0f), makeWall(0.0f, -600.0f, -halfGap, 0.0f, 400.0f)});
+        CHECK_EQ(doorway.traceWalkSegment({-400.0f, 0.0f, 0.0f}, {400.0f, 0.0f, 0.0f}, squat), halfGap > 190.0f);
+    }
+    for (const float lintelZ : {230.0f, 270.0f})
+    {
+        CAPTURE(lintelZ);
+        PathMap lintel;
+        lintel.setFacets({makeFloor(-600.0f, 600.0f, -600.0f, 600.0f, 0.0f),
+            makeWall(0.0f, -300.0f, 300.0f, lintelZ, 400.0f)});
+        CHECK_EQ(lintel.traceWalkSegment({-400.0f, 0.0f, 0.0f}, {400.0f, 0.0f, 0.0f}, squat), lintelZ > 256.0f);
     }
 }
 

@@ -1,0 +1,533 @@
+# draft extracted from MAW ef23ee17
+# Potion effects for the MAW ruleset, written in the schema proposed in CLASSES_SPELLS_SPEC.md section 7.8.
+# Not loaded by anything. Paths are relative to /home/pjasicek/github/Maw-Mod-MMMerge unless prefixed OpenYAMM/.
+# AL = Scripts/General/zzAlchemy.lua, SP = Scripts/General/zzMaw-Spells.lua, IT = Scripts/General/zzMaw-Items.lua,
+# ST = Scripts/General/zzMaw-Stats.lua, SK = Scripts/General/zzMAW-Skills.lua, MP = Scripts/Global/zzMAWPotions.lua,
+# F = Scripts/Modules/MawCore/Formulas.lua, E = Scripts/Modules/MawCore/Estimates.lua.
+#
+# ---------------------------------------------------------------------------------------------------------------
+# SCHEMA (one file per ruleset; the Standard ruleset uses the same keys, see standard_reference at the end)
+#
+# rules:                          ruleset-wide drinking rules
+#   power_cap                     potion power is clamped to this before any effect (0 = no cap)
+#   duration                      default duration of timed effects:
+#                                   {per_power_minutes: N}            Standard: N game minutes per point of power
+#                                   {hours: H, gm_alchemy_minutes_per_skill: M}   MAW: fixed, plus best party GM bonus
+#   combat_recovery               recovery charged when drinking; {value, only_when_enemies_near}
+#   recovery_payer                drinker | any_ready_member (MAW lets a ready member pay for a recovering drinker)
+#   aura_potion                   MAW only: how a potion acts as a buff caster (curve constants)
+#
+# potions: <item id>:
+#   name, tier                    tier: base | secondary | tertiary | white | black (recipe tree position)
+#   use                           drink | item | none   (Potion settings Drinkable / Usable columns)
+#   min_power                     refuse (and keep the potion) below this power
+#   charges                       uses per bottle; 1 = consumed on first use
+#   rechargeable                  true if the Endless Potion (1069) may add charges
+#   effects: list of
+#     restore:   {pool: hp|sp, amount: EXPR}
+#     cure:      [conditions]                      remove now
+#     immunity:  [conditions]                      block for the duration
+#     buff:      {id: CharacterBuffId, strength: EXPR}   drinker-only timed buff (Standard: 'strength' is the power)
+#     aura_buff: {spell: N}                        MAW: drinker-only copy of a buff-aura spell at potion strength;
+#                                                  the stronger of potion and party aura applies, never both
+#     skill_bonus: {skill, amount: EXPR}           timed
+#     party_buff: {id, power: EXPR, mastery}       timed party buff
+#     permanent_stat: {stats: [..], amount: EXPR, limit: once_per_character | best_step | none}
+#     permanent_resistance: {resistances: [..], amount: EXPR, limit: ...}
+#     skill_points: {amount: EXPR, limit: best_step}
+#     age: {set_years: N} | {modifier: EXPR} | {clear_magic_age: true}
+#     level_modifier: N
+#     item_effect: {action: harden | random_standard_enchant | special_enchant | temporary_special_enchant |
+#                   recharge_wand, ...}         'use: item' potions; target rules in 'target'
+#   source                        file:line of the behaviour
+#
+# EXPR: a number, or one of
+#   {linear: [a, b]}                          a + b*P
+#   {pool_share: {pool, flat, share}}         flat + share * estimated pool of a character of level P (MAW E:253-345)
+#   {step: {per: S, value: V}}                floor(P/S)*V
+#   {step_quadratic: {per: S, a: A, b: B}}    s = floor(P/S); A*s^2 + B*s
+#   {sqrt_ceil: {div: D, add: A}}             ceil(sqrt(P)/D) + A
+#   {half_floor: true}                        floor(P/2)
+# where P is the potion power after rules.power_cap.
+# ---------------------------------------------------------------------------------------------------------------
+
+rules:
+  power_cap: 500                                   # AL:67-69, AL:298; the drink mutates the item's Bonus to 500
+  duration: {hours: 6, gm_alchemy_minutes_per_skill: 6}   # AL:78-85; best party member with Alchemy mastery >= GM,
+                                                   # skill as read by GetSkill (clamped to 120 plus hidden extra)
+  combat_recovery: {value: 60, only_when_enemies_near: true}   # AL:260-262 (EnemyDetectorRed/Yellow)
+  recovery_payer: any_ready_member                 # AL:87-111: drinker if ready, else selected member, else first ready
+  refuse_text_without_ready_member: "Player must be active to consume the potion"   # AL:109
+  charges_storage: "item.Charges: 0 = fresh (5 uses), n>=2 means n-1 uses left, drinking at 2 removes it"  # AL:248-258
+  aura_potion:                                     # SP:3111-3135, 3191-3215
+    mastery: 3                                     # POTION_BUFF_MASTERY (Master)
+    fraction: {min: 0.75, max: 1.5, full_power: 200}   # f = 0.75 + 0.75*min(P,200)/200
+    skill: {span: 50, span_day_buffs: 70}          # s = span*(f-1): -12.5..+25 (DoG/DoP -17.5..+35)
+    caster_level_per_power: 0.5                    # level = 0.5*P*f (P not clamped to 200, only to 500)
+    compare: "buffStrength = Base + Scaling*s/10 (+ level/4 for flat buffs); stronger of potion and aura wins"
+  hotkeys_solo:                                    # SK:1039-1122; not a design to copy (see spec 7.6)
+    heal_key: {item: 222, amount: "round(P^1.4)+10", cooldown_s: 15}
+    mana_key: {item: 223, amount: "20+2*P", shown: "round(P^1.4*2/3)+10", cooldown_s: 15}
+
+potions:
+  221:
+    name: Catalyst
+    tier: base
+    use: drink                                     # flag in Potion settings; MAW's drink handler has no branch for
+    effects: []                                    # it, so drinking consumes it with no effect (AL:62-264)
+    note: "Mixing a catalyst into a potion is base MMMerge (MiscTweaks.lua:780-786); not changed by MAW."
+    source: AL:62-264
+  222:
+    name: Cure Wounds
+    tier: base
+    use: drink
+    charges: 1
+    effects:
+      - restore: {pool: hp, amount: {pool_share: {pool: hp, flat: 20, share: 0.25}}}
+    source: AL:118-120, AL:412-427, E:253-300
+  223:
+    name: Magic Potion
+    tier: base
+    use: drink
+    charges: 1
+    effects:
+      - restore: {pool: sp, amount: {pool_share: {pool: sp, flat: 10, share: 0.25}}}
+    source: AL:121-123, AL:412-427, E:302-345
+  224:
+    name: Energy Potion
+    tier: base
+    use: drink
+    effects:
+      - cure: [Weak, Asleep]
+      - immunity: [Weak, Asleep]
+    source: AL:155-161, AL:346-347, AL:356-406
+  225:
+    name: Antidote
+    tier: secondary
+    use: drink
+    effects:
+      - cure: [DiseaseWeak, DiseaseMedium, DiseaseSevere, PoisonWeak, PoisonMedium, PoisonSevere]
+      - immunity: [Disease, Poison]
+    source: AL:155-161, AL:348
+  226:
+    name: Hexbane
+    tier: secondary
+    use: drink
+    effects:
+      - cure: [Cursed, Paralyzed]
+      - immunity: [Cursed, Paralyzed]
+    source: AL:155-161, AL:349
+  227:
+    name: Lucidity
+    tier: secondary
+    use: drink
+    effects:
+      - cure: [Fear, Insane]
+      - immunity: [Fear, Insane]
+    source: AL:155-161, AL:350
+  228:
+    name: Haste
+    tier: tertiary
+    use: drink
+    charges: 5
+    effects:
+      - aura_buff: {spell: 5}                      # attack AND spell recovery / (1 + mult), ST:218-224, SK:588-597
+    source: AL:165-183, AL:311-344, SP:2683-2700
+  229:
+    name: Heroism
+    tier: tertiary
+    use: drink
+    charges: 5
+    effects:
+      - aura_buff: {spell: 51}                     # melee damage x(1+mult), IT:3325-3345
+    source: AL:311-344
+  230:
+    name: Bless
+    tier: tertiary
+    use: drink
+    charges: 5
+    effects:
+      - aura_buff: {spell: 46}                     # flat attack (20+lvl/4)*(1+2%*s) IT:2950-2958; Accuracy %
+                                                   # (GetBuffStatPct) IT:3068-3076; hit chance +0.05+0.001*s F:89-110
+    source: AL:311-344
+  231:
+    name: Protection
+    tier: tertiary
+    use: drink
+    min_power: 20
+    charges: 5
+    rechargeable: true
+    effects:
+      - aura_buff: {spell: 17}                     # magic damage x max(1-mult, 0.7), ST:1072-1082
+      - buff: {id: Preservation}                   # engine Preservation; spell 50 has no buffPower row
+    source: AL:284-290, AL:311-344
+  232:
+    name: Meditation
+    tier: tertiary
+    use: drink
+    charges: 5
+    rechargeable: true
+    effects:
+      - skill_bonus: {skill: Meditation, amount: {sqrt_ceil: {div: 1.5, add: 1}}}   # added to GetSkill's result,
+                                                   # so it is skill levels on the existing mastery (AL:138-141,
+                                                   # AL:273-281); no effect visible without Meditation mastery
+    source: AL:138-141, AL:273-281
+  233:
+    name: Regeneration
+    tier: tertiary
+    use: drink
+    charges: 5
+    rechargeable: true
+    effects:
+      - buff: {id: Regeneration, skill: {half_floor: true}, mastery: Grandmaster}
+        # HP/s = sqrt(fullHP) * floor(P/2)^1.25 * 5/1000, x2 after ~20 s unhurt, x4 with no enemies near;
+        # max() with the Regeneration aura, never added (SK:1364-1376, F:257-259, SK:1395-1407)
+    source: AL:131-136
+  234:
+    name: Stone Skin
+    tier: tertiary
+    use: drink
+    charges: 5
+    effects:
+      - aura_buff: {spell: 38}                     # AC (20 + lvl/4)*(1+2%*s), IT:3077-3082 (Hour of Power checked too)
+    source: AL:311-344
+  235:
+    name: Water Breathing
+    tier: tertiary
+    use: drink
+    min_power: 20
+    charges: 5
+    effects:
+      - buff: {id: WaterBreathing}
+    source: AL:284-290, AL:311-318
+  236:
+    name: Harden Item
+    tier: tertiary
+    use: item
+    effects:
+      - item_effect: {action: harden}              # engine behaviour; MAW's own override is commented out MP:93-105
+    source: MP:93-105
+  237:
+    name: Magic Protection
+    tier: tertiary                                 # Orange + Purple
+    use: drink
+    charges: 5
+    rechargeable: true
+    effects:
+      - party_buff: {id: ProtectionFromMagic, power: {linear: [5, 0.1]}, mastery: "Master; Grandmaster if P>=50"}
+        # floor applied: 5 + floor(P/10). BUT the 0.5 s aura pass rewrites Power=4, Skill=10 while the potion
+        # timer runs (SP:2985-2990), so in play it is 4 charges refilled every pass and always the high-mastery case
+      - immunity: [Unconscious]                    # any active PfM blocks Unconscious, SP:676-685
+    source: AL:145-153, SP:2985-2990, SP:676-685
+  238:
+    name: Enchant Item
+    tier: tertiary
+    use: item
+    effects:
+      - item_effect:
+          action: random_standard_enchant
+          target: "base item, no standard, special or second enchant"
+          enchant: "10 % skill enchant 17-24; else 1-16 on EquipStat 10, 1-10 otherwise"
+          strength: "min(P,500)/5, x slotMult (ceil); skill enchants max(sqrt(x), ceil(x/10))"
+          seed: "vars.enchantSeedList[item]+MaxCharges, advanced after use (deterministic per item type)"
+    note: "Text says 'require 20 power'; the code has no power check."
+    source: MP:54-92, AL:429-470
+  239:
+    name: Stone to Flesh
+    tier: tertiary
+    use: drink
+    min_power: 20
+    effects:
+      - cure: [Petrified]
+      - immunity: [Petrified]
+    source: AL:284-290, AL:351
+  240:
+    name: Power Boost
+    tier: white
+    use: drink
+    charges: 5
+    effects:
+      - buff: {id: TempMight, strength: unset}
+      - buff: {id: TempAccuracy, strength: unset}
+    note: >-
+      Only ExpireTime and Skill=0 are written (AL:165-176); no MAW code sets Power of player buffs TempMight/
+      TempAccuracy, and no potionBuffSpells row exists, so the "10 + 1 x Power" in the tooltip (AL:469) is not
+      implemented. The stat gain is whatever Power the slot already held (0 on a fresh character).
+    source: AL:165-176, AL:318-319
+  241:
+    name: Wisdom Boost
+    tier: white
+    use: drink
+    charges: 5
+    effects:
+      - buff: {id: TempIntellect, strength: unset}
+      - buff: {id: TempPersonality, strength: unset}
+    note: "Same as 240: Power never set."
+    source: AL:165-176, AL:320
+  242:
+    name: Resilience Boost
+    tier: white
+    use: drink
+    charges: 5
+    effects:
+      - buff: {id: TempEndurance, strength: unset}
+      - buff: {id: TempSpeed, strength: unset}
+      - buff: {id: TempLuck, strength: unset}
+    note: "Same as 240. TempEndurance Power is read for HP at IT:3098 but never written by the potion."
+    source: AL:165-176, AL:321
+  243:
+    name: Lesser Element
+    tier: white
+    use: item
+    min_power: 40
+    effects:
+      - item_effect: {action: special_enchant, choose_one: [5, 8, 11, 14]}   # Bonus2 = rand(1..4)*3+2:
+        # of Frost, of Lightning, of Flame, of Venom (tier 2 of each element)
+    target: "base item, Bonus2 == 0, weapon skill < 7 (not Blaster)"
+    source: MP:28-40
+  244:
+    name: Swiftness
+    tier: white
+    use: item
+    min_power: 40
+    effects:
+      - item_effect: {action: special_enchant, enchant: 59}   # Bonus2 59 = "Swift"
+    target: "base item, Bonus2 == 0, weapon skill < 7"
+    source: MP:41-53
+  245:
+    name: Champion's Potion
+    tier: white
+    use: drink
+    charges: 5
+    rechargeable: true
+    effects:
+      - aura_buff: {spell: 5}
+      - aura_buff: {spell: 51}
+      - aura_buff: {spell: 46}
+    source: AL:311-344
+  246:
+    name: Divine Restoration
+    tier: white
+    use: drink
+    min_power: 40
+    effects:
+      - cure: [Weak, Asleep, DiseaseWeak, DiseaseMedium, DiseaseSevere, PoisonWeak, PoisonMedium, PoisonSevere,
+               Cursed, Paralyzed, Fear, Insane, Petrified, Unconscious]
+      - immunity: [Weak, Asleep, Disease, Poison, Cursed, Paralyzed, Fear, Insane, Petrified, Unconscious]
+    source: AL:284-290, AL:352
+  247:
+    name: Divine Cure
+    tier: white
+    use: drink
+    charges: 5
+    effects:
+      - restore: {pool: hp, amount: {pool_share: {pool: hp, flat: 50, share: 0.35}}}
+    source: AL:124-126, AL:412-417
+  248:
+    name: Divine Magic
+    tier: white
+    use: drink
+    charges: 5
+    effects:
+      - restore: {pool: sp, amount: {pool_share: {pool: sp, flat: 50, share: 0.35}}}
+    source: AL:127-129, AL:412-417
+  249:
+    name: Elemental Resistance
+    tier: white
+    use: drink
+    charges: 5
+    effects:
+      - aura_buff: {spell: 3}                      # Fire res + Intellect %
+      - aura_buff: {spell: 14}                     # Air res + Speed %
+      - aura_buff: {spell: 25}                     # Water res + Luck %
+      - aura_buff: {spell: 36}                     # Earth res + Endurance %
+      # res = (10 + lvl/4)*(1 + 2%*s); stat % = min(10 + s/5, 20) of the total stat (IT:3043-3066)
+    source: AL:311-344
+  250:
+    name: Self Resistance
+    tier: white
+    use: drink
+    charges: 5
+    effects:
+      - aura_buff: {spell: 58}                     # Mind res + Personality %
+      - aura_buff: {spell: 69}                     # Body res + Might %
+    source: AL:311-344
+  251:
+    name: Paladin's Potion
+    tier: white
+    use: drink
+    charges: 5
+    rechargeable: true
+    effects:
+      - aura_buff: {spell: 17}
+      - aura_buff: {spell: 38}
+      - buff: {id: Preservation}
+    source: AL:311-344
+  252:
+    name: Pure Power
+    tier: black
+    use: drink
+    effects:
+      - permanent_stat: {stats: [Might, Accuracy], amount: {step: {per: 50, value: 20}}, limit: best_step}
+    note: "Max step 10 (+200) at the 500 cap. A potion that does not beat the stored value is refused and kept."
+    source: AL:188-216, AL:304-310, IT:2577-2579
+  253:
+    name: Pure Wisdom
+    tier: black
+    use: drink
+    effects:
+      - permanent_stat: {stats: [Intellect, Personality], amount: {step: {per: 50, value: 20}}, limit: best_step}
+    source: AL:188-216, AL:306
+  254:
+    name: Pure Resilience
+    tier: black
+    use: drink
+    effects:
+      - permanent_stat: {stats: [Endurance, Speed, Luck], amount: {step: {per: 50, value: 20}}, limit: best_step}
+    source: AL:188-216, AL:307
+  255:
+    name: Greater Element
+    tier: black
+    use: item
+    min_power: 55
+    effects:
+      - item_effect: {action: special_enchant, choose_one: [6, 9, 12, 15]}   # of Ice, of Thunderbolts,
+        # of Infernos, of Acid (tier 3); Bonus2 = rand(1..4)*3+3
+    target: "base item, Bonus2 == 0, weapon skill < 7"
+    source: MP:15-27
+  256:
+    name: Darkness
+    tier: black
+    use: item
+    min_power: 100
+    effects:
+      - item_effect: {action: special_enchant, enchant: 41}   # "of Darkness": HP drain + weapon speed
+    target: "base item, Bonus2 == 0, weapon skill < 7"
+    note: "Potion settings/drink table lists 50 (AL:289); unused because 256 is not drinkable."
+    source: MP:1-14
+  257:
+    name: Divine Blessing
+    tier: black
+    use: drink
+    charges: 5
+    rechargeable: true
+    effects:
+      - aura_buff: {spell: 83}                     # Day of the Gods: all 7 stats +min(10 + s/7, 20) %, wide span 70
+    source: AL:311-344, IT:3039-3066
+  258:
+    name: Twilight
+    tier: black
+    use: drink
+    effects:
+      - age: {set_years: 60}                       # BirthYear = 1172-60+year index; AgeBonus = 0; keeps ageing
+    note: "Tooltip says 'require 50 power'; potionPowerRequirement has no 258 entry (AL:284-290)."
+    source: AL:219-222
+  259:
+    name: Transcendence
+    tier: black
+    use: drink
+    effects:
+      - skill_points: {amount: {step_quadratic: {per: 50, a: 5, b: 15}}, limit: best_step}
+        # grants points(step) - points(best step drunk); refused and kept if step <= best
+    source: AL:225-245, AL:300-302
+  260:
+    name: Dawn
+    tier: black
+    use: drink
+    effects:
+      - age: {set_years: 20}
+    note: "Same as 258: no power requirement in code."
+    source: AL:223-226
+  261:
+    name: Pure Elemental Resistance
+    tier: black
+    use: drink
+    effects:
+      - permanent_resistance: {resistances: [Fire, Air, Water, Earth], amount: {step: {per: 50, value: 30}},
+                               limit: best_step}
+    source: AL:188-216, AL:308
+  262:
+    name: Pure Self Resistance
+    tier: black
+    use: drink
+    effects:
+      - permanent_resistance: {resistances: [Mind, Body], amount: {step: {per: 50, value: 30}}, limit: best_step}
+    source: AL:188-216, AL:309
+  263:
+    name: Divine Resistance
+    tier: black
+    use: drink
+    charges: 5
+    rechargeable: true
+    effects:
+      - aura_buff: {spell: 85}                     # Day of Protection: every res (10 + lvl/4)*(1 + 2%*s/1.4)
+    source: AL:311-344, AL:520-528, IT:3035-3062
+  264-290:
+    name: "Potion Deleted in MAW"
+    use: none
+    effects: []
+    source: AL:18-20, Data/Tables/Potion settings.txt rows 44-70
+
+endless_potion:                                    # item 1069, used on a potion in the inventory
+  applies_to: [231, 232, 233, 237, 245, 251, 257, 263]          # AL:1011
+  add_charges: "item.Charges = (Charges == 0 ? 6 : Charges) + BonusStrength"   # AL:1083-1088
+  bonus_strength_on_drop: "min(bestAlchemySkill + 10, 100)"     # AL:690-697
+
+# Worked values (Lua port, scratch potions.lua; difficulty 3 = bolster 100). Spec section 7.4 has the table.
+examples_power: {P: [10, 50, 100, 200], cure_wounds_hp: [46, 185, 494, 1919], magic_potion_sp: [34, 181, 553, 1928],
+                 haste_pct: [7.9, 9.4, 11.2, 15.0], heroism_shield_pct: [11.8, 14.1, 16.9, 22.5],
+                 stoneskin_ac: [16.5, 24.2, 38.3, 86.2], meditation_bonus: [4, 6, 8, 11]}
+
+# ---------------------------------------------------------------------------------------------------------------
+# standard_reference: what OpenYAMM implements today (OpenYAMM/game/items/InventoryItemUseRuntime.cpp), written in
+# the same schema to show it can be expressed. Duration rule {per_power_minutes: 30} (line 26, 211-231).
+# ---------------------------------------------------------------------------------------------------------------
+standard_reference:
+  rules: {power_cap: 0, duration: {per_power_minutes: 30}, combat_recovery: engine_default, recovery_payer: drinker}
+  potions:
+    222: {effects: [{restore: {pool: hp, amount: {linear: [10, 1]}}}]}                     # :1227-1233
+    223: {effects: [{restore: {pool: sp, amount: {linear: [10, 1]}}}]}                     # :1235-1241
+    224: {effects: [{cure: [Weak]}]}                                                       # :1134-1138
+    225: {effects: [{cure: [DiseaseWeak, DiseaseMedium, DiseaseSevere]}]}                  # :1139-1145
+    226: {effects: [{cure: [PoisonWeak, PoisonMedium, PoisonSevere]}]}                     # :1146-1152
+    227: {effects: [{cure: [Asleep]}]}                                                     # :1153-1157
+    228: {effects: [{buff: {id: Haste, strength: 5, unless: Weak}}]}                       # :1160-1167
+    229: {effects: [{buff: {id: Heroism, strength: 5}}]}                                   # :1168-1172
+    230: {effects: [{buff: {id: Bless, strength: 5}}]}                                     # :1173-1177
+    231: {effects: [{buff: {id: Preservation, strength: {linear: [0, 3]}}}]}               # :1178-1187
+    232: {effects: [{buff: {id: Shield, strength: {linear: [0, 3]}}}]}                     # :1188-1192
+    233: {use: item, effects: [{item_effect: {action: recharge_wand, formula: "max*(100-max(0,70-P))%"}}]}
+                                                    # InventoryItemMixingRuntime.cpp:19, 261-270, 296-321
+    234: {effects: [{buff: {id: Stoneskin, strength: 5}}]}                                 # :1193-1197
+    235: {effects: [{buff: {id: WaterBreathing, strength: 5}}]}                            # :1198-1202
+    236: {use: item, effects: [{item_effect: {action: harden}}]}       # InventoryItemMixingRuntime.cpp:20, 141-155
+    237: {effects: [{cure: [Fear]}]}                                                       # :1203-1207
+    238: {effects: [{cure: [Cursed]}]}                                                     # :1208-1212
+    239: {effects: [{cure: [Insane]}]}                                                     # :1213-1217
+    240-245: {effects: [{buff: {id: "TempMight/Intellect/Personality/Endurance/Speed/Accuracy",
+                                strength: {linear: [0, 3]}}}]}                             # :234-264, 1124-1130
+    246-250: {use: item, effects: [{item_effect: {action: temporary_special_enchant,
+              enchant: "Flame/Frost/Poison/Sparks/Swift", minutes_per_power: 30}}]}
+                                                    # InventoryItemMixingRuntime.cpp:21-25, 87-105, 157-187
+    251: {effects: [{cure: [Paralyzed]}]}                                                  # :1218-1222
+    252: {effects: [{cure: "all but Dead/Petrified/Eradicated; also Paralyzed, Zombie"}]}  # :139-166, 1243-1249
+    253: {effects: [{restore: {pool: hp, amount: {linear: [0, 5]}}}]}                      # :1251-1257
+    254: {effects: [{restore: {pool: sp, amount: {linear: [0, 5]}}}]}                      # :1259-1265
+    255: {effects: [{buff: {id: TempLuck, strength: {linear: [0, 3]}}}]}                   # :250-251
+    256-261: {effects: [{buff: {id: "Fire/Air/Water/Earth/Mind/Body resistance", strength: {linear: [0, 3]}}}]}
+                                                                                           # :252-263
+    262: {effects: [{cure: [Petrified]}]}                                                  # :1267-1273
+    263: {use: item, effects: [{item_effect: {action: special_enchant, enchant: DragonSlaying, permanent: true}}]}
+                                                    # InventoryItemMixingRuntime.cpp:26, 157-187 (timer set too)
+    264-270: {effects: [{permanent_stat: {stats: ["Luck/Speed/Intellect/Endurance/Personality/Accuracy/Might"],
+                                          amount: 50, limit: none}}]}                     # :168-195
+    271: {effects: [{age: {clear_magic_age: true, else_modifier: "-ceil(P/10)"}}]}         # :290-300
+    272-278: {effects: [{permanent_stat: {primary: +15, penalty: -5, limit: once_per_character}}]}   # :266-327
+    279: {effects: [{permanent_stat: {stats: all7, amount: 1}}, {permanent_resistance: {all6: 1}},
+                    {age: {modifier: 5}}]}                                                 # :326-341
+    280: {effects: [{buff: {id: "TempMight..TempLuck", strength: {linear: [0, 3]}}}]}      # :342-354
+    281: {effects: [{buff: {id: "six resistances", strength: {linear: [0, 3]}}}]}          # :355-366
+    282: {effects: [{level_modifier: 20}]}                                                  # :367-369
+    283: {effects: [{permanent_stat: {stats: all7, amount: 20, limit: once_per_character}}, {age: {modifier: 10}}]}
+    284-289: {effects: [{permanent_resistance: {resistances: one, amount: 40, limit: once_per_character}}]}
+    290: {effects: [{party_buff: {id: ProtectionFromMagic, power: 10, mastery: Grandmaster}}]}  # :408-417

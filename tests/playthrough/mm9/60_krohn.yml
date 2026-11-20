@@ -1,0 +1,45 @@
+# MM9 playthrough, segment 10: back to Arslegard the way the dead go, and Krohn (guide: Chapter V, "Two Writs of
+# Fate: before Krohn"). The party falls in Frosgard City and wakes in Arslegard (world.yml partyDeath), walks into the
+# Hall of the Gods and stands before Krohn: both writs are Njam's forgeries; his task and Njam's Key.
+# Research: prep/09_11_frosgard_krohn_tomb.md.
+#   python3 tests/playthrough/mm9/run.py 60
+id: mm9.playthrough.60_krohn
+title: "MM9 playthrough 60: the party dies back to Arslegard and Krohn gives Njam's Key"
+world: mm9
+mode: faithful
+tags: [mm9, playthrough]
+steps:
+  - load_game: {path: output/playthrough/mm9/checkpoints/59_frosgard_tamur.oysav}
+  - setup_shortcut: {kind: immortal, value: false}
+  - assert: {map: frosgardcity.blv, qbit_set: [90107], qbit_clear: [90108]}
+  - party_defeat: {knock_out: true, wait_seconds: 5, expect_map: arslegardcity.blv}
+  - setup_shortcut: {kind: immortal}
+  - advance_runtime: {seconds: 2}
+
+  # Across the city (placed) to the Hall of the Gods' entrance in the south-east.
+  - set_pose: {map: arslegardcity.blv, x: 19800, y: -11703, z: 493, yaw: 0, pitch: 0}
+  - advance_runtime: {seconds: 0.5}
+  - walk_to: {x: 20300, y: -11703, z: 493, timeout_seconds: 20, expect: dialog}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.0, follow_map_move: true}
+  - assert: {map: hallofthegods.blv}
+
+  # Up the hall to Krohn at its east end.
+  - walk_to: {x: 5600, y: 2949, z: 851, radius: 150, timeout_seconds: 300}
+  - interact_actor: {actor_index: 0}
+  - select_topic: {match_label: "As you have summoned us, so we have come."}
+  - select_topic: {match_label: "We have a Writ of Fate!  It says we're supposed to stop him!"}
+  - select_topic: {match_label: "Yes sir!"}
+  - select_topic: {match_label: "Njam the Meddler?"}
+  - select_topic: {match_label: "What task?"}
+  - select_topic: {match_label: "How are we supposed to get him to follow us?"}
+  - select_topic: {match_label: "We will do this for you."}
+  # The talk's end gives Njam's Key (NPC335.scr :StopNjam: key 191, 22 500 experience).
+  - select_topic: {match_label: "Goodbye."}
+  - advance_runtime: {seconds: 1.0}
+  - assert: {qbit_set: [90108, 90191]}
+  - play_lua:
+      source: |
+        if not has_item(10576) then error("no Njam's Key from Krohn") end
+        log("Njam's Key is in the pack")
+  - save_game: {name: "10 Krohn's task", path: output/playthrough/mm9/checkpoints/60_krohn.oysav}

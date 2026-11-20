@@ -567,9 +567,14 @@ bool canSweepAgainstIndoorFace(
     const IndoorFaceSweepOptions &options
 )
 {
+    const bool actorBarrier =
+        options.pActorBarrierFaceMask != nullptr
+        && geometry.faceIndex < options.pActorBarrierFaceMask->size()
+        && (*options.pActorBarrierFaceMask)[geometry.faceIndex] != 0;
+
     if (!geometry.hasPlane
         || geometry.vertices.size() < 3
-        || hasFaceAttribute(geometry.attributes, FaceAttribute::Untouchable)
+        || (hasFaceAttribute(geometry.attributes, FaceAttribute::Untouchable) && !actorBarrier)
         || (geometry.isPortal && !options.includePortalFaces))
     {
         return false;

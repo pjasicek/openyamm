@@ -1,0 +1,60 @@
+{
+  "base": {
+    "bake": "output/mm9_rework/bakes/guberlandcity",
+    "carried_over": true,
+    "geometry_hash": "0e66531f7d0c8a1c",
+    "lighting_sha256": "a50d877e72d20edebf9a86fc9681575c0cf99d8d343c2cec428e65ff9296de51",
+    "recipe": {
+      "backend": "5.3.0",
+      "extra_lights": [],
+      "geometry_helper_sha256": "aa0823810bcf2fbed4da16c0d50b7ddc57e1e54e684f1a31381fc0eee3e49332",
+      "producer_sha256": "ded3384081980de459a4782726c59e6e20303caca10503ab4a5efa2b4aebca71",
+      "profile": {
+        "ambient_colour": [
+          1.0,
+          1.0,
+          1.0
+        ],
+        "ambient_scale": 0.5,
+        "blur_radius": 2,
+        "bounce_scale": 1.0,
+        "bounces": 3,
+        "direct_scale": 1.0,
+        "emitters": [],
+        "glass": [],
+        "layout_only": true,
+        "light_size": 24,
+        "map": "guberlandcity.blv",
+        "max_lighting": 4.0,
+        "outward_distance": 4096,
+        "padding": 2,
+        "page_size": 4096,
+        "samples": 128,
+        "shadowless_faces": [],
+        "sky_bounce_scale": 1.0,
+        "sky_scale": 1.0,
+        "units_per_texel": 81.92,
+        "world": "mm9"
+      }
+    }
+  },
+  "dat": "mm9/extracted/WORLDS/WORLDS/GUBERLANDCITY.dat",
+  "dat_sha256": "146ee86e710408bb54af670289688e6048dee6813af72ffcbedaf87ec92cf322",
+  "daylight_pages": true,
+  "encoding": "display",
+  "fallback_models": [],
+  "min_light": 0.0,
+  "parameters": {
+    "fallback_cells": [
+      2,
+      8
+    ],
+    "fallback_voxel_lt": 64.0,
+    "inside_eps_lt": 4.5,
+    "normal_dot": 0.998,
+    "outside_reach_lt": 24.0,
+    "plane_tolerance_lt": 1.5
+  },
+  "producer": "mm9r_common/lightmap_transfer.py",
+  "producer_sha256": "04ee0c2223a812928fa2f99d81b9bb3fe859beba8137a28859fc8a6e3dada5d3"
+}

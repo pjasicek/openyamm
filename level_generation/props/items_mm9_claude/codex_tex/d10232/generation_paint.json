@@ -1,0 +1,30 @@
+{
+  "prompt": "Edit paint_mask_guide.png (first input), using design_reference.png (second input) for materials and detail and icon_x8.png (third input) for colour only. Produce ONE transparent PNG 1536x2048, 3:4. This is a precise paint + material-mask atlas, not a redesigned ring.\nKeep the exact guide layout: three columns by FOUR rows of 512x512 cells. Rows 1-2 contain FRONT, BACK, LEFT / RIGHT, TOP, empty. Rows 3-4 repeat these exact five silhouettes. Preserve every object's position, scale, outline, hoop plane, perspective, thickness, and all openings exactly. Paint ONLY within original grey silhouettes. Do not enlarge/redraw geometry to match the more elaborate master.\nRows 1-2: paint unlit base colour of Death Ring, source-faithful upright hoop plane. Dark aged steel/silver with subdued warm brass/gold details, pale metal skull motif on the existing circular head, adapted to the correct viewing face, and design-reference engravings and inner swirls scaled to the surface. Facets and engravings follow reference. Treat skull as metallic ornament, not gemstone. Use surface colour and fine detail only: NO lighting, ambient occlusion, cast shadows, hot highlights, reflections, glow, sparkles or aura. Do not reproduce the bright reflected lights of the references.\nRows 3-4: material classification masks, every metal part including skull ornament is FLAT PURE RED #FF0000. Pure black #000000 only for gemstone/crystal/glass/pearl/enamel/liquid through glass if any (none indicated here). Every silhouette pixel gets exactly one classification colour. NO texture, shading, outline or antialiased colour blends inside these masks.\nEntire background and every ring hole fully transparent. Column 3 row 2 and column 3 row 4 remain empty transparent. No text, ground, labels, borders, grid lines or extra objects. Guide silhouette accuracy has priority over reference ornament geometry.\nCORRECTION: The preceding attempt produced red speckle clouds outside the lower five silhouettes and within their holes. These are forbidden. Start from the clean original grey guide supplied here. Preserve its alpha exactly; replace grey pixels only. Lower half must contain only five clean solid pure-red shapes bounded exactly by the guide silhouettes, with pristine fully transparent surrounding space and holes. No red debris, no stippling, no translucent red pixels outside the shapes. Upper half must be unlit colour, with no bright highlights. Output exact 3:4 canvas.",
+  "initial_prompt": "Edit paint_mask_guide.png (first input), using design_reference.png (second input) for materials and detail and icon_x8.png (third input) for colour only. Produce ONE transparent PNG 1536x2048, 3:4. This is a precise paint + material-mask atlas, not a redesigned ring.\nKeep the exact guide layout: three columns by FOUR rows of 512x512 cells. Rows 1-2 contain FRONT, BACK, LEFT / RIGHT, TOP, empty. Rows 3-4 repeat these exact five silhouettes. Preserve every object's position, scale, outline, hoop plane, perspective, thickness, and all openings exactly. Paint ONLY within original grey silhouettes. Do not enlarge/redraw geometry to match the more elaborate master.\nRows 1-2: paint unlit base colour of Death Ring, source-faithful upright hoop plane. Dark aged steel/silver with subdued warm brass/gold details, pale metal skull motif on the existing circular head, adapted to the correct viewing face, and design-reference engravings and inner swirls scaled to the surface. Facets and engravings follow reference. Treat skull as metallic ornament, not gemstone. Use surface colour and fine detail only: NO lighting, ambient occlusion, cast shadows, hot highlights, reflections, glow, sparkles or aura. Do not reproduce the bright reflected lights of the references.\nRows 3-4: material classification masks, every metal part including skull ornament is FLAT PURE RED #FF0000. Pure black #000000 only for gemstone/crystal/glass/pearl/enamel/liquid through glass if any (none indicated here). Every silhouette pixel gets exactly one classification colour. NO texture, shading, outline or antialiased colour blends inside these masks.\nEntire background and every ring hole fully transparent. Column 3 row 2 and column 3 row 4 remain empty transparent. No text, ground, labels, borders, grid lines or extra objects. Guide silhouette accuracy has priority over reference ornament geometry.",
+  "original_output_path": "/home/pjasicek/.codex/generated_images/01a1ad3f-b283-7b83-bf31-921e26917041/exec-838aa8a1-73cb-47ba-9bd9-de6b23a10644.png",
+  "output": "/home/pjasicek/github/OpenYAMM/level_generation/props/items_mm9_claude/codex_tex/d10232/paint_mask_raw_v1.png",
+  "tool": "built-in image_gen",
+  "corrective_regenerations": 1,
+  "validation": {
+    "visual": "Failed: red speckles remain outside material-mask silhouettes and in holes; raw output retained without alteration."
+  },
+  "inputs": [
+    {
+      "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/items_mm9_claude/codex_tex/d10232/paint_mask_guide.png",
+      "sha256": "83dff6633502fda509ba4cd1a67a4cac23e933936dca5a2cdc1876f0a1f95f55"
+    },
+    {
+      "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/items_mm9_claude/codex_tex/d10232/design_reference.png",
+      "sha256": "23349dc55421f7995da0d89a29da4a2f6f60c66f416db456560f238bc19b7cbc"
+    },
+    {
+      "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/items_mm9_claude/codex_tex/d10232/icon_x8.png",
+      "sha256": "af9bab9a556396cab32a95ea8e25e877b33fe20b2f3893c870d97fb673beb791"
+    }
+  ],
+  "size": [
+    1086,
+    1448
+  ],
+  "mode": "RGBA"
+}

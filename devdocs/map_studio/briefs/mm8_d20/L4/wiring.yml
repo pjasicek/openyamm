@@ -1,0 +1,221 @@
+format: 0
+variables: [shelf_w, shelf_e, shelf_se_e, shelf_se_w]
+events:
+  - id: evt:blades
+    preset: script
+    source: plate:blades
+    trigger: step
+    effects:
+      - cast:
+          spell: 39
+          from: [-1018, 3344, -862]
+          to: [890, 3344, -862]
+          mastery: grandmaster
+          level: 20
+      - cast:
+          spell: 39
+          from: [890, 3344, -862]
+          to: [-1018, 3344, -862]
+          mastery: grandmaster
+          level: 20
+    notes: "Original event 102 (face 1286): Blades from each wall slot across the hall."
+  - id: evt:blazen
+    preset: script
+    source: panel:cell_door
+    condition: {not: {qbit: blazen_in_party}}
+    lua: evt.SpeakNPC(107)
+    else_effects:
+      - lua: evt.FaceAnimation(FaceAnimation.DoorLocked)
+    notes: "Original event 131 (face 1283, no hover name): Blazen Stormlance speaks through the cell door, unless he is in the party (quest bit 435)."
+  - id: evt:button_high
+    preset: switch
+    source: platform:button_high
+    title: Button
+    toggles: [mover:lift]
+    notes: "Original event 13: door records 3 (no faces) and 1."
+  - id: evt:button_low
+    preset: switch
+    source: platform:button_low
+    title: Button
+    toggles: [mover:lift]
+    notes: "Original event 12: door records 2 (the button, which does not move) and 1."
+  - id: evt:c1
+    preset: chest
+    source: chest:c1
+    title: Chest
+    notes: "Original event 82: OpenChest(1)."
+  - id: evt:c2
+    preset: chest
+    source: chest:c2
+    title: Chest
+    notes: "Original event 83: OpenChest(2)."
+  - id: evt:c3
+    preset: chest
+    source: chest:c3
+    title: Chest
+    notes: "Original event 84: OpenChest(3)."
+  - id: evt:c4
+    preset: chest
+    source: chest:c4
+    title: Chest
+    notes: "Original event 85: OpenChest(4)."
+  - id: evt:door_east_se
+    preset: door
+    source: door:east_se
+    title: Door
+    action: open
+    notes: Original event 63.
+  - id: evt:door_hall_east
+    preset: door
+    source: door:hall_east
+    title: Door
+    action: open
+    notes: Original event 62.
+  - id: evt:door_hall_west
+    preset: door
+    source: door:hall_west
+    title: Door
+    action: open
+    notes: Original event 61.
+  - id: evt:door_west_sw
+    preset: door
+    source: door:west_sw
+    title: Door
+    action: open
+    notes: Original event 64.
+  - id: evt:drink_basin
+    preset: text
+    source: platform:basin
+    title: Take a Drink
+    text: "Refreshing !"
+    notes: Original event 451 (the basin in the south-west workroom).
+  - id: evt:drink_well_n
+    preset: text
+    source: platform:kerb_n
+    title: Take a Drink
+    text: "Refreshing !"
+    notes: "Original event 451 (the well kerb, north half)."
+  - id: evt:drink_well_s
+    preset: text
+    source: platform:kerb_s
+    title: Take a Drink
+    text: "Refreshing !"
+    notes: "Original event 451 (the well kerb, south half)."
+  - id: evt:exit_l
+    preset: exit
+    source: exit:front_l
+    title: Leave the Mad Necromancer's Lab
+    notes: "Original event 501, left leaf."
+  - id: evt:exit_r
+    preset: exit
+    source: exit:front_r
+    title: Leave the Mad Necromancer's Lab
+    notes: "Original event 501, right leaf."
+  - id: evt:fireballs
+    preset: script
+    source: plate:fire_w
+    trigger: step
+    sources: [plate:fire_e]
+    effects:
+      - cast:
+          spell: 6
+          from: [1498, 2195, -560]
+          to: [1498, 2195, -1024]
+          mastery: grandmaster
+          level: 20
+      - cast:
+          spell: 6
+          from: [2552, 2195, -560]
+          to: [2552, 2195, -1024]
+          mastery: grandmaster
+          level: 20
+    notes: "Original event 103 (faces 1309, 1310): a Fireball down from each of the two vents in the roof."
+  - id: evt:leave_blazen
+    preset: script
+    trigger: leave
+    condition: {qbit: blazen_found}
+    effects:
+      - hide_actors: 10
+    notes: "Original event 10 (on leave): once Blazen is found (quest bit 71) the lab's monsters are hidden."
+  - id: evt:leave_ebonest
+    preset: script
+    trigger: leave
+    condition: {item: ebonest}
+    effects:
+      - qbit: ebonest_lost
+    notes: "Original event 6 (on leave): with Ebonest in the packs, quest bit 199."
+  - id: evt:lift
+    preset: switch
+    source: mover:lift
+    title: Door
+    toggles: [mover:lift]
+    notes: "Original event 11, on the lift's top: door record 1 toggles."
+  - id: evt:load_hostile
+    preset: script
+    trigger: load
+    lua: "evt.SetMonGroupBit(10, MonsterBits.Hostile, 1)"
+    notes: "Original event 5 (on load): every monster of the lab (group 10) hostile."
+  - id: evt:shelf_e
+    preset: script
+    source: platform:shelf_e
+    title: Bookshelf
+    lua: |-
+      if not IsAtLeast(MapVar(shelf_e), 3) then
+        local r = PickRandomOption(453, 2, {3, 5, 7, 9, 11, 14})
+        if r == 3 then evt.GiveItem(5, ItemType.Scroll_, 334)
+        elseif r == 5 then evt.GiveItem(5, ItemType.Scroll_, 355)
+        elseif r == 7 then evt.GiveItem(5, ItemType.Scroll_, 356)
+        elseif r == 9 then evt.GiveItem(5, ItemType.Scroll_, 357)
+        elseif r == 11 then evt.GiveItem(5, ItemType.Scroll_, 367)
+        end
+      end
+      AddValue(MapVar(shelf_e), 1)
+    notes: Original event 453.
+  - id: evt:shelf_se_e
+    preset: script
+    source: platform:shelf_se_e
+    title: Bookshelf
+    lua: |-
+      if not IsAtLeast(MapVar(shelf_se_e), 1) then
+        local r = PickRandomOption(454, 2, {3, 5, 7, 9, 11, 14})
+        if r == 3 then AddValue(InventoryItem(424), 424)
+        elseif r == 5 then AddValue(InventoryItem(435), 435)
+        elseif r == 7 then AddValue(InventoryItem(446), 446)
+        elseif r == 9 then AddValue(InventoryItem(457), 457)
+        elseif r == 11 then AddValue(InventoryItem(468), 468)
+        end
+      end
+      AddValue(MapVar(shelf_se_e), 1)
+    notes: "Original event 454: one try at a book (one of six)."
+  - id: evt:shelf_se_w
+    preset: script
+    source: platform:shelf_se_w
+    title: Bookshelf
+    lua: |-
+      if not IsAtLeast(MapVar(shelf_se_w), 1) then
+        local r = PickRandomOption(455, 2, {3, 5, 7, 9, 11, 14})
+        if r == 3 then AddValue(InventoryItem(401), 401)
+        elseif r == 5 then AddValue(InventoryItem(412), 412)
+        elseif r == 7 then AddValue(InventoryItem(411), 411)
+        elseif r == 9 then AddValue(InventoryItem(423), 423)
+        elseif r == 11 then AddValue(InventoryItem(434), 434)
+        end
+      end
+      AddValue(MapVar(shelf_se_w), 1)
+    notes: Original event 455.
+  - id: evt:shelf_w
+    preset: script
+    source: platform:shelf_w
+    title: Bookshelf
+    lua: |-
+      if not IsAtLeast(MapVar(shelf_w), 3) then
+        local r = PickRandomOption(452, 2, {3, 5, 7, 9, 11, 14})
+        if r == 3 then evt.GiveItem(5, ItemType.Scroll_, 368)
+        elseif r == 5 then evt.GiveItem(5, ItemType.Scroll_, 357)
+        elseif r == 7 then evt.GiveItem(5, ItemType.Scroll_, 346)
+        elseif r == 9 then evt.GiveItem(5, ItemType.Scroll_, 335)
+        elseif r == 11 then evt.GiveItem(5, ItemType.Scroll_, 302)
+        end
+      end
+      AddValue(MapVar(shelf_w), 1)
+    notes: "Original event 452: three tries at a scroll (one of six: five scrolls or nothing)."

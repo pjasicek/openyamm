@@ -81,7 +81,13 @@ end)
 
 ReplaceGlobalEvent(789, "MMMerge Dragon Hatchling", function()
     if MM7.GetCrossVar("DragonJoined", 0) ~= 0 then
-        evt.SimpleMessage("The dragon is already traveling with you.")
+        -- A dragon dismissed from the followers joins again.
+        if HasFollowerNpc(396) then
+            evt.SimpleMessage("The dragon is already traveling with you.")
+        else
+            AddFollowerNpc(396)
+            evt.SimpleMessage("The dragon joins your company again.")
+        end
         return
     end
 
@@ -291,6 +297,38 @@ end)
 AppendGlobalEvent(805, function()
     if (IsQBitSet(QBit(611)) or IsQBitSet(QBit(612))) and not (IsQBitSet(QBit(1592)) or IsQBitSet(QBit(1594))) then
         AddFollowerNpc(393)
+    end
+end)
+
+-- OY-274: the exported 806 shows the whole Villain pitch before its refusal (messages append), so a party that
+-- cannot take the quest reads an assignment that never happens. It also accepted only MM7's Crusader bits, while a
+-- merged party may have been promoted to Crusader in Enroth (1635/1636). Check the gate first, then pitch.
+local CrusaderQBits = {1590, 1591, 1635, 1636}
+
+ReplaceGlobalEvent(806, "MMMerge Villain promotion gate", function()
+    if IsQBitSet(QBit(611)) then -- Chose the path of Light
+        MM7.PromotionMessage("I'd certainly love nothing more than to corrupt your obviously pious soul, but I'm afraid "
+            .. "you wouldn't have the stomach to follow through with my teachings.\nYou have chosen the Path of Light, "
+            .. "you will garner no assistance from me.")
+    elseif not IsQBitSet(QBit(612)) then -- Path of Dark not chosen yet
+        MM7.PromotionMessage("Before you make this decision, you have a more pressing, immediate decision you will be "
+            .. "forced to make.\nIf you choose the darker road, you may return to me and complete your training in the "
+            .. "Paladins' arts.")
+    elseif not MM7.AnyQBit(CrusaderQBits) then
+        MM7.PromotionMessage("I cannot improve upon training you do not already have.\nYou must be promoted to "
+            .. "Crusader, in Erathia or in Enroth, before I can train you in the ways of villainy.")
+    else
+        MM7.PromotionMessage("Let's get down to business, shall we?\nI know you are well aware of my standing as the "
+            .. "blackest Villain in Erathia.\nIt requires effort and drive to prove to be this evil-- I hope you have "
+            .. "the mettle for it.\nI would love nothing more than to keep you in my training for years and teach you "
+            .. "the finest parts of being a Villain.\nUnfortunately, I am under pressure to speed up your tutelage.\nTo "
+            .. "this end, I have a direct way to learn the arts of Villainhood.\nThere is a woman, Alice Hargreaves, "
+            .. "who is of noble blood and pure character.\nCapture this woman from her residence in Castle "
+            .. "Gryphonheart. Return here and imprison her in my tower.\nComplete this, and I shall promote all "
+            .. "Crusaders in your group to Villains, and the rest of your group to Honorary Villains.")
+        SetQBit(QBit(538)) -- Capture Alice Hargreaves and return her to William's Tower in the Deyja Moors.
+        evt.SetNPCTopic(357, 0, 807) -- William Setag topic 0: Villain
+        evt.MoveNPC(393, 1158) -- Alice Hargreaves -> Alice Hargreaves
     end
 end)
 
@@ -627,7 +665,7 @@ ReplaceGlobalEvent(832, "MMMerge Bounty Hunter promotion", function()
         firstMessage = Game.NPCText[1121],
         repeatMessage = Game.NPCText[1121],
         refuseMessage = Game.NPCText[1122],
-        condition = function() return IsAtLeast(ArenaWinsPage, 10000) end,
+        condition = function() return IsAtLeast(NumBounties, 10000) end,
     })
 
     if result == 1 then
@@ -985,37 +1023,15 @@ ReplaceGlobalEvent(853, "MMMerge Warlock promotion", function()
     end
 end)
 
+-- As in MMMerge, each member who lacks Blaster and whose class can learn it gets it at Normal 1; a Blaster already
+-- known (from MM6's Control Center terminal, say) keeps its rank and mastery.
 ReplaceGlobalEvent(950, "MMMerge Blaster skill", function()
-    for playerIndex = 0, evt.GetPartyMemberCount() - 1 do
+    for _, playerIndex in ipairs(PartyMembers()) do
         evt.ForPlayer(playerIndex)
-        if not IsAtLeast(BlasterSkill, 1) then
-            SetValue(BlasterSkill, SkillJoinedMask.Normal + 1)
+        if not IsAtLeast(BlasterSkill, 1) and CanPlayerLearnSkill(playerIndex, "Blaster") then
+            SetValue(BlasterSkill, 1)
         end
     end
-end)
-
-ReplaceGlobalEvent(1778, "MMMerge Verdant important matter", function()
-    CrossContinents.HandleVerdantIntro()
-end)
-
-ReplaceGlobalEvent(1781, "MMMerge Verdant dimension doors", function()
-    CrossContinents.ExplainDimensionDoors()
-end)
-
-ReplaceGlobalEvent(1782, "MMMerge Verdant Jadame", function()
-    CrossContinents.ExplainCurrentContinent(1)
-end)
-
-ReplaceGlobalEvent(1783, "MMMerge Verdant Antagarich", function()
-    CrossContinents.ExplainCurrentContinent(2)
-end)
-
-ReplaceGlobalEvent(1784, "MMMerge Verdant Enroth", function()
-    CrossContinents.ExplainCurrentContinent(3)
-end)
-
-ReplaceGlobalEvent(1788, "MMMerge Verdant connector stone", function()
-    CrossContinents.HandleConnectorStone()
 end)
 
 AppendGlobalEvent(513, function()
@@ -1036,11 +1052,14 @@ end)
 
 ReplaceGlobalEvent(783, "MMMerge Cast Off to Harmondale", function()
     ClearQBit(QBit(528))
-    AddValue(History(3), 0)
-    AddValue(History(4), 0)
+    AddValue(History(1), 0)
+    AddValue(History(2), 0)
     evt.MoveNPC(340, 215)
     evt.SetNPCGreeting(340, 320)
     evt.SetNPCTopic(340, 3, 0)
+    -- The party rests on the two-week voyage as on any boat trip, so a Haste still running ends without weakness
+    -- (MMMerge only moves the clock on).
+    RestAndHealParty()
     AdvanceGameMinutes(14 * 24 * 60)
     evt.MoveToMap(-17331, 12547, 465, 1024, 0, 0, 0, 0, "7out02.odm")
 end)

@@ -1,0 +1,1219 @@
+{
+ "id": "20261009-1512-mm6-redo",
+ "world": "mm6",
+ "maps": [
+  "6d01.blv",
+  "6d02.blv",
+  "6d03.blv",
+  "6d04.blv",
+  "6d05.blv",
+  "6d06.blv",
+  "6d07.blv",
+  "6d08.blv",
+  "6d09.blv",
+  "6d10.blv",
+  "6d11.blv",
+  "6d12.blv",
+  "6d13.blv",
+  "6d14.blv",
+  "6d15.blv",
+  "6d16.blv",
+  "6d17.blv",
+  "6d18.blv",
+  "6d20.blv",
+  "6t1.blv",
+  "6t3.blv",
+  "6t4.blv",
+  "6t5.blv",
+  "6t6.blv",
+  "6t7.blv",
+  "6t8.blv",
+  "cd1.blv",
+  "cd2.blv",
+  "cd3.blv",
+  "hive.blv",
+  "oracle.blv",
+  "outa1.odm",
+  "outa2.odm",
+  "outb1.odm",
+  "outb2.odm",
+  "outb3.odm",
+  "outc1.odm",
+  "outc2.odm",
+  "outc3.odm",
+  "outd1.odm",
+  "outd2.odm",
+  "outd3.odm",
+  "oute1.odm",
+  "oute2.odm",
+  "oute3.odm",
+  "pyramid.blv",
+  "sewer.blv",
+  "zarena.blv",
+  "zddb01.blv",
+  "zddb03.blv",
+  "zddb04.blv",
+  "zddb06.blv",
+  "zddb09.blv",
+  "zddb10.blv",
+  "zdtl01.blv",
+  "zdtl02.blv",
+  "zdwj01.blv",
+  "znwc.blv"
+ ],
+ "created": "2026-10-09T13:12:05+00:00",
+ "textures": [
+  "mm6/bdksh32b",
+  "mm6/bdksv32b",
+  "mm6/beamplnh",
+  "mm6/beamplnv",
+  "mm6/bemdord",
+  "mm6/bemhwal1",
+  "mm6/bemsv32a",
+  "mm6/bemsv32c",
+  "mm6/cedfncdk",
+  "mm6/ceilbemh",
+  "mm6/celtile",
+  "mm6/ch1bakb",
+  "mm6/ch1bkle",
+  "mm6/ch1bkre",
+  "mm6/ch1frle",
+  "mm6/ch1frntb",
+  "mm6/ch1frre",
+  "mm6/ch1side",
+  "mm6/ch1tpbv",
+  "mm6/ch1tplev",
+  "mm6/ch1tprev",
+  "mm6/crdflr4",
+  "mm6/crdrf2",
+  "mm6/ctceil1",
+  "mm6/ctceil2",
+  "mm6/ctdor2",
+  "mm6/ctdor4",
+  "mm6/ctflor3",
+  "mm6/ctflor4",
+  "mm6/ctmura",
+  "mm6/d1wldle",
+  "mm6/d1wldle2",
+  "mm6/d1wldle3",
+  "mm6/d1wldre",
+  "mm6/d1wldsp",
+  "mm6/d2ceil1",
+  "mm6/d2ceil3",
+  "mm6/d2flor4",
+  "mm6/d2flor5",
+  "mm6/d2wlactr",
+  "mm6/d2wlare",
+  "mm6/d5flora",
+  "mm6/d6flora",
+  "mm6/d6wlactr",
+  "mm6/graysq",
+  "mm6/gset04",
+  "mm6/gset05",
+  "mm6/gset06",
+  "mm6/gset07",
+  "mm6/oflr",
+  "mm6/oflr1d32",
+  "mm6/oflr1l32",
+  "mm6/oflr1l64",
+  "mm6/oflrd32",
+  "mm6/oflrd48",
+  "mm6/oflrl32",
+  "mm6/orceil",
+  "mm6/orflr32b",
+  "mm6/plnkdrk",
+  "mm6/slabco2",
+  "mm6/sndston",
+  "mm6/t1c2"
+ ],
+ "requests": {
+  "mm6/bdksh32b": {
+   "name": "bdksh32b",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "plain polished red-brown mahogany trim strip with crisp fine straight grain",
+   "notes": {
+    "2": "One continuous dark red-brown wooden plank across the full width with straight grain from edge to edge; no vertical post, no horizontal rail or joint line anywhere."
+   },
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [
+      "mm6/bemdk3"
+     ],
+     "fraction": 0.875
+    }
+   },
+   "context": {
+    "2": {
+     "bottom": "mm6/strctr"
+    }
+   }
+  },
+  "mm6/bdksv32b": {
+   "name": "bdksv32b",
+   "versions": [
+    1
+   ],
+   "material": "plain polished red-brown mahogany trim strip with crisp fine straight grain",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/beamplnh": {
+   "name": "beamplnh",
+   "versions": [
+    1
+   ],
+   "material": "weathered brown wooden beam with straight grain and a darker lower edge",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/beamplnv": {
+   "name": "beamplnv",
+   "versions": [
+    1
+   ],
+   "material": "weathered brown wooden beam with straight grain and a darker edge",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/bemdord": {
+   "name": "bemdord",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "red-brown wooden plank door with two horizontal battens and nail heads",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "pad": {
+    "2": [
+     32,
+     16
+    ]
+   },
+   "context": {
+    "2": {
+     "right": "mm6/bmdk16e",
+     "left": "mm6/pbrwn"
+    }
+   }
+  },
+  "mm6/bemhwal1": {
+   "name": "bemhwal1",
+   "versions": [
+    1
+   ],
+   "material": "polished red-brown wood paneling of horizontal boards with dark grooves",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/bemsv32a": {
+   "name": "bemsv32a",
+   "versions": [
+    1
+   ],
+   "material": "plain polished red-brown mahogany board with crisp fine grain and a small knot",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/bemsv32c": {
+   "name": "bemsv32c",
+   "versions": [
+    1
+   ],
+   "material": "plain polished red-brown mahogany board with crisp fine grain",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/beemdorc"
+     ],
+     "fraction": 0.281
+    }
+   }
+  },
+  "mm6/cedfncdk": {
+   "name": "cedfncdk",
+   "versions": [
+    1
+   ],
+   "material": "polished orange-brown cedar planks with straight grain and dark gaps",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/ceilbemh": {
+   "name": "ceilbemh",
+   "versions": [
+    1
+   ],
+   "material": "dark aged wooden ceiling of heavy horizontal beams over planks",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/celtile": {
+   "name": "celtile",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "carved grey stone tile with a dark Celtic knot relief",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "2": {}
+   }
+  },
+  "mm6/ch1bakb": {
+   "name": "ch1bakb",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "one complete back face of a weathered blue-grey plank chest: horizontal planks inside a rusty iron frame with rivets and iron corner bands at both ends",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/ch1bkle": {
+   "name": "ch1bkle",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "weathered blue-grey wooden chest edge with a dark iron band and rivets",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/ch1bkre": {
+   "name": "ch1bkre",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "weathered blue-grey wooden chest edge with a dark iron band and rivets",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/ch1frle": {
+   "name": "ch1frle",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "weathered blue-grey wooden chest front edge with a dark iron band",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/ch1frntb": {
+   "name": "ch1frntb",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "one complete front face of a weathered blue-grey plank chest: horizontal planks inside a rusty iron frame with rivets, iron corner bands at both ends and a black iron lock plate at the top centre",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/ch1frre": {
+   "name": "ch1frre",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "weathered blue-grey wooden chest front edge with a dark iron band",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/ch1side": {
+   "name": "ch1side",
+   "versions": [
+    1
+   ],
+   "material": "weathered blue-grey wooden chest side planks with a dark iron handle plate",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/ch1tpbv": {
+   "name": "ch1tpbv",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "one complete lid of a weathered blue-grey plank chest: planks inside a rusty iron frame with rivets and iron bands at both ends",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/ch1tplev": {
+   "name": "ch1tplev",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "weathered blue-grey wooden chest lid edge with a dark iron band",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/ch1tprev": {
+   "name": "ch1tprev",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "weathered blue-grey wooden chest lid edge with a dark iron band",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/crdflr4": {
+   "name": "crdflr4",
+   "versions": [
+    1
+   ],
+   "material": "dry brown crumbled earth and small stones",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/crdrf2": {
+   "name": "crdrf2",
+   "versions": [
+    1
+   ],
+   "material": "dark brown rough rocky earth ceiling with mottled ochre patches",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/ctceil1": {
+   "name": "ctceil1",
+   "versions": [
+    1
+   ],
+   "material": "ornate painted ceiling medallion: octagonal red frame with gold rosette on blue, framed by gilded border patterns",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/ctceil2": {
+   "name": "ctceil2",
+   "versions": [
+    1
+   ],
+   "material": "dark wooden vaulted ceiling panel with four ribs meeting at a central boss",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/ctdor2": {
+   "name": "ctdor2",
+   "versions": [
+    1
+   ],
+   "material": "orange-painted wooden door with a painted medieval knight on a horse and dark iron hinge straps",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/ctdor4": {
+   "name": "ctdor4",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "black lacquered double door with gilded round medallions and gold frames",
+   "notes": {
+    "2": "No dark outline or shadow along any outer edge: every edge keeps the brightness and material of the reference's edge."
+   },
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/ctflor3": {
+   "name": "ctflor3",
+   "versions": [
+    1
+   ],
+   "material": "geometric mosaic floor of pale cream and black stone star tiles",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/ctflor4": {
+   "name": "ctflor4",
+   "versions": [
+    1
+   ],
+   "material": "blue and pale grey patterned marble floor tiles with a floral damask inlay",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/ctmura": {
+   "name": "ctmura",
+   "versions": [
+    1
+   ],
+   "material": "medieval fresco of a crowd of nobles in red and black robes at a funeral, a city in the background",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/d1wldle": {
+   "name": "d1wldle",
+   "versions": [
+    1
+   ],
+   "material": "olive-brown stacked sandstone brick wall with a stone pilaster on the left edge and green moss at the base",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/d1wldle2": {
+   "name": "d1wldle2",
+   "versions": [
+    1
+   ],
+   "material": "olive-brown stacked sandstone brick wall with green moss at the base",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/d1wldle3": {
+   "name": "d1wldle3",
+   "versions": [
+    1
+   ],
+   "material": "olive-brown stacked sandstone brick wall with green moss at the base",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/d1wldre": {
+   "name": "d1wldre",
+   "versions": [
+    1
+   ],
+   "material": "olive-brown stacked sandstone brick wall with a stone pilaster on the right edge and green moss at the base",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/d1wldsp": {
+   "name": "d1wldsp",
+   "versions": [
+    1,
+    2,
+    3,
+    4
+   ],
+   "material": "olive-brown sandstone brick wall with a round barred iron drain and green slime running below",
+   "notes": {
+    "2": "No dark outline or shadow along any outer edge: every edge keeps the brightness and material of the reference's edge.",
+    "3": "Keep the outer edges exactly like the reference's edges: no darker or lighter rim, frame line or shadow on any side."
+   },
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "3": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "4": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/d2ceil1": {
+   "name": "d2ceil1",
+   "versions": [
+    1
+   ],
+   "material": "dark wooden ceiling of heavy vertical beams with deep black gaps",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/d2ceil3": {
+   "name": "d2ceil3",
+   "versions": [
+    1
+   ],
+   "material": "dark brown rough cave rock with cracks",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/d2flor4": {
+   "name": "d2flor4",
+   "versions": [
+    1
+   ],
+   "material": "irregular flagstones of grey-purple stone with dark joints",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/d2flor5": {
+   "name": "d2flor5",
+   "versions": [
+    1
+   ],
+   "material": "irregular flagstones of grey-purple stone with dark joints",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/d2wlactr": {
+   "name": "d2wlactr",
+   "versions": [
+    1
+   ],
+   "material": "dark grey-brown rough stone brick wall with dark mortar",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/d2wlare": {
+   "name": "d2wlare",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "dark grey-brown rough stone brick wall with a dark wooden post along the right edge",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "2": {
+     "left": "mm6/d2wlactr"
+    }
+   }
+  },
+  "mm6/d5flora": {
+   "name": "d5flora",
+   "versions": [
+    1
+   ],
+   "material": "mossy olive-green stone bricks with dark mortar",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/d6flora": {
+   "name": "d6flora",
+   "versions": [
+    1
+   ],
+   "material": "dark brown rough earthen cave floor with roots",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/d6wlactr": {
+   "name": "d6wlactr",
+   "versions": [
+    1
+   ],
+   "material": "dark brown rough earthen cave wall with cracks",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/graysq": {
+   "name": "graysq",
+   "versions": [
+    1
+   ],
+   "material": "plain dark grey smooth stone",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/gset04": {
+   "name": "gset04",
+   "versions": [
+    1
+   ],
+   "material": "rough reddish stone cobbles with dark joints",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/gset05": {
+   "name": "gset05",
+   "versions": [
+    1
+   ],
+   "material": "thin weathered dark wooden trim board",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/gset06": {
+   "name": "gset06",
+   "versions": [
+    1
+   ],
+   "material": "weathered grey cracked stone trim strip",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/gset07": {
+   "name": "gset07",
+   "versions": [
+    1
+   ],
+   "material": "dark blue-grey cracked rock with deep black fissures",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/oflr": {
+   "name": "oflr",
+   "versions": [
+    1
+   ],
+   "material": "polished granite squares on the diagonal, dark green-black and pale pink-grey patches, thin dark grout",
+   "notes": {},
+   "ref_blur": {
+    "1": 2.5
+   },
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/oflr1d32": {
+   "name": "oflr1d32",
+   "versions": [
+    1
+   ],
+   "material": "polished dark green-black granite tile with a thin bevelled rim",
+   "notes": {},
+   "ref_blur": {
+    "1": 2.5
+   },
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/oflr1l32": {
+   "name": "oflr1l32",
+   "versions": [
+    1,
+    2,
+    3,
+    4,
+    5
+   ],
+   "material": "polished pale pink-grey granite tile with a thin bevelled rim",
+   "notes": {
+    "4": "Warmer, more saturated pink granite with the native's mixed pink, grey and blue speckle; keep the thin dark slate border around the tile exactly as in the reference.",
+    "5": "Uniform isotropic fine multicolour speckle (pink, grey, cream, a little blue) with no clusters or diagonal streaks; keep the thin dark slate border."
+   },
+   "ref_blur": {
+    "1": 2.5,
+    "2": 2.5,
+    "3": 2.5
+   },
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "3": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "4": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "5": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "pad": {
+    "3": [
+     16,
+     4
+    ],
+    "4": [
+     16,
+     4
+    ],
+    "5": [
+     16,
+     4
+    ]
+   },
+   "context": {
+    "3": {
+     "left": "mm6/oflrl32"
+    },
+    "4": {
+     "left": "mm6/oflrl32"
+    },
+    "5": {
+     "left": "mm6/oflrl32"
+    }
+   }
+  },
+  "mm6/oflr1l64": {
+   "name": "oflr1l64",
+   "versions": [
+    1,
+    2,
+    3
+   ],
+   "material": "polished pale pink-grey granite tile with a thin bevelled rim",
+   "notes": {
+    "2": "Natural polished granite: irregular crystals of varied sizes and soft cloudy patches; absolutely no scales, cells, hexagons, net or mosaic pattern. Keep the thin bevelled rim exactly where the reference has it.",
+    "3": "Natural polished granite: irregular crystals of varied sizes and soft cloudy patches; absolutely no scales, cells, hexagons, net or mosaic pattern. Keep the thin bevelled rim exactly where the reference has it."
+   },
+   "ref_blur": {
+    "1": 2.5,
+    "2": 1.6,
+    "3": 1.6
+   },
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "3": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/oflrd32": {
+   "name": "oflrd32",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "polished dark rust-red granite tile with a thin bevelled rim",
+   "notes": {
+    "2": "Natural polished granite: irregular crystals of varied sizes and soft cloudy patches; absolutely no scales, cells, hexagons, net or mosaic pattern. Keep the thin bevelled rim exactly where the reference has it."
+   },
+   "ref_blur": {
+    "1": 2.5,
+    "2": 1.6
+   },
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/oflrd48": {
+   "name": "oflrd48",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "polished dark rust-brown granite with black crystals",
+   "notes": {
+    "2": "Natural polished granite: irregular crystals of varied sizes and soft cloudy patches; absolutely no scales, cells, hexagons, net or mosaic pattern. Keep the thin bevelled rim exactly where the reference has it."
+   },
+   "ref_blur": {
+    "1": 2.5,
+    "2": 1.6
+   },
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/oflrl32": {
+   "name": "oflrl32",
+   "versions": [
+    1
+   ],
+   "material": "polished pink-red granite tile with a thin bevelled rim",
+   "notes": {},
+   "ref_blur": {
+    "1": 2.5
+   },
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/orceil": {
+   "name": "orceil",
+   "versions": [
+    1
+   ],
+   "material": "polished pale pink-white marble with soft rose veins",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/orflr32b": {
+   "name": "orflr32b",
+   "versions": [
+    1
+   ],
+   "material": "polished rust-red granite tile with a thin dark border",
+   "notes": {},
+   "ref_blur": {
+    "1": 2.5
+   },
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/plnkdrk": {
+   "name": "plnkdrk",
+   "versions": [
+    1
+   ],
+   "material": "dark weathered vertical wooden planks with dark gaps",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/slabco2": {
+   "name": "slabco2",
+   "versions": [
+    1
+   ],
+   "material": "dark green-brown mottled stone slab with lichen",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/sndston": {
+   "name": "sndston",
+   "versions": [
+    1
+   ],
+   "material": "warm sandy ochre sandstone with soft swirling sediment layers",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/t1c2": {
+   "name": "t1c2",
+   "versions": [
+    1,
+    2,
+    3
+   ],
+   "material": "polished granite panel with dark green-black and pale grey crystals and a thin bevelled rim",
+   "notes": {
+    "2": "Natural polished granite: irregular crystals of varied sizes and soft cloudy patches; absolutely no scales, cells, hexagons, net or mosaic pattern. Keep the thin bevelled rim exactly where the reference has it.",
+    "3": "No dark outline or shadow along any outer edge: every edge keeps the brightness and material of the reference's edge."
+   },
+   "ref_blur": {
+    "1": 2.5,
+    "2": 1.6,
+    "3": 1.6
+   },
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "3": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  }
+ }
+}

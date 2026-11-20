@@ -1,0 +1,851 @@
+{
+  "pickups": [
+    {
+      "model": "hes_colony_satchel",
+      "event": 750,
+      "room": "vestibule",
+      "position": [
+        4430,
+        250,
+        0
+      ]
+    },
+    {
+      "model": "hes_colony_satchel",
+      "event": 751,
+      "room": "vestibule",
+      "position": [
+        5170,
+        450,
+        0
+      ]
+    },
+    {
+      "model": "hes_colony_satchel",
+      "event": 752,
+      "room": "guard",
+      "position": [
+        3340,
+        2050,
+        0
+      ]
+    },
+    {
+      "model": "hes_colony_satchel",
+      "event": 753,
+      "room": "guard",
+      "position": [
+        6260,
+        2100,
+        0
+      ]
+    },
+    {
+      "model": "hes_colony_satchel",
+      "event": 754,
+      "room": "guard",
+      "position": [
+        3500,
+        3070,
+        0
+      ]
+    },
+    {
+      "model": "hes_colony_satchel",
+      "event": 755,
+      "room": "guard",
+      "position": [
+        6070,
+        3100,
+        0
+      ]
+    },
+    {
+      "model": "hes_colony_satchel",
+      "event": 756,
+      "room": "galleries",
+      "position": [
+        1950,
+        5760,
+        -512
+      ]
+    },
+    {
+      "model": "hes_colony_satchel",
+      "event": 757,
+      "room": "galleries",
+      "position": [
+        4120,
+        5140,
+        -512
+      ]
+    },
+    {
+      "model": "hes_colony_satchel",
+      "event": 758,
+      "room": "galleries",
+      "position": [
+        6350,
+        5140,
+        -512
+      ]
+    },
+    {
+      "model": "hes_colony_satchel",
+      "event": 759,
+      "room": "galleries",
+      "position": [
+        7800,
+        5760,
+        -512
+      ]
+    },
+    {
+      "model": "hes_colony_satchel",
+      "event": 760,
+      "room": "t1",
+      "position": [
+        1900,
+        6180,
+        -512
+      ]
+    },
+    {
+      "model": "hes_colony_satchel",
+      "event": 761,
+      "room": "t1",
+      "position": [
+        2920,
+        7180,
+        -512
+      ]
+    },
+    {
+      "model": "hes_colony_satchel",
+      "event": 762,
+      "room": "t3",
+      "position": [
+        7680,
+        7790,
+        -512
+      ]
+    },
+    {
+      "model": "hes_colony_satchel",
+      "event": 763,
+      "room": "t3",
+      "position": [
+        7700,
+        8830,
+        -512
+      ]
+    },
+    {
+      "model": "hes_colony_satchel",
+      "event": 764,
+      "room": "tunnel",
+      "position": [
+        3320,
+        10160,
+        -512
+      ]
+    },
+    {
+      "model": "hes_colony_satchel",
+      "event": 765,
+      "room": "tunnel",
+      "position": [
+        3520,
+        11600,
+        -512
+      ]
+    },
+    {
+      "model": "hes_colony_satchel",
+      "event": 766,
+      "room": "pumps",
+      "position": [
+        8240,
+        6540,
+        -512
+      ]
+    },
+    {
+      "model": "hes_colony_satchel",
+      "event": 767,
+      "room": "pumps",
+      "position": [
+        10280,
+        6500,
+        -512
+      ]
+    },
+    {
+      "model": "hes_colony_satchel",
+      "event": 768,
+      "room": "loop",
+      "position": [
+        9770,
+        7820,
+        -512
+      ]
+    },
+    {
+      "model": "hes_colony_satchel",
+      "event": 769,
+      "room": "loop",
+      "position": [
+        11410,
+        8650,
+        -512
+      ]
+    }
+  ],
+  "arrivals": {
+    "blast_door": {
+      "position": [
+        4800,
+        300,
+        0
+      ],
+      "direction_degrees": 90
+    },
+    "service_tunnel": {
+      "position": [
+        3424,
+        12200,
+        -512
+      ],
+      "direction_degrees": 270
+    }
+  },
+  "door_ids": {
+    "inner": 1,
+    "west": 2,
+    "east": 3,
+    "t3": 4,
+    "vault": 5,
+    "service": 6,
+    "t2": 7,
+    "panel_1": 8,
+    "panel_2": 9,
+    "panel_3": 10,
+    "panel_4": 11,
+    "panel_5": 12,
+    "panel_6": 13,
+    "panel_7": 14,
+    "panel_8": 15
+  },
+  "chest_events": {
+    "30": 0,
+    "31": 1,
+    "32": 2,
+    "33": 3
+  },
+  "actors": [
+    {
+      "name": "Crown Lancers \u00d74, the node's guard",
+      "monster": 10022,
+      "group": 1,
+      "position": [
+        4350,
+        2800,
+        128
+      ],
+      "posted": true,
+      "yaw_degrees": 270,
+      "sector": 8
+    },
+    {
+      "name": "Crown Lancers \u00d74, the node's guard",
+      "monster": 10022,
+      "group": 1,
+      "position": [
+        5250,
+        2800,
+        128
+      ],
+      "posted": true,
+      "yaw_degrees": 270,
+      "sector": 9
+    },
+    {
+      "name": "Crown Lancers \u00d74, the node's guard",
+      "monster": 10022,
+      "group": 1,
+      "position": [
+        4350,
+        2920,
+        128
+      ],
+      "posted": true,
+      "yaw_degrees": 270,
+      "sector": 8
+    },
+    {
+      "name": "Crown Lancers \u00d74, the node's guard",
+      "monster": 10022,
+      "group": 1,
+      "position": [
+        5250,
+        2920,
+        128
+      ],
+      "posted": true,
+      "yaw_degrees": 270,
+      "sector": 9
+    },
+    {
+      "name": "Noble Duellist B \u00d71, the hall's officer",
+      "monster": 10041,
+      "group": 1,
+      "position": [
+        3800,
+        2900,
+        0
+      ],
+      "posted": true,
+      "yaw_degrees": 270,
+      "sector": 8
+    },
+    {
+      "name": "Spire Guards \u00d73, a fire team",
+      "monster": 10012,
+      "group": 2,
+      "position": [
+        2220,
+        5300,
+        -512
+      ],
+      "posted": false,
+      "yaw_degrees": 270,
+      "sector": 5
+    },
+    {
+      "name": "Spire Guards \u00d73, a fire team",
+      "monster": 10012,
+      "group": 2,
+      "position": [
+        2400,
+        5300,
+        -512
+      ],
+      "posted": false,
+      "yaw_degrees": 270,
+      "sector": 5
+    },
+    {
+      "name": "Spire Guards \u00d73, a fire team",
+      "monster": 10012,
+      "group": 2,
+      "position": [
+        2580,
+        5300,
+        -512
+      ],
+      "posted": false,
+      "yaw_degrees": 270,
+      "sector": 5
+    },
+    {
+      "name": "Noble Duellists B \u00d72, the galleries' watch (east stretch)",
+      "monster": 10041,
+      "group": 2,
+      "position": [
+        6520,
+        5600,
+        -512
+      ],
+      "posted": true,
+      "yaw_degrees": 270,
+      "sector": 7
+    },
+    {
+      "name": "Noble Duellists B \u00d72, the galleries' watch (east stretch)",
+      "monster": 10041,
+      "group": 2,
+      "position": [
+        6700,
+        5600,
+        -512
+      ],
+      "posted": true,
+      "yaw_degrees": 270,
+      "sector": 7
+    },
+    {
+      "name": "Spire Guards \u00d74 (alarm wave 1, hidden)",
+      "monster": 10012,
+      "group": 5,
+      "position": [
+        4120,
+        5700,
+        -512
+      ],
+      "posted": false,
+      "yaw_degrees": 270,
+      "sector": 6
+    },
+    {
+      "name": "Spire Guards \u00d74 (alarm wave 1, hidden)",
+      "monster": 10012,
+      "group": 5,
+      "position": [
+        4300,
+        5700,
+        -512
+      ],
+      "posted": false,
+      "yaw_degrees": 270,
+      "sector": 6
+    },
+    {
+      "name": "Spire Guards \u00d74 (alarm wave 1, hidden)",
+      "monster": 10012,
+      "group": 5,
+      "position": [
+        4480,
+        5700,
+        -512
+      ],
+      "posted": false,
+      "yaw_degrees": 270,
+      "sector": 6
+    },
+    {
+      "name": "Spire Guards \u00d74 (alarm wave 1, hidden)",
+      "monster": 10012,
+      "group": 5,
+      "position": [
+        4120,
+        5520,
+        -512
+      ],
+      "posted": false,
+      "yaw_degrees": 270,
+      "sector": 6
+    },
+    {
+      "name": "Spire Guards \u00d74 (alarm wave 2, hidden, 30 s later)",
+      "monster": 10012,
+      "group": 6,
+      "position": [
+        7320,
+        5430,
+        -512
+      ],
+      "posted": false,
+      "yaw_degrees": 270,
+      "sector": 7
+    },
+    {
+      "name": "Spire Guards \u00d74 (alarm wave 2, hidden, 30 s later)",
+      "monster": 10012,
+      "group": 6,
+      "position": [
+        7500,
+        5430,
+        -512
+      ],
+      "posted": false,
+      "yaw_degrees": 270,
+      "sector": 7
+    },
+    {
+      "name": "Spire Guards \u00d74 (alarm wave 2, hidden, 30 s later)",
+      "monster": 10012,
+      "group": 6,
+      "position": [
+        7680,
+        5430,
+        -512
+      ],
+      "posted": false,
+      "yaw_degrees": 270,
+      "sector": 7
+    },
+    {
+      "name": "Spire Guards \u00d74 (alarm wave 2, hidden, 30 s later)",
+      "monster": 10012,
+      "group": 6,
+      "position": [
+        7320,
+        5610,
+        -512
+      ],
+      "posted": false,
+      "yaw_degrees": 270,
+      "sector": 7
+    },
+    {
+      "name": "Crown Sentinels \u00d72 at T1",
+      "monster": 10057,
+      "group": 3,
+      "position": [
+        1960,
+        6650,
+        -512
+      ],
+      "posted": true,
+      "yaw_degrees": 270,
+      "sector": 15
+    },
+    {
+      "name": "Crown Sentinels \u00d72 at T1",
+      "monster": 10057,
+      "group": 3,
+      "position": [
+        2240,
+        6650,
+        -512
+      ],
+      "posted": true,
+      "yaw_degrees": 270,
+      "sector": 15
+    },
+    {
+      "name": "Crown Sentinels \u00d72 at T3",
+      "monster": 10057,
+      "group": 3,
+      "position": [
+        7260,
+        8000,
+        -512
+      ],
+      "posted": true,
+      "yaw_degrees": 270,
+      "sector": 17
+    },
+    {
+      "name": "Crown Sentinels \u00d72 at T3",
+      "monster": 10057,
+      "group": 3,
+      "position": [
+        7540,
+        8000,
+        -512
+      ],
+      "posted": true,
+      "yaw_degrees": 270,
+      "sector": 17
+    },
+    {
+      "name": "The Coil Keeper (10108)",
+      "monster": 10108,
+      "group": 9,
+      "position": [
+        4800,
+        6716,
+        -512
+      ],
+      "posted": true,
+      "yaw_degrees": 270,
+      "sector": 1
+    },
+    {
+      "name": "Crown Lancers \u00d74, the Keeper's guard (the corner pockets)",
+      "monster": 10022,
+      "group": 4,
+      "position": [
+        3650,
+        6450,
+        -512
+      ],
+      "posted": true,
+      "yaw_degrees": 270,
+      "sector": 1
+    },
+    {
+      "name": "Crown Lancers \u00d74, the Keeper's guard (the corner pockets)",
+      "monster": 10022,
+      "group": 4,
+      "position": [
+        5950,
+        6450,
+        -512
+      ],
+      "posted": true,
+      "yaw_degrees": 270,
+      "sector": 2
+    },
+    {
+      "name": "Crown Lancers \u00d74, the Keeper's guard (the corner pockets)",
+      "monster": 10022,
+      "group": 4,
+      "position": [
+        3650,
+        8782,
+        -512
+      ],
+      "posted": true,
+      "yaw_degrees": 270,
+      "sector": 3
+    },
+    {
+      "name": "Crown Lancers \u00d74, the Keeper's guard (the corner pockets)",
+      "monster": 10022,
+      "group": 4,
+      "position": [
+        5950,
+        8782,
+        -512
+      ],
+      "posted": true,
+      "yaw_degrees": 270,
+      "sector": 4
+    },
+    {
+      "name": "Spire Guards \u00d74, the pump crew's guard",
+      "monster": 10012,
+      "group": 10,
+      "position": [
+        8570,
+        5450,
+        -512
+      ],
+      "posted": false,
+      "yaw_degrees": 270,
+      "sector": 12
+    },
+    {
+      "name": "Spire Guards \u00d74, the pump crew's guard",
+      "monster": 10012,
+      "group": 10,
+      "position": [
+        8750,
+        5450,
+        -512
+      ],
+      "posted": false,
+      "yaw_degrees": 270,
+      "sector": 12
+    },
+    {
+      "name": "Spire Guards \u00d74, the pump crew's guard",
+      "monster": 10012,
+      "group": 10,
+      "position": [
+        8930,
+        5450,
+        -512
+      ],
+      "posted": false,
+      "yaw_degrees": 270,
+      "sector": 12
+    },
+    {
+      "name": "Spire Guards \u00d74, the pump crew's guard",
+      "monster": 10012,
+      "group": 10,
+      "position": [
+        8390,
+        5450,
+        -512
+      ],
+      "posted": false,
+      "yaw_degrees": 270,
+      "sector": 12
+    },
+    {
+      "name": "Spire Guards \u00d73 and a Court Noble C, the loop's watch",
+      "monster": 10012,
+      "group": 11,
+      "position": [
+        11300,
+        7730.0,
+        -512
+      ],
+      "posted": false,
+      "yaw_degrees": 270,
+      "sector": 10
+    },
+    {
+      "name": "Spire Guards \u00d73 and a Court Noble C, the loop's watch",
+      "monster": 10012,
+      "group": 11,
+      "position": [
+        11300,
+        7910.0,
+        -512
+      ],
+      "posted": false,
+      "yaw_degrees": 270,
+      "sector": 10
+    },
+    {
+      "name": "Spire Guards \u00d73 and a Court Noble C, the loop's watch",
+      "monster": 10012,
+      "group": 11,
+      "position": [
+        11300,
+        8090.0,
+        -512
+      ],
+      "posted": false,
+      "yaw_degrees": 270,
+      "sector": 11
+    },
+    {
+      "name": "Spire Guards \u00d73 and a Court Noble C, the loop's watch",
+      "monster": 10042,
+      "group": 11,
+      "position": [
+        11300,
+        8270.0,
+        -512
+      ],
+      "posted": false,
+      "yaw_degrees": 270,
+      "sector": 11
+    },
+    {
+      "name": "Crown Sentinels \u00d72 at T2",
+      "monster": 10057,
+      "group": 3,
+      "position": [
+        8160,
+        8600,
+        -512
+      ],
+      "posted": true,
+      "yaw_degrees": 270,
+      "sector": 16
+    },
+    {
+      "name": "Crown Sentinels \u00d72 at T2",
+      "monster": 10057,
+      "group": 3,
+      "position": [
+        8440,
+        8420,
+        -512
+      ],
+      "posted": true,
+      "yaw_degrees": 270,
+      "sector": 16
+    }
+  ],
+  "couplings": [
+    [
+      4800,
+      8416
+    ],
+    [
+      5493,
+      7216
+    ],
+    [
+      4107,
+      7216
+    ]
+  ],
+  "vents": [
+    [
+      9900,
+      7100
+    ],
+    [
+      11300,
+      7100
+    ],
+    [
+      11300,
+      9000
+    ],
+    [
+      9900,
+      9000
+    ]
+  ],
+  "arc_light_positions": [
+    [
+      3000,
+      5472,
+      -420
+    ],
+    [
+      5900,
+      5472,
+      -420
+    ],
+    [
+      7300,
+      5472,
+      -420
+    ]
+  ],
+  "pending_dressing": "Two valves and ten frost drifts await position approval; Crown exits await out4_build.json.",
+  "map": "hes_d06.blv",
+  "events": {
+    "51": "inner",
+    "52": "west",
+    "54": "t3",
+    "53": "east",
+    "55": "vault",
+    "56": "service",
+    "58": "t2",
+    "50": "exit_vestibule",
+    "57": "exit_tunnel",
+    "70": "pylon_niche",
+    "10": "duty",
+    "11": "arc_warning",
+    "12": "heart_plate",
+    "71": "arc_0_galleries_0",
+    "72": "arc_1_galleries_1",
+    "73": "arc_2_galleries_2",
+    "80": "terminal_t1",
+    "82": "terminal_t3",
+    "90": "heart_0",
+    "85": "coupling_0",
+    "86": "coupling_1",
+    "87": "coupling_2",
+    "81": "terminal_t2",
+    "13": "coolant_gauge",
+    "100": "vent_0_loop_0",
+    "101": "vent_1_loop_0",
+    "102": "vent_2_loop_1",
+    "103": "vent_3_loop_1",
+    "152": "core_entry_west_core_0"
+  },
+  "decorations": 53,
+  "sectors": [
+    "room_core_0",
+    "room_core_1",
+    "room_core_2",
+    "room_core_3",
+    "room_galleries_0",
+    "room_galleries_1",
+    "room_galleries_2",
+    "room_guard_0",
+    "room_guard_1",
+    "room_loop_0",
+    "room_loop_1",
+    "room_pumps_0",
+    "room_pumps_1",
+    "room_ramp",
+    "room_t1",
+    "room_t2",
+    "room_t3",
+    "room_tunnel_0",
+    "room_tunnel_1",
+    "room_vault",
+    "room_vestibule"
+  ],
+  "doors": {
+    "inner": 1,
+    "west": 2,
+    "t3": 4,
+    "east": 3,
+    "vault": 5,
+    "service": 6,
+    "t2": 7,
+    "panel_1": 8,
+    "panel_2": 9,
+    "panel_3": 10,
+    "panel_4": 11,
+    "panel_5": 12,
+    "panel_6": 13,
+    "panel_7": 14,
+    "panel_8": 15
+  }
+}

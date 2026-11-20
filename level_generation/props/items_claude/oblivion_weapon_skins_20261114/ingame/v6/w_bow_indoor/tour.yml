@@ -1,0 +1,67 @@
+output_dir: /home/pjasicek/github/OpenYAMM/level_generation/props/items_claude/oblivion_weapon_skins_20261114/ingame/v6/w_bow_indoor
+exit: true
+steps:
+  - wait: 3
+  - console: viewmodel kit bow w_bow.glb 0
+  - wait: 2
+  - console: viewmodel tier 0
+  - wait: 1.2
+  - capture: t0_idle
+  - console: viewmodel pose bowattack 0.9
+  - wait: 0.5
+  - capture: t0_swing
+  - console: viewmodel pose bowattack 1.37
+  - wait: 0.5
+  - capture: t0_swing2
+  - console: viewmodel pose off
+  - console: viewmodel tier 1
+  - wait: 1.2
+  - capture: t1_idle
+  - console: viewmodel pose bowattack 0.9
+  - wait: 0.5
+  - capture: t1_swing
+  - console: viewmodel pose bowattack 1.37
+  - wait: 0.5
+  - capture: t1_swing2
+  - console: viewmodel pose off
+  - console: viewmodel tier 2
+  - wait: 1.2
+  - capture: t2_idle
+  - console: viewmodel pose bowattack 0.9
+  - wait: 0.5
+  - capture: t2_swing
+  - console: viewmodel pose bowattack 1.37
+  - wait: 0.5
+  - capture: t2_swing2
+  - console: viewmodel pose off
+  - console: viewmodel tier 3
+  - wait: 1.2
+  - capture: t3_idle
+  - console: viewmodel pose bowattack 0.9
+  - wait: 0.5
+  - capture: t3_swing
+  - console: viewmodel pose bowattack 1.37
+  - wait: 0.5
+  - capture: t3_swing2
+  - console: viewmodel pose off
+  - console: viewmodel tier 4
+  - wait: 1.2
+  - capture: t4_idle
+  - console: viewmodel pose bowattack 0.9
+  - wait: 0.5
+  - capture: t4_swing
+  - console: viewmodel pose bowattack 1.37
+  - wait: 0.5
+  - capture: t4_swing2
+  - console: viewmodel pose off
+  - console: viewmodel tier auto
+  - console: viewmodel weapons ours
+  - console: viewmodel held item056
+  - wait: 2
+  - capture: ours_idle
+  - console: viewmodel pose bowattack 0.9
+  - wait: 0.5
+  - capture: ours_swing
+  - console: viewmodel pose bowattack 1.37
+  - wait: 0.5
+  - capture: ours_swing2

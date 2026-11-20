@@ -1,0 +1,33 @@
+# MM9's defeat rule (world.yml partyDeath `when`, from MM9's cshell.dll game.cpp 0x100a4e50): a defeat wakes the party
+# in Arslegard City only with keys 97 (Sven fell at Yorwick) and 29 (Forad joined) and either without 98 (Hanndl's
+# first refusal still to come: FateMan sends it to the Dark Passageway) or with 100 (the Writ of Fate). Any other
+# defeat is MM9's game over (LoseGame, then the autosave; headless reports it and loads nothing): before Chapter III,
+# and after Hanndl's refusal until the Writ, so a party never gets into Arslegard early (found 2026-11-09).
+#   ./build/game/openyamm --headless-run-scenario tests/scenarios/mm9/defeat_arslegard_rule.yml --scenario-no-color
+id: mm9.defeat_arslegard_rule
+title: "MM9 defeat: game over before Chapter III and between Hanndl's refusal and the Writ; Arslegard otherwise"
+world: mm9
+mode: faithful
+tags: [mm9, defeat]
+steps:
+  - new_game_flow:
+      start_map: guberland.blv
+      party:
+        gold: 1000
+        food: 10
+        members:
+          - {name: Knight, class: Knight, level: 20, skills: [{name: Sword, level: 4, mastery: 1}], equipment: {}}
+  - advance_runtime: {seconds: 1}
+  # Chapters I and II (no key 97): lost.
+  - party_defeat: {knock_out: true, wait_seconds: 5, expect_game_over: true}
+  # Sven fell and Forad joined, Hanndl has not yet refused the party: Arslegard (his refusal plays there).
+  - lua_event: {source: "evt.SetQuestBit(90097) evt.SetQuestBit(90029)"}
+  - party_defeat: {knock_out: true, wait_seconds: 5, expect_map: arslegardcity.blv}
+  # The wake heals the party and takes nothing: its gold is kept (world.yml partyDeath keepGold).
+  - assert: {qbit_clear: [90098, 90100], gold: 1000}
+  # After Hanndl's refusal and before the Writ: lost (in our build it used to wake inside the gate).
+  - lua_event: {source: "evt.SetQuestBit(90098)"}
+  - party_defeat: {knock_out: true, wait_seconds: 5, expect_game_over: true}
+  # With the Writ of Fate: Arslegard again.
+  - lua_event: {source: "evt.SetQuestBit(90100)"}
+  - party_defeat: {knock_out: true, wait_seconds: 5, expect_map: arslegardcity.blv}

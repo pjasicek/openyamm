@@ -37,14 +37,14 @@ ROOT = Path(__file__).resolve().parent.parent
 SKY = "engine/rendering/sky"
 SOURCES = ROOT / "assets_source" / SKY
 PROFILES = {"desktop": ("bc7", ROOT / "assets_dev"), "android": ("astc_4x4", ROOT / "assets_cooked/android")}
-# SkyRenderer draws the moon disc from this texture in every preset.
+# SkyRenderer draws the moon disc from this texture unless a preset names its own (moon_texture).
 MOON = "moon"
 # Bump when the cooker's output for the same inputs changes.
 COOK_REVISION = 1
 
 
 def panoramas(assets):
-    """Texture names drawn without mips: every horizon_ring or stars texture in sky.yml, and the moon."""
+    """Texture names drawn without mips: every horizon_ring or stars texture in sky.yml, and the moons."""
     names = {MOON}
 
     def visit(node):
@@ -52,6 +52,8 @@ def panoramas(assets):
             for key, value in node.items():
                 if key in ("horizon_ring", "stars") and isinstance(value, dict) and value.get("texture"):
                     names.add(value["texture"])
+                if key == "moon_texture" and isinstance(value, str):
+                    names.add(value)
                 visit(value)
         elif isinstance(node, list):
             for value in node:

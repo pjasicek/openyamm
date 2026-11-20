@@ -1,0 +1,34 @@
+# Rolls use the deterministic new-game seed (1 gold, 2 item, 3 empty); item delivery remains a desktop check.
+# Native picking in each stat supply group and two separated satchel spots; used state survives save/reload.
+id: hesper.d03.pickups
+world: hesper
+mode: faithful
+steps:
+- new_game_flow: {start_map: hes_d03.blv}
+- assert: {state_dump_named_map_var: {name: HesperPickups.Rolled, value: 1}}
+- set_pose: {map: hes_d03.blv, x: 4150, y: -410, z: -1536, yaw: 1.5707963, pitch: -0.4}
+- press_interact: {expect: {kind: event_target, target_kind: 2, name: "Serum vat"}}
+- assert: {state_dump_named_map_var: {name: HesperPickups.701, value: 8}}
+- set_pose: {map: hes_d03.blv, x: 4140, y: 4150, z: -768, yaw: 0, pitch: -0.4}
+- press_interact: {expect: {kind: event_target, target_kind: 2, name: "Serum vat"}}
+- assert: {state_dump_named_map_var: {name: HesperPickups.705, value: 8}}
+- set_pose: {map: hes_d03.blv, x: 1440, y: 4900, z: 0, yaw: 0, pitch: -0.4}
+- press_interact: {expect: {kind: event_target, target_kind: 2, name: "Serum vat"}}
+- assert: {state_dump_named_map_var: {name: HesperPickups.707, value: 8}}
+- set_pose: {map: hes_d03.blv, x: 8020, y: 2900, z: 0, yaw: 1.5707963, pitch: -0.7}
+- press_interact: {expect: {kind: event_target, target_kind: 2, name: "Scrap bundle"}}
+- assert: {state_dump_named_map_var: {name: HesperPickups.751, value: 1}}
+- set_pose: {map: hes_d03.blv, x: 1500, y: -1120, z: -1536, yaw: -1.5707963, pitch: -0.7}
+- press_interact: {expect: {kind: event_target, target_kind: 2, name: "Scrap bundle"}}
+- assert: {state_dump_named_map_var: {name: HesperPickups.764, value: 2}}
+- save_game: {name: d03_pickups}
+- load_game: {name: d03_pickups}
+- assert: {state_dump_named_map_var: {name: HesperPickups.Rolled, value: 1}}
+- assert: {state_dump_named_map_var: {name: HesperPickups.701, value: 8}}
+- assert: {state_dump_named_map_var: {name: HesperPickups.705, value: 8}}
+- assert: {state_dump_named_map_var: {name: HesperPickups.707, value: 8}}
+- assert: {state_dump_named_map_var: {name: HesperPickups.751, value: 1}}
+- assert: {state_dump_named_map_var: {name: HesperPickups.764, value: 2}}
+- set_pose: {map: hes_d03.blv, x: 1500, y: -1120, z: -1536, yaw: -1.5707963, pitch: -0.7}
+- press_interact: {}
+- assert: {state_dump_named_map_var: {name: HesperPickups.764, value: 2}}

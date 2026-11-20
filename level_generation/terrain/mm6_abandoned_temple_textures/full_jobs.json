@@ -1,0 +1,800 @@
+[
+  {
+    "name": "beamplnv",
+    "batch": 2,
+    "reference": "/home/pjasicek/github/OpenYAMM/level_generation/terrain/mm6_abandoned_temple_textures/references/beamplnv_canvas.png",
+    "padding": [
+      0.375,
+      0.0,
+      0.625,
+      1.0
+    ],
+    "prompt": "/home/pjasicek/github/OpenYAMM/level_generation/terrain/mm6_abandoned_temple_textures/prompts/beamplnv_full_v1.txt",
+    "runtime_size": [
+      64,
+      512
+    ],
+    "description": "Narrow vertical dark oak beam, fine vertical grain, no new nails or ornament; continuous with beamplnh.",
+    "continuity": "vertical repeat"
+  },
+  {
+    "name": "wywl",
+    "batch": 3,
+    "reference": "/home/pjasicek/github/OpenYAMM/level_generation/terrain/mm6_abandoned_temple_textures/references/wywl_native.png",
+    "padding": null,
+    "prompt": "/home/pjasicek/github/OpenYAMM/level_generation/terrain/mm6_abandoned_temple_textures/prompts/wywl_full_v1.txt",
+    "runtime_size": [
+      512,
+      1024
+    ],
+    "description": "Warm ochre plaster wall, dark brown horizontal wooden dado only at the bottom; preserve exact boundary height and trim lines.",
+    "continuity": "horizontal repeat"
+  },
+  {
+    "name": "d2flor5",
+    "batch": 1,
+    "reference": "/home/pjasicek/github/OpenYAMM/level_generation/terrain/mm6_abandoned_temple_textures/references/d2flor5_native.png",
+    "padding": null,
+    "prompt": "/home/pjasicek/github/OpenYAMM/level_generation/terrain/mm6_abandoned_temple_textures/prompts/d2flor5_full_v1.txt",
+    "runtime_size": [
+      256,
+      256
+    ],
+    "description": "Irregular large purplish brown polygon paving stones with very dark mortar; trace every large original polygon.",
+    "continuity": "both axes"
+  },
+  {
+    "name": "crdrf2",
+    "batch": 1,
+    "reference": "/home/pjasicek/github/OpenYAMM/level_generation/terrain/mm6_abandoned_temple_textures/references/crdrf2_native.png",
+    "padding": null,
+    "prompt": "/home/pjasicek/github/OpenYAMM/level_generation/terrain/mm6_abandoned_temple_textures/prompts/crdrf2_full_v1.txt",
+    "runtime_size": [
+      256,
+      256
+    ],
+    "description": "Dense ochre brown soil and small gritty rubble; subtle fine stone and earth details, no distinct oversized rocks.",
+    "continuity": "both axes"
+  },
+  {
+    "name": "d2ceil1",
+    "batch": 1,
+    "reference": "/home/pjasicek/github/OpenYAMM/level_generation/terrain/mm6_abandoned_temple_textures/references/d2ceil1_native.png",
+    "padding": null,
+    "prompt": "/home/pjasicek/github/OpenYAMM/level_generation/terrain/mm6_abandoned_temple_textures/prompts/d2ceil1_full_v1.txt",
+    "runtime_size": [
+      512,
+      512
+    ],
+    "description": "Dark brown timber ceiling with parallel vertical structural beams and darker horizontal wooden backing planks. Preserve exact beam spacing and positions.",
+    "continuity": "both axes"
+  },
+  {
+    "name": "wltil2",
+    "batch": 1,
+    "reference": "/home/pjasicek/github/OpenYAMM/level_generation/terrain/mm6_abandoned_temple_textures/references/wltil2_native.png",
+    "padding": null,
+    "prompt": "/home/pjasicek/github/OpenYAMM/level_generation/terrain/mm6_abandoned_temple_textures/prompts/wltil2_full_v1.txt",
+    "runtime_size": [
+      512,
+      512
+    ],
+    "description": "Warm pale ochre granular plaster, uniform subtle natural texture. Match wywl plaster exactly, no brickwork.",
+    "continuity": "both axes"
+  },
+  {
+    "name": "d5flora",
+    "batch": 1,
+    "reference": "/home/pjasicek/github/OpenYAMM/level_generation/terrain/mm6_abandoned_temple_textures/references/d5flora_native.png",
+    "padding": null,
+    "prompt": "/home/pjasicek/github/OpenYAMM/level_generation/terrain/mm6_abandoned_temple_textures/prompts/d5flora_full_v1.txt",
+    "runtime_size": [
+      256,
+      256
+    ],
+    "description": "Old olive green stone blocks in horizontal staggered courses. Preserve every stone course and dark mortar, no foliage.",
+    "continuity": "both axes"
+  },
+  {
+    "name": "ctflor4",
+    "batch": 1,
+    "reference": "/home/pjasicek/github/OpenYAMM/level_generation/terrain/mm6_abandoned_temple_textures/references/ctflor4_native.png",
+    "padding": null,
+    "prompt": "/home/pjasicek/github/OpenYAMM/level_generation/terrain/mm6_abandoned_temple_textures/prompts/ctflor4_full_v1.txt",
+    "runtime_size": [
+      256,
+      256
+    ],
+    "description": "Four blue-grey decorative ceramic quarter tiles with light blue organic floral curls on near-black stone. Follow every original quadrant and fine dark grout cross.",
+    "continuity": "both axes"
+  },
+  {
+    "name": "cekr4",
+    "batch": 1,
+    "reference": "/home/pjasicek/github/OpenYAMM/level_generation/terrain/mm6_abandoned_temple_textures/references/cekr4_native.png",
+    "padding": null,
+    "prompt": "/home/pjasicek/github/OpenYAMM/level_generation/terrain/mm6_abandoned_temple_textures/prompts/cekr4_full_v1.txt",
+    "runtime_size": [
+      256,
+      256
+    ],
+    "description": "Exactly four by four alternating grey ivory and brown dark checkerboard stone squares, preserve original grid and colours.",
+    "continuity": "both axes"
+  },
+  {
+    "name": "wywl2",
+    "batch": 3,
+    "reference": "/home/pjasicek/github/OpenYAMM/level_generation/terrain/mm6_abandoned_temple_textures/references/wywl2_native.png",
+    "padding": null,
+    "prompt": "/home/pjasicek/github/OpenYAMM/level_generation/terrain/mm6_abandoned_temple_textures/prompts/wywl2_full_v1.txt",
+    "runtime_size": [
+      512,
+      256
+    ],
+    "description": "Warm ochre plaster above dark brown wooden dado. Preserve exact plaster to trim to wood proportions and horizontal line heights; match wywl.",
+    "continuity": "horizontal repeat"
+  },
+  {
+    "name": "slabco2",
+    "batch": 1,
+    "reference": "/home/pjasicek/github/OpenYAMM/level_generation/terrain/mm6_abandoned_temple_textures/references/slabco2_native.png",
+    "padding": null,
+    "prompt": "/home/pjasicek/github/OpenYAMM/level_generation/terrain/mm6_abandoned_temple_textures/prompts/slabco2_full_v1.txt",
+    "runtime_size": [
+      512,
+      512
+    ],
+    "description": "Dark weathered brown grey stone slabs, fine gritty surface, subtle large slab outlines at exact reference locations.",
+    "continuity": "both axes"
+  },
+  {
+    "name": "gset06",
+    "batch": 3,
+    "reference": "/home/pjasicek/github/OpenYAMM/level_generation/terrain/mm6_abandoned_temple_textures/references/gset06_canvas.png",
+    "padding": [
+      0.0,
+      0.375,
+      1.0,
+      0.625
+    ],
+    "prompt": "/home/pjasicek/github/OpenYAMM/level_generation/terrain/mm6_abandoned_temple_textures/prompts/gset06_full_v1.txt",
+    "runtime_size": [
+      512,
+      64
+    ],
+    "description": "Narrow pale grey irregular flagstone decorative band, exactly matching original segment arrangement and dark mortar.",
+    "continuity": "horizontal repeat"
+  },
+  {
+    "name": "d1wldle3",
+    "batch": 4,
+    "reference": "/home/pjasicek/github/OpenYAMM/level_generation/terrain/mm6_abandoned_temple_textures/references/d1wldle3_native.png",
+    "padding": null,
+    "prompt": "/home/pjasicek/github/OpenYAMM/level_generation/terrain/mm6_abandoned_temple_textures/prompts/d1wldle3_full_v1.txt",
+    "runtime_size": [
+      512,
+      512
+    ],
+    "description": "Rough olive grey sandstone brick wall with slim straight vertical raised masonry border in exact original x position. Preserve course heights.",
+    "continuity": "vertical repeat; keep authored left/right border"
+  },
+  {
+    "name": "ch1side",
+    "batch": 5,
+    "reference": "/home/pjasicek/github/OpenYAMM/level_generation/terrain/mm6_abandoned_temple_textures/references/ch1side_native.png",
+    "padding": null,
+    "prompt": "/home/pjasicek/github/OpenYAMM/level_generation/terrain/mm6_abandoned_temple_textures/prompts/ch1side_full_v1.txt",
+    "runtime_size": [
+      128,
+      128
+    ],
+    "description": "Side panel of small medieval chest: pale blue grey horizontal wood planks, brown black riveted frame, central square black inset fitting. Keep exact panel dimensions and all hardware locations.",
+    "continuity": "finite chest panel"
+  },
+  {
+    "name": "celtile",
+    "batch": 3,
+    "reference": "/home/pjasicek/github/OpenYAMM/level_generation/terrain/mm6_abandoned_temple_textures/references/celtile_native.png",
+    "padding": null,
+    "prompt": "/home/pjasicek/github/OpenYAMM/level_generation/terrain/mm6_abandoned_temple_textures/prompts/celtile_full_v1.txt",
+    "runtime_size": [
+      256,
+      128
+    ],
+    "description": "Dark olive tan stone tile band with angular Celtic knot motif in very dark brown. Trace exact original knot and border positions.",
+    "continuity": "horizontal repeat"
+  },
+  {
+    "name": "graysq",
+    "batch": 3,
+    "reference": "/home/pjasicek/github/OpenYAMM/level_generation/terrain/mm6_abandoned_temple_textures/references/graysq_native.png",
+    "padding": null,
+    "prompt": "/home/pjasicek/github/OpenYAMM/level_generation/terrain/mm6_abandoned_temple_textures/prompts/graysq_full_v1.txt",
+    "runtime_size": [
+      128,
+      128
+    ],
+    "description": "Very dark plain mottled grey brown flat stone square, subtle gritty detail, no new lines or large features.",
+    "continuity": "both axes"
+  },
+  {
+    "name": "gset04",
+    "batch": 3,
+    "reference": "/home/pjasicek/github/OpenYAMM/level_generation/terrain/mm6_abandoned_temple_textures/references/gset04_native.png",
+    "padding": null,
+    "prompt": "/home/pjasicek/github/OpenYAMM/level_generation/terrain/mm6_abandoned_temple_textures/prompts/gset04_full_v1.txt",
+    "runtime_size": [
+      256,
+      256
+    ],
+    "description": "Pale weathered irregular limestone cobbles with dark earthy mortar, match every original large cobble outline.",
+    "continuity": "both axes"
+  },
+  {
+    "name": "beamplnh",
+    "batch": 2,
+    "reference": "/home/pjasicek/github/OpenYAMM/level_generation/terrain/mm6_abandoned_temple_textures/references/beamplnh_canvas.png",
+    "padding": [
+      0.0,
+      0.375,
+      1.0,
+      0.625
+    ],
+    "prompt": "/home/pjasicek/github/OpenYAMM/level_generation/terrain/mm6_abandoned_temple_textures/prompts/beamplnh_full_v1.txt",
+    "runtime_size": [
+      512,
+      64
+    ],
+    "description": "Narrow horizontal dark oak beam, fine horizontal grain, exactly the same dark oak colour as beamplnv.",
+    "continuity": "horizontal repeat"
+  },
+  {
+    "name": "bemhwal1",
+    "batch": 2,
+    "reference": "/home/pjasicek/github/OpenYAMM/level_generation/terrain/mm6_abandoned_temple_textures/references/bemhwal1_native.png",
+    "padding": null,
+    "prompt": "/home/pjasicek/github/OpenYAMM/level_generation/terrain/mm6_abandoned_temple_textures/prompts/bemhwal1_full_v1.txt",
+    "runtime_size": [
+      512,
+      256
+    ],
+    "description": "Two long horizontal reddish dark timber boards separated by fine narrow seam at reference location. Fine grain without dramatic highlights. Match reddish wooden trim family.",
+    "continuity": "both axes"
+  },
+  {
+    "name": "d2flor4",
+    "batch": 3,
+    "reference": "/home/pjasicek/github/OpenYAMM/level_generation/terrain/mm6_abandoned_temple_textures/references/d2flor4_native.png",
+    "padding": null,
+    "prompt": "/home/pjasicek/github/OpenYAMM/level_generation/terrain/mm6_abandoned_temple_textures/prompts/d2flor4_full_v1.txt",
+    "runtime_size": [
+      256,
+      256
+    ],
+    "description": "Irregular purplish brown polygon paving stones, exact original outlines and mortar; same paving material as d2flor5.",
+    "continuity": "both axes"
+  },
+  {
+    "name": "bemdord",
+    "batch": 2,
+    "reference": "/home/pjasicek/github/OpenYAMM/level_generation/terrain/mm6_abandoned_temple_textures/references/bemdord_native.png",
+    "padding": null,
+    "prompt": "/home/pjasicek/github/OpenYAMM/level_generation/terrain/mm6_abandoned_temple_textures/prompts/bemdord_full_v1.txt",
+    "runtime_size": [
+      256,
+      512
+    ],
+    "description": "Tall red brown timber door of narrow vertical planks with exactly two horizontal studded cross rails at native heights. Keep rails and stud counts, no new handle.",
+    "continuity": "finite door"
+  },
+  {
+    "name": "bdksv32b",
+    "batch": 2,
+    "reference": "/home/pjasicek/github/OpenYAMM/level_generation/terrain/mm6_abandoned_temple_textures/references/bdksv32b_canvas.png",
+    "padding": [
+      0.25,
+      0.0,
+      0.75,
+      1.0
+    ],
+    "prompt": "/home/pjasicek/github/OpenYAMM/level_generation/terrain/mm6_abandoned_temple_textures/prompts/bdksv32b_full_v1.txt",
+    "runtime_size": [
+      64,
+      256
+    ],
+    "description": "Narrow reddish dark oak upright frame beam, straight fine vertical grain, unadorned. Match bemhwal1 and bdksh32b.",
+    "continuity": "vertical repeat"
+  },
+  {
+    "name": "d1wldle2",
+    "batch": 4,
+    "reference": "/home/pjasicek/github/OpenYAMM/level_generation/terrain/mm6_abandoned_temple_textures/references/d1wldle2_native.png",
+    "padding": null,
+    "prompt": "/home/pjasicek/github/OpenYAMM/level_generation/terrain/mm6_abandoned_temple_textures/prompts/d1wldle2_full_v1.txt",
+    "runtime_size": [
+      512,
+      512
+    ],
+    "description": "Rough olive grey sandstone brick wall with slim straight vertical masonry border at exact reference x position. Match d1wldle3 stone courses.",
+    "continuity": "vertical repeat; keep authored left/right border"
+  },
+  {
+    "name": "ctdor2",
+    "batch": 7,
+    "reference": "/home/pjasicek/github/OpenYAMM/level_generation/terrain/mm6_abandoned_temple_textures/references/ctdor2_native.png",
+    "padding": null,
+    "prompt": "/home/pjasicek/github/OpenYAMM/level_generation/terrain/mm6_abandoned_temple_textures/prompts/ctdor2_full_v1.txt",
+    "runtime_size": [
+      512,
+      512
+    ],
+    "description": "Square double door painted warm ochre with precise central seam and dark horizontal decorative hinge straps. Preserve original knight riding a blue grey horse mural across both leaves: exact pose, proportions, banner, helmet, feet and palette. No new writing.",
+    "continuity": "finite illustrated double door"
+  },
+  {
+    "name": "gset07",
+    "batch": 3,
+    "reference": "/home/pjasicek/github/OpenYAMM/level_generation/terrain/mm6_abandoned_temple_textures/references/gset07_native.png",
+    "padding": null,
+    "prompt": "/home/pjasicek/github/OpenYAMM/level_generation/terrain/mm6_abandoned_temple_textures/prompts/gset07_full_v1.txt",
+    "runtime_size": [
+      512,
+      512
+    ],
+    "description": "Rough cool grey blue layered natural rock, trace original large fractured strata and cracks, low contrast diffuse grain.",
+    "continuity": "both axes"
+  },
+  {
+    "name": "bdksh32b",
+    "batch": 2,
+    "reference": "/home/pjasicek/github/OpenYAMM/level_generation/terrain/mm6_abandoned_temple_textures/references/bdksh32b_canvas.png",
+    "padding": [
+      0.0,
+      0.25,
+      1.0,
+      0.75
+    ],
+    "prompt": "/home/pjasicek/github/OpenYAMM/level_generation/terrain/mm6_abandoned_temple_textures/prompts/bdksh32b_full_v1.txt",
+    "runtime_size": [
+      256,
+      64
+    ],
+    "description": "Narrow red brown horizontal oak frame beam, straight fine horizontal grain, same reddish dark oak as bdksv32b and bemhwal1.",
+    "continuity": "horizontal repeat"
+  },
+  {
+    "name": "ch1tpbv",
+    "batch": 5,
+    "reference": "/home/pjasicek/github/OpenYAMM/level_generation/terrain/mm6_abandoned_temple_textures/references/ch1tpbv_native.png",
+    "padding": null,
+    "prompt": "/home/pjasicek/github/OpenYAMM/level_generation/terrain/mm6_abandoned_temple_textures/prompts/ch1tpbv_full_v1.txt",
+    "runtime_size": [
+      128,
+      128
+    ],
+    "description": "Chest lid top surface: weathered pale blue grey vertical wooden planks and narrow dark brown studded frame at sides, exact original bands and board spacing. Match chest side panel.",
+    "continuity": "finite chest panel"
+  },
+  {
+    "name": "ch1tprev",
+    "batch": 5,
+    "reference": "/home/pjasicek/github/OpenYAMM/level_generation/terrain/mm6_abandoned_temple_textures/references/ch1tprev_canvas.png",
+    "padding": [
+      0.0,
+      0.25,
+      1.0,
+      0.75
+    ],
+    "prompt": "/home/pjasicek/github/OpenYAMM/level_generation/terrain/mm6_abandoned_temple_textures/prompts/ch1tprev_full_v1.txt",
+    "runtime_size": [
+      128,
+      32
+    ],
+    "description": "Very narrow horizontal chest lid rim strip: pale blue grey vertical plank ends bordered with dark brown iron and small studs. Exact original rim layout, match chest side panel.",
+    "continuity": "finite chest rim"
+  },
+  {
+    "name": "ch1frle",
+    "batch": 5,
+    "reference": "/home/pjasicek/github/OpenYAMM/level_generation/terrain/mm6_abandoned_temple_textures/references/ch1frle_canvas.png",
+    "padding": [
+      0.25,
+      0.0,
+      0.75,
+      1.0
+    ],
+    "prompt": "/home/pjasicek/github/OpenYAMM/level_generation/terrain/mm6_abandoned_temple_textures/prompts/ch1frle_full_v1.txt",
+    "runtime_size": [
+      32,
+      128
+    ],
+    "description": "Very narrow vertical left front chest rim: weathered blue grey horizontal plank ends, dark brown studded borders, exact reference layout and corner contacts.",
+    "continuity": "finite chest rim"
+  },
+  {
+    "name": "ch1frre",
+    "batch": 5,
+    "reference": "/home/pjasicek/github/OpenYAMM/level_generation/terrain/mm6_abandoned_temple_textures/references/ch1frre_canvas.png",
+    "padding": [
+      0.25,
+      0.0,
+      0.75,
+      1.0
+    ],
+    "prompt": "/home/pjasicek/github/OpenYAMM/level_generation/terrain/mm6_abandoned_temple_textures/prompts/ch1frre_full_v1.txt",
+    "runtime_size": [
+      32,
+      128
+    ],
+    "description": "Very narrow vertical right front chest rim: weathered blue grey horizontal plank ends, dark brown studded borders, exact reference layout and corner contacts.",
+    "continuity": "finite chest rim"
+  },
+  {
+    "name": "ch1tplev",
+    "batch": 5,
+    "reference": "/home/pjasicek/github/OpenYAMM/level_generation/terrain/mm6_abandoned_temple_textures/references/ch1tplev_canvas.png",
+    "padding": [
+      0.0,
+      0.25,
+      1.0,
+      0.75
+    ],
+    "prompt": "/home/pjasicek/github/OpenYAMM/level_generation/terrain/mm6_abandoned_temple_textures/prompts/ch1tplev_full_v1.txt",
+    "runtime_size": [
+      128,
+      32
+    ],
+    "description": "Very narrow horizontal chest lid rim strip: pale blue grey vertical plank ends bordered with dark brown iron and small studs. Keep exact original orientation, match ch1tprev and chest side panel.",
+    "continuity": "finite chest rim"
+  },
+  {
+    "name": "ch1frntb",
+    "batch": 5,
+    "reference": "/home/pjasicek/github/OpenYAMM/level_generation/terrain/mm6_abandoned_temple_textures/references/ch1frntb_native.png",
+    "padding": null,
+    "prompt": "/home/pjasicek/github/OpenYAMM/level_generation/terrain/mm6_abandoned_temple_textures/prompts/ch1frntb_full_v1.txt",
+    "runtime_size": [
+      128,
+      128
+    ],
+    "description": "Front panel of chest: pale blue grey horizontal wooden planks, narrow dark brown studded frame, tiny central hanging latch at native top centre. Exact board and hardware layout.",
+    "continuity": "finite chest panel"
+  },
+  {
+    "name": "stabig2",
+    "batch": 7,
+    "reference": "/home/pjasicek/github/OpenYAMM/level_generation/terrain/mm6_abandoned_temple_textures/references/stabig2_native.png",
+    "padding": null,
+    "prompt": "/home/pjasicek/github/OpenYAMM/level_generation/terrain/mm6_abandoned_temple_textures/prompts/stabig2_full_v1.txt",
+    "runtime_size": [
+      512,
+      1024
+    ],
+    "description": "Tall ochre plaster wall section with exactly three pointed gothic stained glass windows. Trace native three-window geometry, leadwork and figures without adding extra panes; preserve top plaster, bottom horizontal wooden dado, borders and exact line heights. Match wywl family.",
+    "continuity": "finite window panel"
+  },
+  {
+    "name": "ceilbemh",
+    "batch": 2,
+    "reference": "/home/pjasicek/github/OpenYAMM/level_generation/terrain/mm6_abandoned_temple_textures/references/ceilbemh_native.png",
+    "padding": null,
+    "prompt": "/home/pjasicek/github/OpenYAMM/level_generation/terrain/mm6_abandoned_temple_textures/prompts/ceilbemh_full_v1.txt",
+    "runtime_size": [
+      512,
+      512
+    ],
+    "description": "Dark oak timber ceiling with horizontal structural beams and vertical wooden backing planks. Preserve exact positions, width and number of beams; match d2ceil1 dark oak.",
+    "continuity": "both axes"
+  },
+  {
+    "name": "ctdor4",
+    "batch": 7,
+    "reference": "/home/pjasicek/github/OpenYAMM/level_generation/terrain/mm6_abandoned_temple_textures/references/ctdor4_native.png",
+    "padding": null,
+    "prompt": "/home/pjasicek/github/OpenYAMM/level_generation/terrain/mm6_abandoned_temple_textures/prompts/ctdor4_full_v1.txt",
+    "runtime_size": [
+      256,
+      512
+    ],
+    "description": "Tall black double door with thin ornamental gold borders and exactly six circular golden wheel-like medallions in two columns, exact native leaf seam, four upper and two lower panel proportions. Keep black dark and precise frame geometry.",
+    "continuity": "finite door"
+  },
+  {
+    "name": "ch1bkre",
+    "batch": 6,
+    "reference": "/home/pjasicek/github/OpenYAMM/level_generation/terrain/mm6_abandoned_temple_textures/references/ch1bkre_canvas.png",
+    "padding": [
+      0.25,
+      0.0,
+      0.75,
+      1.0
+    ],
+    "prompt": "/home/pjasicek/github/OpenYAMM/level_generation/terrain/mm6_abandoned_temple_textures/prompts/ch1bkre_full_v1.txt",
+    "runtime_size": [
+      32,
+      128
+    ],
+    "description": "Very narrow vertical right rear chest rim: blue grey horizontal plank ends and dark brown studded border, exact reference layout.",
+    "continuity": "finite chest rim"
+  },
+  {
+    "name": "ch1bakb",
+    "batch": 5,
+    "reference": "/home/pjasicek/github/OpenYAMM/level_generation/terrain/mm6_abandoned_temple_textures/references/ch1bakb_native.png",
+    "padding": null,
+    "prompt": "/home/pjasicek/github/OpenYAMM/level_generation/terrain/mm6_abandoned_temple_textures/prompts/ch1bakb_full_v1.txt",
+    "runtime_size": [
+      128,
+      128
+    ],
+    "description": "Back chest panel: blue grey horizontal planks and dark brown narrow riveted frame, no central latch or added ornament. Match chest front and side panels.",
+    "continuity": "finite chest panel"
+  },
+  {
+    "name": "ch1bkle",
+    "batch": 6,
+    "reference": "/home/pjasicek/github/OpenYAMM/level_generation/terrain/mm6_abandoned_temple_textures/references/ch1bkle_canvas.png",
+    "padding": [
+      0.25,
+      0.0,
+      0.75,
+      1.0
+    ],
+    "prompt": "/home/pjasicek/github/OpenYAMM/level_generation/terrain/mm6_abandoned_temple_textures/prompts/ch1bkle_full_v1.txt",
+    "runtime_size": [
+      32,
+      128
+    ],
+    "description": "Very narrow vertical left rear chest rim: blue grey horizontal plank ends and dark brown studded border, exact reference layout.",
+    "continuity": "finite chest rim"
+  },
+  {
+    "name": "gset05",
+    "batch": 4,
+    "reference": "/home/pjasicek/github/OpenYAMM/level_generation/terrain/mm6_abandoned_temple_textures/references/gset05_canvas.png",
+    "padding": [
+      0.0,
+      0.4375,
+      1.0,
+      0.5625
+    ],
+    "prompt": "/home/pjasicek/github/OpenYAMM/level_generation/terrain/mm6_abandoned_temple_textures/prompts/gset05_full_v1.txt",
+    "runtime_size": [
+      512,
+      32
+    ],
+    "description": "Extremely narrow grey white decorative masonry moulding with small dark inset details, exact original band layout. Fine relief diffuse only.",
+    "continuity": "horizontal repeat"
+  },
+  {
+    "name": "ctceil1",
+    "batch": 7,
+    "reference": "/home/pjasicek/github/OpenYAMM/level_generation/terrain/mm6_abandoned_temple_textures/references/ctceil1_native.png",
+    "padding": null,
+    "prompt": "/home/pjasicek/github/OpenYAMM/level_generation/terrain/mm6_abandoned_temple_textures/prompts/ctceil1_full_v1.txt",
+    "runtime_size": [
+      256,
+      256
+    ],
+    "description": "Square ornamental painted ceiling medallion: gold central radial flower in dark blue ring, dark red geometric octagon and golden circular perimeter studs. Preserve exact native geometry and count of motifs.",
+    "continuity": "finite ceiling panel"
+  },
+  {
+    "name": "d2wlale",
+    "batch": 6,
+    "reference": "/home/pjasicek/github/OpenYAMM/level_generation/terrain/mm6_abandoned_temple_textures/references/d2wlale_native.png",
+    "padding": null,
+    "prompt": "/home/pjasicek/github/OpenYAMM/level_generation/terrain/mm6_abandoned_temple_textures/prompts/d2wlale_full_v1.txt",
+    "runtime_size": [
+      256,
+      512
+    ],
+    "description": "Dark brown thin-course masonry with a thicker upright stone pillar at the LEFT edge occupying exactly the native width. Preserve course heights; match restored d2wlactr brick palette and positions.",
+    "continuity": "vertical repeat; LEFT border distinct"
+  },
+  {
+    "name": "d2wlare",
+    "batch": 6,
+    "reference": "/home/pjasicek/github/OpenYAMM/level_generation/terrain/mm6_abandoned_temple_textures/references/d2wlare_native.png",
+    "padding": null,
+    "prompt": "/home/pjasicek/github/OpenYAMM/level_generation/terrain/mm6_abandoned_temple_textures/prompts/d2wlare_full_v1.txt",
+    "runtime_size": [
+      256,
+      512
+    ],
+    "description": "Dark brown thin-course masonry with a thicker upright stone pillar at the RIGHT edge occupying exactly the native width. Preserve course heights; match restored d2wlactr brick palette and positions.",
+    "continuity": "vertical repeat; RIGHT border distinct"
+  },
+  {
+    "name": "d2wlbmnk",
+    "batch": 6,
+    "reference": "/home/pjasicek/github/OpenYAMM/level_generation/terrain/mm6_abandoned_temple_textures/references/d2wlbmnk_native.png",
+    "padding": null,
+    "prompt": "/home/pjasicek/github/OpenYAMM/level_generation/terrain/mm6_abandoned_temple_textures/prompts/d2wlbmnk_full_v1.txt",
+    "runtime_size": [
+      512,
+      512
+    ],
+    "description": "Dark brown brick wall framing exact original circular skull wreath relief and seated hooded monk at centre. Preserve figure pose, skull count and ring size; improve carved stone detail only, no reinterpretation or new props. Match d2wlactr masonry.",
+    "continuity": "finite relief wall"
+  },
+  {
+    "name": "ctceil2",
+    "batch": 6,
+    "reference": "/home/pjasicek/github/OpenYAMM/level_generation/terrain/mm6_abandoned_temple_textures/references/ctceil2_native.png",
+    "padding": null,
+    "prompt": "/home/pjasicek/github/OpenYAMM/level_generation/terrain/mm6_abandoned_temple_textures/prompts/ctceil2_full_v1.txt",
+    "runtime_size": [
+      256,
+      256
+    ],
+    "description": "Square dark warm brown vaulted ceiling decoration, exact diagonal four ribs joining tiny central ring. Preserve native curves, proportions and subtle copper trim.",
+    "continuity": "finite ceiling panel"
+  },
+  {
+    "name": "stain512",
+    "batch": 7,
+    "reference": "/home/pjasicek/github/OpenYAMM/level_generation/terrain/mm6_abandoned_temple_textures/references/stain512_native.png",
+    "padding": null,
+    "prompt": "/home/pjasicek/github/OpenYAMM/level_generation/terrain/mm6_abandoned_temple_textures/prompts/stain512_full_v1.txt",
+    "runtime_size": [
+      1024,
+      1024
+    ],
+    "description": "Large stone checkerboard mosaic with exactly the original number of alternating small ivory-grey and dark brown squares and the irregular pale warm stained patch in original location. Match cekr4 squares at same logical scale. Preserve stain silhouette, no new motif.",
+    "continuity": "finite stained floor tile"
+  },
+  {
+    "name": "d1wldsp",
+    "batch": 4,
+    "reference": "/home/pjasicek/github/OpenYAMM/level_generation/terrain/mm6_abandoned_temple_textures/references/d1wldsp_native.png",
+    "padding": null,
+    "prompt": "/home/pjasicek/github/OpenYAMM/level_generation/terrain/mm6_abandoned_temple_textures/prompts/d1wldsp_full_v1.txt",
+    "runtime_size": [
+      512,
+      512
+    ],
+    "description": "Olive grey sandstone brick wall with exact centred round iron grate, radiating stone rim and subtle green damp stain beneath. Match d1wldle2 stone courses, keep grate dark with same grid count.",
+    "continuity": "finite inset wall"
+  },
+  {
+    "name": "bemsv32c",
+    "batch": 6,
+    "reference": "/home/pjasicek/github/OpenYAMM/level_generation/terrain/mm6_abandoned_temple_textures/references/bemsv32c_canvas.png",
+    "padding": [
+      0.25,
+      0.0,
+      0.75,
+      1.0
+    ],
+    "prompt": "/home/pjasicek/github/OpenYAMM/level_generation/terrain/mm6_abandoned_temple_textures/prompts/bemsv32c_full_v1.txt",
+    "runtime_size": [
+      64,
+      256
+    ],
+    "description": "Narrow reddish brown vertical oak beam, fine straight grain, exact native base colour. Match bemdord door frame family.",
+    "continuity": "vertical repeat"
+  },
+  {
+    "name": "d1wldle",
+    "batch": 4,
+    "reference": "/home/pjasicek/github/OpenYAMM/level_generation/terrain/mm6_abandoned_temple_textures/references/d1wldle_native.png",
+    "padding": null,
+    "prompt": "/home/pjasicek/github/OpenYAMM/level_generation/terrain/mm6_abandoned_temple_textures/prompts/d1wldle_full_v1.txt",
+    "runtime_size": [
+      256,
+      512
+    ],
+    "description": "Olive grey sandstone brick wall with slim raised stone pillar border on LEFT edge at exact reference width. Preserve original stone courses.",
+    "continuity": "vertical repeat; LEFT border distinct"
+  },
+  {
+    "name": "d1wldre",
+    "batch": 4,
+    "reference": "/home/pjasicek/github/OpenYAMM/level_generation/terrain/mm6_abandoned_temple_textures/references/d1wldre_native.png",
+    "padding": null,
+    "prompt": "/home/pjasicek/github/OpenYAMM/level_generation/terrain/mm6_abandoned_temple_textures/prompts/d1wldre_full_v1.txt",
+    "runtime_size": [
+      256,
+      512
+    ],
+    "description": "Olive grey sandstone brick wall with slim raised stone pillar border on RIGHT edge at exact reference width. Preserve original stone courses.",
+    "continuity": "vertical repeat; RIGHT border distinct"
+  },
+  {
+    "name": "bemsv32a",
+    "batch": 6,
+    "reference": "/home/pjasicek/github/OpenYAMM/level_generation/terrain/mm6_abandoned_temple_textures/references/bemsv32a_canvas.png",
+    "padding": [
+      0.25,
+      0.0,
+      0.75,
+      1.0
+    ],
+    "prompt": "/home/pjasicek/github/OpenYAMM/level_generation/terrain/mm6_abandoned_temple_textures/prompts/bemsv32a_full_v1.txt",
+    "runtime_size": [
+      64,
+      256
+    ],
+    "description": "Narrow reddish brown vertical oak beam, subtle straight grain, same family as bemsv32c; preserve difference in native colour/width.",
+    "continuity": "vertical repeat"
+  },
+  {
+    "name": "carpt01",
+    "batch": 7,
+    "reference": "/home/pjasicek/github/OpenYAMM/level_generation/terrain/mm6_abandoned_temple_textures/references/carpt01_native.png",
+    "padding": null,
+    "prompt": "/home/pjasicek/github/OpenYAMM/level_generation/terrain/mm6_abandoned_temple_textures/prompts/carpt01_full_v1.txt",
+    "runtime_size": [
+      1024,
+      512
+    ],
+    "description": "Worn rectangular deep rust red brown woven carpet with exact native patterned border and faded central geometric arrangement. Preserve all original motif locations and aspect ratio, no tassels or fringe outside canvas.",
+    "continuity": "finite carpet"
+  },
+  {
+    "name": "wywt",
+    "batch": 7,
+    "reference": "/home/pjasicek/github/OpenYAMM/level_generation/terrain/mm6_abandoned_temple_textures/references/wywt_native.png",
+    "padding": null,
+    "prompt": "/home/pjasicek/github/OpenYAMM/level_generation/terrain/mm6_abandoned_temple_textures/prompts/wywt_full_v1.txt",
+    "runtime_size": [
+      512,
+      1024
+    ],
+    "description": "Tall ochre plaster wall with a central framed medieval wall painting. Preserve painting silhouette, placement, gold frame and bottom wooden dado height; sharpen the existing native content faithfully without inventing a different scene. Match wywl plaster and dado family.",
+    "continuity": "finite framed art wall"
+  },
+  {
+    "name": "plnkdrk",
+    "batch": 2,
+    "reference": "/home/pjasicek/github/OpenYAMM/level_generation/terrain/mm6_abandoned_temple_textures/references/plnkdrk_native.png",
+    "padding": null,
+    "prompt": "/home/pjasicek/github/OpenYAMM/level_generation/terrain/mm6_abandoned_temple_textures/prompts/plnkdrk_full_v1.txt",
+    "runtime_size": [
+      128,
+      256
+    ],
+    "description": "Very dark warm brown vertical wood boards, exact native seam locations, understated grain and low contrast. No nails or handles.",
+    "continuity": "both axes"
+  },
+  {
+    "name": "d1wlere",
+    "batch": 4,
+    "reference": "/home/pjasicek/github/OpenYAMM/level_generation/terrain/mm6_abandoned_temple_textures/references/d1wlere_native.png",
+    "padding": null,
+    "prompt": "/home/pjasicek/github/OpenYAMM/level_generation/terrain/mm6_abandoned_temple_textures/prompts/d1wlere_full_v1.txt",
+    "runtime_size": [
+      256,
+      512
+    ],
+    "description": "Olive grey sandstone brick wall with thick projecting stone pillar on RIGHT edge. Preserve exact border width and original brick courses.",
+    "continuity": "vertical repeat; RIGHT border distinct"
+  },
+  {
+    "name": "d1wlele",
+    "batch": 4,
+    "reference": "/home/pjasicek/github/OpenYAMM/level_generation/terrain/mm6_abandoned_temple_textures/references/d1wlele_native.png",
+    "padding": null,
+    "prompt": "/home/pjasicek/github/OpenYAMM/level_generation/terrain/mm6_abandoned_temple_textures/prompts/d1wlele_full_v1.txt",
+    "runtime_size": [
+      256,
+      512
+    ],
+    "description": "Olive grey sandstone brick wall with thick projecting stone pillar on LEFT edge. Preserve exact border width and original brick courses.",
+    "continuity": "vertical repeat; LEFT border distinct"
+  },
+  {
+    "name": "ctmura",
+    "batch": 7,
+    "reference": "/home/pjasicek/github/OpenYAMM/level_generation/terrain/mm6_abandoned_temple_textures/references/ctmura_native.png",
+    "padding": null,
+    "prompt": "/home/pjasicek/github/OpenYAMM/level_generation/terrain/mm6_abandoned_temple_textures/prompts/ctmura_full_v1.txt",
+    "runtime_size": [
+      512,
+      512
+    ],
+    "description": "Square medieval religious wall mural framed in dark brown: keep exact native composition of red/black robed figures, central tomb/coffin, arched building in upper centre, pale city/sky in upper right, coat of arms upper left. Faithful painted conservation, not photoreal people; same character silhouettes and palette, no text.",
+    "continuity": "finite mural"
+  }
+]

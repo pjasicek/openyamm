@@ -1,18 +1,27 @@
 #include "game/gameplay/GameplayPartyOverlayInputController.h"
+#include "game/ui/GameplaySoloTalentsPage.h"
+#include "engine/Localization.h"
 
+#include "engine/Utf8Text.h"
 #include "game/gameplay/GameplayAlchemyBenchInputController.h"
 #include "game/debug/GameplayDebugTrace.h"
 #include "game/tables/CharacterDollTable.h"
 #include "game/gameplay/GameMechanics.h"
 #include "game/gameplay/GameplayInputFrame.h"
+#include "game/gameplay/GameplayInteractionController.h"
 #include "game/gameplay/GameplayItemService.h"
 #include "game/gameplay/GameplayScreenRuntime.h"
 #include "game/gameplay/AwardRuntime.h"
 #include "game/app/KeyboardBindings.h"
+#include "game/items/InventoryBags.h"
+#include "game/ui/GameplayBattleOrders.h"
+#include "game/ui/GameplayHudOverlaySupport.h"
+#include "game/ui/InventoryBagOverview.h"
 #include "game/items/InventoryItemUseRuntime.h"
 #include "game/party/LloydsBeaconRuntime.h"
 #include "game/party/SpellIds.h"
 #include "game/party/SkillData.h"
+#include "game/rules/GameRules.h"
 #include "game/tables/MergedBaseTables.h"
 #include "game/ui/GameplayHudCommon.h"
 #include "game/ui/GameplayUiSkin.h"
@@ -22,6 +31,8 @@
 #include <SDL3/SDL.h>
 
 #include <algorithm>
+#include <cctype>
+#include <functional>
 #include <cmath>
 #include <cstdlib>
 #include <limits>
@@ -40,6 +51,8 @@ constexpr uint64_t CharacterDismissConfirmWindowMs = 2000;
 constexpr float MaxUiScale = 8.0f;
 constexpr uint32_t DaderossLetterDeliveredQBit = 4;
 constexpr uint32_t EmeraldIslandFinishedQBit = 519;
+// MM9 key 28 (raw key + 90000): the Isle of Ashes cinema has sailed the party to Sturmford.
+constexpr uint32_t IsleOfAshesLeftQBit = 90028;
 
 bool canUseInventoryItemByDoubleClick(InventoryItemUseAction action)
 {
@@ -72,6 +85,68 @@ bool isScancodeNewlyPressed(
 {
     return input.scancodePressCount(scancode) > 0
         || (input.isScancodeHeld(scancode) && context.previousKeyboardState()[scancode] == 0);
+}
+
+// The inventory's item search box (CharacterInventorySearch): a click on it types into it, a click elsewhere stops
+// typing and keeps the search, a right click clears it. Typed text, Backspace and Enter edit it; Escape clears it, also
+// while not typing, and leaves the screen open. True when the keyboard went to the search this frame.
+bool handleInventorySearch(GameplayScreenRuntime &context, const GameplayInputFrame &input)
+{
+    constexpr size_t MaxSearchLength = 48;
+    GameplayUiController::CharacterScreenState &screen = context.characterScreen();
+
+    if (screen.page != GameplayUiController::CharacterPage::Inventory
+        || context.isAdventurersInnCharacterSourceActive()
+        || !gameRulesFor(context.party()).items.inventorySearch())
+    {
+        screen.inventorySearchActive = false;
+        return false;
+    }
+
+    const std::optional<GameplayResolvedHudLayoutElement> box =
+        GameplayHudOverlaySupport::inventorySearchBox(context, input.screenWidth, input.screenHeight);
+    const bool overBox = box && context.isPointerInsideResolvedElement(*box, input.pointerX, input.pointerY);
+
+    if (input.leftMouseButton.pressed)
+    {
+        screen.inventorySearchActive = overBox;
+    }
+
+    if (input.rightMouseButton.pressed && overBox)
+    {
+        screen.inventorySearch.clear();
+    }
+
+    if (isScancodeNewlyPressed(context, input, SDL_SCANCODE_ESCAPE)
+        && (screen.inventorySearchActive || !screen.inventorySearch.empty()))
+    {
+        screen.inventorySearch.clear();
+        screen.inventorySearchActive = false;
+        context.interactionState().alchemyBenchEscapeLatch = true;
+        return true;
+    }
+
+    if (!screen.inventorySearchActive)
+    {
+        return false;
+    }
+
+    Engine::Utf8::appendPrintable(screen.inventorySearch, input.textInput, MaxSearchLength);
+
+    for (uint16_t count = input.scancodePressCount(SDL_SCANCODE_BACKSPACE); count > 0; --count)
+    {
+        if (!screen.inventorySearch.empty())
+        {
+            Engine::Utf8::popBack(screen.inventorySearch);
+        }
+    }
+
+    if (input.scancodePressCount(SDL_SCANCODE_RETURN) > 0 || input.scancodePressCount(SDL_SCANCODE_KP_ENTER) > 0)
+    {
+        screen.inventorySearchActive = false;
+    }
+
+    return true;
 }
 
 struct HudPointerState
@@ -123,6 +198,8 @@ struct CharacterSkillUiRow
     std::string level;
     bool upgradeable = false;
     bool interactive = false;
+    // The row's on/off switch when the rules give the skill one: whether it is on.
+    std::optional<bool> switchOn;
 };
 
 struct CharacterSkillUiData
@@ -131,6 +208,7 @@ struct CharacterSkillUiData
     std::vector<CharacterSkillUiRow> magicRows;
     std::vector<CharacterSkillUiRow> armorRows;
     std::vector<CharacterSkillUiRow> miscRows;
+    std::vector<CharacterSkillUiRow> techRows;
 };
 
 struct DimensionDoorLanding
@@ -141,24 +219,6 @@ struct DimensionDoorLanding
     int32_t z = 0;
     std::optional<int32_t> directionDegrees;
     bool useMapStartPosition = false;
-};
-
-constexpr const char *WeaponSkillNames[] = {
-    "Axe", "Bow", "Throwing", "Dagger", "Mace", "Spear", "Staff", "Sword", "Unarmed", "Blaster",
-};
-
-constexpr const char *MagicSkillNames[] = {
-    "FireMagic", "AirMagic", "WaterMagic", "EarthMagic", "SpiritMagic",
-    "MindMagic", "BodyMagic", "LightMagic", "DarkMagic",
-};
-
-constexpr const char *ArmorSkillNames[] = {
-    "LeatherArmor", "ChainArmor", "PlateArmor", "Shield", "Dodging",
-};
-
-constexpr const char *MiscSkillNames[] = {
-    "Alchemy", "Armsmaster", "Bodybuilding", "IdentifyItem", "IdentifyMonster", "Learning",
-    "DisarmTraps", "Meditation", "Merchant", "Perception", "RepairItem", "Stealing",
 };
 
 bool isJewelryOverlayEquipmentSlot(EquipmentSlot slot)
@@ -194,13 +254,20 @@ bool isVisibleInCharacterDollOverlay(EquipmentSlot slot, bool jewelryOverlayOpen
     return jewelryOverlayOpen ? isJewelryOverlayEquipmentSlot(slot) : !isJewelryOverlayEquipmentSlot(slot);
 }
 
-InventoryGridMetrics computeInventoryGridMetrics(float x, float y, float width, float height, float scale)
+InventoryGridMetrics computeInventoryGridMetrics(
+    float x,
+    float y,
+    float width,
+    float height,
+    float scale,
+    int columns = Character::InventoryWidth,
+    int rows = Character::InventoryHeight)
 {
     InventoryGridMetrics metrics = {};
     metrics.x = x;
     metrics.y = y;
-    metrics.cellWidth = width / static_cast<float>(std::max(1, Character::InventoryWidth));
-    metrics.cellHeight = height / static_cast<float>(std::max(1, Character::InventoryHeight));
+    metrics.cellWidth = width / static_cast<float>(std::max(1, columns));
+    metrics.cellHeight = height / static_cast<float>(std::max(1, rows));
     metrics.scale = scale;
     return metrics;
 }
@@ -379,6 +446,31 @@ std::optional<DimensionDoorLanding> resolveDimensionDoorLanding(
             false};
     }
 
+    // Chedian: once the party has left the Isle of Ashes, beside Sturmford City's dimensional travel pedestal
+    // (level_generation/projects/mm9r_sturmfordcity), facing it; before that, Ravensford's new-game start
+    // (continent_settings.txt, Chedian's start map).
+    if (destination.id == "TPGlobal:6")
+    {
+        if (pParty != nullptr && pParty->hasQuestBit(IsleOfAshesLeftQBit))
+        {
+            return DimensionDoorLanding{
+                "sturmfordcity.blv",
+                1752,
+                54,
+                19703,
+                180,
+                false};
+        }
+
+        return DimensionDoorLanding{
+            "bootcamp.blv",
+            323,
+            -8494,
+            1291,
+            269,
+            false};
+    }
+
     return std::nullopt;
 }
 
@@ -505,27 +597,37 @@ const CharacterDollEntry *resolveCharacterDollEntry(
 
 std::string skillPageMasteryDisplayName(SkillMastery mastery)
 {
-    const std::string displayName = masteryDisplayName(mastery);
-
-    if (displayName == "Grandmaster")
+    if (mastery == SkillMastery::Grandmaster)
     {
-        return "Grand";
+        return Engine::tr("Grand");
     }
 
-    return displayName;
+    return Engine::localize(masteryDisplayName(mastery), "mastery");
+}
+
+// A skill page row's name as the renderer shows it (GameplayPartyOverlayRenderer), so the rows sort alike.
+std::string characterSkillRowLabel(const std::string &skillName, SkillMastery mastery)
+{
+    std::string label = Engine::localizeKnown(skillName, "skill");
+
+    if (mastery != SkillMastery::None && mastery != SkillMastery::Normal)
+    {
+        label = Engine::tr("{skill} {mastery}", {{"skill", label}, {"mastery", skillPageMasteryDisplayName(mastery)}});
+    }
+
+    return label;
 }
 
 void appendCharacterSkillUiRows(
     const Character &character,
+    const SkillRules &skillRules,
     std::vector<CharacterSkillUiRow> &rows,
     std::unordered_set<std::string> &shownSkillNames,
-    const char *const *pSkillNames,
-    size_t skillCount,
+    const std::vector<std::string> &skillNames,
     bool allowUpgradeInteraction)
 {
-    for (size_t skillIndex = 0; skillIndex < skillCount; ++skillIndex)
+    for (const std::string &canonicalName : skillNames)
     {
-        const std::string canonicalName = pSkillNames[skillIndex];
         const CharacterSkill *pSkill = character.findSkillByCanonicalName(canonicalName);
 
         if (pSkill == nullptr)
@@ -535,22 +637,86 @@ void appendCharacterSkillUiRows(
 
         CharacterSkillUiRow row = {};
         row.canonicalName = canonicalName;
-        row.label = displaySkillName(pSkill->name);
-
-        if (pSkill->mastery != SkillMastery::None && pSkill->mastery != SkillMastery::Normal)
-        {
-            row.label += " " + skillPageMasteryDisplayName(pSkill->mastery);
-        }
-
+        row.label = characterSkillRowLabel(skillRules.skillDisplayName(character, canonicalName), pSkill->mastery);
         row.level = std::to_string(pSkill->level);
-        row.upgradeable = character.skillPoints > pSkill->level;
+        row.upgradeable = skillRules.canRaiseSkill(character, canonicalName);
         row.interactive = row.upgradeable && allowUpgradeInteraction;
+        row.switchOn = skillRules.skillSwitch(character, canonicalName);
         rows.push_back(std::move(row));
         shownSkillNames.insert(canonicalName);
     }
 }
 
-CharacterSkillUiData buildCharacterSkillUiData(const Character *pCharacter, bool allowUpgradeInteraction)
+// "Water Magic 7 to 8: 3 skill points (8, shared with Fire Magic and Air Magic)" when the rules show raise costs.
+// What a pouch's button shows.
+std::string pouchHoverText(ItemPouch pouch)
+{
+    return pouch == ItemPouch::Crafting  ? Engine::tr("The party's crafting materials (Shift+B)")
+        : pouch == ItemPouch::Alchemy ? Engine::tr("The party's potions, bottles and reagents")
+                                      : Engine::tr("The party's quest items");
+}
+
+std::string skillRaiseCostHoverText(
+    const Character &character,
+    const std::string &canonicalSkill,
+    const SkillRules &skillRules)
+{
+    const std::optional<SkillRaiseCost> cost = skillRules.skillRaiseCostDetail(character, canonicalSkill);
+    const CharacterSkill *pSkill = character.findSkill(canonicalSkill);
+
+    if (!cost || pSkill == nullptr)
+    {
+        return {};
+    }
+
+    std::string text = Engine::trn("{skill} {level} to {next}: {cost} skill point",
+        "{skill} {level} to {next}: {cost} skill points", cost->cost,
+        {{"skill", Engine::localizeKnown(skillRules.skillDisplayName(character, canonicalSkill), "skill")},
+            {"level", pSkill->level},
+            {"next", pSkill->level + 1},
+            {"cost", cost->cost}});
+
+    if (!cost->sharedWith.empty())
+    {
+        std::string skills = Engine::localizeKnown(cost->sharedWith.front(), "skill");
+
+        for (size_t index = 1; index < cost->sharedWith.size(); ++index)
+        {
+            const std::string other = Engine::localizeKnown(cost->sharedWith[index], "skill");
+            skills = index + 1 == cost->sharedWith.size()
+                ? Engine::tr("{skills} and {skill}", {{"skills", skills}, {"skill", other}})
+                : skills + ", " + other;
+        }
+
+        text = Engine::tr("{text} ({cost}, shared with {skills})",
+            {{"text", text}, {"cost", cost->fullCost}, {"skills", skills}});
+    }
+
+    const uint32_t points = character.pointsForRaisingSkill(canonicalSkill);
+
+    if (points < cost->cost)
+    {
+        text = Engine::tr("{text}, you have {points}", {{"text", text}, {"points", points}});
+    }
+
+    return text;
+}
+
+// "Cover is on: click to switch it off (P)" for a skills page switch.
+std::string skillSwitchHoverText(GameplayScreenRuntime &context, const std::string &name, bool on, KeyboardAction action)
+{
+    const InputBinding &binding = context.settingsSnapshot().keyboard.bindings[keyboardActionIndex(action)];
+    const std::string text = on ? Engine::tr("{name} is on: click to switch it off", {{"name", name}})
+                                : Engine::tr("{name} is off: click to switch it on", {{"name", name}});
+    return binding.kind == InputBindingKind::None
+        ? text
+        : Engine::tr("{text} ({key})", {{"text", text}, {"key", inputBindingDisplayName(binding)}});
+}
+
+CharacterSkillUiData buildCharacterSkillUiData(
+    const Character *pCharacter,
+    bool allowUpgradeInteraction,
+    const SkillRules &skillRules)
 {
     CharacterSkillUiData data = {};
 
@@ -562,31 +728,38 @@ CharacterSkillUiData buildCharacterSkillUiData(const Character *pCharacter, bool
     std::unordered_set<std::string> shownSkillNames;
     appendCharacterSkillUiRows(
         *pCharacter,
+        skillRules,
         data.weaponRows,
         shownSkillNames,
-        WeaponSkillNames,
-        std::size(WeaponSkillNames),
+        skillSheetGroupSkillNames(SkillSheetGroup::Weapons),
         allowUpgradeInteraction);
     appendCharacterSkillUiRows(
         *pCharacter,
+        skillRules,
         data.magicRows,
         shownSkillNames,
-        MagicSkillNames,
-        std::size(MagicSkillNames),
+        skillSheetGroupSkillNames(SkillSheetGroup::Magic),
         allowUpgradeInteraction);
     appendCharacterSkillUiRows(
         *pCharacter,
+        skillRules,
         data.armorRows,
         shownSkillNames,
-        ArmorSkillNames,
-        std::size(ArmorSkillNames),
+        skillSheetGroupSkillNames(SkillSheetGroup::Armor),
         allowUpgradeInteraction);
     appendCharacterSkillUiRows(
         *pCharacter,
+        skillRules,
         data.miscRows,
         shownSkillNames,
-        MiscSkillNames,
-        std::size(MiscSkillNames),
+        skillSheetGroupSkillNames(SkillSheetGroup::Misc),
+        allowUpgradeInteraction);
+    appendCharacterSkillUiRows(
+        *pCharacter,
+        skillRules,
+        data.techRows,
+        shownSkillNames,
+        skillSheetGroupSkillNames(SkillSheetGroup::Technology),
         allowUpgradeInteraction);
 
     std::vector<CharacterSkillUiRow> extraMiscRows;
@@ -602,16 +775,11 @@ CharacterSkillUiData buildCharacterSkillUiData(const Character *pCharacter, bool
 
         CharacterSkillUiRow row = {};
         row.canonicalName = canonicalName;
-        row.label = displaySkillName(skill.name);
-
-        if (skill.mastery != SkillMastery::None && skill.mastery != SkillMastery::Normal)
-        {
-            row.label += " " + skillPageMasteryDisplayName(skill.mastery);
-        }
-
+        row.label = characterSkillRowLabel(skillRules.skillDisplayName(*pCharacter, canonicalName), skill.mastery);
         row.level = std::to_string(skill.level);
-        row.upgradeable = pCharacter->skillPoints > skill.level;
+        row.upgradeable = skillRules.canRaiseSkill(*pCharacter, canonicalName);
         row.interactive = row.upgradeable && allowUpgradeInteraction;
+        row.switchOn = skillRules.skillSwitch(*pCharacter, canonicalName);
         extraMiscRows.push_back(std::move(row));
     }
 
@@ -737,7 +905,7 @@ void GameplayPartyOverlayInputController::handleUtilitySpellOverlayInput(
         {
             context.utilitySpellOverlay() = {};
             context.resetUtilitySpellOverlayInteractionState();
-            context.setStatusBarEvent("Spell cancelled", 2.0f);
+            context.setStatusBarEvent(Engine::tr("Spell cancelled"), 2.0f);
             latchGameplayMenuEscape(context);
             context.interactionState().closeOverlayLatch = true;
         }
@@ -758,12 +926,12 @@ void GameplayPartyOverlayInputController::handleUtilitySpellOverlayInput(
         {
             if (isDimensionDoorOverlayMode(context.utilitySpellOverlayReadOnly().mode))
             {
-                return "Dimension Door";
+                return std::string(Engine::trNoop("Dimension Door"));
             }
 
             if (context.spellTable() == nullptr)
             {
-                return "Spell";
+                return std::string(Engine::trNoop("Spell"));
             }
 
             const SpellEntry *pEntry =
@@ -777,7 +945,7 @@ void GameplayPartyOverlayInputController::handleUtilitySpellOverlayInput(
         {
             context.utilitySpellOverlay() = {};
             context.resetUtilitySpellOverlayInteractionState();
-            context.setStatusBarEvent("Town Portal destinations unavailable");
+            context.setStatusBarEvent(Engine::tr("Town Portal destinations unavailable"));
             return;
         }
 
@@ -804,6 +972,35 @@ void GameplayPartyOverlayInputController::handleUtilitySpellOverlayInput(
                         && context.isPointerInsideResolvedElement(*closeResolved, pointerX, pointerY))
                     {
                         return {GameplayUtilitySpellPointerTargetType::Close, 0};
+                    }
+                }
+
+                const size_t continentCount = context.townPortalContinents().size();
+
+                for (size_t index = 0; continentCount > 1 && index < continentCount
+                     && index < TownPortalContinentButtonCount; ++index)
+                {
+                    const std::string buttonId = townPortalContinentButtonId(index);
+                    const GameplayScreenRuntime::HudLayoutElement *pButtonLayout =
+                        context.findHudLayoutElement(buttonId);
+
+                    if (pButtonLayout == nullptr || !pButtonLayout->visible)
+                    {
+                        continue;
+                    }
+
+                    const std::optional<GameplayScreenRuntime::ResolvedHudLayoutElement> buttonResolved =
+                        context.resolveHudLayoutElement(
+                            buttonId,
+                            screenWidth,
+                            screenHeight,
+                            pButtonLayout->width,
+                            pButtonLayout->height);
+
+                    if (buttonResolved.has_value()
+                        && context.isPointerInsideResolvedElement(*buttonResolved, pointerX, pointerY))
+                    {
+                        return {GameplayUtilitySpellPointerTargetType::TownPortalContinent, index};
                     }
                 }
 
@@ -888,11 +1085,11 @@ void GameplayPartyOverlayInputController::handleUtilitySpellOverlayInput(
         if (hoveredTarget.type == GameplayUtilitySpellPointerTargetType::TownPortalDestination
             && hoveredTarget.index < context.townPortalDestinations().size())
         {
-            const std::string actionLabel = isDimensionDoorOverlayMode(context.utilitySpellOverlayReadOnly().mode)
-                ? "Dimension Door to "
-                : "Town Portal to ";
-            context.setStatusBarHoverText(
-                actionLabel + context.townPortalDestinations()[hoveredTarget.index].label);
+            const std::string destination =
+                Engine::localize(context.townPortalDestinations()[hoveredTarget.index].label);
+            context.setStatusBarHoverText(isDimensionDoorOverlayMode(context.utilitySpellOverlayReadOnly().mode)
+                    ? Engine::tr("Dimension Door to {destination}", {{"destination", destination}})
+                    : Engine::tr("Town Portal to {destination}", {{"destination", destination}}));
         }
         else
         {
@@ -911,7 +1108,13 @@ void GameplayPartyOverlayInputController::handleUtilitySpellOverlayInput(
                 {
                     context.utilitySpellOverlay() = {};
                     context.resetUtilitySpellOverlayInteractionState();
-                    context.setStatusBarEvent("Spell cancelled", 2.0f);
+                    context.setStatusBarEvent(Engine::tr("Spell cancelled"), 2.0f);
+                    return;
+                }
+
+                if (target.type == GameplayUtilitySpellPointerTargetType::TownPortalContinent)
+                {
+                    context.selectTownPortalContinent(target.index);
                     return;
                 }
 
@@ -1035,7 +1238,7 @@ void GameplayPartyOverlayInputController::handleUtilitySpellOverlayInput(
                     {
                         const std::string locationName =
                             beacon->locationName.empty() ? beacon->mapName : beacon->locationName;
-                        context.setStatusBarHoverText("Recall to " + locationName);
+                        context.setStatusBarHoverText(Engine::tr("Recall to {location}", {{"location", locationName}}));
                     }
                 }
                 else
@@ -1043,7 +1246,7 @@ void GameplayPartyOverlayInputController::handleUtilitySpellOverlayInput(
                     const std::string currentLocationName =
                         context.worldRuntime() != nullptr
                             ? context.resolveMapLocationName(context.worldRuntime()->mapName())
-                            : std::string("current location");
+                            : Engine::tr("current location");
                     const std::optional<LloydBeacon> &beacon = pCaster->lloydsBeacons[hoveredTarget.index];
 
                     if (beacon.has_value())
@@ -1051,11 +1254,13 @@ void GameplayPartyOverlayInputController::handleUtilitySpellOverlayInput(
                         const std::string locationName =
                             beacon->locationName.empty() ? beacon->mapName : beacon->locationName;
                         context.setStatusBarHoverText(
-                            "Set " + currentLocationName + " over " + locationName);
+                            Engine::tr("Set {location} over {previous}",
+                                {{"location", currentLocationName}, {"previous", locationName}}));
                     }
                     else
                     {
-                        context.setStatusBarHoverText("Set beacon to " + currentLocationName);
+                        context.setStatusBarHoverText(Engine::tr("Set beacon to {location}",
+                            {{"location", currentLocationName}}));
                     }
                 }
             }
@@ -1073,7 +1278,7 @@ void GameplayPartyOverlayInputController::handleUtilitySpellOverlayInput(
                 {
                     context.utilitySpellOverlay() = {};
                     context.resetUtilitySpellOverlayInteractionState();
-                    context.setStatusBarEvent("Spell cancelled", 2.0f);
+                    context.setStatusBarEvent(Engine::tr("Spell cancelled"), 2.0f);
                     return;
                 }
 
@@ -1135,7 +1340,7 @@ void GameplayPartyOverlayInputController::handleUtilitySpellOverlayInput(
                     + "_" + std::to_string(target.index);
                 overlay.lloydSetPreviewSpellName = resolveSpellName();
                 overlay.lloydSetPreviewRequest = request;
-                context.setStatusBarEvent("Setting beacon", 2.0f);
+                context.setStatusBarEvent(Engine::tr("Setting beacon"), 2.0f);
             });
         return;
     }
@@ -1199,7 +1404,7 @@ void GameplayPartyOverlayInputController::handleUtilitySpellOverlayInput(
             {
                 context.utilitySpellOverlay() = {};
                 context.resetUtilitySpellOverlayInteractionState();
-                context.setStatusBarEvent("Spell cancelled", 2.0f);
+                context.setStatusBarEvent(Engine::tr("Spell cancelled"), 2.0f);
                 return;
             }
 
@@ -1284,6 +1489,23 @@ void GameplayPartyOverlayInputController::handleSpellbookOverlayInput(
     GameplayScreenRuntime &context,
     const GameplayInputFrame &input)
 {
+    // The Battle Orders window and the spell menu take the pointer and Escape over the book.
+    if (GameplayBattleOrders::isOpen(context))
+    {
+        GameplayBattleOrders::handleInput(context, input);
+        context.interactionState().closeOverlayLatch = true;
+        context.interactionState().spellbookClickLatch = input.leftMouseButton.held;
+        return;
+    }
+
+    if (GameplayBattleOrders::spellMenuOpen(context))
+    {
+        GameplayBattleOrders::handleSpellMenuInput(context, input);
+        context.interactionState().closeOverlayLatch = true;
+        context.interactionState().spellbookClickLatch = input.leftMouseButton.held;
+        return;
+    }
+
     const bool *pKeyboardState = input.keyboardState();
     const int screenWidth = input.screenWidth;
     const int screenHeight = input.screenHeight;
@@ -1303,6 +1525,51 @@ void GameplayPartyOverlayInputController::handleSpellbookOverlayInput(
         context.interactionState().closeOverlayLatch = false;
     }
 
+    // MAW's spellbook keys: R ends every buff, Tab turns to the member's next school.
+    if (Party *pParty = context.party(); pParty != nullptr)
+    {
+        const SpellRules &spells = gameRulesFor(pParty).spells;
+
+        if (input.scancodePressCount(SDL_SCANCODE_R) > 0)
+        {
+            const std::optional<std::string> status = spells.removeAllBuffs(*pParty);
+
+            if (status)
+            {
+                context.setStatusBarEvent(*status);
+            }
+        }
+
+        if (input.scancodePressCount(SDL_SCANCODE_TAB) > 0 && spells.tabCyclesSpellbookSchools())
+        {
+            const std::array<SpellbookSchoolUiDefinition, 12> &definitions = spellbookSchoolUiDefinitions();
+            const auto current = std::find_if(definitions.begin(), definitions.end(),
+                [&context](const SpellbookSchoolUiDefinition &definition)
+                {
+                    return definition.school == context.spellbook().school;
+                });
+            const size_t start = current != definitions.end() ? size_t(current - definitions.begin()) : 0;
+
+            for (size_t step = 1; step <= definitions.size(); ++step)
+            {
+                const SpellbookSchoolUiDefinition &next = definitions[(start + step) % definitions.size()];
+
+                if (context.activeMemberHasSpellbookSchool(next.school))
+                {
+                    if (next.school != context.spellbook().school && context.audioSystem() != nullptr)
+                    {
+                        context.audioSystem()->playCommonSound(
+                            SoundId::TurnPageDown,
+                            GameAudioSystem::PlaybackGroup::Ui);
+                    }
+
+                    context.setSpellbookSchool(next.school);
+                    break;
+                }
+            }
+        }
+    }
+
     const bool isLeftMousePressed = input.leftMouseButton.held;
     const HudPointerState pointerState = {
         input.pointerX,
@@ -1313,9 +1580,38 @@ void GameplayPartyOverlayInputController::handleSpellbookOverlayInput(
     const auto findSpellbookPointerTarget =
         [&context, screenWidth, screenHeight](float pointerX, float pointerY) -> GameplaySpellbookPointerTarget
         {
+            // A class with its own spellbook look (MAW's Death Knight and Thief lines) has its tabs and spell pictures
+            // elsewhere on the page; the schools and spells they stand for are the same.
+            const SpellbookSkin *pSkin = activeSpellbookSkin(context.party());
+            const SpellbookSkinPage *pSkinPage = activeSpellbookSkinPage(context.party(), context.spellbook().school);
+            const GameplayScreenRuntime::HudLayoutElement *pRootLayout =
+                pSkin != nullptr ? context.findHudLayoutElement(SpellbookRootLayoutId) : nullptr;
+            const std::optional<GameplayScreenRuntime::ResolvedHudLayoutElement> skinRoot = pRootLayout != nullptr
+                ? context.resolveHudLayoutElement(
+                    SpellbookRootLayoutId, screenWidth, screenHeight, pRootLayout->width, pRootLayout->height)
+                : std::nullopt;
+            const std::vector<SpellbookSkinTab> skinTabs = skinRoot
+                ? spellbookSkinTabs(*pSkin, [&context](SpellbookSchool school)
+                    {
+                        return context.activeMemberHasSpellbookSchool(school);
+                    })
+                : std::vector<SpellbookSkinTab>();
+
+            for (const SpellbookSkinTab &tab : skinTabs)
+            {
+                if (context.isPointerInsideResolvedElement(
+                        spellbookSkinScreenRect(*skinRoot, tab.rect), pointerX, pointerY))
+                {
+                    GameplaySpellbookPointerTarget target = {};
+                    target.type = GameplaySpellbookPointerTargetType::SchoolButton;
+                    target.school = tab.school;
+                    return target;
+                }
+            }
+
             for (const SpellbookSchoolUiDefinition &definition : spellbookSchoolUiDefinitions())
             {
-                if (!context.activeMemberHasSpellbookSchool(definition.school))
+                if (!skinTabs.empty() || !context.activeMemberHasSpellbookSchool(definition.school))
                 {
                     continue;
                 }
@@ -1391,14 +1687,20 @@ void GameplayPartyOverlayInputController::handleSpellbookOverlayInput(
                 return quickCastTarget;
             }
 
-            const GameplaySpellbookPointerTarget attackCastTarget =
-                resolveSimpleButtonTarget(
-                    "SpellbookAttackCastButton",
-                    GameplaySpellbookPointerTargetType::AttackCastButton);
+            const GameplaySpellbookPointerTarget attackCastTarget = resolveSimpleButtonTarget(
+                "SpellbookAttackCastButton", GameplaySpellbookPointerTargetType::AttackCastButton);
 
             if (attackCastTarget.type != GameplaySpellbookPointerTargetType::None)
             {
                 return attackCastTarget;
+            }
+
+            const GameplaySpellbookPointerTarget ordersTarget = resolveSimpleButtonTarget(
+                "SpellbookBattleOrdersButton", GameplaySpellbookPointerTargetType::BattleOrdersButton);
+
+            if (ordersTarget.type != GameplaySpellbookPointerTargetType::None)
+            {
+                return ordersTarget;
             }
 
             const SpellbookSchoolUiDefinition *pDefinition =
@@ -1406,6 +1708,25 @@ void GameplayPartyOverlayInputController::handleSpellbookOverlayInput(
 
             if (pDefinition == nullptr)
             {
+                return {};
+            }
+
+            if (pSkinPage != nullptr && skinRoot)
+            {
+                for (const SpellbookSkinSpell &spell : pSkinPage->spells)
+                {
+                    if (context.activeMemberKnowsSpell(spell.spellId)
+                        && context.isPointerInsideResolvedElement(
+                            spellbookSkinScreenRect(*skinRoot, spell.rect), pointerX, pointerY))
+                    {
+                        GameplaySpellbookPointerTarget target = {};
+                        target.type = GameplaySpellbookPointerTargetType::SpellButton;
+                        target.school = context.spellbook().school;
+                        target.spellId = spell.spellId;
+                        return target;
+                    }
+                }
+
                 return {};
             }
 
@@ -1469,8 +1790,7 @@ void GameplayPartyOverlayInputController::handleSpellbookOverlayInput(
                             GameAudioSystem::PlaybackGroup::Ui);
                     }
 
-                    context.spellbook().school = target.school;
-                    context.spellbook().selectedSpellId = 0;
+                    context.setSpellbookSchool(target.school);
                 }
 
                 return;
@@ -1492,7 +1812,7 @@ void GameplayPartyOverlayInputController::handleSpellbookOverlayInput(
                 {
                     if (!context.activeMemberKnowsSpell(target.spellId))
                     {
-                        context.setStatusBarEvent("Spell not learned");
+                        context.setStatusBarEvent(Engine::tr("Spell not learned"));
                         return;
                     }
 
@@ -1503,7 +1823,7 @@ void GameplayPartyOverlayInputController::handleSpellbookOverlayInput(
                     const std::string spellName =
                         pSpellEntry != nullptr && !pSpellEntry->name.empty()
                             ? pSpellEntry->name
-                            : ("Spell " + std::to_string(target.spellId));
+                            : Engine::tr("Spell {id}", {{"id", int64_t(target.spellId)}});
                     const size_t casterMemberIndex =
                         context.partyReadOnly() != nullptr ? context.partyReadOnly()->activeMemberIndex() : 0;
 
@@ -1520,153 +1840,539 @@ void GameplayPartyOverlayInputController::handleSpellbookOverlayInput(
                 return;
             }
 
-            if (target.type == GameplaySpellbookPointerTargetType::QuickCastButton)
+            if (target.type == GameplaySpellbookPointerTargetType::BattleOrdersButton)
             {
-                if (context.party() == nullptr || context.spellTable() == nullptr)
-                {
-                    context.setStatusBarEvent("Can't set quick spell");
-                    return;
-                }
-
-                Character *pActiveMember = context.party()->activeMember();
-
-                if (pActiveMember == nullptr)
-                {
-                    context.setStatusBarEvent("Can't set quick spell");
-                    return;
-                }
-
-                if (context.spellbook().selectedSpellId == 0)
-                {
-                    pActiveMember->quickSpellName.clear();
-                    context.spellbook().selectedSpellId = 0;
-
-                    if (context.audioSystem() != nullptr)
-                    {
-                        context.audioSystem()->playCommonSound(SoundId::Fizzle, GameAudioSystem::PlaybackGroup::Ui);
-                    }
-
-                    context.setStatusBarEvent("Quick spell cleared");
-                    return;
-                }
-
-                const SpellEntry *pSpellEntry =
-                    context.spellTable()->findById(static_cast<int>(context.spellbook().selectedSpellId));
-
-                if (pSpellEntry == nullptr)
-                {
-                    context.setStatusBarEvent("Can't set quick spell");
-                    return;
-                }
-
-                if (!pActiveMember->knowsSpell(context.spellbook().selectedSpellId))
-                {
-                    context.setStatusBarEvent("Spell not learned");
-                    return;
-                }
-
-                if (pActiveMember->quickSpellName == pSpellEntry->name)
-                {
-                    pActiveMember->quickSpellName.clear();
-                    context.spellbook().selectedSpellId = 0;
-
-                    if (context.audioSystem() != nullptr)
-                    {
-                        context.audioSystem()->playCommonSound(SoundId::Fizzle, GameAudioSystem::PlaybackGroup::Ui);
-                    }
-
-                    context.setStatusBarEvent("Quick spell cleared");
-                    return;
-                }
-
-                pActiveMember->quickSpellName = pSpellEntry->name;
-
-                if (context.audioSystem() != nullptr)
-                {
-                    context.audioSystem()->playCommonSound(SoundId::ClickSkill, GameAudioSystem::PlaybackGroup::Ui);
-                }
-
-                context.playSpeechReaction(
-                    context.partyReadOnly()->activeMemberIndex(),
-                    SpeechId::SetQuickSpell,
-                    true);
-                context.setStatusBarEvent("Quick spell set to " + pSpellEntry->name);
+                GameplayBattleOrders::open(context, false);
                 return;
             }
 
-            if (target.type == GameplaySpellbookPointerTargetType::AttackCastButton)
+            // Quick Cast and Attack Spell, the quick setup without the Battle Orders window: the selected spell is
+            // set; the same spell again, or no spell selected, clears it.
+            if (target.type == GameplaySpellbookPointerTargetType::QuickCastButton
+                || target.type == GameplaySpellbookPointerTargetType::AttackCastButton)
             {
-                if (context.party() == nullptr || context.spellTable() == nullptr)
+                Party *pParty = context.party();
+                Character *pActiveMember = pParty != nullptr ? pParty->activeMember() : nullptr;
+                const bool quickCast = target.type == GameplaySpellbookPointerTargetType::QuickCastButton;
+
+                if (pActiveMember == nullptr || context.spellTable() == nullptr)
                 {
-                    context.setStatusBarEvent("Can't set attack spell");
+                    context.setStatusBarEvent(
+                        quickCast ? Engine::tr("Can't set quick spell") : Engine::tr("Can't set attack spell"));
                     return;
                 }
 
-                Character *pActiveMember = context.party()->activeMember();
-
-                if (pActiveMember == nullptr)
-                {
-                    context.setStatusBarEvent("Can't set attack spell");
-                    return;
-                }
-
-                if (context.spellbook().selectedSpellId == 0)
-                {
-                    pActiveMember->attackSpellName.clear();
-                    context.spellbook().selectedSpellId = 0;
-
-                    if (context.audioSystem() != nullptr)
-                    {
-                        context.audioSystem()->playCommonSound(SoundId::Fizzle, GameAudioSystem::PlaybackGroup::Ui);
-                    }
-
-                    context.setStatusBarEvent("Attack spell cleared");
-                    return;
-                }
-
+                const uint32_t selectedSpellId = context.spellbook().selectedSpellId;
                 const SpellEntry *pSpellEntry =
-                    context.spellTable()->findById(static_cast<int>(context.spellbook().selectedSpellId));
+                    selectedSpellId != 0 ? context.spellTable()->findById(int(selectedSpellId)) : nullptr;
 
-                if (pSpellEntry == nullptr)
+                if (pSpellEntry != nullptr && !pActiveMember->knowsSpell(selectedSpellId))
                 {
-                    context.setStatusBarEvent("Can't set attack spell");
+                    context.setStatusBarEvent(Engine::tr("Spell not learned"));
                     return;
                 }
 
-                if (!pActiveMember->knowsSpell(context.spellbook().selectedSpellId))
-                {
-                    context.setStatusBarEvent("Spell not learned");
-                    return;
-                }
+                const size_t memberIndex = pParty->activeMemberIndex();
+                const bool alreadySet = pSpellEntry != nullptr
+                    && (quickCast ? pActiveMember->quickSpellName == pSpellEntry->name
+                                  : isAttackSpell(pSpellEntry->name, pActiveMember->battleOrders,
+                                      pActiveMember->battleOrderFallback));
+                const SpellEntry *pAssigned = alreadySet ? nullptr : pSpellEntry;
 
-                if (pActiveMember->attackSpellName == pSpellEntry->name)
+                if (pAssigned == nullptr)
                 {
-                    pActiveMember->attackSpellName.clear();
                     context.spellbook().selectedSpellId = 0;
-
-                    if (context.audioSystem() != nullptr)
-                    {
-                        context.audioSystem()->playCommonSound(SoundId::Fizzle, GameAudioSystem::PlaybackGroup::Ui);
-                    }
-
-                    context.setStatusBarEvent("Attack spell cleared");
-                    return;
                 }
 
-                pActiveMember->attackSpellName = pSpellEntry->name;
-
-                if (context.audioSystem() != nullptr)
+                if (quickCast)
                 {
-                    context.audioSystem()->playCommonSound(SoundId::ClickSkill, GameAudioSystem::PlaybackGroup::Ui);
+                    GameplayBattleOrders::assignQuickSlot(context, memberIndex, 0, pAssigned);
                 }
-
-                context.playSpeechReaction(
-                    context.partyReadOnly()->activeMemberIndex(),
-                    SpeechId::SetQuickSpell,
-                    true);
-                context.setStatusBarEvent("Attack spell set to " + pSpellEntry->name);
+                else
+                {
+                    GameplayBattleOrders::assignAttackSpell(context, memberIndex, pAssigned);
+                }
             }
         });
+
+    // A quick right click on a known spell opens its menu (Quick Cast, the quick spells, the orders); a held one only
+    // inspects it (GameplayHudOverlaySupport::updateSpellInspectOverlay).
+    GameplayUiController::SpellbookSpellMenuState &spellMenu = context.spellbook().spellMenu;
+
+    // Followed by the button's held state, so a press or release on a frame this handler misses still counts.
+    if (input.rightMouseButton.held && !spellMenu.rightHeld)
+    {
+        spellMenu.rightHeld = true;
+        const GameplaySpellbookPointerTarget pressed = findSpellbookPointerTarget(input.pointerX, input.pointerY);
+        spellMenu.rightPressSpellId =
+            pressed.type == GameplaySpellbookPointerTargetType::SpellButton ? pressed.spellId : 0;
+        spellMenu.rightPressTicks = SDL_GetTicks();
+    }
+    else if (!input.rightMouseButton.held && spellMenu.rightHeld)
+    {
+        spellMenu.rightHeld = false;
+        const GameplaySpellbookPointerTarget released = findSpellbookPointerTarget(input.pointerX, input.pointerY);
+
+        if (spellMenu.rightPressSpellId != 0
+            && released.type == GameplaySpellbookPointerTargetType::SpellButton
+            && released.spellId == spellMenu.rightPressSpellId
+            && SDL_GetTicks() - spellMenu.rightPressTicks <= GameplayBattleOrders::SpellMenuClickMilliseconds)
+        {
+            GameplayBattleOrders::openSpellMenu(context, released.spellId, input.pointerX, input.pointerY);
+        }
+
+        spellMenu.rightPressSpellId = 0;
+    }
+}
+
+namespace
+{
+// Opens a member's bag (MAW's multibag) and says which one is open.
+bool openInventoryBag(GameplayScreenRuntime &context, Party &party, size_t memberIndex, int bag)
+{
+    Character *pMember = party.member(memberIndex);
+    const int bagCount = gameRulesFor(&party).items.bagCount(party);
+
+    if (pMember == nullptr || bag < 0 || !InventoryBags::openBag(*pMember, uint8_t(bag), bagCount))
+    {
+        return false;
+    }
+
+    const std::string name = InventoryBagOverview::bagName(bag, bagCount);
+    context.setStatusBarEvent(Engine::Utf8::capitalizedFirst(name));
+    return true;
+}
+
+// A bag's button or key: the bag at full size; on the bag already zoomed, back to the overview.
+void zoomInventoryBag(GameplayScreenRuntime &context, Party &party, size_t memberIndex, int bag)
+{
+    GameplayUiController::CharacterScreenState &screen = context.characterScreen();
+    const Character *pMember = party.member(memberIndex);
+
+    if (pMember == nullptr)
+    {
+        return;
+    }
+
+    // From a pouch's tab, the bag at full size whichever was zoomed before.
+    const bool fromPouch = screen.inventoryPouch.shown.has_value();
+    screen.inventoryPouch.shown.reset();
+
+    if (!fromPouch && screen.inventoryBagZoomed && pMember->rulesetState.currentBag == bag)
+    {
+        screen.inventoryBagZoomed = false;
+        return;
+    }
+
+    if (pMember->rulesetState.currentBag != bag && !openInventoryBag(context, party, memberIndex, bag))
+    {
+        return;
+    }
+
+    screen.inventoryBagZoomed = true;
+}
+
+// A click on a bag of the overview (InventoryBagOverview): a held item goes into the bag at the cell under it, as on
+// the full-size grid (the one item in the way comes out held); with nothing held, the item there is taken. The open
+// bag stays open.
+void activateBagOverviewTarget(
+    GameplayScreenRuntime &context,
+    Party &party,
+    size_t memberIndex,
+    const GameplayCharacterPointerTarget &target,
+    const std::optional<GameplayResolvedHudLayoutElement> &grid,
+    float pointerX,
+    float pointerY,
+    const std::function<void(const InventoryItem &)> &setHeldItem,
+    const std::function<void()> &clearHeldItem)
+{
+    if (!grid || party.member(memberIndex) == nullptr || context.itemTable() == nullptr)
+    {
+        return;
+    }
+
+    const int bagCount = gameRulesFor(&party).items.bagCount(party);
+    // A pouch's tab is one slot of its own, at its scroll position.
+    const bool pouchTab = InventoryBags::isPouchBag(target.bag);
+    const InventoryBagOverview::Slot slot = pouchTab
+        ? GameplayHudOverlaySupport::pouchSlot(context, context.characterScreenReadOnly().inventoryPouch,
+              InventoryBags::pouchOfBag(target.bag), *grid)
+        : InventoryBagOverview::slot(*grid, target.bag);
+    const InventoryGridMetrics metrics = computeInventoryGridMetrics(slot.x,
+        slot.y - float(slot.firstRow) * slot.cellHeight(), slot.width, slot.height, grid->scale * slot.fraction,
+        slot.columns, slot.rows);
+    GameplayUiController::HeldInventoryItemState &held = context.heldInventoryItem();
+    // The item's icon size on this bag's grid.
+    const auto iconSize = [&context, &metrics](const InventoryItem &item) -> std::optional<std::pair<float, float>>
+    {
+        const ItemDefinition *pDefinition = context.itemTable()->get(item.objectDescriptionId);
+        const std::optional<GameplayHudTextureHandle> texture = pDefinition != nullptr && !pDefinition->iconName.empty()
+            ? context.gameplayUiRuntime().ensureItemIconTextureLoaded(pDefinition->iconName)
+            : std::nullopt;
+
+        if (!texture)
+        {
+            return std::nullopt;
+        }
+
+        return std::pair(float(texture->width) * metrics.scale * pDefinition->inventoryDrawScale,
+            float(texture->height) * metrics.scale * pDefinition->inventoryDrawScale);
+    };
+
+    if (held.active)
+    {
+        // The drop cell the renderer's placement preview shows too.
+        const std::optional<std::pair<float, float>> size = iconSize(held.item);
+
+        if (!size)
+        {
+            return;
+        }
+
+        const auto [gridX, gridY] = InventoryBagOverview::dropCell(slot, party, memberIndex, target.bag,
+            held.item, size->first, size->second, pointerX, pointerY, held.grabOffsetX, held.grabOffsetY);
+        const std::optional<ItemPouch> itemPouch = party.pouchFor(held.item);
+        // An item with a pouch goes there wherever it is dropped: the cell does not matter.
+        const bool toItsPouch = itemPouch && target.bag != InventoryBags::pouchBag(*itemPouch);
+
+        if (!toItsPouch && (gridX < 0 || gridY < 0 || gridY > 255))
+        {
+            return;
+        }
+
+        std::optional<InventoryItem> replacedItem;
+
+        if (!InventoryBags::placeInBag(party, memberIndex, target.bag, bagCount, held.item,
+                uint8_t(std::clamp(gridX, 0, 255)), uint8_t(std::clamp(gridY, 0, 255)), replacedItem))
+        {
+            const std::string &partyStatus = party.lastStatus();
+            context.setStatusBarEvent(
+                partyStatus.empty() || partyStatus == "inventory full" ? Engine::tr("Pack is Full!") : partyStatus);
+            return;
+        }
+
+        if (toItsPouch)
+        {
+            context.setStatusBarEvent(party.lastStatus());
+        }
+
+        if (replacedItem)
+        {
+            setHeldItem(*replacedItem);
+        }
+        else
+        {
+            clearHeldItem();
+        }
+
+        return;
+    }
+
+    InventoryItem item = {};
+
+    if (!InventoryBags::takeFromBag(party, memberIndex, target.bag, bagCount, target.gridX, target.gridY, item))
+    {
+        return;
+    }
+
+    setHeldItem(item);
+    const auto [cellX, cellY] = InventoryBagOverview::cellAt(slot, pointerX, pointerY);
+    held.grabCellOffsetX = cellX - item.gridX;
+    held.grabCellOffsetY = cellY - item.gridY;
+
+    // The grab offsets stay in full-size units, as the full-size grid keeps them; the held item shrinks over a bag.
+    if (const std::optional<std::pair<float, float>> size = iconSize(item))
+    {
+        const InventoryItemScreenRect rect = computeInventoryItemScreenRect(metrics, item, size->first, size->second);
+        held.grabOffsetX = (pointerX - rect.x) / slot.fraction;
+        held.grabOffsetY = (pointerY - rect.y) / slot.fraction;
+    }
+}
+}
+
+bool GameplayPartyOverlayInputController::partyBagButtonsShown(const GameplayScreenRuntime &context)
+{
+    const IGameplayWorldRuntime *pWorldRuntime = context.worldRuntime();
+    return context.inventoryNestedOverlay().active
+        || (pWorldRuntime != nullptr && pWorldRuntime->activeChestView() != nullptr
+            && context.currentHudScreenState() == GameplayHudScreenState::Chest);
+}
+
+bool GameplayPartyOverlayInputController::bagKeysActive(const GameplayScreenRuntime &context)
+{
+    const Party *pParty = context.partyReadOnly();
+    return pParty != nullptr && gameRulesFor(pParty).items.bagCount(*pParty) > 1
+        && (partyBagButtonsShown(context)
+            || (context.characterScreenReadOnly().open
+                && context.characterScreenReadOnly().page == GameplayUiController::CharacterPage::Inventory
+                && !context.isAdventurersInnCharacterSourceActive()));
+}
+
+bool GameplayPartyOverlayInputController::bagKeysNeedShift(const GameplayScreenRuntime &context)
+{
+    const Party *pParty = context.partyReadOnly();
+    return context.settingsSnapshot().bagNumberKeys != "bag" && pParty != nullptr && pParty->memberCount() > 1;
+}
+
+bool GameplayPartyOverlayInputController::openBagForKey(GameplayScreenRuntime &context, int bag)
+{
+    Party *pParty = context.party();
+    const int bagCount = pParty != nullptr ? gameRulesFor(pParty).items.bagCount(*pParty) : 1;
+
+    if (pParty == nullptr || bagCount <= 1 || bag < 0 || bag >= InventoryBagOverview::Bags)
+    {
+        return false;
+    }
+
+    if (partyBagButtonsShown(context))
+    {
+        const Character *pMember = pParty->activeMember();
+        const int tabBag = pMember != nullptr ? InventoryBagOverview::firstBag(*pMember) + bag : bag;
+
+        if (tabBag < bagCount)
+        {
+            openNestedInventoryBag(context, tabBag);
+        }
+
+        return true;
+    }
+
+    if (!context.characterScreenReadOnly().open
+        || context.characterScreenReadOnly().page != GameplayUiController::CharacterPage::Inventory
+        || context.isAdventurersInnCharacterSourceActive())
+    {
+        return false;
+    }
+
+    const size_t memberIndex = context.selectedCharacterScreenSourceIndex();
+    const Character *pMember = pParty->member(memberIndex);
+    const int tabBag = pMember != nullptr ? InventoryBagOverview::firstBag(*pMember) + bag : bag;
+
+    if (tabBag < bagCount)
+    {
+        zoomInventoryBag(context, *pParty, memberIndex, tabBag);
+    }
+
+    return true;
+}
+
+bool GameplayPartyOverlayInputController::bagTabsShown(const GameplayScreenRuntime &context)
+{
+    const Party *pParty = context.partyReadOnly();
+    return pParty != nullptr && InventoryBags::tabCount(gameRulesFor(pParty).items.bagCount(*pParty)) > 1
+        && bagKeysActive(context);
+}
+
+bool GameplayPartyOverlayInputController::openBagTab(GameplayScreenRuntime &context, int tab)
+{
+    Party *pParty = context.party();
+
+    if (pParty == nullptr || !bagTabsShown(context))
+    {
+        return false;
+    }
+
+    const int bagCount = gameRulesFor(pParty).items.bagCount(*pParty);
+    const size_t memberIndex =
+        partyBagButtonsShown(context) ? pParty->activeMemberIndex() : context.selectedCharacterScreenSourceIndex();
+    Character *pMember = pParty->member(memberIndex);
+
+    if (pMember == nullptr || tab < 0 || tab >= InventoryBags::tabCount(bagCount))
+    {
+        return false;
+    }
+
+    // The same bag of the other tab, as MAW keeps it (zzMaw-MultiBag.lua:153-157); the overview shows the whole tab.
+    const int bag = std::min(tab * InventoryBags::TabBags + pMember->rulesetState.currentBag % InventoryBags::TabBags,
+        bagCount - 1);
+
+    if (InventoryBags::openBag(*pMember, uint8_t(bag), bagCount))
+    {
+        const std::string name = InventoryBagOverview::bagName(bag, bagCount);
+        context.setStatusBarEvent(Engine::Utf8::capitalizedFirst(name));
+    }
+
+    if (!partyBagButtonsShown(context))
+    {
+        context.characterScreen().inventoryPouch.shown.reset();
+    }
+
+    return true;
+}
+
+void GameplayPartyOverlayInputController::openNestedInventoryBag(GameplayScreenRuntime &context, int bag)
+{
+    Party *pParty = context.party();
+    Character *pMember = pParty != nullptr ? pParty->activeMember() : nullptr;
+    const int bagCount = pParty != nullptr ? gameRulesFor(pParty).items.bagCount(*pParty) : 1;
+    GameplayUiController::InventoryNestedOverlayState &overlay = context.inventoryNestedOverlay();
+    const bool shopOverview = GameplayHudOverlaySupport::shopBagOverviewActive(context);
+
+    if (pMember == nullptr || bagCount <= 1 || bag < 0 || bag >= bagCount)
+    {
+        return;
+    }
+
+    // From a pouch's tab, the bag whichever was zoomed before.
+    const bool fromPouch = overlay.pouch.shown.has_value();
+    overlay.pouch.shown.reset();
+
+    if (!fromPouch && overlay.bagZoomed && pMember->rulesetState.currentBag == bag)
+    {
+        overlay.bagZoomed = false;
+        return;
+    }
+
+    if (InventoryBags::openBag(*pMember, uint8_t(bag), bagCount) || shopOverview)
+    {
+        const std::string name = InventoryBagOverview::bagName(bag, bagCount);
+        context.setStatusBarEvent(Engine::Utf8::capitalizedFirst(name));
+    }
+
+    if (shopOverview)
+    {
+        overlay.bagZoomed = true;
+    }
+}
+
+void GameplayPartyOverlayInputController::openFirstBagsInOverview(GameplayScreenRuntime &context)
+{
+    Party *pParty = context.party();
+
+    if (pParty == nullptr
+        || !((context.characterScreenReadOnly().open && GameplayHudOverlaySupport::bagOverviewActive(context))
+            || GameplayHudOverlaySupport::shopBagOverviewActive(context)))
+    {
+        return;
+    }
+
+    const int bagCount = gameRulesFor(pParty).items.bagCount(*pParty);
+
+    for (size_t memberIndex = 0; memberIndex < pParty->memberCount(); ++memberIndex)
+    {
+        Character &member = *pParty->member(memberIndex);
+        InventoryBags::openBag(member, InventoryBagOverview::firstBag(member), bagCount);
+    }
+}
+
+bool GameplayPartyOverlayInputController::togglePouchTab(GameplayScreenRuntime &context, ItemPouch pouch)
+{
+    const Party *pParty = context.partyReadOnly();
+
+    if (pParty == nullptr || !gameRulesFor(pParty).items.hasPouches() || !context.characterScreenReadOnly().open
+        || context.characterScreenReadOnly().page != GameplayUiController::CharacterPage::Inventory
+        || context.isAdventurersInnCharacterSourceActive())
+    {
+        return false;
+    }
+
+    // The pouch's tab in the bags' place; its button again, back to the bags.
+    InventoryPouchViewState &view = context.characterScreen().inventoryPouch;
+    view.thumbDragOffset.reset();
+
+    if (view.shown == pouch)
+    {
+        view.shown.reset();
+        return true;
+    }
+
+    view.shown = pouch;
+    context.setStatusBarEvent(pouch == ItemPouch::Crafting  ? Engine::tr("Crafting materials")
+            : pouch == ItemPouch::Alchemy ? Engine::tr("Potions and reagents")
+                                          : Engine::tr("Quest items"));
+    return true;
+}
+
+bool GameplayPartyOverlayInputController::openWorkbench(GameplayScreenRuntime &context)
+{
+    if (context.heldInventoryItem().active)
+    {
+        context.setStatusBarEvent(Engine::tr("Put the item down first."));
+        return false;
+    }
+
+    // Every visit starts with empty slots; filters and the search stay as the player left them.
+    GameplayUiController::CharacterScreenState &screen = context.characterScreen();
+    GameplayUiController::AlchemyBenchState &bench = screen.alchemyBench;
+    screen.page = GameplayUiController::CharacterPage::Inventory;
+    bench.active = true;
+    bench.targetItemId = 0;
+    bench.heldItemId = 0;
+    bench.clearPowerChoices();
+    bench.selectedResultItemId = 0;
+    bench.recipeSearchActive = false;
+    bench.clearBrewResult();
+    bench.newRecipeResultIds.clear();
+    bench.crafting.target.reset();
+    bench.crafting.material.reset();
+    bench.crafting.choice = 0;
+    bench.crafting.searchActive = false;
+    bench.crafting.clearResult();
+    screen.dollJewelryOverlayOpen = false;
+    return true;
+}
+
+std::optional<std::string> GameplayPartyOverlayInputController::skillSwitchForAction(
+    GameplayScreenRuntime &context,
+    KeyboardAction action)
+{
+    const std::string skillName = action == KeyboardAction::SkillCover ? "Cover"
+        : action == KeyboardAction::SkillManaShield                      ? "ManaShield"
+                                                                         : "";
+    const Character *pCharacter = context.selectedCharacterScreenCharacter();
+
+    if (skillName.empty() || !context.characterScreenReadOnly().open
+        || context.characterScreenReadOnly().page != GameplayUiController::CharacterPage::Skills
+        || context.isAdventurersInnCharacterSourceActive() || pCharacter == nullptr
+        || !gameRulesFor(context.partyReadOnly()).skills.skillSwitch(*pCharacter, skillName))
+    {
+        return std::nullopt;
+    }
+
+    return skillName;
+}
+
+bool GameplayPartyOverlayInputController::toggleSkillSwitch(GameplayScreenRuntime &context, const std::string &skill)
+{
+    Character *pCharacter = const_cast<Character *>(context.selectedCharacterScreenCharacter());
+
+    if (pCharacter == nullptr || context.isAdventurersInnCharacterSourceActive())
+    {
+        return false;
+    }
+
+    const std::optional<bool> on = gameRulesFor(context.partyReadOnly()).skills.toggleSkillSwitch(*pCharacter, skill);
+
+    if (!on)
+    {
+        return false;
+    }
+
+    const std::string name = Engine::localize(displaySkillName(skill), "skill");
+    context.setStatusBarEvent(
+        *on ? Engine::tr("{skill} enabled", {{"skill", name}}) : Engine::tr("{skill} disabled", {{"skill", name}}));
+    return true;
+}
+
+bool GameplayPartyOverlayInputController::toggleSkillRotation(GameplayScreenRuntime &context)
+{
+    Character *pCharacter = const_cast<Character *>(context.selectedCharacterScreenCharacter());
+
+    if (pCharacter == nullptr || context.isAdventurersInnCharacterSourceActive())
+    {
+        return false;
+    }
+
+    const std::optional<bool> on = gameRulesFor(context.partyReadOnly()).spells.toggleSpellRotation(*pCharacter);
+
+    if (!on)
+    {
+        return false;
+    }
+
+    context.setStatusBarEvent(
+        *on ? Engine::tr("Elementalist rotation enabled") : Engine::tr("Elementalist rotation disabled"));
+    return true;
 }
 
 void GameplayPartyOverlayInputController::handleCharacterOverlayInput(
@@ -1683,6 +2389,12 @@ void GameplayPartyOverlayInputController::handleCharacterOverlayInput(
         pParty != nullptr && !context.isAdventurersInnCharacterSourceActive()
             ? context.selectedCharacterScreenSourceIndex()
             : (pParty != nullptr ? pParty->activeMemberIndex() : 0);
+
+    // A MAW solo run's Skills / Talents switch and Talents page take their own clicks.
+    if (!isReadOnlyAdventurersInnView && GameplaySoloTalentsPage::handleInput(context, input))
+    {
+        return;
+    }
     const Character *pSelectedPartyMember =
         pParty != nullptr && !context.isAdventurersInnCharacterSourceActive()
             ? pParty->member(selectedPartyMemberIndex)
@@ -1707,25 +2419,6 @@ void GameplayPartyOverlayInputController::handleCharacterOverlayInput(
         || input.action(KeyboardAction::CharCycle).pressed)
     {
         heldInventoryItem.doubleClick.cancel();
-    }
-
-    if (context.readableScrollOverlayReadOnly().staysOpen)
-    {
-        bool &clickLatch = context.interactionState().characterClickLatch;
-        const bool clickReleased = clickLatch && !input.leftMouseButton.held;
-        clickLatch = input.leftMouseButton.held;
-        const bool escapeHeld = input.isScancodeHeld(SDL_SCANCODE_ESCAPE);
-        if (escapeHeld || isScancodeNewlyPressed(context, input, SDL_SCANCODE_ESCAPE)
-            || clickReleased || input.rightMouseButton.pressed)
-        {
-            context.itemService().closeReadableScrollOverlay();
-            clickLatch = false;
-            if (escapeHeld)
-            {
-                context.interactionState().closeOverlayLatch = true;
-            }
-        }
-        return;
     }
 
     if (pParty == nullptr
@@ -1756,7 +2449,8 @@ void GameplayPartyOverlayInputController::handleCharacterOverlayInput(
         pActiveCharacterDollEntry != nullptr && pCharacterDollTable != nullptr
             ? pCharacterDollTable->getDollType(pActiveCharacterDollEntry->dollTypeId)
             : nullptr;
-    const CharacterSkillUiData skillUiData = buildCharacterSkillUiData(pActiveCharacter, !isReadOnlyAdventurersInnView);
+    const CharacterSkillUiData skillUiData = buildCharacterSkillUiData(
+        pActiveCharacter, !isReadOnlyAdventurersInnView, gameRulesFor(context.partyReadOnly()).skills);
     const float skillRowHeight = context.characterSkillRowHeight();
     context.clearHudLayoutRuntimeHeightOverrides();
     context.setHudLayoutRuntimeHeightOverride(
@@ -1771,10 +2465,32 @@ void GameplayPartyOverlayInputController::handleCharacterOverlayInput(
     context.setHudLayoutRuntimeHeightOverride(
         "CharacterSkillsMiscListRegion",
         skillRowHeight * static_cast<float>(std::max<size_t>(1, skillUiData.miscRows.size())));
+    context.setHudLayoutRuntimeHeightOverride(
+        "CharacterSkillsTechListRegion",
+        skillRowHeight * static_cast<float>(std::max<size_t>(1, skillUiData.techRows.size())));
 
     GameplayUiController::CharacterScreenState &screen = context.characterScreen();
     const bool skillsPage = screen.page == GameplayUiController::CharacterPage::Skills;
     const bool awardsPage = screen.page == GameplayUiController::CharacterPage::Awards;
+    // Keys typed into the item search are text, not the screen's keys.
+    const bool searchTyping = handleInventorySearch(context, input);
+
+    for (const KeyboardAction action : {KeyboardAction::SkillCover, KeyboardAction::SkillManaShield})
+    {
+        const std::optional<std::string> switchedSkill = skillSwitchForAction(context, action);
+
+        if (switchedSkill && !isReadOnlyAdventurersInnView && !searchTyping && input.action(action).pressed)
+        {
+            toggleSkillSwitch(context, *switchedSkill);
+        }
+    }
+
+    // R on the skills page switches an Elementalist's spell rotation (MAW).
+    if (skillsPage && !isReadOnlyAdventurersInnView && !searchTyping
+        && input.action(KeyboardAction::SkillRotation).pressed)
+    {
+        toggleSkillRotation(context);
+    }
     if (!input.leftMouseButton.held)
     {
         screen.scrollDragOffset.reset();
@@ -1838,19 +2554,54 @@ void GameplayPartyOverlayInputController::handleCharacterOverlayInput(
         }
     }
 
-    // The Escape that closed the alchemy bench keeps the screen open until it is released.
-    const bool closePressed =
-        (pKeyboardState != nullptr
-            && pKeyboardState[SDL_SCANCODE_ESCAPE]
-            && !context.interactionState().alchemyBenchEscapeLatch)
-        || isScancodeNewlyPressed(context, input, SDL_SCANCODE_E);
+    // A pouch's tab scrolls by rows: the wheel over the grid, and its scrollbar's thumb.
+    if (GameplayHudOverlaySupport::inventoryPouchShown(context))
+    {
+        const GameplayScreenRuntime::HudLayoutElement *pGridLayout =
+            context.findHudLayoutElement("CharacterInventoryGrid");
+        const std::optional<GameplayResolvedHudLayoutElement> grid = pGridLayout != nullptr
+            ? context.resolveHudLayoutElement("CharacterInventoryGrid", screenWidth, screenHeight, pGridLayout->width,
+                  pGridLayout->height)
+            : std::nullopt;
+
+        if (grid)
+        {
+            if (input.mouseWheelDelta != 0.0f
+                && context.isPointerInsideResolvedElement(*grid, input.pointerX, input.pointerY))
+            {
+                const int rows = int(std::lround(-input.mouseWheelDelta * 2.0f));
+                GameplayHudOverlaySupport::scrollPouchView(context, screen.inventoryPouch,
+                    rows != 0 ? rows : input.mouseWheelDelta > 0.0f ? -1 : 1);
+            }
+
+            if (GameplayHudOverlaySupport::dragPouchScrollbar(context, screen.inventoryPouch, *grid, input.pointerX,
+                    input.pointerY, input.leftMouseButton.held, input.leftMouseButton.pressed))
+            {
+                return;
+            }
+        }
+    }
+    else
+    {
+        screen.inventoryPouch.thumbDragOffset.reset();
+    }
+
+    // The Use key on a pack item uses or equips it (below); only a keyboard key, not the classic scheme's left button.
+    const InputBinding useBinding = context.settingsSnapshot().keyboard.binding(KeyboardAction::Use);
+    const bool useKeyBound = !searchTyping && useBinding.kind == InputBindingKind::Keyboard;
+    const bool useKeyPressed = useKeyBound && isScancodeNewlyPressed(context, input, useBinding.scancode);
+    const bool useKeyHeld = useKeyBound && input.isScancodeHeld(useBinding.scancode);
+    // Only Escape closes the screen (a missed Use press must not). The Escape that closed the alchemy bench or
+    // cleared the item search keeps the screen open until it is released.
+    const bool closePressed = !searchTyping
+        && pKeyboardState != nullptr
+        && pKeyboardState[SDL_SCANCODE_ESCAPE]
+        && !context.interactionState().alchemyBenchEscapeLatch;
     const bool isInventorySpellTargetMode =
         context.utilitySpellOverlayReadOnly().active
         && context.utilitySpellOverlayReadOnly().mode == GameplayUiController::UtilitySpellOverlayMode::InventoryTarget;
-
-    if (closePressed)
-    {
-        if (!context.interactionState().closeOverlayLatch)
+    const auto closeScreen =
+        [&context, &clearPendingCharacterDismiss, isInventorySpellTargetMode]()
         {
             if (isInventorySpellTargetMode)
             {
@@ -1861,6 +2612,13 @@ void GameplayPartyOverlayInputController::handleCharacterOverlayInput(
             clearPendingCharacterDismiss();
             latchGameplayMenuEscape(context);
             context.interactionState().closeOverlayLatch = true;
+        };
+
+    if (closePressed)
+    {
+        if (!context.interactionState().closeOverlayLatch)
+        {
+            closeScreen();
         }
         return;
     }
@@ -1869,7 +2627,7 @@ void GameplayPartyOverlayInputController::handleCharacterOverlayInput(
         context.interactionState().closeOverlayLatch = false;
     }
 
-    const bool charCycleNewlyPressed = input.action(KeyboardAction::CharCycle).pressed;
+    const bool charCycleNewlyPressed = !searchTyping && input.action(KeyboardAction::CharCycle).pressed;
 
     if (charCycleNewlyPressed)
     {
@@ -2160,13 +2918,83 @@ void GameplayPartyOverlayInputController::handleCharacterOverlayInput(
             if (!context.isAdventurersInnCharacterSourceActive()
                 && context.characterScreenReadOnly().page == GameplayUiController::CharacterPage::Inventory)
             {
-                const GameplayCharacterPointerTarget sortTarget = resolveCharacterButtonTarget(
-                    "CharacterInventorySortButton",
-                    GameplayCharacterPointerTargetType::InventorySortButton);
+#if defined(__ANDROID__) || defined(OPENYAMM_IOS)
+                // Touch has no world under the cursor to drop on, so the held item turns Sort into Drop.
+                const GameplayCharacterPointerTargetType sortTargetType = context.heldInventoryItem().active
+                    ? GameplayCharacterPointerTargetType::InventoryDropButton
+                    : GameplayCharacterPointerTargetType::InventorySortButton;
+#else
+                const GameplayCharacterPointerTargetType sortTargetType =
+                    GameplayCharacterPointerTargetType::InventorySortButton;
+#endif
+                const GameplayCharacterPointerTarget sortTarget =
+                    resolveCharacterButtonTarget("CharacterInventorySortButton", sortTargetType);
 
                 if (sortTarget.type != GameplayCharacterPointerTargetType::None)
                 {
                     return sortTarget;
+                }
+
+                // MAW's multibag: the overview's button and a button per bag.
+                const int bagCount = pParty != nullptr ? gameRulesFor(pParty).items.bagCount(*pParty) : 1;
+#if !defined(__ANDROID__)
+                if (bagCount > 1)
+                {
+                    const GameplayCharacterPointerTarget overviewTarget = resolveCharacterButtonTarget(
+                        "CharacterInventoryBagOverview", GameplayCharacterPointerTargetType::InventoryBagOverviewButton);
+
+                    if (overviewTarget.type != GameplayCharacterPointerTargetType::None)
+                    {
+                        return overviewTarget;
+                    }
+                }
+#endif
+
+                const bool hasPouches = pParty != nullptr && gameRulesFor(pParty).items.hasPouches();
+
+                for (const auto &[pPouchId, pouch] : {std::pair("CharacterInventoryCraftingTag", ItemPouch::Crafting),
+                         std::pair("CharacterInventoryAlchemyTag", ItemPouch::Alchemy),
+                         std::pair("CharacterInventoryQuestTag", ItemPouch::Quest)})
+                {
+                    GameplayCharacterPointerTarget pouchTarget = hasPouches
+                        ? resolveCharacterButtonTarget(
+                              pPouchId, GameplayCharacterPointerTargetType::InventoryPouchButton)
+                        : GameplayCharacterPointerTarget{};
+
+                    if (pouchTarget.type != GameplayCharacterPointerTargetType::None)
+                    {
+                        pouchTarget.bagButton = uint8_t(pouch);
+                        return pouchTarget;
+                    }
+                }
+
+                for (uint8_t button = 0; int(button) < std::min(bagCount, InventoryBagOverview::Bags) && bagCount > 1;
+                     ++button)
+                {
+                    const std::string bagId = "CharacterInventoryBag" + std::to_string(button + 1);
+                    GameplayCharacterPointerTarget bagTarget =
+                        resolveCharacterButtonTarget(bagId.c_str(), GameplayCharacterPointerTargetType::InventoryBagButton);
+
+                    if (bagTarget.type != GameplayCharacterPointerTargetType::None)
+                    {
+                        bagTarget.bagButton = button;
+                        return bagTarget;
+                    }
+                }
+
+                // A party of one's tab buttons.
+                for (uint8_t tab = 0; GameplayHudOverlaySupport::inventoryTabsShown(context)
+                         && int(tab) < InventoryBags::tabCount(bagCount); ++tab)
+                {
+                    const std::string tabId = "CharacterInventoryTab" + std::to_string(tab + 1);
+                    GameplayCharacterPointerTarget tabTarget = resolveCharacterButtonTarget(
+                        tabId.c_str(), GameplayCharacterPointerTargetType::InventoryTabButton);
+
+                    if (tabTarget.type != GameplayCharacterPointerTargetType::None)
+                    {
+                        tabTarget.bagButton = tab;
+                        return tabTarget;
+                    }
                 }
             }
 
@@ -2258,6 +3086,30 @@ void GameplayPartyOverlayInputController::handleCharacterOverlayInput(
                 {"CharacterDollRing5Slot", EquipmentSlot::Ring5, true},
                 {"CharacterDollRing6Slot", EquipmentSlot::Ring6, true},
             };
+
+            // The Augment row's implant sockets (jewellery overlay, a character with Cybernetics or an implant).
+            if (!isReadOnlyAdventurersInnView && context.characterScreenReadOnly().dollJewelryOverlayOpen
+                && pActiveCharacter != nullptr && pActiveCharacter->showsImplantSockets())
+            {
+                for (uint8_t socket = 0; socket < pActiveCharacter->implants.size(); ++socket)
+                {
+                    const std::string socketId = "CharacterDollImplant" + std::to_string(socket + 1) + "Slot";
+                    const UiLayoutManager::LayoutElement *pLayout = context.findHudLayoutElement(socketId);
+                    const std::optional<GameplayResolvedHudLayoutElement> resolved = pLayout != nullptr
+                        ? context.resolveHudLayoutElement(socketId, screenWidth, screenHeight, pLayout->width,
+                            pLayout->height)
+                        : std::nullopt;
+
+                    if (resolved && context.isPointerInsideResolvedElement(*resolved, pointerX, pointerY))
+                    {
+                        GameplayCharacterPointerTarget pointerTarget = {};
+                        pointerTarget.type = GameplayCharacterPointerTargetType::ImplantSocket;
+                        pointerTarget.page = context.characterScreenReadOnly().page;
+                        pointerTarget.implantSocket = socket;
+                        return pointerTarget;
+                    }
+                }
+            }
 
             for (const CharacterEquipmentSlotTarget &target : EquipmentSlotTargets)
             {
@@ -2391,6 +3243,99 @@ void GameplayPartyOverlayInputController::handleCharacterOverlayInput(
                 }
             }
 
+            // A pouch's tab: its items and, under a held item, its cells, as the overview's bags have them.
+            if (const std::optional<ItemPouch> shownPouch = GameplayHudOverlaySupport::inventoryPouchShown(context);
+                shownPouch && pParty != nullptr && pActiveCharacter != nullptr)
+            {
+                const std::optional<GameplayResolvedHudLayoutElement> resolvedInventoryGrid =
+                    resolveCharacterInventoryGrid();
+
+                if (resolvedInventoryGrid.has_value()
+                    && context.isPointerInsideResolvedElement(*resolvedInventoryGrid, pointerX, pointerY))
+                {
+                    const InventoryBagOverview::Slot slot = GameplayHudOverlaySupport::pouchSlot(
+                        context, context.characterScreenReadOnly().inventoryPouch, *shownPouch,
+                        *resolvedInventoryGrid);
+                    GameplayCharacterPointerTarget target = {};
+                    target.page = GameplayUiController::CharacterPage::Inventory;
+                    target.bag = InventoryBags::pouchBag(*shownPouch);
+
+                    if (!InventoryBagOverview::insideGrid(slot, pointerX, pointerY))
+                    {
+                        return {};
+                    }
+
+                    const auto [gridX, gridY] = InventoryBagOverview::cellAt(slot, pointerX, pointerY);
+                    const InventoryItem *pItem = InventoryBags::itemInBagAt(
+                        *pParty, context.selectedCharacterScreenSourceIndex(), target.bag, gridX, gridY);
+
+                    if (pItem != nullptr)
+                    {
+                        target.type = GameplayCharacterPointerTargetType::BagOverviewItem;
+                        target.gridX = pItem->gridX;
+                        target.gridY = pItem->gridY;
+                    }
+                    else if (context.heldInventoryItem().active)
+                    {
+                        target.type = GameplayCharacterPointerTargetType::BagOverviewCell;
+                        target.gridX = gridX;
+                        target.gridY = gridY;
+                    }
+
+                    return target.type != GameplayCharacterPointerTargetType::None ? target
+                                                                                    : GameplayCharacterPointerTarget{};
+                }
+            }
+
+            if (context.characterScreenReadOnly().page == GameplayUiController::CharacterPage::Inventory
+                && GameplayHudOverlaySupport::bagOverviewActive(context) && pActiveCharacter != nullptr)
+            {
+                const std::optional<GameplayResolvedHudLayoutElement> resolvedInventoryGrid =
+                    resolveCharacterInventoryGrid();
+
+                if (resolvedInventoryGrid.has_value()
+                    && context.isPointerInsideResolvedElement(*resolvedInventoryGrid, pointerX, pointerY))
+                {
+                    const int firstBag = InventoryBagOverview::firstBag(*pActiveCharacter);
+
+                    for (int bag = firstBag; bag < firstBag + InventoryBagOverview::Bags; ++bag)
+                    {
+                        const InventoryBagOverview::Slot slot =
+                            InventoryBagOverview::slot(*resolvedInventoryGrid, bag);
+                        GameplayCharacterPointerTarget target = {};
+                        target.page = GameplayUiController::CharacterPage::Inventory;
+                        target.bag = uint8_t(bag);
+
+                        if (!InventoryBagOverview::insideGrid(slot, pointerX, pointerY))
+                        {
+                            continue;
+                        }
+
+                        const auto [gridX, gridY] = InventoryBagOverview::cellAt(slot, pointerX, pointerY);
+                        const InventoryItem *pItem =
+                            InventoryBags::itemInBagAt(*pActiveCharacter, target.bag, gridX, gridY);
+
+                        if (pItem != nullptr)
+                        {
+                            target.type = GameplayCharacterPointerTargetType::BagOverviewItem;
+                            target.gridX = pItem->gridX;
+                            target.gridY = pItem->gridY;
+                            return target;
+                        }
+
+                        if (context.heldInventoryItem().active)
+                        {
+                            target.type = GameplayCharacterPointerTargetType::BagOverviewCell;
+                            target.gridX = gridX;
+                            target.gridY = gridY;
+                            return target;
+                        }
+                    }
+
+                    return {};
+                }
+            }
+
             if (context.characterScreenReadOnly().page == GameplayUiController::CharacterPage::Inventory)
             {
                 const std::optional<GameplayResolvedHudLayoutElement> resolvedInventoryGrid =
@@ -2447,6 +3392,27 @@ void GameplayPartyOverlayInputController::handleCharacterOverlayInput(
                 {
                     return {};
                 }
+
+                // The Magic heading's rotation switch: its label and gem, a little past the gem on the right.
+                if (pActiveCharacter != nullptr
+                    && gameRulesFor(context.partyReadOnly()).spells.spellRotation(*pActiveCharacter))
+                {
+                    if (const std::optional<GameplayHudOverlaySupport::SkillRotationSwitchRect> rotationSwitch =
+                            GameplayHudOverlaySupport::skillRotationSwitchRect(context, screenWidth, screenHeight))
+                    {
+                        const float reach = GameplayHudOverlaySupport::SkillSwitchReach * rotationSwitch->scale;
+
+                        if (pointerX >= rotationSwitch->labelLeft - reach && pointerX < rotationSwitch->right + reach
+                            && pointerY >= rotationSwitch->y && pointerY < rotationSwitch->y + rotationSwitch->height)
+                        {
+                            GameplayCharacterPointerTarget target = {};
+                            target.type = GameplayCharacterPointerTargetType::SkillRotationSwitch;
+                            target.page = GameplayUiController::CharacterPage::Skills;
+                            return target;
+                        }
+                    }
+                }
+
                 const auto findSkillRowTarget =
                     [&context, screenWidth, screenHeight, pointerX, pointerY, skillRowHeight](
                         const char *pRegionId,
@@ -2487,28 +3453,48 @@ void GameplayPartyOverlayInputController::handleCharacterOverlayInput(
                         }
 
                         const float rowHeightPixels = skillRowHeight * resolvedRegion->scale;
-                        const float rowWidth = resolvedLevelHeader->x + resolvedLevelHeader->width - resolvedRegion->x;
+                        const float rowRight = resolvedLevelHeader->x + resolvedLevelHeader->width;
+                        const float scale = resolvedRegion->scale;
 
                         for (size_t rowIndex = 0; rowIndex < rows.size(); ++rowIndex)
                         {
                             const CharacterSkillUiRow &row = rows[rowIndex];
+                            const float rowY = resolvedRegion->y + static_cast<float>(rowIndex) * rowHeightPixels;
 
-                            if (!row.interactive)
+                            if (pointerY < rowY || pointerY >= rowY + rowHeightPixels)
                             {
                                 continue;
                             }
 
-                            const float rowY = resolvedRegion->y + static_cast<float>(rowIndex) * rowHeightPixels;
+                            // A switch row: its gem flips the switch, the strip up to the name takes no clicks and
+                            // only the rest of the row raises the skill.
+                            float rowLeft = resolvedRegion->x;
 
-                            if (pointerX >= resolvedRegion->x
-                                && pointerX < resolvedRegion->x + rowWidth
-                                && pointerY >= rowY
-                                && pointerY < rowY + rowHeightPixels)
+                            if (row.switchOn)
+                            {
+                                const float gemRight =
+                                    resolvedRegion->x + GameplayHudOverlaySupport::SkillSwitchGemWidth * scale;
+
+                                if (pointerX >= resolvedRegion->x - GameplayHudOverlaySupport::SkillSwitchReach * scale
+                                    && pointerX < gemRight)
+                                {
+                                    GameplayCharacterPointerTarget target = {};
+                                    target.type = GameplayCharacterPointerTargetType::SkillSwitch;
+                                    target.page = GameplayUiController::CharacterPage::Skills;
+                                    target.skillName = row.canonicalName;
+                                    return target;
+                                }
+
+                                rowLeft = resolvedRegion->x + GameplayHudOverlaySupport::SkillSwitchIndent * scale;
+                            }
+
+                            if (pointerX >= rowLeft && pointerX < rowRight)
                             {
                                 GameplayCharacterPointerTarget target = {};
                                 target.type = GameplayCharacterPointerTargetType::SkillRow;
                                 target.page = GameplayUiController::CharacterPage::Skills;
                                 target.skillName = row.canonicalName;
+                                target.skillRaisable = row.interactive;
                                 return target;
                             }
                         }
@@ -2521,7 +3507,7 @@ void GameplayPartyOverlayInputController::handleCharacterOverlayInput(
                     "CharacterSkillsWeaponsLevelHeader",
                     skillUiData.weaponRows);
 
-                if (weaponTarget.type == GameplayCharacterPointerTargetType::SkillRow)
+                if (weaponTarget.type != GameplayCharacterPointerTargetType::None)
                 {
                     return weaponTarget;
                 }
@@ -2531,7 +3517,7 @@ void GameplayPartyOverlayInputController::handleCharacterOverlayInput(
                     "CharacterSkillsMagicLevelHeader",
                     skillUiData.magicRows);
 
-                if (magicTarget.type == GameplayCharacterPointerTargetType::SkillRow)
+                if (magicTarget.type != GameplayCharacterPointerTargetType::None)
                 {
                     return magicTarget;
                 }
@@ -2541,7 +3527,7 @@ void GameplayPartyOverlayInputController::handleCharacterOverlayInput(
                     "CharacterSkillsArmorLevelHeader",
                     skillUiData.armorRows);
 
-                if (armorTarget.type == GameplayCharacterPointerTargetType::SkillRow)
+                if (armorTarget.type != GameplayCharacterPointerTargetType::None)
                 {
                     return armorTarget;
                 }
@@ -2551,9 +3537,19 @@ void GameplayPartyOverlayInputController::handleCharacterOverlayInput(
                     "CharacterSkillsMiscLevelHeader",
                     skillUiData.miscRows);
 
-                if (miscTarget.type == GameplayCharacterPointerTargetType::SkillRow)
+                if (miscTarget.type != GameplayCharacterPointerTargetType::None)
                 {
                     return miscTarget;
+                }
+
+                const GameplayCharacterPointerTarget techTarget = findSkillRowTarget(
+                    "CharacterSkillsTechListRegion",
+                    "CharacterSkillsTechLevelHeader",
+                    skillUiData.techRows);
+
+                if (techTarget.type != GameplayCharacterPointerTargetType::None)
+                {
+                    return techTarget;
                 }
             }
 
@@ -2562,7 +3558,37 @@ void GameplayPartyOverlayInputController::handleCharacterOverlayInput(
 
     const HudPointerState pointerState = {mouseX, mouseY, isLeftMousePressed};
     const GameplayCharacterPointerTarget noneCharacterTarget = {};
-    const GameplayCharacterPointerTarget hoveredCharacterTarget = findCharacterPointerTarget(mouseX, mouseY);
+    // The talents page covers the skill rows under it.
+    const GameplayCharacterPointerTarget hoveredCharacterTarget = GameplaySoloTalentsPage::coversPointer(context, input)
+        ? noneCharacterTarget
+        : findCharacterPointerTarget(mouseX, mouseY);
+
+    // The skills page names a hovered skill's raise cost when the rules show it; a pouch's button names what it holds.
+    const Character *pShownCharacter = pParty != nullptr ? pParty->member(selectedPartyMemberIndex) : nullptr;
+    context.setStatusBarHoverText(
+        hoveredCharacterTarget.type == GameplayCharacterPointerTargetType::SkillRow && pActiveCharacter != nullptr
+            ? skillRaiseCostHoverText(
+                  *pActiveCharacter, hoveredCharacterTarget.skillName, gameRulesFor(context.partyReadOnly()).skills)
+        : hoveredCharacterTarget.type == GameplayCharacterPointerTargetType::SkillSwitch && pActiveCharacter != nullptr
+            ? skillSwitchHoverText(context,
+                  Engine::localize(displaySkillName(hoveredCharacterTarget.skillName), "skill"),
+                  gameRulesFor(context.partyReadOnly())
+                      .skills.skillSwitch(*pActiveCharacter, hoveredCharacterTarget.skillName)
+                      .value_or(false),
+                  hoveredCharacterTarget.skillName == "Cover" ? KeyboardAction::SkillCover
+                                                              : KeyboardAction::SkillManaShield)
+        : hoveredCharacterTarget.type == GameplayCharacterPointerTargetType::SkillRotationSwitch
+                && pActiveCharacter != nullptr
+            ? skillSwitchHoverText(context, Engine::tr("Elementalist rotation"),
+                  gameRulesFor(context.partyReadOnly()).spells.spellRotation(*pActiveCharacter).value_or(false),
+                  KeyboardAction::SkillRotation)
+        : hoveredCharacterTarget.type == GameplayCharacterPointerTargetType::InventoryTabButton
+            ? Engine::tr("Tab {tab} (Shift+{key})",
+                {{"tab", InventoryBagOverview::tabNumeral(hoveredCharacterTarget.bagButton)},
+                  {"key", int64_t(hoveredCharacterTarget.bagButton + 1)}})
+        : hoveredCharacterTarget.type == GameplayCharacterPointerTargetType::InventoryPouchButton
+            ? pouchHoverText(ItemPouch(hoveredCharacterTarget.bagButton))
+            : std::string());
 
     if (pParty != nullptr)
     {
@@ -2570,26 +3596,63 @@ void GameplayPartyOverlayInputController::handleCharacterOverlayInput(
             context,
             selectedPartyMemberIndex,
             hoveredCharacterTarget,
-            isLeftMousePressed);
+            isLeftMousePressed,
+            input.rightMouseButton.held);
 
         if (rightMousePressed
             && context.heldInventoryItem().active
             && !isInventorySpellTargetMode
             && (hoveredCharacterTarget.type == GameplayCharacterPointerTargetType::InventoryItem
-                || hoveredCharacterTarget.type == GameplayCharacterPointerTargetType::InventoryCell))
+                || hoveredCharacterTarget.type == GameplayCharacterPointerTargetType::InventoryCell
+                || hoveredCharacterTarget.type == GameplayCharacterPointerTargetType::BagOverviewItem))
         {
+            // An item of the bag overview is mixed with its bag open, as on that bag's full-size grid.
+            const bool overviewItem =
+                hoveredCharacterTarget.type == GameplayCharacterPointerTargetType::BagOverviewItem;
             const Character *pHoveredCharacter = pParty->member(selectedPartyMemberIndex);
+            const uint8_t targetBag = overviewItem || pHoveredCharacter == nullptr
+                ? hoveredCharacterTarget.bag
+                : pHoveredCharacter->rulesetState.currentBag;
             const InventoryItem *pTargetItem =
                 pHoveredCharacter != nullptr
-                    ? pHoveredCharacter->inventoryItemAt(hoveredCharacterTarget.gridX, hoveredCharacterTarget.gridY)
+                    ? InventoryBags::itemInBagAt(*pParty, selectedPartyMemberIndex, targetBag,
+                        hoveredCharacterTarget.gridX, hoveredCharacterTarget.gridY)
                     : nullptr;
 
-            if (pTargetItem != nullptr
-                && context.itemService().tryUseHeldItemOnInventoryItem(
-                    context,
-                    selectedPartyMemberIndex,
-                    pTargetItem->gridX,
-                    pTargetItem->gridY))
+            if (pTargetItem != nullptr)
+            {
+                const uint8_t targetGridX = pTargetItem->gridX;
+                const uint8_t targetGridY = pTargetItem->gridY;
+
+                const auto mixItem =
+                    [&]() -> bool
+                    {
+                        return context.itemService().tryUseHeldItemOnInventoryItem(
+                            context, selectedPartyMemberIndex, targetGridX, targetGridY);
+                    };
+
+                if (overviewItem
+                        ? InventoryBags::withBagOpen(*pParty, selectedPartyMemberIndex, targetBag,
+                              gameRulesFor(pParty).items.bagCount(*pParty), mixItem)
+                        : mixItem())
+                {
+                    return;
+                }
+            }
+        }
+
+        // A crafting material held over a worn item opens the Workbench with both in place, as over a pack item.
+        if (rightMousePressed
+            && context.heldInventoryItem().active
+            && !isInventorySpellTargetMode
+            && hoveredCharacterTarget.type == GameplayCharacterPointerTargetType::EquipmentSlot)
+        {
+            CraftItemRef wornTarget;
+            wornTarget.memberIndex = selectedPartyMemberIndex;
+            wornTarget.worn = true;
+            wornTarget.slot = hoveredCharacterTarget.equipmentSlot;
+
+            if (context.itemService().openWorkbenchForHeldMaterial(context, wornTarget))
             {
                 return;
             }
@@ -2613,7 +3676,8 @@ void GameplayPartyOverlayInputController::handleCharacterOverlayInput(
          &input,
          isReadOnlyAdventurersInnView,
          selectedPartyMemberIndex,
-         selectedPartyMemberCanAct](
+         selectedPartyMemberCanAct,
+         pKeyboardState](
             const GameplayCharacterPointerTarget &target,
             float activationX,
             float activationY)
@@ -2708,7 +3772,7 @@ void GameplayPartyOverlayInputController::handleCharacterOverlayInput(
             {
                 if (isInventorySpellTargetMode && target.page != GameplayUiController::CharacterPage::Inventory)
                 {
-                    context.setStatusBarEvent("Select an item");
+                    context.setStatusBarEvent(Engine::tr("Select an item"));
                     return;
                 }
 
@@ -2795,7 +3859,7 @@ void GameplayPartyOverlayInputController::handleCharacterOverlayInput(
                 const size_t innIndex = context.characterScreenReadOnly().sourceIndex;
                 const AdventurersInnMember *pInnMember = pParty->adventurersInnMember(innIndex);
                 const std::string memberName =
-                    pInnMember != nullptr ? pInnMember->character.name : "Adventurer";
+                    pInnMember != nullptr ? pInnMember->character.name : Engine::tr("Adventurer");
 
                 if (pParty->hireAdventurersInnMember(innIndex))
                 {
@@ -2822,12 +3886,12 @@ void GameplayPartyOverlayInputController::handleCharacterOverlayInput(
                         context.characterScreen().adventurersInnRosterOverlayOpen = true;
                     }
 
-                    context.setStatusBarEvent(memberName + " joined the party.");
+                    context.setStatusBarEvent(Engine::tr("{name} joined the party.", {{"name", memberName}}));
                 }
                 else
                 {
                     context.setStatusBarEvent(
-                        pParty->lastStatus().empty() ? "Can't hire adventurer." : pParty->lastStatus());
+                        pParty->lastStatus().empty() ? Engine::tr("Can't hire adventurer.") : pParty->lastStatus());
                 }
 
                 return;
@@ -2855,7 +3919,7 @@ void GameplayPartyOverlayInputController::handleCharacterOverlayInput(
                     context.interactionState().pendingCharacterDismissMemberIndex = memberIndex;
                     context.interactionState().pendingCharacterDismissExpiresTicks = dismissClickTicks + CharacterDismissConfirmWindowMs;
                     context.setStatusBarEvent(
-                        "To confirm " + pMember->name + " dismissal press the button again...",
+                        Engine::tr("To confirm {name} dismissal press the button again...", {{"name", pMember->name}}),
                         2.0f);
                 }
                 else
@@ -2866,11 +3930,11 @@ void GameplayPartyOverlayInputController::handleCharacterOverlayInput(
                     if (pParty->dismissMemberToAdventurersInn(memberIndex))
                     {
                         context.characterScreen().dollJewelryOverlayOpen = false;
-                        context.setStatusBarEvent(dismissedName + " dismissed.");
+                        context.setStatusBarEvent(Engine::tr("{name} dismissed.", {{"name", dismissedName}}));
                     }
                     else
                     {
-                        context.setStatusBarEvent("Dismissal failed.");
+                        context.setStatusBarEvent(Engine::tr("Dismissal failed."));
                     }
                 }
 
@@ -2879,32 +3943,84 @@ void GameplayPartyOverlayInputController::handleCharacterOverlayInput(
 
             if (target.type == GameplayCharacterPointerTargetType::AlchemyButton)
             {
-                if (context.heldInventoryItem().active)
-                {
-                    context.setStatusBarEvent("Put the item down first.");
-                    return;
-                }
+                openWorkbench(context);
+                return;
+            }
 
-                // Every visit starts with empty slots; filters and the search stay as the player left them.
-                GameplayUiController::AlchemyBenchState &bench = context.characterScreen().alchemyBench;
-                bench.active = true;
-                bench.targetItemId = 0;
-                bench.heldItemId = 0;
-                bench.selectedResultItemId = 0;
-                bench.recipeSearchActive = false;
-                bench.clearBrewResult();
-                bench.newRecipeResultIds.clear();
-                context.characterScreen().dollJewelryOverlayOpen = false;
+            if (target.type == GameplayCharacterPointerTargetType::InventoryDropButton)
+            {
+                GameplayInteractionController::dropHeldItemInFrontOfParty(context);
                 return;
             }
 
             if (target.type == GameplayCharacterPointerTargetType::InventorySortButton && pParty != nullptr)
             {
-                if (!pParty->sortMemberInventory(selectedPartyMemberIndex))
+                // With several bags (MAW) every sort is MAW's: the open bag, Shift its tab's bags as one, Ctrl the
+                // whole party's (MAW's T and G); every member's items stay with that member (audit TXT-2-B2).
+                const int bagCount = gameRulesFor(pParty).items.bagCount(*pParty);
+                // The overview shows every bag, so its Sort sorts every bag, as Shift does on one bag.
+                const bool shiftHeld = pKeyboardState[SDL_SCANCODE_LSHIFT] || pKeyboardState[SDL_SCANCODE_RSHIFT]
+                    || GameplayHudOverlaySupport::bagOverviewActive(context);
+                const bool ctrlHeld = pKeyboardState[SDL_SCANCODE_LCTRL] || pKeyboardState[SDL_SCANCODE_RCTRL];
+                const Character *pMember = pParty->member(selectedPartyMemberIndex);
+
+                // A pouch's tab: Sort sorts that pouch.
+                if (const std::optional<ItemPouch> shownPouch =
+                        GameplayHudOverlaySupport::inventoryPouchShown(context))
                 {
-                    context.setStatusBarEvent("Not enough room to sort.");
+                    InventoryBags::sortPouch(*pParty, *shownPouch);
+                    context.characterScreen().inventoryPouch.firstRow[size_t(*shownPouch)] = 0;
+                    context.setStatusBarEvent(
+                        *shownPouch == ItemPouch::Crafting  ? Engine::tr("Crafting materials sorted")
+                        : *shownPouch == ItemPouch::Alchemy ? Engine::tr("Potions and reagents sorted")
+                                                            : Engine::tr("Quest items sorted"));
+                    return;
                 }
 
+                if (bagCount > 1 && pMember != nullptr)
+                {
+                    std::vector<size_t> members = {selectedPartyMemberIndex};
+
+                    if (ctrlHeld)
+                    {
+                        members.clear();
+
+                        for (size_t memberIndex = 0; memberIndex < pParty->members().size(); ++memberIndex)
+                        {
+                            members.push_back(memberIndex);
+                        }
+                    }
+
+                    const bool sorted = InventoryBags::sortPartyBags(*pParty, members, shiftHeld, bagCount);
+                    context.setStatusBarEvent(!sorted ? Engine::tr("Not enough room to sort.")
+                            : ctrlHeld && shiftHeld ? Engine::tr("All bags of the party sorted")
+                            : ctrlHeld              ? Engine::tr("All inventories have been sorted")
+                            : shiftHeld             ? Engine::tr("All of {name}'s bags sorted",
+                                {{"name", pMember->name}})
+                                                    : Engine::tr("Inventory sorted"));
+                    return;
+                }
+
+                if (!pParty->sortMemberInventory(selectedPartyMemberIndex))
+                {
+                    context.setStatusBarEvent(Engine::tr("Not enough room to sort."));
+                }
+
+                return;
+            }
+
+            // A bag button zooms that bag of the open bag's tab.
+            if (target.type == GameplayCharacterPointerTargetType::InventoryBagButton && pParty != nullptr
+                && pParty->member(selectedPartyMemberIndex) != nullptr)
+            {
+                zoomInventoryBag(context, *pParty, selectedPartyMemberIndex,
+                    InventoryBagOverview::firstBag(*pParty->member(selectedPartyMemberIndex)) + target.bagButton);
+                return;
+            }
+
+            if (target.type == GameplayCharacterPointerTargetType::InventoryTabButton)
+            {
+                openBagTab(context, target.bagButton);
                 return;
             }
 
@@ -2914,8 +4030,47 @@ void GameplayPartyOverlayInputController::handleCharacterOverlayInput(
                 return;
             }
 
+            if (target.type == GameplayCharacterPointerTargetType::InventoryPouchButton)
+            {
+                togglePouchTab(context, ItemPouch(target.bagButton));
+                return;
+            }
+
+            // The bag overview's button: the four bags again.
+            if (target.type == GameplayCharacterPointerTargetType::InventoryBagOverviewButton)
+            {
+                context.characterScreen().inventoryBagZoomed = false;
+                context.characterScreen().inventoryPouch.shown.reset();
+                return;
+            }
+
+            if (target.type == GameplayCharacterPointerTargetType::SkillSwitch)
+            {
+                if (!isReadOnlyAdventurersInnView)
+                {
+                    toggleSkillSwitch(context, target.skillName);
+                }
+
+                return;
+            }
+
+            if (target.type == GameplayCharacterPointerTargetType::SkillRotationSwitch)
+            {
+                if (!isReadOnlyAdventurersInnView)
+                {
+                    toggleSkillRotation(context);
+                }
+
+                return;
+            }
+
             if (target.type == GameplayCharacterPointerTargetType::SkillRow && pParty != nullptr)
             {
+                if (!target.skillRaisable)
+                {
+                    return;
+                }
+
                 if (pParty->activeMemberIndex() != selectedPartyMemberIndex
                     && !context.trySelectPartyMember(selectedPartyMemberIndex, true))
                 {
@@ -2930,6 +4085,12 @@ void GameplayPartyOverlayInputController::handleCharacterOverlayInput(
                     }
 
                     context.playSpeechReaction(pParty->activeMemberIndex(), SpeechId::SkillIncreased, true);
+
+                    // A mastery the rules granted on the raise.
+                    if (!pParty->lastStatus().empty())
+                    {
+                        context.setStatusBarEvent(pParty->lastStatus());
+                    }
                 }
 
                 return;
@@ -2954,7 +4115,9 @@ void GameplayPartyOverlayInputController::handleCharacterOverlayInput(
                 context.itemService().tryUseHeldItemOnPartyMember(context, memberIndex, true);
 
                 GameplayUiController::ReadableScrollOverlayState &scrollOverlay = context.readableScrollOverlay();
-                scrollOverlay.staysOpen = scrollOverlay.active;
+                scrollOverlay.staysUntilClick = scrollOverlay.active;
+                scrollOverlay.heldByRightButton = false;
+                scrollOverlay.closeClickStarted = false;
 
                 // Return unconsumed items to the cell vacated by the first click.
                 if (context.heldInventoryItem().active)
@@ -2979,11 +4142,68 @@ void GameplayPartyOverlayInputController::handleCharacterOverlayInput(
                 return;
             }
 
+            // The bag overview: items go into and come out of any bag; the open bag stays open.
+            if (target.type == GameplayCharacterPointerTargetType::BagOverviewItem
+                || target.type == GameplayCharacterPointerTargetType::BagOverviewCell)
+            {
+                activateBagOverviewTarget(
+                    context, *pParty, memberIndex, target, resolveCharacterInventoryGrid(), activationX, activationY,
+                    setHeldItem, clearHeldItem);
+                return;
+            }
+
+            // An implant socket: take its implant into the hand, or fit the held implant (the one it replaces into
+            // the hand).
+            if (target.type == GameplayCharacterPointerTargetType::ImplantSocket)
+            {
+                if (!selectedPartyMemberCanAct)
+                {
+                    context.setStatusBarEvent(Engine::tr("Can't do that"));
+                    return;
+                }
+
+                if (!context.heldInventoryItem().active)
+                {
+                    InventoryItem implant = {};
+
+                    if (pParty->takeImplant(memberIndex, target.implantSocket, implant))
+                    {
+                        setHeldItem(implant);
+                    }
+
+                    return;
+                }
+
+                std::optional<InventoryItem> replaced;
+
+                if (!pParty->fitImplant(memberIndex, target.implantSocket, context.heldInventoryItem().item, replaced))
+                {
+                    const ItemDefinition *pHeld =
+                        context.itemTable()->get(context.heldInventoryItem().item.objectDescriptionId);
+                    context.setStatusBarEvent(pHeld == nullptr || pHeld->equipStat != "Implant"
+                            ? Engine::tr("Only an implant fits there")
+                            : Engine::tr("Cybernetics has not opened that socket"));
+                    return;
+                }
+
+                if (replaced)
+                {
+                    setHeldItem(*replaced);
+                }
+                else
+                {
+                    clearHeldItem();
+                }
+
+                return;
+            }
+
+
             if (target.type == GameplayCharacterPointerTargetType::EquipmentSlot)
             {
                 if (!selectedPartyMemberCanAct)
                 {
-                    context.setStatusBarEvent("Can't do that");
+                    context.setStatusBarEvent(Engine::tr("Can't do that"));
                     return;
                 }
 
@@ -3012,6 +4232,12 @@ void GameplayPartyOverlayInputController::handleCharacterOverlayInput(
                     return;
                 }
 
+                // An item with no use of its own that the rules make travel (MAW's dimension maps).
+                if (useAction == InventoryItemUseAction::None && context.itemService().tryUseHeldTravelItem(context))
+                {
+                    return;
+                }
+
                 const ItemDefinition *pItemDefinition =
                     context.itemTable()->get(context.heldInventoryItem().item.objectDescriptionId);
 
@@ -3031,7 +4257,9 @@ void GameplayPartyOverlayInputController::handleCharacterOverlayInput(
 
                 if (!plan.has_value())
                 {
-                    context.setStatusBarEvent("Can't equip that item there");
+                    context.setStatusBarEvent(
+                        GameMechanics::equipRefusalReason(*pCharacter, *pItemDefinition, pActiveCharacterDollType)
+                            .value_or(Engine::tr("Can't equip that item there")));
                     context.playSpeechReaction(memberIndex, SpeechId::CantEquip, true);
                     return;
                 }
@@ -3048,7 +4276,8 @@ void GameplayPartyOverlayInputController::handleCharacterOverlayInput(
                 {
                     const std::string &partyStatus = pParty->lastStatus();
                     context.setStatusBarEvent(
-                        partyStatus.empty() || partyStatus == "inventory full" ? "Pack is Full!" : partyStatus);
+                        partyStatus.empty() || partyStatus == "inventory full" ? Engine::tr("Pack is Full!")
+                                                                               : partyStatus);
                     context.playSpeechReaction(
                         memberIndex,
                         partyStatus == "inventory full" ? SpeechId::InventoryRoom : SpeechId::CantEquip,
@@ -3072,7 +4301,7 @@ void GameplayPartyOverlayInputController::handleCharacterOverlayInput(
             {
                 if (!selectedPartyMemberCanAct)
                 {
-                    context.setStatusBarEvent("Can't do that");
+                    context.setStatusBarEvent(Engine::tr("Can't do that"));
                     return;
                 }
 
@@ -3086,6 +4315,12 @@ void GameplayPartyOverlayInputController::handleCharacterOverlayInput(
                 if (useAction != InventoryItemUseAction::None && useAction != InventoryItemUseAction::Equip)
                 {
                     context.itemService().tryUseHeldItemOnPartyMember(context, memberIndex, true);
+                    return;
+                }
+
+                // An item with no use of its own that the rules make travel (MAW's dimension maps).
+                if (useAction == InventoryItemUseAction::None && context.itemService().tryUseHeldTravelItem(context))
+                {
                     return;
                 }
 
@@ -3121,7 +4356,9 @@ void GameplayPartyOverlayInputController::handleCharacterOverlayInput(
 
                 if (!plan.has_value())
                 {
-                    context.setStatusBarEvent("Can't equip that item");
+                    context.setStatusBarEvent(GameMechanics::equipRefusalReason(
+                        *pCharacter, *pItemDefinition, pActiveCharacterDollType)
+                            .value_or(Engine::tr("Can't equip that item")));
                     context.playSpeechReaction(memberIndex, SpeechId::CantEquip, true);
                     return;
                 }
@@ -3138,7 +4375,8 @@ void GameplayPartyOverlayInputController::handleCharacterOverlayInput(
                 {
                     const std::string &partyStatus = pParty->lastStatus();
                     context.setStatusBarEvent(
-                        partyStatus.empty() || partyStatus == "inventory full" ? "Pack is Full!" : partyStatus);
+                        partyStatus.empty() || partyStatus == "inventory full" ? Engine::tr("Pack is Full!")
+                                                                               : partyStatus);
                     context.playSpeechReaction(
                         memberIndex,
                         partyStatus == "inventory full" ? SpeechId::InventoryRoom : SpeechId::CantEquip,
@@ -3171,8 +4409,15 @@ void GameplayPartyOverlayInputController::handleCharacterOverlayInput(
                 {
                     const std::string &partyStatus = pParty->lastStatus();
                     context.setStatusBarEvent(
-                        partyStatus.empty() || partyStatus == "inventory full" ? "Pack is Full!" : partyStatus);
+                        partyStatus.empty() || partyStatus == "inventory full" ? Engine::tr("Pack is Full!")
+                                                                               : partyStatus);
                     return;
+                }
+
+                // An item with a pouch went there, not to the cell: the status says where.
+                if (pParty->pouchFor(context.heldInventoryItem().item))
+                {
+                    context.setStatusBarEvent(pParty->lastStatus());
                 }
 
                 if (replacedItem.has_value())
@@ -3245,8 +4490,15 @@ void GameplayPartyOverlayInputController::handleCharacterOverlayInput(
                 {
                     const std::string &partyStatus = pParty->lastStatus();
                     context.setStatusBarEvent(
-                        partyStatus.empty() || partyStatus == "inventory full" ? "Pack is Full!" : partyStatus);
+                        partyStatus.empty() || partyStatus == "inventory full" ? Engine::tr("Pack is Full!")
+                                                                               : partyStatus);
                     return;
+                }
+
+                // An item with a pouch went there, not to the cell: the status says where.
+                if (pParty->pouchFor(context.heldInventoryItem().item))
+                {
+                    context.setStatusBarEvent(pParty->lastStatus());
                 }
 
                 if (replacedItem.has_value())
@@ -3341,6 +4593,98 @@ void GameplayPartyOverlayInputController::handleCharacterOverlayInput(
                     memberIndex, SDL_GetTicks(), activationX, activationY, 6.0f * gridMetrics.scale);
             }
         };
+
+    // The Use key over a pack item does what dropping it on the paperdoll does: drinks, learns, casts or equips it; a
+    // message scroll shows while the key is held. Whatever is left in hand (a refused item, a potion with drinks left,
+    // the equipment it replaced) goes back where the item lay, else anywhere in the pack. An item of the bag overview
+    // (MAW's multibag) is used with its bag open, as on that bag's full-size grid.
+    const Character *pHoveredOwner = pParty != nullptr ? pParty->member(selectedPartyMemberIndex) : nullptr;
+    const bool hoveredOverviewItem = hoveredCharacterTarget.type == GameplayCharacterPointerTargetType::BagOverviewItem;
+    const bool canUseHoveredItem = pHoveredOwner != nullptr
+        && (hoveredCharacterTarget.type == GameplayCharacterPointerTargetType::InventoryItem || hoveredOverviewItem)
+        && !context.heldInventoryItem().active
+        && !isReadOnlyAdventurersInnView
+        && !isInventorySpellTargetMode;
+    const InventoryItem *pHoveredPackItem = nullptr;
+
+    if (canUseHoveredItem)
+    {
+        pHoveredPackItem = hoveredOverviewItem
+            ? InventoryBags::itemInBagAt(*pParty, selectedPartyMemberIndex, hoveredCharacterTarget.bag,
+                hoveredCharacterTarget.gridX, hoveredCharacterTarget.gridY)
+            : pHoveredOwner->inventoryItemAt(hoveredCharacterTarget.gridX, hoveredCharacterTarget.gridY);
+    }
+
+    if (useKeyHeld && pHoveredPackItem != nullptr)
+    {
+        context.itemService().showReadableScroll(context, selectedPartyMemberIndex, *pHoveredPackItem);
+    }
+
+    if (useKeyPressed)
+    {
+        const bool messageScroll = pHoveredPackItem != nullptr && context.itemTable() != nullptr
+            && InventoryItemUseRuntime::classifyItemUse(*pHoveredPackItem, *context.itemTable(),
+                   context.mergedPotionSettingTable(), context.mergedReagentSettingTable())
+                == InventoryItemUseAction::ReadMessageScroll;
+
+        if (pHoveredPackItem != nullptr && !messageScroll)
+        {
+            if (!selectedPartyMemberCanAct)
+            {
+                context.setStatusBarEvent(Engine::tr("Can't do that"));
+                return;
+            }
+
+            const uint8_t originX = pHoveredPackItem->gridX;
+            const uint8_t originY = pHoveredPackItem->gridY;
+            // The item as the open bag's grid shows it: an overview item's bag is open while it is used.
+            GameplayCharacterPointerTarget itemTarget = hoveredCharacterTarget;
+            itemTarget.type = GameplayCharacterPointerTargetType::InventoryItem;
+            itemTarget.gridX = originX;
+            itemTarget.gridY = originY;
+            const auto useItem =
+                [&]() -> bool
+                {
+                    activateCharacterTarget(itemTarget, mouseX, mouseY);
+
+                    if (context.heldInventoryItem().active)
+                    {
+                        GameplayCharacterPointerTarget dollTarget = {};
+                        dollTarget.type = GameplayCharacterPointerTargetType::DollPanel;
+                        // Left of the paperdoll's middle: a weapon goes to the main hand first.
+                        activateCharacterTarget(dollTarget, 0.0f, mouseY);
+                    }
+
+                    Character *pOwner = pParty->member(selectedPartyMemberIndex);
+
+                    if (context.heldInventoryItem().active && pOwner != nullptr)
+                    {
+                        const InventoryItem leftover = context.heldInventoryItem().item;
+
+                        if (pOwner->addInventoryItemAt(leftover, originX, originY)
+                            || pParty->tryAutoPlaceItemInMemberInventory(selectedPartyMemberIndex, leftover))
+                        {
+                            context.heldInventoryItem() = {};
+                            pParty->clearHeldItemForQueries();
+                        }
+                    }
+
+                    return true;
+                };
+
+            if (hoveredOverviewItem)
+            {
+                InventoryBags::withBagOpen(*pParty, selectedPartyMemberIndex, hoveredCharacterTarget.bag,
+                    gameRulesFor(pParty).items.bagCount(*pParty), useItem);
+            }
+            else
+            {
+                useItem();
+            }
+
+            return;
+        }
+    }
 
     GameplayOverlayInteractionState &interactionState = context.interactionState();
 

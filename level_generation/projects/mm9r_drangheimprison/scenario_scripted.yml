@@ -1,0 +1,86 @@
+# Written by make_scenarios.py from the built map; rerun it after convert.py.
+id: mm9r.drangheimprison_scripted
+title: Drangheim Prison (native BLV) - the alarm, the grate and smith, the interrogation
+world: mm9
+mode: faithful
+tags:
+- mm9
+- mm9_rework
+- draft
+steps:
+- load_map:
+    map: drangheimprison.blv
+- note:
+    text: The PerceptionBrushes' glow shows at Perception 12 and not below (checked every 3 s).
+- console:
+    line: skill set Perception 1 B
+- advance_runtime:
+    seconds: 3.5
+- assert:
+    state_dump_named_map_var:
+      name: PerceptionHints
+      value: 1
+- console:
+    line: skill set Perception 12 G
+- advance_runtime:
+    seconds: 3.5
+- assert:
+    state_dump_named_map_var:
+      name: PerceptionHints
+      value: 2
+- note:
+    text: 'No pass: the inner guards are hostile; the gate guards are not (DrangheimHostility.inc).'
+- assert:
+    actor_visible:
+      actor_index: 47
+      hostile_to_party: true
+- assert:
+    actor_visible:
+      actor_index: 52
+      hostile_to_party: false
+- note:
+    text: 'The smithy''s grate (Door1): a click opens it and the smith stops (Open/CloseTrigger).'
+- execute_event:
+    id: 232
+- advance_runtime:
+    seconds: 3
+- assert:
+    mechanism:
+      id: 64
+      state: open
+- assert:
+    state_dump_named_map_var:
+      name: SmithOff
+      value: 1
+- note:
+    text: 'TriggerBeatings1 (event 251): the interrogator walks to the first cell and the warden opens it; the prisoner follows
+      him to the interrogation room, which the doorman shuts behind them, and the beating sounds (BeatStep 18 while it plays).'
+- execute_event:
+    id: 251
+- advance_runtime:
+    seconds: 12
+- assert:
+    state_dump_named_map_var:
+      name: Beatings
+      value: 1
+- assert:
+    mechanism:
+      id: 12
+      state: open
+- advance_runtime:
+    seconds: 52
+- assert:
+    state_dump_named_map_var:
+      name: BeatStep
+      value: 18
+- assert:
+    mechanism:
+      id: 77
+      state: closed
+- assert:
+    actor_visible:
+      actor_index: 64
+      near:
+        x: -3200
+        y: -5489
+        max_distance: 200

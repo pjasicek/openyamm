@@ -1,0 +1,202 @@
+{
+ "source": "/home/pjasicek/github/OpenYAMM/level_generation/creatures/claude_shared/material_pass/backup_pre_material_pass/mm6_min1.glb",
+ "output": "/home/pjasicek/github/OpenYAMM/level_generation/creatures/claude_shared/material_pass/batch/mm6_min1.glb",
+ "assignments": [
+  {
+   "match": "=Minotaur_A",
+   "body": "/home/pjasicek/github/OpenYAMM/level_generation/creatures/mm6_min1_codex/textures/min1_body_material_classes.png",
+   "head": "/home/pjasicek/github/OpenYAMM/level_generation/creatures/mm6_min1_codex/textures/min1_head_material_classes.png"
+  }
+ ],
+ "kept_classes": [],
+ "textures": [
+  {
+   "image": "min1_body_metal_rough_head_atlas",
+   "size": [
+    2080,
+    1024
+   ],
+   "materials": [
+    "Minotaur_A",
+    "Minotaur_B",
+    "Minotaur_C"
+   ],
+   "layout": [
+    {
+     "part": "body",
+     "box": [
+      0,
+      0,
+      1024,
+      1024
+     ]
+    },
+    {
+     "part": "head",
+     "box": [
+      1056,
+      0,
+      2080,
+      1024
+     ]
+    }
+   ],
+   "old_factors": {
+    "metallicFactor": 0,
+    "roughnessFactor": 1.0,
+    "openyamm_specular": 1,
+    "openyamm_specular_mask": true
+   },
+   "old_r_channel": "specular_mask",
+   "stretched_uv_triangles": 0,
+   "fit_ok": true,
+   "parts": {
+    "body": {
+     "uv_covered_texels": 444033,
+     "uv_covered_without_class": 0.0191,
+     "uv_covered_without_class_far": 0.0025,
+     "class_texels_outside_uv": 0.0661,
+     "class_map": "/home/pjasicek/github/OpenYAMM/level_generation/creatures/mm6_min1_codex/textures/min1_body_material_classes.png",
+     "class_share_in_uv": {
+      "fur": 0.6498,
+      "claw": 0.0007,
+      "cloth": 0.2091,
+      "metal": 0.1384,
+      "other": 0.0021
+     }
+    },
+    "head": {
+     "uv_covered_texels": 438779,
+     "uv_covered_without_class": 0.0139,
+     "uv_covered_without_class_far": 0.001,
+     "class_texels_outside_uv": 0.047,
+     "class_map": "/home/pjasicek/github/OpenYAMM/level_generation/creatures/mm6_min1_codex/textures/min1_head_material_classes.png",
+     "class_share_in_uv": {
+      "skin": 0.0871,
+      "fur": 0.7388,
+      "claw": 0.1655,
+      "eye": 0.0013,
+      "mouth": 0.0001,
+      "metal": 0.0072
+     }
+    }
+   },
+   "class_share_total": {
+    "skin": 0.0433,
+    "fur": 0.694,
+    "claw": 0.0826,
+    "eye": 0.0007,
+    "mouth": 0.0001,
+    "cloth": 0.1052,
+    "metal": 0.0732,
+    "other": 0.0011
+   },
+   "kept_classes": [],
+   "kept_texels": 0,
+   "old_specular_mean_by_class": {
+    "skin": 0.007,
+    "fur": 0.004,
+    "claw": 0.099,
+    "eye": 0.271,
+    "mouth": 0.0,
+    "cloth": 0.002,
+    "metal": 0.285,
+    "other": 0.173
+   },
+   "new_specular_mean_by_class": {
+    "skin": 0.25,
+    "fur": 0.0,
+    "claw": 1.0,
+    "eye": 1.0,
+    "mouth": 0.5,
+    "cloth": 0.3,
+    "metal": 1.0,
+    "other": 0.3
+   },
+   "new_roughness_mean_by_class": {
+    "skin": 0.801,
+    "fur": 0.902,
+    "claw": 0.451,
+    "eye": 0.158,
+    "mouth": 0.45,
+    "cloth": 0.751,
+    "metal": 0.378,
+    "other": 0.689
+   },
+   "new_factors": {
+    "metallicFactor": 1.0,
+    "roughnessFactor": 1.0,
+    "openyamm_specular": 1.0,
+    "openyamm_specular_mask": true
+   },
+   "metal_base_colour": {
+    "Minotaur_A": {
+     "median_srgb": [
+      157,
+      124,
+      55
+     ],
+     "luminance_srgb_p10_p50_p90": [
+      58,
+      129,
+      184
+     ],
+     "share_below_srgb_30": 0.0052,
+     "share_below_srgb_90": 0.3459,
+     "flag": null,
+     "verdict": "below the Khronos metal range (about sRGB 180-250)"
+    },
+    "Minotaur_B": {
+     "median_srgb": [
+      157,
+      124,
+      55
+     ],
+     "luminance_srgb_p10_p50_p90": [
+      58,
+      129,
+      184
+     ],
+     "share_below_srgb_30": 0.005,
+     "share_below_srgb_90": 0.3457,
+     "flag": null,
+     "verdict": "below the Khronos metal range (about sRGB 180-250)"
+    },
+    "Minotaur_C": {
+     "median_srgb": [
+      157,
+      124,
+      55
+     ],
+     "luminance_srgb_p10_p50_p90": [
+      58,
+      129,
+      184
+     ],
+     "share_below_srgb_30": 0.0052,
+     "share_below_srgb_90": 0.3459,
+     "flag": null,
+     "verdict": "below the Khronos metal range (about sRGB 180-250)"
+    }
+   },
+   "new_channels": {
+    "R": {
+     "min": 0,
+     "max": 255,
+     "mean": 57.1
+    },
+    "G": {
+     "min": 26,
+     "max": 255,
+     "mean": 201.6
+    },
+    "B": {
+     "min": 0,
+     "max": 255,
+     "mean": 21.9
+    }
+   }
+  }
+ ],
+ "unchanged": []
+}

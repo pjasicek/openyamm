@@ -1,0 +1,21 @@
+{
+  "tool": "image_gen.imagegen",
+  "prompt": "EDIT ONLY IMAGE 1, the exact grey mesh-guide atlas for existing Might and Magic Doom's Day Cloak (6cape5). Image 2 is the authoritative inventory icon for colours/materials only. Identity: Low folded rectangular black cloak with angular silver piping and a pale ornamental central clasp; actual fabric layers with visible folded edge thickness. Exact material boundaries: Black fabric and its fold interiors are CLOTH BLUE. Pale metal central clasp and angular silver edging are METAL RED. Preserve the exact 1536x1024 3:2 canvas, three columns by two rows, all object sizes, outlines, positions, shape edges and transparency. Top row FRONT / BACK / LEFT; bottom row RIGHT / TOP / EMPTY. Do not move, expand, rotate, relight or reconstruct the geometry. Make a technical flat material-ID map, not an illustration. Fill every existing solid grey pixel with one opaque flat class colour: RED #ff0000 exposed steel/gold/iron, GREEN #00ff00 leather, BLUE #0000ff cloth/fur, YELLOW #ffff00 horn/wood, BLACK #000000 gems. No shading, outlines, texture, glow, gradients or new holes. Assign each surface by the specific icon and material notes. Do not assume all fingers or toes have one material. Preserve holes in buckle frames and keep leather visible within them GREEN. All solid mesh surfaces remain opaque, including linings. Background and empty bottom-right tile truly transparent; no floor, background haze, text, labels or borders. Keep EACH guide view's width/height and all internal edges EXACTLY. Output ONE 3:2 landscape atlas.",
+  "input_guide": "/home/pjasicek/github/OpenYAMM/level_generation/props/items_wip_equipment/codex_tex/equipment_6cape5/inputs/guide_mask.png",
+  "input_guide_sha256": "c1ac510eca049469b2cc5b2acf2c8cc6b367f88448944ac774a328264d67bcd5",
+  "revision": 1,
+  "input_icon": "6cape5",
+  "source_output": "/home/pjasicek/.codex/generated_images/01a14de2-7ad6-7e83-ba24-ee6db541bc51/exec-a6c326c6-f7a0-4ee2-b4c6-7fc10a741602.png",
+  "output": "mask_atlas.png",
+  "selected": true,
+  "reason": "Selected raw artwork used by installed, reviewed export.",
+  "raw_output": "mask_raw_v1.png",
+  "output_sha256": "7aad273de6fef97d47d1bc8d41d2466c5986c741ba28cc80484d3fcd629dec16",
+  "input_icon_path": "assets_dev/engine/icons_x2/6cape5.png",
+  "input_icon_sha256": "f05096915750e1ec0e8ac456a643fd7e286e00cc5087ec587ed1a7d6db6d9517",
+  "active_bytes_match": true,
+  "alpha_extrema": [
+    0,
+    254
+  ]
+}

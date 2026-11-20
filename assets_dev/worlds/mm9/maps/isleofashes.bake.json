@@ -1,0 +1,92 @@
+{
+  "base": {
+    "bake": "output/mm9_rework/bakes/isleofashes",
+    "carried_over": false,
+    "geometry_hash": "327d23c536b1e6b5",
+    "lighting_sha256": "0b723cf9e212d0ed117b539259dfceb13ee13c5abc25ce8255b00a17b51f9f71",
+    "recipe": {
+      "backend": "5.3.0",
+      "extra_lights": [],
+      "geometry_helper_sha256": "aa0823810bcf2fbed4da16c0d50b7ddc57e1e54e684f1a31381fc0eee3e49332",
+      "producer_sha256": "ded3384081980de459a4782726c59e6e20303caca10503ab4a5efa2b4aebca71",
+      "profile": {
+        "ambient_colour": [
+          1.0,
+          1.0,
+          1.0
+        ],
+        "ambient_scale": 0.6,
+        "blur_radius": 2,
+        "bounce_scale": 6.0,
+        "bounces": 3,
+        "direct_scale": 0.7,
+        "dirlights": true,
+        "emitters": [
+          {
+            "colour": [
+              1.0,
+              0.97,
+              0.88
+            ],
+            "display": 1.1,
+            "outward": false,
+            "strength": 1.0,
+            "textures": [
+              "sky04"
+            ]
+          }
+        ],
+        "glass": [],
+        "keep_faces": [
+          2332,
+          2334,
+          2335,
+          2336,
+          2337,
+          2386,
+          2387,
+          2395
+        ],
+        "layout_only": true,
+        "light_size": 24,
+        "map": "isleofashes.blv",
+        "max_lighting": 1,
+        "outward_distance": 4096,
+        "padding": 2,
+        "page_size": 4096,
+        "samples": 32,
+        "shadowless_faces": [],
+        "skip_textures": [
+          "ashc08t3g2",
+          "ashro4zhnj",
+          "ashrqc2588",
+          "mainakfoki",
+          "nwrob199j1"
+        ],
+        "sky_bounce_scale": 6.0,
+        "sky_scale": 0.4,
+        "units_per_texel": 81.92,
+        "world": "mm9"
+      }
+    }
+  },
+  "dat": "mm9/extracted/WORLDS/WORLDS/ISLEOFASHES.dat",
+  "dat_sha256": "29c5202c43e4d1d29bb992535491e92751c34f67fabd481cecd5c7c92e7ddbbe",
+  "daylight_pages": true,
+  "encoding": "display",
+  "fallback_models": [],
+  "min_light": 0.0,
+  "parameters": {
+    "fallback_cells": [
+      2,
+      8
+    ],
+    "fallback_voxel_lt": 64.0,
+    "inside_eps_lt": 4.5,
+    "normal_dot": 0.998,
+    "outside_reach_lt": 24.0,
+    "plane_tolerance_lt": 1.5
+  },
+  "producer": "mm9r_common/lightmap_transfer.py",
+  "producer_sha256": "04ee0c2223a812928fa2f99d81b9bb3fe859beba8137a28859fc8a6e3dada5d3"
+}

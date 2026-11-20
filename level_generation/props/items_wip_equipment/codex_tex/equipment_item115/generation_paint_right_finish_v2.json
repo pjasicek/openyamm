@@ -1,0 +1,11 @@
+{
+  "tool": "image_gen.imagegen",
+  "prompt": "Texture-paint EDIT of this single exact 1024x1024 grey mesh guide. Preserve the guide's silhouette pixel-for-pixel: object leftmost x165, rightmost x859, top y220, bottom y803 (or precisely proportional at output resolution). Do NOT enlarge, extend, shift, resize, reconstruct, add volume or add loose pixels around it. Navy-blue velvet for the existing hat body, crimson for existing feather on left, muted gold for the existing thin horizontal bottom band. Keep band as thin and narrow as the grey guide; do NOT widen its ends. Keep every existing fold, shape, internal edge and feather outline. All grey surfaces opaque. Fine realistic velvet grain with flat shadowless illumination, no AO, specular, directional shading or baked lighting. True transparent background; NO halo, coloured fringe, haze, glow, ground, vignette or text. Only replace grey surface colours with materials. One square exact-framing texture projection view.",
+  "source_output": "/home/pjasicek/.codex/generated_images/01a14de2-7ad6-7e83-ba24-ee6db541bc51/exec-8218ecff-753e-40dd-8448-1f9f046883ff.png",
+  "raw_output": "paint_right_finish_v2.png",
+  "output_sha256": "8ca94db827ef884dc244b68c0a8b41c6940f858bc603947698f7a48fb348c10e",
+  "input_guide": "guide_right.png",
+  "input_guide_sha256": "dd6ed608806414719da7f44770f8a5813d04217b3b1ee4491a98c6dcbcf83413",
+  "selected": true,
+  "reason": "Accepted corrected exact-guide view"
+}

@@ -1,0 +1,641 @@
+{
+  "item": "hes_grafted_plate",
+  "brief": "CODEX_BRIEF.md",
+  "brief_sha256": "68047a565bca9a24a39125bc121876ee986cc2495e4f90b3a093630ddb31bf0e",
+  "tool": "built-in image_gen",
+  "status": "generation_complete_with_failed_checks",
+  "requested_views": [
+    "front",
+    "back",
+    "left",
+    "right",
+    "top"
+  ],
+  "attempt_limit": "One initial generation plus at most one corrective regeneration per view.",
+  "selected_outputs": {
+    "top": "paint_top.png",
+    "front": "paint_front.png",
+    "back": "paint_back.png",
+    "left": "paint_left.png",
+    "right": "paint_right.png"
+  },
+  "limitations": [
+    "All returns retained byte-for-byte, unresized. Tool did not honor requested 1024 x 1024 dimensions.",
+    "No output has an exactly identical silhouette/alpha to its guide.",
+    "Material palettes broadly match, but strictly flat shadowless albedo was not achieved.",
+    "Selected means the preferred available attempt, not approval of failed checks.",
+    "No texture projection, model integration or build was performed; image-generation-only scope."
+  ],
+  "runs": [
+    {
+      "view": "top",
+      "attempt": 1,
+      "prompt": "Use case: precise-object-edit, texture painting.\nProduce ONE 1024 x 1024 RGBA PNG, real transparent background, a flat ALBEDO TEXTURE SOURCE.\nINPUT 1 is the exact gray model render to repaint; it is the absolute geometric authority. INPUT 2 is the approved design/material reference only.\nPaint directly inside INPUT 1's existing shape without moving, rotating, enlarging, shrinking, warping, cropping, repairing, adding, or removing any part. Preserve its exact silhouette, position, scale, perspective, part boundaries, apertures, and original transparent pixels. Each contour and hole must coincide with INPUT 1 at the same pixel coordinates. Do not turn this into an upright concept illustration or change the camera to match INPUT 2. The view name is only a camera identifier; follow the supplied render even if the object appears oddly oriented.\nSubject: Ancient hull plate grafted onto a resin harness.\nMaterials from INPUT 2: warm off-white cracked ceramic plates with fine worn hairline cracks and restrained small scratches; brushed antique gold trim and fittings; deep black-violet/purple resin harness with organic sculpted grooves; warm ivory bone-like struts where modeled; orange light in recessed vents and blue-white light in circular technological inlays where present. Paint bright light colours without bloom. Continue the same materials plausibly onto surfaces absent from the reference. Preserve engraving, panel joins and seams as surface detail, without adding any silhouette geometry. Visible interiors are dark-violet resin with even illumination, not black shadows.\nLIGHTING: strictly flat even shadowless viewer illumination. This is colour/albedo for later projection onto a model, NOT a beauty render. No cast shadows, no baked ambient occlusion, no directional gradients, no hot speculars or white reflection streaks, no rim light. Gold is its yellow-brown base colour with only faint diffuse sheen. Ceramic is warm white, not blown-out white. Remove the guide's gray lighting/shading and replace it with flat material colour.\nBackground: true alpha=0 outside the original guide, and through its empty holes. No floor, backdrop, glow outside edges, text, labels, letters, watermark, legend, border, or extra objects. Return only the one repainted guide at 1024 x 1024.\nVIEW-SPECIFIC GEOMETRY: Preserve this exact tall upright-looking orthographic view, which is named top only because of the model's coordinates. Main breastplate remains centered, neck opening at the upper center, shoulder plates on each upper side, lower opening and rim below. Bounds approximately x=186..837,y=65..959. Paint the large central upper breastplate and lower abdominal plate as warm white cracked ceramic with gold bordering; sculpted surrounding harness black-violet resin and ivory/bone struts. Shoulder panels white ceramic with restrained gold trim and small blue-white light details only where existing parts support them. Orange light colours only in the existing recessed side vents. Preserve every existing edge and part boundary.",
+      "inputs": [
+        {
+          "path": "guide_top.png",
+          "sha256": "893767e4ed636546408194271319bcda5fe5f87eb9f30748488c19616aeda71f"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "d99132ece16f1a6a01de89717b1e438fe1cb9e1c5b04fd9b0e69ee7d279a8789"
+        }
+      ],
+      "output": "paint_top_run1.png",
+      "source": "/home/pjasicek/.codex/generated_images/01a16e51-904c-7f22-a436-54ab6f6f8ead/exec-8286af38-faa2-4ae5-994b-96207fc99a50.png",
+      "selected": false,
+      "reason": "Corrective attempt requested: guide edge/part drift and directional shading.",
+      "output_sha256": "1cb0f5bc105813e52a8ad0b5745160c40eb340ac7616dc8416995ad76e141f16",
+      "requested_size": [
+        1024,
+        1024
+      ],
+      "returned_size": [
+        1254,
+        1254
+      ],
+      "resized": false,
+      "checks": {
+        "silhouette_identical": false,
+        "alpha_identical": false,
+        "normalized_silhouette_iou": 0.973483,
+        "comparison_method": "Read-only nearest-pixel sampling onto guide coordinates; threshold alpha >= 128. No output file was resized or edited.",
+        "alpha_range": [
+          0,
+          255
+        ],
+        "fully_transparent_fraction": 0.592111,
+        "alpha_nonzero_bbox": [
+          0,
+          29,
+          1234,
+          1254
+        ],
+        "alpha_128_bbox": [
+          225,
+          71,
+          1033,
+          1171
+        ],
+        "transparent_background": true,
+        "colours_and_materials_match_reference": true,
+        "flat_even_light_without_shadows_or_hot_highlights": false,
+        "lighting_note": "Visual inspection: corrections reduce some highlights, but directional face tones and dark recesses remain; side views retain glints/glow.",
+        "no_text_or_letters": true,
+        "visual_review": "Palette follows reference and camera broadly follows guide. Part boundaries and contours drift. Not fully compliant with exact silhouette and strictly unlit albedo requirements."
+      },
+      "tool_options": {
+        "transparent_background": true
+      }
+    },
+    {
+      "view": "top",
+      "attempt": 2,
+      "prompt": "Corrective texture-painting pass for paint_top.png. Output one 1024 x 1024 PNG with transparent background.\nEdit IMAGE 1, the gray guide. IMAGE 2 is only the material palette. Do NOT recreate the illustrated object in IMAGE 2. Trace IMAGE 1 exactly; preserve every faceted edge, its width, camera, alignment and empty margins. Keep the existing top and bottom interior surfaces opaque. This must be the same low-poly model, merely coloured. Copy IMAGE 1's alpha/outline, including small angular protrusions. Exact guide content bounds: x=187 to 836 inclusive, y=66 to 957 inclusive on a 1024 square. No new contours or parts.\nUse warm white ceramic with thin fine cracks on the large flat central plates and shoulder plates, matte ochre-gold on existing border strips, black-violet resin on the harness, ivory on the existing struts, and saturated orange/blue-white on small existing light details.\nCRITICAL CORRECTION: FLAT UNLIT ALBEDO ONLY. Paint material base colours with fine texture detail but absolutely NO highlights, directional shadows, occlusion shadows, reflective metal or glowing bloom. The same material has the same brightness on every face. Do not inherit the beauty reference's lighting. Gold is a flat brushed ochre, bone a flat warm ivory, resin a dark purple colour. Clearly readable fine seams are pigment detail only. No black cavity shading: interiors use the same evenly lit resin as exterior harness.\nPreserve the original guide's part divisions exactly. No floor, backdrop, text, letters or graphics. Actual transparent alpha outside the guide.",
+      "inputs": [
+        {
+          "path": "guide_top.png",
+          "sha256": "893767e4ed636546408194271319bcda5fe5f87eb9f30748488c19616aeda71f"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "d99132ece16f1a6a01de89717b1e438fe1cb9e1c5b04fd9b0e69ee7d279a8789"
+        }
+      ],
+      "output": "paint_top.png",
+      "source": "/home/pjasicek/.codex/generated_images/01a16e51-904c-7f22-a436-54ab6f6f8ead/exec-c3b76b1f-ac5b-44a9-ab7f-3af98feb97e9.png",
+      "selected": true,
+      "reason": "Selected corrective pass for reduced specular shading and closer internal material placement. Normalized silhouette overlap is slightly worse than the first pass (0.963083 versus 0.973483); neither is exact.",
+      "output_sha256": "78e53785bb729bf3293d03938af11baac3d3277dff01b80c78f1fcb3944b44ef",
+      "requested_size": [
+        1024,
+        1024
+      ],
+      "returned_size": [
+        1254,
+        1254
+      ],
+      "resized": false,
+      "checks": {
+        "silhouette_identical": false,
+        "alpha_identical": false,
+        "normalized_silhouette_iou": 0.963083,
+        "comparison_method": "Read-only nearest-pixel sampling onto guide coordinates; threshold alpha >= 128. No output file was resized or edited.",
+        "alpha_range": [
+          0,
+          255
+        ],
+        "fully_transparent_fraction": 0.589293,
+        "alpha_nonzero_bbox": [
+          25,
+          33,
+          1224,
+          1238
+        ],
+        "alpha_128_bbox": [
+          228,
+          66,
+          1027,
+          1180
+        ],
+        "transparent_background": true,
+        "colours_and_materials_match_reference": true,
+        "flat_even_light_without_shadows_or_hot_highlights": false,
+        "lighting_note": "Visual inspection: corrections reduce some highlights, but directional face tones and dark recesses remain; side views retain glints/glow.",
+        "no_text_or_letters": true,
+        "visual_review": "Palette follows reference and camera broadly follows guide. Part boundaries and contours drift. Not fully compliant with exact silhouette and strictly unlit albedo requirements."
+      },
+      "tool_options": {
+        "transparent_background": true
+      }
+    },
+    {
+      "view": "front",
+      "attempt": 1,
+      "prompt": "Use case: precise-object-edit, texture painting.\nProduce ONE 1024 x 1024 RGBA PNG, real transparent background, a flat ALBEDO TEXTURE SOURCE.\nINPUT 1 is the exact gray model render to repaint; it is the absolute geometric authority. INPUT 2 is the approved design/material reference only.\nPaint directly inside INPUT 1's existing shape without moving, rotating, enlarging, shrinking, warping, cropping, repairing, adding, or removing any part. Preserve its exact silhouette, position, scale, perspective, part boundaries, apertures, and original transparent pixels. Each contour and hole must coincide with INPUT 1 at the same pixel coordinates. Do not turn this into an upright concept illustration or change the camera to match INPUT 2. The view name is only a camera identifier; follow the supplied render even if the object appears oddly oriented.\nSubject: Ancient hull plate grafted onto a resin harness.\nMaterials from INPUT 2: warm off-white cracked ceramic plates with fine worn hairline cracks and restrained small scratches; brushed antique gold trim and fittings; deep black-violet/purple resin harness with organic sculpted grooves; warm ivory bone-like struts where modeled; orange light in recessed vents and blue-white light in circular technological inlays where present. Paint bright light colours without bloom. Continue the same materials plausibly onto surfaces absent from the reference. Preserve engraving, panel joins and seams as surface detail, without adding any silhouette geometry. Visible interiors are dark-violet resin with even illumination, not black shadows.\nLIGHTING: strictly flat even shadowless viewer illumination. This is colour/albedo for later projection onto a model, NOT a beauty render. No cast shadows, no baked ambient occlusion, no directional gradients, no hot speculars or white reflection streaks, no rim light. Gold is its yellow-brown base colour with only faint diffuse sheen. Ceramic is warm white, not blown-out white. Remove the guide's gray lighting/shading and replace it with flat material colour.\nBackground: true alpha=0 outside the original guide, and through its empty holes. No floor, backdrop, glow outside edges, text, labels, letters, watermark, legend, border, or extra objects. Return only the one repainted guide at 1024 x 1024.\nVIEW-SPECIFIC GEOMETRY: Preserve the low, wide bowl-like opening and foreshortened rings seen in this exact guide. Bounds are approximately x=186..838, y=282..741. Repaint the broad lower/front outer band in warm off-white ceramic with antique gold edge trim; the collar/inner visible surfaces in black-violet resin. The interior surface shown by gray pixels must remain a surface, not become a new transparent hole. Preserve the side shoulder pieces and upper bone/clasp details.\nDo not zoom to fill the image: retain the huge transparent top and bottom margins of the guide, 282 pixels above and below the object. Exact opaque content bounds on the 1024 square are x=187 to 836 and y=282 to 741. Retain the guide's low-poly angular silhouette; do not smooth or curve it. Flat unlit material colours only.",
+      "inputs": [
+        {
+          "path": "guide_front.png",
+          "sha256": "c900c726188966331daf56f3b12b08d0d308d897421e3d0856b171727fdb065d"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "d99132ece16f1a6a01de89717b1e438fe1cb9e1c5b04fd9b0e69ee7d279a8789"
+        }
+      ],
+      "output": "paint_front_run1.png",
+      "source": "/home/pjasicek/.codex/generated_images/01a16e51-904c-7f22-a436-54ab6f6f8ead/exec-3cca72de-a2eb-4291-9a4e-efaca2123a4e.png",
+      "selected": false,
+      "reason": "Corrective pass requested to remove interior occlusion shading, bright edge highlights, and contour drift.",
+      "output_sha256": "7aba26dcdcea922e461b3e10f41b2586d474f8df7fc561314dd2d2d53283e23f",
+      "requested_size": [
+        1024,
+        1024
+      ],
+      "returned_size": [
+        1254,
+        1254
+      ],
+      "resized": false,
+      "checks": {
+        "silhouette_identical": false,
+        "alpha_identical": false,
+        "normalized_silhouette_iou": 0.99393,
+        "comparison_method": "Read-only nearest-pixel sampling onto guide coordinates; threshold alpha >= 128. No output file was resized or edited.",
+        "alpha_range": [
+          0,
+          255
+        ],
+        "fully_transparent_fraction": 0.780651,
+        "alpha_nonzero_bbox": [
+          41,
+          19,
+          1238,
+          1240
+        ],
+        "alpha_128_bbox": [
+          229,
+          347,
+          1026,
+          907
+        ],
+        "transparent_background": true,
+        "colours_and_materials_match_reference": true,
+        "flat_even_light_without_shadows_or_hot_highlights": false,
+        "lighting_note": "Visual inspection: corrections reduce some highlights, but directional face tones and dark recesses remain; side views retain glints/glow.",
+        "no_text_or_letters": true,
+        "visual_review": "Palette follows reference and camera broadly follows guide. Part boundaries and contours drift. Not fully compliant with exact silhouette and strictly unlit albedo requirements."
+      },
+      "tool_options": {
+        "transparent_background": true
+      }
+    },
+    {
+      "view": "front",
+      "attempt": 2,
+      "prompt": "Corrective flat albedo painting. IMAGE 1 is the exact gray guide to colour in place; IMAGE 2 supplies the material colours only. Return ONE 1024x1024 PNG with real transparency.\nTreat IMAGE 1 as an immutable stencil: retain every pixel of the outer contour and holes, all low-poly faceted part edges and the camera. Subject stays in x=187..836, y=282..741 of the 1024-square frame, surrounded by the original wide transparent margins. It is a foreshortened, low wide collar/waist opening view, not an upright suit of armor.\nThe broad frontal outer shell is warm white ceramic with fine worn cracks and thin matte gold framing. Side outer panels also ceramic/gold. Existing inner harness is black-violet resin and existing top attachments ivory bone with gold fasteners. Orange and blue-white small light insets as supported by the existing model details.\nCRITICAL: colour every exposed surface with FLAT UNLIT BASE COLOUR. No beauty-render lighting. No white edge glints, black occlusion bands, cavity darkening, drop shadows, reflective metal, glowing bloom or gradients from light to dark. The large interior cup shown in the guide is an OPAQUE dark-violet resin surface, not a newly cut hole and not a black shaded cavity. Give its far and near walls the same even base colour. Use fine grain, cracks and seams sparingly, without adding raised structures or changing original face boundaries. Gold = matte warm ochre, bone = matte ivory, ceramic = lightly weathered off-white, resin = even deep violet. No lights casting glow onto adjacent materials.\nSilhouette and geometry EXACTLY from IMAGE 1; do not copy IMAGE 2's camera. Empty pixels remain alpha 0. No floor, background, text, symbols, letters or watermark.",
+      "inputs": [
+        {
+          "path": "guide_front.png",
+          "sha256": "c900c726188966331daf56f3b12b08d0d308d897421e3d0856b171727fdb065d"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "d99132ece16f1a6a01de89717b1e438fe1cb9e1c5b04fd9b0e69ee7d279a8789"
+        }
+      ],
+      "output": "paint_front.png",
+      "source": "/home/pjasicek/.codex/generated_images/01a16e51-904c-7f22-a436-54ab6f6f8ead/exec-62d8affc-b8ff-4fed-8c61-dcbf5b57aad8.png",
+      "selected": true,
+      "reason": "Selected corrective pass for flatter interior resin and closer internal face layout. Normalized silhouette overlap is slightly worse than the first pass (0.989473 versus 0.99393); neither is exact.",
+      "output_sha256": "9842f4afac970598d767956a21aefa3b7d8d28559e94d135060d0abd4d26d62c",
+      "requested_size": [
+        1024,
+        1024
+      ],
+      "returned_size": [
+        1254,
+        1254
+      ],
+      "resized": false,
+      "checks": {
+        "silhouette_identical": false,
+        "alpha_identical": false,
+        "normalized_silhouette_iou": 0.989473,
+        "comparison_method": "Read-only nearest-pixel sampling onto guide coordinates; threshold alpha >= 128. No output file was resized or edited.",
+        "alpha_range": [
+          0,
+          255
+        ],
+        "fully_transparent_fraction": 0.779818,
+        "alpha_nonzero_bbox": [
+          0,
+          38,
+          1242,
+          1228
+        ],
+        "alpha_128_bbox": [
+          230,
+          346,
+          1027,
+          908
+        ],
+        "transparent_background": true,
+        "colours_and_materials_match_reference": true,
+        "flat_even_light_without_shadows_or_hot_highlights": false,
+        "lighting_note": "Visual inspection: corrections reduce some highlights, but directional face tones and dark recesses remain; side views retain glints/glow.",
+        "no_text_or_letters": true,
+        "visual_review": "Palette follows reference and camera broadly follows guide. Part boundaries and contours drift. Not fully compliant with exact silhouette and strictly unlit albedo requirements."
+      },
+      "tool_options": {
+        "transparent_background": true
+      }
+    },
+    {
+      "view": "back",
+      "attempt": 1,
+      "prompt": "Use case: precise-object-edit, texture painting.\nProduce ONE 1024 x 1024 RGBA PNG, real transparent background, a flat ALBEDO TEXTURE SOURCE.\nINPUT 1 is the exact gray model render to repaint; it is the absolute geometric authority. INPUT 2 is the approved design/material reference only.\nPaint directly inside INPUT 1's existing shape without moving, rotating, enlarging, shrinking, warping, cropping, repairing, adding, or removing any part. Preserve its exact silhouette, position, scale, perspective, part boundaries, apertures, and original transparent pixels. Each contour and hole must coincide with INPUT 1 at the same pixel coordinates. Do not turn this into an upright concept illustration or change the camera to match INPUT 2. The view name is only a camera identifier; follow the supplied render even if the object appears oddly oriented.\nSubject: Ancient hull plate grafted onto a resin harness.\nMaterials from INPUT 2: warm off-white cracked ceramic plates with fine worn hairline cracks and restrained small scratches; brushed antique gold trim and fittings; deep black-violet/purple resin harness with organic sculpted grooves; warm ivory bone-like struts where modeled; orange light in recessed vents and blue-white light in circular technological inlays where present. Paint bright light colours without bloom. Continue the same materials plausibly onto surfaces absent from the reference. Preserve engraving, panel joins and seams as surface detail, without adding any silhouette geometry. Visible interiors are dark-violet resin with even illumination, not black shadows.\nLIGHTING: strictly flat even shadowless viewer illumination. This is colour/albedo for later projection onto a model, NOT a beauty render. No cast shadows, no baked ambient occlusion, no directional gradients, no hot speculars or white reflection streaks, no rim light. Gold is its yellow-brown base colour with only faint diffuse sheen. Ceramic is warm white, not blown-out white. Remove the guide's gray lighting/shading and replace it with flat material colour.\nBackground: true alpha=0 outside the original guide, and through its empty holes. No floor, backdrop, glow outside edges, text, labels, letters, watermark, legend, border, or extra objects. Return only the one repainted guide at 1024 x 1024.\nVIEW-SPECIFIC GEOMETRY: Preserve this low, wide camera view, including the nested polygonal central rings and central visible surface, with left and right broad shoulder faces. Bounds approximately x=186..838, y=282..741. Continue warm off-white ceramic broad panels, antique gold trim, black-violet resin recessed harness and ivory attachment pieces. Do not invent a new central hole where the guide has an opaque face; preserve all original surface topology.\nKeep all huge transparent margins: exact bounds x=187..836,y=282..741 on 1024x1024. Strictly paint the actual guide topology: the central circular face remains opaque resin with flat uniform colour, all concentric low-poly rings remain aligned. Do not interpret the center as a glowing reactor. Treat facets as material faces, not as reasons to add directional shading. No highlight streaks on any surface.",
+      "inputs": [
+        {
+          "path": "guide_back.png",
+          "sha256": "a7c134fe0020e85e6017b867cc6676d85a456ec4f557b96afa8247ad9f4880c6"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "d99132ece16f1a6a01de89717b1e438fe1cb9e1c5b04fd9b0e69ee7d279a8789"
+        }
+      ],
+      "output": "paint_back_run1.png",
+      "source": "/home/pjasicek/.codex/generated_images/01a16e51-904c-7f22-a436-54ab6f6f8ead/exec-59da2ee5-bc88-477c-83ec-47c841b8f17a.png",
+      "selected": false,
+      "reason": "Corrective pass requested for metal highlight streaks, dark occlusion recesses and edge drift.",
+      "output_sha256": "f743cc94dedf55a5575353e1b03197726453cfa3e69f8707e01cbecb4ffe0991",
+      "requested_size": [
+        1024,
+        1024
+      ],
+      "returned_size": [
+        1254,
+        1254
+      ],
+      "resized": false,
+      "checks": {
+        "silhouette_identical": false,
+        "alpha_identical": false,
+        "normalized_silhouette_iou": 0.987104,
+        "comparison_method": "Read-only nearest-pixel sampling onto guide coordinates; threshold alpha >= 128. No output file was resized or edited.",
+        "alpha_range": [
+          0,
+          255
+        ],
+        "fully_transparent_fraction": 0.778721,
+        "alpha_nonzero_bbox": [
+          55,
+          41,
+          1146,
+          1228
+        ],
+        "alpha_128_bbox": [
+          229,
+          343,
+          1026,
+          909
+        ],
+        "transparent_background": true,
+        "colours_and_materials_match_reference": true,
+        "flat_even_light_without_shadows_or_hot_highlights": false,
+        "lighting_note": "Visual inspection: corrections reduce some highlights, but directional face tones and dark recesses remain; side views retain glints/glow.",
+        "no_text_or_letters": true,
+        "visual_review": "Palette follows reference and camera broadly follows guide. Part boundaries and contours drift. Not fully compliant with exact silhouette and strictly unlit albedo requirements."
+      },
+      "tool_options": {
+        "transparent_background": true
+      }
+    },
+    {
+      "view": "back",
+      "attempt": 2,
+      "prompt": "Corrective albedo paint-over of IMAGE 1, not a new illustration. Return ONE 1024 x 1024 PNG with transparent background. IMAGE 2 supplies colours and material textures only.\nIMAGE 1's exact gray model, perspective, contour, every low-poly edge and part position must remain unchanged. Keep content exactly at x=187..836, y=282..741 with the same wide margins. Preserve the nested central polygonal rings and OPAQUE polygonal center face, broad left/right shoulder panels, upper small plate and lower rim, and all existing ivory clasps. The central circular opaque face should be dark violet resin, with no device or new hole added.\nPaint warm white worn ceramic on the existing broad plates, matte antique ochre-gold on existing trims, ivory bone on clasps, deep black-violet resin on the harness and central surface. Fine cracks, seams and grain from the design are fine. Existing small light details are simple bright orange or blue-white colour, no glow falloff.\nESSENTIAL CORRECTION: UNLIT ALBEDO. No metallic white glints, bright edge highlights, black contact shadows, AO, speculars, directional shading, reflected light, or bloom. This is not studio photography and not a shaded game render. All faces of each material share its base colour. No dark outlines pretending to be contact shadows. Recesses are violet coloured, not darkened because recessed. Keep ceramic uniformly warm white, gold evenly ochre, resin evenly purple, ivory evenly cream. Do not add shadows to explain the form.\nPreserve angular contour details EXACTLY from guide. No background/floor, no extra parts, no text, letters, labels or watermark.",
+      "inputs": [
+        {
+          "path": "guide_back.png",
+          "sha256": "a7c134fe0020e85e6017b867cc6676d85a456ec4f557b96afa8247ad9f4880c6"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "d99132ece16f1a6a01de89717b1e438fe1cb9e1c5b04fd9b0e69ee7d279a8789"
+        }
+      ],
+      "output": "paint_back.png",
+      "source": "/home/pjasicek/.codex/generated_images/01a16e51-904c-7f22-a436-54ab6f6f8ead/exec-90ae5efd-366d-4b3b-bc48-5c142caab20b.png",
+      "selected": true,
+      "reason": "Correction removes prominent glints and follows guide central nested-ring geometry more closely. Remaining face shading and contour deviations prevent an exact compliance claim.",
+      "output_sha256": "db306c3fb1abca32d36a585ecf77a5b5cde97925a8a773dbf4873d44df03081d",
+      "requested_size": [
+        1024,
+        1024
+      ],
+      "returned_size": [
+        1254,
+        1254
+      ],
+      "resized": false,
+      "checks": {
+        "silhouette_identical": false,
+        "alpha_identical": false,
+        "normalized_silhouette_iou": 0.99286,
+        "comparison_method": "Read-only nearest-pixel sampling onto guide coordinates; threshold alpha >= 128. No output file was resized or edited.",
+        "alpha_range": [
+          0,
+          255
+        ],
+        "fully_transparent_fraction": 0.779364,
+        "alpha_nonzero_bbox": [
+          0,
+          0,
+          1240,
+          1254
+        ],
+        "alpha_128_bbox": [
+          228,
+          347,
+          1026,
+          907
+        ],
+        "transparent_background": true,
+        "colours_and_materials_match_reference": true,
+        "flat_even_light_without_shadows_or_hot_highlights": false,
+        "lighting_note": "Visual inspection: corrections reduce some highlights, but directional face tones and dark recesses remain; side views retain glints/glow.",
+        "no_text_or_letters": true,
+        "visual_review": "Palette follows reference and camera broadly follows guide. Part boundaries and contours drift. Not fully compliant with exact silhouette and strictly unlit albedo requirements."
+      },
+      "tool_options": {
+        "transparent_background": true
+      }
+    },
+    {
+      "view": "left",
+      "attempt": 1,
+      "prompt": "Use case: precise-object-edit, texture painting.\nProduce ONE 1024 x 1024 RGBA PNG, real transparent background, a flat ALBEDO TEXTURE SOURCE.\nINPUT 1 is the exact gray model render to repaint; it is the absolute geometric authority. INPUT 2 is the approved design/material reference only.\nPaint directly inside INPUT 1's existing shape without moving, rotating, enlarging, shrinking, warping, cropping, repairing, adding, or removing any part. Preserve its exact silhouette, position, scale, perspective, part boundaries, apertures, and original transparent pixels. Each contour and hole must coincide with INPUT 1 at the same pixel coordinates. Do not turn this into an upright concept illustration or change the camera to match INPUT 2. The view name is only a camera identifier; follow the supplied render even if the object appears oddly oriented.\nSubject: Ancient hull plate grafted onto a resin harness.\nMaterials from INPUT 2: warm off-white cracked ceramic plates with fine worn hairline cracks and restrained small scratches; brushed antique gold trim and fittings; deep black-violet/purple resin harness with organic sculpted grooves; warm ivory bone-like struts where modeled; orange light in recessed vents and blue-white light in circular technological inlays where present. Paint bright light colours without bloom. Continue the same materials plausibly onto surfaces absent from the reference. Preserve engraving, panel joins and seams as surface detail, without adding any silhouette geometry. Visible interiors are dark-violet resin with even illumination, not black shadows.\nLIGHTING: strictly flat even shadowless viewer illumination. This is colour/albedo for later projection onto a model, NOT a beauty render. No cast shadows, no baked ambient occlusion, no directional gradients, no hot speculars or white reflection streaks, no rim light. Gold is its yellow-brown base colour with only faint diffuse sheen. Ceramic is warm white, not blown-out white. Remove the guide's gray lighting/shading and replace it with flat material colour.\nBackground: true alpha=0 outside the original guide, and through its empty holes. No floor, backdrop, glow outside edges, text, labels, letters, watermark, legend, border, or extra objects. Return only the one repainted guide at 1024 x 1024.\nVIEW-SPECIFIC GEOMETRY: Preserve this exact horizontal side view: shoulder/arm opening is on the LEFT around x=294,y=540, waist open notch on the RIGHT; never rotate it upright. Overall guide bounds approximately x=65..959,y=282..741. Keep the large transparent polygonal arm opening empty. Side rib structures are ivory/bone over black-violet resin with orange vent colours in their recesses. Large shoulder shell is off-white cracked ceramic, trim antique gold. Preserve the open waist notch and each bone/trim protrusion.\nCRITICAL GUIDE LOCK: exact content bounds x=66..957,y=282..741 on the 1024-square. Keep the 282px empty margins above and below. The large LEFT armhole must retain its exact polygonal shape, location and true transparent interior. Do not add a lining inside that hole. The three thin central rib bars and all little edge facets remain precisely on the guide. Flatten materials completely: same base colour on side faces as on front faces, no black occlusion, no sculpted shining highlights. Fine matte material grain only.",
+      "inputs": [
+        {
+          "path": "guide_left.png",
+          "sha256": "7016e483ec74675d3ede0e9ec9faaa1f928cd751255f2a09a984a06f79bbf588"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "d99132ece16f1a6a01de89717b1e438fe1cb9e1c5b04fd9b0e69ee7d279a8789"
+        }
+      ],
+      "output": "paint_left.png",
+      "source": "/home/pjasicek/.codex/generated_images/01a16e51-904c-7f22-a436-54ab6f6f8ead/exec-c964e25d-8a23-47b8-b192-934744815c63.png",
+      "selected": true,
+      "reason": "First attempt retains square canvas, guide margins and correct three rib arrangement better than the landscape correction; lighting remains too shaded/glossy for strict albedo compliance.",
+      "output_sha256": "3d271aa82176963056db756e7044c304861219f503bc03cb7682ed7d61606a39",
+      "requested_size": [
+        1024,
+        1024
+      ],
+      "returned_size": [
+        1254,
+        1254
+      ],
+      "resized": false,
+      "checks": {
+        "silhouette_identical": false,
+        "alpha_identical": false,
+        "normalized_silhouette_iou": 0.990257,
+        "comparison_method": "Read-only nearest-pixel sampling onto guide coordinates; threshold alpha >= 128. No output file was resized or edited.",
+        "alpha_range": [
+          0,
+          255
+        ],
+        "fully_transparent_fraction": 0.737553,
+        "alpha_nonzero_bbox": [
+          27,
+          32,
+          1234,
+          1254
+        ],
+        "alpha_128_bbox": [
+          80,
+          345,
+          1174,
+          907
+        ],
+        "transparent_background": true,
+        "colours_and_materials_match_reference": true,
+        "flat_even_light_without_shadows_or_hot_highlights": false,
+        "lighting_note": "Visual inspection: corrections reduce some highlights, but directional face tones and dark recesses remain; side views retain glints/glow.",
+        "no_text_or_letters": true,
+        "visual_review": "Palette follows reference and camera broadly follows guide. Part boundaries and contours drift. Not fully compliant with exact silhouette and strictly unlit albedo requirements."
+      },
+      "tool_options": {
+        "transparent_background": true
+      }
+    },
+    {
+      "view": "left",
+      "attempt": 2,
+      "prompt": "Corrective UNLIT ALBEDO repaint for the LEFT guide. Return one 1024x1024 RGBA PNG, real transparent background.\nIMAGE 1 gray guide is the immutable geometry. IMAGE 2 is material inspiration ONLY; do not import its specular lighting.\nTrace the guide's precise angular outline, all internal part edges, and its exact original alpha. Same side-on camera: big armhole at LEFT, three thin raised ribs across middle, waist notch at RIGHT. Same framing: object at x=66..957,y=282..741; preserve 282px top and bottom empty margins. The polygonal left hole at about x=215..373,y=464..632 remains truly transparent and exactly that size; do not shrink its opening with a new liner. Preserve the original waist notch and every small pointed protrusion. No new geometry or change in perspective.\nPaint existing broad shell faces off-white ceramic with fine wear and hairline cracks. Gold strips are FLAT MATTE OCHRE, not shining metal. Harness is evenly coloured black-violet resin, raised rib bars and clasps warm ivory. Small modeled recesses may be bright orange light colour; small shoulder detail can be blue-white where geometrically supported.\nCRITICAL CORRECTION: remove ALL strong metallic edge glints, shiny bones, directionally shaded faces, dark crevice shadows and ambient occlusion. Use the same material colour across all facets regardless of angle. Thin restrained panel seams only. No baked shadows or light gradients. Resin grain is subtle pigment detail, not bright winding highlights. Orange light is flat orange pigment, not a light source casting glow. Preserve believable fine material detail without 3D lighting.\nTransparent empty areas, no floor or background, no text/letters/watermark. Exact paint-over of guide, not rounded/reconstructed concept art.",
+      "inputs": [
+        {
+          "path": "guide_left.png",
+          "sha256": "7016e483ec74675d3ede0e9ec9faaa1f928cd751255f2a09a984a06f79bbf588"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "d99132ece16f1a6a01de89717b1e438fe1cb9e1c5b04fd9b0e69ee7d279a8789"
+        }
+      ],
+      "output": "paint_left_run2.png",
+      "source": "/home/pjasicek/.codex/generated_images/01a16e51-904c-7f22-a436-54ab6f6f8ead/exec-001b4170-86fe-4360-8bd3-504320625dec.png",
+      "selected": false,
+      "reason": "Corrective pass changes framing to landscape, shrinks margins and adds/reshapes ribs; compare first attempt for selection.",
+      "output_sha256": "4bc275a35ff3590b5a2fd95f8bf6a288d8b48146d89c8faf98f5fc7221d9c4cb",
+      "requested_size": [
+        1024,
+        1024
+      ],
+      "returned_size": [
+        1472,
+        1069
+      ],
+      "resized": false,
+      "checks": {
+        "silhouette_identical": false,
+        "alpha_identical": false,
+        "normalized_silhouette_iou": 0.578303,
+        "comparison_method": "Read-only nearest-pixel sampling onto guide coordinates; threshold alpha >= 128. No output file was resized or edited.",
+        "alpha_range": [
+          0,
+          255
+        ],
+        "fully_transparent_fraction": 0.602195,
+        "alpha_nonzero_bbox": [
+          0,
+          21,
+          1456,
+          1069
+        ],
+        "alpha_128_bbox": [
+          67,
+          234,
+          1419,
+          929
+        ],
+        "transparent_background": true,
+        "colours_and_materials_match_reference": true,
+        "flat_even_light_without_shadows_or_hot_highlights": false,
+        "lighting_note": "Visual inspection: corrections reduce some highlights, but directional face tones and dark recesses remain; side views retain glints/glow.",
+        "no_text_or_letters": true,
+        "visual_review": "Palette follows reference and camera broadly follows guide. Part boundaries and contours drift. Not fully compliant with exact silhouette and strictly unlit albedo requirements."
+      },
+      "tool_options": {
+        "transparent_background": true
+      }
+    },
+    {
+      "view": "right",
+      "attempt": 1,
+      "prompt": "Paint IMAGE 1 in place as an unlit albedo texture source, using IMAGE 2 for the material design. ONE square 1024x1024 transparent PNG.\nFollow IMAGE 1's exact silhouette, camera, scale, position and every low-poly part edge. No changed contours, no added parts. The object is horizontal with its armhole on the RIGHT and waist notch on the LEFT. It occupies x=66..957, y=282..741; keep the large transparent margins above and below. The guide's polygonal armhole remains genuinely transparent. Do not rotate, reflect, zoom, crop or recompose.\nApply the approved ancient hull plate grafted onto a resin harness: white ceramic with fine wear/cracks, matte brushed gold edging, black-violet resin, ivory bone struts, small bright orange and blue-white light colours where appropriate to existing guide geometry. Continue reference materials plausibly on unseen surfaces. The three long middle ribs stay precisely aligned with their guide positions.\nStrictly flat UNLIT ALBEDO: the same material brightness on every face. Fine cracks/grain/seams are okay; no cast shadows, AO, dark crevice shading, specular highlights, reflections, rim light or bloom. Gold is matte ochre base colour, bone matte ivory, resin matte dark purple. Do not copy the design reference's directional beauty lighting.\nReal transparent background and holes, no floor or backdrop. No text, letters, labels or watermark.",
+      "inputs": [
+        {
+          "path": "guide_right.png",
+          "sha256": "e8c6e02fb818faa71bfb27497a8a60a4654aea02fbd2f27fa16f197b95da3c99"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "d99132ece16f1a6a01de89717b1e438fe1cb9e1c5b04fd9b0e69ee7d279a8789"
+        }
+      ],
+      "output": "paint_right_run1.png",
+      "source": "/home/pjasicek/.codex/generated_images/01a16e51-904c-7f22-a436-54ab6f6f8ead/exec-096ef3b0-330e-435e-a772-7aac39fd7cf3.png",
+      "selected": false,
+      "reason": "Corrective pass requested to flatten highlights/occlusion and preserve the original thinner three-rib geometry.",
+      "output_sha256": "467efbb41f2ec1c4bff473d323f0c1039eaecf97f67c919a8e8ae19eddc35c7e",
+      "requested_size": [
+        1024,
+        1024
+      ],
+      "returned_size": [
+        1254,
+        1254
+      ],
+      "resized": false,
+      "checks": {
+        "silhouette_identical": false,
+        "alpha_identical": false,
+        "normalized_silhouette_iou": 0.978386,
+        "comparison_method": "Read-only nearest-pixel sampling onto guide coordinates; threshold alpha >= 128. No output file was resized or edited.",
+        "alpha_range": [
+          0,
+          255
+        ],
+        "fully_transparent_fraction": 0.742144,
+        "alpha_nonzero_bbox": [
+          0,
+          30,
+          1208,
+          1254
+        ],
+        "alpha_128_bbox": [
+          80,
+          349,
+          1174,
+          905
+        ],
+        "transparent_background": true,
+        "colours_and_materials_match_reference": true,
+        "flat_even_light_without_shadows_or_hot_highlights": false,
+        "lighting_note": "Visual inspection: corrections reduce some highlights, but directional face tones and dark recesses remain; side views retain glints/glow.",
+        "no_text_or_letters": true,
+        "visual_review": "Palette follows reference and camera broadly follows guide. Part boundaries and contours drift. Not fully compliant with exact silhouette and strictly unlit albedo requirements."
+      },
+      "tool_options": {
+        "transparent_background": true
+      }
+    },
+    {
+      "view": "right",
+      "attempt": 2,
+      "prompt": "Corrective paint-over: colour the EXACT gray model in IMAGE 1. IMAGE 2 provides the approved material palette only.\nReturn ONE SQUARE 1024 x 1024 RGBA transparent PNG, NOT landscape. Keep the guide's broad empty top/bottom margins. Content must remain at x=66..957, y=282..741 on that square canvas.\nImmutable geometry: horizontal torso side view, waist notch left, large polygonal transparent armhole right. Keep every original silhouette facet and protrusion, the aperture boundaries, the three thin middle rib bars, upper/lower border strips and long left clasp exactly where they are in IMAGE 1. Do not redesign, thicken, smooth, rotate, add or remove geometry. No extra ribs or added hole lining.\nPaint the existing shell in warm white ceramic with thin cracks and fine wear, existing edging matte ochre-gold, existing struts ivory bone, remaining harness black-violet resin. Use restrained orange and blue-white light colours only within existing suitable small details.\nCORRECTION TARGET: make it a TRUE FLAT ALBEDO, no baked lighting. Same brightness for every surface of each material regardless of angle. No bright metallic edges, no specular sheen, no dark shadows around bones/ribs, no black contact outlines, no AO, no glow or reflections. No shadow gradients. Resin should have subtle dark violet pigment grain, not shiny winding ridges. Ceramic and ivory retain fine surface wear without shiny glints. Gold is evenly matte base colour. Preserve the guide's flat-face boundaries with material placement instead of inventing more modeled detail.\nReal alpha 0 for the background and original transparent hole. No floor/backdrop, no text, letters, labels or watermark.",
+      "inputs": [
+        {
+          "path": "guide_right.png",
+          "sha256": "e8c6e02fb818faa71bfb27497a8a60a4654aea02fbd2f27fa16f197b95da3c99"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "d99132ece16f1a6a01de89717b1e438fe1cb9e1c5b04fd9b0e69ee7d279a8789"
+        }
+      ],
+      "output": "paint_right.png",
+      "source": "/home/pjasicek/.codex/generated_images/01a16e51-904c-7f22-a436-54ab6f6f8ead/exec-c6e5c620-86ed-4a98-b340-13ca1c2cc1a3.png",
+      "selected": true,
+      "reason": "Selected corrective pass for fewer bone/gold glints and closer thin-rib geometry. Normalized silhouette overlap is slightly worse than the first pass (0.969212 versus 0.978386); residual shading/glow and contour deviations remain.",
+      "output_sha256": "a88a73e78d2c8810eaf59965f4bee8be9c8581d4e2b31985f37ee609454e4769",
+      "requested_size": [
+        1024,
+        1024
+      ],
+      "returned_size": [
+        1254,
+        1254
+      ],
+      "resized": false,
+      "checks": {
+        "silhouette_identical": false,
+        "alpha_identical": false,
+        "normalized_silhouette_iou": 0.969212,
+        "comparison_method": "Read-only nearest-pixel sampling onto guide coordinates; threshold alpha >= 128. No output file was resized or edited.",
+        "alpha_range": [
+          0,
+          255
+        ],
+        "fully_transparent_fraction": 0.741837,
+        "alpha_nonzero_bbox": [
+          36,
+          33,
+          1240,
+          1254
+        ],
+        "alpha_128_bbox": [
+          79,
+          352,
+          1179,
+          906
+        ],
+        "transparent_background": true,
+        "colours_and_materials_match_reference": true,
+        "flat_even_light_without_shadows_or_hot_highlights": false,
+        "lighting_note": "Visual inspection: corrections reduce some highlights, but directional face tones and dark recesses remain; side views retain glints/glow.",
+        "no_text_or_letters": true,
+        "visual_review": "Palette follows reference and camera broadly follows guide. Part boundaries and contours drift. Not fully compliant with exact silhouette and strictly unlit albedo requirements."
+      },
+      "tool_options": {
+        "transparent_background": true
+      }
+    }
+  ]
+}

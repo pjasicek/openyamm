@@ -1,0 +1,445 @@
+{
+ "id": "20261009-1628-mm6-hive-35",
+ "world": "mm6",
+ "maps": [
+  "hive.blv"
+ ],
+ "created": "2026-10-09T14:28:27+00:00",
+ "textures": [
+  "mm6/hvwl6le",
+  "mm6/hvwl3le",
+  "mm6/hvwl3re",
+  "mm6/hvwl4le",
+  "mm6/d5trimc",
+  "mm6/d5drlgbe",
+  "mm6/d5drsmae",
+  "mm6/hvceilb",
+  "mm6/hvdorc",
+  "mm6/hvdord",
+  "mm6/hvdore",
+  "mm6/hvdorf",
+  "mm6/hvdorg",
+  "mm6/hvflorb",
+  "mm6/hvflorc",
+  "mm6/hvflord",
+  "mm6/hvflore",
+  "mm6/hvflorg",
+  "mm6/hvflorh",
+  "mm6/hvflori",
+  "mm6/hvtrim1",
+  "mm6/hvtrim2",
+  "mm6/hvtrim3",
+  "mm6/hvtrim4"
+ ],
+ "requests": {
+  "mm6/hvwl6le": {
+   "name": "hvwl6le",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "glossy blue-violet alien chitin wall of stacked elongated hexagonal plates with raised ridges, with a grey-black fleshy organic column of bulbous knobs and tendrils on the left edge",
+   "notes": {
+    "2": "No dark outline, shadow or hairline along any outer edge; the material continues straight to the canvas border."
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/hvwl6"
+     ],
+     "fraction": 0.429
+    },
+    "2": {
+     "sources": [
+      "mm6/hvwl6"
+     ],
+     "fraction": 0.429
+    }
+   }
+  },
+  "mm6/hvwl3le": {
+   "name": "hvwl3le",
+   "versions": [
+    1
+   ],
+   "material": "demonic red veined flesh wall laced with purple blood vessels and pale bony tendrils, with a column of purple-grey biomechanical sockets holding red eye-like nodes on the left edge; copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/hvwl3a"
+     ],
+     "fraction": 0.441
+    }
+   }
+  },
+  "mm6/hvwl3re": {
+   "name": "hvwl3re",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "demonic red veined flesh wall laced with purple blood vessels and pale bony tendrils, with a column of purple-grey biomechanical sockets holding red eye-like nodes on the right edge; copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/hvwl3a"
+     ],
+     "fraction": 0.442
+    },
+    "2": {
+     "sources": [
+      "mm6/hvwl3spa"
+     ],
+     "fraction": 0.305
+    }
+   },
+   "context": {
+    "2": {}
+   }
+  },
+  "mm6/hvwl4le": {
+   "name": "hvwl4le",
+   "versions": [
+    1
+   ],
+   "material": "dark green-grey alien organic wall of ribbed sinew and chevron-shaped chitin ridges, with a column of pale bony knobs and skull-like nodules on the left edge and a strip of red flesh on the right edge",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/hvwl4a"
+     ],
+     "fraction": 0.371
+    }
+   }
+  },
+  "mm6/d5trimc": {
+   "name": "d5trimc",
+   "versions": [
+    1,
+    2,
+    3
+   ],
+   "material": "mossy grey-green rough fieldstone wall with two rows of rounded stones and a dark gap holding brown boulders",
+   "notes": {
+    "2": "No dark outline, shadow or hairline along any outer edge; the material continues straight to the canvas border.",
+    "3": "The top edge must not be a dark line or shadow: the mossy fieldstone continues straight through the top canvas border at the same brightness as the stones below; no dark joint or gap along the top."
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/d5walas1",
+      "mm6/d5walas2"
+     ],
+     "fraction": 0.587
+    },
+    "2": {
+     "sources": [
+      "mm6/d5walas1",
+      "mm6/d5walas2"
+     ],
+     "fraction": 0.587
+    },
+    "3": {
+     "sources": [
+      "mm6/d5walas1",
+      "mm6/d5trima"
+     ],
+     "fraction": 0.593
+    }
+   }
+  },
+  "mm6/d5drlgbe": {
+   "name": "d5drlgbe",
+   "versions": [
+    1
+   ],
+   "material": "plain mossy grey-green rough fieldstone strip",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/d5drsmae": {
+   "name": "d5drsmae",
+   "versions": [
+    1
+   ],
+   "material": "plain dark green mossy stone strip with fine grainy texture",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/hvceilb": {
+   "name": "hvceilb",
+   "versions": [
+    1
+   ],
+   "material": "demonic magenta-red flesh ceiling covered in a web of pale bone-coloured sinew tendrils",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/hvdorc": {
+   "name": "hvdorc",
+   "versions": [
+    1
+   ],
+   "material": "teal-green alien organic door: a segmented larva-like pod with glowing pale nodes in the centre, radiating ribbed tendons and two vertical green rods on the sides; copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/hvdord": {
+   "name": "hvdord",
+   "versions": [
+    1
+   ],
+   "material": "demonic biomechanical door of dark red flesh and olive sinew vines framing a red chevron crest, a central hatch with blue horizontal ribbed slats and small blue gems at the top corners; copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/hvdore": {
+   "name": "hvdore",
+   "versions": [
+    1
+   ],
+   "material": "dark alien hive wall panel of tangled olive-gold sinew vines over mottled red, brown and violet organic tissue",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/hvdorf": {
+   "name": "hvdorf",
+   "versions": [
+    1
+   ],
+   "material": "glossy blue-black alien chitin door with a vertical stack of four recessed elongated hexagonal plates with polished bevelled rims; copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/hvdorg": {
+   "name": "hvdorg",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "pale blue-grey weathered alien metal door plate with rusty orange and red stains, a raised frame and a central horizontal bar with a red jewel stud; copy the composition exactly",
+   "notes": {
+    "2": "Copy the composition exactly: keep the dark organic vine strands draped over the metal plate as in the reference."
+   },
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/hvflorb": {
+   "name": "hvflorb",
+   "versions": [
+    1
+   ],
+   "material": "dark crimson alien hive floor of hexagonal cells with mottled flesh texture and black seams",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/hvflorc": {
+   "name": "hvflorc",
+   "versions": [
+    1
+   ],
+   "material": "glossy violet-purple wrinkled organic membrane floor with veiny folds",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/hvflord": {
+   "name": "hvflord",
+   "versions": [
+    1
+   ],
+   "material": "blue-lavender lumpy organic chitin floor with dark pitted holes",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/hvflore": {
+   "name": "hvflore",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "blue-lavender lumpy chitin floor panel divided into four triangles by a dark diagonal X groove with a raised border, faint red veins; copy the composition exactly",
+   "notes": {
+    "2": "No dark outline, shadow or hairline along any outer edge; the material continues straight to the canvas border."
+   },
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/hvflorg": {
+   "name": "hvflorg",
+   "versions": [
+    1
+   ],
+   "material": "dark brown speckled granular organic hive floor with tan flecks",
+   "notes": {},
+   "ref_blur": {
+    "1": 2.5
+   },
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/hvflorh": {
+   "name": "hvflorh",
+   "versions": [
+    1
+   ],
+   "material": "grey and black lumpy organic chitin floor with dark pitted holes",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/hvflori": {
+   "name": "hvflori",
+   "versions": [
+    1
+   ],
+   "material": "rose-red lumpy organic flesh floor with dark pitted holes",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/hvtrim1": {
+   "name": "hvtrim1",
+   "versions": [
+    1
+   ],
+   "material": "small square blue-lavender chitin trim tile divided into four triangles by a dark diagonal X groove",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/hvtrim2": {
+   "name": "hvtrim2",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "plain purple and lavender biomechanical trim strip of horizontal ribbed tubes and dark gaps",
+   "notes": {
+    "2": "No dark outline, shadow or hairline along any outer edge; the material continues straight to the canvas border. Match the reference colours: pink-magenta upper pipes and pale blue-grey lower pipes, no extra green or yellow."
+   },
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/hvtrim3": {
+   "name": "hvtrim3",
+   "versions": [
+    1
+   ],
+   "material": "plain lavender and purple biomechanical trim strip of horizontal ribbed tubes and dark gaps",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/hvtrim4": {
+   "name": "hvtrim4",
+   "versions": [
+    1
+   ],
+   "material": "small square magenta-purple chitin trim tile divided into four triangles by a dark diagonal X groove",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  }
+ }
+}

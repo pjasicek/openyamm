@@ -20,12 +20,14 @@ enum class MeleeHitStrength : uint8_t
     Crushing = 2,
 };
 
-// The shape of the contact effect: an arc for edged weapons, a streak for pointed ones, a burst for blunt ones.
+// The shape of the contact effect: an arc for edged weapons, a streak for pointed ones, a burst for blunt ones, and a
+// rake of three streaks for a dragon's claws and bite (tilted like a slash).
 enum class MeleeWeaponClass : uint8_t
 {
     Slash,
     Thrust,
     Crush,
+    Claw,
 };
 
 // An element whose colour accents a blow.
@@ -68,6 +70,9 @@ struct MeleeContactEffectInput
     std::vector<MeleeWeaponElement> elements;
     // Uniform in [-1, 1]: a small tilt of the blow, and its side for a member in the middle of the party.
     float variation = 0.0f;
+    // The blow's direction on screen (right, up) from the first-person view model's blade; replaces the slot's side
+    // and tilt when set.
+    std::optional<std::array<float, 2>> blowDirection;
 };
 
 struct MeleeContactEffectPlacement

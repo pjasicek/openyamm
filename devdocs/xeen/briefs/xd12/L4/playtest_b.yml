@@ -1,0 +1,159 @@
+# Second playtest of Darzog's Tower (XD-12, L4): the locks and traps a player meets before he has their answers, and
+# the way out by the tower door to X2. The disc's call button refuses while Darzog lives (its message says why); the
+# works gate refuses before its winch (its message names the assembly hall); the library stair door refuses without
+# the key (its message names the Chief Librarian's cabinet); the west walk's trapdoor drops the party to the works and
+# its winch raises it again with the party on it; the Book of Might in the Study of the Arm (past its trapdoor) works
+# once per character; the trapdoor is taken again on purpose as a quick way down; out by the tower door to X2's
+# island (played in a mount with X2's build: output/studio_cal/xd12/mount_x2.sh).
+# Numbers as in playtest.yml.
+id: xeen.xd12.l4.locks
+title: Darzog's Tower (XD-12 L4), the locks before their answers, a trapdoor and its winch, out to X2
+world: mm7
+mode: faithful
+steps:
+  - new_game_flow:
+      start_map: xeen_xd12.blv
+      party:
+        gold: 0
+        food: 20
+        members:
+          - {name: Brokk, class: Knight, level: 33, skills: [], equipment: {}}
+          - {name: Hild, class: Cleric, level: 33, skills: [], equipment: {}}
+          - {name: Ivar, class: Archer, level: 33, skills: [], equipment: {}}
+          - {name: Sefa, class: Sorcerer, level: 33, skills: [], equipment: {}}
+  - assert: {map: xeen_xd12.blv}
+  - setup_shortcut: {kind: immortal, value: true}
+  - play_lua: {source: "wait(3); close()"}
+  - assert: {state_dump_map_var: {index: 0, value: 1}}
+  # The guardroom off the gate hall: its plank door and its chest.
+  - walk_to: {x: 2496, y: 1500, z: 0, radius: 48, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - play_lua:
+      source: |
+        if door_state(14) ~= "closed" then error("the guardroom door does not start shut") end
+        click(59); wait(3)
+        if door_state(14) ~= "open" then error("the guardroom door did not open: " .. door_state(14)) end
+  - walk_to: {x: 2496, y: 2300, z: 0, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - clear_hostiles: {radius: 1500}
+  - walk_to: {x: 2750, y: 2176, z: 0, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - play_lua: {source: "loot_chest(32); if held() ~= 0 then stow() end"}
+  - walk_to: {x: 2496, y: 1500, z: 0, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  # Into the Well by the east arch: the disc's call button beside the north arch refuses while Darzog lives.
+  - walk_to: {x: 1408, y: 0, z: 0, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: 600, y: 0, z: 0, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: 400, y: 640, z: 0, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - clear_hostiles: {radius: 1500}
+  - play_lua: {source: "click(16); wait(1)"}
+  - assert:
+      dialog: {text_contains: "bound by its master"}
+  - play_lua:
+      source: |
+        if not close() then error("the call button opened no message window") end
+        wait(2)
+        if door_state(32) ~= "closed" then error("the disc moved while Darzog lives: " .. door_state(32)) end
+  # Up the west stair; the works gate refuses before its winch, and says where the winch is.
+  - walk_to: {x: 600, y: 0, z: 0, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: 1408, y: 0, z: 0, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: 1408, y: -1408, z: 0, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: -1408, y: -1408, z: 0, radius: 64, timeout_seconds: 40, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: -1408, y: -768, z: 0, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: -2112, y: -768, z: 0, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: -2816, y: -1600, z: 0, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: -2816, y: 1350, z: 768, radius: 64, timeout_seconds: 40, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: -2112, y: 1350, z: 768, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: -2112, y: -768, z: 768, radius: 64, timeout_seconds: 40, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: -1408, y: -768, z: 768, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: -1408, y: -1408, z: 768, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: 1408, y: -1408, z: 768, radius: 64, timeout_seconds: 40, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: 1408, y: 640, z: 768, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - clear_hostiles: {radius: 1500}
+  - play_lua: {source: "click(53); wait(1)"}
+  - assert:
+      dialog: {text_contains: "winch that raises it must be in the assembly hall"}
+  - play_lua:
+      source: |
+        if not close() then error("the works gate opened no message window") end
+        if door_state(22) ~= "closed" then error("the works gate opened without its winch") end
+  # The winch, then up the east stair to the library.
+  - walk_to: {x: 1408, y: -1408, z: 768, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: 384, y: -1408, z: 768, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: 384, y: -2300, z: 768, radius: 64, timeout_seconds: 30, clear_hostiles: 2200, close_dialogs: true}
+  - clear_hostiles: {radius: 2200}
+  - walk_to: {x: -1560, y: -2784, z: 768, radius: 48, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - play_lua: {source: "click(54); wait(4); if door_state(22) ~= 'open' then error('the winch did not raise the works gate') end"}
+  - walk_to: {x: 384, y: -2300, z: 768, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: 384, y: -1408, z: 768, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: 1408, y: -1408, z: 768, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: 1408, y: 640, z: 768, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: 2112, y: 640, z: 768, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: 2816, y: 1600, z: 768, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: 2816, y: -1350, z: 1536, radius: 64, timeout_seconds: 40, clear_hostiles: 1500, close_dialogs: true}
+  # The Study of the Arm off the east stair's south gallery: round its trapdoor to the Book of Might, once each.
+  - walk_to: {x: 2624, y: -1600, z: 1536, radius: 48, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: 2624, y: -2100, z: 1536, radius: 48, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: 2720, y: -2700, z: 1536, radius: 48, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - play_lua:
+      source: |
+        if door_state(5) ~= "open" then error("the study's trapdoor moved under a walk round it: " .. door_state(5)) end
+        click(5); wait(1)
+  - assert:
+      dialog: {text_contains: "+5 Might"}
+  - play_lua:
+      source: |
+        if not close() then error("the Book of Might opened no message window") end
+        status()
+        click(5); wait(1)
+        local seen = status()
+        if not string.find(seen, "already learned", 1, true) then error("the Book of Might worked twice: " .. seen) end
+  # Back by the gallery to the west walk; the library stair door refuses without the key and names where it is.
+  - walk_to: {x: 2624, y: -2100, z: 1536, radius: 48, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: 2624, y: -1600, z: 1536, radius: 48, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: 2112, y: -1400, z: 1536, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: 2112, y: 640, z: 1536, radius: 64, timeout_seconds: 40, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: 1408, y: 640, z: 1536, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: 1408, y: -1408, z: 1536, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: -1680, y: -1500, z: 1536, radius: 48, timeout_seconds: 40, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: -1680, y: 640, z: 1536, radius: 48, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - clear_hostiles: {radius: 1500}
+  - play_lua: {source: "click(35); wait(1)"}
+  - assert:
+      dialog: {text_contains: "Chief Librarian keeps the key"}
+  - play_lua:
+      source: |
+        if not close() then error("the library stair door opened no message window") end
+        if door_state(15) ~= "closed" then error("the library stair door opened without the key") end
+  # The west walk's trapdoor: onto the cracked flags, and down to the works with the hatch.
+  - walk_to: {x: -1680, y: -1152, z: 1536, radius: 48, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: -1408, y: -1152, z: 768, z_tolerance: 900, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - play_lua: {source: "wait(3)"}
+  - assert: {party_position: {x: -1408, y: -1152, radius: 160, z_min: 752, z_max: 840}}
+  - play_lua:
+      source: |
+        if door_state(4) ~= "closed" then error("the trapdoor did not drop: " .. door_state(4)) end
+  - clear_hostiles: {radius: 1500}
+  # Its winch on the west walk's wall raises the hatch, and the party on it, back to the library.
+  - walk_to: {x: -1408, y: -1152, z: 768, radius: 48, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - play_lua: {source: "click(50); wait(4)"}
+  - assert: {party_position: {x: -1408, y: -1152, radius: 160, z_min: 1490, z_max: 1600}}
+  - play_lua: {source: "if door_state(4) ~= 'open' then error('the winch did not raise the trapdoor: ' .. door_state(4)) end"}
+  # Taken again on purpose: a quick way down to the works, then down the west stair to the gate hall and out.
+  - walk_to: {x: -1680, y: -1152, z: 1536, radius: 48, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: -1408, y: -1152, z: 768, z_tolerance: 900, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - play_lua: {source: "wait(3)"}
+  - assert: {party_position: {x: -1408, y: -1152, radius: 160, z_min: 752, z_max: 840}}
+  - walk_to: {x: -1408, y: -768, z: 768, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: -2112, y: -768, z: 768, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: -2112, y: 1350, z: 768, radius: 64, timeout_seconds: 40, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: -2816, y: 1350, z: 768, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: -2816, y: -1600, z: 0, radius: 64, timeout_seconds: 40, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: -2112, y: -768, z: 0, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: -1408, y: -768, z: 0, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: -1408, y: -1408, z: 0, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: 1408, y: -1408, z: 0, radius: 64, timeout_seconds: 40, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: 1408, y: 0, z: 0, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: 2900, y: 0, z: 0, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - execute_event: {id: 41}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.0, follow_map_move: true}
+  # On the island in X2, in front of the tower door (X2's DOORS.md arrival), facing the jetty.
+  - assert: {map: xeen_x2.odm}
+  - assert: {party_position: {x: -15631, y: 3014, radius: 160, z_min: 700, z_max: 900}}

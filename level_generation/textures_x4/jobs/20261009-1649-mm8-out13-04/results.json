@@ -1,0 +1,1592 @@
+{
+ "t09b11b_v1": {
+  "member": "mm8/t09b11b",
+  "version": 1,
+  "flags": [],
+  "metrics": {
+   "shift_native_px": [
+    0.0,
+    0.0
+   ],
+   "gain": [
+    0.649,
+    0.637,
+    0.651
+   ],
+   "seam_u": [
+    0.81,
+    1.4
+   ],
+   "seam_v": [
+    0.27,
+    1.01
+   ],
+   "edge_bottom": 0.97,
+   "edge_left": 1.01,
+   "edge_right": 1.04,
+   "rim_left": [
+    1.04,
+    1.01
+   ],
+   "rim_right": [
+    1.03,
+    1.0
+   ],
+   "line_top": 0,
+   "line_bottom": 0,
+   "line_left": 0,
+   "line_right": 0,
+   "traced": 0.017,
+   "layout_corr": 0.952,
+   "raw_size": [
+    1526,
+    1030
+   ],
+   "source_scale": 9.54,
+   "joint_top": [
+    0.81,
+    0.81
+   ]
+  },
+  "candidate": "level_generation/textures_x4/jobs/20261009-1649-mm8-out13-04/candidates/t09b11b_v1.png"
+ },
+ "t1cabs_v1": {
+  "member": "mm8/t1cabs",
+  "version": 1,
+  "flags": [],
+  "metrics": {
+   "shift_native_px": [
+    0.0,
+    0.0
+   ],
+   "gain": [
+    0.607,
+    0.687,
+    1.109
+   ],
+   "seam_u": [
+    1.14,
+    1.02
+   ],
+   "seam_v": [
+    1.79,
+    2.23
+   ],
+   "edge_top": 1.0,
+   "edge_bottom": 1.07,
+   "edge_left": 1.05,
+   "edge_right": 0.96,
+   "rim_top": [
+    1.09,
+    1.02
+   ],
+   "rim_bottom": [
+    1.05,
+    0.92
+   ],
+   "rim_left": [
+    1.03,
+    0.92
+   ],
+   "rim_right": [
+    1.15,
+    0.98
+   ],
+   "line_top": 0,
+   "line_bottom": 0,
+   "line_left": 0,
+   "line_right": 0,
+   "traced": 0.006,
+   "layout_corr": 0.96,
+   "raw_size": [
+    887,
+    1774
+   ],
+   "source_scale": 11.09
+  },
+  "candidate": "level_generation/textures_x4/jobs/20261009-1649-mm8-out13-04/candidates/t1cabs_v1.png"
+ },
+ "t22a01_v1": {
+  "member": "mm8/t22a01",
+  "version": 1,
+  "flags": [],
+  "metrics": {
+   "shift_native_px": [
+    1.0,
+    0.0
+   ],
+   "shift_after_crop": [
+    0.0,
+    0.0
+   ],
+   "gain": [
+    0.619,
+    0.637,
+    0.61
+   ],
+   "seam_u": [
+    1.14,
+    1.95
+   ],
+   "seam_v": [
+    3.07,
+    4.08
+   ],
+   "edge_top": 0.87,
+   "edge_bottom": 1.48,
+   "edge_left": 1.15,
+   "edge_right": 0.97,
+   "rim_top": [
+    1.63,
+    0.97
+   ],
+   "rim_bottom": [
+    1.39,
+    0.95
+   ],
+   "rim_left": [
+    1.15,
+    0.73
+   ],
+   "rim_right": [
+    1.14,
+    1.05
+   ],
+   "line_top": 0,
+   "line_bottom": 0,
+   "line_left": 0,
+   "line_right": 0,
+   "traced": -0.073,
+   "layout_corr": 0.95,
+   "raw_size": [
+    935,
+    1683
+   ],
+   "source_scale": 5.84
+  },
+  "candidate": "level_generation/textures_x4/jobs/20261009-1649-mm8-out13-04/candidates/t22a01_v1.png"
+ },
+ "t66abc11a_v1": {
+  "member": "mm8/t66abc11a",
+  "version": 1,
+  "flags": [],
+  "metrics": {
+   "shift_native_px": [
+    0.0,
+    0.0
+   ],
+   "gain": [
+    1.073,
+    1.272,
+    1.497
+   ],
+   "seam_u": [
+    1.28,
+    1.94
+   ],
+   "seam_v": [
+    0.38,
+    0.86
+   ],
+   "edge_top": 1.0,
+   "edge_bottom": 0.88,
+   "edge_left": 1.0,
+   "edge_right": 1.01,
+   "rim_top": [
+    0.99,
+    0.57
+   ],
+   "rim_bottom": [
+    0.98,
+    0.99
+   ],
+   "rim_left": [
+    1.0,
+    1.0
+   ],
+   "rim_right": [
+    1.02,
+    1.01
+   ],
+   "line_top": 0,
+   "line_bottom": 0,
+   "line_left": 0,
+   "line_right": 0,
+   "traced": -0.093,
+   "layout_corr": 0.935,
+   "raw_size": [
+    1526,
+    1030
+   ],
+   "source_scale": 9.54,
+   "joint_bottom": [
+    2.44,
+    3.32
+   ]
+  },
+  "candidate": "level_generation/textures_x4/jobs/20261009-1649-mm8-out13-04/candidates/t66abc11a_v1.png"
+ },
+ "t66floor_v1": {
+  "member": "mm8/t66floor",
+  "version": 1,
+  "flags": [
+   "joint bottom 16.2 vs 8.3"
+  ],
+  "metrics": {
+   "shift_native_px": [
+    0.0,
+    0.0
+   ],
+   "gain": [
+    0.882,
+    1.006,
+    1.332
+   ],
+   "seam_u": [
+    0.19,
+    2.91
+   ],
+   "seam_v": [
+    1.03,
+    0.78
+   ],
+   "edge_top": 1.02,
+   "edge_bottom": 1.02,
+   "rim_top": [
+    1.02,
+    0.99
+   ],
+   "rim_bottom": [
+    1.01,
+    0.97
+   ],
+   "line_top": 0,
+   "line_bottom": 0,
+   "line_left": 0,
+   "line_right": 0,
+   "traced": -0.026,
+   "layout_corr": 0.981,
+   "raw_size": [
+    1254,
+    1254
+   ],
+   "source_scale": 7.84,
+   "joint_bottom": [
+    16.22,
+    8.31
+   ]
+  },
+  "candidate": "level_generation/textures_x4/jobs/20261009-1649-mm8-out13-04/candidates/t66floor_v1.png"
+ },
+ "t68a02b_v1": {
+  "member": "mm8/t68a02b",
+  "version": 1,
+  "flags": [],
+  "metrics": {
+   "shift_native_px": [
+    0.0,
+    0.0
+   ],
+   "gain": [
+    0.859,
+    0.897,
+    0.902
+   ],
+   "seam_u": [
+    0.75,
+    0.83
+   ],
+   "seam_v": [
+    1.21,
+    1.24
+   ],
+   "edge_top": 0.96,
+   "edge_bottom": 0.96,
+   "edge_left": 0.97,
+   "edge_right": 0.98,
+   "traced": -0.026,
+   "layout_corr": 0.98,
+   "raw_size": [
+    1254,
+    1254
+   ],
+   "source_scale": 4.35
+  },
+  "candidate": "level_generation/textures_x4/jobs/20261009-1649-mm8-out13-04/candidates/t68a02b_v1.png"
+ },
+ "t68a03a_v1": {
+  "member": "mm8/t68a03a",
+  "version": 1,
+  "flags": [],
+  "metrics": {
+   "shift_native_px": [
+    0.0,
+    0.0
+   ],
+   "gain": [
+    0.986,
+    0.897,
+    0.868
+   ],
+   "seam_u": [
+    1.16,
+    1.35
+   ],
+   "seam_v": [
+    1.06,
+    1.07
+   ],
+   "edge_top": 1.03,
+   "edge_bottom": 1.0,
+   "edge_left": 1.01,
+   "edge_right": 1.04,
+   "rim_top": [
+    1.05,
+    1.04
+   ],
+   "rim_bottom": [
+    1.02,
+    0.99
+   ],
+   "rim_left": [
+    1.01,
+    1.01
+   ],
+   "rim_right": [
+    1.02,
+    1.01
+   ],
+   "line_top": 0,
+   "line_bottom": 0,
+   "line_left": 0,
+   "line_right": 0,
+   "traced": -0.024,
+   "layout_corr": 0.935,
+   "raw_size": [
+    1254,
+    1254
+   ],
+   "source_scale": 7.84,
+   "joint_right": [
+    2.56,
+    1.74
+   ],
+   "joint_bottom": [
+    2.14,
+    1.64
+   ],
+   "joint_left": [
+    2.56,
+    1.92
+   ],
+   "joint_top": [
+    2.22,
+    1.73
+   ]
+  },
+  "candidate": "level_generation/textures_x4/jobs/20261009-1649-mm8-out13-04/candidates/t68a03a_v1.png"
+ },
+ "t68a03b_v1": {
+  "member": "mm8/t68a03b",
+  "version": 1,
+  "flags": [],
+  "metrics": {
+   "shift_native_px": [
+    -1.0,
+    0.0
+   ],
+   "shift_after_crop": [
+    0.0,
+    0.0
+   ],
+   "gain": [
+    0.833,
+    0.841,
+    0.828
+   ],
+   "seam_u": [
+    0.97,
+    1.11
+   ],
+   "seam_v": [
+    1.09,
+    1.11
+   ],
+   "edge_top": 1.01,
+   "edge_bottom": 1.0,
+   "edge_left": 1.06,
+   "edge_right": 1.01,
+   "rim_top": [
+    1.04,
+    1.0
+   ],
+   "rim_bottom": [
+    1.03,
+    1.01
+   ],
+   "rim_left": [
+    1.04,
+    1.02
+   ],
+   "rim_right": [
+    1.04,
+    1.02
+   ],
+   "line_top": 0,
+   "line_bottom": 0,
+   "line_left": 0,
+   "line_right": 0,
+   "traced": -0.012,
+   "layout_corr": 0.904,
+   "raw_size": [
+    1254,
+    1254
+   ],
+   "source_scale": 7.84,
+   "joint_left": [
+    2.02,
+    1.63
+   ],
+   "joint_top": [
+    1.95,
+    1.55
+   ],
+   "joint_right": [
+    2.03,
+    1.8
+   ],
+   "joint_bottom": [
+    2.02,
+    1.63
+   ]
+  },
+  "candidate": "level_generation/textures_x4/jobs/20261009-1649-mm8-out13-04/candidates/t68a03b_v1.png"
+ },
+ "t68a10a_v1": {
+  "member": "mm8/t68a10a",
+  "version": 1,
+  "flags": [],
+  "metrics": {
+   "shift_native_px": [
+    0.0,
+    1.0
+   ],
+   "shift_after_crop": [
+    0.0,
+    0.0
+   ],
+   "gain": [
+    0.919,
+    1.037,
+    1.299
+   ],
+   "seam_u": [
+    0.82,
+    1.36
+   ],
+   "seam_v": [
+    1.01,
+    0.9
+   ],
+   "line_top": 0,
+   "line_bottom": 0,
+   "line_left": 0,
+   "line_right": 0,
+   "traced": -0.003,
+   "layout_corr": 0.967,
+   "raw_size": [
+    887,
+    1774
+   ],
+   "source_scale": 22.18
+  },
+  "candidate": "level_generation/textures_x4/jobs/20261009-1649-mm8-out13-04/candidates/t68a10a_v1.png"
+ },
+ "t68a11_v1": {
+  "member": "mm8/t68a11",
+  "version": 1,
+  "flags": [],
+  "metrics": {
+   "shift_native_px": [
+    0.0,
+    0.0
+   ],
+   "gain": [
+    1.021,
+    1.205,
+    1.474
+   ],
+   "seam_u": [
+    1.59,
+    0.96
+   ],
+   "seam_v": [
+    1.24,
+    4.41
+   ],
+   "edge_top": 0.87,
+   "line_top": 0,
+   "line_bottom": 0,
+   "line_left": 0,
+   "line_right": 0,
+   "traced": -0.042,
+   "layout_corr": 0.936,
+   "raw_size": [
+    1774,
+    887
+   ],
+   "source_scale": 22.18
+  },
+  "candidate": "level_generation/textures_x4/jobs/20261009-1649-mm8-out13-04/candidates/t68a11_v1.png"
+ },
+ "trim1_16_v1": {
+  "member": "mm8/trim1_16",
+  "version": 1,
+  "flags": [],
+  "metrics": {
+   "shift_native_px": [
+    0.0,
+    0.0
+   ],
+   "gain": [
+    1.142,
+    1.092,
+    1.03
+   ],
+   "seam_u": [
+    1.08,
+    1.2
+   ],
+   "seam_v": [
+    0.96,
+    0.85
+   ],
+   "edge_top": 0.99,
+   "edge_bottom": 0.99,
+   "edge_left": 1.0,
+   "edge_right": 0.99,
+   "rim_top": [
+    1.01,
+    1.0
+   ],
+   "rim_bottom": [
+    1.01,
+    1.01
+   ],
+   "rim_left": [
+    0.99,
+    0.93
+   ],
+   "rim_right": [
+    1.02,
+    1.1
+   ],
+   "line_top": 0,
+   "line_bottom": 0,
+   "line_left": 0,
+   "line_right": 0,
+   "traced": -0.019,
+   "layout_corr": 0.957,
+   "raw_size": [
+    1030,
+    1526
+   ],
+   "source_scale": 19.07,
+   "joint_right": [
+    4.7,
+    4.14
+   ],
+   "joint_left": [
+    2.69,
+    2.3
+   ]
+  },
+  "candidate": "level_generation/textures_x4/jobs/20261009-1649-mm8-out13-04/candidates/trim1_16_v1.png"
+ },
+ "trim1_16a_v1": {
+  "member": "mm8/trim1_16a",
+  "version": 1,
+  "flags": [],
+  "metrics": {
+   "shift_native_px": [
+    0.0,
+    0.0
+   ],
+   "gain": [
+    0.912,
+    1.022,
+    1.106
+   ],
+   "seam_u": [
+    0.98,
+    0.85
+   ],
+   "seam_v": [
+    0.71,
+    1.2
+   ],
+   "edge_top": 1.01,
+   "edge_bottom": 0.93,
+   "edge_left": 0.99,
+   "edge_right": 1.01,
+   "rim_top": [
+    0.97,
+    0.93
+   ],
+   "rim_bottom": [
+    0.98,
+    1.1
+   ],
+   "rim_left": [
+    1.0,
+    0.99
+   ],
+   "rim_right": [
+    1.01,
+    1.01
+   ],
+   "line_top": 0,
+   "line_bottom": 0,
+   "line_left": 0,
+   "line_right": 0,
+   "traced": -0.019,
+   "layout_corr": 0.92,
+   "raw_size": [
+    1526,
+    1031
+   ],
+   "source_scale": 19.07
+  },
+  "candidate": "level_generation/textures_x4/jobs/20261009-1649-mm8-out13-04/candidates/trim1_16a_v1.png"
+ },
+ "trim9_32_v1": {
+  "member": "mm8/trim9_32",
+  "version": 1,
+  "flags": [],
+  "metrics": {
+   "shift_native_px": [
+    0.0,
+    0.0
+   ],
+   "gain": [
+    1.022,
+    1.014,
+    0.991
+   ],
+   "seam_u": [
+    1.14,
+    1.06
+   ],
+   "seam_v": [
+    1.11,
+    1.4
+   ],
+   "edge_top": 1.02,
+   "edge_bottom": 0.99,
+   "edge_left": 1.01,
+   "edge_right": 1.0,
+   "rim_top": [
+    1.02,
+    0.99
+   ],
+   "rim_bottom": [
+    0.99,
+    0.94
+   ],
+   "rim_left": [
+    0.97,
+    0.83
+   ],
+   "rim_right": [
+    1.14,
+    0.99
+   ],
+   "line_top": 0,
+   "line_bottom": 0,
+   "line_left": 0,
+   "line_right": 0,
+   "traced": -0.011,
+   "layout_corr": 0.994,
+   "raw_size": [
+    887,
+    1774
+   ],
+   "source_scale": 22.18,
+   "joint_left": [
+    4.83,
+    3.96
+   ],
+   "joint_right": [
+    2.77,
+    2.2
+   ]
+  },
+  "candidate": "level_generation/textures_x4/jobs/20261009-1649-mm8-out13-04/candidates/trim9_32_v1.png"
+ },
+ "trim9_32a_v1": {
+  "member": "mm8/trim9_32a",
+  "version": 1,
+  "flags": [],
+  "metrics": {
+   "shift_native_px": [
+    0.0,
+    0.0
+   ],
+   "gain": [
+    0.797,
+    0.899,
+    1.069
+   ],
+   "seam_u": [
+    1.19,
+    1.4
+   ],
+   "seam_v": [
+    0.79,
+    1.06
+   ],
+   "edge_top": 1.04,
+   "edge_bottom": 0.97,
+   "edge_left": 1.0,
+   "edge_right": 1.01,
+   "rim_top": [
+    1.01,
+    0.85
+   ],
+   "rim_bottom": [
+    1.1,
+    1.01
+   ],
+   "rim_left": [
+    1.01,
+    0.95
+   ],
+   "rim_right": [
+    1.02,
+    0.98
+   ],
+   "line_top": 0,
+   "line_bottom": 0,
+   "line_left": 0,
+   "line_right": 0,
+   "traced": 0.018,
+   "layout_corr": 0.976,
+   "raw_size": [
+    1774,
+    887
+   ],
+   "source_scale": 22.18
+  },
+  "candidate": "level_generation/textures_x4/jobs/20261009-1649-mm8-out13-04/candidates/trim9_32a_v1.png"
+ },
+ "trimd_v1": {
+  "member": "mm8/trimd",
+  "version": 1,
+  "flags": [],
+  "metrics": {
+   "shift_native_px": [
+    0.0,
+    0.0
+   ],
+   "gain": [
+    0.856,
+    0.864,
+    0.855
+   ],
+   "seam_u": [
+    0.49,
+    0.5
+   ],
+   "seam_v": [
+    1.02,
+    0.92
+   ],
+   "edge_top": 0.99,
+   "edge_bottom": 1.0,
+   "edge_left": 1.04,
+   "edge_right": 1.04,
+   "rim_top": [
+    1.01,
+    1.0
+   ],
+   "rim_bottom": [
+    1.0,
+    0.99
+   ],
+   "rim_left": [
+    1.07,
+    1.04
+   ],
+   "rim_right": [
+    1.02,
+    1.01
+   ],
+   "line_top": 0,
+   "line_bottom": 0,
+   "line_left": 0,
+   "line_right": 0,
+   "traced": -0.215,
+   "layout_corr": 0.976,
+   "raw_size": [
+    935,
+    1683
+   ],
+   "source_scale": 5.84
+  },
+  "candidate": "level_generation/textures_x4/jobs/20261009-1649-mm8-out13-04/candidates/trimd_v1.png"
+ },
+ "trimda_v1": {
+  "member": "mm8/trimda",
+  "version": 1,
+  "flags": [],
+  "metrics": {
+   "shift_native_px": [
+    0.0,
+    1.0
+   ],
+   "shift_after_crop": [
+    0.0,
+    0.0
+   ],
+   "gain": [
+    0.929,
+    0.921,
+    0.879
+   ],
+   "seam_u": [
+    1.04,
+    0.92
+   ],
+   "seam_v": [
+    0.57,
+    0.5
+   ],
+   "edge_top": 1.07,
+   "edge_bottom": 1.08,
+   "edge_left": 1.02,
+   "edge_right": 1.0,
+   "rim_top": [
+    1.1,
+    1.07
+   ],
+   "rim_bottom": [
+    1.07,
+    1.06
+   ],
+   "rim_left": [
+    1.02,
+    1.01
+   ],
+   "rim_right": [
+    1.01,
+    1.01
+   ],
+   "line_top": 0,
+   "line_bottom": 0,
+   "line_left": 0,
+   "line_right": 0,
+   "traced": 0.024,
+   "layout_corr": 0.946,
+   "raw_size": [
+    1683,
+    935
+   ],
+   "source_scale": 5.84
+  },
+  "candidate": "level_generation/textures_x4/jobs/20261009-1649-mm8-out13-04/candidates/trimda_v1.png"
+ },
+ "ygtempw1_v1": {
+  "member": "mm8/ygtempw1",
+  "version": 1,
+  "flags": [
+   "line top 31px"
+  ],
+  "metrics": {
+   "shift_native_px": [
+    0.0,
+    0.0
+   ],
+   "gain": [
+    0.883,
+    0.899,
+    0.974
+   ],
+   "edge_top": 0.8,
+   "edge_bottom": 1.07,
+   "edge_left": 0.85,
+   "edge_right": 1.12,
+   "rim_top": [
+    0.81,
+    0.97
+   ],
+   "rim_bottom": [
+    1.1,
+    1.11
+   ],
+   "rim_left": [
+    0.79,
+    0.97
+   ],
+   "rim_right": [
+    1.18,
+    1.01
+   ],
+   "line_top": 31,
+   "line_bottom": 0,
+   "line_left": 1,
+   "line_right": 0,
+   "traced": -0.025,
+   "layout_corr": 0.938,
+   "raw_size": [
+    935,
+    1683
+   ],
+   "source_scale": 5.84
+  },
+  "candidate": "level_generation/textures_x4/jobs/20261009-1649-mm8-out13-04/candidates/ygtempw1_v1.png"
+ },
+ "gnecwal1_v1": {
+  "member": "mm8/gnecwal1",
+  "version": 1,
+  "flags": [
+   "joint bottom 4.2 vs 2.3",
+   "joint right 2.9 vs 1.8"
+  ],
+  "metrics": {
+   "shift_native_px": [
+    0.0,
+    0.0
+   ],
+   "gain": [
+    0.998,
+    1.0,
+    0.985
+   ],
+   "seam_u": [
+    0.99,
+    1.48
+   ],
+   "seam_v": [
+    0.89,
+    1.47
+   ],
+   "edge_top": 1.08,
+   "edge_bottom": 1.04,
+   "edge_left": 1.05,
+   "edge_right": 1.06,
+   "rim_top": [
+    1.05,
+    1.01
+   ],
+   "rim_bottom": [
+    1.08,
+    1.04
+   ],
+   "rim_left": [
+    1.09,
+    1.01
+   ],
+   "rim_right": [
+    1.15,
+    1.07
+   ],
+   "line_top": 1,
+   "line_bottom": 0,
+   "line_left": 1,
+   "line_right": 0,
+   "traced": -0.028,
+   "layout_corr": 0.963,
+   "raw_size": [
+    1254,
+    1254
+   ],
+   "source_scale": 4.35,
+   "joint_bottom": [
+    4.15,
+    2.29
+   ],
+   "joint_right": [
+    2.87,
+    1.85
+   ]
+  },
+  "candidate": "level_generation/textures_x4/jobs/20261009-1649-mm8-out13-04/candidates/gnecwal1_v1.png"
+ },
+ "t06a03_v1": {
+  "member": "mm8/t06a03",
+  "version": 1,
+  "flags": [],
+  "metrics": {
+   "shift_native_px": [
+    0.0,
+    0.0
+   ],
+   "gain": [
+    0.779,
+    0.763,
+    0.706
+   ],
+   "prefilled": 0.187,
+   "edge_top": 1.2,
+   "edge_bottom": 0.86,
+   "edge_left": 0.85,
+   "edge_right": 1.23,
+   "traced": -0.023,
+   "layout_corr": 0.975,
+   "raw_size": [
+    935,
+    1683
+   ],
+   "source_scale": 5.84
+  },
+  "candidate": "level_generation/textures_x4/jobs/20261009-1649-mm8-out13-04/candidates/t06a03_v1.png"
+ },
+ "gcav2flr_v1": {
+  "member": "mm8/gcav2flr",
+  "version": 1,
+  "flags": [],
+  "metrics": {
+   "shift_native_px": [
+    0.0,
+    0.0
+   ],
+   "gain": [
+    0.803,
+    0.803,
+    0.817
+   ],
+   "seam_u": [
+    0.9,
+    1.06
+   ],
+   "seam_v": [
+    1.02,
+    1.28
+   ],
+   "edge_left": 0.98,
+   "edge_right": 1.02,
+   "line_top": 0,
+   "line_bottom": 0,
+   "line_left": 0,
+   "line_right": 0,
+   "traced": -0.03,
+   "layout_corr": 0.966,
+   "raw_size": [
+    1254,
+    1254
+   ],
+   "source_scale": 7.84,
+   "joint_top": [
+    1.67,
+    1.8
+   ],
+   "joint_right": [
+    1.81,
+    2.31
+   ],
+   "joint_bottom": [
+    2.92,
+    2.85
+   ]
+  },
+  "candidate": "level_generation/textures_x4/jobs/20261009-1649-mm8-out13-04/candidates/gcav2flr_v1.png"
+ },
+ "gcav2wal_v1": {
+  "member": "mm8/gcav2wal",
+  "version": 1,
+  "flags": [],
+  "metrics": {
+   "shift_native_px": [
+    0.0,
+    0.0
+   ],
+   "gain": [
+    0.744,
+    0.764,
+    0.786
+   ],
+   "seam_u": [
+    1.48,
+    2.23
+   ],
+   "seam_v": [
+    1.02,
+    1.04
+   ],
+   "line_top": 0,
+   "line_bottom": 0,
+   "line_left": 0,
+   "line_right": 0,
+   "traced": -0.013,
+   "layout_corr": 0.972,
+   "raw_size": [
+    935,
+    1682
+   ],
+   "source_scale": 5.84
+  },
+  "candidate": "level_generation/textures_x4/jobs/20261009-1649-mm8-out13-04/candidates/gcav2wal_v1.png"
+ },
+ "gnecdr4l_v1": {
+  "member": "mm8/gnecdr4l",
+  "version": 1,
+  "flags": [
+   "seam v 0.6 vs 0.0",
+   "layout 0.77"
+  ],
+  "metrics": {
+   "shift_native_px": [
+    0.0,
+    1.0
+   ],
+   "shift_after_crop": [
+    0.0,
+    0.0
+   ],
+   "gain": [
+    1.009,
+    0.977,
+    0.926
+   ],
+   "seam_v": [
+    0.56,
+    0.03
+   ],
+   "line_top": 0,
+   "line_bottom": 0,
+   "line_left": 0,
+   "line_right": 0,
+   "traced": -0.013,
+   "layout_corr": 0.769,
+   "raw_size": [
+    935,
+    1682
+   ],
+   "source_scale": 5.84
+  },
+  "candidate": "level_generation/textures_x4/jobs/20261009-1649-mm8-out13-04/candidates/gnecdr4l_v1.png"
+ },
+ "gnecdr4r_v1": {
+  "member": "mm8/gnecdr4r",
+  "version": 1,
+  "flags": [
+   "seam v 0.9 vs 0.0"
+  ],
+  "metrics": {
+   "shift_native_px": [
+    0.0,
+    1.0
+   ],
+   "shift_after_crop": [
+    0.0,
+    0.0
+   ],
+   "gain": [
+    0.962,
+    0.993,
+    0.977
+   ],
+   "seam_u": [
+    0.19,
+    1.15
+   ],
+   "seam_v": [
+    0.94,
+    0.05
+   ],
+   "line_top": 0,
+   "line_bottom": 0,
+   "line_left": 0,
+   "line_right": 0,
+   "traced": -0.001,
+   "layout_corr": 0.859,
+   "raw_size": [
+    935,
+    1683
+   ],
+   "source_scale": 5.84,
+   "joint_left": [
+    0.31,
+    0.0
+   ],
+   "joint_right": [
+    6.45,
+    4.78
+   ]
+  },
+  "candidate": "level_generation/textures_x4/jobs/20261009-1649-mm8-out13-04/candidates/gnecdr4r_v1.png"
+ },
+ "gnecflr_v1": {
+  "member": "mm8/gnecflr",
+  "version": 1,
+  "flags": [
+   "joint right 4.7 vs 3.1"
+  ],
+  "metrics": {
+   "shift_native_px": [
+    0.0,
+    0.0
+   ],
+   "gain": [
+    0.897,
+    0.92,
+    0.971
+   ],
+   "seam_u": [
+    0.67,
+    0.52
+   ],
+   "seam_v": [
+    0.45,
+    0.38
+   ],
+   "edge_top": 1.0,
+   "edge_bottom": 0.99,
+   "edge_left": 1.03,
+   "edge_right": 1.02,
+   "rim_top": [
+    1.03,
+    0.99
+   ],
+   "rim_bottom": [
+    1.0,
+    0.98
+   ],
+   "rim_left": [
+    1.02,
+    1.03
+   ],
+   "rim_right": [
+    1.03,
+    1.02
+   ],
+   "line_top": 0,
+   "line_bottom": 0,
+   "line_left": 0,
+   "line_right": 0,
+   "traced": -0.015,
+   "layout_corr": 0.962,
+   "raw_size": [
+    1254,
+    1254
+   ],
+   "source_scale": 7.84,
+   "joint_top": [
+    4.95,
+    3.37
+   ],
+   "joint_bottom": [
+    2.51,
+    1.7
+   ],
+   "joint_right": [
+    4.69,
+    3.06
+   ],
+   "joint_left": [
+    5.2,
+    3.99
+   ]
+  },
+  "candidate": "level_generation/textures_x4/jobs/20261009-1649-mm8-out13-04/candidates/gnecflr_v1.png"
+ },
+ "t68a02b_v2": {
+  "member": "mm8/t68a02b",
+  "version": 2,
+  "flags": [],
+  "metrics": {
+   "shift_native_px": [
+    0.0,
+    0.0
+   ],
+   "gain": [
+    0.877,
+    0.951,
+    0.962
+   ],
+   "seam_u": [
+    0.96,
+    0.83
+   ],
+   "seam_v": [
+    1.06,
+    1.24
+   ],
+   "edge_top": 0.94,
+   "edge_bottom": 0.97,
+   "edge_left": 0.99,
+   "edge_right": 1.02,
+   "rim_top": [
+    1.02,
+    0.95
+   ],
+   "rim_bottom": [
+    1.0,
+    0.98
+   ],
+   "rim_left": [
+    0.98,
+    1.02
+   ],
+   "rim_right": [
+    0.99,
+    1.04
+   ],
+   "traced": -0.002,
+   "layout_corr": 0.964,
+   "raw_size": [
+    1254,
+    1254
+   ],
+   "source_scale": 4.35
+  },
+  "candidate": "level_generation/textures_x4/jobs/20261009-1649-mm8-out13-04/candidates/t68a02b_v2.png"
+ },
+ "t68a02b_v3": {
+  "member": "mm8/t68a02b",
+  "version": 3,
+  "flags": [],
+  "metrics": {
+   "shift_native_px": [
+    0.0,
+    0.0
+   ],
+   "gain": [
+    1.026,
+    1.063,
+    1.062
+   ],
+   "seam_u": [
+    0.93,
+    0.83
+   ],
+   "seam_v": [
+    1.12,
+    1.24
+   ],
+   "edge_top": 0.92,
+   "edge_bottom": 0.95,
+   "edge_left": 0.95,
+   "edge_right": 0.97,
+   "rim_top": [
+    0.99,
+    0.94
+   ],
+   "rim_bottom": [
+    0.99,
+    0.98
+   ],
+   "rim_left": [
+    0.94,
+    0.98
+   ],
+   "rim_right": [
+    0.96,
+    0.99
+   ],
+   "traced": -0.001,
+   "layout_corr": 0.962,
+   "raw_size": [
+    1254,
+    1254
+   ],
+   "source_scale": 4.35
+  },
+  "candidate": "level_generation/textures_x4/jobs/20261009-1649-mm8-out13-04/candidates/t68a02b_v3.png"
+ },
+ "t06a03_v2": {
+  "member": "mm8/t06a03",
+  "version": 2,
+  "flags": [],
+  "metrics": {
+   "shift_native_px": [
+    0.0,
+    0.0
+   ],
+   "gain": [
+    0.837,
+    0.789,
+    0.682
+   ],
+   "prefilled": 0.187,
+   "edge_top": 1.05,
+   "edge_bottom": 0.97,
+   "edge_left": 0.92,
+   "edge_right": 1.08,
+   "rim_top": [
+    1.2,
+    1.07
+   ],
+   "rim_bottom": [
+    1.06,
+    1.06
+   ],
+   "rim_left": [
+    0.88,
+    1.0
+   ],
+   "rim_right": [
+    1.04,
+    1.0
+   ],
+   "traced": -0.017,
+   "layout_corr": 0.974,
+   "raw_size": [
+    935,
+    1683
+   ],
+   "source_scale": 5.84
+  },
+  "candidate": "level_generation/textures_x4/jobs/20261009-1649-mm8-out13-04/candidates/t06a03_v2.png"
+ },
+ "gnecdr4r_v2": {
+  "member": "mm8/gnecdr4r",
+  "version": 2,
+  "flags": [
+   "seam v 1.3 vs 0.0",
+   "layout 0.62"
+  ],
+  "metrics": {
+   "shift_native_px": [
+    0.0,
+    1.0
+   ],
+   "shift_after_crop": [
+    0.0,
+    0.0
+   ],
+   "gain": [
+    0.798,
+    0.794,
+    0.762
+   ],
+   "seam_u": [
+    0.16,
+    1.15
+   ],
+   "seam_v": [
+    1.3,
+    0.05
+   ],
+   "line_top": 0,
+   "line_bottom": 0,
+   "line_left": 0,
+   "line_right": 0,
+   "traced": -0.003,
+   "layout_corr": 0.62,
+   "raw_size": [
+    1024,
+    1536
+   ],
+   "source_scale": 5.33,
+   "joint_left": [
+    0.12,
+    0.0
+   ],
+   "joint_right": [
+    6.64,
+    4.78
+   ]
+  },
+  "candidate": "level_generation/textures_x4/jobs/20261009-1649-mm8-out13-04/candidates/gnecdr4r_v2.png"
+ },
+ "gnecdr4r_v3": {
+  "member": "mm8/gnecdr4r",
+  "version": 3,
+  "flags": [
+   "seam v 2.3 vs 0.0",
+   "layout 0.60"
+  ],
+  "metrics": {
+   "shift_native_px": [
+    1.0,
+    1.0
+   ],
+   "shift_after_crop": [
+    0.0,
+    0.0
+   ],
+   "gain": [
+    0.878,
+    0.905,
+    0.898
+   ],
+   "seam_u": [
+    0.17,
+    1.15
+   ],
+   "seam_v": [
+    2.34,
+    0.05
+   ],
+   "line_top": 0,
+   "line_bottom": 0,
+   "line_left": 0,
+   "line_right": 0,
+   "traced": 0.008,
+   "layout_corr": 0.602,
+   "raw_size": [
+    1024,
+    1536
+   ],
+   "source_scale": 5.33,
+   "joint_left": [
+    0.16,
+    0.0
+   ],
+   "joint_right": [
+    5.78,
+    4.78
+   ]
+  },
+  "candidate": "level_generation/textures_x4/jobs/20261009-1649-mm8-out13-04/candidates/gnecdr4r_v3.png"
+ },
+ "ygtempw1_v2": {
+  "member": "mm8/ygtempw1",
+  "version": 2,
+  "flags": [],
+  "metrics": {
+   "shift_native_px": [
+    0.0,
+    0.0
+   ],
+   "gain": [
+    0.849,
+    0.875,
+    0.941
+   ],
+   "edge_top": 0.96,
+   "edge_bottom": 0.88,
+   "edge_left": 1.01,
+   "edge_right": 0.89,
+   "rim_top": [
+    0.99,
+    0.96
+   ],
+   "rim_bottom": [
+    1.38,
+    0.89
+   ],
+   "rim_left": [
+    1.13,
+    0.99
+   ],
+   "rim_right": [
+    1.33,
+    0.78
+   ],
+   "line_top": 0,
+   "line_bottom": 0,
+   "line_left": 0,
+   "line_right": 0,
+   "traced": -0.009,
+   "layout_corr": 0.927,
+   "raw_size": [
+    935,
+    1683
+   ],
+   "source_scale": 5.84
+  },
+  "candidate": "level_generation/textures_x4/jobs/20261009-1649-mm8-out13-04/candidates/ygtempw1_v2.png"
+ }
+}

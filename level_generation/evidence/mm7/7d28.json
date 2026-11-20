@@ -1,0 +1,190 @@
+{
+  "kind": "indoor",
+  "world": "mm7",
+  "map": "7d28.blv",
+  "sources": [
+    {
+      "path": "assets_dev/worlds/mm7/maps/7d28.blv",
+      "sha256": "ccf44073ea8c7b91eb82e5ef0aa9c366f912c91c921d57f69299e24560e7f786"
+    },
+    {
+      "path": "assets_dev/worlds/mm7/maps/7d28.scene.yml",
+      "sha256": "f9bf1afd83001c395410b8121f92c2b9a9f8af9464a0e959b214e117a07c5447"
+    },
+    {
+      "path": "assets_dev/worlds/mm7/events/maps/7d28.lua",
+      "sha256": "d7c9081711a190e3c1903c09edae9efa73270d47db9d957f6b1cd191496c7817"
+    },
+    {
+      "path": "assets_dev/engine/data_tables/map_stats.txt",
+      "sha256": "15c97e7fa3a23f1857be2646cf732e89c5000a06b3b3ee252f9a36a4250e5ed6"
+    },
+    {
+      "path": "reference/mmext-scripts/Decompiled_Scripts/mm7orig/txt/D28.txt",
+      "sha256": "09b245f25ee8f7c2a2d8e93d42ea60b61d3249928997c3e96463d4147e8acd7c"
+    }
+  ],
+  "map_stats": {
+    "id": 102,
+    "name": "The Dragon's Lair",
+    "line": 105,
+    "perception": 5,
+    "refill_days": 672,
+    "disarm": 5,
+    "trap_d20": 3,
+    "treasure": 1,
+    "encounter_chance": 10,
+    "music": "28",
+    "encounters": [
+      {
+        "name": "Dragon",
+        "difficulty": "1",
+        "count": "1-3",
+        "weight": 50
+      },
+      {
+        "name": "Rat",
+        "difficulty": "3",
+        "count": "1-3",
+        "weight": 50
+      },
+      {
+        "name": "0",
+        "difficulty": "1",
+        "count": "1-3",
+        "weight": 0
+      }
+    ]
+  },
+  "source_version": 8,
+  "scene_counts": {
+    "face_attribute_overrides": 0,
+    "decoration_flags": 0,
+    "actors": 1,
+    "sprite_objects": 3,
+    "chests": 20,
+    "doors": 0
+  },
+  "entities": 7,
+  "spawn_records": 17,
+  "decorations": {
+    "Party Start": 1,
+    "7dec18": 4,
+    "7dec20": 1,
+    "dec19": 1
+  },
+  "unique_actors": [
+    {
+      "actor_index": 0,
+      "name": "",
+      "monster_id": 11000,
+      "unique_name_index": 160,
+      "carried_item_id": 0,
+      "hp": 1300,
+      "group": 52,
+      "position": {
+        "x": -2432,
+        "y": 2560,
+        "z": -96
+      }
+    }
+  ],
+  "declared_event_count": 4,
+  "vertices": 355,
+  "faces": 503,
+  "sectors": [
+    {
+      "floors": 0,
+      "walls": 0,
+      "ceilings": 0,
+      "portals": 0,
+      "faces": 0,
+      "ambient": 22
+    },
+    {
+      "floors": 118,
+      "walls": 60,
+      "ceilings": 111,
+      "portals": 1,
+      "faces": 290,
+      "ambient": 22
+    },
+    {
+      "floors": 50,
+      "walls": 55,
+      "ceilings": 108,
+      "portals": 1,
+      "faces": 214,
+      "ambient": 22
+    }
+  ],
+  "occupied_sectors": 2,
+  "portal_faces": 1,
+  "outlines": 380,
+  "bsp_nodes": 375,
+  "lights": 27,
+  "light_radius_range": [
+    0,
+    0
+  ],
+  "facet_types": {
+    "1": 116,
+    "4": 142,
+    "6": 200,
+    "3": 26,
+    "5": 19
+  },
+  "bounds": [
+    [
+      -4068,
+      -1560,
+      -96
+    ],
+    [
+      1052,
+      4232,
+      1760
+    ]
+  ],
+  "doors": [],
+  "face_flags": {
+    "secret": 0,
+    "invisible": 0,
+    "animated": 0,
+    "clickable": 4,
+    "pressure_plate": 0,
+    "trigger_monster": 0,
+    "trigger_object": 0
+  },
+  "textures": {
+    "T2BS": 424,
+    "Cfb1": 74,
+    "7solid01": 5
+  },
+  "bound_events": [
+    {
+      "id": 101,
+      "binding_count": 4,
+      "line": 24,
+      "calls": [
+        "MoveToMap"
+      ],
+      "chests": [],
+      "houses": [],
+      "doors": [],
+      "destinations": [
+        "7out01.odm"
+      ],
+      "position": [
+        1052.0,
+        2171.5,
+        420.0
+      ]
+    }
+  ],
+  "bound_chest_slots": [],
+  "bound_door_ids": [],
+  "bound_call_counts": {
+    "MoveToMap": 1
+  }
+}

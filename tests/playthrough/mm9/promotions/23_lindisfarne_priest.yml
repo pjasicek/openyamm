@@ -1,0 +1,127 @@
+# MM9 promotion playthrough, segment 23: a young priest for the new temple (guide: side_b.yml
+# find-a-new-priest-for-the-new-temple). The Flying Bird from Guberland to Lindisfarne (Monday, three days; outdoors the
+# party is moved), the monastery walked (its monks are the party's friends: no clear_hostiles here, nothing hostile
+# lives in it, and no step may hurt a monk). Abbot Leffery Caid at the main altar (RUDE 283): "Actually we're looking
+# for a priest." (needs 250), "We need to take a priest to Guberland.", "Sounds great!" (253). The party rests until the
+# next morning: the first 5:00 after the abbot agreed gives key 254 and Robert Aefgil appears in the yard east of the
+# nave (NPC283.scr's '@M 5 : 00'). Robert (RUDE 284): "Yes, we are ready to take you if you are ready to leave.", "To a
+# new temple we're helping to build in Guberland.", "Alright.  Perhaps we'll see you there.  Farewell." (255: he travels
+# on his own and is gone). Out by the narthex. Research: prep/C_healer_priest.md.
+#   python3 tests/playthrough/mm9/promotions/run.py 23
+id: mm9.promotions.23_lindisfarne_priest
+title: "MM9 promotions 23: Abbot Leffery's young priest; Robert Aefgil leaves for Guberland"
+world: mm9
+mode: faithful
+tags: [mm9, playthrough, promotions]
+steps:
+  - load_game: {path: output/playthrough/mm9/promotions/checkpoints/22_slemnir_tasks.oysav}
+  - setup_shortcut: {kind: immortal}
+  - assert: {qbit_set: [90250], qbit_clear: [90253, 90254, 90255]}
+
+  # The Flying Bird to Lindisfarne; the monastery's door (ExitTrigger0) at the island's south end.
+  - travel: {map: lindisfarne.blv, days: 3}
+  - set_pose: {map: lindisfarne.blv, x: -11250, y: -21240, z: 2734, yaw: 3.1416, pitch: 0}
+  - advance_runtime: {seconds: 0.5}
+  - walk_to: {x: -11749, y: -21240, z: 2734, z_tolerance: 600, plan: false, timeout_seconds: 20, expect: dialog}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.0, follow_map_move: true}
+  - assert: {map: lindisfarnemonastery.blv}
+  - play_lua:
+      source: |
+        if mapvar("MonksHostile") ~= 0 then error("the monks are hostile") end
+        log("the monks are friendly (MonksHostile 0)")
+
+  # The narthex, the nave (east of its centre line: monks stand on it), the crossing, north to the main altar.
+  - walk_to: {x: -330, y: 1000, z: 1, z_tolerance: 200, plan: false, timeout_seconds: 60}
+  - play_lua:
+      source: |
+        -- the nave doors (doors 1, 2; they shut by themselves after 10 s): clicked only when both leaves are shut
+        for _ = 1, 40 do
+          local l, r = door_state(1), door_state(2)
+          if l == "open" and r == "open" then break end
+          if l == "closed" and r == "closed" then click(101); wait(2) else wait(0.5) end
+        end
+        log("the nave doors: " .. door_state(1) .. ", " .. door_state(2))
+        if door_state(1) ~= "open" or door_state(2) ~= "open" then error("the nave doors did not open") end
+  - walk_to: {via: [[-100, 1700, 1]], x: -100, y: 5600, z: 1, z_tolerance: 200, plan: false, timeout_seconds: 60}
+  - play_lua:
+      source: |
+        -- the crossing doors (doors 3, 4; they shut by themselves after 10 s): clicked only when both leaves are shut
+        for _ = 1, 40 do
+          local l, r = door_state(3), door_state(4)
+          if l == "open" and r == "open" then break end
+          if l == "closed" and r == "closed" then click(102); wait(2) else wait(0.5) end
+        end
+        log("the crossing doors: " .. door_state(3) .. ", " .. door_state(4))
+        if door_state(3) ~= "open" or door_state(4) ~= "open" then error("the crossing doors did not open") end
+  - walk_to: {via: [[-100, 6300, 1]], x: -100, y: 6900, z: 1, z_tolerance: 200, plan: false, timeout_seconds: 60}
+  - walk_to: {via: [[175, 10150, 1], [175, 10700, 41]], x: -300, y: 11100, z: 103, z_tolerance: 300, plan: false, timeout_seconds: 60}
+  - interact_actor: {actor_index: 0}
+  - select_topic: {match_label: "Actually we're looking for a priest."}
+  - select_topic: {match_label: "We need to take a priest to Guberland."}
+  - select_topic: {match_label: "Sounds great!"}
+  - select_topic: {match_label: "Thank you."}
+  - select_topic: {match_label: "Not right now."}
+  - advance_runtime: {seconds: 0.5}
+  - assert: {qbit_set: [90253], qbit_clear: [90254]}
+
+  # Rest until the next morning (the rest screen's Wait); Robert is about from 5:00.
+  - console: {line: "rest wait 1440", expect_contains: "Resting"}
+  - advance_runtime: {seconds: 30}
+  - console: {line: "rest close"}
+  - advance_runtime: {seconds: 4}
+  - play_lua:
+      source: |
+        if not qbit(90254) then error("no 5:00 call for Robert") end
+        log("morning: Robert Aefgil is waiting in the yard (key 254)")
+
+  # Robert in the yard east of the nave: down the choir's side step, back through the crossing doors, along the nave
+  # to its east door (RotatingDoor0, event 103; it shuts by itself after 10 s), out into the yard.
+  - walk_to: {via: [[175, 10700, 41], [175, 10150, 1], [-100, 7000, 1]], x: -100, y: 6250, z: 1, z_tolerance: 200, plan: false, timeout_seconds: 60}
+  - play_lua:
+      source: |
+        -- the crossing doors (doors 3, 4; they shut by themselves after 10 s): clicked only when both leaves are shut
+        for _ = 1, 40 do
+          local l, r = door_state(3), door_state(4)
+          if l == "open" and r == "open" then break end
+          if l == "closed" and r == "closed" then click(102); wait(2) else wait(0.5) end
+        end
+        log("the crossing doors: " .. door_state(3) .. ", " .. door_state(4))
+        if door_state(3) ~= "open" or door_state(4) ~= "open" then error("the crossing doors did not open") end
+  - walk_to: {via: [[-100, 5600, 1]], x: 400, y: 1761, z: 1, z_tolerance: 200, plan: false, timeout_seconds: 60}
+  - play_lua:
+      source: |
+        if door_state(35) ~= "open" then click(103); wait(2) end
+        log("the nave's east door: " .. door_state(35))
+        if door_state(35) ~= "open" then error("the nave's east door did not open") end
+  - walk_to: {x: 1000, y: 1761, z: -40, z_tolerance: 200, plan: false, timeout_seconds: 30}
+  - walk_to: {x: 1475, y: 2250, z: -40, z_tolerance: 300, timeout_seconds: 60}
+  - interact_actor: {actor_index: 2}
+  - select_topic: {match_label: "Yes, we are ready to take you if you are ready to leave."}
+  - select_topic: {match_label: "To a new temple we're helping to build in Guberland."}
+  - select_topic: {match_label: "Alright.  Perhaps we'll see you there.  Farewell."}
+  - advance_runtime: {seconds: 4}
+  - assert: {qbit_set: [90255]}
+  - play_lua:
+      source: |
+        if mapvar("MonksHostile") ~= 0 then error("the monks turned hostile") end
+        log("Robert Aefgil leaves for Guberland on his own; the monks are still friendly")
+
+  # Out by the narthex.
+  - walk_to: {x: -330, y: 1700, z: 1, z_tolerance: 200, timeout_seconds: 120}
+  - play_lua:
+      source: |
+        -- the nave doors (doors 1, 2; they shut by themselves after 10 s): clicked only when both leaves are shut
+        for _ = 1, 40 do
+          local l, r = door_state(1), door_state(2)
+          if l == "open" and r == "open" then break end
+          if l == "closed" and r == "closed" then click(101); wait(2) else wait(0.5) end
+        end
+        log("the nave doors: " .. door_state(1) .. ", " .. door_state(2))
+        if door_state(1) ~= "open" or door_state(2) ~= "open" then error("the nave doors did not open") end
+  - walk_to: {via: [[-330, 1000, 1]], x: -328, y: -1000, z: 1, z_tolerance: 200, plan: false, timeout_seconds: 60}
+  - walk_to: {x: -328, y: -1393, z: 1, z_tolerance: 400, plan: false, timeout_seconds: 20, expect: dialog}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.0, follow_map_move: true}
+  - assert: {map: lindisfarne.blv}
+  - save_game: {name: "23 Robert Aefgil", path: output/playthrough/mm9/promotions/checkpoints/23_lindisfarne_priest.oysav}

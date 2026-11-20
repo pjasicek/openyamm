@@ -1,0 +1,1 @@
+Preserved existing RGBA master. Default common native-canvas registration, followed by restore_native_tone.py using pooled opaque RGB gamma matching. Alpha unchanged. Both final background proofs reviewed; solid bounds match native coordinates.

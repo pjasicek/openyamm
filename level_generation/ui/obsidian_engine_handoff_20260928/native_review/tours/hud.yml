@@ -1,0 +1,26 @@
+output_dir: /tmp/obsidian-native-hud-final
+exit: true
+steps:
+- wait: 2
+- capture: gameplay
+- right_down: &id001
+  - 276
+  - 120
+- click: *id001
+- capture: buffs-expanded
+- click:
+  - 600
+  - 400
+- click:
+  - 568
+  - 828
+- capture: personal-buffs
+- click:
+  - 568
+  - 828
+- right_up:
+  - 600
+  - 400
+- action: combat
+- capture: turn-based
+- action: combat

@@ -1,0 +1,90 @@
+output_dir: /home/pjasicek/github/OpenYAMM/level_generation/props/items_claude/oblivion_weapon_skins_20261114/ingame/posetest
+exit: true
+steps:
+  - wait: 3
+  - console: viewmodel kit onehand w_waraxe.glb 0
+  - console: viewmodel tier 3
+  - wait: 2
+  - console: viewmodel pose onehandattackleft 0.05
+  - wait: 0.5
+  - capture: wa_onehandattackleft_0.05
+  - console: viewmodel pose onehandattackleft 0.25
+  - wait: 0.5
+  - capture: wa_onehandattackleft_0.25
+  - console: viewmodel pose onehandattackleft 0.4
+  - wait: 0.5
+  - capture: wa_onehandattackleft_0.4
+  - console: viewmodel pose onehandattackright 0.05
+  - wait: 0.5
+  - capture: wa_onehandattackright_0.05
+  - console: viewmodel pose onehandattackright 0.25
+  - wait: 0.5
+  - capture: wa_onehandattackright_0.25
+  - console: viewmodel pose onehandattackright 0.4
+  - wait: 0.5
+  - capture: wa_onehandattackright_0.4
+  - console: viewmodel pose onehandattackleft_chop 0.05
+  - wait: 0.5
+  - capture: wa_onehandattackleft_chop_0.05
+  - console: viewmodel pose onehandattackleft_chop 0.25
+  - wait: 0.5
+  - capture: wa_onehandattackleft_chop_0.25
+  - console: viewmodel pose onehandattackleft_chop 0.4
+  - wait: 0.5
+  - capture: wa_onehandattackleft_chop_0.4
+  - console: viewmodel pose onehandattackright_chop 0.05
+  - wait: 0.5
+  - capture: wa_onehandattackright_chop_0.05
+  - console: viewmodel pose onehandattackright_chop 0.25
+  - wait: 0.5
+  - capture: wa_onehandattackright_chop_0.25
+  - console: viewmodel pose onehandattackright_chop 0.4
+  - wait: 0.5
+  - capture: wa_onehandattackright_chop_0.4
+  - console: viewmodel pose onehandattackpower 0.05
+  - wait: 0.5
+  - capture: wa_onehandattackpower_0.05
+  - console: viewmodel pose onehandattackpower 0.25
+  - wait: 0.5
+  - capture: wa_onehandattackpower_0.25
+  - console: viewmodel pose onehandattackpower 0.4
+  - wait: 0.5
+  - capture: wa_onehandattackpower_0.4
+  - console: viewmodel kit twohand w_warhammer.glb 0
+  - wait: 2
+  - console: viewmodel pose twohandattackleft 0.05
+  - wait: 0.5
+  - capture: wh_twohandattackleft_0.05
+  - console: viewmodel pose twohandattackleft 0.25
+  - wait: 0.5
+  - capture: wh_twohandattackleft_0.25
+  - console: viewmodel pose twohandattackleft 0.4
+  - wait: 0.5
+  - capture: wh_twohandattackleft_0.4
+  - console: viewmodel pose twohandattackright 0.05
+  - wait: 0.5
+  - capture: wh_twohandattackright_0.05
+  - console: viewmodel pose twohandattackright 0.25
+  - wait: 0.5
+  - capture: wh_twohandattackright_0.25
+  - console: viewmodel pose twohandattackright 0.4
+  - wait: 0.5
+  - capture: wh_twohandattackright_0.4
+  - console: viewmodel pose twohandattackleft_chop 0.05
+  - wait: 0.5
+  - capture: wh_twohandattackleft_chop_0.05
+  - console: viewmodel pose twohandattackleft_chop 0.25
+  - wait: 0.5
+  - capture: wh_twohandattackleft_chop_0.25
+  - console: viewmodel pose twohandattackleft_chop 0.4
+  - wait: 0.5
+  - capture: wh_twohandattackleft_chop_0.4
+  - console: viewmodel pose twohandattackpower 0.05
+  - wait: 0.5
+  - capture: wh_twohandattackpower_0.05
+  - console: viewmodel pose twohandattackpower 0.25
+  - wait: 0.5
+  - capture: wh_twohandattackpower_0.25
+  - console: viewmodel pose twohandattackpower 0.4
+  - wait: 0.5
+  - capture: wh_twohandattackpower_0.4

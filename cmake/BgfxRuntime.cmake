@@ -7,6 +7,8 @@ function(openyamm_bgfx_shader_platform outputVariable)
         set(shaderPlatform "android")
     elseif (WIN32)
         set(shaderPlatform "windows")
+    elseif (IOS)
+        set(shaderPlatform "ios")
     elseif (APPLE)
         set(shaderPlatform "osx")
     else()
@@ -24,7 +26,8 @@ function(openyamm_bgfx_shader_targets outputVariable)
     elseif (WIN32)
         set(shaderTargets "windows|150|glsl")
     elseif (APPLE)
-        set(shaderTargets "osx|150|glsl")
+        openyamm_bgfx_shader_platform(shaderPlatform)
+        set(shaderTargets "${shaderPlatform}|metal|metal")
     else()
         set(shaderTargets "linux|150|glsl")
     endif()
@@ -98,6 +101,7 @@ function(openyamm_compile_bgfx_shader_for_target sourcePath shaderType outputNam
             "${CMAKE_SOURCE_DIR}/game/shaders/billboard_lit.sh"
             "${CMAKE_SOURCE_DIR}/game/shaders/outdoor_textured_fog.sh"
             "${CMAKE_SOURCE_DIR}/game/shaders/outdoor_terrain_materials.sh"
+            "${CMAKE_SOURCE_DIR}/game/shaders/terrain_material_layers.sh"
             "${CMAKE_SOURCE_DIR}/game/shaders/outdoor_sunlight.sh"
             "${CMAKE_SOURCE_DIR}/game/shaders/world_clip.sh"
             "${CMAKE_SOURCE_DIR}/game/shaders/water_surface.sh"
@@ -111,7 +115,10 @@ function(openyamm_compile_bgfx_shader_for_target sourcePath shaderType outputNam
             "${CMAKE_SOURCE_DIR}/game/shaders/outdoor_bmodel_lightmap.sh"
             "${CMAKE_SOURCE_DIR}/game/shaders/outdoor_lighting.sh"
             "${CMAKE_SOURCE_DIR}/game/shaders/sky_common.sh"
+            "${CMAKE_SOURCE_DIR}/game/shaders/mist.sh"
             "${CMAKE_SOURCE_DIR}/game/shaders/weather_wetness.sh"
+            "${CMAKE_SOURCE_DIR}/game/shaders/shield_common.sh"
+            "${CMAKE_SOURCE_DIR}/game/shaders/surface_material.sh"
             "${OPENYAMM_BGFX_SOURCE_DIR}/examples/common/shaderlib.sh"
             openyamm_shaderc
         VERBATIM
@@ -163,7 +170,7 @@ function(openyamm_configure_bgfx_runtime)
     if (NOT TARGET openyamm_bgfx)
         find_package(Threads REQUIRED)
 
-        if (NOT ANDROID)
+        if (NOT ANDROID AND NOT APPLE)
             find_package(OpenGL REQUIRED)
         endif()
 
@@ -205,7 +212,13 @@ function(openyamm_configure_bgfx_runtime)
             )
         endif()
 
-        if (WIN32 OR OPENYAMM_USE_VULKAN)
+        if (APPLE)
+            set(openyammMetalSource "${OPENYAMM_BGFX_SOURCE_DIR}/src/renderer_mtl.cpp")
+            set_source_files_properties("${openyammMetalSource}" PROPERTIES LANGUAGE OBJCXX)
+            target_sources(openyamm_bgfx PRIVATE "${openyammMetalSource}")
+        endif()
+
+        if (WIN32 OR OPENYAMM_USE_VULKAN OR APPLE)
             target_sources(openyamm_bgfx PRIVATE
                 ${OPENYAMM_BGFX_SOURCE_DIR}/src/shader_dxbc.cpp
             )
@@ -228,7 +241,16 @@ function(openyamm_configure_bgfx_runtime)
         )
 
         target_compile_features(openyamm_bgfx PUBLIC cxx_std_20)
-        if (ANDROID)
+        if (IOS)
+            target_include_directories(openyamm_bgfx PRIVATE ${OPENYAMM_BX_SOURCE_DIR}/include/compat/ios)
+        elseif (APPLE)
+            target_include_directories(openyamm_bgfx PRIVATE ${OPENYAMM_BX_SOURCE_DIR}/include/compat/osx)
+        endif()
+        if (APPLE)
+            set(openyammBgfxOpenGlVersion 0)
+            set(openyammBgfxOpenGlesVersion 0)
+            set(openyammBgfxDebug "$<IF:$<CONFIG:Debug>,1,0>")
+        elseif (ANDROID)
             set(openyammBgfxOpenGlVersion 0)
             set(openyammBgfxOpenGlesVersion 30)
             set(openyammBgfxDebug 0)
@@ -237,6 +259,14 @@ function(openyamm_configure_bgfx_runtime)
             set(openyammBgfxOpenGlesVersion 0)
             set(openyammBgfxDebug "$<IF:$<CONFIG:Debug>,1,0>")
         endif()
+        # Diagnostic builds: bgfx checks every GL call and stops at the first GL error with the call and source line.
+        if (OPENYAMM_BGFX_DEBUG)
+            set(openyammBgfxDebug 1)
+            # A failed check aborts, so the crash report shows the call that failed. Setting a uniform twice before
+            # one draw is legal (the last value wins), so that bookkeeping check stays off.
+            target_compile_definitions(openyamm_bgfx PUBLIC OPENYAMM_BGFX_ABORT_ON_CHECK=1
+                PRIVATE BGFX_CONFIG_DEBUG_UNIFORM=0)
+        endif()
 
         target_compile_definitions(openyamm_bgfx
             PUBLIC
@@ -244,7 +274,7 @@ function(openyamm_configure_bgfx_runtime)
             PRIVATE
                 BGFX_CONFIG_RENDERER_DIRECT3D11=0
                 BGFX_CONFIG_RENDERER_DIRECT3D12=0
-                BGFX_CONFIG_RENDERER_METAL=0
+                BGFX_CONFIG_RENDERER_METAL=$<BOOL:${APPLE}>
                 BGFX_CONFIG_RENDERER_VULKAN=$<BOOL:${OPENYAMM_USE_VULKAN}>
                 BGFX_CONFIG_RENDERER_WEBGPU=0
                 BGFX_CONFIG_RENDERER_OPENGL=${openyammBgfxOpenGlVersion}
@@ -263,7 +293,14 @@ function(openyamm_configure_bgfx_runtime)
 
         target_link_libraries(openyamm_bgfx PUBLIC Threads::Threads ${CMAKE_DL_LIBS})
 
-        if (ANDROID)
+        if (APPLE)
+            target_link_libraries(openyamm_bgfx PUBLIC
+                "-framework Foundation" "-framework Metal" "-framework QuartzCore"
+            )
+            if (NOT IOS)
+                target_link_libraries(openyamm_bgfx PUBLIC "-framework IOKit")
+            endif()
+        elseif (ANDROID)
             target_link_libraries(openyamm_bgfx PUBLIC EGL GLESv3 android log)
         else()
             target_link_libraries(openyamm_bgfx PUBLIC OpenGL::GL)
@@ -367,9 +404,14 @@ function(openyamm_configure_bgfx_runtime)
 
         add_executable(openyamm_shaderc ${openyammShadercSources})
 
-        if (OPENYAMM_USE_VULKAN)
+        if (OPENYAMM_USE_VULKAN OR APPLE)
             include(BgfxSpirv)
             openyamm_configure_spirv_compiler()
+        endif()
+
+        if (APPLE)
+            target_sources(openyamm_shaderc PRIVATE ${OPENYAMM_BGFX_SOURCE_DIR}/tools/shaderc/shaderc_metal.cpp)
+            target_compile_definitions(openyamm_shaderc PRIVATE OPENYAMM_SHADERC_ENABLE_METAL=1)
         endif()
 
         target_include_directories(openyamm_shaderc PRIVATE
@@ -403,6 +445,10 @@ function(openyamm_configure_runtime_shaders)
         "${CMAKE_SOURCE_DIR}/game/shaders/fs_menu_tint.sc"
         fragment
         "fs_menu_tint.bin")
+    openyamm_compile_bgfx_shader(
+        "${CMAKE_SOURCE_DIR}/game/shaders/vs_hud.sc" "vertex" "vs_hud.bin")
+    openyamm_compile_bgfx_shader(
+        "${CMAKE_SOURCE_DIR}/game/shaders/fs_hud.sc" "fragment" "fs_hud.bin")
     openyamm_compile_bgfx_shader(
         "${CMAKE_SOURCE_DIR}/game/shaders/fs_shadowmaps_texture.sc"
         "fragment"
@@ -463,6 +509,16 @@ function(openyamm_configure_runtime_shaders)
             "${CMAKE_SOURCE_DIR}/game/shaders/${arrayShader}.sc"
             "fragment" "${arrayShader}_array_shadow.bin" "BMODEL_TEXTURE_ARRAY=1$<SEMICOLON>SUN_SHADOWS=1")
     endforeach()
+    # Bmodel faces whose textures have surface material maps (devdocs/SURFACE_MATERIALS_PLAN.md), baked maps only.
+    openyamm_compile_bgfx_shader("${CMAKE_SOURCE_DIR}/game/shaders/fs_outdoor_bmodel_baked.sc"
+        "fragment" "fs_outdoor_bmodel_baked_materials.bin" "SURFACE_MATERIALS=1")
+    openyamm_compile_bgfx_shader("${CMAKE_SOURCE_DIR}/game/shaders/fs_outdoor_bmodel_baked.sc"
+        "fragment" "fs_outdoor_bmodel_baked_shadow_materials.bin" "SUN_SHADOWS=1$<SEMICOLON>SURFACE_MATERIALS=1")
+    openyamm_compile_bgfx_shader("${CMAKE_SOURCE_DIR}/game/shaders/fs_outdoor_bmodel_baked.sc"
+        "fragment" "fs_outdoor_bmodel_baked_array_materials.bin" "BMODEL_TEXTURE_ARRAY=1$<SEMICOLON>SURFACE_MATERIALS=1")
+    openyamm_compile_bgfx_shader("${CMAKE_SOURCE_DIR}/game/shaders/fs_outdoor_bmodel_baked.sc"
+        "fragment" "fs_outdoor_bmodel_baked_array_shadow_materials.bin"
+        "BMODEL_TEXTURE_ARRAY=1$<SEMICOLON>SUN_SHADOWS=1$<SEMICOLON>SURFACE_MATERIALS=1")
     # The outdoor terrain (OutdoorTerrainMaterials).
     openyamm_compile_bgfx_shader(
         "${CMAKE_SOURCE_DIR}/game/shaders/vs_outdoor_terrain_materials.sc" "vertex" "vs_outdoor_terrain_materials.bin")
@@ -477,6 +533,10 @@ function(openyamm_configure_runtime_shaders)
             "${CMAKE_SOURCE_DIR}/game/shaders/${materialShader}.sc" "fragment" "${materialShader}_single_shadow.bin"
             "SINGLE_MATERIAL=1$<SEMICOLON>SUN_SHADOWS=1")
     endforeach()
+    # Its depth pre-pass in the main view, so each pixel is shaded once.
+    openyamm_compile_bgfx_shader(
+        "${CMAKE_SOURCE_DIR}/game/shaders/fs_outdoor_terrain_materials.sc" "fragment" "fs_outdoor_terrain_depth.bin"
+        "TERRAIN_DEPTH_ONLY=1")
     # The terrain as a sun shadow caster.
     openyamm_compile_bgfx_shader(
         "${CMAKE_SOURCE_DIR}/game/shaders/vs_terrain_shadow.sc" "vertex" "vs_terrain_shadow.bin")
@@ -517,6 +577,67 @@ function(openyamm_configure_runtime_shaders)
         "fragment"
         "fs_indoor_textured_lit.bin")
     openyamm_compile_bgfx_shader(
+        "${CMAKE_SOURCE_DIR}/game/shaders/fs_indoor_textured_lit.sc" "fragment" "fs_indoor_textured_lit_materials.bin"
+        "SURFACE_MATERIALS=1")
+    # Faces of a BLV with baked lighting (devdocs/INDOOR_BAKED_LIGHTING.md): the lightmap instead of the vertex bake.
+    openyamm_compile_bgfx_shader(
+        "${CMAKE_SOURCE_DIR}/game/shaders/vs_indoor_textured_baked.sc" "vertex" "vs_indoor_textured_baked.bin")
+    openyamm_compile_bgfx_shader(
+        "${CMAKE_SOURCE_DIR}/game/shaders/fs_indoor_textured_lit.sc" "fragment" "fs_indoor_textured_baked.bin"
+        "INDOOR_BAKED=1")
+    openyamm_compile_bgfx_shader(
+        "${CMAKE_SOURCE_DIR}/game/shaders/fs_indoor_textured_lit.sc" "fragment"
+        "fs_indoor_textured_baked_materials.bin" "INDOOR_BAKED=1$<SEMICOLON>SURFACE_MATERIALS=1")
+    # Translucent BLV faces (devdocs/INDOOR_TRANSLUCENT_FACES.md): tinted and alpha-blended, vertex-lit or baked.
+    openyamm_compile_bgfx_shader(
+        "${CMAKE_SOURCE_DIR}/game/shaders/fs_indoor_textured_lit.sc" "fragment" "fs_indoor_textured_translucent.bin"
+        "INDOOR_TRANSLUCENT=1")
+    openyamm_compile_bgfx_shader(
+        "${CMAKE_SOURCE_DIR}/game/shaders/fs_indoor_textured_lit.sc" "fragment"
+        "fs_indoor_textured_baked_translucent.bin" "INDOOR_BAKED=1$<SEMICOLON>INDOOR_TRANSLUCENT=1")
+    # The terrain faces of an open-air BLV (IndoorTerrainMaterials): blended ground materials, smooth ground normal.
+    openyamm_compile_bgfx_shader(
+        "${CMAKE_SOURCE_DIR}/game/shaders/fs_indoor_textured_lit.sc" "fragment" "fs_indoor_textured_terrain.bin"
+        "INDOOR_TERRAIN=1")
+    openyamm_compile_bgfx_shader(
+        "${CMAKE_SOURCE_DIR}/game/shaders/fs_indoor_textured_lit.sc" "fragment" "fs_indoor_textured_terrain_fog.bin"
+        "INDOOR_TERRAIN=1$<SEMICOLON>INDOOR_FOG=1")
+    # Its depth pre-pass in the main view: the terrain's depth before it is shaded, so each pixel is shaded once.
+    openyamm_compile_bgfx_shader(
+        "${CMAKE_SOURCE_DIR}/game/shaders/fs_indoor_textured_lit.sc" "fragment" "fs_indoor_textured_depth.bin"
+        "INDOOR_DEPTH_ONLY=1")
+    # Its faces that read one ground layer only (IndoorRenderer::markSingleMaterialTerrainFaces) sample that layer.
+    openyamm_compile_bgfx_shader(
+        "${CMAKE_SOURCE_DIR}/game/shaders/fs_indoor_textured_lit.sc" "fragment"
+        "fs_indoor_textured_terrain_single.bin" "INDOOR_TERRAIN=1$<SEMICOLON>SINGLE_MATERIAL=1")
+    openyamm_compile_bgfx_shader(
+        "${CMAKE_SOURCE_DIR}/game/shaders/fs_indoor_textured_lit.sc" "fragment"
+        "fs_indoor_textured_terrain_single_fog.bin" "INDOOR_TERRAIN=1$<SEMICOLON>SINGLE_MATERIAL=1$<SEMICOLON>INDOOR_FOG=1")
+    # Faces and water of a map with scene fog (devdocs/INDOOR_FOG.md): the same programs fading into its fog colour.
+    openyamm_compile_bgfx_shader(
+        "${CMAKE_SOURCE_DIR}/game/shaders/fs_indoor_textured_lit.sc" "fragment" "fs_indoor_textured_lit_fog.bin"
+        "INDOOR_FOG=1")
+    openyamm_compile_bgfx_shader(
+        "${CMAKE_SOURCE_DIR}/game/shaders/fs_indoor_textured_lit.sc" "fragment"
+        "fs_indoor_textured_lit_materials_fog.bin" "INDOOR_FOG=1$<SEMICOLON>SURFACE_MATERIALS=1")
+    openyamm_compile_bgfx_shader(
+        "${CMAKE_SOURCE_DIR}/game/shaders/fs_indoor_textured_lit.sc" "fragment" "fs_indoor_textured_baked_fog.bin"
+        "INDOOR_BAKED=1$<SEMICOLON>INDOOR_FOG=1")
+    openyamm_compile_bgfx_shader(
+        "${CMAKE_SOURCE_DIR}/game/shaders/fs_indoor_textured_lit.sc" "fragment"
+        "fs_indoor_textured_baked_materials_fog.bin" "INDOOR_BAKED=1$<SEMICOLON>INDOOR_FOG=1$<SEMICOLON>SURFACE_MATERIALS=1")
+    openyamm_compile_bgfx_shader(
+        "${CMAKE_SOURCE_DIR}/game/shaders/fs_indoor_textured_lit.sc" "fragment"
+        "fs_indoor_textured_translucent_fog.bin" "INDOOR_FOG=1$<SEMICOLON>INDOOR_TRANSLUCENT=1")
+    openyamm_compile_bgfx_shader(
+        "${CMAKE_SOURCE_DIR}/game/shaders/fs_indoor_textured_lit.sc" "fragment"
+        "fs_indoor_textured_baked_translucent_fog.bin" "INDOOR_BAKED=1$<SEMICOLON>INDOOR_FOG=1$<SEMICOLON>INDOOR_TRANSLUCENT=1")
+    openyamm_compile_bgfx_shader(
+        "${CMAKE_SOURCE_DIR}/game/shaders/fs_indoor_water.sc" "fragment" "fs_indoor_water_fog.bin" "INDOOR_FOG=1")
+    openyamm_compile_bgfx_shader(
+        "${CMAKE_SOURCE_DIR}/game/shaders/fs_indoor_water.sc" "fragment" "fs_indoor_water_ripples_fog.bin"
+        "INDOOR_FOG=1$<SEMICOLON>WATER_MOVEMENT_RIPPLES=1")
+    openyamm_compile_bgfx_shader(
         "${CMAKE_SOURCE_DIR}/game/shaders/vs_particle.sc"
         "vertex"
         "vs_particle.bin")
@@ -532,6 +653,11 @@ function(openyamm_configure_runtime_shaders)
         "${CMAKE_SOURCE_DIR}/game/shaders/vs_shield_dome.sc" "vertex" "vs_shield_dome.bin")
     openyamm_compile_bgfx_shader(
         "${CMAKE_SOURCE_DIR}/game/shaders/fs_shield_dome.sc" "fragment" "fs_shield_dome.bin")
+    # Energy shield shells over creatures (loaded the first time a shielded creature draws).
+    openyamm_compile_bgfx_shader(
+        "${CMAKE_SOURCE_DIR}/game/shaders/vs_model_shield.sc" "vertex" "vs_model_shield.bin")
+    openyamm_compile_bgfx_shader(
+        "${CMAKE_SOURCE_DIR}/game/shaders/fs_model_shield.sc" "fragment" "fs_model_shield.bin")
     openyamm_compile_bgfx_shader(
         "${CMAKE_SOURCE_DIR}/game/shaders/vs_model.sc"
         "vertex"
@@ -548,6 +674,9 @@ function(openyamm_configure_runtime_shaders)
         "${CMAKE_SOURCE_DIR}/game/shaders/vs_model_instanced.sc" "vertex" "vs_model_instanced.bin")
     openyamm_compile_bgfx_shader(
         "${CMAKE_SOURCE_DIR}/game/shaders/fs_model.sc" "fragment" "fs_model_prepassed.bin" "MODEL_PREPASSED=1")
+    # Materials with an emissive texture (loaded the first time such a model is prepared).
+    openyamm_compile_bgfx_shader(
+        "${CMAKE_SOURCE_DIR}/game/shaders/fs_model.sc" "fragment" "fs_model_emissive.bin" "MODEL_EMISSIVE_MAP=1")
     # Alpha to coverage under multisample anti-aliasing: the foliage depth prepass and the grass. Loaded only while
     # anti-aliasing is on.
     openyamm_compile_bgfx_shader(
@@ -572,14 +701,6 @@ function(openyamm_configure_runtime_shaders)
         "${CMAKE_SOURCE_DIR}/game/shaders/fs_spell_area_preview.sc"
         "fragment"
         "fs_spell_area_preview.bin")
-    openyamm_compile_bgfx_shader(
-        "${CMAKE_SOURCE_DIR}/game/shaders/vs_editor_preview_material.sc"
-        "vertex"
-        "vs_editor_preview_material.bin")
-    openyamm_compile_bgfx_shader(
-        "${CMAKE_SOURCE_DIR}/game/shaders/fs_editor_preview_material.sc"
-        "fragment"
-        "fs_editor_preview_material.bin")
 
     openyamm_compile_bgfx_shader(
         "${CMAKE_SOURCE_DIR}/game/shaders/vs_terrain_decoration.sc"
@@ -610,11 +731,12 @@ function(openyamm_configure_runtime_shaders)
         "${CMAKE_SOURCE_DIR}/game/shaders/fs_sky_upscale.sc" "fragment" "fs_sky_upscale.bin")
 
     foreach(shader fs_ambient_occlusion_depth fs_ambient_occlusion fs_ambient_occlusion_blur
-        fs_ambient_occlusion_composite fs_bloom_downsample fs_bloom_blur)
+        fs_ambient_occlusion_composite fs_bloom_downsample fs_bloom_blur fs_reflection_history_color
+        fs_reflection_history_position)
         openyamm_compile_bgfx_shader("${CMAKE_SOURCE_DIR}/game/shaders/${shader}.sc" "fragment" "${shader}.bin")
     endforeach()
     # The passes reading the world depth, on its first sample when multisampled (no depth resolve).
-    foreach(shader fs_ambient_occlusion_depth fs_ambient_occlusion_composite)
+    foreach(shader fs_ambient_occlusion_depth fs_ambient_occlusion_composite fs_reflection_history_position)
         openyamm_compile_bgfx_shader(
             "${CMAKE_SOURCE_DIR}/game/shaders/${shader}.sc" "fragment" "${shader}_msaa.bin" "AO_MSAA_DEPTH=1")
     endforeach()
@@ -628,6 +750,9 @@ function(openyamm_configure_runtime_shaders)
         fs_ambient_occlusion_composite_msaa.bin
         fs_bloom_downsample.bin
         fs_bloom_blur.bin
+        fs_reflection_history_color.bin
+        fs_reflection_history_position.bin
+        fs_reflection_history_position_msaa.bin
         vs_cinematic_grading.bin
         fs_cinematic_grading.bin
         vs_sky.bin
@@ -642,6 +767,7 @@ function(openyamm_configure_runtime_shaders)
         vs_shadowmaps_texture.bin
         fs_shadowmaps_texture.bin
         fs_menu_tint.bin
+        vs_hud.bin fs_hud.bin
         vs_water.bin fs_water.bin fs_indoor_water.bin fs_water_ripples.bin fs_indoor_water_ripples.bin
         vs_weather.bin fs_weather.bin vs_weather_snow.bin fs_weather_snow.bin vs_weather_curtain.bin
         fs_weather_curtain.bin vs_weather_splash.bin fs_weather_splash.bin
@@ -657,14 +783,13 @@ function(openyamm_configure_runtime_shaders)
         fs_particle.bin
         vs_effect_ribbon.bin fs_effect_ribbon.bin
         vs_shield_dome.bin fs_shield_dome.bin
+        vs_model_shield.bin fs_model_shield.bin
         vs_model.bin
         fs_model.bin
         vs_model_shadow.bin fs_model_shadow.bin
         vs_model_instanced.bin vs_model_shadow_instanced.bin fs_model_prepassed.bin vs_model_skinned_instanced.bin
         vs_spell_area_preview.bin
         fs_spell_area_preview.bin
-        vs_editor_preview_material.bin
-        fs_editor_preview_material.bin
     )
     list(APPEND runtimeShaderNames
         vs_outdoor_bmodel_lightmap.bin fs_outdoor_bmodel_lightmap.bin
@@ -676,10 +801,22 @@ function(openyamm_configure_runtime_shaders)
         fs_outdoor_terrain_materials_shadow.bin fs_outdoor_terrain_materials_baked_shadow.bin
         fs_outdoor_terrain_materials_single.bin fs_outdoor_terrain_materials_baked_single.bin
         fs_outdoor_terrain_materials_single_shadow.bin fs_outdoor_terrain_materials_baked_single_shadow.bin
+        fs_outdoor_terrain_depth.bin
         vs_terrain_shadow.bin fs_terrain_shadow.bin
         fs_outdoor_bmodel_lightmap_array.bin fs_outdoor_bmodel_baked_array.bin fs_outdoor_textured_fog_array.bin
         fs_outdoor_bmodel_baked_array_shadow.bin fs_outdoor_textured_fog_array_shadow.bin
-        fs_model_coverage.bin fs_terrain_decoration_coverage.bin fs_terrain_decoration_baked_coverage.bin
+        fs_outdoor_bmodel_baked_materials.bin fs_outdoor_bmodel_baked_shadow_materials.bin
+        fs_outdoor_bmodel_baked_array_materials.bin fs_outdoor_bmodel_baked_array_shadow_materials.bin
+        fs_indoor_textured_lit_materials.bin
+        vs_indoor_textured_baked.bin fs_indoor_textured_baked.bin fs_indoor_textured_baked_materials.bin
+        fs_indoor_textured_translucent.bin fs_indoor_textured_baked_translucent.bin
+        fs_indoor_textured_lit_fog.bin fs_indoor_textured_lit_materials_fog.bin fs_indoor_textured_baked_fog.bin
+        fs_indoor_textured_baked_materials_fog.bin fs_indoor_textured_translucent_fog.bin
+        fs_indoor_textured_baked_translucent_fog.bin fs_indoor_water_fog.bin fs_indoor_water_ripples_fog.bin
+        fs_indoor_textured_terrain.bin fs_indoor_textured_terrain_fog.bin
+        fs_indoor_textured_terrain_single.bin fs_indoor_textured_terrain_single_fog.bin fs_indoor_textured_depth.bin
+        fs_model_coverage.bin fs_model_emissive.bin
+        fs_terrain_decoration_coverage.bin fs_terrain_decoration_baked_coverage.bin
         fs_terrain_decoration_shadow_coverage.bin fs_terrain_decoration_baked_shadow_coverage.bin)
 
     # Android startup extracts exactly the shaders that this build produces.
@@ -697,4 +834,6 @@ function(openyamm_configure_runtime_shaders)
         DEPENDS
             ${runtimeShaderOutputs}
     )
+    # Apple app bundles carry the shader files as resources.
+    set_property(GLOBAL PROPERTY OPENYAMM_RUNTIME_SHADER_OUTPUTS "${runtimeShaderOutputs}")
 endfunction()

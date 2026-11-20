@@ -1,0 +1,184 @@
+<title>Solo Talent Tree v3 Mockups</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fondamento&family=Alegreya+Sans:wght@400;500;700&display=swap">
+<style>
+/* Layout: a header with the draft's numbers, a strip of view tabs, one live 1280x720 mockup scaled to the column, its notes, then the captures and
+   the open decisions. One deliberate look: the game's dark obsidian and brass. */
+:root {
+  --bg: #0f1214;
+  --panel: #171b1e;
+  --sunk: #0b0d0f;
+  --fg: #ece6d6;
+  --muted: #a59e8c;
+  --line: #2f363b;
+  --brass: #d2ad62;
+  --good: #7fc48f;
+  --bad: #e07a6a;
+  --display: "Fondamento", "Palatino Linotype", Georgia, serif;
+  --body: "Alegreya Sans", "Segoe UI", system-ui, sans-serif;
+  color-scheme: dark;
+}
+* { box-sizing: border-box; }
+body { background: var(--bg); color: var(--fg); font-family: var(--body); font-size: 16px; line-height: 1.5;
+  padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); padding-block: 24px 56px; }
+main { max-width: 1280px; margin: 0 auto; display: grid; gap: 24px; }
+h1, h2 { font-family: var(--display); font-weight: 400; color: var(--brass); margin: 0; text-wrap: balance; line-height: 1.2; }
+h1 { font-size: clamp(1.8rem, 4vw, 2.4rem); }
+h2 { font-size: 1.35rem; }
+p { margin: 0; }
+.muted { color: var(--muted); }
+.eyebrow { font-size: .78rem; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
+header { display: grid; gap: 8px; max-width: 76ch; }
+.facts { display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 10px; }
+.fact { border-top: 1px solid var(--line); padding-top: 8px; display: grid; gap: 2px; min-width: 0; }
+.fact b { font-family: var(--display); font-weight: 400; font-size: 1.35rem; color: var(--fg); font-variant-numeric: tabular-nums; }
+.fact span { font-size: .92rem; color: var(--muted); }
+.tabs { display: flex; flex-wrap: wrap; gap: 8px; }
+.tabs button { font: inherit; font-size: .95rem; color: var(--fg); background: var(--panel); border: 1px solid var(--line); border-radius: 5px; padding: 7px 12px; cursor: pointer; }
+.tabs button[aria-pressed="true"] { background: var(--brass); color: var(--sunk); border-color: var(--brass); }
+.tabs button:focus-visible, a:focus-visible { outline: 2px solid var(--brass); outline-offset: 2px; }
+.group { font-size: .78rem; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); align-self: center; margin-right: 2px; }
+.stage { display: grid; gap: 10px; }
+.screen { position: relative; width: 100%; max-width: 1280px; aspect-ratio: 16 / 9; overflow: hidden; border: 1px solid var(--line); border-radius: 6px; background: var(--sunk); }
+.screen iframe { position: absolute; left: 0; top: 0; width: 1280px; height: 720px; border: 0; transform-origin: 0 0; }
+.bar { display: flex; flex-wrap: wrap; gap: 6px 18px; align-items: baseline; font-size: .95rem; }
+a { color: var(--brass); }
+.notes { display: grid; gap: 6px; max-width: 80ch; margin: 0; padding-left: 1.2em; }
+.two { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 24px; }
+.two section { display: grid; gap: 10px; align-content: start; min-width: 0; }
+.tablewrap { overflow-x: auto; }
+table { border-collapse: collapse; width: 100%; font-variant-numeric: tabular-nums; font-size: .95rem; }
+th { text-align: right; font-weight: 500; color: var(--muted); font-size: .8rem; letter-spacing: .05em; text-transform: uppercase; padding: 4px 8px; border-bottom: 1px solid var(--line); }
+td { text-align: right; padding: 4px 8px; border-bottom: 1px solid var(--line); }
+th:first-child, td:first-child { text-align: left; }
+.shots { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 14px; }
+figure { margin: 0; display: grid; gap: 6px; min-width: 0; }
+figure img { width: 100%; max-width: 100%; border: 1px solid var(--line); border-radius: 4px; display: block; }
+figcaption { font-size: .85rem; color: var(--muted); }
+.decide { display: grid; gap: 8px; max-width: 80ch; margin: 0; padding-left: 1.2em; }
+.decide b { color: var(--brass); font-weight: 500; }
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
+</style>
+
+<main>
+  <header>
+    <div class="eyebrow">OpenYAMM · MAW solo run · design draft · 2026-11-15</div>
+    <h1>Solo Talent Tree v3 Mockups</h1>
+    <p class="muted">A bigger tree for the solo run, with its point budget and what every node does, held against one rule: a solo is never stronger than a full party of five. Three live mockups share one data file, so the planner, the constellation and the chart always agree. Nothing here is in the game, and every strength figure is an estimate until the solo simulation has run the nodes.</p>
+  </header>
+
+  <section class="facts" aria-label="The draft in numbers">
+    <div class="fact"><b>395 ranks, 75 nodes</b><span>five paths: Arms, Archery, Arcana, Bulwark, Lore; 19 nodes are the built tree, 56 are new</span></div>
+    <div class="fact"><b>206 points at level 1,000</b><span>one every 2 levels up to 20, then one every 5: 10 at level 20, 26 at 100, 106 at 500</span></div>
+    <div class="fact"><b>6 keystone slots</b><span>one per 150 levels, 8 keystones to choose from, each a trade and none free power</span></div>
+    <div class="fact"><b>Monsters ÷2.5 at the start</b><span>the solo run's early cut, fading to nothing by level 75</span></div>
+  </section>
+
+  <nav class="tabs" aria-label="Mockup views" id="tabs"></nav>
+
+  <section class="stage">
+    <div class="screen" id="screen"><iframe id="frame" title="Talent tree mockup" src="mockup_tree.html"></iframe></div>
+    <div class="bar"><span id="viewName"></span><a id="openFull" href="mockup_tree.html" target="_blank" rel="noopener">Open at full size</a></div>
+    <ul class="notes" id="viewNotes"></ul>
+  </section>
+
+  <div class="two">
+    <section>
+      <h2>How the tree is built</h2>
+      <ul class="notes">
+        <li><b>Second Wind is free at level 1.</b> Regeneration that is strong out of combat and weak in it, because everyone would take it first anyway.</li>
+        <li><b>A path has five tiers.</b> A tier opens with 5, 15, 30 or 45 points in the tiers below it, so deep nodes are earned inside the path.</li>
+        <li><b>Five kinds of node.</b> Active skills (16 new ones, such as Ground Slam, Rain of Arrows, Stasis, Deflect and Lure), passives, notables, small nodes of 10 to 20 ranks, and skill unlocks that let any class train Bow, Dodging, Armsmaster, Meditation, Shield or a little healing magic.</li>
+        <li><b>Answers to what you named.</b> Deflect makes missiles miss for a few seconds (homing shots). Lure pulls one monster out of its group. Recuperate and Second Skin replace potion spam.</li>
+        <li><b>Nobody fills it.</b> A pure melee build finds about 170 ranks worth taking; level 1,000 pays 206 points, so the last points go into a second path.</li>
+      </ul>
+    </section>
+    <section>
+      <h2>The early cut</h2>
+      <p class="muted">Monster HP and damage in a solo run are divided by this, by the character's level, on every difficulty.</p>
+      <div class="tablewrap"><table>
+        <tr><th>Character level</th><th>1–5</th><th>10</th><th>20</th><th>30</th><th>50</th><th>75 and up</th></tr>
+        <tr><td>Monsters divided by</td><td>2.5</td><td>2.0</td><td>1.7</td><td>1.55</td><td>1.3</td><td>1 (none)</td></tr>
+      </table></div>
+      <p class="muted">It ends at 75, not 100: with the early talents on top, a typical solo already stands at the party's strength there on MAW and Nightmare. On Doom and above the same cut leaves a solo a little under the party, where the quest route is the entry price.</p>
+    </section>
+  </div>
+
+  <section style="display:grid;gap:10px">
+    <h2>What needs your decision</h2>
+    <ol class="decide">
+      <li><b>The rule against the tree.</b> By the simulation, plain MAW already puts a typical solo at 1.3 to 1.7 times a party from level 150 on, because a solo levels twice as fast as the monsters grow. Any talent with real numbers pushes that higher (the chart shows 2 to 4 times by level 500). Three ways to keep the rule: make a solo's monsters stronger after level 75 by the chart's last column; shrink the nodes to trades with no net power; or accept MAW's lead and hold only the solo run's own additions to the line.</li>
+      <li><b>Class spread.</b> A Dragon stands at 4 to 10 times a party and a Priest at 0.2 to 0.5. One curve cannot hold both to the line; class-specific nodes or values would.</li>
+      <li><b>Columns or constellation.</b> Same tree, two pages. Columns extend the page that is built; the constellation is a new screen.</li>
+      <li><b>The node values.</b> One per cent per small rank is a first value. The simulation should measure the actives, the area hits and the sustain before any number is kept.</li>
+    </ol>
+  </section>
+
+  <section style="display:grid;gap:12px">
+    <h2>Captures</h2>
+    <div class="shots" id="shots"></div>
+  </section>
+</main>
+
+<script>
+var VIEWS = [
+  { group: 'A · Columns', name: 'Champion, level 120', src: 'mockup_tree.html?class=knight_2h&diff=nightmare&level=120&tip=ground_slam', shot: 'tree_knight_120',
+    notes: ['Layout A: the five paths as columns of rows, the page that is built with three more columns and tiers.',
+      'An ordinary two-handed Champion at level 120 on Nightmare has 30 points: Cleave, Sweeping Blows and Onslaught in Arms, Vigor, Thick Skin and Recuperate in Bulwark.',
+      'The side shows the hovered node, what the whole build does, and where it stands against a party of five: 0.91 from MAW alone, 1.18 with these talents.',
+      'Click a row to learn a rank and right click to take it back; change the class, difficulty and level at the top.'] },
+  { group: 'A · Columns', name: 'The start, level 20', src: 'mockup_tree.html?class=knight_2h&diff=nightmare&level=20&tip=cleave', shot: 'tree_knight_20',
+    notes: ['Ten points by level 20 (one every 2 levels): Cleave and its sweep arrive in the first hour.',
+      'The early cut is ÷1.70 here. A two-handed Champion is a weak starter: 0.33 of a party from MAW alone, 0.62 with the cut and these talents. The typical build reaches the line (see the chart).'] },
+  { group: 'A · Columns', name: 'Arch Mage, level 500', src: 'mockup_tree.html?class=archmage&diff=madness&level=500&tip=echo', shot: 'tree_archmage_500',
+    notes: ['106 points on Beyond Madness: Arcana to its last tier (Stasis, Elemental Mastery) and most of Bulwark.',
+      'Three keystone slots are open (levels 150, 300, 450). Click a socket to change its keystone.'] },
+  { group: 'A · Columns', name: 'Archer, level 1,000', src: 'mockup_tree.html?class=archer&diff=madness&level=1000&tip=bow_training', shot: 'tree_archer_1000',
+    notes: ['206 points, 200 of them spent: the whole of Archery and Bulwark, and what helps in Lore. The level is past the simulated run, so the party figure reuses the last measured stage.',
+      'The hovered node is a skill unlock: Bow Training lets any class train Bow, so a Knight can open with arrows.'] },
+  { group: 'A · Columns', name: 'Empty, to plan yourself', src: 'mockup_tree.html?class=knight_sns&diff=doom&level=50&build=empty', shot: 'tree_empty_50',
+    notes: ['No ranks spent: a sword-and-shield Champion at level 50 on Doom with 16 points to place.',
+      'The gauge shows the start of the argument: 0.50 of a party from MAW alone, 0.65 with the cut.'] },
+  { group: 'B · Constellation', name: 'Champion, level 120', src: 'mockup_web.html?class=knight_2h&diff=nightmare&level=120&tip=sweeping_blows', shot: 'web_knight_120',
+    notes: ['Layout B: the same tree as a wheel. Second Wind is the hub, each path an arm, each ring a tier; a ring lights when its tier is open.',
+      'Squares with a rim are active skills, hexagons notables, diamonds small nodes, circles skill unlocks. Ranks show under what is learned or hovered.',
+      'It reads as a map of the character, but names appear only on hover, so it needs the card more than the columns do.'] },
+  { group: 'B · Constellation', name: 'Archer, level 500', src: 'mockup_web.html?class=archer&diff=nightmare&level=500&tip=rain_of_arrows', shot: 'web_archer_500',
+    notes: ['A deep build fills one arm and half of Bulwark, with a few steps into Lore for Lure and Bow-side unlocks.'] },
+  { group: 'C · The party line', name: 'Typical build, Nightmare', src: 'mockup_curve.html?class=typical&diff=nightmare', shot: 'curve_typical_nightmare',
+    notes: ['Solo strength divided by party strength at each level, from the solo simulation. Blue is MAW alone, orange adds the early cut, green adds an ordinary build of this tree.',
+      'MAW alone starts at a third of a party and crosses the line near level 100. The cut holds the start at the line until it fades at 75.',
+      'With talents the line is left behind after level 75. The last table column is how much stronger a solo’s monsters would have to be to keep the rule.',
+      'Move over the chart for the numbers at a level.'] },
+  { group: 'C · The party line', name: 'Priest, Beyond Madness', src: 'mockup_curve.html?class=priest&diff=madness', shot: 'curve_priest_madness',
+    notes: ['The weakest class: a Priest stays under the party from start to end, talents included.'] },
+  { group: 'C · The party line', name: 'Dragon, Nightmare', src: 'mockup_curve.html?class=dragon&diff=nightmare', shot: 'curve_dragon_nightmare',
+    notes: ['The strongest class: a Dragon is above the party from the first map, and the cut only widens that.'] }
+];
+var frame = document.getElementById('frame'), screenBox = document.getElementById('screen'), tabs = document.getElementById('tabs');
+function fit() { frame.style.transform = 'scale(' + screenBox.clientWidth / 1280 + ')'; }
+addEventListener('resize', fit);
+function show(i) {
+  var v = VIEWS[i];
+  frame.src = v.src;
+  document.getElementById('viewName').textContent = v.group + ' · ' + v.name;
+  document.getElementById('openFull').href = v.src;
+  document.getElementById('viewNotes').innerHTML = v.notes.map(function (n) { return '<li>' + n + '</li>'; }).join('');
+  tabs.querySelectorAll('button').forEach(function (b, k) { b.setAttribute('aria-pressed', k === i ? 'true' : 'false'); });
+  try { localStorage.setItem('talent_v3_view', String(i)); } catch (e) { /* storage is a convenience only */ }
+  fit();
+}
+var lastGroup = '';
+VIEWS.forEach(function (v, i) {
+  if (v.group !== lastGroup) { var g = document.createElement('span'); g.className = 'group'; g.textContent = v.group; tabs.appendChild(g); lastGroup = v.group; }
+  var b = document.createElement('button'); b.type = 'button'; b.id = 'view-' + i; b.textContent = v.name; b.onclick = function () { show(i); };
+  tabs.appendChild(b);
+});
+document.getElementById('shots').innerHTML = VIEWS.map(function (v) {
+  return '<figure><a href="previews/' + v.shot + '.png" target="_blank" rel="noopener"><img loading="lazy" alt="' + v.group + ', ' + v.name +
+    '" src="previews/' + v.shot + '.png"></a><figcaption>' + v.group + ' · ' + v.name + '</figcaption></figure>';
+}).join('');
+var start = 0;
+try { start = Math.min(VIEWS.length - 1, +(localStorage.getItem('talent_v3_view') || 0) || 0); } catch (e) { start = 0; }
+show(start);
+</script>

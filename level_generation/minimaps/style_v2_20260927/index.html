@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>MM7 / MM8 · shoreline and shading review</title>
+<style>
+*{box-sizing:border-box}body{max-width:1700px;margin:22px auto;padding:0 20px;background:#181e24;color:#e1e8ef;font:15px system-ui}
+h1{font-size:25px}h2{font-size:17px}p{color:#b3c2ce;line-height:1.5}a{color:#83c7f5}button,select{font:inherit;background:#293540;color:inherit;border:1px solid #586975;padding:8px;border-radius:5px}
+.bar{display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin:16px 0}.pair{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+canvas{width:100%;background:#10151b;cursor:crosshair;touch-action:none}select{max-width:570px}label{white-space:nowrap}
+@media(max-width:800px){.pair{grid-template-columns:1fr}}
+</style>
+<h1>MM7 / MM8 · rounded shores, water depth and revised shading</h1>
+<p>Four Blender calibration candidates. Compare against the original painting or the currently deployed capture.</p>
+<div class="bar"><button id="prev">← Previous</button><select id="map" aria-label="Map"></select><button id="next">Next →</button>
+<label>Left image <select id="baseline"><option value="original">Native original</option><option value="previous">Deployed capture</option></select></label>
+<label><input type="checkbox" id="outline"> Geometry outlines</label><label><input type="checkbox" id="zoom"> Zoom ×3</label></div>
+<div class="pair"><section><h2 id="lefttitle">Native original</h2><canvas id="left" width="1024" height="1024"></canvas></section>
+<section><h2>New Blender candidate</h2><canvas id="right" width="1024" height="1024"></canvas></section></div>
+<p id="info">Loading…</p>
+<p><a id="full" target="_blank">Full candidate</a> · <a id="layers">Layered master</a> · <a id="terrain">Terrain Blender scene</a> · <a id="buildings">Buildings Blender scene</a> · <a href="README.md">Settings and checks</a> · <a href="../">Deployed map gallery</a></p>
+<p>← / → select maps. Click either image to inspect that point at ×3. Hold Space to blink the candidate against the left image; B switches the left comparison.</p>
+<script>
+'use strict';
+(async()=>{
+ const $=id=>document.getElementById(id),manifest=await(await fetch('exports.json',{cache:'no-store'})).json(),rows=manifest.records;
+ let index=0,images={},center=[.5,.5],blink=false,serial=0;
+ const load=async path=>{const im=new Image();im.src=path;await im.decode();return im;};
+ function draw(){if(!images.current)return;const span=$('zoom').checked?1/3:1;
+  center=center.map(n=>Math.max(span/2,Math.min(1-span/2,n)));$('lefttitle').textContent=$('baseline').selectedOptions[0].text;
+  for(const id of ['left','right']){const original=id==='left'||blink,im=images[original?$('baseline').value:'current'];
+   const canvas=$(id),c=canvas.getContext('2d');c.clearRect(0,0,canvas.width,canvas.height);c.imageSmoothingEnabled=!(original&&$('baseline').value==='original');
+   c.drawImage(im,(center[0]-span/2)*im.width,(center[1]-span/2)*im.height,span*im.width,span*im.height,0,0,canvas.width,canvas.height);
+   if($('outline').checked){const o=images.outline;c.drawImage(o,(center[0]-span/2)*o.width,(center[1]-span/2)*o.height,span*o.width,span*o.height,0,0,canvas.width,canvas.height);}
+  }
+ }
+ async function select(){const request=++serial,row=rows[index];document.body.dataset.ready='false';$('map').value=index;
+  const source='../maps/'+row.world+'/'+row.stem;
+  const [original,previous,current,outline]=await Promise.all([load(source+'/original.png'),load(source+'/x2.png'),
+   load(row.directory+'/x2.png?v='+row.outputs['x2.png'].slice(0,12)),load(source+'/geometry.png')]);
+  if(request!==serial)return;images={original,previous,current,outline};center=[.5,.5];
+  for(const id of ['left','right']){$(id).width=row.x2_size[0];$(id).height=row.x2_size[1];}draw();
+  $('info').textContent=`${row.world.toUpperCase()} · ${row.name} · ${row.x2_size.join('×')} · Landmark geometry unchanged · Measured shore rounding: up to ${row.shoreline_max_boundary_distance_x2_pixels.toFixed(2)} x2 pixels`;
+  for(const [id,name] of [['full','x2.png'],['layers','layers.ora'],['terrain','terrain.blend'],['buildings','buildings.blend']])$(id).href=row.directory+'/'+name;
+  document.body.dataset.ready='true';
+ }
+ rows.forEach((r,i)=>$('map').add(new Option(r.world.toUpperCase()+' · '+r.name+' ('+r.stem+')',i)));
+ const step=n=>{index=(index+n+rows.length)%rows.length;select();};$('prev').onclick=()=>step(-1);$('next').onclick=()=>step(1);
+ $('map').onchange=()=>{index=Number($('map').value);select();};$('baseline').onchange=draw;$('outline').onchange=draw;$('zoom').onchange=draw;
+ for(const id of ['left','right'])$(id).onclick=e=>{const r=e.target.getBoundingClientRect(),span=$('zoom').checked?1/3:1;
+  center=[center[0]+((e.clientX-r.left)/r.width-.5)*span,center[1]+((e.clientY-r.top)/r.height-.5)*span];$('zoom').checked=true;draw();};
+ document.onkeydown=e=>{if(e.target.closest('select,input'))return;if(e.key==='ArrowRight'){e.preventDefault();step(1);}if(e.key==='ArrowLeft'){e.preventDefault();step(-1);}
+  if(e.code==='Space'){e.preventDefault();blink=true;draw();}if(e.code==='KeyB'){$('baseline').value=$('baseline').value==='original'?'previous':'original';draw();}};
+ document.onkeyup=e=>{if(e.code==='Space'){blink=false;draw();}};window.onblur=()=>{blink=false;draw();};await select();
+})().catch(e=>{document.getElementById('info').textContent=e.message;console.error(e);});
+</script></html>

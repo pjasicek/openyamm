@@ -1,0 +1,3 @@
+Saved the unresized 1536×1024 built-in imagegen return as [00_three_quarter.png](level_generation/creatures/mm9_dagrell_claude/references_hd/00_three_quarter.png), plus prompts and checks in [generation_runs.json](level_generation/creatures/mm9_dagrell_claude/references_hd/generation_runs.json).
+
+Stopped after RUN 1. The single correction still left a halo, tight margins and uncertain claw counts; the record marks these failures.

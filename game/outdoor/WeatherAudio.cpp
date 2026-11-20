@@ -64,16 +64,18 @@ void WeatherAudio::updateLoop(GameAudioSystem &audio, Loop &loop, const WeatherS
 }
 
 void WeatherAudio::update(GameAudioSystem &audio, const WeatherSounds &sounds, const WeatherPresentation &weather,
-    const std::vector<LightningStrike> &strikes, bool audible, float deltaSeconds)
+    const std::vector<LightningStrike> &strikes, float audibility, float deltaSeconds)
 {
     const float dt = std::max(deltaSeconds, 0.0f);
+    const float share = std::clamp(audibility, 0.0f, 1.0f);
+    const bool audible = share > 0.0f;
     const float rain = audible ? weather.rainLevel() : 0.0f;
     // Light rain patters; heavier rain brings in the dense roar.
     const float heavyShare = smoothStep(0.3f, 0.85f, rain);
-    const float lightVolume = std::sqrt(rain) * 0.9f * (1.0f - 0.6f * heavyShare);
-    const float heavyVolume = heavyShare * (0.6f + 0.4f * rain);
+    const float lightVolume = std::sqrt(rain) * 0.9f * (1.0f - 0.6f * heavyShare) * share;
+    const float heavyVolume = heavyShare * (0.6f + 0.4f * rain) * share;
     const float windSpeed = std::sqrt(weather.windX() * weather.windX() + weather.windY() * weather.windY());
-    const float windVolume = audible ? 0.7f * smoothStep(CalmWindSpeed, StrongWindSpeed, windSpeed) : 0.0f;
+    const float windVolume = audible ? 0.7f * smoothStep(CalmWindSpeed, StrongWindSpeed, windSpeed) * share : 0.0f;
     updateLoop(audio, m_rainLight, sounds.rainLight, lightVolume, dt);
     updateLoop(audio, m_rainHeavy, sounds.rainHeavy, heavyVolume, dt);
     updateLoop(audio, m_wind, sounds.wind, windVolume, dt);
@@ -99,7 +101,8 @@ void WeatherAudio::update(GameAudioSystem &audio, const WeatherSounds &sounds, c
         {
             const size_t variant = std::min(static_cast<size_t>(nextRandom() * static_cast<float>(sound.files.size())),
                 sound.files.size() - 1);
-            const float volume = sound.volume * thunder.strike.loudness * (0.75f + 0.25f * nextRandom());
+            const float volume =
+                sound.volume * thunder.strike.loudness * (0.75f + 0.25f * nextRandom()) * std::sqrt(share);
             const float pitch = 0.9f + 0.2f * nextRandom();
             audio.playAssetInstance(sound.files[variant], GameAudioSystem::PlaybackGroup::World, std::nullopt, false,
                 volume, pitch);

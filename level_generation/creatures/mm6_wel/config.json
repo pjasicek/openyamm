@@ -1,0 +1,22 @@
+{
+  "family": "wel",
+  "title": "MM6 Water Elemental",
+  "descriptor_ids": [
+    532,
+    533,
+    534
+  ],
+  "base_palette": 730,
+  "inventory_file": "inventory.json",
+  "matte": "magenta",
+  "mask_kind": "blue",
+  "description": "Original MM6 water elemental: adult male merman sea king, broad muscular pale gray-green torso, stern face, long curly sandy-brown hair and beard, thin three-spike crown, dark chest strap, reddish-bronze wrist guards and upper arm bands. Lower body is one long dark green/gold mottled scaled fish tail, broad pale gray-pink fins at hips and tail tip, small pale foam at base. Carries a long slender dark reddish trident with three curved prongs, silver lower shaft/butt, held at exact native angle. Preserve the fin silhouette, tail curve, head rotation and weapon length/foreshortening. No legs, added armor, new jewelry or modern redesign.",
+  "regions": "Native skin, tail scales, hair/beard and metal palette regions will be derived offline. Generate ONLY palette 730: gray-green skin, sandy-brown hair/beard, green/gold tail, reddish-bronze metal. Pale fins and foam remain consistent. No alternate variant colors in this sheet.",
+  "variant_names": {
+    "730": "Water A",
+    "731": "Water B",
+    "732": "Water C"
+  },
+  "material_module": "materials.py",
+  "material_mask_channels": 4
+}

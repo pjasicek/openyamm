@@ -1,0 +1,21 @@
+{
+  "family": "cob",
+  "title": "MM6 Cobra",
+  "descriptor_ids": [
+    493,
+    494,
+    495
+  ],
+  "inventory_file": "inventory.json",
+  "base_palette": 677,
+  "matte": "magenta",
+  "mask_kind": "blue",
+  "description": "Native MM6 cobra snake. Dark muted blue-grey/teal scales on its head, back and curling tail; tall reared narrow neck and wide flattened cobra hood. The front throat has broad horizontal blue-grey belly plates; each side of the front hood has the native pale creamy green close-set scales. Black eye sockets with tiny yellow eyes. No arms, legs, horns or accessories. Preserve the original hood silhouette, head size, long narrow neck and tail coil, subdued black shadows and scale pattern; no bright saturated blue, glossy skin or added elaborate ornaments. Keep the native pale rings/spots along the long tail and the white double eye-ring joined by a V marking on the back of the hood. Stored views are unusual: do not rotate a pose to match a generic view label; copy its exact native orientation and tail shape.",
+  "regions": "The dark teal outer scales/belly plates and the pale hood-side scales are separate native palette materials. Keep their boundaries explicit and native. Preserve tiny eyes, black mouth and pale fangs.",
+  "variant_names": {
+    "677": "Cobra A / blue-grey",
+    "678": "Cobra B / green",
+    "679": "Cobra C / red"
+  },
+  "material_module": "materials.py"
+}

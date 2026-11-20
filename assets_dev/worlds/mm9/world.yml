@@ -1,0 +1,249 @@
+id: mm9
+name: MM9
+sourceGame: mm9
+contentSchemaVersion: 1
+dependencies:
+  - engine
+partyMovement:
+  eyeHeight: 152
+  collisionRadius: 38
+  collisionHeight: 169
+  maxStepHeight: 40.96
+actorAwareness:
+  # Where the HUD turns yellow, and as far as the party hits and monsters shoot at it (GameplayActorService::
+  # partyHitReach): 3800 (the user, 2026-11-09; 4096 before).
+  partyEngagementRange: 3800
+  # Monsters on MM9's loop see the party all round and half again as far as their placement says (MM9: a 180 degree
+  # view), but before contact no farther than 4275: the engagement range and 12.5 % more, as MM6-MM8 notice outdoors a
+  # little beyond their yellow alert (5632 against 5120) (the user, 2026-11-09). A party hit from within 3800 provokes
+  # the monster and its awake friends that it sees within 128 of it, centre to centre (the user, 2026-11-09; before:
+  # 256, then their own alert radius, MM9's AlertRadius, mostly 3072): they hold the party as far as 3800 until they
+  # lose it, whether or not they perceive it; a hit from farther makes it take no target (the user, 2026-11-07 and
+  # 2026-11-09; devdocs/mm9_rework/MM9_MONSTER_AI_PLAN.md "Awareness of the party"). Dormant starts keep MM9's rules.
+  mm9Sight: {allRound: true, scale: 1.5, max: 4275}
+  mm9Provoke: {range: 3800, radius: 128}
+# MM9's own hirelings (data_tables/hirelings.txt) replace the MM6-MM8 hired NPC followers, which are off here.
+npcFollowers: false
+# No MMerge street NPCs: MM9's actor groups are its maps' script groups, not npc_group.txt's, and its actors talk only
+# through their RUDE ids and use events (a dog, a cat or a townsperson without DoRude says nothing when used).
+streetNpcs: false
+# MM9's NPCs, townsfolk and animals are solid: the party cannot walk through them (the user, 2026-11-07). MM6-MM8 keep
+# their rule, where only hostile actors block the party.
+friendlyActorsBlockParty: true
+# No combat log unless its setting is On (the user, 2026-11-06): the row under the minimap is the formation button's.
+combatLog: false
+# MM9's formation grid: monsters strike the front rank 70 %, the middle 20 %, the rear 10 % (hirelings included).
+formations: true
+# No Fly in MM9: its Fleet Foot takes Fly's slot (Air, spell 21) with MM9's name, texts, spellbook picture and effect,
+# the party a quarter, half or three quarters faster by mastery, and that speed-up a quarter larger while no hostile is
+# near (the user, 2026-11-09; game/party/WorldSpells.h).
+fleetFoot: true
+# MM9's regions and cities are BLVs open to the sky: their spells follow the outdoor rules, so Meteor Shower,
+# Starburst, Death Blossom, Sunray and Armageddon work there and Inferno and Prismatic Light do not (the user,
+# 2026-11-09). Fly stays out (it needs an outdoor map's flight; MM9 casts Fleet Foot in its slot anyway). The Wizard's
+# Lab's starry sky is a ceiling view, not open air.
+# Town Portal and Lloyd's Beacon fail on the maps MM9's MAPSTATS.txt gives TownPortal -1 (object.lto: Lloyd's Beacon's
+# cast 0x1008c7ce and Town Portal's 0x1008df77 do nothing there): the Dark Passageway, the Thousand Terrors and the
+# Afterworld, whose only ways out are their own ends or a death.
+noTeleportMaps:
+  - darkpassageway.blv
+  - 1000terrors.blv
+  - afterworld.blv
+openAirMaps:
+  - isleofashes.blv
+  - bootcamp.blv
+  - afterworld.blv
+  - mountainpass.blv
+  - sturmford.blv
+  - sturmfordcity.blv
+  - drangheim.blv
+  - drangheimcity.blv
+  - frosgard.blv
+  - frosgardcity.blv
+  - guberland.blv
+  - guberlandcity.blv
+  - lindisfarne.blv
+  - thjorgard.blv
+  - thjorgardcity.blv
+  - thronheim.blv
+  - thronheimcity.blv
+  - yorwick.blv
+  - arslegardcity.blv
+# MM9's artifacts and relics come only from its black chests (their level-7 slots), never from level-6 loot; a black
+# chest with none left to find gives gold and a level-6 item (the user, 2026-11-06; BALANCE_PLAN.md 3.7).
+chestArtifactsOnly: true
+# A treasure marker's gold heap is rolled by its item's tier, not by the marker's level: the balance raises MM9's
+# markers to the level that gives exactly the map's item tiers (Anskram Keep's level 3 for T2 items), whose MM6-MM8 gold
+# was a tier richer, 200-500 a heap (the user, 2026-11-09).
+groundGoldByItemTier: true
+# MM9's music manager (devdocs/mm9_rework/MM9_AMBIENT_AUDIO_RE.md section 2): a map's song plays once, then 10 s of
+# silence, then again; MM9-Song03 plays in place of it while monsters are near (the yellow alert), fades out over 2.5 s
+# and the map's song resumes where it stopped.
+music:
+  repeatGapSeconds: 10
+  battleTrack: 90003
+  battleFadeSeconds: 2.5
+# MM9's AmbientSounds: day 05:00-17:00 (object.lto 0x10077930), centred, by distance only (no pan).
+ambientSounds:
+  dayHours: [5, 17]
+  pan: false
+idRanges:
+  items:
+    begin: 10000
+    end: 10999
+  objects:
+    begin: 20000
+    end: 20999
+  monsters:
+    begin: 9000
+    end: 9999
+  vendors:
+    begin: 30000
+    end: 30999
+  # decoration_data.txt row numbers (decoration_list_id + 1), clear of the engine's rows (1-673) and the Hesper
+  # stage's (674-934); devdocs/WORLD_DECORATION_CONTRIBUTIONS.md.
+  decorations:
+    begin: 2001
+    end: 2999
+  # Monster and NPC sounds (data_tables/sounds.txt, generate_mm9_monster_sounds.py), clear of the engine's sounds.txt
+  # ids (at most 46801); devdocs/mm9_rework/MM9_MONSTER_SOUNDS.md.
+  sounds:
+    begin: 50000
+    end: 59999
+tableContributions:
+  - table: items
+    idDomain: items
+    mode: append
+    path: data_tables/items.txt
+    sourceIdColumn: 32
+    canonicalIdColumn: 33
+  - table: readable_scrolls
+    idDomain: items
+    mode: append
+    path: data_tables/readable_items.txt
+  - table: item_effects
+    idDomain: items
+    mode: append
+    path: data_tables/item_effects.txt
+  - table: item_sets
+    idDomain: items
+    mode: append
+    path: data_tables/item_sets.txt
+  - table: item_aliases
+    idDomain: items
+    mode: append
+    path: data_tables/item_aliases.txt
+  # MM9 equipment in random loot by tier (import_mm9_items.py, devdocs/mm9_rework/BALANCE_PLAN.md section 3.5).
+  - table: random_items
+    idDomain: items
+    mode: append
+    path: data_tables/random_items.txt
+  - table: object_descriptors
+    idDomain: objects
+    mode: append
+    path: data_tables/object_descriptors.txt
+  - table: complex_item_pictures
+    idDomain: items
+    mode: append
+    path: data_tables/complex_item_pictures.txt
+  - table: monster_data
+    idDomain: monsters
+    mode: append
+    path: data_tables/monster_data.txt
+  - table: monster_descriptors
+    idDomain: monsters
+    mode: append
+    path: data_tables/monster_descriptors.txt
+  - table: sounds
+    idDomain: sounds
+    mode: append
+    path: data_tables/sounds.txt
+  # The player-character voices (voices/pc, ids 55000-58599; generate_mm9_pc_voices.py, devdocs/mm9_rework/MM9_PC_VOICES.md)
+  - table: sounds
+    idDomain: sounds
+    mode: append
+    path: data_tables/pc_voice_sounds.txt
+  - table: map_transitions
+    mode: distribution
+    path: data_tables/map_transitions.txt
+  - table: teacher_schedules
+    mode: distribution
+    path: data_tables/teacher_schedules.txt
+  - table: transport_routes
+    mode: distribution
+    path: data_tables/transport_routes.txt
+  - table: skill_trainers
+    mode: distribution
+    path: data_tables/skill_trainers.txt
+  - table: hirelings
+    mode: distribution
+    path: data_tables/hirelings.txt
+  - table: vendors
+    idDomain: vendors
+    mode: append
+    path: data_tables/vendors.txt
+  - table: vendor_aliases
+    idDomain: vendors
+    mode: append
+    path: data_tables/vendor_aliases.txt
+  - table: vendor_stock
+    idDomain: vendors
+    mode: append
+    path: data_tables/vendor_stock.txt
+  - table: service_venues
+    idDomain: vendors
+    mode: append
+    path: data_tables/service_venues.txt
+  - table: service_venue_aliases
+    idDomain: vendors
+    mode: append
+    path: data_tables/service_venue_aliases.txt
+  - table: decorations
+    idDomain: decorations
+    mode: append
+    path: data_tables/decoration_data.txt
+qbits:
+  begin: 90000
+  end: 99999
+  mapping: raw_mm9_key_plus_90000
+# MM9 autosaves after each map has loaded, a defeat's wake included (cshell.dll 0x100a4b89 sets the request,
+# 0x100a6bb0 writes "autosave"), so a game over reloads at the start of the map the party last entered.
+autosave: arrival
+# Ravensford's Bootcamp, as a new game on Chedian (continent_settings.txt row 5, which also gives the position).
+start:
+  map: bootcamp.blv
+# MM9's defeat (cshell.dll game.cpp, 0x100a4e50): with keys 97 (Sven fell at Yorwick) and 29 (Forad joined), and
+# either without 98 (Hanndl has not yet sent the party for a Writ) or with 100 (the Writ of Fate), the party wakes at
+# Arslegard City's StartPoint0, inside the Great Gate, with no movie: without 98 FateMan.scr's gate_fate sends it to
+# the Dark Passageway, with 100 WritMan.scr's gate_writ opens the gate once. Any other defeat is MM9's game over:
+# LoseGame.bik (LoseMan.scr's scene pre-rendered: Hanndl turns the party away at the peephole; mm9/game/Movies as
+# videos/Cutscenes/MM9LoseGame.ogv), then the autosave (0x10034460). So before the Writ a party never gets into
+# Arslegard after Hanndl's first refusal, and a defeat before Chapter III is lost. The wake only heals and revives the
+# party (0x10054270): no gold, time or items are taken (keepGold).
+partyDeath:
+  map: arslegardcity.blv
+  position: [14400, 2525, -491]
+  yaw: 1530
+  keepGold: true
+  when:
+    - {qbits: [90097, 90029], notQbits: [90098]}
+    - {qbits: [90097, 90029, 90100]}
+  otherwise:
+    movie: MM9LoseGame
+    reloadAutosave: true
+# The ending: WinMan.scr's :End (DoHighScore) after Njam's defeat (key 109, WG_NjamCam.scr); MM9's own win screen
+# (LOCALART/MISC/WINBG.pcx, its "Congratulations!" painted in) and text (ENGLISHGAMETEXT.txt 539-543).
+completion:
+  qbit: 90109 # MM9 key 109: Njam imprisoned in the Tomb of a Thousand Terrors
+  continent: Chedian
+  art: 9winbg
+  headline: Congratulations!
+  # The original game's ending text.
+  text: >-
+    By imprisoning Njam in the Tomb of a Thousand Terrors, you have finally fulfilled your destiny! For years to come
+    skalds and poets will sing songs of your heroism and glory. By uniting the six clans of Chedian against a common
+    foe, you've encouraged them to stop fighting amongst themselves and rise to become a single prosperous nation.
+  layout:
+    text: [90, 170, 550, 430]
+    mark: [320, 452, 20]
+    draw_headline: false

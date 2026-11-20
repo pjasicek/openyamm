@@ -1,0 +1,747 @@
+{
+ "id": "20261009-1649-mm8-out02-14",
+ "world": "mm8",
+ "maps": [
+  "out02.odm"
+ ],
+ "created": "2026-10-09T14:49:40+00:00",
+ "textures": [
+  "mm8/cr_w128b",
+  "mm8/t14b05",
+  "mm8/t14d07",
+  "mm8/dirt1",
+  "mm8/dirttyl",
+  "mm8/t14c04c",
+  "mm8/t06b02",
+  "mm8/t14d03",
+  "mm8/t14c07",
+  "mm8/t06a05",
+  "mm8/t06b05",
+  "mm8/t14a03",
+  "mm8/t14abcd02",
+  "mm8/t14c03",
+  "mm8/t14d12ba",
+  "mm8/t14b03",
+  "mm8/t06b11",
+  "mm8/gcrydoor",
+  "mm8/gcryout1",
+  "mm8/gcryout2",
+  "mm8/gcryout3",
+  "mm8/gcryout4",
+  "mm8/gcryowal",
+  "mm8/hhr1p"
+ ],
+ "requests": {
+  "mm8/cr_w128b": {
+   "name": "cr_w128b",
+   "versions": [
+    1,
+    2,
+    3,
+    4,
+    5
+   ],
+   "material": "light pine wooden crate side of horizontal planks in a plank frame with corner nails",
+   "notes": {
+    "3": "the outermost pixel rows and columns continue the reference's edge exactly: same brightness and material right up to the canvas border, with no thin dark or bright line, groove, frame or shadow painted along any edge",
+    "5": "the outermost pixel rows and columns continue the reference's edge exactly: same brightness and material right up to the canvas border, with no thin dark or bright line, groove, frame or shadow painted along any edge"
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm8/cr_w128a"
+     ],
+     "fraction": 0.868
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "3": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "4": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "5": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "roll": {
+    "4": [
+     0,
+     91
+    ]
+   },
+   "context": {
+    "4": {},
+    "5": {}
+   }
+  },
+  "mm8/t14b05": {
+   "name": "t14b05",
+   "versions": [
+    1,
+    2,
+    3
+   ],
+   "material": "overlapping dark brown weathered wooden roof shingles in rows",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm8/t14b01"
+     ],
+     "fraction": 0.844
+    },
+    "2": {
+     "sources": [
+      "mm8/t14b01"
+     ],
+     "fraction": 0.844
+    },
+    "3": {
+     "sources": [
+      "mm8/t14b01"
+     ],
+     "fraction": 0.844
+    }
+   },
+   "pad": {
+    "3": [
+     16,
+     32
+    ]
+   },
+   "context": {
+    "3": {
+     "bottom": "mm8/t14d01"
+    }
+   }
+  },
+  "mm8/t14d07": {
+   "name": "t14d07",
+   "versions": [
+    1,
+    2,
+    3,
+    4
+   ],
+   "material": "rough tan-brown fieldstone wall under thick brown straw thatch eaves, beside a dark wooden corner post",
+   "notes": {
+    "2": "the outermost pixel rows and columns continue the reference's edge exactly: same brightness and material right up to the canvas border, with no thin dark or bright line, groove, frame or shadow painted along any edge",
+    "3": "the outermost pixel rows and columns continue the reference's edge exactly: same brightness and material right up to the canvas border, with no thin dark or bright line, groove, frame or shadow painted along any edge",
+    "4": "the outermost pixel rows and columns continue the reference's edge exactly: same brightness and material right up to the canvas border, with no thin dark or bright line, groove, frame or shadow painted along any edge"
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm8/t14a07",
+      "mm8/t14d01",
+      "mm8/t14b07"
+     ],
+     "fraction": 0.228
+    },
+    "2": {
+     "sources": [
+      "mm8/t14a07",
+      "mm8/t14d01",
+      "mm8/t14b07"
+     ],
+     "fraction": 0.228
+    },
+    "3": {
+     "sources": [
+      "mm8/t14a07",
+      "mm8/t14d01",
+      "mm8/t14b07"
+     ],
+     "fraction": 0.228
+    },
+    "4": {
+     "sources": [
+      "mm8/t14a07",
+      "mm8/t14d01",
+      "mm8/t14b07"
+     ],
+     "fraction": 0.228
+    }
+   },
+   "pad": {
+    "3": [
+     32,
+     32
+    ],
+    "4": [
+     32,
+     32
+    ]
+   },
+   "context": {
+    "3": {
+     "right": "mm8/t14d01",
+     "top": "mm8/t14b05"
+    },
+    "4": {
+     "right": "mm8/t14d01",
+     "top": "mm8/t14b05"
+    }
+   }
+  },
+  "mm8/dirt1": {
+   "name": "dirt1",
+   "versions": [
+    1
+   ],
+   "material": "dark brown earth ground with a few small pale stones",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm8/dirttyl": {
+   "name": "dirttyl",
+   "versions": [
+    1
+   ],
+   "material": "dark brown earth ground, crumbly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm8/dirt1"
+     ],
+     "fraction": 0.822
+    }
+   }
+  },
+  "mm8/t14c04c": {
+   "name": "t14c04c",
+   "versions": [
+    1
+   ],
+   "material": "rough tan-brown fieldstone wall with a small dark wooden window with carved scrolled wooden shutters",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm8/t14c04a",
+      "mm8/t14c12ba"
+     ],
+     "fraction": 0.254
+    }
+   }
+  },
+  "mm8/t06b02": {
+   "name": "t06b02",
+   "versions": [
+    1
+   ],
+   "material": "large rounded grey river cobblestones set in dark mortar, weathered",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm8/t06a01",
+      "mm8/t06c04"
+     ],
+     "fraction": 0.657
+    }
+   }
+  },
+  "mm8/t14d03": {
+   "name": "t14d03",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "rough tan-brown fieldstone wall under brown straw thatch eaves, with a round-topped dark oak plank door carved with a curling vine motif and iron hinges",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [
+      "mm8/t14a03"
+     ],
+     "fraction": 0.083
+    }
+   },
+   "pad": {
+    "2": [
+     32,
+     16
+    ]
+   },
+   "context": {
+    "2": {
+     "right": "mm8/t14d04c",
+     "left": "mm8/t14d04c"
+    }
+   }
+  },
+  "mm8/t14c07": {
+   "name": "t14c07",
+   "versions": [
+    1
+   ],
+   "material": "rough tan-brown fieldstone wall beside a dark wooden corner post",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm8/t14c01",
+      "mm8/t14c01b",
+      "mm8/t14c04a"
+     ],
+     "fraction": 0.225
+    }
+   }
+  },
+  "mm8/t06a05": {
+   "name": "t06a05",
+   "versions": [
+    1
+   ],
+   "material": "overlapping dark blue-grey slate roof shingles, irregular and weathered",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm8/t06b05": {
+   "name": "t06b05",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "overlapping dark blue-grey slate roof shingles under a dark carved wooden band with a triangle pattern",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm8/t06a05"
+     ],
+     "fraction": 0.686
+    },
+    "2": {
+     "sources": [
+      "mm8/t06a05"
+     ],
+     "fraction": 0.686
+    }
+   }
+  },
+  "mm8/t14a03": {
+   "name": "t14a03",
+   "versions": [
+    1,
+    2,
+    3
+   ],
+   "material": "rough tan-brown fieldstone wall under brown straw thatch eaves, with a round-topped dark oak plank door carved with a curling vine motif and iron hinges",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm8/t14d03"
+     ],
+     "fraction": 0.083
+    },
+    "2": {
+     "sources": [
+      "mm8/t14d03"
+     ],
+     "fraction": 0.083
+    },
+    "3": {
+     "sources": [
+      "mm8/t14c03",
+      "mm8/t14d03"
+     ],
+     "fraction": 0.09
+    }
+   },
+   "pad": {
+    "3": [
+     32,
+     32
+    ]
+   },
+   "context": {
+    "3": {
+     "right": "mm8/t14a04a",
+     "left": "mm8/t14a04a",
+     "top": "mm8/t14a05"
+    }
+   }
+  },
+  "mm8/t14abcd02": {
+   "name": "t14abcd02",
+   "versions": [
+    1
+   ],
+   "material": "rough tan-brown rounded fieldstones with dark joints",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm8/t14c01b",
+      "mm8/t14c12ba",
+      "mm8/t14c01"
+     ],
+     "fraction": 0.576
+    }
+   }
+  },
+  "mm8/t14c03": {
+   "name": "t14c03",
+   "versions": [
+    1,
+    2,
+    3
+   ],
+   "material": "rough tan-brown fieldstone wall with a round-topped dark oak plank door carved with a curling vine motif and iron hinges",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm8/t14d03",
+      "mm8/t14a03"
+     ],
+     "fraction": 0.086
+    },
+    "2": {
+     "sources": [
+      "mm8/t14d03",
+      "mm8/t14a03"
+     ],
+     "fraction": 0.086
+    },
+    "3": {
+     "sources": [
+      "mm8/t14d03",
+      "mm8/t14a03"
+     ],
+     "fraction": 0.086
+    }
+   },
+   "pad": {
+    "3": [
+     32,
+     32
+    ]
+   },
+   "context": {
+    "3": {
+     "right": "mm8/t14c06",
+     "left": "mm8/t14c07",
+     "top": "mm8/t14abcd11",
+     "bottom": "mm8/t14a05"
+    }
+   }
+  },
+  "mm8/t14d12ba": {
+   "name": "t14d12ba",
+   "versions": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6
+   ],
+   "material": "rough tan-brown fieldstone wall under brown straw thatch eaves, with a small arched window closed by a broken dark wooden plank shutter hanging askew, a glimpse of green-grey behind it",
+   "notes": {
+    "6": "the thick brown straw thatch eave fills the top 40 percent of the texture exactly as in the reference, its lower edge at the same height as in the finished neighbours; fieldstone and the broken shutter window only below it"
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm8/t14d04b",
+      "mm8/t14d04c"
+     ],
+     "fraction": 0.148
+    },
+    "2": {
+     "sources": [
+      "mm8/t14d04b",
+      "mm8/t14d04c"
+     ],
+     "fraction": 0.148
+    },
+    "3": {
+     "sources": [
+      "mm8/t14d04b",
+      "mm8/t14d04c"
+     ],
+     "fraction": 0.146
+    },
+    "4": {
+     "sources": [
+      "mm8/t14d04b",
+      "mm8/t14d04c"
+     ],
+     "fraction": 0.146
+    },
+    "5": {
+     "sources": [
+      "mm8/t14d04b",
+      "mm8/t14d04c"
+     ],
+     "fraction": 0.146
+    },
+    "6": {
+     "sources": [
+      "mm8/t14d04b",
+      "mm8/t14d04c"
+     ],
+     "fraction": 0.146
+    }
+   },
+   "context": {
+    "1": {
+     "left": "mm8/t14d04c",
+     "right": "mm8/t14d03"
+    },
+    "2": {
+     "left": "mm8/t14d04c",
+     "right": "mm8/t14d03"
+    },
+    "3": {
+     "left": "mm8/t14d04c",
+     "right": "mm8/t14d03"
+    },
+    "4": {
+     "left": "mm8/t14d04c",
+     "right": "mm8/t14d03"
+    },
+    "5": {
+     "left": "mm8/t14d04c",
+     "right": "mm8/t14d03"
+    },
+    "6": {
+     "left": "mm8/t14d04c",
+     "right": "mm8/t14d03"
+    }
+   },
+   "pad": {
+    "3": [
+     32,
+     16
+    ],
+    "5": [
+     32,
+     16
+    ],
+    "6": [
+     32,
+     16
+    ]
+   },
+   "roll": {
+    "4": [
+     0,
+     65
+    ]
+   }
+  },
+  "mm8/t14b03": {
+   "name": "t14b03",
+   "versions": [
+    1,
+    2,
+    3
+   ],
+   "material": "rough tan-brown fieldstone wall under dark brown shingles, with a round-topped dark oak plank door carved with a curling vine motif and iron hinges",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm8/t14b01"
+     ],
+     "fraction": 0.168
+    },
+    "2": {
+     "sources": [
+      "mm8/t14b12c"
+     ],
+     "fraction": 0.164
+    },
+    "3": {
+     "sources": [
+      "mm8/t14b01",
+      "mm8/t14b06"
+     ],
+     "fraction": 0.164
+    }
+   },
+   "pad": {
+    "3": [
+     32,
+     16
+    ]
+   },
+   "context": {
+    "3": {
+     "right": "mm8/t14b07",
+     "left": "mm8/t14b06"
+    }
+   }
+  },
+  "mm8/t06b11": {
+   "name": "t06b11",
+   "versions": [
+    1,
+    2,
+    3,
+    4
+   ],
+   "material": "small dark carved wooden band tile with a triangle pattern",
+   "notes": {
+    "3": "the outermost pixel rows and columns continue the reference's edge exactly: same brightness and material right up to the canvas border, with no thin dark or bright line, groove, frame or shadow painted along any edge",
+    "4": "the outermost pixel rows and columns continue the reference's edge exactly: same brightness and material right up to the canvas border, with no thin dark or bright line, groove, frame or shadow painted along any edge"
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm8/t06b05"
+     ],
+     "fraction": 0.875
+    },
+    "2": {
+     "sources": [
+      "mm8/t06b05"
+     ],
+     "fraction": 0.875
+    },
+    "3": {
+     "sources": [
+      "mm8/t06b05"
+     ],
+     "fraction": 0.875
+    },
+    "4": {
+     "sources": [
+      "mm8/t06b05"
+     ],
+     "fraction": 0.875
+    }
+   }
+  },
+  "mm8/gcrydoor": {
+   "name": "gcrydoor",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "glossy red crystal arched door with a pale pink flower-shaped crystal ornament in the centre",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm8/gcryout1": {
+   "name": "gcryout1",
+   "versions": [
+    1
+   ],
+   "material": "smooth pale coral-red crystal with soft vertical streaks",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm8/gcryout2": {
+   "name": "gcryout2",
+   "versions": [
+    1
+   ],
+   "material": "smooth crimson-red crystal with soft vertical streaks",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm8/gcryout3": {
+   "name": "gcryout3",
+   "versions": [
+    1
+   ],
+   "material": "smooth deep red crystal with soft vertical streaks",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm8/gcryout4": {
+   "name": "gcryout4",
+   "versions": [
+    1
+   ],
+   "material": "smooth dark wine-red crystal with soft vertical streaks",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm8/gcryowal": {
+   "name": "gcryowal",
+   "versions": [
+    1
+   ],
+   "material": "pale pink-red crystal with soft vertical streaks and pale highlights",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm8/hhr1p": {
+   "name": "hhr1p",
+   "versions": [
+    1
+   ],
+   "material": "grey-tan gravel and dirt ground with small pebbles",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  }
+ }
+}

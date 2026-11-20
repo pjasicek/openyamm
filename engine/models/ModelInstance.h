@@ -43,6 +43,15 @@ struct ModelAttachment
     std::shared_ptr<const ModelAsset> asset;
     uint32_t nodeIndex = 0;
     uint32_t materialVariant = 0;
+    // Places the asset in the node's space when it was not authored there (a ground item model held in a hand,
+    // game/render/HeldWeapons.h); none: the asset is already in the node's space.
+    std::optional<ModelMatrix> localMatrix;
+
+    // The node's matrix with the local placement applied.
+    ModelMatrix placed(const ModelMatrix &nodeMatrix) const
+    {
+        return localMatrix ? multiplyModelMatrices(nodeMatrix, *localMatrix) : nodeMatrix;
+    }
 };
 
 // A world-space rotation applied after the clip about one node's pivot, carrying the node's subtree (a head turned
@@ -72,6 +81,31 @@ struct ModelBurn
     float seconds = 0.0f;
 };
 
+// An energy shield drawn over an instance's skinned surface (game: GameplayActorShields): a translucent fresnel shell
+// pushed out along the normals, additive, with ripples at recent hits, a rise from the feet when it comes up and a
+// shatter when it breaks. Skinned and CPU-deformed draws only; null draws nothing (no cost).
+struct ModelShieldShell
+{
+    static constexpr size_t MaxHits = 4;
+
+    // Linear RGB and overall strength (0 draws nothing).
+    std::array<float, 3> color = {1.0f, 0.4f, 0.8f};
+    float strength = 1.0f;
+    // Share of the pool left (weaker shells flicker).
+    float fraction = 1.0f;
+    // Seconds since it broke (shatter, about 0.7 s) or came back up (rise, about 0.5 s); -1 for none.
+    float breakSeconds = -1.0f;
+    float raiseSeconds = -1.0f;
+    // Clock of the drifting energy, in seconds.
+    float seconds = 0.0f;
+    // World height of the feet and body height, for the rise sweep; offset of the shell from the skin.
+    float footZ = 0.0f;
+    float bodyHeight = 100.0f;
+    float thickness = 3.0f;
+    // World impact point and age in seconds of recent hits (age < 0: unused).
+    std::array<std::array<float, 4>, MaxHits> hits = {};
+};
+
 inline bool modelBurnConsumed(const ModelBurn &burn)
 {
     return burn.front > 1.0f + burn.edgeWidth + burn.fireWidth;
@@ -94,9 +128,15 @@ public:
     // Fraction of a flash colour mixed over the instance's skinned draws (a creature hit), 0 = none.
     bool setHitFlash(ModelInstanceHandle handle, float amount);
     float hitFlash(ModelInstanceHandle handle) const;
+    // Multiplier of the emission of the instance's skinned draws (a creature's frenzy glow), 1 = as authored.
+    bool setEmissionMultiplier(ModelInstanceHandle handle, float multiplier);
+    float emissionMultiplier(ModelInstanceHandle handle) const;
     // Null stops the burn: the surface is whole again.
     bool setBurn(ModelInstanceHandle handle, const ModelBurn *pBurn);
     const ModelBurn *burn(ModelInstanceHandle handle) const;
+    // Null removes the shield shell.
+    bool setShieldShell(ModelInstanceHandle handle, const ModelShieldShell *pShell);
+    const ModelShieldShell *shieldShell(ModelInstanceHandle handle) const;
     bool setNodeMarkersVisible(ModelInstanceHandle handle, bool visible);
     bool setAttachments(ModelInstanceHandle handle, std::vector<ModelAttachment> attachments);
     bool setNodeRotations(ModelInstanceHandle handle, std::vector<ModelNodeRotation> rotations);
@@ -104,8 +144,12 @@ public:
     // A static stand-in replaces the instance's own skinned draws: renderers draw this unskinned asset (same material
     // variants) as a static placement at the instance's root transform. Used for corpses, whose pose is frozen
     // (bakeStaticModelPose). The instance keeps its pose, bounds, attachments and picking. Null restores normal draws.
-    bool setStaticStandIn(ModelInstanceHandle handle, std::shared_ptr<const ModelAsset> asset);
+    // minimumPixels: the stand-in is not drawn where it would be smaller on screen than this (ground items far away);
+    // 0 draws it at every size.
+    bool setStaticStandIn(ModelInstanceHandle handle, std::shared_ptr<const ModelAsset> asset,
+        float minimumPixels = 0.0f);
     const std::shared_ptr<const ModelAsset> &staticStandIn(ModelInstanceHandle handle) const;
+    float staticStandInMinimumPixels(ModelInstanceHandle handle) const;
     // Fraction of the static stand-in's and attachments' pixels drawn (screen-door dissolve, 1 = solid, 0 = hidden);
     // skinned draws ignore it.
     bool setCoverage(ModelInstanceHandle handle, float coverage);
@@ -164,13 +208,16 @@ private:
         bool visible = true;
         uint32_t outlineColorAbgr = 0;
         float hitFlash = 0.0f;
+        float emissionMultiplier = 1.0f;
         std::optional<ModelBurn> burn;
+        std::optional<ModelShieldShell> shieldShell;
         uint32_t materialVariant = 0;
         bool nodeMarkersVisible = false;
         std::vector<ModelAttachment> attachments;
         std::vector<ModelNodeRotation> nodeRotations;
         mutable std::vector<uint8_t> rotatedNodes;
         std::shared_ptr<const ModelAsset> staticStandIn;
+        float standInMinimumPixels = 0.0f;
         float coverage = 1.0f;
         bool playing = false;
         bool paused = false;

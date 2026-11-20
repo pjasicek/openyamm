@@ -1,0 +1,186 @@
+{
+ "id": "20261009-1441-mm6-redo",
+ "world": "mm6",
+ "maps": [
+  "6d02.blv",
+  "6d06.blv",
+  "6d10.blv",
+  "6d11.blv",
+  "6d13.blv",
+  "6d16.blv",
+  "6d18.blv",
+  "6t2.blv",
+  "6t4.blv",
+  "6t5.blv",
+  "cd2.blv",
+  "cd3.blv"
+ ],
+ "created": "2026-10-09T12:41:25+00:00",
+ "textures": [
+  "mm6/cekr4",
+  "mm6/d1wlele",
+  "mm6/d1wlere",
+  "mm6/d2wctra",
+  "mm6/d2wlale",
+  "mm6/d2wlbmnk",
+  "mm6/wltil2",
+  "mm6/wywl2"
+ ],
+ "requests": {
+  "mm6/cekr4": {
+   "name": "cekr4",
+   "versions": [
+    1,
+    2,
+    3
+   ],
+   "material": "polished checkerboard floor of dark brown stone and pale grey marble squares with bevelled edges",
+   "notes": {
+    "3": "Each square is clean polished stone with fine natural marble veining invented anew; crisp bevels."
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/stain512"
+     ],
+     "fraction": 0.396
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "3": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/d1wlele": {
+   "name": "d1wlele",
+   "versions": [
+    1
+   ],
+   "material": "olive-brown stacked sandstone brick wall with a narrow stone pilaster on the left edge",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/d1wle"
+     ],
+     "fraction": 0.661
+    }
+   }
+  },
+  "mm6/d1wlere": {
+   "name": "d1wlere",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "olive-brown stacked sandstone brick wall with a narrow stone pilaster on the right edge",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/d1wle"
+     ],
+     "fraction": 0.612
+    },
+    "2": {
+     "sources": [
+      "mm6/d1wle"
+     ],
+     "fraction": 0.61
+    }
+   }
+  },
+  "mm6/d2wctra": {
+   "name": "d2wctra",
+   "versions": [
+    1
+   ],
+   "material": "dark grey-brown rough stone brick wall with dark mortar",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/d2wlcctr"
+     ],
+     "fraction": 0.855
+    }
+   }
+  },
+  "mm6/d2wlale": {
+   "name": "d2wlale",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "dark grey-brown rough stone brick wall with a dark stone pilaster on the left edge",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/d2wlactr"
+     ],
+     "fraction": 0.734
+    },
+    "2": {
+     "sources": [
+      "mm6/d2wlactr"
+     ],
+     "fraction": 0.734
+    }
+   }
+  },
+  "mm6/d2wlbmnk": {
+   "name": "d2wlbmnk",
+   "versions": [
+    1
+   ],
+   "material": "dark stone niche framed by rows of stacked skulls with a robed monk statue inside, set in a grey stone brick wall",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/d2niche3"
+     ],
+     "fraction": 0.331
+    }
+   }
+  },
+  "mm6/wltil2": {
+   "name": "wltil2",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "rough sandy ochre plaster with fine grit",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/wywl"
+     ],
+     "fraction": 0.796
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/wywl2": {
+   "name": "wywl2",
+   "versions": [
+    1,
+    2,
+    3
+   ],
+   "material": "polished orange-brown wooden trim with a dark grooved band",
+   "notes": {
+    "3": "No dark outline or shadow along any outer edge: every edge keeps the brightness and material of the reference's edge."
+   }
+  }
+ }
+}

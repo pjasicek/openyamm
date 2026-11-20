@@ -1,0 +1,24 @@
+# MM8-Rel.exe SHA-256 5326d56459ca74126447bcfd07a8cc85a419663e2281500f0f043f13ffe77a0b
+# Preferred image base 0x400000. See PARTY_TARGET_SELECTION.md.
+f+ ref.mm8rel.ChooseTargetPlayer @ 0x425ac2
+f+ ref.mm8rel.Random15 @ 0x4dc832
+f+ ref.mm8rel.EvaluateAttacks @ 0x4373e5
+f+ ref.mm8rel.DamagePlayerFromMonster @ 0x438625
+f+ ref.mm8rel.ProjectileCollisionDamage @ 0x438f98
+CC "Zero monster preference mask at +0x88 branches to ordinary eligible-party selection" @ 0x425ad9
+CC "Excludes condition timestamps 12 through 16: paralyzed unconscious dead stoned eradicated" @ 0x425c7e
+CC "Append eligible party slot once and increment candidate count" @ 0x425cae
+CC "RNG returns 0..32767, then signed divide by eligible count" @ 0x425cc1
+CC "Use remainder EDX as candidate-array index, not always element zero" @ 0x425cc9
+CC "Slot-zero fallback only when no candidate exists" @ 0x425ccf
+CC "Melee chooses target here and passes EAX to damage routine" @ 0x437526
+CC "Monster projectile with target -1 chooses a fresh party target here" @ 0x438a8f
+CC "Projectile collision passes -1 target, not slot zero" @ 0x43900a
+CC "Preference branch resets candidate count for each enabled preference bit" @ 0x425bc7
+f+ ref.mm8rel.SeedRandom @ 0x4dc825
+f+ ref.mm8rel.GetCrtThreadData @ 0x4e09a2
+CC "Application initialization gets uptime and passes it to the only direct srand call" @ 0x464985
+CC "srand writes provided seed to CRT thread data +0x14" @ 0x4dc82e
+CC "rand stores next LCG state before returning its high 15 bits" @ 0x4dc846
+CC "Seed 1 is a CRT thread-data initialization default, not a per-call reset" @ 0x4e099a
+CC "Load party.bin into fixed party globals, separate from CRT thread data" @ 0x45deda

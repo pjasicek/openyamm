@@ -1,0 +1,21 @@
+format_version: 1
+kind: outdoor_map_package
+package_id: mm7:terrain_fixture_green
+display_name: MM7 terrain green
+map_file: 7out01.odm
+scene_file: 7out01.scene.yml
+geometry_metadata_file: 7out01.geometry.yml
+terrain_metadata_file: 7out01.terrain.yml
+script_module: Data/scripts/maps/7out01.lua
+map_stats_id: 10001
+redbook_track: 4
+environment_name: grassland
+is_top_level_area: true
+outdoor_bounds:
+  enabled: true
+  min_x: -23143
+  max_x: 23143
+  min_y: -23143
+  max_y: 23143
+source_fingerprint: EB0FEC5FF402DCF4
+built_source_fingerprint: EB0FEC5FF402DCF4

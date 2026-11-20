@@ -1,0 +1,31 @@
+{
+  "status": "open_before_final_acceptance",
+  "reviewed_sheets": [
+    "shore_dirt_banks.png",
+    "shore_grey_banks.png",
+    "lava_dirt_banks.png",
+    "lava_plains_banks.png",
+    "tar_grey_banks.png",
+    "native_bank_examples.png"
+  ],
+  "issues": [
+    {
+      "families": [
+        "shore_dirt",
+        "lava_dirt"
+      ],
+      "issue": "Visible pixel-step contours inherited from native keyed masks, clearest against bright lava. Need modest contour restoration while retaining irregular native islands, holes and dark rim; do not smooth into generic curves or fill all disconnected pieces."
+    },
+    {
+      "families": [
+        "tar_grey"
+      ],
+      "issue": "Some native pixels already contain mixed magenta, not exact255/0/255. trn contains12 purple-biased pixels outside the exact key; current bank shade transfers small purple specks. Recover partial key coverage and underlying grey shade rather than replacing matching grey master or globally desaturating."
+    }
+  ],
+  "invariants": [
+    "Matching master substrate and native dark contact rim must remain.",
+    "Re-run all8134 phase joins and inspect connected bank fixtures after edits.",
+    "Current239-file stage is a candidate; do not overwrite capture-bound stage during live captures."
+  ]
+}

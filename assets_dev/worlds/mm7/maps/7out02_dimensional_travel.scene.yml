@@ -1,0 +1,29 @@
+# Harmondale's dimensional travel pedestal: MAW's teleporter (devdocs/maw/MAPS_CONTENT.md §2.2, DEVIATIONS 49), one
+# pedestal under a glowing orb, for every ruleset since Verdant's removal (2026-11-09). A click opens the four
+# continents' portals (event 1777, ../events/maps/7out02_mmmerge.lua).
+format_version: 1
+kind: outdoor_scene_overlay
+authored_content:
+  entities:
+    - name: ped06
+      decoration_list_id: 12
+      ai_attributes: 0
+      position: {x: -16635, y: 14521, z: 711}
+      facing: 1514
+      event_id_primary: 0
+      event_id_secondary: 1777
+      variable_primary: 0
+      variable_secondary: 0
+      special_trigger: 0
+      initial_decoration_flag: 0
+    - name: dec57
+      decoration_list_id: 300
+      ai_attributes: 0
+      position: {x: -16635, y: 14521, z: 871}
+      facing: 558
+      event_id_primary: 0
+      event_id_secondary: 1777
+      variable_primary: 0
+      variable_secondary: 0
+      special_trigger: 0
+      initial_decoration_flag: 0

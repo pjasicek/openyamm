@@ -1,0 +1,161 @@
+# Brightness A: integrator capture; build01/build02 remain untouched.
+# Integrator review tour (2026-10-23): every room, set piece and the boss arena; party-foot z.
+# The first shot makes the party immortal and invisible so the posed captures are not interrupted by combat.
+output_dir: /home/pjasicek/github/OpenYAMM/level_generation/projects/hesper_d04/review/build03
+settle_seconds: 1.5
+exit: true
+shots:
+- name: first_view
+  position: [2900, 5400, 0]
+  yaw: -1.57
+  pitch: -0.25
+  commands: [config set immortal 1, config set invisible 1]
+- name: pit_stairs_from_terrace
+  position: [2900, 4250, -512]
+  yaw: 1.57
+  pitch: 0.3
+- name: guard_room
+  position: [2150, 5250, 0]
+  yaw: 3.14
+  pitch: -0.05
+- name: pens_from_stair_foot
+  position: [2300, 4300, -512]
+  yaw: -1.0
+  pitch: -0.2
+- name: pens_south_wall_windows
+  position: [2900, 4100, -512]
+  yaw: -1.57
+  pitch: 0.05
+- name: pens_se_terrace
+  position: [4350, 1550, -512]
+  yaw: 2.3
+  pitch: -0.1
+- name: pens_pit_floor_east_cells
+  position: [2300, 2500, -768]
+  yaw: 0.0
+  pitch: 0.05
+- name: pens_east_cells_close
+  position: [3700, 3300, -512]
+  yaw: -0.6
+  pitch: -0.05
+- name: pens_cache_and_tally_pod
+  position: [2300, 2100, -512]
+  yaw: -1.9
+  pitch: -0.2
+- name: sleeping_gate_from_pens
+  position: [1650, 2800, -512]
+  yaw: 3.14
+  pitch: 0.0
+- name: sleeping_pit
+  position: [-1200, 2000, -512]
+  yaw: 0.6
+  pitch: 0.0
+- name: sleeping_pit_east
+  position: [900, 3600, -512]
+  yaw: -2.5
+  pitch: -0.05
+- name: cell_block_a
+  position: [4800, 3250, -512]
+  yaw: 0.0
+  pitch: 0.0
+- name: cell_block_a_west
+  position: [6950, 3250, -512]
+  yaw: 3.14
+  pitch: 0.0
+- name: cell_block_b
+  position: [7300, 3250, -512]
+  yaw: 0.0
+  pitch: 0.0
+- name: cell_lever
+  position: [7300, 3150, -512]
+  yaw: 1.57
+  pitch: -0.2
+- name: tamsin_cell
+  position: [8250, 3250, -512]
+  yaw: 0.0
+  pitch: -0.05
+- name: surgery
+  position: [7300, 1000, -512]
+  yaw: 0.8
+  pitch: 0.0
+- name: surgery_reverse
+  position: [8500, 2450, -512]
+  yaw: -2.3
+  pitch: -0.1
+- name: ilse_cage_console
+  position: [7600, 1300, -512]
+  yaw: 0.3
+  pitch: -0.05
+- name: south_gate_passage
+  position: [2900, 1200, -512]
+  yaw: -1.57
+  pitch: 0.0
+- name: hall_under_balcony
+  position: [2900, 600, -512]
+  yaw: -1.57
+  pitch: 0.0
+- name: hall_from_south
+  position: [2900, -1350, -512]
+  yaw: 1.57
+  pitch: 0.2
+- name: hall_east_waste_lift
+  position: [2200, -900, -512]
+  yaw: 0.5
+  pitch: 0.05
+- name: balcony_stair
+  position: [820, -300, -512]
+  yaw: 1.57
+  pitch: 0.25
+- name: balcony_over_hall
+  position: [2000, 300, 0]
+  yaw: -1.57
+  pitch: -0.7
+- name: collar_bank
+  position: [2400, 800, 0]
+  yaw: 0.0
+  pitch: -0.05
+- name: collar_windows
+  position: [2200, 700, 0]
+  yaw: 1.0
+  pitch: -0.05
+- name: waste_lift_top
+  position: [4450, 300, -512]
+  yaw: 0.0
+  pitch: -0.2
+- name: waste_shafts
+  position: [4900, -1400, -1280]
+  yaw: 0.8
+  pitch: 0.1
+- name: slag_chutes
+  position: [5500, -1250, -1280]
+  yaw: 1.57
+  pitch: 0.15
+- name: waste_shafts_east
+  position: [7700, -500, -1280]
+  yaw: -2.8
+  pitch: 0.05
+- name: sump_panel
+  position: [7300, -1200, -1280]
+  yaw: 0.0
+  pitch: 0.0
+- name: sump_chest
+  position: [8000, -1000, -1280]
+  yaw: -0.6
+  pitch: -0.15
+- name: drain_bottom
+  position: [7564, -250, -1280]
+  yaw: 1.57
+  pitch: 0.25
+- name: after_flip_pens
+  position: [2300, 4300, -512]
+  yaw: -1.0
+  pitch: -0.2
+  commands: [qbit set 100027, event 1]
+- name: after_flip_bank
+  position: [2400, 800, 0]
+  yaw: 0.0
+  pitch: -0.05
+- name: after_flip_cell_block_a
+  position: [4800, 3250, -512]
+  yaw: 0.0
+  pitch: 0.0

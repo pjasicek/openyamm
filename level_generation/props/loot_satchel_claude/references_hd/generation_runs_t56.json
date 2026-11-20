@@ -1,0 +1,1328 @@
+[
+  {
+    "id": "t5_three_quarter_v1",
+    "tier": "t5",
+    "view": 0,
+    "prompt": "REQUIRED OUTPUT: exactly ONE 1024 x 1024 pixel SQUARE RGBA PNG, generated at that native resolution, unresized return. Genuinely transparent background.\nTASK CONTEXT \u2014 MM6 FANTASY-GAME PROP: a 3D modelling reference for a loot bag lying on the ground in Might and Magic VI (1998 prerendered fantasy). Use case: stylized-concept.\nInputs 1\u20133 are REFERENCES: 1 native MM6 gold piles is the colour authority for warm saturated gold and thick plain coin discs, not a layout or background reference; magenta is background only, never reproduce it. 2 approved tier 3 and 3 approved tier 4 are family authorities for leather, coarse stitching, worn edges, coins, faceted gems, soft light and detailed semi-realistic rendering. Generate a new richer tier from that same family.\nBeautifully detailed, credible, fully three-dimensional, semi-realistic game materials with sharp leather grain, worn creases, coarse hand stitching, scuffed lighter edges and metal wear. Soft thick leather, rounded and slumped under its own weight into a wide base. Warm natural colours with saturated native gold, even soft neutral studio light from above, near-orthographic camera. Coins are thick plain gold discs, unmarked worn faces, no symbols or portraits.\nThe object rests on a flat invisible ground plane: its underside is flat at contact. No floor, no ground plane drawn, NO cast shadow. True clean alpha outside the complete silhouette including gaps. No backdrop, no painted checkerboard, no text, no watermark.\nComposition: one complete bag with its connected loot spill, centred, all parts within the central 70 percent of the square canvas, about 15 percent transparent margin on every side. No cropping. This is one view, never a multi-view sheet.\nDo NOT add chest, wooden box, weapons, scrolls, candles, potions, unrelated objects, straps hanging far from the body, loose trailing ropes, light rays, bloom, sparkles or glow halo. Do NOT scatter coins far from the bag: keep a tight connected low heap physically touching the bag, compact and grounded. Nothing floats. No cartoon or toy style.\n\nTIER 5 \u2014 ORNATE TREASURE SACK: about 62 cm wide and 40 cm tall, visibly wider than tall, larger and richer than tier 4. Rich dark warm brown leather with gold-EMBROIDERED bands along its seams and mouth, visible coarse stitching and scuffing, and ornate gold CORNER FITTINGS at the base corners. Open broad slumped mouth, no covering flap, overflowing with thick plain gold coins. A generous low connected gold-coin heap spills in front and touches the bag. Several faceted red rubies, blue sapphires and green emeralds lie among the front coins.\nONE clearly visible fine item rests horizontally ON TOP of the front spill: a jewelled golden GOBLET lying on its SIDE, its bowl, slim stem and round foot all clearly readable and supported by coins. Keep it fully visible in the primary view. No second goblet and no crown or circlet in tier 5.\n\nCAMERA \u2014 00_three_quarter PRIMARY: near-orthographic, about 35 degrees to the RIGHT of the FRONT and 30 degrees above the ground. Show the front face and the prop's RIGHT flank; front projects toward screen-left and the right flank occupies screen-right. This primary image alone becomes a 3D mesh: the entire silhouette, mouth, decorative fittings, fine item and spilled loot must read clearly and be fully in frame. Keep about 15 percent transparent margins.",
+    "inputs": [
+      "/home/pjasicek/github/OpenYAMM/level_generation/props/loot_satchel_claude/references_hd/native_gold_piles.png",
+      "/home/pjasicek/github/OpenYAMM/level_generation/props/loot_satchel_claude/references_hd/t3/00_three_quarter.png",
+      "/home/pjasicek/github/OpenYAMM/level_generation/props/loot_satchel_claude/references_hd/t4/00_three_quarter.png"
+    ],
+    "selected_filename": "00_three_quarter.png",
+    "output": "/home/pjasicek/.codex/generated_images/01a12016-0c48-7da2-80a0-fb37f3ff494c/exec-4e8ddf43-77e8-45e3-b784-8c1cbb0f2a2a.png",
+    "selected": false,
+    "reason": "Superseded: returned 1254 x 1254 rather than requested 1024 x 1024; left/right transparent margins are too small.",
+    "superseded_by": "t5_three_quarter_v2",
+    "supersedes": [],
+    "role": "primary",
+    "family": "t5",
+    "tool_mode": "built-in image_gen",
+    "raw_file": "level_generation/props/loot_satchel_claude/references_hd/t5/raw/t5_three_quarter_v1.png",
+    "raw_sha256": "31bb1432ca16338e12e5ca8d207052ceae148698015de43bbd2b7f43d3d3f136",
+    "input_records": [
+      {
+        "supplied_path": "/home/pjasicek/github/OpenYAMM/level_generation/props/loot_satchel_claude/references_hd/native_gold_piles.png",
+        "sha256": "279a77a2dc47a4f8c3489e0bc3c34f904ca6d489825ff5a0acc28ee86c80703b"
+      },
+      {
+        "supplied_path": "/home/pjasicek/github/OpenYAMM/level_generation/props/loot_satchel_claude/references_hd/t3/00_three_quarter.png",
+        "sha256": "d7685b21c7e78397e6aba907d350d590acdd9499f53521e24c8845c7da1242ae"
+      },
+      {
+        "supplied_path": "/home/pjasicek/github/OpenYAMM/level_generation/props/loot_satchel_claude/references_hd/t4/00_three_quarter.png",
+        "sha256": "9b81cc419d3da5bf244e56df4e72701e21efd18d96607550e6500244efc713a7"
+      }
+    ],
+    "actual_sampling_size": [
+      1254,
+      1254
+    ],
+    "alpha_range": [
+      0,
+      255
+    ],
+    "visible_bbox_alpha_128": [
+      102,
+      170,
+      1184,
+      1104
+    ],
+    "outer_edge_alpha_max": [
+      0,
+      0,
+      1,
+      1
+    ],
+    "export_resize_or_padding": "None; PNG is a byte-identical copy of actual return."
+  },
+  {
+    "id": "t5_three_quarter_v2",
+    "tier": "t5",
+    "view": 0,
+    "prompt": "REQUIRED OUTPUT: exactly ONE 1024 x 1024 pixel SQUARE RGBA PNG, generated at that native resolution, unresized return. Genuinely transparent background.\nTASK CONTEXT \u2014 MM6 FANTASY-GAME PROP: a 3D modelling reference for a loot bag lying on the ground in Might and Magic VI (1998 prerendered fantasy). Use case: stylized-concept.\nInputs 1\u20133 are REFERENCES: 1 native MM6 gold piles is the colour authority for warm saturated gold and thick plain coin discs, not a layout or background reference; magenta is background only, never reproduce it. 2 approved tier 3 and 3 approved tier 4 are family authorities for leather, coarse stitching, worn edges, coins, faceted gems, soft light and detailed semi-realistic rendering. Generate a new richer tier from that same family.\nBeautifully detailed, credible, fully three-dimensional, semi-realistic game materials with sharp leather grain, worn creases, coarse hand stitching, scuffed lighter edges and metal wear. Soft thick leather, rounded and slumped under its own weight into a wide base. Warm natural colours with saturated native gold, even soft neutral studio light from above, near-orthographic camera. Coins are thick plain gold discs, unmarked worn faces, no symbols or portraits.\nThe object rests on a flat invisible ground plane: its underside is flat at contact. No floor, no ground plane drawn, NO cast shadow. True clean alpha outside the complete silhouette including gaps. No backdrop, no painted checkerboard, no text, no watermark.\nComposition: one complete bag with its connected loot spill, centred, all parts within the central 70 percent of the square canvas, about 15 percent transparent margin on every side. No cropping. This is one view, never a multi-view sheet.\nDo NOT add chest, wooden box, weapons, scrolls, candles, potions, unrelated objects, straps hanging far from the body, loose trailing ropes, light rays, bloom, sparkles or glow halo. Do NOT scatter coins far from the bag: keep a tight connected low heap physically touching the bag, compact and grounded. Nothing floats. No cartoon or toy style.\n\nTIER 5 \u2014 ORNATE TREASURE SACK: about 62 cm wide and 40 cm tall, visibly wider than tall, larger and richer than tier 4. Rich dark warm brown leather with gold-EMBROIDERED bands along its seams and mouth, visible coarse stitching and scuffing, and ornate gold CORNER FITTINGS at the base corners. Open broad slumped mouth, no covering flap, overflowing with thick plain gold coins. A generous low connected gold-coin heap spills in front and touches the bag. Several faceted red rubies, blue sapphires and green emeralds lie among the front coins.\nONE clearly visible fine item rests horizontally ON TOP of the front spill: a jewelled golden GOBLET lying on its SIDE, its bowl, slim stem and round foot all clearly readable and supported by coins. Keep it fully visible in the primary view. No second goblet and no crown or circlet in tier 5.\n\nCAMERA \u2014 00_three_quarter PRIMARY: near-orthographic, about 35 degrees to the RIGHT of the FRONT and 30 degrees above the ground. Show the front face and the prop's RIGHT flank; front projects toward screen-left and the right flank occupies screen-right. This primary image alone becomes a 3D mesh: the entire silhouette, mouth, decorative fittings, fine item and spilled loot must read clearly and be fully in frame. Keep about 15 percent transparent margins.\nINPUT 4: the tier 5 first trial, now the DESIGN authority. Keep exactly this dark brown embroidered sack, gold corner fittings, coins, red/blue/green gems and one jewelled goblet lying on its side with bowl to screen-left and foot to screen-right. Keep the pose, details and connected arrangement.\nCORRECTION: use a native 1024x1024 generation canvas, not 1254x1254. Pull the framing back: the WHOLE bag-plus-spill silhouette should occupy only 68 percent of image WIDTH and no more than 68 percent of height, centred horizontally and vertically. At least 16 percent empty TRANSPARENT margin on all four sides. Preserve complete object and do not crop. Generate this framing directly, no post-generation resize.",
+    "inputs": [
+      "/home/pjasicek/github/OpenYAMM/level_generation/props/loot_satchel_claude/references_hd/native_gold_piles.png",
+      "/home/pjasicek/github/OpenYAMM/level_generation/props/loot_satchel_claude/references_hd/t3/00_three_quarter.png",
+      "/home/pjasicek/github/OpenYAMM/level_generation/props/loot_satchel_claude/references_hd/t4/00_three_quarter.png",
+      "/home/pjasicek/.codex/generated_images/01a12016-0c48-7da2-80a0-fb37f3ff494c/exec-4e8ddf43-77e8-45e3-b784-8c1cbb0f2a2a.png"
+    ],
+    "selected_filename": "00_three_quarter.png",
+    "supersedes": [
+      "t5_three_quarter_v1"
+    ],
+    "output": "/home/pjasicek/.codex/generated_images/01a12016-0c48-7da2-80a0-fb37f3ff494c/exec-5d0ae606-4804-4be5-a22d-fc61376113c4.png",
+    "selected": false,
+    "reason": "Superseded: framing still leaves only about 9-12 percent horizontal margins and object sits too low; native size still 1254 x 1254.",
+    "superseded_by": "t5_three_quarter_v3",
+    "role": "primary",
+    "family": "t5",
+    "tool_mode": "built-in image_gen",
+    "raw_file": "level_generation/props/loot_satchel_claude/references_hd/t5/raw/t5_three_quarter_v2.png",
+    "raw_sha256": "99c240ef2b0b963e267f2e895b736bc551fb0d20258d450b2e980490c8c0fb26",
+    "input_records": [
+      {
+        "supplied_path": "/home/pjasicek/github/OpenYAMM/level_generation/props/loot_satchel_claude/references_hd/native_gold_piles.png",
+        "sha256": "279a77a2dc47a4f8c3489e0bc3c34f904ca6d489825ff5a0acc28ee86c80703b"
+      },
+      {
+        "supplied_path": "/home/pjasicek/github/OpenYAMM/level_generation/props/loot_satchel_claude/references_hd/t3/00_three_quarter.png",
+        "sha256": "d7685b21c7e78397e6aba907d350d590acdd9499f53521e24c8845c7da1242ae"
+      },
+      {
+        "supplied_path": "/home/pjasicek/github/OpenYAMM/level_generation/props/loot_satchel_claude/references_hd/t4/00_three_quarter.png",
+        "sha256": "9b81cc419d3da5bf244e56df4e72701e21efd18d96607550e6500244efc713a7"
+      },
+      {
+        "supplied_path": "/home/pjasicek/.codex/generated_images/01a12016-0c48-7da2-80a0-fb37f3ff494c/exec-4e8ddf43-77e8-45e3-b784-8c1cbb0f2a2a.png",
+        "sha256": "31bb1432ca16338e12e5ca8d207052ceae148698015de43bbd2b7f43d3d3f136",
+        "retained_snapshot": "level_generation/props/loot_satchel_claude/references_hd/t5/raw/t5_three_quarter_v1.png"
+      }
+    ],
+    "actual_sampling_size": [
+      1254,
+      1254
+    ],
+    "alpha_range": [
+      0,
+      255
+    ],
+    "visible_bbox_alpha_128": [
+      152,
+      258,
+      1135,
+      1086
+    ],
+    "outer_edge_alpha_max": [
+      0,
+      0,
+      0,
+      1
+    ],
+    "export_resize_or_padding": "None; PNG is a byte-identical copy of actual return."
+  },
+  {
+    "id": "t5_three_quarter_v3",
+    "tier": "t5",
+    "view": 0,
+    "prompt": "Generate exactly one 1024x1024 square transparent PNG.\nImage 4 is the complete design authority for this asset. Reproduce this exact sack, the same 3/4 camera, same gold embroidery, same mouth shape, exact same corner fittings, exact same coin and gem arrangement and the same jewelled golden goblet lying on its side in front. Image 1 is gold colour authority; images 2 and 3 are family material authorities.\nCHANGE ONLY FRAMING: the whole sack PLUS EVERY coin and gem must be considerably SMALLER in the frame and centred vertically as well as horizontally. Its complete visible bounding box must fit INSIDE the central 64% of canvas width and central 64% of height. There must be a broad empty transparent border on all four sides, roughly one fifth of the canvas width. Centre the COMPLETE silhouette, including the foreground coin heap, exactly at the centre of the canvas. Pull the camera back. Do not change proportions or crop any part.\nMM6 fantasy game prop 3D modelling reference, faithful detailed semi-realistic prerendered warm gold and dark brown leather as in image 4, even soft neutral overhead studio lighting.\nTrue transparent alpha background, no floor, no ground, NO cast shadow, no checkerboard, no text. Output one single view at 1024 by 1024 pixels, not a sheet. No new props, no floating coins, no glows.",
+    "inputs": [
+      "/home/pjasicek/github/OpenYAMM/level_generation/props/loot_satchel_claude/references_hd/native_gold_piles.png",
+      "/home/pjasicek/github/OpenYAMM/level_generation/props/loot_satchel_claude/references_hd/t3/00_three_quarter.png",
+      "/home/pjasicek/github/OpenYAMM/level_generation/props/loot_satchel_claude/references_hd/t4/00_three_quarter.png",
+      "/home/pjasicek/.codex/generated_images/01a12016-0c48-7da2-80a0-fb37f3ff494c/exec-5d0ae606-4804-4be5-a22d-fc61376113c4.png"
+    ],
+    "selected_filename": "00_three_quarter.png",
+    "supersedes": [
+      "t5_three_quarter_v1",
+      "t5_three_quarter_v2",
+      "t5_three_quarter_v4"
+    ],
+    "output": "/home/pjasicek/.codex/generated_images/01a12016-0c48-7da2-80a0-fb37f3ff494c/exec-f63c1783-be23-4d13-8604-8b87170f18a9.png",
+    "selected": true,
+    "reason": "Selected visually: complete compact embroidered dark leather sack, corner fittings, connected native-gold heap, red/blue/green gems, one clear supported goblet. Generous margins exceed the approximate 15 percent target. Native tool return is 1254 x 1254 rather than requested 1024 x 1024; preserved unresized without resizing; resolution exception recorded.",
+    "role": "primary",
+    "family": "t5",
+    "tool_mode": "built-in image_gen",
+    "raw_file": "level_generation/props/loot_satchel_claude/references_hd/t5/raw/t5_three_quarter_v3.png",
+    "raw_sha256": "bbefd8d0e58a3928acf94cda66e39a2b3d0564e22ef4cccac3c4c769e6d2f658",
+    "input_records": [
+      {
+        "supplied_path": "/home/pjasicek/github/OpenYAMM/level_generation/props/loot_satchel_claude/references_hd/native_gold_piles.png",
+        "sha256": "279a77a2dc47a4f8c3489e0bc3c34f904ca6d489825ff5a0acc28ee86c80703b"
+      },
+      {
+        "supplied_path": "/home/pjasicek/github/OpenYAMM/level_generation/props/loot_satchel_claude/references_hd/t3/00_three_quarter.png",
+        "sha256": "d7685b21c7e78397e6aba907d350d590acdd9499f53521e24c8845c7da1242ae"
+      },
+      {
+        "supplied_path": "/home/pjasicek/github/OpenYAMM/level_generation/props/loot_satchel_claude/references_hd/t4/00_three_quarter.png",
+        "sha256": "9b81cc419d3da5bf244e56df4e72701e21efd18d96607550e6500244efc713a7"
+      },
+      {
+        "supplied_path": "/home/pjasicek/.codex/generated_images/01a12016-0c48-7da2-80a0-fb37f3ff494c/exec-5d0ae606-4804-4be5-a22d-fc61376113c4.png",
+        "sha256": "99c240ef2b0b963e267f2e895b736bc551fb0d20258d450b2e980490c8c0fb26",
+        "retained_snapshot": "level_generation/props/loot_satchel_claude/references_hd/t5/raw/t5_three_quarter_v2.png"
+      }
+    ],
+    "actual_sampling_size": [
+      1254,
+      1254
+    ],
+    "alpha_range": [
+      0,
+      255
+    ],
+    "visible_bbox_alpha_128": [
+      337,
+      408,
+      934,
+      905
+    ],
+    "outer_edge_alpha_max": [
+      0,
+      0,
+      0,
+      1
+    ],
+    "export_resize_or_padding": "None; PNG is a byte-identical copy of actual return.",
+    "selected_path": "level_generation/props/loot_satchel_claude/references_hd/t5/00_three_quarter.png",
+    "requested_sampling_size": [
+      1024,
+      1024
+    ],
+    "checks": {
+      "square": true,
+      "rgba_transparency": true,
+      "uncropped_visible_silhouette": true,
+      "byte_identical_unresized_return": true,
+      "requested_1024_resolution": false,
+      "margins_fraction_left_top_right_bottom": [
+        0.2687,
+        0.3254,
+        0.2552,
+        0.2783
+      ],
+      "visual_review": "Family, tier details, camera direction, compact grounded spill, supported goblet/crown, no floor/cast shadow/external glow reviewed. Generated views have small detail and placement variations; not geometrically verified turntable renders."
+    },
+    "known_limitations": [
+      "Built-in tool returned 1254 x 1254 despite 1024 x 1024 prompts; the tool exposes no resolution setting. Preserved original bytes as required by no-resizing instruction.",
+      "Margins vary from the approximate 15 percent target; camera angles and cross-view coin/gem placement are visually approximate."
+    ],
+    "review_contact_sheet": "level_generation/props/loot_satchel_claude/references_hd/selected_views_review_t56.png",
+    "review_contact_sheet_note": "Two rows (t5,t6), four columns (three-quarter, front, right side, back). Review thumbnails fitted to visible silhouette for comparison; selected assets untouched."
+  },
+  {
+    "id": "t5_three_quarter_v4",
+    "tier": "t5",
+    "view": 0,
+    "prompt": "One square 1024x1024 transparent PNG. Image 4 is the EXACT asset to reproduce, with ONLY the framing changed. Keep its exact perspective, geometry, mouth folds, embroidered dark brown leather, gold corner caps, coin positions, gem positions, goblet position, lighting and details. Images 1-3 remain style and native gold colour references.\nENLARGE the object depicted in image 4 by 40 percent relative to the canvas. The bag and connected coin heap together should occupy about 70 percent of the canvas WIDTH, with 15 percent clear transparent left and right margins. Centre this complete silhouette at the centre of the square, vertically and horizontally. Retain every coin and the complete goblet, no cropping.\nNo new objects. No floor or ground plane or shadow or checkerboard or background. Genuine transparent alpha. One single three-quarter view of the same object, not a collage. Detailed semi-realistic MM6 fantasy game render.",
+    "inputs": [
+      "/home/pjasicek/github/OpenYAMM/level_generation/props/loot_satchel_claude/references_hd/native_gold_piles.png",
+      "/home/pjasicek/github/OpenYAMM/level_generation/props/loot_satchel_claude/references_hd/t3/00_three_quarter.png",
+      "/home/pjasicek/github/OpenYAMM/level_generation/props/loot_satchel_claude/references_hd/t4/00_three_quarter.png",
+      "/home/pjasicek/.codex/generated_images/01a12016-0c48-7da2-80a0-fb37f3ff494c/exec-f63c1783-be23-4d13-8604-8b87170f18a9.png"
+    ],
+    "selected_filename": "00_three_quarter.png",
+    "supersedes": [],
+    "output": "/home/pjasicek/.codex/generated_images/01a12016-0c48-7da2-80a0-fb37f3ff494c/exec-5aa7d64a-e427-4920-a338-86ade7ceabbd.png",
+    "selected": false,
+    "reason": "Rejected: framing enlargement overshot and left insufficient horizontal margins; retain the complete wider-margin v3 instead.",
+    "superseded_by": "t5_three_quarter_v3",
+    "role": "primary",
+    "family": "t5",
+    "tool_mode": "built-in image_gen",
+    "raw_file": "level_generation/props/loot_satchel_claude/references_hd/t5/raw/t5_three_quarter_v4.png",
+    "raw_sha256": "57d36501d4eb254109ed6813bdcbc810c24936c4d733fa9431746a961a16148c",
+    "input_records": [
+      {
+        "supplied_path": "/home/pjasicek/github/OpenYAMM/level_generation/props/loot_satchel_claude/references_hd/native_gold_piles.png",
+        "sha256": "279a77a2dc47a4f8c3489e0bc3c34f904ca6d489825ff5a0acc28ee86c80703b"
+      },
+      {
+        "supplied_path": "/home/pjasicek/github/OpenYAMM/level_generation/props/loot_satchel_claude/references_hd/t3/00_three_quarter.png",
+        "sha256": "d7685b21c7e78397e6aba907d350d590acdd9499f53521e24c8845c7da1242ae"
+      },
+      {
+        "supplied_path": "/home/pjasicek/github/OpenYAMM/level_generation/props/loot_satchel_claude/references_hd/t4/00_three_quarter.png",
+        "sha256": "9b81cc419d3da5bf244e56df4e72701e21efd18d96607550e6500244efc713a7"
+      },
+      {
+        "supplied_path": "/home/pjasicek/.codex/generated_images/01a12016-0c48-7da2-80a0-fb37f3ff494c/exec-f63c1783-be23-4d13-8604-8b87170f18a9.png",
+        "sha256": "bbefd8d0e58a3928acf94cda66e39a2b3d0564e22ef4cccac3c4c769e6d2f658",
+        "retained_snapshot": "level_generation/props/loot_satchel_claude/references_hd/t5/raw/t5_three_quarter_v3.png"
+      }
+    ],
+    "actual_sampling_size": [
+      1254,
+      1254
+    ],
+    "alpha_range": [
+      0,
+      255
+    ],
+    "visible_bbox_alpha_128": [
+      76,
+      184,
+      1219,
+      1111
+    ],
+    "outer_edge_alpha_max": [
+      0,
+      0,
+      1,
+      1
+    ],
+    "export_resize_or_padding": "None; PNG is a byte-identical copy of actual return."
+  },
+  {
+    "id": "t5_front_v1",
+    "tier": "t5",
+    "view": 1,
+    "prompt": "REQUIRED OUTPUT: exactly ONE 1024 x 1024 pixel SQUARE RGBA PNG, generated at that native resolution, unresized return. Genuinely transparent background.\nTASK CONTEXT \u2014 MM6 FANTASY-GAME PROP: a 3D modelling reference for a loot bag lying on the ground in Might and Magic VI (1998 prerendered fantasy). Use case: stylized-concept.\nInputs 1\u20133 are REFERENCES: 1 native MM6 gold piles is the colour authority for warm saturated gold and thick plain coin discs, not a layout or background reference; magenta is background only, never reproduce it. 2 approved tier 3 and 3 approved tier 4 are family authorities for leather, coarse stitching, worn edges, coins, faceted gems, soft light and detailed semi-realistic rendering. Generate a new richer tier from that same family.\nBeautifully detailed, credible, fully three-dimensional, semi-realistic game materials with sharp leather grain, worn creases, coarse hand stitching, scuffed lighter edges and metal wear. Soft thick leather, rounded and slumped under its own weight into a wide base. Warm natural colours with saturated native gold, even soft neutral studio light from above, near-orthographic camera. Coins are thick plain gold discs, unmarked worn faces, no symbols or portraits.\nThe object rests on a flat invisible ground plane: its underside is flat at contact. No floor, no ground plane drawn, NO cast shadow. True clean alpha outside the complete silhouette including gaps. No backdrop, no painted checkerboard, no text, no watermark.\nComposition: one complete bag with its connected loot spill, centred, all parts within the central 70 percent of the square canvas, about 15 percent transparent margin on every side. No cropping. This is one view, never a multi-view sheet.\nDo NOT add chest, wooden box, weapons, scrolls, candles, potions, unrelated objects, straps hanging far from the body, loose trailing ropes, light rays, bloom, sparkles or glow halo. Do NOT scatter coins far from the bag: keep a tight connected low heap physically touching the bag, compact and grounded. Nothing floats. No cartoon or toy style.\n\nTIER 5 \u2014 ORNATE TREASURE SACK: about 62 cm wide and 40 cm tall, visibly wider than tall, larger and richer than tier 4. Rich dark warm brown leather with gold-EMBROIDERED bands along its seams and mouth, visible coarse stitching and scuffing, and ornate gold CORNER FITTINGS at the base corners. Open broad slumped mouth, no covering flap, overflowing with thick plain gold coins. A generous low connected gold-coin heap spills in front and touches the bag. Several faceted red rubies, blue sapphires and green emeralds lie among the front coins.\nONE clearly visible fine item rests horizontally ON TOP of the front spill: a jewelled golden GOBLET lying on its SIDE, its bowl, slim stem and round foot all clearly readable and supported by coins. Keep it fully visible in the primary view. No second goblet and no crown or circlet in tier 5.\nInput 4 is the SELECTED tier 5 primary, exact design and arrangement authority. Render that SAME OBJECT from a different camera; preserve its brown leather, same embroidered bands, mouth folds, corner caps, number and placement of gems and the same gold goblet lying on its side. Leave the goblet fixed on the front heap, bowl toward the bag's right and foot toward its left. It is not an extra item.\nKeep the same squat broad body and coin size. Fine gold vine EMBROIDERY in leather bands, not solid plate armour. Leave generous transparent margins, whole silhouette no more than about 70 percent of canvas width, centre the whole bag plus spill vertically.\n\nCAMERA \u2014 01_front: exact STRAIGHT-ON FRONT, centred on the front's central vertical seam, with no left/right yaw. Camera about 20 degrees above ground, near-orthographic. Rotate ONLY the camera around the same fixed object and loot arrangement in the primary input. Do not turn the goblet/crown to face the camera or move any coins or gems. Maintain consistent object proportions. Complete silhouette centred with generous transparent margins, no floor or shadow.",
+    "inputs": [
+      "/home/pjasicek/github/OpenYAMM/level_generation/props/loot_satchel_claude/references_hd/native_gold_piles.png",
+      "/home/pjasicek/github/OpenYAMM/level_generation/props/loot_satchel_claude/references_hd/t3/00_three_quarter.png",
+      "/home/pjasicek/github/OpenYAMM/level_generation/props/loot_satchel_claude/references_hd/t4/00_three_quarter.png",
+      "/home/pjasicek/github/OpenYAMM/level_generation/props/loot_satchel_claude/references_hd/t5/00_three_quarter.png"
+    ],
+    "selected_filename": "01_front.png",
+    "supersedes": [],
+    "output": "/home/pjasicek/.codex/generated_images/01a12016-0c48-7da2-80a0-fb37f3ff494c/exec-de198f07-6843-4dcd-bfd2-760125d2b68a.png",
+    "selected": false,
+    "reason": "Superseded: goblet was reversed relative to primary; leftmost green gem became blue; side margins too tight.",
+    "superseded_by": "t5_front_v2",
+    "role": "supporting",
+    "family": "t5",
+    "tool_mode": "built-in image_gen",
+    "raw_file": "level_generation/props/loot_satchel_claude/references_hd/t5/raw/t5_front_v1.png",
+    "raw_sha256": "fa14d4175bf9b8334da0c7227a0fa6d3f981ec73456d996dd846809b80ebe64c",
+    "input_records": [
+      {
+        "supplied_path": "/home/pjasicek/github/OpenYAMM/level_generation/props/loot_satchel_claude/references_hd/native_gold_piles.png",
+        "sha256": "279a77a2dc47a4f8c3489e0bc3c34f904ca6d489825ff5a0acc28ee86c80703b"
+      },
+      {
+        "supplied_path": "/home/pjasicek/github/OpenYAMM/level_generation/props/loot_satchel_claude/references_hd/t3/00_three_quarter.png",
+        "sha256": "d7685b21c7e78397e6aba907d350d590acdd9499f53521e24c8845c7da1242ae"
+      },
+      {
+        "supplied_path": "/home/pjasicek/github/OpenYAMM/level_generation/props/loot_satchel_claude/references_hd/t4/00_three_quarter.png",
+        "sha256": "9b81cc419d3da5bf244e56df4e72701e21efd18d96607550e6500244efc713a7"
+      },
+      {
+        "supplied_path": "/home/pjasicek/github/OpenYAMM/level_generation/props/loot_satchel_claude/references_hd/t5/00_three_quarter.png",
+        "sha256": "bbefd8d0e58a3928acf94cda66e39a2b3d0564e22ef4cccac3c4c769e6d2f658",
+        "retained_snapshot": "level_generation/props/loot_satchel_claude/references_hd/t5/raw/t5_three_quarter_v3.png"
+      }
+    ],
+    "actual_sampling_size": [
+      1254,
+      1254
+    ],
+    "alpha_range": [
+      0,
+      255
+    ],
+    "visible_bbox_alpha_128": [
+      104,
+      249,
+      1154,
+      1058
+    ],
+    "outer_edge_alpha_max": [
+      0,
+      0,
+      1,
+      1
+    ],
+    "export_resize_or_padding": "None; PNG is a byte-identical copy of actual return."
+  },
+  {
+    "id": "t5_front_v2",
+    "tier": "t5",
+    "view": 1,
+    "prompt": "REQUIRED OUTPUT: exactly ONE 1024 x 1024 pixel SQUARE RGBA PNG, generated at that native resolution, unresized return. Genuinely transparent background.\nTASK CONTEXT \u2014 MM6 FANTASY-GAME PROP: a 3D modelling reference for a loot bag lying on the ground in Might and Magic VI (1998 prerendered fantasy). Use case: stylized-concept.\nInputs 1\u20133 are REFERENCES: 1 native MM6 gold piles is the colour authority for warm saturated gold and thick plain coin discs, not a layout or background reference; magenta is background only, never reproduce it. 2 approved tier 3 and 3 approved tier 4 are family authorities for leather, coarse stitching, worn edges, coins, faceted gems, soft light and detailed semi-realistic rendering. Generate a new richer tier from that same family.\nBeautifully detailed, credible, fully three-dimensional, semi-realistic game materials with sharp leather grain, worn creases, coarse hand stitching, scuffed lighter edges and metal wear. Soft thick leather, rounded and slumped under its own weight into a wide base. Warm natural colours with saturated native gold, even soft neutral studio light from above, near-orthographic camera. Coins are thick plain gold discs, unmarked worn faces, no symbols or portraits.\nThe object rests on a flat invisible ground plane: its underside is flat at contact. No floor, no ground plane drawn, NO cast shadow. True clean alpha outside the complete silhouette including gaps. No backdrop, no painted checkerboard, no text, no watermark.\nComposition: one complete bag with its connected loot spill, centred, all parts within the central 70 percent of the square canvas, about 15 percent transparent margin on every side. No cropping. This is one view, never a multi-view sheet.\nDo NOT add chest, wooden box, weapons, scrolls, candles, potions, unrelated objects, straps hanging far from the body, loose trailing ropes, light rays, bloom, sparkles or glow halo. Do NOT scatter coins far from the bag: keep a tight connected low heap physically touching the bag, compact and grounded. Nothing floats. No cartoon or toy style.\n\nTIER 5 \u2014 ORNATE TREASURE SACK: about 62 cm wide and 40 cm tall, visibly wider than tall, larger and richer than tier 4. Rich dark warm brown leather with gold-EMBROIDERED bands along its seams and mouth, visible coarse stitching and scuffing, and ornate gold CORNER FITTINGS at the base corners. Open broad slumped mouth, no covering flap, overflowing with thick plain gold coins. A generous low connected gold-coin heap spills in front and touches the bag. Several faceted red rubies, blue sapphires and green emeralds lie among the front coins.\nONE clearly visible fine item rests horizontally ON TOP of the front spill: a jewelled golden GOBLET lying on its SIDE, its bowl, slim stem and round foot all clearly readable and supported by coins. Keep it fully visible in the primary view. No second goblet and no crown or circlet in tier 5.\nINPUT 4 is the exact physical OBJECT AUTHORITY. Produce the same sack in a STRAIGHT FRONT elevation, camera 20 degrees above ground, orthographic, zero yaw. The central embroidered front band is exactly vertical at screen centre.\nThe goblet in the primary is lying horizontally with its BOWL ON SCREEN-LEFT and its STEM AND ROUND FOOT extending to SCREEN-RIGHT. PRESERVE THIS LEFT/RIGHT ORDER in the new FRONT view, do not mirror or rotate the goblet. It stays resting on the front coin heap.\nKeep the same seven spilled gems: at the LEFT/back of the spill one small GREEN emerald beside one large RED ruby; at mid-front a second GREEN emerald; front-left a RED ruby; front-middle a RED ruby; on the RIGHT a large BLUE sapphire. Preserve any other small partially hidden stones as in the primary, never substitute colours. Inside the mouth remain the blue stone left, red/green pair at right, lower blue at front-right.\nSame dark brown slumped bag, same three front vertical gold-embroidered bands, gold base corner caps, scalloped open mouth. Pure straight FRONT, not three-quarter.\nFRAMING: render the COMPLETE object and spill medium-sized and centrally placed, with a wide empty transparent border about 18 percent on every side; DO NOT fill the canvas edge to edge. No floor, no shadow.",
+    "inputs": [
+      "/home/pjasicek/github/OpenYAMM/level_generation/props/loot_satchel_claude/references_hd/native_gold_piles.png",
+      "/home/pjasicek/github/OpenYAMM/level_generation/props/loot_satchel_claude/references_hd/t3/00_three_quarter.png",
+      "/home/pjasicek/github/OpenYAMM/level_generation/props/loot_satchel_claude/references_hd/t4/00_three_quarter.png",
+      "/home/pjasicek/github/OpenYAMM/level_generation/props/loot_satchel_claude/references_hd/t5/00_three_quarter.png"
+    ],
+    "selected_filename": "01_front.png",
+    "supersedes": [
+      "t5_front_v1"
+    ],
+    "output": "/home/pjasicek/.codex/generated_images/01a12016-0c48-7da2-80a0-fb37f3ff494c/exec-363f0360-b863-40fa-9fdd-0f49ee6ca969.png",
+    "selected": false,
+    "reason": "Superseded: corrected goblet/gem orientation and frontal shape, but framing leaves only 5-7 percent side margins.",
+    "superseded_by": "t5_front_v3",
+    "role": "supporting",
+    "family": "t5",
+    "tool_mode": "built-in image_gen",
+    "raw_file": "level_generation/props/loot_satchel_claude/references_hd/t5/raw/t5_front_v2.png",
+    "raw_sha256": "b960743dbd04024b1f08ea5eb9eb3b08d6aefa2eef5fd292ea74a6cb8551b8c6",
+    "input_records": [
+      {
+        "supplied_path": "/home/pjasicek/github/OpenYAMM/level_generation/props/loot_satchel_claude/references_hd/native_gold_piles.png",
+        "sha256": "279a77a2dc47a4f8c3489e0bc3c34f904ca6d489825ff5a0acc28ee86c80703b"
+      },
+      {
+        "supplied_path": "/home/pjasicek/github/OpenYAMM/level_generation/props/loot_satchel_claude/references_hd/t3/00_three_quarter.png",
+        "sha256": "d7685b21c7e78397e6aba907d350d590acdd9499f53521e24c8845c7da1242ae"
+      },
+      {
+        "supplied_path": "/home/pjasicek/github/OpenYAMM/level_generation/props/loot_satchel_claude/references_hd/t4/00_three_quarter.png",
+        "sha256": "9b81cc419d3da5bf244e56df4e72701e21efd18d96607550e6500244efc713a7"
+      },
+      {
+        "supplied_path": "/home/pjasicek/github/OpenYAMM/level_generation/props/loot_satchel_claude/references_hd/t5/00_three_quarter.png",
+        "sha256": "bbefd8d0e58a3928acf94cda66e39a2b3d0564e22ef4cccac3c4c769e6d2f658",
+        "retained_snapshot": "level_generation/props/loot_satchel_claude/references_hd/t5/raw/t5_three_quarter_v3.png"
+      }
+    ],
+    "actual_sampling_size": [
+      1254,
+      1254
+    ],
+    "alpha_range": [
+      0,
+      255
+    ],
+    "visible_bbox_alpha_128": [
+      83,
+      242,
+      1183,
+      1128
+    ],
+    "outer_edge_alpha_max": [
+      0,
+      0,
+      1,
+      1
+    ],
+    "export_resize_or_padding": "None; PNG is a byte-identical copy of actual return."
+  },
+  {
+    "id": "t5_front_v3",
+    "tier": "t5",
+    "view": 1,
+    "prompt": "Exactly one square 1024x1024 transparent RGBA PNG. INPUT 5 is the edit target: change ONLY camera DISTANCE and image framing, nothing else.\nMake the subject SMALLER by pulling the camera much farther back. The complete object must sit in the MIDDLE of a broad empty transparent canvas. Keep only a medium-sized bag and its same attached loot spill, occupying approximately TWO THIRDS of the canvas WIDTH and HEIGHT, with a wide border of transparent emptiness all around. Centre the WHOLE subject vertically and horizontally. No cropping.\nPreserve precisely the same front view from image 5: dark brown leather bag, gold embroidered trim, corner caps, fixed mouth folds, gold coins, identical gems and the single gold goblet, bowl left and foot right. Input 4 is the same object's primary design authority; inputs 1-3 are original gold and family style authorities. Keep its fine semi-realistic MM6 game materials and neutral overhead light.\nDO NOT create new parts. NO floor, no cast shadow, no background, no labels, no contact sheet. Truly transparent background.",
+    "inputs": [
+      "/home/pjasicek/github/OpenYAMM/level_generation/props/loot_satchel_claude/references_hd/native_gold_piles.png",
+      "/home/pjasicek/github/OpenYAMM/level_generation/props/loot_satchel_claude/references_hd/t3/00_three_quarter.png",
+      "/home/pjasicek/github/OpenYAMM/level_generation/props/loot_satchel_claude/references_hd/t4/00_three_quarter.png",
+      "/home/pjasicek/github/OpenYAMM/level_generation/props/loot_satchel_claude/references_hd/t5/00_three_quarter.png",
+      "/home/pjasicek/.codex/generated_images/01a12016-0c48-7da2-80a0-fb37f3ff494c/exec-363f0360-b863-40fa-9fdd-0f49ee6ca969.png"
+    ],
+    "selected_filename": "01_front.png",
+    "supersedes": [
+      "t5_front_v2"
+    ],
+    "output": "/home/pjasicek/.codex/generated_images/01a12016-0c48-7da2-80a0-fb37f3ff494c/exec-617d98c8-21d9-4cef-9448-1f50329bf20d.png",
+    "selected": true,
+    "reason": "Selected visually: frontal view with goblet bowl left and foot right, same red/blue/green gem grouping, open embroidered leather sack and corner fittings. Wider-than-target margins preserve the complete object. Native 1254 x 1254 return preserved unresized; resolution exception recorded.",
+    "role": "supporting",
+    "family": "t5",
+    "tool_mode": "built-in image_gen",
+    "raw_file": "level_generation/props/loot_satchel_claude/references_hd/t5/raw/t5_front_v3.png",
+    "raw_sha256": "e4bf5e6b487be588e4bec2ee9540256e8de31f8b499d23e02ee22d092a163e2e",
+    "input_records": [
+      {
+        "supplied_path": "/home/pjasicek/github/OpenYAMM/level_generation/props/loot_satchel_claude/references_hd/native_gold_piles.png",
+        "sha256": "279a77a2dc47a4f8c3489e0bc3c34f904ca6d489825ff5a0acc28ee86c80703b"
+      },
+      {
+        "supplied_path": "/home/pjasicek/github/OpenYAMM/level_generation/props/loot_satchel_claude/references_hd/t3/00_three_quarter.png",
+        "sha256": "d7685b21c7e78397e6aba907d350d590acdd9499f53521e24c8845c7da1242ae"
+      },
+      {
+        "supplied_path": "/home/pjasicek/github/OpenYAMM/level_generation/props/loot_satchel_claude/references_hd/t4/00_three_quarter.png",
+        "sha256": "9b81cc419d3da5bf244e56df4e72701e21efd18d96607550e6500244efc713a7"
+      },
+      {
+        "supplied_path": "/home/pjasicek/github/OpenYAMM/level_generation/props/loot_satchel_claude/references_hd/t5/00_three_quarter.png",
+        "sha256": "bbefd8d0e58a3928acf94cda66e39a2b3d0564e22ef4cccac3c4c769e6d2f658",
+        "retained_snapshot": "level_generation/props/loot_satchel_claude/references_hd/t5/raw/t5_three_quarter_v3.png"
+      },
+      {
+        "supplied_path": "/home/pjasicek/.codex/generated_images/01a12016-0c48-7da2-80a0-fb37f3ff494c/exec-363f0360-b863-40fa-9fdd-0f49ee6ca969.png",
+        "sha256": "b960743dbd04024b1f08ea5eb9eb3b08d6aefa2eef5fd292ea74a6cb8551b8c6",
+        "retained_snapshot": "level_generation/props/loot_satchel_claude/references_hd/t5/raw/t5_front_v2.png"
+      }
+    ],
+    "actual_sampling_size": [
+      1254,
+      1254
+    ],
+    "alpha_range": [
+      0,
+      255
+    ],
+    "visible_bbox_alpha_128": [
+      313,
+      380,
+      951,
+      937
+    ],
+    "outer_edge_alpha_max": [
+      0,
+      0,
+      0,
+      0
+    ],
+    "export_resize_or_padding": "None; PNG is a byte-identical copy of actual return.",
+    "selected_path": "level_generation/props/loot_satchel_claude/references_hd/t5/01_front.png",
+    "requested_sampling_size": [
+      1024,
+      1024
+    ],
+    "checks": {
+      "square": true,
+      "rgba_transparency": true,
+      "uncropped_visible_silhouette": true,
+      "byte_identical_unresized_return": true,
+      "requested_1024_resolution": false,
+      "margins_fraction_left_top_right_bottom": [
+        0.2496,
+        0.303,
+        0.2416,
+        0.2528
+      ],
+      "visual_review": "Family, tier details, camera direction, compact grounded spill, supported goblet/crown, no floor/cast shadow/external glow reviewed. Generated views have small detail and placement variations; not geometrically verified turntable renders."
+    },
+    "known_limitations": [
+      "Built-in tool returned 1254 x 1254 despite 1024 x 1024 prompts; the tool exposes no resolution setting. Preserved original bytes as required by no-resizing instruction.",
+      "Margins vary from the approximate 15 percent target; camera angles and cross-view coin/gem placement are visually approximate."
+    ],
+    "review_contact_sheet": "level_generation/props/loot_satchel_claude/references_hd/selected_views_review_t56.png",
+    "review_contact_sheet_note": "Two rows (t5,t6), four columns (three-quarter, front, right side, back). Review thumbnails fitted to visible silhouette for comparison; selected assets untouched."
+  },
+  {
+    "id": "t5_back_v1",
+    "view": 3,
+    "selected_filename": "03_back.png",
+    "tier": "t5",
+    "prompt": "REQUIRED OUTPUT: exactly ONE 1024 x 1024 pixel SQUARE RGBA PNG, generated at that native resolution, unresized return. Genuinely transparent background.\nTASK CONTEXT \u2014 MM6 FANTASY-GAME PROP: a 3D modelling reference for a loot bag lying on the ground in Might and Magic VI (1998 prerendered fantasy). Use case: stylized-concept.\nInputs 1\u20133 are REFERENCES: 1 native MM6 gold piles is the colour authority for warm saturated gold and thick plain coin discs, not a layout or background reference; magenta is background only, never reproduce it. 2 approved tier 3 and 3 approved tier 4 are family authorities for leather, coarse stitching, worn edges, coins, faceted gems, soft light and detailed semi-realistic rendering. Generate a new richer tier from that same family.\nBeautifully detailed, credible, fully three-dimensional, semi-realistic game materials with sharp leather grain, worn creases, coarse hand stitching, scuffed lighter edges and metal wear. Soft thick leather, rounded and slumped under its own weight into a wide base. Warm natural colours with saturated native gold, even soft neutral studio light from above, near-orthographic camera. Coins are thick plain gold discs, unmarked worn faces, no symbols or portraits.\nThe object rests on a flat invisible ground plane: its underside is flat at contact. No floor, no ground plane drawn, NO cast shadow. True clean alpha outside the complete silhouette including gaps. No backdrop, no painted checkerboard, no text, no watermark.\nComposition: one complete bag with its connected loot spill, centred, all parts within the central 70 percent of the square canvas, about 15 percent transparent margin on every side. No cropping. This is one view, never a multi-view sheet.\nDo NOT add chest, wooden box, weapons, scrolls, candles, potions, unrelated objects, straps hanging far from the body, loose trailing ropes, light rays, bloom, sparkles or glow halo. Do NOT scatter coins far from the bag: keep a tight connected low heap physically touching the bag, compact and grounded. Nothing floats. No cartoon or toy style.\n\nTIER 5 \u2014 ORNATE TREASURE SACK: about 62 cm wide and 40 cm tall, visibly wider than tall, larger and richer than tier 4. Rich dark warm brown leather with gold-EMBROIDERED bands along its seams and mouth, visible coarse stitching and scuffing, and ornate gold CORNER FITTINGS at the base corners. Open broad slumped mouth, no covering flap, overflowing with thick plain gold coins. A generous low connected gold-coin heap spills in front and touches the bag. Several faceted red rubies, blue sapphires and green emeralds lie among the front coins.\nONE clearly visible fine item rests horizontally ON TOP of the front spill: a jewelled golden GOBLET lying on its SIDE, its bowl, slim stem and round foot all clearly readable and supported by coins. Keep it fully visible in the primary view. No second goblet and no crown or circlet in tier 5.\nINPUT 4: selected tier 5 primary, authoritative for the exact object, open mouth contour, gold embroidered bands, gold corner caps, goblet and fixed coin/gem positions. This is a camera turntable, not a redesign. Same squat bag and loot, absolutely unchanged. Keep the loot fixed in front, do not relocate or invent items. Use correct foreshortening and occlusion from the requested angle. The goblet remains horizontal across the front coin spill.\nFRAMING: medium-sized complete object centred in a large TRANSPARENT square, generous empty border. Do not fill the entire frame. Sharp fine material details.\n\nCAMERA \u2014 03_back: exact STRAIGHT-ON REAR, 180 degrees around the same stationary object from the front. Camera about 20 degrees above ground, near-orthographic. Show the BACK leather/cloth panels and seams, matching the open top and slumped body shape. Loot spill remains in FRONT of the bag, therefore behind the bag from this rear camera: physically correct occlusion, do not relocate it to the rear to make it visible. Preserve the same inventory, gem positions and goblet/crown location. Complete rear silhouette centred with generous transparent margins, no floor or shadow.",
+    "inputs": [
+      "/home/pjasicek/github/OpenYAMM/level_generation/props/loot_satchel_claude/references_hd/native_gold_piles.png",
+      "/home/pjasicek/github/OpenYAMM/level_generation/props/loot_satchel_claude/references_hd/t3/00_three_quarter.png",
+      "/home/pjasicek/github/OpenYAMM/level_generation/props/loot_satchel_claude/references_hd/t4/00_three_quarter.png",
+      "/home/pjasicek/github/OpenYAMM/level_generation/props/loot_satchel_claude/references_hd/t5/00_three_quarter.png"
+    ],
+    "supersedes": [],
+    "output": "/home/pjasicek/.codex/generated_images/01a12016-0c48-7da2-80a0-fb37f3ff494c/exec-cbb2008e-56ad-45f2-8476-4a100c6c043a.png",
+    "selected": true,
+    "reason": "Selected: rear panels, embroidered mouth and bands, gold corner fittings, open coin-filled mouth and naturally occluded front spill; no floor/shadow. Native 1254 square retained unresized.",
+    "role": "supporting",
+    "family": "t5",
+    "tool_mode": "built-in image_gen",
+    "raw_file": "level_generation/props/loot_satchel_claude/references_hd/t5/raw/t5_back_v1.png",
+    "raw_sha256": "10202aa8532159d0faa623f8031a8fa83765b500b4908c317ffb1ce9078d1018",
+    "input_records": [
+      {
+        "supplied_path": "/home/pjasicek/github/OpenYAMM/level_generation/props/loot_satchel_claude/references_hd/native_gold_piles.png",
+        "sha256": "279a77a2dc47a4f8c3489e0bc3c34f904ca6d489825ff5a0acc28ee86c80703b"
+      },
+      {
+        "supplied_path": "/home/pjasicek/github/OpenYAMM/level_generation/props/loot_satchel_claude/references_hd/t3/00_three_quarter.png",
+        "sha256": "d7685b21c7e78397e6aba907d350d590acdd9499f53521e24c8845c7da1242ae"
+      },
+      {
+        "supplied_path": "/home/pjasicek/github/OpenYAMM/level_generation/props/loot_satchel_claude/references_hd/t4/00_three_quarter.png",
+        "sha256": "9b81cc419d3da5bf244e56df4e72701e21efd18d96607550e6500244efc713a7"
+      },
+      {
+        "supplied_path": "/home/pjasicek/github/OpenYAMM/level_generation/props/loot_satchel_claude/references_hd/t5/00_three_quarter.png",
+        "sha256": "bbefd8d0e58a3928acf94cda66e39a2b3d0564e22ef4cccac3c4c769e6d2f658",
+        "retained_snapshot": "level_generation/props/loot_satchel_claude/references_hd/t5/raw/t5_three_quarter_v3.png"
+      }
+    ],
+    "actual_sampling_size": [
+      1254,
+      1254
+    ],
+    "alpha_range": [
+      0,
+      255
+    ],
+    "visible_bbox_alpha_128": [
+      175,
+      353,
+      1113,
+      960
+    ],
+    "outer_edge_alpha_max": [
+      0,
+      0,
+      0,
+      0
+    ],
+    "export_resize_or_padding": "None; PNG is a byte-identical copy of actual return.",
+    "selected_path": "level_generation/props/loot_satchel_claude/references_hd/t5/03_back.png",
+    "requested_sampling_size": [
+      1024,
+      1024
+    ],
+    "checks": {
+      "square": true,
+      "rgba_transparency": true,
+      "uncropped_visible_silhouette": true,
+      "byte_identical_unresized_return": true,
+      "requested_1024_resolution": false,
+      "margins_fraction_left_top_right_bottom": [
+        0.1396,
+        0.2815,
+        0.1124,
+        0.2344
+      ],
+      "visual_review": "Family, tier details, camera direction, compact grounded spill, supported goblet/crown, no floor/cast shadow/external glow reviewed. Generated views have small detail and placement variations; not geometrically verified turntable renders."
+    },
+    "known_limitations": [
+      "Built-in tool returned 1254 x 1254 despite 1024 x 1024 prompts; the tool exposes no resolution setting. Preserved original bytes as required by no-resizing instruction.",
+      "Margins vary from the approximate 15 percent target; camera angles and cross-view coin/gem placement are visually approximate."
+    ],
+    "review_contact_sheet": "level_generation/props/loot_satchel_claude/references_hd/selected_views_review_t56.png",
+    "review_contact_sheet_note": "Two rows (t5,t6), four columns (three-quarter, front, right side, back). Review thumbnails fitted to visible silhouette for comparison; selected assets untouched."
+  },
+  {
+    "id": "t5_side_v1",
+    "view": 2,
+    "selected_filename": "02_side.png",
+    "tier": "t5",
+    "prompt": "REQUIRED OUTPUT: exactly ONE 1024 x 1024 pixel SQUARE RGBA PNG, generated at that native resolution, unresized return. Genuinely transparent background.\nTASK CONTEXT \u2014 MM6 FANTASY-GAME PROP: a 3D modelling reference for a loot bag lying on the ground in Might and Magic VI (1998 prerendered fantasy). Use case: stylized-concept.\nInputs 1\u20133 are REFERENCES: 1 native MM6 gold piles is the colour authority for warm saturated gold and thick plain coin discs, not a layout or background reference; magenta is background only, never reproduce it. 2 approved tier 3 and 3 approved tier 4 are family authorities for leather, coarse stitching, worn edges, coins, faceted gems, soft light and detailed semi-realistic rendering. Generate a new richer tier from that same family.\nBeautifully detailed, credible, fully three-dimensional, semi-realistic game materials with sharp leather grain, worn creases, coarse hand stitching, scuffed lighter edges and metal wear. Soft thick leather, rounded and slumped under its own weight into a wide base. Warm natural colours with saturated native gold, even soft neutral studio light from above, near-orthographic camera. Coins are thick plain gold discs, unmarked worn faces, no symbols or portraits.\nThe object rests on a flat invisible ground plane: its underside is flat at contact. No floor, no ground plane drawn, NO cast shadow. True clean alpha outside the complete silhouette including gaps. No backdrop, no painted checkerboard, no text, no watermark.\nComposition: one complete bag with its connected loot spill, centred, all parts within the central 70 percent of the square canvas, about 15 percent transparent margin on every side. No cropping. This is one view, never a multi-view sheet.\nDo NOT add chest, wooden box, weapons, scrolls, candles, potions, unrelated objects, straps hanging far from the body, loose trailing ropes, light rays, bloom, sparkles or glow halo. Do NOT scatter coins far from the bag: keep a tight connected low heap physically touching the bag, compact and grounded. Nothing floats. No cartoon or toy style.\n\nTIER 5 \u2014 ORNATE TREASURE SACK: about 62 cm wide and 40 cm tall, visibly wider than tall, larger and richer than tier 4. Rich dark warm brown leather with gold-EMBROIDERED bands along its seams and mouth, visible coarse stitching and scuffing, and ornate gold CORNER FITTINGS at the base corners. Open broad slumped mouth, no covering flap, overflowing with thick plain gold coins. A generous low connected gold-coin heap spills in front and touches the bag. Several faceted red rubies, blue sapphires and green emeralds lie among the front coins.\nONE clearly visible fine item rests horizontally ON TOP of the front spill: a jewelled golden GOBLET lying on its SIDE, its bowl, slim stem and round foot all clearly readable and supported by coins. Keep it fully visible in the primary view. No second goblet and no crown or circlet in tier 5.\nINPUT 4: selected tier 5 primary, authoritative for the exact object, open mouth contour, gold embroidered bands, gold corner caps, goblet and fixed coin/gem positions. This is a camera turntable, not a redesign. Same squat bag and loot, absolutely unchanged. Keep the loot fixed in front, do not relocate or invent items. Use correct foreshortening and occlusion from the requested angle. The goblet remains horizontal across the front coin spill.\nFRAMING: medium-sized complete object centred in a large TRANSPARENT square, generous empty border. Do not fill the entire frame. Sharp fine material details.\n\nCAMERA \u2014 02_side: PURE RIGHT-SIDE PROFILE, the prop's RIGHT side directly toward camera, exactly 90 degrees right of the front, camera about 20 degrees above ground, near-orthographic. Bag FRONT points toward SCREEN-LEFT and bag BACK toward SCREEN-RIGHT, matching tier 1\u20134 right-side views. The front loot heap is on SCREEN-LEFT, the side-panel seam is in the middle. This is a true SIDE view, NOT a three-quarter front view. Rotate ONLY camera around the exact primary object and fixed loot arrangement: never move gems, goblet/crown or coins to face the camera. Correct foreshortening and occlusion. Complete silhouette centred, transparent margins, no floor or shadow.",
+    "inputs": [
+      "/home/pjasicek/github/OpenYAMM/level_generation/props/loot_satchel_claude/references_hd/native_gold_piles.png",
+      "/home/pjasicek/github/OpenYAMM/level_generation/props/loot_satchel_claude/references_hd/t3/00_three_quarter.png",
+      "/home/pjasicek/github/OpenYAMM/level_generation/props/loot_satchel_claude/references_hd/t4/00_three_quarter.png",
+      "/home/pjasicek/github/OpenYAMM/level_generation/props/loot_satchel_claude/references_hd/t5/00_three_quarter.png"
+    ],
+    "supersedes": [],
+    "output": "/home/pjasicek/.codex/generated_images/01a12016-0c48-7da2-80a0-fb37f3ff494c/exec-342d5d08-1cd9-4e9c-a420-41342516ea5e.png",
+    "selected": false,
+    "reason": "Superseded: too much front remains visible for a pure right-side view; goblet not sufficiently foreshortened and side margins too narrow.",
+    "superseded_by": "t5_side_v2",
+    "role": "supporting",
+    "family": "t5",
+    "tool_mode": "built-in image_gen",
+    "raw_file": "level_generation/props/loot_satchel_claude/references_hd/t5/raw/t5_side_v1.png",
+    "raw_sha256": "839ec91833f9956c5bb3a1687b0a2a4a16e2611b953e92c5b186b7f8b65b77dd",
+    "input_records": [
+      {
+        "supplied_path": "/home/pjasicek/github/OpenYAMM/level_generation/props/loot_satchel_claude/references_hd/native_gold_piles.png",
+        "sha256": "279a77a2dc47a4f8c3489e0bc3c34f904ca6d489825ff5a0acc28ee86c80703b"
+      },
+      {
+        "supplied_path": "/home/pjasicek/github/OpenYAMM/level_generation/props/loot_satchel_claude/references_hd/t3/00_three_quarter.png",
+        "sha256": "d7685b21c7e78397e6aba907d350d590acdd9499f53521e24c8845c7da1242ae"
+      },
+      {
+        "supplied_path": "/home/pjasicek/github/OpenYAMM/level_generation/props/loot_satchel_claude/references_hd/t4/00_three_quarter.png",
+        "sha256": "9b81cc419d3da5bf244e56df4e72701e21efd18d96607550e6500244efc713a7"
+      },
+      {
+        "supplied_path": "/home/pjasicek/github/OpenYAMM/level_generation/props/loot_satchel_claude/references_hd/t5/00_three_quarter.png",
+        "sha256": "bbefd8d0e58a3928acf94cda66e39a2b3d0564e22ef4cccac3c4c769e6d2f658",
+        "retained_snapshot": "level_generation/props/loot_satchel_claude/references_hd/t5/raw/t5_three_quarter_v3.png"
+      }
+    ],
+    "actual_sampling_size": [
+      1254,
+      1254
+    ],
+    "alpha_range": [
+      0,
+      255
+    ],
+    "visible_bbox_alpha_128": [
+      83,
+      347,
+      1186,
+      1029
+    ],
+    "outer_edge_alpha_max": [
+      0,
+      0,
+      0,
+      0
+    ],
+    "export_resize_or_padding": "None; PNG is a byte-identical copy of actual return."
+  },
+  {
+    "id": "t5_side_v2",
+    "tier": "t5",
+    "view": 2,
+    "prompt": "ONE square 1024x1024 transparent PNG, MM6 game-prop modelling reference. Image 4 is authoritative object design. Image 5 is a FAILED side-camera trial: its camera is still too far toward the FRONT. Correct the camera ONLY, keep this same object. Images 1-3 are coin colour and family style references.\nRender a STRICT ORTHOGRAPHIC RIGHT-SIDE ELEVATION. Camera is exactly 90 degrees to the front, about 20 degrees above the ground. The bag's FRONT is at the LEFT silhouette edge; BACK at the RIGHT silhouette edge. Show just the deep rounded RIGHT SIDE PANEL, its longitudinal seam and matching gold embroidered seam band and base corner cap. The wide FRONT FACE and central front decorative vertical band are EDGE-ON at the left edge, NOT spread across the image. Do not produce another 3/4 view.\nThe bag is the SAME broad squat dark brown leather open treasure sack with gold embroidered bands and corner fittings, same folds and open scalloped mouth overflowing with plain thick native gold coins.\nThe same front gold coin heap lies immediately LEFT of the bag, touching it. Keep original gems and goblet fixed in physical space. The goblet lies ACROSS the front face: from this right-side camera its round BOWL OPENING faces toward the viewer, and its stem/foot are foreshortened BEHIND THE BOWL, not extended sideways toward the bag. Show no more than the naturally visible gems; do not rearrange them.\nMEDIUM object size, camera pulled back, centre the complete silhouette in the canvas with an EMPTY TRANSPARENT BORDER of about one fifth the canvas on every side. Flat invisible contact plane, no floor, no cast shadow, no labels, no background, no extra objects, no glow. Sharp warm semi-realistic materials, even soft overhead light.",
+    "inputs": [
+      "/home/pjasicek/github/OpenYAMM/level_generation/props/loot_satchel_claude/references_hd/native_gold_piles.png",
+      "/home/pjasicek/github/OpenYAMM/level_generation/props/loot_satchel_claude/references_hd/t3/00_three_quarter.png",
+      "/home/pjasicek/github/OpenYAMM/level_generation/props/loot_satchel_claude/references_hd/t4/00_three_quarter.png",
+      "/home/pjasicek/github/OpenYAMM/level_generation/props/loot_satchel_claude/references_hd/t5/00_three_quarter.png",
+      "/home/pjasicek/.codex/generated_images/01a12016-0c48-7da2-80a0-fb37f3ff494c/exec-342d5d08-1cd9-4e9c-a420-41342516ea5e.png"
+    ],
+    "selected_filename": "02_side.png",
+    "supersedes": [
+      "t5_side_v1"
+    ],
+    "output": "/home/pjasicek/.codex/generated_images/01a12016-0c48-7da2-80a0-fb37f3ff494c/exec-60f413d4-f74c-443a-8701-2a2902eab5dc.png",
+    "selected": true,
+    "reason": "Selected: right-side profile with front toward screen-left, same embroidered leather/fittings and connected spill; goblet correctly foreshortened with bowl opening visible and stem behind. Framing margins about 9-11 percent horizontally, more vertically; native 1254 square preserved.",
+    "role": "supporting",
+    "family": "t5",
+    "tool_mode": "built-in image_gen",
+    "raw_file": "level_generation/props/loot_satchel_claude/references_hd/t5/raw/t5_side_v2.png",
+    "raw_sha256": "3aec4cdf1f95f60c72d5127492fed3b88b73ca72f62186ebe2e34c7a0cad067a",
+    "input_records": [
+      {
+        "supplied_path": "/home/pjasicek/github/OpenYAMM/level_generation/props/loot_satchel_claude/references_hd/native_gold_piles.png",
+        "sha256": "279a77a2dc47a4f8c3489e0bc3c34f904ca6d489825ff5a0acc28ee86c80703b"
+      },
+      {
+        "supplied_path": "/home/pjasicek/github/OpenYAMM/level_generation/props/loot_satchel_claude/references_hd/t3/00_three_quarter.png",
+        "sha256": "d7685b21c7e78397e6aba907d350d590acdd9499f53521e24c8845c7da1242ae"
+      },
+      {
+        "supplied_path": "/home/pjasicek/github/OpenYAMM/level_generation/props/loot_satchel_claude/references_hd/t4/00_three_quarter.png",
+        "sha256": "9b81cc419d3da5bf244e56df4e72701e21efd18d96607550e6500244efc713a7"
+      },
+      {
+        "supplied_path": "/home/pjasicek/github/OpenYAMM/level_generation/props/loot_satchel_claude/references_hd/t5/00_three_quarter.png",
+        "sha256": "bbefd8d0e58a3928acf94cda66e39a2b3d0564e22ef4cccac3c4c769e6d2f658",
+        "retained_snapshot": "level_generation/props/loot_satchel_claude/references_hd/t5/raw/t5_three_quarter_v3.png"
+      },
+      {
+        "supplied_path": "/home/pjasicek/.codex/generated_images/01a12016-0c48-7da2-80a0-fb37f3ff494c/exec-342d5d08-1cd9-4e9c-a420-41342516ea5e.png",
+        "sha256": "839ec91833f9956c5bb3a1687b0a2a4a16e2611b953e92c5b186b7f8b65b77dd",
+        "retained_snapshot": "level_generation/props/loot_satchel_claude/references_hd/t5/raw/t5_side_v1.png"
+      }
+    ],
+    "actual_sampling_size": [
+      1254,
+      1254
+    ],
+    "alpha_range": [
+      0,
+      255
+    ],
+    "visible_bbox_alpha_128": [
+      137,
+      364,
+      1141,
+      978
+    ],
+    "outer_edge_alpha_max": [
+      0,
+      0,
+      0,
+      1
+    ],
+    "export_resize_or_padding": "None; PNG is a byte-identical copy of actual return.",
+    "selected_path": "level_generation/props/loot_satchel_claude/references_hd/t5/02_side.png",
+    "requested_sampling_size": [
+      1024,
+      1024
+    ],
+    "checks": {
+      "square": true,
+      "rgba_transparency": true,
+      "uncropped_visible_silhouette": true,
+      "byte_identical_unresized_return": true,
+      "requested_1024_resolution": false,
+      "margins_fraction_left_top_right_bottom": [
+        0.1093,
+        0.2903,
+        0.0901,
+        0.2201
+      ],
+      "visual_review": "Family, tier details, camera direction, compact grounded spill, supported goblet/crown, no floor/cast shadow/external glow reviewed. Generated views have small detail and placement variations; not geometrically verified turntable renders."
+    },
+    "known_limitations": [
+      "Built-in tool returned 1254 x 1254 despite 1024 x 1024 prompts; the tool exposes no resolution setting. Preserved original bytes as required by no-resizing instruction.",
+      "Margins vary from the approximate 15 percent target; camera angles and cross-view coin/gem placement are visually approximate."
+    ],
+    "review_contact_sheet": "level_generation/props/loot_satchel_claude/references_hd/selected_views_review_t56.png",
+    "review_contact_sheet_note": "Two rows (t5,t6), four columns (three-quarter, front, right side, back). Review thumbnails fitted to visible silhouette for comparison; selected assets untouched."
+  },
+  {
+    "id": "t6_three_quarter_v1",
+    "tier": "t6",
+    "view": 0,
+    "prompt": "REQUIRED OUTPUT: exactly ONE 1024 x 1024 pixel SQUARE RGBA PNG, generated at that native resolution, unresized return. Genuinely transparent background.\nTASK CONTEXT \u2014 MM6 FANTASY-GAME PROP: a 3D modelling reference for a loot bag lying on the ground in Might and Magic VI (1998 prerendered fantasy). Use case: stylized-concept.\nInputs 1\u20133 are REFERENCES: 1 native MM6 gold piles is the colour authority for warm saturated gold and thick plain coin discs, not a layout or background reference; magenta is background only, never reproduce it. 2 approved tier 3 and 3 approved tier 4 are family authorities for leather, coarse stitching, worn edges, coins, faceted gems, soft light and detailed semi-realistic rendering. Generate a new richer tier from that same family.\nBeautifully detailed, credible, fully three-dimensional, semi-realistic game materials with sharp leather grain, worn creases, coarse hand stitching, scuffed lighter edges and metal wear. Soft thick leather, rounded and slumped under its own weight into a wide base. Warm natural colours with saturated native gold, even soft neutral studio light from above, near-orthographic camera. Coins are thick plain gold discs, unmarked worn faces, no symbols or portraits.\nThe object rests on a flat invisible ground plane: its underside is flat at contact. No floor, no ground plane drawn, NO cast shadow. True clean alpha outside the complete silhouette including gaps. No backdrop, no painted checkerboard, no text, no watermark.\nComposition: one complete bag with its connected loot spill, centred, all parts within the central 70 percent of the square canvas, about 15 percent transparent margin on every side. No cropping. This is one view, never a multi-view sheet.\nDo NOT add chest, wooden box, weapons, scrolls, candles, potions, unrelated objects, straps hanging far from the body, loose trailing ropes, light rays, bloom, sparkles or glow halo. Do NOT scatter coins far from the bag: keep a tight connected low heap physically touching the bag, compact and grounded. Nothing floats. No cartoon or toy style.\n\nTIER 6 \u2014 REGAL RELIC BUNDLE: about 72 cm wide and 45 cm tall, the largest and richest tier, visibly squat and broad. Deep royal-BLUE velvet-like heavy cloth panels with warm dark leather structural seam bands and base, dense GOLD EMBROIDERY, thick coarse hand stitching. A GOLD DRAWSTRING CORD with TWO short tassels attached close to the mouth, no long trailing ropes. Slumped wide OPEN mouth overflowing with thick plain golden coins. A large connected low heap of coins touches and wraps around the front of the sack, with many faceted red, blue and green gems embedded among the coins.\nONE clearly readable ornate GOLDEN RELIC sits ON TOP of the front heap, fully visible and physically supported by coins: a gemmed GOLDEN CROWN, recognizable at a distance, with large RUBY and SAPPHIRE stones. The crown's stones are softly luminous from within ONLY INSIDE the gemstone material, with no emitted rays, bloom, sparkles, halo or surrounding glow. Crown upright resting on coins, never floating, no goblet. Richer than tiers 4 and 5 while matching their coin palette and worn fantasy material family.\nInput 4: selected tier 5 primary, ADDITIONAL FAMILY STYLE authority only. Tier 6 must be visibly richer and larger than this tier 5, with the same native coin colour and thick plain discs, hand stitching, warm leather, worn gold and gem material style. Replace its brown main panels with deep rich royal-blue heavy velvet and much denser gold embroidery. Tier 6 has a gold drawstring and short tassels, no goblet. Crown with strong readable silhouette and large softly internally-lit ruby and sapphire is the single special item.\nThe crown is on top of the low coin mound IN FRONT OF the bag, fully visible against the royal-blue body, its complete bottom rim visibly rests ON coins. No crown floating in midair, no halo or emitted effects.\nFRAMING: generous TRANSPARENT emptiness surrounds the whole compact subject on every side. Complete bag-plus-spill occupies only about two thirds of the canvas width and height, centred. The crown and tassels stay well within the silhouette margins.\n\nCAMERA \u2014 00_three_quarter PRIMARY: near-orthographic, about 35 degrees to the RIGHT of the FRONT and 30 degrees above the ground. Show the front face and the prop's RIGHT flank; front projects toward screen-left and the right flank occupies screen-right. This primary image alone becomes a 3D mesh: the entire silhouette, mouth, decorative fittings, fine item and spilled loot must read clearly and be fully in frame. Keep about 15 percent transparent margins.",
+    "inputs": [
+      "/home/pjasicek/github/OpenYAMM/level_generation/props/loot_satchel_claude/references_hd/native_gold_piles.png",
+      "/home/pjasicek/github/OpenYAMM/level_generation/props/loot_satchel_claude/references_hd/t3/00_three_quarter.png",
+      "/home/pjasicek/github/OpenYAMM/level_generation/props/loot_satchel_claude/references_hd/t4/00_three_quarter.png",
+      "/home/pjasicek/github/OpenYAMM/level_generation/props/loot_satchel_claude/references_hd/t5/00_three_quarter.png"
+    ],
+    "selected_filename": "00_three_quarter.png",
+    "supersedes": [],
+    "output": "/home/pjasicek/.codex/generated_images/01a12016-0c48-7da2-80a0-fb37f3ff494c/exec-e92dbe92-a9fa-4f18-94e4-d9c1d370f399.png",
+    "selected": false,
+    "reason": "Superseded: strong tier 6 design and supported crown, but side margins too narrow.",
+    "superseded_by": "t6_three_quarter_v2",
+    "role": "primary",
+    "family": "t6",
+    "tool_mode": "built-in image_gen",
+    "raw_file": "level_generation/props/loot_satchel_claude/references_hd/t6/raw/t6_three_quarter_v1.png",
+    "raw_sha256": "926c4ee90a35cb7005f1c1b00d1da2c64592207028f9fcffecc9868c40c09ded",
+    "input_records": [
+      {
+        "supplied_path": "/home/pjasicek/github/OpenYAMM/level_generation/props/loot_satchel_claude/references_hd/native_gold_piles.png",
+        "sha256": "279a77a2dc47a4f8c3489e0bc3c34f904ca6d489825ff5a0acc28ee86c80703b"
+      },
+      {
+        "supplied_path": "/home/pjasicek/github/OpenYAMM/level_generation/props/loot_satchel_claude/references_hd/t3/00_three_quarter.png",
+        "sha256": "d7685b21c7e78397e6aba907d350d590acdd9499f53521e24c8845c7da1242ae"
+      },
+      {
+        "supplied_path": "/home/pjasicek/github/OpenYAMM/level_generation/props/loot_satchel_claude/references_hd/t4/00_three_quarter.png",
+        "sha256": "9b81cc419d3da5bf244e56df4e72701e21efd18d96607550e6500244efc713a7"
+      },
+      {
+        "supplied_path": "/home/pjasicek/github/OpenYAMM/level_generation/props/loot_satchel_claude/references_hd/t5/00_three_quarter.png",
+        "sha256": "bbefd8d0e58a3928acf94cda66e39a2b3d0564e22ef4cccac3c4c769e6d2f658",
+        "retained_snapshot": "level_generation/props/loot_satchel_claude/references_hd/t5/raw/t5_three_quarter_v3.png"
+      }
+    ],
+    "actual_sampling_size": [
+      1254,
+      1254
+    ],
+    "alpha_range": [
+      0,
+      255
+    ],
+    "visible_bbox_alpha_128": [
+      65,
+      197,
+      1192,
+      1084
+    ],
+    "outer_edge_alpha_max": [
+      0,
+      0,
+      1,
+      1
+    ],
+    "export_resize_or_padding": "None; PNG is a byte-identical copy of actual return."
+  },
+  {
+    "id": "t6_three_quarter_v2",
+    "tier": "t6",
+    "view": 0,
+    "prompt": "ONE square 1024x1024 transparent PNG. Image 5 is the design and composition to preserve EXACTLY. Image 1 is native coin colour reference, images 2-4 are preceding tiers for the family rendering style.\nChange ONLY the camera distance: pull back modestly so this same COMPLETE bag and attached coin spill occupies about 70 percent of the square width, with 15 percent transparent margin on BOTH LEFT and RIGHT. It currently fills 90 percent width; reduce its scale by around one fifth. Centre the full silhouette vertically and horizontally. Every element stays in the same position relative to every other element. Keep the same 35-degree front/right three-quarter camera at 30-degree elevation.\nRetain exactly this royal-blue velvet sack, gold embroidered floral panels, brown leather structural bands, ornate gold corner fittings, open mouth overflowing with thick plain gold discs, two attached gold cord tassels hanging against the right-front of the bag, red/blue/green gems, and ONE gold crown sitting physically on the front coin heap. Keep the exact crown's central large ruby, large flanking sapphires, fleur-shaped points and coloured smaller stones. Crown stones have subtle internal luminosity confined within their facets; no halos or bloom or rays. No goblet.\nSharp rich MM6 semi-realistic prerendered materials, even neutral overhead light, genuine transparent alpha, no floor, NO cast shadow, no background, no extra props, no text, no cropping.",
+    "inputs": [
+      "/home/pjasicek/github/OpenYAMM/level_generation/props/loot_satchel_claude/references_hd/native_gold_piles.png",
+      "/home/pjasicek/github/OpenYAMM/level_generation/props/loot_satchel_claude/references_hd/t3/00_three_quarter.png",
+      "/home/pjasicek/github/OpenYAMM/level_generation/props/loot_satchel_claude/references_hd/t4/00_three_quarter.png",
+      "/home/pjasicek/github/OpenYAMM/level_generation/props/loot_satchel_claude/references_hd/t5/00_three_quarter.png",
+      "/home/pjasicek/.codex/generated_images/01a12016-0c48-7da2-80a0-fb37f3ff494c/exec-e92dbe92-a9fa-4f18-94e4-d9c1d370f399.png"
+    ],
+    "selected_filename": "00_three_quarter.png",
+    "supersedes": [
+      "t6_three_quarter_v1"
+    ],
+    "output": "/home/pjasicek/.codex/generated_images/01a12016-0c48-7da2-80a0-fb37f3ff494c/exec-4c1127e2-0ff2-4536-92f5-82eb07f99448.png",
+    "selected": true,
+    "reason": "Selected: royal-blue heavy velvet and leather, dense embroidery, gold drawstring with two tassels, connected native-gold heap and red/blue/green gems, supported fully readable gold crown with ruby/sapphire stones and no external effects. Margins about 11 percent horizontally and more vertically. Native 1254 square preserved.",
+    "role": "primary",
+    "family": "t6",
+    "tool_mode": "built-in image_gen",
+    "raw_file": "level_generation/props/loot_satchel_claude/references_hd/t6/raw/t6_three_quarter_v2.png",
+    "raw_sha256": "a22f13ef4876d46973535c75c3a2024d881ad24730aaaac5abc479aec0da3878",
+    "input_records": [
+      {
+        "supplied_path": "/home/pjasicek/github/OpenYAMM/level_generation/props/loot_satchel_claude/references_hd/native_gold_piles.png",
+        "sha256": "279a77a2dc47a4f8c3489e0bc3c34f904ca6d489825ff5a0acc28ee86c80703b"
+      },
+      {
+        "supplied_path": "/home/pjasicek/github/OpenYAMM/level_generation/props/loot_satchel_claude/references_hd/t3/00_three_quarter.png",
+        "sha256": "d7685b21c7e78397e6aba907d350d590acdd9499f53521e24c8845c7da1242ae"
+      },
+      {
+        "supplied_path": "/home/pjasicek/github/OpenYAMM/level_generation/props/loot_satchel_claude/references_hd/t4/00_three_quarter.png",
+        "sha256": "9b81cc419d3da5bf244e56df4e72701e21efd18d96607550e6500244efc713a7"
+      },
+      {
+        "supplied_path": "/home/pjasicek/github/OpenYAMM/level_generation/props/loot_satchel_claude/references_hd/t5/00_three_quarter.png",
+        "sha256": "bbefd8d0e58a3928acf94cda66e39a2b3d0564e22ef4cccac3c4c769e6d2f658",
+        "retained_snapshot": "level_generation/props/loot_satchel_claude/references_hd/t5/raw/t5_three_quarter_v3.png"
+      },
+      {
+        "supplied_path": "/home/pjasicek/.codex/generated_images/01a12016-0c48-7da2-80a0-fb37f3ff494c/exec-e92dbe92-a9fa-4f18-94e4-d9c1d370f399.png",
+        "sha256": "926c4ee90a35cb7005f1c1b00d1da2c64592207028f9fcffecc9868c40c09ded",
+        "retained_snapshot": "level_generation/props/loot_satchel_claude/references_hd/t6/raw/t6_three_quarter_v1.png"
+      }
+    ],
+    "actual_sampling_size": [
+      1254,
+      1254
+    ],
+    "alpha_range": [
+      0,
+      255
+    ],
+    "visible_bbox_alpha_128": [
+      144,
+      275,
+      1118,
+      1055
+    ],
+    "outer_edge_alpha_max": [
+      0,
+      0,
+      0,
+      0
+    ],
+    "export_resize_or_padding": "None; PNG is a byte-identical copy of actual return.",
+    "selected_path": "level_generation/props/loot_satchel_claude/references_hd/t6/00_three_quarter.png",
+    "requested_sampling_size": [
+      1024,
+      1024
+    ],
+    "checks": {
+      "square": true,
+      "rgba_transparency": true,
+      "uncropped_visible_silhouette": true,
+      "byte_identical_unresized_return": true,
+      "requested_1024_resolution": false,
+      "margins_fraction_left_top_right_bottom": [
+        0.1148,
+        0.2193,
+        0.1085,
+        0.1587
+      ],
+      "visual_review": "Family, tier details, camera direction, compact grounded spill, supported goblet/crown, no floor/cast shadow/external glow reviewed. Generated views have small detail and placement variations; not geometrically verified turntable renders."
+    },
+    "known_limitations": [
+      "Built-in tool returned 1254 x 1254 despite 1024 x 1024 prompts; the tool exposes no resolution setting. Preserved original bytes as required by no-resizing instruction.",
+      "Margins vary from the approximate 15 percent target; camera angles and cross-view coin/gem placement are visually approximate."
+    ],
+    "review_contact_sheet": "level_generation/props/loot_satchel_claude/references_hd/selected_views_review_t56.png",
+    "review_contact_sheet_note": "Two rows (t5,t6), four columns (three-quarter, front, right side, back). Review thumbnails fitted to visible silhouette for comparison; selected assets untouched."
+  },
+  {
+    "id": "t6_front_v1",
+    "tier": "t6",
+    "view": 1,
+    "prompt": "REQUIRED OUTPUT: exactly ONE 1024 x 1024 pixel SQUARE RGBA PNG, generated at that native resolution, unresized return. Genuinely transparent background.\nTASK CONTEXT \u2014 MM6 FANTASY-GAME PROP: a 3D modelling reference for a loot bag lying on the ground in Might and Magic VI (1998 prerendered fantasy). Use case: stylized-concept.\nInputs 1\u20133 are REFERENCES: 1 native MM6 gold piles is the colour authority for warm saturated gold and thick plain coin discs, not a layout or background reference; magenta is background only, never reproduce it. 2 approved tier 3 and 3 approved tier 4 are family authorities for leather, coarse stitching, worn edges, coins, faceted gems, soft light and detailed semi-realistic rendering. Generate a new richer tier from that same family.\nBeautifully detailed, credible, fully three-dimensional, semi-realistic game materials with sharp leather grain, worn creases, coarse hand stitching, scuffed lighter edges and metal wear. Soft thick leather, rounded and slumped under its own weight into a wide base. Warm natural colours with saturated native gold, even soft neutral studio light from above, near-orthographic camera. Coins are thick plain gold discs, unmarked worn faces, no symbols or portraits.\nThe object rests on a flat invisible ground plane: its underside is flat at contact. No floor, no ground plane drawn, NO cast shadow. True clean alpha outside the complete silhouette including gaps. No backdrop, no painted checkerboard, no text, no watermark.\nComposition: one complete bag with its connected loot spill, centred, all parts within the central 70 percent of the square canvas, about 15 percent transparent margin on every side. No cropping. This is one view, never a multi-view sheet.\nDo NOT add chest, wooden box, weapons, scrolls, candles, potions, unrelated objects, straps hanging far from the body, loose trailing ropes, light rays, bloom, sparkles or glow halo. Do NOT scatter coins far from the bag: keep a tight connected low heap physically touching the bag, compact and grounded. Nothing floats. No cartoon or toy style.\n\nTIER 6 \u2014 REGAL RELIC BUNDLE: about 72 cm wide and 45 cm tall, the largest and richest tier, visibly squat and broad. Deep royal-BLUE velvet-like heavy cloth panels with warm dark leather structural seam bands and base, dense GOLD EMBROIDERY, thick coarse hand stitching. A GOLD DRAWSTRING CORD with TWO short tassels attached close to the mouth, no long trailing ropes. Slumped wide OPEN mouth overflowing with thick plain golden coins. A large connected low heap of coins touches and wraps around the front of the sack, with many faceted red, blue and green gems embedded among the coins.\nONE clearly readable ornate GOLDEN RELIC sits ON TOP of the front heap, fully visible and physically supported by coins: a gemmed GOLDEN CROWN, recognizable at a distance, with large RUBY and SAPPHIRE stones. The crown's stones are softly luminous from within ONLY INSIDE the gemstone material, with no emitted rays, bloom, sparkles, halo or surrounding glow. Crown upright resting on coins, never floating, no goblet. Richer than tiers 4 and 5 while matching their coin palette and worn fantasy material family.\n\nINPUT 4 is tier 5, FAMILY STYLE ONLY, no goblet in tier 6.\nINPUT 5 is the SELECTED TIER 6 PRIMARY, exact physical object and arrangement authority. Preserve the same squat broad royal-blue heavy velvet sack, scalloped open mouth, brown leather reinforcing bands with gold fleur ornaments, fine dense golden plant embroidery on cloth, coarse hand stitches, gold corner caps with blue stones. Two gold cord tassels hang TOGETHER from the same right-front place as primary. Do not mirror, duplicate, relocate or redesign them.\nKeep the SAME ornate gold crown fixed on the coins in FRONT of the sack: same central ruby and flanking sapphires, alternating small red/blue stones around the rim, same gold fleur-shaped points. Same fixed crown orientation, same plain thick coins and loose red/blue/green gemstones. Only the CAMERA changes, objects remain stationary. Respect view-dependent occlusion; never move the crown or gems to make them visible.\nThe entire bag and connected spill must fit with generous transparent border, medium object size, centred in the square. No cast shadow or ground, true alpha.\n\nCAMERA \u2014 01_front: exact STRAIGHT-ON FRONT, centred on the front's central vertical seam, with no left/right yaw. Camera about 20 degrees above ground, near-orthographic. Rotate ONLY the camera around the same fixed object and loot arrangement in the primary input. Do not turn the goblet/crown to face the camera or move any coins or gems. Maintain consistent object proportions. Complete silhouette centred with generous transparent margins, no floor or shadow.\nFRONT VIEW specifically: central front leather band vertical at screen centre, bag body presented symmetrically with zero yaw. The two tassels remain together on SCREEN-RIGHT, attached in the same place as primary. The crown's central large RED RUBY faces the viewer, BLUE sapphires to either side. Keep the fixed foreground emerald on the left, rubies and sapphires around the front coin heap and emerald on the right as in the primary. Crown lower rim supported by coins.\nPull the camera back enough for generous margins. Render the object at medium size, not close-up.",
+    "inputs": [
+      "/home/pjasicek/github/OpenYAMM/level_generation/props/loot_satchel_claude/references_hd/native_gold_piles.png",
+      "/home/pjasicek/github/OpenYAMM/level_generation/props/loot_satchel_claude/references_hd/t3/00_three_quarter.png",
+      "/home/pjasicek/github/OpenYAMM/level_generation/props/loot_satchel_claude/references_hd/t4/00_three_quarter.png",
+      "/home/pjasicek/github/OpenYAMM/level_generation/props/loot_satchel_claude/references_hd/t5/00_three_quarter.png",
+      "/home/pjasicek/github/OpenYAMM/level_generation/props/loot_satchel_claude/references_hd/t6/00_three_quarter.png"
+    ],
+    "selected_filename": "01_front.png",
+    "supersedes": [],
+    "output": "/home/pjasicek/.codex/generated_images/01a12016-0c48-7da2-80a0-fb37f3ff494c/exec-009ed376-187a-4249-9812-3e65691da922.png",
+    "selected": false,
+    "reason": "Superseded to provide wider transparent margins; keep the same front design and loot arrangement.",
+    "role": "supporting",
+    "family": "t6",
+    "tool_mode": "built-in image_gen",
+    "raw_file": "level_generation/props/loot_satchel_claude/references_hd/t6/raw/t6_front_v1.png",
+    "raw_sha256": "d2fe1863155e664bbb3481dcbf449669c5e0b967984b813eb640e315f1fd60c3",
+    "input_records": [
+      {
+        "supplied_path": "/home/pjasicek/github/OpenYAMM/level_generation/props/loot_satchel_claude/references_hd/native_gold_piles.png",
+        "sha256": "279a77a2dc47a4f8c3489e0bc3c34f904ca6d489825ff5a0acc28ee86c80703b"
+      },
+      {
+        "supplied_path": "/home/pjasicek/github/OpenYAMM/level_generation/props/loot_satchel_claude/references_hd/t3/00_three_quarter.png",
+        "sha256": "d7685b21c7e78397e6aba907d350d590acdd9499f53521e24c8845c7da1242ae"
+      },
+      {
+        "supplied_path": "/home/pjasicek/github/OpenYAMM/level_generation/props/loot_satchel_claude/references_hd/t4/00_three_quarter.png",
+        "sha256": "9b81cc419d3da5bf244e56df4e72701e21efd18d96607550e6500244efc713a7"
+      },
+      {
+        "supplied_path": "/home/pjasicek/github/OpenYAMM/level_generation/props/loot_satchel_claude/references_hd/t5/00_three_quarter.png",
+        "sha256": "bbefd8d0e58a3928acf94cda66e39a2b3d0564e22ef4cccac3c4c769e6d2f658",
+        "retained_snapshot": "level_generation/props/loot_satchel_claude/references_hd/t5/raw/t5_three_quarter_v3.png"
+      },
+      {
+        "supplied_path": "/home/pjasicek/github/OpenYAMM/level_generation/props/loot_satchel_claude/references_hd/t6/00_three_quarter.png",
+        "sha256": "a22f13ef4876d46973535c75c3a2024d881ad24730aaaac5abc479aec0da3878",
+        "retained_snapshot": "level_generation/props/loot_satchel_claude/references_hd/t6/raw/t6_three_quarter_v2.png"
+      }
+    ],
+    "actual_sampling_size": [
+      1254,
+      1254
+    ],
+    "alpha_range": [
+      0,
+      255
+    ],
+    "visible_bbox_alpha_128": [
+      130,
+      261,
+      1180,
+      1126
+    ],
+    "outer_edge_alpha_max": [
+      0,
+      0,
+      1,
+      0
+    ],
+    "export_resize_or_padding": "None; PNG is a byte-identical copy of actual return.",
+    "superseded_by": "t6_front_v2"
+  },
+  {
+    "id": "t6_side_v1",
+    "tier": "t6",
+    "view": 2,
+    "prompt": "REQUIRED OUTPUT: exactly ONE 1024 x 1024 pixel SQUARE RGBA PNG, generated at that native resolution, unresized return. Genuinely transparent background.\nTASK CONTEXT \u2014 MM6 FANTASY-GAME PROP: a 3D modelling reference for a loot bag lying on the ground in Might and Magic VI (1998 prerendered fantasy). Use case: stylized-concept.\nInputs 1\u20133 are REFERENCES: 1 native MM6 gold piles is the colour authority for warm saturated gold and thick plain coin discs, not a layout or background reference; magenta is background only, never reproduce it. 2 approved tier 3 and 3 approved tier 4 are family authorities for leather, coarse stitching, worn edges, coins, faceted gems, soft light and detailed semi-realistic rendering. Generate a new richer tier from that same family.\nBeautifully detailed, credible, fully three-dimensional, semi-realistic game materials with sharp leather grain, worn creases, coarse hand stitching, scuffed lighter edges and metal wear. Soft thick leather, rounded and slumped under its own weight into a wide base. Warm natural colours with saturated native gold, even soft neutral studio light from above, near-orthographic camera. Coins are thick plain gold discs, unmarked worn faces, no symbols or portraits.\nThe object rests on a flat invisible ground plane: its underside is flat at contact. No floor, no ground plane drawn, NO cast shadow. True clean alpha outside the complete silhouette including gaps. No backdrop, no painted checkerboard, no text, no watermark.\nComposition: one complete bag with its connected loot spill, centred, all parts within the central 70 percent of the square canvas, about 15 percent transparent margin on every side. No cropping. This is one view, never a multi-view sheet.\nDo NOT add chest, wooden box, weapons, scrolls, candles, potions, unrelated objects, straps hanging far from the body, loose trailing ropes, light rays, bloom, sparkles or glow halo. Do NOT scatter coins far from the bag: keep a tight connected low heap physically touching the bag, compact and grounded. Nothing floats. No cartoon or toy style.\n\nTIER 6 \u2014 REGAL RELIC BUNDLE: about 72 cm wide and 45 cm tall, the largest and richest tier, visibly squat and broad. Deep royal-BLUE velvet-like heavy cloth panels with warm dark leather structural seam bands and base, dense GOLD EMBROIDERY, thick coarse hand stitching. A GOLD DRAWSTRING CORD with TWO short tassels attached close to the mouth, no long trailing ropes. Slumped wide OPEN mouth overflowing with thick plain golden coins. A large connected low heap of coins touches and wraps around the front of the sack, with many faceted red, blue and green gems embedded among the coins.\nONE clearly readable ornate GOLDEN RELIC sits ON TOP of the front heap, fully visible and physically supported by coins: a gemmed GOLDEN CROWN, recognizable at a distance, with large RUBY and SAPPHIRE stones. The crown's stones are softly luminous from within ONLY INSIDE the gemstone material, with no emitted rays, bloom, sparkles, halo or surrounding glow. Crown upright resting on coins, never floating, no goblet. Richer than tiers 4 and 5 while matching their coin palette and worn fantasy material family.\n\nINPUT 4 is tier 5, FAMILY STYLE ONLY, no goblet in tier 6.\nINPUT 5 is the SELECTED TIER 6 PRIMARY, exact physical object and arrangement authority. Preserve the same squat broad royal-blue heavy velvet sack, scalloped open mouth, brown leather reinforcing bands with gold fleur ornaments, fine dense golden plant embroidery on cloth, coarse hand stitches, gold corner caps with blue stones. Two gold cord tassels hang TOGETHER from the same right-front place as primary. Do not mirror, duplicate, relocate or redesign them.\nKeep the SAME ornate gold crown fixed on the coins in FRONT of the sack: same central ruby and flanking sapphires, alternating small red/blue stones around the rim, same gold fleur-shaped points. Same fixed crown orientation, same plain thick coins and loose red/blue/green gemstones. Only the CAMERA changes, objects remain stationary. Respect view-dependent occlusion; never move the crown or gems to make them visible.\nThe entire bag and connected spill must fit with generous transparent border, medium object size, centred in the square. No cast shadow or ground, true alpha.\n\nCAMERA \u2014 02_side: PURE RIGHT-SIDE PROFILE, the prop's RIGHT side directly toward camera, exactly 90 degrees right of the front, camera about 20 degrees above ground, near-orthographic. Bag FRONT points toward SCREEN-LEFT and bag BACK toward SCREEN-RIGHT, matching tier 1\u20134 right-side views. The front loot heap is on SCREEN-LEFT, the side-panel seam is in the middle. This is a true SIDE view, NOT a three-quarter front view. Rotate ONLY camera around the exact primary object and fixed loot arrangement: never move gems, goblet/crown or coins to face the camera. Correct foreshortening and occlusion. Complete silhouette centred, transparent margins, no floor or shadow.\nSTRICT RIGHT-SIDE ELEVATION: the wide FRONT FACE is edge-on at the LEFT silhouette edge. The deep rounded RIGHT SIDE PANEL is centred and fully faces the viewer. Show its gold plant embroidery, structural band and corner cap. The crown and connected spill remain to the LEFT of the bag in this view. The crown's large FRONT ruby turns toward SCREEN-LEFT and is seen EDGE-ON; do not rotate the crown to point its front ruby toward camera. The nearer sapphire and side gold fleur points face camera. Both short gold tassels remain attached together near the front-right mouth and hang down against the near side.\nRender the object medium sized with a broad EMPTY transparent border around all sides, never a close-up.",
+    "inputs": [
+      "/home/pjasicek/github/OpenYAMM/level_generation/props/loot_satchel_claude/references_hd/native_gold_piles.png",
+      "/home/pjasicek/github/OpenYAMM/level_generation/props/loot_satchel_claude/references_hd/t3/00_three_quarter.png",
+      "/home/pjasicek/github/OpenYAMM/level_generation/props/loot_satchel_claude/references_hd/t4/00_three_quarter.png",
+      "/home/pjasicek/github/OpenYAMM/level_generation/props/loot_satchel_claude/references_hd/t5/00_three_quarter.png",
+      "/home/pjasicek/github/OpenYAMM/level_generation/props/loot_satchel_claude/references_hd/t6/00_three_quarter.png"
+    ],
+    "selected_filename": "02_side.png",
+    "supersedes": [],
+    "output": "/home/pjasicek/.codex/generated_images/01a12016-0c48-7da2-80a0-fb37f3ff494c/exec-d17c45d0-5be7-4493-b5f1-c1ce8bf22bc2.png",
+    "selected": false,
+    "reason": "Superseded: right-side camera/crown orientation is suitable, but object nearly reaches side edges.",
+    "superseded_by": "t6_side_v2",
+    "role": "supporting",
+    "family": "t6",
+    "tool_mode": "built-in image_gen",
+    "raw_file": "level_generation/props/loot_satchel_claude/references_hd/t6/raw/t6_side_v1.png",
+    "raw_sha256": "c701af001409e063239819f1ed8dcb21cb1a4496d4e22d93e2b1b94031b715fd",
+    "input_records": [
+      {
+        "supplied_path": "/home/pjasicek/github/OpenYAMM/level_generation/props/loot_satchel_claude/references_hd/native_gold_piles.png",
+        "sha256": "279a77a2dc47a4f8c3489e0bc3c34f904ca6d489825ff5a0acc28ee86c80703b"
+      },
+      {
+        "supplied_path": "/home/pjasicek/github/OpenYAMM/level_generation/props/loot_satchel_claude/references_hd/t3/00_three_quarter.png",
+        "sha256": "d7685b21c7e78397e6aba907d350d590acdd9499f53521e24c8845c7da1242ae"
+      },
+      {
+        "supplied_path": "/home/pjasicek/github/OpenYAMM/level_generation/props/loot_satchel_claude/references_hd/t4/00_three_quarter.png",
+        "sha256": "9b81cc419d3da5bf244e56df4e72701e21efd18d96607550e6500244efc713a7"
+      },
+      {
+        "supplied_path": "/home/pjasicek/github/OpenYAMM/level_generation/props/loot_satchel_claude/references_hd/t5/00_three_quarter.png",
+        "sha256": "bbefd8d0e58a3928acf94cda66e39a2b3d0564e22ef4cccac3c4c769e6d2f658",
+        "retained_snapshot": "level_generation/props/loot_satchel_claude/references_hd/t5/raw/t5_three_quarter_v3.png"
+      },
+      {
+        "supplied_path": "/home/pjasicek/github/OpenYAMM/level_generation/props/loot_satchel_claude/references_hd/t6/00_three_quarter.png",
+        "sha256": "a22f13ef4876d46973535c75c3a2024d881ad24730aaaac5abc479aec0da3878",
+        "retained_snapshot": "level_generation/props/loot_satchel_claude/references_hd/t6/raw/t6_three_quarter_v2.png"
+      }
+    ],
+    "actual_sampling_size": [
+      1254,
+      1254
+    ],
+    "alpha_range": [
+      0,
+      255
+    ],
+    "visible_bbox_alpha_128": [
+      67,
+      251,
+      1210,
+      1048
+    ],
+    "outer_edge_alpha_max": [
+      0,
+      0,
+      1,
+      1
+    ],
+    "export_resize_or_padding": "None; PNG is a byte-identical copy of actual return."
+  },
+  {
+    "id": "t6_back_v1",
+    "tier": "t6",
+    "view": 3,
+    "prompt": "REQUIRED OUTPUT: exactly ONE 1024 x 1024 pixel SQUARE RGBA PNG, generated at that native resolution, unresized return. Genuinely transparent background.\nTASK CONTEXT \u2014 MM6 FANTASY-GAME PROP: a 3D modelling reference for a loot bag lying on the ground in Might and Magic VI (1998 prerendered fantasy). Use case: stylized-concept.\nInputs 1\u20133 are REFERENCES: 1 native MM6 gold piles is the colour authority for warm saturated gold and thick plain coin discs, not a layout or background reference; magenta is background only, never reproduce it. 2 approved tier 3 and 3 approved tier 4 are family authorities for leather, coarse stitching, worn edges, coins, faceted gems, soft light and detailed semi-realistic rendering. Generate a new richer tier from that same family.\nBeautifully detailed, credible, fully three-dimensional, semi-realistic game materials with sharp leather grain, worn creases, coarse hand stitching, scuffed lighter edges and metal wear. Soft thick leather, rounded and slumped under its own weight into a wide base. Warm natural colours with saturated native gold, even soft neutral studio light from above, near-orthographic camera. Coins are thick plain gold discs, unmarked worn faces, no symbols or portraits.\nThe object rests on a flat invisible ground plane: its underside is flat at contact. No floor, no ground plane drawn, NO cast shadow. True clean alpha outside the complete silhouette including gaps. No backdrop, no painted checkerboard, no text, no watermark.\nComposition: one complete bag with its connected loot spill, centred, all parts within the central 70 percent of the square canvas, about 15 percent transparent margin on every side. No cropping. This is one view, never a multi-view sheet.\nDo NOT add chest, wooden box, weapons, scrolls, candles, potions, unrelated objects, straps hanging far from the body, loose trailing ropes, light rays, bloom, sparkles or glow halo. Do NOT scatter coins far from the bag: keep a tight connected low heap physically touching the bag, compact and grounded. Nothing floats. No cartoon or toy style.\n\nTIER 6 \u2014 REGAL RELIC BUNDLE: about 72 cm wide and 45 cm tall, the largest and richest tier, visibly squat and broad. Deep royal-BLUE velvet-like heavy cloth panels with warm dark leather structural seam bands and base, dense GOLD EMBROIDERY, thick coarse hand stitching. A GOLD DRAWSTRING CORD with TWO short tassels attached close to the mouth, no long trailing ropes. Slumped wide OPEN mouth overflowing with thick plain golden coins. A large connected low heap of coins touches and wraps around the front of the sack, with many faceted red, blue and green gems embedded among the coins.\nONE clearly readable ornate GOLDEN RELIC sits ON TOP of the front heap, fully visible and physically supported by coins: a gemmed GOLDEN CROWN, recognizable at a distance, with large RUBY and SAPPHIRE stones. The crown's stones are softly luminous from within ONLY INSIDE the gemstone material, with no emitted rays, bloom, sparkles, halo or surrounding glow. Crown upright resting on coins, never floating, no goblet. Richer than tiers 4 and 5 while matching their coin palette and worn fantasy material family.\n\nINPUT 4 is tier 5, FAMILY STYLE ONLY, no goblet in tier 6.\nINPUT 5 is the SELECTED TIER 6 PRIMARY, exact physical object and arrangement authority. Preserve the same squat broad royal-blue heavy velvet sack, scalloped open mouth, brown leather reinforcing bands with gold fleur ornaments, fine dense golden plant embroidery on cloth, coarse hand stitches, gold corner caps with blue stones. Two gold cord tassels hang TOGETHER from the same right-front place as primary. Do not mirror, duplicate, relocate or redesign them.\nKeep the SAME ornate gold crown fixed on the coins in FRONT of the sack: same central ruby and flanking sapphires, alternating small red/blue stones around the rim, same gold fleur-shaped points. Same fixed crown orientation, same plain thick coins and loose red/blue/green gemstones. Only the CAMERA changes, objects remain stationary. Respect view-dependent occlusion; never move the crown or gems to make them visible.\nThe entire bag and connected spill must fit with generous transparent border, medium object size, centred in the square. No cast shadow or ground, true alpha.\n\nCAMERA \u2014 03_back: exact STRAIGHT-ON REAR, 180 degrees around the same stationary object from the front. Camera about 20 degrees above ground, near-orthographic. Show the BACK leather/cloth panels and seams, matching the open top and slumped body shape. Loot spill remains in FRONT of the bag, therefore behind the bag from this rear camera: physically correct occlusion, do not relocate it to the rear to make it visible. Preserve the same inventory, gem positions and goblet/crown location. Complete rear silhouette centred with generous transparent margins, no floor or shadow.\nBACK VIEW specifically: the wide REAR panel of royal-blue velvet faces the camera directly. Gold embroidered branching plant motifs and brown leather reinforcing seam bands continue around the rear, with same gold corner caps. The two tassels are on the FRONT side, so they are naturally OCCLUDED from this rear camera, do not add new tassels to the back. The crown and foreground spill are also on the FAR side: hide behind the bag rather than relocating them to the rear. Some coins are visible inside the same open mouth from 20 degrees above, with correct occlusion. No newly invented rear clasp, buckle, handle or other object.\nPull the camera back for medium subject size with a broad TRANSPARENT margin on all sides.",
+    "inputs": [
+      "/home/pjasicek/github/OpenYAMM/level_generation/props/loot_satchel_claude/references_hd/native_gold_piles.png",
+      "/home/pjasicek/github/OpenYAMM/level_generation/props/loot_satchel_claude/references_hd/t3/00_three_quarter.png",
+      "/home/pjasicek/github/OpenYAMM/level_generation/props/loot_satchel_claude/references_hd/t4/00_three_quarter.png",
+      "/home/pjasicek/github/OpenYAMM/level_generation/props/loot_satchel_claude/references_hd/t5/00_three_quarter.png",
+      "/home/pjasicek/github/OpenYAMM/level_generation/props/loot_satchel_claude/references_hd/t6/00_three_quarter.png"
+    ],
+    "selected_filename": "03_back.png",
+    "supersedes": [],
+    "output": "/home/pjasicek/.codex/generated_images/01a12016-0c48-7da2-80a0-fb37f3ff494c/exec-d2b8ee26-d5e4-4e43-b68d-da1fe4daa71a.png",
+    "selected": true,
+    "reason": "Selected: straight rear view of matching blue velvet, leather bands, gold embroidery and corner caps; front crown, spill and tassels correctly occluded. No floor/shadow. Native 1254 square preserved; horizontal margins approximately 9 percent.",
+    "role": "supporting",
+    "family": "t6",
+    "tool_mode": "built-in image_gen",
+    "raw_file": "level_generation/props/loot_satchel_claude/references_hd/t6/raw/t6_back_v1.png",
+    "raw_sha256": "37077d0f5aae248d23560cf3031cbb4da2e35116c0065b8e4085fda86cdc0a4a",
+    "input_records": [
+      {
+        "supplied_path": "/home/pjasicek/github/OpenYAMM/level_generation/props/loot_satchel_claude/references_hd/native_gold_piles.png",
+        "sha256": "279a77a2dc47a4f8c3489e0bc3c34f904ca6d489825ff5a0acc28ee86c80703b"
+      },
+      {
+        "supplied_path": "/home/pjasicek/github/OpenYAMM/level_generation/props/loot_satchel_claude/references_hd/t3/00_three_quarter.png",
+        "sha256": "d7685b21c7e78397e6aba907d350d590acdd9499f53521e24c8845c7da1242ae"
+      },
+      {
+        "supplied_path": "/home/pjasicek/github/OpenYAMM/level_generation/props/loot_satchel_claude/references_hd/t4/00_three_quarter.png",
+        "sha256": "9b81cc419d3da5bf244e56df4e72701e21efd18d96607550e6500244efc713a7"
+      },
+      {
+        "supplied_path": "/home/pjasicek/github/OpenYAMM/level_generation/props/loot_satchel_claude/references_hd/t5/00_three_quarter.png",
+        "sha256": "bbefd8d0e58a3928acf94cda66e39a2b3d0564e22ef4cccac3c4c769e6d2f658",
+        "retained_snapshot": "level_generation/props/loot_satchel_claude/references_hd/t5/raw/t5_three_quarter_v3.png"
+      },
+      {
+        "supplied_path": "/home/pjasicek/github/OpenYAMM/level_generation/props/loot_satchel_claude/references_hd/t6/00_three_quarter.png",
+        "sha256": "a22f13ef4876d46973535c75c3a2024d881ad24730aaaac5abc479aec0da3878",
+        "retained_snapshot": "level_generation/props/loot_satchel_claude/references_hd/t6/raw/t6_three_quarter_v2.png"
+      }
+    ],
+    "actual_sampling_size": [
+      1254,
+      1254
+    ],
+    "alpha_range": [
+      0,
+      255
+    ],
+    "visible_bbox_alpha_128": [
+      115,
+      279,
+      1143,
+      1036
+    ],
+    "outer_edge_alpha_max": [
+      1,
+      0,
+      1,
+      1
+    ],
+    "export_resize_or_padding": "None; PNG is a byte-identical copy of actual return.",
+    "selected_path": "level_generation/props/loot_satchel_claude/references_hd/t6/03_back.png",
+    "requested_sampling_size": [
+      1024,
+      1024
+    ],
+    "checks": {
+      "square": true,
+      "rgba_transparency": true,
+      "uncropped_visible_silhouette": true,
+      "byte_identical_unresized_return": true,
+      "requested_1024_resolution": false,
+      "margins_fraction_left_top_right_bottom": [
+        0.0917,
+        0.2225,
+        0.0885,
+        0.1738
+      ],
+      "visual_review": "Family, tier details, camera direction, compact grounded spill, supported goblet/crown, no floor/cast shadow/external glow reviewed. Generated views have small detail and placement variations; not geometrically verified turntable renders."
+    },
+    "known_limitations": [
+      "Built-in tool returned 1254 x 1254 despite 1024 x 1024 prompts; the tool exposes no resolution setting. Preserved original bytes as required by no-resizing instruction.",
+      "Margins vary from the approximate 15 percent target; camera angles and cross-view coin/gem placement are visually approximate."
+    ],
+    "review_contact_sheet": "level_generation/props/loot_satchel_claude/references_hd/selected_views_review_t56.png",
+    "review_contact_sheet_note": "Two rows (t5,t6), four columns (three-quarter, front, right side, back). Review thumbnails fitted to visible silhouette for comparison; selected assets untouched."
+  },
+  {
+    "id": "t6_front_v2",
+    "tier": "t6",
+    "view": 1,
+    "prompt": "Generate one square 1024 by 1024 transparent RGBA PNG. The LAST image is the EDIT TARGET. Preserve its EXACT CAMERA DIRECTION, object design, materials, illumination, every decorative motif, every coin, every gem, crown pose, tassel position, shape and proportions. Earlier inputs are family references; the penultimate image is the selected primary design authority.\nCHANGE ONLY FRAMING: move the virtual camera farther AWAY. Show the whole object substantially smaller in the middle of a spacious TRANSPARENT canvas, surrounded on all four sides by a broad empty transparent border. Complete bag-plus-spill fits inside the middle two-thirds of canvas width and height. Centre the bounding box of the whole silhouette both vertically and horizontally. Do not fill the frame. No cropping.\nNo other changes: same precise view and same physical object, no added or missing objects. Keep the thick plain golden coins, connected spill, supported crown, royal-blue velvet and leather, gold embroidery. Genuine alpha background, no floor, no ground, no cast shadow, no visible backdrop, no checkerboard, no text. Preserve sharp detailed semi-realistic MM6 material style.\nKeep the exact straight FRONT view in the last image. The crown's central ruby faces camera; both tassels remain on screen-right. Only pull camera back.",
+    "inputs": [
+      "/home/pjasicek/github/OpenYAMM/level_generation/props/loot_satchel_claude/references_hd/native_gold_piles.png",
+      "/home/pjasicek/github/OpenYAMM/level_generation/props/loot_satchel_claude/references_hd/t4/00_three_quarter.png",
+      "/home/pjasicek/github/OpenYAMM/level_generation/props/loot_satchel_claude/references_hd/t5/00_three_quarter.png",
+      "/home/pjasicek/github/OpenYAMM/level_generation/props/loot_satchel_claude/references_hd/t6/00_three_quarter.png",
+      "/home/pjasicek/github/OpenYAMM/level_generation/props/loot_satchel_claude/references_hd/t6/01_front.png"
+    ],
+    "selected_filename": "01_front.png",
+    "supersedes": [
+      "t6_front_v1"
+    ],
+    "preflight_note": "Initial call with six reference paths was rejected before generation; framing-only retry keeps native gold, t4, t5 primary, t6 primary and target, within the tool's five-input limit.",
+    "output": "/home/pjasicek/.codex/generated_images/01a12016-0c48-7da2-80a0-fb37f3ff494c/exec-40759f84-45b6-4fca-9c05-ed381dec84b2.png",
+    "selected": true,
+    "reason": "Selected: same front sack/crown/tassel and gem layout with generous clear transparent margins, no cropped parts or shadow. Native 1254 square preserved.",
+    "role": "supporting",
+    "family": "t6",
+    "tool_mode": "built-in image_gen",
+    "raw_file": "level_generation/props/loot_satchel_claude/references_hd/t6/raw/t6_front_v2.png",
+    "raw_sha256": "ae14047fc47ca647ae9b79e1ffedfab417ba75864e394820b5fbae1dcd7889b3",
+    "input_records": [
+      {
+        "supplied_path": "/home/pjasicek/github/OpenYAMM/level_generation/props/loot_satchel_claude/references_hd/native_gold_piles.png",
+        "sha256": "279a77a2dc47a4f8c3489e0bc3c34f904ca6d489825ff5a0acc28ee86c80703b"
+      },
+      {
+        "supplied_path": "/home/pjasicek/github/OpenYAMM/level_generation/props/loot_satchel_claude/references_hd/t4/00_three_quarter.png",
+        "sha256": "9b81cc419d3da5bf244e56df4e72701e21efd18d96607550e6500244efc713a7"
+      },
+      {
+        "supplied_path": "/home/pjasicek/github/OpenYAMM/level_generation/props/loot_satchel_claude/references_hd/t5/00_three_quarter.png",
+        "sha256": "bbefd8d0e58a3928acf94cda66e39a2b3d0564e22ef4cccac3c4c769e6d2f658",
+        "retained_snapshot": "level_generation/props/loot_satchel_claude/references_hd/t5/raw/t5_three_quarter_v3.png"
+      },
+      {
+        "supplied_path": "/home/pjasicek/github/OpenYAMM/level_generation/props/loot_satchel_claude/references_hd/t6/00_three_quarter.png",
+        "sha256": "a22f13ef4876d46973535c75c3a2024d881ad24730aaaac5abc479aec0da3878",
+        "retained_snapshot": "level_generation/props/loot_satchel_claude/references_hd/t6/raw/t6_three_quarter_v2.png"
+      },
+      {
+        "supplied_path": "/home/pjasicek/github/OpenYAMM/level_generation/props/loot_satchel_claude/references_hd/t6/01_front.png",
+        "sha256": "d2fe1863155e664bbb3481dcbf449669c5e0b967984b813eb640e315f1fd60c3",
+        "retained_snapshot": "level_generation/props/loot_satchel_claude/references_hd/t6/raw/t6_front_v1.png"
+      }
+    ],
+    "actual_sampling_size": [
+      1254,
+      1254
+    ],
+    "alpha_range": [
+      0,
+      255
+    ],
+    "visible_bbox_alpha_128": [
+      326,
+      409,
+      964,
+      932
+    ],
+    "outer_edge_alpha_max": [
+      0,
+      0,
+      0,
+      0
+    ],
+    "export_resize_or_padding": "None; PNG is a byte-identical copy of actual return.",
+    "selected_path": "level_generation/props/loot_satchel_claude/references_hd/t6/01_front.png",
+    "requested_sampling_size": [
+      1024,
+      1024
+    ],
+    "checks": {
+      "square": true,
+      "rgba_transparency": true,
+      "uncropped_visible_silhouette": true,
+      "byte_identical_unresized_return": true,
+      "requested_1024_resolution": false,
+      "margins_fraction_left_top_right_bottom": [
+        0.26,
+        0.3262,
+        0.2313,
+        0.2568
+      ],
+      "visual_review": "Family, tier details, camera direction, compact grounded spill, supported goblet/crown, no floor/cast shadow/external glow reviewed. Generated views have small detail and placement variations; not geometrically verified turntable renders."
+    },
+    "known_limitations": [
+      "Built-in tool returned 1254 x 1254 despite 1024 x 1024 prompts; the tool exposes no resolution setting. Preserved original bytes as required by no-resizing instruction.",
+      "Margins vary from the approximate 15 percent target; camera angles and cross-view coin/gem placement are visually approximate."
+    ],
+    "review_contact_sheet": "level_generation/props/loot_satchel_claude/references_hd/selected_views_review_t56.png",
+    "review_contact_sheet_note": "Two rows (t5,t6), four columns (three-quarter, front, right side, back). Review thumbnails fitted to visible silhouette for comparison; selected assets untouched."
+  },
+  {
+    "id": "t6_side_v2",
+    "tier": "t6",
+    "view": 2,
+    "prompt": "Generate one square 1024 by 1024 transparent RGBA PNG. The LAST image is the EDIT TARGET. Preserve its EXACT CAMERA DIRECTION, object design, materials, illumination, every decorative motif, every coin, every gem, crown pose, tassel position, shape and proportions. Earlier inputs are family references; the penultimate image is the selected primary design authority.\nCHANGE ONLY FRAMING: move the virtual camera farther AWAY. Show the whole object substantially smaller in the middle of a spacious TRANSPARENT canvas, surrounded on all four sides by a broad empty transparent border. Complete bag-plus-spill fits inside the middle two-thirds of canvas width and height. Centre the bounding box of the whole silhouette both vertically and horizontally. Do not fill the frame. No cropping.\nNo other changes: same precise view and same physical object, no added or missing objects. Keep the thick plain golden coins, connected spill, supported crown, royal-blue velvet and leather, gold embroidery. Genuine alpha background, no floor, no ground, no cast shadow, no visible backdrop, no checkerboard, no text. Preserve sharp detailed semi-realistic MM6 material style.\nKeep the exact RIGHT SIDE view in the last image, bag front and coin heap toward screen-left and rear toward screen-right. Crown front ruby stays edge-on at the left; near side of crown visible. Only pull camera back, do not move crown or tassels.",
+    "inputs": [
+      "/home/pjasicek/github/OpenYAMM/level_generation/props/loot_satchel_claude/references_hd/native_gold_piles.png",
+      "/home/pjasicek/github/OpenYAMM/level_generation/props/loot_satchel_claude/references_hd/t4/00_three_quarter.png",
+      "/home/pjasicek/github/OpenYAMM/level_generation/props/loot_satchel_claude/references_hd/t5/00_three_quarter.png",
+      "/home/pjasicek/github/OpenYAMM/level_generation/props/loot_satchel_claude/references_hd/t6/00_three_quarter.png",
+      "/home/pjasicek/.codex/generated_images/01a12016-0c48-7da2-80a0-fb37f3ff494c/exec-d17c45d0-5be7-4493-b5f1-c1ce8bf22bc2.png"
+    ],
+    "selected_filename": "02_side.png",
+    "supersedes": [
+      "t6_side_v1"
+    ],
+    "output": "/home/pjasicek/.codex/generated_images/01a12016-0c48-7da2-80a0-fb37f3ff494c/exec-d3d17957-b648-4112-8786-1e67fb804c6a.png",
+    "selected": true,
+    "reason": "Selected: right-side view retains crown orientation, attached paired tassels, matching royal-blue embroidery and compact connected coin/gem spill; corrected generous transparent margins. Native 1254 square preserved.",
+    "role": "supporting",
+    "family": "t6",
+    "tool_mode": "built-in image_gen",
+    "raw_file": "level_generation/props/loot_satchel_claude/references_hd/t6/raw/t6_side_v2.png",
+    "raw_sha256": "8b635e913c649a96b2acea76cef57f852bb494ffebfeadd9b02a3bb69495defd",
+    "input_records": [
+      {
+        "supplied_path": "/home/pjasicek/github/OpenYAMM/level_generation/props/loot_satchel_claude/references_hd/native_gold_piles.png",
+        "sha256": "279a77a2dc47a4f8c3489e0bc3c34f904ca6d489825ff5a0acc28ee86c80703b"
+      },
+      {
+        "supplied_path": "/home/pjasicek/github/OpenYAMM/level_generation/props/loot_satchel_claude/references_hd/t4/00_three_quarter.png",
+        "sha256": "9b81cc419d3da5bf244e56df4e72701e21efd18d96607550e6500244efc713a7"
+      },
+      {
+        "supplied_path": "/home/pjasicek/github/OpenYAMM/level_generation/props/loot_satchel_claude/references_hd/t5/00_three_quarter.png",
+        "sha256": "bbefd8d0e58a3928acf94cda66e39a2b3d0564e22ef4cccac3c4c769e6d2f658",
+        "retained_snapshot": "level_generation/props/loot_satchel_claude/references_hd/t5/raw/t5_three_quarter_v3.png"
+      },
+      {
+        "supplied_path": "/home/pjasicek/github/OpenYAMM/level_generation/props/loot_satchel_claude/references_hd/t6/00_three_quarter.png",
+        "sha256": "a22f13ef4876d46973535c75c3a2024d881ad24730aaaac5abc479aec0da3878",
+        "retained_snapshot": "level_generation/props/loot_satchel_claude/references_hd/t6/raw/t6_three_quarter_v2.png"
+      },
+      {
+        "supplied_path": "/home/pjasicek/.codex/generated_images/01a12016-0c48-7da2-80a0-fb37f3ff494c/exec-d17c45d0-5be7-4493-b5f1-c1ce8bf22bc2.png",
+        "sha256": "c701af001409e063239819f1ed8dcb21cb1a4496d4e22d93e2b1b94031b715fd",
+        "retained_snapshot": "level_generation/props/loot_satchel_claude/references_hd/t6/raw/t6_side_v1.png"
+      }
+    ],
+    "actual_sampling_size": [
+      1254,
+      1254
+    ],
+    "alpha_range": [
+      0,
+      255
+    ],
+    "visible_bbox_alpha_128": [
+      275,
+      434,
+      968,
+      914
+    ],
+    "outer_edge_alpha_max": [
+      0,
+      0,
+      0,
+      0
+    ],
+    "export_resize_or_padding": "None; PNG is a byte-identical copy of actual return.",
+    "selected_path": "level_generation/props/loot_satchel_claude/references_hd/t6/02_side.png",
+    "requested_sampling_size": [
+      1024,
+      1024
+    ],
+    "checks": {
+      "square": true,
+      "rgba_transparency": true,
+      "uncropped_visible_silhouette": true,
+      "byte_identical_unresized_return": true,
+      "requested_1024_resolution": false,
+      "margins_fraction_left_top_right_bottom": [
+        0.2193,
+        0.3461,
+        0.2281,
+        0.2711
+      ],
+      "visual_review": "Family, tier details, camera direction, compact grounded spill, supported goblet/crown, no floor/cast shadow/external glow reviewed. Generated views have small detail and placement variations; not geometrically verified turntable renders."
+    },
+    "known_limitations": [
+      "Built-in tool returned 1254 x 1254 despite 1024 x 1024 prompts; the tool exposes no resolution setting. Preserved original bytes as required by no-resizing instruction.",
+      "Margins vary from the approximate 15 percent target; camera angles and cross-view coin/gem placement are visually approximate."
+    ],
+    "review_contact_sheet": "level_generation/props/loot_satchel_claude/references_hd/selected_views_review_t56.png",
+    "review_contact_sheet_note": "Two rows (t5,t6), four columns (three-quarter, front, right side, back). Review thumbnails fitted to visible silhouette for comparison; selected assets untouched."
+  }
+]

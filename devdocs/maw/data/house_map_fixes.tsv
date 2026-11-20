@@ -1,0 +1,182 @@
+# house_data.txt Map column fixes (2026-10-23): each house now names the one map whose events enter it.
+house_id	name	old_map	old_map_name	new_map	new_map_name
+12	The Hallowed Sword	68	Evenmorn Island	99	Celeste
+13	Blades of Spite	69	Mount Nighon	100	The Pit
+14	The Blooded Dagger	71	The Land of the Giants	69	Mount Nighon
+15	Vander's Blades & Bows	74	Shoals	72	Tatalia
+16	The Knocked Bow	75	The Erathian Sewers	73	Avlee
+17	The Balanced Axe	100	The Pit	98	Stone City
+18	Swords Inc.	82	The Tularean Caves	103	Castle Harmondale
+19	Alloyed Weapons	74	Shoals	72	Tatalia
+52	Armor of Honor	68	Evenmorn Island	99	Celeste
+53	Shields of Malice	69	Mount Nighon	100	The Pit
+54	The Tannery	71	The Land of the Giants	69	Mount Nighon
+55	The Missing Link	74	Shoals	72	Tatalia
+56	Avlee Outpost	75	The Erathian Sewers	73	Avlee
+57	The Polished Pauldron	100	The Pit	98	Stone City
+58	Thel's Armor and Shields	82	The Tularean Caves	103	Castle Harmondale
+59	Alloyed Armor and Shields	74	Shoals	72	Tatalia
+90	Esoteric Indulgences	68	Evenmorn Island	99	Celeste
+91	Eldritch Influences	69	Mount Nighon	100	The Pit
+92	Arcane Items	71	The Land of the Giants	69	Mount Nighon
+93	Delicate Things	100	The Pit	98	Stone City
+124	Potent Potions & Brews	100	The Pit	98	Stone City
+125	Beakers and Bottles	82	The Tularean Caves	103	Castle Harmondale
+131	Paramount Guild of Fire	71	The Land of the Giants	69	Mount Nighon
+137	Paramount Guild of Air	68	Evenmorn Island	99	Celeste
+143	Paramount Guild of Water	70	The Barrow Downs	68	Evenmorn Island
+148	Master Guild of Earth	100	The Pit	98	Stone City
+149	Paramount Guild of Earth	69	Mount Nighon	100	The Pit
+160	Master Guild of Mind	74	Shoals	72	Tatalia
+161	Paramount Guild of Mind	75	The Erathian Sewers	73	Avlee
+167	Paramount Guild of Body	75	The Erathian Sewers	73	Avlee
+170	Guild of Light	5	Garrote Gorge	7	Murmurwoods
+172	Guild of Enlightenment	68	Evenmorn Island	99	Celeste
+178	Guild of Night	69	Mount Nighon	100	The Pit
+206	Hall of Dawn	68	Evenmorn Island	99	Celeste
+207	Hall of Midnight	69	Mount Nighon	100	The Pit
+213	Sandro/Thant's Throne Room	6	Shadowspire	30	Necromancers' Guild
+214	Temple of the Sun Leader Room	7	Murmurwoods	33	Temple of the Sun
+215	Lord Markham's Chamber	78	The Temple of Baa	92	Lord Markham's Manor
+216	Throne Room	100	The Pit	98	Stone City
+217	Throne Room	62	Emerald Island	107	Castle Gryphonheart
+218	Throne Room	62	Emerald Island	106	Castle Navan
+219	Throne Room	62	Emerald Island	77	Castle Gloaming
+220	Throne Room	62	Emerald Island	104	Castle Lambent
+221	Throne Room	62	Emerald Island	77	Castle Gloaming
+245	The Blessed Brew	68	Evenmorn Island	99	Celeste
+246	The Vampyre Lounge 	69	Mount Nighon	100	The Pit
+247	The Laughing Monk	70	The Barrow Downs	68	Evenmorn Island
+248	Fortune's Folly	71	The Land of the Giants	69	Mount Nighon
+249	Miner's Only	72	Tatalia	70	The Barrow Downs
+250	The Loyal Mercenary	74	Shoals	72	Tatalia
+251	The Potted Pixie	75	The Erathian Sewers	73	Avlee
+252	Grogg's Grog	100	The Pit	98	Stone City
+289	Material Wealth	68	Evenmorn Island	99	Celeste
+290	Frozen Assets	69	Mount Nighon	100	The Pit
+291	The Depository	74	Shoals	72	Tatalia
+292	Halls of Gold	75	The Erathian Sewers	73	Avlee
+293	Mineral Wealth	100	The Pit	98	Stone City
+316	Temple of Light	68	Evenmorn Island	99	Celeste
+317	Temple of Dark	69	Mount Nighon	100	The Pit
+318	Offerings and Blessings	71	The Land of the Giants	69	Mount Nighon
+319	The Order of Tatalia	74	Shoals	72	Tatalia
+320	Temple of Tranquility	75	The Erathian Sewers	73	Avlee
+321	Temple of Stone	100	The Pit	98	Stone City
+322	Sanctuary	82	The Tularean Caves	103	Castle Harmondale
+336	Castle Newton	150	Misty Islands	148	Castle Ironfist
+380		82	The Tularean Caves	103	Castle Harmondale
+381		82	The Tularean Caves	103	Castle Harmondale
+466	Dry Saddles	74	Shoals	72	Tatalia
+467	Plush Coaches	75	The Erathian Sewers	73	Avlee
+489	Sacred Sails	70	The Barrow Downs	68	Evenmorn Island
+491	Narwhale	74	Shoals	72	Tatalia
+492	Wind Runner	75	The Erathian Sewers	73	Avlee
+661	Air Lord's Cell	14	Plane Between Planes	47	Prison of the Lord of Air
+662	Water Lord's Cell	14	Plane Between Planes	49	Prison of the Lord of Water
+663	Earth Lord's Cell	14	Plane Between Planes	50	Prison of the Lord of Earth
+664	Fire Lord's Cell	14	Plane Between Planes	48	Prison of the Lord of Fire
+751	Council Chamber Door	2	Ravenshore	20	Merchant House of Alvar
+753	Charles Quixote's House	5	Garrote Gorge	27	Dragon Hunter's Camp
+754	Dyson Leland's Room	6	Shadowspire	30	Necromancers' Guild
+755	Minotaur Leader's Room	8	Ravage Roaming	35	Balthazar Lair
+772	Wererat Smuggler Leader	2	Ravenshore	18	Smuggler's Cove
+774	Dragon Leader's Cavern 	5	Garrote Gorge	28	Dragon Cave
+775	Escaton's Throne Room	14	Plane Between Planes	46	Escaton's Palace
+986	Caverhill Residence	70	The Barrow Downs	68	Evenmorn Island
+987	Crane Residence	70	The Barrow Downs	68	Evenmorn Island
+988	Smithson Residence	70	The Barrow Downs	68	Evenmorn Island
+989	Riverstone House	74	Shoals	72	Tatalia
+990	Whitesky Residence	71	The Land of the Giants	69	Mount Nighon
+991	Elmo's House	71	The Land of the Giants	69	Mount Nighon
+995	Evander's Home	71	The Land of the Giants	69	Mount Nighon
+996	Anwyn Residence	71	The Land of the Giants	69	Mount Nighon
+997	Silk's Home	71	The Land of the Giants	69	Mount Nighon
+1002	Dusk's Home	71	The Land of the Giants	69	Mount Nighon
+1005	Greydawn Residence	74	Shoals	72	Tatalia
+1006	Stormeye's House	74	Shoals	72	Tatalia
+1007	Bremen Residence	74	Shoals	72	Tatalia
+1008	Brightspear Residence	75	The Erathian Sewers	73	Avlee
+1009	Holden Residence	75	The Erathian Sewers	73	Avlee
+1014	Featherwind Residence	75	The Erathian Sewers	73	Avlee
+1015	Ravenhair Residence	75	The Erathian Sewers	73	Avlee
+1016	Jillian's House	75	The Erathian Sewers	73	Avlee
+1017	Greenstorm Residence	75	The Erathian Sewers	73	Avlee
+1020	Snick House	75	The Erathian Sewers	73	Avlee
+1021	Infernon's House	75	The Erathian Sewers	73	Avlee
+1022	Deerhunter Residence	75	The Erathian Sewers	73	Avlee
+1023	Swiftfoot's House	75	The Erathian Sewers	73	Avlee
+1025	Steele Residence	74	Shoals	72	Tatalia
+1026	Conscience Home	74	Shoals	72	Tatalia
+1027	Everil's House	74	Shoals	72	Tatalia
+1030	Tricia's House	74	Shoals	72	Tatalia
+1031	Isram's House	74	Shoals	72	Tatalia
+1032	Stonecleaver Residence	74	Shoals	72	Tatalia
+1034	Calindra's Home	74	Shoals	72	Tatalia
+1035	Brother Bombah's	74	Shoals	72	Tatalia
+1036	Redding Residence	74	Shoals	72	Tatalia
+1038	Fist's House	74	Shoals	72	Tatalia
+1039	Wacko's	74	Shoals	72	Tatalia
+1040	Weldric's Home	74	Shoals	72	Tatalia
+1042	Visconti Residence	74	Shoals	72	Tatalia
+1043	Arin Residence	74	Shoals	72	Tatalia
+1046	Sampson Residence	74	Shoals	72	Tatalia
+1048	Taren's House	74	Shoals	72	Tatalia
+1049	Moore Residence	74	Shoals	72	Tatalia
+1050	Rothham's House	74	Shoals	72	Tatalia
+1051	Keenedge Residence	100	The Pit	98	Stone City
+1052	Seline's House	100	The Pit	98	Stone City
+1053	Welman Residence	100	The Pit	98	Stone City
+1054	Thain's House	100	The Pit	98	Stone City
+1055	Gizmo's	100	The Pit	98	Stone City
+1056	Spark's House	100	The Pit	98	Stone City
+1057	Thorinson Residence	100	The Pit	98	Stone City
+1058	Urthsmite Residence	100	The Pit	98	Stone City
+1059	House Devine	68	Evenmorn Island	99	Celeste
+1060	Morningstar Residence	68	Evenmorn Island	99	Celeste
+1061	House Winterbright	68	Evenmorn Island	99	Celeste
+1062	Hostel	68	Evenmorn Island	99	Celeste
+1063	Hostel	68	Evenmorn Island	99	Celeste
+1064	Hostel	68	Evenmorn Island	99	Celeste
+1065	Hostel	68	Evenmorn Island	99	Celeste
+1066	Tarent Residence	68	Evenmorn Island	99	Celeste
+1067	Ramiez Residence	68	Evenmorn Island	99	Celeste
+1068	Hostel	68	Evenmorn Island	99	Celeste
+1069	Hostel	68	Evenmorn Island	99	Celeste
+1070	Hostel	69	Mount Nighon	100	The Pit
+1071	Hostel	69	Mount Nighon	100	The Pit
+1072	House Umberpool	69	Mount Nighon	100	The Pit
+1073	Darkenmore Residence	69	Mount Nighon	100	The Pit
+1074	Sand Residence	69	Mount Nighon	100	The Pit
+1075	Hostel	69	Mount Nighon	100	The Pit
+1076	Hostel	69	Mount Nighon	100	The Pit
+1078	Hostel	69	Mount Nighon	100	The Pit
+1079	Hostel	69	Mount Nighon	100	The Pit
+1080	Hostel	69	Mount Nighon	100	The Pit
+1081	Hostel	69	Mount Nighon	100	The Pit
+1140	Tempus' House	75	The Erathian Sewers	73	Avlee
+1141	Kaine's	75	The Erathian Sewers	73	Avlee
+1142	Apple Residence	75	The Erathian Sewers	73	Avlee
+1143	Roggen Residence	71	The Land of the Giants	69	Mount Nighon
+1144	Elzbet's House	71	The Land of the Giants	69	Mount Nighon
+1145	Aznog's Place	71	The Land of the Giants	69	Mount Nighon
+1146	Hollis' Home	71	The Land of the Giants	69	Mount Nighon
+1147	Lanshee's House	71	The Land of the Giants	69	Mount Nighon
+1148	Neldon Residence	71	The Land of the Giants	69	Mount Nighon
+1149	Hawthorne Residence	71	The Land of the Giants	69	Mount Nighon
+1150	Lasiter's Home	73	Avlee	71	The Land of the Giants
+1151	Dallia's Home	72	Tatalia	70	The Barrow Downs
+1152	Gemstone Residence	72	Tatalia	70	The Barrow Downs
+1153	Feldspar's Home	72	Tatalia	70	The Barrow Downs
+1154	Fissure Residence	72	Tatalia	70	The Barrow Downs
+1155	Garnet House	72	Tatalia	70	The Barrow Downs
+1156	Rivenrock Residence	72	Tatalia	70	The Barrow Downs
+1158	Alice Hargreaves	109	Nighon Tunnels	107	Castle Gryphonheart
+1162	Master Thief	62	Emerald Island	75	The Erathian Sewers
+1169	Throne Room	62	Emerald Island	103	Castle Harmondale
+1574	Trial of Honor	68	Evenmorn Island	99	Celeste
+1575	Perdition's Flame	69	Mount Nighon	100	The Pit
+1576	Applied Instruction	71	The Land of the Giants	69	Mount Nighon
+1577	Training Essentials	74	Shoals	72	Tatalia
+1578	Avlee Gymnaisium	75	The Erathian Sewers	73	Avlee
+1579	War College	100	The Pit	98	Stone City

@@ -1,0 +1,25 @@
+output_dir: /home/pjasicek/github/OpenYAMM/level_generation/projects/mm9r_dragonstadium/review/real01
+settle_seconds: 1.5
+exit: true
+shots:
+- name: s1_floor_southwest
+  position:
+  - 3763
+  - 973
+  - -163
+  yaw: -2.3562
+  pitch: -0.1396
+- name: s1_alt_closer
+  position:
+  - 3072
+  - 384
+  - -163
+  yaw: -2.3562
+  pitch: -0.1396
+- name: s1_alt_north
+  position:
+  - 3328
+  - 2048
+  - -163
+  yaw: -2.3562
+  pitch: -0.1396

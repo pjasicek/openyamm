@@ -1,0 +1,7515 @@
+{
+ "format_version": 2,
+ "kind": "indoor_geometry",
+ "map_file": "drangheimcity.blv",
+ "source": {
+  "authoring_file": "convert.py",
+  "asset_path": "drangheimcity.glb",
+  "coordinate_system": "blender_z_up",
+  "unit_scale": 1.0,
+  "import": {
+   "source_format": "glb",
+   "reserve_sector_zero": true,
+   "merge_coplanar_faces": false,
+   "triangulate_ngons": false,
+   "generate_bsp": true,
+   "generate_outlines": false
+  }
+ },
+ "materials": [
+  {
+   "id": "sky04",
+   "source_material": "sky04",
+   "texture": "sky04",
+   "texture_width": 512,
+   "texture_height": 512
+  },
+  {
+   "id": "THJOKC1XMK",
+   "source_material": "THJOKC1XMK",
+   "texture": "THJOKC1XMK",
+   "texture_width": 128,
+   "texture_height": 128
+  },
+  {
+   "id": "THJOCKUY0Y",
+   "source_material": "THJOCKUY0Y",
+   "texture": "THJOCKUY0Y",
+   "texture_width": 128,
+   "texture_height": 128
+  },
+  {
+   "id": "THJO3573PD",
+   "source_material": "THJO3573PD",
+   "texture": "THJO3573PD",
+   "texture_width": 128,
+   "texture_height": 128
+  },
+  {
+   "id": "REGMJ007A9",
+   "source_material": "REGMJ007A9",
+   "texture": "REGMJ007A9",
+   "texture_width": 128,
+   "texture_height": 128
+  },
+  {
+   "id": "THJO44ZTOM",
+   "source_material": "THJO44ZTOM",
+   "texture": "THJO44ZTOM",
+   "texture_width": 128,
+   "texture_height": 128
+  },
+  {
+   "id": "THJOXAA44B",
+   "source_material": "THJOXAA44B",
+   "texture": "THJOXAA44B",
+   "texture_width": 128,
+   "texture_height": 128
+  },
+  {
+   "id": "INVIZVJN7N",
+   "source_material": "INVIZVJN7N",
+   "texture": "INVIZVJN7N",
+   "texture_width": 64,
+   "texture_height": 64
+  },
+  {
+   "id": "DOOK9R0F95",
+   "source_material": "DOOK9R0F95",
+   "texture": "DOOK9R0F95",
+   "texture_width": 128,
+   "texture_height": 128
+  },
+  {
+   "id": "THJOXNRGRI",
+   "source_material": "THJOXNRGRI",
+   "texture": "THJOXNRGRI",
+   "texture_width": 128,
+   "texture_height": 128
+  },
+  {
+   "id": "BENC25QRWI",
+   "source_material": "BENC25QRWI",
+   "texture": "BENC25QRWI",
+   "texture_width": 64,
+   "texture_height": 64
+  },
+  {
+   "id": "DBLA1LE2LC",
+   "source_material": "DBLA1LE2LC",
+   "texture": "DBLA1LE2LC",
+   "texture_width": 128,
+   "texture_height": 128
+  },
+  {
+   "id": "KLUSGCF6M3",
+   "source_material": "KLUSGCF6M3",
+   "texture": "KLUSGCF6M3",
+   "texture_width": 128,
+   "texture_height": 128
+  },
+  {
+   "id": "THJO5YIZ06",
+   "source_material": "THJO5YIZ06",
+   "texture": "THJO5YIZ06",
+   "texture_width": 128,
+   "texture_height": 128
+  },
+  {
+   "id": "THJOZZ6Y06",
+   "source_material": "THJOZZ6Y06",
+   "texture": "THJOZZ6Y06",
+   "texture_width": 128,
+   "texture_height": 128
+  },
+  {
+   "id": "THJOHDLFEJ",
+   "source_material": "THJOHDLFEJ",
+   "texture": "THJOHDLFEJ",
+   "texture_width": 128,
+   "texture_height": 128
+  },
+  {
+   "id": "ASHWC9K8KR",
+   "source_material": "ASHWC9K8KR",
+   "texture": "ASHWC9K8KR",
+   "texture_width": 128,
+   "texture_height": 128
+  },
+  {
+   "id": "THJOMMVUBZ",
+   "source_material": "THJOMMVUBZ",
+   "texture": "THJOMMVUBZ",
+   "texture_width": 128,
+   "texture_height": 128
+  },
+  {
+   "id": "THROUO7M8B",
+   "source_material": "THROUO7M8B",
+   "texture": "THROUO7M8B",
+   "texture_width": 256,
+   "texture_height": 256
+  },
+  {
+   "id": "THJO4XGSLD",
+   "source_material": "THJO4XGSLD",
+   "texture": "THJO4XGSLD",
+   "texture_width": 128,
+   "texture_height": 128
+  },
+  {
+   "id": "RWOOMBH4KX",
+   "source_material": "RWOOMBH4KX",
+   "texture": "RWOOMBH4KX",
+   "texture_width": 128,
+   "texture_height": 256
+  },
+  {
+   "id": "STUR8FPUII",
+   "source_material": "STUR8FPUII",
+   "texture": "STUR8FPUII",
+   "texture_width": 128,
+   "texture_height": 128
+  },
+  {
+   "id": "DRAN1IHBG3",
+   "source_material": "DRAN1IHBG3",
+   "texture": "DRAN1IHBG3",
+   "texture_width": 128,
+   "texture_height": 128
+  },
+  {
+   "id": "STURXVOR0T",
+   "source_material": "STURXVOR0T",
+   "texture": "STURXVOR0T",
+   "texture_width": 256,
+   "texture_height": 256
+  },
+  {
+   "id": "DRAN6MYOPQ",
+   "source_material": "DRAN6MYOPQ",
+   "texture": "DRAN6MYOPQ",
+   "texture_width": 128,
+   "texture_height": 128
+  },
+  {
+   "id": "THRO4OOC83",
+   "source_material": "THRO4OOC83",
+   "texture": "THRO4OOC83",
+   "texture_width": 256,
+   "texture_height": 256
+  },
+  {
+   "id": "DRANDTKL9O",
+   "source_material": "DRANDTKL9O",
+   "texture": "DRANDTKL9O",
+   "texture_width": 128,
+   "texture_height": 128
+  },
+  {
+   "id": "TRAI6437MJ",
+   "source_material": "TRAI6437MJ",
+   "texture": "TRAI6437MJ",
+   "texture_width": 128,
+   "texture_height": 128
+  },
+  {
+   "id": "RIVEWCYVK1",
+   "source_material": "RIVEWCYVK1",
+   "texture": "RIVEWCYVK1",
+   "texture_width": 128,
+   "texture_height": 128
+  },
+  {
+   "id": "RUIN9XACJ2",
+   "source_material": "RUIN9XACJ2",
+   "texture": "RUIN9XACJ2",
+   "texture_width": 128,
+   "texture_height": 128
+  },
+  {
+   "id": "FROSUFE58J",
+   "source_material": "FROSUFE58J",
+   "texture": "FROSUFE58J",
+   "texture_width": 128,
+   "texture_height": 128
+  },
+  {
+   "id": "FROS19SSR6",
+   "source_material": "FROS19SSR6",
+   "texture": "FROS19SSR6",
+   "texture_width": 128,
+   "texture_height": 128
+  },
+  {
+   "id": "ASHC8RLG33",
+   "source_material": "ASHC8RLG33",
+   "texture": "ASHC8RLG33",
+   "texture_width": 128,
+   "texture_height": 128
+  },
+  {
+   "id": "THROI96JO3",
+   "source_material": "THROI96JO3",
+   "texture": "THROI96JO3",
+   "texture_width": 128,
+   "texture_height": 128
+  },
+  {
+   "id": "CHAIF3VQ5B",
+   "source_material": "CHAIF3VQ5B",
+   "texture": "CHAIF3VQ5B",
+   "texture_width": 64,
+   "texture_height": 64
+  },
+  {
+   "id": "THJONBWR6Q",
+   "source_material": "THJONBWR6Q",
+   "texture": "THJONBWR6Q",
+   "texture_width": 128,
+   "texture_height": 128
+  },
+  {
+   "id": "THJO6WYX9K",
+   "source_material": "THJO6WYX9K",
+   "texture": "THJO6WYX9K",
+   "texture_width": 128,
+   "texture_height": 128
+  },
+  {
+   "id": "THJOYLWUDD",
+   "source_material": "THJOYLWUDD",
+   "texture": "THJOYLWUDD",
+   "texture_width": 256,
+   "texture_height": 256
+  },
+  {
+   "id": "THJO7YKBNP",
+   "source_material": "THJO7YKBNP",
+   "texture": "THJO7YKBNP",
+   "texture_width": 128,
+   "texture_height": 128
+  },
+  {
+   "id": "THJOOKGSQ6",
+   "source_material": "THJOOKGSQ6",
+   "texture": "THJOOKGSQ6",
+   "texture_width": 128,
+   "texture_height": 128
+  },
+  {
+   "id": "FIRE6YTKLQ",
+   "source_material": "FIRE6YTKLQ",
+   "texture": "FIRE6YTKLQ",
+   "texture_width": 64,
+   "texture_height": 64
+  },
+  {
+   "id": "TAPEXMRPBG",
+   "source_material": "TAPEXMRPBG",
+   "texture": "TAPEXMRPBG",
+   "texture_width": 128,
+   "texture_height": 128
+  },
+  {
+   "id": "AMAZR3THBZ",
+   "source_material": "AMAZR3THBZ",
+   "texture": "AMAZR3THBZ",
+   "texture_width": 128,
+   "texture_height": 128
+  },
+  {
+   "id": "TRAI0CM0OE",
+   "source_material": "TRAI0CM0OE",
+   "texture": "TRAI0CM0OE",
+   "texture_width": 128,
+   "texture_height": 128
+  },
+  {
+   "id": "STURBLU8H9",
+   "source_material": "STURBLU8H9",
+   "texture": "STURBLU8H9",
+   "texture_width": 128,
+   "texture_height": 128
+  },
+  {
+   "id": "DARK1V1JE6",
+   "source_material": "DARK1V1JE6",
+   "texture": "DARK1V1JE6",
+   "texture_width": 128,
+   "texture_height": 128
+  },
+  {
+   "id": "STUR9MH3QU",
+   "source_material": "STUR9MH3QU",
+   "texture": "STUR9MH3QU",
+   "texture_width": 128,
+   "texture_height": 128
+  },
+  {
+   "id": "THJOS61WD8",
+   "source_material": "THJOS61WD8",
+   "texture": "THJOS61WD8",
+   "texture_width": 128,
+   "texture_height": 128
+  },
+  {
+   "id": "DRANGVI8SS",
+   "source_material": "DRANGVI8SS",
+   "texture": "DRANGVI8SS",
+   "texture_width": 128,
+   "texture_height": 128
+  },
+  {
+   "id": "DARKR1G5NM",
+   "source_material": "DARKR1G5NM",
+   "texture": "DARKR1G5NM",
+   "texture_width": 128,
+   "texture_height": 128
+  },
+  {
+   "id": "THJOUPY3ZA",
+   "source_material": "THJOUPY3ZA",
+   "texture": "THJOUPY3ZA",
+   "texture_width": 128,
+   "texture_height": 128
+  },
+  {
+   "id": "STURFPAXNN",
+   "source_material": "STURFPAXNN",
+   "texture": "STURFPAXNN",
+   "texture_width": 512,
+   "texture_height": 256
+  },
+  {
+   "id": "STURTUFF78",
+   "source_material": "STURTUFF78",
+   "texture": "STURTUFF78",
+   "texture_width": 256,
+   "texture_height": 256
+  },
+  {
+   "id": "STURQ4XMHL",
+   "source_material": "STURQ4XMHL",
+   "texture": "STURQ4XMHL",
+   "texture_width": 128,
+   "texture_height": 128
+  },
+  {
+   "id": "STURS4Z7PM",
+   "source_material": "STURS4Z7PM",
+   "texture": "STURS4Z7PM",
+   "texture_width": 128,
+   "texture_height": 128
+  },
+  {
+   "id": "DARKJGJQS8",
+   "source_material": "DARKJGJQS8",
+   "texture": "DARKJGJQS8",
+   "texture_width": 128,
+   "texture_height": 128
+  },
+  {
+   "id": "THJO87U48R",
+   "source_material": "THJO87U48R",
+   "texture": "THJO87U48R",
+   "texture_width": 128,
+   "texture_height": 128
+  },
+  {
+   "id": "DARKCZZ05P",
+   "source_material": "DARKCZZ05P",
+   "texture": "DARKCZZ05P",
+   "texture_width": 128,
+   "texture_height": 128
+  },
+  {
+   "id": "STUR6VEV4J",
+   "source_material": "STUR6VEV4J",
+   "texture": "STUR6VEV4J",
+   "texture_width": 128,
+   "texture_height": 128
+  },
+  {
+   "id": "BENCWNCQAS",
+   "source_material": "BENCWNCQAS",
+   "texture": "BENCWNCQAS",
+   "texture_width": 128,
+   "texture_height": 128
+  },
+  {
+   "id": "TRAIQK55M4",
+   "source_material": "TRAIQK55M4",
+   "texture": "TRAIQK55M4",
+   "texture_width": 128,
+   "texture_height": 128
+  },
+  {
+   "id": "STURAU4GDG",
+   "source_material": "STURAU4GDG",
+   "texture": "STURAU4GDG",
+   "texture_width": 128,
+   "texture_height": 128
+  },
+  {
+   "id": "THJOHYYF9U",
+   "source_material": "THJOHYYF9U",
+   "texture": "THJOHYYF9U",
+   "texture_width": 128,
+   "texture_height": 128
+  },
+  {
+   "id": "THJOP7HFW6",
+   "source_material": "THJOP7HFW6",
+   "texture": "THJOP7HFW6",
+   "texture_width": 128,
+   "texture_height": 128
+  },
+  {
+   "id": "ASHW2E0ADW",
+   "source_material": "ASHW2E0ADW",
+   "texture": "ASHW2E0ADW",
+   "texture_width": 128,
+   "texture_height": 128
+  },
+  {
+   "id": "TRAIMLG2T3",
+   "source_material": "TRAIMLG2T3",
+   "texture": "TRAIMLG2T3",
+   "texture_width": 128,
+   "texture_height": 128
+  },
+  {
+   "id": "THJO8KIDNO",
+   "source_material": "THJO8KIDNO",
+   "texture": "THJO8KIDNO",
+   "texture_width": 128,
+   "texture_height": 128
+  },
+  {
+   "id": "THJO7RSO44",
+   "source_material": "THJO7RSO44",
+   "texture": "THJO7RSO44",
+   "texture_width": 128,
+   "texture_height": 128
+  },
+  {
+   "id": "SPIK67HFER",
+   "source_material": "SPIK67HFER",
+   "texture": "SPIK67HFER",
+   "texture_width": 64,
+   "texture_height": 128
+  },
+  {
+   "id": "THJOVA2WD7",
+   "source_material": "THJOVA2WD7",
+   "texture": "THJOVA2WD7",
+   "texture_width": 128,
+   "texture_height": 128
+  },
+  {
+   "id": "STUCROUGK2",
+   "source_material": "STUCROUGK2",
+   "texture": "STUCROUGK2",
+   "texture_width": 128,
+   "texture_height": 128
+  },
+  {
+   "id": "STUC28EWLC",
+   "source_material": "STUC28EWLC",
+   "texture": "STUC28EWLC",
+   "texture_width": 128,
+   "texture_height": 128
+  },
+  {
+   "id": "THJOVO6JBJ",
+   "source_material": "THJOVO6JBJ",
+   "texture": "THJOVO6JBJ",
+   "texture_width": 128,
+   "texture_height": 128
+  },
+  {
+   "id": "THJOM1VT9B",
+   "source_material": "THJOM1VT9B",
+   "texture": "THJOM1VT9B",
+   "texture_width": 128,
+   "texture_height": 128
+  },
+  {
+   "id": "THJOXE9P56",
+   "source_material": "THJOXE9P56",
+   "texture": "THJOXE9P56",
+   "texture_width": 128,
+   "texture_height": 128
+  },
+  {
+   "id": "FORT362YNH",
+   "source_material": "FORT362YNH",
+   "texture": "FORT362YNH",
+   "texture_width": 256,
+   "texture_height": 256
+  },
+  {
+   "id": "THJOC0S9OU",
+   "source_material": "THJOC0S9OU",
+   "texture": "THJOC0S9OU",
+   "texture_width": 128,
+   "texture_height": 128
+  },
+  {
+   "id": "THJO4BIEQU",
+   "source_material": "THJO4BIEQU",
+   "texture": "THJO4BIEQU",
+   "texture_width": 128,
+   "texture_height": 128
+  },
+  {
+   "id": "THJODA97GK",
+   "source_material": "THJODA97GK",
+   "texture": "THJODA97GK",
+   "texture_width": 128,
+   "texture_height": 128
+  },
+  {
+   "id": "THJOM7ZTWO",
+   "source_material": "THJOM7ZTWO",
+   "texture": "THJOM7ZTWO",
+   "texture_width": 128,
+   "texture_height": 128
+  },
+  {
+   "id": "THJOCO2Z9G",
+   "source_material": "THJOCO2Z9G",
+   "texture": "THJOCO2Z9G",
+   "texture_width": 128,
+   "texture_height": 128
+  },
+  {
+   "id": "THJO01NJ31",
+   "source_material": "THJO01NJ31",
+   "texture": "THJO01NJ31",
+   "texture_width": 128,
+   "texture_height": 128
+  },
+  {
+   "id": "THJORY8Y1W",
+   "source_material": "THJORY8Y1W",
+   "texture": "THJORY8Y1W",
+   "texture_width": 128,
+   "texture_height": 128
+  },
+  {
+   "id": "THJO72GLLY",
+   "source_material": "THJO72GLLY",
+   "texture": "THJO72GLLY",
+   "texture_width": 128,
+   "texture_height": 128
+  },
+  {
+   "id": "THJOTGG91I",
+   "source_material": "THJOTGG91I",
+   "texture": "THJOTGG91I",
+   "texture_width": 128,
+   "texture_height": 128
+  },
+  {
+   "id": "TILEZVC84D",
+   "source_material": "TILEZVC84D",
+   "texture": "TILEZVC84D",
+   "texture_width": 128,
+   "texture_height": 128
+  },
+  {
+   "id": "THJOG5U1GR",
+   "source_material": "THJOG5U1GR",
+   "texture": "THJOG5U1GR",
+   "texture_width": 128,
+   "texture_height": 128
+  },
+  {
+   "id": "TRAIUGLI2Q",
+   "source_material": "TRAIUGLI2Q",
+   "texture": "TRAIUGLI2Q",
+   "texture_width": 128,
+   "texture_height": 128
+  },
+  {
+   "id": "THJO2VLG4N",
+   "source_material": "THJO2VLG4N",
+   "texture": "THJO2VLG4N",
+   "texture_width": 128,
+   "texture_height": 128
+  },
+  {
+   "id": "STUREK2AUQ",
+   "source_material": "STUREK2AUQ",
+   "texture": "STUREK2AUQ",
+   "texture_width": 128,
+   "texture_height": 128
+  },
+  {
+   "id": "DRAN7KSA90",
+   "source_material": "DRAN7KSA90",
+   "texture": "DRAN7KSA90",
+   "texture_width": 128,
+   "texture_height": 128
+  },
+  {
+   "id": "THJO67D3JX",
+   "source_material": "THJO67D3JX",
+   "texture": "THJO67D3JX",
+   "texture_width": 256,
+   "texture_height": 256
+  },
+  {
+   "id": "DRANX5U4W3",
+   "source_material": "DRANX5U4W3",
+   "texture": "DRANX5U4W3",
+   "texture_width": 128,
+   "texture_height": 128
+  },
+  {
+   "id": "THJO8X5SX0",
+   "source_material": "THJO8X5SX0",
+   "texture": "THJO8X5SX0",
+   "texture_width": 128,
+   "texture_height": 128
+  },
+  {
+   "id": "WIND41JATM",
+   "source_material": "WIND41JATM",
+   "texture": "WIND41JATM",
+   "texture_width": 128,
+   "texture_height": 128
+  },
+  {
+   "id": "DUNG8UJJNP",
+   "source_material": "DUNG8UJJNP",
+   "texture": "DUNG8UJJNP",
+   "texture_width": 128,
+   "texture_height": 128
+  },
+  {
+   "id": "THJON9HSLY",
+   "source_material": "THJON9HSLY",
+   "texture": "THJON9HSLY",
+   "texture_width": 128,
+   "texture_height": 128
+  },
+  {
+   "id": "THJOSZLKBZ",
+   "source_material": "THJOSZLKBZ",
+   "texture": "THJOSZLKBZ",
+   "texture_width": 128,
+   "texture_height": 128
+  },
+  {
+   "id": "THJO2OFJIN",
+   "source_material": "THJO2OFJIN",
+   "texture": "THJO2OFJIN",
+   "texture_width": 128,
+   "texture_height": 128
+  },
+  {
+   "id": "THJO5LFMMI",
+   "source_material": "THJO5LFMMI",
+   "texture": "THJO5LFMMI",
+   "texture_width": 128,
+   "texture_height": 128
+  },
+  {
+   "id": "THJOJ5RW2P",
+   "source_material": "THJOJ5RW2P",
+   "texture": "THJOJ5RW2P",
+   "texture_width": 128,
+   "texture_height": 128
+  },
+  {
+   "id": "STURI2CRMO",
+   "source_material": "STURI2CRMO",
+   "texture": "STURI2CRMO",
+   "texture_width": 128,
+   "texture_height": 128
+  },
+  {
+   "id": "THROLYUAWV",
+   "source_material": "THROLYUAWV",
+   "texture": "THROLYUAWV",
+   "texture_width": 128,
+   "texture_height": 128
+  },
+  {
+   "id": "STURVHKJJK",
+   "source_material": "STURVHKJJK",
+   "texture": "STURVHKJJK",
+   "texture_width": 128,
+   "texture_height": 128
+  },
+  {
+   "id": "THJOAR0EXG",
+   "source_material": "THJOAR0EXG",
+   "texture": "THJOAR0EXG",
+   "texture_width": 128,
+   "texture_height": 128
+  },
+  {
+   "id": "THJOXTX7KH",
+   "source_material": "THJOXTX7KH",
+   "texture": "THJOXTX7KH",
+   "texture_width": 128,
+   "texture_height": 128
+  },
+  {
+   "id": "THJOMSOMEK",
+   "source_material": "THJOMSOMEK",
+   "texture": "THJOMSOMEK",
+   "texture_width": 128,
+   "texture_height": 128
+  },
+  {
+   "id": "THJOLCPU8H",
+   "source_material": "THJOLCPU8H",
+   "texture": "THJOLCPU8H",
+   "texture_width": 128,
+   "texture_height": 128
+  },
+  {
+   "id": "THJO8X5OPQ",
+   "source_material": "THJO8X5OPQ",
+   "texture": "THJO8X5OPQ",
+   "texture_width": 128,
+   "texture_height": 128
+  },
+  {
+   "id": "THJOOKPQKU",
+   "source_material": "THJOOKPQKU",
+   "texture": "THJOOKPQKU",
+   "texture_width": 128,
+   "texture_height": 128
+  },
+  {
+   "id": "THJO418EEO",
+   "source_material": "THJO418EEO",
+   "texture": "THJO418EEO",
+   "texture_width": 128,
+   "texture_height": 128
+  },
+  {
+   "id": "PLASABAARC",
+   "source_material": "PLASABAARC",
+   "texture": "PLASABAARC",
+   "texture_width": 128,
+   "texture_height": 128
+  },
+  {
+   "id": "THJOHHLVD7",
+   "source_material": "THJOHHLVD7",
+   "texture": "THJOHHLVD7",
+   "texture_width": 128,
+   "texture_height": 128
+  },
+  {
+   "id": "THJO5HDVQF",
+   "source_material": "THJO5HDVQF",
+   "texture": "THJO5HDVQF",
+   "texture_width": 128,
+   "texture_height": 128
+  },
+  {
+   "id": "WOODV944P9",
+   "source_material": "WOODV944P9",
+   "texture": "WOODV944P9",
+   "texture_width": 128,
+   "texture_height": 128
+  },
+  {
+   "id": "THRO00WU9G",
+   "source_material": "THRO00WU9G",
+   "texture": "THRO00WU9G",
+   "texture_width": 128,
+   "texture_height": 128
+  },
+  {
+   "id": "THJO4AK6BC",
+   "source_material": "THJO4AK6BC",
+   "texture": "THJO4AK6BC",
+   "texture_width": 128,
+   "texture_height": 128
+  },
+  {
+   "id": "THROH1YS90",
+   "source_material": "THROH1YS90",
+   "texture": "THROH1YS90",
+   "texture_width": 128,
+   "texture_height": 128
+  },
+  {
+   "id": "THJOSUFHKI",
+   "source_material": "THJOSUFHKI",
+   "texture": "THJOSUFHKI",
+   "texture_width": 128,
+   "texture_height": 128
+  },
+  {
+   "id": "REFIODS5S6",
+   "source_material": "REFIODS5S6",
+   "texture": "REFIODS5S6",
+   "texture_width": 128,
+   "texture_height": 128
+  },
+  {
+   "id": "THJOFT37IE",
+   "source_material": "THJOFT37IE",
+   "texture": "THJOFT37IE",
+   "texture_width": 128,
+   "texture_height": 128
+  },
+  {
+   "id": "THJO8KIBBG",
+   "source_material": "THJO8KIBBG",
+   "texture": "THJO8KIBBG",
+   "texture_width": 128,
+   "texture_height": 128
+  },
+  {
+   "id": "THJO8UF184",
+   "source_material": "THJO8UF184",
+   "texture": "THJO8UF184",
+   "texture_width": 128,
+   "texture_height": 128
+  },
+  {
+   "id": "THJO8OM175",
+   "source_material": "THJO8OM175",
+   "texture": "THJO8OM175",
+   "texture_width": 128,
+   "texture_height": 128
+  },
+  {
+   "id": "THJOIIT68S",
+   "source_material": "THJOIIT68S",
+   "texture": "THJOIIT68S",
+   "texture_width": 128,
+   "texture_height": 128
+  },
+  {
+   "id": "STURPY8OZJ",
+   "source_material": "STURPY8OZJ",
+   "texture": "STURPY8OZJ",
+   "texture_width": 128,
+   "texture_height": 128
+  },
+  {
+   "id": "THJOE86SLM",
+   "source_material": "THJOE86SLM",
+   "texture": "THJOE86SLM",
+   "texture_width": 128,
+   "texture_height": 128
+  },
+  {
+   "id": "THJOZS219X",
+   "source_material": "THJOZS219X",
+   "texture": "THJOZS219X",
+   "texture_width": 128,
+   "texture_height": 128
+  },
+  {
+   "id": "STURT47DD3",
+   "source_material": "STURT47DD3",
+   "texture": "STURT47DD3",
+   "texture_width": 128,
+   "texture_height": 128
+  },
+  {
+   "id": "STUR1Q4O93",
+   "source_material": "STUR1Q4O93",
+   "texture": "STUR1Q4O93",
+   "texture_width": 128,
+   "texture_height": 128
+  },
+  {
+   "id": "DRANM8E6UR",
+   "source_material": "DRANM8E6UR",
+   "texture": "DRANM8E6UR",
+   "texture_width": 128,
+   "texture_height": 128
+  },
+  {
+   "id": "REGMZFGH45",
+   "source_material": "REGMZFGH45",
+   "texture": "REGMZFGH45",
+   "texture_width": 128,
+   "texture_height": 128
+  },
+  {
+   "id": "THJO1HD5LW",
+   "source_material": "THJO1HD5LW",
+   "texture": "THJO1HD5LW",
+   "texture_width": 128,
+   "texture_height": 128
+  },
+  {
+   "id": "TRAIR89AQ4",
+   "source_material": "TRAIR89AQ4",
+   "texture": "TRAIR89AQ4",
+   "texture_width": 128,
+   "texture_height": 128
+  },
+  {
+   "id": "PERCQZW4R0",
+   "source_material": "PERCQZW4R0",
+   "texture": "PERCQZW4R0",
+   "texture_width": 128,
+   "texture_height": 128
+  },
+  {
+   "id": "PERCP5YUWN",
+   "source_material": "PERCP5YUWN",
+   "texture": "PERCP5YUWN",
+   "texture_width": 128,
+   "texture_height": 128
+  }
+ ],
+ "rooms": [
+  {
+   "id": "room_r01",
+   "source_nodes": [
+    "ROOM_r01"
+   ],
+   "min_ambient_light_level": 20
+  },
+  {
+   "id": "room_r02",
+   "source_nodes": [
+    "ROOM_r02"
+   ],
+   "min_ambient_light_level": 20
+  },
+  {
+   "id": "room_r03",
+   "source_nodes": [
+    "ROOM_r03"
+   ],
+   "min_ambient_light_level": 20
+  },
+  {
+   "id": "room_r04",
+   "source_nodes": [
+    "ROOM_r04"
+   ],
+   "min_ambient_light_level": 20
+  },
+  {
+   "id": "room_r05",
+   "source_nodes": [
+    "ROOM_r05"
+   ],
+   "min_ambient_light_level": 20
+  },
+  {
+   "id": "room_r06",
+   "source_nodes": [
+    "ROOM_r06",
+    "TRIGGER_shared_r20_r06",
+    "MECH_TrainingDoor1",
+    "MECH_TrainingDoor0",
+    "LIGHT_Light157",
+    "LIGHT_Light156",
+    "DECOR_Cabinet5",
+    "DECOR_Dresser6",
+    "DECOR_Bed7",
+    "DECOR_WallTorch73"
+   ],
+   "min_ambient_light_level": 20
+  },
+  {
+   "id": "room_r07",
+   "source_nodes": [
+    "ROOM_r07",
+    "TRIGGER_invisible_r07",
+    "LIGHT_Light163",
+    "LIGHT_Light162",
+    "DECOR_WallTorch76",
+    "DECOR_Cabinet6",
+    "DECOR_Prop36",
+    "DECOR_Prop41"
+   ],
+   "min_ambient_light_level": 20
+  },
+  {
+   "id": "room_r08",
+   "source_nodes": [
+    "ROOM_r08",
+    "TRIGGER_invisible_r08",
+    "MECH_SmalHouse2Door",
+    "LIGHT_Light139",
+    "LIGHT_Light138",
+    "DECOR_Dresser5",
+    "DECOR_Cabinet4",
+    "DECOR_Table9",
+    "DECOR_Chair18",
+    "DECOR_Bedmed1",
+    "DECOR_Prop5",
+    "DECOR_WallTorch64"
+   ],
+   "min_ambient_light_level": 20
+  },
+  {
+   "id": "room_r09",
+   "source_nodes": [
+    "ROOM_r09",
+    "TRIGGER_invisible_r09",
+    "MECH_SmalHouse1Door",
+    "LIGHT_Light131",
+    "LIGHT_Light133",
+    "LIGHT_Light130",
+    "LIGHT_Light132",
+    "DECOR_Cabinet1",
+    "DECOR_Table8",
+    "DECOR_Chair17",
+    "DECOR_Chair16",
+    "DECOR_Dresser4",
+    "DECOR_Bedmed0",
+    "DECOR_WallTorch60",
+    "DECOR_WallTorch61"
+   ],
+   "min_ambient_light_level": 20
+  },
+  {
+   "id": "room_r10",
+   "source_nodes": [
+    "ROOM_r10"
+   ],
+   "min_ambient_light_level": 20
+  },
+  {
+   "id": "room_r11",
+   "source_nodes": [
+    "ROOM_r11",
+    "TRIGGER_invisible_r11",
+    "TRIGGER_shared_r14_r11",
+    "TRIGGER_shared_r20_r11",
+    "TRIGGER_opaque_r11",
+    "TRIGGER_shared_r19_r11"
+   ],
+   "min_ambient_light_level": 20
+  },
+  {
+   "id": "room_r12",
+   "source_nodes": [
+    "ROOM_r12",
+    "TRIGGER_invisible_r12",
+    "MECH_RotatingDoor3",
+    "LIGHT_Light159",
+    "LIGHT_Light161",
+    "LIGHT_Light158",
+    "LIGHT_Light160",
+    "DECOR_Barrel9",
+    "DECOR_Crate5",
+    "DECOR_Crate6",
+    "DECOR_Crate7",
+    "DECOR_Crate8",
+    "DECOR_Barrel11",
+    "DECOR_Crate10",
+    "DECOR_Crate11",
+    "DECOR_Crate12",
+    "DECOR_Barrel14",
+    "DECOR_Barrel12",
+    "DECOR_Barrel8",
+    "DECOR_WallTorch74",
+    "DECOR_WallTorch75"
+   ],
+   "min_ambient_light_level": 20
+  },
+  {
+   "id": "room_r13",
+   "source_nodes": [
+    "ROOM_r13",
+    "TRIGGER_nonsolid_r13",
+    "TRIGGER_shared_r19_r13",
+    "MECH_StairDoor",
+    "MECH_StoreDoor1",
+    "MECH_StoreDoor2",
+    "LIGHT_Light14",
+    "DECOR_Box3",
+    "DECOR_Box2",
+    "DECOR_Box1",
+    "DECOR_Box0",
+    "DECOR_Shelfitems17",
+    "DECOR_Shelfitems20",
+    "DECOR_Shelfitems19",
+    "DECOR_Shelfitems18",
+    "DECOR_Shelfitems16",
+    "DECOR_Wine9",
+    "DECOR_Wine8",
+    "DECOR_Wine5",
+    "DECOR_Wine4",
+    "DECOR_Wine1",
+    "DECOR_Wine3",
+    "DECOR_Jug0",
+    "DECOR_Jug2",
+    "DECOR_Basket0fruit14",
+    "DECOR_Basket0fruit13",
+    "DECOR_Basket0fruit12",
+    "DECOR_Basket0fruit11",
+    "DECOR_Basket0fruit10",
+    "DECOR_Basket0fruit7",
+    "DECOR_Basket0fruit6",
+    "DECOR_Crate4",
+    "DECOR_Crate3",
+    "DECOR_Barrel7",
+    "DECOR_Barrel6",
+    "DECOR_CandleProp12"
+   ],
+   "min_ambient_light_level": 20
+  },
+  {
+   "id": "room_r14",
+   "source_nodes": [
+    "ROOM_r14",
+    "TRIGGER_invisible_r14",
+    "TRIGGER_nonsolid_r14",
+    "TRIGGER_shared_r20_r14",
+    "TRIGGER_shared_r11_r14",
+    "TRIGGER_opaque_r14",
+    "TRIGGER_opaque_r11_r14",
+    "TRIGGER_opaque_r20_r14",
+    "MECH_TempleDoorRight",
+    "MECH_TempleDoorLeft",
+    "MECH_TempleUpperDoor",
+    "LIGHT_Light141",
+    "LIGHT_Light143",
+    "LIGHT_Light145",
+    "LIGHT_Light147",
+    "LIGHT_Light149",
+    "LIGHT_Light151",
+    "LIGHT_Light140",
+    "LIGHT_Light142",
+    "LIGHT_Light144",
+    "LIGHT_Light146",
+    "LIGHT_Light150",
+    "DECOR_Bookcase11",
+    "DECOR_Bookcase10",
+    "DECOR_Bookcase9",
+    "DECOR_Bookcase8",
+    "DECOR_Book1",
+    "DECOR_Chair30",
+    "DECOR_Chair29",
+    "DECOR_Chair28",
+    "DECOR_Table10",
+    "DECOR_Bench7",
+    "DECOR_Bench0",
+    "DECOR_Stand1",
+    "DECOR_Stand0",
+    "DECOR_Podium0",
+    "DECOR_Bench6",
+    "DECOR_Bench5",
+    "DECOR_Bench4",
+    "DECOR_Bench3",
+    "DECOR_Bench2",
+    "DECOR_Bench1",
+    "DECOR_CandleProp16",
+    "DECOR_WallTorch65",
+    "DECOR_WallTorch66",
+    "DECOR_WallTorch67",
+    "DECOR_WallTorch68",
+    "DECOR_WallTorch69",
+    "DECOR_WallTorch70"
+   ],
+   "min_ambient_light_level": 20
+  },
+  {
+   "id": "room_r15",
+   "source_nodes": [
+    "ROOM_r15",
+    "TRIGGER_invisible_r15",
+    "TRIGGER_shared_r17_r15",
+    "MECH_TowerDoor",
+    "LIGHT_Light22"
+   ],
+   "min_ambient_light_level": 20
+  },
+  {
+   "id": "room_r16",
+   "source_nodes": [
+    "ROOM_r16",
+    "TRIGGER_shared_r18_r16",
+    "LIGHT_Light24",
+    "DECOR_Prop4",
+    "DECOR_TownPortal0",
+    "DECOR_TownPortal0Clean",
+    "DECOR_Bed15"
+   ],
+   "min_ambient_light_level": 20
+  },
+  {
+   "id": "room_r17",
+   "source_nodes": [
+    "ROOM_r17",
+    "TRIGGER_nonsolid_r17",
+    "TRIGGER_shared_r20_r17",
+    "TRIGGER_shared_r15_r17",
+    "TRIGGER_shared_r18_r17",
+    "MECH_TownHallDoorRight",
+    "MECH_TownHallDoorLeft",
+    "LIGHT_Light19",
+    "DECOR_Banner4",
+    "DECOR_Banner3",
+    "DECOR_Banner2",
+    "DECOR_Chair36",
+    "DECOR_Chair35",
+    "DECOR_Chair34",
+    "DECOR_Table12",
+    "DECOR_Chair33",
+    "DECOR_Chair32",
+    "DECOR_Chair31",
+    "DECOR_Table11",
+    "DECOR_Armor5",
+    "DECOR_Armor3",
+    "DECOR_Throne0",
+    "DECOR_Chair42",
+    "DECOR_Table14",
+    "DECOR_Chair41",
+    "DECOR_Chair40",
+    "DECOR_Chair39",
+    "DECOR_Chair38",
+    "DECOR_Chair37",
+    "DECOR_Table13",
+    "DECOR_CandleProp17",
+    "DECOR_CandleProp18",
+    "DECOR_CandleProp19",
+    "DECOR_Prop15"
+   ],
+   "min_ambient_light_level": 20
+  },
+  {
+   "id": "room_r18",
+   "source_nodes": [
+    "ROOM_r18",
+    "TRIGGER_invisible_r18",
+    "TRIGGER_shared_r17_r18",
+    "TRIGGER_shared_r16_r18",
+    "MECH_MayorHouseDoor2",
+    "MECH_MayorHouseDoor3",
+    "LIGHT_Light153",
+    "LIGHT_Light155",
+    "LIGHT_Light152",
+    "LIGHT_Light154",
+    "DECOR_WallTorch71",
+    "DECOR_WallTorch72"
+   ],
+   "min_ambient_light_level": 20
+  },
+  {
+   "id": "room_r19",
+   "source_nodes": [
+    "ROOM_r19",
+    "TRIGGER_shared_r20_r19",
+    "TRIGGER_shared_r13_r19",
+    "TRIGGER_shared_r23_r19",
+    "TRIGGER_shared_r11_r19"
+   ],
+   "min_ambient_light_level": 20
+  },
+  {
+   "id": "room_r20",
+   "source_nodes": [
+    "ROOM_r20",
+    "TRIGGER_invisible_r20",
+    "TRIGGER_shared_r19_r20",
+    "TRIGGER_shared_r28_r20",
+    "STATIC_glass0_r20",
+    "TRIGGER_shared_r27_r20",
+    "TRIGGER_shared_r14_r20",
+    "TRIGGER_shared_r11_r20",
+    "TRIGGER_opaque_r20",
+    "TRIGGER_opaque_r14_r20",
+    "TRIGGER_shared_r17_r20",
+    "TRIGGER_shared_r15_r20",
+    "TRIGGER_shared_r31_r20",
+    "STATIC_glass1_r20",
+    "TRIGGER_shared_r24_r20",
+    "TRIGGER_shared_r26_r20",
+    "TRIGGER_shared_r25_r20",
+    "TRIGGER_shared_r06_r20",
+    "LIGHT_Light0",
+    "LIGHT_Light3",
+    "DECOR_SpinningDummy0",
+    "DECOR_SpinningDummy1",
+    "DECOR_Target1",
+    "DECOR_Target0",
+    "DECOR_Target2",
+    "DECOR_Strawdummyrack2",
+    "DECOR_Strawdummyrack1",
+    "DECOR_Strawdummyrack0",
+    "DECOR_Cart1",
+    "DECOR_Horsepost0",
+    "DECOR_Prop16",
+    "DECOR_Prop14",
+    "DECOR_WellMMIX0",
+    "TRIGGER_hint_PerceptionBrush0_0",
+    "TRIGGER_hint_PerceptionBrush0_1",
+    "TRIGGER_hint_PerceptionBrush0_2",
+    "TRIGGER_hint_PerceptionBrush1_0",
+    "TRIGGER_hint_PerceptionBrush1_1",
+    "TRIGGER_hint_PerceptionBrush1_2",
+    "TRIGGER_hint_PerceptionBrush2_0",
+    "TRIGGER_hint_PerceptionBrush2_1",
+    "TRIGGER_hint_PerceptionBrush2_2",
+    "TRIGGER_hint_PerceptionBrush3_0",
+    "TRIGGER_hint_PerceptionBrush3_1",
+    "TRIGGER_hint_PerceptionBrush3_2",
+    "TRIGGER_hint_PerceptionBrush3_3",
+    "TRIGGER_hint_PerceptionBrush3_4",
+    "TRIGGER_hint_PerceptionBrush3_5",
+    "TRIGGER_hint_PerceptionBrush3_6",
+    "TRIGGER_hint_PerceptionBrush3_7",
+    "TRIGGER_hint_PerceptionBrush4_0",
+    "TRIGGER_hint_PerceptionBrush4_1",
+    "TRIGGER_hint_PerceptionBrush4_2",
+    "TRIGGER_hint_PerceptionBrush4_3",
+    "TRIGGER_hint_PerceptionBrush4_4",
+    "TRIGGER_hint_PerceptionBrush4_5",
+    "TRIGGER_hint_PerceptionBrush4_6",
+    "TRIGGER_hint_PerceptionBrush4_7",
+    "TRIGGER_hint_PerceptionBrush13_0",
+    "TRIGGER_hint_PerceptionBrush13_1",
+    "TRIGGER_hint_PerceptionBrush13_2",
+    "TRIGGER_hint_PerceptionBrush13_3",
+    "TRIGGER_hint_PerceptionBrush13_4",
+    "TRIGGER_hint_PerceptionBrush13_5",
+    "TRIGGER_hint_PerceptionBrush13_6",
+    "TRIGGER_hint_PerceptionBrush13_7",
+    "TRIGGER_hint_PerceptionBrush13_8"
+   ],
+   "min_ambient_light_level": 20
+  },
+  {
+   "id": "room_r21",
+   "source_nodes": [
+    "ROOM_r21",
+    "TRIGGER_shared_r28_r21"
+   ],
+   "min_ambient_light_level": 20
+  },
+  {
+   "id": "room_r22",
+   "source_nodes": [
+    "ROOM_r22",
+    "STATIC_glass1_r22",
+    "TRIGGER_invisible_r22",
+    "TRIGGER_shared_r15_r22",
+    "STATIC_glass0_r22",
+    "STATIC_glass2_r22",
+    "TRIGGER_shared_r08_r22",
+    "STATIC_glass3_r22",
+    "TRIGGER_shared_r19_r22",
+    "TRIGGER_shared_r20_r22",
+    "TRIGGER_shared_r28_r22",
+    "TRIGGER_shared_r35_r22",
+    "TRIGGER_shared_r34_r22",
+    "TRIGGER_shared_r36_r22",
+    "TRIGGER_shared_r37_r22",
+    "TRIGGER_shared_r27_r22",
+    "TRIGGER_shared_r09_r22",
+    "TRIGGER_shared_r14_r22",
+    "TRIGGER_shared_r11_r22",
+    "TRIGGER_opaque_r11_r22",
+    "TRIGGER_opaque_r20_r22",
+    "TRIGGER_opaque_r14_r22",
+    "TRIGGER_shared_r17_r22",
+    "TRIGGER_shared_r18_r22",
+    "TRIGGER_shared_r16_r22",
+    "TRIGGER_shared_r12_r22",
+    "TRIGGER_shared_r13_r22",
+    "TRIGGER_shared_r31_r22",
+    "TRIGGER_shared_r24_r22",
+    "TRIGGER_shared_r23_r22",
+    "TRIGGER_opaque_r23_r22",
+    "TRIGGER_shared_r07_r22",
+    "TRIGGER_shared_r21_r22",
+    "TRIGGER_barrier_r22",
+    "MECH_AlchemistDoorRight",
+    "MECH_AlchemistDoorLeft",
+    "MECH_HouseDoor1",
+    "MECH_HouseDoor2",
+    "MECH_MayorHouseDoor",
+    "MECH_RotatingDoor0",
+    "MECH_RotatingDoor2",
+    "LIGHT_Light23",
+    "LIGHT_Light30",
+    "LIGHT_Light28",
+    "LIGHT_Light32",
+    "LIGHT_Light12",
+    "LIGHT_Light13",
+    "LIGHT_Light7",
+    "LIGHT_Light9",
+    "DECOR_Cart3",
+    "DECOR_Cart2",
+    "DECOR_Barrel0",
+    "DECOR_Clover0",
+    "DECOR_Clover1",
+    "TRIGGER_hint_PerceptionBrush5_0",
+    "TRIGGER_hint_PerceptionBrush5_1",
+    "TRIGGER_hint_PerceptionBrush5_2",
+    "TRIGGER_hint_PerceptionBrush6_0",
+    "TRIGGER_hint_PerceptionBrush6_1",
+    "TRIGGER_hint_PerceptionBrush6_2",
+    "TRIGGER_hint_PerceptionBrush7_0",
+    "TRIGGER_hint_PerceptionBrush7_1",
+    "TRIGGER_hint_PerceptionBrush7_2",
+    "TRIGGER_hint_PerceptionBrush7_3",
+    "TRIGGER_hint_PerceptionBrush7_4",
+    "TRIGGER_hint_PerceptionBrush7_5",
+    "TRIGGER_hint_PerceptionBrush7_6",
+    "TRIGGER_hint_PerceptionBrush7_7",
+    "TRIGGER_hint_PerceptionBrush7_8",
+    "TRIGGER_hint_PerceptionBrush7_9",
+    "TRIGGER_hint_PerceptionBrush8_0",
+    "TRIGGER_hint_PerceptionBrush8_1",
+    "TRIGGER_hint_PerceptionBrush8_2",
+    "TRIGGER_hint_PerceptionBrush8_3",
+    "TRIGGER_hint_PerceptionBrush8_4",
+    "TRIGGER_hint_PerceptionBrush8_5",
+    "TRIGGER_hint_PerceptionBrush8_6",
+    "TRIGGER_hint_PerceptionBrush8_7",
+    "TRIGGER_hint_PerceptionBrush8_8",
+    "TRIGGER_hint_PerceptionBrush9_0",
+    "TRIGGER_hint_PerceptionBrush9_1",
+    "TRIGGER_hint_PerceptionBrush9_2",
+    "TRIGGER_hint_PerceptionBrush10_0",
+    "TRIGGER_hint_PerceptionBrush10_1",
+    "TRIGGER_hint_PerceptionBrush10_2",
+    "TRIGGER_hint_PerceptionBrush11_0",
+    "TRIGGER_hint_PerceptionBrush11_1",
+    "TRIGGER_hint_PerceptionBrush11_2",
+    "TRIGGER_hint_PerceptionBrush12_0",
+    "TRIGGER_hint_PerceptionBrush12_1",
+    "TRIGGER_hint_PerceptionBrush12_2",
+    "TRIGGER_hint_PerceptionBrush12_3",
+    "TRIGGER_hint_PerceptionBrush12_4",
+    "TRIGGER_hint_PerceptionBrush12_5",
+    "TRIGGER_hint_PerceptionBrush12_6",
+    "TRIGGER_hint_PerceptionBrush12_7",
+    "TRIGGER_hint_PerceptionBrush14_0",
+    "TRIGGER_hint_PerceptionBrush14_1",
+    "TRIGGER_hint_PerceptionBrush14_2",
+    "TRIGGER_hint_PerceptionBrush15_0",
+    "TRIGGER_hint_PerceptionBrush15_1",
+    "TRIGGER_hint_PerceptionBrush15_2",
+    "TRIGGER_hint_PerceptionBrush16_0",
+    "TRIGGER_hint_PerceptionBrush16_1",
+    "TRIGGER_hint_PerceptionBrush16_2"
+   ],
+   "min_ambient_light_level": 20
+  },
+  {
+   "id": "room_r23",
+   "source_nodes": [
+    "ROOM_r23",
+    "TRIGGER_nonsolid_r23",
+    "TRIGGER_shared_r19_r23",
+    "TRIGGER_opaque_r23",
+    "MECH_SettlersDoor0",
+    "LIGHT_Light17",
+    "DECOR_Prop6",
+    "DECOR_Coatrack0",
+    "DECOR_Table6",
+    "DECOR_Chair13",
+    "DECOR_Chair12",
+    "DECOR_Cabinet2",
+    "DECOR_Bed5",
+    "DECOR_Dresser2",
+    "DECOR_CandleProp15"
+   ],
+   "min_ambient_light_level": 20
+  },
+  {
+   "id": "room_r24",
+   "source_nodes": [
+    "ROOM_r24",
+    "TRIGGER_invisible_r24",
+    "TRIGGER_shared_r20_r24",
+    "MECH_InnDoorRight",
+    "MECH_InnDoorLeft",
+    "MECH_RotatingDoor1",
+    "LIGHT_Light4",
+    "LIGHT_Light5",
+    "LIGHT_Light1",
+    "LIGHT_Light2",
+    "DECOR_Prop2",
+    "DECOR_Platestack1",
+    "DECOR_Platestack0",
+    "DECOR_Stein8",
+    "DECOR_Stein7",
+    "DECOR_Stein6",
+    "DECOR_Stein5",
+    "DECOR_Pitcher6",
+    "DECOR_Pitcher5",
+    "DECOR_Barstool9",
+    "DECOR_Barstool8",
+    "DECOR_Barstool7",
+    "DECOR_Barstool11",
+    "DECOR_Barstool10",
+    "DECOR_Barrel2",
+    "DECOR_Barrel1",
+    "DECOR_Barrel10",
+    "DECOR_Coatrack1",
+    "DECOR_Table5",
+    "DECOR_Table4",
+    "DECOR_Table3",
+    "DECOR_Wheellight2",
+    "DECOR_Wheellight3"
+   ],
+   "min_ambient_light_level": 20
+  },
+  {
+   "id": "room_r25",
+   "source_nodes": [
+    "ROOM_r25",
+    "TRIGGER_shared_r26_r25",
+    "TRIGGER_shared_r20_r25",
+    "MECH_NewHouseDoor1",
+    "MECH_NewHouseDoor0"
+   ],
+   "min_ambient_light_level": 20
+  },
+  {
+   "id": "room_r26",
+   "source_nodes": [
+    "ROOM_r26",
+    "TRIGGER_shared_r20_r26",
+    "TRIGGER_shared_r25_r26",
+    "LIGHT_Light135",
+    "LIGHT_Light137",
+    "LIGHT_Light134",
+    "LIGHT_Light136",
+    "DECOR_Bookcase60",
+    "DECOR_Bookcase59",
+    "DECOR_Bookcase57",
+    "DECOR_WallTorch62",
+    "DECOR_WallTorch63"
+   ],
+   "min_ambient_light_level": 20
+  },
+  {
+   "id": "room_r27",
+   "source_nodes": [
+    "ROOM_r27",
+    "TRIGGER_nonsolid_r27",
+    "TRIGGER_shared_r20_r27",
+    "TRIGGER_invisible_r27",
+    "MECH_BlacksmithDoor0",
+    "MECH_BlacksmithDoor1",
+    "MECH_SmithShackDoor",
+    "LIGHT_Light15",
+    "DECOR_Prop3",
+    "DECOR_Woodbin1",
+    "DECOR_Weaponrack3",
+    "DECOR_Weaponrack2",
+    "DECOR_SmithHammer",
+    "DECOR_Shield3",
+    "DECOR_Shield2",
+    "DECOR_Shelfitems15",
+    "DECOR_Shelfitems14",
+    "DECOR_Armor1",
+    "DECOR_Anvil",
+    "DECOR_CandleProp13",
+    "DECOR_Prop17"
+   ],
+   "min_ambient_light_level": 20
+  },
+  {
+   "id": "room_r28",
+   "source_nodes": [
+    "ROOM_r28",
+    "TRIGGER_invisible_r28",
+    "TRIGGER_shared_r20_r28",
+    "TRIGGER_shared_r21_r28"
+   ],
+   "min_ambient_light_level": 20
+  },
+  {
+   "id": "room_r29",
+   "source_nodes": [
+    "ROOM_r29"
+   ],
+   "min_ambient_light_level": 20
+  },
+  {
+   "id": "room_r30",
+   "source_nodes": [
+    "ROOM_r30"
+   ],
+   "min_ambient_light_level": 20
+  },
+  {
+   "id": "room_r31",
+   "source_nodes": [
+    "ROOM_r31",
+    "TRIGGER_nonsolid_r31",
+    "TRIGGER_shared_r20_r31",
+    "STATIC_glass1_r31",
+    "MECH_SettlersDoor",
+    "LIGHT_Light16",
+    "DECOR_Prop1",
+    "DECOR_Dresser3",
+    "DECOR_Bed6",
+    "DECOR_Cabinet3",
+    "DECOR_Coatrack2",
+    "DECOR_Table7",
+    "DECOR_Chair15",
+    "DECOR_Chair14",
+    "DECOR_CandleProp14"
+   ],
+   "min_ambient_light_level": 20
+  },
+  {
+   "id": "room_r33",
+   "source_nodes": [
+    "ROOM_r33"
+   ],
+   "min_ambient_light_level": 20
+  },
+  {
+   "id": "room_r34",
+   "source_nodes": [
+    "ROOM_r34"
+   ],
+   "min_ambient_light_level": 20
+  },
+  {
+   "id": "room_r35",
+   "source_nodes": [
+    "ROOM_r35"
+   ],
+   "min_ambient_light_level": 20
+  },
+  {
+   "id": "room_r36",
+   "source_nodes": [
+    "ROOM_r36"
+   ],
+   "min_ambient_light_level": 20
+  },
+  {
+   "id": "room_r37",
+   "source_nodes": [
+    "ROOM_r37"
+   ],
+   "min_ambient_light_level": 20
+  },
+  {
+   "id": "room_r38",
+   "source_nodes": [
+    "ROOM_r38"
+   ],
+   "min_ambient_light_level": 20
+  }
+ ],
+ "portals": [
+  {
+   "id": "TempleDoorPortal",
+   "source_node": "PORTAL_TempleDoorPortal",
+   "front_room": "room_r20",
+   "back_room": "room_r14"
+  },
+  {
+   "id": "OldPortal1",
+   "source_node": "PORTAL_OldPortal1",
+   "front_room": "room_r23",
+   "back_room": "room_r22"
+  },
+  {
+   "id": "OldPortal2",
+   "source_node": "PORTAL_OldPortal2",
+   "front_room": "room_r31",
+   "back_room": "room_r20"
+  },
+  {
+   "id": "TempleUpperDoorPortal",
+   "source_node": "PORTAL_TempleUpperDoorPortal",
+   "front_room": "room_r14",
+   "back_room": "room_r22"
+  },
+  {
+   "id": "TowerDoorPortal",
+   "source_node": "PORTAL_TowerDoorPortal",
+   "front_room": "room_r15",
+   "back_room": "room_r17"
+  },
+  {
+   "id": "NewHousePortal",
+   "source_node": "PORTAL_NewHousePortal",
+   "front_room": "room_r25",
+   "back_room": "room_r20"
+  },
+  {
+   "id": "TrainingPortal",
+   "source_node": "PORTAL_TrainingPortal",
+   "front_room": "room_r20",
+   "back_room": "room_r06"
+  },
+  {
+   "id": "InnDoorPortal",
+   "source_node": "PORTAL_InnDoorPortal",
+   "front_room": "room_r20",
+   "back_room": "room_r24"
+  },
+  {
+   "id": "Tavernportal",
+   "source_node": "PORTAL_Tavernportal",
+   "front_room": "room_r20",
+   "back_room": "room_r24"
+  },
+  {
+   "id": "BlacksmithPortal",
+   "source_node": "PORTAL_BlacksmithPortal",
+   "front_room": "room_r27",
+   "back_room": "room_r20"
+  },
+  {
+   "id": "MayorHouseDoor",
+   "source_node": "PORTAL_MayorHouseDoor",
+   "front_room": "room_r22",
+   "back_room": "room_r18"
+  },
+  {
+   "id": "MayorHouseDoor2",
+   "source_node": "PORTAL_MayorHouseDoor2",
+   "front_room": "room_r18",
+   "back_room": "room_r22"
+  },
+  {
+   "id": "MayorDoorPortal",
+   "source_node": "PORTAL_MayorDoorPortal",
+   "front_room": "room_r18",
+   "back_room": "room_r16"
+  },
+  {
+   "id": "WarehousePortal",
+   "source_node": "PORTAL_WarehousePortal",
+   "front_room": "room_r12",
+   "back_room": "room_r22"
+  },
+  {
+   "id": "BDWarehouse",
+   "source_node": "PORTAL_BDWarehouse",
+   "front_room": "room_r12",
+   "back_room": "room_r22"
+  },
+  {
+   "id": "SmalHouse1Door",
+   "source_node": "PORTAL_SmalHouse1Door",
+   "front_room": "room_r09",
+   "back_room": "room_r22"
+  },
+  {
+   "id": "SmalHouse2Door",
+   "source_node": "PORTAL_SmalHouse2Door",
+   "front_room": "room_r08",
+   "back_room": "room_r22"
+  },
+  {
+   "id": "StoreDoorPortal",
+   "source_node": "PORTAL_StoreDoorPortal",
+   "front_room": "room_r13",
+   "back_room": "room_r22"
+  },
+  {
+   "id": "TownHallDoorPortal",
+   "source_node": "PORTAL_TownHallDoorPortal",
+   "front_room": "room_r20",
+   "back_room": "room_r17"
+  },
+  {
+   "id": "street_12_1",
+   "source_node": "PORTAL_street_12_1",
+   "front_room": "room_r01",
+   "back_room": "room_r05"
+  },
+  {
+   "id": "street_12_2",
+   "source_node": "PORTAL_street_12_2",
+   "front_room": "room_r37",
+   "back_room": "room_r36"
+  },
+  {
+   "id": "street_12_3",
+   "source_node": "PORTAL_street_12_3",
+   "front_room": "room_r02",
+   "back_room": "room_r01"
+  },
+  {
+   "id": "street_12_4",
+   "source_node": "PORTAL_street_12_4",
+   "front_room": "room_r38",
+   "back_room": "room_r37"
+  },
+  {
+   "id": "street_12_5",
+   "source_node": "PORTAL_street_12_5",
+   "front_room": "room_r03",
+   "back_room": "room_r02"
+  },
+  {
+   "id": "street_12_6",
+   "source_node": "PORTAL_street_12_6",
+   "front_room": "room_r28",
+   "back_room": "room_r38"
+  },
+  {
+   "id": "street_12_7",
+   "source_node": "PORTAL_street_12_7",
+   "front_room": "room_r04",
+   "back_room": "room_r03"
+  },
+  {
+   "id": "street_12_9",
+   "source_node": "PORTAL_street_12_9",
+   "front_room": "room_r28",
+   "back_room": "room_r04"
+  },
+  {
+   "id": "street_12_11",
+   "source_node": "PORTAL_street_12_11",
+   "front_room": "room_r10",
+   "back_room": "room_r05"
+  },
+  {
+   "id": "street_12_13",
+   "source_node": "PORTAL_street_12_13",
+   "front_room": "room_r28",
+   "back_room": "room_r10"
+  },
+  {
+   "id": "street_12_14",
+   "source_node": "PORTAL_street_12_14",
+   "front_room": "room_r20",
+   "back_room": "room_r11"
+  },
+  {
+   "id": "street_12_19",
+   "source_node": "PORTAL_street_12_19",
+   "front_room": "room_r33",
+   "back_room": "room_r28"
+  },
+  {
+   "id": "street_12_21",
+   "source_node": "PORTAL_street_12_21",
+   "front_room": "room_r36",
+   "back_room": "room_r33"
+  },
+  {
+   "id": "roofline_1_1",
+   "source_node": "PORTAL_roofline_1_1",
+   "front_room": "room_r22",
+   "back_room": "room_r01"
+  },
+  {
+   "id": "roofline_2_1",
+   "source_node": "PORTAL_roofline_2_1",
+   "front_room": "room_r22",
+   "back_room": "room_r02"
+  },
+  {
+   "id": "roofline_3_1",
+   "source_node": "PORTAL_roofline_3_1",
+   "front_room": "room_r22",
+   "back_room": "room_r03"
+  },
+  {
+   "id": "roofline_4_1",
+   "source_node": "PORTAL_roofline_4_1",
+   "front_room": "room_r22",
+   "back_room": "room_r04"
+  },
+  {
+   "id": "roofline_5_1",
+   "source_node": "PORTAL_roofline_5_1",
+   "front_room": "room_r22",
+   "back_room": "room_r05"
+  },
+  {
+   "id": "roofline_5_2",
+   "source_node": "PORTAL_roofline_5_2",
+   "front_room": "room_r22",
+   "back_room": "room_r05"
+  },
+  {
+   "id": "roofline_10_1",
+   "source_node": "PORTAL_roofline_10_1",
+   "front_room": "room_r22",
+   "back_room": "room_r10"
+  },
+  {
+   "id": "roofline_11_1",
+   "source_node": "PORTAL_roofline_11_1",
+   "front_room": "room_r22",
+   "back_room": "room_r11"
+  },
+  {
+   "id": "roofline_15_1",
+   "source_node": "PORTAL_roofline_15_1",
+   "front_room": "room_r22",
+   "back_room": "room_r15"
+  },
+  {
+   "id": "roofline_20_1",
+   "source_node": "PORTAL_roofline_20_1",
+   "front_room": "room_r22",
+   "back_room": "room_r20"
+  },
+  {
+   "id": "roofline_20_2",
+   "source_node": "PORTAL_roofline_20_2",
+   "front_room": "room_r22",
+   "back_room": "room_r20"
+  },
+  {
+   "id": "roofline_20_3",
+   "source_node": "PORTAL_roofline_20_3",
+   "front_room": "room_r22",
+   "back_room": "room_r20"
+  },
+  {
+   "id": "roofline_20_4",
+   "source_node": "PORTAL_roofline_20_4",
+   "front_room": "room_r22",
+   "back_room": "room_r20"
+  },
+  {
+   "id": "roofline_20_5",
+   "source_node": "PORTAL_roofline_20_5",
+   "front_room": "room_r22",
+   "back_room": "room_r20"
+  },
+  {
+   "id": "roofline_20_6",
+   "source_node": "PORTAL_roofline_20_6",
+   "front_room": "room_r22",
+   "back_room": "room_r20"
+  },
+  {
+   "id": "roofline_20_7",
+   "source_node": "PORTAL_roofline_20_7",
+   "front_room": "room_r22",
+   "back_room": "room_r20"
+  },
+  {
+   "id": "roofline_20_8",
+   "source_node": "PORTAL_roofline_20_8",
+   "front_room": "room_r22",
+   "back_room": "room_r20"
+  },
+  {
+   "id": "roofline_20_9",
+   "source_node": "PORTAL_roofline_20_9",
+   "front_room": "room_r22",
+   "back_room": "room_r20"
+  },
+  {
+   "id": "roofline_20_10",
+   "source_node": "PORTAL_roofline_20_10",
+   "front_room": "room_r22",
+   "back_room": "room_r20"
+  },
+  {
+   "id": "roofline_20_11",
+   "source_node": "PORTAL_roofline_20_11",
+   "front_room": "room_r22",
+   "back_room": "room_r20"
+  },
+  {
+   "id": "roofline_20_12",
+   "source_node": "PORTAL_roofline_20_12",
+   "front_room": "room_r22",
+   "back_room": "room_r20"
+  },
+  {
+   "id": "roofline_20_13",
+   "source_node": "PORTAL_roofline_20_13",
+   "front_room": "room_r22",
+   "back_room": "room_r20"
+  },
+  {
+   "id": "roofline_20_14",
+   "source_node": "PORTAL_roofline_20_14",
+   "front_room": "room_r22",
+   "back_room": "room_r20"
+  },
+  {
+   "id": "roofline_20_15",
+   "source_node": "PORTAL_roofline_20_15",
+   "front_room": "room_r22",
+   "back_room": "room_r20"
+  },
+  {
+   "id": "roofline_20_16",
+   "source_node": "PORTAL_roofline_20_16",
+   "front_room": "room_r22",
+   "back_room": "room_r20"
+  },
+  {
+   "id": "roofline_20_17",
+   "source_node": "PORTAL_roofline_20_17",
+   "front_room": "room_r22",
+   "back_room": "room_r20"
+  },
+  {
+   "id": "roofline_20_18",
+   "source_node": "PORTAL_roofline_20_18",
+   "front_room": "room_r22",
+   "back_room": "room_r20"
+  },
+  {
+   "id": "roofline_20_19",
+   "source_node": "PORTAL_roofline_20_19",
+   "front_room": "room_r22",
+   "back_room": "room_r20"
+  },
+  {
+   "id": "roofline_20_20",
+   "source_node": "PORTAL_roofline_20_20",
+   "front_room": "room_r22",
+   "back_room": "room_r20"
+  },
+  {
+   "id": "roofline_20_21",
+   "source_node": "PORTAL_roofline_20_21",
+   "front_room": "room_r22",
+   "back_room": "room_r20"
+  },
+  {
+   "id": "roofline_20_22",
+   "source_node": "PORTAL_roofline_20_22",
+   "front_room": "room_r22",
+   "back_room": "room_r20"
+  },
+  {
+   "id": "roofline_20_23",
+   "source_node": "PORTAL_roofline_20_23",
+   "front_room": "room_r22",
+   "back_room": "room_r20"
+  },
+  {
+   "id": "roofline_20_24",
+   "source_node": "PORTAL_roofline_20_24",
+   "front_room": "room_r22",
+   "back_room": "room_r20"
+  },
+  {
+   "id": "roofline_20_25",
+   "source_node": "PORTAL_roofline_20_25",
+   "front_room": "room_r22",
+   "back_room": "room_r20"
+  },
+  {
+   "id": "roofline_20_26",
+   "source_node": "PORTAL_roofline_20_26",
+   "front_room": "room_r22",
+   "back_room": "room_r20"
+  },
+  {
+   "id": "roofline_20_27",
+   "source_node": "PORTAL_roofline_20_27",
+   "front_room": "room_r22",
+   "back_room": "room_r20"
+  },
+  {
+   "id": "roofline_20_28",
+   "source_node": "PORTAL_roofline_20_28",
+   "front_room": "room_r22",
+   "back_room": "room_r20"
+  },
+  {
+   "id": "roofline_20_29",
+   "source_node": "PORTAL_roofline_20_29",
+   "front_room": "room_r22",
+   "back_room": "room_r20"
+  },
+  {
+   "id": "roofline_20_30",
+   "source_node": "PORTAL_roofline_20_30",
+   "front_room": "room_r22",
+   "back_room": "room_r20"
+  },
+  {
+   "id": "roofline_20_31",
+   "source_node": "PORTAL_roofline_20_31",
+   "front_room": "room_r22",
+   "back_room": "room_r20"
+  },
+  {
+   "id": "roofline_20_32",
+   "source_node": "PORTAL_roofline_20_32",
+   "front_room": "room_r22",
+   "back_room": "room_r20"
+  },
+  {
+   "id": "roofline_20_33",
+   "source_node": "PORTAL_roofline_20_33",
+   "front_room": "room_r22",
+   "back_room": "room_r20"
+  },
+  {
+   "id": "roofline_20_34",
+   "source_node": "PORTAL_roofline_20_34",
+   "front_room": "room_r22",
+   "back_room": "room_r20"
+  },
+  {
+   "id": "roofline_20_35",
+   "source_node": "PORTAL_roofline_20_35",
+   "front_room": "room_r22",
+   "back_room": "room_r20"
+  },
+  {
+   "id": "roofline_20_36",
+   "source_node": "PORTAL_roofline_20_36",
+   "front_room": "room_r22",
+   "back_room": "room_r20"
+  },
+  {
+   "id": "roofline_20_37",
+   "source_node": "PORTAL_roofline_20_37",
+   "front_room": "room_r22",
+   "back_room": "room_r20"
+  },
+  {
+   "id": "roofline_20_38",
+   "source_node": "PORTAL_roofline_20_38",
+   "front_room": "room_r22",
+   "back_room": "room_r20"
+  },
+  {
+   "id": "roofline_20_39",
+   "source_node": "PORTAL_roofline_20_39",
+   "front_room": "room_r22",
+   "back_room": "room_r20"
+  },
+  {
+   "id": "roofline_20_40",
+   "source_node": "PORTAL_roofline_20_40",
+   "front_room": "room_r22",
+   "back_room": "room_r20"
+  },
+  {
+   "id": "roofline_20_41",
+   "source_node": "PORTAL_roofline_20_41",
+   "front_room": "room_r22",
+   "back_room": "room_r20"
+  },
+  {
+   "id": "roofline_20_42",
+   "source_node": "PORTAL_roofline_20_42",
+   "front_room": "room_r22",
+   "back_room": "room_r20"
+  },
+  {
+   "id": "roofline_20_43",
+   "source_node": "PORTAL_roofline_20_43",
+   "front_room": "room_r22",
+   "back_room": "room_r20"
+  },
+  {
+   "id": "roofline_20_44",
+   "source_node": "PORTAL_roofline_20_44",
+   "front_room": "room_r22",
+   "back_room": "room_r20"
+  },
+  {
+   "id": "roofline_20_45",
+   "source_node": "PORTAL_roofline_20_45",
+   "front_room": "room_r22",
+   "back_room": "room_r20"
+  },
+  {
+   "id": "roofline_20_46",
+   "source_node": "PORTAL_roofline_20_46",
+   "front_room": "room_r22",
+   "back_room": "room_r20"
+  },
+  {
+   "id": "roofline_20_47",
+   "source_node": "PORTAL_roofline_20_47",
+   "front_room": "room_r22",
+   "back_room": "room_r20"
+  },
+  {
+   "id": "roofline_20_48",
+   "source_node": "PORTAL_roofline_20_48",
+   "front_room": "room_r22",
+   "back_room": "room_r20"
+  },
+  {
+   "id": "roofline_20_49",
+   "source_node": "PORTAL_roofline_20_49",
+   "front_room": "room_r22",
+   "back_room": "room_r20"
+  },
+  {
+   "id": "roofline_20_50",
+   "source_node": "PORTAL_roofline_20_50",
+   "front_room": "room_r22",
+   "back_room": "room_r20"
+  },
+  {
+   "id": "roofline_20_51",
+   "source_node": "PORTAL_roofline_20_51",
+   "front_room": "room_r22",
+   "back_room": "room_r20"
+  },
+  {
+   "id": "roofline_20_52",
+   "source_node": "PORTAL_roofline_20_52",
+   "front_room": "room_r22",
+   "back_room": "room_r20"
+  },
+  {
+   "id": "roofline_20_53",
+   "source_node": "PORTAL_roofline_20_53",
+   "front_room": "room_r22",
+   "back_room": "room_r20"
+  },
+  {
+   "id": "roofline_20_54",
+   "source_node": "PORTAL_roofline_20_54",
+   "front_room": "room_r22",
+   "back_room": "room_r20"
+  },
+  {
+   "id": "roofline_20_55",
+   "source_node": "PORTAL_roofline_20_55",
+   "front_room": "room_r22",
+   "back_room": "room_r20"
+  },
+  {
+   "id": "roofline_20_56",
+   "source_node": "PORTAL_roofline_20_56",
+   "front_room": "room_r22",
+   "back_room": "room_r20"
+  },
+  {
+   "id": "roofline_20_57",
+   "source_node": "PORTAL_roofline_20_57",
+   "front_room": "room_r22",
+   "back_room": "room_r20"
+  },
+  {
+   "id": "roofline_20_58",
+   "source_node": "PORTAL_roofline_20_58",
+   "front_room": "room_r22",
+   "back_room": "room_r20"
+  },
+  {
+   "id": "roofline_20_59",
+   "source_node": "PORTAL_roofline_20_59",
+   "front_room": "room_r22",
+   "back_room": "room_r20"
+  },
+  {
+   "id": "roofline_20_60",
+   "source_node": "PORTAL_roofline_20_60",
+   "front_room": "room_r22",
+   "back_room": "room_r20"
+  },
+  {
+   "id": "roofline_20_61",
+   "source_node": "PORTAL_roofline_20_61",
+   "front_room": "room_r22",
+   "back_room": "room_r20"
+  },
+  {
+   "id": "roofline_20_62",
+   "source_node": "PORTAL_roofline_20_62",
+   "front_room": "room_r22",
+   "back_room": "room_r20"
+  },
+  {
+   "id": "roofline_20_63",
+   "source_node": "PORTAL_roofline_20_63",
+   "front_room": "room_r22",
+   "back_room": "room_r20"
+  },
+  {
+   "id": "roofline_20_64",
+   "source_node": "PORTAL_roofline_20_64",
+   "front_room": "room_r22",
+   "back_room": "room_r20"
+  },
+  {
+   "id": "roofline_20_65",
+   "source_node": "PORTAL_roofline_20_65",
+   "front_room": "room_r22",
+   "back_room": "room_r20"
+  },
+  {
+   "id": "roofline_20_66",
+   "source_node": "PORTAL_roofline_20_66",
+   "front_room": "room_r22",
+   "back_room": "room_r20"
+  },
+  {
+   "id": "roofline_20_67",
+   "source_node": "PORTAL_roofline_20_67",
+   "front_room": "room_r22",
+   "back_room": "room_r20"
+  },
+  {
+   "id": "roofline_20_68",
+   "source_node": "PORTAL_roofline_20_68",
+   "front_room": "room_r22",
+   "back_room": "room_r20"
+  },
+  {
+   "id": "roofline_20_69",
+   "source_node": "PORTAL_roofline_20_69",
+   "front_room": "room_r22",
+   "back_room": "room_r20"
+  },
+  {
+   "id": "roofline_20_70",
+   "source_node": "PORTAL_roofline_20_70",
+   "front_room": "room_r22",
+   "back_room": "room_r20"
+  },
+  {
+   "id": "roofline_20_71",
+   "source_node": "PORTAL_roofline_20_71",
+   "front_room": "room_r22",
+   "back_room": "room_r20"
+  },
+  {
+   "id": "roofline_20_72",
+   "source_node": "PORTAL_roofline_20_72",
+   "front_room": "room_r22",
+   "back_room": "room_r20"
+  },
+  {
+   "id": "roofline_20_73",
+   "source_node": "PORTAL_roofline_20_73",
+   "front_room": "room_r22",
+   "back_room": "room_r20"
+  },
+  {
+   "id": "roofline_20_74",
+   "source_node": "PORTAL_roofline_20_74",
+   "front_room": "room_r22",
+   "back_room": "room_r20"
+  },
+  {
+   "id": "roofline_20_75",
+   "source_node": "PORTAL_roofline_20_75",
+   "front_room": "room_r22",
+   "back_room": "room_r20"
+  },
+  {
+   "id": "roofline_20_76",
+   "source_node": "PORTAL_roofline_20_76",
+   "front_room": "room_r22",
+   "back_room": "room_r20"
+  },
+  {
+   "id": "roofline_20_77",
+   "source_node": "PORTAL_roofline_20_77",
+   "front_room": "room_r22",
+   "back_room": "room_r20"
+  },
+  {
+   "id": "roofline_20_78",
+   "source_node": "PORTAL_roofline_20_78",
+   "front_room": "room_r22",
+   "back_room": "room_r20"
+  },
+  {
+   "id": "roofline_21_1",
+   "source_node": "PORTAL_roofline_21_1",
+   "front_room": "room_r22",
+   "back_room": "room_r21"
+  },
+  {
+   "id": "roofline_28_1",
+   "source_node": "PORTAL_roofline_28_1",
+   "front_room": "room_r22",
+   "back_room": "room_r28"
+  },
+  {
+   "id": "roofline_28_2",
+   "source_node": "PORTAL_roofline_28_2",
+   "front_room": "room_r22",
+   "back_room": "room_r28"
+  },
+  {
+   "id": "roofline_28_3",
+   "source_node": "PORTAL_roofline_28_3",
+   "front_room": "room_r22",
+   "back_room": "room_r28"
+  },
+  {
+   "id": "roofline_28_4",
+   "source_node": "PORTAL_roofline_28_4",
+   "front_room": "room_r22",
+   "back_room": "room_r28"
+  },
+  {
+   "id": "roofline_28_5",
+   "source_node": "PORTAL_roofline_28_5",
+   "front_room": "room_r22",
+   "back_room": "room_r28"
+  },
+  {
+   "id": "roofline_28_6",
+   "source_node": "PORTAL_roofline_28_6",
+   "front_room": "room_r22",
+   "back_room": "room_r28"
+  },
+  {
+   "id": "roofline_28_7",
+   "source_node": "PORTAL_roofline_28_7",
+   "front_room": "room_r22",
+   "back_room": "room_r28"
+  },
+  {
+   "id": "roofline_28_8",
+   "source_node": "PORTAL_roofline_28_8",
+   "front_room": "room_r22",
+   "back_room": "room_r28"
+  },
+  {
+   "id": "roofline_28_9",
+   "source_node": "PORTAL_roofline_28_9",
+   "front_room": "room_r22",
+   "back_room": "room_r28"
+  },
+  {
+   "id": "roofline_28_10",
+   "source_node": "PORTAL_roofline_28_10",
+   "front_room": "room_r22",
+   "back_room": "room_r28"
+  },
+  {
+   "id": "roofline_28_11",
+   "source_node": "PORTAL_roofline_28_11",
+   "front_room": "room_r22",
+   "back_room": "room_r28"
+  },
+  {
+   "id": "roofline_28_12",
+   "source_node": "PORTAL_roofline_28_12",
+   "front_room": "room_r22",
+   "back_room": "room_r28"
+  },
+  {
+   "id": "roofline_28_13",
+   "source_node": "PORTAL_roofline_28_13",
+   "front_room": "room_r22",
+   "back_room": "room_r28"
+  },
+  {
+   "id": "roofline_28_14",
+   "source_node": "PORTAL_roofline_28_14",
+   "front_room": "room_r22",
+   "back_room": "room_r28"
+  },
+  {
+   "id": "roofline_28_15",
+   "source_node": "PORTAL_roofline_28_15",
+   "front_room": "room_r22",
+   "back_room": "room_r28"
+  },
+  {
+   "id": "roofline_28_16",
+   "source_node": "PORTAL_roofline_28_16",
+   "front_room": "room_r22",
+   "back_room": "room_r28"
+  },
+  {
+   "id": "roofline_28_17",
+   "source_node": "PORTAL_roofline_28_17",
+   "front_room": "room_r22",
+   "back_room": "room_r28"
+  },
+  {
+   "id": "roofline_28_18",
+   "source_node": "PORTAL_roofline_28_18",
+   "front_room": "room_r22",
+   "back_room": "room_r28"
+  },
+  {
+   "id": "roofline_28_19",
+   "source_node": "PORTAL_roofline_28_19",
+   "front_room": "room_r22",
+   "back_room": "room_r28"
+  },
+  {
+   "id": "roofline_28_20",
+   "source_node": "PORTAL_roofline_28_20",
+   "front_room": "room_r22",
+   "back_room": "room_r28"
+  },
+  {
+   "id": "roofline_28_21",
+   "source_node": "PORTAL_roofline_28_21",
+   "front_room": "room_r22",
+   "back_room": "room_r28"
+  },
+  {
+   "id": "roofline_28_22",
+   "source_node": "PORTAL_roofline_28_22",
+   "front_room": "room_r22",
+   "back_room": "room_r28"
+  },
+  {
+   "id": "roofline_28_23",
+   "source_node": "PORTAL_roofline_28_23",
+   "front_room": "room_r22",
+   "back_room": "room_r28"
+  },
+  {
+   "id": "roofline_28_24",
+   "source_node": "PORTAL_roofline_28_24",
+   "front_room": "room_r22",
+   "back_room": "room_r28"
+  },
+  {
+   "id": "roofline_28_25",
+   "source_node": "PORTAL_roofline_28_25",
+   "front_room": "room_r22",
+   "back_room": "room_r28"
+  },
+  {
+   "id": "roofline_28_26",
+   "source_node": "PORTAL_roofline_28_26",
+   "front_room": "room_r22",
+   "back_room": "room_r28"
+  },
+  {
+   "id": "roofline_28_27",
+   "source_node": "PORTAL_roofline_28_27",
+   "front_room": "room_r22",
+   "back_room": "room_r28"
+  },
+  {
+   "id": "roofline_28_28",
+   "source_node": "PORTAL_roofline_28_28",
+   "front_room": "room_r22",
+   "back_room": "room_r28"
+  },
+  {
+   "id": "roofline_28_29",
+   "source_node": "PORTAL_roofline_28_29",
+   "front_room": "room_r22",
+   "back_room": "room_r28"
+  },
+  {
+   "id": "roofline_28_30",
+   "source_node": "PORTAL_roofline_28_30",
+   "front_room": "room_r22",
+   "back_room": "room_r28"
+  },
+  {
+   "id": "roofline_28_31",
+   "source_node": "PORTAL_roofline_28_31",
+   "front_room": "room_r22",
+   "back_room": "room_r28"
+  },
+  {
+   "id": "roofline_28_32",
+   "source_node": "PORTAL_roofline_28_32",
+   "front_room": "room_r22",
+   "back_room": "room_r28"
+  },
+  {
+   "id": "roofline_28_33",
+   "source_node": "PORTAL_roofline_28_33",
+   "front_room": "room_r22",
+   "back_room": "room_r28"
+  },
+  {
+   "id": "roofline_28_34",
+   "source_node": "PORTAL_roofline_28_34",
+   "front_room": "room_r22",
+   "back_room": "room_r28"
+  },
+  {
+   "id": "roofline_28_35",
+   "source_node": "PORTAL_roofline_28_35",
+   "front_room": "room_r22",
+   "back_room": "room_r28"
+  },
+  {
+   "id": "roofline_28_36",
+   "source_node": "PORTAL_roofline_28_36",
+   "front_room": "room_r22",
+   "back_room": "room_r28"
+  },
+  {
+   "id": "roofline_28_37",
+   "source_node": "PORTAL_roofline_28_37",
+   "front_room": "room_r22",
+   "back_room": "room_r28"
+  },
+  {
+   "id": "roofline_28_38",
+   "source_node": "PORTAL_roofline_28_38",
+   "front_room": "room_r22",
+   "back_room": "room_r28"
+  },
+  {
+   "id": "roofline_28_39",
+   "source_node": "PORTAL_roofline_28_39",
+   "front_room": "room_r22",
+   "back_room": "room_r28"
+  },
+  {
+   "id": "roofline_28_40",
+   "source_node": "PORTAL_roofline_28_40",
+   "front_room": "room_r22",
+   "back_room": "room_r28"
+  },
+  {
+   "id": "roofline_28_41",
+   "source_node": "PORTAL_roofline_28_41",
+   "front_room": "room_r22",
+   "back_room": "room_r28"
+  },
+  {
+   "id": "roofline_30_1",
+   "source_node": "PORTAL_roofline_30_1",
+   "front_room": "room_r22",
+   "back_room": "room_r33"
+  },
+  {
+   "id": "roofline_31_1",
+   "source_node": "PORTAL_roofline_31_1",
+   "front_room": "room_r22",
+   "back_room": "room_r34"
+  },
+  {
+   "id": "roofline_32_1",
+   "source_node": "PORTAL_roofline_32_1",
+   "front_room": "room_r22",
+   "back_room": "room_r35"
+  },
+  {
+   "id": "roofline_33_1",
+   "source_node": "PORTAL_roofline_33_1",
+   "front_room": "room_r22",
+   "back_room": "room_r36"
+  },
+  {
+   "id": "roofline_33_2",
+   "source_node": "PORTAL_roofline_33_2",
+   "front_room": "room_r22",
+   "back_room": "room_r36"
+  },
+  {
+   "id": "roofline_34_1",
+   "source_node": "PORTAL_roofline_34_1",
+   "front_room": "room_r22",
+   "back_room": "room_r37"
+  },
+  {
+   "id": "roofline_34_2",
+   "source_node": "PORTAL_roofline_34_2",
+   "front_room": "room_r22",
+   "back_room": "room_r37"
+  },
+  {
+   "id": "roofline_34_3",
+   "source_node": "PORTAL_roofline_34_3",
+   "front_room": "room_r22",
+   "back_room": "room_r37"
+  },
+  {
+   "id": "roofline_34_4",
+   "source_node": "PORTAL_roofline_34_4",
+   "front_room": "room_r22",
+   "back_room": "room_r37"
+  },
+  {
+   "id": "roofline_35_1",
+   "source_node": "PORTAL_roofline_35_1",
+   "front_room": "room_r22",
+   "back_room": "room_r38"
+  },
+  {
+   "id": "glass_Transparent Window Grate10_1",
+   "source_node": "PORTAL_glass_Transparent Window Grate10_1",
+   "front_room": "room_r22",
+   "back_room": "room_r09"
+  },
+  {
+   "id": "glass_Transparent Window Grate4_2",
+   "source_node": "PORTAL_glass_Transparent Window Grate4_2",
+   "front_room": "room_r22",
+   "back_room": "room_r18"
+  },
+  {
+   "id": "glass_Transparent Window Grate2_3",
+   "source_node": "PORTAL_glass_Transparent Window Grate2_3",
+   "front_room": "room_r22",
+   "back_room": "room_r18"
+  },
+  {
+   "id": "glass_Transparent Window Grate8_4",
+   "source_node": "PORTAL_glass_Transparent Window Grate8_4",
+   "front_room": "room_r22",
+   "back_room": "room_r08"
+  },
+  {
+   "id": "glass_Transparent Window Grate13_5",
+   "source_node": "PORTAL_glass_Transparent Window Grate13_5",
+   "front_room": "room_r22",
+   "back_room": "room_r07"
+  },
+  {
+   "id": "glass_Tavernwindow_6",
+   "source_node": "PORTAL_glass_Tavernwindow_6",
+   "front_room": "room_r20",
+   "back_room": "room_r24"
+  },
+  {
+   "id": "glass_PhysicsBSP_7",
+   "source_node": "PORTAL_glass_PhysicsBSP_7",
+   "front_room": "room_r31",
+   "back_room": "room_r20"
+  },
+  {
+   "id": "glass_PhysicsBSP_8",
+   "source_node": "PORTAL_glass_PhysicsBSP_8",
+   "front_room": "room_r20",
+   "back_room": "room_r31"
+  },
+  {
+   "id": "glass_PhysicsBSP_9",
+   "source_node": "PORTAL_glass_PhysicsBSP_9",
+   "front_room": "room_r31",
+   "back_room": "room_r20"
+  },
+  {
+   "id": "glass_PhysicsBSP_10",
+   "source_node": "PORTAL_glass_PhysicsBSP_10",
+   "front_room": "room_r20",
+   "back_room": "room_r31"
+  },
+  {
+   "id": "glass_PhysicsBSP_11",
+   "source_node": "PORTAL_glass_PhysicsBSP_11",
+   "front_room": "room_r20",
+   "back_room": "room_r24"
+  }
+ ],
+ "surfaces": [
+  {
+   "id": "shared_r20_r06",
+   "source_node": "TRIGGER_shared_r20_r06",
+   "flags": [],
+   "back_room": "room_r20"
+  },
+  {
+   "id": "invisible_r07",
+   "source_node": "TRIGGER_invisible_r07",
+   "flags": [
+    "invisible"
+   ]
+  },
+  {
+   "id": "invisible_r08",
+   "source_node": "TRIGGER_invisible_r08",
+   "flags": [
+    "invisible"
+   ]
+  },
+  {
+   "id": "invisible_r09",
+   "source_node": "TRIGGER_invisible_r09",
+   "flags": [
+    "invisible"
+   ]
+  },
+  {
+   "id": "invisible_r11",
+   "source_node": "TRIGGER_invisible_r11",
+   "flags": [
+    "invisible"
+   ]
+  },
+  {
+   "id": "shared_r14_r11",
+   "source_node": "TRIGGER_shared_r14_r11",
+   "flags": [],
+   "back_room": "room_r14"
+  },
+  {
+   "id": "shared_r20_r11",
+   "source_node": "TRIGGER_shared_r20_r11",
+   "flags": [],
+   "back_room": "room_r20"
+  },
+  {
+   "id": "opaque_r11",
+   "source_node": "TRIGGER_opaque_r11",
+   "flags": []
+  },
+  {
+   "id": "shared_r19_r11",
+   "source_node": "TRIGGER_shared_r19_r11",
+   "flags": [],
+   "back_room": "room_r19"
+  },
+  {
+   "id": "invisible_r12",
+   "source_node": "TRIGGER_invisible_r12",
+   "flags": [
+    "invisible"
+   ]
+  },
+  {
+   "id": "nonsolid_r13",
+   "source_node": "TRIGGER_nonsolid_r13",
+   "flags": [
+    "untouchable"
+   ]
+  },
+  {
+   "id": "shared_r19_r13",
+   "source_node": "TRIGGER_shared_r19_r13",
+   "flags": [],
+   "back_room": "room_r19"
+  },
+  {
+   "id": "invisible_r14",
+   "source_node": "TRIGGER_invisible_r14",
+   "flags": [
+    "invisible"
+   ]
+  },
+  {
+   "id": "nonsolid_r14",
+   "source_node": "TRIGGER_nonsolid_r14",
+   "flags": [
+    "untouchable"
+   ]
+  },
+  {
+   "id": "shared_r20_r14",
+   "source_node": "TRIGGER_shared_r20_r14",
+   "flags": [],
+   "back_room": "room_r20"
+  },
+  {
+   "id": "shared_r11_r14",
+   "source_node": "TRIGGER_shared_r11_r14",
+   "flags": [],
+   "back_room": "room_r11"
+  },
+  {
+   "id": "opaque_r14",
+   "source_node": "TRIGGER_opaque_r14",
+   "flags": []
+  },
+  {
+   "id": "opaque_r11_r14",
+   "source_node": "TRIGGER_opaque_r11_r14",
+   "flags": [],
+   "back_room": "room_r11"
+  },
+  {
+   "id": "opaque_r20_r14",
+   "source_node": "TRIGGER_opaque_r20_r14",
+   "flags": [],
+   "back_room": "room_r20"
+  },
+  {
+   "id": "invisible_r15",
+   "source_node": "TRIGGER_invisible_r15",
+   "flags": [
+    "invisible"
+   ]
+  },
+  {
+   "id": "shared_r17_r15",
+   "source_node": "TRIGGER_shared_r17_r15",
+   "flags": [],
+   "back_room": "room_r17"
+  },
+  {
+   "id": "shared_r18_r16",
+   "source_node": "TRIGGER_shared_r18_r16",
+   "flags": [],
+   "back_room": "room_r18"
+  },
+  {
+   "id": "nonsolid_r17",
+   "source_node": "TRIGGER_nonsolid_r17",
+   "flags": [
+    "untouchable"
+   ]
+  },
+  {
+   "id": "shared_r20_r17",
+   "source_node": "TRIGGER_shared_r20_r17",
+   "flags": [],
+   "back_room": "room_r20"
+  },
+  {
+   "id": "shared_r15_r17",
+   "source_node": "TRIGGER_shared_r15_r17",
+   "flags": [],
+   "back_room": "room_r15"
+  },
+  {
+   "id": "shared_r18_r17",
+   "source_node": "TRIGGER_shared_r18_r17",
+   "flags": [],
+   "back_room": "room_r18"
+  },
+  {
+   "id": "invisible_r18",
+   "source_node": "TRIGGER_invisible_r18",
+   "flags": [
+    "invisible"
+   ]
+  },
+  {
+   "id": "shared_r17_r18",
+   "source_node": "TRIGGER_shared_r17_r18",
+   "flags": [],
+   "back_room": "room_r17"
+  },
+  {
+   "id": "shared_r16_r18",
+   "source_node": "TRIGGER_shared_r16_r18",
+   "flags": [],
+   "back_room": "room_r16"
+  },
+  {
+   "id": "shared_r20_r19",
+   "source_node": "TRIGGER_shared_r20_r19",
+   "flags": [],
+   "back_room": "room_r20"
+  },
+  {
+   "id": "shared_r13_r19",
+   "source_node": "TRIGGER_shared_r13_r19",
+   "flags": [],
+   "back_room": "room_r13"
+  },
+  {
+   "id": "shared_r23_r19",
+   "source_node": "TRIGGER_shared_r23_r19",
+   "flags": [],
+   "back_room": "room_r23"
+  },
+  {
+   "id": "shared_r11_r19",
+   "source_node": "TRIGGER_shared_r11_r19",
+   "flags": [],
+   "back_room": "room_r11"
+  },
+  {
+   "id": "invisible_r20",
+   "source_node": "TRIGGER_invisible_r20",
+   "flags": [
+    "invisible"
+   ]
+  },
+  {
+   "id": "shared_r19_r20",
+   "source_node": "TRIGGER_shared_r19_r20",
+   "flags": [],
+   "back_room": "room_r19"
+  },
+  {
+   "id": "shared_r28_r20",
+   "source_node": "TRIGGER_shared_r28_r20",
+   "flags": [],
+   "back_room": "room_r28"
+  },
+  {
+   "id": "shared_r27_r20",
+   "source_node": "TRIGGER_shared_r27_r20",
+   "flags": [],
+   "back_room": "room_r27"
+  },
+  {
+   "id": "shared_r14_r20",
+   "source_node": "TRIGGER_shared_r14_r20",
+   "flags": [],
+   "back_room": "room_r14"
+  },
+  {
+   "id": "shared_r11_r20",
+   "source_node": "TRIGGER_shared_r11_r20",
+   "flags": [],
+   "back_room": "room_r11"
+  },
+  {
+   "id": "opaque_r20",
+   "source_node": "TRIGGER_opaque_r20",
+   "flags": []
+  },
+  {
+   "id": "opaque_r14_r20",
+   "source_node": "TRIGGER_opaque_r14_r20",
+   "flags": [],
+   "back_room": "room_r14"
+  },
+  {
+   "id": "shared_r17_r20",
+   "source_node": "TRIGGER_shared_r17_r20",
+   "flags": [],
+   "back_room": "room_r17"
+  },
+  {
+   "id": "shared_r15_r20",
+   "source_node": "TRIGGER_shared_r15_r20",
+   "flags": [],
+   "back_room": "room_r15"
+  },
+  {
+   "id": "shared_r31_r20",
+   "source_node": "TRIGGER_shared_r31_r20",
+   "flags": [],
+   "back_room": "room_r31"
+  },
+  {
+   "id": "shared_r24_r20",
+   "source_node": "TRIGGER_shared_r24_r20",
+   "flags": [],
+   "back_room": "room_r24"
+  },
+  {
+   "id": "shared_r26_r20",
+   "source_node": "TRIGGER_shared_r26_r20",
+   "flags": [],
+   "back_room": "room_r26"
+  },
+  {
+   "id": "shared_r25_r20",
+   "source_node": "TRIGGER_shared_r25_r20",
+   "flags": [],
+   "back_room": "room_r25"
+  },
+  {
+   "id": "shared_r06_r20",
+   "source_node": "TRIGGER_shared_r06_r20",
+   "flags": [],
+   "back_room": "room_r06"
+  },
+  {
+   "id": "shared_r28_r21",
+   "source_node": "TRIGGER_shared_r28_r21",
+   "flags": [],
+   "back_room": "room_r28"
+  },
+  {
+   "id": "invisible_r22",
+   "source_node": "TRIGGER_invisible_r22",
+   "flags": [
+    "invisible"
+   ]
+  },
+  {
+   "id": "shared_r15_r22",
+   "source_node": "TRIGGER_shared_r15_r22",
+   "flags": [],
+   "back_room": "room_r15"
+  },
+  {
+   "id": "shared_r08_r22",
+   "source_node": "TRIGGER_shared_r08_r22",
+   "flags": [],
+   "back_room": "room_r08"
+  },
+  {
+   "id": "shared_r19_r22",
+   "source_node": "TRIGGER_shared_r19_r22",
+   "flags": [],
+   "back_room": "room_r19"
+  },
+  {
+   "id": "shared_r20_r22",
+   "source_node": "TRIGGER_shared_r20_r22",
+   "flags": [],
+   "back_room": "room_r20"
+  },
+  {
+   "id": "shared_r28_r22",
+   "source_node": "TRIGGER_shared_r28_r22",
+   "flags": [],
+   "back_room": "room_r28"
+  },
+  {
+   "id": "shared_r35_r22",
+   "source_node": "TRIGGER_shared_r35_r22",
+   "flags": [],
+   "back_room": "room_r35"
+  },
+  {
+   "id": "shared_r34_r22",
+   "source_node": "TRIGGER_shared_r34_r22",
+   "flags": [],
+   "back_room": "room_r34"
+  },
+  {
+   "id": "shared_r36_r22",
+   "source_node": "TRIGGER_shared_r36_r22",
+   "flags": [],
+   "back_room": "room_r36"
+  },
+  {
+   "id": "shared_r37_r22",
+   "source_node": "TRIGGER_shared_r37_r22",
+   "flags": [],
+   "back_room": "room_r37"
+  },
+  {
+   "id": "shared_r27_r22",
+   "source_node": "TRIGGER_shared_r27_r22",
+   "flags": [],
+   "back_room": "room_r27"
+  },
+  {
+   "id": "shared_r09_r22",
+   "source_node": "TRIGGER_shared_r09_r22",
+   "flags": [],
+   "back_room": "room_r09"
+  },
+  {
+   "id": "shared_r14_r22",
+   "source_node": "TRIGGER_shared_r14_r22",
+   "flags": [],
+   "back_room": "room_r14"
+  },
+  {
+   "id": "shared_r11_r22",
+   "source_node": "TRIGGER_shared_r11_r22",
+   "flags": [],
+   "back_room": "room_r11"
+  },
+  {
+   "id": "opaque_r11_r22",
+   "source_node": "TRIGGER_opaque_r11_r22",
+   "flags": [],
+   "back_room": "room_r11"
+  },
+  {
+   "id": "opaque_r20_r22",
+   "source_node": "TRIGGER_opaque_r20_r22",
+   "flags": [],
+   "back_room": "room_r20"
+  },
+  {
+   "id": "opaque_r14_r22",
+   "source_node": "TRIGGER_opaque_r14_r22",
+   "flags": [],
+   "back_room": "room_r14"
+  },
+  {
+   "id": "shared_r17_r22",
+   "source_node": "TRIGGER_shared_r17_r22",
+   "flags": [],
+   "back_room": "room_r17"
+  },
+  {
+   "id": "shared_r18_r22",
+   "source_node": "TRIGGER_shared_r18_r22",
+   "flags": [],
+   "back_room": "room_r18"
+  },
+  {
+   "id": "shared_r16_r22",
+   "source_node": "TRIGGER_shared_r16_r22",
+   "flags": [],
+   "back_room": "room_r16"
+  },
+  {
+   "id": "shared_r12_r22",
+   "source_node": "TRIGGER_shared_r12_r22",
+   "flags": [],
+   "back_room": "room_r12"
+  },
+  {
+   "id": "shared_r13_r22",
+   "source_node": "TRIGGER_shared_r13_r22",
+   "flags": [],
+   "back_room": "room_r13"
+  },
+  {
+   "id": "shared_r31_r22",
+   "source_node": "TRIGGER_shared_r31_r22",
+   "flags": [],
+   "back_room": "room_r31"
+  },
+  {
+   "id": "shared_r24_r22",
+   "source_node": "TRIGGER_shared_r24_r22",
+   "flags": [],
+   "back_room": "room_r24"
+  },
+  {
+   "id": "shared_r23_r22",
+   "source_node": "TRIGGER_shared_r23_r22",
+   "flags": [],
+   "back_room": "room_r23"
+  },
+  {
+   "id": "opaque_r23_r22",
+   "source_node": "TRIGGER_opaque_r23_r22",
+   "flags": [],
+   "back_room": "room_r23"
+  },
+  {
+   "id": "shared_r07_r22",
+   "source_node": "TRIGGER_shared_r07_r22",
+   "flags": [],
+   "back_room": "room_r07"
+  },
+  {
+   "id": "shared_r21_r22",
+   "source_node": "TRIGGER_shared_r21_r22",
+   "flags": [],
+   "back_room": "room_r21"
+  },
+  {
+   "id": "barrier_r22",
+   "source_node": "TRIGGER_barrier_r22",
+   "flags": [
+    "invisible",
+    "untouchable"
+   ]
+  },
+  {
+   "id": "nonsolid_r23",
+   "source_node": "TRIGGER_nonsolid_r23",
+   "flags": [
+    "untouchable"
+   ]
+  },
+  {
+   "id": "shared_r19_r23",
+   "source_node": "TRIGGER_shared_r19_r23",
+   "flags": [],
+   "back_room": "room_r19"
+  },
+  {
+   "id": "opaque_r23",
+   "source_node": "TRIGGER_opaque_r23",
+   "flags": []
+  },
+  {
+   "id": "invisible_r24",
+   "source_node": "TRIGGER_invisible_r24",
+   "flags": [
+    "invisible"
+   ]
+  },
+  {
+   "id": "shared_r20_r24",
+   "source_node": "TRIGGER_shared_r20_r24",
+   "flags": [],
+   "back_room": "room_r20"
+  },
+  {
+   "id": "shared_r26_r25",
+   "source_node": "TRIGGER_shared_r26_r25",
+   "flags": [],
+   "back_room": "room_r26"
+  },
+  {
+   "id": "shared_r20_r25",
+   "source_node": "TRIGGER_shared_r20_r25",
+   "flags": [],
+   "back_room": "room_r20"
+  },
+  {
+   "id": "shared_r20_r26",
+   "source_node": "TRIGGER_shared_r20_r26",
+   "flags": [],
+   "back_room": "room_r20"
+  },
+  {
+   "id": "shared_r25_r26",
+   "source_node": "TRIGGER_shared_r25_r26",
+   "flags": [],
+   "back_room": "room_r25"
+  },
+  {
+   "id": "nonsolid_r27",
+   "source_node": "TRIGGER_nonsolid_r27",
+   "flags": [
+    "untouchable"
+   ]
+  },
+  {
+   "id": "shared_r20_r27",
+   "source_node": "TRIGGER_shared_r20_r27",
+   "flags": [],
+   "back_room": "room_r20"
+  },
+  {
+   "id": "invisible_r27",
+   "source_node": "TRIGGER_invisible_r27",
+   "flags": [
+    "invisible"
+   ]
+  },
+  {
+   "id": "invisible_r28",
+   "source_node": "TRIGGER_invisible_r28",
+   "flags": [
+    "invisible"
+   ]
+  },
+  {
+   "id": "shared_r20_r28",
+   "source_node": "TRIGGER_shared_r20_r28",
+   "flags": [],
+   "back_room": "room_r20"
+  },
+  {
+   "id": "shared_r21_r28",
+   "source_node": "TRIGGER_shared_r21_r28",
+   "flags": [],
+   "back_room": "room_r21"
+  },
+  {
+   "id": "nonsolid_r31",
+   "source_node": "TRIGGER_nonsolid_r31",
+   "flags": [
+    "untouchable"
+   ]
+  },
+  {
+   "id": "shared_r20_r31",
+   "source_node": "TRIGGER_shared_r20_r31",
+   "flags": [],
+   "back_room": "room_r20"
+  },
+  {
+   "id": "AlchemistDoorRight",
+   "source_node": "MECH_AlchemistDoorRight",
+   "flags": [],
+   "trigger": {
+    "event_id": 230,
+    "type": "click"
+   }
+  },
+  {
+   "id": "AlchemistDoorLeft",
+   "source_node": "MECH_AlchemistDoorLeft",
+   "flags": [],
+   "trigger": {
+    "event_id": 230,
+    "type": "click"
+   }
+  },
+  {
+   "id": "BlacksmithDoor0",
+   "source_node": "MECH_BlacksmithDoor0",
+   "flags": [],
+   "trigger": {
+    "event_id": 101,
+    "type": "click"
+   }
+  },
+  {
+   "id": "BlacksmithDoor1",
+   "source_node": "MECH_BlacksmithDoor1",
+   "flags": [],
+   "trigger": {
+    "event_id": 101,
+    "type": "click"
+   }
+  },
+  {
+   "id": "HouseDoor1",
+   "source_node": "MECH_HouseDoor1",
+   "flags": [],
+   "trigger": {
+    "event_id": 230,
+    "type": "click"
+   }
+  },
+  {
+   "id": "HouseDoor2",
+   "source_node": "MECH_HouseDoor2",
+   "flags": [],
+   "trigger": {
+    "event_id": 230,
+    "type": "click"
+   }
+  },
+  {
+   "id": "InnDoorRight",
+   "source_node": "MECH_InnDoorRight",
+   "flags": [],
+   "trigger": {
+    "event_id": 102,
+    "type": "click"
+   }
+  },
+  {
+   "id": "InnDoorLeft",
+   "source_node": "MECH_InnDoorLeft",
+   "flags": [],
+   "trigger": {
+    "event_id": 102,
+    "type": "click"
+   }
+  },
+  {
+   "id": "MayorHouseDoor",
+   "source_node": "MECH_MayorHouseDoor",
+   "flags": [],
+   "trigger": {
+    "event_id": 103,
+    "type": "click"
+   }
+  },
+  {
+   "id": "MayorHouseDoor2",
+   "source_node": "MECH_MayorHouseDoor2",
+   "flags": [],
+   "trigger": {
+    "event_id": 104,
+    "type": "click"
+   }
+  },
+  {
+   "id": "MayorHouseDoor3",
+   "source_node": "MECH_MayorHouseDoor3",
+   "flags": [],
+   "trigger": {
+    "event_id": 105,
+    "type": "click"
+   }
+  },
+  {
+   "id": "NewHouseDoor1",
+   "source_node": "MECH_NewHouseDoor1",
+   "flags": [],
+   "trigger": {
+    "event_id": 106,
+    "type": "click"
+   }
+  },
+  {
+   "id": "NewHouseDoor0",
+   "source_node": "MECH_NewHouseDoor0",
+   "flags": [],
+   "trigger": {
+    "event_id": 106,
+    "type": "click"
+   }
+  },
+  {
+   "id": "RotatingDoor0",
+   "source_node": "MECH_RotatingDoor0",
+   "flags": [],
+   "trigger": {
+    "event_id": 107,
+    "type": "click"
+   }
+  },
+  {
+   "id": "RotatingDoor2",
+   "source_node": "MECH_RotatingDoor2",
+   "flags": [],
+   "trigger": {
+    "event_id": 107,
+    "type": "click"
+   }
+  },
+  {
+   "id": "RotatingDoor1",
+   "source_node": "MECH_RotatingDoor1",
+   "flags": [],
+   "trigger": {
+    "event_id": 230,
+    "type": "click"
+   }
+  },
+  {
+   "id": "RotatingDoor3",
+   "source_node": "MECH_RotatingDoor3",
+   "flags": [],
+   "trigger": {
+    "event_id": 108,
+    "type": "click"
+   }
+  },
+  {
+   "id": "SettlersDoor",
+   "source_node": "MECH_SettlersDoor",
+   "flags": [],
+   "trigger": {
+    "event_id": 109,
+    "type": "click"
+   }
+  },
+  {
+   "id": "SettlersDoor0",
+   "source_node": "MECH_SettlersDoor0",
+   "flags": [],
+   "trigger": {
+    "event_id": 110,
+    "type": "click"
+   }
+  },
+  {
+   "id": "SmalHouse1Door",
+   "source_node": "MECH_SmalHouse1Door",
+   "flags": [],
+   "trigger": {
+    "event_id": 111,
+    "type": "click"
+   }
+  },
+  {
+   "id": "SmalHouse2Door",
+   "source_node": "MECH_SmalHouse2Door",
+   "flags": [],
+   "trigger": {
+    "event_id": 112,
+    "type": "click"
+   }
+  },
+  {
+   "id": "SmithShackDoor",
+   "source_node": "MECH_SmithShackDoor",
+   "flags": [],
+   "trigger": {
+    "event_id": 230,
+    "type": "click"
+   }
+  },
+  {
+   "id": "StairDoor",
+   "source_node": "MECH_StairDoor",
+   "flags": [],
+   "trigger": {
+    "event_id": 230,
+    "type": "click"
+   }
+  },
+  {
+   "id": "StoreDoor1",
+   "source_node": "MECH_StoreDoor1",
+   "flags": [],
+   "trigger": {
+    "event_id": 113,
+    "type": "click"
+   }
+  },
+  {
+   "id": "StoreDoor2",
+   "source_node": "MECH_StoreDoor2",
+   "flags": [],
+   "trigger": {
+    "event_id": 113,
+    "type": "click"
+   }
+  },
+  {
+   "id": "TempleDoorRight",
+   "source_node": "MECH_TempleDoorRight",
+   "flags": [],
+   "trigger": {
+    "event_id": 114,
+    "type": "click"
+   }
+  },
+  {
+   "id": "TempleDoorLeft",
+   "source_node": "MECH_TempleDoorLeft",
+   "flags": [],
+   "trigger": {
+    "event_id": 114,
+    "type": "click"
+   }
+  },
+  {
+   "id": "TempleUpperDoor",
+   "source_node": "MECH_TempleUpperDoor",
+   "flags": [],
+   "trigger": {
+    "event_id": 115,
+    "type": "click"
+   }
+  },
+  {
+   "id": "TowerDoor",
+   "source_node": "MECH_TowerDoor",
+   "flags": [],
+   "trigger": {
+    "event_id": 116,
+    "type": "click"
+   }
+  },
+  {
+   "id": "TownHallDoorRight",
+   "source_node": "MECH_TownHallDoorRight",
+   "flags": [],
+   "trigger": {
+    "event_id": 240,
+    "type": "click"
+   }
+  },
+  {
+   "id": "TownHallDoorLeft",
+   "source_node": "MECH_TownHallDoorLeft",
+   "flags": [],
+   "trigger": {
+    "event_id": 240,
+    "type": "click"
+   }
+  },
+  {
+   "id": "TrainingDoor1",
+   "source_node": "MECH_TrainingDoor1",
+   "flags": [],
+   "trigger": {
+    "event_id": 117,
+    "type": "click"
+   }
+  },
+  {
+   "id": "TrainingDoor0",
+   "source_node": "MECH_TrainingDoor0",
+   "flags": [],
+   "trigger": {
+    "event_id": 117,
+    "type": "click"
+   }
+  },
+  {
+   "id": "hint_PerceptionBrush0_0",
+   "source_node": "TRIGGER_hint_PerceptionBrush0_0",
+   "flags": [
+    "untouchable"
+   ],
+   "cog_number": 23634
+  },
+  {
+   "id": "hint_PerceptionBrush0_1",
+   "source_node": "TRIGGER_hint_PerceptionBrush0_1",
+   "flags": [
+    "untouchable"
+   ],
+   "cog_number": 23634
+  },
+  {
+   "id": "hint_PerceptionBrush0_2",
+   "source_node": "TRIGGER_hint_PerceptionBrush0_2",
+   "flags": [
+    "untouchable"
+   ],
+   "cog_number": 23634
+  },
+  {
+   "id": "hint_PerceptionBrush1_0",
+   "source_node": "TRIGGER_hint_PerceptionBrush1_0",
+   "flags": [
+    "untouchable"
+   ],
+   "cog_number": 23635
+  },
+  {
+   "id": "hint_PerceptionBrush1_1",
+   "source_node": "TRIGGER_hint_PerceptionBrush1_1",
+   "flags": [
+    "untouchable"
+   ],
+   "cog_number": 23635
+  },
+  {
+   "id": "hint_PerceptionBrush1_2",
+   "source_node": "TRIGGER_hint_PerceptionBrush1_2",
+   "flags": [
+    "untouchable"
+   ],
+   "cog_number": 23635
+  },
+  {
+   "id": "hint_PerceptionBrush2_0",
+   "source_node": "TRIGGER_hint_PerceptionBrush2_0",
+   "flags": [
+    "untouchable"
+   ],
+   "cog_number": 23636
+  },
+  {
+   "id": "hint_PerceptionBrush2_1",
+   "source_node": "TRIGGER_hint_PerceptionBrush2_1",
+   "flags": [
+    "untouchable"
+   ],
+   "cog_number": 23636
+  },
+  {
+   "id": "hint_PerceptionBrush2_2",
+   "source_node": "TRIGGER_hint_PerceptionBrush2_2",
+   "flags": [
+    "untouchable"
+   ],
+   "cog_number": 23636
+  },
+  {
+   "id": "hint_PerceptionBrush3_0",
+   "source_node": "TRIGGER_hint_PerceptionBrush3_0",
+   "flags": [
+    "untouchable"
+   ],
+   "cog_number": 23637
+  },
+  {
+   "id": "hint_PerceptionBrush3_1",
+   "source_node": "TRIGGER_hint_PerceptionBrush3_1",
+   "flags": [
+    "untouchable"
+   ],
+   "cog_number": 23637
+  },
+  {
+   "id": "hint_PerceptionBrush3_2",
+   "source_node": "TRIGGER_hint_PerceptionBrush3_2",
+   "flags": [
+    "untouchable"
+   ],
+   "cog_number": 23637
+  },
+  {
+   "id": "hint_PerceptionBrush3_3",
+   "source_node": "TRIGGER_hint_PerceptionBrush3_3",
+   "flags": [
+    "untouchable"
+   ],
+   "cog_number": 23637
+  },
+  {
+   "id": "hint_PerceptionBrush3_4",
+   "source_node": "TRIGGER_hint_PerceptionBrush3_4",
+   "flags": [
+    "untouchable"
+   ],
+   "cog_number": 23637
+  },
+  {
+   "id": "hint_PerceptionBrush3_5",
+   "source_node": "TRIGGER_hint_PerceptionBrush3_5",
+   "flags": [
+    "untouchable"
+   ],
+   "cog_number": 23637
+  },
+  {
+   "id": "hint_PerceptionBrush3_6",
+   "source_node": "TRIGGER_hint_PerceptionBrush3_6",
+   "flags": [
+    "untouchable"
+   ],
+   "cog_number": 23637
+  },
+  {
+   "id": "hint_PerceptionBrush3_7",
+   "source_node": "TRIGGER_hint_PerceptionBrush3_7",
+   "flags": [
+    "untouchable"
+   ],
+   "cog_number": 23637
+  },
+  {
+   "id": "hint_PerceptionBrush4_0",
+   "source_node": "TRIGGER_hint_PerceptionBrush4_0",
+   "flags": [
+    "untouchable"
+   ],
+   "cog_number": 23638
+  },
+  {
+   "id": "hint_PerceptionBrush4_1",
+   "source_node": "TRIGGER_hint_PerceptionBrush4_1",
+   "flags": [
+    "untouchable"
+   ],
+   "cog_number": 23638
+  },
+  {
+   "id": "hint_PerceptionBrush4_2",
+   "source_node": "TRIGGER_hint_PerceptionBrush4_2",
+   "flags": [
+    "untouchable"
+   ],
+   "cog_number": 23638
+  },
+  {
+   "id": "hint_PerceptionBrush4_3",
+   "source_node": "TRIGGER_hint_PerceptionBrush4_3",
+   "flags": [
+    "untouchable"
+   ],
+   "cog_number": 23638
+  },
+  {
+   "id": "hint_PerceptionBrush4_4",
+   "source_node": "TRIGGER_hint_PerceptionBrush4_4",
+   "flags": [
+    "untouchable"
+   ],
+   "cog_number": 23638
+  },
+  {
+   "id": "hint_PerceptionBrush4_5",
+   "source_node": "TRIGGER_hint_PerceptionBrush4_5",
+   "flags": [
+    "untouchable"
+   ],
+   "cog_number": 23638
+  },
+  {
+   "id": "hint_PerceptionBrush4_6",
+   "source_node": "TRIGGER_hint_PerceptionBrush4_6",
+   "flags": [
+    "untouchable"
+   ],
+   "cog_number": 23638
+  },
+  {
+   "id": "hint_PerceptionBrush4_7",
+   "source_node": "TRIGGER_hint_PerceptionBrush4_7",
+   "flags": [
+    "untouchable"
+   ],
+   "cog_number": 23638
+  },
+  {
+   "id": "hint_PerceptionBrush5_0",
+   "source_node": "TRIGGER_hint_PerceptionBrush5_0",
+   "flags": [
+    "untouchable"
+   ],
+   "cog_number": 23639
+  },
+  {
+   "id": "hint_PerceptionBrush5_1",
+   "source_node": "TRIGGER_hint_PerceptionBrush5_1",
+   "flags": [
+    "untouchable"
+   ],
+   "cog_number": 23639
+  },
+  {
+   "id": "hint_PerceptionBrush5_2",
+   "source_node": "TRIGGER_hint_PerceptionBrush5_2",
+   "flags": [
+    "untouchable"
+   ],
+   "cog_number": 23639
+  },
+  {
+   "id": "hint_PerceptionBrush6_0",
+   "source_node": "TRIGGER_hint_PerceptionBrush6_0",
+   "flags": [
+    "untouchable"
+   ],
+   "cog_number": 23640
+  },
+  {
+   "id": "hint_PerceptionBrush6_1",
+   "source_node": "TRIGGER_hint_PerceptionBrush6_1",
+   "flags": [
+    "untouchable"
+   ],
+   "cog_number": 23640
+  },
+  {
+   "id": "hint_PerceptionBrush6_2",
+   "source_node": "TRIGGER_hint_PerceptionBrush6_2",
+   "flags": [
+    "untouchable"
+   ],
+   "cog_number": 23640
+  },
+  {
+   "id": "hint_PerceptionBrush7_0",
+   "source_node": "TRIGGER_hint_PerceptionBrush7_0",
+   "flags": [
+    "untouchable"
+   ],
+   "cog_number": 23641
+  },
+  {
+   "id": "hint_PerceptionBrush7_1",
+   "source_node": "TRIGGER_hint_PerceptionBrush7_1",
+   "flags": [
+    "untouchable"
+   ],
+   "cog_number": 23641
+  },
+  {
+   "id": "hint_PerceptionBrush7_2",
+   "source_node": "TRIGGER_hint_PerceptionBrush7_2",
+   "flags": [
+    "untouchable"
+   ],
+   "cog_number": 23641
+  },
+  {
+   "id": "hint_PerceptionBrush7_3",
+   "source_node": "TRIGGER_hint_PerceptionBrush7_3",
+   "flags": [
+    "untouchable"
+   ],
+   "cog_number": 23641
+  },
+  {
+   "id": "hint_PerceptionBrush7_4",
+   "source_node": "TRIGGER_hint_PerceptionBrush7_4",
+   "flags": [
+    "untouchable"
+   ],
+   "cog_number": 23641
+  },
+  {
+   "id": "hint_PerceptionBrush7_5",
+   "source_node": "TRIGGER_hint_PerceptionBrush7_5",
+   "flags": [
+    "untouchable"
+   ],
+   "cog_number": 23641
+  },
+  {
+   "id": "hint_PerceptionBrush7_6",
+   "source_node": "TRIGGER_hint_PerceptionBrush7_6",
+   "flags": [
+    "untouchable"
+   ],
+   "cog_number": 23641
+  },
+  {
+   "id": "hint_PerceptionBrush7_7",
+   "source_node": "TRIGGER_hint_PerceptionBrush7_7",
+   "flags": [
+    "untouchable"
+   ],
+   "cog_number": 23641
+  },
+  {
+   "id": "hint_PerceptionBrush7_8",
+   "source_node": "TRIGGER_hint_PerceptionBrush7_8",
+   "flags": [
+    "untouchable"
+   ],
+   "cog_number": 23641
+  },
+  {
+   "id": "hint_PerceptionBrush7_9",
+   "source_node": "TRIGGER_hint_PerceptionBrush7_9",
+   "flags": [
+    "untouchable"
+   ],
+   "cog_number": 23641
+  },
+  {
+   "id": "hint_PerceptionBrush8_0",
+   "source_node": "TRIGGER_hint_PerceptionBrush8_0",
+   "flags": [
+    "untouchable"
+   ],
+   "cog_number": 23642
+  },
+  {
+   "id": "hint_PerceptionBrush8_1",
+   "source_node": "TRIGGER_hint_PerceptionBrush8_1",
+   "flags": [
+    "untouchable"
+   ],
+   "cog_number": 23642
+  },
+  {
+   "id": "hint_PerceptionBrush8_2",
+   "source_node": "TRIGGER_hint_PerceptionBrush8_2",
+   "flags": [
+    "untouchable"
+   ],
+   "cog_number": 23642
+  },
+  {
+   "id": "hint_PerceptionBrush8_3",
+   "source_node": "TRIGGER_hint_PerceptionBrush8_3",
+   "flags": [
+    "untouchable"
+   ],
+   "cog_number": 23642
+  },
+  {
+   "id": "hint_PerceptionBrush8_4",
+   "source_node": "TRIGGER_hint_PerceptionBrush8_4",
+   "flags": [
+    "untouchable"
+   ],
+   "cog_number": 23642
+  },
+  {
+   "id": "hint_PerceptionBrush8_5",
+   "source_node": "TRIGGER_hint_PerceptionBrush8_5",
+   "flags": [
+    "untouchable"
+   ],
+   "cog_number": 23642
+  },
+  {
+   "id": "hint_PerceptionBrush8_6",
+   "source_node": "TRIGGER_hint_PerceptionBrush8_6",
+   "flags": [
+    "untouchable"
+   ],
+   "cog_number": 23642
+  },
+  {
+   "id": "hint_PerceptionBrush8_7",
+   "source_node": "TRIGGER_hint_PerceptionBrush8_7",
+   "flags": [
+    "untouchable"
+   ],
+   "cog_number": 23642
+  },
+  {
+   "id": "hint_PerceptionBrush8_8",
+   "source_node": "TRIGGER_hint_PerceptionBrush8_8",
+   "flags": [
+    "untouchable"
+   ],
+   "cog_number": 23642
+  },
+  {
+   "id": "hint_PerceptionBrush9_0",
+   "source_node": "TRIGGER_hint_PerceptionBrush9_0",
+   "flags": [
+    "untouchable"
+   ],
+   "cog_number": 23643
+  },
+  {
+   "id": "hint_PerceptionBrush9_1",
+   "source_node": "TRIGGER_hint_PerceptionBrush9_1",
+   "flags": [
+    "untouchable"
+   ],
+   "cog_number": 23643
+  },
+  {
+   "id": "hint_PerceptionBrush9_2",
+   "source_node": "TRIGGER_hint_PerceptionBrush9_2",
+   "flags": [
+    "untouchable"
+   ],
+   "cog_number": 23643
+  },
+  {
+   "id": "hint_PerceptionBrush10_0",
+   "source_node": "TRIGGER_hint_PerceptionBrush10_0",
+   "flags": [
+    "untouchable"
+   ],
+   "cog_number": 23644
+  },
+  {
+   "id": "hint_PerceptionBrush10_1",
+   "source_node": "TRIGGER_hint_PerceptionBrush10_1",
+   "flags": [
+    "untouchable"
+   ],
+   "cog_number": 23644
+  },
+  {
+   "id": "hint_PerceptionBrush10_2",
+   "source_node": "TRIGGER_hint_PerceptionBrush10_2",
+   "flags": [
+    "untouchable"
+   ],
+   "cog_number": 23644
+  },
+  {
+   "id": "hint_PerceptionBrush11_0",
+   "source_node": "TRIGGER_hint_PerceptionBrush11_0",
+   "flags": [
+    "untouchable"
+   ],
+   "cog_number": 23645
+  },
+  {
+   "id": "hint_PerceptionBrush11_1",
+   "source_node": "TRIGGER_hint_PerceptionBrush11_1",
+   "flags": [
+    "untouchable"
+   ],
+   "cog_number": 23645
+  },
+  {
+   "id": "hint_PerceptionBrush11_2",
+   "source_node": "TRIGGER_hint_PerceptionBrush11_2",
+   "flags": [
+    "untouchable"
+   ],
+   "cog_number": 23645
+  },
+  {
+   "id": "hint_PerceptionBrush12_0",
+   "source_node": "TRIGGER_hint_PerceptionBrush12_0",
+   "flags": [
+    "untouchable"
+   ],
+   "cog_number": 23646
+  },
+  {
+   "id": "hint_PerceptionBrush12_1",
+   "source_node": "TRIGGER_hint_PerceptionBrush12_1",
+   "flags": [
+    "untouchable"
+   ],
+   "cog_number": 23646
+  },
+  {
+   "id": "hint_PerceptionBrush12_2",
+   "source_node": "TRIGGER_hint_PerceptionBrush12_2",
+   "flags": [
+    "untouchable"
+   ],
+   "cog_number": 23646
+  },
+  {
+   "id": "hint_PerceptionBrush12_3",
+   "source_node": "TRIGGER_hint_PerceptionBrush12_3",
+   "flags": [
+    "untouchable"
+   ],
+   "cog_number": 23646
+  },
+  {
+   "id": "hint_PerceptionBrush12_4",
+   "source_node": "TRIGGER_hint_PerceptionBrush12_4",
+   "flags": [
+    "untouchable"
+   ],
+   "cog_number": 23646
+  },
+  {
+   "id": "hint_PerceptionBrush12_5",
+   "source_node": "TRIGGER_hint_PerceptionBrush12_5",
+   "flags": [
+    "untouchable"
+   ],
+   "cog_number": 23646
+  },
+  {
+   "id": "hint_PerceptionBrush12_6",
+   "source_node": "TRIGGER_hint_PerceptionBrush12_6",
+   "flags": [
+    "untouchable"
+   ],
+   "cog_number": 23646
+  },
+  {
+   "id": "hint_PerceptionBrush12_7",
+   "source_node": "TRIGGER_hint_PerceptionBrush12_7",
+   "flags": [
+    "untouchable"
+   ],
+   "cog_number": 23646
+  },
+  {
+   "id": "hint_PerceptionBrush13_0",
+   "source_node": "TRIGGER_hint_PerceptionBrush13_0",
+   "flags": [
+    "untouchable"
+   ],
+   "cog_number": 23647
+  },
+  {
+   "id": "hint_PerceptionBrush13_1",
+   "source_node": "TRIGGER_hint_PerceptionBrush13_1",
+   "flags": [
+    "untouchable"
+   ],
+   "cog_number": 23647
+  },
+  {
+   "id": "hint_PerceptionBrush13_2",
+   "source_node": "TRIGGER_hint_PerceptionBrush13_2",
+   "flags": [
+    "untouchable"
+   ],
+   "cog_number": 23647
+  },
+  {
+   "id": "hint_PerceptionBrush13_3",
+   "source_node": "TRIGGER_hint_PerceptionBrush13_3",
+   "flags": [
+    "untouchable"
+   ],
+   "cog_number": 23647
+  },
+  {
+   "id": "hint_PerceptionBrush13_4",
+   "source_node": "TRIGGER_hint_PerceptionBrush13_4",
+   "flags": [
+    "untouchable"
+   ],
+   "cog_number": 23647
+  },
+  {
+   "id": "hint_PerceptionBrush13_5",
+   "source_node": "TRIGGER_hint_PerceptionBrush13_5",
+   "flags": [
+    "untouchable"
+   ],
+   "cog_number": 23647
+  },
+  {
+   "id": "hint_PerceptionBrush13_6",
+   "source_node": "TRIGGER_hint_PerceptionBrush13_6",
+   "flags": [
+    "untouchable"
+   ],
+   "cog_number": 23647
+  },
+  {
+   "id": "hint_PerceptionBrush13_7",
+   "source_node": "TRIGGER_hint_PerceptionBrush13_7",
+   "flags": [
+    "untouchable"
+   ],
+   "cog_number": 23647
+  },
+  {
+   "id": "hint_PerceptionBrush13_8",
+   "source_node": "TRIGGER_hint_PerceptionBrush13_8",
+   "flags": [
+    "untouchable"
+   ],
+   "cog_number": 23647
+  },
+  {
+   "id": "hint_PerceptionBrush14_0",
+   "source_node": "TRIGGER_hint_PerceptionBrush14_0",
+   "flags": [
+    "untouchable"
+   ],
+   "cog_number": 23648
+  },
+  {
+   "id": "hint_PerceptionBrush14_1",
+   "source_node": "TRIGGER_hint_PerceptionBrush14_1",
+   "flags": [
+    "untouchable"
+   ],
+   "cog_number": 23648
+  },
+  {
+   "id": "hint_PerceptionBrush14_2",
+   "source_node": "TRIGGER_hint_PerceptionBrush14_2",
+   "flags": [
+    "untouchable"
+   ],
+   "cog_number": 23648
+  },
+  {
+   "id": "hint_PerceptionBrush15_0",
+   "source_node": "TRIGGER_hint_PerceptionBrush15_0",
+   "flags": [
+    "untouchable"
+   ],
+   "cog_number": 23649
+  },
+  {
+   "id": "hint_PerceptionBrush15_1",
+   "source_node": "TRIGGER_hint_PerceptionBrush15_1",
+   "flags": [
+    "untouchable"
+   ],
+   "cog_number": 23649
+  },
+  {
+   "id": "hint_PerceptionBrush15_2",
+   "source_node": "TRIGGER_hint_PerceptionBrush15_2",
+   "flags": [
+    "untouchable"
+   ],
+   "cog_number": 23649
+  },
+  {
+   "id": "hint_PerceptionBrush16_0",
+   "source_node": "TRIGGER_hint_PerceptionBrush16_0",
+   "flags": [
+    "untouchable"
+   ],
+   "cog_number": 23650
+  },
+  {
+   "id": "hint_PerceptionBrush16_1",
+   "source_node": "TRIGGER_hint_PerceptionBrush16_1",
+   "flags": [
+    "untouchable"
+   ],
+   "cog_number": 23650
+  },
+  {
+   "id": "hint_PerceptionBrush16_2",
+   "source_node": "TRIGGER_hint_PerceptionBrush16_2",
+   "flags": [
+    "untouchable"
+   ],
+   "cog_number": 23650
+  }
+ ],
+ "mechanisms": [
+  {
+   "id": "AlchemistDoorRight",
+   "kind": "rotating",
+   "source_nodes": [
+    "MECH_AlchemistDoorRight"
+   ],
+   "door": {
+    "door_id": 1,
+    "initial_state": "closed",
+    "source_pose": "closed",
+    "direction": [
+     -0.0,
+     -0.0,
+     -0.0
+    ],
+    "move_length": 800,
+    "open_speed": 400,
+    "close_speed": 400
+   }
+  },
+  {
+   "id": "AlchemistDoorLeft",
+   "kind": "rotating",
+   "source_nodes": [
+    "MECH_AlchemistDoorLeft"
+   ],
+   "door": {
+    "door_id": 2,
+    "initial_state": "closed",
+    "source_pose": "closed",
+    "direction": [
+     -0.0,
+     -0.0,
+     -0.0
+    ],
+    "move_length": 800,
+    "open_speed": 400,
+    "close_speed": 400
+   }
+  },
+  {
+   "id": "BlacksmithDoor0",
+   "kind": "rotating",
+   "source_nodes": [
+    "MECH_BlacksmithDoor0"
+   ],
+   "door": {
+    "door_id": 3,
+    "initial_state": "closed",
+    "source_pose": "closed",
+    "direction": [
+     -0.0,
+     -0.0,
+     -0.0
+    ],
+    "move_length": 900,
+    "open_speed": 500,
+    "close_speed": 500
+   },
+   "extra_rooms": [
+    "room_r20"
+   ]
+  },
+  {
+   "id": "BlacksmithDoor1",
+   "kind": "rotating",
+   "source_nodes": [
+    "MECH_BlacksmithDoor1"
+   ],
+   "door": {
+    "door_id": 4,
+    "initial_state": "closed",
+    "source_pose": "closed",
+    "direction": [
+     -0.0,
+     -0.0,
+     -0.0
+    ],
+    "move_length": 900,
+    "open_speed": 500,
+    "close_speed": 500
+   },
+   "extra_rooms": [
+    "room_r20"
+   ]
+  },
+  {
+   "id": "HouseDoor1",
+   "kind": "rotating",
+   "source_nodes": [
+    "MECH_HouseDoor1"
+   ],
+   "door": {
+    "door_id": 5,
+    "initial_state": "closed",
+    "source_pose": "closed",
+    "direction": [
+     -0.0,
+     -0.0,
+     -0.0
+    ],
+    "move_length": 900,
+    "open_speed": 400,
+    "close_speed": 400
+   }
+  },
+  {
+   "id": "HouseDoor2",
+   "kind": "rotating",
+   "source_nodes": [
+    "MECH_HouseDoor2"
+   ],
+   "door": {
+    "door_id": 6,
+    "initial_state": "closed",
+    "source_pose": "closed",
+    "direction": [
+     -0.0,
+     -0.0,
+     -0.0
+    ],
+    "move_length": 900,
+    "open_speed": 400,
+    "close_speed": 400
+   }
+  },
+  {
+   "id": "InnDoorRight",
+   "kind": "rotating",
+   "source_nodes": [
+    "MECH_InnDoorRight"
+   ],
+   "door": {
+    "door_id": 7,
+    "initial_state": "closed",
+    "source_pose": "closed",
+    "direction": [
+     -0.0,
+     -0.0,
+     -0.0
+    ],
+    "move_length": 800,
+    "open_speed": 400,
+    "close_speed": 400
+   },
+   "extra_rooms": [
+    "room_r20"
+   ]
+  },
+  {
+   "id": "InnDoorLeft",
+   "kind": "rotating",
+   "source_nodes": [
+    "MECH_InnDoorLeft"
+   ],
+   "door": {
+    "door_id": 8,
+    "initial_state": "closed",
+    "source_pose": "closed",
+    "direction": [
+     -0.0,
+     -0.0,
+     -0.0
+    ],
+    "move_length": 800,
+    "open_speed": 400,
+    "close_speed": 400
+   },
+   "extra_rooms": [
+    "room_r20"
+   ]
+  },
+  {
+   "id": "MayorHouseDoor",
+   "kind": "rotating",
+   "source_nodes": [
+    "MECH_MayorHouseDoor"
+   ],
+   "door": {
+    "door_id": 9,
+    "initial_state": "closed",
+    "source_pose": "closed",
+    "direction": [
+     -0.0,
+     -0.0,
+     -0.0
+    ],
+    "move_length": 900,
+    "open_speed": 400,
+    "close_speed": 400
+   },
+   "extra_rooms": [
+    "room_r18"
+   ]
+  },
+  {
+   "id": "MayorHouseDoor2",
+   "kind": "rotating",
+   "source_nodes": [
+    "MECH_MayorHouseDoor2"
+   ],
+   "door": {
+    "door_id": 10,
+    "initial_state": "closed",
+    "source_pose": "closed",
+    "direction": [
+     -0.0,
+     -0.0,
+     -0.0
+    ],
+    "move_length": 900,
+    "open_speed": 400,
+    "close_speed": 400
+   },
+   "extra_rooms": [
+    "room_r22"
+   ]
+  },
+  {
+   "id": "MayorHouseDoor3",
+   "kind": "rotating",
+   "source_nodes": [
+    "MECH_MayorHouseDoor3"
+   ],
+   "door": {
+    "door_id": 11,
+    "initial_state": "closed",
+    "source_pose": "closed",
+    "direction": [
+     -0.0,
+     -0.0,
+     -0.0
+    ],
+    "move_length": 900,
+    "open_speed": 400,
+    "close_speed": 400
+   },
+   "extra_rooms": [
+    "room_r16"
+   ]
+  },
+  {
+   "id": "NewHouseDoor1",
+   "kind": "rotating",
+   "source_nodes": [
+    "MECH_NewHouseDoor1"
+   ],
+   "door": {
+    "door_id": 12,
+    "initial_state": "closed",
+    "source_pose": "closed",
+    "direction": [
+     -0.0,
+     -0.0,
+     -0.0
+    ],
+    "move_length": 900,
+    "open_speed": 500,
+    "close_speed": 500
+   },
+   "extra_rooms": [
+    "room_r20"
+   ]
+  },
+  {
+   "id": "NewHouseDoor0",
+   "kind": "rotating",
+   "source_nodes": [
+    "MECH_NewHouseDoor0"
+   ],
+   "door": {
+    "door_id": 13,
+    "initial_state": "closed",
+    "source_pose": "closed",
+    "direction": [
+     -0.0,
+     -0.0,
+     -0.0
+    ],
+    "move_length": 900,
+    "open_speed": 500,
+    "close_speed": 500
+   },
+   "extra_rooms": [
+    "room_r20"
+   ]
+  },
+  {
+   "id": "RotatingDoor0",
+   "kind": "rotating",
+   "source_nodes": [
+    "MECH_RotatingDoor0"
+   ],
+   "door": {
+    "door_id": 14,
+    "initial_state": "closed",
+    "source_pose": "closed",
+    "direction": [
+     -0.0,
+     -0.0,
+     -0.0
+    ],
+    "move_length": 900,
+    "open_speed": 500,
+    "close_speed": 500
+   },
+   "extra_rooms": [
+    "room_r12"
+   ]
+  },
+  {
+   "id": "RotatingDoor2",
+   "kind": "rotating",
+   "source_nodes": [
+    "MECH_RotatingDoor2"
+   ],
+   "door": {
+    "door_id": 15,
+    "initial_state": "closed",
+    "source_pose": "closed",
+    "direction": [
+     -0.0,
+     -0.0,
+     -0.0
+    ],
+    "move_length": 900,
+    "open_speed": 500,
+    "close_speed": 500
+   },
+   "extra_rooms": [
+    "room_r12"
+   ]
+  },
+  {
+   "id": "RotatingDoor1",
+   "kind": "rotating",
+   "source_nodes": [
+    "MECH_RotatingDoor1"
+   ],
+   "door": {
+    "door_id": 16,
+    "initial_state": "closed",
+    "source_pose": "closed",
+    "direction": [
+     -0.0,
+     -0.0,
+     -0.0
+    ],
+    "move_length": 900,
+    "open_speed": 500,
+    "close_speed": 500
+   }
+  },
+  {
+   "id": "RotatingDoor3",
+   "kind": "rotating",
+   "source_nodes": [
+    "MECH_RotatingDoor3"
+   ],
+   "door": {
+    "door_id": 17,
+    "initial_state": "closed",
+    "source_pose": "closed",
+    "direction": [
+     -0.0,
+     -0.0,
+     -0.0
+    ],
+    "move_length": 900,
+    "open_speed": 500,
+    "close_speed": 500
+   },
+   "extra_rooms": [
+    "room_r22"
+   ]
+  },
+  {
+   "id": "SettlersDoor",
+   "kind": "rotating",
+   "source_nodes": [
+    "MECH_SettlersDoor"
+   ],
+   "door": {
+    "door_id": 18,
+    "initial_state": "closed",
+    "source_pose": "closed",
+    "direction": [
+     -0.0,
+     -0.0,
+     -0.0
+    ],
+    "move_length": 800,
+    "open_speed": 400,
+    "close_speed": 400
+   },
+   "extra_rooms": [
+    "room_r20"
+   ]
+  },
+  {
+   "id": "SettlersDoor0",
+   "kind": "rotating",
+   "source_nodes": [
+    "MECH_SettlersDoor0"
+   ],
+   "door": {
+    "door_id": 19,
+    "initial_state": "closed",
+    "source_pose": "closed",
+    "direction": [
+     -0.0,
+     -0.0,
+     -0.0
+    ],
+    "move_length": 800,
+    "open_speed": 400,
+    "close_speed": 400
+   },
+   "extra_rooms": [
+    "room_r22"
+   ]
+  },
+  {
+   "id": "SmalHouse1Door",
+   "kind": "rotating",
+   "source_nodes": [
+    "MECH_SmalHouse1Door"
+   ],
+   "door": {
+    "door_id": 20,
+    "initial_state": "closed",
+    "source_pose": "closed",
+    "direction": [
+     -0.0,
+     -0.0,
+     -0.0
+    ],
+    "move_length": 900,
+    "open_speed": 400,
+    "close_speed": 400
+   },
+   "extra_rooms": [
+    "room_r22"
+   ]
+  },
+  {
+   "id": "SmalHouse2Door",
+   "kind": "rotating",
+   "source_nodes": [
+    "MECH_SmalHouse2Door"
+   ],
+   "door": {
+    "door_id": 21,
+    "initial_state": "closed",
+    "source_pose": "closed",
+    "direction": [
+     -0.0,
+     -0.0,
+     -0.0
+    ],
+    "move_length": 900,
+    "open_speed": 400,
+    "close_speed": 400
+   },
+   "extra_rooms": [
+    "room_r22"
+   ]
+  },
+  {
+   "id": "SmithShackDoor",
+   "kind": "rotating",
+   "source_nodes": [
+    "MECH_SmithShackDoor"
+   ],
+   "door": {
+    "door_id": 22,
+    "initial_state": "closed",
+    "source_pose": "closed",
+    "direction": [
+     -0.0,
+     -0.0,
+     -0.0
+    ],
+    "move_length": 900,
+    "open_speed": 350,
+    "close_speed": 350
+   },
+   "extra_rooms": [
+    "room_r20"
+   ]
+  },
+  {
+   "id": "StairDoor",
+   "kind": "rotating",
+   "source_nodes": [
+    "MECH_StairDoor"
+   ],
+   "door": {
+    "door_id": 23,
+    "initial_state": "closed",
+    "source_pose": "closed",
+    "direction": [
+     -0.0,
+     -0.0,
+     -0.0
+    ],
+    "move_length": 900,
+    "open_speed": 400,
+    "close_speed": 400
+   }
+  },
+  {
+   "id": "StoreDoor1",
+   "kind": "rotating",
+   "source_nodes": [
+    "MECH_StoreDoor1"
+   ],
+   "door": {
+    "door_id": 24,
+    "initial_state": "closed",
+    "source_pose": "closed",
+    "direction": [
+     -0.0,
+     -0.0,
+     -0.0
+    ],
+    "move_length": 900,
+    "open_speed": 400,
+    "close_speed": 400
+   },
+   "extra_rooms": [
+    "room_r22"
+   ]
+  },
+  {
+   "id": "StoreDoor2",
+   "kind": "rotating",
+   "source_nodes": [
+    "MECH_StoreDoor2"
+   ],
+   "door": {
+    "door_id": 25,
+    "initial_state": "closed",
+    "source_pose": "closed",
+    "direction": [
+     -0.0,
+     -0.0,
+     -0.0
+    ],
+    "move_length": 900,
+    "open_speed": 400,
+    "close_speed": 400
+   },
+   "extra_rooms": [
+    "room_r22"
+   ]
+  },
+  {
+   "id": "TempleDoorRight",
+   "kind": "rotating",
+   "source_nodes": [
+    "MECH_TempleDoorRight"
+   ],
+   "door": {
+    "door_id": 26,
+    "initial_state": "closed",
+    "source_pose": "closed",
+    "direction": [
+     -0.0,
+     -0.0,
+     -0.0
+    ],
+    "move_length": 800,
+    "open_speed": 400,
+    "close_speed": 400
+   },
+   "extra_rooms": [
+    "room_r20"
+   ]
+  },
+  {
+   "id": "TempleDoorLeft",
+   "kind": "rotating",
+   "source_nodes": [
+    "MECH_TempleDoorLeft"
+   ],
+   "door": {
+    "door_id": 27,
+    "initial_state": "closed",
+    "source_pose": "closed",
+    "direction": [
+     -0.0,
+     -0.0,
+     -0.0
+    ],
+    "move_length": 800,
+    "open_speed": 400,
+    "close_speed": 400
+   },
+   "extra_rooms": [
+    "room_r20"
+   ]
+  },
+  {
+   "id": "TempleUpperDoor",
+   "kind": "rotating",
+   "source_nodes": [
+    "MECH_TempleUpperDoor"
+   ],
+   "door": {
+    "door_id": 28,
+    "initial_state": "closed",
+    "source_pose": "closed",
+    "direction": [
+     -0.0,
+     -0.0,
+     -0.0
+    ],
+    "move_length": 900,
+    "open_speed": 400,
+    "close_speed": 400
+   },
+   "extra_rooms": [
+    "room_r22"
+   ]
+  },
+  {
+   "id": "TowerDoor",
+   "kind": "rotating",
+   "source_nodes": [
+    "MECH_TowerDoor"
+   ],
+   "door": {
+    "door_id": 29,
+    "initial_state": "closed",
+    "source_pose": "closed",
+    "direction": [
+     -0.0,
+     -0.0,
+     -0.0
+    ],
+    "move_length": 900,
+    "open_speed": 400,
+    "close_speed": 400
+   },
+   "extra_rooms": [
+    "room_r17"
+   ]
+  },
+  {
+   "id": "TownHallDoorRight",
+   "kind": "rotating",
+   "source_nodes": [
+    "MECH_TownHallDoorRight"
+   ],
+   "door": {
+    "door_id": 30,
+    "initial_state": "closed",
+    "source_pose": "closed",
+    "direction": [
+     -0.0,
+     -0.0,
+     -0.0
+    ],
+    "move_length": 750,
+    "open_speed": 300,
+    "close_speed": 300
+   },
+   "extra_rooms": [
+    "room_r20"
+   ]
+  },
+  {
+   "id": "TownHallDoorLeft",
+   "kind": "rotating",
+   "source_nodes": [
+    "MECH_TownHallDoorLeft"
+   ],
+   "door": {
+    "door_id": 31,
+    "initial_state": "closed",
+    "source_pose": "closed",
+    "direction": [
+     -0.0,
+     -0.0,
+     -0.0
+    ],
+    "move_length": 750,
+    "open_speed": 300,
+    "close_speed": 300
+   },
+   "extra_rooms": [
+    "room_r20"
+   ]
+  },
+  {
+   "id": "TrainingDoor1",
+   "kind": "rotating",
+   "source_nodes": [
+    "MECH_TrainingDoor1"
+   ],
+   "door": {
+    "door_id": 32,
+    "initial_state": "closed",
+    "source_pose": "closed",
+    "direction": [
+     -0.0,
+     -0.0,
+     -0.0
+    ],
+    "move_length": 900,
+    "open_speed": 500,
+    "close_speed": 500
+   },
+   "extra_rooms": [
+    "room_r20"
+   ]
+  },
+  {
+   "id": "TrainingDoor0",
+   "kind": "rotating",
+   "source_nodes": [
+    "MECH_TrainingDoor0"
+   ],
+   "door": {
+    "door_id": 33,
+    "initial_state": "closed",
+    "source_pose": "closed",
+    "direction": [
+     -0.0,
+     -0.0,
+     -0.0
+    ],
+    "move_length": 900,
+    "open_speed": 500,
+    "close_speed": 500
+   },
+   "extra_rooms": [
+    "room_r20"
+   ]
+  }
+ ],
+ "entities": [
+  {
+   "id": "Prop3",
+   "kind": "decoration",
+   "source_node": "DECOR_Prop3",
+   "decoration_list_id": 2250,
+   "event_id_primary": 0,
+   "event_id_secondary": 0
+  },
+  {
+   "id": "Prop4",
+   "kind": "decoration",
+   "source_node": "DECOR_Prop4",
+   "decoration_list_id": 2250,
+   "event_id_primary": 0,
+   "event_id_secondary": 0
+  },
+  {
+   "id": "Barrel9",
+   "kind": "decoration",
+   "source_node": "DECOR_Barrel9",
+   "decoration_list_id": 2075,
+   "event_id_primary": 0,
+   "event_id_secondary": 0,
+   "facing": 225
+  },
+  {
+   "id": "Crate5",
+   "kind": "decoration",
+   "source_node": "DECOR_Crate5",
+   "decoration_list_id": 2028,
+   "event_id_primary": 0,
+   "event_id_secondary": 0,
+   "facing": 225
+  },
+  {
+   "id": "Crate6",
+   "kind": "decoration",
+   "source_node": "DECOR_Crate6",
+   "decoration_list_id": 2028,
+   "event_id_primary": 0,
+   "event_id_secondary": 0,
+   "facing": 225
+  },
+  {
+   "id": "Crate7",
+   "kind": "decoration",
+   "source_node": "DECOR_Crate7",
+   "decoration_list_id": 2028,
+   "event_id_primary": 0,
+   "event_id_secondary": 0,
+   "facing": 45
+  },
+  {
+   "id": "Crate8",
+   "kind": "decoration",
+   "source_node": "DECOR_Crate8",
+   "decoration_list_id": 2084,
+   "event_id_primary": 0,
+   "event_id_secondary": 0,
+   "facing": 45
+  },
+  {
+   "id": "Barrel11",
+   "kind": "decoration",
+   "source_node": "DECOR_Barrel11",
+   "decoration_list_id": 2075,
+   "event_id_primary": 0,
+   "event_id_secondary": 0,
+   "facing": 225
+  },
+  {
+   "id": "Crate10",
+   "kind": "decoration",
+   "source_node": "DECOR_Crate10",
+   "decoration_list_id": 2028,
+   "event_id_primary": 0,
+   "event_id_secondary": 0,
+   "facing": 45
+  },
+  {
+   "id": "Crate11",
+   "kind": "decoration",
+   "source_node": "DECOR_Crate11",
+   "decoration_list_id": 2028,
+   "event_id_primary": 0,
+   "event_id_secondary": 0,
+   "facing": 45
+  },
+  {
+   "id": "Crate12",
+   "kind": "decoration",
+   "source_node": "DECOR_Crate12",
+   "decoration_list_id": 2028,
+   "event_id_primary": 0,
+   "event_id_secondary": 0,
+   "facing": 45
+  },
+  {
+   "id": "Barrel14",
+   "kind": "decoration",
+   "source_node": "DECOR_Barrel14",
+   "decoration_list_id": 2075,
+   "event_id_primary": 0,
+   "event_id_secondary": 0,
+   "facing": 134
+  },
+  {
+   "id": "Barrel12",
+   "kind": "decoration",
+   "source_node": "DECOR_Barrel12",
+   "decoration_list_id": 2646,
+   "event_id_primary": 0,
+   "event_id_secondary": 0
+  },
+  {
+   "id": "Barrel8",
+   "kind": "decoration",
+   "source_node": "DECOR_Barrel8",
+   "decoration_list_id": 2646,
+   "event_id_primary": 0,
+   "event_id_secondary": 0
+  },
+  {
+   "id": "Prop2",
+   "kind": "decoration",
+   "source_node": "DECOR_Prop2",
+   "decoration_list_id": 2562,
+   "event_id_primary": 0,
+   "event_id_secondary": 0
+  },
+  {
+   "id": "WallTorch76",
+   "kind": "decoration",
+   "source_node": "DECOR_WallTorch76",
+   "decoration_list_id": 2261,
+   "event_id_primary": 0,
+   "event_id_secondary": 0,
+   "facing": 179
+  },
+  {
+   "id": "Cabinet6",
+   "kind": "decoration",
+   "source_node": "DECOR_Cabinet6",
+   "decoration_list_id": 2040,
+   "event_id_primary": 0,
+   "event_id_secondary": 0,
+   "facing": 180
+  },
+  {
+   "id": "Prop36",
+   "kind": "decoration",
+   "source_node": "DECOR_Prop36",
+   "decoration_list_id": 2019,
+   "event_id_primary": 0,
+   "event_id_secondary": 0,
+   "facing": 90
+  },
+  {
+   "id": "Prop41",
+   "kind": "decoration",
+   "source_node": "DECOR_Prop41",
+   "decoration_list_id": 2248,
+   "event_id_primary": 0,
+   "event_id_secondary": 0
+  },
+  {
+   "id": "TownPortal0",
+   "kind": "decoration",
+   "source_node": "DECOR_TownPortal0",
+   "decoration_list_id": 2494,
+   "event_id_primary": 490,
+   "event_id_secondary": 330
+  },
+  {
+   "id": "TownPortal0Clean",
+   "kind": "decoration",
+   "source_node": "DECOR_TownPortal0Clean",
+   "decoration_list_id": 2812,
+   "event_id_primary": 491,
+   "event_id_secondary": 330
+  },
+  {
+   "id": "Bookcase60",
+   "kind": "decoration",
+   "source_node": "DECOR_Bookcase60",
+   "decoration_list_id": 2553,
+   "event_id_primary": 0,
+   "event_id_secondary": 0,
+   "facing": 270
+  },
+  {
+   "id": "Bookcase59",
+   "kind": "decoration",
+   "source_node": "DECOR_Bookcase59",
+   "decoration_list_id": 2553,
+   "event_id_primary": 0,
+   "event_id_secondary": 0,
+   "facing": 90
+  },
+  {
+   "id": "Bookcase57",
+   "kind": "decoration",
+   "source_node": "DECOR_Bookcase57",
+   "decoration_list_id": 2553,
+   "event_id_primary": 0,
+   "event_id_secondary": 0,
+   "facing": 90
+  },
+  {
+   "id": "Woodbin1",
+   "kind": "decoration",
+   "source_node": "DECOR_Woodbin1",
+   "decoration_list_id": 2356,
+   "event_id_primary": 0,
+   "event_id_secondary": 0
+  },
+  {
+   "id": "Weaponrack3",
+   "kind": "decoration",
+   "source_node": "DECOR_Weaponrack3",
+   "decoration_list_id": 2573,
+   "event_id_primary": 0,
+   "event_id_secondary": 0,
+   "facing": 180
+  },
+  {
+   "id": "Weaponrack2",
+   "kind": "decoration",
+   "source_node": "DECOR_Weaponrack2",
+   "decoration_list_id": 2572,
+   "event_id_primary": 0,
+   "event_id_secondary": 0,
+   "facing": 180
+  },
+  {
+   "id": "SmithHammer",
+   "kind": "decoration",
+   "source_node": "DECOR_SmithHammer",
+   "decoration_list_id": 2318,
+   "event_id_primary": 0,
+   "event_id_secondary": 0,
+   "facing": 320
+  },
+  {
+   "id": "Shield3",
+   "kind": "decoration",
+   "source_node": "DECOR_Shield3",
+   "decoration_list_id": 2289,
+   "event_id_primary": 0,
+   "event_id_secondary": 0
+  },
+  {
+   "id": "Shield2",
+   "kind": "decoration",
+   "source_node": "DECOR_Shield2",
+   "decoration_list_id": 2288,
+   "event_id_primary": 0,
+   "event_id_secondary": 0
+  },
+  {
+   "id": "Shelfitems15",
+   "kind": "decoration",
+   "source_node": "DECOR_Shelfitems15",
+   "decoration_list_id": 2500,
+   "event_id_primary": 0,
+   "event_id_secondary": 0,
+   "facing": 90
+  },
+  {
+   "id": "Shelfitems14",
+   "kind": "decoration",
+   "source_node": "DECOR_Shelfitems14",
+   "decoration_list_id": 2499,
+   "event_id_primary": 0,
+   "event_id_secondary": 0,
+   "facing": 180
+  },
+  {
+   "id": "Armor1",
+   "kind": "decoration",
+   "source_node": "DECOR_Armor1",
+   "decoration_list_id": 2570,
+   "event_id_primary": 0,
+   "event_id_secondary": 0,
+   "facing": 40
+  },
+  {
+   "id": "Anvil",
+   "kind": "decoration",
+   "source_node": "DECOR_Anvil",
+   "decoration_list_id": 2173,
+   "event_id_primary": 0,
+   "event_id_secondary": 0
+  },
+  {
+   "id": "Box3",
+   "kind": "decoration",
+   "source_node": "DECOR_Box3",
+   "decoration_list_id": 2554,
+   "event_id_primary": 0,
+   "event_id_secondary": 0,
+   "facing": 130
+  },
+  {
+   "id": "Box2",
+   "kind": "decoration",
+   "source_node": "DECOR_Box2",
+   "decoration_list_id": 2555,
+   "event_id_primary": 0,
+   "event_id_secondary": 0,
+   "facing": 130
+  },
+  {
+   "id": "Box1",
+   "kind": "decoration",
+   "source_node": "DECOR_Box1",
+   "decoration_list_id": 2554,
+   "event_id_primary": 0,
+   "event_id_secondary": 0,
+   "facing": 130
+  },
+  {
+   "id": "Box0",
+   "kind": "decoration",
+   "source_node": "DECOR_Box0",
+   "decoration_list_id": 2554,
+   "event_id_primary": 0,
+   "event_id_secondary": 0
+  },
+  {
+   "id": "Shelfitems17",
+   "kind": "decoration",
+   "source_node": "DECOR_Shelfitems17",
+   "decoration_list_id": 2568,
+   "event_id_primary": 0,
+   "event_id_secondary": 0,
+   "facing": 135
+  },
+  {
+   "id": "Shelfitems20",
+   "kind": "decoration",
+   "source_node": "DECOR_Shelfitems20",
+   "decoration_list_id": 2102,
+   "event_id_primary": 0,
+   "event_id_secondary": 0,
+   "facing": 135
+  },
+  {
+   "id": "Shelfitems19",
+   "kind": "decoration",
+   "source_node": "DECOR_Shelfitems19",
+   "decoration_list_id": 2539,
+   "event_id_primary": 0,
+   "event_id_secondary": 0,
+   "facing": 135
+  },
+  {
+   "id": "Shelfitems18",
+   "kind": "decoration",
+   "source_node": "DECOR_Shelfitems18",
+   "decoration_list_id": 2567,
+   "event_id_primary": 0,
+   "event_id_secondary": 0,
+   "facing": 135
+  },
+  {
+   "id": "Shelfitems16",
+   "kind": "decoration",
+   "source_node": "DECOR_Shelfitems16",
+   "decoration_list_id": 2569,
+   "event_id_primary": 0,
+   "event_id_secondary": 0,
+   "facing": 135
+  },
+  {
+   "id": "Wine9",
+   "kind": "decoration",
+   "source_node": "DECOR_Wine9",
+   "decoration_list_id": 2513,
+   "event_id_primary": 0,
+   "event_id_secondary": 0
+  },
+  {
+   "id": "Wine8",
+   "kind": "decoration",
+   "source_node": "DECOR_Wine8",
+   "decoration_list_id": 2577,
+   "event_id_primary": 0,
+   "event_id_secondary": 0
+  },
+  {
+   "id": "Wine5",
+   "kind": "decoration",
+   "source_node": "DECOR_Wine5",
+   "decoration_list_id": 2576,
+   "event_id_primary": 0,
+   "event_id_secondary": 0
+  },
+  {
+   "id": "Wine4",
+   "kind": "decoration",
+   "source_node": "DECOR_Wine4",
+   "decoration_list_id": 2575,
+   "event_id_primary": 0,
+   "event_id_secondary": 0
+  },
+  {
+   "id": "Wine1",
+   "kind": "decoration",
+   "source_node": "DECOR_Wine1",
+   "decoration_list_id": 2574,
+   "event_id_primary": 0,
+   "event_id_secondary": 0
+  },
+  {
+   "id": "Wine3",
+   "kind": "decoration",
+   "source_node": "DECOR_Wine3",
+   "decoration_list_id": 2575,
+   "event_id_primary": 0,
+   "event_id_secondary": 0
+  },
+  {
+   "id": "Jug0",
+   "kind": "decoration",
+   "source_node": "DECOR_Jug0",
+   "decoration_list_id": 2561,
+   "event_id_primary": 0,
+   "event_id_secondary": 0
+  },
+  {
+   "id": "Jug2",
+   "kind": "decoration",
+   "source_node": "DECOR_Jug2",
+   "decoration_list_id": 2561,
+   "event_id_primary": 0,
+   "event_id_secondary": 0
+  },
+  {
+   "id": "Basket0fruit14",
+   "kind": "decoration",
+   "source_node": "DECOR_Basket0fruit14",
+   "decoration_list_id": 2238,
+   "event_id_primary": 0,
+   "event_id_secondary": 0,
+   "facing": 315
+  },
+  {
+   "id": "Basket0fruit13",
+   "kind": "decoration",
+   "source_node": "DECOR_Basket0fruit13",
+   "decoration_list_id": 2239,
+   "event_id_primary": 0,
+   "event_id_secondary": 0,
+   "facing": 315
+  },
+  {
+   "id": "Basket0fruit12",
+   "kind": "decoration",
+   "source_node": "DECOR_Basket0fruit12",
+   "decoration_list_id": 2238,
+   "event_id_primary": 0,
+   "event_id_secondary": 0,
+   "facing": 315
+  },
+  {
+   "id": "Basket0fruit11",
+   "kind": "decoration",
+   "source_node": "DECOR_Basket0fruit11",
+   "decoration_list_id": 2238,
+   "event_id_primary": 0,
+   "event_id_secondary": 0,
+   "facing": 315
+  },
+  {
+   "id": "Basket0fruit10",
+   "kind": "decoration",
+   "source_node": "DECOR_Basket0fruit10",
+   "decoration_list_id": 2239,
+   "event_id_primary": 0,
+   "event_id_secondary": 0,
+   "facing": 315
+  },
+  {
+   "id": "Basket0fruit7",
+   "kind": "decoration",
+   "source_node": "DECOR_Basket0fruit7",
+   "decoration_list_id": 2239,
+   "event_id_primary": 0,
+   "event_id_secondary": 0,
+   "facing": 315
+  },
+  {
+   "id": "Basket0fruit6",
+   "kind": "decoration",
+   "source_node": "DECOR_Basket0fruit6",
+   "decoration_list_id": 2238,
+   "event_id_primary": 0,
+   "event_id_secondary": 0,
+   "facing": 315
+  },
+  {
+   "id": "Crate4",
+   "kind": "decoration",
+   "source_node": "DECOR_Crate4",
+   "decoration_list_id": 2028,
+   "event_id_primary": 0,
+   "event_id_secondary": 0,
+   "facing": 45
+  },
+  {
+   "id": "Crate3",
+   "kind": "decoration",
+   "source_node": "DECOR_Crate3",
+   "decoration_list_id": 2028,
+   "event_id_primary": 0,
+   "event_id_secondary": 0,
+   "facing": 45
+  },
+  {
+   "id": "Barrel7",
+   "kind": "decoration",
+   "source_node": "DECOR_Barrel7",
+   "decoration_list_id": 2075,
+   "event_id_primary": 0,
+   "event_id_secondary": 0,
+   "facing": 270
+  },
+  {
+   "id": "Barrel6",
+   "kind": "decoration",
+   "source_node": "DECOR_Barrel6",
+   "decoration_list_id": 2075,
+   "event_id_primary": 0,
+   "event_id_secondary": 0,
+   "facing": 225
+  },
+  {
+   "id": "Prop6",
+   "kind": "decoration",
+   "source_node": "DECOR_Prop6",
+   "decoration_list_id": 2563,
+   "event_id_primary": 0,
+   "event_id_secondary": 0
+  },
+  {
+   "id": "Coatrack0",
+   "kind": "decoration",
+   "source_node": "DECOR_Coatrack0",
+   "decoration_list_id": 2001,
+   "event_id_primary": 0,
+   "event_id_secondary": 0
+  },
+  {
+   "id": "Table6",
+   "kind": "decoration",
+   "source_node": "DECOR_Table6",
+   "decoration_list_id": 2035,
+   "event_id_primary": 0,
+   "event_id_secondary": 0
+  },
+  {
+   "id": "Chair13",
+   "kind": "decoration",
+   "source_node": "DECOR_Chair13",
+   "decoration_list_id": 2024,
+   "event_id_primary": 0,
+   "event_id_secondary": 0,
+   "facing": 90
+  },
+  {
+   "id": "Chair12",
+   "kind": "decoration",
+   "source_node": "DECOR_Chair12",
+   "decoration_list_id": 2024,
+   "event_id_primary": 0,
+   "event_id_secondary": 0,
+   "facing": 270
+  },
+  {
+   "id": "Cabinet2",
+   "kind": "decoration",
+   "source_node": "DECOR_Cabinet2",
+   "decoration_list_id": 2241,
+   "event_id_primary": 0,
+   "event_id_secondary": 0
+  },
+  {
+   "id": "Bed5",
+   "kind": "decoration",
+   "source_node": "DECOR_Bed5",
+   "decoration_list_id": 2019,
+   "event_id_primary": 0,
+   "event_id_secondary": 0,
+   "facing": 180
+  },
+  {
+   "id": "Dresser2",
+   "kind": "decoration",
+   "source_node": "DECOR_Dresser2",
+   "decoration_list_id": 2249,
+   "event_id_primary": 0,
+   "event_id_secondary": 0,
+   "facing": 270
+  },
+  {
+   "id": "Platestack1",
+   "kind": "decoration",
+   "source_node": "DECOR_Platestack1",
+   "decoration_list_id": 2566,
+   "event_id_primary": 0,
+   "event_id_secondary": 0
+  },
+  {
+   "id": "Platestack0",
+   "kind": "decoration",
+   "source_node": "DECOR_Platestack0",
+   "decoration_list_id": 2565,
+   "event_id_primary": 0,
+   "event_id_secondary": 0
+  },
+  {
+   "id": "Stein8",
+   "kind": "decoration",
+   "source_node": "DECOR_Stein8",
+   "decoration_list_id": 2543,
+   "event_id_primary": 0,
+   "event_id_secondary": 0,
+   "facing": 310
+  },
+  {
+   "id": "Stein7",
+   "kind": "decoration",
+   "source_node": "DECOR_Stein7",
+   "decoration_list_id": 2543,
+   "event_id_primary": 0,
+   "event_id_secondary": 0,
+   "facing": 310
+  },
+  {
+   "id": "Stein6",
+   "kind": "decoration",
+   "source_node": "DECOR_Stein6",
+   "decoration_list_id": 2543,
+   "event_id_primary": 0,
+   "event_id_secondary": 0,
+   "facing": 310
+  },
+  {
+   "id": "Stein5",
+   "kind": "decoration",
+   "source_node": "DECOR_Stein5",
+   "decoration_list_id": 2543,
+   "event_id_primary": 0,
+   "event_id_secondary": 0,
+   "facing": 310
+  },
+  {
+   "id": "Pitcher6",
+   "kind": "decoration",
+   "source_node": "DECOR_Pitcher6",
+   "decoration_list_id": 2252,
+   "event_id_primary": 0,
+   "event_id_secondary": 0,
+   "facing": 270
+  },
+  {
+   "id": "Pitcher5",
+   "kind": "decoration",
+   "source_node": "DECOR_Pitcher5",
+   "decoration_list_id": 2252,
+   "event_id_primary": 0,
+   "event_id_secondary": 0
+  },
+  {
+   "id": "Barstool9",
+   "kind": "decoration",
+   "source_node": "DECOR_Barstool9",
+   "decoration_list_id": 2551,
+   "event_id_primary": 0,
+   "event_id_secondary": 0
+  },
+  {
+   "id": "Barstool8",
+   "kind": "decoration",
+   "source_node": "DECOR_Barstool8",
+   "decoration_list_id": 2551,
+   "event_id_primary": 0,
+   "event_id_secondary": 0,
+   "facing": 90
+  },
+  {
+   "id": "Barstool7",
+   "kind": "decoration",
+   "source_node": "DECOR_Barstool7",
+   "decoration_list_id": 2551,
+   "event_id_primary": 0,
+   "event_id_secondary": 0,
+   "facing": 90
+  },
+  {
+   "id": "Barstool11",
+   "kind": "decoration",
+   "source_node": "DECOR_Barstool11",
+   "decoration_list_id": 2551,
+   "event_id_primary": 0,
+   "event_id_secondary": 0,
+   "facing": 90
+  },
+  {
+   "id": "Barstool10",
+   "kind": "decoration",
+   "source_node": "DECOR_Barstool10",
+   "decoration_list_id": 2551,
+   "event_id_primary": 0,
+   "event_id_secondary": 0
+  },
+  {
+   "id": "Barrel2",
+   "kind": "decoration",
+   "source_node": "DECOR_Barrel2",
+   "decoration_list_id": 2479,
+   "event_id_primary": 0,
+   "event_id_secondary": 0
+  },
+  {
+   "id": "Barrel1",
+   "kind": "decoration",
+   "source_node": "DECOR_Barrel1",
+   "decoration_list_id": 2479,
+   "event_id_primary": 0,
+   "event_id_secondary": 0
+  },
+  {
+   "id": "Barrel10",
+   "kind": "decoration",
+   "source_node": "DECOR_Barrel10",
+   "decoration_list_id": 2479,
+   "event_id_primary": 0,
+   "event_id_secondary": 0
+  },
+  {
+   "id": "Coatrack1",
+   "kind": "decoration",
+   "source_node": "DECOR_Coatrack1",
+   "decoration_list_id": 2518,
+   "event_id_primary": 0,
+   "event_id_secondary": 0,
+   "facing": 90
+  },
+  {
+   "id": "Table5",
+   "kind": "decoration",
+   "source_node": "DECOR_Table5",
+   "decoration_list_id": 2202,
+   "event_id_primary": 0,
+   "event_id_secondary": 0
+  },
+  {
+   "id": "Table4",
+   "kind": "decoration",
+   "source_node": "DECOR_Table4",
+   "decoration_list_id": 2202,
+   "event_id_primary": 0,
+   "event_id_secondary": 0
+  },
+  {
+   "id": "Table3",
+   "kind": "decoration",
+   "source_node": "DECOR_Table3",
+   "decoration_list_id": 2202,
+   "event_id_primary": 0,
+   "event_id_secondary": 0
+  },
+  {
+   "id": "Prop1",
+   "kind": "decoration",
+   "source_node": "DECOR_Prop1",
+   "decoration_list_id": 2563,
+   "event_id_primary": 0,
+   "event_id_secondary": 0
+  },
+  {
+   "id": "Dresser3",
+   "kind": "decoration",
+   "source_node": "DECOR_Dresser3",
+   "decoration_list_id": 2249,
+   "event_id_primary": 0,
+   "event_id_secondary": 0,
+   "facing": 90
+  },
+  {
+   "id": "Bed6",
+   "kind": "decoration",
+   "source_node": "DECOR_Bed6",
+   "decoration_list_id": 2019,
+   "event_id_primary": 0,
+   "event_id_secondary": 0,
+   "facing": 180
+  },
+  {
+   "id": "Cabinet3",
+   "kind": "decoration",
+   "source_node": "DECOR_Cabinet3",
+   "decoration_list_id": 2241,
+   "event_id_primary": 0,
+   "event_id_secondary": 0
+  },
+  {
+   "id": "Coatrack2",
+   "kind": "decoration",
+   "source_node": "DECOR_Coatrack2",
+   "decoration_list_id": 2001,
+   "event_id_primary": 0,
+   "event_id_secondary": 0,
+   "facing": 270
+  },
+  {
+   "id": "Table7",
+   "kind": "decoration",
+   "source_node": "DECOR_Table7",
+   "decoration_list_id": 2035,
+   "event_id_primary": 0,
+   "event_id_secondary": 0
+  },
+  {
+   "id": "Chair15",
+   "kind": "decoration",
+   "source_node": "DECOR_Chair15",
+   "decoration_list_id": 2024,
+   "event_id_primary": 0,
+   "event_id_secondary": 0,
+   "facing": 90
+  },
+  {
+   "id": "Chair14",
+   "kind": "decoration",
+   "source_node": "DECOR_Chair14",
+   "decoration_list_id": 2024,
+   "event_id_primary": 0,
+   "event_id_secondary": 0,
+   "facing": 270
+  },
+  {
+   "id": "Cabinet1",
+   "kind": "decoration",
+   "source_node": "DECOR_Cabinet1",
+   "decoration_list_id": 2040,
+   "event_id_primary": 0,
+   "event_id_secondary": 0,
+   "facing": 45
+  },
+  {
+   "id": "Table8",
+   "kind": "decoration",
+   "source_node": "DECOR_Table8",
+   "decoration_list_id": 2035,
+   "event_id_primary": 0,
+   "event_id_secondary": 0
+  },
+  {
+   "id": "Chair17",
+   "kind": "decoration",
+   "source_node": "DECOR_Chair17",
+   "decoration_list_id": 2024,
+   "event_id_primary": 0,
+   "event_id_secondary": 0,
+   "facing": 90
+  },
+  {
+   "id": "Chair16",
+   "kind": "decoration",
+   "source_node": "DECOR_Chair16",
+   "decoration_list_id": 2024,
+   "event_id_primary": 0,
+   "event_id_secondary": 0,
+   "facing": 270
+  },
+  {
+   "id": "Dresser4",
+   "kind": "decoration",
+   "source_node": "DECOR_Dresser4",
+   "decoration_list_id": 2004,
+   "event_id_primary": 0,
+   "event_id_secondary": 0,
+   "facing": 135
+  },
+  {
+   "id": "Bedmed0",
+   "kind": "decoration",
+   "source_node": "DECOR_Bedmed0",
+   "decoration_list_id": 2021,
+   "event_id_primary": 0,
+   "event_id_secondary": 0,
+   "facing": 315
+  },
+  {
+   "id": "Dresser5",
+   "kind": "decoration",
+   "source_node": "DECOR_Dresser5",
+   "decoration_list_id": 2004,
+   "event_id_primary": 0,
+   "event_id_secondary": 0
+  },
+  {
+   "id": "Cabinet4",
+   "kind": "decoration",
+   "source_node": "DECOR_Cabinet4",
+   "decoration_list_id": 2040,
+   "event_id_primary": 0,
+   "event_id_secondary": 0,
+   "facing": 179
+  },
+  {
+   "id": "Table9",
+   "kind": "decoration",
+   "source_node": "DECOR_Table9",
+   "decoration_list_id": 2035,
+   "event_id_primary": 0,
+   "event_id_secondary": 0
+  },
+  {
+   "id": "Chair18",
+   "kind": "decoration",
+   "source_node": "DECOR_Chair18",
+   "decoration_list_id": 2024,
+   "event_id_primary": 0,
+   "event_id_secondary": 0,
+   "facing": 90
+  },
+  {
+   "id": "Bedmed1",
+   "kind": "decoration",
+   "source_node": "DECOR_Bedmed1",
+   "decoration_list_id": 2021,
+   "event_id_primary": 0,
+   "event_id_secondary": 0,
+   "facing": 270
+  },
+  {
+   "id": "Prop5",
+   "kind": "decoration",
+   "source_node": "DECOR_Prop5",
+   "decoration_list_id": 2393,
+   "event_id_primary": 0,
+   "event_id_secondary": 0
+  },
+  {
+   "id": "Bookcase11",
+   "kind": "decoration",
+   "source_node": "DECOR_Bookcase11",
+   "decoration_list_id": 2303,
+   "event_id_primary": 0,
+   "event_id_secondary": 0,
+   "facing": 270
+  },
+  {
+   "id": "Bookcase10",
+   "kind": "decoration",
+   "source_node": "DECOR_Bookcase10",
+   "decoration_list_id": 2303,
+   "event_id_primary": 0,
+   "event_id_secondary": 0,
+   "facing": 270
+  },
+  {
+   "id": "Bookcase9",
+   "kind": "decoration",
+   "source_node": "DECOR_Bookcase9",
+   "decoration_list_id": 2303,
+   "event_id_primary": 0,
+   "event_id_secondary": 0,
+   "facing": 90
+  },
+  {
+   "id": "Bookcase8",
+   "kind": "decoration",
+   "source_node": "DECOR_Bookcase8",
+   "decoration_list_id": 2303,
+   "event_id_primary": 0,
+   "event_id_secondary": 0,
+   "facing": 90
+  },
+  {
+   "id": "Book1",
+   "kind": "decoration",
+   "source_node": "DECOR_Book1",
+   "decoration_list_id": 2047,
+   "event_id_primary": 0,
+   "event_id_secondary": 331,
+   "facing": 110
+  },
+  {
+   "id": "Chair30",
+   "kind": "decoration",
+   "source_node": "DECOR_Chair30",
+   "decoration_list_id": 2082,
+   "event_id_primary": 0,
+   "event_id_secondary": 0,
+   "facing": 89
+  },
+  {
+   "id": "Chair29",
+   "kind": "decoration",
+   "source_node": "DECOR_Chair29",
+   "decoration_list_id": 2082,
+   "event_id_primary": 0,
+   "event_id_secondary": 0,
+   "facing": 269
+  },
+  {
+   "id": "Chair28",
+   "kind": "decoration",
+   "source_node": "DECOR_Chair28",
+   "decoration_list_id": 2082,
+   "event_id_primary": 0,
+   "event_id_secondary": 0,
+   "facing": 89
+  },
+  {
+   "id": "Table10",
+   "kind": "decoration",
+   "source_node": "DECOR_Table10",
+   "decoration_list_id": 2110,
+   "event_id_primary": 0,
+   "event_id_secondary": 0,
+   "facing": 270
+  },
+  {
+   "id": "Bench7",
+   "kind": "decoration",
+   "source_node": "DECOR_Bench7",
+   "decoration_list_id": 2552,
+   "event_id_primary": 0,
+   "event_id_secondary": 0,
+   "facing": 90
+  },
+  {
+   "id": "Bench0",
+   "kind": "decoration",
+   "source_node": "DECOR_Bench0",
+   "decoration_list_id": 2552,
+   "event_id_primary": 0,
+   "event_id_secondary": 0,
+   "facing": 270
+  },
+  {
+   "id": "Stand1",
+   "kind": "decoration",
+   "source_node": "DECOR_Stand1",
+   "decoration_list_id": 2564,
+   "event_id_primary": 0,
+   "event_id_secondary": 0
+  },
+  {
+   "id": "Stand0",
+   "kind": "decoration",
+   "source_node": "DECOR_Stand0",
+   "decoration_list_id": 2564,
+   "event_id_primary": 0,
+   "event_id_secondary": 0
+  },
+  {
+   "id": "Podium0",
+   "kind": "decoration",
+   "source_node": "DECOR_Podium0",
+   "decoration_list_id": 2093,
+   "event_id_primary": 0,
+   "event_id_secondary": 0,
+   "facing": 180
+  },
+  {
+   "id": "Bench6",
+   "kind": "decoration",
+   "source_node": "DECOR_Bench6",
+   "decoration_list_id": 2331,
+   "event_id_primary": 0,
+   "event_id_secondary": 0,
+   "facing": 180
+  },
+  {
+   "id": "Bench5",
+   "kind": "decoration",
+   "source_node": "DECOR_Bench5",
+   "decoration_list_id": 2331,
+   "event_id_primary": 0,
+   "event_id_secondary": 0,
+   "facing": 180
+  },
+  {
+   "id": "Bench4",
+   "kind": "decoration",
+   "source_node": "DECOR_Bench4",
+   "decoration_list_id": 2331,
+   "event_id_primary": 0,
+   "event_id_secondary": 0,
+   "facing": 180
+  },
+  {
+   "id": "Bench3",
+   "kind": "decoration",
+   "source_node": "DECOR_Bench3",
+   "decoration_list_id": 2331,
+   "event_id_primary": 0,
+   "event_id_secondary": 0,
+   "facing": 180
+  },
+  {
+   "id": "Bench2",
+   "kind": "decoration",
+   "source_node": "DECOR_Bench2",
+   "decoration_list_id": 2331,
+   "event_id_primary": 0,
+   "event_id_secondary": 0,
+   "facing": 180
+  },
+  {
+   "id": "Bench1",
+   "kind": "decoration",
+   "source_node": "DECOR_Bench1",
+   "decoration_list_id": 2331,
+   "event_id_primary": 0,
+   "event_id_secondary": 0,
+   "facing": 180
+  },
+  {
+   "id": "Bed15",
+   "kind": "decoration",
+   "source_node": "DECOR_Bed15",
+   "decoration_list_id": 2459,
+   "event_id_primary": 0,
+   "event_id_secondary": 0,
+   "facing": 90
+  },
+  {
+   "id": "Banner4",
+   "kind": "decoration",
+   "source_node": "DECOR_Banner4",
+   "decoration_list_id": 2571,
+   "event_id_primary": 0,
+   "event_id_secondary": 0
+  },
+  {
+   "id": "Banner3",
+   "kind": "decoration",
+   "source_node": "DECOR_Banner3",
+   "decoration_list_id": 2571,
+   "event_id_primary": 0,
+   "event_id_secondary": 0,
+   "facing": 270
+  },
+  {
+   "id": "Banner2",
+   "kind": "decoration",
+   "source_node": "DECOR_Banner2",
+   "decoration_list_id": 2571,
+   "event_id_primary": 0,
+   "event_id_secondary": 0,
+   "facing": 90
+  },
+  {
+   "id": "Chair36",
+   "kind": "decoration",
+   "source_node": "DECOR_Chair36",
+   "decoration_list_id": 2082,
+   "event_id_primary": 0,
+   "event_id_secondary": 0,
+   "facing": 269
+  },
+  {
+   "id": "Chair35",
+   "kind": "decoration",
+   "source_node": "DECOR_Chair35",
+   "decoration_list_id": 2082,
+   "event_id_primary": 0,
+   "event_id_secondary": 0,
+   "facing": 269
+  },
+  {
+   "id": "Chair34",
+   "kind": "decoration",
+   "source_node": "DECOR_Chair34",
+   "decoration_list_id": 2082,
+   "event_id_primary": 0,
+   "event_id_secondary": 0,
+   "facing": 89
+  },
+  {
+   "id": "Table12",
+   "kind": "decoration",
+   "source_node": "DECOR_Table12",
+   "decoration_list_id": 2110,
+   "event_id_primary": 0,
+   "event_id_secondary": 0,
+   "facing": 270
+  },
+  {
+   "id": "Chair33",
+   "kind": "decoration",
+   "source_node": "DECOR_Chair33",
+   "decoration_list_id": 2082,
+   "event_id_primary": 0,
+   "event_id_secondary": 0,
+   "facing": 89
+  },
+  {
+   "id": "Chair32",
+   "kind": "decoration",
+   "source_node": "DECOR_Chair32",
+   "decoration_list_id": 2082,
+   "event_id_primary": 0,
+   "event_id_secondary": 0,
+   "facing": 89
+  },
+  {
+   "id": "Chair31",
+   "kind": "decoration",
+   "source_node": "DECOR_Chair31",
+   "decoration_list_id": 2082,
+   "event_id_primary": 0,
+   "event_id_secondary": 0,
+   "facing": 269
+  },
+  {
+   "id": "Table11",
+   "kind": "decoration",
+   "source_node": "DECOR_Table11",
+   "decoration_list_id": 2110,
+   "event_id_primary": 0,
+   "event_id_secondary": 0,
+   "facing": 270
+  },
+  {
+   "id": "Armor5",
+   "kind": "decoration",
+   "source_node": "DECOR_Armor5",
+   "decoration_list_id": 2290,
+   "event_id_primary": 0,
+   "event_id_secondary": 0,
+   "facing": 134
+  },
+  {
+   "id": "Armor3",
+   "kind": "decoration",
+   "source_node": "DECOR_Armor3",
+   "decoration_list_id": 2290,
+   "event_id_primary": 0,
+   "event_id_secondary": 0,
+   "facing": 224
+  },
+  {
+   "id": "Throne0",
+   "kind": "decoration",
+   "source_node": "DECOR_Throne0",
+   "decoration_list_id": 2111,
+   "event_id_primary": 0,
+   "event_id_secondary": 0
+  },
+  {
+   "id": "Cabinet5",
+   "kind": "decoration",
+   "source_node": "DECOR_Cabinet5",
+   "decoration_list_id": 2241,
+   "event_id_primary": 0,
+   "event_id_secondary": 0
+  },
+  {
+   "id": "Dresser6",
+   "kind": "decoration",
+   "source_node": "DECOR_Dresser6",
+   "decoration_list_id": 2248,
+   "event_id_primary": 0,
+   "event_id_secondary": 0,
+   "facing": 180
+  },
+  {
+   "id": "Bed7",
+   "kind": "decoration",
+   "source_node": "DECOR_Bed7",
+   "decoration_list_id": 2019,
+   "event_id_primary": 0,
+   "event_id_secondary": 0
+  },
+  {
+   "id": "SpinningDummy0",
+   "kind": "decoration",
+   "source_node": "DECOR_SpinningDummy0",
+   "decoration_list_id": 2298,
+   "event_id_primary": 0,
+   "event_id_secondary": 0,
+   "facing": 90
+  },
+  {
+   "id": "SpinningDummy1",
+   "kind": "decoration",
+   "source_node": "DECOR_SpinningDummy1",
+   "decoration_list_id": 2298,
+   "event_id_primary": 0,
+   "event_id_secondary": 0,
+   "facing": 90
+  },
+  {
+   "id": "Target1",
+   "kind": "decoration",
+   "source_node": "DECOR_Target1",
+   "decoration_list_id": 2508,
+   "event_id_primary": 0,
+   "event_id_secondary": 0,
+   "facing": 90
+  },
+  {
+   "id": "Target0",
+   "kind": "decoration",
+   "source_node": "DECOR_Target0",
+   "decoration_list_id": 2508,
+   "event_id_primary": 0,
+   "event_id_secondary": 0,
+   "facing": 90
+  },
+  {
+   "id": "Target2",
+   "kind": "decoration",
+   "source_node": "DECOR_Target2",
+   "decoration_list_id": 2508,
+   "event_id_primary": 0,
+   "event_id_secondary": 0,
+   "facing": 90
+  },
+  {
+   "id": "Strawdummyrack2",
+   "kind": "decoration",
+   "source_node": "DECOR_Strawdummyrack2",
+   "decoration_list_id": 2506,
+   "event_id_primary": 0,
+   "event_id_secondary": 0,
+   "facing": 180
+  },
+  {
+   "id": "Strawdummyrack1",
+   "kind": "decoration",
+   "source_node": "DECOR_Strawdummyrack1",
+   "decoration_list_id": 2504,
+   "event_id_primary": 0,
+   "event_id_secondary": 0,
+   "facing": 180
+  },
+  {
+   "id": "Strawdummyrack0",
+   "kind": "decoration",
+   "source_node": "DECOR_Strawdummyrack0",
+   "decoration_list_id": 2505,
+   "event_id_primary": 0,
+   "event_id_secondary": 0,
+   "facing": 180
+  },
+  {
+   "id": "Chair42",
+   "kind": "decoration",
+   "source_node": "DECOR_Chair42",
+   "decoration_list_id": 2082,
+   "event_id_primary": 0,
+   "event_id_secondary": 0,
+   "facing": 89
+  },
+  {
+   "id": "Table14",
+   "kind": "decoration",
+   "source_node": "DECOR_Table14",
+   "decoration_list_id": 2110,
+   "event_id_primary": 0,
+   "event_id_secondary": 0,
+   "facing": 270
+  },
+  {
+   "id": "Chair41",
+   "kind": "decoration",
+   "source_node": "DECOR_Chair41",
+   "decoration_list_id": 2082,
+   "event_id_primary": 0,
+   "event_id_secondary": 0,
+   "facing": 89
+  },
+  {
+   "id": "Chair40",
+   "kind": "decoration",
+   "source_node": "DECOR_Chair40",
+   "decoration_list_id": 2082,
+   "event_id_primary": 0,
+   "event_id_secondary": 0,
+   "facing": 269
+  },
+  {
+   "id": "Chair39",
+   "kind": "decoration",
+   "source_node": "DECOR_Chair39",
+   "decoration_list_id": 2082,
+   "event_id_primary": 0,
+   "event_id_secondary": 0,
+   "facing": 269
+  },
+  {
+   "id": "Chair38",
+   "kind": "decoration",
+   "source_node": "DECOR_Chair38",
+   "decoration_list_id": 2082,
+   "event_id_primary": 0,
+   "event_id_secondary": 0,
+   "facing": 269
+  },
+  {
+   "id": "Chair37",
+   "kind": "decoration",
+   "source_node": "DECOR_Chair37",
+   "decoration_list_id": 2082,
+   "event_id_primary": 0,
+   "event_id_secondary": 0,
+   "facing": 89
+  },
+  {
+   "id": "Table13",
+   "kind": "decoration",
+   "source_node": "DECOR_Table13",
+   "decoration_list_id": 2110,
+   "event_id_primary": 0,
+   "event_id_secondary": 0,
+   "facing": 270
+  },
+  {
+   "id": "Cart3",
+   "kind": "decoration",
+   "source_node": "DECOR_Cart3",
+   "decoration_list_id": 2558,
+   "event_id_primary": 0,
+   "event_id_secondary": 0
+  },
+  {
+   "id": "Cart2",
+   "kind": "decoration",
+   "source_node": "DECOR_Cart2",
+   "decoration_list_id": 2557,
+   "event_id_primary": 0,
+   "event_id_secondary": 0
+  },
+  {
+   "id": "Cart1",
+   "kind": "decoration",
+   "source_node": "DECOR_Cart1",
+   "decoration_list_id": 2556,
+   "event_id_primary": 0,
+   "event_id_secondary": 0,
+   "facing": 320
+  },
+  {
+   "id": "Horsepost0",
+   "kind": "decoration",
+   "source_node": "DECOR_Horsepost0",
+   "decoration_list_id": 2560,
+   "event_id_primary": 0,
+   "event_id_secondary": 0,
+   "facing": 270
+  },
+  {
+   "id": "WallTorch60",
+   "kind": "decoration",
+   "source_node": "DECOR_WallTorch60",
+   "decoration_list_id": 2261,
+   "event_id_primary": 0,
+   "event_id_secondary": 0,
+   "facing": 225
+  },
+  {
+   "id": "Wheellight2",
+   "kind": "decoration",
+   "source_node": "DECOR_Wheellight2",
+   "decoration_list_id": 2471,
+   "event_id_primary": 0,
+   "event_id_secondary": 0
+  },
+  {
+   "id": "CandleProp12",
+   "kind": "decoration",
+   "source_node": "DECOR_CandleProp12",
+   "decoration_list_id": 2224,
+   "event_id_primary": 0,
+   "event_id_secondary": 0
+  },
+  {
+   "id": "WallTorch61",
+   "kind": "decoration",
+   "source_node": "DECOR_WallTorch61",
+   "decoration_list_id": 2261,
+   "event_id_primary": 0,
+   "event_id_secondary": 0,
+   "facing": 135
+  },
+  {
+   "id": "WallTorch62",
+   "kind": "decoration",
+   "source_node": "DECOR_WallTorch62",
+   "decoration_list_id": 2261,
+   "event_id_primary": 0,
+   "event_id_secondary": 0,
+   "facing": 179
+  },
+  {
+   "id": "WallTorch63",
+   "kind": "decoration",
+   "source_node": "DECOR_WallTorch63",
+   "decoration_list_id": 2261,
+   "event_id_primary": 0,
+   "event_id_secondary": 0
+  },
+  {
+   "id": "CandleProp13",
+   "kind": "decoration",
+   "source_node": "DECOR_CandleProp13",
+   "decoration_list_id": 2224,
+   "event_id_primary": 0,
+   "event_id_secondary": 0
+  },
+  {
+   "id": "Wheellight3",
+   "kind": "decoration",
+   "source_node": "DECOR_Wheellight3",
+   "decoration_list_id": 2471,
+   "event_id_primary": 0,
+   "event_id_secondary": 0
+  },
+  {
+   "id": "CandleProp14",
+   "kind": "decoration",
+   "source_node": "DECOR_CandleProp14",
+   "decoration_list_id": 2224,
+   "event_id_primary": 0,
+   "event_id_secondary": 0
+  },
+  {
+   "id": "CandleProp15",
+   "kind": "decoration",
+   "source_node": "DECOR_CandleProp15",
+   "decoration_list_id": 2224,
+   "event_id_primary": 0,
+   "event_id_secondary": 0
+  },
+  {
+   "id": "WallTorch64",
+   "kind": "decoration",
+   "source_node": "DECOR_WallTorch64",
+   "decoration_list_id": 2261,
+   "event_id_primary": 0,
+   "event_id_secondary": 0
+  },
+  {
+   "id": "CandleProp16",
+   "kind": "decoration",
+   "source_node": "DECOR_CandleProp16",
+   "decoration_list_id": 2224,
+   "event_id_primary": 0,
+   "event_id_secondary": 0
+  },
+  {
+   "id": "WallTorch65",
+   "kind": "decoration",
+   "source_node": "DECOR_WallTorch65",
+   "decoration_list_id": 2261,
+   "event_id_primary": 0,
+   "event_id_secondary": 0,
+   "facing": 270
+  },
+  {
+   "id": "WallTorch66",
+   "kind": "decoration",
+   "source_node": "DECOR_WallTorch66",
+   "decoration_list_id": 2261,
+   "event_id_primary": 0,
+   "event_id_secondary": 0,
+   "facing": 270
+  },
+  {
+   "id": "WallTorch67",
+   "kind": "decoration",
+   "source_node": "DECOR_WallTorch67",
+   "decoration_list_id": 2261,
+   "event_id_primary": 0,
+   "event_id_secondary": 0,
+   "facing": 90
+  },
+  {
+   "id": "WallTorch68",
+   "kind": "decoration",
+   "source_node": "DECOR_WallTorch68",
+   "decoration_list_id": 2261,
+   "event_id_primary": 0,
+   "event_id_secondary": 0,
+   "facing": 90
+  },
+  {
+   "id": "WallTorch69",
+   "kind": "decoration",
+   "source_node": "DECOR_WallTorch69",
+   "decoration_list_id": 2261,
+   "event_id_primary": 0,
+   "event_id_secondary": 0
+  },
+  {
+   "id": "WallTorch70",
+   "kind": "decoration",
+   "source_node": "DECOR_WallTorch70",
+   "decoration_list_id": 2468,
+   "event_id_primary": 0,
+   "event_id_secondary": 0,
+   "facing": 90
+  },
+  {
+   "id": "CandleProp17",
+   "kind": "decoration",
+   "source_node": "DECOR_CandleProp17",
+   "decoration_list_id": 2224,
+   "event_id_primary": 0,
+   "event_id_secondary": 0
+  },
+  {
+   "id": "CandleProp18",
+   "kind": "decoration",
+   "source_node": "DECOR_CandleProp18",
+   "decoration_list_id": 2224,
+   "event_id_primary": 0,
+   "event_id_secondary": 0
+  },
+  {
+   "id": "CandleProp19",
+   "kind": "decoration",
+   "source_node": "DECOR_CandleProp19",
+   "decoration_list_id": 2224,
+   "event_id_primary": 0,
+   "event_id_secondary": 0
+  },
+  {
+   "id": "WallTorch71",
+   "kind": "decoration",
+   "source_node": "DECOR_WallTorch71",
+   "decoration_list_id": 2261,
+   "event_id_primary": 0,
+   "event_id_secondary": 0,
+   "facing": 44
+  },
+  {
+   "id": "WallTorch72",
+   "kind": "decoration",
+   "source_node": "DECOR_WallTorch72",
+   "decoration_list_id": 2261,
+   "event_id_primary": 0,
+   "event_id_secondary": 0,
+   "facing": 270
+  },
+  {
+   "id": "WallTorch73",
+   "kind": "decoration",
+   "source_node": "DECOR_WallTorch73",
+   "decoration_list_id": 2261,
+   "event_id_primary": 0,
+   "event_id_secondary": 0
+  },
+  {
+   "id": "WallTorch74",
+   "kind": "decoration",
+   "source_node": "DECOR_WallTorch74",
+   "decoration_list_id": 2261,
+   "event_id_primary": 0,
+   "event_id_secondary": 0,
+   "facing": 225
+  },
+  {
+   "id": "WallTorch75",
+   "kind": "decoration",
+   "source_node": "DECOR_WallTorch75",
+   "decoration_list_id": 2261,
+   "event_id_primary": 0,
+   "event_id_secondary": 0,
+   "facing": 45
+  },
+  {
+   "id": "Prop17",
+   "kind": "decoration",
+   "source_node": "DECOR_Prop17",
+   "decoration_list_id": 2805,
+   "event_id_primary": 0,
+   "event_id_secondary": 332,
+   "facing": 335
+  },
+  {
+   "id": "Prop16",
+   "kind": "decoration",
+   "source_node": "DECOR_Prop16",
+   "decoration_list_id": 2805,
+   "event_id_primary": 0,
+   "event_id_secondary": 333,
+   "facing": 335
+  },
+  {
+   "id": "Prop15",
+   "kind": "decoration",
+   "source_node": "DECOR_Prop15",
+   "decoration_list_id": 2805,
+   "event_id_primary": 0,
+   "event_id_secondary": 334,
+   "facing": 335
+  },
+  {
+   "id": "Prop14",
+   "kind": "decoration",
+   "source_node": "DECOR_Prop14",
+   "decoration_list_id": 2033,
+   "event_id_primary": 0,
+   "event_id_secondary": 335,
+   "facing": 270
+  },
+  {
+   "id": "WellMMIX0",
+   "kind": "decoration",
+   "source_node": "DECOR_WellMMIX0",
+   "decoration_list_id": 2135,
+   "event_id_primary": 0,
+   "event_id_secondary": 30625
+  },
+  {
+   "id": "Barrel0",
+   "kind": "decoration",
+   "source_node": "DECOR_Barrel0",
+   "decoration_list_id": 2646,
+   "event_id_primary": 0,
+   "event_id_secondary": 0
+  },
+  {
+   "id": "Clover0",
+   "kind": "decoration",
+   "source_node": "DECOR_Clover0",
+   "decoration_list_id": 2559,
+   "event_id_primary": 0,
+   "event_id_secondary": 30632
+  },
+  {
+   "id": "Clover1",
+   "kind": "decoration",
+   "source_node": "DECOR_Clover1",
+   "decoration_list_id": 2559,
+   "event_id_primary": 0,
+   "event_id_secondary": 30633
+  }
+ ],
+ "lights": [
+  {
+   "id": "Light131",
+   "source_node": "LIGHT_Light131",
+   "color": [
+    139,
+    94,
+    54
+   ],
+   "radius": 128,
+   "brightness": 31,
+   "type": "point"
+  },
+  {
+   "id": "Light133",
+   "source_node": "LIGHT_Light133",
+   "color": [
+    139,
+    94,
+    54
+   ],
+   "radius": 128,
+   "brightness": 31,
+   "type": "point"
+  },
+  {
+   "id": "Light135",
+   "source_node": "LIGHT_Light135",
+   "color": [
+    139,
+    94,
+    54
+   ],
+   "radius": 128,
+   "brightness": 31,
+   "type": "point"
+  },
+  {
+   "id": "Light137",
+   "source_node": "LIGHT_Light137",
+   "color": [
+    139,
+    94,
+    54
+   ],
+   "radius": 128,
+   "brightness": 31,
+   "type": "point"
+  },
+  {
+   "id": "Light139",
+   "source_node": "LIGHT_Light139",
+   "color": [
+    185,
+    126,
+    72
+   ],
+   "radius": 128,
+   "brightness": 31,
+   "type": "point"
+  },
+  {
+   "id": "Light141",
+   "source_node": "LIGHT_Light141",
+   "color": [
+    139,
+    94,
+    54
+   ],
+   "radius": 128,
+   "brightness": 31,
+   "type": "point"
+  },
+  {
+   "id": "Light143",
+   "source_node": "LIGHT_Light143",
+   "color": [
+    139,
+    94,
+    54
+   ],
+   "radius": 128,
+   "brightness": 31,
+   "type": "point"
+  },
+  {
+   "id": "Light145",
+   "source_node": "LIGHT_Light145",
+   "color": [
+    139,
+    94,
+    54
+   ],
+   "radius": 128,
+   "brightness": 31,
+   "type": "point"
+  },
+  {
+   "id": "Light147",
+   "source_node": "LIGHT_Light147",
+   "color": [
+    139,
+    94,
+    54
+   ],
+   "radius": 128,
+   "brightness": 31,
+   "type": "point"
+  },
+  {
+   "id": "Light149",
+   "source_node": "LIGHT_Light149",
+   "color": [
+    139,
+    94,
+    54
+   ],
+   "radius": 128,
+   "brightness": 31,
+   "type": "point"
+  },
+  {
+   "id": "Light151",
+   "source_node": "LIGHT_Light151",
+   "color": [
+    139,
+    94,
+    54
+   ],
+   "radius": 128,
+   "brightness": 31,
+   "type": "point"
+  },
+  {
+   "id": "Light153",
+   "source_node": "LIGHT_Light153",
+   "color": [
+    139,
+    94,
+    54
+   ],
+   "radius": 128,
+   "brightness": 31,
+   "type": "point"
+  },
+  {
+   "id": "Light155",
+   "source_node": "LIGHT_Light155",
+   "color": [
+    139,
+    94,
+    54
+   ],
+   "radius": 128,
+   "brightness": 31,
+   "type": "point"
+  },
+  {
+   "id": "Light157",
+   "source_node": "LIGHT_Light157",
+   "color": [
+    139,
+    94,
+    54
+   ],
+   "radius": 128,
+   "brightness": 31,
+   "type": "point"
+  },
+  {
+   "id": "Light159",
+   "source_node": "LIGHT_Light159",
+   "color": [
+    139,
+    94,
+    54
+   ],
+   "radius": 128,
+   "brightness": 31,
+   "type": "point"
+  },
+  {
+   "id": "Light161",
+   "source_node": "LIGHT_Light161",
+   "color": [
+    139,
+    94,
+    54
+   ],
+   "radius": 128,
+   "brightness": 31,
+   "type": "point"
+  },
+  {
+   "id": "Light163",
+   "source_node": "LIGHT_Light163",
+   "color": [
+    139,
+    94,
+    54
+   ],
+   "radius": 128,
+   "brightness": 31,
+   "type": "point"
+  },
+  {
+   "id": "Light4",
+   "source_node": "LIGHT_Light4",
+   "color": [
+    204,
+    138,
+    38
+   ],
+   "radius": 256,
+   "brightness": 31,
+   "type": "point"
+  },
+  {
+   "id": "Light5",
+   "source_node": "LIGHT_Light5",
+   "color": [
+    204,
+    138,
+    38
+   ],
+   "radius": 256,
+   "brightness": 31,
+   "type": "point"
+  },
+  {
+   "id": "Light156",
+   "source_node": "LIGHT_Light156",
+   "color": [
+    145,
+    141,
+    92
+   ],
+   "radius": 640,
+   "brightness": 31,
+   "type": "point"
+  },
+  {
+   "id": "Light162",
+   "source_node": "LIGHT_Light162",
+   "color": [
+    145,
+    141,
+    92
+   ],
+   "radius": 640,
+   "brightness": 31,
+   "type": "point"
+  },
+  {
+   "id": "Light130",
+   "source_node": "LIGHT_Light130",
+   "color": [
+    145,
+    141,
+    92
+   ],
+   "radius": 768,
+   "brightness": 31,
+   "type": "point"
+  },
+  {
+   "id": "Light132",
+   "source_node": "LIGHT_Light132",
+   "color": [
+    145,
+    141,
+    92
+   ],
+   "radius": 768,
+   "brightness": 31,
+   "type": "point"
+  },
+  {
+   "id": "Light134",
+   "source_node": "LIGHT_Light134",
+   "color": [
+    145,
+    141,
+    92
+   ],
+   "radius": 768,
+   "brightness": 31,
+   "type": "point"
+  },
+  {
+   "id": "Light136",
+   "source_node": "LIGHT_Light136",
+   "color": [
+    145,
+    141,
+    92
+   ],
+   "radius": 768,
+   "brightness": 31,
+   "type": "point"
+  },
+  {
+   "id": "Light138",
+   "source_node": "LIGHT_Light138",
+   "color": [
+    193,
+    188,
+    123
+   ],
+   "radius": 768,
+   "brightness": 31,
+   "type": "point"
+  },
+  {
+   "id": "Light140",
+   "source_node": "LIGHT_Light140",
+   "color": [
+    145,
+    141,
+    92
+   ],
+   "radius": 768,
+   "brightness": 31,
+   "type": "point"
+  },
+  {
+   "id": "Light142",
+   "source_node": "LIGHT_Light142",
+   "color": [
+    145,
+    141,
+    92
+   ],
+   "radius": 768,
+   "brightness": 31,
+   "type": "point"
+  },
+  {
+   "id": "Light144",
+   "source_node": "LIGHT_Light144",
+   "color": [
+    145,
+    141,
+    92
+   ],
+   "radius": 768,
+   "brightness": 31,
+   "type": "point"
+  },
+  {
+   "id": "Light146",
+   "source_node": "LIGHT_Light146",
+   "color": [
+    145,
+    141,
+    92
+   ],
+   "radius": 768,
+   "brightness": 31,
+   "type": "point"
+  },
+  {
+   "id": "Light150",
+   "source_node": "LIGHT_Light150",
+   "color": [
+    145,
+    141,
+    92
+   ],
+   "radius": 768,
+   "brightness": 31,
+   "type": "point"
+  },
+  {
+   "id": "Light152",
+   "source_node": "LIGHT_Light152",
+   "color": [
+    145,
+    141,
+    92
+   ],
+   "radius": 768,
+   "brightness": 31,
+   "type": "point"
+  },
+  {
+   "id": "Light154",
+   "source_node": "LIGHT_Light154",
+   "color": [
+    145,
+    141,
+    92
+   ],
+   "radius": 768,
+   "brightness": 31,
+   "type": "point"
+  },
+  {
+   "id": "Light16",
+   "source_node": "LIGHT_Light16",
+   "color": [
+    255,
+    255,
+    159
+   ],
+   "radius": 768,
+   "brightness": 31,
+   "type": "point"
+  },
+  {
+   "id": "Light17",
+   "source_node": "LIGHT_Light17",
+   "color": [
+    255,
+    255,
+    159
+   ],
+   "radius": 768,
+   "brightness": 31,
+   "type": "point"
+  },
+  {
+   "id": "Light24",
+   "source_node": "LIGHT_Light24",
+   "color": [
+    128,
+    128,
+    80
+   ],
+   "radius": 768,
+   "brightness": 31,
+   "type": "point"
+  },
+  {
+   "id": "Light1",
+   "source_node": "LIGHT_Light1",
+   "color": [
+    255,
+    255,
+    159
+   ],
+   "radius": 896,
+   "brightness": 31,
+   "type": "point"
+  },
+  {
+   "id": "Light2",
+   "source_node": "LIGHT_Light2",
+   "color": [
+    255,
+    255,
+    159
+   ],
+   "radius": 896,
+   "brightness": 31,
+   "type": "point"
+  },
+  {
+   "id": "Light14",
+   "source_node": "LIGHT_Light14",
+   "color": [
+    255,
+    255,
+    159
+   ],
+   "radius": 1024,
+   "brightness": 31,
+   "type": "point"
+  },
+  {
+   "id": "Light15",
+   "source_node": "LIGHT_Light15",
+   "color": [
+    255,
+    255,
+    159
+   ],
+   "radius": 1024,
+   "brightness": 31,
+   "type": "point"
+  },
+  {
+   "id": "Light19",
+   "source_node": "LIGHT_Light19",
+   "color": [
+    255,
+    255,
+    159
+   ],
+   "radius": 1024,
+   "brightness": 31,
+   "type": "point"
+  },
+  {
+   "id": "Light22",
+   "source_node": "LIGHT_Light22",
+   "color": [
+    128,
+    128,
+    80
+   ],
+   "radius": 1024,
+   "brightness": 31,
+   "type": "point"
+  },
+  {
+   "id": "Light23",
+   "source_node": "LIGHT_Light23",
+   "color": [
+    128,
+    128,
+    128
+   ],
+   "radius": 1024,
+   "brightness": 31,
+   "type": "point"
+  },
+  {
+   "id": "Light158",
+   "source_node": "LIGHT_Light158",
+   "color": [
+    193,
+    188,
+    123
+   ],
+   "radius": 1536,
+   "brightness": 31,
+   "type": "point"
+  },
+  {
+   "id": "Light160",
+   "source_node": "LIGHT_Light160",
+   "color": [
+    193,
+    188,
+    123
+   ],
+   "radius": 1536,
+   "brightness": 31,
+   "type": "point"
+  },
+  {
+   "id": "Light0",
+   "source_node": "LIGHT_Light0",
+   "color": [
+    153,
+    153,
+    153
+   ],
+   "radius": 2048,
+   "brightness": 31,
+   "type": "point"
+  },
+  {
+   "id": "Light3",
+   "source_node": "LIGHT_Light3",
+   "color": [
+    153,
+    153,
+    153
+   ],
+   "radius": 2048,
+   "brightness": 31,
+   "type": "point"
+  },
+  {
+   "id": "Light30",
+   "source_node": "LIGHT_Light30",
+   "color": [
+    153,
+    153,
+    153
+   ],
+   "radius": 2048,
+   "brightness": 31,
+   "type": "point"
+  },
+  {
+   "id": "Light28",
+   "source_node": "LIGHT_Light28",
+   "color": [
+    153,
+    153,
+    153
+   ],
+   "radius": 3072,
+   "brightness": 31,
+   "type": "point"
+  },
+  {
+   "id": "Light32",
+   "source_node": "LIGHT_Light32",
+   "color": [
+    153,
+    153,
+    153
+   ],
+   "radius": 3072,
+   "brightness": 31,
+   "type": "point"
+  },
+  {
+   "id": "Light12",
+   "source_node": "LIGHT_Light12",
+   "color": [
+    77,
+    77,
+    77
+   ],
+   "radius": 3840,
+   "brightness": 31,
+   "type": "point"
+  },
+  {
+   "id": "Light13",
+   "source_node": "LIGHT_Light13",
+   "color": [
+    77,
+    77,
+    77
+   ],
+   "radius": 3840,
+   "brightness": 31,
+   "type": "point"
+  },
+  {
+   "id": "Light7",
+   "source_node": "LIGHT_Light7",
+   "color": [
+    77,
+    77,
+    77
+   ],
+   "radius": 3840,
+   "brightness": 31,
+   "type": "point"
+  },
+  {
+   "id": "Light9",
+   "source_node": "LIGHT_Light9",
+   "color": [
+    77,
+    77,
+    77
+   ],
+   "radius": 3840,
+   "brightness": 31,
+   "type": "point"
+  }
+ ],
+ "spawns": []
+}

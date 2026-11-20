@@ -1,0 +1,28 @@
+{
+  "prompt": "Use case: precise-object-edit. Paint the supplied paint_mask_guide.png, using design_reference.png as the approved material/detail reference and icon_x8.png as the original colour reference (ignore its magenta background).\nOutput ONE transparent PNG on a 1536x2048 3:4 canvas, or nearest 3:4 size. The guide is three columns by FOUR rows of square cells. Rows 1-2 and 3-4 repeat the same five exact model orthographic silhouettes: FRONT, BACK, LEFT / RIGHT, TOP, empty. Preserve EVERY object's exact position, size, outline, gaps and openings. Paint grey pixels only; do not redraw, move, enlarge or redesign. The thin edge-on views must stay thin.\nRows 1-2 PAINT: unlit base colour. Preserve ornate recurved orange wooden limbs, dark-gold bands, pale string, silver-blue grip, hooked tips. Facets, engravings, scrollwork and inner swirls follow the design reference scaled to each view. No lighting, cast shadows, AO, hot highlights, reflections.\nRows 3-4 MATERIAL MASK: identical silhouettes, filled with FLAT pure colours only. Every metal part including gold/silver/steel/brass = #FF0000 red. Every leather/fur = #00FF00 green. Every cloth/cord/hair = #0000FF blue (bow string is cord). Every matte non-metal solid including wood/bone/horn = #FFFF00 yellow. Every gemstone/crystal/glass/pearl/enamel/liquid through glass = #000000 black. Every silhouette pixel gets exactly one class colour. No shading, texture, outlines, or antialiased colour blends inside masks.\nAll background and all openings fully transparent. Column 3 of rows 2 and 4 stays completely empty. No ground, labels, text, grid, borders, halo, sparkles or aura. Only the 10 guide objects in their exact guide positions.\nCORRECTIVE GENERATION: Strictly retain guide alpha silhouettes. All colour must be clipped inside the original grey objects. Absolutely no stray red/yellow pixels, paint flecks, speckles, coloured fringes or marks outside objects or in openings. PAINT rows contain only natural material colours, no material-mask colours. MASK rows have clean exact flat fills. Preserve the precise guide shapes, including slim edge-on views. Do not add decorative hooked shapes to edge-on silhouettes. Transparent background.",
+  "initial_prompt": "Use case: precise-object-edit. Paint the supplied paint_mask_guide.png, using design_reference.png as the approved material/detail reference and icon_x8.png as the original colour reference (ignore its magenta background).\nOutput ONE transparent PNG on a 1536x2048 3:4 canvas, or nearest 3:4 size. The guide is three columns by FOUR rows of square cells. Rows 1-2 and 3-4 repeat the same five exact model orthographic silhouettes: FRONT, BACK, LEFT / RIGHT, TOP, empty. Preserve EVERY object's exact position, size, outline, gaps and openings. Paint grey pixels only; do not redraw, move, enlarge or redesign. The thin edge-on views must stay thin.\nRows 1-2 PAINT: unlit base colour. Preserve ornate recurved orange wooden limbs, dark-gold bands, pale string, silver-blue grip, hooked tips. Facets, engravings, scrollwork and inner swirls follow the design reference scaled to each view. No lighting, cast shadows, AO, hot highlights, reflections.\nRows 3-4 MATERIAL MASK: identical silhouettes, filled with FLAT pure colours only. Every metal part including gold/silver/steel/brass = #FF0000 red. Every leather/fur = #00FF00 green. Every cloth/cord/hair = #0000FF blue (bow string is cord). Every matte non-metal solid including wood/bone/horn = #FFFF00 yellow. Every gemstone/crystal/glass/pearl/enamel/liquid through glass = #000000 black. Every silhouette pixel gets exactly one class colour. No shading, texture, outlines, or antialiased colour blends inside masks.\nAll background and all openings fully transparent. Column 3 of rows 2 and 4 stays completely empty. No ground, labels, text, grid, borders, halo, sparkles or aura. Only the 10 guide objects in their exact guide positions.",
+  "original_output_path": "/home/pjasicek/.codex/generated_images/01a1ac46-485c-75f0-840d-69e48a8b2416/exec-42c58453-5f51-4d3d-8419-10e5d956657a.png",
+  "tool": "built-in image_gen",
+  "corrective_regenerations": 1,
+  "validation": "Visual inspection: layout retained, but stray coloured pixels remain outside silhouettes; exact silhouette and flat-mask requirements not met. Raw tool output preserved.",
+  "inputs": [
+    {
+      "path": "level_generation/props/items_mm9_claude/codex_tex/d10048/paint_mask_guide.png",
+      "sha256": "b43a52e4fb0590e2deb68120b25a65bcc2fac4a0786ea8b3417766a14dd4d62a"
+    },
+    {
+      "path": "level_generation/props/items_mm9_claude/codex_tex/d10048/design_reference.png",
+      "sha256": "a5ccbbc150681b4d437e5d8c3fb2a5dfb6a650d9ed3a44dd7b960ab217cd28f7"
+    },
+    {
+      "path": "level_generation/props/items_mm9_claude/codex_tex/d10048/icon_x8.png",
+      "sha256": "b02c0682358693024145cab61e5627290759787d6c169cdf2d0ab03f87cfc159"
+    }
+  ],
+  "size": [
+    1086,
+    1448
+  ],
+  "mode": "RGBA",
+  "output": "level_generation/props/items_mm9_claude/codex_tex/d10048/paint_mask_raw_v1.png"
+}

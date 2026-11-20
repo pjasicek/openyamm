@@ -1,0 +1,122 @@
+# Explicit conversion choices for MM9's Ruined Temple (convert.py reads this through the shared converter
+# ../mm9r_common/dungeon; a rerun keeps them). Rules and keys: ../mm9r_common/DUNGEON_PLAYBOOK.md.
+map:
+  stem: ruinedtemple
+  display_name: Ruined Temple
+  starts: [StartPoint0]               # the only start: the entrance from Frosgard (ExitTrigger0 beside it)
+  monster_classes: [SkeletonWarrior, Skeleton, SkeletonMaster, SpectreDagrell, Dagrell, ColloidalWarrior]
+  offset: [0, 0, 0]                   # the old map's frame
+  ambient: 20
+  split_minor_rooms: true             # every polygon is split at a portal plane it crosses (playbook gotchas)
+  model_lighting: {light_scale: 4.0}   # MM9 model lighting for props and actors (README, Prop lighting): BLV colours carry BrightScale and the lightmap fit
+models:
+  # --- the sun buttons ride their hidden doors (MM9 AttachTo): each button slides with its door (88 up at 100 LT/s);
+  # the click on a button runs the map's handler (SunButton and SunButton4 open the doors, SunButton2 and SunButton3
+  # are MM9's decoys that only lock themselves).
+  HiddenDoor: {group: HiddenDoor, motion: dat, doorway: true, portal: HiddenDoorPortal, click: false}
+  SunButton: {group: SunButton, motion: slide, move_lt: [0, 88, 0], speed: 256}
+  SunButton2: {group: SunButton2, motion: slide, move_lt: [0, 88, 0], speed: 256}
+  HiddenDoor2: {group: HiddenDoor2, motion: dat, doorway: true, portal: HiddenDoorPortal2, click: false}
+  SunButton3: {group: SunButton3, motion: slide, move_lt: [0, 88, 0], speed: 256}
+  SunButton4: {group: SunButton4, motion: slide, move_lt: [0, 88, 0], speed: 256}
+  # HiddenDoor3 (PortalName HiddenDoorPortal3, which VisBSP does not have): its doorway from the leaf; HiddenButton
+  # and HiddenButton2 open it.
+  HiddenDoor3: {group: HiddenDoor3, motion: dat, doorway: true, click: false}
+  HiddenButton: {group: HiddenButton, motion: dat}
+  HiddenButton2: {group: HiddenButton2, motion: dat}
+  # --- plain doors (MM9 Door, PushOpen, up 88): a click each. LeftDoor is Locked until HiddenDoor2 opens.
+  AltarDoorLeft: {group: AltarDoor, motion: dat, doorway: true}
+  AltarDoorRight: {group: AltarDoor, motion: dat, doorway: true}
+  UpDoor: {group: UpDoor, motion: dat, doorway: true}
+  LeftDoor: {group: LeftDoor, motion: dat, doorway: true, portal: LeftDoorPortal}
+  PrisonEntrance: {group: PrisonEntrance, motion: dat, doorway: true, portal: PrisonPortal}
+  PrisonEntrance2: {group: PrisonEntrance2, motion: dat, doorway: true, portal: PrisonPortal2}
+  # --- the Tree of Life's cell: the bars and the portcullis rise when DoorCryptEscape0 opens (no click: MM9's are
+  # not PushOpen); the escape slab in the cell's back wall rises for PrisonButton3 in the tunnel behind it.
+  PrisonBars: {group: PrisonDoor, motion: dat, doorway: true, click: false}
+  PrisonDoor: {group: PrisonDoor, motion: dat, doorway: true, click: false}
+  DoorCryptEscape0: {group: DoorCryptEscape0, motion: dat, doorway: true, click: false}
+  PrisonButton2: {group: PrisonButton2, motion: dat}
+  PrisonButton3: {group: PrisonButton3, motion: dat}
+  RopeWheel: {group: RopeWheel, motion: spin, click: false}   # RotatingBrush: the portcullis winch, turning from the prison gate's opening (mover spin)
+  # --- the elevator (SunTempleButtons.scr): the six symbol buttons toggle, the main button on the lift sends it down
+  # when the combination is right; SecondButton at the foot calls it. MainButton rides the lift (AttachTo).
+  MainElevator: {group: MainElevator, motion: dat, click: false}      # Lift: 216 down at 60 LT/s
+  MainButton: {group: MainButton, motion: slide, move_lt: [0, -216, 0], speed: 154}
+  MoonButton1: {group: MoonButton1, motion: dat}
+  MoonButton2: {group: MoonButton2, motion: dat}
+  DiamondButton1: {group: DiamondButton1, motion: dat}
+  DiamondButton2: {group: DiamondButton2, motion: dat}
+  StarButton1: {group: StarButton1, motion: dat}
+  StarButton2: {group: StarButton2, motion: dat}
+  SecondButton: {group: SecondButton, motion: dat}
+  # --- what MM9 destroys: the entrance's plank floor and the glass under it (Trigger0/Trigger1), the crypt lid
+  # (RT_CounterBalance.scr), the shaft's dirt plugs (struck through, DestructableBrush0-5), the two cave-ins
+  # (RT_CaveIn.scr: the rails or ceiling, then the floor under the fallen rocks). The plank floor and its glass fall far
+  # out of sight (Anskram Keep's Floordoor route): the map script opens them. The crypt lid, the plugs, the rails and
+  # the ceiling are scene destructibles (dungeon/destructibles.py `break`, 2026-11-06): weapons break them as in MM9,
+  # the map script destroys them where MM9's scripts do, and a click still breaks a plug.
+  DestructableBrush6: {group: EntranceFloor, motion: slide, move_lt: [0, -1200, 0], speed: 2048, click: false}
+  glass1: {group: EntranceFloor, motion: slide, move_lt: [0, -1200, 0], speed: 2048, click: false}
+  glass2: {group: EntranceFloor, motion: slide, move_lt: [0, -1200, 0], speed: 2048, click: false}
+  glass3: {group: EntranceFloor, motion: slide, move_lt: [0, -1200, 0], speed: 2048, click: false}
+  glass4: {group: EntranceFloor, motion: slide, move_lt: [0, -1200, 0], speed: 2048, click: false}
+  glass5: {group: EntranceFloor, motion: slide, move_lt: [0, -1200, 0], speed: 2048, click: false}
+  glass6: {group: EntranceFloor, motion: slide, move_lt: [0, -1200, 0], speed: 2048, click: false}
+  glass7: {group: EntranceFloor, motion: slide, move_lt: [0, -1200, 0], speed: 2048, click: false}
+  glass8: {group: EntranceFloor, motion: slide, move_lt: [0, -1200, 0], speed: 2048, click: false}
+  WO_CounterBalance: {group: WO_CounterBalance, motion: slide, move_lt: [0, -251.5, 0], speed: 768, click: false}
+  DB_Crypt0: {group: DB_Crypt0, motion: break, click: false}
+  DestructableBrush0: {group: DestructableBrush0, motion: break}
+  DestructableBrush1: {group: DestructableBrush1, motion: break}
+  DestructableBrush2: {group: DestructableBrush2, motion: break}
+  DestructableBrush3: {group: DestructableBrush3, motion: break}
+  DestructableBrush4: {group: DestructableBrush4, motion: break}
+  DestructableBrush5: {group: DestructableBrush5, motion: break}
+  CaveInRight: {group: CaveInRight, motion: slide, move_lt: [0, -82, 0], speed: 563, click: false}
+  CaveInLeft: {group: CaveInLeft, motion: slide, move_lt: [0, -102, -9], speed: 563, click: false}
+  CaveInRightB: {group: CaveInRightB, motion: slide, move_lt: [32, -126, 0], speed: 563, click: false}
+  CaveInLeftB: {group: CaveInLeftB, motion: slide, move_lt: [47.6, -114, -8], speed: 563, click: false}
+  DB_RailRight: {group: DB_RailRight, motion: break, click: false}
+  DB_RailLeft: {group: DB_RailLeft, motion: break, click: false}
+  DB_CeilingRight: {group: DB_CeilingRight, motion: break, click: false}
+  DB_CeilingLeft: {group: DB_CeilingLeft, motion: break, click: false}
+  # The cave-ins' floor slabs: coplanar copies of the floor under them (ruinfloor at y -896 over the same ruinfloor);
+  # MM9 shatters them into rubble once the rocks land, which leaves the same floor. Built, they would z-fight.
+  DBFloor: skip
+  DBFloor0: skip
+  DBFloor1: skip
+  DBFloor2: skip
+  # --- static world objects
+  WorldObject0: static                # the entrance hall's skylight frame (ruinwood, ruinglass)
+  Transparent Bars: static            # the low wooden rail by the podium (r_wood_ladder)
+  InvisibleBrush0: static             # Firethrough.dtx collision strip
+  InvisibleBrush1: static
+  TOD_Sky0: skip                      # sky box far outside the map
+  SkyBox0: skip
+model_patterns:
+  WorldObject: static                 # chains (ChainLink) and webs (web3)
+portals: []
+# Relay triggers MM9 parks above the roof (their dust and quake effects): outside the built air.
+seed_exclude: [DBEffectsTrigger0, DBEffectsTrigger1, DBEffectsTrigger2, Genie]   # Genie: hidden until the lamp calls it
+# The ladder from the lower crypt floor (y -1120) up through the hole in the floor at y -888: WorldObject9 is its
+# invisible blocker (z 1744..1748); a climber faces -z and steps off onto the floor west of the hole.
+ladders:
+  Ladder: {facing_lt: [0, -1], surface_lt: 1748, top_exit_lt: [320, -888, 1780]}
+exits: {}
+plan_levels:
+  crypt: [-1900, -1000]
+  temple: [-1000, -760]
+  upper: [-760, -300]
+# MM9 source textures without an alias in the old import: the sky markers (MM9 draws its sky box through them) draw
+# MM9's Clouds1 sky (worlds/mm9/textures/CLOUVKSJD0.bmp), as in the Temple of Honk.
+textures:
+  "TEXTURES\\Skybox\\skymarker.dtx": {alias: CLOUVKSJD0, width: 256, height: 256}
+
+# Ground treasure hints (dungeon/treasure.py, devdocs/mm9_rework/GROUND_TREASURE_PLAN.md section 4): DAT
+# objects whose surroundings count as secrets or bosses (bonus markers), rewarding set dressing, and places
+# to keep clear.
+treasure:
+  themed_near: [BonePile0, BonePile1, BonePile2, BonePile3, BonePile4]
+  avoid_near:
+    - {name: Genie, radius: 800}

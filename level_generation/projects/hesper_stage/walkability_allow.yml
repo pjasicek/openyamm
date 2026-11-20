@@ -1,0 +1,66 @@
+# Deliberate unreachable regions and pits per built map, for check_walkability.py: kind (unreachable or pit), a
+# point on the region (at: [x, y, z]) and the reason. An entry no finding matches is reported as stale.
+hes_d08:
+  - {kind: unreachable, at: [6936, 5816, 864], reason: "Fab Line A's production row: a conveyor, not a platform"}
+  - {kind: unreachable, at: [7560, 5816, 864], reason: "Fab Line A's production row: a conveyor, not a platform"}
+  - {kind: unreachable, at: [8184, 5816, 864], reason: "Fab Line A's production row: a conveyor, not a platform"}
+hes_d03:
+  - {kind: unreachable, at: [5592, 3944, -672], reason: "the Mess Hall's bone trestles: tables, not a platform"}
+  - {kind: unreachable, at: [5592, 4648, -672], reason: "the Mess Hall's bone trestles: tables, not a platform"}
+hes_d12:
+  - {kind: unreachable, at: [792, 15352, 2368], reason: "Voice cache supply shelf; furniture, not a combat platform"}
+  - {kind: unreachable, at: [-3064, 6888, 112], reason: "Trophy West display plinth for the founder head; furniture, not a combat platform"}
+hes_d01:
+  - {kind: unreachable, at: [2472, 2136, 72], reason: "Baggage Claim's west luggage carousel: furniture, not a fighting platform"}
+  - {kind: unreachable, at: [3544, 1976, 72], reason: "Baggage Claim's east luggage carousel: furniture, not a fighting platform"}
+  - {kind: unreachable, at: [3992, 8856, 880], reason: "Control Tower's flight console: a desk, not a walking surface"}
+hes_d11:
+  - {kind: unreachable, at: [312, 3688, 2624], reason: "Noble spine supply shelf; furniture, not a combat platform"}
+  - {kind: unreachable, at: [312, 4088, 1344], reason: "Port gallery supply shelf; furniture, not a combat platform"}
+hes_d00:
+  - {kind: unreachable, at: [5064, 2808, 96], reason: "Technician office workbench; furniture, not a combat platform"}
+  - {kind: unreachable, at: [6344, 2792, 96], reason: "Militia duty desk; furniture, not a combat platform"}
+
+hes_d15:
+  - {kind: unreachable, at: [13928, 6440, -512], reason: The east line is reached by the scripted tram journey across the collapsed tunnel; its monsters stay on that side}
+  - {kind: unreachable, at: [12376, 4440, -416], reason: 'Broken ceramic panels beside the Breach; debris, not a fighting platform'}
+  - {kind: unreachable, at: [12344, 6200, -416], reason: 'Broken ceramic panels beside the Breach; debris, not a fighting platform'}
+  - {kind: unreachable, at: [13608, -424, 32], reason: 'Tram passenger seat; furniture, not a fighting platform'}
+  - {kind: unreachable, at: [14312, -424, 32], reason: 'Tram passenger seat; furniture, not a fighting platform'}
+  - {kind: unreachable, at: [14952, -424, 32], reason: 'Tram passenger seat; furniture, not a fighting platform'}
+  - {kind: unreachable, at: [8616, -424, 32], reason: 'Tram passenger seat; furniture, not a fighting platform'}
+  - {kind: unreachable, at: [9304, -424, 32], reason: 'Tram passenger seat; furniture, not a fighting platform'}
+  - {kind: unreachable, at: [9960, -424, 32], reason: 'Tram passenger seat; furniture, not a fighting platform'}
+  - {kind: unreachable, at: [8616, 2280, 64], reason: 'Inactive drone cradle in the Tram Shed; machinery, not a fighting platform'}
+  - {kind: unreachable, at: [9064, 2280, 64], reason: 'Inactive drone cradle in the Tram Shed; machinery, not a fighting platform'}
+  - {kind: unreachable, at: [9512, 2280, 64], reason: 'Inactive drone cradle in the Tram Shed; machinery, not a fighting platform'}
+  - {kind: unreachable, at: [8616, 2792, 64], reason: 'Inactive drone cradle in the Tram Shed; machinery, not a fighting platform'}
+  - {kind: unreachable, at: [9064, 2792, 64], reason: 'Inactive drone cradle in the Tram Shed; machinery, not a fighting platform'}
+  - {kind: unreachable, at: [9512, 2792, 64], reason: 'Inactive drone cradle in the Tram Shed; machinery, not a fighting platform'}
+
+hes_d10:
+  - {kind: unreachable, at: [3192, -3000, -400], reason: 'Relic and gold display shelf; furniture, not a combat platform'}
+  - {kind: unreachable, at: [3144, 840, 96], reason: 'Reading desk; furniture, not a combat platform'}
+  - {kind: unreachable, at: [3144, 1544, 96], reason: 'Reading desk; furniture, not a combat platform'}
+  - {kind: unreachable, at: [4648, 840, 96], reason: 'Reading desk; furniture, not a combat platform'}
+  - {kind: unreachable, at: [4648, 1544, 96], reason: 'Reading desk; furniture, not a combat platform'}
+  - {kind: unreachable, at: [696, -2408, -399], reason: 'Memory-well glass cap; puzzle furniture, not a walking surface'}
+  - {kind: unreachable, at: [696, -3400, -399], reason: 'Memory-well glass cap; puzzle furniture, not a walking surface'}
+  - {kind: unreachable, at: [1704, -3400, -399], reason: 'Memory-well glass cap; puzzle furniture, not a walking surface'}
+  - {kind: unreachable, at: [1704, -2408, -399], reason: 'Memory-well glass cap; puzzle furniture, not a walking surface'}
+
+hes_d04:
+  - kind: unreachable
+    at: [2984, 2504, -672]
+    reason: The south sorting trestle is a salvage table, not a fighting platform.
+  - kind: unreachable
+    at: [2984, 3096, -672]
+    reason: The north sorting trestle is a salvage table, moved clear of the pit escape ramp.
+
+hes_d07:
+  - kind: unreachable
+    at: [9512, 6392, -392]
+    reason: North drone assembly bed, occupied by cradles and flying drones; the walking route is the central aisle.
+  - kind: unreachable
+    at: [9656, 5448, -392]
+    reason: South drone assembly bed, occupied by cradles and flying drones; the walking route is the central aisle.

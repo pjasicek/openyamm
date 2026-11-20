@@ -399,7 +399,7 @@ def main() -> int:
     parser.add_argument(
         "--output",
         type=Path,
-        default=Path("assets_dev/worlds/mm9/data_tables/map_transitions.txt"),
+        default=Path("level_generation/projects/mm9r_common/original_tables/map_transitions.txt"),
     )
     parser.add_argument(
         "--audit",

@@ -1,0 +1,18 @@
+# AI arena: an MM9 air flier (Bird, 9093: BaseFly.inc, no FlyRange) against a party standing still in The Arena. It
+# notices the party with its taunt, flies straight at it, passes it 45 degrees off the line while it strikes, backs off
+# upward for a second and swoops back in at 30-50 degrees (MM9_MONSTER_AI_PLAN.md phase 3). See README.md.
+name: mm9_bird
+world: mm9
+map: thearena.blv
+asset_root: output/mm9_rework/assets_dev
+party:
+  position: [0, -900, 1]
+  yaw_degrees: 90
+  pitch_degrees: 8
+  invulnerable: true
+trace: true
+trace_animation: true
+monsters:
+  - monster_id: 9093
+    position: [0, 900, 1]
+    yaw_degrees: 270

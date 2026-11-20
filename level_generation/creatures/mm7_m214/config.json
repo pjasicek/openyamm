@@ -1,0 +1,24 @@
+{
+  "label": "Elf Archer A",
+  "creature": "elf_archer",
+  "base_palette": 216,
+  "connected_pose_calibration": true,
+  "per_batch_window": true,
+  "neutralize_green_contours": false,
+  "protect_warm_contours": true,
+  "batch_mode": "per_action_view",
+  "actions": [
+    "w",
+    "a",
+    "n"
+  ],
+  "identity_frames": [
+    "m214sa0",
+    "m214sa1",
+    "m214sa2",
+    "m214sa3",
+    "m214sa4"
+  ],
+  "identity_view": "front, front-right oblique, right profile, rear-right oblique, back in row-major order",
+  "description": "The exact original adult female elf archer: tall slender athletic build, long slim legs, pale pink-gray skin, stern narrow face and pointed ears. Short straight silver-white hair lies close to the head, parted at front and reaching the nape. Rich dark leaf-green sleeveless fitted leather vest with narrow ivory-white piping around all edges, open in a long narrow central V, fastened by two slim horizontal brown leather buckle straps across the waist. A small bare midriff below the vest. Matching dark green close-fitting trousers end above the ankles, with native brown crisscross lacing along the outer lower calves, ivory piping at the waist, and small dark leather thigh straps and pouch. Bare feet with clearly defined toes, no boots. Brown leather forearm bracer on the bow arm. Left hand holds a thin dark brown recurved bow with fine pale taut string, narrow gold bands and pointed ends. Right hand is empty when standing; use exact native draw and arrow poses during shooting. A long narrow brown leather quiver lies diagonally across the back, with raised gold-brown winding ornament, small red studs and pale gray-white arrow fletchings above the shoulder. Preserve exact bow/string geometry, quiver placement, silver hair, white piping, native green garments, slender proportions and deep shadows. No cape, armor, extra weapons, added accessories, glow or costume redesign. Keep material boundaries clear for deterministic offline variants. The back of the green vest has the exact native narrow vertical ivory-white leaf-shaped inset/trim panels, partially hidden by the diagonal quiver."
+}

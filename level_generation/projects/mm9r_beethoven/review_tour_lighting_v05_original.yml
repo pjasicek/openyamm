@@ -1,0 +1,165 @@
+output_dir: /home/pjasicek/github/OpenYAMM/level_generation/projects/mm9r_beethoven/review/lighting_v05_original
+settle_seconds: 1.5
+exit: true
+shots:
+- name: a01_south_arrival
+  position:
+  - -9805
+  - 543
+  - 533
+  yaw: 0.0
+  pitch: 0.0
+- name: a02_west_arrival
+  position:
+  - -16435
+  - 13107
+  - 533
+  yaw: 0.0
+  pitch: 0.0
+- name: a03_grate_landing
+  position:
+  - -1720
+  - 2867
+  - 1
+  yaw: -1.5708
+  pitch: 0.0
+- name: a04_east_door
+  position:
+  - 4096
+  - 17572
+  - 1
+  yaw: 0.0
+  pitch: 0.0
+- name: a05_shaft_rim
+  position:
+  - -1720
+  - -1792
+  - 1
+  yaw: -1.5708
+  pitch: -0.3142
+- name: a06_hub
+  position:
+  - -1720
+  - -1229
+  - 1
+  yaw: -1.5708
+  pitch: 0.0
+- name: a07_caldarium
+  position:
+  - -3932
+  - 5632
+  - -1637
+  yaw: 1.5708
+  pitch: 0.0
+- name: a08_well
+  position:
+  - -12032
+  - -24658
+  - -3563
+  yaw: 3.1416
+  pitch: 0.0
+- name: a09_manuscript
+  position:
+  - -8525
+  - -6912
+  - -3112
+  yaw: -1.5708
+  pitch: 0.0
+- name: a10_great_door
+  position:
+  - -12800
+  - -18688
+  - -3563
+  yaw: -1.5708
+  pitch: 0.0
+- name: r01_b
+  position:
+  - -17728
+  - -23708
+  - -3542
+  yaw: 0.5901
+  pitch: 0.0
+- name: r02_b
+  position:
+  - -5571
+  - -8028
+  - -1863
+  yaw: 0.0414
+  pitch: 0.0
+- name: r03_a
+  position:
+  - -15319
+  - -6986
+  - -2088
+  yaw: 1.5708
+  pitch: 0.0
+- name: r05_a
+  position:
+  - -8520
+  - -7250
+  - -3112
+  yaw: 1.5708
+  pitch: 0.0
+- name: r07_a
+  position:
+  - -11402
+  - -5071
+  - -1883
+  yaw: 0.2304
+  pitch: 0.0
+- name: r12_a
+  position:
+  - -13353
+  - -1971
+  - -3112
+  yaw: 1.7238
+  pitch: 0.0
+- name: r17_a
+  position:
+  - -4900
+  - -233
+  - -1883
+  yaw: -1.5346
+  pitch: 0.0
+- name: r19_a
+  position:
+  - -8520
+  - -1372
+  - -3112
+  yaw: 1.8178
+  pitch: 0.0
+- name: r21_a
+  position:
+  - -9434
+  - -77
+  - 83
+  yaw: 1.5708
+  pitch: 0.0
+- name: r28_a
+  position:
+  - -3704
+  - 9021
+  - -1637
+  yaw: -1.6666
+  pitch: 0.0
+- name: r29_a
+  position:
+  - -3382
+  - 6779
+  - 83
+  yaw: 3.1416
+  pitch: 0.0
+- name: r35_a
+  position:
+  - -15572
+  - 12516
+  - 83
+  yaw: 1.5708
+  pitch: 0.0
+- name: r38_a
+  position:
+  - 4477
+  - 16724
+  - 83
+  yaw: 1.5645
+  pitch: 0.0

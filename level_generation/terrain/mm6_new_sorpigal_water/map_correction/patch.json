@@ -1,0 +1,118 @@
+{
+  "source": "assets_dev/worlds/mm6/maps/oute3.odm",
+  "source_sha256": "f882b149aba446c0f1396d05255f4146efd5c885aa5dd2dea38740a0c1e1dbf4",
+  "output_sha256": "5d1060787490c4bb04ea9c544d37a521cf0d1f36ecafb708c65e05b0d0247725",
+  "changes": [
+    {
+      "column": 15,
+      "row": 98,
+      "before": "6grdrtxsw",
+      "after": "6grdrts",
+      "byte_offset": 29123,
+      "before_raw_id": 113,
+      "after_raw_id": 109
+    },
+    {
+      "column": 15,
+      "row": 99,
+      "before": "6grdrtsw",
+      "after": "6dirttyl",
+      "byte_offset": 29251,
+      "before_raw_id": 105,
+      "after_raw_id": 1
+    },
+    {
+      "column": 16,
+      "row": 98,
+      "before": "6grdrte",
+      "after": "6grdrtse",
+      "byte_offset": 29124,
+      "before_raw_id": 106,
+      "after_raw_id": 103
+    },
+    {
+      "column": 16,
+      "row": 99,
+      "before": "6grdrtxsw",
+      "after": "6grdrtnw",
+      "byte_offset": 29252,
+      "before_raw_id": 113,
+      "after_raw_id": 104
+    },
+    {
+      "column": 18,
+      "row": 85,
+      "before": "6grdrtn",
+      "after": "6grdrtne",
+      "byte_offset": 27462,
+      "before_raw_id": 108,
+      "after_raw_id": 102
+    },
+    {
+      "column": 19,
+      "row": 85,
+      "before": "6grdrtne",
+      "after": "6dirttyl",
+      "byte_offset": 27463,
+      "before_raw_id": 102,
+      "after_raw_id": 1
+    },
+    {
+      "column": 55,
+      "row": 90,
+      "before": "6grdrts",
+      "after": "6grdrtxse",
+      "byte_offset": 28139,
+      "before_raw_id": 109,
+      "after_raw_id": 111
+    },
+    {
+      "column": 55,
+      "row": 91,
+      "before": "6dirttyl",
+      "after": "6grdrte",
+      "byte_offset": 28267,
+      "before_raw_id": 1,
+      "after_raw_id": 106
+    },
+    {
+      "column": 55,
+      "row": 92,
+      "before": "6dirttyl",
+      "after": "6grdrtse",
+      "byte_offset": 28395,
+      "before_raw_id": 12,
+      "after_raw_id": 103
+    },
+    {
+      "column": 57,
+      "row": 95,
+      "before": "6grdrtxnw",
+      "after": "6grastyl",
+      "byte_offset": 28781,
+      "before_raw_id": 112,
+      "after_raw_id": 90
+    },
+    {
+      "column": 78,
+      "row": 35,
+      "before": "6wtrdrnw",
+      "after": "6dirttyl",
+      "byte_offset": 21122,
+      "before_raw_id": 140,
+      "after_raw_id": 1
+    },
+    {
+      "column": 78,
+      "row": 36,
+      "before": "6wtrdrw",
+      "after": "6wtrdrnw",
+      "byte_offset": 21250,
+      "before_raw_id": 143,
+      "after_raw_id": 140
+    }
+  ],
+  "changed_cells": 12,
+  "production_modified": false,
+  "method": "Minimum changed tiles within 4x4 neighbourhoods of six conflicting vertices, with a secondary corner-change cost; all land/water corners constrained"
+}

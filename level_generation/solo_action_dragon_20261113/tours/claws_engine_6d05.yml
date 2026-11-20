@@ -1,0 +1,91 @@
+# The forelegs indoors (Snergle's Caverns): the default solo cleric's arms, then a level-20 dragon; poses, a live rake
+# fight and a live breath down the entrance corridor.
+# cd /home/pjasicek/github/OpenYAMM && SDL_AUDIODRIVER=dummy ./tools/run_game.sh --isolated claws_engine_6d05 \
+#   --world mm6 --map 6d05.blv --ruleset maw:solo --set video.resolution=1600x900 --set video.window_mode=windowed \
+#   --set debug.console=true \
+#   --set debug.menu_input_tour_path=/home/pjasicek/github/OpenYAMM/level_generation/solo_action_dragon_20261113/tours/claws_engine_6d05.yml \
+#   --seconds 110
+output_dir: /home/pjasicek/github/OpenYAMM/level_generation/solo_action_dragon_20261113/renders/engine/6d05
+exit: true
+steps:
+  - wait: 3
+  - console: goto 156 1664 -1920 1 1024
+  - wait: 4
+  - capture: 00_cleric_arms
+  - console: testparty apply early solo_dragon
+  - console: config set immortal 1
+  - console: skill set Unarmed 11 E
+  - wait: 3
+  - console: actor spawn 12 1 1414 -1920 1
+  - console: actor immobile last on
+  - wait: 2
+  - capture: 01_idle
+  - console: viewmodel pose clawsattackright 0.2
+  - wait: 0.5
+  - capture: 02_right_rake_hit
+  - console: viewmodel pose clawsattackleft 0.2
+  - wait: 0.5
+  - capture: 03_left_rake_hit
+  - console: viewmodel pose clawsbite 0.25
+  - wait: 0.5
+  - capture: 04_bite
+  - console: viewmodel pose clawsblockidle 0.5
+  - wait: 0.5
+  - capture: 05_guard
+  - console: viewmodel pose off
+  - console: viewmodel fx fire
+  - console: viewmodel pose clawsbreath 0.3
+  - wait: 0.5
+  - capture: 06_breath_inhale
+  - console: viewmodel fx off
+  - console: viewmodel pose off
+  - console: viewmodel trace on
+  - wait: 1
+  - action_down: attack
+  - wait: 0.4
+  - capture: 10_live_00
+  - wait: 0.4
+  - capture: 11_live_01
+  - wait: 0.4
+  - capture: 12_live_02
+  - wait: 0.4
+  - capture: 13_live_03
+  - wait: 0.4
+  - capture: 14_live_04
+  - wait: 0.4
+  - capture: 15_live_05
+  - wait: 0.4
+  - capture: 16_live_06
+  - wait: 0.4
+  - capture: 17_live_07
+  - wait: 0.4
+  - capture: 18_live_08
+  - wait: 0.4
+  - capture: 19_live_09
+  - wait: 0.4
+  - capture: 20_live_10
+  - wait: 0.4
+  - capture: 21_live_11
+  - wait: 0.4
+  - capture: 22_live_12
+  - wait: 0.4
+  - capture: 23_live_13
+  - action_up: attack
+  - wait: 2
+  - console: actor remaining
+  - console: actor kill 600
+  - console: actor spawn 271 1 870 -1920 1
+  - console: actor immobile last on
+  - wait: 2
+  - capture: 30_breath_target
+  - action: attack
+  - wait: 0.25
+  - capture: 31_breath_inhale
+  - wait: 0.12
+  - capture: 32_breath_release
+  - wait: 0.1
+  - capture: 33_breath_flight
+  - wait: 0.4
+  - capture: 34_breath_after
+  - wait: 2
+  - console: actor remaining

@@ -1,0 +1,32 @@
+# Hand-written (2026-11-06, scr_audit G2; 2026-11-08: any order): Tymon's Scholar quest starts once his promotion row
+# was asked (code key 2081), whoever is in the party (every promotion quest is offered to any party, the user
+# 2026-11-08, worlds/mm9/dialogue/promotions.yml).
+id: mm9r.thjorgardcity_promotions
+title: 'Thjorgard City (native BLV): the Scholar quest start (NPC161.scr :ScholarCheck)'
+world: mm9
+mode: faithful
+tags: [mm9, mm9_rework, draft]
+steps:
+- load_map:
+    map: thjorgardcity.blv
+- advance_runtime:
+    seconds: 1.0
+- note:
+    text: 'Before his promotion row (key 2081): no quest.'
+- interact_actor: {actor_index: 13}
+- advance_runtime: {seconds: 0.3}
+- assert:
+    dialog: {active: true, source_id: 161}
+- press_action: {action: cancel_dialog}
+- advance_runtime: {seconds: 1.0}
+- assert:
+    qbit_clear: [90201]
+- note:
+    text: 'The row asked, no Sorcerer in the party: closing his talk still gives key 201.'
+- setup_shortcut: {kind: set_qbit, id: 92081, value: true}
+- interact_actor: {actor_index: 13}
+- advance_runtime: {seconds: 0.3}
+- press_action: {action: cancel_dialog}
+- advance_runtime: {seconds: 1.0}
+- assert:
+    qbit_set: [90201]

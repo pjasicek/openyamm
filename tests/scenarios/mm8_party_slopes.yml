@@ -1,0 +1,50 @@
+id: mm8.party_slopes
+title: Party climbs steep dungeon slopes and steep terrain
+world: mm8
+mode: faithful
+tags: [mm8, movement, regression]
+steps:
+  - note:
+      text: >-
+        re_mm8/PARTY_SLOPE_CLIMBING.md. Indoors the original party movement has no steepness test, so the party
+        walks up the 64-degree, 896-high slope (face 319) between the Ogre Fortress halls; it used to gain no
+        height. Outdoors a party standing on a steep Alvar terrain tile keeps its input and climbs against the
+        ClimbBetter pull; it used to be pushed downhill.
+  - new_game_flow:
+      start_map: out03.odm
+  - load_map:
+      map: d12.blv
+  - movement_segment:
+      input: forward
+      seconds: 4
+      actor_collision: false
+      actor_ai: false
+      start: {map: d12.blv, x: -4700, y: -30, z: -896, yaw_degrees: 0, pitch: 0}
+      expect_stop: {map: d12.blv, x: -4146, y: -30, z: -70, yaw_degrees: 0, pitch: 0}
+      loose_tolerance: true
+      tolerance_xy: 150
+      tolerance_z: 120
+  - note:
+      text: The gentle ramp of faces 388-394 still climbs.
+  - movement_segment:
+      input: forward
+      seconds: 0.86
+      actor_collision: false
+      actor_ai: false
+      start: {map: d12.blv, x: -7200, y: 800, z: -1232, yaw_degrees: -75, pitch: 0}
+      expect_stop: {map: d12.blv, x: -7033, y: 176, z: -1037, yaw_degrees: -75, pitch: 0}
+      loose_tolerance: true
+      tolerance_xy: 60
+      tolerance_z: 40
+  - load_map:
+      map: out03.odm
+  - movement_segment:
+      input: forward
+      seconds: 4
+      actor_collision: false
+      actor_ai: false
+      start: {map: out03.odm, x: -16100, y: -19700, z: 822, yaw_degrees: 180, pitch: 0}
+      expect_stop: {map: out03.odm, x: -16790, y: -19700, z: 1447, yaw_degrees: 180, pitch: 0}
+      loose_tolerance: true
+      tolerance_xy: 200
+      tolerance_z: 200

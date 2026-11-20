@@ -1,9 +1,11 @@
 #include "game/gameplay/MasteryTeacherDialog.h"
+#include "engine/Localization.h"
 
 #include "game/gameplay/GameMechanics.h"
 #include "game/tables/MergedBaseTables.h"
 #include "game/tables/NpcDialogTable.h"
 #include "game/party/Party.h"
+#include "game/rules/GameRules.h"
 
 #include <cctype>
 
@@ -17,7 +19,7 @@ std::string npcTextOrFallback(const NpcDialogTable &npcDialogTable, uint32_t tex
 
     if (text && !text->empty())
     {
-        return *text;
+        return Engine::localize(*text);
     }
 
     return fallback;
@@ -41,17 +43,6 @@ std::string trimCopy(const std::string &text)
     return text.substr(start, end - start);
 }
 
-std::optional<std::string> skillNameForMergedSkillId(uint32_t skillId)
-{
-    const std::vector<std::string> skillNames = allCanonicalSkillNames();
-
-    if (skillId >= skillNames.size())
-    {
-        return std::nullopt;
-    }
-
-    return skillNames[skillId];
-}
 
 SkillMastery masteryForMergedTeacherTopic(uint32_t mastery)
 {
@@ -101,7 +92,7 @@ std::optional<MasteryTeacherTopicDefinition> resolveMasteryTeacherTopic(
         return std::nullopt;
     }
 
-    const std::optional<std::string> skillName = skillNameForMergedSkillId(definition.skillId);
+    const std::optional<std::string> skillName = skillNameForSkillId(definition.skillId);
     if (!skillName.has_value())
     {
         return std::nullopt;
@@ -146,6 +137,22 @@ uint32_t alreadyHasTextId(SkillMastery mastery)
 int masteryTeacherCost(const std::string &skillName, SkillMastery targetMastery)
 {
     const std::string canonicalSkill = canonicalSkillName(skillName);
+
+    // Technology lessons default to Hesper's prices; a topic's Req. Gold overrides them.
+    if (isTechnologySkill(canonicalSkill))
+    {
+        switch (targetMastery)
+        {
+            case SkillMastery::Expert:
+                return 15000;
+            case SkillMastery::Master:
+                return 40000;
+            case SkillMastery::Grandmaster:
+                return 100000;
+            default:
+                return 0;
+        }
+    }
 
     if (targetMastery == SkillMastery::Expert)
     {
@@ -360,16 +367,19 @@ MasteryRequirementFailure masteryRequirementFailure(
         return MasteryRequirementFailure::General;
     }
 
+    if (pSkill->level < party.rules().skills.masteryRequiredLevel(skillName, targetMastery))
+    {
+        return MasteryRequirementFailure::General;
+    }
+
     if (targetMastery == SkillMastery::Expert)
     {
-        return pSkill->level >= 4
-            ? MasteryRequirementFailure::None
-            : MasteryRequirementFailure::General;
+        return MasteryRequirementFailure::None;
     }
 
     if (targetMastery == SkillMastery::Master)
     {
-        if (pSkill->level < 7 || pSkill->mastery != SkillMastery::Expert)
+        if (pSkill->mastery != SkillMastery::Expert)
         {
             return MasteryRequirementFailure::General;
         }
@@ -418,7 +428,7 @@ MasteryRequirementFailure masteryRequirementFailure(
 
     if (targetMastery == SkillMastery::Grandmaster)
     {
-        if (pSkill->level < 10 || pSkill->mastery != SkillMastery::Master)
+        if (pSkill->mastery != SkillMastery::Master)
         {
             return MasteryRequirementFailure::General;
         }
@@ -453,10 +463,10 @@ std::string joinPromotionClassNames(const std::vector<std::string> &classNames)
     {
         if (!result.empty())
         {
-            result += index + 1 == classNames.size() ? " or " : ", ";
+            result += index + 1 == classNames.size() ? Engine::tr(" or ") : Engine::tr(", ");
         }
 
-        result += displayClassName(classNames[index]);
+        result += Engine::localize(displayClassName(classNames[index]), "class");
     }
 
     return result;
@@ -485,17 +495,18 @@ std::optional<MasteryTeacherEvaluation> evaluateMasteryTeacherTopic(
         .requiredGold = teacherTopic->requiredGold,
         .requiredSkill = teacherTopic->requiredSkill,
     };
-    return evaluateSkillMasteryTraining(request, party, classSkillTable, npcDialogTable);
+    return evaluateSkillMasteryTraining(request, party, party.activeMemberIndex(), classSkillTable, npcDialogTable);
 }
 
 std::optional<MasteryTeacherEvaluation> evaluateSkillMasteryTraining(
     const SkillMasteryTrainingRequest &request,
     const Party &party,
+    size_t memberIndex,
     const ClassSkillTable &classSkillTable,
     const NpcDialogTable &npcDialogTable
 )
 {
-    const Character *pCharacter = party.activeMember();
+    const Character *pCharacter = party.member(memberIndex);
 
     if (pCharacter == nullptr)
     {
@@ -517,8 +528,11 @@ std::optional<MasteryTeacherEvaluation> evaluateSkillMasteryTraining(
         evaluation.cost = masteryTeacherCost(evaluation.skillName, evaluation.targetMastery);
     }
 
-    const SkillMastery classCap =
-        classSkillTable.getEffectiveCap(pCharacter->className, pCharacter->raceId, evaluation.skillName);
+    evaluation.cost = party.rules().skills.masteryTeacherCost(
+        *pCharacter, evaluation.skillName, evaluation.targetMastery, evaluation.cost);
+
+    const SkillMastery classCap = party.rules().skills.masteryCap(*pCharacter, evaluation.skillName,
+        classSkillTable.getEffectiveCap(pCharacter->className, pCharacter->raceId, evaluation.skillName));
 
     if (classCap < evaluation.targetMastery)
     {
@@ -532,19 +546,21 @@ std::optional<MasteryTeacherEvaluation> evaluateSkillMasteryTraining(
         if (!qualifyingPromotions.empty())
         {
             evaluation.displayText =
-                "You have to be promoted to " + joinPromotionClassNames(qualifyingPromotions)
-                + " to learn this skill.";
+                Engine::tr("You have to be promoted to {classes} to learn this skill.",
+                           {{"classes", joinPromotionClassNames(qualifyingPromotions)}});
             return evaluation;
         }
 
         evaluation.displayText =
-            "This skill level can not be learned by the " + displayClassName(pCharacter->className) + " class.";
+            Engine::tr("This skill level can not be learned by the {class} class.",
+                {{"class", Engine::localize(displayClassName(pCharacter->className), "class")}});
         return evaluation;
     }
 
     if (!pCharacter->hasSkill(evaluation.skillName))
     {
-        evaluation.displayText = npcTextOrFallback(npcDialogTable, 132, "This character does not know that skill.");
+        evaluation.displayText =
+            npcTextOrFallback(npcDialogTable, 132, Engine::tr("This character does not know that skill."));
         return evaluation;
     }
 
@@ -555,7 +571,7 @@ std::optional<MasteryTeacherEvaluation> evaluateSkillMasteryTraining(
         evaluation.displayText = npcTextOrFallback(
             npcDialogTable,
             alreadyHasTextId(evaluation.targetMastery),
-            "This character already knows that mastery."
+            Engine::tr("This character already knows that mastery.")
         );
         return evaluation;
     }
@@ -571,164 +587,73 @@ std::optional<MasteryTeacherEvaluation> evaluateSkillMasteryTraining(
     {
         if (requirementFailure == MasteryRequirementFailure::IntellectTooLow)
         {
-            evaluation.displayText = "You must have at least 50 base Intellect to learn Master Learning.";
+            evaluation.displayText = Engine::tr("You must have at least 50 base Intellect to learn Master Learning.");
         }
         else if (requirementFailure == MasteryRequirementFailure::PersonalityTooLow)
         {
-            evaluation.displayText = "You must have at least 50 base Personality to learn Master Merchant.";
+            evaluation.displayText = Engine::tr("You must have at least 50 base Personality to learn Master Merchant.");
         }
         else if (requirementFailure == MasteryRequirementFailure::EnduranceTooLow)
         {
-            evaluation.displayText = "You must have at least 50 base Endurance to learn Master Bodybuilding.";
+            evaluation.displayText =
+                Engine::tr("You must have at least 50 base Endurance to learn Master Bodybuilding.");
         }
         else
         {
             evaluation.displayText = npcTextOrFallback(
                 npcDialogTable,
                 128,
-                "The requirements for this training are unmet."
+                Engine::tr("The requirements for this training are unmet.")
             );
         }
         return evaluation;
     }
 
-    if (party.gold() < evaluation.cost)
+    if (request.checkGold && party.gold() < evaluation.cost)
     {
-        evaluation.displayText = npcTextOrFallback(npcDialogTable, 125, "You do not have enough gold.");
+        evaluation.displayText = npcTextOrFallback(npcDialogTable, 125, Engine::tr("You do not have enough gold."));
         return evaluation;
     }
 
     evaluation.approved = true;
-    evaluation.displayText =
-        "Become " + masteryDisplayName(evaluation.targetMastery)
-        + " in " + displaySkillName(evaluation.skillName)
-        + " for " + std::to_string(evaluation.cost) + " gold";
+    evaluation.displayText = Engine::tr(
+        "Become {mastery} in {skill} for {price} gold",
+        {{"mastery", Engine::localize(masteryDisplayName(evaluation.targetMastery), "mastery")},
+         {"skill", Engine::localize(displaySkillName(evaluation.skillName), "skill")},
+         {"price", evaluation.cost}});
     return evaluation;
 }
 
 bool applySkillMasteryTraining(
     const SkillMasteryTrainingRequest &request,
     Party &party,
+    size_t memberIndex,
     const ClassSkillTable &classSkillTable,
     const NpcDialogTable &npcDialogTable,
     std::string &message
 )
 {
     const std::optional<MasteryTeacherEvaluation> evaluation =
-        evaluateSkillMasteryTraining(request, party, classSkillTable, npcDialogTable);
+        evaluateSkillMasteryTraining(request, party, memberIndex, classSkillTable, npcDialogTable);
 
     if (!evaluation || !evaluation->approved)
     {
         return false;
     }
 
-    Character *pCharacter = party.activeMember();
+    Character *pCharacter = party.member(memberIndex);
 
     if (pCharacter == nullptr || !pCharacter->setSkillMastery(evaluation->skillName, evaluation->targetMastery))
     {
         return false;
     }
 
-    party.addGold(-evaluation->cost);
-    message =
-        pCharacter->name + " is now a "
-        + masteryDisplayName(evaluation->targetMastery)
-        + " in " + displaySkillName(evaluation->skillName) + ".";
-    return true;
-}
-
-std::optional<MasteryTeacherEvaluation> evaluateSkillMasteryGroupTraining(
-    const SkillMasteryGroupTrainingRequest &request,
-    const Party &party,
-    const ClassSkillTable &classSkillTable,
-    const NpcDialogTable &npcDialogTable)
-{
-    const Character *pCharacter = party.activeMember();
-    if (pCharacter == nullptr || request.displayName.empty() || request.skillNames.empty()
-        || request.targetMastery == SkillMastery::None)
-    {
-        return std::nullopt;
-    }
-
-    std::optional<MasteryTeacherEvaluation> approvedEvaluation;
-    std::optional<MasteryTeacherEvaluation> alreadyTrainedEvaluation;
-    for (const std::string &skillName : request.skillNames)
-    {
-        const CharacterSkill *pSkill = pCharacter->findSkill(skillName);
-        const SkillMasteryTrainingRequest skillRequest = {
-            .skillName = skillName,
-            .targetMastery = request.targetMastery,
-            .requiredGold = request.requiredGold,
-            .requiredSkill = request.requiredSkill,
-        };
-        const std::optional<MasteryTeacherEvaluation> evaluation = evaluateSkillMasteryTraining(
-            skillRequest,
-            party,
-            classSkillTable,
-            npcDialogTable);
-        if (!evaluation)
-        {
-            return std::nullopt;
-        }
-        if (pSkill != nullptr && pSkill->mastery >= request.targetMastery)
-        {
-            alreadyTrainedEvaluation = evaluation;
-            continue;
-        }
-        if (!evaluation->approved)
-        {
-            return evaluation;
-        }
-        if (!approvedEvaluation)
-        {
-            approvedEvaluation = evaluation;
-        }
-    }
-
-    if (!approvedEvaluation)
-    {
-        return alreadyTrainedEvaluation;
-    }
-    approvedEvaluation->skillName = request.displayName;
-    approvedEvaluation->displayText =
-        "Become " + masteryDisplayName(request.targetMastery)
-        + " in " + request.displayName + " for " + std::to_string(approvedEvaluation->cost) + " gold";
-    return approvedEvaluation;
-}
-
-bool applySkillMasteryGroupTraining(
-    const SkillMasteryGroupTrainingRequest &request,
-    Party &party,
-    const ClassSkillTable &classSkillTable,
-    const NpcDialogTable &npcDialogTable,
-    std::string &message)
-{
-    const std::optional<MasteryTeacherEvaluation> evaluation = evaluateSkillMasteryGroupTraining(
-        request,
-        party,
-        classSkillTable,
-        npcDialogTable);
-    Character *pCharacter = party.activeMember();
-    if (!evaluation || !evaluation->approved || pCharacter == nullptr)
-    {
-        return false;
-    }
-
-    for (const std::string &skillName : request.skillNames)
-    {
-        CharacterSkill *pSkill = pCharacter->findSkill(skillName);
-        if (pSkill == nullptr)
-        {
-            return false;
-        }
-        if (pSkill->mastery < request.targetMastery)
-        {
-            pSkill->mastery = request.targetMastery;
-        }
-    }
-    party.addGold(-evaluation->cost);
-    message = pCharacter->name + " is now a " + masteryDisplayName(request.targetMastery)
-        + " in " + request.displayName + ".";
+    party.addGold(-evaluation->cost, GoldReason::Guild);
+    message = Engine::tr(
+        "{name} is now a {mastery} in {skill}.",
+        {{"name", pCharacter->name},
+         {"mastery", Engine::localize(masteryDisplayName(evaluation->targetMastery), "mastery")},
+         {"skill", Engine::localize(displaySkillName(evaluation->skillName), "skill")}});
     return true;
 }
 
@@ -755,6 +680,12 @@ bool applyMasteryTeacherTopic(
         .requiredGold = teacherTopic->requiredGold,
         .requiredSkill = teacherTopic->requiredSkill,
     };
-    return applySkillMasteryTraining(request, party, classSkillTable, npcDialogTable, message);
+    return applySkillMasteryTraining(
+        request, party, party.activeMemberIndex(), classSkillTable, npcDialogTable, message);
+}
+
+int masteryTeacherStandardCost(const std::string &skillName, SkillMastery targetMastery)
+{
+    return masteryTeacherCost(skillName, targetMastery);
 }
 }

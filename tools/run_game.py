@@ -23,6 +23,17 @@ def finite_number(value):
     return number
 
 
+def print_fps_lines(log_path, offset):
+    """Print FPS samples from complete log lines after offset; returns the offset after the last complete line."""
+    with log_path.open('rb') as reader:
+        reader.seek(offset)
+        chunk = reader.read()
+    end = chunk.rfind(b'\n') + 1
+    for value in re.findall(r'Average FPS \(last second\): ([0-9.]+)', chunk[:end].decode(errors='replace')):
+        print(f'FPS {value}', flush=True)
+    return offset + end
+
+
 def parse_args():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('name', help='Short label; every invocation creates a fresh temporary directory')
@@ -30,16 +41,24 @@ def parse_args():
     parser.add_argument('--map', help='Map filename, e.g. oute3.odm; optional when retaining a save\'s map')
     parser.add_argument('--save', type=Path, help='Read an existing save through a private copy')
     parser.add_argument('--menu', action='store_true', help='Start at the main menu with isolated settings and saves')
+    parser.add_argument('--ruleset', metavar='ID[:OPTION...]',
+                        help='Rules of the new game, e.g. maw or maw:hell:horizontal (not with --save or --menu)')
     parser.add_argument('--position', nargs=3, type=finite_number, metavar=('X', 'Y', 'Z'))
     parser.add_argument('--yaw-radians', type=finite_number)
     parser.add_argument('--pitch-degrees', type=finite_number)
     parser.add_argument('--settings', type=Path, default=ROOT / 'settings.ini', help='Settings to copy')
     parser.add_argument('--binary', type=Path, default=ROOT / 'build/game/openyamm', help='Executable to test')
     parser.add_argument('--assets', type=Path, help='Asset root override (otherwise resolved from copied settings)')
+    parser.add_argument('--extra-mount', type=Path,
+                        help='A development folder read in front of the asset root (the game\'s --extra-mount), such as '
+                             'the Map Studio\'s mount of builds')
     parser.add_argument('--set', action='append', default=[], metavar='SECTION.KEY=VALUE', help='Repeatable override')
     parser.add_argument('--seconds', type=finite_number, default=15, help='Run after warmup; 0 waits until closed')
     parser.add_argument('--warmup', type=finite_number, default=3, help='Seconds after startup save is loaded')
     parser.add_argument('--prepare-only', action='store_true', help='Prepare private settings/save without a GUI launch')
+    parser.add_argument('--visible', action='store_true',
+                        help='Show the window; runs start minimized otherwise, which does not give representative FPS')
+    parser.add_argument('--show-fps', action='store_true', help='Print the per-second FPS to the terminal during the run')
     args = parser.parse_args()
     if not re.fullmatch(r'[a-zA-Z0-9_-]{1,60}', args.name):
         parser.error('name must contain 1-60 letters, digits, underscores or hyphens')
@@ -50,9 +69,15 @@ def parse_args():
         parser.error('provide --position, --yaw-radians and --pitch-degrees together')
     if args.pitch_degrees is not None and not -89 <= args.pitch_degrees <= 89:
         parser.error('pitch must be between -89 and 89 degrees')
+    if args.ruleset and (args.save or args.menu):
+        parser.error('--ruleset starts a new game; it cannot be combined with --save or --menu')
     if args.seconds < 0 or args.warmup < 0:
         parser.error('seconds and warmup must be nonnegative')
     return args
+
+
+def extra_mount_arguments(args):
+    return ['--extra-mount', str(args.extra_mount.resolve(strict=True))] if args.extra_mount else []
 
 
 def write_settings(path, settings):
@@ -98,6 +123,11 @@ def prepare(args, run, binary, metadata):
     if not asset_path.is_absolute():
         asset_path = (Path.cwd() if args.assets else source.parent) / asset_path
     settings['assets']['root'] = str(asset_path.resolve(strict=True))
+    # Pins typed in an isolated run (`pin <text>`) go to the inbox of the settings they came from, not the run folder.
+    pin_inbox = Path(settings['debug'].get('pin_inbox_path') or 'pins_inbox')
+    if not pin_inbox.is_absolute():
+        pin_inbox = source.parent / pin_inbox
+    settings['debug']['pin_inbox_path'] = str(pin_inbox)
     # Owned paths/startup controls cannot be redirected by inherited settings or --set.
     settings['startup'].update(start_in_main_menu='true' if args.menu else 'false', save_file='')
     settings['debug'].update(start_world=args.world, start_map_file=args.map or '', override_start_position='false')
@@ -108,7 +138,7 @@ def prepare(args, run, binary, metadata):
         shutil.copy2(run / 'settings.ini', run / 'launch-settings.ini')
         metadata.update(settings_sha256=digest(run / 'launch-settings.ini'),
                         assets=settings['assets']['root'], display=os.environ.get('DISPLAY'),
-                        command=[str(binary), '--world', args.world])
+                        command=[str(binary), '--world', args.world, *extra_mount_arguments(args)])
         return dict(os.environ, TMPDIR=str(run / 'tmp'))
     steps = []
     if args.save:
@@ -120,7 +150,10 @@ def prepare(args, run, binary, metadata):
         if args.map and not args.position:
             steps.append({'load_map': {'map': args.map}})
     else:
-        steps.append({'new_game_flow': {'start_map': args.map}})
+        new_game = {'start_map': args.map}
+        if args.ruleset:
+            new_game['ruleset'] = args.ruleset
+        steps.append({'new_game_flow': new_game})
     if args.position:
         pose = dict(zip(('x', 'y', 'z'), args.position))
         pose.update(yaw=args.yaw_radians, pitch=math.radians(args.pitch_degrees))
@@ -132,12 +165,13 @@ def prepare(args, run, binary, metadata):
     # JSON is a YAML subset; use the existing scenario loader without a Python YAML dependency.
     scenario_path = run / 'prepare.yml'
     scenario_path.write_text(json.dumps(scenario, indent=2) + '\n')
-    environment = dict(os.environ, TMPDIR=str(run / 'tmp'))
+    environment = dict(os.environ, TMPDIR=str(run / 'tmp'), OPENYAMM_SCENARIO_SAVE_DIR=str(run / 'prepared'))
     for trace in ('GAMEPLAY', 'PROJECTILE'):
         variable = f'OPENYAMM_{trace}_TRACE_FILE'
         if environment.get(variable):
             environment[variable] = str(run / 'logs' / f'{trace.lower()}_environment_trace.log')
-    command = [str(binary), '--world', args.world, '--headless-run-scenario', str(scenario_path), '--scenario-no-color']
+    command = [str(binary), '--world', args.world, *extra_mount_arguments(args), '--headless-run-scenario',
+               str(scenario_path), '--scenario-no-color']
     if args.save and not args.map and not args.position:
         # A plain save replay needs the exact saved state, without a scenario round trip.
         prepared = private_save
@@ -150,7 +184,7 @@ def prepare(args, run, binary, metadata):
                     raise RuntimeError('Scenario preparation failed; inspect prepare.log')
             finally:
                 stop_game(process)
-        prepared = run / 'tmp/openyamm_scenario_saves/desktop_launch/desktop.oysav'
+        prepared = run / 'prepared/desktop.oysav'
     startup_save = run / 'saves/startup.oysav'
     shutil.copy2(prepared, startup_save)
     # Faithful scenarios can rewrite debug settings: restore the requested rendering/settings snapshot afterwards.
@@ -159,7 +193,7 @@ def prepare(args, run, binary, metadata):
     shutil.copy2(run / 'settings.ini', run / 'launch-settings.ini')
     metadata.update(settings_sha256=digest(run / 'launch-settings.ini'), save_sha256=digest(startup_save),
                     assets=settings['assets']['root'], display=os.environ.get('DISPLAY'),
-                    command=[str(binary), '--world', args.world])
+                    command=[str(binary), '--world', args.world, *extra_mount_arguments(args)])
     return environment
 
 
@@ -169,7 +203,10 @@ def run_game(args, run, binary, environment, metadata):
             subprocess.run(['glxinfo', '-B'], env=environment, stdout=renderer_log,
                            stderr=subprocess.STDOUT, timeout=15, check=False)
     # Line buffering makes the startup marker and per-second FPS available while the game runs.
-    command = ['stdbuf', '-oL', '-eL', str(binary), '--world', args.world]
+    command = ['stdbuf', '-oL', '-eL', str(binary), '--world', args.world, *extra_mount_arguments(args)]
+    # A minimized window keeps rendering (screenshots, logs, timed exit) without covering the desktop.
+    environment = dict(environment, OPENYAMM_START_MINIMIZED='0' if args.visible else '1')
+    metadata['window'] = 'visible' if args.visible else 'minimized'
     log_path = run / 'game.log'
     with log_path.open('w') as log:
         process = subprocess.Popen(command, cwd=run, env=environment, stdout=log, stderr=subprocess.STDOUT)
@@ -208,8 +245,11 @@ def run_game(args, run, binary, environment, metadata):
             measured = time.monotonic()
             print('Run active; ' + ('close the window to finish.' if args.seconds == 0
                                    else f'automatic exit in {args.seconds:g} seconds.'), flush=True)
+            fps_offset = offset
             while process.poll() is None and (args.seconds == 0 or time.monotonic() - measured < args.seconds):
                 time.sleep(0.1)
+                if args.show_fps:
+                    fps_offset = print_fps_lines(log_path, fps_offset)
             metadata['measurement_seconds'] = time.monotonic() - measured
             with log_path.open('rb') as reader:
                 reader.seek(offset)
@@ -232,7 +272,8 @@ def main():
         (run / name).mkdir()
     metadata = {'request': {key: str(value) if isinstance(value, Path) else value for key, value in vars(args).items()},
                 'run_directory': str(run), 'status': 'preparing',
-                'timing_note': 'FPS log samples include ordinary simulation/rendering; these are not GPU timer results.'}
+                'timing_note': 'FPS log samples include ordinary simulation/rendering; these are not GPU timer results. '
+                               'Only visible-window runs give representative FPS.'}
     print(f'Isolated run: {run}', flush=True)
     try:
         metadata['binary_sha256'] = digest(binary)

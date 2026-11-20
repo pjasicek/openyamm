@@ -1,0 +1,153 @@
+# D5: physical stair traversal, lift controls, the Jammer and the repaired relay.
+id: hesper.d05.relay_spire_climb
+world: hesper
+mode: faithful
+steps:
+- new_game_flow:
+    start_map: hes_d05.blv
+    party:
+      food: 200
+      members:
+      - {name: Scout, class: Necromancer, level: 110, endurance: 500, intellect: 100, skills: [], equipment: {}}
+      - {name: Medic, class: Necromancer, level: 110, endurance: 500, intellect: 100, skills: [], equipment: {}}
+      - {name: Gunner, class: Necromancer, level: 110, endurance: 500, intellect: 100, skills: [], equipment: {}}
+      - {name: Technician, class: Necromancer, level: 110, endurance: 500, intellect: 100, skills: [], equipment: {}}
+- setup_shortcut: {kind: set_qbit, id: 100207, reason: M7 given by Aster}
+- assert: {qbit_clear: [100540]}
+# Enter the first Root tread from the Coolant Roots, then walk the rest of the flight.
+- movement_segment:
+    start: {map: hes_d05.blv, x: 1400, y: 730, z: -1024, yaw: 3.141592653589793, pitch: 0}
+    expect_stop: {map: hes_d05.blv, x: 637, y: 730, z: -1024, yaw: 3.141592653589793, pitch: 0}
+    seconds: 3
+    input: forward
+    actor_ai: false
+    actor_collision: false
+    delta_game_minutes: 0
+    tolerance_xy: 16
+    tolerance_z: 16
+- movement_segment:
+    start: {map: hes_d05.blv, x: 637, y: 750, z: -1024, yaw: 1.5707963267948966, pitch: 0}
+    expect_stop: {map: hes_d05.blv, x: 637, y: 2650, z: 0, yaw: 1.5707963267948966, pitch: 0}
+    seconds: 8
+    input: forward
+    actor_ai: false
+    actor_collision: false
+    delta_game_minutes: 0
+    tolerance_xy: 16
+    tolerance_z: 16
+- set_pose: {map: hes_d05.blv, x: 4700, y: 3470, z: 0, yaw: 1.5707963, pitch: 0}
+- press_interact: {}
+- wait_until:
+    timeout_runtime_seconds: 2
+    assert: {mechanism: {kind: indoor_door, id: 201, state: open}}
+- set_pose: {map: hes_d05.blv, x: 1000, y: 3260, z: 0, yaw: 1.5707963, pitch: -0.25}
+- press_interact: {}
+- set_pose: {map: hes_d05.blv, x: 1300, y: 3200, z: 0, yaw: 0, pitch: 0}
+- wait_until:
+    timeout_runtime_seconds: 6
+    assert: {mechanism: {kind: indoor_door, id: 53, state: open}}
+- set_pose: {map: hes_d05.blv, x: 1800, y: 2900, z: 1024, yaw: -1.5707963, pitch: 0}
+- press_interact: {}
+- wait_until:
+    timeout_runtime_seconds: 2
+    assert: {mechanism: {kind: indoor_door, id: 207, state: open}}
+- set_pose: {map: hes_d05.blv, x: 1500, y: 1300, z: 1024, yaw: 3.1415927, pitch: -0.35}
+- press_interact: {}
+- assert: {chest_contains_quest_item: {chest_id: 0, item_id: 11002}}
+- assert: {chest_contains_quest_item: {chest_id: 0, item_id: 11028}}
+- assert: {chest_contains_quest_item: {chest_id: 0, item_id: 11026}}
+- press_action: {action: cancel_dialog}
+- set_pose: {map: hes_d05.blv, x: 5240, y: 3300, z: 1024, yaw: 0, pitch: 0}
+- press_interact: {}
+- wait_until:
+    timeout_runtime_seconds: 2
+    assert: {mechanism: {kind: indoor_door, id: 210, state: open}}
+- movement_segment:
+    start: {map: hes_d05.blv, x: 5764, y: 3300, z: 1024, yaw: 1.5707963267948966, pitch: 0}
+    expect_stop: {map: hes_d05.blv, x: 5764, y: 5364, z: 2048, yaw: 1.5707963267948966, pitch: 0}
+    seconds: 8
+    input: forward
+    actor_ai: false
+    actor_collision: false
+    delta_game_minutes: 0
+    tolerance_xy: 16
+    tolerance_z: 16
+- set_pose: {map: hes_d05.blv, x: 5650, y: 5000, z: 2048, yaw: 3.1415927, pitch: 0}
+- press_interact: {}
+- wait_until:
+    timeout_runtime_seconds: 2
+    assert: {mechanism: {kind: indoor_door, id: 211, state: open}}
+- set_pose: {map: hes_d05.blv, x: 1900, y: 3020, z: 2048, yaw: -1.5707963, pitch: -0.1}
+- press_interact: {}
+- assert: {mechanism: {kind: indoor_door, id: 51, state: closed}}
+- set_pose: {map: hes_d05.blv, x: 1444, y: 3260, z: 2048, yaw: 1.5707963, pitch: -0.25}
+- press_interact: {}
+- set_pose: {map: hes_d05.blv, x: 1700, y: 3200, z: 2048, yaw: 0, pitch: 0}
+- wait_until:
+    timeout_runtime_seconds: 6
+    assert: {mechanism: {kind: indoor_door, id: 54, state: open}}
+- set_pose: {map: hes_d05.blv, x: 5240, y: 3000, z: 3072, yaw: 0, pitch: 0}
+- press_interact: {}
+- wait_until:
+    timeout_runtime_seconds: 2
+    assert: {mechanism: {kind: indoor_door, id: 219, state: open}}
+- movement_segment:
+    start: {map: hes_d05.blv, x: 5764, y: 3000, z: 3072, yaw: 1.5707963267948966, pitch: 0}
+    expect_stop: {map: hes_d05.blv, x: 5764, y: 5164, z: 4096, yaw: 1.5707963267948966, pitch: 0}
+    seconds: 8
+    input: forward
+    actor_ai: false
+    actor_collision: false
+    delta_game_minutes: 0
+    tolerance_xy: 16
+    tolerance_z: 16
+- set_pose: {map: hes_d05.blv, x: 5650, y: 4600, z: 4096, yaw: 3.1415927, pitch: 0}
+- press_interact: {}
+- wait_until:
+    timeout_runtime_seconds: 2
+    assert: {mechanism: {kind: indoor_door, id: 220, state: open}}
+# Lord Vhorrax's voiced first sight (BOSS_LINES.md): the map's timer plays it once within 2 200 of him (QBit 100540;
+# clear at the start, set by the time the party stands before him).
+- set_pose: {map: hes_d05.blv, x: 4500, y: 4400, z: 4096, yaw: 0, pitch: 0}
+- advance_runtime: {seconds: 3}
+- assert: {qbit_set: [100540]}
+- damage_actor: {actor_index: 68, amount: 100000, tier: kreegan_energy}
+- damage_actor: {actor_index: 68, amount: 100000, tier: physical}
+- advance_runtime: {seconds: 2}
+- assert: {qbit_set: [100028]}
+- wait_until:
+    timeout_runtime_seconds: 2
+    assert: {mechanism: {kind: indoor_door, id: 52, state: open}}
+- set_pose: {map: hes_d05.blv, x: 3200, y: 5250, z: 4224, yaw: 1.5707963, pitch: 0.85}
+- press_interact: {}
+- assert: {chest_contains_quest_item: {chest_id: 2, item_id: 11470}}
+- assert: {chest_contains_quest_item: {chest_id: 2, item_id: 11475}}
+- assert: {state_dump_map_var: {index: 1, value: 1}}
+- assert: {item_received: {item_id: 11470, source: chest, chest_id: 2, destination: held}}
+- press_action: {action: cancel_dialog}
+- assert: {held_item: {active: false, item_id: 11470}}
+- assert: {inventory_any_member: [{item_id: 11470}]}
+- set_pose: {map: hes_d05.blv, x: 1634, y: 2950, z: 3072, yaw: 3.1415927, pitch: -0.25}
+- press_interact: {}
+- wait_until:
+    timeout_runtime_seconds: 6
+    assert: {mechanism: {kind: indoor_door, id: 54, state: closed}}
+- set_pose: {map: hes_d05.blv, x: 1190, y: 2950, z: 1024, yaw: 3.1415927, pitch: -0.25}
+- press_interact: {}
+- wait_until:
+    timeout_runtime_seconds: 6
+    assert: {mechanism: {kind: indoor_door, id: 53, state: closed}}
+- set_pose: {map: hes_d05.blv, x: 2500, y: 5100, z: 0, yaw: 1.5707963, pitch: -0.2}
+- press_interact: {}
+- assert: {qbit_set: [100007]}
+- assert: {qbit_clear: [100207]}
+- press_action: {action: cancel_dialog}
+- load_map: {map: hes_d05.blv}
+- set_pose: {map: hes_d05.blv, x: 3200, y: 6270, z: 0, yaw: 1.5707963, pitch: 0}
+- press_interact: {}
+- assert: {input_prompt: {active: true, event_id: 70}}
+- answer_input: {text: Yes}
+- press_action: {action: cancel_dialog}
+# The requested local scenario ends in D5. Brood Spires now exists; brood_round_trips covers event 50.
+# Restore the outbound assert here when this scenario is extended to include the outdoor return leg.
+- assert: {map: hes_d05.blv}

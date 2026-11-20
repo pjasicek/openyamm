@@ -1,0 +1,38 @@
+# Named mods (devdocs/NAMED_MODS.md): the fixture's mods folder (fixtures/mods, copied into the run's folder) lists
+# g3_goblinwatch, g3_clash and g3_missing in enabled.yml. g3_goblinwatch mounts: its map_stats.txt cell renames
+# Goblinwatch and its script overlay adds event 990. g3_clash declares monster ids inside MM9's range and is refused;
+# g3_missing is not installed. The console switch writes the copy's enabled.yml for the next start.
+#   ./build/game/openyamm --headless-run-scenario tests/scenarios/mods/named_mod_on.yml --scenario-no-color
+id: mods.named_mod_on
+title: "Named mods: a mod that is on renames a map and adds an event; a clashing one is refused"
+world: mm6
+mode: faithful
+tags: [mods]
+mods:
+  fixture: fixtures/mods
+steps:
+  - new_game_flow:
+      start_map: 6d01.blv
+      party:
+        gold: 0
+        food: 10
+        members:
+          - name: Ragnar
+            class: Knight
+            level: 10
+            skills:
+              - {name: Sword, level: 4, mastery: 1}
+            equipment: {main_hand: 1}
+  - advance_runtime: {seconds: 0.5}
+  - console: {line: map, expect_contains: "name=\"Goblinwatch (G3 mod)\""}
+  - execute_event: {id: 990}
+  - advance_runtime: {seconds: 0.5}
+  - assert: {gold: 7}
+  - console: {line: mods, expect_contains: "g3_goblinwatch 1.0: on"}
+  - console: {line: mods, expect_contains: "g3_clash: refused, its monsters ids overlap those of world mm9"}
+  - console: {line: mods, expect_contains: "g3_missing: listed in enabled.yml but not installed"}
+  - console: {line: mods disable g3_goblinwatch, expect_contains: "g3_goblinwatch is off"}
+  - console: {line: mods list, expect_contains: "g3_goblinwatch 1.0: on (G3 test: Goblinwatch renamed, with a coin); off from the next start"}
+  - console: {line: mods enable g3_goblinwatch, expect_contains: "from the next start of the game"}
+  # Still this start's mods: the switch changes nothing until the game starts again.
+  - console: {line: map, expect_contains: "name=\"Goblinwatch (G3 mod)\""}

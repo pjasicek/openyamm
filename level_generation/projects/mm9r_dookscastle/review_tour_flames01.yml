@@ -1,0 +1,32 @@
+output_dir: /home/pjasicek/github/OpenYAMM/level_generation/projects/mm9r_dookscastle/review/flames01
+settle_seconds: 1.5
+exit: true
+shots:
+- name: torch_side
+  position:
+  - -228
+  - 4090
+  - 411
+  yaw: 1.5708
+  pitch: 0.2094
+- name: torch_front
+  position:
+  - -28
+  - 4260
+  - 411
+  yaw: 3.1416
+  pitch: 0.1745
+- name: brazier_side
+  position:
+  - -1106
+  - 1760
+  - 0
+  yaw: 1.5708
+  pitch: 0.0873
+- name: bowl_side
+  position:
+  - 0
+  - 2021
+  - 411
+  yaw: 1.5708
+  pitch: 0.3491

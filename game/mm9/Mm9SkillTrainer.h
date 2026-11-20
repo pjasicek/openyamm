@@ -1,6 +1,7 @@
 #pragma once
 
 #include "game/mm9/Mm9RudeDialogue.h"
+#include "game/gameplay/TrainerDirectory.h"
 
 #include <cstddef>
 #include <cstdint>
@@ -52,4 +53,9 @@ private:
     std::unordered_map<uint64_t, size_t> m_entryIndexByRudeRow;
     std::vector<std::string> m_errors;
 };
+class MapStats;
+bool buildMm9JournalTeachers(const std::vector<std::vector<std::string>> &places,
+    const Mm9SkillTrainerTable &lessons, const Mm9RudeDialogueTable &dialogue, const MapStats &maps,
+    const std::string &mapCatalog, std::vector<TrainerEntry> &entries, std::string &error);
+
 }

@@ -1,0 +1,53 @@
+# MM9 promotion playthrough, segment 33: the real Verhoffin's Book under the floor in Drangheim Village (guide:
+# side_c.yml "find-verhoffin-s-diary", steps 5-6). The Sea's Fang from Thjorgard to Drangheim (three days; outdoors the
+# party is moved). The book house is the cottage at (-7672..-6565, -2650..-1175) next to Ragnheid Lifegiver and Hring the
+# Plowhands, far west of the dock (the guide's "east of Drangheim City across the inlet" does not match the map: the
+# village lies on the hill north-west of the city's exit). Its north door (RotatingDoor0, DoorLock.scr "244") opens
+# only while the party carries the Book Key (10244). Inside, the loose floorboard (DestructableBrush0, destructible 57)
+# over the hole and the gold book (Capstone0, realbook.scr, event 330) under it: Verhoffin's Book (10560), Eye of the
+# Storm (419), keys 283 and 290.
+#   python3 tests/playthrough/mm9/promotions/run.py 33
+id: mm9.promotions.33_drangheim_real_book
+title: "MM9 promotions 33: the Book Key opens the Drangheim cottage; Verhoffin's Book from under its floor"
+world: mm9
+mode: faithful
+tags: [mm9, playthrough, promotions]
+steps:
+  - load_game: {path: output/playthrough/mm9/promotions/checkpoints/32_johannes_book_key.oysav}
+  - setup_shortcut: {kind: immortal}
+  - assert: {map: thjorgardcity.blv, qbit_set: [90288, 90293], qbit_clear: [90283]}
+  - play_lua: {source: 'if not has_item(10244) then error("no Book Key") end'}
+
+  - travel: {map: drangheim.blv, days: 3}
+  - assert: {map: drangheim.blv}
+
+  # The cottage's north door: locked, but it opens while the party carries the Book Key.
+  - set_pose: {map: drangheim.blv, x: -7120, y: -1000, z: 2220, yaw: -1.5708, pitch: 0}
+  - advance_runtime: {seconds: 0.5}
+  - play_lua:
+      source: |
+        click(102); wait(2)
+        if door_state(2) ~= "open" then error("the cottage door did not open with the Book Key: " .. status()) end
+        log("the Book Key opens the cottage door")
+  - walk_to: {via: [[-7120, -1420, 2191]], x: -6918, y: -1413, z: 2191, z_tolerance: 300, plan: false, timeout_seconds: 30}
+
+  # The floorboard: a blow at it (looking down at the board from where the party stands).
+  - set_pose: {map: drangheim.blv, x: -6918, y: -1413, z: 2202, yaw: 0, pitch: -0.85}
+  - press_action: {action: attack}
+  - advance_runtime: {seconds: 1.5}
+  - console: {line: destructible 57 state, expect_contains: broken}
+  # The gold book under it.
+  - press_interact: {}
+  - advance_runtime: {seconds: 0.5}
+  - assert: {qbit_set: [90283, 90290]}
+  - play_lua:
+      source: |
+        if not has_item(10560) then error("no Verhoffin's Book (10560)") end
+        if not has_item(419) then error("no Eye of the Storm (419)") end
+        log("Verhoffin's Book (10560) and Eye of the Storm (419) are the party's")
+        -- what comes on the cursor goes into the packs, as a player does (an item on the cursor stops attacks)
+        while held() ~= 0 do local item = held() if not stow() then error("item " .. item .. " does not fit the packs") end end
+
+  # Out of the cottage.
+  - walk_to: {via: [[-7120, -1420, 2191]], x: -7120, y: -1000, z: 2220, z_tolerance: 300, plan: false, timeout_seconds: 30}
+  - save_game: {name: "33 Verhoffin's Book", path: output/playthrough/mm9/promotions/checkpoints/33_drangheim_real_book.oysav}

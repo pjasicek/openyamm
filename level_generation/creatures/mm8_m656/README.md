@@ -1,0 +1,15 @@
+# MM8 Human Mercenary restoration
+
+Validated staging package for all 150 native unique frames, all referenced by native actors 193–195. Includes every action, five stored views and eight logical directions with native mirrors. No native files are missing or aliased. Original assets are unchanged and nothing is installed into gameplay.
+
+Open `viewer.html` directly to compare native and restored poses and animations. Palette 657 retains dark studded olive armor and green trousers; deterministic palettes 658 and 659 reproduce the native blue/brown and burgundy/red equipment. All variants share alpha, geometry and placement. `manifest.json`, `animations.json` and `variants.json` retain source bindings, durations, playback modes, mirrors, logical dimensions and anchors.
+
+The 2× package uses six RGBA8 atlas pages and six matching R8 coverage pages. Decoded storage is 102,090,240 bytes: 81,672,192 RGBA8 plus 20,418,048 mask bytes, including 28,428,090 bytes of packing overhead. Native 256×256 logical canvases are preserved. Crops have transparent margins, 16-pixel atlas gutters, three-pixel hidden bleed and no mipmaps.
+
+All 26 base sheets were generated with the built-in imagegen tool. Exact prompts, native references, raw outputs, identity checkpoint and rejected revisions are retained. Repairs correct the rear head in attack aa4, the front head in reaction ne0, and four rear walking heads without replacing the native stepping poses. `review/repairs.json` records the rejected and accepted revisions. Sheet registration uses one shared similarity transform per action/view batch, frozen in `batches.json`; there is no independent pose fitting or equal-height normalization.
+
+Native coarse RGB and 0.7× enhanced fine detail preserve original tonal weight and material colors. Palette masks are derived from enhanced artwork using native changed/unchanged palette color samples, eight-neighbor inverse-fourth-power interpolation, and deterministic selective RGB recoloring. Original masks are not resized onto enhanced frames. RGB-only edge cleanup uses measured native per-frame color allowances and preserves alpha.
+
+Visual review covered all 26 registration sheets, 26 final native/atlas sheets, 26 three-palette/mask sheets, magnified light/dark contour patches and the actual mirrored attack viewer. Browser checks decoded all 450 variants, selected all 150 stored poses, and validated 192 animation tracks at 1,008 timing boundaries. Export checks verify source hashes, exact crop and atlas reconstruction, identical mask placement, exact base bypass and unchanged variant alpha. Every audited edge stage has zero excess over measured native allowances.
+
+To revise, retain the accepted raw outputs and run `python3 level_generation/creatures/mm8_m656/rebuild.py` from the repository root. Review changed contacts and repairs, run `browser_checks.py` through the authorized offline wrapper, renew `review/decision.json` evidence hashes, run `finalize.py`, then refresh `inventory_remaining.py`. Rebuilding does not accept changed artwork. `review/acceptance.json` seals the reviewed artifacts; a manifest alone is not completion.

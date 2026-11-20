@@ -1,0 +1,108 @@
+mm9_greaterdemon: 167 components, body 2757 tris, 11 detached in some pose
+  part 126 (XwarmCpiv01, +x side, -z, 824 tris): bind gap 0.0000, worst 0.8358 in AttackMelee frame 7 (0.233 s), detached 10/361 poses (and carried by a break elsewhere in 0; up to 0.8358 from the body's cluster) [lifted off Xhead]
+  part 1 (XwarmCpiv, -x side, -z, 824 tris): bind gap 0.0000, worst 0.0616 in AttackMelee frame 20 (0.667 s), detached 4/361 poses (and carried by a break elsewhere in 0; up to 0.0616 from the body's cluster) [lifted off Xhead]
+  part 120 (Xneckpiv, central, 12 tris): bind gap 0.0000, worst 0.0242 in Death frame 33 (1.100 s), detached 18/361 poses (and carried by a break elsewhere in 0; up to 0.0242 from the body's cluster) [parted off Xhead]
+  part 115 (XspineB, -z, 12 tris): bind gap 0.0000, worst 0.0198 in Death frame 32 (1.067 s), detached 2/361 poses (and carried by a break elsewhere in 0; up to 0.0198 from the body's cluster) [floating off XwarmCpiv01]
+  part 116 (Xarm01, central, 12 tris): bind gap 0.0000, worst 0.0172 in Fidget frame 31 (1.033 s), detached 25/361 poses (and carried by a break elsewhere in 0; up to 0.0172 from the body's cluster) [parted off Xhead]
+  part 101 (Xlknee01, below, -z, 12 tris): bind gap 0.0000, worst 0.0169 in Running frame 10 (0.333 s), detached 14/361 poses (and carried by a break elsewhere in 0; up to 0.0169 from the body's cluster) [parted off Bip01 Pelvisxx]
+  part 72 (XspineA, central, 20 tris): bind gap 0.0000, worst 0.0115 in Death frame 40 (1.333 s), detached 4/361 poses (and carried by a break elsewhere in 0; up to 0.0115 from the body's cluster) [parted off Xhead]
+  part 58 (Xneckpiv, central, 12 tris): bind gap 0.0000, worst 0.0093 in AttackRanged frame 15 (0.500 s), detached 86/361 poses (and carried by a break elsewhere in 18; up to 0.0093 from the body's cluster) [floating off Xneckpiv]
+  part 62 (Bip01 Headx, central, 10 tris): bind gap 0.0000, worst 0.0089 in Death frame 53 (1.767 s), detached 58/361 poses (and carried by a break elsewhere in 0; up to 0.0089 from the body's cluster) [floating off Xhead]
+  part 57 (Xneckpiv, central, 16 tris): bind gap 0.0000, worst 0.0085 in Death frame 56 (1.867 s), detached 18/361 poses (and carried by a break elsewhere in 0; up to 0.0085 from the body's cluster) [floating off Xhead]
+  part 119 (Xneckpiv, central, 12 tris): bind gap 0.0000, worst 0.0044 in Death frame 17 (0.567 s), detached 2/361 poses (and carried by a break elsewhere in 0; up to 0.0044 from the body's cluster) [floating off Xhead]
+  concealed: part 41 (Xlkneepiv, 10 tris) gap up to 0.0092 in Death frame 75, hidden from every direction in 47 poses
+  concealed: part 71 (Xneckbase, 8 tris) gap up to 0.0301 in AttackMelee frame 16, hidden from every direction in 26 poses
+  concealed: part 74 (Xneckbase, 10 tris) gap up to 0.0092 in Death frame 53, hidden from every direction in 133 poses
+  concealed: part 90 (Xhead, 22 tris) gap up to 0.0069 in Death frame 50, hidden from every direction in 1 poses
+  concealed: part 106 (Xneckpiv, 10 tris) gap up to 0.0046 in AttackRanged frame 6, hidden from every direction in 1 poses
+  concealed: part 111 (Xneckbase, 10 tris) gap up to 0.0089 in Death frame 11, hidden from every direction in 34 poses
+  concealed: part 114 (Xneckbase, 10 tris) gap up to 0.0258 in Fidget frame 32, hidden from every direction in 85 poses
+  root lift: part 2 (Xwing, 544 tris) 90th percentile 0.0746 off XwarmCpiv in Death frame 16
+  root lift: part 5 (Xarmmid, 22 tris) 90th percentile 0.0226 off Xarmmid in Running frame 8
+  root lift: part 8 (Xaelbow, 30 tris) 90th percentile 0.0135 off Xhead in Fidget frame 9
+  root lift: part 20 (Xawrist, 20 tris) 90th percentile 0.0436 off Xawrist in Fidget frame 17
+  root lift: part 26 (Xaelbow, 18 tris) 90th percentile 0.0190 off Xhead in Death frame 75
+  root lift: part 32 (XwarmCpiv, 96 tris) 90th percentile 0.0122 off XwarmCpiv in Fidget frame 5
+  root lift: part 34 (Xarmpiv, 32 tris) 90th percentile 0.0094 off Xhead in Walking frame 18
+  root lift: part 39 (Bip01 Pelvisxx, 963 tris) 90th percentile 0.0233 off Xhead in Death frame 58
+  root lift: part 40 (Xlegmid, 14 tris) 90th percentile 0.0111 off Bip01 Pelvisxx in Running frame 21
+  root lift: part 41 (Xlkneepiv, 10 tris) 90th percentile 0.0102 off Bip01 Pelvisxx in Death frame 63
+  root lift: part 43 (XwarmBpiv, 72 tris) 90th percentile 0.0117 off XwarmCpiv in Death frame 40
+  root lift: part 44 (Xlegmid, 18 tris) 90th percentile 0.0163 off Bip01 Pelvisxx in Death frame 64
+  root lift: part 54 (Xlknee, 16 tris) 90th percentile 0.0147 off Bip01 Pelvisxx in Hit frame 4
+  root lift: part 59 (Xlknee, 12 tris) 90th percentile 0.0143 off Bip01 Pelvisxx in AttackRanged frame 12
+  root lift: part 61 (Bip01 Pelvisxx, 65 tris) 90th percentile 0.0134 off Xhead in Death frame 58
+  root lift: part 65 (Xneckpiv, 14 tris) 90th percentile 0.0201 off Xhead in AttackMelee frame 19
+  root lift: part 66 (XneckA, 12 tris) 90th percentile 0.0361 off Xhead in Death frame 29
+  root lift: part 67 (XspineA, 6 tris) 90th percentile 0.0626 off Xhead in Hit frame 10
+  root lift: part 68 (XneckA, 10 tris) 90th percentile 0.0133 off Xhead in AttackRanged frame 22
+  root lift: part 69 (Xhead, 12 tris) 90th percentile 0.0149 off Xhead in Death frame 49
+  root lift: part 70 (XspineB, 12 tris) 90th percentile 0.0138 off Xhead in Running frame 8
+  root lift: part 71 (Xneckbase, 8 tris) 90th percentile 0.0308 off Xhead in AttackMelee frame 16
+  root lift: part 77 (Bip01 Spine1xx, 22 tris) 90th percentile 0.0263 off Xhead in AttackRanged frame 4
+  root lift: part 79 (Bip01 Headx, 10 tris) 90th percentile 0.0097 off Xhead in Death frame 43
+  root lift: part 81 (Xhtongue, 4 tris) 90th percentile 0.0154 off Xhead in AttackRanged frame 12
+  root lift: part 83 (Xneckpiv, 28 tris) 90th percentile 0.0093 off Xhead in Fidget frame 19
+  root lift: part 84 (Xhtonguepiv, 26 tris) 90th percentile 0.0084 off Xhead in Death frame 16
+  root lift: part 87 (XspineB, 16 tris) 90th percentile 0.0124 off Xhead in Death frame 24
+  root lift: part 88 (XspineB, 22 tris) 90th percentile 0.0156 off Xhead in AttackRanged frame 5
+  root lift: part 90 (Xhead, 22 tris) 90th percentile 0.0169 off Xhead in Death frame 50
+  root lift: part 96 (XspineA, 16 tris) 90th percentile 0.0574 off Xhead in AttackRanged frame 4
+  root lift: part 114 (Xneckbase, 10 tris) 90th percentile 0.0268 off Xhead in Fidget frame 32
+  root lift: part 117 (XneckA, 8 tris) 90th percentile 0.0141 off Xhead in AttackMelee frame 6
+  root lift: part 122 (Bip01 Pelvisxx, 16 tris) 90th percentile 0.0116 off Xhead in AttackMelee frame 15
+  root lift: part 134 (Xarm01, 32 tris) 90th percentile 0.0172 off Xhead in Death frame 47
+  root lift: part 138 (Xawrist01, 18 tris) 90th percentile 0.0131 off Xhead in Walking frame 0
+  root lift: part 140 (Xaelbowpiv01, 83 tris) 90th percentile 0.0257 off Xhead in Death frame 40
+  root lift: part 143 (Xahead01, 399 tris) 90th percentile 0.0188 off Xhead in Death frame 75
+  root lift: part 160 (Xawrist01, 40 tris) 90th percentile 0.0131 off Xhead in Fidget frame 51
+  root lift: part 162 (Xarmmid01, 32 tris) 90th percentile 0.0208 off Xhead in AttackMelee frame 3
+  shallow: part 0 (Xawrist, 40 tris) rooted -0.0036 on XwarmCpiv in Death frame 75
+  shallow: part 2 (Xwing, 544 tris) rooted 0.0008 on XwarmCpiv in Death frame 37
+  shallow: part 3 (Xarmmid, 45 tris) rooted -0.0040 on Xawrist in Standing frame 10
+  shallow: part 5 (Xarmmid, 22 tris) rooted -0.0028 on Xhead in Running frame 8
+  shallow: part 8 (Xaelbow, 30 tris) rooted 0.0044 on Xhead in Death frame 31
+  shallow: part 9 (Xahead, 399 tris) rooted -0.0040 on Xawrist in Walking frame 1
+  shallow: part 26 (Xaelbow, 18 tris) rooted -0.0014 on Xhead in AttackRanged frame 2
+  shallow: part 32 (XwarmCpiv, 96 tris) rooted 0.0000 on XwarmCpiv in bind frame 0
+  shallow: part 34 (Xarmpiv, 32 tris) rooted 0.0016 on Xhead in Walking frame 18
+  shallow: part 37 (XwingA, 48 tris) rooted -0.0039 on XwarmCpiv in AttackRanged frame 7
+  shallow: part 40 (Xlegmid, 14 tris) rooted -0.0035 on Bip01 Pelvisxx in Dead frame 0
+  shallow: part 41 (Xlkneepiv, 10 tris) rooted -0.0010 on Bip01 Pelvisxx in Hit frame 4
+  shallow: part 43 (XwarmBpiv, 72 tris) rooted 0.0000 on XwarmCpiv in bind frame 0
+  shallow: part 44 (Xlegmid, 18 tris) rooted -0.0039 on Bip01 Pelvisxx in Death frame 53
+  shallow: part 46 (Xlegmid, 24 tris) rooted -0.0027 on Bip01 Pelvisxx in Death frame 75
+  shallow: part 47 (Bip01 Pelvisxx, 12 tris) rooted -0.0039 on Xaelbowpiv in Walking frame 24
+  shallow: part 49 (XtailE, 42 tris) rooted 0.0029 on Bip01 Pelvisxx in Walking frame 4
+  shallow: part 50 (Bip01 Pelvisxx, 17 tris) rooted -0.0039 on Bip01 Pelvisxx in Death frame 55
+  shallow: part 54 (Xlknee, 16 tris) rooted 0.0078 on Bip01 Pelvisxx in Running frame 7
+  shallow: part 59 (Xlknee, 12 tris) rooted -0.0008 on Bip01 Pelvisxx in AttackRanged frame 16
+  shallow: part 61 (Bip01 Pelvisxx, 65 tris) rooted -0.0040 on XwarmCpiv in Walking frame 1
+  shallow: part 63 (XspineA, 14 tris) rooted 0.0036 on Xhead in AttackMelee frame 14
+  shallow: part 66 (XneckA, 12 tris) rooted 0.0009 on XneckA in Death frame 29
+  shallow: part 68 (XneckA, 10 tris) rooted -0.0027 on Xhead in Death frame 22
+  shallow: part 69 (Xhead, 12 tris) rooted 0.0037 on Xhead in Dead frame 0
+  shallow: part 70 (XspineB, 12 tris) rooted -0.0039 on XwarmCpiv in Death frame 50
+  shallow: part 77 (Bip01 Spine1xx, 22 tris) rooted 0.0029 on Xhead in AttackRanged frame 7
+  shallow: part 83 (Xneckpiv, 28 tris) rooted -0.0010 on Xhead in Fidget frame 13
+  shallow: part 85 (Xneckpiv, 26 tris) rooted 0.0017 on Xhead in Fidget frame 17
+  shallow: part 87 (XspineB, 16 tris) rooted 0.0046 on Xhead in Walking frame 36
+  shallow: part 90 (Xhead, 22 tris) rooted -0.0033 on Xneckpiv in Death frame 51
+  shallow: part 94 (Bip01 Spine1xx, 14 tris) rooted -0.0039 on Xhead in Death frame 66
+  shallow: part 96 (XspineA, 16 tris) rooted -0.0040 on XspineA in AttackRanged frame 4
+  shallow: part 107 (Xhead, 14 tris) rooted 0.0080 on Xhead in Dead frame 0
+  shallow: part 108 (XneckA, 8 tris) rooted -0.0040 on Xhead in Standing frame 52
+  shallow: part 110 (Xlegmid01, 26 tris) rooted -0.0037 on Bip01 Pelvisxx in Walking frame 30
+  shallow: part 112 (Xlkneepiv01, 12 tris) rooted 0.0048 on Bip01 Pelvisxx in Death frame 43
+  shallow: part 114 (Xneckbase, 10 tris) rooted -0.0002 on Xhead in Death frame 37
+  shallow: part 117 (XneckA, 8 tris) rooted -0.0004 on Xhead in AttackMelee frame 15
+  shallow: part 122 (Bip01 Pelvisxx, 16 tris) rooted 0.0066 on Xhead in AttackRanged frame 17
+  shallow: part 123 (Xneckpiv, 14 tris) rooted 0.0028 on Xhead in Fidget frame 36
+  shallow: part 124 (Bip01 Pelvisxx, 14 tris) rooted -0.0039 on Bip01 Pelvisxx in Hit frame 15
+  shallow: part 127 (Bip01 Pelvisxx, 21 tris) rooted 0.0011 on Bip01 Pelvisxx in Death frame 50
+  shallow: part 128 (Bip01 Pelvisxx, 12 tris) rooted -0.0040 on Bip01 Pelvisxx in Death frame 70
+  shallow: part 131 (Xlheel01, 14 tris) rooted -0.0004 on Bip01 Pelvisxx in Death frame 44
+  shallow: part 134 (Xarm01, 32 tris) rooted 0.0027 on Xhead in Death frame 47
+  shallow: part 141 (Xaelbow01, 13 tris) rooted -0.0040 on Xhead in Running frame 14
+  shallow: part 158 (Xaelbowpiv01, 24 tris) rooted 0.0026 on Xhead in AttackRanged frame 20
+  shallow: part 162 (Xarmmid01, 32 tris) rooted 0.0052 on Xhead in Fidget frame 7

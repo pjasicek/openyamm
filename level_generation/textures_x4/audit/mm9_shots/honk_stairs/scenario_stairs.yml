@@ -1,0 +1,18 @@
+id: tex9.honk_stairs_probe
+title: Temple of Honk stair probe from the user's pose (forward up the stair)
+world: mm9
+mode: faithful
+tags: [mm9, probe]
+steps:
+- load_map:
+    map: templeofhonk.blv
+- movement_segment:
+    input: forward
+    seconds: 3.0
+    actor_collision: false
+    actor_ai: false
+    start: {map: templeofhonk.blv, x: -3497, y: 6556, z: -458, yaw_degrees: 224.95, pitch: 0}
+    expect_stop: {map: templeofhonk.blv, x: -3900, y: 6150, z: -250, yaw_degrees: 224.95, pitch: 0}
+    loose_tolerance: true
+    tolerance_xy: 2000
+    tolerance_z: 2000

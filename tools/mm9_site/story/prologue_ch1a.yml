@@ -1,0 +1,206 @@
+chapters:
+  - id: 0
+    title: "Prologue: The Isle of Ashes"
+    intro: "Leave your home village of Ravensford, survive the shipwreck on the Isle of Ashes, meet Yrsa the Troll and Forad Darre, and find the way off the island to Sturmford."
+    sections:
+      - title: "Ravensford"
+        intro: "The Old Man (your grandfather) stands in the museum at the south end of the village; the boat waits at the pier to the north."
+        giver: {map: bootcamp, npc: "Old Man"}
+        quests:
+          - quest: complete-your-training
+            steps:
+              - "Talk to the Old Man. Choose 'We'd like to start our training', 'Where do we start?', 'What do we do when we're finished?' and 'Why?'. He gives you the Interface I and II scrolls; double-click a scroll to read it."
+              - "Pick up the other training scrolls: Spells, Skills, Classes and Notes lie beside him, Shopkeepers by the general store, Movement I and II at the training course on the east side, and Combat at the top of its ladders."
+              - "Next to the Old Man you can also take six free spell scrolls (Lightning Bolt, Wizard Eye, Dispel Magic, Fire Spike, Slow, Sparks)."
+              - "The two buttons in the museum start shows: one makes two monsters fight, the other sends a monk to open three chests, and the last one is trapped."
+              - "When you have read the scrolls, talk to the Old Man again: 'We're ready to leave', then 'Why?'. He gives you Strategy Tips and the Disarm Trap and Identify Item skill books."
+              - "Walk north to the pier and board the boat. After a six-day voyage you are shipwrecked on the Isle of Ashes."
+            tips:
+              - "To skip the training, tell him 'We don't need to bother with training' at the first talk and fight your way north to the pier. You miss the free skill books."
+              - "Reading the scrolls is not checked: 'We're ready to leave' works as soon as the first talk is done."
+            reward: "Strategy Tips, Disarm Trap Skill and Identify Item Skill books (training only)."
+            maps:
+              - map: bootcamp
+                show: [npc, exit, vendor, service]
+                focus: "Old Man"
+                caption: "The Old Man is in the museum at the south end of the village; the boat leaves from the pier to the north."
+      - title: "The Isle of Ashes"
+        intro: "Three islands joined by bridges: Yrsa's hut is at the north-west corner of the big northern island, Forad Darre waits at its south shore by the bridge, and the Verhoffin Ruins stand on the island to the south."
+        giver: {map: isleofashes, npc: "Yrsa the Troll"}
+        quests:
+          - quest: search-for-anyone-living-on-this-island
+            steps:
+              - "Explore the northern island. The first person you speak to (Forad Darre or Yrsa) closes this note and gives 800 XP. Your first talk with Forad also gives 4,000 XP when it ends."
+              - "Forad stands on the south shore of the northern island, at the bridge to the ruins. Tell him your boat crashed; when he asks about Yrsa, say 'No. Who is that?' and he tells you about her."
+              - "Yrsa lives in the hut at the north-west corner of the same island (next quest)."
+            tips:
+              - "The skeletons and dragonflies here are weak (level 2-5); clear them for early experience. The well beside Yrsa's hut heals."
+              - "A stone on the path to Yrsa gives +10 Might for an hour."
+            maps:
+              - map: isleofashes
+                show: [quest, hireling, bonus]
+                focus: "Forad Darre"
+                caption: "Forad Darre at the bridge on the south shore; Yrsa's hut at the north-west corner."
+          - quest: find-yrsa-the-troll
+            steps:
+              - "From Forad's bridge, follow the trail west and north across the northern island."
+              - "Her hut is at the north-west corner; click the door to open it."
+              - "Talk to Yrsa and ask 'Who are you?'. She will not help until you deal with the dragonflies (next quest)."
+            maps:
+              - map: isleofashes
+                show: [quest, hireling, bonus]
+                focus: "Yrsa the Troll"
+                caption: "Yrsa's hut, with the healing well east of it."
+          - quest: help-yrsa-the-troll
+            steps:
+              - "Go through the tunnel by Yrsa's hut to the open ground on the far side."
+              - "Kill the dragonflies there: Dragonflies, Dragonfly Mites and two Fire Dragonflies. Eight kills complete the task (200 XP)."
+              - "Return to Yrsa (2,000 XP). Ask 'Who are you?' again; she wants a favour at a time of her choosing: answer 'Very well.' and hear her out about your destiny."
+              - "At the end, either answer ('For the sake of all the Chedian...' or 'We will not do this!...') accepts the quest (2,000 XP) and starts Unite the Clans (Chapter I)."
+              - "Ask her 'How do we get off this island?': she sends you to Forad Darre."
+            tips:
+              - "The Fire Dragonflies (19 HP) are the only ones with any bite."
+            reward: "2,000 XP for the dragonflies, 2,000 XP for accepting your destiny."
+            maps:
+              - map: isleofashes
+                show: [quest, monster]
+                focus: "Fire Dragonfly"
+                caption: "The dragonflies swarm on the open ground east of Yrsa's hut."
+          - quest: find-a-way-off-the-island
+            steps:
+              - "Go back to Forad. Say 'Yes. Yrsa sent us to find you', 'She has charged us with a quest' and 'It is our destiny to unite the six clans'. He explains that Bone Thrashers block the only boat lane."
+              - "Agree to deal with them ('Fair enough...') and choose 'Welcome Aboard': Forad joins the party and suggests something behind a locked door may help."
+              - "Return to Yrsa and ask 'How do we get through that door?'. She gives you the Turret Key."
+              - "Cross the bridge south to the ruins island. Beside the Verhoffin Ruins' entrance is a bunker with a locked double door; open it with the Turret Key (the key is used up)."
+              - "Loot the chest inside, then click the book on the lectern. A cutscene plays: the bunker's gun blows up the islet with the Lich King, a boat comes, and after four days at sea you land at Sturmford's dock (5,200 XP)."
+            tips:
+              - "Three Bone Thrashers rise from the ground in front of the bunker door as you approach."
+              - "Stay out of the Verhoffin Ruins for now: they are far too dangerous, and you return here in Chapter III."
+            reward: "5,200 XP; you arrive in Sturmford."
+            maps:
+              - map: isleofashes
+                show: [door, hireling, quest, exit, chest]
+                focus: "Bunker Door 1"
+                caption: "The bunker door beside the ruins' entrance; Yrsa (Turret Key) and Forad on the northern island."
+          - quest: kill-the-bone-thrashers
+            requires: "Forad Darre joins the party."
+            steps:
+              - "This note opens when Forad joins. The Lich King on the small islet south-west of the ruins keeps the undead coming: once you cross the bridge to the ruins island, he sends Skeletoids to its shore: two at first, then one more each time one dies, six in all."
+              - "Bone Thrashers (level 3) also roam the northern island, and three more rise from the ground in front of the bunker door."
+              - "You do not have to kill the Bone Thrashers or the Skeletoids. The note closes when the book's cutscene in the bunker sinks the islet with the Lich (see Find a way off the island)."
+            tips:
+              - "Only the Turret Key, Forad in the party and the book are needed to leave. Kill the undead for experience only."
+            maps:
+              - map: isleofashes
+                show: [monster, door, breakable]
+                focus: "Lich King"
+                caption: "The Lich King's islet south-west of the ruins; the bunker that destroys it is by the ruins' entrance."
+
+  - id: 1
+    title: "I: The Six Clans of the Chedian"
+    intro: "Win the six Jarls of the Chedian over to an alliance against Tamur Leng. Each Jarl sets two tasks and pledges only after both are done; the clans can be visited in any order. Sturmford and Drangheim share an island and both send you to Anskram Keep, so they come first."
+    sections:
+      - title: "The alliance"
+        quests:
+          - quest: unite-the-clans
+            requires: "Accept your destiny from Yrsa."
+            steps:
+              - "Find the six Jarls: Bjarni Thorvaldssen (Sturmford), Sigmund the Stressed (Drangheim), Markel the Great (Guberland), Sven Forkbeard (Thjorgard), Tryggva Ravenlocks (Frosgard) and Kira the Cold (Thronheim)."
+              - "Ask each Jarl for help; each names two tasks. Accept both. You can work on several clans' tasks at once."
+              - "Report each task to its Jarl as you finish it, then ask the Jarl to join the alliance: this is the pledge."
+              - "When all six have pledged, talk to any Jarl and say the clans are united: messengers call the war council in Thronheim (12,500 XP and 6,000 gold, once)."
+            tips:
+              - "Be straight with the Jarls. Lines that try to play one clan against another (for example 'Drangheim has already promised soldiers') end the talk."
+      - title: "Sturmford: Jarl Bjarni Thorvaldssen"
+        intro: "Bjarni sits on his throne in the Jarl's palace in Sturmford City: go through the palace doors and turn right into the throne room. Click the altar in the palace entrance room to cleanse it and open Town Portal to Sturmford."
+        quests:
+          - quest: clear-out-anskram-keep
+            requires: "Ask Bjarni for help (Tamur Leng, the Beldonian Hordes) and for 'the first thing you need'."
+            steps:
+              - "Leave Sturmford City by the south gate and head south-west to Anskram Keep near the coast. Five Basilisks (level 15) prowl outside the walls: fight them at range."
+              - "The drawbridge is up and the portcullis is stuck. Go round to the back wall on the sea side and break the weak section (100 HP; it glows for a party with Perception). Climb through into the courtyard."
+              - "Climb the tower stairs to the high entrance on the walls and go in. You arrive at the keep's south end, from where you reach six of the eight Imp gates. The ground-level door in the gate passage leads only to the north hall."
+              - "An Imp gate is a fire at the back of a room. Step into its room and it sends five Imps one at a time, each when the last is dead; then its fire goes out and the gate is destroyed. Kill every Imp it sends."
+              - "Destroy the six southern gates: two in the long barracks off the west corridor, two in the long barracks off the east corridor, and one in each small closet at the north ends of the west and east corridors, either side of the central hall's gate."
+              - "The last two are in the closets west and east of the north hall, behind the airlock at the central hall's north end. Pull the lever on the central hall's east wall by the gate (two wall panels slide aside), then the lever on the west wall. Walk into the airlock and click the inner gate (or use the switch that appeared beside the outer gate): the outer gate shuts and the inner one opens. You can also leave and come back in by the ground-level door, which opens on the north hall."
+              - "When the eighth fire goes out, the journal says the portals are destroyed. Report to Bjarni: 'Anskram Keep is clear.'"
+            tips:
+              - "If an Imp wanders off, the gate waits: the next one comes only when the last is dead."
+              - "After the last gate, crossing the north hall round its central shaft raises a giant Imp (100 HP) on a lift with two friendly Sturmford guards. Here the guards do not fight it; killing it is optional."
+              - "Traps: pivoting floors in the corridors tip you into spike pits (climb the ladder and click the hatch); ceiling crushers drop on pressure plates; plates in the west wing and the two closets fire bolts (Perception 2 shows them). The cages in the east and west corridors break open as you approach."
+              - "A sliding wall panel beside the south-east pivot trap hides a chest."
+            reward: "10,500 XP and 3,000 gold."
+            maps:
+              - map: sturmford
+                show: [breakable, exit, door, ladder]
+                focus: "Weakwall"
+                caption: "Anskram Keep south-west of the city: the weak wall on the sea side, the two keep entrances and the gatehouse."
+              - map: anskramkeep
+                show: [exit, lever, trap, objective, chest]
+                focus: "Switch Lever 0"
+                caption: "The high entrance is the bottom exit; the airlock levers are north of the central hall. Imp gates: 6 and 7 in the west barracks, 4 and 5 in the east barracks, 2 and 1 in the closets either side of the airlock, 3 and 0 off the north hall."
+          - quest: rescue-ivsar-forktooth
+            requires: "Ask Bjarni for 'the second thing you need'."
+            steps:
+              - "Go to Drangheim: by boat from Sturmford's dock (1 day, 20 gold, every day except Monday and Wednesday) or by road from south-east Sturmford (2 days). The prison stands in the north-east of Drangheim, and its village well is to the south."
+              - "Choose a way in. Front door: tell the clerk at the counter 'We want to get into the prison' and answer 'Alright', 'No', 'No', 'Uhhh, no.' for a Visitor's Pass; guards leave a pass holder alone until the alarm sounds, and you can take the stairs to the top level. Well: climb down the village well to the insect-infested cave under the prison, climb the ladder and open the hatch into the storeroom by the kitchen."
+              - "In the kitchen, talk to the cook, Aymril Banito: 'We're just passing through', 'We've come to rescue Ivsar Forktooth', 'Why not?', 'Of course!...', 'And what will you do for us?', 'Sounds like a deal!'. He unlocks the cow pen, whose secret passage climbs to the top level. Ending the talk any other way makes him call the guards."
+              - "On the top level, the guard station is at the end of the cell corridor. Pull its last lever (the sixth): it opens Ivsar's cell, the last on that side. The fourth lever opens the cell of the cook's brother, Antoni; tell him 'Are you the cooks brother?', 'We're not guards...' and 'No torture. You're free to go.' (4,000 XP)."
+              - "Talk to Ivsar: 'We've come to take you back', 'We've been sent by Bjarni', 'Let's go.'. When the talk ends the alarm sounds and every guard turns hostile; Ivsar slips out on his own."
+              - "Leave the prison. Ivsar waits outside; talk to him and he heads for the tavern in Sturmford City."
+              - "In the tavern in Sturmford City's north-east corner, talk to Ivsar ('Come on, General'). Then tell Bjarni 'We've rescued Ivsar.'"
+            tips:
+              - "The prison is tough (guards up to a level 33 Guard Captain). Gain a few levels first."
+              - "Without a pass, freeing the three prisoners in the interrogation block gives 500 XP each."
+            reward: "16,500 XP and 3,500 gold."
+            maps:
+              - map: drangheimprison
+                show: [quest, npc, lever, ladder, exit]
+                focus: "lever 5"
+                caption: "Top level (Level A): the guard station levers; lever 5 opens Ivsar's cell, lever 3 Antoni's."
+              - map: drangheim
+                show: [exit, npc, transport]
+                focus: "To Drangheim Prison"
+                caption: "The prison's front door in the north-east; the village well entrance south of it; the dock in the west."
+      - title: "Drangheim: Jarl Sigmund the Stressed"
+        intro: "Sigmund is in the Town Hall on the west side of Drangheim City, on the upper floor behind the clerk; the Town Portal altar is in his room."
+        giver: {map: drangheimcity, npc: "Sigmund the Stressed"}
+        quests:
+          - quest: disable-anskram-keep-s-defenses
+            requires: "Tell Sigmund about the Beldonian Hordes, ask him to join, and ask 'What do you need done?'."
+            steps:
+              - "Accept ('We will do this for you'). When the talk ends he gives you the Trap Key."
+              - "At Anskram Keep in Sturmford, break in through the weak section of the back wall and climb the tower stairs to the top of the walls. Do not enter the keep."
+              - "On the wall walk above the gatehouse are two trapdoors, one on each side of the gate. They open only while you carry the Trap Key. Open one and climb down the ladder into the dark chamber above the gate."
+              - "Pull the lever in the chamber: the portcullis rises."
+              - "Break the two thin chains of the drawbridge, one on each side of the chamber (1 HP each; shoot or hit them). When both snap, the drawbridge falls."
+              - "With the portcullis up and the drawbridge down, the task is done (10,000 XP on the spot). Climb out and report to Sigmund: 'We've disabled Anskram Keep's defenses.'"
+            tips:
+              - "The chains can also be shot from the courtyard. With Perception 5 they glow."
+              - "Clear the Basilisks first: with a monster in view, the chains are hard to target."
+              - "If you lower the drawbridge before Sigmund asks, tell him 'We've already done that' for the same reward."
+            reward: "10,000 XP at the keep; 16,500 XP and 7,000 gold from Sigmund."
+            maps:
+              - map: sturmford
+                show: [door, lever, breakable, ladder, hint]
+                focus: "Hatch 1"
+                caption: "The gatehouse: the two trapdoors with ladders, the lever, the two thin chains and the drawbridge."
+          - quest: retrieve-the-crona-kiga-from-the-chasm-of-the-dead
+            requires: "Ask Sigmund 'What else do you need done?' and accept."
+            steps:
+              - "Leave Drangheim City and follow the path north-east to the Chasm of the Dead. Sigmund warns you: it is heavily trapped, so stick close to the walls."
+              - "From the entrance, go south through the tombs. Petrified Mummies stand dormant in their coffins until a trigger or a hit wakes them, Zombies rise from the floor, and Apparitions appear as you pass."
+              - "At the junction below the tombs, take the passage east into the chasm itself and go down to its south end."
+              - "Follow the long corridor south past the side crypts to the last two rooms. The Crona Kiga sits on a pedestal between two chests in the southernmost room."
+              - "Click the Crona Kiga to take it (10,000 XP). This wakes a chain of Petrified Mummies in the crypt: fight them or run."
+              - "Report to Sigmund: 'We've got the Crona Kiga', then 'Certainly' when he asks to see it."
+            tips:
+              - "Traps: fire-bolt plates and hidden shooters, closing walls, a wave of spikes along a stair, ceiling crushers, swinging pendulums, and a grate that drops you into an acid pit (you are pulled out after a few seconds)."
+              - "A pivoting floor in the corridor south of the chasm carries you up into a wall niche with a black chest (treasure level 7, heavily trapped); a button in the niche brings you back."
+              - "The Lich Instructions on the pyramid in the cross-shaped room are for the Lich promotion, not this quest."
+            reward: "10,000 XP at the pedestal; 12,500 XP and 10,000 gold from Sigmund."
+            maps:
+              - map: chasmofthedead
+                show: [exit, objective, trap, chest, lever]
+                focus: "Crona Kiga"
+                caption: "Entrance at the top left; the Crona Kiga in the southernmost room, at the bottom."

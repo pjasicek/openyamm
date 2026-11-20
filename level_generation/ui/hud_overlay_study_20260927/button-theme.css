@@ -1,0 +1,87 @@
+/* Button proposal only. The revision 06 frame keeps its current text unless explicitly enabled. */
+@font-face {
+  font-family: "Obsidian Fondamento"; src: url("assets/fonts/Fondamento-Regular.ttf") format("truetype");
+  font-style: normal; font-weight: 400; font-display: swap;
+}
+@font-face {
+  font-family: "Obsidian Almendra"; src: url("assets/fonts/Almendra-Regular.ttf") format("truetype");
+  font-style: normal; font-weight: 400; font-display: swap;
+}
+@font-face {
+  font-family: "Obsidian Endgame"; src: url("assets/fonts/openyamm_endgame_faithful.ttf") format("truetype");
+  font-style: normal; font-weight: 400; font-display: swap;
+}
+.button-theme {
+  --button-font: "Obsidian Fondamento", Georgia, serif;
+  --button-size: 25px;
+  --button-grain: url("assets/material-evt.png");
+}
+.button-theme.font-almendra { --button-font: "Obsidian Almendra", Georgia, serif; --button-size: 26px; }
+.button-theme.font-endgame { --button-font: "Obsidian Endgame", Georgia, serif; --button-size: 30px; }
+.button-theme .obs-button {
+  position: relative; display: inline-flex; align-items: center; justify-content: center;
+  min-height: 47px; padding: 5px 18px; border: 1px solid #9d875b;
+  background: linear-gradient(#354033b8, #10180edb), var(--button-grain) center / 280px auto;
+  color: #e8d1a4; font: 400 var(--button-size)/1.15 var(--button-font); font-synthesis: none;
+  text-align: center; text-transform: none; letter-spacing: 0;
+  text-shadow: none; cursor: pointer; filter: none; opacity: 1;
+  box-shadow: inset 0 0 0 2px #172015, inset 0 3px 0 2px #d9c49652,
+    inset 0 -3px 0 2px #0008, 1px 3px 4px #0009;
+  transition: border-color 110ms ease, color 110ms ease, box-shadow 110ms ease;
+}
+.button-theme .obs-label {
+  display: block; pointer-events: none;
+  text-shadow: 0 -1px 0 #fff0cf32, 0 1px 0 #36280e, 0 2px 1px #000, 1px 0 1px #0008;
+}
+.button-theme .obs-button::before, .button-theme .obs-button::after {
+  content: ""; position: absolute; top: calc(50% - 2px); width: 4px; height: 4px;
+  border-radius: 50%; background: #af986a; box-shadow: inset -1px -1px #49402b, 0 1px 2px #000;
+}
+.button-theme .obs-button::before { left: 7px; }
+.button-theme .obs-button::after { right: 7px; }
+.button-theme .obs-button[aria-pressed="true"], .button-theme .obs-button[data-demo-state="selected"] {
+  border-color: #d2b370; color: #ffe3a8;
+  background: linear-gradient(#7b65314d, #44351bc9), var(--button-grain) center / 280px auto;
+  box-shadow: inset 0 0 0 2px #2e2b19, inset 0 0 0 3px #baa16b80, 0 1px 3px #0009;
+}
+.button-theme .obs-button:where(:hover, [data-demo-state="hover"]):not(:disabled) {
+  border-color: #e4c78e; color: #fff0c0; filter: none;
+  box-shadow: inset 0 0 0 2px #263022, inset 0 3px 0 2px #f5d9a681,
+    inset 0 -3px 0 2px #0008, 0 0 10px #d4ae4929, 1px 3px 4px #0009;
+}
+.button-theme .obs-button:where(:hover, [data-demo-state="hover"]):not(:disabled) .obs-label {
+  text-shadow: 0 -1px 0 #fff7dc6b, 0 1px 0 #4a320d, 0 2px 1px #000, 0 0 8px #f9ce7678;
+}
+.button-theme .obs-button:where(:active, [data-demo-state="pressed"]):not(:disabled) {
+  border-color: #aa8f59; color: #d7bc86;
+  background: linear-gradient(#090f0de0, #2d3226c4), var(--button-grain) center / 280px auto;
+  box-shadow: inset 0 2px 4px 1px #000d, inset 0 -2px 0 #d3bd823a, 0 1px 0 #d2bc7952;
+  transition-duration: 0ms;
+}
+.button-theme .obs-button:where(:active, [data-demo-state="pressed"]):not(:disabled) .obs-label {
+  transform: translateY(1px);
+  text-shadow: 0 -1px 1px #000, 0 1px 0 #f4d59b24;
+}
+.button-theme .obs-button:where(:focus-visible, [data-demo-state="focus"]) {
+  outline: 1px solid #f0d5a1; outline-offset: 3px;
+}
+.button-theme .obs-button:disabled {
+  color: #888b7b; border-color: #5b604b; cursor: default; opacity: 1;
+  background: linear-gradient(#232c25de, #141e16ed), var(--button-grain) center / 280px auto;
+  box-shadow: inset 0 0 0 2px #172015, inset 0 2px 0 2px #b0b19821;
+}
+.button-theme .obs-button:disabled::before, .button-theme .obs-button:disabled::after { opacity: .3; }
+.button-theme .obs-button:disabled .obs-label { text-shadow: 0 1px 1px #000; }
+/* Dialogue links use the same lettering and response, with the existing open row instead of a slab. */
+.button-theme .obs-button.obs-topic {
+  min-height: 67px; width: 100%; padding: 10px 7px; border: 0;
+  border-bottom: 1px solid #bda78542; background: none; box-shadow: none;
+}
+.button-theme .obs-button.obs-topic::before, .button-theme .obs-button.obs-topic::after { content: none; }
+.button-theme .obs-button.obs-topic:where(:hover, [data-demo-state="hover"], [aria-pressed="true"]) {
+  background: #bca86a14; border-bottom-color: #d8bc7d9c; box-shadow: inset 0 0 18px #bca86a12;
+}
+.button-theme .obs-button.obs-topic:where(:active, [data-demo-state="pressed"]) {
+  background: #080f0c78; box-shadow: inset 0 2px 5px #0006;
+}
+@media (prefers-reduced-motion: reduce) { .button-theme .obs-button { transition: none; } }

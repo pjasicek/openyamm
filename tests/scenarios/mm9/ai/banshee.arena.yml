@@ -1,0 +1,18 @@
+# AI arena: an MM9 flier with FlyRange (Fright, 9162: Banshee.scr on FlyRange.inc) against a party standing still in The
+# Arena. Its passes strike (in reach MM9 always strikes) and make it undead for the pass; it backs off lower and
+# shorter than a bird (0.6 s rising 0.2) and never swoops; FlyRange's checks shoot 61 times in 101
+# (MM9_MONSTER_AI_PLAN.md phase 3).
+name: mm9_banshee
+world: mm9
+map: thearena.blv
+asset_root: output/mm9_rework/assets_dev
+party:
+  position: [0, -900, 1]
+  yaw_degrees: 90
+  pitch_degrees: 8
+  invulnerable: true
+trace: true
+monsters:
+  - monster_id: 9162
+    position: [0, 900, 1]
+    yaw_degrees: 270

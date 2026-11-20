@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="en">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Weapon and shield candidates</title>
+<style>
+body { margin:24px;background:#172428;color:#edf3f0;font:16px system-ui; }
+a { color:#9bdcc1; } input,select { font:inherit;padding:8px;margin:8px; }
+#grid { display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:16px; }
+article { background:#233439;padding:14px;border-radius:8px; } h2 { font-size:17px;margin:0 0 8px; }
+.pair { display:flex;gap:8px;align-items:center;justify-content:center;min-height:240px; }
+figure { margin:0;flex:1;text-align:center;min-width:0; }
+img { max-width:100%;max-height:350px;object-fit:contain; } .native { image-rendering:pixelated; }
+figcaption,small { font-size:12px;color:#b5c6c3; } .flags { color:#e4bd85; }
+</style>
+<h1>Weapon and shield candidates</h1>
+<p>332 inventory icons have 2× candidates. These remain pending visual review. Accepted Real-ESRGAN dolls are used for equipment fitting.</p>
+<p><a href="../index.html?doll=1&amp;art=candidate">Equipment browser</a> · <a href="README.md">Preparation and known issues</a></p>
+<label>Search <input id="search" type="search" placeholder="Item name or icon"></label>
+<label>Group <select id="group"><option value="">All</option><option>Melee</option><option>Bows</option><option>Shields</option><option>Wands</option></select></label>
+<p id="count"></p><div id="grid"></div>
+<script src="../catalog.js?v=inventory-prepared-20260924"></script>
+<script>
+const data=window.PAPERDOLL_REVIEW_DATA;
+const groups={Weapon:'Melee',Weapon1or2:'Melee',Weapon2:'Melee',Missile:'Bows',Shield:'Shields',WeaponW:'Wands'};
+const rows=[...new Map(data.items.filter(i=>i.icon && groups[i.stat]).map(i=>[i.icon,i])).values()]
+  .sort((a,b)=>a.icon.localeCompare(b.icon));
+const base=new URL('../',location.href);
+function render() {
+  const query=document.getElementById('search').value.toLowerCase(),group=document.getElementById('group').value;
+  const selected=rows.filter(i=>(!group || groups[i.stat]===group) && (i.icon+' '+i.name).toLowerCase().includes(query));
+  document.getElementById('count').textContent=selected.length+' / '+rows.length+' icons';
+  const grid=document.getElementById('grid');grid.replaceChildren();
+  for(const item of selected) {
+    const asset=data.assets[item.icon],card=document.createElement('article'),title=document.createElement('h2');
+    title.textContent=item.icon+' · '+item.name;card.append(title);
+    const pair=document.createElement('div');pair.className='pair';
+    for(const [path,label,native] of [[asset.native,'Original (enlarged)',true],[asset.candidate,'2× candidate',false]]) {
+      const figure=document.createElement('figure'),image=document.createElement('img'),caption=document.createElement('figcaption');
+      image.src=new URL(path,base);image.loading='lazy';image.alt=label+' '+item.icon;
+      image.width=asset.size[0]*2;image.height=asset.size[1]*2;if(native)image.className='native';
+      caption.textContent=label;figure.append(image,caption);pair.append(figure);
+    }
+    const link=document.createElement('a');link.href='../index.html?doll=1&art=candidate&item='+item.id;
+    link.textContent='Try on doll';
+    const flags=document.createElement('p');flags.className='flags';
+    const selectedOption=asset.preparedAlternatives.find(o=>o.path===asset.candidate);
+    flags.textContent=selectedOption?.issues.join(', ') || asset.candidateFlag || 'Visual review pending';
+    card.append(pair,flags,link);grid.append(card);
+  }
+}
+document.getElementById('search').oninput=render;document.getElementById('group').onchange=render;render();
+</script>
+</html>

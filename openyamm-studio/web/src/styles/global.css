@@ -1,0 +1,38 @@
+@import './tokens.css';
+
+*, *::before, *::after
+{
+    box-sizing: border-box;
+}
+
+html, body, #root
+{
+    height: 100%;
+}
+
+body
+{
+    margin: 0;
+    background: var(--bg);
+    color: var(--text);
+    font: var(--size-m) / 1.4 var(--font);
+    overflow: hidden;
+}
+
+button, input, textarea, select
+{
+    font: inherit;
+    color: inherit;
+}
+
+code
+{
+    font-family: var(--mono);
+}
+
+/* The panel gallery scrolls as a document (its full-page screenshot). */
+body.oy-gallery, body.oy-gallery #root, html:has(body.oy-gallery)
+{
+    height: auto;
+    overflow: auto;
+}

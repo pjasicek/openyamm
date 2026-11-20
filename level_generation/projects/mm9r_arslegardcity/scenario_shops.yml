@@ -1,0 +1,91 @@
+# Written by make_scenarios.py from the built map; rerun it after convert.py.
+id: mm9r.arslegardcity_shops
+title: 'Arslegard City (native BLV) - walk-in shops: the shopkeepers'' dialogues open by real clicks and their service rows
+  open the shops'
+world: mm9
+mode: faithful
+tags:
+- mm9
+- mm9_rework
+- draft
+steps:
+- load_map:
+    map: arslegardcity.blv
+- setup_shortcut:
+    kind: set_qbit
+    id: 90098
+    value: true
+- advance_runtime:
+    seconds: 1.5
+- note:
+    text: 'ShopkeeperHuman2MaleA7 (RUDE 340) in the shop: a click opens the dialogue; "We''d like to see your wares." opens
+      the shop.'
+- set_pose:
+    map: arslegardcity.blv
+    x: 11141
+    y: -5255
+    z: -388
+    yaw: -1.5708
+    pitch: -0.9645
+- advance_runtime:
+    seconds: 0.2
+- press_interact: {}
+- assert:
+    actor_dialog_started:
+      kind: mm9_rude
+      source_id: 340
+- assert:
+    dialog:
+      active: true
+      source_id: 340
+- select_topic:
+    action_id: 1
+    match_label: We'd like to see your wares.
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    dialog:
+      active: true
+      house_dialog: true
+- press_action:
+    action: cancel_dialog
+- press_action:
+    action: cancel_dialog
+- advance_runtime:
+    seconds: 0.5
+- note:
+    text: 'ShopkeeperHuman2MaleA6 (RUDE 341) in the shop: a click opens the dialogue; "We''d like to see your armor." opens
+      the shop.'
+- set_pose:
+    map: arslegardcity.blv
+    x: 9421
+    y: -7098
+    z: -491
+    yaw: -1.5708
+    pitch: -0.6178
+- advance_runtime:
+    seconds: 0.2
+- press_interact: {}
+- assert:
+    actor_dialog_started:
+      kind: mm9_rude
+      source_id: 341
+- assert:
+    dialog:
+      active: true
+      source_id: 341
+- select_topic:
+    action_id: 1
+    match_label: We'd like to see your armor.
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    dialog:
+      active: true
+      house_dialog: true
+- press_action:
+    action: cancel_dialog
+- press_action:
+    action: cancel_dialog
+- advance_runtime:
+    seconds: 0.5

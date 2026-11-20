@@ -1,0 +1,284 @@
+output_dir: /home/pjasicek/github/OpenYAMM/level_generation/projects/mm9r_lichlab/review/fog_v04
+settle_seconds: 1.5
+exit: true
+shots:
+- name: u01_entrance
+  position:
+  - -1311
+  - -4326
+  - 1312
+  yaw: 1.5708
+  pitch: 0.0
+- name: u02_grand_stair
+  position:
+  - -1311
+  - -3712
+  - 1312
+  yaw: 1.5708
+  pitch: 0.1396
+- name: u03_entrance_west
+  position:
+  - -4124
+  - -4352
+  - 1312
+  yaw: 1.5708
+  pitch: 0.0
+- name: u04_lobby_corridor
+  position:
+  - -4352
+  - -205
+  - 1312
+  yaw: 0.0
+  pitch: 0.0
+- name: u05_east_office
+  position:
+  - 2304
+  - -4352
+  - 1312
+  yaw: 1.5708
+  pitch: 0.0
+- name: u06_storeroom_b
+  position:
+  - -384
+  - 1843
+  - 1312
+  yaw: 1.5708
+  pitch: 0.0
+- name: u07_library
+  position:
+  - -1024
+  - 717
+  - 1312
+  yaw: 1.5708
+  pitch: 0.0
+- name: u08_ring_west
+  position:
+  - -5094
+  - 2944
+  - 1312
+  yaw: 1.5708
+  pitch: 0.0
+- name: u09_ring_north
+  position:
+  - -4864
+  - 9626
+  - 1312
+  yaw: 0.0
+  pitch: 0.0
+- name: u10_atrium_windows
+  position:
+  - -5094
+  - 6226
+  - 1312
+  yaw: 0.0
+  pitch: -0.2094
+- name: u11_shooting_range
+  position:
+  - 2304
+  - 10573
+  - 1312
+  yaw: 3.1416
+  pitch: 0.0
+- name: u12_west_wing
+  position:
+  - -6272
+  - 7680
+  - 1312
+  yaw: 1.5708
+  pitch: 0.0
+- name: u13_east_wing
+  position:
+  - 4352
+  - 7424
+  - 1312
+  yaw: 1.5708
+  pitch: 0.0
+- name: u14_transformer_room
+  position:
+  - 4352
+  - 4224
+  - 1312
+  yaw: 2.8753
+  pitch: 0.0
+- name: u15_west_stair_tower
+  position:
+  - -6912
+  - 1434
+  - 1312
+  yaw: 3.1416
+  pitch: 0.0
+- name: u16_ring_atrium
+  position:
+  - -5094
+  - 4096
+  - 1312
+  yaw: 0.0
+  pitch: 0.0
+- name: t01_kitchen
+  position:
+  - 154
+  - 3328
+  - 1
+  yaw: 0.9237
+  pitch: 0.0
+- name: t02_engine_crown
+  position:
+  - -4352
+  - 6226
+  - 2377
+  yaw: 0.0
+  pitch: 0.0
+- name: t03_transformer_top
+  position:
+  - 1792
+  - 2432
+  - 2377
+  yaw: -0.6293
+  pitch: 0.0
+- name: t04_offices_west
+  position:
+  - -3712
+  - 3533
+  - 2377
+  yaw: 1.5708
+  pitch: 0.0
+- name: t05_logs_room
+  position:
+  - -3968
+  - -1536
+  - 2377
+  yaw: -1.5708
+  pitch: 0.0
+- name: t06_stair_top
+  position:
+  - -1311
+  - -640
+  - 2377
+  yaw: 1.5708
+  pitch: 0.0
+- name: g01_cross_hall
+  position:
+  - -1720
+  - 3712
+  - 1
+  yaw: 1.5708
+  pitch: 0.0
+- name: g02_cross_hall_east
+  position:
+  - 768
+  - 6226
+  - 1
+  yaw: 3.1416
+  pitch: 0.0
+- name: g03_west_corridor
+  position:
+  - -6554
+  - 3072
+  - 1
+  yaw: 1.5708
+  pitch: 0.0
+- name: g04_north_corridor
+  position:
+  - -6656
+  - 10496
+  - 329
+  yaw: 0.0
+  pitch: 0.0
+- name: g05_north_rooms
+  position:
+  - -1024
+  - 11366
+  - 329
+  yaw: 1.5708
+  pitch: 0.0
+- name: g06_east_lab
+  position:
+  - 6400
+  - 3200
+  - -327
+  yaw: 1.5708
+  pitch: 0.0
+- name: g07_throne_room
+  position:
+  - 2560
+  - 7424
+  - 4
+  yaw: 1.5708
+  pitch: 0.0
+- name: g08_east_room
+  position:
+  - 2304
+  - 2816
+  - 1
+  yaw: 1.5708
+  pitch: 0.0
+- name: g09_explosion_lab
+  position:
+  - -8448
+  - 6912
+  - 1
+  yaw: -1.5708
+  pitch: 0.0
+- name: g10_west_room
+  position:
+  - -8192
+  - 2816
+  - 1
+  yaw: 1.5708
+  pitch: 0.0
+- name: g11_southwest_hall
+  position:
+  - -5120
+  - -384
+  - -286
+  yaw: 1.5708
+  pitch: 0.0
+- name: g12_southeast_stair
+  position:
+  - 5376
+  - -307
+  - 1
+  yaw: 0.0
+  pitch: 0.0
+- name: g13_ramp
+  position:
+  - 3584
+  - -307
+  - -163
+  yaw: 3.1416
+  pitch: 0.0
+- name: g14_east_lab_case
+  position:
+  - 6528
+  - 6062
+  - -327
+  yaw: 0.0
+  pitch: 0.0
+- name: b01_engine_hall
+  position:
+  - -3840
+  - 3584
+  - -654
+  yaw: 0.8946
+  pitch: 0.0
+- name: b02_engine_pods
+  position:
+  - -2816
+  - 5120
+  - -654
+  yaw: 0.79
+  pitch: 0.0
+- name: b03_ghost_pools
+  position:
+  - -655
+  - -1434
+  - -675
+  yaw: -1.5708
+  pitch: 0.0
+- name: b04_column_room
+  position:
+  - -1664
+  - 768
+  - -654
+  yaw: 1.5708
+  pitch: 0.0

@@ -1,0 +1,41 @@
+id: mm9.ai.lobber
+title: An MM9 Lobber scans, plays Aware, launches pods up to five alive, shoots, and launches again when a pod dies
+world: mm9
+mode: faithful
+tags: [mm9, actors, ai, arena]
+steps:
+  - note:
+      text: >-
+        Needs the MM9 review root: --asset-root output/mm9_rework/assets_dev (README.md). The party stands behind the
+        Lobber, out of its hearing and view, while it scans; then (unless a scan turned it to the party already) the
+        party steps within its hearing, 700 units from it.
+        The Lobber launches a pod at each attack check its attack is ready for, up to five alive (the script's 5-10 s
+        wait never runs), then shoots (casts its Poison); a pod killed lets it launch another.
+  # A party for the monsters to strike (the arena keeps it invulnerable): without one no blow or spell lands.
+  - new_game_flow:
+      start_map: thearena.blv
+  - ai_arena: {path: lobber.arena.yml}
+  - advance_runtime: {seconds: 16}
+  - assert:
+      ai_trace: {arena_monster: 0, decision: scan, min_count: 1}
+  - set_pose: {map: thearena.blv, x: 0, y: 200, z: 1, yaw_degrees: 90}
+  - advance_runtime: {seconds: 34}
+  - assert: {actor_count: {monster_id: 9084, min: 5, max: 5}}
+  - assert:
+      ai_trace: {arena_monster: 0, decision: taunt_detect, detail: aware, min_count: 1, max_count: 1}
+  - assert:
+      ai_trace: {arena_monster: 0, decision: pod_launch, min_count: 5, max_count: 5}
+  - assert:
+      ai_trace: {arena_monster: 0, decision: shot_check, detail: clear, after: 16, min_count: 1}
+  # Its shot is its lone spell, Poison (as Poison Spray): with Att% 0 every RangeAttack casts (MM9_SPELL_MAPPING.md 6.6).
+  - assert:
+      ai_trace: {arena_monster: 0, decision: attack_spell, detail: spell1, after: 16, min_count: 1}
+  # A pod dies: it may lob again.
+  - damage_actor: {actor_index: 6, amount: 999}
+  - advance_runtime: {seconds: 6}
+  - assert:
+      ai_trace: {arena_monster: 0, decision: pod_launch, within_seconds: 6, min_count: 1, max_count: 1}
+  - assert: {actor_count: {monster_id: 9084, min: 5, max: 5}}
+  - ai_trace_dump: {arena_monster: 0, decisions_only: true}
+  - assert:
+      ai_trace: {arena_monster: 0, decision: flee, max_count: 0}

@@ -542,3 +542,128 @@ end)
 AppendGlobalEvent(1334, function()
     MM6.RecoverNicolaiAtCircus()
 end)
+
+-- MMerge Quest_EnrothDarkArts: Enroth's light and dark masters let promoted characters change their path.
+-- MMerge asks only when the topic is clicked twice within two seconds; here the first click of a conversation shows
+-- the advert and the next click of the same topic asks the question.
+local PathOfLightTopic = 10001
+local PathOfDarkTopic = 10002
+local PathYesAnswerStep = 1
+local PathDeclinedStep = 2
+
+local pathOfDarkClasses = {[51] = 47, [50] = 7, [46] = 47, [28] = 29, [15] = 14, [6] = 7, [2] = 3}
+local pathOfLightClasses = {[51] = 46, [50] = 6, [47] = 46, [29] = 28, [14] = 15, [7] = 6, [3] = 2}
+
+local pathTopicNpcs = {
+    {npc = 1040, topic = PathOfDarkTopic}, -- Su Lang Manchu
+    {npc = 1030, topic = PathOfDarkTopic}, -- Rebecca Calaway
+    {npc = 1057, topic = PathOfLightTopic}, -- Ki Lo Nee
+    {npc = 1031, topic = PathOfLightTopic}, -- Virginia Standridge
+    {npc = 795, topic = PathOfLightTopic}, -- Marton Ferris
+}
+
+-- The topic last clicked once in this conversation, and the member who was asked (the answer may come after the
+-- active member changed).
+local armedPathTopic = nil
+local pathChoicePlayer = nil
+
+local function higherPathSkill(firstLevel, firstMastery, secondLevel, secondMastery)
+    if secondMastery > firstMastery or (secondMastery == firstMastery and secondLevel > firstLevel) then
+        return secondLevel, secondMastery
+    end
+    return firstLevel, firstMastery
+end
+
+local function changePath(path, continueStep)
+    if continueStep ~= nil then
+        local player = pathChoicePlayer or evt.GetCurrentPlayerIndex()
+        pathChoicePlayer = nil
+        evt.ForPlayer(player)
+
+        if continueStep ~= PathYesAnswerStep or path.classes[GetPlayerClass(player)] == nil then
+            evt.FaceAnimation(FaceAnimation.ShakeHeadNo)
+            evt.ForPlayer(Players.Current)
+            return
+        end
+
+        local keptLevel, keptMastery = GetPlayerSkill(player, path.keptSkill)
+        local droppedLevel, droppedMastery = GetPlayerSkill(player, path.droppedSkill)
+        keptLevel, keptMastery = higherPathSkill(keptLevel, keptMastery, droppedLevel, droppedMastery)
+        SetPlayerSkill(player, path.keptSkill, keptLevel, keptMastery)
+        SetPlayerSkill(player, path.droppedSkill, 0, 0)
+
+        for spellId = path.firstDroppedSpell, path.firstDroppedSpell + 10 do
+            ForgetPlayerSpell(player, spellId)
+        end
+
+        SetPlayerClass(player, path.classes[GetPlayerClass(player)])
+        evt.FaceAnimation(FaceAnimation.ShakeHeadYes)
+        evt.ForPlayer(Players.Current)
+        return
+    end
+
+    local player = evt.GetCurrentPlayerIndex()
+
+    if path.classes[GetPlayerClass(player)] == nil then
+        armedPathTopic = nil
+        evt.SetMessage(Game.NPCText[2109])
+        return
+    end
+
+    if armedPathTopic ~= path.topic then
+        armedPathTopic = path.topic
+        evt.SetMessage(Game.NPCText[path.advertText])
+        return
+    end
+
+    armedPathTopic = nil
+    pathChoicePlayer = player
+    AskQuestionWithAnswerSteps(
+        path.topic,
+        PathDeclinedStep,
+        Game.NPCText[path.warningText],
+        {{Answer = Game.NPCText[2108], Step = PathYesAnswerStep}})
+end
+
+local pathOfLight = {
+    topic = PathOfLightTopic,
+    classes = pathOfLightClasses,
+    keptSkill = "LightMagic",
+    droppedSkill = "DarkMagic",
+    firstDroppedSpell = 89, -- Reanimate .. Souldrinker
+    advertText = 2106,
+    warningText = 2104,
+}
+
+local pathOfDark = {
+    topic = PathOfDarkTopic,
+    classes = pathOfDarkClasses,
+    keptSkill = "DarkMagic",
+    droppedSkill = "LightMagic",
+    firstDroppedSpell = 78, -- Light Bolt .. Divine Intervention
+    advertText = 2107,
+    warningText = 2105,
+}
+
+RegisterGlobalEvent(PathOfLightTopic, "Path of Light", function(continueStep)
+    changePath(pathOfLight, continueStep)
+end)
+
+RegisterGlobalEvent(PathOfDarkTopic, "Path of Dark", function(continueStep)
+    changePath(pathOfDark, continueStep)
+end)
+
+RegisterGlobalOnLoadEvent(65303, "MMerge Enroth path topics", function()
+    for _, entry in ipairs(pathTopicNpcs) do
+        evt.SetNPCTopic(entry.npc, 4, entry.topic)
+    end
+end)
+
+RegisterGlobalNpcEnterHook(65304, "MMerge Enroth path topics", function(context)
+    for _, entry in ipairs(pathTopicNpcs) do
+        if context.npcId == entry.npc then
+            armedPathTopic = nil
+            evt.SetNPCTopic(entry.npc, 4, entry.topic)
+        end
+    end
+end)

@@ -1,0 +1,53 @@
+output_dir: /home/pjasicek/github/OpenYAMM/level_generation/projects/mm9r_drangheimprison/review/hints
+settle_seconds: 1.5
+exit: true
+shots:
+- name: h0_frame
+  position:
+  - -1142
+  - -512
+  - -81
+  yaw: 1.5708
+  pitch: 0.0
+- name: h1_grate
+  position:
+  - -840
+  - -1792
+  - -1105
+  yaw: 1.5708
+  pitch: 0.8727
+- name: h2_panel
+  position:
+  - -594
+  - -430
+  - -1904
+  yaw: 0.0
+  pitch: 0.0
+- name: h3_panel
+  position:
+  - 888
+  - -430
+  - -1893
+  yaw: 3.1416
+  pitch: 0.0
+- name: h4_panel
+  position:
+  - -471
+  - 865
+  - -2062
+  yaw: -1.5708
+  pitch: 0.0
+- name: h5_small
+  position:
+  - -2816
+  - -92
+  - -81
+  yaw: 3.1416
+  pitch: 0.0
+- name: h6_frame_again
+  position:
+  - -1142
+  - -512
+  - -81
+  yaw: 1.5708
+  pitch: 0.0

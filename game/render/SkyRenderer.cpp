@@ -3,6 +3,7 @@
 #include "engine/AssetFileSystem.h"
 #include "engine/BgfxContext.h"
 #include "engine/render/CookedTexture.h"
+#include "engine/render/ModelRenderer.h"
 #include "game/render/RuntimeShader.h"
 #include "game/render/TextureFiltering.h"
 
@@ -72,28 +73,65 @@ float belowHorizonMode(SkyBelowHorizon mode)
 
 SkyFogUniformValues packSkyFogUniform(const SkyFrameState *pFrame, const SkySurroundings &surroundings)
 {
+    SkyFogUniformValues values = {};
+    std::copy(surroundings.mist.begin(), surroundings.mist.end(), values.begin() + SkyFogSkyVectors);
+
     if (pFrame == nullptr)
     {
-        return {};
+        return values;
     }
 
     const SkyFrameState &frame = *pFrame;
     const SkyColor &glow = frame.value(SkyValue::SunGlow);
     const float glowStrength = frame.scalar(SkyValue::SunGlowStrength);
-    return {{
-        vec4(frame.value(SkyValue::Zenith), frame.scalar(SkyValue::HorizonExponent)),
-        vec4(frame.value(SkyValue::Horizon), frame.skyMix),
-        {glow[0] * glowStrength, glow[1] * glowStrength, glow[2] * glowStrength,
-            std::max(frame.scalar(SkyValue::SunGlowExponent), 0.5f)},
-        {frame.sunDirection[0], frame.sunDirection[1], frame.sunDirection[2], frame.lightningFlash},
-        {surroundings.mapEdge[0], surroundings.mapEdge[1], surroundings.mapEdge[2],
-            std::clamp(frame.scalar(SkyValue::AerialHaze), 0.0f, 1.0f)},
-        // Fog weather hides the distant sea along with the rest of the view.
-        vec4(surroundings.seaColorDisplay, 1.0f - frame.fogAmount),
-        {std::max(surroundings.camera[0], MinimumSeaViewHeight), SeaHazeDistance, surroundings.camera[1],
-            surroundings.camera[2]},
-        surroundings.seaSideWeights,
-    }};
+    values[0] = vec4(frame.value(SkyValue::Zenith), frame.scalar(SkyValue::HorizonExponent));
+    values[1] = vec4(frame.value(SkyValue::Horizon), frame.skyMix);
+    values[2] = {glow[0] * glowStrength, glow[1] * glowStrength, glow[2] * glowStrength,
+        std::max(frame.scalar(SkyValue::SunGlowExponent), 0.5f)};
+    values[3] = {frame.sunDirection[0], frame.sunDirection[1], frame.sunDirection[2], frame.lightningFlash};
+    values[4] = {surroundings.mapEdge[0], surroundings.mapEdge[1], surroundings.mapEdge[2],
+        std::clamp(frame.scalar(SkyValue::AerialHaze), 0.0f, 1.0f)};
+    // Fog weather hides the distant sea along with the rest of the view.
+    values[5] = vec4(surroundings.seaColorDisplay, 1.0f - frame.fogAmount);
+    values[6] = {std::max(surroundings.camera[0], MinimumSeaViewHeight), SeaHazeDistance, surroundings.camera[1],
+        surroundings.camera[2]};
+    values[7] = surroundings.seaSideWeights;
+    return values;
+}
+
+static_assert(SkyFogUniformVectors == Engine::ModelSkyFogVectors, "u_skyFog has one size in every shader");
+
+SkyOrbitUniformValues packSkyOrbitUniform(const SkyFrameState &frame)
+{
+    SkyOrbitUniformValues values = {};
+    const SkyOrbitRing &ring = frame.orbitRing;
+    const int lightCount = std::clamp(ring.lightCount, 0, int(MaxSkyOrbitLights));
+
+    if (ring.opacity <= 0.0f && (lightCount == 0 || ring.lightBrightness <= 0.0f))
+    {
+        return values;
+    }
+
+    // The ring follows the moon's path, a circle of constant y round the sky (skyMoonDirection), so the moon always
+    // hangs in it.
+    const float height = std::clamp(frame.moonDirection[1], -0.99f, 0.99f);
+    const float halfWidth = ring.widthDegrees * 0.5f * DegreesToRadians;
+    values[0] = {std::atan2(frame.moonDirection[2], frame.moonDirection[0]), height, 0.0f, 0.0f};
+    values[1] = vec4(ring.color, ring.opacity);
+    values[2] = {halfWidth, ring.fragments, float(lightCount), ring.lightSizeDegrees * DegreesToRadians};
+    values[3] = vec4(ring.lightColor, ring.lightBrightness);
+
+    for (int light = 0; light < lightCount; ++light)
+    {
+        // Each light keeps its own lane across the ring: centre, inner or outer edge.
+        const float lane = float(light % 3 - 1) * 0.35f * halfWidth;
+        const float angle = frame.orbitLightAngles[size_t(light)];
+        const float laneHeight = std::sin(std::asin(height) + lane);
+        const float laneRadius = std::sqrt(std::max(1.0f - laneHeight * laneHeight, 0.0f));
+        values[size_t(4 + light)] = {std::cos(angle) * laneRadius, laneHeight, std::sin(angle) * laneRadius, 0.0f};
+    }
+
+    return values;
 }
 
 std::array<float, 3> skyEnvironmentTint(const SkyFrameState &frame)
@@ -161,6 +199,7 @@ bool SkyRenderer::initialize(const Engine::AssetFileSystem &assets)
     m_rayUniform = bgfx::createUniform("u_skyRay", bgfx::UniformType::Mat4);
     m_paramsUniform = bgfx::createUniform("u_skyParams", bgfx::UniformType::Vec4, 8);
     m_cloudsUniform = bgfx::createUniform("u_skyClouds", bgfx::UniformType::Vec4, 8);
+    m_orbitUniform = bgfx::createUniform("u_skyOrbit", bgfx::UniformType::Vec4, SkyOrbitUniformVectors);
     const std::array<const char *, 7> samplerNames = {
         "s_skyCloud0", "s_skyCloud1", "s_skyCloud2", "s_skyCloud3", "s_skyRing", "s_skyStars", "s_skyMoon"};
 
@@ -211,7 +250,7 @@ void SkyRenderer::shutdown()
     }
 
     for (bgfx::UniformHandle *pUniform : {&m_fogUniform, &m_rayUniform, &m_paramsUniform, &m_cloudsUniform,
-             &m_imageSampler, &m_upscaleUniform})
+             &m_orbitUniform, &m_imageSampler, &m_upscaleUniform})
     {
         if (bgfx::isValid(*pUniform))
         {
@@ -267,6 +306,7 @@ void SkyRenderer::abandonGpuResources()
     m_rayUniform = BGFX_INVALID_HANDLE;
     m_paramsUniform = BGFX_INVALID_HANDLE;
     m_cloudsUniform = BGFX_INVALID_HANDLE;
+    m_orbitUniform = BGFX_INVALID_HANDLE;
     m_samplers.fill(BGFX_INVALID_HANDLE);
     m_program = BGFX_INVALID_HANDLE;
     m_upscaleProgram = BGFX_INVALID_HANDLE;
@@ -285,7 +325,8 @@ void SkyRenderer::abandonGpuResources()
 bool SkyRenderer::isReady() const
 {
     return bgfx::isValid(m_program) && bgfx::isValid(m_fogUniform) && bgfx::isValid(m_rayUniform)
-        && bgfx::isValid(m_paramsUniform) && bgfx::isValid(m_cloudsUniform) && bgfx::isValid(m_emptyTexture)
+        && bgfx::isValid(m_paramsUniform) && bgfx::isValid(m_cloudsUniform) && bgfx::isValid(m_orbitUniform)
+        && bgfx::isValid(m_emptyTexture)
         && bgfx::isValid(m_moonFallbackTexture)
         && std::all_of(m_samplers.begin(), m_samplers.end(),
             [](bgfx::UniformHandle sampler) { return bgfx::isValid(sampler); })
@@ -538,7 +579,8 @@ void SkyRenderer::render(uint16_t viewId, const float *pView, const float *pProj
     constexpr float HiddenWeight = 0.001f;
     const bgfx::TextureHandle ring = panorama(frame.horizonRing.texture, frame.horizonRing.opacity > HiddenWeight);
     const bgfx::TextureHandle stars = panorama(frame.stars.texture, frame.scalar(SkyValue::Stars) > HiddenWeight);
-    const bgfx::TextureHandle moon = panorama("moon", frame.scalar(SkyValue::MoonVisibility) > HiddenWeight);
+    const bgfx::TextureHandle moon =
+        panorama(frame.moonTexture, frame.scalar(SkyValue::MoonVisibility) > HiddenWeight);
     bgfx::setTexture(RingSampler, m_samplers[RingSampler], bgfx::isValid(ring) ? ring : m_emptyTexture,
         BGFX_SAMPLER_V_CLAMP);
     bgfx::setTexture(StarsSampler, m_samplers[StarsSampler], bgfx::isValid(stars) ? stars : m_emptyTexture,
@@ -550,6 +592,8 @@ void SkyRenderer::render(uint16_t viewId, const float *pView, const float *pProj
     bgfx::setUniform(m_rayUniform, ray);
     bgfx::setUniform(m_paramsUniform, params.data(), uint16_t(params.size()));
     bgfx::setUniform(m_cloudsUniform, clouds.data(), uint16_t(clouds.size()));
+    const SkyOrbitUniformValues orbit = packSkyOrbitUniform(frame);
+    bgfx::setUniform(m_orbitUniform, orbit.data(), SkyOrbitUniformVectors);
 
     bgfx::TransientVertexBuffer vertices;
     bgfx::allocTransientVertexBuffer(&vertices, 3, m_vertexLayout);

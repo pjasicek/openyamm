@@ -10,6 +10,10 @@ supplementalSources:
     sprites:
     - sprites/bloodhit1.spr
     - sprites/bloodspray1.spr
+  hardcodedProjectileExplosion:
+    evidence: re_mm8/mm9_vfx/README.md
+    sprites:
+    - sprites/weapons/explosion1.spr
 rules:
   lookup: exact normalized legacy reference
   case: ASCII lowercase
@@ -18,7 +22,7 @@ rules:
 summary:
   effectGroups: 48
   effectKeys: 176
-  bindings: 252
+  bindings: 265
   missingSources: 2
 missingSources:
 - models/spells/armortube.abc
@@ -1587,6 +1591,63 @@ bindings:
     - index: 0
       legacy: spritetextures/yellowline/blurredyellowstar.dtx
       resource: mm9:effect-texture/yellowline/blurredyellowstar
+- legacy: sprites/weapons/explosion1.spr
+  kind: sprite
+  resource: mm9:effect-sprite/weapons/explosion1
+  asset: engine/effects/mm9/sprites/weapons/explosion1.yml
+  status: bound
+  source:
+    path: mm9/extracted/SPRITES/SPRITES/WEAPONS/EXPLOSION1.spr
+    bytes: 800
+    sha256: 84b5e45fffb7d017c805d3e2b62e13a83f23179d153d170f2fd31468ee549bbf
+  origin: hardcoded_projectile_explosion
+  sprite:
+    framesPerSecond: 15
+    logicalWidth: 64
+    logicalHeight: 64
+    keyed: false
+    translucent: false
+    colorKey: 0
+    frames:
+    - index: 0
+      legacy: spritetextures/explosions/explosion1/simplexplode_0004.dtx
+      resource: mm9:effect-texture/explosions/explosion1/simplexplode_0004
+    - index: 1
+      legacy: spritetextures/explosions/explosion1/simplexplode_0008.dtx
+      resource: mm9:effect-texture/explosions/explosion1/simplexplode_0008
+    - index: 2
+      legacy: spritetextures/explosions/explosion1/simplexplode_0012.dtx
+      resource: mm9:effect-texture/explosions/explosion1/simplexplode_0012
+    - index: 3
+      legacy: spritetextures/explosions/explosion1/simplexplode_0016.dtx
+      resource: mm9:effect-texture/explosions/explosion1/simplexplode_0016
+    - index: 4
+      legacy: spritetextures/explosions/explosion1/simplexplode_0020.dtx
+      resource: mm9:effect-texture/explosions/explosion1/simplexplode_0020
+    - index: 5
+      legacy: spritetextures/explosions/explosion1/simplexplode_0024.dtx
+      resource: mm9:effect-texture/explosions/explosion1/simplexplode_0024
+    - index: 6
+      legacy: spritetextures/explosions/explosion1/simplexplode_0028.dtx
+      resource: mm9:effect-texture/explosions/explosion1/simplexplode_0028
+    - index: 7
+      legacy: spritetextures/explosions/explosion1/simplexplode_0032.dtx
+      resource: mm9:effect-texture/explosions/explosion1/simplexplode_0032
+    - index: 8
+      legacy: spritetextures/explosions/explosion1/simplexplode_0036.dtx
+      resource: mm9:effect-texture/explosions/explosion1/simplexplode_0036
+    - index: 9
+      legacy: spritetextures/explosions/explosion1/simplexplode_0040.dtx
+      resource: mm9:effect-texture/explosions/explosion1/simplexplode_0040
+    - index: 10
+      legacy: spritetextures/explosions/explosion1/simplexplode_0044.dtx
+      resource: mm9:effect-texture/explosions/explosion1/simplexplode_0044
+    - index: 11
+      legacy: spritetextures/explosions/explosion1/simplexplode_0048.dtx
+      resource: mm9:effect-texture/explosions/explosion1/simplexplode_0048
+    - index: 12
+      legacy: spritetextures/explosions/explosion1/simplexplode_0048.dtx
+      resource: mm9:effect-texture/explosions/explosion1/simplexplode_0048
 - legacy: sprites/weapons/firebolt.spr
   kind: sprite
   resource: mm9:effect-sprite/weapons/firebolt
@@ -1920,6 +1981,126 @@ bindings:
     bytes: 21924
     sha256: ae02f4325791d85fe80da3eb8a2cc36bc02e997825f979124d655767dfabbaf2
   origin: spells_fxf
+- legacy: spritetextures/explosions/explosion1/simplexplode_0004.dtx
+  kind: texture
+  resource: mm9:effect-texture/explosions/explosion1/simplexplode_0004
+  asset: engine/effects/mm9/textures/explosions/explosion1/simplexplode_0004.png
+  status: bound
+  source:
+    path: mm9/extracted/SPRITETEXTURES/SPRITETEXTURES/EXPLOSIONS/EXPLOSION1/SIMPLEXPLODE_0004.dtx
+    bytes: 21924
+    sha256: 318c826ad24fdb7198ea60f9d8abb2630a4550493ba9977b005a3bb9e92130a8
+  origin: hardcoded_projectile_explosion
+- legacy: spritetextures/explosions/explosion1/simplexplode_0008.dtx
+  kind: texture
+  resource: mm9:effect-texture/explosions/explosion1/simplexplode_0008
+  asset: engine/effects/mm9/textures/explosions/explosion1/simplexplode_0008.png
+  status: bound
+  source:
+    path: mm9/extracted/SPRITETEXTURES/SPRITETEXTURES/EXPLOSIONS/EXPLOSION1/SIMPLEXPLODE_0008.dtx
+    bytes: 21924
+    sha256: 4341e5cace1e2f67c022f767c622b1610d93944db82dc9ee4de95ab71c613c5a
+  origin: hardcoded_projectile_explosion
+- legacy: spritetextures/explosions/explosion1/simplexplode_0012.dtx
+  kind: texture
+  resource: mm9:effect-texture/explosions/explosion1/simplexplode_0012
+  asset: engine/effects/mm9/textures/explosions/explosion1/simplexplode_0012.png
+  status: bound
+  source:
+    path: mm9/extracted/SPRITETEXTURES/SPRITETEXTURES/EXPLOSIONS/EXPLOSION1/SIMPLEXPLODE_0012.dtx
+    bytes: 21924
+    sha256: 76663c931cb176f63cb0c672699525e11ff79653c16216f619d388e937413eba
+  origin: hardcoded_projectile_explosion
+- legacy: spritetextures/explosions/explosion1/simplexplode_0016.dtx
+  kind: texture
+  resource: mm9:effect-texture/explosions/explosion1/simplexplode_0016
+  asset: engine/effects/mm9/textures/explosions/explosion1/simplexplode_0016.png
+  status: bound
+  source:
+    path: mm9/extracted/SPRITETEXTURES/SPRITETEXTURES/EXPLOSIONS/EXPLOSION1/SIMPLEXPLODE_0016.dtx
+    bytes: 21924
+    sha256: 44aa6d2551040ec4ed740728b44aa1e03b889f3694eef0694f0bbf2ac0bfe11b
+  origin: hardcoded_projectile_explosion
+- legacy: spritetextures/explosions/explosion1/simplexplode_0020.dtx
+  kind: texture
+  resource: mm9:effect-texture/explosions/explosion1/simplexplode_0020
+  asset: engine/effects/mm9/textures/explosions/explosion1/simplexplode_0020.png
+  status: bound
+  source:
+    path: mm9/extracted/SPRITETEXTURES/SPRITETEXTURES/EXPLOSIONS/EXPLOSION1/SIMPLEXPLODE_0020.dtx
+    bytes: 21924
+    sha256: aeeb73c52c6ce3958a6dcb2e5f689c1bc7eee97608564782d539aeeddea070e7
+  origin: hardcoded_projectile_explosion
+- legacy: spritetextures/explosions/explosion1/simplexplode_0024.dtx
+  kind: texture
+  resource: mm9:effect-texture/explosions/explosion1/simplexplode_0024
+  asset: engine/effects/mm9/textures/explosions/explosion1/simplexplode_0024.png
+  status: bound
+  source:
+    path: mm9/extracted/SPRITETEXTURES/SPRITETEXTURES/EXPLOSIONS/EXPLOSION1/SIMPLEXPLODE_0024.dtx
+    bytes: 21924
+    sha256: 34a0cb8136d2b2c206af72c9c419f49366a31aa2345164f1e5dcbc8e0adfff61
+  origin: hardcoded_projectile_explosion
+- legacy: spritetextures/explosions/explosion1/simplexplode_0028.dtx
+  kind: texture
+  resource: mm9:effect-texture/explosions/explosion1/simplexplode_0028
+  asset: engine/effects/mm9/textures/explosions/explosion1/simplexplode_0028.png
+  status: bound
+  source:
+    path: mm9/extracted/SPRITETEXTURES/SPRITETEXTURES/EXPLOSIONS/EXPLOSION1/SIMPLEXPLODE_0028.dtx
+    bytes: 21924
+    sha256: 5bc1e531fd5b42e41923793fbc4eba64dcf579bafd68f5553de7a948ec997537
+  origin: hardcoded_projectile_explosion
+- legacy: spritetextures/explosions/explosion1/simplexplode_0032.dtx
+  kind: texture
+  resource: mm9:effect-texture/explosions/explosion1/simplexplode_0032
+  asset: engine/effects/mm9/textures/explosions/explosion1/simplexplode_0032.png
+  status: bound
+  source:
+    path: mm9/extracted/SPRITETEXTURES/SPRITETEXTURES/EXPLOSIONS/EXPLOSION1/SIMPLEXPLODE_0032.dtx
+    bytes: 21924
+    sha256: e9775f5855f5707ed38c0a2d8674da83172266d8578216ab1f62a7a44e3dd593
+  origin: hardcoded_projectile_explosion
+- legacy: spritetextures/explosions/explosion1/simplexplode_0036.dtx
+  kind: texture
+  resource: mm9:effect-texture/explosions/explosion1/simplexplode_0036
+  asset: engine/effects/mm9/textures/explosions/explosion1/simplexplode_0036.png
+  status: bound
+  source:
+    path: mm9/extracted/SPRITETEXTURES/SPRITETEXTURES/EXPLOSIONS/EXPLOSION1/SIMPLEXPLODE_0036.dtx
+    bytes: 21924
+    sha256: 6120b7996d7e8a065fd25e94defa07d0d642dcac80a05b7e921dd81a1c3a6f71
+  origin: hardcoded_projectile_explosion
+- legacy: spritetextures/explosions/explosion1/simplexplode_0040.dtx
+  kind: texture
+  resource: mm9:effect-texture/explosions/explosion1/simplexplode_0040
+  asset: engine/effects/mm9/textures/explosions/explosion1/simplexplode_0040.png
+  status: bound
+  source:
+    path: mm9/extracted/SPRITETEXTURES/SPRITETEXTURES/EXPLOSIONS/EXPLOSION1/SIMPLEXPLODE_0040.dtx
+    bytes: 21924
+    sha256: b7cc8568c355859fef001339657637dc4b3ddfae095766399a3a7c1f6f39cd3e
+  origin: hardcoded_projectile_explosion
+- legacy: spritetextures/explosions/explosion1/simplexplode_0044.dtx
+  kind: texture
+  resource: mm9:effect-texture/explosions/explosion1/simplexplode_0044
+  asset: engine/effects/mm9/textures/explosions/explosion1/simplexplode_0044.png
+  status: bound
+  source:
+    path: mm9/extracted/SPRITETEXTURES/SPRITETEXTURES/EXPLOSIONS/EXPLOSION1/SIMPLEXPLODE_0044.dtx
+    bytes: 21924
+    sha256: 8a95ed771f56eb3f270e51b9986446009fbc083e978f133cfbdd48cc921f81e4
+  origin: hardcoded_projectile_explosion
+- legacy: spritetextures/explosions/explosion1/simplexplode_0048.dtx
+  kind: texture
+  resource: mm9:effect-texture/explosions/explosion1/simplexplode_0048
+  asset: engine/effects/mm9/textures/explosions/explosion1/simplexplode_0048.png
+  status: bound
+  source:
+    path: mm9/extracted/SPRITETEXTURES/SPRITETEXTURES/EXPLOSIONS/EXPLOSION1/SIMPLEXPLODE_0048.dtx
+    bytes: 21924
+    sha256: 03ac5f064896bdad82ddd883471ebf5a8c42f6c1d8f1ee5bb3b5c741de7a2856
+  origin: hardcoded_projectile_explosion
 - legacy: spritetextures/feather1.dtx
   kind: texture
   resource: mm9:effect-texture/feather1

@@ -1,0 +1,21 @@
+{
+  "tool": "image_gen.imagegen",
+  "prompt": "EDIT ONLY IMAGE 1, the exact grey mesh-guide atlas for existing Might and Magic Fancy Hat (7item096). Image 2 is the authoritative inventory icon for colours/materials only. Identity: Soft squat tan-gold velvet cap with padded cylindrical crown, thick rounded brim and small front green oval gem. Exact material boundaries: Tan/gold velvet body and brim BLUE. Front gem BLACK and its metal setting RED. Preserve the exact 1536x1024 3:2 canvas, three columns by two rows, all object sizes, outlines, positions, shape edges and transparency. Top row FRONT / BACK / LEFT; bottom row RIGHT / TOP / EMPTY. Do not move, expand, rotate, relight or reconstruct the geometry. Paint realistic base-colour materials from the inventory icon onto only the guide surfaces. Flat even shadowless illumination, no cast shadows, AO, reflections or specular highlights; subtle fine material grain. All existing solid grey surfaces remain opaque, including interiors and lower hidden-facing surfaces. Do not cut holes or alter outlines to illustrate surface texture. Background and empty bottom-right tile truly transparent; no floor, background haze, text, labels or borders. Keep EACH guide view's width/height and all internal edges EXACTLY. Output ONE 3:2 landscape atlas.",
+  "input_guide": "/home/pjasicek/github/OpenYAMM/level_generation/props/items_wip_equipment/codex_tex/equipment_7item096/inputs/guide_paint.png",
+  "input_guide_sha256": "fec191135f03ff6c285ee1cd78deba3493c9e5259661ead63ea87bdc0bb13749",
+  "revision": 1,
+  "input_icon": "7item096",
+  "source_output": "/home/pjasicek/.codex/generated_images/01a14de2-7ad6-7e83-ba24-ee6db541bc51/exec-9259d859-8364-4fce-9f12-a6244a0ff241.png",
+  "output": "paint_atlas.png",
+  "selected": false,
+  "reason": "Not installed by equipment worker; see final per-icon ledger decision.",
+  "raw_output": "paint_raw_v1.png",
+  "output_sha256": "a64e6687c751c54f189b1f007c201ea729f00ec0afdf2c0b5f64b925325508c4",
+  "input_icon_path": "assets_dev/engine/icons_x2/7item096.png",
+  "input_icon_sha256": "bf9c8bf94f078aff86c94865558e7c94b1a416a8c858586a65100e7075ec66f6",
+  "active_bytes_match": true,
+  "alpha_extrema": [
+    0,
+    254
+  ]
+}

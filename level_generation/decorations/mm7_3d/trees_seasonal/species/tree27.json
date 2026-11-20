@@ -1,0 +1,95 @@
+{
+ "sprite": "tree27_p121",
+ "output": "mm7_deco_tree27.glb",
+ "family": "7tree25",
+ "season": "bare",
+ "note": "Winter state of the 7tree25 family (3 placements): 7tree25's own skeleton without leaves.",
+ "bare": {
+  "min_thickness": [
+   0.004,
+   0.02,
+   0.045
+  ],
+  "budget": [
+   5000,
+   1900,
+   650
+  ],
+  "triangles": [
+   7000,
+   2800,
+   1000
+  ],
+  "tip_max_thickness": 0.03,
+  "tip_card": 1.2,
+  "tip_cards": 2,
+  "card_width": 0.45,
+  "twig_width": 38,
+  "card_keep": [
+   1.0,
+   0.85,
+   0.3
+  ],
+  "card_grow": [
+   1.0,
+   1.1,
+   1.25
+  ],
+  "tip_keep": [
+   1.0,
+   0.7,
+   0.2
+  ],
+  "occlusion_floor": 0.55,
+  "tone": [
+   1.0,
+   1.0,
+   1.0
+  ],
+  "twig_tone": 1.0,
+  "twig_srgb": [
+   50,
+   21,
+   8
+  ],
+  "twig_highlight_srgb": [
+   147,
+   70,
+   38
+  ],
+  "seed": 2701,
+  "gnarl": {
+   "fork": 0.4,
+   "ramp": 1.0,
+   "thick": 2.2,
+   "amp": 0.14,
+   "wavelength": 0.9,
+   "fit": [
+    0.5,
+    1.0
+   ],
+   "seed": 77
+  },
+  "drop_below": 0.012,
+  "twig_depth": 2,
+  "twig_kink": 0.3,
+  "twig_sides": [
+   2,
+   4
+  ]
+ },
+ "impostor_dilate": 0,
+ "impostor_tone": [
+  1.0,
+  1.0,
+  1.0
+ ],
+ "bark": {
+  "target_srgb": [
+   99,
+   42,
+   19
+  ],
+  "contrast": 1.6
+ }
+}

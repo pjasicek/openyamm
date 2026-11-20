@@ -1,0 +1,560 @@
+- world: mm6
+  map: outa1.odm
+  enabled: false
+  no_terrain: false
+- world: mm6
+  map: outa2.odm
+  enabled: false
+  no_terrain: false
+- world: mm6
+  map: outa3.odm
+  enabled: false
+  no_terrain: false
+- world: mm6
+  map: outb1.odm
+  enabled: false
+  no_terrain: false
+- world: mm6
+  map: outb2.odm
+  enabled: true
+  no_terrain: false
+  scatter_ms: 8.5770239999999998
+  instances: 12534
+  instance_bytes: 802176
+  patches: 537
+  family_counts:
+    grass: 12534
+  instance_fnv1a64: f0400965e0d62b03
+  poses:
+    grass:
+      - 9790.89844
+      - 761.447388
+      - 321
+      - 0
+      - -0.319999993
+- world: mm6
+  map: outb3.odm
+  enabled: true
+  no_terrain: false
+  scatter_ms: 10.090992
+  instances: 15569
+  instance_bytes: 996416
+  patches: 727
+  family_counts:
+    grass: 15569
+  instance_fnv1a64: 4ee486a6588c6cda
+  poses:
+    grass:
+      - 4780.02393
+      - -6019.67725
+      - 233.689209
+      - 0
+      - -0.319999993
+- world: mm6
+  map: outc1.odm
+  enabled: false
+  no_terrain: false
+- world: mm6
+  map: outc2.odm
+  enabled: true
+  no_terrain: false
+  scatter_ms: 16.544141
+  instances: 20984
+  instance_bytes: 1342976
+  patches: 753
+  family_counts:
+    grass: 20984
+  instance_fnv1a64: ff294f70f0ab0912
+  poses:
+    grass:
+      - 7081.32471
+      - 3757.92334
+      - 193.610718
+      - 0
+      - -0.319999993
+- world: mm6
+  map: outc3.odm
+  enabled: true
+  no_terrain: false
+  scatter_ms: 22.317720999999999
+  instances: 6576
+  instance_bytes: 420864
+  patches: 3178
+  family_counts:
+    reed: 6576
+  reed_transition_texture: swmdrs
+  instance_fnv1a64: db3aec557ba88b5b
+  poses:
+    reed:
+      - -1883.65417
+      - -308.201691
+      - 321
+      - 0
+      - -0.319999993
+    reed_transition:
+      - -1887.50964
+      - -3128.84668
+      - 264.105957
+      - 0
+      - -0.319999993
+- world: mm6
+  map: outd1.odm
+  enabled: true
+  no_terrain: false
+  scatter_ms: 93.298743000000002
+  instances: 114802
+  instance_bytes: 7347328
+  patches: 3778
+  family_counts:
+    grass: 114802
+  instance_fnv1a64: 158b40cd4b5b6901
+  poses:
+    grass:
+      - -787.754761
+      - -1036.05566
+      - 1121
+      - 0
+      - -0.319999993
+- world: mm6
+  map: outd2.odm
+  enabled: true
+  no_terrain: false
+  scatter_ms: 49.015165000000003
+  instances: 71812
+  instance_bytes: 4595968
+  patches: 2358
+  family_counts:
+    grass: 69266
+    tropical: 2546
+  instance_fnv1a64: 984ea8b205d09fa
+  poses:
+    grass:
+      - -2315.64893
+      - 5268.28076
+      - 257
+      - 0
+      - -0.319999993
+    tropical:
+      - -2320.09741
+      - 5183.30371
+      - 257
+      - 0
+      - -0.319999993
+- world: mm6
+  map: outd3.odm
+  enabled: true
+  no_terrain: false
+  scatter_ms: 53.400148999999999
+  instances: 76154
+  instance_bytes: 4873856
+  patches: 3263
+  family_counts:
+    grass: 74721
+    reed: 1433
+  reed_transition_texture: swmdrn
+  instance_fnv1a64: b136a3f412a58810
+  poses:
+    grass:
+      - 3060.54761
+      - 4741.82666
+      - 257
+      - 0
+      - -0.319999993
+    reed:
+      - -7603.61768
+      - 813.548035
+      - 257
+      - 0
+      - -0.319999993
+    reed_transition:
+      - -7008.0498
+      - -12052.3594
+      - 212.817383
+      - 0
+      - -0.319999993
+- world: mm6
+  map: oute1.odm
+  enabled: true
+  no_terrain: false
+  scatter_ms: 24.244924999999999
+  instances: 59469
+  instance_bytes: 3806016
+  patches: 1551
+  family_counts:
+    grass: 59469
+  instance_fnv1a64: a81ef1d406b62759
+  poses:
+    grass:
+      - 61.6292114
+      - -9735.66211
+      - 289
+      - 0
+      - -0.319999993
+- world: mm6
+  map: oute2.odm
+  enabled: true
+  no_terrain: false
+  scatter_ms: 25.959215
+  instances: 60253
+  instance_bytes: 3856192
+  patches: 1699
+  family_counts:
+    grass: 60253
+  instance_fnv1a64: 863199ebace000e
+  poses:
+    grass:
+      - -275.320374
+      - -4122.38428
+      - 257
+      - 0
+      - -0.319999993
+- world: mm6
+  map: oute3.odm
+  enabled: true
+  no_terrain: false
+  scatter_ms: 54.952517
+  instances: 70266
+  instance_bytes: 4497024
+  patches: 1847
+  family_counts:
+    grass: 70266
+  instance_fnv1a64: df3a1246628b617e
+  poses:
+    grass:
+      - -1029.96021
+      - 1798.88635
+      - 320.13916
+      - 0
+      - -0.319999993
+- world: mm7
+  map: 7out01.odm
+  enabled: true
+  no_terrain: false
+  scatter_ms: 10.76488
+  instances: 20114
+  instance_bytes: 1287296
+  patches: 603
+  family_counts:
+    grass: 20066
+    reed: 48
+  reed_transition_texture: 7swdrts
+  instance_fnv1a64: 96de8eab5815b9cc
+  poses:
+    grass:
+      - 3638.78467
+      - 7749.66016
+      - 865
+      - 0
+      - -0.319999993
+    reed:
+      - 393.720093
+      - 13230.3398
+      - 161
+      - 0
+      - -0.319999993
+    reed_transition:
+      - 393.720093
+      - 13230.3398
+      - 161
+      - 0
+      - -0.319999993
+- world: mm7
+  map: 7out02.odm
+  enabled: true
+  no_terrain: false
+  scatter_ms: 98.400615000000002
+  instances: 119149
+  instance_bytes: 7625536
+  patches: 6157
+  family_counts:
+    grass: 119149
+  instance_fnv1a64: dafb3eaf8d863e91
+  poses:
+    grass:
+      - 1633.17114
+      - 1522.31726
+      - 225.855225
+      - 0
+      - -0.319999993
+- world: mm7
+  map: 7out03.odm
+  enabled: true
+  no_terrain: false
+  scatter_ms: 69.077189000000004
+  instances: 73718
+  instance_bytes: 4717952
+  patches: 6844
+  family_counts:
+    grass: 73718
+  instance_fnv1a64: e05defd99e6ce4bb
+  poses:
+    grass:
+      - -825.272095
+      - 8.70236206
+      - 705
+      - 0
+      - -0.319999993
+- world: mm7
+  map: 7out04.odm
+  enabled: true
+  no_terrain: false
+  scatter_ms: 58.526381000000001
+  instances: 63404
+  instance_bytes: 4057856
+  patches: 4972
+  family_counts:
+    grass: 63404
+  instance_fnv1a64: b705a67cdae5267a
+  poses:
+    grass:
+      - -728.738281
+      - -2050.02148
+      - 2081
+      - 0
+      - -0.319999993
+- world: mm7
+  map: 7out05.odm
+  enabled: false
+  no_terrain: false
+- world: mm7
+  map: 7out06.odm
+  enabled: false
+  no_terrain: false
+- world: mm7
+  map: 7out13.odm
+  enabled: true
+  no_terrain: false
+  scatter_ms: 9.7312189999999994
+  instances: 4382
+  instance_bytes: 280448
+  patches: 1647
+  family_counts:
+    reed: 4382
+  reed_transition_texture: 7swdrtxne
+  instance_fnv1a64: 8b0bd6ea6cb808fc
+  poses:
+    reed:
+      - -223.955933
+      - -14975.2969
+      - 161
+      - 0
+      - -0.319999993
+    reed_transition:
+      - -223.955933
+      - -14975.2969
+      - 161
+      - 0
+      - -0.319999993
+- world: mm7
+  map: 7out15.odm
+  enabled: false
+  no_terrain: false
+- world: mm7
+  map: out09.odm
+  enabled: true
+  no_terrain: false
+  scatter_ms: 35.223647999999997
+  instances: 60117
+  instance_bytes: 3847488
+  patches: 1778
+  family_counts:
+    grass: 60117
+  instance_fnv1a64: 97da2226a863bf6b
+  poses:
+    grass:
+      - 915.806885
+      - -251.068237
+      - 161
+      - 0
+      - -0.319999993
+- world: mm7
+  map: out10.odm
+  enabled: false
+  no_terrain: false
+- world: mm7
+  map: out11.odm
+  enabled: true
+  no_terrain: false
+  scatter_ms: 100.005195
+  instances: 92155
+  instance_bytes: 5897920
+  patches: 3967
+  family_counts:
+    grass: 92155
+  instance_fnv1a64: 8503f2b66280c7f0
+  poses:
+    grass:
+      - -1185.12891
+      - 106.071594
+      - 2401
+      - 0
+      - -0.319999993
+- world: mm7
+  map: out12.odm
+  enabled: false
+  no_terrain: false
+- world: mm7
+  map: out14.odm
+  enabled: true
+  no_terrain: false
+  scatter_ms: 39.022215000000003
+  instances: 65355
+  instance_bytes: 4182720
+  patches: 6004
+  family_counts:
+    grass: 65355
+  instance_fnv1a64: 49d59a56b628e94f
+  poses:
+    grass:
+      - -2307.72021
+      - -4158.58838
+      - 1697
+      - 0
+      - -0.319999993
+- world: mm8
+  map: elema.odm
+  enabled: false
+  no_terrain: false
+- world: mm8
+  map: elemf.odm
+  enabled: false
+  no_terrain: false
+- world: mm8
+  map: elemw.odm
+  enabled: false
+  no_terrain: false
+- world: mm8
+  map: out01.odm
+  enabled: true
+  no_terrain: false
+  scatter_ms: 24.656818999999999
+  instances: 16761
+  instance_bytes: 1072704
+  patches: 2063
+  family_counts:
+    tropical: 11277
+    grass: 5484
+  instance_fnv1a64: 2ffa3d15435de9e6
+  poses:
+    grass:
+      - 4763.03906
+      - -1054.44055
+      - 226.902588
+      - 0
+      - -0.319999993
+    tropical:
+      - 90.2641907
+      - -5754.28809
+      - 161
+      - 0
+      - -0.319999993
+- world: mm8
+  map: out02.odm
+  enabled: true
+  no_terrain: false
+  scatter_ms: 110.430522
+  instances: 110135
+  instance_bytes: 7048640
+  patches: 7278
+  family_counts:
+    grass: 110135
+  instance_fnv1a64: a0f07024a188d9df
+  poses:
+    grass:
+      - 7812.97559
+      - -3833.91406
+      - 321
+      - 0
+      - -0.319999993
+- world: mm8
+  map: out03.odm
+  enabled: true
+  no_terrain: false
+  scatter_ms: 127.810822
+  instances: 111007
+  instance_bytes: 7104448
+  patches: 8418
+  family_counts:
+    grass: 111007
+  instance_fnv1a64: 7318f484dd1c4932
+  poses:
+    grass:
+      - -253.322113
+      - -309.270294
+      - 609
+      - 0
+      - -0.319999993
+- world: mm8
+  map: out04.odm
+  enabled: false
+  no_terrain: false
+- world: mm8
+  map: out05.odm
+  enabled: true
+  no_terrain: false
+  scatter_ms: 53.108766000000003
+  instances: 107390
+  instance_bytes: 6872960
+  patches: 4710
+  family_counts:
+    grass: 107390
+  instance_fnv1a64: 802df0931ec1d0f7
+  poses:
+    grass:
+      - 60.9595642
+      - -534.545044
+      - 552.045898
+      - 0
+      - -0.319999993
+- world: mm8
+  map: out06.odm
+  enabled: false
+  no_terrain: false
+- world: mm8
+  map: out07.odm
+  enabled: true
+  no_terrain: false
+  scatter_ms: 220.134435
+  instances: 129329
+  instance_bytes: 8277056
+  patches: 10961
+  family_counts:
+    grass: 129329
+  instance_fnv1a64: d67558003ea6ac2c
+  poses:
+    grass:
+      - -3885.13379
+      - -3108.86084
+      - 931.303711
+      - 0
+      - -0.319999993
+- world: mm8
+  map: out08.odm
+  enabled: false
+  no_terrain: false
+- world: mm8
+  map: out13.odm
+  enabled: true
+  no_terrain: false
+  scatter_ms: 62.450578999999998
+  instances: 85540
+  instance_bytes: 5474560
+  patches: 2832
+  family_counts:
+    grass: 85540
+  instance_fnv1a64: 5bbc8714e240e327
+  poses:
+    grass:
+      - -286.246094
+      - 43.186676
+      - 545
+      - 0
+      - -0.319999993
+- world: mm8
+  map: out15.odm
+  enabled: false
+  no_terrain: false
+- world: mm8
+  map: pbp.odm
+  enabled: false
+  no_terrain: false

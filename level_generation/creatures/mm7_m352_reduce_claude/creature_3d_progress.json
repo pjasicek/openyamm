@@ -1,0 +1,55 @@
+{
+  "creature_3d_identity": "mm7:m352_reduce",
+  "meshy": {
+    "jobs": {},
+    "credit_limit": 1
+  },
+  "creature": "MM7 Peasant Human1 Male m352 reduction (descriptors 358-366)",
+  "status": "installed_2026-10-20_reduced",
+  "scope": "user 2026-10-20 \"do tris reduction on all 5\": RETOPOLOGY_PLAYBOOK no-retexture ladder, no install",
+  "source": {
+    "path": "work/mm7_m352_source_pre_reduce.glb",
+    "sha256": "3e7571acd700a3b4df0259c6f706d99b3f45d21f90d32e8b1b9197cd7f83036c",
+    "from": "../mm7_m352_claude/export/mm7_m352.glb"
+  },
+  "pick": {
+    "config": "f",
+    "step": "r87",
+    "tris": [
+      7871,
+      3934,
+      1518,
+      431
+    ],
+    "source_tris": [
+      9045,
+      4521,
+      1570,
+      484
+    ],
+    "p99_mm": 3.35,
+    "max_mm": 22.31,
+    "iou": 0.9956,
+    "ssim": 0.9974
+  },
+  "exports": {
+    "export/mm7_m352.glb": "dd1c6bc13d74053676406edf3b797089b241419259f5b2f5ff75a59cf5709dfa"
+  },
+  "meshy_credits_spent": 0,
+  "checks": {
+    "compare_glb": "identical except geometry",
+    "fingers": "1688 vertices exact",
+    "winding": "0 inverted",
+    "lods": "top 1.7005 m all LODs, Dead on floor, no stretched faces",
+    "viewer": "108 switches, no console errors"
+  },
+  "next_action": {
+    "owner": "user",
+    "action": "review in review/viewer; install later (README)"
+  },
+  "last_update_utc": "2026-10-20",
+  "installed": {
+    "source": "assets_source/worlds/mm7/models/mm7_m352.glb",
+    "binding": "assets_dev/worlds/mm7/models/actors.yml"
+  }
+}

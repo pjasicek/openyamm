@@ -1,0 +1,110 @@
+{
+  "scope": "Source and headless-prepared save camera values; headings preserved modulo2pi. Capture helper uses unique work/scenario per name. Shared-stage-race hypothesis disproved.",
+  "saves": {
+    "flat_stepping_west_x1": {
+      "level_generation/terrain/mm8/fixtures/roads_v1/stepping_walks/west.oysav": {
+        "sha256": "724a624e6680316a5fddb1b3ff2822b96606aa151f0bca85cf83e032c9e524fa",
+        "pose": "-13568 -6400 0 0 -0.4"
+      },
+      "/tmp/openyamm-levelgen-captures/mm8_flat_stepping_west_x1_walk/saves/view.oysav": {
+        "sha256": "23a6d6cd3c65ab3ac0eb21f4d0a470b64bcc0245e53d41e3e5327db6aa75db75",
+        "pose": "-13568 -6400 0 0 -0.4"
+      }
+    },
+    "flat_stepping_west_x2": {
+      "level_generation/terrain/mm8/fixtures/roads_v1/stepping_walks/west.oysav": {
+        "sha256": "724a624e6680316a5fddb1b3ff2822b96606aa151f0bca85cf83e032c9e524fa",
+        "pose": "-13568 -6400 0 0 -0.4"
+      },
+      "/tmp/openyamm-levelgen-captures/mm8_flat_stepping_west_x2_walk/saves/view.oysav": {
+        "sha256": "23a6d6cd3c65ab3ac0eb21f4d0a470b64bcc0245e53d41e3e5327db6aa75db75",
+        "pose": "-13568 -6400 0 0 -0.4"
+      }
+    },
+    "flat_stepping_east_x1": {
+      "level_generation/terrain/mm8/fixtures/roads_v1/stepping_walks/east.oysav": {
+        "sha256": "81ce6e55e2d579fb07c48104c504e01caeb04ba5b9c1948b7ab94652ad601f87",
+        "pose": "-12544 -6400 0 3.14159 -0.4"
+      },
+      "/tmp/openyamm-levelgen-captures/mm8_flat_stepping_east_x1_walk/saves/view.oysav": {
+        "sha256": "e52a8af8c0a86c7a544fa48021ed5f5abea7cfc41a1c1bfed65dffac4fdb2524",
+        "pose": "-12544 -6400 0 3.14159 -0.4"
+      }
+    },
+    "flat_stepping_east_x2": {
+      "level_generation/terrain/mm8/fixtures/roads_v1/stepping_walks/east.oysav": {
+        "sha256": "81ce6e55e2d579fb07c48104c504e01caeb04ba5b9c1948b7ab94652ad601f87",
+        "pose": "-12544 -6400 0 3.14159 -0.4"
+      },
+      "/tmp/openyamm-levelgen-captures/mm8_flat_stepping_east_x2_walk/saves/view.oysav": {
+        "sha256": "e52a8af8c0a86c7a544fa48021ed5f5abea7cfc41a1c1bfed65dffac4fdb2524",
+        "pose": "-12544 -6400 0 3.14159 -0.4"
+      }
+    },
+    "flat_stepping_south_x1": {
+      "level_generation/terrain/mm8/fixtures/roads_v1/stepping_walks/south.oysav": {
+        "sha256": "f6849e3edc82464e967aefd62899fa747d9dbcbc77c505419314e6127ae90daf",
+        "pose": "-8448 -11520 0 1.5708 -0.4"
+      },
+      "/tmp/openyamm-levelgen-captures/mm8_flat_stepping_south_x1_walk/saves/view.oysav": {
+        "sha256": "70da660fcb4d11eb083c852dc44c975318c55be24a4236b92e03911d28ee1f5c",
+        "pose": "-8448 -11520 0 1.5708 -0.4"
+      }
+    },
+    "flat_stepping_south_x2": {
+      "level_generation/terrain/mm8/fixtures/roads_v1/stepping_walks/south.oysav": {
+        "sha256": "f6849e3edc82464e967aefd62899fa747d9dbcbc77c505419314e6127ae90daf",
+        "pose": "-8448 -11520 0 1.5708 -0.4"
+      },
+      "/tmp/openyamm-levelgen-captures/mm8_flat_stepping_south_x2_walk/saves/view.oysav": {
+        "sha256": "70da660fcb4d11eb083c852dc44c975318c55be24a4236b92e03911d28ee1f5c",
+        "pose": "-8448 -11520 0 1.5708 -0.4"
+      }
+    },
+    "flat_stepping_north_x1": {
+      "level_generation/terrain/mm8/fixtures/roads_v1/stepping_walks/north.oysav": {
+        "sha256": "6e0e9ee1fc1384ef55b5d6ef54dacdb01f08201ab4b1187f3903e90860bc11ea",
+        "pose": "-8448 -10496 0 4.71239 -0.4"
+      },
+      "/tmp/openyamm-levelgen-captures/mm8_flat_stepping_north_x1_walk/saves/view.oysav": {
+        "sha256": "2c402f23240e9f45bb9e6300cacf5401d80869c45e171f1e91da0e9f472dacfd",
+        "pose": "-8448 -10496 0 -1.5708 -0.4"
+      }
+    },
+    "flat_stepping_north_x2": {
+      "level_generation/terrain/mm8/fixtures/roads_v1/stepping_walks/north.oysav": {
+        "sha256": "6e0e9ee1fc1384ef55b5d6ef54dacdb01f08201ab4b1187f3903e90860bc11ea",
+        "pose": "-8448 -10496 0 4.71239 -0.4"
+      },
+      "/tmp/openyamm-levelgen-captures/mm8_flat_stepping_north_x2_walk/saves/view.oysav": {
+        "sha256": "2c402f23240e9f45bb9e6300cacf5401d80869c45e171f1e91da0e9f472dacfd",
+        "pose": "-8448 -10496 0 -1.5708 -0.4"
+      }
+    }
+  },
+  "gui_quicksaves": {
+    "west": {
+      "path": "fixtures/roads_v1/stepping_walks/west_gui_quicksave.oysav",
+      "sha256": "c996ed63a4551a435cd7034351ac04dae699e30ecc7530727e00ac9ba9dfc54e",
+      "pose": [
+        -13568.0,
+        -6400.0,
+        1.0,
+        0.0,
+        -0.4
+      ]
+    },
+    "east": {
+      "path": "fixtures/roads_v1/stepping_walks/east_gui_quicksave.oysav",
+      "sha256": "05495f4a9cb164b4332895d9ff47237d5a19233eb39670e51963fccea61de35b",
+      "pose": [
+        -12544.0,
+        -6400.0,
+        1.0,
+        3.14159,
+        -0.4
+      ]
+    }
+  },
+  "status": "source_prepared_and_gui_opposite_headings_confirmed"
+}

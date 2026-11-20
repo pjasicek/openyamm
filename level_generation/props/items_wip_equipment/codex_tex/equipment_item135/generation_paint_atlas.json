@@ -1,0 +1,21 @@
+{
+  "tool": "image_gen.imagegen",
+  "prompt": "EDIT ONLY IMAGE 1, the exact grey mesh-guide atlas for existing Might and Magic Alvarian Boots (item135). Image 2 is the authoritative inventory icon for colours/materials only. Identity: Pair of tall black boots, ribbed shins, ornate projecting gold diamond lattice cuffs and gold ankle tabs. Exact material boundaries: Black leather shafts and toes GREEN; gold star cuff frames, ankle hardware and metal trim RED. Open spaces inside star frames stay leather GREEN. Preserve the exact 1536x1024 3:2 canvas, three columns by two rows, all object sizes, outlines, positions, shape edges and transparency. Top row FRONT / BACK / LEFT; bottom row RIGHT / TOP / EMPTY. Do not move, expand, rotate, relight or reconstruct the geometry. Paint realistic base-colour materials from the inventory icon onto only the guide surfaces. Flat even shadowless illumination, no cast shadows, AO, reflections or specular highlights; subtle fine material grain. All existing solid grey surfaces remain opaque, including interiors and lower hidden-facing surfaces. Do not cut holes or alter outlines to illustrate surface texture. Background and empty bottom-right tile truly transparent; no floor, background haze, text, labels or borders. Keep EACH guide view's width/height and all internal edges EXACTLY. Output ONE 3:2 landscape atlas.",
+  "input_guide": "/home/pjasicek/github/OpenYAMM/level_generation/props/items_wip_equipment/codex_tex/equipment_item135/inputs/guide_paint.png",
+  "input_guide_sha256": "5452c8c4cb03ae3a7cf838bee3e9562264329fe3d052b0ee8e4a28bc1ad13bf8",
+  "revision": 1,
+  "input_icon": "item135",
+  "source_output": "/home/pjasicek/.codex/generated_images/01a14de2-7ad6-7e83-ba24-ee6db541bc51/exec-93564a08-efab-4530-bc7a-98c2f4151990.png",
+  "output": "paint_atlas.png",
+  "selected": true,
+  "reason": "Selected raw artwork used by installed, reviewed export.",
+  "raw_output": "paint_raw_v1.png",
+  "output_sha256": "3236a94ac1e3faa778baa4ce9074281578ae953fa4f923f2c7728264624dda52",
+  "input_icon_path": "assets_dev/engine/icons_x2/item135.png",
+  "input_icon_sha256": "4225364ccbb34e55dfea50667abd4eb124fce7d4198eeaedbe540e1a1947f912",
+  "active_bytes_match": true,
+  "alpha_extrema": [
+    0,
+    254
+  ]
+}

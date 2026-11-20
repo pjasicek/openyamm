@@ -1,0 +1,143 @@
+THJORGARD: terrain models ['Terrain0']
+  LT x -10984..8085, z -9989..10011, y -7..3195; native span 48816 x 51200, height 8197
+  offset: [-3710, 27, 0]
+  movable models:
+    mine cart door left: {group: <pair>, motion: rotate, doorway: true, portal: ?}
+    mine cart door right: {group: <pair>, motion: rotate, doorway: true, portal: ?}
+    cottage door: {group: cottage door, motion: rotate}
+    Switch: {group: Switch, motion: dat}
+    Switch0: static   # Switch
+    Strikeplate1: {group: Strikeplate1, motion: dat}
+    Riser1: {group: Riser1, motion: dat}
+THRONHEIM: terrain models ['Terrain0']
+  LT x -23128..-3128, z -9999..10011, y -8..2824; native span 51200 x 51226, height 7251
+  offset: [-33607, 15, 0]
+  movable models:
+DRANGHEIM: terrain models ['Terrain0']
+  LT x -10992..9016, z -9989..10011, y -576..2515; native span 51221 x 51200, height 7913
+  offset: [-2529, 27, 0]
+  movable models:
+    cottage door: {group: cottage door, motion: rotate}
+    Door0: {group: Door0, motion: dat}
+    RotatingDoor0: {group: RotatingDoor0, motion: rotate}
+GUBERLAND: terrain models ['Terrain0', 'Terrain1']
+  LT x -13987..5082, z -9840..10011, y -319..3382; native span 48816 x 50819, height 9476
+  offset: [-11399, 219, 0]
+  movable models:
+    Switch: {group: Switch, motion: dat}
+    Strikeplate1: {group: Strikeplate1, motion: dat}
+    Riser1: {group: Riser1, motion: dat}
+    Switch0: static   # Switch
+FROSGARD: terrain models ['Terrain0']
+  LT x -7040..12960, z -11872..10010, y -64..2090; native span 51200 x 56018, height 5515
+  offset: [7579, -2383, 0]
+  movable models:
+LINDISFARNE: terrain models ['Terrain0']
+  LT x -13385..6308, z -9991..10009, y -384..2906; native span 50412 x 51201, height 8423
+  offset: [-9059, 23, 0]
+  movable models:
+    BlacksmithDoor1: {group: <pair>, motion: rotate, doorway: true, portal: BlacksmithPortal1}
+    BlacksmithDoor2: {group: <pair>, motion: rotate, doorway: true, portal: BlacksmithPortal2}
+    RotatingDoor0: {group: <pair>, motion: rotate, doorway: true, portal: PoorHouse1Portal1}
+    RotatingDoor1: {group: <pair>, motion: rotate, doorway: true, portal: Poorhouse2Portal1}
+    RotatingDoor2: {group: <pair>, motion: rotate, doorway: true, portal: Poorhouse3Portal1}
+    RotatingDoor3: {group: <pair>, motion: rotate, doorway: true, portal: Poorhouse4Portal1}
+    InnDoor1: {group: InnDoor1, motion: rotate}
+    RotatingDoor8: {group: RotatingDoor8, motion: rotate}
+    RotatingDoor9: {group: RotatingDoor9, motion: rotate}
+    TempleDoubleDoor2: {group: <pair>, motion: rotate, doorway: true, portal: ?}
+    TempleDoubleDoor1: {group: <pair>, motion: rotate, doorway: true, portal: ?}
+    OutfitterDoor1: {group: <pair>, motion: rotate, doorway: true, portal: OutfitterPortal1}
+    OutfitterDoor2: {group: <pair>, motion: rotate, doorway: true, portal: OutfitterPortal1}
+YORWICK: terrain models ['Terrain0']
+  LT x -10984..9016, z -9989..10015, y -0..2173; native span 51200 x 51212, height 5562
+  offset: [-2518, 33, 0]
+  movable models:
+    CTgate: {group: CTgate, motion: rotate}
+    RotatingDoor0: {group: RotatingDoor0, motion: rotate}
+    RotatingDoor1: {group: RotatingDoor1, motion: rotate}
+    RotatingDoor2: {group: RotatingDoor2, motion: rotate}
+    RotatingDoor3: {group: RotatingDoor3, motion: rotate}
+    StoreFrontDoor: {group: StoreFrontDoor, motion: rotate}
+    OutfitterDoor1: {group: <pair>, motion: rotate, doorway: true, portal: ?}
+    OutfitterDoor2: {group: <pair>, motion: rotate, doorway: true, portal: ?}
+MOUNTAINPASS: terrain models []
+  no terrain vertices read: check the world model's vertex attribute name
+  movable models:
+BOOTCAMP: terrain models ['Terrain0']
+  LT x 5018..15018, z -4000..5388, y 24..1974; native span 25600 x 24035, height 4992
+  offset: [25646, 1777, 0]
+  movable models:
+    MonsterDoor1: {group: <pair>, motion: rotate, doorway: true, portal: ?}
+    MonsterDoor2: {group: <pair>, motion: rotate, doorway: true, portal: ?}
+    barflap1: {group: <pair>, motion: rotate, doorway: true, portal: ?}
+    barflap2: {group: <pair>, motion: rotate, doorway: true, portal: ?}
+    RotatingDoor0: {group: <pair>, motion: rotate, doorway: true, portal: TavernDoorPortal}
+    RotatingDoor1: {group: <pair>, motion: rotate, doorway: true, portal: TavernDoorPortal}
+    NewHouseDoor1: {group: <pair>, motion: rotate, doorway: true, portal: NewHousePortal}
+    NewHouseDoor0: {group: <pair>, motion: rotate, doorway: true, portal: NewHousePortal}
+    TrainingDoor1: {group: <pair>, motion: rotate, doorway: true, portal: TrainingPortal}
+    TrainingDoor0: {group: <pair>, motion: rotate, doorway: true, portal: TrainingPortal}
+    RotatingDoor2: {group: RotatingDoor2, motion: rotate}
+    SwitchLever0: static   # Switch
+    Portcullislever: static   # Switch
+    Switch0: {group: Switch0, motion: dat}
+    Switch1: {group: Switch1, motion: dat}
+    Door0: {group: Door0, motion: dat}
+    Door1: {group: Door1, motion: dat}
+    Door2: {group: Door2, motion: dat}
+    Door3: {group: Door3, motion: dat}
+    MuseumDoor2: {group: <pair>, motion: rotate, doorway: true, portal: MuseumPortal2}
+    MuseumDoor3: {group: <pair>, motion: rotate, doorway: true, portal: MuseumPortal2}
+    MuseumDoor0: {group: <pair>, motion: rotate, doorway: true, portal: MuseumPortal1}
+    MuseumDoor1: {group: <pair>, motion: rotate, doorway: true, portal: MuseumPortal1}
+    StoreDoorLeft: {group: <pair>, motion: rotate, doorway: true, portal: GeneralStorePortal}
+    StoreDoorRight: {group: <pair>, motion: rotate, doorway: true, portal: GeneralStorePortal}
+AFTERWORLD: terrain models ['Terrain0']
+  LT x -1921..9016, z 943..10011, y 186..1691; native span 28000 x 23213, height 3852
+  offset: [9082, 14021, 0]
+  movable models:
+WIZARDSLAB: terrain models []
+  no terrain vertices read: check the world model's vertex attribute name
+  movable models:
+    Cell21: {group: Cell21, motion: dat}
+    Cell20: {group: Cell20, motion: dat}
+    Cell19: {group: Cell19, motion: dat}
+    Cell18: {group: Cell18, motion: dat}
+    Cell17: {group: Cell17, motion: dat}
+    Cell16: {group: Cell16, motion: dat}
+    Cell15: {group: Cell15, motion: dat}
+    Cell28: {group: Cell28, motion: dat}
+    Cell27: {group: Cell27, motion: dat}
+    Cell26: {group: Cell26, motion: dat}
+    Cell25: {group: Cell25, motion: dat}
+    Cell24: {group: Cell24, motion: dat}
+    Cell23: {group: Cell23, motion: dat}
+    Cell22: {group: Cell22, motion: dat}
+    Switch20: {group: Switch20, motion: rotate}
+    Switch19: {group: Switch19, motion: rotate}
+    Switch21: {group: Switch21, motion: rotate}
+    Switch16: {group: Switch16, motion: rotate}
+    Switch18: {group: Switch18, motion: rotate}
+    Switch15: {group: Switch15, motion: rotate}
+    Switch17: {group: Switch17, motion: rotate}
+    Switch27: {group: Switch27, motion: rotate}
+    Switch26: {group: Switch26, motion: rotate}
+    Switch28: {group: Switch28, motion: rotate}
+    Switch23: {group: Switch23, motion: rotate}
+    Switch25: {group: Switch25, motion: rotate}
+    Switch22: {group: Switch22, motion: rotate}
+    Switch24: {group: Switch24, motion: rotate}
+    super eye door: {group: super eye door, motion: dat}
+    DresserDoorR1: {group: <pair>, motion: rotate, doorway: true, portal: ?}
+    DresserDoorL1: {group: <pair>, motion: rotate, doorway: true, portal: ?}
+    Drawer2: {group: Drawer2, motion: dat}
+    Drawer1: {group: Drawer1, motion: dat}
+    Closet2Door1: {group: <pair>, motion: rotate, doorway: true, portal: ?}
+    Closet2Door2: {group: <pair>, motion: rotate, doorway: true, portal: ?}
+    Closet1Door1: {group: <pair>, motion: rotate, doorway: true, portal: ?}
+    Closet1Door2: {group: <pair>, motion: rotate, doorway: true, portal: ?}
+    DresserDoorR2: {group: <pair>, motion: rotate, doorway: true, portal: ?}
+    DresserDoorL2: {group: <pair>, motion: rotate, doorway: true, portal: ?}
+    Drawer3: {group: Drawer3, motion: dat}
+    Drawer4: {group: Drawer4, motion: dat}

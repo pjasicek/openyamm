@@ -32,7 +32,7 @@ DEFAULT_MANIFEST = Path(__file__).resolve().with_name("mm9_equipment_generated_a
 DEFAULT_STAGING_ROOT = Path(__file__).resolve().with_name("armor_pose_pair_staging")
 DEFAULT_GENERATED_ROOT = Path(__file__).resolve().with_name("generated_equipment_art")
 DEFAULT_WORLD_ICON_ROOT = REPOSITORY_ROOT / "assets_dev/worlds/mm9/icons"
-DEFAULT_GOAL = REPOSITORY_ROOT / "MM9_ARMOR_POSE_PAIR_CONSISTENCY_GOAL.md"
+DEFAULT_GOAL = REPOSITORY_ROOT / "devdocs/mm9/MM9_ARMOR_POSE_PAIR_CONSISTENCY_GOAL.md"
 PAIR_SUFFIXES = tuple((f"v{index}", f"v{index}a") for index in range(1, 6))
 REQUIRED_IN_GAME_REVIEWS = {
     "dark_plate_weapon": (10115, "weapon"),

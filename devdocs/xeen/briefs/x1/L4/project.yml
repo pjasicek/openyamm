@@ -1,0 +1,104 @@
+format: 0
+id: xeen_x1
+name: Vertigo Meadows
+world: mm7
+kind: outdoor
+profile: odm
+map_code: X1
+units: {plan_grid: 512}
+extent: {terrain_cells: 128}
+map_stats:
+  id: 9130
+  encounter_chance: 10
+  treasure_level: 1
+  trap_dice: 1
+  perception_difficulty: 1
+  refill_days: 672
+  music: 19
+  environment: plains
+  lock_difficulty: 0
+  slots:
+    - {monster: Goblin, tier: 1, per_marker: [2, 4], weight: 50}
+    - {monster: Dragonfly, tier: 1, per_marker: [2, 4], weight: 25}
+    - {monster: Skeleton Warrior, tier: 1, per_marker: [2, 5], weight: 25}
+neighbours:
+  - id: door:xd01
+    to: xeen_xd01.blv
+    kind: door
+    arrival_hint: On Joe's loading dock inside the warehouse doors.
+    notes: XD-01 Joe's Warehouse (built). Its own exits still lead to Emerald Island (XD-01's project).
+  - id: door:xd01_culvert
+    to: xeen_xd01.blv
+    kind: door
+    arrival_hint: "On the sill behind the culvert grate, under Joe's cellar."
+    condition: {qbit: culvert_grate_open}
+  - id: door:xd02
+    to: xeen_xd02.blv
+    kind: door
+    arrival_hint: "Just inside the timbered portal, facing into the mine."
+  - id: door:xd03
+    to: xeen_xd03.blv
+    kind: door
+    arrival_hint: "At the head of the Clan King's escape shaft, over the cage."
+    condition: {qbit: escape_shaft_open}
+  - id: door:xd04
+    to: xeen_xd04.blv
+    kind: door
+    arrival_hint: "Inside the tower door, in the gate hall."
+    condition: {item: crystal_key}
+  - id: door:xd05
+    to: xeen_xd05.blv
+    kind: door
+    arrival_hint: "Inside the skull-hung mouth, facing in."
+  - id: edge:north
+    to: 7out04.odm
+    kind: edge
+    side: north
+    days: 5
+    arrival_side: south
+    approach: The north road over the hills to the north edge at x 69.
+    screened: true
+    notes: "X7 (Mount Firestone) in the design. Stand-in until X7 exists: the Tularean Forest (MM7)."
+  - id: edge:west
+    to: xeen_x2.odm
+    kind: edge
+    side: west
+    days: 3
+    arrival_side: east
+    approach: "The west road along the creek to the west edge, at y 46."
+    screened: true
+    notes: "X2 Rivercity and Lake Darzog, the hub (the river road): arrives at X2's east start."
+  - id: pyramid:castleview
+    to: xeen_d1.odm
+    kind: pyramid
+    listed_only: true
+    condition: {qbit: m7_sigil}
+    notes: "D1 Castleview in the design (M7, Act II). Not built: the pyramid says so."
+  - id: stable:rivercity
+    to: 7out03.odm
+    kind: stable
+    days: 2
+    schedule: {weekdays: [monday, thursday]}
+    service: Vertigo Stables
+    notes: "Rivercity (X2) in the design; the stable opens The J.V.C Corral (MM7) as its stand-in, whose own routes it keeps."
+qbits:
+  captive_freed: 110052
+  clan_king_slain: 110030
+  culvert_grate_open: 110012
+  escape_shaft_open: 110031
+  gunther_errand: 110103
+  joe_invoice_found: 110010
+  m4_crusaders: 110047
+  m7_sigil: 110100
+  tam_reward: 110102
+  war_drums_burned: 110050
+  yak_stone: 110101
+items:
+  crystal_key: 2110
+  warehouse_key: 2176
+rules:
+  weather: world default
+  home_town: Vertigo
+  respawn: entrance:party_start
+  town_portal_anchor: entrance:party_start
+notes: "X1 Vertigo Meadows, Xeen's starting outdoor map, a new map with no original (devdocs/xeen/MAPS.md). Built and played as an MM7 map (world: mm7) until worlds/xeen exists, as XD-01 to XD-05 are. Stand-ins: slot 1 Orcs is MM7's Goblin family (Goblin 4), slot 2 Giant toads and snakes is the Dragonfly family (MM7 has no toad or snake), slot 3 Skeletons and zombies the Skeleton Warrior family; houses open MM7 house rows under Vertigo's names; the Crystal Key is the plain Key 2110 (as XD-04 says). Written by output/studio_cal/x1/tools/gen.py."

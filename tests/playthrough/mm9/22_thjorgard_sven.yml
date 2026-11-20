@@ -1,0 +1,42 @@
+# MM9 playthrough, segment 22: Thjorgard's tasks (guide: Chapter I, "Thjorgard: Jarl Sven Forkbeard"). The Flying
+# Bird from Guberland to Thjorgard (four days; outdoors the party is moved), the city gate, and Jarl Sven in his castle
+# at the north end: Thjorad back from Lindisfarne Monastery (key 2) and the Thjorad Mine's stopped production (key 3).
+# Research: prep/20_34_thjorgard_guberland.md.
+#   python3 tests/playthrough/mm9/run.py 22
+id: mm9.playthrough.22_thjorgard_sven
+title: "MM9 playthrough 22: to Thjorgard; Sven's two tasks"
+world: mm9
+mode: faithful
+tags: [mm9, playthrough]
+steps:
+  - load_game: {path: output/playthrough/mm9/checkpoints/21_ivan_trivia.oysav}
+  - setup_shortcut: {kind: immortal}
+  - assert: {map: guberland.blv, qbit_set: [90057, 90058, 90060], qbit_clear: [90002, 90003, 90030]}
+
+  # The Flying Bird to Thjorgard; the city's west gate (ExitTrigger2).
+  - travel: {map: thjorgard.blv, days: 4}
+  - set_pose: {map: thjorgard.blv, x: -9300, y: 4392, z: 1951, yaw: 0, pitch: 0}
+  - advance_runtime: {seconds: 0.5}
+  - walk_to: {x: -8790, y: 4392, z: 1951, z_tolerance: 600, plan: false, timeout_seconds: 20, expect: dialog, clear_hostiles: 2000}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.0, follow_map_move: true}
+  - assert: {map: thjorgardcity.blv}
+
+  # Sven Forkbeard in the castle.
+  - set_pose: {map: thjorgardcity.blv, x: 82, y: 20480, z: 3608, yaw: 1.5708, pitch: 0}
+  - advance_runtime: {seconds: 0.5}
+  - interact_actor: {actor_index: 50}
+  - select_topic: {match_label: "We've come to speak to you about Tamur Leng."}
+  - select_topic: {match_label: "He is a Beldonian Warlord on his way to conquer the Chedian."}
+  - select_topic: {match_label: "We are trying to unite the six Clans of the Chedian."}
+  - select_topic: {match_label: "Yes.  We need to unite ALL the Clans."}
+  - select_topic: {match_label: "What is the first thing you need done?"}
+  - select_topic: {match_label: "You want us to retrieve it?"}
+  - select_topic: {match_label: "We will retrieve it."}
+  - select_topic: {match_label: "What is the second thing you need done?"}
+  - select_topic: {match_label: "We will do this for you."}
+  - select_topic: {match_label: "Thanks for your time."}
+  - advance_runtime: {seconds: 0.5}
+  - assert: {qbit_set: [90002, 90003, 90030], qbit_clear: [90031, 90032]}
+  - play_lua: {source: 'log("Sven: Thjorad from Lindisfarne Monastery, and why the Thjorad Mine has stopped")'}
+  - save_game: {name: "22 Sven's tasks", path: output/playthrough/mm9/checkpoints/22_thjorgard_sven.oysav}

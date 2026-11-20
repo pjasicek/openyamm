@@ -1,0 +1,30 @@
+{
+  "label": "Genie A",
+  "creature": "genie",
+  "base_palette": 239,
+  "connected_pose_calibration": true,
+  "per_batch_window": true,
+  "neutralize_green_contours": false,
+  "core_magenta_tolerance": 8,
+  "protect_warm_contours": true,
+  "batch_mode": "per_action_view",
+  "actions": [
+    "w",
+    "a",
+    "n"
+  ],
+  "identity_frames": [
+    "m238wa0",
+    "m238wa1",
+    "m238wa2",
+    "m238wa3",
+    "m238wa4"
+  ],
+  "identity_view": "front, front-right oblique, right profile, rear-right oblique, back in row-major order",
+  "description": "The exact original adult female blue genie: slim upright humanoid upper body with smooth medium cobalt-blue skin, pale cool blue highlights and deep navy shadows, narrow angular face, small pale eyes, straight nose and stern closed mouth. Dark cobalt hair swept tightly into a high upright curved ponytail, divided by thin gold rings down its back-hanging length, with a small gold tip. Thin gold circlet with a small central orange-gold forehead jewel and small pointed gold side ornaments. Small gold earrings. Rich emerald-green high collar, short fitted sleeveless bust garment with thin bright gold lower edging, and matching wide green wrist cuffs. Bare blue arms, shoulders, midriff and back match native coverage. In idle poses the arms are crossed firmly at chest height. Below the waist there are no legs: the body blends into one long tapering blue-white swirling mist vortex, with sparse delicate cyan speckles at its ragged outer boundary, ending at a narrow pointed tip. Preserve the exact native swirl shape and very fine soft edges; do not make a solid skirt, snake tail, water splash, broad aura or extra particles. In casting poses copy only the precise native white-gold star sparks and their positions around the hands. In disappearance poses copy the native pale blue-white smoke puffs and tiny final gold oil lamp with blue lid. Preserve slender proportions, small head, native blue skin, green cloth, gold trim and dark tonal weight. Only green garment, collar and wrist cuffs change palette. No weapons, extra jewelry, added clothing, enlarged bust, glow halo or environment.",
+  "fixed_grid_batches": [
+    "death_corpse"
+  ],
+  "material_edge_hue_repair": true,
+  "exclude_magenta_interior": true
+}

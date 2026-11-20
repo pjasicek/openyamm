@@ -1,0 +1,3 @@
+Saved [00_three_quarter.png](/home/pjasicek/github/OpenYAMM/level_generation/creatures/mm7_m178_claude/references_hd/00_three_quarter.png) using built-in image generation: 1024 × 1536 RGBA, unresized.
+
+Both raw returns, exact prompts, input hashes and selection notes are preserved in [generation_runs.json](/home/pjasicek/github/OpenYAMM/level_generation/creatures/mm7_m178_claude/references_hd/generation_runs.json). Remaining proportion and clearance faults are documented there.

@@ -1,0 +1,118 @@
+{
+  "method": "magenta matte; nearest opaque foreground color estimate; edge unmix; premultiplied resize",
+  "background": [
+    255,
+    0,
+    255
+  ],
+  "families": {
+    "marsh_reed": {
+      "raw_sha256": "c43b323daab4a577154d817f9ac1265e82e8db3dd1757482ae37b30e0f83f23c",
+      "raw_size": [
+        1774,
+        887
+      ],
+      "source_bounds": [
+        [
+          148,
+          48,
+          639,
+          828
+        ],
+        [
+          957,
+          219,
+          1697,
+          825
+        ]
+      ],
+      "common_resize_scale": 0.24102564102564103,
+      "runtime_cells": [
+        {
+          "path": "art/processed/marsh_reed_0.png",
+          "sha256": "f9e74030a810cc50a5bf043f96797f3a0af875d29e08bea32c3554bf82488a14",
+          "opaque_pixels": 7703,
+          "magenta_spill_pixels": 0
+        },
+        {
+          "path": "art/processed/marsh_reed_1.png",
+          "sha256": "24a01ccf6ca1026106a30741a643d7acd4a8b7b93b6fd2504218dc90d9125d5a",
+          "opaque_pixels": 6713,
+          "magenta_spill_pixels": 0
+        }
+      ]
+    },
+    "tropical_low": {
+      "raw_sha256": "f830349dbefca6ed0990ad750824999a8d49647e29c4e59e627e529e225f77ba",
+      "raw_size": [
+        1774,
+        887
+      ],
+      "source_bounds": [
+        [
+          49,
+          138,
+          928,
+          770
+        ],
+        [
+          1005,
+          221,
+          1730,
+          765
+        ]
+      ],
+      "common_resize_scale": 0.28668941979522183,
+      "runtime_cells": [
+        {
+          "path": "art/processed/tropical_low_0.png",
+          "sha256": "326554f865f1fe99af7e20867283035bb77d7e24486c8be9d55b4f32784bc627",
+          "opaque_pixels": 17055,
+          "magenta_spill_pixels": 0
+        },
+        {
+          "path": "art/processed/tropical_low_1.png",
+          "sha256": "e4cfb33fddf61d625a5c241355757b454764ee56ac966e04563fdabb995c9d33",
+          "opaque_pixels": 12175,
+          "magenta_spill_pixels": 0
+        }
+      ]
+    },
+    "dead_tuft": {
+      "raw_sha256": "8373eefa63ed24a97fccfa8ec12102edc843a75cd6281f078210bc86e5a10984",
+      "raw_size": [
+        1774,
+        887
+      ],
+      "source_bounds": [
+        [
+          94,
+          206,
+          816,
+          767
+        ],
+        [
+          1019,
+          180,
+          1696,
+          756
+        ]
+      ],
+      "common_resize_scale": 0.3263888888888889,
+      "runtime_cells": [
+        {
+          "path": "art/processed/dead_tuft_0.png",
+          "sha256": "b93ba8a2dd8f05d770d8329276b90cac13a658c4fa0d294976b3863f6f51d269",
+          "opaque_pixels": 15475,
+          "magenta_spill_pixels": 0
+        },
+        {
+          "path": "art/processed/dead_tuft_1.png",
+          "sha256": "41aeb00387890e9e0f7de770cf30d6cc84cd246bc8e17b54f20b49abccc38404",
+          "opaque_pixels": 9850,
+          "magenta_spill_pixels": 0
+        }
+      ]
+    }
+  }
+}

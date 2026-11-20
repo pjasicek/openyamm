@@ -1,0 +1,722 @@
+# Written by make_scenarios.py from the built map; rerun it after convert.py.
+id: mm9r.dungeonofsecrets_trial
+title: 'Dungeon of Secrets: Chadwick''s trial run clean through all nine sections by real clicks'
+world: mm9
+mode: faithful
+tags:
+- mm9
+- mm9_rework
+- draft
+steps:
+- load_map:
+    map: dungeonofsecrets.blv
+- advance_runtime:
+    seconds: 1.0
+- assert:
+    state_dump_named_map_var:
+      name: Loaded
+      value: 1
+- note:
+    text: 'RUDE 417 node 3 (''Yes''): the trial starts (key 243); the entrance button (from the east, MM9''s push side) opens
+      the gate, clears the trap mark and unlocks axe door 10; the party standing at it is in ''knockback off'', which turns
+      every knockback off.'
+- console:
+    line: qbit set 90243
+- set_pose:
+    map: dungeonofsecrets.blv
+    x: 4442
+    y: -471
+    z: -40
+    yaw: 3.1416
+    pitch: -0.1953
+- advance_runtime:
+    seconds: 0.2
+- press_interact: {}
+- advance_runtime:
+    seconds: 0.3
+- advance_runtime:
+    seconds: 1.5
+- assert:
+    state_dump_named_map_var:
+      name: Lentrance_button
+      value: 1
+- assert:
+    state_dump_named_map_var:
+      name: Firedknockback_off
+      value: 1
+- assert:
+    state_dump_named_map_var:
+      name: Firedknockback_off1
+      value: 1
+- advance_runtime:
+    seconds: 4.0
+- assert:
+    mechanism:
+      id: 31
+      state: open
+- note:
+    text: 'Section 10: a click throws timer lever 10 (its axe trap locked while the lever creeps back); the party runs to
+      axe door 10 (0.6 s) and opens it with a click in time.'
+- set_pose:
+    map: dungeonofsecrets.blv
+    x: 4129
+    y: -363
+    z: -40
+    yaw: 1.5708
+    pitch: -0.0813
+- advance_runtime:
+    seconds: 0.2
+- press_interact: {}
+- advance_runtime:
+    seconds: 0.3
+- assert:
+    state_dump_named_map_var:
+      name: Usedtimer_lever_10
+      value: 1
+- advance_runtime:
+    seconds: 1.0
+- assert:
+    state_dump_named_map_var:
+      name: Laxe_trap_10
+      value: 1
+- advance_runtime:
+    seconds: 0.1
+- set_pose:
+    map: dungeonofsecrets.blv
+    x: 4104
+    y: -410
+    z: -40
+    yaw: 3.1416
+    pitch: -0.3255
+- advance_runtime:
+    seconds: 0.2
+- press_interact: {}
+- advance_runtime:
+    seconds: 0.3
+- advance_runtime:
+    seconds: 1.0
+- assert:
+    state_dump_named_map_var:
+      name: Saxe_door_10
+      value: 2
+- assert:
+    state_dump_named_map_var:
+      name: Saxe_trap_10
+      value: 0
+- assert:
+    state_dump_named_map_var:
+      name: Traps
+      value: 0
+- assert:
+    mechanism:
+      id: 17
+      state: open
+- set_pose:
+    map: dungeonofsecrets.blv
+    x: 3789
+    y: -410
+    z: -40
+    yaw: 0.0
+    pitch: 0.0
+- note:
+    text: 'Section 09: a click throws timer lever 09 (its axe trap locked while the lever creeps back); the party runs to
+      axe door 09 (1.0 s) and opens it with a click in time.'
+- set_pose:
+    map: dungeonofsecrets.blv
+    x: 3569
+    y: -668
+    z: -40
+    yaw: 0.0
+    pitch: -0.0813
+- advance_runtime:
+    seconds: 0.2
+- press_interact: {}
+- advance_runtime:
+    seconds: 0.3
+- assert:
+    state_dump_named_map_var:
+      name: Usedtimer_lever_09
+      value: 1
+- advance_runtime:
+    seconds: 1.0
+- assert:
+    state_dump_named_map_var:
+      name: Laxe_trap_09
+      value: 1
+- advance_runtime:
+    seconds: 0.1
+- set_pose:
+    map: dungeonofsecrets.blv
+    x: 3305
+    y: -983
+    z: -40
+    yaw: 3.1416
+    pitch: -0.3255
+- advance_runtime:
+    seconds: 0.2
+- press_interact: {}
+- advance_runtime:
+    seconds: 0.3
+- advance_runtime:
+    seconds: 1.0
+- assert:
+    state_dump_named_map_var:
+      name: Saxe_door_09
+      value: 2
+- assert:
+    state_dump_named_map_var:
+      name: Saxe_trap_09
+      value: 0
+- assert:
+    state_dump_named_map_var:
+      name: Traps
+      value: 0
+- assert:
+    mechanism:
+      id: 16
+      state: open
+- set_pose:
+    map: dungeonofsecrets.blv
+    x: 2944
+    y: -845
+    z: -40
+    yaw: 0.0
+    pitch: 0.0
+- note:
+    text: 'Section 08: a click throws timer lever 08 (its axe trap locked while the lever creeps back); the party runs to
+      axe door 08 (3.0 s) and opens it with a click in time.'
+- set_pose:
+    map: dungeonofsecrets.blv
+    x: 2913
+    y: -402
+    z: -40
+    yaw: 0.0
+    pitch: -0.0813
+- advance_runtime:
+    seconds: 0.2
+- press_interact: {}
+- advance_runtime:
+    seconds: 0.3
+- assert:
+    state_dump_named_map_var:
+      name: Usedtimer_lever_08
+      value: 1
+- advance_runtime:
+    seconds: 1.0
+- assert:
+    state_dump_named_map_var:
+      name: Laxe_trap_08
+      value: 1
+- advance_runtime:
+    seconds: 2.0
+- set_pose:
+    map: dungeonofsecrets.blv
+    x: 1536
+    y: -376
+    z: -40
+    yaw: 1.5708
+    pitch: -0.3255
+- advance_runtime:
+    seconds: 0.2
+- press_interact: {}
+- advance_runtime:
+    seconds: 0.3
+- advance_runtime:
+    seconds: 1.0
+- assert:
+    state_dump_named_map_var:
+      name: Saxe_door_08
+      value: 2
+- assert:
+    state_dump_named_map_var:
+      name: Saxe_trap_08
+      value: 0
+- assert:
+    state_dump_named_map_var:
+      name: Traps
+      value: 0
+- assert:
+    mechanism:
+      id: 15
+      state: open
+- set_pose:
+    map: dungeonofsecrets.blv
+    x: 1536
+    y: 154
+    z: -40
+    yaw: 0.0
+    pitch: 0.0
+- note:
+    text: 'Section 01: a click throws timer lever 01 (its axe trap locked while the lever creeps back); the party runs to
+      axe door 01 (4.0 s) and opens it with a click in time.'
+- set_pose:
+    map: dungeonofsecrets.blv
+    x: -2022
+    y: 2158
+    z: 1
+    yaw: 0.0
+    pitch: 0.1043
+- advance_runtime:
+    seconds: 0.2
+- press_interact: {}
+- advance_runtime:
+    seconds: 0.3
+- assert:
+    state_dump_named_map_var:
+      name: Usedtimer_lever_01
+      value: 1
+- advance_runtime:
+    seconds: 1.0
+- assert:
+    state_dump_named_map_var:
+      name: Laxe_trap_01
+      value: 1
+- advance_runtime:
+    seconds: 3.0
+- set_pose:
+    map: dungeonofsecrets.blv
+    x: -2376
+    y: 4416
+    z: 1
+    yaw: 1.5708
+    pitch: -0.3255
+- advance_runtime:
+    seconds: 0.2
+- press_interact: {}
+- advance_runtime:
+    seconds: 0.3
+- advance_runtime:
+    seconds: 1.0
+- assert:
+    state_dump_named_map_var:
+      name: Saxe_door_01
+      value: 2
+- assert:
+    state_dump_named_map_var:
+      name: Saxe_trap_01
+      value: 0
+- assert:
+    state_dump_named_map_var:
+      name: Traps
+      value: 0
+- assert:
+    mechanism:
+      id: 9
+      state: open
+- set_pose:
+    map: dungeonofsecrets.blv
+    x: -2376
+    y: 4762
+    z: 1
+    yaw: 0.0
+    pitch: 0.0
+- note:
+    text: 'Section 02: a click throws timer lever 02 (its axe trap locked while the lever creeps back); the party runs to
+      axe door 02 (5.0 s) and opens it with a click in time.'
+- set_pose:
+    map: dungeonofsecrets.blv
+    x: -404
+    y: 4800
+    z: 1
+    yaw: 0.0
+    pitch: -0.426
+- advance_runtime:
+    seconds: 0.2
+- press_interact: {}
+- advance_runtime:
+    seconds: 0.3
+- assert:
+    state_dump_named_map_var:
+      name: Usedtimer_lever_02
+      value: 1
+- advance_runtime:
+    seconds: 1.0
+- assert:
+    state_dump_named_map_var:
+      name: Laxe_trap_02
+      value: 1
+- advance_runtime:
+    seconds: 4.0
+- set_pose:
+    map: dungeonofsecrets.blv
+    x: -655
+    y: 3884
+    z: 615
+    yaw: 1.5708
+    pitch: 0.0349
+- advance_runtime:
+    seconds: 0.2
+- press_interact: {}
+- advance_runtime:
+    seconds: 0.3
+- advance_runtime:
+    seconds: 1.0
+- assert:
+    state_dump_named_map_var:
+      name: Saxe_door_02
+      value: 2
+- assert:
+    state_dump_named_map_var:
+      name: Saxe_trap_02
+      value: 0
+- assert:
+    state_dump_named_map_var:
+      name: Traps
+      value: 0
+- assert:
+    mechanism:
+      id: 10
+      state: open
+- set_pose:
+    map: dungeonofsecrets.blv
+    x: -655
+    y: 4224
+    z: 656
+    yaw: 0.0
+    pitch: 0.0
+- note:
+    text: 'Section 03: a click throws timer lever 03 (its axe trap locked while the lever creeps back); the party runs to
+      axe door 03 (1.4 s) and opens it with a click in time.'
+- set_pose:
+    map: dungeonofsecrets.blv
+    x: 896
+    y: 2834
+    z: 656
+    yaw: 3.1416
+    pitch: -0.0813
+- advance_runtime:
+    seconds: 0.2
+- press_interact: {}
+- advance_runtime:
+    seconds: 0.3
+- assert:
+    state_dump_named_map_var:
+      name: Usedtimer_lever_03
+      value: 1
+- advance_runtime:
+    seconds: 1.0
+- assert:
+    state_dump_named_map_var:
+      name: Laxe_trap_03
+      value: 1
+- advance_runtime:
+    seconds: 0.3999999999999999
+- set_pose:
+    map: dungeonofsecrets.blv
+    x: 1536
+    y: 2219
+    z: 656
+    yaw: -1.5708
+    pitch: -0.3255
+- advance_runtime:
+    seconds: 0.2
+- press_interact: {}
+- advance_runtime:
+    seconds: 0.3
+- advance_runtime:
+    seconds: 1.0
+- assert:
+    state_dump_named_map_var:
+      name: Saxe_door_03
+      value: 2
+- assert:
+    state_dump_named_map_var:
+      name: Saxe_trap_03
+      value: 0
+- assert:
+    state_dump_named_map_var:
+      name: Traps
+      value: 0
+- assert:
+    mechanism:
+      id: 11
+      state: open
+- set_pose:
+    map: dungeonofsecrets.blv
+    x: 1536
+    y: 1894
+    z: 656
+    yaw: 0.0
+    pitch: 0.0
+- note:
+    text: 'Section 04: a click throws timer lever 04 (its axe trap locked while the lever creeps back); the party runs to
+      axe door 04 (3.0 s) and opens it with a click in time.'
+- set_pose:
+    map: dungeonofsecrets.blv
+    x: 771
+    y: 1193
+    z: 656
+    yaw: 1.5708
+    pitch: 0.2831
+- advance_runtime:
+    seconds: 0.2
+- press_interact: {}
+- advance_runtime:
+    seconds: 0.3
+- assert:
+    state_dump_named_map_var:
+      name: Usedtimer_lever_04
+      value: 1
+- advance_runtime:
+    seconds: 1.0
+- assert:
+    state_dump_named_map_var:
+      name: Laxe_trap_04
+      value: 1
+- advance_runtime:
+    seconds: 2.0
+- set_pose:
+    map: dungeonofsecrets.blv
+    x: -1221
+    y: 1208
+    z: 656
+    yaw: 3.1416
+    pitch: -0.3255
+- advance_runtime:
+    seconds: 0.2
+- press_interact: {}
+- advance_runtime:
+    seconds: 0.3
+- advance_runtime:
+    seconds: 1.0
+- assert:
+    state_dump_named_map_var:
+      name: Saxe_door_04
+      value: 2
+- assert:
+    state_dump_named_map_var:
+      name: Saxe_trap_04
+      value: 0
+- assert:
+    state_dump_named_map_var:
+      name: Traps
+      value: 0
+- assert:
+    mechanism:
+      id: 12
+      state: open
+- set_pose:
+    map: dungeonofsecrets.blv
+    x: -1434
+    y: 1254
+    z: 656
+    yaw: 0.0
+    pitch: 0.0
+- note:
+    text: 'Section 5''s elevator: the party walks up the ramp onto the column (MM9: a jump onto its box); the touch takes
+      it down 320 LT to the lower room.'
+- set_pose:
+    map: dungeonofsecrets.blv
+    x: -1761
+    y: 307
+    z: 656
+    yaw: -1.5708
+    pitch: 0.0
+- movement_segment:
+    input: forward
+    seconds: 1.05
+    actor_collision: false
+    actor_ai: false
+    start:
+      map: dungeonofsecrets.blv
+      x: -1761
+      y: 307
+      z: 656
+      yaw_degrees: -90
+      pitch: 0
+    expect_stop:
+      map: dungeonofsecrets.blv
+      x: -1761
+      y: -461
+      z: 860
+      yaw_degrees: -90
+      pitch: 0
+    loose_tolerance: true
+    tolerance_xy: 220
+    tolerance_z: 60
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    state_dump_named_map_var:
+      name: Selevator
+      value: 1
+- advance_runtime:
+    seconds: 10.0
+- assert:
+    state_dump_named_map_var:
+      name: Selevator
+      value: 2
+- assert:
+    state_dump_named_map_var:
+      name: Lelevator
+      value: 1
+- note:
+    text: 'Section 05: a click throws timer lever 05 (its axe trap locked while the lever creeps back); the party runs to
+      axe door 05 (1.2 s) and opens it with a click in time.'
+- set_pose:
+    map: dungeonofsecrets.blv
+    x: -1761
+    y: -486
+    z: -40
+    yaw: 1.5708
+    pitch: 0.1043
+- advance_runtime:
+    seconds: 0.2
+- press_interact: {}
+- advance_runtime:
+    seconds: 0.3
+- assert:
+    state_dump_named_map_var:
+      name: Usedtimer_lever_05
+      value: 1
+- advance_runtime:
+    seconds: 1.0
+- assert:
+    state_dump_named_map_var:
+      name: Laxe_trap_05
+      value: 1
+- advance_runtime:
+    seconds: 0.19999999999999996
+- set_pose:
+    map: dungeonofsecrets.blv
+    x: -1761
+    y: -1221
+    z: -40
+    yaw: -1.5708
+    pitch: -0.3255
+- advance_runtime:
+    seconds: 0.2
+- press_interact: {}
+- advance_runtime:
+    seconds: 0.3
+- advance_runtime:
+    seconds: 1.0
+- assert:
+    state_dump_named_map_var:
+      name: Saxe_door_05
+      value: 2
+- assert:
+    state_dump_named_map_var:
+      name: Saxe_trap_05
+      value: 0
+- assert:
+    state_dump_named_map_var:
+      name: Traps
+      value: 0
+- assert:
+    mechanism:
+      id: 13
+      state: open
+- set_pose:
+    map: dungeonofsecrets.blv
+    x: -1761
+    y: -1536
+    z: -40
+    yaw: 0.0
+    pitch: 0.0
+- note:
+    text: 'Section 06: a click throws timer lever 06 (its axe trap locked while the lever creeps back); the party runs to
+      axe door 06 (6.5 s) and opens it with a click in time.'
+- set_pose:
+    map: dungeonofsecrets.blv
+    x: -1733
+    y: -1848
+    z: -40
+    yaw: -1.5708
+    pitch: 0.1043
+- advance_runtime:
+    seconds: 0.2
+- press_interact: {}
+- advance_runtime:
+    seconds: 0.3
+- assert:
+    state_dump_named_map_var:
+      name: Usedtimer_lever_06
+      value: 1
+- advance_runtime:
+    seconds: 1.0
+- assert:
+    state_dump_named_map_var:
+      name: Laxe_trap_06
+      value: 1
+- advance_runtime:
+    seconds: 5.5
+- set_pose:
+    map: dungeonofsecrets.blv
+    x: 2532
+    y: -1720
+    z: -40
+    yaw: 0.0
+    pitch: -0.3255
+- advance_runtime:
+    seconds: 0.2
+- press_interact: {}
+- advance_runtime:
+    seconds: 0.3
+- advance_runtime:
+    seconds: 1.0
+- assert:
+    state_dump_named_map_var:
+      name: Saxe_door_06
+      value: 2
+- assert:
+    state_dump_named_map_var:
+      name: Saxe_trap_06
+      value: 0
+- assert:
+    state_dump_named_map_var:
+      name: Traps
+      value: 0
+- assert:
+    mechanism:
+      id: 14
+      state: open
+- set_pose:
+    map: dungeonofsecrets.blv
+    x: 2790
+    y: -1766
+    z: -40
+    yaw: 0.0
+    pitch: 0.0
+- note:
+    text: 'Past axe door 6 the party crosses the exit gate''s open trigger: the gate opens and tells Chadwick ''done'': no
+      trap went off, so key 245 and the quest sound.'
+- movement_segment:
+    input: forward
+    seconds: 0.8
+    actor_collision: false
+    actor_ai: false
+    start:
+      map: dungeonofsecrets.blv
+      x: 2765
+      y: -1766
+      z: -40
+      yaw_degrees: 0
+      pitch: 0
+    expect_stop:
+      map: dungeonofsecrets.blv
+      x: 3374
+      y: -1766
+      z: -41
+      yaw_degrees: 0
+      pitch: 0
+    loose_tolerance: true
+    tolerance_xy: 160
+    tolerance_z: 40
+- advance_runtime:
+    seconds: 2.5
+- assert:
+    state_dump_named_map_var:
+      name: Firedexit_gate_open_trigger
+      value: 1
+- assert:
+    state_dump_named_map_var:
+      name: Sexit_gate
+      value: 2
+- assert:
+    qbit_set:
+    - 90245
+- assert:
+    state_dump_named_map_var:
+      name: Traps
+      value: 0

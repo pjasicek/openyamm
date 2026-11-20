@@ -34,6 +34,33 @@ elements:
       color: '#e5dcc7'
       align_x: left
       align_y: top
+  - id: ReadableScrollTitle
+    anchor: top_center
+    offset_x: 0
+    offset_y: 12
+    width: 440
+    height: 22
+    text:
+      value: '{title}'
+      font: Create
+      color: '#e4c793'
+      align_x: center
+      align_y: middle
+    notes: Letters and message scrolls reuse this popup without the spell's school and cost column.
+  - id: ReadableScrollBody
+    anchor: top_left
+    offset_x: 30
+    offset_y: 42
+    width: 440
+    height: 72
+    text:
+      value: '{body}'
+      font: SMALLNUM
+      color: '#e5dcc7'
+      align_x: left
+      align_y: top
+      scale: 0.8
+    notes: Long letters shrink further in code to stay on screen.
   - id: SpellInspectNormal
     anchor: top_left
     offset_x: 126

@@ -1,0 +1,1 @@
+Preserved delivered-alpha master. Process --adjust 0.98 0 0 to reduce clipping, refresh before_tone backups, run restore_native_tone.py then queue check. RGB gamma match preserves alpha. Final light/dark proofs reviewed.

@@ -1,0 +1,568 @@
+{
+  "tool": "built-in image_gen",
+  "brief": "CODEX_BRIEF.md",
+  "runs": [
+    {
+      "view": "front",
+      "prompt": "Use case: precise-object-edit. Asset type: orthographic albedo texture projection source for an existing game mesh.\nEdit the FIRST input image, the gray model guide. The SECOND input is design_reference.png, ONLY the authority for colors, surface materials, trim and fine wear. Repaint the guide's existing pixels, preserving its exact silhouette, alpha boundary, camera, frame placement, scale, all folds, openings, overlaps and every part's edge. Do not adopt the design reference's upright silhouette or proportions. The guide's flattened, compact broad shape is intentional and mandatory. Do not remodel, smooth away, invent or move any geometry.\nMaterial design: dark slate-blue finely woven cloth with subtle seams; narrow weathered brushed gold binding follows the existing cloth hem and exposed panel edges; two off-white ivory ceramic shoulder clips/panels with fine hairline wear, thin muted gold borders and simple gold clasp joining them. Continue these materials plausibly on hidden-design surfaces and backs. All visible folded fabric interiors remain slate-blue fabric. Use only materials actually present in the reference: no added resin, lights, glass, crystal, gems or ornaments. No wearer, hood, sleeves or extra parts.\nLIGHTING: unlit diffuse ALBEDO texture source, flat even shadowless illumination from the viewer. Uniform material base colors across differently oriented surfaces. Remove the guide's gray lighting from the painting. No cast shadows, no ambient-occlusion darkening, no dark crevice shading, no directional gradients, no strong specular highlights/reflections, no rim light. Gold is its muted base color with only a faint sheen; fine wear and cloth weave are surface color texture.\nOutput exactly one 1024 x 1024 PNG with genuine transparent background and transparent openings wherever the guide is transparent. Keep the full original 1024-square canvas, no reframing, no cropping, no scaling. No background, floor, shadow, text, letters, labels or watermark.\nRequested view: FRONT, paint guide_front.png. Copy the guide's front view exactly, including the neck opening, clasp near upper middle, two ceramic shoulder pieces and all overlapping low piled drapery. The object occupies approximately x=66..957, y=273..750; retain that placement and every edge.",
+      "inputs": [
+        {
+          "path": "guide_front.png",
+          "sha256": "5980fac363fef8a09524a214e4699331b4dda56180f97ba54cf188f2926759bf"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "b71bd85068189d4a3787b6eb16766784995f9db6db6b35078e4c3ab65a469fc7"
+        }
+      ],
+      "attempt": 1,
+      "source": "/home/pjasicek/.codex/generated_images/01a16ee5-3417-7a90-9f17-711b2c285b0a/exec-17750677-7468-476a-aaac-5973c1d6cb2a.png",
+      "output": "paint_front_attempt1.png",
+      "selected": false,
+      "reason": "Materials match, but folds have baked shading and rounded edges depart from the faceted guide. Requesting the one permitted correction.",
+      "size": [
+        1254,
+        1254
+      ],
+      "requested_size": [
+        1024,
+        1024
+      ],
+      "mode": "RGBA",
+      "resized": false,
+      "postprocessed": false,
+      "alpha_bbox": [
+        0,
+        22,
+        1240,
+        1221
+      ],
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "substantial_alpha_bbox": [
+        79,
+        324,
+        1193,
+        912
+      ],
+      "transparent_background": true,
+      "exact_guide_alpha": false,
+      "output_sha256": "27cdcb8772813c64e9d0f45fc4a1cae13b99104abc6cf1f2ca0d37ce80851b98"
+    },
+    {
+      "view": "front",
+      "prompt": "Use case: precise-object-edit. Asset type: orthographic albedo texture projection source for an existing game mesh.\nEdit the FIRST input image, the gray model guide. The SECOND input is design_reference.png, ONLY the authority for colors, surface materials, trim and fine wear. Repaint the guide's existing pixels, preserving its exact silhouette, alpha boundary, camera, frame placement, scale, all folds, openings, overlaps and every part's edge. Do not adopt the design reference's upright silhouette or proportions. The guide's flattened, compact broad shape is intentional and mandatory. Do not remodel, smooth away, invent or move any geometry.\nMaterial design: dark slate-blue finely woven cloth with subtle seams; narrow weathered brushed gold binding follows the existing cloth hem and exposed panel edges; two off-white ivory ceramic shoulder clips/panels with fine hairline wear, thin muted gold borders and simple gold clasp joining them. Continue these materials plausibly on hidden-design surfaces and backs. All visible folded fabric interiors remain slate-blue fabric. Use only materials actually present in the reference: no added resin, lights, glass, crystal, gems or ornaments. No wearer, hood, sleeves or extra parts.\nLIGHTING: unlit diffuse ALBEDO texture source, flat even shadowless illumination from the viewer. Uniform material base colors across differently oriented surfaces. Remove the guide's gray lighting from the painting. No cast shadows, no ambient-occlusion darkening, no dark crevice shading, no directional gradients, no strong specular highlights/reflections, no rim light. Gold is its muted base color with only a faint sheen; fine wear and cloth weave are surface color texture.\nOutput exactly one 1024 x 1024 PNG with genuine transparent background and transparent openings wherever the guide is transparent. Keep the full original 1024-square canvas, no reframing, no cropping, no scaling. No background, floor, shadow, text, letters, labels or watermark.\nRequested view: FRONT. ONE corrective generation. The first image guide_front.png is the edit target and must remain geometrically unchanged. Output must inherit its 1024 x 1024 canvas and alpha mask, NOT the 1254 x 1254 design reference canvas.\nCritical correction: produce a FLAT BASE-COLOR material paintover of the gray guide, not a beautifully lit product render. Cloth albedo must remain approximately the SAME medium-dark slate blue even inside folds; eliminate all black recess shading and all bright fold highlights. Gold must be a matte ochre-gold base with fine wear, without sparkling white or yellow highlights. Ceramic must be flat ivory with fine wear, no directional shading. Surface grain may vary slightly, but no form shading.\nRetain ALL angular polygon corners and planar contour segments of the guide; do not round folds or smooth silhouettes. Keep the guide's exact image-space positions, especially the neck loop at y=273, clasp and shoulders, leftmost cloth at x=66, rightmost at x=957 and lowest cloth at y=750. Empty transparent margin below y=751 and above y=273 stays unchanged. Repaint only existing mesh surfaces, matching every crease boundary. No new holes, parts, contours, decoration or internal trim that is not supported by the reference.",
+      "inputs": [
+        {
+          "path": "guide_front.png",
+          "sha256": "5980fac363fef8a09524a214e4699331b4dda56180f97ba54cf188f2926759bf"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "b71bd85068189d4a3787b6eb16766784995f9db6db6b35078e4c3ab65a469fc7"
+        }
+      ],
+      "attempt": 2,
+      "source": "/home/pjasicek/.codex/generated_images/01a16ee5-3417-7a90-9f17-711b2c285b0a/exec-3f88dcfe-2957-4193-9f1c-7d886ebd3ef9.png",
+      "output": "paint_front.png",
+      "selected": true,
+      "reason": "Selected permitted correction: flatter matte materials and more angular folds than attempt 1. Residual fold shading and silhouette/part-edge drift remain; not an exact guide match.",
+      "visual_checks": {
+        "materials_match": true,
+        "no_text": true,
+        "flat_shadowless_lighting": false,
+        "geometry_exact": false
+      },
+      "size": [
+        1254,
+        1254
+      ],
+      "requested_size": [
+        1024,
+        1024
+      ],
+      "mode": "RGBA",
+      "resized": false,
+      "postprocessed": false,
+      "alpha_bbox": [
+        0,
+        21,
+        1224,
+        1222
+      ],
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "substantial_alpha_bbox": [
+        81,
+        318,
+        1185,
+        909
+      ],
+      "transparent_background": true,
+      "exact_guide_alpha": false,
+      "output_sha256": "c5eabe758be5768d33189b42010ee1eea64bbafd8f7dea7ff07accef5fecab75"
+    },
+    {
+      "view": "back",
+      "prompt": "Use case: precise-object-edit. Asset type: orthographic albedo texture projection source for an existing game mesh.\nEdit the FIRST input image, the gray model guide. The SECOND input is design_reference.png, ONLY the authority for colors, surface materials, trim and fine wear. Repaint the guide's existing pixels, preserving its exact silhouette, alpha boundary, camera, frame placement, scale, all folds, openings, overlaps and every part's edge. Do not adopt the design reference's upright silhouette or proportions. The guide's flattened, compact broad shape is intentional and mandatory. Do not remodel, smooth away, invent or move any geometry.\nMaterial design: dark slate-blue finely woven cloth with subtle seams; narrow weathered brushed gold binding follows the existing cloth hem and exposed panel edges; two off-white ivory ceramic shoulder clips/panels with fine hairline wear, thin muted gold borders and simple gold clasp joining them. Continue these materials plausibly on hidden-design surfaces and backs. All visible folded fabric interiors remain slate-blue fabric. Use only materials actually present in the reference: no added resin, lights, glass, crystal, gems or ornaments. No wearer, hood, sleeves or extra parts.\nLIGHTING: unlit diffuse ALBEDO texture source, flat even shadowless illumination from the viewer. Uniform material base colors across differently oriented surfaces. Remove the guide's gray lighting from the painting. No cast shadows, no ambient-occlusion darkening, no dark crevice shading, no directional gradients, no strong specular highlights/reflections, no rim light. Gold is its muted base color with only a faint sheen; fine wear and cloth weave are surface color texture.\nOutput exactly one 1024 x 1024 PNG with genuine transparent background and transparent openings wherever the guide is transparent. Keep the full original 1024-square canvas, no reframing, no cropping, no scaling. No background, floor, shadow, text, letters, labels or watermark.\nRequested view: BACK, edit guide_back.png. Geometry: a compact, low broad cloak viewed from the rear. Preserve the existing wide upper shoulder yoke exactly, long cloth fold channels below it, polygonal hem and all overlapping panel ends. The upper continuous yoke is the off-white ceramic shoulder assembly continuing around the back, thin worn gold edging; all lower folds are slate-blue woven fabric with narrow weathered gold hem binding. No front clasp is visible from this back angle: do not add one.\nCritical: precisely trace the FIRST image's faceted shape and flat polygon corner locations; never round or reshape it. Target is the FIRST image's 1024-square canvas, object x=66..957 y=273..750. All margin and transparency stay unchanged. Albedo only: uniform slate-blue fabric even in folds, uniform ivory ceramic and matte muted gold, fine weave and surface wear but absolutely no light/shadow modelling, AO, dark crevices or highlights.",
+      "inputs": [
+        {
+          "path": "guide_back.png",
+          "sha256": "ad913d7db51c55c535d55fc435489ad558e06cf247477ed3092dbe2b0864730f"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "b71bd85068189d4a3787b6eb16766784995f9db6db6b35078e4c3ab65a469fc7"
+        }
+      ],
+      "attempt": 1,
+      "source": "/home/pjasicek/.codex/generated_images/01a16ee5-3417-7a90-9f17-711b2c285b0a/exec-737565b3-e458-4fa0-95ac-025894da563d.png",
+      "output": "paint_back_attempt1.png",
+      "selected": false,
+      "reason": "Palette matches, but fold shading, rounded edges and changed lower contour need the permitted correction.",
+      "size": [
+        1254,
+        1254
+      ],
+      "requested_size": [
+        1024,
+        1024
+      ],
+      "mode": "RGBA",
+      "resized": false,
+      "postprocessed": false,
+      "alpha_bbox": [
+        0,
+        19,
+        1226,
+        1254
+      ],
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "substantial_alpha_bbox": [
+        87,
+        318,
+        1181,
+        853
+      ],
+      "transparent_background": true,
+      "exact_guide_alpha": false,
+      "output_sha256": "4a117f93397e32e07089423b93357a228e70e8c31697e8eb0798f6190ce8c06d"
+    },
+    {
+      "view": "back",
+      "prompt": "Use case: precise-object-edit. Asset type: orthographic albedo texture projection source for an existing game mesh.\nEdit the FIRST input image, the gray model guide. The SECOND input is design_reference.png, ONLY the authority for colors, surface materials, trim and fine wear. Repaint the guide's existing pixels, preserving its exact silhouette, alpha boundary, camera, frame placement, scale, all folds, openings, overlaps and every part's edge. Do not adopt the design reference's upright silhouette or proportions. The guide's flattened, compact broad shape is intentional and mandatory. Do not remodel, smooth away, invent or move any geometry.\nMaterial design: dark slate-blue finely woven cloth with subtle seams; narrow weathered brushed gold binding follows the existing cloth hem and exposed panel edges; two off-white ivory ceramic shoulder clips/panels with fine hairline wear, thin muted gold borders and simple gold clasp joining them. Continue these materials plausibly on hidden-design surfaces and backs. All visible folded fabric interiors remain slate-blue fabric. Use only materials actually present in the reference: no added resin, lights, glass, crystal, gems or ornaments. No wearer, hood, sleeves or extra parts.\nLIGHTING: unlit diffuse ALBEDO texture source, flat even shadowless illumination from the viewer. Uniform material base colors across differently oriented surfaces. Remove the guide's gray lighting from the painting. No cast shadows, no ambient-occlusion darkening, no dark crevice shading, no directional gradients, no strong specular highlights/reflections, no rim light. Gold is its muted base color with only a faint sheen; fine wear and cloth weave are surface color texture.\nOutput exactly one 1024 x 1024 PNG with genuine transparent background and transparent openings wherever the guide is transparent. Keep the full original 1024-square canvas, no reframing, no cropping, no scaling. No background, floor, shadow, text, letters, labels or watermark.\nRequested view: BACK. One corrective generation. Precisely COLOR IN the first gray guide, leaving every faceted angular polygon and its alpha silhouette in place. Keep the 1024x1024 source canvas exactly. Back yoke ivory ceramic with fine wear and a narrow gold border; lower cloth slate blue with gold edge bindings.\nThis is a technical base-color pass, NOT a shaded beauty render. Replace all lightness differences caused by lighting in the guide with a single consistent material base color. Specifically the left and right sides of each fold, folded-under hems and deep overlaps must have equal slate-blue brightness. No black shadows between folds. Muted matte gold has no bright edge glints. Fine cloth weave and gentle ceramic hairline wear may remain. Do not round the angular fold tips or change any hem cut. Preserve the low back contour with its central bottom point at y=750 and upper yoke peak at y=273. All visible edges, panels, openings and positions must match the guide pixel for pixel. No background, text, letters, extra front clasp or embellishments.",
+      "inputs": [
+        {
+          "path": "guide_back.png",
+          "sha256": "ad913d7db51c55c535d55fc435489ad558e06cf247477ed3092dbe2b0864730f"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "b71bd85068189d4a3787b6eb16766784995f9db6db6b35078e4c3ab65a469fc7"
+        }
+      ],
+      "attempt": 2,
+      "source": "/home/pjasicek/.codex/generated_images/01a16ee5-3417-7a90-9f17-711b2c285b0a/exec-45309f85-81fe-4ab4-9366-4261de3226cd.png",
+      "output": "paint_back.png",
+      "selected": true,
+      "reason": "Selected permitted correction: improved lower central hem contour and restrained highlights. Residual shading and rounded folds/contour drift remain; not an exact guide match.",
+      "visual_checks": {
+        "materials_match": true,
+        "no_text": true,
+        "flat_shadowless_lighting": false,
+        "geometry_exact": false
+      },
+      "size": [
+        1254,
+        1254
+      ],
+      "requested_size": [
+        1024,
+        1024
+      ],
+      "mode": "RGBA",
+      "resized": false,
+      "postprocessed": false,
+      "alpha_bbox": [
+        0,
+        39,
+        1224,
+        1214
+      ],
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "substantial_alpha_bbox": [
+        91,
+        312,
+        1163,
+        875
+      ],
+      "transparent_background": true,
+      "exact_guide_alpha": false,
+      "output_sha256": "3517e27f585c7ca3271ec03f71405264daca2e6ce49ce330a75f01f58ce2add0"
+    },
+    {
+      "view": "left",
+      "prompt": "Use case: precise-object-edit. Asset type: orthographic albedo texture projection source for an existing game mesh.\nEdit the FIRST input image, the gray model guide. The SECOND input is design_reference.png, ONLY the authority for colors, surface materials, trim and fine wear. Repaint the guide's existing pixels, preserving its exact silhouette, alpha boundary, camera, frame placement, scale, all folds, openings, overlaps and every part's edge. Do not adopt the design reference's upright silhouette or proportions. The guide's flattened, compact broad shape is intentional and mandatory. Do not remodel, smooth away, invent or move any geometry.\nMaterial design: dark slate-blue finely woven cloth with subtle seams; narrow weathered brushed gold binding follows the existing cloth hem and exposed panel edges; two off-white ivory ceramic shoulder clips/panels with fine hairline wear, thin muted gold borders and simple gold clasp joining them. Continue these materials plausibly on hidden-design surfaces and backs. All visible folded fabric interiors remain slate-blue fabric. Use only materials actually present in the reference: no added resin, lights, glass, crystal, gems or ornaments. No wearer, hood, sleeves or extra parts.\nLIGHTING: unlit diffuse ALBEDO texture source, flat even shadowless illumination from the viewer. Uniform material base colors across differently oriented surfaces. Remove the guide's gray lighting from the painting. No cast shadows, no ambient-occlusion darkening, no dark crevice shading, no directional gradients, no strong specular highlights/reflections, no rim light. Gold is its muted base color with only a faint sheen; fine wear and cloth weave are surface color texture.\nOutput exactly one 1024 x 1024 PNG with genuine transparent background and transparent openings wherever the guide is transparent. Keep the full original 1024-square canvas, no reframing, no cropping, no scaling. No background, floor, shadow, text, letters, labels or watermark.\nRequested view: LEFT, edit guide_left.png. Preserve the entire profile of the FIRST image: a high curved ceramic shoulder yoke toward upper-left/center, broad descending slate-blue fabric folds on image-left, the open front and low piled cloth curls extending to image-right, and only the tiny visible edge of the existing clasp. Do not flip or mirror. Paint the exact faceted, angular guide, even if its folds appear unconventional. Preserve its 1024x1024 canvas, silhouette x=81..942 y=273..750, neck and every opening. The upper yoke is ivory ceramic with muted gold border; all folds underneath are dark slate-blue woven cloth with narrow gold binding on actual hems. No long sleeves, arm or mannequin.\nMake the texture source truly unlit and shadowless: no darkening inside overlaps or side-facing folds, no bright top faces; cloth base color is consistent on all faces with only subtle weave. Matte gold with fine wear, ivory ceramic with hairline wear, no specular hotspots. Do not inherit the reference image lighting.",
+      "inputs": [
+        {
+          "path": "guide_left.png",
+          "sha256": "7625c6ba41a722e931f652dd204a2a220693eaf3683da18f34b10e633b5e1aa5"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "b71bd85068189d4a3787b6eb16766784995f9db6db6b35078e4c3ab65a469fc7"
+        }
+      ],
+      "attempt": 1,
+      "source": "/home/pjasicek/.codex/generated_images/01a16ee5-3417-7a90-9f17-711b2c285b0a/exec-773e69b1-0489-45fe-9319-3a840385b089.png",
+      "output": "paint_left.png",
+      "selected": true,
+      "reason": "Selected first attempt: preserves the side-view yoke and nearly hidden clasp more faithfully than correction 2. Residual shading and rounded contour/edge drift remain; not an exact guide match.",
+      "visual_checks": {
+        "materials_match": true,
+        "no_text": true,
+        "flat_shadowless_lighting": false,
+        "geometry_exact": false
+      },
+      "size": [
+        1254,
+        1254
+      ],
+      "requested_size": [
+        1024,
+        1024
+      ],
+      "mode": "RGBA",
+      "resized": false,
+      "postprocessed": false,
+      "alpha_bbox": [
+        41,
+        68,
+        1224,
+        1230
+      ],
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "substantial_alpha_bbox": [
+        98,
+        324,
+        1190,
+        926
+      ],
+      "transparent_background": true,
+      "exact_guide_alpha": false,
+      "output_sha256": "1b98e32142ed5df64622dca36703a9af4dd9c9a26f19565b0e1f06c273ab1c61"
+    },
+    {
+      "view": "left",
+      "prompt": "Use case: precise-object-edit. Asset type: orthographic albedo texture projection source for an existing game mesh.\nEdit the FIRST input image, the gray model guide. The SECOND input is design_reference.png, ONLY the authority for colors, surface materials, trim and fine wear. Repaint the guide's existing pixels, preserving its exact silhouette, alpha boundary, camera, frame placement, scale, all folds, openings, overlaps and every part's edge. Do not adopt the design reference's upright silhouette or proportions. The guide's flattened, compact broad shape is intentional and mandatory. Do not remodel, smooth away, invent or move any geometry.\nMaterial design: dark slate-blue finely woven cloth with subtle seams; narrow weathered brushed gold binding follows the existing cloth hem and exposed panel edges; two off-white ivory ceramic shoulder clips/panels with fine hairline wear, thin muted gold borders and simple gold clasp joining them. Continue these materials plausibly on hidden-design surfaces and backs. All visible folded fabric interiors remain slate-blue fabric. Use only materials actually present in the reference: no added resin, lights, glass, crystal, gems or ornaments. No wearer, hood, sleeves or extra parts.\nLIGHTING: unlit diffuse ALBEDO texture source, flat even shadowless illumination from the viewer. Uniform material base colors across differently oriented surfaces. Remove the guide's gray lighting from the painting. No cast shadows, no ambient-occlusion darkening, no dark crevice shading, no directional gradients, no strong specular highlights/reflections, no rim light. Gold is its muted base color with only a faint sheen; fine wear and cloth weave are surface color texture.\nOutput exactly one 1024 x 1024 PNG with genuine transparent background and transparent openings wherever the guide is transparent. Keep the full original 1024-square canvas, no reframing, no cropping, no scaling. No background, floor, shadow, text, letters, labels or watermark.\nRequested view: LEFT. One corrective generation, geometry-locked flat paintover. Treat guide_left.png (first input) as a fixed stencil and apply material color inside it. Preserve its original 1024 x 1024 pixel canvas. Crucially preserve the angular polygonal hems and curled ends exactly, including the long straight descending edge on image-left and low overlapping angular pieces at image-right. Do not replace its faceted cloth with rounded realistically draped folds. Object stays x=81..942, y=273..750.\nFlat technical ALBEDO: fill ALL cloth-facing facets and interior facets with the SAME slate-blue base color, plus small woven grain only. NO painted fold shadows, NO black crevices, NO glossy highlights. Slightly worn ivory ceramic on the upper yoke and matte ochre-gold borders/clasp. Fine ceramic wear and subtle gold wear are allowed, but not light gradients. Draw no new objects, holes, outlines, decorations or text. Output only the painted first input with its original transparent silhouette.",
+      "inputs": [
+        {
+          "path": "guide_left.png",
+          "sha256": "7625c6ba41a722e931f652dd204a2a220693eaf3683da18f34b10e633b5e1aa5"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "b71bd85068189d4a3787b6eb16766784995f9db6db6b35078e4c3ab65a469fc7"
+        }
+      ],
+      "attempt": 2,
+      "source": "/home/pjasicek/.codex/generated_images/01a16ee5-3417-7a90-9f17-711b2c285b0a/exec-e9060d77-db06-4807-b293-8b8ae5915fec.png",
+      "output": "paint_left_attempt2.png",
+      "selected": false,
+      "reason": "Rejected correction: exposed and moved the front clasp and replaced the continuous side yoke, departing further from the guide.",
+      "visual_checks": {
+        "materials_match": true,
+        "no_text": true,
+        "flat_shadowless_lighting": false,
+        "geometry_exact": false
+      },
+      "size": [
+        1254,
+        1254
+      ],
+      "requested_size": [
+        1024,
+        1024
+      ],
+      "mode": "RGBA",
+      "resized": false,
+      "postprocessed": false,
+      "alpha_bbox": [
+        0,
+        19,
+        1240,
+        1235
+      ],
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "substantial_alpha_bbox": [
+        87,
+        332,
+        1195,
+        942
+      ],
+      "transparent_background": true,
+      "exact_guide_alpha": false,
+      "output_sha256": "6179b89a9da295ba27a52ad725c22cc78025b010b8d0cfb9a78a9136bedf46c1"
+    },
+    {
+      "view": "right",
+      "prompt": "Use case: precise-object-edit. Asset type: orthographic albedo texture projection source for an existing game mesh.\nEdit the FIRST input image, the gray model guide. The SECOND input is design_reference.png, ONLY the authority for colors, surface materials, trim and fine wear. Repaint the guide's existing pixels, preserving its exact silhouette, alpha boundary, camera, frame placement, scale, all folds, openings, overlaps and every part's edge. Do not adopt the design reference's upright silhouette or proportions. The guide's flattened, compact broad shape is intentional and mandatory. Do not remodel, smooth away, invent or move any geometry.\nMaterial design: dark slate-blue finely woven cloth with subtle seams; narrow weathered brushed gold binding follows the existing cloth hem and exposed panel edges; two off-white ivory ceramic shoulder clips/panels with fine hairline wear, thin muted gold borders and simple gold clasp joining them. Continue these materials plausibly on hidden-design surfaces and backs. All visible folded fabric interiors remain slate-blue fabric. Use only materials actually present in the reference: no added resin, lights, glass, crystal, gems or ornaments. No wearer, hood, sleeves or extra parts.\nLIGHTING: unlit diffuse ALBEDO texture source, flat even shadowless illumination from the viewer. Uniform material base colors across differently oriented surfaces. Remove the guide's gray lighting from the painting. No cast shadows, no ambient-occlusion darkening, no dark crevice shading, no directional gradients, no strong specular highlights/reflections, no rim light. Gold is its muted base color with only a faint sheen; fine wear and cloth weave are surface color texture.\nOutput exactly one 1024 x 1024 PNG with genuine transparent background and transparent openings wherever the guide is transparent. Keep the full original 1024-square canvas, no reframing, no cropping, no scaling. No background, floor, shadow, text, letters, labels or watermark.\nRequested view: RIGHT, edit guide_right.png, do not mirror. Exactly preserve its 1024x1024 canvas and all faceted edges. The neck opening and ivory ceramic shoulder yoke sit high in the center, the front-side piled cloth curls extend to image-left, and broad long folds descend on image-right. Only the tiny guide-visible clasp portion at upper-left may be painted gold. Never expose a full frontal clasp or invent another shoulder panel. Material boundaries must follow the guide's existing parts. Object position remains x=81..942 y=273..750.\nA flat, unlit material pass: all woven slate-blue cloth surfaces, even undersides and deep folds, have constant blue base color; all ceramic surfaces flat ivory with fine wear, all narrow trim matte weathered gold. Preserve all low-poly angular corners, polygonal hems, creases and openings exactly. No directional highlights, shadows, crevice occlusion, reflective glints or glossy gold.",
+      "inputs": [
+        {
+          "path": "guide_right.png",
+          "sha256": "573fa1608082a16b4bf70a5dc21d96077eba4342e08c089c99b213d9584c942b"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "b71bd85068189d4a3787b6eb16766784995f9db6db6b35078e4c3ab65a469fc7"
+        }
+      ],
+      "attempt": 1,
+      "source": "/home/pjasicek/.codex/generated_images/01a16ee5-3417-7a90-9f17-711b2c285b0a/exec-1216c97b-c77e-4e28-9edc-b324ee2a4f7c.png",
+      "output": "paint_right.png",
+      "selected": true,
+      "reason": "Selected first attempt: maintains the material placement and side-view shoulder assembly better than correction 2. Residual shading and rounded contour/edge drift remain; not an exact guide match.",
+      "visual_checks": {
+        "materials_match": true,
+        "no_text": true,
+        "flat_shadowless_lighting": false,
+        "geometry_exact": false
+      },
+      "size": [
+        1254,
+        1254
+      ],
+      "requested_size": [
+        1024,
+        1024
+      ],
+      "mode": "RGBA",
+      "resized": false,
+      "postprocessed": false,
+      "alpha_bbox": [
+        0,
+        35,
+        1240,
+        1228
+      ],
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "substantial_alpha_bbox": [
+        95,
+        294,
+        1172,
+        894
+      ],
+      "transparent_background": true,
+      "exact_guide_alpha": false,
+      "output_sha256": "d15368eb18667467f9e3fbd4bd85076211fc0fab8e8cb3a4cf609b1aed1b73b8"
+    },
+    {
+      "view": "right",
+      "prompt": "Use case: precise-object-edit. Asset type: orthographic albedo texture projection source for an existing game mesh.\nEdit the FIRST input image, the gray model guide. The SECOND input is design_reference.png, ONLY the authority for colors, surface materials, trim and fine wear. Repaint the guide's existing pixels, preserving its exact silhouette, alpha boundary, camera, frame placement, scale, all folds, openings, overlaps and every part's edge. Do not adopt the design reference's upright silhouette or proportions. The guide's flattened, compact broad shape is intentional and mandatory. Do not remodel, smooth away, invent or move any geometry.\nMaterial design: dark slate-blue finely woven cloth with subtle seams; narrow weathered brushed gold binding follows the existing cloth hem and exposed panel edges; two off-white ivory ceramic shoulder clips/panels with fine hairline wear, thin muted gold borders and simple gold clasp joining them. Continue these materials plausibly on hidden-design surfaces and backs. All visible folded fabric interiors remain slate-blue fabric. Use only materials actually present in the reference: no added resin, lights, glass, crystal, gems or ornaments. No wearer, hood, sleeves or extra parts.\nLIGHTING: unlit diffuse ALBEDO texture source, flat even shadowless illumination from the viewer. Uniform material base colors across differently oriented surfaces. Remove the guide's gray lighting from the painting. No cast shadows, no ambient-occlusion darkening, no dark crevice shading, no directional gradients, no strong specular highlights/reflections, no rim light. Gold is its muted base color with only a faint sheen; fine wear and cloth weave are surface color texture.\nOutput exactly one 1024 x 1024 PNG with genuine transparent background and transparent openings wherever the guide is transparent. Keep the full original 1024-square canvas, no reframing, no cropping, no scaling. No background, floor, shadow, text, letters, labels or watermark.\nRequested view: RIGHT. One corrective generation. Edit only guide_right.png, the first image. Preserve ALL of its geometry as a fixed technical stencil: every straight polygon contour, flat tip, angular fold edge, overlap, neck opening and tiny partly hidden clasp. Do not change the camera or reveal more of the clasp. Apply the reference materials only within the existing parts. Ivory ceramic upper yoke, dark slate-blue woven lower cloth, thin weathered gold edge binding and clasp.\nRemove ALL shading from the material pass: even the cloth inside rolled hems, under the shoulder yoke and between folds must use the same slate-blue base color as exposed cloth. No black crevices or shadowed interior surfaces. No raised-fold highlights. Matte gold base color with faint material wear only. Flat ivory with small hairline wear. Cloth texture very fine and low contrast. Keep angular low-poly hems, do not round them.\nOutput 1024x1024 with the first image's original transparent alpha silhouette and position x=81..942, y=273..750. Do not resize, reposition or crop the subject. No letters or text.",
+      "inputs": [
+        {
+          "path": "guide_right.png",
+          "sha256": "573fa1608082a16b4bf70a5dc21d96077eba4342e08c089c99b213d9584c942b"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "b71bd85068189d4a3787b6eb16766784995f9db6db6b35078e4c3ab65a469fc7"
+        }
+      ],
+      "attempt": 2,
+      "source": "/home/pjasicek/.codex/generated_images/01a16ee5-3417-7a90-9f17-711b2c285b0a/exec-28da6932-e9ff-46b0-9836-4e7db473b6ed.png",
+      "output": "paint_right_attempt2.png",
+      "selected": false,
+      "reason": "Rejected correction: more angular folds but introduced extra ivory ceramic strips among the cloth and changed yoke panel shapes.",
+      "visual_checks": {
+        "materials_match": false,
+        "no_text": true,
+        "flat_shadowless_lighting": false,
+        "geometry_exact": false
+      },
+      "size": [
+        1254,
+        1254
+      ],
+      "requested_size": [
+        1024,
+        1024
+      ],
+      "mode": "RGBA",
+      "resized": false,
+      "postprocessed": false,
+      "alpha_bbox": [
+        95,
+        39,
+        1224,
+        1204
+      ],
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "substantial_alpha_bbox": [
+        104,
+        327,
+        1184,
+        922
+      ],
+      "transparent_background": true,
+      "exact_guide_alpha": false,
+      "output_sha256": "19fdc511cd52a6f2f26c8d48ae6178e1fa3dcce77f3df5bb555fc3d91c90d5e3"
+    },
+    {
+      "view": "top",
+      "prompt": "Use case: precise-object-edit. Asset type: orthographic albedo texture projection source for an existing game mesh.\nEdit the FIRST input image, the gray model guide. The SECOND input is design_reference.png, ONLY the authority for colors, surface materials, trim and fine wear. Repaint the guide's existing pixels, preserving its exact silhouette, alpha boundary, camera, frame placement, scale, all folds, openings, overlaps and every part's edge. Do not adopt the design reference's upright silhouette or proportions. The guide's flattened, compact broad shape is intentional and mandatory. Do not remodel, smooth away, invent or move any geometry.\nMaterial design: dark slate-blue finely woven cloth with subtle seams; narrow weathered brushed gold binding follows the existing cloth hem and exposed panel edges; two off-white ivory ceramic shoulder clips/panels with fine hairline wear, thin muted gold borders and simple gold clasp joining them. Continue these materials plausibly on hidden-design surfaces and backs. All visible folded fabric interiors remain slate-blue fabric. Use only materials actually present in the reference: no added resin, lights, glass, crystal, gems or ornaments. No wearer, hood, sleeves or extra parts.\nLIGHTING: unlit diffuse ALBEDO texture source, flat even shadowless illumination from the viewer. Uniform material base colors across differently oriented surfaces. Remove the guide's gray lighting from the painting. No cast shadows, no ambient-occlusion darkening, no dark crevice shading, no directional gradients, no strong specular highlights/reflections, no rim light. Gold is its muted base color with only a faint sheen; fine wear and cloth weave are surface color texture.\nOutput exactly one 1024 x 1024 PNG with genuine transparent background and transparent openings wherever the guide is transparent. Keep the full original 1024-square canvas, no reframing, no cropping, no scaling. No background, floor, shadow, text, letters, labels or watermark.\nRequested view: TOP, looking directly down, edit guide_top.png. The FIRST input is the mandatory geometry: a roughly radial piled cloak with an irregular large TRANSPARENT neck opening slightly right and below canvas center, the existing small front clasp at the hole's bottom edge, an irregular broad upper shoulder ring, and separate projecting folds around the perimeter. The SECOND image is surface appearance reference only.\nPaint the existing shoulder ring ivory ceramic with fine hairline wear and narrow muted gold edge, simple gold clasp only where the guide has it. All projecting surrounding fabric folds are slate-blue woven cloth with gold-bound hems. The open neck remains genuinely transparent, same hole shape and position as the guide; never fill it with fabric, skin, backing, black paint or shadow. No mannequin, hood or sleeve. Preserve every polygon corner, overlap and gap.\nExact 1024-square canvas and guide geometry: object x=66..957 y=81..942, all margins unchanged. Do not rotate or align the irregular hole symmetrically. Flat unlit albedo, even base colors, no shadows between folds, no darkening inside edges, no illumination gradients or strong highlights. Fine surface texture only.",
+      "inputs": [
+        {
+          "path": "guide_top.png",
+          "sha256": "375d0ac4032e2310806fc14d1bb7aff2e37208836bb5db2dcb5c6f442f33c122"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "b71bd85068189d4a3787b6eb16766784995f9db6db6b35078e4c3ab65a469fc7"
+        }
+      ],
+      "attempt": 1,
+      "source": "/home/pjasicek/.codex/generated_images/01a16ee5-3417-7a90-9f17-711b2c285b0a/exec-ac68a2ef-6b99-4f29-b03d-bd1eaf779d37.png",
+      "output": "paint_top.png",
+      "selected": true,
+      "reason": "Selected first attempt: preserves the single front clasp below the open neck and continuous shoulder ring more faithfully than correction 2. Residual fold shading and silhouette/part-edge drift remain; not an exact guide match.",
+      "visual_checks": {
+        "materials_match": true,
+        "no_text": true,
+        "flat_shadowless_lighting": false,
+        "geometry_exact": false,
+        "open_neck_transparent": true
+      },
+      "size": [
+        1254,
+        1254
+      ],
+      "requested_size": [
+        1024,
+        1024
+      ],
+      "mode": "RGBA",
+      "resized": false,
+      "postprocessed": false,
+      "alpha_bbox": [
+        0,
+        32,
+        1218,
+        1254
+      ],
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "substantial_alpha_bbox": [
+        79,
+        89,
+        1191,
+        1143
+      ],
+      "transparent_background": true,
+      "exact_guide_alpha": false,
+      "output_sha256": "895fcbc4c85d0fa62971b7ff766efe554adf207dac9215a952923c32bec01ad4"
+    },
+    {
+      "view": "top",
+      "prompt": "Use case: precise-object-edit. Asset type: orthographic albedo texture projection source for an existing game mesh.\nEdit the FIRST input image, the gray model guide. The SECOND input is design_reference.png, ONLY the authority for colors, surface materials, trim and fine wear. Repaint the guide's existing pixels, preserving its exact silhouette, alpha boundary, camera, frame placement, scale, all folds, openings, overlaps and every part's edge. Do not adopt the design reference's upright silhouette or proportions. The guide's flattened, compact broad shape is intentional and mandatory. Do not remodel, smooth away, invent or move any geometry.\nMaterial design: dark slate-blue finely woven cloth with subtle seams; narrow weathered brushed gold binding follows the existing cloth hem and exposed panel edges; two off-white ivory ceramic shoulder clips/panels with fine hairline wear, thin muted gold borders and simple gold clasp joining them. Continue these materials plausibly on hidden-design surfaces and backs. All visible folded fabric interiors remain slate-blue fabric. Use only materials actually present in the reference: no added resin, lights, glass, crystal, gems or ornaments. No wearer, hood, sleeves or extra parts.\nLIGHTING: unlit diffuse ALBEDO texture source, flat even shadowless illumination from the viewer. Uniform material base colors across differently oriented surfaces. Remove the guide's gray lighting from the painting. No cast shadows, no ambient-occlusion darkening, no dark crevice shading, no directional gradients, no strong specular highlights/reflections, no rim light. Gold is its muted base color with only a faint sheen; fine wear and cloth weave are surface color texture.\nOutput exactly one 1024 x 1024 PNG with genuine transparent background and transparent openings wherever the guide is transparent. Keep the full original 1024-square canvas, no reframing, no cropping, no scaling. No background, floor, shadow, text, letters, labels or watermark.\nRequested view: TOP. One corrective generation. Color the first input guide_top.png as an EXACT, GEOMETRY-LOCKED FLAT MATERIAL STENCIL. Keep its 1024x1024 canvas, pixel positions, angular polygon silhouette and all internal edges. Copy the irregular neck hole exactly, including its angular right corner and off-center position; the hole and all original gaps must remain TRANSPARENT. Maintain the ceramic shoulder ring's original asymmetric contour rather than making it a smooth circular necklace. Do not change the clasp or fold locations.\nPaint only: muted slate-blue cloth weave in every cloth facet, off-white finely worn ceramic on the existing shoulder ring, matte weathered gold on thin borders and the simple clasp. The base color of fabric at the bottom of folds MUST equal fabric at the top. Remove all dark crevice shading, all shadows, all light/shadow gradients and all glints. Surface texture may be subtle, but lighting must be perfectly flat and neutral. Keep the squared and angled fold ends as in the guide, do not round them. No scene, no floor, no text, no symbols, no extra objects.",
+      "inputs": [
+        {
+          "path": "guide_top.png",
+          "sha256": "375d0ac4032e2310806fc14d1bb7aff2e37208836bb5db2dcb5c6f442f33c122"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "b71bd85068189d4a3787b6eb16766784995f9db6db6b35078e4c3ab65a469fc7"
+        }
+      ],
+      "attempt": 2,
+      "source": "/home/pjasicek/.codex/generated_images/01a16ee5-3417-7a90-9f17-711b2c285b0a/exec-746ba723-9ed8-468c-9c75-1ca7875b1405.png",
+      "output": "paint_top_attempt2.png",
+      "selected": false,
+      "reason": "Rejected correction: moved/duplicated the clasp above the neck opening and split the shoulder ring into a different panel arrangement.",
+      "visual_checks": {
+        "materials_match": true,
+        "no_text": true,
+        "flat_shadowless_lighting": false,
+        "geometry_exact": false
+      },
+      "size": [
+        1254,
+        1254
+      ],
+      "requested_size": [
+        1024,
+        1024
+      ],
+      "mode": "RGBA",
+      "resized": false,
+      "postprocessed": false,
+      "alpha_bbox": [
+        0,
+        31,
+        1240,
+        1254
+      ],
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "substantial_alpha_bbox": [
+        79,
+        83,
+        1173,
+        1128
+      ],
+      "transparent_background": true,
+      "exact_guide_alpha": false,
+      "output_sha256": "8d37f4fd9e37e7a2872b5ca8fdae6d63f7548b8c1fb80172e71c3bf759170c1b"
+    }
+  ],
+  "summary": {
+    "selected_views": 5,
+    "attempts_per_view": 2,
+    "corrective_regenerations_per_view": 1,
+    "all_inputs_unchanged": true,
+    "all_returns_copied_byte_for_byte": true,
+    "all_outputs_transparent_rgba": true,
+    "all_returned_sizes": [
+      1254,
+      1254
+    ],
+    "requested_size": [
+      1024,
+      1024
+    ],
+    "resized": false,
+    "postprocessed": false,
+    "exact_guide_silhouette_check": "failed: return dimensions and generated contours differ from guides",
+    "flat_shadowless_albedo_check": "failed: residual fold shading remains",
+    "materials_check": "selected images use slate-blue woven fabric, ivory ceramic and weathered gold",
+    "text_check": "visual inspection found no text or letters",
+    "status": "Best available returns within the one-correction-per-view limit; exact geometry and flat albedo requirements not fully met."
+  }
+}

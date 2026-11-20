@@ -1,0 +1,3 @@
+Saved 01–04 at 1536×1024 using built-in image generation, plus eight raw returns, prompts/checksums in `generation_runs.json`, and the [review sheet](/home/pjasicek/github/OpenYAMM/level_generation/creatures/mm9_peasanthom1_claude/references_hd/selected_views_review.png).
+
+Stopped at one correction per view. Residual halos violate clean transparency; tight margins and slight right-profile rotation remain documented. No builds or Meshy calls.

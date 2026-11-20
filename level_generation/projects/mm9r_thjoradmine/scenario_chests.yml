@@ -1,0 +1,207 @@
+# Written by make_scenarios.py from the built map; rerun it after convert.py.
+id: mm9r.thjoradmine_chests
+title: Thjorad Mine (native BLV) - every chest opens from in front of its model
+world: mm9
+mode: faithful
+tags:
+- mm9
+- mm9_rework
+- draft
+steps:
+- load_map:
+    map: thjoradmine.blv
+- set_pose:
+    map: thjoradmine.blv
+    x: 4997
+    y: -11396
+    z: -1228
+    yaw: 1.5708
+    pitch: -0.7295
+- press_interact: {}
+- assert:
+    chest_opened:
+      chest_id: 0
+- press_action:
+    action: cancel_dialog
+- set_pose:
+    map: thjoradmine.blv
+    x: 17053
+    y: -15401
+    z: -1453
+    yaw: 0.0
+    pitch: -0.7277
+- press_interact: {}
+- assert:
+    chest_opened:
+      chest_id: 1
+- press_action:
+    action: cancel_dialog
+- set_pose:
+    map: thjoradmine.blv
+    x: 5358
+    y: -15965
+    z: -1515
+    yaw: -2.4435
+    pitch: -0.7246
+- press_interact: {}
+- assert:
+    chest_opened:
+      chest_id: 2
+- press_action:
+    action: cancel_dialog
+- set_pose:
+    map: thjoradmine.blv
+    x: 6937
+    y: -11752
+    z: -1494
+    yaw: 2.2724
+    pitch: -0.7264
+- press_interact: {}
+- assert:
+    chest_opened:
+      chest_id: 3
+- press_action:
+    action: cancel_dialog
+- set_pose:
+    map: thjoradmine.blv
+    x: 20965
+    y: -15872
+    z: -1699
+    yaw: 0.0
+    pitch: -0.7286
+- press_interact: {}
+- assert:
+    chest_opened:
+      chest_id: 4
+- press_action:
+    action: cancel_dialog
+- set_pose:
+    map: thjoradmine.blv
+    x: 23585
+    y: -12729
+    z: -1248
+    yaw: -2.4435
+    pitch: -0.7255
+- press_interact: {}
+- assert:
+    chest_opened:
+      chest_id: 5
+- press_action:
+    action: cancel_dialog
+- set_pose:
+    map: thjoradmine.blv
+    x: 10747
+    y: -16545
+    z: -1617
+    yaw: 2.2724
+    pitch: -0.7231
+- press_interact: {}
+- assert:
+    chest_opened:
+      chest_id: 6
+- press_action:
+    action: cancel_dialog
+- set_pose:
+    map: thjoradmine.blv
+    x: 16220
+    y: -7473
+    z: -1515
+    yaw: -1.5708
+    pitch: -0.7246
+- press_interact: {}
+- assert:
+    chest_opened:
+      chest_id: 7
+- press_action:
+    action: cancel_dialog
+- set_pose:
+    map: thjoradmine.blv
+    x: 14910
+    y: -1821
+    z: -1535
+    yaw: -1.5708
+    pitch: -0.7265
+- press_interact: {}
+- assert:
+    chest_opened:
+      chest_id: 8
+- press_action:
+    action: cancel_dialog
+- set_pose:
+    map: thjoradmine.blv
+    x: 14245
+    y: 1987
+    z: -1555
+    yaw: 3.1416
+    pitch: -0.7303
+- press_interact: {}
+- assert:
+    chest_opened:
+      chest_id: 9
+- press_action:
+    action: cancel_dialog
+- set_pose:
+    map: thjoradmine.blv
+    x: 21750
+    y: 3463
+    z: -1555
+    yaw: -1.5708
+    pitch: -0.7247
+- press_interact: {}
+- assert:
+    chest_opened:
+      chest_id: 10
+- press_action:
+    action: cancel_dialog
+- set_pose:
+    map: thjoradmine.blv
+    x: 27798
+    y: -7009
+    z: -1678
+    yaw: 3.1416
+    pitch: -0.5969
+- press_interact: {}
+- assert:
+    chest_opened:
+      chest_id: 11
+- press_action:
+    action: cancel_dialog
+- set_pose:
+    map: thjoradmine.blv
+    x: 23708
+    y: -9739
+    z: -1248
+    yaw: -2.4435
+    pitch: -0.7255
+- press_interact: {}
+- assert:
+    chest_opened:
+      chest_id: 12
+- press_action:
+    action: cancel_dialog
+- set_pose:
+    map: thjoradmine.blv
+    x: 30630
+    y: -12606
+    z: -2252
+    yaw: -2.4435
+    pitch: -0.7235
+- press_interact: {}
+- assert:
+    chest_opened:
+      chest_id: 13
+- press_action:
+    action: cancel_dialog
+- set_pose:
+    map: thjoradmine.blv
+    x: 5161
+    y: -11396
+    z: -1228
+    yaw: 1.5708
+    pitch: -0.7295
+- press_interact: {}
+- assert:
+    chest_opened:
+      chest_id: 14
+- press_action:
+    action: cancel_dialog

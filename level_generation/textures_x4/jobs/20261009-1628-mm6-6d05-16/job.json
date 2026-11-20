@@ -1,0 +1,628 @@
+{
+ "id": "20261009-1628-mm6-6d05-16",
+ "world": "mm6",
+ "maps": [
+  "6d05.blv",
+  "6d06.blv"
+ ],
+ "created": "2026-10-09T14:28:26+00:00",
+ "textures": [
+  "mm6/d3ystlwl",
+  "mm6/6sandtyl",
+  "mm6/cbm16c",
+  "mm6/cbm16d",
+  "mm6/crdrf1",
+  "mm6/crflr3",
+  "mm6/crstont",
+  "mm6/crwl3",
+  "mm6/t3oor4",
+  "mm6/d8wlcsp6",
+  "mm6/d8wletrn",
+  "mm6/d8wla",
+  "mm6/d8wlc",
+  "mm6/cvwl8",
+  "mm6/d8wlcsp2",
+  "mm6/d8wle",
+  "mm6/d8wlcre",
+  "mm6/d8wlbsp2",
+  "mm6/d8wlesp2",
+  "mm6/d8wlale",
+  "mm6/d8wlare",
+  "mm6/d8wlcle",
+  "mm6/d8wlcsp4",
+  "mm6/d8wlbsp1"
+ ],
+ "requests": {
+  "mm6/d3ystlwl": {
+   "name": "d3ystlwl",
+   "versions": [
+    1
+   ],
+   "material": "dark brown rough rock wall with a jagged cavity ringed by glowing magenta-pink crystals around a black hole in the centre; copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/d3ll6"
+     ],
+     "fraction": 0.659
+    }
+   }
+  },
+  "mm6/6sandtyl": {
+   "name": "6sandtyl",
+   "versions": [
+    1
+   ],
+   "material": "pale golden-yellow desert sand with soft wind-blown ripple dunes",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/cbm16c": {
+   "name": "cbm16c",
+   "versions": [
+    1
+   ],
+   "material": "plain narrow orange-brown wooden strip with vertical grain",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/cbm16d": {
+   "name": "cbm16d",
+   "versions": [
+    1
+   ],
+   "material": "plain narrow orange-brown wooden strip with vertical grain and a few small dark nail heads",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/crdrf1": {
+   "name": "crdrf1",
+   "versions": [
+    1
+   ],
+   "material": "near-black rough cave rock with scattered pale grey and tan pebbles and specks",
+   "notes": {},
+   "ref_blur": {
+    "1": 2.5
+   },
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/crflr3": {
+   "name": "crflr3",
+   "versions": [
+    1
+   ],
+   "material": "pale cream-beige mottled smooth limestone with faint olive-grey veining",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/crstont": {
+   "name": "crstont",
+   "versions": [
+    1
+   ],
+   "material": "dark blue-grey layered rock with deep irregular cracks and lighter weathered ridges",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/crwl3": {
+   "name": "crwl3",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "tan and brown coarse rough rock with dark pits and crumbly speckle",
+   "notes": {
+    "2": "Natural granular stone with irregular grain of varied sizes and soft natural edges: no mosaic of square cells, no pixel blocks, no grid."
+   },
+   "ref_blur": {
+    "1": 2.5,
+    "2": 2.5
+   },
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/t3oor4": {
+   "name": "t3oor4",
+   "versions": [
+    1
+   ],
+   "material": "red-brown dried clay ground with a network of dark cracks",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/d8wlcsp6": {
+   "name": "d8wlcsp6",
+   "versions": [
+    1
+   ],
+   "material": "grey irregular fieldstone wall with dark mortar, a dark grey stone arch framing a red brick infill wall with a few black missing-brick gaps; copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/d8wlcsp5"
+     ],
+     "fraction": 0.875
+    }
+   }
+  },
+  "mm6/d8wletrn": {
+   "name": "d8wletrn",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "dark brown packed earth wall braced by horizontal rusty riveted iron bands under a red-brown brick header, transitioning into grey irregular fieldstone wall on the left; copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "2": {}
+   }
+  },
+  "mm6/d8wla": {
+   "name": "d8wla",
+   "versions": [
+    1
+   ],
+   "material": "grey rough stucco plaster wall with fine pitted texture",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/d8wlc": {
+   "name": "d8wlc",
+   "versions": [
+    1,
+    2,
+    3
+   ],
+   "material": "grey irregular fieldstone wall with dark mortar",
+   "notes": {
+    "3": "Irregular rubble only; no straight vertical line anywhere; mortar follows the stone outlines."
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/d8wletrn",
+      "mm6/d8wlcsp6"
+     ],
+     "fraction": 0.498
+    },
+    "2": {
+     "sources": [
+      "mm6/d8wletrn",
+      "mm6/d8wlcsp6"
+     ],
+     "fraction": 0.498
+    },
+    "3": {
+     "sources": [
+      "mm6/d8wletrn",
+      "mm6/d8wlcsp6"
+     ],
+     "fraction": 0.498
+    }
+   },
+   "pad": {
+    "2": [
+     32,
+     16
+    ],
+    "3": [
+     32,
+     16
+    ]
+   },
+   "context": {
+    "2": {
+     "right": "mm6/d8wlcsp6",
+     "left": "mm6/d8wlcsp6"
+    },
+    "3": {
+     "right": "mm6/d8wlcsp6",
+     "left": "mm6/d8wlcsp6"
+    }
+   }
+  },
+  "mm6/cvwl8": {
+   "name": "cvwl8",
+   "versions": [
+    1
+   ],
+   "material": "orange-brown cave flowstone wall with long vertical streaked ribs and darker drips",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/d8wlcsp2": {
+   "name": "d8wlcsp2",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "grey irregular fieldstone wall with dark mortar and a narrow black vertical slit opening in the centre",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/d8wlc"
+     ],
+     "fraction": 0.902
+    },
+    "2": {
+     "sources": [
+      "mm6/d8wlc",
+      "mm6/d8wletrn",
+      "mm6/d8wlcsp6"
+     ],
+     "fraction": 0.895
+    }
+   },
+   "context": {
+    "2": {}
+   }
+  },
+  "mm6/d8wle": {
+   "name": "d8wle",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "dark brown packed earth wall braced by horizontal rusty riveted iron bands under a red-brown brick header",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/d8wletrn"
+     ],
+     "fraction": 0.574
+    },
+    "2": {
+     "sources": [
+      "mm6/d8wletrn"
+     ],
+     "fraction": 0.574
+    }
+   },
+   "context": {
+    "2": {}
+   }
+  },
+  "mm6/d8wlcre": {
+   "name": "d8wlcre",
+   "versions": [
+    1,
+    2,
+    3,
+    4,
+    5
+   ],
+   "material": "grey irregular fieldstone wall with dark mortar, with a dark stone pilaster edge on the right",
+   "notes": {
+    "3": "The column fills the right part of the texture and runs to the right edge with its shaded side there and its dark gap at about 81-83% of the width; no strip of wall to the right of the column.",
+    "4": "The column's dark gap sits at 81-83% of the width (the column is narrower than now) and its lit face is the reference's mid grey; the column still runs to the right edge.",
+    "5": "Keep the column and its dark gap at 81-84% as now; the column stones continue unbroken to the right edge, shading darker over the last few percent; no dark groove near the right edge and no sliver of another stone."
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/d8wlc"
+     ],
+     "fraction": 0.707
+    },
+    "2": {
+     "sources": [
+      "mm6/d8wlc"
+     ],
+     "fraction": 0.698
+    },
+    "3": {
+     "sources": [
+      "mm6/d8wlc",
+      "mm6/d8wlcsp2"
+     ],
+     "fraction": 0.707
+    },
+    "4": {
+     "sources": [
+      "mm6/d8wlc",
+      "mm6/d8wlcsp2"
+     ],
+     "fraction": 0.707
+    },
+    "5": {
+     "sources": [
+      "mm6/d8wlc",
+      "mm6/d8wlcsp2"
+     ],
+     "fraction": 0.707
+    }
+   },
+   "pad": {
+    "2": [
+     32,
+     16
+    ],
+    "3": [
+     32,
+     16
+    ],
+    "4": [
+     32,
+     16
+    ],
+    "5": [
+     32,
+     16
+    ]
+   },
+   "context": {
+    "2": {
+     "left": "mm6/d8wlc"
+    },
+    "3": {
+     "left": "mm6/d8wlc"
+    },
+    "4": {
+     "left": "mm6/d8wlc"
+    },
+    "5": {
+     "left": "mm6/d8wlc"
+    }
+   }
+  },
+  "mm6/d8wlbsp2": {
+   "name": "d8wlbsp2",
+   "versions": [
+    1
+   ],
+   "material": "olive-grey mossy stone brick wall with dark wooden beam bands top and bottom, a long burial niche holding a skeleton lying on its back; copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/d8wlbsp6"
+     ],
+     "fraction": 0.088
+    }
+   }
+  },
+  "mm6/d8wlesp2": {
+   "name": "d8wlesp2",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "dark brown packed earth wall braced by horizontal rusty riveted iron bands under a red-brown brick header topped with a row of grey stones",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/d8wle",
+      "mm6/d8wletrn"
+     ],
+     "fraction": 0.616
+    },
+    "2": {
+     "sources": [
+      "mm6/d8wle",
+      "mm6/d8wletrn"
+     ],
+     "fraction": 0.616
+    }
+   },
+   "pad": {
+    "2": [
+     32,
+     16
+    ]
+   },
+   "context": {
+    "2": {
+     "right": "mm6/d8wletrn1"
+    }
+   }
+  },
+  "mm6/d8wlale": {
+   "name": "d8wlale",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "grey rough stucco plaster wall with fine pitted texture, with a strip of grey irregular fieldstone along the left edge",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/d8wla"
+     ],
+     "fraction": 0.735
+    },
+    "2": {
+     "sources": [
+      "mm6/d8wla"
+     ],
+     "fraction": 0.72
+    }
+   },
+   "pad": {
+    "2": [
+     32,
+     16
+    ]
+   },
+   "context": {
+    "2": {
+     "right": "mm6/d8wla"
+    }
+   }
+  },
+  "mm6/d8wlare": {
+   "name": "d8wlare",
+   "versions": [
+    1
+   ],
+   "material": "grey rough stucco plaster wall with fine pitted texture, with a strip of grey irregular fieldstone along the right edge",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/d8wla"
+     ],
+     "fraction": 0.725
+    }
+   }
+  },
+  "mm6/d8wlcle": {
+   "name": "d8wlcle",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "grey irregular fieldstone wall with dark mortar, with a dark stone pilaster edge on the left",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/d8wlc"
+     ],
+     "fraction": 0.676
+    },
+    "2": {
+     "sources": [
+      "mm6/d8wlc",
+      "mm6/d8wlcsp2",
+      "mm6/d8wlcre"
+     ],
+     "fraction": 0.697
+    }
+   },
+   "pad": {
+    "2": [
+     32,
+     16
+    ]
+   },
+   "context": {
+    "2": {
+     "right": "mm6/d8wlc"
+    }
+   }
+  },
+  "mm6/d8wlcsp4": {
+   "name": "d8wlcsp4",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "grey irregular fieldstone wall with dark mortar broken open in the centre revealing a decayed brown corpse embedded in the wall; copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/d8wlc"
+     ],
+     "fraction": 0.636
+    },
+    "2": {
+     "sources": [
+      "mm6/d8wlc",
+      "mm6/d8wlcsp2"
+     ],
+     "fraction": 0.636
+    }
+   },
+   "pad": {
+    "2": [
+     32,
+     16
+    ]
+   },
+   "context": {
+    "2": {
+     "left": "mm6/d8wlc",
+     "right": "mm6/d8wlcre"
+    }
+   }
+  },
+  "mm6/d8wlbsp1": {
+   "name": "d8wlbsp1",
+   "versions": [
+    1
+   ],
+   "material": "olive-grey mossy stone brick wall with dark wooden beam bands top and bottom and a vertical dark wooden post in the centre",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/d8wlb",
+      "mm6/d8wlble"
+     ],
+     "fraction": 0.522
+    }
+   }
+  }
+ }
+}

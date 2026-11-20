@@ -1,0 +1,262 @@
+{
+  "tool": "built-in image_gen",
+  "runs": [
+    {
+      "view": "left",
+      "attempt": 1,
+      "prompt": "Use case: sketch-to-render. Asset type: orthographic albedo texture-source painting for an existing 3D game decoration, the Giant rib bone. Deliver exactly one 1024 x 1024 PNG with a genuinely transparent background.\n\nINPUT ROLES, in attachment order:\n1. guide_left.png is the EDIT TARGET and immutable geometry/alpha/layout authority: the exact 3D model seen from its left side.\n2. design_reference.png is the approved design, colour and surface-material authority only; do not copy its three-quarter camera, framing, lighting or background.\n3. concept_crop.png is the original concept, supplementary material reference.\n\nPaint the existing grey surfaces of image 1 in place. Keep its silhouette EXACTLY: identical outline, size, position, every shape edge, opening and detail. Preserve its alpha footprint and large empty transparent margins. The object occupies only x=275..748 and y=409..614 within the 1024-square canvas, with topmost vertex near (512,409), outermost ground-root edges near (275,597) and (748,597), and lowest center near (512,614). Do not enlarge, move, rotate, reframe, crop, smooth, reshape or add geometry. This is the end-on left orthographic view from the guide, not the long three-quarter side view in the design. Keep every existing root branch and gap exactly where the guide places it.\n\nMATERIALS: apply the reference's warm ivory bone with irregular brown-amber cracks and stains to the bone mass. Apply thin black-violet resin-root material to the existing root shapes, using the reference's deep purple colour. Surface crack patterns are painted colour, not extra edges or sculpted relief. Preserve every existing detail and opening; add no roots, debris or silhouettes. Any orange glowing seams are painted at their orange local colour only, with no light cast onto nearby surfaces.\n\nLIGHTING: strictly ALBEDO/base colour. Even flat shadowless illumination from the viewer. No cast shadows, no ambient-occlusion darkening, no directional or form-shading gradients, no strong specular highlights, no reflections, no rim light. Retain material colour differences and stains, not the grey guide's lighting or the reference's cinematic lighting. No background, no floor, no ground shadow, no vignette, no halo, no text.\n\nOUTPUT: a single unresized 1024 x 1024 RGBA return. Keep the exact guide footprint, camera, framing and transparent exterior unchanged; change only the surface colours/material painting.",
+      "inputs": [
+        {
+          "path": "guide_left.png",
+          "sha256": "6cb462a87ce34e74ee3c6b2b5bc76e03b2bcccd543d15bb644a300849f6cb4fc"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "eb992ca15b299e23e1c559de19033076fd98fb5f412c5e7fa18cae5111d01b8b"
+        },
+        {
+          "path": "concept_crop.png",
+          "sha256": "79c3af56fde41b9049bf84e067a222e57a10b72272181c0f866f6679facce6b6"
+        }
+      ],
+      "source": "/home/pjasicek/.codex/generated_images/01a168b2-cf8c-7900-b5e3-19941b53b545/exec-b5f22d0c-40f7-4778-9bd3-afe48d1ee1de.png",
+      "output": "paint_left_attempt1.png",
+      "selected": false,
+      "reason": "Rejected: native 1254x1254 dimensions instead of 1024x1024; guide silhouette not identical; shaded/specular treatment and off-footprint alpha residue.",
+      "output_sha256": "ce9a165338e28a8e73f62776c62118e793b3c294b7f209e467e771e254572263",
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "required_size": [
+          1024,
+          1024
+        ],
+        "size_pass": false,
+        "mode": "RGBA",
+        "transparent_alpha_present": true,
+        "alpha_bbox": [
+          33,
+          21,
+          1202,
+          1167
+        ],
+        "alpha_bbox_at_128": [
+          339,
+          503,
+          915,
+          752
+        ],
+        "guide_alpha_bbox": [
+          275,
+          409,
+          749,
+          615
+        ],
+        "silhouette_identical": false,
+        "materials_and_colours": "Visually matches ivory bone, brown-amber cracking and black-violet roots; material placement is approximate.",
+        "flat_even_light_pass": false,
+        "lighting_notes": "Residual face shading, dark crevices and root highlights remain.",
+        "transparent_background_notes": "RGBA with transparent background; faint nonzero alpha extends beyond the visible model.",
+        "unresized_unmodified_return": true,
+        "output_matches_tool_return": true
+      }
+    },
+    {
+      "view": "right",
+      "attempt": 1,
+      "prompt": "Use case: sketch-to-render. Asset type: orthographic albedo texture-source painting for an existing 3D game decoration, the Giant rib bone. Deliver exactly one 1024 x 1024 PNG with a genuinely transparent background.\n\nINPUT ROLES, in attachment order:\n1. guide_right.png is the EDIT TARGET and immutable geometry/alpha/layout authority: the exact 3D model seen from its right side.\n2. design_reference.png is the approved design, colour and surface-material authority only; do not copy its three-quarter camera, framing, lighting or background.\n3. concept_crop.png is the original concept, supplementary material reference.\n\nPaint the existing grey surfaces of image 1 in place. Keep its silhouette EXACTLY: identical outline, size, position, every shape edge, opening and detail. Preserve its alpha footprint and large empty transparent margins. The object occupies only x=275..748 and y=409..614 within the 1024-square canvas, with topmost vertex near (512,409), outermost ground-root edges near (275,597) and (748,597), and lowest center near (512,614). Do not enlarge, move, rotate, reframe, crop, smooth, reshape or add geometry. This is the end-on right orthographic view from the guide, not the long three-quarter side view in the design. Keep every existing root branch and gap exactly where the guide places it.\n\nMATERIALS: apply the reference's warm ivory bone with irregular brown-amber cracks and stains to the bone mass. Apply thin black-violet resin-root material to the existing root shapes, using the reference's deep purple colour. Surface crack patterns are painted colour, not extra edges or sculpted relief. Preserve every existing detail and opening; add no roots, debris or silhouettes. Any orange glowing seams are painted at their orange local colour only, with no light cast onto nearby surfaces.\n\nLIGHTING: strictly ALBEDO/base colour. Even flat shadowless illumination from the viewer. No cast shadows, no ambient-occlusion darkening, no directional or form-shading gradients, no strong specular highlights, no reflections, no rim light. Retain material colour differences and stains, not the grey guide's lighting or the reference's cinematic lighting. No background, no floor, no ground shadow, no vignette, no halo, no text.\n\nOUTPUT: a single unresized 1024 x 1024 RGBA return. Keep the exact guide footprint, camera, framing and transparent exterior unchanged; change only the surface colours/material painting.",
+      "inputs": [
+        {
+          "path": "guide_right.png",
+          "sha256": "3610a6017c3801ea0b87bb2f805a770c3a6f74bacdf71fc1cf95e7774728ed95"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "eb992ca15b299e23e1c559de19033076fd98fb5f412c5e7fa18cae5111d01b8b"
+        },
+        {
+          "path": "concept_crop.png",
+          "sha256": "79c3af56fde41b9049bf84e067a222e57a10b72272181c0f866f6679facce6b6"
+        }
+      ],
+      "source": "/home/pjasicek/.codex/generated_images/01a168b2-cf8c-7900-b5e3-19941b53b545/exec-7da4c842-a0bc-4eb4-942d-3625e8bb5a28.png",
+      "output": "paint_right_attempt1.png",
+      "selected": false,
+      "reason": "Rejected: native 1254x1254 dimensions instead of 1024x1024; guide silhouette not identical; shaded/specular treatment and off-footprint alpha residue.",
+      "output_sha256": "353f740df12364fc77aacb64a3ca02d8b4ebe3be2a3a4341d9ee5a476784bf97",
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "required_size": [
+          1024,
+          1024
+        ],
+        "size_pass": false,
+        "mode": "RGBA",
+        "transparent_alpha_present": true,
+        "alpha_bbox": [
+          113,
+          57,
+          1121,
+          1131
+        ],
+        "alpha_bbox_at_128": [
+          336,
+          501,
+          918,
+          749
+        ],
+        "guide_alpha_bbox": [
+          275,
+          409,
+          749,
+          615
+        ],
+        "silhouette_identical": false,
+        "materials_and_colours": "Visually matches ivory bone, brown-amber cracking and black-violet roots; material placement is approximate.",
+        "flat_even_light_pass": false,
+        "lighting_notes": "Residual face shading, dark crevices and root highlights remain.",
+        "transparent_background_notes": "RGBA with transparent background; faint nonzero alpha extends beyond the visible model.",
+        "unresized_unmodified_return": true,
+        "output_matches_tool_return": true
+      }
+    },
+    {
+      "view": "left",
+      "attempt": 2,
+      "prompt": "CORRECTIVE REGENERATION, the only correction allowed for this view.\n\nThe previous return failed the required native dimensions (it was 1254 x 1254 instead of 1024 x 1024), changed edges and added shaded/specular rendering. Correct these issues in this new output. Render at EXACTLY 1024 by 1024 pixels natively. No later resizing is permitted.\n\nUse case: sketch-to-render. Asset type: orthographic albedo texture-source painting for an existing 3D game decoration, the Giant rib bone. Deliver exactly one 1024 x 1024 PNG with a genuinely transparent background.\n\nINPUT ROLES, in attachment order:\n1. guide_left.png is the EDIT TARGET and immutable geometry/alpha/layout authority: the exact 3D model seen from its left side.\n2. design_reference.png is the approved design, colour and surface-material authority only; do not copy its three-quarter camera, framing, lighting or background.\n3. concept_crop.png is the original concept, supplementary material reference.\n\nPaint the existing grey surfaces of image 1 in place. Keep its silhouette EXACTLY: identical outline, size, position, every shape edge, opening and detail. Preserve its alpha footprint and large empty transparent margins. The object occupies only x=275..748 and y=409..614 within the 1024-square canvas, with topmost vertex near (512,409), outermost ground-root edges near (275,597) and (748,597), and lowest center near (512,614). Do not enlarge, move, rotate, reframe, crop, smooth, reshape or add geometry. This is the end-on left orthographic view from the guide, not the long three-quarter side view in the design. Keep every existing root branch and gap exactly where the guide places it.\n\nMATERIALS: apply the reference's warm ivory bone with irregular brown-amber cracks and stains to the bone mass. Apply thin black-violet resin-root material to the existing root shapes, using the reference's deep purple colour. Surface crack patterns are painted colour, not extra edges or sculpted relief. Preserve every existing detail and opening; add no roots, debris or silhouettes. Any orange glowing seams are painted at their orange local colour only, with no light cast onto nearby surfaces.\n\nLIGHTING: strictly ALBEDO/base colour. Even flat shadowless illumination from the viewer. No cast shadows, no ambient-occlusion darkening, no directional or form-shading gradients, no strong specular highlights, no reflections, no rim light. Retain material colour differences and stains, not the grey guide's lighting or the reference's cinematic lighting. No background, no floor, no ground shadow, no vignette, no halo, no text.\n\nOUTPUT: a single unresized 1024 x 1024 RGBA return. Keep the exact guide footprint, camera, framing and transparent exterior unchanged; change only the surface colours/material painting.\n\nSTRICT CORRECTION PRIORITIES:\n- Use image 1 as a pixel-registered paint target, not as inspiration. Match its exact alpha mask and every angular geometric edge at the same pixel coordinates. Do not round the low-poly silhouette. The model must occupy exactly x 275 through 748, y 409 through 614 in the 1024 x 1024 canvas.\n- All pixels outside the guide's original opaque footprint must be fully transparent (alpha 0), including the entire empty surrounding canvas. No faint background residue, fringe, haze or glow.\n- Paint an UNLIT BASE-COLOUR PASS, with matte colour swatches and fine stains/cracks, not a beauty render. Bone ivory remains equally bright across all face orientations. Roots have uniform dark black-violet local colour, without glossy white/pink highlight stripes or dark occlusion gradients.\n- Preserve the guide's actual surfaces and root placement; do not invent stones, holes, extra tendrils, or anatomical changes.\n- Return only one native 1024 x 1024 transparent PNG.",
+      "inputs": [
+        {
+          "path": "guide_left.png",
+          "sha256": "6cb462a87ce34e74ee3c6b2b5bc76e03b2bcccd543d15bb644a300849f6cb4fc"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "eb992ca15b299e23e1c559de19033076fd98fb5f412c5e7fa18cae5111d01b8b"
+        },
+        {
+          "path": "concept_crop.png",
+          "sha256": "79c3af56fde41b9049bf84e067a222e57a10b72272181c0f866f6679facce6b6"
+        }
+      ],
+      "source": "/home/pjasicek/.codex/generated_images/01a168b2-cf8c-7900-b5e3-19941b53b545/exec-26c66ab7-6fb9-4e23-a5af-5ca627933966.png",
+      "output": "paint_left.png",
+      "selected": true,
+      "reason": "Selected corrective return as the closer available result within the one-correction limit; preserves the end-on view and reference palette with improved angular geometry. Selection does not mean full brief compliance: native dimensions, exact silhouette and strictly flat lighting still fail.",
+      "output_sha256": "85bd70c856a84b7bd5c2e09bbede8749a2fe28b2420b2a0759089da377462fa6",
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "required_size": [
+          1024,
+          1024
+        ],
+        "size_pass": false,
+        "mode": "RGBA",
+        "transparent_alpha_present": true,
+        "alpha_bbox": [
+          81,
+          21,
+          1220,
+          1212
+        ],
+        "alpha_bbox_at_128": [
+          339,
+          502,
+          915,
+          751
+        ],
+        "guide_alpha_bbox": [
+          275,
+          409,
+          749,
+          615
+        ],
+        "silhouette_identical": false,
+        "materials_and_colours": "Visually matches ivory bone, brown-amber cracking and black-violet roots; material placement is approximate.",
+        "flat_even_light_pass": false,
+        "lighting_notes": "Residual face shading, dark crevices and root highlights remain.",
+        "transparent_background_notes": "RGBA with transparent background; faint nonzero alpha extends beyond the visible model.",
+        "unresized_unmodified_return": true,
+        "output_matches_tool_return": true
+      }
+    },
+    {
+      "view": "right",
+      "attempt": 2,
+      "prompt": "CORRECTIVE REGENERATION, the only correction allowed for this view.\n\nThe previous return failed the required native dimensions (it was 1254 x 1254 instead of 1024 x 1024), changed edges and added shaded/specular rendering. Correct these issues in this new output. Render at EXACTLY 1024 by 1024 pixels natively. No later resizing is permitted.\n\nUse case: sketch-to-render. Asset type: orthographic albedo texture-source painting for an existing 3D game decoration, the Giant rib bone. Deliver exactly one 1024 x 1024 PNG with a genuinely transparent background.\n\nINPUT ROLES, in attachment order:\n1. guide_right.png is the EDIT TARGET and immutable geometry/alpha/layout authority: the exact 3D model seen from its right side.\n2. design_reference.png is the approved design, colour and surface-material authority only; do not copy its three-quarter camera, framing, lighting or background.\n3. concept_crop.png is the original concept, supplementary material reference.\n\nPaint the existing grey surfaces of image 1 in place. Keep its silhouette EXACTLY: identical outline, size, position, every shape edge, opening and detail. Preserve its alpha footprint and large empty transparent margins. The object occupies only x=275..748 and y=409..614 within the 1024-square canvas, with topmost vertex near (512,409), outermost ground-root edges near (275,597) and (748,597), and lowest center near (512,614). Do not enlarge, move, rotate, reframe, crop, smooth, reshape or add geometry. This is the end-on right orthographic view from the guide, not the long three-quarter side view in the design. Keep every existing root branch and gap exactly where the guide places it.\n\nMATERIALS: apply the reference's warm ivory bone with irregular brown-amber cracks and stains to the bone mass. Apply thin black-violet resin-root material to the existing root shapes, using the reference's deep purple colour. Surface crack patterns are painted colour, not extra edges or sculpted relief. Preserve every existing detail and opening; add no roots, debris or silhouettes. Any orange glowing seams are painted at their orange local colour only, with no light cast onto nearby surfaces.\n\nLIGHTING: strictly ALBEDO/base colour. Even flat shadowless illumination from the viewer. No cast shadows, no ambient-occlusion darkening, no directional or form-shading gradients, no strong specular highlights, no reflections, no rim light. Retain material colour differences and stains, not the grey guide's lighting or the reference's cinematic lighting. No background, no floor, no ground shadow, no vignette, no halo, no text.\n\nOUTPUT: a single unresized 1024 x 1024 RGBA return. Keep the exact guide footprint, camera, framing and transparent exterior unchanged; change only the surface colours/material painting.\n\nSTRICT CORRECTION PRIORITIES:\n- Use image 1 as a pixel-registered paint target, not as inspiration. Match its exact alpha mask and every angular geometric edge at the same pixel coordinates. Do not round the low-poly silhouette. The model must occupy exactly x 275 through 748, y 409 through 614 in the 1024 x 1024 canvas.\n- All pixels outside the guide's original opaque footprint must be fully transparent (alpha 0), including the entire empty surrounding canvas. No faint background residue, fringe, haze or glow.\n- Paint an UNLIT BASE-COLOUR PASS, with matte colour swatches and fine stains/cracks, not a beauty render. Bone ivory remains equally bright across all face orientations. Roots have uniform dark black-violet local colour, without glossy white/pink highlight stripes or dark occlusion gradients.\n- Preserve the guide's actual surfaces and root placement; do not invent stones, holes, extra tendrils, or anatomical changes.\n- Return only one native 1024 x 1024 transparent PNG.",
+      "inputs": [
+        {
+          "path": "guide_right.png",
+          "sha256": "3610a6017c3801ea0b87bb2f805a770c3a6f74bacdf71fc1cf95e7774728ed95"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "eb992ca15b299e23e1c559de19033076fd98fb5f412c5e7fa18cae5111d01b8b"
+        },
+        {
+          "path": "concept_crop.png",
+          "sha256": "79c3af56fde41b9049bf84e067a222e57a10b72272181c0f866f6679facce6b6"
+        }
+      ],
+      "source": "/home/pjasicek/.codex/generated_images/01a168b2-cf8c-7900-b5e3-19941b53b545/exec-1d63d607-6983-43ea-a5c1-95de9685bc2e.png",
+      "output": "paint_right.png",
+      "selected": true,
+      "reason": "Selected corrective return as the closer available result within the one-correction limit; preserves the end-on view and reference palette with improved angular geometry. Selection does not mean full brief compliance: native dimensions, exact silhouette and strictly flat lighting still fail.",
+      "output_sha256": "0a8dafd48e62e1b03caca1a1778bc971ab4aacef940f0024852e254d06927a8f",
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "required_size": [
+          1024,
+          1024
+        ],
+        "size_pass": false,
+        "mode": "RGBA",
+        "transparent_alpha_present": true,
+        "alpha_bbox": [
+          27,
+          79,
+          1206,
+          1198
+        ],
+        "alpha_bbox_at_128": [
+          337,
+          501,
+          917,
+          753
+        ],
+        "guide_alpha_bbox": [
+          275,
+          409,
+          749,
+          615
+        ],
+        "silhouette_identical": false,
+        "materials_and_colours": "Visually matches ivory bone, brown-amber cracking and black-violet roots; material placement is approximate.",
+        "flat_even_light_pass": false,
+        "lighting_notes": "Residual face shading, dark crevices and root highlights remain.",
+        "transparent_background_notes": "RGBA with transparent background; faint nonzero alpha extends beyond the visible model.",
+        "unresized_unmodified_return": true,
+        "output_matches_tool_return": true
+      }
+    }
+  ],
+  "brief": "CODEX_BRIEF_3.md",
+  "status": "Generated and saved; not fully compliant with the brief after the maximum permitted correction per view.",
+  "correction_limit_per_view": 1,
+  "postprocessing": "None: copied native tool returns byte-for-byte; no resizing, cropping, alpha replacement or colour processing.",
+  "limitations": [
+    "Built-in tool returned 1254x1254 despite explicit native 1024x1024 requests in both attempts.",
+    "Exact guide silhouette and alpha footprint were not preserved.",
+    "Residual shading and highlights prevent strict albedo compliance."
+  ]
+}

@@ -87,6 +87,8 @@ presets:
   stormy:
     inherits: wet
     storm: true
+    moon_texture: broken_moon
+    moon_phase_offset: 0.5
   hot:
     inherits: day
   deep:
@@ -152,6 +154,10 @@ TEST_CASE("sky presets inherit untouched tracks and replace keyed ones")
     const SkyPreset *pStormy = library.find("stormy");
     REQUIRE(pStormy);
     CHECK(pStormy->storm);
+    CHECK(pStormy->moonTexture == "broken_moon");
+    CHECK(pStormy->moonPhaseOffset == doctest::Approx(0.5f));
+    CHECK(pWet->moonPhaseOffset == doctest::Approx(0.0f));
+    CHECK(pWet->moonTexture == "moon");
     CHECK(pStormy->clouds.size() == 2);
     CHECK_FALSE(library.find("deep")->drawSky);
     CHECK(library.presetForSkyName("SKY05") == "day");
@@ -322,6 +328,10 @@ TEST_CASE("sky state cross-fades weather changes and snaps on clock jumps")
     model.snap();
     inputs.weatherSkyName = "sky05";
     CHECK(model.update(inputs, 0.016f).presetName == "day");
+    CHECK(model.frame().moonTexture == "moon");
+    inputs.weatherSkyName = "stormclds";
+    model.snap();
+    CHECK(model.update(inputs, 0.016f).moonTexture == "broken_moon");
 }
 
 TEST_CASE("sky state hazes toward fog and keeps authored fog colours")
@@ -354,6 +364,62 @@ TEST_CASE("sky state hazes toward fog and keeps authored fog colours")
     const SkyFrameState underwater = model.update(inputs, 0.016f);
     CHECK_FALSE(underwater.drawSky);
     CHECK(underwater.skyMix == 0.0f);
+}
+
+TEST_CASE("sky state draws an indoor fog cover as one flat colour, and nothing without it")
+{
+    const SkyPresetLibrary library = loadTestLibrary();
+    SkyStateModel model;
+    model.setLibrary(&library);
+    SkyInputs inputs = {};
+    inputs.gameMinutes = 23.5f * 60.0f;
+    inputs.weatherSkyName = "sky05";
+    const SkyFrameState clear = model.update(inputs, 0.016f);
+
+    // A zero cover changes nothing, whatever its colour.
+    inputs.fogCoverDisplay = SkyColor{0.5f, 0.5f, 0.5f};
+    model.snap();
+    const SkyFrameState zero = model.update(inputs, 0.016f);
+    CHECK(zero.values == clear.values);
+    REQUIRE(zero.clouds.size() == clear.clouds.size());
+    for (size_t layer = 0; layer < zero.clouds.size(); ++layer)
+    {
+        CHECK(zero.clouds[layer].opacity == clear.clouds[layer].opacity);
+    }
+    CHECK(zero.horizonRing.opacity == clear.horizonRing.opacity);
+
+    // A full cover (MM9's fogged sky box): gradient and clouds in the fog colour, no sun, moon, stars or clouds.
+    inputs.fogCover = 1.0f;
+    model.snap();
+    const SkyFrameState covered = model.update(inputs, 0.016f);
+    const float grey = covered.value(SkyValue::Zenith)[0];
+    CHECK(grey == doctest::Approx(std::pow(0.5f, 2.2f)).epsilon(0.02));
+    for (const SkyValue id : {SkyValue::Zenith, SkyValue::Horizon, SkyValue::CloudLit, SkyValue::CloudShadow})
+    {
+        for (size_t channel = 0; channel < 3; ++channel)
+        {
+            CHECK(covered.value(id)[channel] == doctest::Approx(grey));
+        }
+    }
+    CHECK(covered.scalar(SkyValue::Stars) == 0.0f);
+    CHECK(covered.scalar(SkyValue::MoonVisibility) == 0.0f);
+    CHECK(covered.scalar(SkyValue::SunDiscVisibility) == 0.0f);
+    CHECK(covered.scalar(SkyValue::SunGlowStrength) == 0.0f);
+    CHECK(covered.horizonRing.opacity == 0.0f);
+    for (const SkyCloudLayerState &layer : covered.clouds)
+    {
+        CHECK(layer.opacity == 0.0f);
+    }
+    CHECK(covered.fogFlatDisplay[0] == doctest::Approx(0.5f).epsilon(0.02));
+    // The sun's colour and the ambient tint (indoor daylight's hue) are left alone.
+    CHECK(covered.value(SkyValue::SunDisc) == clear.value(SkyValue::SunDisc));
+    CHECK(covered.value(SkyValue::AmbientTint) == clear.value(SkyValue::AmbientTint));
+
+    // Half way: half the stars.
+    inputs.fogCover = 0.5f;
+    model.snap();
+    const float halfStars = model.update(inputs, 0.016f).scalar(SkyValue::Stars);
+    CHECK(halfStars == doctest::Approx(clear.scalar(SkyValue::Stars) * 0.5f));
 }
 
 TEST_CASE("sky sun matches the outdoor sun arc and the moon cycles")
@@ -616,4 +682,103 @@ TEST_CASE("distant sea follows the water share of each map side")
 
     map.noTerrain = true;
     CHECK(measureOutdoorDistantSea(map, landMask, nullptr).sideWeights[2] == 0.0f);
+}
+
+namespace
+{
+// The test library with one more preset (indented as a `presets` entry).
+std::string withPreset(const std::string &preset)
+{
+    std::string yaml = TestLibraryYaml;
+    const std::string marker = "presets:\n";
+    yaml.insert(yaml.find(marker) + marker.size(), preset);
+    return yaml;
+}
+}
+
+TEST_CASE("sky orbit ring is off unless a preset asks for it")
+{
+    const SkyPresetLibrary repository = loadRepositoryLibrary();
+
+    for (const std::string &name : repository.skyNames())
+    {
+        const SkyPreset *pPreset = repository.find(repository.presetForSkyName(name));
+        REQUIRE(pPreset);
+        CAPTURE(name);
+        CHECK(pPreset->orbitRing.opacity == 0.0f);
+        CHECK(pPreset->orbitRing.lightCount == 0);
+    }
+
+    const std::string ringed = withPreset(R"(  ringed:
+    inherits: day
+    orbit_ring: {opacity: 0.6, width_deg: 5, color: [0.9, 0.8, 1], fragments: 2,
+                 lights: {count: 3, size_deg: 0.1, orbit_minutes: [10, 30], color: [1, 0.8, 0.5], brightness: 3}}
+)");
+    SkyPresetLibrary library;
+    std::string error;
+    INFO(error);
+    REQUIRE(library.loadFromYaml(ringed, error));
+    const SkyOrbitRing &ring = library.find("ringed")->orbitRing;
+    CHECK(ring.opacity == doctest::Approx(0.6f));
+    CHECK(ring.widthDegrees == doctest::Approx(5.0f));
+    CHECK(ring.fragments == doctest::Approx(2.0f));
+    CHECK(ring.lightCount == 3);
+    CHECK(ring.lightSizeDegrees == doctest::Approx(0.1f));
+    CHECK(ring.lightOrbitMinutes[0] == doctest::Approx(10.0f));
+    CHECK(ring.lightOrbitMinutes[1] == doctest::Approx(30.0f));
+    CHECK(ring.lightBrightness == doctest::Approx(3.0f));
+    CHECK(library.find("day")->orbitRing.opacity == 0.0f);
+
+
+    for (const std::string &bad : {"{glitter: 1}", "{opacity: -1}", "{lights: {count: 9}}",
+             "{lights: {orbit_minutes: [30, 10]}}", "{lights: {orbit_minutes: [10]}}", "{lights: {spin: 1}}"})
+    {
+        CAPTURE(bad);
+        CHECK_FALSE(library.loadFromYaml(
+            withPreset("  bad:\n    inherits: day\n    orbit_ring: " + std::string(bad) + "\n"), error));
+    }
+}
+
+TEST_CASE("sky orbit lights cross the sky at their own pace and fade with the stars")
+{
+    SkyOrbitRing ring;
+    ring.lightCount = 4;
+    ring.lightOrbitMinutes = {20.0f, 45.0f};
+
+    for (int light = 0; light < ring.lightCount; ++light)
+    {
+        const float start = skyOrbitLightAngle(ring, light, 600.0);
+        const float later = skyOrbitLightAngle(ring, light, 601.0);
+        CHECK(start >= 0.0f);
+        CHECK(start < 6.2832f);
+        // At most a twentieth of a turn per game minute; never standing still.
+        const float step = std::fabs(later - start);
+        CHECK(std::min(step, 6.2832f - step) > 0.1f);
+        CHECK(std::min(step, 6.2832f - step) < 0.32f);
+        CHECK(skyOrbitLightAngle(ring, light, 600.0) == start);
+    }
+
+    CHECK(skyOrbitLightAngle(ring, 0, 600.0) != doctest::Approx(skyOrbitLightAngle(ring, 1, 600.0)));
+
+    const std::string ringed = withPreset(R"(  ringed:
+    inherits: day
+    orbit_ring: {opacity: 0.5, lights: {count: 2, brightness: 2}}
+)");
+    SkyPresetLibrary library;
+    std::string error;
+    REQUIRE(library.loadFromYaml(ringed, error));
+    SkyStateModel model;
+    model.setLibrary(&library);
+    SkyInputs inputs = {};
+    inputs.forcedPreset = "ringed";
+    // The test preset's stars rise from 0 at 06:00 to 1 at 18:00.
+    inputs.gameMinutes = 6.0f * 60.0f;
+    model.snap();
+    CHECK(model.update(inputs, 0.02f).orbitRing.opacity == doctest::Approx(0.0f));
+    inputs.gameMinutes = 18.0f * 60.0f;
+    model.snap();
+    const SkyFrameState &night = model.update(inputs, 0.02f);
+    CHECK(night.orbitRing.opacity == doctest::Approx(0.5f));
+    CHECK(night.orbitRing.lightBrightness == doctest::Approx(2.0f));
+    CHECK(night.orbitLightAngles[0] == doctest::Approx(skyOrbitLightAngle(night.orbitRing, 0, 18.0 * 60.0)));
 }

@@ -1,0 +1,46 @@
+id: mm9.ai.retarget
+title: An MM9 crawler hit by an attacker other than its target rolls MM9's retarget chance
+world: mm9
+mode: faithful
+tags: [mm9, actors, ai, arena]
+steps:
+  - note:
+      text: >-
+        Needs the MM9 review root (README.md). The wolf takes the ally ahead of it; the party hits it from behind every
+        quarter second (35 % each: the party is farther than its target) until it switches to the party. The ally's
+        strikes later roll it back (45 % with the party in reach, x1.15 for the nearer attacker); a wolf that kills the
+        ally taunts half a second later and takes the party again.
+  # A party for the monsters to strike (the arena keeps it invulnerable): without one no blow or spell lands.
+  - new_game_flow:
+      start_map: thearena.blv
+  - ai_arena: {path: retarget.arena.yml}
+  - advance_runtime: {seconds: 0.25}
+  - damage_actor: {actor_index: last-1, amount: 1}
+  - advance_runtime: {seconds: 0.25}
+  - damage_actor: {actor_index: last-1, amount: 1}
+  - advance_runtime: {seconds: 0.25}
+  - damage_actor: {actor_index: last-1, amount: 1}
+  - advance_runtime: {seconds: 0.25}
+  - damage_actor: {actor_index: last-1, amount: 1}
+  - advance_runtime: {seconds: 24}
+  - ai_trace_dump: {}
+  - assert:
+      ai_trace: {arena_monster: 0, decision: detect, target: actor:6, before: 0.1, min_count: 1}
+  - assert:
+      ai_trace: {arena_monster: 0, decision: retarget, before: 1.1, min_count: 1}
+  - assert:
+      ai_trace: {arena_monster: 0, decision: retarget, target: party, before: 1.1, min_count: 1, max_count: 1}
+  # The world offers the target it switched to.
+  - assert:
+      ai_trace: {arena_monster: 0, event: target, target: party, before: 1.2, min_count: 1}
+  # The ally's strike rolls the wolf back to it; it kills the ally, taunts and takes the party again.
+  - assert:
+      ai_trace: {arena_monster: 0, decision: retarget, target: actor:6, min_count: 1}
+  - assert:
+      ai_trace: {arena_monster: 0, decision: give_up, target: actor:6, min_count: 1}
+  - assert:
+      ai_trace: {arena_monster: 0, decision: taunt_kill, min_count: 1}
+  - assert:
+      ai_trace: {arena_monster: 0, decision: detect, target: party, min_count: 1}
+  - assert:
+      ai_trace: {arena_monster: 1, event: died, min_count: 1}

@@ -1,0 +1,128 @@
+# Native clicks at every authored pickup; shared mechanics are covered by hesper_pickups_test/pickups.yml.
+id: hesper.d04.pickups
+world: hesper
+mode: faithful
+steps:
+- new_game_flow:
+    start_map: hes_d04.blv
+    party:
+      members:
+      - {name: Ada, class: Knight, level: 200, endurance: 500, skills: [], equipment: {}}
+      - {name: Bram, class: Knight, level: 200, endurance: 500, skills: [], equipment: {}}
+      - {name: Cyra, class: Knight, level: 200, endurance: 500, skills: [], equipment: {}}
+      - {name: Dana, class: Knight, level: 200, endurance: 500, skills: [], equipment: {}}
+- assert:
+    state_dump_named_map_var: {name: HesperPickups.Rolled, value: 1}
+# 701: Guard Room
+- set_pose: {"map": "hes_d04.blv", "x": 850, "y": 5270, "z": 0, "yaw": 1.57079633, "pitch": -0.4}
+- press_interact: {expect: {name: Serum vat, target_index: 55}}
+- assert: {state_dump_named_map_var: {name: HesperPickups.701, value: 8}}
+# 702: Guard Room
+- set_pose: {"map": "hes_d04.blv", "x": 1050, "y": 5270, "z": 0, "yaw": 1.57079633, "pitch": -0.4}
+- press_interact: {expect: {name: Serum vat, target_index: 56}}
+- assert: {state_dump_named_map_var: {name: HesperPickups.702, value: 8}}
+# 703: Guard Room
+- set_pose: {"map": "hes_d04.blv", "x": 1250, "y": 5270, "z": 0, "yaw": 1.57079633, "pitch": -0.4}
+- press_interact: {expect: {name: Serum vat, target_index: 57}}
+- assert: {state_dump_named_map_var: {name: HesperPickups.703, value: 8}}
+# 704: Guard Room
+- set_pose: {"map": "hes_d04.blv", "x": 1450, "y": 5270, "z": 0, "yaw": 1.57079633, "pitch": -0.4}
+- press_interact: {expect: {name: Serum vat, target_index: 58}}
+- assert: {state_dump_named_map_var: {name: HesperPickups.704, value: 8}}
+# 705: Guard Room
+- set_pose: {"map": "hes_d04.blv", "x": 1650, "y": 5270, "z": 0, "yaw": 1.57079633, "pitch": -0.4}
+- press_interact: {expect: {name: Serum vat, target_index: 59}}
+- assert: {state_dump_named_map_var: {name: HesperPickups.705, value: 8}}
+# 706: Guard Room
+- set_pose: {"map": "hes_d04.blv", "x": 1850, "y": 5270, "z": 0, "yaw": 1.57079633, "pitch": -0.4}
+- press_interact: {expect: {name: Serum vat, target_index: 60}}
+- assert: {state_dump_named_map_var: {name: HesperPickups.706, value: 8}}
+# 707: Sorting Pens
+- set_pose: {"map": "hes_d04.blv", "x": 4100, "y": 4140, "z": -512, "yaw": 1.57079633, "pitch": -0.4}
+- press_interact: {expect: {name: Serum vat, target_index: 61}}
+- assert: {state_dump_named_map_var: {name: HesperPickups.707, value: 8}}
+# 708: Sorting Pens
+- set_pose: {"map": "hes_d04.blv", "x": 4300, "y": 4140, "z": -512, "yaw": 1.57079633, "pitch": -0.4}
+- press_interact: {expect: {name: Serum vat, target_index: 62}}
+- assert: {state_dump_named_map_var: {name: HesperPickups.708, value: 8}}
+# 709: Sorting Pens
+- set_pose: {"map": "hes_d04.blv", "x": 4320, "y": 4320, "z": -512, "yaw": 0, "pitch": -0.4}
+- press_interact: {expect: {name: Serum vat, target_index: 63}}
+- assert: {state_dump_named_map_var: {name: HesperPickups.709, value: 8}}
+# 710: Collar Control
+- set_pose: {"map": "hes_d04.blv", "x": 1400, "y": 920, "z": 0, "yaw": 1.57079633, "pitch": -0.4}
+- press_interact: {expect: {name: Serum vat, target_index: 64}}
+- assert: {state_dump_named_map_var: {name: HesperPickups.710, value: 8}}
+# 711: Collar Control
+- set_pose: {"map": "hes_d04.blv", "x": 1600, "y": 920, "z": 0, "yaw": 1.57079633, "pitch": -0.4}
+- press_interact: {expect: {name: Serum vat, target_index: 65}}
+- assert: {state_dump_named_map_var: {name: HesperPickups.711, value: 8}}
+# 712: Collar Control
+- set_pose: {"map": "hes_d04.blv", "x": 1800, "y": 920, "z": 0, "yaw": 1.57079633, "pitch": -0.4}
+- press_interact: {expect: {name: Serum vat, target_index: 66}}
+- assert: {state_dump_named_map_var: {name: HesperPickups.712, value: 8}}
+# 751: Guard Room
+- set_pose: {"map": "hes_d04.blv", "x": 1030, "y": 4860, "z": 0, "yaw": 3.14159265, "pitch": -0.6}
+- press_interact: {expect: {name: Scrap bundle, target_index: 38}}
+# 752: Guard Room
+- set_pose: {"map": "hes_d04.blv", "x": 1900, "y": 4800, "z": 0, "yaw": 0, "pitch": -0.6}
+- press_interact: {expect: {name: Scrap bundle, target_index: 39}}
+# 753: Sorting Pens
+- set_pose: {"map": "hes_d04.blv", "x": 1510, "y": 3100, "z": -512, "yaw": 3.14159265, "pitch": -0.6}
+- press_interact: {expect: {name: Scrap bundle, target_index: 40}}
+# 754: Sorting Pens
+- set_pose: {"map": "hes_d04.blv", "x": 4270, "y": 2750, "z": -512, "yaw": 0, "pitch": -0.6}
+- press_interact: {expect: {name: Scrap bundle, target_index: 41}}
+# 755: Sorting Pens
+- set_pose: {"map": "hes_d04.blv", "x": 3700, "y": 1600, "z": -512, "yaw": -1.57079633, "pitch": -0.6}
+- press_interact: {expect: {name: Scrap bundle, target_index: 42}}
+# 756: Sorting Pens
+- set_pose: {"map": "hes_d04.blv", "x": 3500, "y": 4120, "z": -512, "yaw": 1.57079633, "pitch": -0.6}
+- press_interact: {expect: {name: Scrap bundle, target_index: 43}}
+# 757: Sleeping Pit
+- set_pose: {"map": "hes_d04.blv", "x": -1080, "y": 2400, "z": -512, "yaw": 3.14159265, "pitch": -0.6}
+- press_interact: {expect: {name: Scrap bundle, target_index: 44}}
+# 758: Sleeping Pit
+- set_pose: {"map": "hes_d04.blv", "x": -1080, "y": 3200, "z": -512, "yaw": 3.14159265, "pitch": -0.6}
+- press_interact: {expect: {name: Scrap bundle, target_index: 45}}
+# 759: Sleeping Pit
+- set_pose: {"map": "hes_d04.blv", "x": 700, "y": 3470, "z": -512, "yaw": 1.57079633, "pitch": -0.6}
+- press_interact: {expect: {name: Scrap bundle, target_index: 46}}
+# 760: Cell Block A
+- set_pose: {"map": "hes_d04.blv", "x": 5120, "y": 3280, "z": -512, "yaw": -1.57079633, "pitch": -0.6}
+- press_interact: {expect: {name: Scrap bundle, target_index: 47}}
+# 761: Cell Block A
+- set_pose: {"map": "hes_d04.blv", "x": 6300, "y": 3220, "z": -512, "yaw": 1.57079633, "pitch": -0.6}
+- press_interact: {expect: {name: Scrap bundle, target_index: 48}}
+# 762: Cell Block B
+- set_pose: {"map": "hes_d04.blv", "x": 7970, "y": 2800, "z": -512, "yaw": 0, "pitch": -0.6}
+- press_interact: {expect: {name: Scrap bundle, target_index: 49}}
+# 763: Surgery
+- set_pose: {"map": "hes_d04.blv", "x": 7430, "y": 1000, "z": -512, "yaw": 3.14159265, "pitch": -0.6}
+- press_interact: {expect: {name: Scrap bundle, target_index: 50}}
+# 764: Surgery
+- set_pose: {"map": "hes_d04.blv", "x": 8340, "y": 2420, "z": -512, "yaw": 0, "pitch": -0.6}
+- press_interact: {expect: {name: Scrap bundle, target_index: 51}}
+# 765: Waste Shafts
+- set_pose: {"map": "hes_d04.blv", "x": 6150, "y": -1290, "z": -1280, "yaw": -1.57079633, "pitch": -0.6}
+- press_interact: {expect: {name: Scrap bundle, target_index: 52}}
+# 766: Waste Shafts
+- set_pose: {"map": "hes_d04.blv", "x": 7100, "y": -1290, "z": -1280, "yaw": -1.57079633, "pitch": -0.6}
+- press_interact: {expect: {name: Scrap bundle, target_index: 53}}
+# 767: The Sump
+- set_pose: {"map": "hes_d04.blv", "x": 8700, "y": -1270, "z": -1280, "yaw": -1.57079633, "pitch": -0.6}
+- press_interact: {expect: {name: Scrap bundle, target_index: 54}}
+- save_game: d04_pickups
+- load_game: d04_pickups
+- assert: {state_dump_named_map_var: {name: HesperPickups.701, value: 8}}
+- assert: {state_dump_named_map_var: {name: HesperPickups.702, value: 8}}
+- assert: {state_dump_named_map_var: {name: HesperPickups.703, value: 8}}
+- assert: {state_dump_named_map_var: {name: HesperPickups.704, value: 8}}
+- assert: {state_dump_named_map_var: {name: HesperPickups.705, value: 8}}
+- assert: {state_dump_named_map_var: {name: HesperPickups.706, value: 8}}
+- assert: {state_dump_named_map_var: {name: HesperPickups.707, value: 8}}
+- assert: {state_dump_named_map_var: {name: HesperPickups.708, value: 8}}
+- assert: {state_dump_named_map_var: {name: HesperPickups.709, value: 8}}
+- assert: {state_dump_named_map_var: {name: HesperPickups.710, value: 8}}
+- assert: {state_dump_named_map_var: {name: HesperPickups.711, value: 8}}
+- assert: {state_dump_named_map_var: {name: HesperPickups.712, value: 8}}

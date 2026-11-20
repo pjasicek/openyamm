@@ -1,0 +1,705 @@
+{
+  "status": "diagonal_candidate_pending_exact_pose_review",
+  "tiles": [
+    {
+      "name": "drsrcros",
+      "source": "drsrcros",
+      "topology": {
+        "N": true,
+        "S": true,
+        "W": true,
+        "E": true
+      },
+      "family": "roads_dirt",
+      "runtime_sha256": "548b159f5b0f5ec66cb6155ea2ede033a0660123d46a0b5b694a1d53a228dd5b",
+      "field_sha256": "53eda5a27139b65c0146759bccd4f7753f0f6a06a9b5ca8c2430d478959815cf",
+      "generation": {
+        "raw_sha256": "135e7bb90f0a8c65dcb6e47bc9a706a328c2fe75f85cff92b6940329fe529550",
+        "max_registration_pixels": 7.369002342224121
+      }
+    },
+    {
+      "name": "drsrecap",
+      "source": "drsrecap",
+      "topology": {
+        "N": false,
+        "S": false,
+        "W": true,
+        "E": false
+      },
+      "family": "roads_dirt",
+      "runtime_sha256": "1934c23c856d6c4cd112daa3b7ff5ae44db3c642f8e6af73c76a436b949e389d",
+      "field_sha256": "e45c09ec01c0863cd6c70aed50afabf10106e1576907636a0465e3b55dac85a9",
+      "generation": {
+        "raw_sha256": "6ce65d412a8711c9ae02ddb752aa20e7851e9387f82589e954c969c5c8930242",
+        "max_registration_pixels": 4.078650951385498
+      }
+    },
+    {
+      "name": "drsrew",
+      "source": "drsrew",
+      "topology": {
+        "N": false,
+        "S": false,
+        "W": true,
+        "E": true
+      },
+      "family": "roads_dirt",
+      "runtime_sha256": "29d3e391edb3e9235c7ea4c3e532dbdea62ae6be78e212682fa9b27780e31308",
+      "field_sha256": "2b81e3cffa5abcf2225ea901848b3fc35cfede11f5090427664892d7dd8e702d",
+      "generation": {
+        "donor": true
+      }
+    },
+    {
+      "name": "drsrew_n",
+      "source": "drsrew_n",
+      "topology": {
+        "N": true,
+        "S": false,
+        "W": true,
+        "E": true
+      },
+      "family": "roads_dirt",
+      "runtime_sha256": "e6fc8d841c21ec70203e3ca67050790775d9767365790965bce5e2825a60e29e",
+      "field_sha256": "3b7c2ac9cee41b1cef016f5b05bf46f0bfb18964e5023f86326151f995ceb3c2",
+      "generation": {
+        "raw_sha256": "100cd00ccfd4c02f2b2af17bc498f15bd4271f71de93764bc2b19676471da233",
+        "max_registration_pixels": 3.5459086894989014
+      }
+    },
+    {
+      "name": "drsrew_s",
+      "source": "drsrew_s",
+      "topology": {
+        "N": false,
+        "S": true,
+        "W": true,
+        "E": true
+      },
+      "family": "roads_dirt",
+      "runtime_sha256": "a0ad8a1de801dc02b256e24000354e85998cc0238bdc831dd762751caba6d771",
+      "field_sha256": "c04f07c8aec928061c939a2db8aac86bc2311730e8539bf0b5803d578834c7fc",
+      "generation": {
+        "raw_sha256": "9ab3df4c8f40394b21e4ec516e12180fb981913fde95d763876e8db9e43412ea",
+        "max_registration_pixels": 4.622386455535889
+      }
+    },
+    {
+      "name": "drsrn_e",
+      "source": "drsrn_e",
+      "topology": {
+        "N": true,
+        "S": false,
+        "W": false,
+        "E": true
+      },
+      "family": "roads_dirt",
+      "runtime_sha256": "5bef059035c049e285576fb0f586e39e56bcb79cc5807e9a10e048a9b8fa0420",
+      "field_sha256": "8b5a4aaf6610a63ddb2a741e2497ca9ddd4af6c7c70ba4793eeb32e95de5c6e1",
+      "generation": {
+        "raw_sha256": "94fd50bdeb06836914ed113e02adb296547b7c03ecca4ef33065af32ff2acae8",
+        "max_registration_pixels": 3.445385456085205
+      }
+    },
+    {
+      "name": "drsrn_w",
+      "source": "drsrn_w",
+      "topology": {
+        "N": true,
+        "S": false,
+        "W": true,
+        "E": false
+      },
+      "family": "roads_dirt",
+      "runtime_sha256": "9321a3d6baacbd11efa0d79c91bf060e92cc4b9d1aefa8cd2d17147c981bc579",
+      "field_sha256": "8fc9c784847b0a46a7fc7f73696062cef2fc80bd21d7b44eda51942686d0f2e0",
+      "generation": {
+        "raw_sha256": "0b662f92ac7ce720adcd340480575eddeb8215577870602c25d997be86f8c417",
+        "max_registration_pixels": 3.2195332050323486
+      }
+    },
+    {
+      "name": "drsrncap",
+      "source": "drsrncap",
+      "topology": {
+        "N": false,
+        "S": true,
+        "W": false,
+        "E": false
+      },
+      "family": "roads_dirt",
+      "runtime_sha256": "01badcbcc117472880fd6e5a51795a62f9a1022061866a994be9f5366a1cbff1",
+      "field_sha256": "09519a4c5334d8422dde21684e164a8c6561b91b73c78eb787d8f458b840e5d4",
+      "generation": {
+        "raw_sha256": "c4114d33ba77702e31763a215cc8ad41340d8ded15906f16e1ffa10411f6de25",
+        "max_registration_pixels": 2.644529342651367
+      }
+    },
+    {
+      "name": "drsrne1",
+      "source": "drsrne1",
+      "topology": {
+        "N": false,
+        "S": true,
+        "W": true,
+        "E": false
+      },
+      "family": "roads_dirt",
+      "runtime_sha256": "3bdb8de861bf9611291cac09721b32f7e337ce05e2b8a38a8c4e785f43b1f366",
+      "field_sha256": "fba31f8b65c364a1728495269a8319d0a729ef6ec07d746e94b744369885b3ae",
+      "generation": {
+        "raw_sha256": "98c2ee1d862d3654b966fb301e9476ef9749714f0a9fcb4cbaf17fbe469e6097",
+        "max_registration_pixels": 2.4286160469055176
+      },
+      "outline_repair": {
+        "repair": "drsrne1",
+        "protected_fraction": 0.7091712951660156,
+        "raw_sha256": "c1fcbc889735cc5ae40e8f11d6467f82027468eb32d1c76c2d62a3a62ee0e83a"
+      }
+    },
+    {
+      "name": "drsrne2",
+      "source": "drsrne2",
+      "topology": {
+        "N": true,
+        "S": false,
+        "W": false,
+        "E": true
+      },
+      "family": "roads_dirt",
+      "runtime_sha256": "f1eb2d5cfffdbd7a410d729bbc52ffbedf87a3bf5afd6bb6a1c29d3e86c739c7",
+      "field_sha256": "f38f357b24b7fcf7e908e742a04dae00899aeae09883a7e88e8a049a4f272c83",
+      "generation": {
+        "raw_sha256": "9ade81c87e201a5c856f95dfd7dded09a5496b663577034c7479062c3e7e0bca",
+        "max_registration_pixels": 3.7155725955963135
+      },
+      "outline_repair": {
+        "repair": "drsrne2",
+        "protected_fraction": 0.7297782897949219,
+        "raw_sha256": "63757a822ba80df0c1d00205b03ceb6fd685edd1edbc37be56181ca9f90afdfc"
+      }
+    },
+    {
+      "name": "drsrns",
+      "source": "drsrns",
+      "topology": {
+        "N": true,
+        "S": true,
+        "W": false,
+        "E": false
+      },
+      "family": "roads_dirt",
+      "runtime_sha256": "6bd3693bf55735203d2f35477b2557aa31482da54b46475b7bf95e782f2f1bc1",
+      "field_sha256": "c0b53ff89a2cc77b817008ec03d4211423e41007668759588a057b78db2bcc6f",
+      "generation": {
+        "donor": true
+      }
+    },
+    {
+      "name": "drsrns_e",
+      "source": "drsrns_e",
+      "topology": {
+        "N": true,
+        "S": true,
+        "W": false,
+        "E": true
+      },
+      "family": "roads_dirt",
+      "runtime_sha256": "e4a752f136931b699be05e8e418a0ebdfe60a505048cc8ed4823e2f92c376810",
+      "field_sha256": "b3804e4d9ee4103425981961fb59b29c15968349d0c4e2a7148f7e46b6e5d0de",
+      "generation": {
+        "raw_sha256": "9415fee3fabb379faf1290a3d4c0a1a452873ef684dcce6272cbef6b85ba7892",
+        "max_registration_pixels": 3.613194227218628
+      }
+    },
+    {
+      "name": "drsrns_w",
+      "source": "drsrns_w",
+      "topology": {
+        "N": true,
+        "S": true,
+        "W": true,
+        "E": false
+      },
+      "family": "roads_dirt",
+      "runtime_sha256": "dc0acbe3657ebcb993adf11f892dc6acf165e7addff8db91c402b5cbe15dcf2f",
+      "field_sha256": "e214d4c4a949083c182fb616a2090e825bb0817b1a9036369ace9096195fa49f",
+      "generation": {
+        "raw_sha256": "2616f50ae4a0f4fb2ddbf396b55c6bc1310e29e8736e9ae634bbed51ecb6f3d1",
+        "max_registration_pixels": 3.2823235988616943
+      }
+    },
+    {
+      "name": "drsrnw1",
+      "source": "drsrnw1",
+      "topology": {
+        "N": false,
+        "S": true,
+        "W": false,
+        "E": true
+      },
+      "family": "roads_dirt",
+      "runtime_sha256": "302851729c9a886f731864ff4e401d17c2515b1f83c2d35336efcab09e79efba",
+      "field_sha256": "87844fd1dd9c1a84b5b77f43691f3dbcbabca174aa1ad9e3c3e3e1201463b059",
+      "generation": {
+        "raw_sha256": "4ed47475a61266dc3b773d159ac4ed710f22a453e226026831aeab743ba51dd4",
+        "max_registration_pixels": 2.5363621711730957
+      },
+      "outline_repair": {
+        "repair": "drsrnw1",
+        "protected_fraction": 0.7153739929199219,
+        "raw_sha256": "841e06500b8f788a1c36cbd6ee13fa5f8ca8e00db3940f438778aeee1f87a262"
+      }
+    },
+    {
+      "name": "drsrnw2",
+      "source": "drsrnw2",
+      "topology": {
+        "N": true,
+        "S": false,
+        "W": true,
+        "E": false
+      },
+      "family": "roads_dirt",
+      "runtime_sha256": "7133b6d429916bbaf2b0b2bc92e2ac337d5fb6726246197e1d41c696972ab4d5",
+      "field_sha256": "2cb592a6f0afc83f34d2f7074ca5eb87b3b24521486763de30d6c1b611fc0347",
+      "generation": {
+        "raw_sha256": "a39807bc6bec222b0af15575249aefc33ae457514d76530e351eaa9dbc84772d",
+        "max_registration_pixels": 2.975212335586548
+      },
+      "outline_repair": {
+        "repair": "drsrnw2",
+        "protected_fraction": 0.7173309326171875,
+        "raw_sha256": "5abd70c964bdaae5da5261aef9f88c6298ab5c8ff27749dad811691d906c5a42"
+      }
+    },
+    {
+      "name": "drsrs_e",
+      "source": "drsrs_e",
+      "topology": {
+        "N": false,
+        "S": true,
+        "W": false,
+        "E": true
+      },
+      "family": "roads_dirt",
+      "runtime_sha256": "63436202d4399b13984c454cf30837e1c44900485a45c92c56b95561de5d8714",
+      "field_sha256": "3cde301d5723f6c43c53a2bbc23c085f1c79e09142ad2a53d040d98e6061a90b",
+      "generation": {
+        "raw_sha256": "96867ba002c434c529da2c8d6d74d03adb4e1cc0ca87c7bd48c64284117ebb92",
+        "max_registration_pixels": 3.524021625518799
+      }
+    },
+    {
+      "name": "drsrs_w",
+      "source": "drsrs_w",
+      "topology": {
+        "N": false,
+        "S": true,
+        "W": true,
+        "E": false
+      },
+      "family": "roads_dirt",
+      "runtime_sha256": "9de7985bfaa141d161d04d280a81f9883084788cfe173ac58b44848c526c0a39",
+      "field_sha256": "1ee81aa52b4fb338697c6b1388321f1e66ba34c01c87da568ee7993d91c3c62f",
+      "generation": {
+        "raw_sha256": "244f9ae254a4e5a7ec998bf748cb03b101f0a3d19b4a2a3ac65c094d4b8285a5",
+        "max_registration_pixels": 3.9982070922851562
+      }
+    },
+    {
+      "name": "drsrscap",
+      "source": "drsrscap",
+      "topology": {
+        "N": true,
+        "S": false,
+        "W": false,
+        "E": false
+      },
+      "family": "roads_dirt",
+      "runtime_sha256": "7ae8092bb55a5795cd8aa80f7bea7aec7c73b0a8b2eb01ae44b819249dbe421d",
+      "field_sha256": "3496460aab8ada6a08071d8cd13ca583a92c795fdb151f60518e188122a65bfd",
+      "generation": {
+        "raw_sha256": "33309bf7aecc338dbf30984a58b9eb94d0d0e1dfe45df9474ebd0394583b5a5d",
+        "max_registration_pixels": 2.2667393684387207
+      }
+    },
+    {
+      "name": "drsrwcap",
+      "source": "drsrwcap",
+      "topology": {
+        "N": false,
+        "S": false,
+        "W": false,
+        "E": true
+      },
+      "family": "roads_dirt",
+      "runtime_sha256": "72980ff2d2a3aa6693fa4503e4aa79a975f971e0a3dd7f5a231639b4193d16da",
+      "field_sha256": "238eddf060331dcb34a4a450a7a022ee272ccb6c71d66873d149639f34dad1d1",
+      "generation": {
+        "raw_sha256": "0fec100608d3ce3e305321870ce3185a5d1178093de5ecb15e1d81ea1642bcd9",
+        "max_registration_pixels": 2.004789352416992
+      }
+    },
+    {
+      "name": "gdrdecap",
+      "source": "drsrecap",
+      "topology": {
+        "N": false,
+        "S": false,
+        "W": true,
+        "E": false
+      },
+      "family": "roads_grey",
+      "runtime_sha256": "32d66ff8d084230e9ab57e93fea7a8f301a6508281456d391264775daf88fd1d",
+      "field_sha256": "932f20dd45eccfb6d159a3d3e2cb265affcc446792c34d2fcca0ced139fc8f4b",
+      "generation": {
+        "raw_sha256": "6ce65d412a8711c9ae02ddb752aa20e7851e9387f82589e954c969c5c8930242",
+        "max_registration_pixels": 4.078650951385498
+      },
+      "grey_contact": "Scalar brightness ratio: preserves grey substrate chroma"
+    },
+    {
+      "name": "gdrdew",
+      "source": "drsrew",
+      "topology": {
+        "N": false,
+        "S": false,
+        "W": true,
+        "E": true
+      },
+      "family": "roads_grey",
+      "runtime_sha256": "ac6bc7110f3e46233779db561efb3f68232327391b35a54750980b68f8234282",
+      "field_sha256": "35968c025ebb6acbfe16eed4d15fbd791cd3cc834b1af56e133992c27935bd67",
+      "generation": {
+        "donor": true
+      },
+      "grey_contact": "Scalar brightness ratio: preserves grey substrate chroma"
+    },
+    {
+      "name": "gdrdew_n",
+      "source": "drsrew_n",
+      "topology": {
+        "N": true,
+        "S": false,
+        "W": true,
+        "E": true
+      },
+      "family": "roads_grey",
+      "runtime_sha256": "fe938a4fc87c45dfb7f3358d35567f4914183b7aab0acebf731c66663d3a2d58",
+      "field_sha256": "41159e9c97b301807021b0a38dfeb07501f034927d10693abb88a20df98966ee",
+      "generation": {
+        "raw_sha256": "100cd00ccfd4c02f2b2af17bc498f15bd4271f71de93764bc2b19676471da233",
+        "max_registration_pixels": 3.5459086894989014
+      },
+      "grey_contact": "Scalar brightness ratio: preserves grey substrate chroma"
+    },
+    {
+      "name": "gdrdew_s",
+      "source": "drsrew_s",
+      "topology": {
+        "N": false,
+        "S": true,
+        "W": true,
+        "E": true
+      },
+      "family": "roads_grey",
+      "runtime_sha256": "8214f68e7e5de70ea0de46c8365dd6bf2e569a2b18420d5b9815b4b13ca0a804",
+      "field_sha256": "33ae97e39f27521c9c711b1c2d94166da839f90412faa246cf96a1a78a6be7a3",
+      "generation": {
+        "raw_sha256": "9ab3df4c8f40394b21e4ec516e12180fb981913fde95d763876e8db9e43412ea",
+        "max_registration_pixels": 4.622386455535889
+      },
+      "grey_contact": "Scalar brightness ratio: preserves grey substrate chroma"
+    },
+    {
+      "name": "gdrdn_e",
+      "source": "drsrn_e",
+      "topology": {
+        "N": true,
+        "S": false,
+        "W": false,
+        "E": true
+      },
+      "family": "roads_grey",
+      "runtime_sha256": "65232af9da3379d9d3fc6d8f2cf8e58fae782bc8031b9265c48f272b191fae30",
+      "field_sha256": "4adb67baa19139a285633716d9a1bdcd990380905e89740e863538c0fadf9cc5",
+      "generation": {
+        "raw_sha256": "94fd50bdeb06836914ed113e02adb296547b7c03ecca4ef33065af32ff2acae8",
+        "max_registration_pixels": 3.445385456085205
+      },
+      "grey_contact": "Scalar brightness ratio: preserves grey substrate chroma"
+    },
+    {
+      "name": "gdrdn_w",
+      "source": "drsrn_w",
+      "topology": {
+        "N": true,
+        "S": false,
+        "W": true,
+        "E": false
+      },
+      "family": "roads_grey",
+      "runtime_sha256": "7adc93e13af4afa9f9911c92bb2b8173067b63ce706d5e9474ccdc9fb18bedc4",
+      "field_sha256": "f2bd02d4f6e68d2bc77d58cd28f6861001e8160f1b01b5a0ef9fd5c59d364539",
+      "generation": {
+        "raw_sha256": "0b662f92ac7ce720adcd340480575eddeb8215577870602c25d997be86f8c417",
+        "max_registration_pixels": 3.2195332050323486
+      },
+      "grey_contact": "Scalar brightness ratio: preserves grey substrate chroma"
+    },
+    {
+      "name": "gdrdncap",
+      "source": "drsrncap",
+      "topology": {
+        "N": false,
+        "S": true,
+        "W": false,
+        "E": false
+      },
+      "family": "roads_grey",
+      "runtime_sha256": "7e53f4317210a7458f2ae7bd898ae4519a3927008cc12cc696c33de7ba2b2dc5",
+      "field_sha256": "220e2352b168cd1f7d0aef5e071315734c71a5fb59e0f35bb8bfda8dca8e8521",
+      "generation": {
+        "raw_sha256": "c4114d33ba77702e31763a215cc8ad41340d8ded15906f16e1ffa10411f6de25",
+        "max_registration_pixels": 2.644529342651367
+      },
+      "grey_contact": "Scalar brightness ratio: preserves grey substrate chroma"
+    },
+    {
+      "name": "gdrdne1",
+      "source": "drsrne1",
+      "topology": {
+        "N": false,
+        "S": true,
+        "W": true,
+        "E": false
+      },
+      "family": "roads_grey",
+      "runtime_sha256": "ae4466deb2aed4e47d14079ef886d74505129d224d08a69303f3dc3a58fd2849",
+      "field_sha256": "2acfb2363ec07e9cabb7cd61418adf0a793f00f0c60cb4fba18a37b0f25a85bd",
+      "generation": {
+        "raw_sha256": "98c2ee1d862d3654b966fb301e9476ef9749714f0a9fcb4cbaf17fbe469e6097",
+        "max_registration_pixels": 2.4286160469055176
+      },
+      "outline_repair": {
+        "repair": "drsrne1",
+        "protected_fraction": 0.7091712951660156,
+        "raw_sha256": "c1fcbc889735cc5ae40e8f11d6467f82027468eb32d1c76c2d62a3a62ee0e83a"
+      },
+      "grey_contact": "Scalar brightness ratio: preserves grey substrate chroma"
+    },
+    {
+      "name": "gdrdne2",
+      "source": "drsrne2",
+      "topology": {
+        "N": true,
+        "S": false,
+        "W": false,
+        "E": true
+      },
+      "family": "roads_grey",
+      "runtime_sha256": "08eba8f0592741c0c5a2d82741c4609d7255eb4e9085bad598634d2ba0890241",
+      "field_sha256": "7ef114bc39db4e2c6a94148cb05c753dfb052806ae132f78be3cc15c277b6797",
+      "generation": {
+        "raw_sha256": "9ade81c87e201a5c856f95dfd7dded09a5496b663577034c7479062c3e7e0bca",
+        "max_registration_pixels": 3.7155725955963135
+      },
+      "outline_repair": {
+        "repair": "drsrne2",
+        "protected_fraction": 0.7297782897949219,
+        "raw_sha256": "63757a822ba80df0c1d00205b03ceb6fd685edd1edbc37be56181ca9f90afdfc"
+      },
+      "grey_contact": "Scalar brightness ratio: preserves grey substrate chroma"
+    },
+    {
+      "name": "gdrdns",
+      "source": "drsrns",
+      "topology": {
+        "N": true,
+        "S": true,
+        "W": false,
+        "E": false
+      },
+      "family": "roads_grey",
+      "runtime_sha256": "2352b35170261a783e3e1edeea314a34b371745f7706312242d390d322d5a474",
+      "field_sha256": "9dd5a58033ca46107ef92361ae5052e89001ed372c05f629c35061e97642e2bf",
+      "generation": {
+        "donor": true
+      },
+      "grey_contact": "Scalar brightness ratio: preserves grey substrate chroma"
+    },
+    {
+      "name": "gdrdns_e",
+      "source": "drsrns_e",
+      "topology": {
+        "N": true,
+        "S": true,
+        "W": false,
+        "E": true
+      },
+      "family": "roads_grey",
+      "runtime_sha256": "4e0d36fdffa28b27dd4859fa43ad6e1dcc59b61cbed1702651744fca3238e8d6",
+      "field_sha256": "aa541e2b7f086ff26ddef6594aff44e698a0c8a94435e62d6409710e7caf5b77",
+      "generation": {
+        "raw_sha256": "9415fee3fabb379faf1290a3d4c0a1a452873ef684dcce6272cbef6b85ba7892",
+        "max_registration_pixels": 3.613194227218628
+      },
+      "grey_contact": "Scalar brightness ratio: preserves grey substrate chroma"
+    },
+    {
+      "name": "gdrdns_w",
+      "source": "drsrns_w",
+      "topology": {
+        "N": true,
+        "S": true,
+        "W": true,
+        "E": false
+      },
+      "family": "roads_grey",
+      "runtime_sha256": "aecd5a991ef7ed439e30d1c0f17ab3429f150df27139d58f678e8d7df18d20a5",
+      "field_sha256": "5f08bc878e16cab5943073b842de6380e23ae2128cdbcfcaf3398fd2cda5cc41",
+      "generation": {
+        "raw_sha256": "2616f50ae4a0f4fb2ddbf396b55c6bc1310e29e8736e9ae634bbed51ecb6f3d1",
+        "max_registration_pixels": 3.2823235988616943
+      },
+      "grey_contact": "Scalar brightness ratio: preserves grey substrate chroma"
+    },
+    {
+      "name": "gdrdnw1",
+      "source": "drsrnw1",
+      "topology": {
+        "N": false,
+        "S": true,
+        "W": false,
+        "E": true
+      },
+      "family": "roads_grey",
+      "runtime_sha256": "9bf1b491f9ec9d97a2168a6c0a64f839ff2cf3375763db085f880160f681e91d",
+      "field_sha256": "1ebc63164807a79ce07cf8a870fa5de8d4ce3d9e521a8f0eba7cd7875d9cadf7",
+      "generation": {
+        "raw_sha256": "4ed47475a61266dc3b773d159ac4ed710f22a453e226026831aeab743ba51dd4",
+        "max_registration_pixels": 2.5363621711730957
+      },
+      "outline_repair": {
+        "repair": "drsrnw1",
+        "protected_fraction": 0.7153739929199219,
+        "raw_sha256": "841e06500b8f788a1c36cbd6ee13fa5f8ca8e00db3940f438778aeee1f87a262"
+      },
+      "grey_contact": "Scalar brightness ratio: preserves grey substrate chroma"
+    },
+    {
+      "name": "gdrdnw2",
+      "source": "drsrnw2",
+      "topology": {
+        "N": true,
+        "S": false,
+        "W": true,
+        "E": false
+      },
+      "family": "roads_grey",
+      "runtime_sha256": "5c9e410135b989152423649cc57aa63cf857205d668f840d2b107d11d7b4838f",
+      "field_sha256": "61e36c1d17085396be1e619a9d97fef88d6279ee685e3d3958c566ecbb744627",
+      "generation": {
+        "raw_sha256": "a39807bc6bec222b0af15575249aefc33ae457514d76530e351eaa9dbc84772d",
+        "max_registration_pixels": 2.975212335586548
+      },
+      "outline_repair": {
+        "repair": "drsrnw2",
+        "protected_fraction": 0.7173309326171875,
+        "raw_sha256": "5abd70c964bdaae5da5261aef9f88c6298ab5c8ff27749dad811691d906c5a42"
+      },
+      "grey_contact": "Scalar brightness ratio: preserves grey substrate chroma"
+    },
+    {
+      "name": "gdrds_e",
+      "source": "drsrs_e",
+      "topology": {
+        "N": false,
+        "S": true,
+        "W": false,
+        "E": true
+      },
+      "family": "roads_grey",
+      "runtime_sha256": "6be6f2948bf484f735c71cf31b20f300ad281eabb17051ae416f77525d581a36",
+      "field_sha256": "91394551288e92cf6fafa62caa015e47516cdbb13c7a6caf75558c12af52d22f",
+      "generation": {
+        "raw_sha256": "96867ba002c434c529da2c8d6d74d03adb4e1cc0ca87c7bd48c64284117ebb92",
+        "max_registration_pixels": 3.524021625518799
+      },
+      "grey_contact": "Scalar brightness ratio: preserves grey substrate chroma"
+    },
+    {
+      "name": "gdrds_w",
+      "source": "drsrs_w",
+      "topology": {
+        "N": false,
+        "S": true,
+        "W": true,
+        "E": false
+      },
+      "family": "roads_grey",
+      "runtime_sha256": "e6a18c324e65c02566ef20d6109dcc29de945bdf73e5d3849efe379f5b99c5f0",
+      "field_sha256": "fb83cdc50cc55642cc289838e13d3e028ed6c8c8ee3a5422dc628db6d7c9dcf8",
+      "generation": {
+        "raw_sha256": "244f9ae254a4e5a7ec998bf748cb03b101f0a3d19b4a2a3ac65c094d4b8285a5",
+        "max_registration_pixels": 3.9982070922851562
+      },
+      "grey_contact": "Scalar brightness ratio: preserves grey substrate chroma"
+    },
+    {
+      "name": "gdrdwcap",
+      "source": "drsrwcap",
+      "topology": {
+        "N": false,
+        "S": false,
+        "W": false,
+        "E": true
+      },
+      "family": "roads_grey",
+      "runtime_sha256": "5ff1155e40aea5f351923820778531a5a76e37a87be0481350a8cd4023c6fee2",
+      "field_sha256": "f11d489cfba7712076f8b2ef7d47b97a0c2f3faede933ae5a057cb396a083037",
+      "generation": {
+        "raw_sha256": "0fec100608d3ce3e305321870ce3185a5d1178093de5ecb15e1d81ea1642bcd9",
+        "max_registration_pixels": 2.004789352416992
+      },
+      "grey_contact": "Scalar brightness ratio: preserves grey substrate chroma"
+    }
+  ],
+  "missing": [],
+  "source_build_sha256": "449004b03f8b8d7c554a5f34f7b2fd4a79656b083d6d02904bab07035cc01353",
+  "changed": [
+    "drsrne1",
+    "gdrdne1",
+    "drsrne2",
+    "gdrdne2"
+  ],
+  "raw_sha256": "5d8df09cbf01ef7aeb7fa11edde7ac418eae80bdcab9287304dab293d8ea5a93",
+  "repairs": [
+    {
+      "name": "drsrne1",
+      "raw_sha256": "bd9fa67bcbe24fea1d4b91fd745f119bfc3964cf1041ec62f0c54881aa0cdb8a",
+      "prompt_sha256": "23c7f453e0f5724a4cb3f9e3c05bb294c12721e1747fa8cfd7ec09872fba725d",
+      "protected_fraction": 0.7991218566894531
+    },
+    {
+      "name": "drsrne2",
+      "raw_sha256": "11bed4b2e46a13c8f04614392a7bcd8e49032865879e325716d6319b792fa58f",
+      "prompt_sha256": "034a75a9d3969e39acc21ba98cde0abc71bc3839b7d4dedc71802226eb6c5e77",
+      "protected_fraction": 0.7448387145996094
+    }
+  ],
+  "tip_crop": {
+    "raw_sha256": "6f0685c5b1896505fbce9988968c0303ac52c387cc078de2faca58b4c83f6fc4",
+    "prompt_sha256": "ab35b6ec7c684b1dd497716c6a8c794bb0d1370e6147b461ecacaf5b061dad13",
+    "input_sha256": "4a09adf5a6ae6eedecd8f741bfd8045b21e14e97023a31b7517d32682d6c92ab",
+    "box": [
+      348,
+      24,
+      508,
+      184
+    ]
+  },
+  "imagegen_calls": 6
+}

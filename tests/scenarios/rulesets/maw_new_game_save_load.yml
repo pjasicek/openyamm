@@ -1,0 +1,37 @@
+id: rulesets.maw_new_game_save_load
+title: Ruleset - a MAW game keeps its ruleset through save and load, and a Standard save switches back
+world: mm6
+mode: faithful
+tags: [rulesets, maw]
+steps:
+  - new_game_flow:
+      start_map: oute3.odm
+      ruleset:
+        id: maw
+        difficulty: hell
+        progression: horizontal
+  - assert:
+      map: oute3.odm
+      ruleset:
+        id: maw
+        difficulty: hell
+        progression: horizontal
+  - save_game: maw_hell
+  - new_game_flow:
+      start_map: oute3.odm
+  - assert:
+      ruleset:
+        id: mmerge
+  - save_game: standard
+  - load_game: maw_hell
+  - assert:
+      map: oute3.odm
+      ruleset:
+        id: maw
+        difficulty: hell
+        progression: horizontal
+  - load_game: standard
+  - assert:
+      map: oute3.odm
+      ruleset:
+        id: mmerge

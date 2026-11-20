@@ -1,0 +1,513 @@
+{
+ "id": "20261009-1628-mm6-6d17-08",
+ "world": "mm6",
+ "maps": [
+  "6d17.blv",
+  "6d15.blv",
+  "6d12.blv"
+ ],
+ "created": "2026-10-09T14:28:26+00:00",
+ "textures": [
+  "mm6/straw",
+  "mm6/tdortrim",
+  "mm6/t3wbstbr",
+  "mm6/t3wbltbl",
+  "mm6/d8dord",
+  "mm6/cr1frnt",
+  "mm6/cr1seat",
+  "mm6/bemsh32a",
+  "mm6/bemsv32b",
+  "mm6/bemsv16b",
+  "mm6/bemob2",
+  "mm6/chf16bdk",
+  "mm6/orair32",
+  "mm6/orflr132",
+  "mm6/orfyrrf",
+  "mm6/d5walc",
+  "mm6/d5walc2",
+  "mm6/d5walc1",
+  "mm6/d5walcle",
+  "mm6/d5walcre",
+  "mm6/d5trimb",
+  "mm6/d5dorsmb",
+  "mm6/john01",
+  "mm6/cedhwal1"
+ ],
+ "requests": {
+  "mm6/straw": {
+   "name": "straw",
+   "versions": [
+    1
+   ],
+   "material": "loose pale golden dry straw scattered in a dense tangled layer",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/tdortrim": {
+   "name": "tdortrim",
+   "versions": [
+    1
+   ],
+   "material": "plain dark red-brown painted wooden door trim strip with a bevelled raised panel edge",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/t3wbstbr": {
+   "name": "t3wbstbr",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "grey-brown rough stone block wall with dark mortar and bevelled edges, framed by rust-red bevelled brick tiles along the right edge and the bottom edge",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/t3wbstr",
+      "mm6/t3wbsr",
+      "mm6/t3wbstb",
+      "mm6/t3wbstbd"
+     ],
+     "fraction": 0.649
+    },
+    "2": {
+     "sources": [
+      "mm6/t3wbstr",
+      "mm6/t3wbsr",
+      "mm6/t3wbstb",
+      "mm6/t3wbstbd"
+     ],
+     "fraction": 0.649
+    }
+   },
+   "pad": {
+    "2": [
+     32,
+     32
+    ]
+   },
+   "context": {
+    "2": {
+     "left": "mm6/t3wbstb",
+     "bottom": "mm6/t3wbsr"
+    }
+   }
+  },
+  "mm6/t3wbltbl": {
+   "name": "t3wbltbl",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "grey-brown rough stone block wall with dark mortar and bevelled edges, framed by large rust-red bevelled brick quoins along the left edge and the bottom edge",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/t3wbltl",
+      "mm6/t3wbll"
+     ],
+     "fraction": 0.323
+    },
+    "2": {
+     "sources": [
+      "mm6/t3wbltl",
+      "mm6/t3wbll"
+     ],
+     "fraction": 0.323
+    }
+   },
+   "context": {
+    "1": {},
+    "2": {
+     "right": "mm6/t3wbltbr"
+    }
+   },
+   "pad": {
+    "2": [
+     32,
+     16
+    ]
+   }
+  },
+  "mm6/d8dord": {
+   "name": "d8dord",
+   "versions": [
+    1
+   ],
+   "material": "dark iron-studded dungeon door with rows of black round rivets on a dark panel, rusty iron frame with corner plates and a heavy rusted padlock and hasp bar across the lower part; copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/d8dore"
+     ],
+     "fraction": 0.331
+    }
+   }
+  },
+  "mm6/cr1frnt": {
+   "name": "cr1frnt",
+   "versions": [
+    1
+   ],
+   "material": "orange and dark brown brocade upholstery fabric with a symmetrical baroque pattern of scrolling dragons and foliage, fringed lower edge; copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/cr1seat": {
+   "name": "cr1seat",
+   "versions": [
+    1
+   ],
+   "material": "orange and dark brown brocade upholstery fabric with a symmetrical baroque pattern of scrolling dragons and foliage, copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/cr1frnt"
+     ],
+     "fraction": 0.131
+    }
+   }
+  },
+  "mm6/bemsh32a": {
+   "name": "bemsh32a",
+   "versions": [
+    1
+   ],
+   "material": "reddish-brown polished wooden beam with horizontal grain",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/bemsh32c"
+     ],
+     "fraction": 0.535
+    }
+   }
+  },
+  "mm6/bemsv32b": {
+   "name": "bemsv32b",
+   "versions": [
+    1
+   ],
+   "material": "reddish-brown polished wooden beam with vertical grain",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/bemsv16b": {
+   "name": "bemsv16b",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "reddish-brown polished wooden beam with vertical grain",
+   "notes": {
+    "2": "Seamless wrap on both axes: the vertical wood grain continues across the top/bottom edge with the same tone, and no lighter or darker column along the left/right edges."
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/bemsv32a",
+      "mm6/bemv32b"
+     ],
+     "fraction": 0.843
+    },
+    "2": {
+     "sources": [
+      "mm6/bemsv32a",
+      "mm6/bemv32b"
+     ],
+     "fraction": 0.843
+    }
+   }
+  },
+  "mm6/bemob2": {
+   "name": "bemob2",
+   "versions": [
+    1
+   ],
+   "material": "rose-brown speckled granite with fine dark and cream grains",
+   "notes": {},
+   "ref_blur": {
+    "1": 2.5
+   },
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/chf16bdk": {
+   "name": "chf16bdk",
+   "versions": [
+    1
+   ],
+   "material": "plain dark orange-brown polished wood strip with horizontal grain",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/orair32": {
+   "name": "orair32",
+   "versions": [
+    1
+   ],
+   "material": "pale sky-blue and white wispy cloud mist with soft swirling streaks",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/orflr132": {
+   "name": "orflr132",
+   "versions": [
+    1
+   ],
+   "material": "pale pink and white swirled marble with soft veining",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/orfyrrf": {
+   "name": "orfyrrf",
+   "versions": [
+    1
+   ],
+   "material": "bright red and orange roiling fire with yellow flame streaks and dark red shadows",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/d5walc": {
+   "name": "d5walc",
+   "versions": [
+    1
+   ],
+   "material": "olive-tan rough stone wall of thin irregular stacked flat bricks with deep dark mortar gaps",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/d5walc2": {
+   "name": "d5walc2",
+   "versions": [
+    1
+   ],
+   "material": "olive-tan rough stone wall of thin irregular stacked flat bricks with deep dark mortar gaps",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/d5walc"
+     ],
+     "fraction": 0.649
+    }
+   }
+  },
+  "mm6/d5walc1": {
+   "name": "d5walc1",
+   "versions": [
+    1
+   ],
+   "material": "olive-tan rough stone wall of thin irregular stacked flat bricks with deep dark mortar gaps",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/d5walc2"
+     ],
+     "fraction": 0.906
+    }
+   }
+  },
+  "mm6/d5walcle": {
+   "name": "d5walcle",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "olive-tan rough stone wall of thin irregular stacked flat bricks with deep dark mortar gaps, with a weathered grey stone pilaster on the left edge bearing a pale skull near the top; copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/d5walc"
+     ],
+     "fraction": 0.382
+    },
+    "2": {
+     "sources": [
+      "mm6/d5walc"
+     ],
+     "fraction": 0.369
+    }
+   },
+   "pad": {
+    "2": [
+     32,
+     16
+    ]
+   },
+   "context": {
+    "2": {
+     "right": "mm6/d5walc",
+     "left": "mm6/d2lgdor"
+    }
+   }
+  },
+  "mm6/d5walcre": {
+   "name": "d5walcre",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "olive-tan rough stone wall of thin irregular stacked flat bricks with deep dark mortar gaps, with a weathered grey stone pilaster on the right edge bearing a pale skull near the top; copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/d5walc"
+     ],
+     "fraction": 0.186
+    },
+    "2": {
+     "sources": [
+      "mm6/d5walc"
+     ],
+     "fraction": 0.176
+    }
+   },
+   "pad": {
+    "2": [
+     32,
+     16
+    ]
+   },
+   "context": {
+    "2": {
+     "left": "mm6/d5walc",
+     "right": "mm6/d2lgdor"
+    }
+   }
+  },
+  "mm6/d5trimb": {
+   "name": "d5trimb",
+   "versions": [
+    1
+   ],
+   "material": "olive-tan carved stone frieze strip of Mesoamerican glyph blocks with grotesque faces and scrolls on a dark background, copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/d5dorsmb": {
+   "name": "d5dorsmb",
+   "versions": [
+    1,
+    2,
+    3
+   ],
+   "material": "narrow olive-green stone door with three carved round glyph medallions, a carved Mesoamerican glyph lintel at the top and dark stone block jambs; copy the composition exactly",
+   "notes": {
+    "2": "Copy the composition exactly: keep the carved glyph frieze across the top and the chain-link borders down both sides as in the reference, same position and size. No dark outline or shadow along the bottom edge: the bottom rows keep the native brightness.",
+    "3": "No dark outline or shadow along the bottom edge; the outermost rows keep the same brightness as the interior."
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/d5trimb"
+     ],
+     "fraction": 0.205
+    },
+    "2": {
+     "sources": [
+      "mm6/d5trimb"
+     ],
+     "fraction": 0.205
+    },
+    "3": {
+     "sources": [
+      "mm6/d5trimb"
+     ],
+     "fraction": 0.205
+    }
+   }
+  },
+  "mm6/john01": {
+   "name": "john01",
+   "versions": [
+    1
+   ],
+   "material": "olive-tan rough stone brick wall with a silver plate-armoured knight in a winged helmet bursting out of it, copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/d5walc"
+     ],
+     "fraction": 0.384
+    }
+   }
+  },
+  "mm6/cedhwal1": {
+   "name": "cedhwal1",
+   "versions": [
+    1
+   ],
+   "material": "orange-brown cedar wooden planks laid horizontally with visible grain and dark seams",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  }
+ }
+}

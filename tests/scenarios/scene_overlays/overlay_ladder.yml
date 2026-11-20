@@ -1,0 +1,19 @@
+# Scene overlays may carry ladders (G1 of devdocs/map_studio/S6_PLAN.md): the list replaces the base scene's. Needs the
+# test mount (run.sh): bathhouse_scenetest.scene.yml replaces the Bath House's one ladder (Ladder0) by a copy named
+# overlay_ladder and a second ladder. The party climbs the overlay's ladder up and down again.
+id: scene_overlays.ladder
+title: A ladder from a scene overlay is climbed in a shipped map
+world: mm9
+mode: faithful
+steps:
+  - new_game_flow:
+      start_map: bathhouse.blv
+  - setup_shortcut: {kind: immortal, value: true}
+  - set_pose: {map: bathhouse.blv, x: 9000, y: 296.96, z: -1256.96, yaw_degrees: 0}
+  - advance_runtime: {seconds: 0.5}
+  - climb: {ladder: overlay_ladder}
+  - assert:
+      party_position: {x: 9277, y: 297, radius: 96, z_min: -1100}
+  - climb: {ladder: overlay_ladder, down: true}
+  - assert:
+      party_position: {x: 9154, y: 297, radius: 200, z_max: -1200}

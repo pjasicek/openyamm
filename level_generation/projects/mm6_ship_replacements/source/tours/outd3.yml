@@ -1,0 +1,60 @@
+output_dir: ../../review/outd3
+settle_seconds: 1.5
+exit: true
+shots:
+- name: zephyr_overview
+  position:
+  - 19540
+  - 11164
+  - 1428
+  yaw: 5.33238898038469
+  pitch: -0.3
+- name: zephyr_boarding
+  position:
+  - 21142
+  - 8192
+  - 192
+  yaw: 6.283185307179586
+  pitch: -0.2
+- name: zephyr_return
+  position:
+  - 21688
+  - 8192
+  - 121
+  yaw: 3.141592653589793
+  pitch: -0.12
+- name: zephyr_cabin
+  position:
+  - 21840
+  - 7968
+  - 121
+  yaw: 4.71238898038469
+  pitch: 0
+- name: queen_catherine_overview
+  position:
+  - 19540
+  - 7580
+  - 1428
+  yaw: 5.33238898038469
+  pitch: -0.3
+- name: queen_catherine_boarding
+  position:
+  - 21142
+  - 4608
+  - 192
+  yaw: 6.283185307179586
+  pitch: -0.2
+- name: queen_catherine_return
+  position:
+  - 21688
+  - 4608
+  - 121
+  yaw: 3.141592653589793
+  pitch: -0.12
+- name: queen_catherine_cabin
+  position:
+  - 21840
+  - 4384
+  - 121
+  yaw: 4.71238898038469
+  pitch: 0

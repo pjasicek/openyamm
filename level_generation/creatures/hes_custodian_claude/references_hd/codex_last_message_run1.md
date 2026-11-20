@@ -1,0 +1,3 @@
+Saved [00_three_quarter.png](level_generation/creatures/hes_custodian_claude/references_hd/00_three_quarter.png): 1536×1024 RGBA, unresized, with transparency. Used built-in imagegen and one corrective generation; prompts and checks are in [generation_runs.json](level_generation/creatures/hes_custodian_claude/references_hd/generation_runs.json).
+
+Stopped after Run 1. Remaining deviations: tight vertical margins, oversized saws, and lower V-notch direction.

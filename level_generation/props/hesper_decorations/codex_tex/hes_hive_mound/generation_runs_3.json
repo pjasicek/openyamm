@@ -1,0 +1,295 @@
+{
+  "brief": "CODEX_BRIEF_3.md",
+  "tool": "built-in image_gen",
+  "postprocessing": "None. All generated PNGs copied byte-for-byte; no resizing, alpha replacement, cropping or repainting.",
+  "runs": [
+    {
+      "view": "left",
+      "attempt": 1,
+      "prompt": "Use case: style-transfer.\nAsset type: orthographic 3D game prop texture-source / albedo painting.\nEdit ONLY the first input image, the grey geometry guide. The other two images are material references, never composition references.\nReturn ONE 1024 x 1024 RGBA PNG with a genuinely transparent background, at its original generated size.\n\nGEOMETRY LOCK: Paint directly over the guide without moving or redesigning anything. Preserve its original alpha silhouette, exact orthographic camera, framing, position, scale, all angular surface edges, lattice struts, openings, embedded sacs, spikes and ground-contact fragments pixel for pixel. The occupied bounding box is x=69 through 954, y=212 through 811 on the 1024-square canvas. Maintain the large empty transparent margins. Do not enlarge to fill the canvas. Do not round off or remodel angular outlines. Keep every existing opening exactly where it is. No additional eggs, spikes, roots, holes or rocks. No parts extending outside the guide's alpha footprint.\n\nMATERIAL AUTHORITY: design_reference.png is the approved colour and material reference; concept_crop.png is supporting original concept only. Paint the existing lattice glossy black-violet resin, the existing recessed vents glowing orange inside, the existing egg/sac surfaces translucent glowing amber with dark organic branching inclusions, and the existing spikes aged ivory bone. Match the rich violet-black resin, orange/amber and ivory palette. Glossiness and translucency must be communicated through material colour and fine surface character, not baked lighting.\n\nALBEDO LIGHTING: completely even, flat, shadowless light from the viewer. No cast shadow, no ambient-occlusion darkening, no directional shading, no bright specular highlights or reflections, no rim light. Do not copy the reference's dramatic lighting. Glowing orange/amber areas are painted at their glowing colour without light spill onto their surroundings. No bloom, haze, floor, background colour, background checkerboard, text or watermark. Preserve actual transparent pixels including any true cut-through openings from the guide.\n\nVIEW: LEFT. First input is guide_left.png, the exact left-side view to paint. The large external egg is on the RIGHT side of this guide; preserve it there and preserve the narrow cut-through slit on the LEFT. The tallest spike leans toward the upper left exactly as drawn. Paint the grey guide's existing shapes only.",
+      "inputs": [
+        {
+          "path": "guide_left.png",
+          "sha256": "ffbf4e6f35bd3575e679d38e632e1f3205e54c67bdc19ba7566b71bf7f007b6b",
+          "role": "edit target; exact geometry and alpha"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "52bbc29de0f77a7a071fc9b25d1c03ef971fe55ecd8c19420ff52c4cc6271a1f",
+          "role": "approved material and colour reference"
+        },
+        {
+          "path": "concept_crop.png",
+          "sha256": "8b5cea285a5e17c30736a1cb78bc34475fd9676565de837bab464098c4cf5d60",
+          "role": "supporting original concept"
+        }
+      ],
+      "output": "paint_left_attempt_1.png",
+      "selected": false,
+      "reason": "Rejected: native return is 1254x1254, not 1024x1024; visible bright reflections and geometry/alpha drift. One corrective generation requested.",
+      "source_output": "/home/pjasicek/.codex/generated_images/01a16887-d383-73d1-818f-11382ac3c71c/exec-7a2184ac-4865-4ecd-b49e-c9879dd30d66.png",
+      "checks": {
+        "dimensions": [
+          1254,
+          1254
+        ],
+        "required_dimensions": [
+          1024,
+          1024
+        ],
+        "required_dimensions_pass": false,
+        "mode": "RGBA",
+        "transparent_background": true,
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "alpha_bbox": [
+          57,
+          20,
+          1216,
+          1254
+        ],
+        "alpha_128_bbox": [
+          83,
+          260,
+          1171,
+          995
+        ],
+        "guide_alpha_bbox": [
+          69,
+          212,
+          955,
+          812
+        ],
+        "silhouette_identical": false,
+        "geometry_visual_review": "Broad view and silhouette follow the guide, but local shape/edge details drift.",
+        "materials_visual_review": "Black-violet resin, orange/amber sacs and ivory bone palette present.",
+        "flat_even_lighting_pass": false,
+        "lighting_visual_review": "Strong specular streaks and cavity shading.",
+        "brief_compliance_pass": false,
+        "raw_return_preserved": true
+      },
+      "output_sha256": "1dd615ad4d933370fc07606add371eac9066e3df8de297dea91288409b9a7f96"
+    },
+    {
+      "view": "right",
+      "attempt": 1,
+      "prompt": "Use case: style-transfer.\nAsset type: orthographic 3D game prop texture-source / albedo painting.\nEdit ONLY the first input image, the grey geometry guide. The other two images are material references, never composition references.\nReturn ONE 1024 x 1024 RGBA PNG with a genuinely transparent background, at its original generated size.\n\nGEOMETRY LOCK: Paint directly over the guide without moving or redesigning anything. Preserve its original alpha silhouette, exact orthographic camera, framing, position, scale, all angular surface edges, lattice struts, openings, embedded sacs, spikes and ground-contact fragments pixel for pixel. The occupied bounding box is x=69 through 954, y=212 through 811 on the 1024-square canvas. Maintain the large empty transparent margins. Do not enlarge to fill the canvas. Do not round off or remodel angular outlines. Keep every existing opening exactly where it is. No additional eggs, spikes, roots, holes or rocks. No parts extending outside the guide's alpha footprint.\n\nMATERIAL AUTHORITY: design_reference.png is the approved colour and material reference; concept_crop.png is supporting original concept only. Paint the existing lattice glossy black-violet resin, the existing recessed vents glowing orange inside, the existing egg/sac surfaces translucent glowing amber with dark organic branching inclusions, and the existing spikes aged ivory bone. Match the rich violet-black resin, orange/amber and ivory palette. Glossiness and translucency must be communicated through material colour and fine surface character, not baked lighting.\n\nALBEDO LIGHTING: completely even, flat, shadowless light from the viewer. No cast shadow, no ambient-occlusion darkening, no directional shading, no bright specular highlights or reflections, no rim light. Do not copy the reference's dramatic lighting. Glowing orange/amber areas are painted at their glowing colour without light spill onto their surroundings. No bloom, haze, floor, background colour, background checkerboard, text or watermark. Preserve actual transparent pixels including any true cut-through openings from the guide.\n\nVIEW: RIGHT. First input is guide_right.png, the exact right-side view to paint. The external eggs are on the LEFT side of this guide; preserve them there and preserve the narrow cut-through slit on the RIGHT. The tallest spike leans toward the upper right exactly as drawn. Paint the grey guide's existing shapes only.\n\nCANVAS AND LIGHTING CHECK: The output file itself must be exactly 1024 x 1024 pixels, the same dimensions as the first input. Preserve alpha=0 outside the guide's exact silhouette. No stray translucent pixels. Keep the entire guide's unchanged shape and margins. This is flat BASE COLOUR, without white or pink specular streaks on the resin or eggs and without cavity/contact shadows.",
+      "inputs": [
+        {
+          "path": "guide_right.png",
+          "sha256": "1f5286d9287fe80ab9a66b8b092c9716d952eb6a22bfa7ca047bbc37d49f6984",
+          "role": "edit target; exact geometry and alpha"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "52bbc29de0f77a7a071fc9b25d1c03ef971fe55ecd8c19420ff52c4cc6271a1f",
+          "role": "approved material and colour reference"
+        },
+        {
+          "path": "concept_crop.png",
+          "sha256": "8b5cea285a5e17c30736a1cb78bc34475fd9676565de837bab464098c4cf5d60",
+          "role": "supporting original concept"
+        }
+      ],
+      "output": "paint_right_attempt_1.png",
+      "selected": false,
+      "reason": "Rejected pending corrective generation: native 1254x1254 rather than 1024x1024; alpha/geometry drift and cavity shading remain.",
+      "source_output": "/home/pjasicek/.codex/generated_images/01a16887-d383-73d1-818f-11382ac3c71c/exec-a8d36fb1-4ab9-45da-ad39-846ab4e5864c.png",
+      "output_sha256": "375b459b6e370340a4d68ccacb4d54e1b7a870e37a42cba5f1d8b550e42280cf",
+      "checks": {
+        "dimensions": [
+          1254,
+          1254
+        ],
+        "required_dimensions": [
+          1024,
+          1024
+        ],
+        "required_dimensions_pass": false,
+        "mode": "RGBA",
+        "transparent_background": true,
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "alpha_bbox": [
+          0,
+          29,
+          1236,
+          1254
+        ],
+        "alpha_128_bbox": [
+          85,
+          257,
+          1170,
+          992
+        ],
+        "guide_alpha_bbox": [
+          69,
+          212,
+          955,
+          812
+        ],
+        "silhouette_identical": false,
+        "geometry_visual_review": "Broad view and silhouette follow the guide, but local shape/edge details drift.",
+        "materials_visual_review": "Black-violet resin, orange/amber sacs and ivory bone palette present.",
+        "flat_even_lighting_pass": false,
+        "lighting_visual_review": "Reduced specular highlights, but residual edge highlights and recess shading remain.",
+        "brief_compliance_pass": false,
+        "raw_return_preserved": true
+      }
+    },
+    {
+      "view": "left",
+      "attempt": 2,
+      "prompt": "Use case: style-transfer.\nAsset type: orthographic 3D game prop texture-source / albedo painting.\nEdit ONLY the first input image, the grey geometry guide. The other two images are material references, never composition references.\nReturn ONE 1024 x 1024 RGBA PNG with a genuinely transparent background, at its original generated size.\n\nGEOMETRY LOCK: Paint directly over the guide without moving or redesigning anything. Preserve its original alpha silhouette, exact orthographic camera, framing, position, scale, all angular surface edges, lattice struts, openings, embedded sacs, spikes and ground-contact fragments pixel for pixel. The occupied bounding box is x=69 through 954, y=212 through 811 on the 1024-square canvas. Maintain the large empty transparent margins. Do not enlarge to fill the canvas. Do not round off or remodel angular outlines. Keep every existing opening exactly where it is. No additional eggs, spikes, roots, holes or rocks. No parts extending outside the guide's alpha footprint.\n\nMATERIAL AUTHORITY: design_reference.png is the approved colour and material reference; concept_crop.png is supporting original concept only. Paint the existing lattice glossy black-violet resin, the existing recessed vents glowing orange inside, the existing egg/sac surfaces translucent glowing amber with dark organic branching inclusions, and the existing spikes aged ivory bone. Match the rich violet-black resin, orange/amber and ivory palette. Glossiness and translucency must be communicated through material colour and fine surface character, not baked lighting.\n\nALBEDO LIGHTING: completely even, flat, shadowless light from the viewer. No cast shadow, no ambient-occlusion darkening, no directional shading, no bright specular highlights or reflections, no rim light. Do not copy the reference's dramatic lighting. Glowing orange/amber areas are painted at their glowing colour without light spill onto their surroundings. No bloom, haze, floor, background colour, background checkerboard, text or watermark. Preserve actual transparent pixels including any true cut-through openings from the guide.\n\nVIEW: LEFT. First input is guide_left.png, the exact left-side view to paint. The large external egg is on the RIGHT side of this guide; preserve it there and preserve the narrow cut-through slit on the LEFT. The tallest spike leans toward the upper left exactly as drawn. Paint the grey guide's existing shapes only.\n\nCORRECTIVE PASS: The previous return failed the required resolution and flat albedo lighting. Create the actual delivered file on a native 1024 x 1024 pixel canvas, matching the first input pixel dimensions exactly. Do not output 1254, 1280, 1536, or any other size. Do not crop, rescale, recenter or zoom the guide. Preserve the guide's original alpha exactly, with strictly alpha=0 outside it; do not create stray translucent pixels. Repaint its RGB surface colours only. Remove white/pink specular streaks from resin and amber, remove all cavity/contact shadows; retain violet resin base colour and amber base-colour marbling. Keep every guide shape edge fixed.",
+      "inputs": [
+        {
+          "path": "guide_left.png",
+          "sha256": "ffbf4e6f35bd3575e679d38e632e1f3205e54c67bdc19ba7566b71bf7f007b6b",
+          "role": "edit target; exact geometry and alpha"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "52bbc29de0f77a7a071fc9b25d1c03ef971fe55ecd8c19420ff52c4cc6271a1f",
+          "role": "approved material and colour reference"
+        },
+        {
+          "path": "concept_crop.png",
+          "sha256": "8b5cea285a5e17c30736a1cb78bc34475fd9676565de837bab464098c4cf5d60",
+          "role": "supporting original concept"
+        }
+      ],
+      "output": "paint_left.png",
+      "selected": true,
+      "reason": "Best available left return after the permitted corrective generation: fewer specular highlights. Selected for delivery only, not a compliance pass: native 1254x1254, alpha/shape drift and residual recess shading remain.",
+      "source_output": "/home/pjasicek/.codex/generated_images/01a16887-d383-73d1-818f-11382ac3c71c/exec-5bfee904-5741-47b1-9693-c44b8d70f06a.png",
+      "output_sha256": "c97ba02edf7bad966d9a5882c39b0c132d7dd938aef96efed931abd7a4e76eaa",
+      "checks": {
+        "dimensions": [
+          1254,
+          1254
+        ],
+        "required_dimensions": [
+          1024,
+          1024
+        ],
+        "required_dimensions_pass": false,
+        "mode": "RGBA",
+        "transparent_background": true,
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "alpha_bbox": [
+          0,
+          21,
+          1218,
+          1254
+        ],
+        "alpha_128_bbox": [
+          84,
+          259,
+          1171,
+          995
+        ],
+        "guide_alpha_bbox": [
+          69,
+          212,
+          955,
+          812
+        ],
+        "silhouette_identical": false,
+        "geometry_visual_review": "Broad view and silhouette follow the guide, but local shape/edge details drift.",
+        "materials_visual_review": "Black-violet resin, orange/amber sacs and ivory bone palette present.",
+        "flat_even_lighting_pass": false,
+        "lighting_visual_review": "Reduced specular highlights, but residual edge highlights and recess shading remain.",
+        "brief_compliance_pass": false,
+        "raw_return_preserved": true
+      }
+    },
+    {
+      "view": "right",
+      "attempt": 2,
+      "prompt": "Use case: style-transfer. Corrective texture painting, right view.\n\nImage 1 (guide_right.png) is the EDIT TARGET. Keep its original 1024 by 1024 canvas and alpha channel unchanged. This is a repaint of the existing pixels. The delivered PNG must be exactly 1024 by 1024 pixels. Preserve every polygon, silhouette edge, opening, spike, egg, and ground fragment in precisely the same position as Image 1. The tallest spike tip is at y=212; the ground-contact edge is at y=811; the overall object spans x=69 to x=954. Keep the two external eggs on the left. Keep the narrow cut-through gap on the right. Do not change the camera or enlarge the object. Transparent pixels stay fully transparent.\n\nImage 2 (design_reference.png) supplies materials and colours only, not shapes or lighting. Image 3 (concept_crop.png) is the supporting original concept. Recolour the target's lattice in black-violet resin, its existing cavity interiors in orange, its existing eggs in glowing translucent amber with dark branching inclusions, and its existing bone spikes in ivory.\n\nCORRECTION: this is an unlit ALBEDO texture source, not a lit illustration. Use flat even colours across every material, with fine organic colour mottling. Eliminate all specular highlights, rim highlights, directional light, dark cavity shadows, ambient occlusion and contact shading. Orange/amber is the painted surface colour, never light cast on nearby resin. The resin may have a glossy material identity but no reflection is baked into this image. No cast shadows, no ground plane, no background, no checkerboard, no glow halo, no extra geometry. Return one native unresized 1024 x 1024 RGBA PNG. This is the final corrective generation; exact original geometry and canvas take priority over embellishment.",
+      "inputs": [
+        {
+          "path": "guide_right.png",
+          "sha256": "1f5286d9287fe80ab9a66b8b092c9716d952eb6a22bfa7ca047bbc37d49f6984",
+          "role": "edit target; exact geometry and alpha"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "52bbc29de0f77a7a071fc9b25d1c03ef971fe55ecd8c19420ff52c4cc6271a1f",
+          "role": "approved material and colour reference"
+        },
+        {
+          "path": "concept_crop.png",
+          "sha256": "8b5cea285a5e17c30736a1cb78bc34475fd9676565de837bab464098c4cf5d60",
+          "role": "supporting original concept"
+        }
+      ],
+      "output": "paint_right.png",
+      "selected": true,
+      "reason": "Best available right return after the permitted corrective generation: flatter amber surfaces. Selected for delivery only, not a compliance pass: native 1254x1254, alpha/shape drift and residual edge highlights/recess shading remain.",
+      "source_output": "/home/pjasicek/.codex/generated_images/01a16887-d383-73d1-818f-11382ac3c71c/exec-d2bea48a-57e2-4091-9742-f2caf70b14e9.png",
+      "output_sha256": "1b23c5a919d7d0c94941e233fd7ca63695b0c7fca1230db43f8a09b6d578791d",
+      "checks": {
+        "dimensions": [
+          1254,
+          1254
+        ],
+        "required_dimensions": [
+          1024,
+          1024
+        ],
+        "required_dimensions_pass": false,
+        "mode": "RGBA",
+        "transparent_background": true,
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "alpha_bbox": [
+          0,
+          41,
+          1226,
+          1254
+        ],
+        "alpha_128_bbox": [
+          83,
+          260,
+          1171,
+          995
+        ],
+        "guide_alpha_bbox": [
+          69,
+          212,
+          955,
+          812
+        ],
+        "silhouette_identical": false,
+        "geometry_visual_review": "Broad view and silhouette follow the guide, but local shape/edge details drift.",
+        "materials_visual_review": "Black-violet resin, orange/amber sacs and ivory bone palette present.",
+        "flat_even_lighting_pass": false,
+        "lighting_visual_review": "Reduced specular highlights, but residual edge highlights and recess shading remain.",
+        "brief_compliance_pass": false,
+        "raw_return_preserved": true
+      }
+    }
+  ],
+  "status": "Deliverables saved; exact brief requirements not met by the available built-in tool returns.",
+  "limitations": [
+    "All four native returns are 1254x1254 despite explicit 1024x1024 requests.",
+    "Silhouettes/alpha and internal shape edges are not identical to the guides.",
+    "Residual lighting remains; these are not strictly flat albedo paintings."
+  ],
+  "generation_limit": {
+    "maximum_corrective_regenerations_per_view": 1,
+    "left_used": 1,
+    "right_used": 1
+  },
+  "selection_meaning": "selected=true identifies the delivered raw candidate; it does not indicate brief compliance."
+}

@@ -1,0 +1,87 @@
+# MM9 promotion playthrough, segment 31: the book in the Verhoffin Ruins (guide: side_c.yml "find-verhoffin-s-diary",
+# steps 2-3). The Sea's Fang from Thjorgard to the Isle of Ashes (four days; outdoors the party is moved), the stair
+# down into the ruins; the ruins walked (walk_to, no placing):
+# - west along the southern corridor to PrisonDoor2: its bolt is broken (a hit) and the door opened; north through the
+#   pentagram room (its points left alone), the west rooms, the crevasse's west ramp down and east along the crevasse
+#   floor (shallow water) to its east ramp, up into the long east corridor;
+# - south to its double door DD14, into the south-east room: Door5's key (item 10559, a world item) on the table;
+# - north up the long east corridor, west along the north hallway, north through DD6 into the small split room:
+#   Door5 at the north end of the wall (the key opens it and is used up), the book beyond it: keys 281, 290 and the
+#   silver Verhoffin's Book (item 10242, "fakebook.scr");
+# - back the same way to PrisonDoor2 and out by the stair (Isle of Ashes).
+# The guide's way to the key and the book ("from the cave, north through the double door into the four-pillar hall")
+# is not the only one; this one keeps to the corridors the monsters' rails use (prep/D_mage_scholar_ranger.md).
+# The southern corridor and the rest of the ruins meet only at the bolted PrisonDoor2 (the crevasse cannot be climbed
+# back to the start), so the bolt is broken on the way in, from its side.
+#   python3 tests/playthrough/mm9/promotions/run.py 31
+id: mm9.promotions.31_verhoffin_fake_book
+title: "MM9 promotions 31: the Verhoffin Ruins walked for Door5's key and the silver Verhoffin's Book"
+world: mm9
+mode: faithful
+tags: [mm9, playthrough, promotions]
+steps:
+  - load_game: {path: output/playthrough/mm9/promotions/checkpoints/30_johannes_task.oysav}
+  - setup_shortcut: {kind: immortal}
+  - assert: {map: thjorgardcity.blv, qbit_set: [90004], qbit_clear: [90281, 90290]}
+
+  # The Sea's Fang to the Isle of Ashes; the stair down into the ruins.
+  - travel: {map: isleofashes.blv, days: 4}
+  - set_pose: {map: isleofashes.blv, x: 1260, y: 4636, z: 860, yaw: -1.5708, pitch: 0}
+  - advance_runtime: {seconds: 0.5}
+  - walk_to: {x: 1290, y: 4198, z: 1000, timeout_seconds: 30, expect: dialog}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.0, follow_map_move: true}
+  - assert: {map: verhoffinruins.blv}
+
+  # West along the southern corridor to PrisonDoor2 (bolted): hit the bolt until it breaks, open the door.
+  - walk_to: {x: -4430, y: -4420, z: -328, timeout_seconds: 400, clear_hostiles: 1500}
+  - play_lua:
+      source: |
+        click(205); wait(0.3)
+        local s = status()
+        log("PrisonDoor2: " .. s)
+        if s:find("bolted") then
+          click(38648); wait(0.5)          -- the bolt, hit until it breaks
+          log("the bolt breaks: " .. status())
+          click(205); wait(2.5)
+        end
+  - assert: {state_dump_named_map_var: {name: BoltBroken, value: 1}}
+
+  # North through the pentagram room (along its west side, clear of the points), the west rooms, down the crevasse's
+  # west ramp and east along its floor, up the east ramp into the long east corridor, south to DD14.
+  - walk_to: {via: [[-4520, -4150, -327], [-4545, -3727, -327], [-4505, -2826, -327], [-4526, -1945, -327], [-4567, -1597, -327], [-4096, -1597, -409], [-3502, -1597, -573], [-3276, -2007, -593], [-3481, -2990, -614], [-2580, -3133, -614], [-2088, -3276, -614], [-1454, -3829, -614], [-901, -4075, -614], [-430, -4136, -614], [286, -4444, -614], [983, -4546, -614], [1433, -4464, -614], [1720, -4526, -614], [1945, -4485, -593], [2273, -4485, -419], [2662, -4372, -286], [2662, -4700, -286], [2621, -5140, -286]], x: 2580, y: -5529, z: -327, z_tolerance: 400, plan: false, timeout_seconds: 300, clear_hostiles: 1500}
+  - play_lua: {source: 'if door_state(37) ~= "open" then click(117); wait(2) end; log("DD14: " .. door_state(37) .. " " .. door_state(38))'}
+  - walk_to: {via: [[2867, -5529, -327]], x: 3072, y: -5880, z: -327, plan: false, timeout_seconds: 60, clear_hostiles: 1500}
+  - pick_up: {item_id: 10559}
+
+  # Back out through DD14, north up the long east corridor (DD7), west along the north hallway (DD2), north through
+  # DD6 into the split room, to Door5 at the north end of the wall.
+  - walk_to: {x: 3000, y: -5480, z: -327, plan: false, timeout_seconds: 30}
+  - play_lua: {source: 'if door_state(37) ~= "open" then click(117); wait(2) end; log("DD14: " .. door_state(37) .. " " .. door_state(38))'}
+  - walk_to: {via: [[2580, -5529, -327], [2621, -5140, -327], [2662, -4700, -327], [2662, -4372, -327], [2621, -3645, -327], [2580, -2949, -327], [2621, -2723, -327], [2662, -2498, -327], [2621, -2150, -327], [2580, -1802, -327], [2621, -1536, -327], [2662, -1064, -327], [2662, -491, -327], [2109, -491, -327], [1597, -491, -327], [1126, -491, -327], [307, -491, -327], [-471, -491, -327], [-901, -491, -327], [-901, -163, -327], [-901, 143, -327]], x: -901, y: 491, z: -327, plan: false, timeout_seconds: 200, clear_hostiles: 1500}
+  - play_lua:
+      source: |
+        click(207); wait(3)
+        if mapvar("Door5Unlocked") ~= 1 then error("Door5 did not unlock: " .. status()) end
+        if has_item(10559) then error("Door5's key was not used up") end
+        log("Door5 unlocks with its key and opens")
+  - walk_to: {via: [[-532, 491, -327]], x: -361, y: 189, z: -327, plan: false, timeout_seconds: 100, clear_hostiles: 1500}
+  - play_lua:
+      source: |
+        click(220); wait(0.5)
+        if not has_item(10242) then error("no silver Verhoffin's Book: " .. status()) end
+        log("the silver Verhoffin's Book (10242) is in the pack")
+  - assert: {qbit_set: [90281, 90290]}
+
+  # Back the same way: Door5, DD6, the north hallway west (DD3), the west rooms, the pentagram room, PrisonDoor2,
+  # the southern corridor to the stair.
+  - walk_to: {via: [[-532, 491, -327], [-901, 491, -327]], x: -901, y: -100, z: -327, plan: false, timeout_seconds: 30, clear_hostiles: 1500}
+  - play_lua: {source: 'log("DD6 leaves: " .. door_state(47) .. " " .. door_state(48)); if door_state(47) ~= "open" then click(122); wait(2) end; log("DD6 leaves: " .. door_state(47) .. " " .. door_state(48))'}
+  - walk_to: {via: [[-901, -163, -327], [-901, -491, -327], [-1310, -491, -327], [-2088, -491, -327], [-2703, -491, -327], [-3358, -491, -327], [-3276, -163, -327], [-3276, 163, -327], [-4116, 163, -327], [-4505, 163, -327], [-4505, -204, -327], [-4567, -634, -327], [-4567, -1126, -327], [-4567, -1597, -327], [-4526, -1945, -327], [-4540, -2826, -327], [-4545, -3727, -327]], x: -4520, y: -4150, z: -327, plan: false, timeout_seconds: 300, clear_hostiles: 1500}
+  - play_lua: {source: 'if door_state(61) ~= "open" then click(205); wait(2.5) end; log("PrisonDoor2: " .. door_state(61))'}
+  - walk_to: {via: [[-4505, -4420, -327], [-4505, -4771, -327], [-4505, -5406, -327], [-3500, -5406, -327], [-2500, -5406, -327], [-1310, -5406, -327], [-1351, -5693, -327]], x: -850, y: -5900, z: -250, plan: false, timeout_seconds: 120, clear_hostiles: 1500, expect: dialog}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.0, follow_map_move: true}
+  - assert: {map: isleofashes.blv, qbit_set: [90281, 90290]}
+  - play_lua: {source: 'if not has_item(10242) then error("the silver book was lost") end'}
+  - save_game: {name: "31 the silver book", path: output/playthrough/mm9/promotions/checkpoints/31_verhoffin_fake_book.oysav}

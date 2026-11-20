@@ -1,0 +1,23 @@
+{
+  "tool": "image_gen.imagegen",
+  "prompt": "Technical segmentation of IMAGE 1. EDIT ONLY its grey object surface pixels; keep its exact alpha silhouette, position, shape and holes in all five cells. Same 1536x1024 3-by-2 grid, same fixed cell framing. Replace grey with SOLID PURE RED #ff0000 for the helmet body, visor bars, studs, cheeks and entire lower flared skirt, and SOLID PURE YELLOW #ffff00 for the two curved side horns only. All object surfaces must be 100% opaque, including the smooth solid grey lower skirt and its interior behind the visor. Do NOT create chainmail rings, chainmail texture, ring holes, transparency inside solid guide surfaces, shading, glow, outlines or gradients. The skirt is a solid red painted region in this mask. Keep guide holes ONLY where already transparent. Truly transparent empty background. Bottom right cell entirely transparent. This is a flat technical material-ID map, not an illustration or rendering. Exact guide dimensions, aspect ratio, outline and pixel placement are essential. One 3:2 landscape PNG.",
+  "source_output": "/home/pjasicek/.codex/generated_images/01a14de2-7ad6-7e83-ba24-ee6db541bc51/exec-47ea53d9-ca47-4dcc-a52f-f63d22b4e033.png",
+  "output": "mask_atlas.png",
+  "selected": false,
+  "reason": "Classes authored from homogeneous exterior/separate lining or exact mesh components.",
+  "supersedes": "generation_mask_atlas.json",
+  "raw_output": "mask_raw_v2.png",
+  "output_sha256": "cbeaeabae4061f9d67f47cc51790ddc7b33fa288402e39a26f66ba32ec864902",
+  "revision": 2,
+  "input_icon": "item110",
+  "input_icon_path": "assets_dev/engine/icons_x2/item110.png",
+  "input_icon_sha256": "475f68b68a4591736bfe98fe0e08294748db14cec965a2b28ed0ce1ec4d75971",
+  "retained_guide": "codex_tex/equipment_item110/guide_atlas.png",
+  "retained_guide_sha256": "0a3a7c21ec77c525c61b8838131cd83d378e623b50db12815c5a16d9ecfbeb2e",
+  "guide_hash_note": "Retained guide hashed retrospectively; original receipt omitted input hash.",
+  "active_bytes_match": true,
+  "alpha_extrema": [
+    0,
+    254
+  ]
+}

@@ -2,6 +2,7 @@
 
 #include "game/render/lighting/RenderLight.h"
 
+#include <array>
 #include <cstdint>
 #include <unordered_map>
 
@@ -39,5 +40,10 @@ private:
     std::unordered_map<uint64_t, uint32_t> m_emitterSequenceBySourceKey;
     float m_spatialRefreshAccumulatorSeconds = 0.0f;
     bool m_hasSpatialSnapshot = false;
+    // The party's daytime shade for the torch (0 in sunlight, 1 in full shade), eased toward the last probe sample.
+    float m_partyTorchShade = 0.0f;
+    float m_partyTorchShadeTarget = 0.0f;
+    std::array<float, 3> m_partyTorchShadePosition = {};
+    bool m_partyTorchShadeSampled = false;
 };
 }

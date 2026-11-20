@@ -1,0 +1,20 @@
+# AI arena: MM9 debuff casters (MM9_SPELL_MAPPING.md, the spell_conditions modifier) against a party standing still.
+# Monster 0 is a Lich (9207, Fear E6: its cast leaves Afraid), monster 1 an Oculus (9230: half its shots are spells,
+# a quarter of them Paralyze E10 leaving Paralyzed and the rest Curse M8 as Dark Grasp leaving Cursed). The party is invulnerable: no damage, but conditions still apply.
+name: mm9_spell_conditions
+world: mm9
+map: thearena.blv
+asset_root: output/mm9_rework/assets_dev
+party:
+  position: [0, -900, 1]
+  yaw_degrees: 90
+  pitch_degrees: 8
+  invulnerable: true
+trace: true
+monsters:
+  - monster_id: 9207
+    position: [-400, 700, 1]
+    yaw_degrees: 270
+  - monster_id: 9230
+    position: [400, 700, 1]
+    yaw_degrees: 270

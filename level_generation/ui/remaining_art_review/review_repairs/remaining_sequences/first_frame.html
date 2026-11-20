@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>sp21a10 · restored PC effect frame</title>
+  <style>
+    :root{font:16px/1.5 system-ui,sans-serif;color-scheme:dark}
+    *{box-sizing:border-box}
+    body{max-width:850px;margin:0 auto;padding:25px;background:#151d24;color:#edf3ef}
+    a{color:#83d9bb}
+    h1{margin:0 0 6px;font-size:26px}
+    p{color:#bfd0cf}
+    .pair{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;margin:22px 0}
+    figure{margin:0;background:#26343c;border:1px solid #52646c;border-radius:9px;overflow:hidden}
+    figcaption{padding:10px 13px;font-weight:700;border-bottom:1px solid #52646c}
+    figure a{display:flex;align-items:center;justify-content:center;height:300px;padding:12px}
+    figure img{width:256px;height:256px;object-fit:contain}
+    #native{image-rendering:pixelated}
+    .actions{display:flex;gap:12px;align-items:center;flex-wrap:wrap}
+    button{font:inherit;border:1px solid #9eb8b1;background:#dcebe5;color:#17302b;border-radius:6px;padding:8px 14px;cursor:pointer}
+    button[aria-pressed=true]{background:#58c9a4;border-color:#dcfff0}
+    #flag[aria-pressed=true]{background:#dfbd70;border-color:#fff0bc}
+    textarea{display:block;width:100%;min-height:75px;margin:13px 0;background:#202c34;color:#f1f5f3;
+      border:1px solid #6c8588;border-radius:6px;padding:10px;font:inherit}
+    .status{min-height:25px;color:#b8daca}
+    @media(max-width:620px){.pair{grid-template-columns:1fr}}
+  </style>
+</head>
+<body>
+  <p><a href="../../pc_effect_sequences/index.html?sequence=sp21a&amp;frame=1&amp;pause=1">← Play the full sp21a sequence</a></p>
+  <h1>sp21a10 · first portrait effect frame</h1>
+  <p>This frame belongs to the separate HUD inventory, so it has its own decision card. The eight restored
+    sp21a frames were generated together, then their boot and wing joints were fixed in place. The other seven
+    are in the main UI art review.</p>
+  <div class="pair">
+    <figure><figcaption>Native original · pixel zoom</figcaption><a id="native-link" target="_blank" rel="noopener">
+      <img id="native" alt="Native sp21a10 frame"></a></figure>
+    <figure><figcaption>New 2× restoration</figcaption><a id="candidate-link" target="_blank" rel="noopener">
+      <img id="candidate" alt="Restored sp21a10 frame"></a></figure>
+  </div>
+  <div class="actions">
+    <button id="approve" type="button" aria-pressed="false">Approve</button>
+    <button id="flag" type="button" aria-pressed="false">Flag</button>
+    <button id="export" type="button">Download decision JSON</button>
+  </div>
+  <label for="note">Review note</label>
+  <textarea id="note" placeholder="What should be changed, if anything?"></textarea>
+  <p class="status" id="status" aria-live="polite"></p>
+  <script src="../../pc_effect_sequences/sequences.js"></script>
+  <script>
+    (() => {
+      'use strict';
+      const frame = window.PC_EFFECT_SEQUENCES.sequences.find(group => group.family === 'sp21a').frames[0];
+      const player = new URL('../../pc_effect_sequences/', location.href);
+      const original = new URL(frame.original, player);
+      const candidate = new URL(frame.candidate, player);
+      const key = 'openyamm-sp21a10-imagegen-v2';
+      const $ = selector => document.querySelector(selector);
+      $('#native').src = original.href;
+      $('#candidate').src = candidate.href;
+      $('#native-link').href = original.href;
+      $('#candidate-link').href = candidate.href;
+      let decision = frame.approved ? 'approve' : null;
+      const saved = JSON.parse(localStorage.getItem(key) || 'null');
+      if (saved?.candidate_sha256 === frame.candidate_sha256 && saved?.source_sha256 === frame.source_sha256) {
+        decision = saved.decision;
+        $('#note').value = saved.note || '';
+      }
+      function refresh() {
+        $('#approve').setAttribute('aria-pressed', String(decision === 'approve'));
+        $('#flag').setAttribute('aria-pressed', String(decision === 'flag'));
+        $('#status').textContent = frame.approved && decision === 'approve' ? 'Accepted · recorded in effect ledger'
+          : decision ? `Saved locally: ${decision}` : 'Awaiting review';
+      }
+      function save() {
+        localStorage.setItem(key, JSON.stringify({decision, note:$('#note').value,
+          source_sha256:frame.source_sha256, candidate_sha256:frame.candidate_sha256}));
+        refresh();
+      }
+      $('#approve').onclick = () => { decision = 'approve'; save(); };
+      $('#flag').onclick = () => { decision = 'flag'; save(); };
+      $('#note').oninput = save;
+      $('#export').onclick = () => {
+        const payload = {schema:1, scope:'pc_effect_supplement', id:frame.id,
+          decision:decision || 'unreviewed', reasons:[], note:$('#note').value,
+          candidate_sha256:frame.candidate_sha256, source_sha256:frame.source_sha256};
+        const url = URL.createObjectURL(new Blob([JSON.stringify(payload, null, 2) + '\n'],
+          {type:'application/json'}));
+        const link = document.createElement('a');
+        link.href = url;
+        link.download = 'sp21a10-review.json';
+        link.click();
+        setTimeout(() => URL.revokeObjectURL(url), 1000);
+      };
+      refresh();
+    })();
+  </script>
+</body>
+</html>

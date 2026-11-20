@@ -1,0 +1,3026 @@
+format: 0
+start:
+  room: room:s1
+  at: [576, 6912]
+  floor_height: 192
+  facing: s
+  notes: "The original's Party Start (576, 6912, 192) on the landing at the way out; the outdoor door's arrival faces south-west (1400 of 2048), into the hall."
+doors:
+  - id: door:d1
+    opening: open:s1_s2
+    kind: slide_up
+    fold: true
+    travel: 250
+    state: closed
+    thickness: 28
+    speed: 80
+    surface: {texture: T1spclA, size: [128, 256]}
+    tile: true
+    notes: "Door record 1 (event 1): the leaf T1spclA, 32 thick, rises 250 from 6 over the floor (faces 5, 1444, 1441)."
+  - id: door:d10
+    opening: open:s7_c10
+    kind: slide_up
+    fold: true
+    travel: 120
+    state: closed
+    thickness: 16
+    speed: 90
+    surface: {texture: SWFloor5a, size: [128, 128]}
+    back_surface: {texture: OrCeil, size: [128, 128]}
+    notes: "Door record 10 (event 10): locker 10's door, SWFloor5a toward the corridor, OrCeil inside; rises 120 of its 127."
+  - id: door:d11
+    opening: open:s7_c9
+    kind: slide_up
+    fold: true
+    travel: 120
+    state: closed
+    thickness: 16
+    speed: 90
+    surface: {texture: SWFloor5a, size: [128, 128]}
+    back_surface: {texture: OrCeil, size: [128, 128]}
+    notes: "Door record 11 (event 11): locker 9's door, SWFloor5a toward the corridor, OrCeil inside; rises 120 of its 127."
+  - id: door:d12
+    opening: open:s7_c8
+    kind: slide_up
+    fold: true
+    travel: 120
+    state: closed
+    thickness: 16
+    speed: 90
+    surface: {texture: SWFloor5a, size: [128, 128]}
+    back_surface: {texture: OrCeil, size: [128, 128]}
+    notes: "Door record 12 (event 12): locker 8's door, SWFloor5a toward the corridor, OrCeil inside; rises 120 of its 127."
+  - id: door:d13
+    opening: open:s7_c17
+    kind: slide_up
+    fold: true
+    travel: 120
+    state: closed
+    thickness: 16
+    speed: 90
+    surface: {texture: SWFloor5a, size: [128, 128]}
+    back_surface: {texture: OrCeil, size: [128, 128]}
+    notes: "Door record 13 (event 13): locker 17's door, SWFloor5a toward the corridor, OrCeil inside; rises 120 of its 127."
+  - id: door:d14
+    opening: open:s7_c18
+    kind: slide_up
+    fold: true
+    travel: 120
+    state: closed
+    thickness: 16
+    speed: 90
+    surface: {texture: SWFloor5a, size: [128, 128]}
+    back_surface: {texture: OrCeil, size: [128, 128]}
+    notes: "Door record 14 (event 14): locker 18's door, SWFloor5a toward the corridor, OrCeil inside; rises 120 of its 127."
+  - id: door:d15
+    opening: open:s7_c19
+    kind: slide_up
+    fold: true
+    travel: 120
+    state: closed
+    thickness: 16
+    speed: 90
+    surface: {texture: SWFloor5a, size: [128, 128]}
+    back_surface: {texture: OrCeil, size: [128, 128]}
+    notes: "Door record 15 (event 15): locker 19's door, SWFloor5a toward the corridor, OrCeil inside; rises 120 of its 127."
+  - id: door:d16
+    opening: open:s1_s20
+    kind: slide_up
+    fold: true
+    travel: 250
+    state: closed
+    thickness: 28
+    speed: 85
+    surface: {texture: t1w11a, size: [128, 256]}
+    back_surface: {texture: d6dorD, size: [128, 256]}
+    tile: true
+    notes: "Door record 16 (event 16): the hall's wall t1w11a on its west face, d6dorD on its east (faces 17, 1447); rises 250."
+  - id: door:d17
+    opening: open:s3_s45
+    kind: slide_right
+    fold: true
+    travel: 250
+    state: closed
+    thickness: 28
+    speed: 90
+    surface: {texture: t1d2, size: [256, 256]}
+    notes: "Door record 17 (event 17): t1d2 on both faces (1976, 1977); its north edge moves 250 south."
+  - id: door:d18
+    opening: open:s21t_s48a
+    kind: slide_up
+    fold: true
+    travel: 250
+    state: closed
+    thickness: 28
+    speed: 85
+    surface: {texture: t1w11a, size: [128, 256]}
+    back_surface: {texture: T3D3, size: [128, 256]}
+    tile: true
+    notes: "Door record 18 (event 18): the stair's wall t1w11a on its west face, T3D3 on its east (faces 332, 1426); rises 250."
+  - id: door:d2
+    opening: open:s1w_s5r
+    kind: slide_right
+    fold: true
+    travel: 250
+    state: closed
+    thickness: 28
+    speed: 85
+    surface: {texture: t1d2, size: [256, 256]}
+    back_surface: {texture: t1d1, size: [256, 256]}
+    notes: "Door record 2 (event 2): t1d2 toward the hall, t1d1 toward the ramp (faces 1432, 1431); its east edge moves 250 west."
+  - id: door:d23
+    opening: open:s3g_s3
+    kind: slide_left
+    fold: true
+    travel: 250
+    state: closed
+    thickness: 28
+    speed: 85
+    surface: {texture: T3WSBP, size: [128, 256]}
+    back_surface: {texture: t1d2, size: [256, 256]}
+    tile: true
+    notes: "Door record 23 (event 61): T3WSBP toward the gate passage, t1d2 toward the cross passage (faces 1623, 1622); its east edge moves 253 west."
+  - id: door:d3
+    opening: open:s6_s7
+    kind: slide_left
+    fold: true
+    travel: 250
+    state: closed
+    thickness: 28
+    speed: 50
+    surface: {texture: T1spclA, size: [128, 256]}
+    back_surface: {texture: d6DorA, size: [256, 256]}
+    tile: true
+    notes: "Door record 3 (event 3): T1spclA toward the approach, d6DorA toward the prison (faces 1436, 1435); its north edge moves 250 south."
+  - id: door:d30e
+    opening: open:s4_s53
+    kind: slide_up
+    fold: true
+    travel: 250
+    state: closed
+    thickness: 16
+    speed: 85
+    surface: {texture: T3T6, size: [32, 32]}
+    secret: true
+    back_surface: {texture: T3WSBTD, size: [256, 256]}
+    tile: true
+    notes: "Door record 30, east leaf (event 63; face 1627, secret): the back wall of the east tower."
+  - id: door:d30w
+    opening: open:s4_s52
+    kind: slide_up
+    fold: true
+    travel: 250
+    state: closed
+    thickness: 16
+    speed: 85
+    surface: {texture: T3T6, size: [32, 32]}
+    secret: true
+    back_surface: {texture: T3WSBTD, size: [256, 256]}
+    tile: true
+    notes: "Door record 30, west leaf (event 63; face 1626, secret by the scene's face override): the back wall of the west tower, rising 250."
+  - id: door:d4
+    opening: open:s7_c16
+    kind: slide_up
+    fold: true
+    travel: 120
+    state: closed
+    thickness: 16
+    speed: 90
+    surface: {texture: SWFloor5a, size: [128, 128]}
+    back_surface: {texture: OrCeil, size: [128, 128]}
+    notes: "Door record 4 (event 4): locker 16's door, SWFloor5a toward the corridor, OrCeil inside; rises 120 of its 127."
+  - id: door:d5
+    opening: open:s7_c15
+    kind: slide_up
+    fold: true
+    travel: 120
+    state: closed
+    thickness: 16
+    speed: 90
+    surface: {texture: SWFloor5a, size: [128, 128]}
+    back_surface: {texture: OrCeil, size: [128, 128]}
+    notes: "Door record 5 (event 5): locker 15's door, SWFloor5a toward the corridor, OrCeil inside; rises 120 of its 127."
+  - id: door:d6
+    opening: open:s7_c14
+    kind: slide_up
+    fold: true
+    travel: 120
+    state: closed
+    thickness: 16
+    speed: 90
+    surface: {texture: SWFloor5a, size: [128, 128]}
+    back_surface: {texture: OrCeil, size: [128, 128]}
+    notes: "Door record 6 (event 6): locker 14's door, SWFloor5a toward the corridor, OrCeil inside; rises 120 of its 127."
+  - id: door:d60
+    opening: open:s51_s44
+    kind: slide_left
+    leaves: 2
+    fold: true
+    travel: 234
+    state: closed
+    thickness: 28
+    speed: 150
+    surface: {texture: T3D2B, size: [256, 256]}
+    back_surface: {texture: T3D2A, size: [256, 256]}
+    notes: "Door records 45 and 46 (event 60, from the corridor's side only): two leaves of T3D2A/T3D2B parting from the middle, each 250."
+  - id: door:d7
+    opening: open:s7_c11
+    kind: slide_up
+    fold: true
+    travel: 120
+    state: closed
+    thickness: 16
+    speed: 90
+    surface: {texture: SWFloor5a, size: [128, 128]}
+    back_surface: {texture: OrCeil, size: [128, 128]}
+    notes: "Door record 7 (event 7): locker 11's door, SWFloor5a toward the corridor, OrCeil inside; rises 120 of its 127."
+  - id: door:d8
+    opening: open:s7_c12
+    kind: slide_up
+    fold: true
+    travel: 120
+    state: closed
+    thickness: 16
+    speed: 90
+    surface: {texture: SWFloor5a, size: [128, 128]}
+    back_surface: {texture: OrCeil, size: [128, 128]}
+    notes: "Door record 8 (event 8): locker 12's door, SWFloor5a toward the corridor, OrCeil inside; rises 120 of its 127."
+  - id: door:d9
+    opening: open:s7_c13
+    kind: slide_up
+    fold: true
+    travel: 120
+    state: closed
+    thickness: 16
+    speed: 90
+    surface: {texture: SWFloor5a, size: [128, 128]}
+    back_surface: {texture: OrCeil, size: [128, 128]}
+    notes: "Door record 9 (event 9): locker 13's door, SWFloor5a toward the corridor, OrCeil inside; rises 120 of its 127."
+movers:
+  - id: mover:g36
+    room: room:s51
+    at: [2704, 4864]
+    size: [32, 512]
+    bottom: 0
+    height: 128
+    travel: [0, 0, -120]
+    speed: 85
+    surface: {texture: T3T5, size: [64, 64]}
+    top_surface: {texture: SWhz2, size: [32, 32]}
+    end_surface: {texture: SWhz4, size: [32, 32]}
+    notes: "Door record 36: gate 2's low block (128 to 256), sinks 120."
+  - id: mover:g38
+    room: room:s51
+    at: [2864, 4863.5]
+    size: [32, 511]
+    bottom: 0
+    height: 64
+    travel: [0, -500, 0]
+    speed: 85
+    surface: {texture: SWFloor6a, size: [128, 128]}
+    top_surface: {texture: SWhz2, size: [32, 32]}
+    end_surface: {texture: SWhz4, size: [32, 32]}
+    parts:
+      - {at: [2864, 4863.5], size: [32, 511], bottom: 129, height: 127}
+    notes: "Door record 38: the gate's lowest band (128 to 192) and its top band (257 to 384), sliding 500 south together."
+  - id: mover:g40
+    room: room:s51
+    at: [2544, 4864.5]
+    size: [32, 511]
+    bottom: 65
+    height: 126
+    travel: [0, 500, 0]
+    speed: 85
+    surface: {texture: T3T5, size: [64, 64]}
+    top_surface: {texture: SWhz2, size: [32, 32]}
+    end_surface: {texture: SWhz4, size: [32, 32]}
+    notes: "Door record 40: gate 1's middle band (193 to 319), slides 500 north."
+  - id: mover:g44
+    room: room:s51
+    at: [2864, 4864.5]
+    size: [32, 511]
+    bottom: 65
+    height: 63
+    travel: [0, 500, 0]
+    speed: 85
+    surface: {texture: SWFloor6a, size: [128, 128]}
+    top_surface: {texture: SWhz2, size: [32, 32]}
+    end_surface: {texture: SWhz4, size: [32, 32]}
+    notes: "Door record 44: the gate's middle band (193 to 256), sliding 500 north."
+  - id: mover:g47
+    room: room:s51
+    at: [2704, 4992]
+    size: [32, 256]
+    bottom: 129
+    height: 127
+    travel: [0, 250, 0]
+    speed: 85
+    surface: {texture: T3T5, size: [64, 64]}
+    top_surface: {texture: SWhz2, size: [32, 32]}
+    end_surface: {texture: SWhz4, size: [32, 32]}
+    notes: "Door record 47: gate 2's upper north half (257 to 384), slides 250 north."
+  - id: mover:g48
+    room: room:s51
+    at: [2704, 4735.5]
+    size: [32, 255]
+    bottom: 129
+    height: 127
+    travel: [0, -250, 0]
+    speed: 85
+    surface: {texture: T3T5, size: [64, 64]}
+    top_surface: {texture: SWhz2, size: [32, 32]}
+    end_surface: {texture: SWhz4, size: [32, 32]}
+    notes: "Door record 48: gate 2's upper south half, slides 250 south."
+  - id: mover:g51
+    room: room:s51
+    at: [2544, 4863.5]
+    size: [32, 511]
+    bottom: 192
+    height: 64
+    travel: [0, -500, 0]
+    speed: 100
+    surface: {texture: T3T5, size: [64, 64]}
+    top_surface: {texture: SWhz2, size: [32, 32]}
+    end_surface: {texture: SWhz4, size: [32, 32]}
+    notes: "Door record 51: gate 1's top band (320 to 384), slides 500 south."
+  - id: mover:g52
+    room: room:s51
+    at: [2544, 4863.5]
+    size: [32, 511]
+    bottom: 0
+    height: 64
+    travel: [0, -500, 0]
+    speed: 100
+    surface: {texture: T3T5, size: [64, 64]}
+    top_surface: {texture: SWhz2, size: [32, 32]}
+    end_surface: {texture: SWhz4, size: [32, 32]}
+    notes: "Door record 52: gate 1's lowest band (128 to 192), slides 500 south."
+  - id: mover:g55
+    room: room:s51
+    at: [3024, 4863.5]
+    size: [32, 511]
+    bottom: 0
+    height: 64
+    travel: [0, -500, 0]
+    speed: 85
+    surface: {texture: SWFloor6a, size: [128, 128]}
+    top_surface: {texture: SWhz2, size: [32, 32]}
+    end_surface: {texture: SWhz4, size: [32, 32]}
+    parts:
+      - {at: [3024, 4863.5], size: [32, 511], bottom: 129, height: 127}
+    notes: "Door record 55: the gate's lowest band (128 to 192) and its top band (257 to 384), sliding 500 south together."
+  - id: mover:g56
+    room: room:s51
+    at: [3024, 4864.5]
+    size: [32, 511]
+    bottom: 65
+    height: 63
+    travel: [0, 500, 0]
+    speed: 85
+    surface: {texture: SWFloor6a, size: [128, 128]}
+    top_surface: {texture: SWhz2, size: [32, 32]}
+    end_surface: {texture: SWhz4, size: [32, 32]}
+    notes: "Door record 56: the gate's middle band (193 to 256), sliding 500 north."
+  - id: mover:g57
+    room: room:s51
+    at: [3184, 4863.5]
+    size: [32, 511]
+    bottom: 0
+    height: 64
+    travel: [0, -500, 0]
+    speed: 85
+    surface: {texture: SWFloor6a, size: [128, 128]}
+    top_surface: {texture: SWhz2, size: [32, 32]}
+    end_surface: {texture: SWhz4, size: [32, 32]}
+    parts:
+      - {at: [3184, 4863.5], size: [32, 511], bottom: 129, height: 127}
+    notes: "Door record 57: the gate's lowest band (128 to 192) and its top band (257 to 384), sliding 500 south together."
+  - id: mover:g58
+    room: room:s51
+    at: [3184, 4864.5]
+    size: [32, 511]
+    bottom: 65
+    height: 63
+    travel: [0, 500, 0]
+    speed: 85
+    surface: {texture: SWFloor6a, size: [128, 128]}
+    top_surface: {texture: SWhz2, size: [32, 32]}
+    end_surface: {texture: SWhz4, size: [32, 32]}
+    notes: "Door record 58: the gate's middle band (193 to 256), sliding 500 north."
+  - id: mover:g59
+    room: room:s51
+    at: [3344, 4864.5]
+    size: [32, 511]
+    bottom: 65
+    height: 63
+    travel: [0, 500, 0]
+    speed: 85
+    surface: {texture: SWFloor6a, size: [128, 128]}
+    top_surface: {texture: SWhz2, size: [32, 32]}
+    end_surface: {texture: SWhz4, size: [32, 32]}
+    notes: "Door record 59: the gate's middle band (193 to 256), sliding 500 north."
+  - id: mover:g60
+    room: room:s51
+    at: [3344, 4863.5]
+    size: [32, 511]
+    bottom: 0
+    height: 64
+    travel: [0, -500, 0]
+    speed: 85
+    surface: {texture: SWFloor6a, size: [128, 128]}
+    top_surface: {texture: SWhz2, size: [32, 32]}
+    end_surface: {texture: SWhz4, size: [32, 32]}
+    parts:
+      - {at: [3344, 4863.5], size: [32, 511], bottom: 129, height: 127}
+    notes: "Door record 60: the gate's lowest band (128 to 192) and its top band (257 to 384), sliding 500 south together."
+  - id: mover:towers
+    room: room:s4
+    at: [-704, 4232]
+    size: [256, 16]
+    height: 510
+    travel: [0, 0, -504]
+    speed: 80
+    surface: {texture: T3WSBP, size: [128, 256]}
+    top_surface: {texture: OrErt32, size: [32, 32]}
+    parts:
+      - {at: [-584, 4360], size: [16, 240], bottom: 0, height: 510}
+      - {at: [320, 4232], size: [256, 16], bottom: 0, height: 510}
+      - {at: [200, 4360], size: [16, 240], bottom: 0, height: 510}
+    notes: "Door record 32 (the switch, event 62): the two towers' walls, 16 thick and 510 high, that close off the hall's north corners; they sink 504 into the floor (faces 107 to 114, 1578, 1579 and their tops)."
+lights:
+  - id: light:l000
+    room: room:s44
+    at: [6624, 4840]
+    height: 848
+    radius: 640
+    brightness: 31
+    notes: "Original light record 0 (6624, 4840, 1008; radius 640)."
+  - id: light:l001
+    room: room:s44
+    at: [6752, 5864]
+    height: 944
+    radius: 640
+    brightness: 31
+    notes: "Original light record 1 (6752, 5864, 1072; radius 640)."
+  - id: light:l002
+    room: room:s56n
+    at: [-20288, 8296]
+    height: 64
+    radius: 128
+    brightness: 31
+    notes: "Original light record 2 (-20288, 8296, -568; radius 128)."
+  - id: light:l003
+    room: room:s44
+    at: [6880, 4832]
+    height: 92
+    radius: 320
+    brightness: 31
+    notes: "Original light record 3 (6880, 4832, 540; radius 320)."
+  - id: light:l004
+    room: room:s1
+    at: [204, 6560]
+    height: 184
+    radius: 64
+    brightness: 31
+    notes: "Original light record 4 (204, 6560, 184; radius 64)."
+  - id: light:l005
+    room: room:s1
+    at: [948, 6560]
+    height: 184
+    radius: 64
+    brightness: 31
+    notes: "Original light record 5 (948, 6560, 184; radius 64)."
+  - id: light:l006
+    room: room:s1
+    at: [948, 6240]
+    height: 184
+    radius: 64
+    brightness: 31
+    notes: "Original light record 6 (948, 6240, 184; radius 64)."
+  - id: light:l007
+    room: room:s1
+    at: [204, 6240]
+    height: 184
+    radius: 64
+    brightness: 31
+    notes: "Original light record 7 (204, 6240, 184; radius 64)."
+  - id: light:l008
+    room: room:s1
+    at: [736, 6028]
+    height: 184
+    radius: 64
+    brightness: 31
+    notes: "Original light record 8 (736, 6028, 184; radius 64)."
+  - id: light:l009
+    room: room:s1
+    at: [416, 6028]
+    height: 184
+    radius: 64
+    brightness: 31
+    notes: "Original light record 9 (416, 6028, 184; radius 64)."
+  - id: light:l010
+    room: room:s1w
+    at: [-308, 6516]
+    height: 184
+    radius: 64
+    brightness: 31
+    notes: "Original light record 10 (-308, 6516, 184; radius 64)."
+  - id: light:l011
+    room: room:s5r
+    at: [-308, 5568]
+    height: 199
+    radius: 64
+    brightness: 31
+    notes: "Original light record 11 (-308, 5568, 0; radius 64)."
+  - id: light:l012
+    room: room:s6r
+    at: [-440, 5132]
+    height: 192
+    radius: 64
+    brightness: 31
+    notes: "Original light record 12 (-440, 5132, -104; radius 64)."
+  - id: light:l013
+    room: room:s6
+    at: [-1332, 5132]
+    height: 184
+    radius: 64
+    brightness: 31
+    notes: "Original light record 13 (-1332, 5132, -328; radius 64)."
+  - id: light:l014
+    room: room:s6
+    at: [-1100, 5576]
+    height: 184
+    radius: 64
+    brightness: 31
+    notes: "Original light record 14 (-1100, 5576, -328; radius 64)."
+  - id: light:l015
+    room: room:s5r
+    at: [-76, 6056]
+    height: 175
+    radius: 64
+    brightness: 31
+    notes: "Original light record 15 (-76, 6056, 120; radius 64)."
+  - id: light:l016
+    room: room:s6
+    at: [-1472, 5644]
+    height: 184
+    radius: 64
+    brightness: 31
+    notes: "Original light record 16 (-1472, 5644, -328; radius 64)."
+  - id: light:l017
+    room: room:s6r
+    at: [-960, 5364]
+    height: 189
+    radius: 64
+    brightness: 31
+    notes: "Original light record 17 (-960, 5364, -280; radius 64)."
+  - id: light:l018
+    room: room:s6
+    at: [-1472, 5876]
+    height: 184
+    radius: 64
+    brightness: 31
+    notes: "Original light record 18 (-1472, 5876, -328; radius 64)."
+  - id: light:l019
+    room: room:s7
+    at: [-1612, 5512]
+    height: 184
+    radius: 64
+    brightness: 31
+    notes: "Original light record 19 (-1612, 5512, -328; radius 64)."
+  - id: light:l020
+    room: room:s7
+    at: [-1612, 6008]
+    height: 184
+    radius: 64
+    brightness: 31
+    notes: "Original light record 20 (-1612, 6008, -328; radius 64)."
+  - id: light:l021
+    room: room:s7
+    at: [-1612, 5120]
+    height: 184
+    radius: 64
+    brightness: 31
+    notes: "Original light record 21 (-1612, 5120, -328; radius 64)."
+  - id: light:l022
+    room: room:s7
+    at: [-1612, 6400]
+    height: 184
+    radius: 64
+    brightness: 31
+    notes: "Original light record 22 (-1612, 6400, -328; radius 64)."
+  - id: light:l023
+    room: room:s7
+    at: [-1612, 6784]
+    height: 184
+    radius: 64
+    brightness: 31
+    notes: "Original light record 23 (-1612, 6784, -328; radius 64)."
+  - id: light:l024
+    room: room:s7
+    at: [-1612, 7168]
+    height: 184
+    radius: 64
+    brightness: 31
+    notes: "Original light record 24 (-1612, 7168, -328; radius 64)."
+  - id: light:l025
+    room: room:s7
+    at: [-1612, 4736]
+    height: 184
+    radius: 64
+    brightness: 31
+    notes: "Original light record 25 (-1612, 4736, -328; radius 64)."
+  - id: light:l026
+    room: room:s7
+    at: [-1612, 4352]
+    height: 184
+    radius: 64
+    brightness: 31
+    notes: "Original light record 26 (-1612, 4352, -328; radius 64)."
+  - id: light:l027
+    room: room:s7
+    at: [-2100, 4352]
+    height: 184
+    radius: 64
+    brightness: 31
+    notes: "Original light record 27 (-2100, 4352, -328; radius 64)."
+  - id: light:l028
+    room: room:s7
+    at: [-2100, 4736]
+    height: 184
+    radius: 64
+    brightness: 31
+    notes: "Original light record 28 (-2100, 4736, -328; radius 64)."
+  - id: light:l029
+    room: room:s7
+    at: [-2100, 5120]
+    height: 184
+    radius: 64
+    brightness: 31
+    notes: "Original light record 29 (-2100, 5120, -328; radius 64)."
+  - id: light:l030
+    room: room:s7
+    at: [-2100, 5512]
+    height: 184
+    radius: 64
+    brightness: 31
+    notes: "Original light record 30 (-2100, 5512, -328; radius 64)."
+  - id: light:l031
+    room: room:s7
+    at: [-2100, 6008]
+    height: 184
+    radius: 64
+    brightness: 31
+    notes: "Original light record 31 (-2100, 6008, -328; radius 64)."
+  - id: light:l032
+    room: room:s7
+    at: [-2100, 6400]
+    height: 184
+    radius: 64
+    brightness: 31
+    notes: "Original light record 32 (-2100, 6400, -328; radius 64)."
+  - id: light:l033
+    room: room:s7
+    at: [-2100, 6784]
+    height: 184
+    radius: 64
+    brightness: 31
+    notes: "Original light record 33 (-2100, 6784, -328; radius 64)."
+  - id: light:l034
+    room: room:s7
+    at: [-2100, 7168]
+    height: 184
+    radius: 64
+    brightness: 31
+    notes: "Original light record 34 (-2100, 7168, -328; radius 64)."
+  - id: light:l035
+    room: room:s3
+    at: [800, 4980]
+    height: 184
+    radius: 64
+    brightness: 31
+    notes: "Original light record 35 (800, 4980, 184; radius 64)."
+  - id: light:l036
+    room: room:s3
+    at: [352, 4980]
+    height: 184
+    radius: 64
+    brightness: 31
+    notes: "Original light record 36 (352, 4980, 184; radius 64)."
+  - id: light:l037
+    room: room:s3
+    at: [32, 4748]
+    height: 184
+    radius: 64
+    brightness: 31
+    notes: "Original light record 37 (32, 4748, 184; radius 64)."
+  - id: light:l038
+    room: room:s3
+    at: [1056, 4748]
+    height: 184
+    radius: 64
+    brightness: 31
+    notes: "Original light record 38 (1056, 4748, 184; radius 64)."
+  - id: light:l039
+    room: room:s3
+    at: [-308, 4552]
+    height: 184
+    radius: 64
+    brightness: 31
+    notes: "Original light record 39 (-308, 4552, 184; radius 64)."
+  - id: light:l040
+    room: room:s3
+    at: [-76, 4552]
+    height: 184
+    radius: 64
+    brightness: 31
+    notes: "Original light record 40 (-76, 4552, 184; radius 64)."
+  - id: light:l041
+    room: room:s4
+    at: [-20, 4288]
+    height: 184
+    radius: 64
+    brightness: 31
+    notes: "Original light record 41 (-20, 4288, 184; radius 64)."
+  - id: light:l042
+    room: room:s4
+    at: [-366, 4289]
+    height: 184
+    radius: 64
+    brightness: 31
+    notes: "Original light record 42 (-366, 4289, 184; radius 64)."
+  - id: light:l043
+    room: room:s4
+    at: [-820, 4352]
+    height: 184
+    radius: 64
+    brightness: 31
+    notes: "Original light record 43 (-820, 4352, 184; radius 64)."
+  - id: light:l044
+    room: room:s4
+    at: [436, 4352]
+    height: 184
+    radius: 64
+    brightness: 31
+    notes: "Original light record 44 (436, 4352, 184; radius 64)."
+  - id: light:l045
+    room: room:s53
+    at: [440, 4676]
+    height: 184
+    radius: 64
+    brightness: 31
+    notes: "Original light record 45 (440, 4676, 184; radius 64)."
+  - id: light:l046
+    room: room:s52
+    at: [-824, 4676]
+    height: 184
+    radius: 64
+    brightness: 31
+    notes: "Original light record 46 (-824, 4676, 184; radius 64)."
+  - id: light:l047
+    room: room:s52
+    at: [-1332, 4136]
+    height: 184
+    radius: 64
+    brightness: 31
+    notes: "Original light record 47 (-1332, 4136, 184; radius 64)."
+  - id: light:l048
+    room: room:s52
+    at: [-1332, 4592]
+    height: 184
+    radius: 64
+    brightness: 31
+    notes: "Original light record 48 (-1332, 4592, 184; radius 64)."
+  - id: light:l049
+    room: room:s52
+    at: [-972, 4136]
+    height: 184
+    radius: 64
+    brightness: 31
+    notes: "Original light record 49 (-972, 4136, 184; radius 64)."
+  - id: light:l050
+    room: room:s53
+    at: [588, 4136]
+    height: 184
+    radius: 64
+    brightness: 31
+    notes: "Original light record 50 (588, 4136, 184; radius 64)."
+  - id: light:l051
+    room: room:s53
+    at: [948, 4136]
+    height: 184
+    radius: 64
+    brightness: 31
+    notes: "Original light record 51 (948, 4136, 184; radius 64)."
+  - id: light:l052
+    room: room:s53
+    at: [948, 4592]
+    height: 184
+    radius: 64
+    brightness: 31
+    notes: "Original light record 52 (948, 4592, 184; radius 64)."
+  - id: light:l053
+    room: room:s4
+    at: [-820, 3968]
+    height: 184
+    radius: 64
+    brightness: 31
+    notes: "Original light record 53 (-820, 3968, 184; radius 64)."
+  - id: light:l054
+    room: room:s4
+    at: [436, 3968]
+    height: 184
+    radius: 64
+    brightness: 31
+    notes: "Original light record 54 (436, 3968, 184; radius 64)."
+  - id: light:l055
+    room: room:s4
+    at: [-820, 3344]
+    height: 184
+    radius: 64
+    brightness: 31
+    notes: "Original light record 55 (-820, 3344, 184; radius 64)."
+  - id: light:l056
+    room: room:s4
+    at: [436, 3344]
+    height: 184
+    radius: 64
+    brightness: 31
+    notes: "Original light record 56 (436, 3344, 184; radius 64)."
+  - id: light:l057
+    room: room:s4
+    at: [-820, 3648]
+    height: 184
+    radius: 64
+    brightness: 31
+    notes: "Original light record 57 (-820, 3648, 184; radius 64)."
+  - id: light:l058
+    room: room:s4
+    at: [436, 3648]
+    height: 184
+    radius: 64
+    brightness: 31
+    notes: "Original light record 58 (436, 3648, 184; radius 64)."
+  - id: light:l059
+    room: room:s4
+    at: [-336, 2956]
+    height: 184
+    radius: 64
+    brightness: 31
+    notes: "Original light record 59 (-336, 2956, 280; radius 64)."
+  - id: light:l060
+    room: room:s4
+    at: [-48, 2956]
+    height: 184
+    radius: 64
+    brightness: 31
+    notes: "Original light record 60 (-48, 2956, 280; radius 64)."
+  - id: light:l061
+    room: room:s4
+    at: [-720, 2956]
+    height: 280
+    radius: 64
+    brightness: 31
+    notes: "Original light record 61 (-720, 2956, 280; radius 64)."
+  - id: light:l062
+    room: room:s4
+    at: [336, 2956]
+    height: 280
+    radius: 64
+    brightness: 31
+    notes: "Original light record 62 (336, 2956, 280; radius 64)."
+  - id: light:l064
+    room: room:s45
+    at: [1180, 4616]
+    height: 184
+    radius: 64
+    brightness: 31
+    notes: "Original light record 64 (1180, 4616, 184; radius 64)."
+  - id: light:l065
+    room: room:s45
+    at: [1392, 5492]
+    height: 184
+    radius: 64
+    brightness: 31
+    notes: "Original light record 65 (1392, 5492, 184; radius 64)."
+  - id: light:l066
+    room: room:s45
+    at: [1392, 4236]
+    height: 184
+    radius: 64
+    brightness: 31
+    notes: "Original light record 66 (1392, 4236, 184; radius 64)."
+  - id: light:l067
+    room: room:s45m
+    at: [2252, 5624]
+    height: 184
+    radius: 64
+    brightness: 31
+    notes: "Original light record 67 (2252, 5624, 312; radius 64)."
+  - id: light:l068
+    room: room:s45m
+    at: [2252, 4104]
+    height: 184
+    radius: 64
+    brightness: 31
+    notes: "Original light record 68 (2252, 4104, 312; radius 64)."
+  - id: light:l069
+    room: room:s45m
+    at: [2484, 4488]
+    height: 184
+    radius: 64
+    brightness: 31
+    notes: "Original light record 69 (2484, 4488, 312; radius 64)."
+  - id: light:l070
+    room: room:s45m
+    at: [2484, 5240]
+    height: 184
+    radius: 64
+    brightness: 31
+    notes: "Original light record 70 (2484, 5240, 312; radius 64)."
+  - id: light:l071
+    room: room:s51
+    at: [2768, 5108]
+    height: 184
+    radius: 64
+    brightness: 31
+    notes: "Original light record 71 (2768, 5108, 312; radius 64)."
+  - id: light:l072
+    room: room:s51
+    at: [2768, 4620]
+    height: 184
+    radius: 64
+    brightness: 31
+    notes: "Original light record 72 (2768, 4620, 312; radius 64)."
+  - id: light:l073
+    room: room:s51
+    at: [3088, 4620]
+    height: 184
+    radius: 64
+    brightness: 31
+    notes: "Original light record 73 (3088, 4620, 312; radius 64)."
+  - id: light:l074
+    room: room:s51
+    at: [3088, 5108]
+    height: 184
+    radius: 64
+    brightness: 31
+    notes: "Original light record 74 (3088, 5108, 312; radius 64)."
+  - id: light:l075
+    room: room:s51
+    at: [3664, 4620]
+    height: 184
+    radius: 64
+    brightness: 31
+    notes: "Original light record 75 (3664, 4620, 312; radius 64)."
+  - id: light:l076
+    room: room:s51
+    at: [3664, 5108]
+    height: 184
+    radius: 64
+    brightness: 31
+    notes: "Original light record 76 (3664, 5108, 312; radius 64)."
+  - id: light:l077
+    room: room:s51
+    at: [4448, 4128]
+    height: 192
+    radius: 64
+    brightness: 31
+    notes: "Original light record 77 (4448, 4128, 320; radius 64)."
+  - id: light:l078
+    room: room:s51
+    at: [4448, 4616]
+    height: 192
+    radius: 64
+    brightness: 31
+    notes: "Original light record 78 (4448, 4616, 320; radius 64)."
+  - id: light:l079
+    room: room:s51
+    at: [5360, 4620]
+    height: 184
+    radius: 64
+    brightness: 31
+    notes: "Original light record 79 (5360, 4620, 312; radius 64)."
+  - id: light:l080
+    room: room:s51
+    at: [5360, 5108]
+    height: 184
+    radius: 64
+    brightness: 31
+    notes: "Original light record 80 (5360, 5108, 312; radius 64)."
+  - id: light:l081
+    room: room:s44
+    at: [8000, 4328]
+    height: 78
+    radius: 64
+    brightness: 31
+    notes: "Original light record 81 (8000, 4328, 312; radius 64)."
+  - id: light:l082
+    room: room:s44
+    at: [8000, 5336]
+    height: 134
+    radius: 64
+    brightness: 31
+    notes: "Original light record 82 (8000, 5336, 312; radius 64)."
+  - id: light:l083
+    room: room:s44
+    at: [7512, 3024]
+    height: 136
+    radius: 64
+    brightness: 31
+    notes: "Original light record 83 (7512, 3024, 264; radius 64)."
+  - id: light:l084
+    room: room:s44
+    at: [6168, 3416]
+    height: 184
+    radius: 64
+    brightness: 31
+    notes: "Original light record 84 (6168, 3416, 312; radius 64)."
+  - id: light:l085
+    room: room:s44
+    at: [5584, 4360]
+    height: 79
+    radius: 64
+    brightness: 31
+    notes: "Original light record 85 (5584, 4360, 312; radius 64)."
+  - id: light:l086
+    room: room:s44
+    at: [5704, 5392]
+    height: 40
+    radius: 64
+    brightness: 31
+    notes: "Original light record 86 (5704, 5392, 312; radius 64)."
+  - id: light:l087
+    room: room:s44
+    at: [6144, 6520]
+    height: 55
+    radius: 64
+    brightness: 31
+    notes: "Original light record 87 (6144, 6520, 312; radius 64)."
+  - id: light:l088
+    room: room:s44
+    at: [7288, 6440]
+    height: 63
+    radius: 64
+    brightness: 31
+    notes: "Original light record 88 (7288, 6440, 360; radius 64)."
+  - id: light:l089
+    room: room:s44
+    at: [6624, 7144]
+    height: 119
+    radius: 64
+    brightness: 31
+    notes: "Original light record 89 (6624, 7144, 360; radius 64)."
+  - id: light:l090
+    room: room:s20
+    at: [1228, 6560]
+    height: 184
+    radius: 64
+    brightness: 31
+    notes: "Original light record 90 (1228, 6560, 184; radius 64)."
+  - id: light:l091
+    room: room:s20
+    at: [1448, 7028]
+    height: 184
+    radius: 64
+    brightness: 31
+    notes: "Original light record 91 (1448, 7028, 184; radius 64)."
+  - id: light:l092
+    room: room:s20r
+    at: [2384, 7028]
+    height: 179
+    radius: 64
+    brightness: 31
+    notes: "Original light record 92 (2384, 7028, -48; radius 64)."
+  - id: light:l093
+    room: room:s48a
+    at: [2968, 7028]
+    height: 182
+    radius: 64
+    brightness: 31
+    notes: "Original light record 93 (2968, 7028, -120; radius 64)."
+  - id: light:l094
+    room: room:s20r
+    at: [1760, 6796]
+    height: 178
+    radius: 64
+    brightness: 31
+    notes: "Original light record 94 (1760, 6796, 112; radius 64)."
+  - id: light:l095
+    room: room:s48a
+    at: [3600, 7028]
+    height: 172
+    radius: 64
+    brightness: 31
+    notes: "Original light record 95 (3600, 7028, -288; radius 64)."
+  - id: light:l096
+    room: room:s48c
+    at: [4448, 7028]
+    height: 168
+    radius: 64
+    brightness: 31
+    notes: "Original light record 96 (4448, 7028, -408; radius 64)."
+  - id: light:l097
+    room: room:s48d
+    at: [4968, 7028]
+    height: 176
+    radius: 64
+    brightness: 31
+    notes: "Original light record 97 (4968, 7028, -464; radius 64)."
+  - id: light:l098
+    room: room:s48e
+    at: [5584, 7424]
+    height: 190
+    radius: 64
+    brightness: 31
+    notes: "Original light record 98 (5584, 7424, -488; radius 64)."
+  - id: light:l099
+    room: room:s48e
+    at: [6332, 8020]
+    height: 191
+    radius: 64
+    brightness: 31
+    notes: "Original light record 99 (6332, 8020, -544; radius 64)."
+  - id: light:l100
+    room: room:s49
+    at: [9776, 7636]
+    height: 192
+    radius: 64
+    brightness: 31
+    notes: "Original light record 100 (9776, 7636, -576; radius 64)."
+  - id: light:l101
+    room: room:s49
+    at: [8636, 8188]
+    height: 168
+    radius: 64
+    brightness: 31
+    notes: "Original light record 101 (8636, 8188, -600; radius 64)."
+  - id: light:l102
+    room: room:s49
+    at: [7144, 8356]
+    height: 176
+    radius: 64
+    brightness: 31
+    notes: "Original light record 102 (7144, 8356, -592; radius 64)."
+  - id: light:l103
+    room: room:s49r
+    at: [9932, 6608]
+    height: 184
+    radius: 64
+    brightness: 31
+    notes: "Original light record 103 (9932, 6608, -872; radius 64)."
+  - id: light:l104
+    room: room:s50
+    at: [9680, 6036]
+    height: 176
+    radius: 64
+    brightness: 31
+    notes: "Original light record 104 (9680, 6036, -1104; radius 64)."
+  - id: light:l105
+    room: room:s50
+    at: [10368, 6036]
+    height: 176
+    radius: 64
+    brightness: 31
+    notes: "Original light record 105 (10368, 6036, -1104; radius 64)."
+  - id: light:l106
+    room: room:s50
+    at: [10392, 4012]
+    height: 176
+    radius: 64
+    brightness: 31
+    notes: "Original light record 106 (10392, 4012, -1104; radius 64)."
+  - id: light:l107
+    room: room:s50
+    at: [9704, 4012]
+    height: 176
+    radius: 64
+    brightness: 31
+    notes: "Original light record 107 (9704, 4012, -1104; radius 64)."
+  - id: light:l108
+    room: room:s50
+    at: [9136, 5524]
+    height: 176
+    radius: 64
+    brightness: 31
+    notes: "Original light record 108 (9136, 5524, -1104; radius 64)."
+  - id: light:l109
+    room: room:s50
+    at: [9136, 4524]
+    height: 176
+    radius: 64
+    brightness: 31
+    notes: "Original light record 109 (9136, 4524, -1104; radius 64)."
+  - id: light:l110
+    room: room:s50
+    at: [10952, 5524]
+    height: 176
+    radius: 64
+    brightness: 31
+    notes: "Original light record 110 (10952, 5524, -1104; radius 64)."
+  - id: light:l111
+    room: room:s47b
+    at: [10164, 3600]
+    height: 176
+    radius: 64
+    brightness: 31
+    notes: "Original light record 111 (10164, 3600, -1104; radius 64)."
+  - id: light:l112
+    room: room:s47r
+    at: [9472, 3356]
+    height: 208
+    radius: 64
+    brightness: 31
+    notes: "Original light record 112 (9472, 3356, -968; radius 64)."
+  - id: light:l113
+    room: room:s47r
+    at: [8800, 2828]
+    height: 163
+    radius: 64
+    brightness: 31
+    notes: "Original light record 113 (8800, 2828, -760; radius 64)."
+  - id: light:l114
+    room: room:s47a
+    at: [8148, 2992]
+    height: 184
+    radius: 64
+    brightness: 31
+    notes: "Original light record 114 (8148, 2992, -584; radius 64)."
+  - id: light:l115
+    room: room:s47a
+    at: [7656, 3148]
+    height: 184
+    radius: 64
+    brightness: 31
+    notes: "Original light record 115 (7656, 3148, -584; radius 64)."
+  - id: light:l116
+    room: room:s49
+    at: [8056, 8356]
+    height: 176
+    radius: 64
+    brightness: 31
+    notes: "Original light record 116 (8056, 8356, -592; radius 64)."
+  - id: light:l117
+    room: room:s50
+    at: [10952, 4524]
+    height: 176
+    radius: 64
+    brightness: 31
+    notes: "Original light record 117 (10952, 4524, -1104; radius 64)."
+  - id: light:l118
+    room: room:s21a
+    at: [2508, 6336]
+    height: 185
+    radius: 64
+    brightness: 31
+    notes: "Original light record 118 (2508, 6336, -136; radius 64)."
+  - id: light:l119
+    room: room:s21a
+    at: [2508, 5360]
+    height: 183
+    radius: 64
+    brightness: 31
+    notes: "Original light record 119 (2508, 5360, -280; radius 64)."
+  - id: light:l120
+    room: room:s21b
+    at: [2508, 4216]
+    height: 184
+    radius: 64
+    brightness: 31
+    notes: "Original light record 120 (2508, 4216, -512; radius 64)."
+  - id: light:l121
+    room: room:s36
+    at: [2228, 1336]
+    height: 192
+    radius: 64
+    brightness: 31
+    notes: "Original light record 121 (2228, 1336, -576; radius 64)."
+  - id: light:l122
+    room: room:s24
+    at: [2368, 3892]
+    height: 192
+    radius: 64
+    brightness: 31
+    notes: "Original light record 122 (2368, 3892, -576; radius 64)."
+  - id: light:l123
+    room: room:s24
+    at: [2368, 3116]
+    height: 192
+    radius: 64
+    brightness: 31
+    notes: "Original light record 123 (2368, 3116, -576; radius 64)."
+  - id: light:l124
+    room: room:s23
+    at: [2368, 3028]
+    height: 192
+    radius: 64
+    brightness: 31
+    notes: "Original light record 124 (2368, 3028, -576; radius 64)."
+  - id: light:l125
+    room: room:s23
+    at: [2368, 2252]
+    height: 192
+    radius: 64
+    brightness: 31
+    notes: "Original light record 125 (2368, 2252, -576; radius 64)."
+  - id: light:l126
+    room: room:s25
+    at: [2880, 2252]
+    height: 192
+    radius: 64
+    brightness: 31
+    notes: "Original light record 126 (2880, 2252, -576; radius 64)."
+  - id: light:l127
+    room: room:s25
+    at: [2880, 3028]
+    height: 192
+    radius: 64
+    brightness: 31
+    notes: "Original light record 127 (2880, 3028, -576; radius 64)."
+  - id: light:l128
+    room: room:s26
+    at: [2880, 3116]
+    height: 192
+    radius: 64
+    brightness: 31
+    notes: "Original light record 128 (2880, 3116, -576; radius 64)."
+  - id: light:l129
+    room: room:s26
+    at: [2880, 3892]
+    height: 192
+    radius: 64
+    brightness: 31
+    notes: "Original light record 129 (2880, 3892, -576; radius 64)."
+  - id: light:l130
+    room: room:s22
+    at: [2508, 3072]
+    height: 192
+    radius: 64
+    brightness: 31
+    notes: "Original light record 130 (2508, 3072, -576; radius 64)."
+  - id: light:l131
+    room: room:s22
+    at: [2740, 3072]
+    height: 192
+    radius: 64
+    brightness: 31
+    notes: "Original light record 131 (2740, 3072, -576; radius 64)."
+  - id: light:l132
+    room: room:s22
+    at: [2740, 3840]
+    height: 192
+    radius: 64
+    brightness: 31
+    notes: "Original light record 132 (2740, 3840, -576; radius 64)."
+  - id: light:l133
+    room: room:s22
+    at: [2508, 3840]
+    height: 192
+    radius: 64
+    brightness: 31
+    notes: "Original light record 133 (2508, 3840, -576; radius 64)."
+  - id: light:l134
+    room: room:s22
+    at: [2508, 2112]
+    height: 192
+    radius: 64
+    brightness: 31
+    notes: "Original light record 134 (2508, 2112, -576; radius 64)."
+  - id: light:l135
+    room: room:s22
+    at: [2740, 1676]
+    height: 192
+    radius: 64
+    brightness: 31
+    notes: "Original light record 135 (2740, 1676, -576; radius 64)."
+  - id: light:l136
+    room: room:s22
+    at: [1996, 1908]
+    height: 192
+    radius: 64
+    brightness: 31
+    notes: "Original light record 136 (1996, 1908, -576; radius 64)."
+  - id: light:l137
+    room: room:s36
+    at: [1996, 652]
+    height: 192
+    radius: 64
+    brightness: 31
+    notes: "Original light record 137 (1996, 652, -576; radius 64)."
+  - id: light:l138
+    room: room:s36
+    at: [2228, 800]
+    height: 192
+    radius: 64
+    brightness: 31
+    notes: "Original light record 138 (2228, 800, -576; radius 64)."
+  - id: light:l139
+    room: room:s36
+    at: [2616, 500]
+    height: 192
+    radius: 64
+    brightness: 31
+    notes: "Original light record 139 (2616, 500, -576; radius 64)."
+  - id: light:l140
+    room: room:s36
+    at: [2380, 376]
+    height: 192
+    radius: 64
+    brightness: 31
+    notes: "Original light record 140 (2380, 376, -576; radius 64)."
+  - id: light:l141
+    room: room:s37
+    at: [1940, 652]
+    height: 192
+    radius: 64
+    brightness: 31
+    notes: "Original light record 141 (1940, 652, -576; radius 64)."
+  - id: light:l142
+    room: room:s37
+    at: [1940, 1140]
+    height: 192
+    radius: 64
+    brightness: 31
+    notes: "Original light record 142 (1940, 1140, -576; radius 64)."
+  - id: light:l143
+    room: room:s27
+    at: [-18024, 5616]
+    height: 48
+    radius: 64
+    brightness: 31
+    notes: "Original light record 143 (-18024, 5616, -878; radius 64)."
+  - id: light:l144
+    room: room:s38
+    at: [18033, 8712]
+    height: 192
+    radius: 64
+    brightness: 31
+    notes: "Original light record 144 (18033, 8712, -576; radius 64)."
+  - id: light:l145
+    room: room:s45
+    at: [2100, 5152]
+    height: 312
+    radius: 55
+    brightness: 31
+    notes: "Original light record 145 (2100, 5152, 312; radius 55)."
+  - id: light:l146
+    room: room:s45
+    at: [2100, 4576]
+    height: 312
+    radius: 55
+    brightness: 31
+    notes: "Original light record 146 (2100, 4576, 312; radius 55)."
+  - id: light:l147
+    room: room:s45
+    at: [2172, 5076]
+    height: 184
+    radius: 55
+    brightness: 31
+    notes: "Original light record 147 (2172, 5076, 184; radius 55)."
+  - id: light:l148
+    room: room:s45
+    at: [2172, 4652]
+    height: 184
+    radius: 55
+    brightness: 31
+    notes: "Original light record 148 (2172, 4652, 184; radius 55)."
+  - id: light:l149
+    room: room:s54
+    at: [-20480, 6092]
+    height: 168
+    radius: 64
+    brightness: 31
+    notes: "Original light record 149 (-20480, 6092, -800; radius 64)."
+  - id: light:l150
+    room: room:s54
+    at: [-20660, 6320]
+    height: 168
+    radius: 64
+    brightness: 31
+    notes: "Original light record 150 (-20660, 6320, -800; radius 64)."
+  - id: light:l151
+    room: room:s54
+    at: [-20552, 6644]
+    height: 168
+    radius: 64
+    brightness: 31
+    notes: "Original light record 151 (-20552, 6644, -800; radius 64)."
+  - id: light:l152
+    room: room:s55
+    at: [-20172, 6520]
+    height: 168
+    radius: 64
+    brightness: 31
+    notes: "Original light record 152 (-20172, 6520, -800; radius 64)."
+  - id: light:l153
+    room: room:s55
+    at: [-20404, 6848]
+    height: 168
+    radius: 64
+    brightness: 31
+    notes: "Original light record 153 (-20404, 6848, -800; radius 64)."
+  - id: light:l154
+    room: room:s56
+    at: [-20404, 7600]
+    height: 192
+    radius: 64
+    brightness: 31
+    notes: "Original light record 154 (-20404, 7600, -568; radius 64)."
+  - id: light:l155
+    room: room:s56
+    at: [-20172, 7600]
+    height: 192
+    radius: 64
+    brightness: 31
+    notes: "Original light record 155 (-20172, 7600, -568; radius 64)."
+  - id: light:l156
+    room: room:s56
+    at: [-20172, 8000]
+    height: 192
+    radius: 64
+    brightness: 31
+    notes: "Original light record 156 (-20172, 8000, -568; radius 64)."
+  - id: light:l157
+    room: room:s56
+    at: [-20404, 8000]
+    height: 192
+    radius: 64
+    brightness: 31
+    notes: "Original light record 157 (-20404, 8000, -568; radius 64)."
+  - id: light:l158
+    room: room:s57
+    at: [18440, 8695]
+    height: 192
+    radius: 64
+    brightness: 31
+    notes: "Original light record 158 (18440, 8695, -576; radius 64)."
+switches:
+  - id: switch:a
+    room: room:s45
+    kind: plate
+    block: platform:console
+    side: top
+    at: [2200, 4888]
+    size: [16, 16]
+    off: {texture: T1swDd, size: [16, 16]}
+    on: T1swDd
+    notes: "Event 19 ('A'): face 2010 of the console's raking top, row 1 from the top, column 1 from the north."
+  - id: switch:b
+    room: room:s45
+    kind: plate
+    block: platform:console
+    side: top
+    at: [2200, 4872]
+    size: [16, 16]
+    off: {texture: T1swDd, size: [16, 16]}
+    on: T1swDu
+    notes: "Event 20 ('B'): face 2011 of the console's raking top, row 1 from the top, column 2 from the north."
+  - id: switch:c
+    room: room:s45
+    kind: plate
+    block: platform:console
+    side: top
+    at: [2200, 4856]
+    size: [16, 16]
+    off: {texture: T1swDd, size: [16, 16]}
+    on: T1swDu
+    notes: "Event 21 ('C'): face 2012 of the console's raking top, row 1 from the top, column 3 from the north."
+  - id: switch:d
+    room: room:s45
+    kind: plate
+    block: platform:console
+    side: top
+    at: [2200, 4840]
+    size: [16, 16]
+    off: {texture: T1swDd, size: [16, 16]}
+    on: T1swDu
+    notes: "Event 22 ('D'): face 2013 of the console's raking top, row 1 from the top, column 4 from the north."
+  - id: switch:dais
+    room: room:s4
+    kind: button
+    depth: 16
+    sides: {texture: T3T7, size: [32, 32]}
+    at: [-192, 2944]
+    floor_height: 120
+    height: 104
+    size: [64, 64]
+    off: {texture: T3T5, size: [64, 64]}
+    notes: "Door record 31 (event 62, 'Switch'): a block 64 square of T3T5 standing 16 out of the south wall over the dais's top (faces 89 to 93), pushed in 8."
+  - id: switch:e
+    room: room:s45
+    kind: plate
+    block: platform:console
+    side: top
+    at: [2184, 4888]
+    size: [16, 16]
+    off: {texture: T1swDd, size: [16, 16]}
+    on: T1swDu
+    notes: "Event 23 ('E'): face 2009 of the console's raking top, row 2 from the top, column 1 from the north."
+  - id: switch:f
+    room: room:s45
+    kind: plate
+    block: platform:console
+    side: top
+    at: [2184, 4872]
+    size: [16, 16]
+    off: {texture: T1swDd, size: [16, 16]}
+    on: T1swDu
+    notes: "Event 24 ('F'): face 2008 of the console's raking top, row 2 from the top, column 2 from the north."
+  - id: switch:g
+    room: room:s45
+    kind: plate
+    block: platform:console
+    side: top
+    at: [2184, 4856]
+    size: [16, 16]
+    off: {texture: T1swDd, size: [16, 16]}
+    on: T1swDu
+    notes: "Event 25 ('G'): face 2007 of the console's raking top, row 2 from the top, column 3 from the north."
+  - id: switch:h
+    room: room:s45
+    kind: plate
+    block: platform:console
+    side: top
+    at: [2184, 4840]
+    size: [16, 16]
+    off: {texture: T1swDd, size: [16, 16]}
+    on: T1swDu
+    notes: "Event 26 ('H'): face 2006 of the console's raking top, row 2 from the top, column 4 from the north."
+  - id: switch:i
+    room: room:s45
+    kind: plate
+    block: platform:console
+    side: top
+    at: [2168, 4888]
+    size: [16, 16]
+    off: {texture: T1swDd, size: [16, 16]}
+    on: T1swDu
+    notes: "Event 27 ('I'): face 2002 of the console's raking top, row 3 from the top, column 1 from the north."
+  - id: switch:j
+    room: room:s45
+    kind: plate
+    block: platform:console
+    side: top
+    at: [2168, 4872]
+    size: [16, 16]
+    off: {texture: T1swDd, size: [16, 16]}
+    on: T1swDu
+    notes: "Event 28 ('J'): face 2003 of the console's raking top, row 3 from the top, column 2 from the north."
+  - id: switch:k
+    room: room:s45
+    kind: plate
+    block: platform:console
+    side: top
+    at: [2168, 4856]
+    size: [16, 16]
+    off: {texture: T1swDd, size: [16, 16]}
+    on: T1swDu
+    notes: "Event 29 ('K'): face 2004 of the console's raking top, row 3 from the top, column 3 from the north."
+  - id: switch:l
+    room: room:s45
+    kind: plate
+    block: platform:console
+    side: top
+    at: [2168, 4840]
+    size: [16, 16]
+    off: {texture: T1swDd, size: [16, 16]}
+    on: T1swDu
+    notes: "Event 30 ('L'): face 2005 of the console's raking top, row 3 from the top, column 4 from the north."
+  - id: switch:m
+    room: room:s45
+    kind: plate
+    block: platform:console
+    side: top
+    at: [2152, 4888]
+    size: [16, 16]
+    off: {texture: T1swDd, size: [16, 16]}
+    on: T1swDd
+    notes: "Event 31 ('M'): face 2001 of the console's raking top, row 4 from the top, column 1 from the north."
+  - id: switch:n
+    room: room:s45
+    kind: plate
+    block: platform:console
+    side: top
+    at: [2152, 4872]
+    size: [16, 16]
+    off: {texture: T1swDd, size: [16, 16]}
+    on: T1swDu
+    notes: "Event 32 ('N'): face 2000 of the console's raking top, row 4 from the top, column 2 from the north."
+  - id: switch:o
+    room: room:s45
+    kind: plate
+    block: platform:console
+    side: top
+    at: [2152, 4856]
+    size: [16, 16]
+    off: {texture: T1swDd, size: [16, 16]}
+    on: T1swDu
+    notes: "Event 33 ('O'): face 1999 of the console's raking top, row 4 from the top, column 3 from the north."
+  - id: switch:p
+    room: room:s45
+    kind: plate
+    block: platform:console
+    side: top
+    at: [2152, 4840]
+    size: [16, 16]
+    off: {texture: T1swDd, size: [16, 16]}
+    on: T1swDu
+    notes: "Event 34 ('P'): face 1998 of the console's raking top, row 4 from the top, column 4 from the north."
+chests:
+  - id: chest:c1
+    random_levels: [1, 1]
+    box_of: chest:c10
+    items: [2163]
+    trap_level: 1
+    notes: "Chest record 1 (type 7): it has no box in the original, only the picture ch2frnt on a locker's back wall (a wall panel with an id opens it); its contents [2163, -1, -1], trapped. `box_of` names another chest only because the studio's box-less chest needs one."
+  - id: chest:c10
+    room: room:s56n
+    at: [-20288, 8272]
+    kind: ch1
+    facing: e
+    random_levels: [3, 3]
+    notes: "Event 50: the chest in the west cave's niche, front south (faces 1793 to 1800). Chest record 10: [-3, -3] as the scene holds it (negative: a random item of that level)."
+  - id: chest:c2
+    random_levels: [1, 1]
+    box_of: chest:c10
+    trap_level: 1
+    notes: "Chest record 2 (type 7): it has no box in the original, only the picture ch2frnt on a locker's back wall (a wall panel with an id opens it); its contents [-1, -1], trapped. `box_of` names another chest only because the studio's box-less chest needs one."
+  - id: chest:c3
+    room: room:s52
+    at: [-1152, 3952]
+    floor_height: 32
+    kind: ch1
+    facing: e
+    random_levels: [2, 1]
+    items: [1823]
+    trap_level: 1
+    notes: "Event 43: the chest on the hidden room's step, front north (faces 1816 to 1823). Chest record 3: [-2, -1, 1823] as the scene holds it (negative: a random item of that level), trapped (flags 1; the map row's Trap column, 1)."
+  - id: chest:c4
+    random_levels: [2, 1]
+    box_of: chest:c10
+    trap_level: 1
+    notes: "Chest record 4 (type 7): it has no box in the original, only the picture ch2frnt on a locker's back wall (a wall panel with an id opens it); its contents [-2, -1], trapped. `box_of` names another chest only because the studio's box-less chest needs one."
+  - id: chest:c5
+    room: room:s57n
+    at: [18640, 8576]
+    kind: ch1
+    lid: v
+    facing: n
+    random_levels: [3, 3, 3]
+    trap_level: 1
+    notes: "Event 45: the chest in the east cave's niche, front west (faces 1804 to 1811). Chest record 5: [-3, -3, -3] as the scene holds it (negative: a random item of that level), trapped (flags 1; the map row's Trap column, 1)."
+  - id: chest:c6
+    room: room:s50
+    at: [11168, 5488]
+    kind: ch1
+    lid: v
+    facing: n
+    random_levels: [1, 2, 3]
+    trap_level: 1
+    notes: "Event 46: one of the vault's four chests against its east wall, front west. Chest record 6: [-1, -2, -3] as the scene holds it (negative: a random item of that level), trapped (flags 1; the map row's Trap column, 1)."
+  - id: chest:c7
+    room: room:s50
+    at: [11168, 5232]
+    kind: ch1
+    lid: v
+    facing: n
+    random_levels: [3, 1]
+    trap_level: 1
+    notes: "Event 47: one of the vault's four chests against its east wall, front west. Chest record 7: [-3, -1] as the scene holds it (negative: a random item of that level), trapped (flags 1; the map row's Trap column, 1)."
+  - id: chest:c8
+    room: room:s50
+    at: [11168, 4976]
+    kind: ch1
+    lid: v
+    facing: n
+    random_levels: [1, 1]
+    items: [220]
+    trap_level: 1
+    notes: "Event 48: one of the vault's four chests against its east wall, front west. Chest record 8: [-1, -1, 220] as the scene holds it (negative: a random item of that level), trapped (flags 1; the map row's Trap column, 1)."
+  - id: chest:c9
+    room: room:s50
+    at: [11168, 4720]
+    kind: ch1
+    lid: v
+    facing: n
+    random_levels: [2, 1]
+    trap_level: 1
+    notes: "Event 49: one of the vault's four chests against its east wall, front west. Chest record 9: [-2, -1] as the scene holds it (negative: a random item of that level), trapped (flags 1; the map row's Trap column, 1)."
+spawns:
+  - id: spawn:p00
+    room: room:s44
+    at: [7456, 3164]
+    kind: item
+    treasure_level: 3
+    notes: "Original spawn 0: an item of treasure level 3, at height 128."
+  - id: spawn:p01
+    room: room:s35
+    at: [512, 1024]
+    slot: 2
+    notes: "Original spawn 1 (index 2), at height -768."
+  - id: spawn:p02
+    room: room:s4
+    at: [228, 2992]
+    kind: item
+    treasure_level: 1
+    notes: "Original spawn 2: an item of treasure level 1, at height 0."
+  - id: spawn:p03
+    room: room:s44
+    at: [6665, 7033]
+    slot: 3
+    notes: "Original spawn 3 (index 3), at height 128."
+  - id: spawn:p04
+    room: room:s38
+    at: [16640, 8448]
+    slot: 3
+    notes: "Original spawn 4 (index 3), at height -768."
+  - id: spawn:p05
+    room: room:s24
+    at: [2334, 3725]
+    slot: 1
+    notes: "Original spawn 5 (index 1), at height -768."
+  - id: spawn:p06
+    room: room:s32
+    at: [-7660, 8487]
+    slot: 1
+    notes: "Original spawn 6 (index 1), at height -768."
+  - id: spawn:p07
+    room: room:s44
+    at: [6784, 5760]
+    slot: 1
+    notes: "Original spawn 7 (index 1), at height 128."
+  - id: spawn:p08
+    room: room:s50
+    at: [10362, 5826]
+    slot: 1
+    notes: "Original spawn 8 (index 1), at height -1280."
+  - id: spawn:p09
+    room: room:s5
+    at: [-256, 5248]
+    slot: 1
+    tier: a
+    notes: "Original spawn 9 (index 4: slot 1, tier a), at height -256."
+  - id: spawn:p10
+    room: room:s50
+    at: [9648, 5241]
+    slot: 1
+    notes: "Original spawn 10 (index 1), at height -1280."
+  - id: spawn:p11
+    room: room:s7
+    at: [-1859, 7210]
+    slot: 2
+    notes: "Original spawn 11 (index 2), at height -512."
+  - id: spawn:p12
+    room: room:s25
+    at: [3624, 2336]
+    kind: item
+    treasure_level: 2
+    notes: "Original spawn 12: an item of treasure level 2, at height -768."
+  - id: spawn:p13
+    room: room:s50
+    at: [10610, 4838]
+    slot: 3
+    notes: "Original spawn 13 (index 3), at height -1280."
+  - id: spawn:p14
+    room: room:s4
+    at: [-640, 3456]
+    slot: 2
+    notes: "Original spawn 14 (index 2), at height 1."
+  - id: spawn:p15
+    room: room:s33
+    at: [-6942, 5586]
+    slot: 2
+    notes: "Original spawn 15 (index 2), at height -768."
+  - id: spawn:p16
+    room: room:s42
+    at: [7708, 1666]
+    slot: 2
+    notes: "Original spawn 16 (index 2), at height -768."
+  - id: spawn:p17
+    room: room:s50
+    at: [10147, 4260]
+    slot: 2
+    notes: "Original spawn 17 (index 2), at height -1280."
+  - id: spawn:p18
+    room: room:s4
+    at: [236, 3228]
+    kind: item
+    treasure_level: 2
+    notes: "Original spawn 18: an item of treasure level 2, at height 0."
+  - id: spawn:p19
+    room: room:s26
+    at: [3512, 3696]
+    kind: item
+    treasure_level: 1
+    notes: "Original spawn 19: an item of treasure level 1, at height -656."
+  - id: spawn:p20
+    room: room:s31
+    at: [-10724, 9824]
+    kind: item
+    treasure_level: 2
+    notes: "Original spawn 20: an item of treasure level 2, at height -768."
+  - id: spawn:p21
+    room: room:s25
+    at: [3456, 2688]
+    slot: 2
+    notes: "Original spawn 21 (index 2), at height -768."
+  - id: spawn:p22
+    room: room:s31
+    at: [-12380, 9608]
+    kind: item
+    treasure_level: 2
+    notes: "Original spawn 22: an item of treasure level 2, at height -768."
+  - id: spawn:p23
+    room: room:s48b
+    at: [3968, 6912]
+    slot: 1
+    tier: c
+    notes: "Original spawn 23 (index 10: slot 1, tier c), at height -512."
+  - id: spawn:p24
+    room: room:s31
+    at: [-13036, 8824]
+    kind: item
+    treasure_level: 2
+    notes: "Original spawn 24: an item of treasure level 2, at height -768."
+  - id: spawn:p25
+    room: room:s27
+    at: [-19200, 6144]
+    slot: 1
+    notes: "Original spawn 25 (index 1), at height -968."
+  - id: spawn:p26
+    room: room:s38
+    at: [16128, 9088]
+    slot: 3
+    notes: "Original spawn 26 (index 3), at height -768."
+  - id: spawn:p27
+    room: room:s29
+    at: [-14435, 7881]
+    slot: 2
+    notes: "Original spawn 27 (index 2), at height -868."
+  - id: spawn:p28
+    room: room:s24
+    at: [1832, 3600]
+    kind: item
+    treasure_level: 1
+    notes: "Original spawn 28: an item of treasure level 1, at height -656."
+  - id: spawn:p29
+    room: room:s31
+    at: [-11496, 8880]
+    slot: 3
+    notes: "Original spawn 29 (index 3), at height -768."
+  - id: spawn:p30
+    room: room:s40
+    at: [11385, 5739]
+    slot: 2
+    notes: "Original spawn 30 (index 2), at height -768."
+  - id: spawn:p31
+    room: room:s4
+    at: [-40, 3036]
+    kind: item
+    treasure_level: 1
+    notes: "Original spawn 31: an item of treasure level 1, at height 96."
+  - id: spawn:p32
+    room: room:s27
+    at: [-18560, 6784]
+    slot: 1
+    notes: "Original spawn 32 (index 1), at height -968."
+  - id: spawn:p33
+    room: room:s38
+    at: [14614, 8242]
+    slot: 3
+    notes: "Original spawn 33 (index 3), at height -768."
+  - id: spawn:p34
+    room: room:s25
+    at: [3129, 2866]
+    slot: 1
+    notes: "Original spawn 34 (index 1), at height -768."
+  - id: spawn:p35
+    room: room:s23
+    at: [2113, 2871]
+    slot: 3
+    notes: "Original spawn 35 (index 3), at height -768."
+  - id: spawn:p36
+    room: room:s23
+    at: [1664, 2368]
+    slot: 1
+    notes: "Original spawn 36 (index 1), at height -768."
+  - id: spawn:p37
+    room: room:s56e
+    at: [-19944, 7809]
+    slot: 1
+    notes: "Original spawn 37 (index 1), at height -696."
+  - id: spawn:p38
+    room: room:s35
+    at: [-4096, 2048]
+    slot: 3
+    notes: "Original spawn 38 (index 3), at height -768."
+  - id: spawn:p39
+    room: room:s52
+    at: [-1164, 4100]
+    slot: 2
+    notes: "Original spawn 39 (index 2), at height 0."
+  - id: spawn:p40
+    room: room:s56w
+    at: [-20620, 7801]
+    slot: 1
+    notes: "Original spawn 40 (index 1), at height -696."
+  - id: spawn:p41
+    room: room:s27
+    at: [-18304, 6016]
+    slot: 1
+    notes: "Original spawn 41 (index 1), at height -968."
+  - id: spawn:p42
+    room: room:s26
+    at: [3328, 3592]
+    kind: item
+    treasure_level: 2
+    notes: "Original spawn 42: an item of treasure level 2, at height -656."
+  - id: spawn:p43
+    room: room:s49
+    at: [7424, 8256]
+    slot: 1
+    tier: c
+    notes: "Original spawn 43 (index 10: slot 1, tier c), at height -768."
+  - id: spawn:p44
+    room: room:s31
+    at: [-10752, 9088]
+    slot: 3
+    notes: "Original spawn 44 (index 3), at height -768."
+  - id: spawn:p45
+    room: room:s39
+    at: [12096, 7861]
+    slot: 3
+    notes: "Original spawn 45 (index 3), at height -768."
+  - id: spawn:p46
+    room: room:s31
+    at: [-12256, 8168]
+    kind: item
+    treasure_level: 1
+    notes: "Original spawn 46: an item of treasure level 1, at height -768."
+  - id: spawn:p47
+    room: room:s4
+    at: [-736, 3024]
+    kind: item
+    treasure_level: 1
+    notes: "Original spawn 47: an item of treasure level 1, at height 0."
+  - id: spawn:p48
+    room: room:s44
+    at: [7716, 4766]
+    slot: 3
+    notes: "Original spawn 48 (index 3), at height 128."
+  - id: spawn:p49
+    room: room:s53
+    at: [768, 4096]
+    slot: 1
+    notes: "Original spawn 49 (index 1), at height 0."
+  - id: spawn:p50
+    room: room:s31
+    at: [-12136, 8128]
+    kind: item
+    treasure_level: 1
+    notes: "Original spawn 50: an item of treasure level 1, at height -768."
+  - id: spawn:p51
+    room: room:s7
+    at: [-1850, 4304]
+    slot: 2
+    notes: "Original spawn 51 (index 2), at height -512."
+  - id: spawn:p52
+    room: room:s43
+    at: [3641, 431]
+    slot: 2
+    notes: "Original spawn 52 (index 2), at height -768."
+  - id: spawn:p53
+    room: room:s4
+    at: [-717, 4355]
+    slot: 1
+    tier: a
+    notes: "Original spawn 53 (index 4: slot 1, tier a), at height 0."
+  - id: spawn:p54
+    room: room:s31
+    at: [-11136, 8448]
+    slot: 3
+    notes: "Original spawn 54 (index 3), at height -768."
+  - id: spawn:p55
+    room: room:s45
+    at: [2006, 4878]
+    slot: 2
+    notes: "Original spawn 55 (index 2), at height 0."
+  - id: spawn:p56
+    room: room:s41
+    at: [10376, 2526]
+    slot: 1
+    notes: "Original spawn 56 (index 1), at height -768."
+  - id: spawn:p57
+    room: room:s51
+    at: [5457, 4873]
+    slot: 1
+    notes: "Original spawn 57 (index 1), at height 128."
+  - id: spawn:p58
+    room: room:s38
+    at: [15744, 8448]
+    slot: 3
+    notes: "Original spawn 58 (index 3), at height -768."
+  - id: spawn:p59
+    room: room:s4
+    at: [256, 3456]
+    slot: 3
+    notes: "Original spawn 59 (index 3), at height 1."
+  - id: spawn:p60
+    room: room:s26
+    at: [2942, 3652]
+    slot: 2
+    notes: "Original spawn 60 (index 2), at height -768."
+  - id: spawn:p61
+    room: room:s44
+    at: [6528, 4224]
+    slot: 1
+    notes: "Original spawn 61 (index 1), at height 128."
+  - id: spawn:p62
+    room: room:s27
+    at: [-17723, 6747]
+    slot: 1
+    notes: "Original spawn 62 (index 1), at height -968."
+  - id: spawn:p63
+    room: room:s34
+    at: [-6116, 3000]
+    slot: 2
+    notes: "Original spawn 63 (index 2), at height -768."
+  - id: spawn:p64
+    room: room:s35
+    at: [-1536, 1393]
+    slot: 2
+    notes: "Original spawn 64 (index 2), at height -768."
+  - id: spawn:p65
+    room: room:s24
+    at: [1792, 3712]
+    kind: item
+    treasure_level: 1
+    notes: "Original spawn 65: an item of treasure level 1, at height -656."
+decorations:
+  - id: deco:6torch01_01
+    room: room:s44
+    decoration: 6torch01
+    at: [6880, 4832]
+    height: 28
+  - id: deco:6torch01_02
+    room: room:s7
+    decoration: 6torch01
+    at: [-1612, 5512]
+    height: 120
+  - id: deco:6torch01_03
+    room: room:s7
+    decoration: 6torch01
+    at: [-1612, 6008]
+    height: 120
+  - id: deco:6torch01_04
+    room: room:s7
+    decoration: 6torch01
+    at: [-1612, 5120]
+    height: 120
+  - id: deco:6torch01_05
+    room: room:s7
+    decoration: 6torch01
+    at: [-1612, 6400]
+    height: 120
+  - id: deco:6torch01_06
+    room: room:s7
+    decoration: 6torch01
+    at: [-1612, 6784]
+    height: 120
+  - id: deco:6torch01_07
+    room: room:s7
+    decoration: 6torch01
+    at: [-1612, 7168]
+    height: 120
+  - id: deco:6torch01_08
+    room: room:s7
+    decoration: 6torch01
+    at: [-1612, 4736]
+    height: 120
+  - id: deco:6torch01_09
+    room: room:s7
+    decoration: 6torch01
+    at: [-1612, 4352]
+    height: 120
+  - id: deco:6torch01_10
+    room: room:s7
+    decoration: 6torch01
+    at: [-2100, 4352]
+    height: 120
+  - id: deco:6torch01_11
+    room: room:s7
+    decoration: 6torch01
+    at: [-2100, 4736]
+    height: 120
+  - id: deco:6torch01_12
+    room: room:s7
+    decoration: 6torch01
+    at: [-2100, 5120]
+    height: 120
+  - id: deco:6torch01_13
+    room: room:s7
+    decoration: 6torch01
+    at: [-2100, 5512]
+    height: 120
+  - id: deco:6torch01_14
+    room: room:s7
+    decoration: 6torch01
+    at: [-2100, 6008]
+    height: 120
+  - id: deco:6torch01_15
+    room: room:s7
+    decoration: 6torch01
+    at: [-2100, 6400]
+    height: 120
+  - id: deco:6torch01_16
+    room: room:s7
+    decoration: 6torch01
+    at: [-2100, 6784]
+    height: 120
+  - id: deco:6torch01_17
+    room: room:s7
+    decoration: 6torch01
+    at: [-2100, 7168]
+    height: 120
+  - id: deco:6torch01_18
+    room: room:s4
+    decoration: 6torch01
+    at: [-820, 4352]
+    height: 120
+  - id: deco:6torch01_19
+    room: room:s4
+    decoration: 6torch01
+    at: [436, 4352]
+    height: 120
+  - id: deco:6torch01_20
+    room: room:s53
+    decoration: 6torch01
+    at: [440, 4676]
+    height: 120
+  - id: deco:6torch01_21
+    room: room:s52
+    decoration: 6torch01
+    at: [-824, 4676]
+    height: 120
+  - id: deco:6torch01_22
+    room: room:s52
+    decoration: 6torch01
+    at: [-1332, 4136]
+    height: 120
+  - id: deco:6torch01_23
+    room: room:s52
+    decoration: 6torch01
+    at: [-1332, 4592]
+    height: 120
+  - id: deco:6torch01_24
+    room: room:s52
+    decoration: 6torch01
+    at: [-972, 4136]
+    height: 120
+  - id: deco:6torch01_25
+    room: room:s53
+    decoration: 6torch01
+    at: [588, 4136]
+    height: 120
+  - id: deco:6torch01_26
+    room: room:s53
+    decoration: 6torch01
+    at: [948, 4136]
+    height: 120
+  - id: deco:6torch01_27
+    room: room:s53
+    decoration: 6torch01
+    at: [948, 4592]
+    height: 120
+  - id: deco:6torch01_28
+    room: room:s44
+    decoration: 6torch01
+    at: [8000, 4328]
+    height: 14
+  - id: deco:6torch01_29
+    room: room:s44
+    decoration: 6torch01
+    at: [8000, 5336]
+    height: 70
+  - id: deco:6torch01_30
+    room: room:s44
+    decoration: 6torch01
+    at: [7512, 3024]
+    height: 72
+  - id: deco:6torch01_31
+    room: room:s44
+    decoration: 6torch01
+    at: [6168, 3416]
+    height: 120
+  - id: deco:6torch01_32
+    room: room:s44
+    decoration: 6torch01
+    at: [5584, 4360]
+    height: 15
+  - id: deco:6torch01_33
+    room: room:s44
+    decoration: 6torch01
+    at: [5704, 5392]
+    height: 120
+  - id: deco:6torch01_34
+    room: room:s44
+    decoration: 6torch01
+    at: [6144, 6520]
+    height: 120
+  - id: deco:6torch01_35
+    room: room:s44
+    decoration: 6torch01
+    at: [7288, 6440]
+  - id: deco:6torch01_36
+    room: room:s44
+    decoration: 6torch01
+    at: [6624, 7144]
+    height: 55
+  - id: deco:6torch01_37
+    room: room:s48a
+    decoration: 6torch01
+    at: [2968, 7028]
+    height: 118
+  - id: deco:6torch01_38
+    room: room:s48a
+    decoration: 6torch01
+    at: [3600, 7028]
+    height: 108
+  - id: deco:6torch01_39
+    room: room:s48c
+    decoration: 6torch01
+    at: [4448, 7028]
+    height: 104
+  - id: deco:6torch01_40
+    room: room:s48d
+    decoration: 6torch01
+    at: [4968, 7028]
+    height: 112
+  - id: deco:6torch01_41
+    room: room:s48e
+    decoration: 6torch01
+    at: [5584, 7424]
+    height: 126
+  - id: deco:6torch01_42
+    room: room:s48e
+    decoration: 6torch01
+    at: [6332, 8020]
+    height: 127
+  - id: deco:6torch01_43
+    room: room:s49
+    decoration: 6torch01
+    at: [9776, 7636]
+    height: 128
+  - id: deco:6torch01_44
+    room: room:s49
+    decoration: 6torch01
+    at: [8636, 8188]
+    height: 104
+  - id: deco:6torch01_45
+    room: room:s49
+    decoration: 6torch01
+    at: [7144, 8356]
+    height: 112
+  - id: deco:6torch01_46
+    room: room:s49r
+    decoration: 6torch01
+    at: [9932, 6608]
+    height: 120
+  - id: deco:6torch01_47
+    room: room:s50
+    decoration: 6torch01
+    at: [9680, 6036]
+    height: 112
+  - id: deco:6torch01_48
+    room: room:s50
+    decoration: 6torch01
+    at: [10368, 6036]
+    height: 112
+  - id: deco:6torch01_49
+    room: room:s50
+    decoration: 6torch01
+    at: [10392, 4012]
+    height: 112
+  - id: deco:6torch01_50
+    room: room:s50
+    decoration: 6torch01
+    at: [9704, 4012]
+    height: 112
+  - id: deco:6torch01_51
+    room: room:s50
+    decoration: 6torch01
+    at: [9136, 5524]
+    height: 112
+  - id: deco:6torch01_52
+    room: room:s50
+    decoration: 6torch01
+    at: [9136, 4524]
+    height: 112
+  - id: deco:6torch01_53
+    room: room:s50
+    decoration: 6torch01
+    at: [10952, 5524]
+    height: 112
+  - id: deco:6torch01_54
+    room: room:s47b
+    decoration: 6torch01
+    at: [10164, 3600]
+    height: 112
+  - id: deco:6torch01_55
+    room: room:s47r
+    decoration: 6torch01
+    at: [9472, 3356]
+    height: 144
+  - id: deco:6torch01_56
+    room: room:s47r
+    decoration: 6torch01
+    at: [8800, 2828]
+    height: 99
+  - id: deco:6torch01_57
+    room: room:s47a
+    decoration: 6torch01
+    at: [8148, 2992]
+    height: 120
+  - id: deco:6torch01_58
+    room: room:s47a
+    decoration: 6torch01
+    at: [7656, 3148]
+    height: 120
+  - id: deco:6torch01_59
+    room: room:s49
+    decoration: 6torch01
+    at: [8056, 8356]
+    height: 112
+  - id: deco:6torch01_60
+    room: room:s50
+    decoration: 6torch01
+    at: [10952, 4524]
+    height: 112
+  - id: deco:6torch01_61
+    room: room:s36
+    decoration: 6torch01
+    at: [2228, 1336]
+    height: 128
+  - id: deco:6torch01_62
+    room: room:s24
+    decoration: 6torch01
+    at: [2368, 3892]
+    height: 128
+  - id: deco:6torch01_63
+    room: room:s24
+    decoration: 6torch01
+    at: [2368, 3116]
+    height: 128
+  - id: deco:6torch01_64
+    room: room:s23
+    decoration: 6torch01
+    at: [2368, 3028]
+    height: 128
+  - id: deco:6torch01_65
+    room: room:s23
+    decoration: 6torch01
+    at: [2368, 2252]
+    height: 128
+  - id: deco:6torch01_66
+    room: room:s25
+    decoration: 6torch01
+    at: [2880, 2252]
+    height: 128
+  - id: deco:6torch01_67
+    room: room:s25
+    decoration: 6torch01
+    at: [2880, 3028]
+    height: 128
+  - id: deco:6torch01_68
+    room: room:s26
+    decoration: 6torch01
+    at: [2880, 3116]
+    height: 128
+  - id: deco:6torch01_69
+    room: room:s26
+    decoration: 6torch01
+    at: [2880, 3892]
+    height: 128
+  - id: deco:6torch01_70
+    room: room:s22
+    decoration: 6torch01
+    at: [2508, 3072]
+    height: 128
+  - id: deco:6torch01_71
+    room: room:s22
+    decoration: 6torch01
+    at: [2740, 3072]
+    height: 128
+  - id: deco:6torch01_72
+    room: room:s22
+    decoration: 6torch01
+    at: [2740, 3840]
+    height: 128
+  - id: deco:6torch01_73
+    room: room:s22
+    decoration: 6torch01
+    at: [2508, 3840]
+    height: 128
+  - id: deco:6torch01_74
+    room: room:s22
+    decoration: 6torch01
+    at: [2508, 2112]
+    height: 128
+  - id: deco:6torch01_75
+    room: room:s22
+    decoration: 6torch01
+    at: [2740, 1676]
+    height: 128
+  - id: deco:6torch01_76
+    room: room:s22
+    decoration: 6torch01
+    at: [1996, 1908]
+    height: 128
+  - id: deco:6torch01_77
+    room: room:s36
+    decoration: 6torch01
+    at: [1996, 652]
+    height: 128
+  - id: deco:6torch01_78
+    room: room:s36
+    decoration: 6torch01
+    at: [2228, 800]
+    height: 128
+  - id: deco:6torch01_79
+    room: room:s36
+    decoration: 6torch01
+    at: [2616, 500]
+    height: 128
+  - id: deco:6torch01_80
+    room: room:s36
+    decoration: 6torch01
+    at: [2380, 376]
+    height: 128
+  - id: deco:6torch01_81
+    room: room:s37
+    decoration: 6torch01
+    at: [1940, 652]
+    height: 128
+  - id: deco:6torch01_82
+    room: room:s37
+    decoration: 6torch01
+    at: [1940, 1140]
+    height: 128
+  - id: deco:6torch01_83
+    room: room:s27
+    decoration: 6torch01
+    at: [-18024, 5616]
+    height: 26
+  - id: deco:6torch01_84
+    room: room:s38
+    decoration: 6torch01
+    at: [18033, 8712]
+    height: 128
+  - id: deco:6torch01_85
+    room: room:s57
+    decoration: 6torch01
+    at: [18440, 8695]
+    height: 128
+  - id: deco:dec04_01
+    room: room:s35
+    decoration: dec04
+    at: [-528, 1112]
+  - id: deco:dec04_02
+    room: room:s35
+    decoration: dec04
+    at: [-3236, 1880]
+  - id: deco:dec04_03
+    room: room:s34
+    decoration: dec04
+    at: [-6360, 3256]
+  - id: deco:dec04_04
+    room: room:s33
+    decoration: dec04
+    at: [-6924, 5436]
+  - id: deco:dec04_05
+    room: room:s32
+    decoration: dec04
+    at: [-7896, 8232]
+  - id: deco:dec04_06
+    room: room:s31
+    decoration: dec04
+    at: [-11208, 8076]
+  - id: deco:dec04_07
+    room: room:s31
+    decoration: dec04
+    at: [-11168, 9324]
+  - id: deco:dec04_08
+    room: room:s30
+    decoration: dec04
+    at: [-12820, 7464]
+  - id: deco:dec04_09
+    room: room:s29
+    decoration: dec04
+    at: [-14116, 7940]
+  - id: deco:dec04_10
+    room: room:s28
+    decoration: dec04
+    at: [-15864, 7436]
+  - id: deco:dec04_11
+    room: room:s27
+    decoration: dec04
+    at: [-18504, 6344]
+  - id: deco:dec04_12
+    room: room:s43
+    decoration: dec04
+    at: [4312, 644]
+  - id: deco:dec04_13
+    room: room:s43
+    decoration: dec04
+    at: [5584, 1028]
+  - id: deco:dec04_14
+    room: room:s42
+    decoration: dec04
+    at: [7440, 1540]
+  - id: deco:dec04_15
+    room: room:s42
+    decoration: dec04
+    at: [9684, 2148]
+  - id: deco:dec04_16
+    room: room:s41
+    decoration: dec04
+    at: [10816, 3100]
+  - id: deco:dec04_17
+    room: room:s40
+    decoration: dec04
+    at: [11224, 5408]
+  - id: deco:dec04_18
+    room: room:s39
+    decoration: dec04
+    at: [12292, 7940]
+  - id: deco:dec04_19
+    room: room:s38
+    decoration: dec04
+    at: [16368, 8828]
+  - id: deco:dec04_20
+    room: room:s44
+    decoration: dec04
+    at: [6604, 5956]
+  - id: deco:dec04_21
+    room: room:s44
+    decoration: dec04
+    at: [6648, 3996]
+  - id: deco:trchb00_01
+    room: room:s1
+    decoration: TrchB00
+    at: [204, 6560]
+    height: 120
+  - id: deco:trchb00_02
+    room: room:s1
+    decoration: TrchB00
+    at: [948, 6560]
+    height: 120
+  - id: deco:trchb00_03
+    room: room:s1
+    decoration: TrchB00
+    at: [948, 6240]
+    height: 120
+  - id: deco:trchb00_04
+    room: room:s1
+    decoration: TrchB00
+    at: [204, 6240]
+    height: 120
+  - id: deco:trchb00_05
+    room: room:s1
+    decoration: TrchB00
+    at: [736, 6028]
+    height: 120
+  - id: deco:trchb00_06
+    room: room:s1
+    decoration: TrchB00
+    at: [416, 6028]
+    height: 120
+  - id: deco:trchb00_07
+    room: room:s1w
+    decoration: TrchB00
+    at: [-308, 6516]
+    height: 120
+  - id: deco:trchb00_08
+    room: room:s5r
+    decoration: TrchB00
+    at: [-308, 5568]
+    height: 135
+  - id: deco:trchb00_09
+    room: room:s6r
+    decoration: TrchB00
+    at: [-440, 5132]
+    height: 128
+  - id: deco:trchb00_10
+    room: room:s6
+    decoration: TrchB00
+    at: [-1332, 5132]
+    height: 120
+  - id: deco:trchb00_11
+    room: room:s6
+    decoration: TrchB00
+    at: [-1100, 5576]
+    height: 120
+  - id: deco:trchb00_12
+    room: room:s5r
+    decoration: TrchB00
+    at: [-76, 6056]
+    height: 111
+  - id: deco:trchb00_13
+    room: room:s6
+    decoration: TrchB00
+    at: [-1472, 5644]
+    height: 120
+  - id: deco:trchb00_14
+    room: room:s6r
+    decoration: TrchB00
+    at: [-960, 5364]
+    height: 125
+  - id: deco:trchb00_15
+    room: room:s6
+    decoration: TrchB00
+    at: [-1472, 5876]
+    height: 120
+  - id: deco:trchb00_16
+    room: room:s3
+    decoration: TrchB00
+    at: [800, 4980]
+    height: 120
+  - id: deco:trchb00_17
+    room: room:s3
+    decoration: TrchB00
+    at: [352, 4980]
+    height: 120
+  - id: deco:trchb00_18
+    room: room:s3
+    decoration: TrchB00
+    at: [32, 4748]
+    height: 120
+  - id: deco:trchb00_19
+    room: room:s3
+    decoration: TrchB00
+    at: [1056, 4748]
+    height: 120
+  - id: deco:trchb00_20
+    room: room:s3
+    decoration: TrchB00
+    at: [-308, 4552]
+    height: 120
+  - id: deco:trchb00_21
+    room: room:s3
+    decoration: TrchB00
+    at: [-76, 4552]
+    height: 120
+  - id: deco:trchb00_22
+    room: room:s4
+    decoration: TrchB00
+    at: [-20, 4288]
+    height: 120
+  - id: deco:trchb00_23
+    room: room:s4
+    decoration: TrchB00
+    at: [-366, 4289]
+    height: 120
+  - id: deco:trchb00_24
+    room: room:s4
+    decoration: TrchB00
+    at: [-820, 3968]
+    height: 120
+  - id: deco:trchb00_25
+    room: room:s4
+    decoration: TrchB00
+    at: [436, 3968]
+    height: 120
+  - id: deco:trchb00_26
+    room: room:s4
+    decoration: TrchB00
+    at: [-820, 3344]
+    height: 120
+  - id: deco:trchb00_27
+    room: room:s4
+    decoration: TrchB00
+    at: [436, 3344]
+    height: 120
+  - id: deco:trchb00_28
+    room: room:s4
+    decoration: TrchB00
+    at: [-820, 3648]
+    height: 120
+  - id: deco:trchb00_29
+    room: room:s4
+    decoration: TrchB00
+    at: [436, 3648]
+    height: 120
+  - id: deco:trchb00_30
+    room: room:s4
+    decoration: TrchB00
+    at: [-336, 2956]
+    height: 120
+  - id: deco:trchb00_31
+    room: room:s4
+    decoration: TrchB00
+    at: [-48, 2956]
+    height: 120
+  - id: deco:trchb00_32
+    room: room:s4
+    decoration: TrchB00
+    at: [-720, 2956]
+    height: 216
+  - id: deco:trchb00_33
+    room: room:s4
+    decoration: TrchB00
+    at: [336, 2956]
+    height: 216
+  - id: deco:trchb00_34
+    room: room:s45
+    decoration: TrchB00
+    at: [1180, 4616]
+    height: 120
+  - id: deco:trchb00_35
+    room: room:s45
+    decoration: TrchB00
+    at: [1392, 5492]
+    height: 120
+  - id: deco:trchb00_36
+    room: room:s45
+    decoration: TrchB00
+    at: [1392, 4236]
+    height: 120
+  - id: deco:trchb00_37
+    room: room:s45m
+    decoration: TrchB00
+    at: [2252, 5624]
+    height: 120
+  - id: deco:trchb00_38
+    room: room:s45m
+    decoration: TrchB00
+    at: [2252, 4104]
+    height: 120
+  - id: deco:trchb00_39
+    room: room:s45m
+    decoration: TrchB00
+    at: [2484, 4488]
+    height: 120
+  - id: deco:trchb00_40
+    room: room:s45m
+    decoration: TrchB00
+    at: [2484, 5240]
+    height: 120
+  - id: deco:trchb00_41
+    room: room:s51
+    decoration: TrchB00
+    at: [2768, 5108]
+    height: 120
+  - id: deco:trchb00_42
+    room: room:s51
+    decoration: TrchB00
+    at: [2768, 4620]
+    height: 120
+  - id: deco:trchb00_43
+    room: room:s51
+    decoration: TrchB00
+    at: [3088, 4620]
+    height: 120
+  - id: deco:trchb00_44
+    room: room:s51
+    decoration: TrchB00
+    at: [3088, 5108]
+    height: 120
+  - id: deco:trchb00_45
+    room: room:s51
+    decoration: TrchB00
+    at: [3664, 4620]
+    height: 120
+  - id: deco:trchb00_46
+    room: room:s51
+    decoration: TrchB00
+    at: [3664, 5108]
+    height: 120
+  - id: deco:trchb00_47
+    room: room:s51
+    decoration: TrchB00
+    at: [4448, 4128]
+    height: 128
+  - id: deco:trchb00_48
+    room: room:s51
+    decoration: TrchB00
+    at: [4448, 4616]
+    height: 128
+  - id: deco:trchb00_49
+    room: room:s51
+    decoration: TrchB00
+    at: [5360, 4620]
+    height: 120
+  - id: deco:trchb00_50
+    room: room:s51
+    decoration: TrchB00
+    at: [5360, 5108]
+    height: 120
+  - id: deco:trchb00_51
+    room: room:s20
+    decoration: TrchB00
+    at: [1228, 6560]
+    height: 120
+  - id: deco:trchb00_52
+    room: room:s20
+    decoration: TrchB00
+    at: [1448, 7028]
+    height: 120
+  - id: deco:trchb00_53
+    room: room:s20r
+    decoration: TrchB00
+    at: [2384, 7028]
+    height: 115
+  - id: deco:trchb00_54
+    room: room:s20r
+    decoration: TrchB00
+    at: [1760, 6796]
+    height: 114
+  - id: deco:trchb00_55
+    room: room:s21a
+    decoration: TrchB00
+    at: [2508, 6336]
+    height: 121
+  - id: deco:trchb00_56
+    room: room:s21a
+    decoration: TrchB00
+    at: [2508, 5360]
+    height: 119
+  - id: deco:trchb00_57
+    room: room:s21b
+    decoration: TrchB00
+    at: [2508, 4216]
+    height: 120
+  - id: deco:trchb00_58
+    room: room:s45
+    decoration: TrchB00
+    at: [2100, 5152]
+    height: 248
+  - id: deco:trchb00_59
+    room: room:s45
+    decoration: TrchB00
+    at: [2100, 4576]
+    height: 248
+  - id: deco:trchb00_60
+    room: room:s45
+    decoration: TrchB00
+    at: [2172, 5076]
+    height: 120
+  - id: deco:trchb00_61
+    room: room:s45
+    decoration: TrchB00
+    at: [2172, 4652]
+    height: 120
+  - id: deco:trchb00_62
+    room: room:s54
+    decoration: TrchB00
+    at: [-20480, 6092]
+    height: 104
+  - id: deco:trchb00_63
+    room: room:s54
+    decoration: TrchB00
+    at: [-20660, 6320]
+    height: 104
+  - id: deco:trchb00_64
+    room: room:s54
+    decoration: TrchB00
+    at: [-20552, 6644]
+    height: 104
+  - id: deco:trchb00_65
+    room: room:s55
+    decoration: TrchB00
+    at: [-20172, 6520]
+    height: 104
+  - id: deco:trchb00_66
+    room: room:s55
+    decoration: TrchB00
+    at: [-20404, 6848]
+    height: 104
+  - id: deco:trchb00_67
+    room: room:s56
+    decoration: TrchB00
+    at: [-20404, 7600]
+    height: 128
+  - id: deco:trchb00_68
+    room: room:s56
+    decoration: TrchB00
+    at: [-20172, 7600]
+    height: 128
+  - id: deco:trchb00_69
+    room: room:s56
+    decoration: TrchB00
+    at: [-20172, 8000]
+    height: 128
+  - id: deco:trchb00_70
+    room: room:s56
+    decoration: TrchB00
+    at: [-20404, 8000]
+    height: 128
+exits:
+  - id: exit:way_out
+    room: room:s1
+    at: [576, 6944]
+    floor_height: 192
+    size: [256, 256]
+    surface: {texture: t1d1, size: [256, 256]}
+    to: exit:new_sorpigal
+    notes: "Face 16 (event 51, 'Exit Door'): the double door t1d1, 256 by 256, in the hall's north wall over the landing."

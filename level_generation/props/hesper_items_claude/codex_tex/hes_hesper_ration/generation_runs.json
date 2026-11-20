@@ -1,0 +1,563 @@
+[
+  {
+    "view": "front",
+    "prompt": "Use case: precise-object-edit.\nAsset type: orthographic albedo texture-source painting for the existing Hesper ration 3D game model.\nInputs: Image 1 is the EDIT TARGET, the exact orthographic model guide. Image 2 is MATERIAL AND COLOUR REFERENCE ONLY (design_reference.png); its perspective, lighting and silhouette must NOT replace the guide.\nEdit image 1 in place, changing only surface colours and fine surface texture. Preserve its exact 1024 x 1024 canvas, every alpha edge, silhouette, position, scale, bevel, and part boundary. Treat its alpha mask as locked. Do not reframe, enlarge, center differently, crop or add geometry. All currently transparent pixels stay transparent. Fill every solid guide pixel with painted material, keeping every outlined part.\nSubject: a rectangular block of pressed algae from the Acid Garden, wrapped in aged brown paper with natural hemp string. Match image 2: dense dark olive/mustard-green pressed algae with small flattened ochre leaf fibres and algae flakes; warm tan/brown fibrous kraft parchment with irregular pale worn fibres, subtle dark brown mottling and creased overlapping paper texture; golden tan twisted hemp twine. The pale green guide region is algae, ivory region is paper, grey/tan protruding lower region is string. Guide tints are material IDs, NOT final colours. No ceramic, metal, glass, glowing lights or invented decorations.\nRender convincing detailed material colour in flat even shadowless viewer-facing illumination for an ALBEDO bake. Remove the guide and reference lighting: no cast or contact shadows, no ambient occlusion, no bright glossy flecks, no directional highlights, no shaded left/right gradient, no rim light, no reflections. All bevel faces have the same material base colour. Describe wrinkles and fibres through subtle colour detail, not deep black recesses.\nOutput ONE 1024 x 1024 RGBA PNG with genuinely transparent background. No background colour, floor, checkerboard drawn in pixels, text, letters, labels, border or watermark. Keep the raw output unresized.\nView: exact FRONT elevation, no perspective or view of the broad top face. Follow guide_front.png. Object bounds x=66..957, y=294..729. Algae is the narrow exposed strip x=140..883, y=294..376 with fixed chamfered corners; paper is the broad horizontal body x=66..957, y=375..674. Preserve the broad shallow downward-pointing string projection x=370..653, y=675..729, filling that exact shape with hemp texture. Paint paper fold patterns and the reference twine details only inside their guide surfaces. Keep straight horizontal edges and every chamfer exactly.",
+    "inputs": [
+      {
+        "path": "guide_front.png",
+        "sha256": "089acd6c8e9547fbf2f30b2d400e5601f621e1f19411b8ba5c378c78a1980b2f"
+      },
+      {
+        "path": "design_reference.png",
+        "sha256": "b10d51237f861b445a226cb073bc9b2c3a7a4553fb4eef12ae4e12b4e506a9ca"
+      }
+    ],
+    "output": "paint_front_attempt1.png",
+    "selected": false,
+    "reason": "Initial generation; corrective regeneration will target guide alignment and flatter lighting. Returned 1254 x 1254, preserved unresized.",
+    "tool": "built-in image_gen",
+    "source_output": "/home/pjasicek/.codex/generated_images/01a16dca-5a85-7922-aafd-1b5e118ad96f/exec-a7cc69c7-4f91-475e-9364-f7429a2831d6.png",
+    "output_sha256": "4c56346a534db60f77fd7c96b7e34d89606c2baa1d3ca7f89ebb59243308e628",
+    "requested_size": [
+      1024,
+      1024
+    ],
+    "returned_size": [
+      1254,
+      1254
+    ],
+    "unresized": true,
+    "checks": {
+      "transparent_background": true,
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "silhouette_identical": false,
+      "opaque_bbox": [
+        73,
+        373,
+        1185,
+        928
+      ],
+      "guide_opaque_bbox": [
+        67,
+        295,
+        957,
+        729
+      ],
+      "normalized_mask_iou": 0.894677,
+      "normalized_pixels_outside_guide": 29597,
+      "normalized_pixels_missing_from_guide": 8348,
+      "materials_match_reference": true,
+      "no_text_or_letters": true,
+      "flat_even_lighting": false,
+      "visual_notes": "Reference-like algae, paper and hemp; visible fold occlusion and shiny algae flecks. Lower guide projection became paper. Outline differs from guide."
+    }
+  },
+  {
+    "view": "front",
+    "prompt": "Use case: precise-object-edit.\nAsset type: orthographic albedo texture-source painting for the existing Hesper ration 3D game model.\nInputs: Image 1 is design_reference.png, MATERIAL AND COLOUR REFERENCE ONLY. Image 2 is guide_front.png, the EDIT TARGET and exact orthographic model guide. Edit IMAGE 2. Its silhouette and 1024 x 1024 canvas are authoritative.\nEdit image 2 in place, changing only surface colours and fine surface texture. Preserve its exact 1024 x 1024 canvas, every alpha edge, silhouette, position, scale, bevel, and part boundary. Treat its alpha mask as locked. Do not reframe, enlarge, center differently, crop or add geometry. All currently transparent pixels stay transparent. Fill every solid guide pixel with painted material, keeping every outlined part.\nSubject: a rectangular block of pressed algae from the Acid Garden, wrapped in aged brown paper with natural hemp string. Use the materials of image 1: dense dark olive/mustard-green pressed algae with small flattened ochre leaf fibres and algae flakes; warm tan/brown fibrous kraft parchment with irregular pale worn fibres, subtle dark brown mottling and creased overlapping paper texture; golden tan twisted hemp twine. The pale green guide region is algae, ivory region is paper, grey/tan protruding lower region is string. Guide tints are material IDs, NOT final colours. No ceramic, metal, glass, glowing lights or invented decorations.\nRender convincing detailed material colour in flat even shadowless viewer-facing illumination for an ALBEDO bake. Remove the guide and reference lighting: no cast or contact shadows, no ambient occlusion, no bright glossy flecks, no directional highlights, no shaded left/right gradient, no rim light, no reflections. All bevel faces have the same material base colour. Describe wrinkles and fibres through subtle colour detail, not deep black recesses.\nOutput ONE 1024 x 1024 RGBA PNG with genuinely transparent background. No background colour, floor, checkerboard drawn in pixels, text, letters, labels, border or watermark. Keep the raw output unresized.\nView: exact FRONT elevation, no perspective or view of the broad top face. Follow guide_front.png. Object bounds x=66..957, y=294..729. Algae is the narrow exposed strip x=140..883, y=294..376 with fixed chamfered corners; paper is the broad horizontal body x=66..957, y=375..674. Preserve the broad shallow downward-pointing string projection x=370..653, y=675..729, filling that exact shape with hemp texture. Paint paper fold patterns and the reference twine details only inside their guide surfaces. Keep straight horizontal edges and every chamfer exactly.\nCORRECTIVE REGENERATION, sole allowed correction for this view: enforce the guide's precise placement and flat albedo. Retain the guide alpha pixel-for-pixel. No edge roughening, bulging, dangling loose fibres or added torn outline. Use its sharp polygon edges. Remove ALL dark shading between paper layers and ALL shiny algae flecks; represent paper folds with subtle pale/brown lines only, not raised 3D flaps. This is an unlit diffuse texture transfer, not product photography. The original wide triangular projection beneath the body MUST be tan string material and stay exactly where drawn. A 1024 square is essential; do not inherit the reference's 1254 square.",
+    "inputs": [
+      {
+        "path": "design_reference.png",
+        "sha256": "b10d51237f861b445a226cb073bc9b2c3a7a4553fb4eef12ae4e12b4e506a9ca"
+      },
+      {
+        "path": "guide_front.png",
+        "sha256": "089acd6c8e9547fbf2f30b2d400e5601f621e1f19411b8ba5c378c78a1980b2f"
+      }
+    ],
+    "output": "paint_front.png",
+    "selected": true,
+    "reason": "Selected permitted correction: flatter paper and correct hemp on lower projection; closer guide placement. Raw tool return preserved; exact silhouette and fully shadowless albedo requirements remain unmet.",
+    "tool": "built-in image_gen",
+    "source_output": "/home/pjasicek/.codex/generated_images/01a16dca-5a85-7922-aafd-1b5e118ad96f/exec-1864c58a-2dd8-4e10-bd2e-8684e9868431.png",
+    "output_sha256": "98a27a678801ec8755f7d243d67c864215e615a2d015bdad78afe2e2d45bc5af",
+    "requested_size": [
+      1024,
+      1024
+    ],
+    "returned_size": [
+      1254,
+      1254
+    ],
+    "unresized": true,
+    "checks": {
+      "transparent_background": true,
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "silhouette_identical": false,
+      "opaque_bbox": [
+        72,
+        359,
+        1183,
+        896
+      ],
+      "guide_opaque_bbox": [
+        67,
+        295,
+        957,
+        729
+      ],
+      "normalized_mask_iou": 0.989384,
+      "normalized_pixels_outside_guide": 3542,
+      "normalized_pixels_missing_from_guide": 6,
+      "materials_match_reference": true,
+      "no_text_or_letters": true,
+      "flat_even_lighting": false,
+      "visual_notes": "Reduced fold shading; residual contact shading under twine and tiny algae highlights. Guide outline remains approximate."
+    }
+  },
+  {
+    "view": "back",
+    "prompt": "Use case: precise-object-edit.\nAsset type: orthographic albedo texture-source painting for the existing Hesper ration 3D game model.\nInputs: Image 1 is design_reference.png, MATERIAL AND COLOUR REFERENCE ONLY. Image 2 is guide_back.png, the EDIT TARGET and exact orthographic model guide. Edit IMAGE 2. Its silhouette and 1024 x 1024 canvas are authoritative.\nEdit image 2 in place, changing only surface colours and fine surface texture. Preserve its exact 1024 x 1024 canvas, every alpha edge, silhouette, position, scale, bevel, and part boundary. Treat its alpha mask as locked. Do not reframe, enlarge, center differently, crop or add geometry. All currently transparent pixels stay transparent. Fill every solid guide pixel with painted material, keeping every outlined part.\nSubject: a rectangular block of pressed algae from the Acid Garden, wrapped in aged brown paper with natural hemp string. Use the materials of image 1: dense dark olive/mustard-green pressed algae with small flattened ochre leaf fibres and algae flakes; warm tan/brown fibrous kraft parchment with irregular pale worn fibres, subtle dark brown mottling and creased overlapping paper texture; golden tan twisted hemp twine. The pale green guide region is algae, ivory region is paper, grey/tan protruding lower region is string. Guide tints are material IDs, NOT final colours. No ceramic, metal, glass, glowing lights or invented decorations.\nRender convincing detailed material colour in flat even shadowless viewer-facing illumination for an ALBEDO bake. Remove the guide and reference lighting: no cast or contact shadows, no ambient occlusion, no bright glossy flecks, no directional highlights, no shaded left/right gradient, no rim light, no reflections. All bevel faces have the same material base colour. Describe wrinkles and fibres through subtle colour detail, not deep black recesses.\nOutput ONE 1024 x 1024 RGBA PNG with genuinely transparent background. No background colour, floor, checkerboard drawn in pixels, text, letters, labels, border or watermark. Keep the raw output unresized.\nView: exact BACK elevation, no perspective or view of the broad top face. Follow guide_back.png. Object bounds x=66..957, y=294..729. Algae is the narrow exposed strip x=140..883, y=294..376 with fixed chamfered corners; paper is the broad horizontal body x=66..957, y=375..674. Preserve the broad shallow downward-pointing string projection x=370..653, y=675..729, filling that exact shape with hemp texture. Continue the reference materials plausibly onto the back: folded mottled brown paper and hemp, no copied front bow as a new protrusion. Keep straight horizontal edges and every chamfer exactly.\nStrict texture transfer: retain the target guide alpha pixel-for-pixel, its sharp polygon outline and material boundaries. No bulging, edge roughening or loose fibres outside the outline. Paper fold detail is subtle flat colour lines, without dark shadowed crevices or raised flaps. Algae is matte with no wet or glossy flecks. All surfaces are evenly illuminated. Use the guide's 1024 square canvas, not the 1254 square reference.",
+    "inputs": [
+      {
+        "path": "design_reference.png",
+        "sha256": "b10d51237f861b445a226cb073bc9b2c3a7a4553fb4eef12ae4e12b4e506a9ca"
+      },
+      {
+        "path": "guide_back.png",
+        "sha256": "5010cc64d5a11d2512424cc5de6a81eeb40cbbb77acb433b0e11626c96efcba8"
+      }
+    ],
+    "output": "paint_back_attempt1.png",
+    "selected": false,
+    "reason": "Initial back has overly tall paper body and lower projection, plus fold and rope shading; corrective regeneration requested.",
+    "tool": "built-in image_gen",
+    "source_output": "/home/pjasicek/.codex/generated_images/01a16dca-5a85-7922-aafd-1b5e118ad96f/exec-62776498-d885-47ac-a534-9553c8e37212.png",
+    "output_sha256": "e74ab20a7587b43fcbf78786c3da59c7b20f4082b011a8dff5421461647117e9",
+    "requested_size": [
+      1024,
+      1024
+    ],
+    "returned_size": [
+      1254,
+      1254
+    ],
+    "unresized": true,
+    "checks": {
+      "transparent_background": true,
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "silhouette_identical": false,
+      "opaque_bbox": [
+        74,
+        361,
+        1180,
+        935
+      ],
+      "guide_opaque_bbox": [
+        67,
+        295,
+        957,
+        729
+      ],
+      "normalized_mask_iou": 0.911376,
+      "normalized_pixels_outside_guide": 30062,
+      "normalized_pixels_missing_from_guide": 1908,
+      "materials_match_reference": true,
+      "no_text_or_letters": true,
+      "flat_even_lighting": false,
+      "visual_notes": "Plausible back materials and no front bow; silhouette height and position drift, shading beneath twine and overlapping folds."
+    }
+  },
+  {
+    "view": "back",
+    "prompt": "Use case: precise-object-edit.\nAsset type: orthographic albedo texture-source painting for the existing Hesper ration 3D game model.\nInputs: Image 1 is design_reference.png, MATERIAL AND COLOUR REFERENCE ONLY. Image 2 is guide_back.png, the EDIT TARGET and exact orthographic model guide. Edit IMAGE 2. Its silhouette and 1024 x 1024 canvas are authoritative.\nEdit image 2 in place, changing only surface colours and fine surface texture. Preserve its exact 1024 x 1024 canvas, every alpha edge, silhouette, position, scale, bevel, and part boundary. Treat its alpha mask as locked. Do not reframe, enlarge, center differently, crop or add geometry. All currently transparent pixels stay transparent. Fill every solid guide pixel with painted material, keeping every outlined part.\nSubject: a rectangular block of pressed algae from the Acid Garden, wrapped in aged brown paper with natural hemp string. Use the materials of image 1: dense dark olive/mustard-green pressed algae with small flattened ochre leaf fibres and algae flakes; warm tan/brown fibrous kraft parchment with irregular pale worn fibres, subtle dark brown mottling and creased overlapping paper texture; golden tan twisted hemp twine. The pale green guide region is algae, ivory region is paper, grey/tan protruding lower region is string. Guide tints are material IDs, NOT final colours. No ceramic, metal, glass, glowing lights or invented decorations.\nRender convincing detailed material colour in flat even shadowless viewer-facing illumination for an ALBEDO bake. Remove the guide and reference lighting: no cast or contact shadows, no ambient occlusion, no bright glossy flecks, no directional highlights, no shaded left/right gradient, no rim light, no reflections. All bevel faces have the same material base colour. Describe wrinkles and fibres through subtle colour detail, not deep black recesses.\nOutput ONE 1024 x 1024 RGBA PNG with genuinely transparent background. No background colour, floor, checkerboard drawn in pixels, text, letters, labels, border or watermark. Keep the raw output unresized.\nView: exact BACK elevation, no perspective or view of the broad top face. Follow guide_back.png. Object bounds x=66..957, y=294..729. Algae is the narrow exposed strip x=140..883, y=294..376 with fixed chamfered corners; paper is the broad horizontal body x=66..957, y=375..674. Preserve the broad shallow downward-pointing string projection x=370..653, y=675..729, filling that exact shape with hemp texture. Continue the reference materials plausibly onto the back: folded mottled brown paper and hemp, no copied front bow as a new protrusion. Keep straight horizontal edges and every chamfer exactly.\nStrict texture transfer: retain the target guide alpha pixel-for-pixel, its sharp polygon outline and material boundaries. No bulging, edge roughening or loose fibres outside the outline. Paper fold detail is subtle flat colour lines, without dark shadowed crevices or raised flaps. Algae is matte with no wet or glossy flecks. All surfaces are evenly illuminated. Use the guide's 1024 square canvas, not the 1254 square reference.\nSOLE CORRECTIVE REGENERATION: lock total shape to image 2. Especially the paper body's BOTTOM MUST remain exactly at y=674/1024 (65.82% of canvas), and the triangular string tip exactly y=729/1024 (71.19% of canvas), NOT lower. Paper body top is y=375/1024 (36.62%). Keep original body height 300 pixels relative to 1024 canvas. Use completely flat unlit diffuse material paint: eliminate shadows under rope and folded paper. Draw thin subtle fold lines instead of overlapping raised paper flaps. No dark perimeter or bright rim. Mask is the guide's existing opaque region only, edge antialias unchanged.",
+    "inputs": [
+      {
+        "path": "design_reference.png",
+        "sha256": "b10d51237f861b445a226cb073bc9b2c3a7a4553fb4eef12ae4e12b4e506a9ca"
+      },
+      {
+        "path": "guide_back.png",
+        "sha256": "5010cc64d5a11d2512424cc5de6a81eeb40cbbb77acb433b0e11626c96efcba8"
+      }
+    ],
+    "output": "paint_back.png",
+    "selected": true,
+    "reason": "Selected permitted correction for closer guide silhouette and flatter paper. Raw tool return preserved; exact silhouette and completely shadowless albedo remain unmet.",
+    "tool": "built-in image_gen",
+    "source_output": "/home/pjasicek/.codex/generated_images/01a16dca-5a85-7922-aafd-1b5e118ad96f/exec-83c0f37c-c337-44ba-aecb-e81889826492.png",
+    "output_sha256": "14223db5141a2cb2195598dd35a9e4a054978acc3b53d5cd5cc38bb5899fd5b1",
+    "requested_size": [
+      1024,
+      1024
+    ],
+    "returned_size": [
+      1254,
+      1254
+    ],
+    "unresized": true,
+    "checks": {
+      "transparent_background": true,
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "silhouette_identical": false,
+      "opaque_bbox": [
+        83,
+        361,
+        1172,
+        894
+      ],
+      "guide_opaque_bbox": [
+        67,
+        295,
+        957,
+        729
+      ],
+      "normalized_mask_iou": 0.993567,
+      "normalized_pixels_outside_guide": 562,
+      "normalized_pixels_missing_from_guide": 1569,
+      "materials_match_reference": true,
+      "no_text_or_letters": true,
+      "flat_even_lighting": false,
+      "visual_notes": "Brown paper back with olive algae and hemp lower projection; small paper-fold shadows remain."
+    }
+  },
+  {
+    "view": "left",
+    "prompt": "Use case: precise-object-edit.\nAsset type: orthographic albedo texture-source painting for the existing Hesper ration 3D game model.\nInputs: Image 1 is design_reference.png, MATERIAL AND COLOUR REFERENCE ONLY. Image 2 is guide_left.png, the EDIT TARGET and exact orthographic model guide. Edit IMAGE 2. Its silhouette and 1024 x 1024 canvas are authoritative.\nEdit image 2 in place, changing only surface colours and fine surface texture. Preserve its exact 1024 x 1024 canvas, every alpha edge, silhouette, position, scale, bevel, and part boundary. Treat its alpha mask as locked. Do not reframe, enlarge, center differently, crop or add geometry. All currently transparent pixels stay transparent. Fill every solid guide pixel with painted material, keeping every outlined part.\nSubject: a rectangular block of pressed algae from the Acid Garden, wrapped in aged brown paper with natural hemp string. Use the materials of image 1: dense dark olive/mustard-green pressed algae with small flattened ochre leaf fibres and algae flakes; warm tan/brown fibrous kraft parchment with irregular pale worn fibres, subtle dark brown mottling and creased overlapping paper texture; golden tan twisted hemp twine. The pale green guide region is algae, ivory region is paper, grey/tan protruding lower region is string. Guide tints are material IDs, NOT final colours. No ceramic, metal, glass, glowing lights or invented decorations.\nRender convincing detailed material colour in flat even shadowless viewer-facing illumination for an ALBEDO bake. Remove the guide and reference lighting: no cast or contact shadows, no ambient occlusion, no bright glossy flecks, no directional highlights, no shaded left/right gradient, no rim light, no reflections. All bevel faces have the same material base colour. Describe wrinkles and fibres through subtle colour detail, not deep black recesses.\nOutput ONE 1024 x 1024 RGBA PNG with genuinely transparent background. No background colour, floor, checkerboard drawn in pixels, text, letters, labels, border or watermark. Keep the raw output unresized.\nView: exact LEFT elevation, no perspective or view of the broad top face. Follow guide_left.png. Object bounds x=177..846, y=294..729. Algae is the narrow exposed strip x=251..772, y=294..376 with fixed chamfered corners; paper is the broad body x=177..846, y=375..674. Preserve BOTH original lower string tabs at x=312..378 and x=646..712 down to y=729, filling their exact shapes with tan hemp texture. Continue the reference's folded brown paper and hemp around this side. Keep straight horizontal edges and every chamfer exactly.\nStrict texture transfer: retain the target guide alpha pixel-for-pixel, its sharp polygon outline and material boundaries. No bulging, edge roughening or loose fibres outside the outline. Paper fold detail is subtle flat colour lines, without dark shadowed crevices or raised flaps. Algae is matte with no wet or glossy flecks. All surfaces are evenly illuminated. Use the guide's 1024 square canvas, not the 1254 square reference.\nPrecise guide geometry: the paper body bottom is exactly y=674/1024 (65.82% of canvas), and both small hemp tab tips end at y=729/1024 (71.19%). The body is exactly x=177..846 (17.3%..82.7%) and y=375..674 (36.6%..65.8%). Its height must not grow. Paint thin paper crease lines with no raised 3D overlaps, and hemp material on the lower tab shapes themselves.",
+    "inputs": [
+      {
+        "path": "design_reference.png",
+        "sha256": "b10d51237f861b445a226cb073bc9b2c3a7a4553fb4eef12ae4e12b4e506a9ca"
+      },
+      {
+        "path": "guide_left.png",
+        "sha256": "41570aac11acdc4698b3935dc562781f1acaf55e11c0009b67c8a87e84b8e567"
+      }
+    ],
+    "output": "paint_left.png",
+    "selected": true,
+    "reason": "Selected initial left view: higher silhouette overlap than the sole correction, with matching reference materials and both lower tabs. Exact guide fit and flat lighting remain unmet; no further regeneration allowed.",
+    "tool": "built-in image_gen",
+    "source_output": "/home/pjasicek/.codex/generated_images/01a16dca-5a85-7922-aafd-1b5e118ad96f/exec-89c59961-8128-4801-be78-33897eaacc29.png",
+    "output_sha256": "d394e23389969e6fda9a40b8808fb6a1b1237508317d46af8dcb2c49973d1001",
+    "requested_size": [
+      1024,
+      1024
+    ],
+    "returned_size": [
+      1254,
+      1254
+    ],
+    "unresized": true,
+    "checks": {
+      "transparent_background": true,
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "silhouette_identical": false,
+      "opaque_bbox": [
+        206,
+        365,
+        1090,
+        927
+      ],
+      "guide_opaque_bbox": [
+        178,
+        295,
+        846,
+        728
+      ],
+      "normalized_mask_iou": 0.864829,
+      "normalized_pixels_outside_guide": 33538,
+      "normalized_pixels_missing_from_guide": 3745,
+      "materials_match_reference": true,
+      "no_text_or_letters": true,
+      "flat_even_lighting": false,
+      "visual_notes": "Both hemp lower tabs preserved, but paper body too wide/tall and paper/algae retain light and shade."
+    },
+    "archived_attempt_output": "paint_left_attempt1.png"
+  },
+  {
+    "view": "left",
+    "prompt": "Use case: precise-object-edit.\nAsset type: orthographic albedo texture-source painting for the existing Hesper ration 3D game model.\nInputs: Image 1 is design_reference.png, MATERIAL AND COLOUR REFERENCE ONLY. Image 2 is guide_left.png, the EDIT TARGET and exact orthographic model guide. Edit IMAGE 2. Its silhouette and 1024 x 1024 canvas are authoritative.\nEdit image 2 in place, changing only surface colours and fine surface texture. Preserve its exact 1024 x 1024 canvas, every alpha edge, silhouette, position, scale, bevel, and part boundary. Treat its alpha mask as locked. Do not reframe, enlarge, center differently, crop or add geometry. All currently transparent pixels stay transparent. Fill every solid guide pixel with painted material, keeping every outlined part.\nSubject: a rectangular block of pressed algae from the Acid Garden, wrapped in aged brown paper with natural hemp string. Use the materials of image 1: dense dark olive/mustard-green pressed algae with small flattened ochre leaf fibres and algae flakes; warm tan/brown fibrous kraft parchment with irregular pale worn fibres, subtle dark brown mottling and creased overlapping paper texture; golden tan twisted hemp twine. The pale green guide region is algae, ivory region is paper, grey/tan protruding lower region is string. Guide tints are material IDs, NOT final colours. No ceramic, metal, glass, glowing lights or invented decorations.\nRender convincing detailed material colour in flat even shadowless viewer-facing illumination for an ALBEDO bake. Remove the guide and reference lighting: no cast or contact shadows, no ambient occlusion, no bright glossy flecks, no directional highlights, no shaded left/right gradient, no rim light, no reflections. All bevel faces have the same material base colour. Describe wrinkles and fibres through subtle colour detail, not deep black recesses.\nOutput ONE 1024 x 1024 RGBA PNG with genuinely transparent background. No background colour, floor, checkerboard drawn in pixels, text, letters, labels, border or watermark. Keep the raw output unresized.\nView: exact LEFT elevation, no perspective or view of the broad top face. Follow guide_left.png. Object bounds x=177..846, y=294..729. Algae is the narrow exposed strip x=251..772, y=294..376 with fixed chamfered corners; paper is the broad body x=177..846, y=375..674. Preserve BOTH original lower string tabs at x=312..378 and x=646..712 down to y=729, filling their exact shapes with tan hemp texture. Continue the reference's folded brown paper and hemp around this side. Keep straight horizontal edges and every chamfer exactly.\nStrict texture transfer: retain the target guide alpha pixel-for-pixel, its sharp polygon outline and material boundaries. No bulging, edge roughening or loose fibres outside the outline. Paper fold detail is subtle flat colour lines, without dark shadowed crevices or raised flaps. Algae is matte with no wet or glossy flecks. All surfaces are evenly illuminated. Use the guide's 1024 square canvas, not the 1254 square reference.\nPrecise guide geometry: the paper body bottom is exactly y=674/1024 (65.82% of canvas), and both small hemp tab tips end at y=729/1024 (71.19%). The body is exactly x=177..846 (17.3%..82.7%) and y=375..674 (36.6%..65.8%). Its height must not grow. Paint thin paper crease lines with no raised 3D overlaps, and hemp material on the lower tab shapes themselves.\nSOLE CORRECTIVE REGENERATION: the guide is a pixel registration template. Paint directly into its alpha, do not reinterpret its shape. Center on x=512/1024 exactly, not to the right. Outer body width exactly 670/1024 of canvas, left edge at 177/1024, right edge 847/1024. Body top y=375/1024 and bottom y=675/1024. Green block width 522/1024, left x=251/1024, top y=294/1024, lower edge y=377/1024. Two small string projections only below y=675/1024 at guide x positions; tips exactly at y=730/1024. No 3D shading: each material's fine colour texture has uniform brightness across the entire surface, no dark paper crevices, no shadow below rope, no bright algae glints. Keep all alpha edges and bevel corners from image 2 unchanged.",
+    "inputs": [
+      {
+        "path": "design_reference.png",
+        "sha256": "b10d51237f861b445a226cb073bc9b2c3a7a4553fb4eef12ae4e12b4e506a9ca"
+      },
+      {
+        "path": "guide_left.png",
+        "sha256": "41570aac11acdc4698b3935dc562781f1acaf55e11c0009b67c8a87e84b8e567"
+      }
+    ],
+    "output": "paint_left_attempt2.png",
+    "selected": false,
+    "reason": "Permitted correction enlarged the object further and did not flatten light; rejected in favour of the initial left view.",
+    "tool": "built-in image_gen",
+    "source_output": "/home/pjasicek/.codex/generated_images/01a16dca-5a85-7922-aafd-1b5e118ad96f/exec-1b37b43d-d41d-4942-9efd-a89e63c02b47.png",
+    "output_sha256": "2c57621ef91bb40bf50d0b9011306d1bdafc26af8325d5d8ec5196ca65892d82",
+    "requested_size": [
+      1024,
+      1024
+    ],
+    "returned_size": [
+      1254,
+      1254
+    ],
+    "unresized": true,
+    "checks": {
+      "transparent_background": true,
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "silhouette_identical": false,
+      "opaque_bbox": [
+        147,
+        333,
+        1107,
+        946
+      ],
+      "guide_opaque_bbox": [
+        178,
+        295,
+        846,
+        728
+      ],
+      "normalized_mask_iou": 0.753928,
+      "normalized_pixels_outside_guide": 78900,
+      "normalized_pixels_missing_from_guide": 134,
+      "materials_match_reference": true,
+      "no_text_or_letters": true,
+      "flat_even_lighting": false,
+      "visual_notes": "Body enlarged despite explicit coordinates; shaded folds, rope and algae remain. Both lower tabs present."
+    }
+  },
+  {
+    "view": "right",
+    "prompt": "Use case: precise-object-edit. Paint the RIGHT orthographic view of Hesper ration directly onto image 2, guide_right.png. Image 1 (design_reference.png) supplies surface colours and fine material details only.\nKeep image 2 EXACTLY registered: same 1024 x 1024 canvas, exact alpha silhouette, object scale, location, chamfers, and all part boundaries. No perspective, no reframing or zooming. The object's width and height must remain exactly those of image 2. Do not copy image 1's shape or shadows.\nReplace the guide's pale-green upper strip with matte pressed olive-green algae containing small ochre plant flakes. Replace ivory body with warm worn tan/brown paper, subtle fibrous grain, mottling and crease lines matching image 1. Replace the TWO grey pointed lower tabs with golden-tan twisted hemp string texture, preserving their outline and positions exactly. Any reference rope or paper-fold detail must fit entirely inside existing guide shapes; no added silhouettes.\nUnlit base-colour texture source: completely flat, even, shadowless light. No cast or contact shadows, dark folds, ambient occlusion, rim light, shiny glints or reflections. Do not reproduce the guide's lighting. Materials have subtle colour detail, not sculpted shaded relief. No letters, text or markings.\nOutput one 1024 x 1024 PNG, genuine alpha transparency, raw unresized. Every transparent guide pixel stays transparent and every solid guide pixel stays painted.",
+    "inputs": [
+      {
+        "path": "design_reference.png",
+        "sha256": "b10d51237f861b445a226cb073bc9b2c3a7a4553fb4eef12ae4e12b4e506a9ca"
+      },
+      {
+        "path": "guide_right.png",
+        "sha256": "545db83c4f5bdea45437469ebedf325bd45b8ba8cc431d97587093da52b4f92d"
+      }
+    ],
+    "output": "paint_right_attempt1.png",
+    "selected": false,
+    "reason": "Initial right view matches overall guide composition but retains strong paper-fold relief and glossy algae. Try the sole correction to flatten lighting and improve registration.",
+    "tool": "built-in image_gen",
+    "source_output": "/home/pjasicek/.codex/generated_images/01a16dca-5a85-7922-aafd-1b5e118ad96f/exec-a4eecd7a-f45b-43cb-912a-e01516e46ca4.png",
+    "output_sha256": "b3df204d581dbec064a86a897cf85b4e299087c2cd81843f239e43bfc470c15a",
+    "requested_size": [
+      1024,
+      1024
+    ],
+    "returned_size": [
+      1254,
+      1254
+    ],
+    "unresized": true,
+    "checks": {
+      "transparent_background": true,
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "silhouette_identical": false,
+      "opaque_bbox": [
+        215,
+        359,
+        1039,
+        894
+      ],
+      "guide_opaque_bbox": [
+        178,
+        295,
+        846,
+        728
+      ],
+      "normalized_mask_iou": 0.987199,
+      "normalized_pixels_outside_guide": 2775,
+      "normalized_pixels_missing_from_guide": 362,
+      "materials_match_reference": true,
+      "no_text_or_letters": true,
+      "flat_even_lighting": false,
+      "visual_notes": "Both lower hemp tabs present; slight outline drift and raised shaded paper folds."
+    }
+  },
+  {
+    "view": "right",
+    "prompt": "Use case: precise-object-edit. Paint the RIGHT orthographic view of Hesper ration directly onto image 2, guide_right.png. Image 1 (design_reference.png) supplies surface colours and fine material details only.\nKeep image 2 EXACTLY registered: same 1024 x 1024 canvas, exact alpha silhouette, object scale, location, chamfers, and all part boundaries. No perspective, no reframing or zooming. The object's width and height must remain exactly those of image 2. Do not copy image 1's shape or shadows.\nReplace the guide's pale-green upper strip with matte pressed olive-green algae containing small ochre plant flakes. Replace ivory body with warm worn tan/brown paper, subtle fibrous grain, mottling and crease lines matching image 1. Replace the TWO grey pointed lower tabs with golden-tan twisted hemp string texture, preserving their outline and positions exactly. Any reference rope or paper-fold detail must fit entirely inside existing guide shapes; no added silhouettes.\nUnlit base-colour texture source: completely flat, even, shadowless light. No cast or contact shadows, dark folds, ambient occlusion, rim light, shiny glints or reflections. Do not reproduce the guide's lighting. Materials have subtle colour detail, not sculpted shaded relief. No letters, text or markings.\nOutput one 1024 x 1024 PNG, genuine alpha transparency, raw unresized. Every transparent guide pixel stays transparent and every solid guide pixel stays painted.\nSOLE CORRECTION: eliminate the lighting and sculptural relief from the material transfer. This must look like a scanned FLAT DIFFUSE TEXTURE projected into the original guide, not a lit photograph of crumpled paper. Paper fibres and mottled stains remain, but folds are just restrained thin colour lines: no lifted paper flaps, black crevices or cast shadows. Algae has mossy olive base pigment and muted ochre flakes, no whitish speckled specular glints. All parts including bevels have the same even material brightness. The guide's exact alpha contour and flat straight edges remain LOCKED. Exact body x=177..846, y=375..674 and two lower tabs to y=729 on a 1024 square canvas.",
+    "inputs": [
+      {
+        "path": "design_reference.png",
+        "sha256": "b10d51237f861b445a226cb073bc9b2c3a7a4553fb4eef12ae4e12b4e506a9ca"
+      },
+      {
+        "path": "guide_right.png",
+        "sha256": "545db83c4f5bdea45437469ebedf325bd45b8ba8cc431d97587093da52b4f92d"
+      }
+    ],
+    "output": "paint_right.png",
+    "selected": true,
+    "reason": "Selected sole correction for much flatter surface treatment and preserved material layout. Raw return kept; residual outline drift and bevel/crease shading remain.",
+    "tool": "built-in image_gen",
+    "source_output": "/home/pjasicek/.codex/generated_images/01a16dca-5a85-7922-aafd-1b5e118ad96f/exec-1ef7306b-4645-44a8-b586-3d2bd9ced689.png",
+    "output_sha256": "115854171adaa18984a74af8834e02536336d2417f0d77631eb21cd54f116603",
+    "requested_size": [
+      1024,
+      1024
+    ],
+    "returned_size": [
+      1254,
+      1254
+    ],
+    "unresized": true,
+    "checks": {
+      "transparent_background": true,
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "silhouette_identical": false,
+      "opaque_bbox": [
+        209,
+        354,
+        1044,
+        900
+      ],
+      "guide_opaque_bbox": [
+        178,
+        295,
+        846,
+        728
+      ],
+      "normalized_mask_iou": 0.955837,
+      "normalized_pixels_outside_guide": 11122,
+      "normalized_pixels_missing_from_guide": 69,
+      "materials_match_reference": true,
+      "no_text_or_letters": true,
+      "flat_even_lighting": false,
+      "visual_notes": "Paper reads substantially flatter, without raised flaps. A darker lower/left bevel band and faint crease shading remain."
+    }
+  },
+  {
+    "view": "top",
+    "prompt": "Use case: precise-object-edit. Paint the TOP orthographic view of Hesper ration directly into image 2, guide_top.png. Image 1 (design_reference.png) supplies surface colours and fine material details only.\nImage 2 is the exact 1024 x 1024 registration template. Preserve its alpha mask, scale, position, outer chamfered rectangular silhouette and all internal part boundaries pixel-for-pixel. Directly overhead, perfectly orthographic, no perspective. No zooming or reframing. Outer paper rectangle occupies x=66..957 and y=177..846. Inner algae rectangle occupies x=140..883 and y=252..771. Preserve those exact rectangles and their original clipped corners.\nTransfer the reference's compressed dark olive/mustard algae with small ochre leaf fragments onto the entire pale-green INNER rectangle. Paint the surrounding ivory BORDER in aged warm brown paper with subtle fibrous grain, worn pale fibres, mottling and restrained fold lines. Guide colours are material IDs, not colours to retain. The dark grey strips in the guide are lighting: replace them with the corresponding even base colour; do not paint the grey shadows. Nothing crosses or covers the algae. No added rope or bow, no leaves or crumbs beyond the guide outline.\nThis must look like a scanned FLAT DIFFUSE TEXTURE, an UNLIT ALBEDO PASS, not a lit photo: no shiny algae glints, specular reflections, rim light, bright/dark bevel bands, contact shadow around the algae, ambient occlusion, raised 3D paper flaps or cast shadows. Paper fold lines are subtle colour-only marks. Show the reference materials without their lighting. Both materials maintain even brightness edge-to-edge.\nOutput one 1024 x 1024 PNG with genuine alpha transparency, no background, floor, text, letters, labels or watermark. All transparent guide pixels stay transparent, all solid guide pixels painted. Keep raw output unresized.",
+    "inputs": [
+      {
+        "path": "design_reference.png",
+        "sha256": "b10d51237f861b445a226cb073bc9b2c3a7a4553fb4eef12ae4e12b4e506a9ca"
+      },
+      {
+        "path": "guide_top.png",
+        "sha256": "9e5aeacc3b8f51cf49706039f25f9fb20949724e063ab8650612d00c48fe8f80"
+      }
+    ],
+    "output": "paint_top_attempt1.png",
+    "selected": false,
+    "reason": "Initial top has correct two-material layout but slight outer/inner contour drift and glossy algae highlights; use the sole correction.",
+    "tool": "built-in image_gen",
+    "source_output": "/home/pjasicek/.codex/generated_images/01a16dca-5a85-7922-aafd-1b5e118ad96f/exec-209dc1ed-e035-4c32-a605-ea24bf1aa76e.png",
+    "output_sha256": "97e4049122d19eb751d93c0fe990c037e6246ad2598692640e87c8cca96b95af",
+    "requested_size": [
+      1024,
+      1024
+    ],
+    "returned_size": [
+      1254,
+      1254
+    ],
+    "unresized": true,
+    "checks": {
+      "transparent_background": true,
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "silhouette_identical": false,
+      "opaque_bbox": [
+        70,
+        209,
+        1187,
+        1035
+      ],
+      "guide_opaque_bbox": [
+        67,
+        178,
+        957,
+        846
+      ],
+      "normalized_mask_iou": 0.96389,
+      "normalized_pixels_outside_guide": 20514,
+      "normalized_pixels_missing_from_guide": 1612,
+      "materials_match_reference": true,
+      "no_text_or_letters": true,
+      "flat_even_lighting": false,
+      "visual_notes": "True top-down view; brown paper border and olive algae center. Visible shiny specks and fine relief on algae; perimeter differs from guide."
+    }
+  },
+  {
+    "view": "top",
+    "prompt": "Use case: precise-object-edit. Paint the TOP orthographic view of Hesper ration directly into image 2, guide_top.png. Image 1 (design_reference.png) supplies surface colours and fine material details only.\nImage 2 is the exact 1024 x 1024 registration template. Preserve its alpha mask, scale, position, outer chamfered rectangular silhouette and all internal part boundaries pixel-for-pixel. Directly overhead, perfectly orthographic, no perspective. No zooming or reframing. Outer paper rectangle occupies x=66..957 and y=177..846. Inner algae rectangle occupies x=140..883 and y=252..771. Preserve those exact rectangles and their original clipped corners.\nTransfer the reference's compressed dark olive/mustard algae with small ochre leaf fragments onto the entire pale-green INNER rectangle. Paint the surrounding ivory BORDER in aged warm brown paper with subtle fibrous grain, worn pale fibres, mottling and restrained fold lines. Guide colours are material IDs, not colours to retain. The dark grey strips in the guide are lighting: replace them with the corresponding even base colour; do not paint the grey shadows. Nothing crosses or covers the algae. No added rope or bow, no leaves or crumbs beyond the guide outline.\nThis must look like a scanned FLAT DIFFUSE TEXTURE, an UNLIT ALBEDO PASS, not a lit photo: no shiny algae glints, specular reflections, rim light, bright/dark bevel bands, contact shadow around the algae, ambient occlusion, raised 3D paper flaps or cast shadows. Paper fold lines are subtle colour-only marks. Show the reference materials without their lighting. Both materials maintain even brightness edge-to-edge.\nOutput one 1024 x 1024 PNG with genuine alpha transparency, no background, floor, text, letters, labels or watermark. All transparent guide pixels stay transparent, all solid guide pixels painted. Keep raw output unresized.\nSOLE CORRECTION: match the guide silhouette and remove all glossy white flecks from the algae. Paint a matte diffuse basecolour, with muted olive/brown and mustard pigment, fine flattened organic flakes visible by colour variation only, no white pinpoints or wet specularity. Exact registration is essential: outer border left at 66/1024 and right at 958/1024, top at 177/1024 and bottom 847/1024. Keep guide corner chamfers, not rounded corners. Inner algae bounds x=140..883, y=252..771. Do not enlarge either rectangle. Paper border is evenly lit tan fibre and stains, with no darkened edge band.",
+    "inputs": [
+      {
+        "path": "design_reference.png",
+        "sha256": "b10d51237f861b445a226cb073bc9b2c3a7a4553fb4eef12ae4e12b4e506a9ca"
+      },
+      {
+        "path": "guide_top.png",
+        "sha256": "9e5aeacc3b8f51cf49706039f25f9fb20949724e063ab8650612d00c48fe8f80"
+      }
+    ],
+    "output": "paint_top.png",
+    "selected": true,
+    "reason": "Selected sole correction: closer outer silhouette, matching algae/paper layout, and somewhat more subdued material sheen. Raw return preserved; exact outer/inner guide edges and fully matte flat lighting remain unmet.",
+    "tool": "built-in image_gen",
+    "source_output": "/home/pjasicek/.codex/generated_images/01a16dca-5a85-7922-aafd-1b5e118ad96f/exec-6e23b45a-d74b-4c4d-94d3-7e3ab6254b37.png",
+    "output_sha256": "2b137859b512ae46ee16902558a78e7b96710a2b88b05ac785bbadd058ea928c",
+    "requested_size": [
+      1024,
+      1024
+    ],
+    "returned_size": [
+      1254,
+      1254
+    ],
+    "unresized": true,
+    "checks": {
+      "transparent_background": true,
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "silhouette_identical": false,
+      "opaque_bbox": [
+        82,
+        229,
+        1172,
+        1026
+      ],
+      "guide_opaque_bbox": [
+        67,
+        178,
+        957,
+        846
+      ],
+      "normalized_mask_iou": 0.972017,
+      "normalized_pixels_outside_guide": 0,
+      "normalized_pixels_missing_from_guide": 16572,
+      "materials_match_reference": true,
+      "no_text_or_letters": true,
+      "flat_even_lighting": false,
+      "visual_notes": "True top-down with chamfered paper border and olive algae center. Small highlight flecks and narrow inner contact edge remain; inner algae rectangle is slightly oversized."
+    }
+  }
+]

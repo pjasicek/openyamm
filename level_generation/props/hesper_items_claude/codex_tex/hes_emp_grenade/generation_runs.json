@@ -1,0 +1,509 @@
+{
+  "tool": "built-in image_gen.imagegen",
+  "requested_size": [
+    1024,
+    1024
+  ],
+  "unresized_returns": true,
+  "runs": [
+    {
+      "view": "front",
+      "attempt": 1,
+      "prompt": "Use case: precise-object-edit. Create one 1024 x 1024 RGBA texture-source painting for a game model.\nInput image 1 is the exact orthographic geometry guide and the edit target. Input image 2 is design_reference.png, the authority ONLY for colours, materials and painted surface details. Paint directly over image 1. The guide's full pixel-space composition, alpha silhouette, position, scale, camera, outline of every part, overlaps and holes MUST stay EXACTLY unchanged. Do not recenter, zoom, smooth away its polygonal contours, rotate, or change the camera. Transparent background, including all gaps, no floor, no text, no letters, no watermark.\nTransfer the approved reference's warm off-white ceramic with restrained fine scratches and tiny edge wear; brushed antique golden metal with subtle fine grain; narrow near-black violet resin panel joints; and bright icy blue-white light with delicate concentric blue details INSIDE the guide's existing light lenses. The pale guide tints identify material regions and are NOT the desired colours. Gold guide parts become gold: neck/cap, equatorial band, lens rims and lever. The large grey shell becomes ceramic with the reference's panel seams and restrained wear. Add design detail as painted surface only, never new geometry or extra light modules. Continue the same ceramic and metal finish plausibly where the reference does not show the surface.\nLIGHTING IS CRITICAL: this is ALBEDO, not a product photograph or shaded render. Even flat shadowless viewer-facing illumination, uniform material value regardless of surface orientation. Remove all lighting gradients and cast shadows from the guide. No ambient occlusion darkening, no directional lights, no hot metal highlights, no reflections, no rim lighting, no dark underside, no painted cast shadows around the lenses/lever/band. Gold is its medium warm golden base colour with only the faintest sheen. Ceramic stays off-white across the whole shell. Dark resin lines are actual material, not shadows. Light lenses are their bright light colour with no bloom or light spill outside them.\nOutput only ONE painting, the same framing and exact silhouette as image 1, not a collage or turnaround sheet. Preserve the guide canvas at 1024 x 1024 and its true transparency.\n\nFRONT view: lock the guide's neck near the top centre and angular thin lever on screen RIGHT, its transparent gap unchanged. The large existing blue lens is on the upper LEFT and a partial oblique lens is at upper RIGHT. The horizontal gold equatorial band retains its exact straight edges and thickness. The entire lower hemisphere remains ceramic with panel seams only; do not add the reference's lower lens, which is absent from this model.",
+      "output": "paint_front_attempt1.png",
+      "selected": false,
+      "reason": "Superseded: stronger baked gold highlights and framing drift.",
+      "source_output": "/home/pjasicek/.codex/generated_images/01a16dc8-0f47-78a2-b4ec-2577c245022f/exec-30df2b0c-576e-42b0-b01f-9c1659228a4b.png",
+      "inputs": [
+        {
+          "path": "guide_front.png",
+          "sha256": "3d361670abf11ee4d79334b6fb4a4dc04b175a1501fd57b553de58999c621f59"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "f61cf9763adb0b2ca181ea5b7468da58c7b28dff50cfa38dff79bc06544d5a1d"
+        }
+      ],
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "mode": "RGBA",
+        "has_transparent_background": true,
+        "alpha_bbox": [
+          0,
+          59,
+          1176,
+          1176
+        ],
+        "opaque_bbox": [
+          87,
+          65,
+          1173,
+          1173
+        ],
+        "alpha_identical_to_guide": false,
+        "normalized_silhouette_iou": 0.957502940421802,
+        "resized": false
+      },
+      "output_sha256": "6f4d29dd926bc952a5ecdc587037b812e198fe178dadca2ff43a20d3944183fe"
+    },
+    {
+      "view": "front",
+      "attempt": 2,
+      "prompt": "Use case: precise-object-edit. Create one 1024 x 1024 RGBA texture-source painting for a game model.\nInput image 2 is the exact orthographic geometry guide and the edit target. Input image 1 is design_reference.png, the authority ONLY for colours, materials and painted surface details. Paint directly over image 2. The guide's full pixel-space composition, alpha silhouette, position, scale, camera, outline of every part, overlaps and holes MUST stay EXACTLY unchanged. Do not recenter, zoom, smooth away its polygonal contours, rotate, or change the camera. Transparent background, including all gaps, no floor, no text, no letters, no watermark.\nTransfer the approved reference's warm off-white ceramic with restrained fine scratches and tiny edge wear; brushed antique golden metal with subtle fine grain; narrow near-black violet resin panel joints; and bright icy blue-white light with delicate concentric blue details INSIDE the guide's existing light lenses. The pale guide tints identify material regions and are NOT the desired colours. Gold guide parts become gold: neck/cap, equatorial band, lens rims and lever. The large grey shell becomes ceramic with the reference's panel seams and restrained wear. Add design detail as painted surface only, never new geometry or extra light modules. Continue the same ceramic and metal finish plausibly where the reference does not show the surface.\nLIGHTING IS CRITICAL: this is ALBEDO, not a product photograph or shaded render. Even flat shadowless viewer-facing illumination, uniform material value regardless of surface orientation. Remove all lighting gradients and cast shadows from the guide. No ambient occlusion darkening, no directional lights, no hot metal highlights, no reflections, no rim lighting, no dark underside, no painted cast shadows around the lenses/lever/band. Gold is its medium warm golden base colour with only the faintest sheen. Ceramic stays off-white across the whole shell. Dark resin lines are actual material, not shadows. Light lenses are their bright light colour with no bloom or light spill outside them.\nOutput only ONE painting, the same framing and exact silhouette as image 2, not a collage or turnaround sheet. Preserve the guide canvas at 1024 x 1024 and its true transparency.\n\nFRONT view: lock the guide's neck near the top centre and angular thin lever on screen RIGHT, its transparent gap unchanged. The large existing blue lens is on the upper LEFT and a partial oblique lens is at upper RIGHT. The horizontal gold equatorial band retains its exact straight edges and thickness. The entire lower hemisphere remains ceramic with panel seams only; do not add the reference's lower lens, which is absent from this model.\n\nCORRECTIVE REGENERATION: the previous attempt had unwanted metallic highlights, dark relief and changed framing. Use image 2 as the immutable 1024x1024 geometry/alpha template. The front guide bounds are x=68..955 and y=66..957 on a 1024 canvas. Keep exact guide alignment and material part boundaries. Paint every gold surface as a consistent muted antique-gold ochre base colour with fine brushing and NO bright reflected streaks or dark faces. Every ceramic panel must have the same off-white base value across top and bottom. Render dark seams as thin flat charcoal-violet lines, not shaded bevels or shadows. This is a flat unlit diffuse-colour texture projection. The 1254x1254 reference image is ONLY material reference, not the output canvas: return 1024x1024, matching image 2's size and unchanged alpha silhouette.",
+      "output": "paint_front.png",
+      "selected": true,
+      "reason": "Selected after the one permitted correction: closer normalized guide framing and reference materials. Residual metallic shading remains; exact silhouette and flat-albedo requirements are not fully met.",
+      "source_output": "/home/pjasicek/.codex/generated_images/01a16dc8-0f47-78a2-b4ec-2577c245022f/exec-986bf8f2-7964-47ba-a586-00107761591f.png",
+      "inputs": [
+        {
+          "path": "design_reference.png",
+          "sha256": "f61cf9763adb0b2ca181ea5b7468da58c7b28dff50cfa38dff79bc06544d5a1d"
+        },
+        {
+          "path": "guide_front.png",
+          "sha256": "3d361670abf11ee4d79334b6fb4a4dc04b175a1501fd57b553de58999c621f59"
+        }
+      ],
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "mode": "RGBA",
+        "has_transparent_background": true,
+        "alpha_bbox": [
+          0,
+          19,
+          1222,
+          1254
+        ],
+        "opaque_bbox": [
+          83,
+          80,
+          1156,
+          1176
+        ],
+        "alpha_identical_to_guide": false,
+        "normalized_silhouette_iou": 0.9611440117048701,
+        "resized": false,
+        "visual_review": {
+          "reference_materials_and_colours": "recognizable match",
+          "flat_shadowless_albedo": "partial; residual shading remains",
+          "silhouette_and_part_edges": "not identical to guide",
+          "no_text_or_letters": true,
+          "notes": "White ceramic, gold and icy-blue lenses match the reference palette; conspicuous gold reflections remain. Lens shapes and overall silhouette are not exact."
+        }
+      },
+      "output_sha256": "af9ee3fefe06381adfea093ba7c952660e214b6a5ef6ef2348a8610ead6a4232"
+    },
+    {
+      "view": "back",
+      "attempt": 1,
+      "prompt": "Use case: precise-object-edit. Create one 1024 x 1024 RGBA texture-source painting for a game model.\nInput image 2 is the exact orthographic geometry guide and the edit target. Input image 1 is design_reference.png, the authority ONLY for colours, materials and painted surface details. Paint directly over image 2. The guide's full pixel-space composition, alpha silhouette, position, scale, camera, outline of every part, overlaps and holes MUST stay EXACTLY unchanged. Do not recenter, zoom, smooth away its polygonal contours, rotate, or change the camera. Transparent background, including all gaps, no floor, no text, no letters, no watermark.\nTransfer the approved reference's warm off-white ceramic with restrained fine scratches and tiny edge wear; brushed antique golden metal with subtle fine grain; narrow near-black violet resin panel joints; and bright icy blue-white light with delicate concentric blue details INSIDE the guide's existing light lenses. The pale guide tints identify material regions and are NOT the desired colours. Gold guide parts become gold: neck/cap, equatorial band, lens rims and lever. The large grey shell becomes ceramic with the reference's panel seams and restrained wear. Add design detail as painted surface only, never new geometry or extra light modules. Continue the same ceramic and metal finish plausibly where the reference does not show the surface.\nLIGHTING IS CRITICAL: this is ALBEDO, not a product photograph or shaded render. Even flat shadowless viewer-facing illumination, uniform material value regardless of surface orientation. Remove all lighting gradients and cast shadows from the guide. No ambient occlusion darkening, no directional lights, no hot metal highlights, no reflections, no rim lighting, no dark underside, no painted cast shadows around the lenses/lever/band. Gold is its medium warm golden base colour with only the faintest sheen. Ceramic stays off-white across the whole shell. Dark resin lines are actual material, not shadows. Light lenses are their bright light colour with no bloom or light spill outside them.\nOutput only ONE painting, the same framing and exact silhouette as image 2, not a collage or turnaround sheet. Preserve the guide canvas at 1024 x 1024 and its true transparency.\n\nBACK view: lock the guide's neck near the top centre and angular thin lever on screen LEFT, its transparent gap unchanged. The main existing blue lens is on the upper RIGHT and a partial oblique lens is at upper LEFT. Keep their exact positions and sizes. The horizontal gold equatorial band retains its exact edges and thickness. The entire lower hemisphere remains ceramic with panel seams only; do not invent a lower lens.\nCritical final instruction: render as an unlit base-colour pass. Gold is muted ochre with fine brushed grain, at essentially identical brightness on every face. Do not imitate the bright shiny gold reflections of the reference. Pale ceramic has no grey gradient at the bottom. No shaded bevels. Thin dark panel joins are colour only. The 1254x1254 material reference does not set the canvas; use the 1024x1024 geometry guide's canvas and alpha mask.",
+      "output": "paint_back_attempt1.png",
+      "selected": false,
+      "reason": "Initial painting has reference materials and correct broad part layout, but visible metallic reflections and shaded bevels require the one permitted corrective generation.",
+      "source_output": "/home/pjasicek/.codex/generated_images/01a16dc8-0f47-78a2-b4ec-2577c245022f/exec-f80b1d05-ceea-4b1a-a5eb-fb0b562fcbbc.png",
+      "inputs": [
+        {
+          "path": "design_reference.png",
+          "sha256": "f61cf9763adb0b2ca181ea5b7468da58c7b28dff50cfa38dff79bc06544d5a1d"
+        },
+        {
+          "path": "guide_back.png",
+          "sha256": "baa868ce0c904c5183b89c0ac84f7fdaebce357ff35bccdc77682d91b162831b"
+        }
+      ],
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "mode": "RGBA",
+        "has_transparent_background": true,
+        "alpha_bbox": [
+          0,
+          21,
+          1174,
+          1235
+        ],
+        "opaque_bbox": [
+          80,
+          82,
+          1171,
+          1177
+        ],
+        "alpha_identical_to_guide": false,
+        "normalized_silhouette_iou": 0.9848995449845601,
+        "resized": false
+      },
+      "output_sha256": "5c96a830be256cb5058b979b322ee1df854cb7aae04f0a955ca65d1255484641"
+    },
+    {
+      "view": "left",
+      "attempt": 1,
+      "prompt": "Use case: precise-object-edit. Create one 1024 x 1024 RGBA texture-source painting for a game model.\nInput image 2 is the exact orthographic geometry guide and the edit target. Input image 1 is design_reference.png, the authority ONLY for colours, materials and painted surface details. Paint directly over image 2. The guide's full pixel-space composition, alpha silhouette, position, scale, camera, outline of every part, overlaps and holes MUST stay EXACTLY unchanged. Do not recenter, zoom, smooth away its polygonal contours, rotate, or change the camera. Transparent background, including all gaps, no floor, no text, no letters, no watermark.\nTransfer the approved reference's warm off-white ceramic with restrained fine scratches and tiny edge wear; brushed antique golden metal with subtle fine grain; narrow near-black violet resin panel joints; and bright icy blue-white light with delicate concentric blue details INSIDE the guide's existing light lenses. The pale guide tints identify material regions and are NOT the desired colours. Gold guide parts become gold: neck/cap, equatorial band, lens rims and lever. The large grey shell becomes ceramic with the reference's panel seams and restrained wear. Add design detail as painted surface only, never new geometry or extra light modules. Continue the same ceramic and metal finish plausibly where the reference does not show the surface.\nLIGHTING IS CRITICAL: this is ALBEDO, not a product photograph or shaded render. Even flat shadowless viewer-facing illumination, uniform material value regardless of surface orientation. Remove all lighting gradients and cast shadows from the guide. No ambient occlusion darkening, no directional lights, no hot metal highlights, no reflections, no rim lighting, no dark underside, no painted cast shadows around the lenses/lever/band. Gold is its medium warm golden base colour with only the faintest sheen. Ceramic stays off-white across the whole shell. Dark resin lines are actual material, not shadows. Light lenses are their bright light colour with no bloom or light spill outside them.\nOutput only ONE painting, the same framing and exact silhouette as image 2, not a collage or turnaround sheet. Preserve the guide canvas at 1024 x 1024 and its true transparency.\n\nLEFT view: lock the guide's neck at the top centre, NO visible lever, and the two oblique blue lenses at the left and right upper edges. Preserve their exact outlines and perspective flattening. The horizontal gold equatorial band retains its exact straight edges and thickness. The entire lower hemisphere remains ceramic with panel seams only; do not add lenses.\nCritical final instruction: render as an unlit base-colour pass. Gold is muted ochre with fine brushed grain, at essentially identical brightness on every face. Do not imitate the bright shiny gold reflections of the reference. Pale ceramic has no grey gradient at the bottom. No shaded bevels. Thin dark panel joins are colour only. The 1254x1254 material reference does not set the canvas; use the 1024x1024 geometry guide's canvas and alpha mask.",
+      "output": "paint_left_attempt1.png",
+      "selected": false,
+      "reason": "Initial painting has reference materials and correct broad part layout, but visible metallic reflections and shaded bevels require the one permitted corrective generation.",
+      "source_output": "/home/pjasicek/.codex/generated_images/01a16dc8-0f47-78a2-b4ec-2577c245022f/exec-dfb25b57-dee0-4e3a-a577-5f4d350c330e.png",
+      "inputs": [
+        {
+          "path": "design_reference.png",
+          "sha256": "f61cf9763adb0b2ca181ea5b7468da58c7b28dff50cfa38dff79bc06544d5a1d"
+        },
+        {
+          "path": "guide_left.png",
+          "sha256": "b5396fd22e10ed3b21fed652ab210f067b6074ecb2fb5df0ebaa40c1996e214b"
+        }
+      ],
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "mode": "RGBA",
+        "has_transparent_background": true,
+        "alpha_bbox": [
+          0,
+          23,
+          1186,
+          1230
+        ],
+        "opaque_bbox": [
+          96,
+          77,
+          1159,
+          1184
+        ],
+        "alpha_identical_to_guide": false,
+        "normalized_silhouette_iou": 0.9840652793774375,
+        "resized": false
+      },
+      "output_sha256": "52e5e7a3ae238501685e9e234bc792cb427b2b4dcfdef8c4656ed9b9fc5d4064"
+    },
+    {
+      "view": "right",
+      "attempt": 1,
+      "prompt": "Use case: precise-object-edit. Create one 1024 x 1024 RGBA texture-source painting for a game model.\nInput image 2 is the exact orthographic geometry guide and the edit target. Input image 1 is design_reference.png, the authority ONLY for colours, materials and painted surface details. Paint directly over image 2. The guide's full pixel-space composition, alpha silhouette, position, scale, camera, outline of every part, overlaps and holes MUST stay EXACTLY unchanged. Do not recenter, zoom, smooth away its polygonal contours, rotate, or change the camera. Transparent background, including all gaps, no floor, no text, no letters, no watermark.\nTransfer the approved reference's warm off-white ceramic with restrained fine scratches and tiny edge wear; brushed antique golden metal with subtle fine grain; narrow near-black violet resin panel joints; and bright icy blue-white light with delicate concentric blue details INSIDE the guide's existing light lenses. The pale guide tints identify material regions and are NOT the desired colours. Gold guide parts become gold: neck/cap, equatorial band, lens rims and lever. The large grey shell becomes ceramic with the reference's panel seams and restrained wear. Add design detail as painted surface only, never new geometry or extra light modules. Continue the same ceramic and metal finish plausibly where the reference does not show the surface.\nLIGHTING IS CRITICAL: this is ALBEDO, not a product photograph or shaded render. Even flat shadowless viewer-facing illumination, uniform material value regardless of surface orientation. Remove all lighting gradients and cast shadows from the guide. No ambient occlusion darkening, no directional lights, no hot metal highlights, no reflections, no rim lighting, no dark underside, no painted cast shadows around the lenses/lever/band. Gold is its medium warm golden base colour with only the faintest sheen. Ceramic stays off-white across the whole shell. Dark resin lines are actual material, not shadows. Light lenses are their bright light colour with no bloom or light spill outside them.\nOutput only ONE painting, the same framing and exact silhouette as image 2, not a collage or turnaround sheet. Preserve the guide canvas at 1024 x 1024 and its true transparency.\n\nRIGHT view: lock the guide's long vertical gold lever at screen CENTRE covering the central upper blue lens. It ends just above the horizontal band. Keep the exact silhouette and overlap of lever, central lens rim and the small lens/rim slivers at the left and right edges. The neck remains a straight rectangular silhouette at the top. The entire lower hemisphere remains ceramic with panel seams only; do not add lenses.\nCritical final instruction: render as an unlit base-colour pass. Gold is muted ochre with fine brushed grain, at essentially identical brightness on every face. Do not imitate the bright shiny gold reflections of the reference. Pale ceramic has no grey gradient at the bottom. No shaded bevels. Thin dark panel joins are colour only. The 1254x1254 material reference does not set the canvas; use the 1024x1024 geometry guide's canvas and alpha mask.",
+      "output": "paint_right_attempt1.png",
+      "selected": false,
+      "reason": "Corrective generation needed: metallic highlights and shaded bevels violate flat-albedo lighting.",
+      "source_output": "/home/pjasicek/.codex/generated_images/01a16dc8-0f47-78a2-b4ec-2577c245022f/exec-4adacfda-7a3c-468e-8326-2a8cf593eeeb.png",
+      "inputs": [
+        {
+          "path": "design_reference.png",
+          "sha256": "f61cf9763adb0b2ca181ea5b7468da58c7b28dff50cfa38dff79bc06544d5a1d"
+        },
+        {
+          "path": "guide_right.png",
+          "sha256": "81fc6634d79138d3385b159b4ad7d50d09d4b142250264d005e2bc9802548b78"
+        }
+      ],
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "mode": "RGBA",
+        "has_transparent_background": true,
+        "alpha_bbox": [
+          0,
+          21,
+          1240,
+          1254
+        ],
+        "opaque_bbox": [
+          99,
+          77,
+          1155,
+          1180
+        ],
+        "alpha_identical_to_guide": false,
+        "normalized_silhouette_iou": 0.9868620936274998,
+        "resized": false
+      },
+      "output_sha256": "836ebe852a86aaf9a05f8b6b57d13c0c19e3d30577c712f06f8ee49f8928cfb7"
+    },
+    {
+      "view": "top",
+      "attempt": 1,
+      "prompt": "Use case: precise-object-edit. Create one 1024 x 1024 RGBA texture-source painting for a game model.\nInput image 2 is the exact orthographic geometry guide and the edit target. Input image 1 is design_reference.png, the authority ONLY for colours, materials and painted surface details. Paint directly over image 2. The guide's full pixel-space composition, alpha silhouette, position, scale, camera, outline of every part, overlaps and holes MUST stay EXACTLY unchanged. Do not recenter, zoom, smooth away its polygonal contours, rotate, or change the camera. Transparent background, including all gaps, no floor, no text, no letters, no watermark.\nTransfer the approved reference's warm off-white ceramic with restrained fine scratches and tiny edge wear; brushed antique golden metal with subtle fine grain; narrow near-black violet resin panel joints; and bright icy blue-white light with delicate concentric blue details INSIDE the guide's existing light lenses. The pale guide tints identify material regions and are NOT the desired colours. Gold guide parts become gold: neck/cap, equatorial band, lens rims and lever. The large grey shell becomes ceramic with the reference's panel seams and restrained wear. Add design detail as painted surface only, never new geometry or extra light modules. Continue the same ceramic and metal finish plausibly where the reference does not show the surface.\nLIGHTING IS CRITICAL: this is ALBEDO, not a product photograph or shaded render. Even flat shadowless viewer-facing illumination, uniform material value regardless of surface orientation. Remove all lighting gradients and cast shadows from the guide. No ambient occlusion darkening, no directional lights, no hot metal highlights, no reflections, no rim lighting, no dark underside, no painted cast shadows around the lenses/lever/band. Gold is its medium warm golden base colour with only the faintest sheen. Ceramic stays off-white across the whole shell. Dark resin lines are actual material, not shadows. Light lenses are their bright light colour with no bloom or light spill outside them.\nOutput only ONE painting, the same framing and exact silhouette as image 2, not a collage or turnaround sheet. Preserve the guide canvas at 1024 x 1024 and its true transparency.\n\nTOP view, looking directly down: use image 2's exact circular polygonal footprint. Preserve the central polygonal gold cap and the broad gold lever extending horizontally to screen RIGHT, plus the oblique blue lenses at upper LEFT, lower LEFT and right partly covered by the lever. The gold equatorial band is visible only at the outer circumference as in the guide. Keep all exact part edges, overlaps and proportions. Flatten away the guide's large cap/lever cast shadows entirely; the surrounding ceramic stays evenly off-white.\nCritical final instruction: render as an unlit base-colour pass. Gold is muted ochre with fine brushed grain, at essentially identical brightness on every face. Do not imitate the bright shiny gold reflections of the reference. Pale ceramic has no grey gradient at the bottom. No shaded bevels. Thin dark panel joins are colour only. The 1254x1254 material reference does not set the canvas; use the 1024x1024 geometry guide's canvas and alpha mask.",
+      "output": "paint_top.png",
+      "selected": true,
+      "reason": "Selected over the correction because its overall silhouette and framing are closer to the guide. Residual highlights and an expanded central cap remain; neither permitted attempt fully met the brief.",
+      "source_output": "/home/pjasicek/.codex/generated_images/01a16dc8-0f47-78a2-b4ec-2577c245022f/exec-6872fa24-f7f1-4dfc-98eb-aef65b1fc64b.png",
+      "inputs": [
+        {
+          "path": "design_reference.png",
+          "sha256": "f61cf9763adb0b2ca181ea5b7468da58c7b28dff50cfa38dff79bc06544d5a1d"
+        },
+        {
+          "path": "guide_top.png",
+          "sha256": "1a803daf4903aec1c87dfa459eefc85140fc73e2034961a612af412e302eeca6"
+        }
+      ],
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "mode": "RGBA",
+        "has_transparent_background": true,
+        "alpha_bbox": [
+          41,
+          21,
+          1226,
+          1216
+        ],
+        "opaque_bbox": [
+          93,
+          94,
+          1165,
+          1149
+        ],
+        "alpha_identical_to_guide": false,
+        "normalized_silhouette_iou": 0.9712525491405755,
+        "resized": false,
+        "visual_review": {
+          "reference_materials_and_colours": "recognizable match",
+          "flat_shadowless_albedo": "partial; metallic highlights and edge shading remain",
+          "silhouette_and_part_edges": "not identical to guide; central cap is too large",
+          "no_text_or_letters": true,
+          "notes": "The initial top painting was retained for closer overall framing. The correction improved the cap and lighting but enlarged the entire footprint."
+        }
+      },
+      "output_sha256": "d9db266f0a7d2dd07f01e0338ecc360e7f6b77e476f4a97255c81b4153d00af5",
+      "archived_output": "paint_top_attempt1.png"
+    },
+    {
+      "view": "back",
+      "attempt": 2,
+      "prompt": "Use case: precise-object-edit. Correct this game texture-source painting.\nImage 1 is the previous painted attempt to correct. Image 2 is the exact 1024x1024 orthographic geometry guide. Image 3 is the approved design's colour/material authority.\nThe correction is to REMOVE ALL BAKED LIGHTING. The result must look like an UNLIT BASE COLOUR render, with absolutely no specular light streaks on the gold, no bright bevel edges, no shaded lower metal faces, no occlusion or cast shadows. Gold is the reference's warm antique golden pigment, with very subtle brushing only. Every gold part has that SAME base value across all its faces. Ceramic is consistently warm off-white, with fine sparse wear. Keep dark violet-black resin joins as flat-colour thin material seams, without shaded relief. Existing blue-white lights retain their intricate concentric blue pigment patterns but do not illuminate the neighbouring surfaces.\nPreserve the painted design, but use image 2's EXACT pixel positions and geometry: silhouette, every part boundary, angle, scale, transparent gaps. Preserve its slightly faceted outline. Do not enlarge any part or the whole object. Only add surface colour inside the fixed guide. In particular restore any drift in lens placement, lever shape or cap boundary.\nReturn ONE 1024x1024 RGBA image matching image 2's canvas, with true transparent background. No floor, no background, no glow outside the object, no text or letters. No cropping or new parts. This is the sole permitted corrective attempt.\n\nBACK view: lock the guide's neck near the top centre and angular thin lever on screen LEFT, its transparent gap unchanged. The main existing blue lens is on the upper RIGHT and a partial oblique lens is at upper LEFT. Keep their exact positions and sizes. The horizontal gold equatorial band retains its exact edges and thickness. The entire lower hemisphere remains ceramic with panel seams only; do not invent a lower lens.",
+      "output": "paint_back.png",
+      "selected": true,
+      "reason": "Selected: correction substantially reduces specular reflections and panel shading while preserving the initial design and broad guide layout. Some cap/edge shading and silhouette deviation remain; not a fully exact flat-albedo result.",
+      "source_output": "/home/pjasicek/.codex/generated_images/01a16dc8-0f47-78a2-b4ec-2577c245022f/exec-b88d3477-7a51-4cfa-b2f9-27063441329f.png",
+      "inputs": [
+        {
+          "path": "paint_back_attempt1.png",
+          "sha256": "5c96a830be256cb5058b979b322ee1df854cb7aae04f0a955ca65d1255484641"
+        },
+        {
+          "path": "guide_back.png",
+          "sha256": "baa868ce0c904c5183b89c0ac84f7fdaebce357ff35bccdc77682d91b162831b"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "f61cf9763adb0b2ca181ea5b7468da58c7b28dff50cfa38dff79bc06544d5a1d"
+        }
+      ],
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "mode": "RGBA",
+        "has_transparent_background": true,
+        "alpha_bbox": [
+          0,
+          78,
+          1174,
+          1200
+        ],
+        "opaque_bbox": [
+          79,
+          81,
+          1171,
+          1179
+        ],
+        "alpha_identical_to_guide": false,
+        "normalized_silhouette_iou": 0.9781300230320152,
+        "resized": false,
+        "visual_review": {
+          "reference_materials_and_colours": "recognizable match",
+          "flat_shadowless_albedo": "partial; residual shading remains",
+          "silhouette_and_part_edges": "not identical to guide",
+          "no_text_or_letters": true,
+          "notes": "Correct lever side and broad lens layout. Reflections reduced; cap shading and thin edge highlights remain. Silhouette is approximate."
+        }
+      },
+      "output_sha256": "1d3a461105f4bf0555ddc1f1c58b0676b0a388326ad335b2a3cde42f0788bb52"
+    },
+    {
+      "view": "left",
+      "attempt": 2,
+      "prompt": "Use case: precise-object-edit. Correct this game texture-source painting.\nImage 1 is the previous painted attempt to correct. Image 2 is the exact 1024x1024 orthographic geometry guide. Image 3 is the approved design's colour/material authority.\nThe correction is to REMOVE ALL BAKED LIGHTING. The result must look like an UNLIT BASE COLOUR render, with absolutely no specular light streaks on the gold, no bright bevel edges, no shaded lower metal faces, no occlusion or cast shadows. Gold is the reference's warm antique golden pigment, with very subtle brushing only. Every gold part has that SAME base value across all its faces. Ceramic is consistently warm off-white, with fine sparse wear. Keep dark violet-black resin joins as flat-colour thin material seams, without shaded relief. Existing blue-white lights retain their intricate concentric blue pigment patterns but do not illuminate the neighbouring surfaces.\nPreserve the painted design, but use image 2's EXACT pixel positions and geometry: silhouette, every part boundary, angle, scale, transparent gaps. Preserve its slightly faceted outline. Do not enlarge any part or the whole object. Only add surface colour inside the fixed guide. In particular restore any drift in lens placement, lever shape or cap boundary.\nReturn ONE 1024x1024 RGBA image matching image 2's canvas, with true transparent background. No floor, no background, no glow outside the object, no text or letters. No cropping or new parts. This is the sole permitted corrective attempt.\n\nLEFT view: lock the guide's neck at the top centre, NO visible lever, and the two oblique blue lenses at the left and right upper edges. Preserve their exact outlines and perspective flattening. The horizontal gold equatorial band retains its exact straight edges and thickness. The entire lower hemisphere remains ceramic with panel seams only; do not add lenses.",
+      "output": "paint_left.png",
+      "selected": true,
+      "reason": "Selected: correction flattens the gold and ceramic shading and keeps both side lenses. Residual edge relief and silhouette deviation remain; not a pixel-exact guide match.",
+      "source_output": "/home/pjasicek/.codex/generated_images/01a16dc8-0f47-78a2-b4ec-2577c245022f/exec-be162dfa-0df4-496e-81ca-9cb0f6a3eecc.png",
+      "inputs": [
+        {
+          "path": "paint_left_attempt1.png",
+          "sha256": "52e5e7a3ae238501685e9e234bc792cb427b2b4dcfdef8c4656ed9b9fc5d4064"
+        },
+        {
+          "path": "guide_left.png",
+          "sha256": "b5396fd22e10ed3b21fed652ab210f067b6074ecb2fb5df0ebaa40c1996e214b"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "f61cf9763adb0b2ca181ea5b7468da58c7b28dff50cfa38dff79bc06544d5a1d"
+        }
+      ],
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "mode": "RGBA",
+        "has_transparent_background": true,
+        "alpha_bbox": [
+          0,
+          19,
+          1230,
+          1254
+        ],
+        "opaque_bbox": [
+          95,
+          81,
+          1159,
+          1182
+        ],
+        "alpha_identical_to_guide": false,
+        "normalized_silhouette_iou": 0.9847333221051716,
+        "resized": false,
+        "visual_review": {
+          "reference_materials_and_colours": "recognizable match",
+          "flat_shadowless_albedo": "partial; residual shading remains",
+          "silhouette_and_part_edges": "not identical to guide",
+          "no_text_or_letters": true,
+          "notes": "Correct two oblique lenses and absent lever. Lighting is substantially flatter; bevel shading persists and the silhouette is approximate."
+        }
+      },
+      "output_sha256": "6ba644cd998bc8662af2f1ab1cb3453fdbdac1f950fe0d47e1230825baf0fea6"
+    },
+    {
+      "view": "right",
+      "attempt": 2,
+      "prompt": "Use case: precise-object-edit. Correct this game texture-source painting.\nImage 1 is the previous painted attempt to correct. Image 2 is the exact 1024x1024 orthographic geometry guide. Image 3 is the approved design's colour/material authority.\nThe correction is to REMOVE ALL BAKED LIGHTING. The result must look like an UNLIT BASE COLOUR render, with absolutely no specular light streaks on the gold, no bright bevel edges, no shaded lower metal faces, no occlusion or cast shadows. Gold is the reference's warm antique golden pigment, with very subtle brushing only. Every gold part has that SAME base value across all its faces. Ceramic is consistently warm off-white, with fine sparse wear. Keep dark violet-black resin joins as flat-colour thin material seams, without shaded relief. Existing blue-white lights retain their intricate concentric blue pigment patterns but do not illuminate the neighbouring surfaces.\nPreserve the painted design, but use image 2's EXACT pixel positions and geometry: silhouette, every part boundary, angle, scale, transparent gaps. Preserve its slightly faceted outline. Do not enlarge any part or the whole object. Only add surface colour inside the fixed guide. In particular restore any drift in lens placement, lever shape or cap boundary.\nReturn ONE 1024x1024 RGBA image matching image 2's canvas, with true transparent background. No floor, no background, no glow outside the object, no text or letters. No cropping or new parts. This is the sole permitted corrective attempt.\n\nRIGHT view: lock the guide's long vertical gold lever at screen CENTRE covering the central upper blue lens. It ends just above the horizontal band. Keep the exact silhouette and overlap of lever, central lens rim and the small lens/rim slivers at the left and right edges. The neck remains a straight rectangular silhouette at the top. The entire lower hemisphere remains ceramic with panel seams only; do not add lenses.",
+      "output": "paint_right.png",
+      "selected": true,
+      "reason": "Selected: correction reduces metal reflections while retaining the central lever and occluded lens. Residual edge shading, part drift and silhouette differences remain.",
+      "source_output": "/home/pjasicek/.codex/generated_images/01a16dc8-0f47-78a2-b4ec-2577c245022f/exec-235aceaf-baaf-4ab5-8bf5-fb0d53d8c656.png",
+      "inputs": [
+        {
+          "path": "paint_right_attempt1.png",
+          "sha256": "836ebe852a86aaf9a05f8b6b57d13c0c19e3d30577c712f06f8ee49f8928cfb7"
+        },
+        {
+          "path": "guide_right.png",
+          "sha256": "81fc6634d79138d3385b159b4ad7d50d09d4b142250264d005e2bc9802548b78"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "f61cf9763adb0b2ca181ea5b7468da58c7b28dff50cfa38dff79bc06544d5a1d"
+        }
+      ],
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "mode": "RGBA",
+        "has_transparent_background": true,
+        "alpha_bbox": [
+          0,
+          21,
+          1192,
+          1214
+        ],
+        "opaque_bbox": [
+          92,
+          76,
+          1162,
+          1188
+        ],
+        "alpha_identical_to_guide": false,
+        "normalized_silhouette_iou": 0.9727928493021797,
+        "resized": false,
+        "visual_review": {
+          "reference_materials_and_colours": "recognizable match",
+          "flat_shadowless_albedo": "partial; residual shading remains",
+          "silhouette_and_part_edges": "not identical to guide",
+          "no_text_or_letters": true,
+          "notes": "Central lever and occluded lens retained. Lighting is substantially flatter; edge relief, part drift and silhouette differences persist."
+        }
+      },
+      "output_sha256": "17cd35bbd301059d1e1496a30c10f178d9e583ef611bdc9f9618ba5176bebaab"
+    },
+    {
+      "view": "top",
+      "attempt": 2,
+      "prompt": "Use case: precise-object-edit. Correct this game texture-source painting.\nImage 1 is the previous painted attempt to correct. Image 2 is the exact 1024x1024 orthographic geometry guide. Image 3 is the approved design's colour/material authority.\nThe correction is to REMOVE ALL BAKED LIGHTING. The result must look like an UNLIT BASE COLOUR render, with absolutely no specular light streaks on the gold, no bright bevel edges, no shaded lower metal faces, no occlusion or cast shadows. Gold is the reference's warm antique golden pigment, with very subtle brushing only. Every gold part has that SAME base value across all its faces. Ceramic is consistently warm off-white, with fine sparse wear. Keep dark violet-black resin joins as flat-colour thin material seams, without shaded relief. Existing blue-white lights retain their intricate concentric blue pigment patterns but do not illuminate the neighbouring surfaces.\nPreserve the painted design, but use image 2's EXACT pixel positions and geometry: silhouette, every part boundary, angle, scale, transparent gaps. Preserve its slightly faceted outline. Do not enlarge any part or the whole object. Only add surface colour inside the fixed guide. In particular restore any drift in lens placement, lever shape or cap boundary.\nReturn ONE 1024x1024 RGBA image matching image 2's canvas, with true transparent background. No floor, no background, no glow outside the object, no text or letters. No cropping or new parts. This is the sole permitted corrective attempt.\n\nTOP view, looking directly down: use image 2's exact circular polygonal footprint. Preserve the central polygonal gold cap and the broad gold lever extending horizontally to screen RIGHT, plus the oblique blue lenses at upper LEFT, lower LEFT and right partly covered by the lever. The gold equatorial band is visible only at the outer circumference as in the guide. Keep all exact part edges, overlaps and proportions. Flatten away the guide's large cap/lever cast shadows entirely; the surrounding ceramic stays evenly off-white.\nTOP CAP BOUNDARY CORRECTION: the previous painting expanded the central cap with an extra outer ring. Restore image 2's original 12-sided gold cap silhouette, which occupies approximately x=354..646 and y=367..658 on its 1024 canvas. All concentric design details must fit INSIDE this polygon. The surrounding surface outside this cap polygon remains white ceramic, with no extra gold ring there. The lever starts at the existing cap's right edge and extends rightward in the exact guide footprint. Restore the original flattened upper-left, lower-left and partly occluded right lens outlines. The overall outer contour must follow the guide, not a newly drawn perfect circle.",
+      "output": "paint_top_attempt2.png",
+      "selected": false,
+      "reason": "Rejected: flatter lighting and better central cap, but the overall footprint was enlarged substantially (normalized silhouette IoU 0.8935 versus 0.9713 for the initial painting). Retained as the sole corrective attempt.",
+      "source_output": "/home/pjasicek/.codex/generated_images/01a16dc8-0f47-78a2-b4ec-2577c245022f/exec-b438bba2-94a8-4932-b886-6c92ed5b7e08.png",
+      "inputs": [
+        {
+          "path": "paint_top_attempt1.png",
+          "sha256": "d9db266f0a7d2dd07f01e0338ecc360e7f6b77e476f4a97255c81b4153d00af5"
+        },
+        {
+          "path": "guide_top.png",
+          "sha256": "1a803daf4903aec1c87dfa459eefc85140fc73e2034961a612af412e302eeca6"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "f61cf9763adb0b2ca181ea5b7468da58c7b28dff50cfa38dff79bc06544d5a1d"
+        }
+      ],
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "mode": "RGBA",
+        "has_transparent_background": true,
+        "alpha_bbox": [
+          0,
+          48,
+          1216,
+          1202
+        ],
+        "opaque_bbox": [
+          59,
+          51,
+          1211,
+          1187
+        ],
+        "alpha_identical_to_guide": false,
+        "normalized_silhouette_iou": 0.8934732510161869,
+        "resized": false,
+        "visual_review": {
+          "reference_materials_and_colours": "recognizable match",
+          "flat_shadowless_albedo": "partial; residual shading remains",
+          "silhouette_and_part_edges": "not identical to guide",
+          "no_text_or_letters": true,
+          "notes": "Polygonal cap restored and reflections reduced. Overall item was enlarged in the correction, and local lens/lever boundaries remain approximate."
+        }
+      },
+      "output_sha256": "27e250f364b00483183eb70f0c4ca483d2f4184705964755c9fa4cce435e0271"
+    }
+  ],
+  "status": "five requested paintings delivered, with recorded deviations from exact silhouette and flat-albedo requirements",
+  "validation_notes": [
+    "All tool returns are 1254x1254 RGBA and retained byte-for-byte without resizing or post-processing, as the brief permits for unexpected output sizes.",
+    "Each view used one initial generation and exactly one corrective regeneration.",
+    "All five selected files have transparent backgrounds; some faint stray alpha remains outside the main silhouette.",
+    "None has an identical alpha silhouette to its guide. Normalized silhouette IoU is a diagnostic only, not acceptance of exact geometry.",
+    "Visual review found no text or letters. The reference palette is present, but residual lighting and local part-edge drift prevent full brief compliance.",
+    "No builds, runtime integration, model or texture baking were performed.",
+    "Top attempt 1 was selected after comparison: its normalized silhouette IoU is 0.9713; corrective attempt 2 is 0.8935."
+  ]
+}

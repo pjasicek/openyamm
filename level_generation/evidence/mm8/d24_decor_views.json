@@ -1,0 +1,35 @@
+{
+  "views": [
+    {
+      "view": {
+        "name": "room",
+        "target": [
+          -708,
+          -3444,
+          -1472
+        ],
+        "span": 6500
+      },
+      "section_top_z": -960,
+      "image": "level_generation/evidence/mm8/d24_decor_room.png",
+      "camera_position": [
+        2235.040283203125,
+        -9330.080078125,
+        5722.0986328125
+      ],
+      "highlighted": [
+        {
+          "index": 52,
+          "name": "dec29",
+          "position": [
+            -708,
+            -3444,
+            -1472
+          ]
+        }
+      ]
+    }
+  ],
+  "missing_sprites": [],
+  "limitations": "Native static geometry/initial decoration first frames, decoded palette and alpha; neutral study lighting, no actors, scripted changes, emitter particles or dynamic light validation. Labels mark source anchors; they may identify a sprite partly occluded by geometry. Not a gameplay screenshot."
+}

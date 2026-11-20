@@ -2,6 +2,10 @@ format_version: 1
 kind: "outdoor_scene_overlay"
 source:
   geometry_file: "7out15.odm"
+# MM7 refuses the spellbook, quick spells and read scrolls in the Shoals (OY-350); MM8's underwater Plane of Water
+# does not, so the rule is this map's restriction rather than part of the underwater flag.
+runtime_restrictions:
+  allow_spellcasting: false
 environment:
   flags:
     underwater: true

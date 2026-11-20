@@ -1,0 +1,20 @@
+{
+  "creature_3d_identity": "mm9reduce:dragonking",
+  "meshy": {
+    "jobs": {},
+    "credit_limit": 100
+  },
+  "reduction": {
+    "status": "kept (no useful gain)",
+    "date": "2026-11-05",
+    "lod0": [
+      12675,
+      12675
+    ],
+    "ladder": "3 pose-aware ladders; best passing step below -12.8 % (c r65 11,051 p99 58.32 > 54.6 mm); -15 % steps fail p99 by >= 38 %",
+    "protected_share": "52.9 % (head primitive 41.4 %)",
+    "rollback": "before/mm9_dragonking.glb (sha256 87f447240d7a)",
+    "installed": false,
+    "meshy_credits": 0
+  }
+}

@@ -1,0 +1,32 @@
+# Engine checks of map Lua calls in the walkability test room (hes_walk_test.handlers.lua events 101-105). Run from
+# output/hesper_stage/scenario_run:
+#   ../../../build/game/openyamm --world hesper --headless-run-scenario \
+#       ../../../level_generation/projects/hesper_walk_test/engine_calls.yml
+id: hesper.walk_test.engine_calls
+world: hesper
+mode: faithful
+steps:
+- new_game_flow:
+    start_map: hes_walk_test.blv
+    party:
+      members:
+      - {name: Tester, class: Knight, level: 1000, equipment: {}, skills: []}
+- set_pose: {map: hes_walk_test.blv, x: 1000, y: 1600, z: 96, yaw: -1.5707963, pitch: 0}
+- spawn_actor: {monster_id: 10000, count: 1, x: 1000, y: 900, z: 0}
+- execute_event: {id: 101}
+- assert: {state_dump_named_map_var: {name: check.gold, value: 1}}
+- execute_event: {id: 103}
+- assert: {state_dump_named_map_var: {name: check.sight, value: 1}}
+- assert: {state_dump_named_map_var: {name: check.sees, value: 1}}
+- execute_event: {id: 104}
+- assert: {state_dump_named_map_var: {name: check.action, value: 1}}
+- assert: {state_dump_named_map_var: {name: check.position, value: 1}}
+- execute_event: {id: 105}
+- assert: {state_dump_named_map_var: {name: check.missile, value: 1}}
+- execute_event: {id: 102}
+- assert: {state_dump_named_map_var: {name: check.turn, value: 1}}
+- advance_runtime: {seconds: 1}
+- assert: {actor_visible: {actor_index: 0, hostile_to_party: false, report_state: true}}
+- execute_event: {id: 106}
+- select_topic: {action_id: 0, match_label: "Yes"}
+- assert: {state_dump_named_map_var: {name: check.choice, value: 1}}

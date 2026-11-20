@@ -1,0 +1,28 @@
+{
+  "prompt": "Use case: precise-object-edit. Edit paint_mask_guide.png as the exact geometry/layout target; design_reference.png is the material/detail reference; icon_x8.png is the colour reference (magenta is background, never paint magenta). Produce ONE transparent PNG, 1536x2048 or nearest 3:4 canvas. Keep the guide's three columns by FOUR rows of square cells, and all ten objects at exactly the same positions, scale, orientation, silhouette and openings. Do not reinterpret the view labels or rotate any objects. Rows 1-2 and 3-4 contain the same five views FRONT, BACK, LEFT / RIGHT, TOP, empty. Column 3 of rows 2 and 4 must remain empty and transparent. Paint grey objects only; never redraw, enlarge, move or redesign them. TOP HALF rows 1-2: unlit base colour of a sleeveless round-neck vest covered in large overlapping square ochre-orange leather scales in rows, pale leather band around neck and armholes, dark leather strap with two brass rivets down the near side, pale rolled hem. Match reference leather texture and colour; facets, engravings, scrollwork and inner swirls follow design reference scaled to each view. No illumination, cast shadows, ambient occlusion, hot highlights or reflections. BOTTOM HALF rows 3-4: MATERIAL MASK of the corresponding identical five silhouettes. Fill with FLAT PURE colours only, no shading, texture, outlines or antialiased colour blends inside. Pure red #FF0000 for every metal part including all rivets; pure green #00FF00 for every leather/hide/suede/padding/fur part (all scales, bindings, straps and leather interior); pure blue #0000FF for cloth/lining/cord/ribbon/hair if present; pure black #000000 for gemstones/crystal/glass/pearl/enamel/liquid through glass if present. Every silhouette pixel has exactly one class colour. All gaps and openings precisely match guide and are fully transparent. No ground, text, outlines, halo, sparkles or aura. Output only the single complete paint+mask sheet.\nCORRECTION, highest priority: The previous attempt had green noise/clouds outside silhouettes and filled transparent holes. Avoid these completely. Exact clean alpha boundary copied from guide for every object and every hole, no stray pixels at all. Lower-half masks must be SOLID flat green leather shapes with red rivets only, no black outlines, no visible scale seams, no gradients and no texture. Holes remain transparent, not green. Preserve original guide silhouettes exactly. Upper-half paint must be unlit, without dark shading between scales.",
+  "initial_prompt": "Use case: precise-object-edit. Edit paint_mask_guide.png as the exact geometry/layout target; design_reference.png is the material/detail reference; icon_x8.png is the colour reference (magenta is background, never paint magenta). Produce ONE transparent PNG, 1536x2048 or nearest 3:4 canvas. Keep the guide's three columns by FOUR rows of square cells, and all ten objects at exactly the same positions, scale, orientation, silhouette and openings. Do not reinterpret the view labels or rotate any objects. Rows 1-2 and 3-4 contain the same five views FRONT, BACK, LEFT / RIGHT, TOP, empty. Column 3 of rows 2 and 4 must remain empty and transparent. Paint grey objects only; never redraw, enlarge, move or redesign them. TOP HALF rows 1-2: unlit base colour of a sleeveless round-neck vest covered in large overlapping square ochre-orange leather scales in rows, pale leather band around neck and armholes, dark leather strap with two brass rivets down the near side, pale rolled hem. Match reference leather texture and colour; facets, engravings, scrollwork and inner swirls follow design reference scaled to each view. No illumination, cast shadows, ambient occlusion, hot highlights or reflections. BOTTOM HALF rows 3-4: MATERIAL MASK of the corresponding identical five silhouettes. Fill with FLAT PURE colours only, no shading, texture, outlines or antialiased colour blends inside. Pure red #FF0000 for every metal part including all rivets; pure green #00FF00 for every leather/hide/suede/padding/fur part (all scales, bindings, straps and leather interior); pure blue #0000FF for cloth/lining/cord/ribbon/hair if present; pure black #000000 for gemstones/crystal/glass/pearl/enamel/liquid through glass if present. Every silhouette pixel has exactly one class colour. All gaps and openings precisely match guide and are fully transparent. No ground, text, outlines, halo, sparkles or aura. Output only the single complete paint+mask sheet.",
+  "original_output_path": "/home/pjasicek/.codex/generated_images/01a1ac8e-20f1-70e3-9934-433a9143054d/exec-db7ff908-f7f6-4d6c-9edc-c2a2b701f0e1.png",
+  "output": "/home/pjasicek/github/OpenYAMM/level_generation/props/items_mm9_claude/codex_tex/d10090/paint_mask_raw_v1.png",
+  "tool": "image_gen",
+  "corrective_regenerations": 1,
+  "validation": "Raw generated result retains stray colour outside silhouettes and filled mask openings; does not fully satisfy brief.",
+  "inputs": [
+    {
+      "path": "level_generation/props/items_mm9_claude/codex_tex/d10090/paint_mask_guide.png",
+      "sha256": "8f7acc2657bf9d28f254514893b44687403c730ca21ab0bbe279d3e7f8793384"
+    },
+    {
+      "path": "level_generation/props/items_mm9_claude/codex_tex/d10090/design_reference.png",
+      "sha256": "c4bbf8e07fdb6f786036f16fba056caf43f1413f39dea489e7b92612a22bcdc0"
+    },
+    {
+      "path": "level_generation/props/items_mm9_claude/codex_tex/d10090/icon_x8.png",
+      "sha256": "017a15c7f8e80cf5c71eaa97fbe928d1bce7014faa43ee62a8fb74992a59f78a"
+    }
+  ],
+  "size": [
+    1086,
+    1448
+  ],
+  "mode": "RGBA"
+}

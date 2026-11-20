@@ -23,8 +23,11 @@ actors:
   yaw_offset: -1.570796327
   animation:
     cast: Cast_FireBolt
-    run: Running
-    stride_length: 1.5
+    run: Jog
+    stride_length: 1.466
+    run_stride_length: 2.7038
+    sprint: Sprint
+    sprint_stride_length: 3.7585
     upper_body_root: mixamorig:Spine
     # The neck and head share a turn toward the party over every clip but the death.
     look:
@@ -52,7 +55,7 @@ actors:
       cast: {impact: 0.87, glow: [palm_left, palm_right]}
   clips:
     standing: Standing
-    walking: Walking
+    walking: Walk2
     attack_melee: Attack
     attack_ranged: Attack
     hit: Hit
@@ -84,8 +87,11 @@ actors:
   yaw_offset: -1.570796327
   animation:
     cast: Cast_FireBolt
-    run: Running
-    stride_length: 1.5
+    run: Jog
+    stride_length: 1.466
+    run_stride_length: 2.7038
+    sprint: Sprint
+    sprint_stride_length: 3.7585
     upper_body_root: mixamorig:Spine
     # The neck and head share a turn toward the party over every clip but the death.
     look:
@@ -113,7 +119,7 @@ actors:
       cast: {impact: 0.87, glow: [palm_left, palm_right]}
   clips:
     standing: Standing
-    walking: Walking
+    walking: Walk2
     attack_melee: Attack
     attack_ranged: Attack
     hit: Hit
@@ -145,8 +151,11 @@ actors:
   yaw_offset: -1.570796327
   animation:
     cast: Cast_FireBolt
-    run: Running
-    stride_length: 1.5
+    run: Jog
+    stride_length: 1.466
+    run_stride_length: 2.7038
+    sprint: Sprint
+    sprint_stride_length: 3.7585
     upper_body_root: mixamorig:Spine
     # The neck and head share a turn toward the party over every clip but the death.
     look:
@@ -174,7 +183,7 @@ actors:
       cast: {impact: 0.87, glow: [palm_left, palm_right]}
   clips:
     standing: Standing
-    walking: Walking
+    walking: Walk2
     attack_melee: Attack
     attack_ranged: Attack
     hit: Hit
@@ -182,27 +191,28 @@ actors:
     dead: Dead
     fidget: Fidget
   skin: demon_c
-# MM6 female peasant (pfem), original Claude model restored for review; palettes 786/787/788.
+# MM6 female peasant (pfem), rebuilt 2026-11-11 (level_generation/creatures/mm6_pfem_rebuild_claude): the v3 body on MM9's PeasantFemale
+# skeleton and clips, MPFB five-finger arms, 4K head/body paints; palettes 786/787/788. Attack = a restrained MM9 talk gesture.
 - descriptor: PeasantF1 A
   model: worlds/mm6/models/mm6_pfem.glb
-  scale: 111.6
-  z_offset: 0.07
+  scale: 103.46
   yaw_offset: -1.570796327
   animation:
     cast: Attack
-    run: Walking
-    stride_length: 1.31
-    upper_body_root: mixamorig:Spine
+    run: Running
+    stride_length: 1.24
+    run_stride_length: 1.554
+    upper_body_root: FHP Spine1
     look:
-      nodes: [mixamorig:Neck, mixamorig:Head]
+      nodes: [FHP Neck, FHP Head]
       max_yaw_degrees: 60
       max_pitch_degrees: 35
-    sockets:
-      palm_left: Socket_Palm_Left
-      palm_right: Socket_Palm_Right
+    events:
+      attack_melee: {impact: 0.48}
+      attack_ranged: {impact: 0.48}
   clips:
     standing: Standing
-    walking: Walking
+    walking: Walk2
     attack_melee: Attack
     attack_ranged: Attack
     hit: Hit
@@ -212,25 +222,25 @@ actors:
   skin: pfem_a
 - descriptor: PeasantF1 B
   model: worlds/mm6/models/mm6_pfem.glb
-  scale: 111.6
+  scale: 103.46
   scale_reference: PeasantF1 A
-  z_offset: 0.07
   yaw_offset: -1.570796327
   animation:
     cast: Attack
-    run: Walking
-    stride_length: 1.31
-    upper_body_root: mixamorig:Spine
+    run: Running
+    stride_length: 1.24
+    run_stride_length: 1.554
+    upper_body_root: FHP Spine1
     look:
-      nodes: [mixamorig:Neck, mixamorig:Head]
+      nodes: [FHP Neck, FHP Head]
       max_yaw_degrees: 60
       max_pitch_degrees: 35
-    sockets:
-      palm_left: Socket_Palm_Left
-      palm_right: Socket_Palm_Right
+    events:
+      attack_melee: {impact: 0.48}
+      attack_ranged: {impact: 0.48}
   clips:
     standing: Standing
-    walking: Walking
+    walking: Walk2
     attack_melee: Attack
     attack_ranged: Attack
     hit: Hit
@@ -240,25 +250,25 @@ actors:
   skin: pfem_b
 - descriptor: Peasantf1 C
   model: worlds/mm6/models/mm6_pfem.glb
-  scale: 111.6
+  scale: 103.46
   scale_reference: PeasantF1 A
-  z_offset: 0.07
   yaw_offset: -1.570796327
   animation:
     cast: Attack
-    run: Walking
-    stride_length: 1.31
-    upper_body_root: mixamorig:Spine
+    run: Running
+    stride_length: 1.24
+    run_stride_length: 1.554
+    upper_body_root: FHP Spine1
     look:
-      nodes: [mixamorig:Neck, mixamorig:Head]
+      nodes: [FHP Neck, FHP Head]
       max_yaw_degrees: 60
       max_pitch_degrees: 35
-    sockets:
-      palm_left: Socket_Palm_Left
-      palm_right: Socket_Palm_Right
+    events:
+      attack_melee: {impact: 0.48}
+      attack_ranged: {impact: 0.48}
   clips:
     standing: Standing
-    walking: Walking
+    walking: Walk2
     attack_melee: Attack
     attack_ranged: Attack
     hit: Hit
@@ -275,8 +285,9 @@ actors:
   yaw_offset: -1.570796327
   animation:
     cast: Cast
-    run: Running
-    stride_length: 1.2
+    run: Jog
+    stride_length: 1.364
+    run_stride_length: 1.87
     upper_body_root: mixamorig:Spine
     # The neck and head share a turn toward the party over every clip but the death.
     look:
@@ -313,8 +324,9 @@ actors:
   yaw_offset: -1.570796327
   animation:
     cast: Cast
-    run: Running
-    stride_length: 1.2
+    run: Jog
+    stride_length: 1.364
+    run_stride_length: 1.87
     upper_body_root: mixamorig:Spine
     # The neck and head share a turn toward the party over every clip but the death.
     look:
@@ -351,8 +363,9 @@ actors:
   yaw_offset: -1.570796327
   animation:
     cast: Cast
-    run: Running
-    stride_length: 1.2
+    run: Jog
+    stride_length: 1.364
+    run_stride_length: 1.87
     upper_body_root: mixamorig:Spine
     # The neck and head share a turn toward the party over every clip but the death.
     look:
@@ -382,146 +395,113 @@ actors:
   attachments:
     - model: worlds/mm6/models/mm6_pmn2_staff.glb
       node: Staff
-# Boss mage demo (2026-10-08): the pmn2 body 1.3x larger in the dark violet pmn2_d tier, carrying the artifact staff
-# (ebony, gold claws, glowing crystal on Socket_Staff_Head) instead of the plain one. The cast charge is violet
-# whatever the spell (its native spell is Toxic Cloud), and its Dark missile attacks gather violet sparks at the
-# crystal. Necromancer A appears on no MM6 map; spawn it with `actor spawn 307 1 <x> <y> <z>`.
-- descriptor: Necromancer A
-  model: worlds/mm6/models/mm6_pmn2.glb
-  scale: 140
-  yaw_offset: -1.570796327
-  animation:
-    cast: Cast
-    run: Running
-    stride_length: 1.2
-    upper_body_root: mixamorig:Spine
-    # The neck and head share a turn toward the party over every clip but the death.
-    look:
-      nodes: [mixamorig:Neck, mixamorig:Head]
-      max_yaw_degrees: 60
-      max_pitch_degrees: 35
-    sockets:
-      palm_left: Socket_Palm_Left
-      palm_right: Socket_Palm_Right
-      staff_head: Socket_Staff_Head
-    # The staff comes down from overhead 0.979 s into Attack/Cast (draw-up at a uniform ~1.3x of the Mixamo clip);
-    # bolts and spells leave the staff head.
-    events:
-      attack_melee: {impact: 0.98}
-      attack_ranged:
-        impact: 0.98
-        glow: [staff_head]
-        effects:
-          Dark: openyamm:fx/creature_dark_staff
-      cast: {impact: 0.979, glow: [staff_head], glow_scale: 1.1, color: [176, 70, 255]}
-  clips:
-    standing: Standing
-    walking: Walking
-    attack_melee: Attack
-    attack_ranged: Attack
-    hit: Hit
-    dying: Death
-    dead: Dead
-    fidget: Standing
-  # Clip roles its behaviour script (engine/behaviors/bosses/necro_mage.lua) plays through self:perform.
-  script_clips:
-    cast_ward: Cast
-    cast_summon: Cast
-  skin: pmn2_d
-  attachments:
-    - model: worlds/mm6/models/mm6_pmn2_artifact_staff.glb
-      node: Staff
-# MM6 New Sorpigal guard / lieutenant / captain (gua), Meshy Smart Topology + Meshy rig, halberd in the right fist.
-# Skins gua_a/b/c share one texture set; sleeves, trousers and mail follow palettes 748/749/750 (region ramps).
+# MM6 New Sorpigal guard / lieutenant / captain (gua), rebuilt 2026-11-11 on the MM9 GUARD skeleton and clips (Yrsa route,
+# mm6_gua_rebuild_claude): five-finger grafted hands, fist solved round the shaft, approved MM6 halberd on Xbase. Skins gua_a/b/c
+# share one texture set + head set; Walk2/Jog are MM9's walk/run at 1.3x/0.83x leg amplitude (gait_gate PASSED); sleeves, trousers and mail follow palettes 748/749/750 (region ramps). Impact = MM9 Rattack x 1/1.3.
 - descriptor: Guard A
   model: worlds/mm6/models/mm6_gua.glb
-  scale: 127.2
+  scale: 107.27
   yaw_offset: -1.570796327
   animation:
     cast: Attack
-    run: Running
-    stride_length: 1.13
-    upper_body_root: Spine02
-    # The neck and head share a turn toward the party over every clip but the death.
+    run: Jog
+    stride_length: 1.84
+    run_stride_length: 2.37
+    sprint: Running
+    sprint_stride_length: 3.6
+    upper_body_root: Bip01 Spine1
     look:
-      nodes: [neck, Head]
+      nodes: [Bip01 Neck, Bip01 Head]
       max_yaw_degrees: 60
       max_pitch_degrees: 35
     events:
-      attack_melee: {impact: 0.438}
+      attack_melee: {impact: 0.351}
+      attack_ranged: {impact: 0.351}
   clips:
     standing: Standing
-    walking: Walking
+    walking: Walk2
     attack_melee: Attack
     attack_ranged: Attack
     hit: Hit
     dying: Death
     dead: Dead
-    fidget: Standing
+    fidget: Fidget
+  script_clips:
+    attack2: Attack2
   skin: gua_a
   attachments:
     - model: worlds/mm6/models/mm6_gua_halberd.glb
-      node: Halberd
+      node: Xbase
 - descriptor: Guard B
   model: worlds/mm6/models/mm6_gua.glb
-  scale: 127.2
+  scale: 107.27
   scale_reference: Guard A
   yaw_offset: -1.570796327
   animation:
     cast: Attack
-    run: Running
-    stride_length: 1.13
-    upper_body_root: Spine02
-    # The neck and head share a turn toward the party over every clip but the death.
+    run: Jog
+    stride_length: 1.84
+    run_stride_length: 2.37
+    sprint: Running
+    sprint_stride_length: 3.6
+    upper_body_root: Bip01 Spine1
     look:
-      nodes: [neck, Head]
+      nodes: [Bip01 Neck, Bip01 Head]
       max_yaw_degrees: 60
       max_pitch_degrees: 35
     events:
-      attack_melee: {impact: 0.438}
+      attack_melee: {impact: 0.351}
+      attack_ranged: {impact: 0.351}
   clips:
     standing: Standing
-    walking: Walking
+    walking: Walk2
     attack_melee: Attack
     attack_ranged: Attack
     hit: Hit
     dying: Death
     dead: Dead
-    fidget: Standing
+    fidget: Fidget
+  script_clips:
+    attack2: Attack2
   skin: gua_b
   attachments:
     - model: worlds/mm6/models/mm6_gua_halberd.glb
-      node: Halberd
+      node: Xbase
 - descriptor: Guard C
   model: worlds/mm6/models/mm6_gua.glb
-  scale: 127.2
+  scale: 107.27
   scale_reference: Guard A
   yaw_offset: -1.570796327
   animation:
     cast: Attack
-    run: Running
-    stride_length: 1.13
-    upper_body_root: Spine02
-    # The neck and head share a turn toward the party over every clip but the death.
+    run: Jog
+    stride_length: 1.84
+    run_stride_length: 2.37
+    sprint: Running
+    sprint_stride_length: 3.6
+    upper_body_root: Bip01 Spine1
     look:
-      nodes: [neck, Head]
+      nodes: [Bip01 Neck, Bip01 Head]
       max_yaw_degrees: 60
       max_pitch_degrees: 35
     events:
-      attack_melee: {impact: 0.438}
+      attack_melee: {impact: 0.351}
+      attack_ranged: {impact: 0.351}
   clips:
     standing: Standing
-    walking: Walking
+    walking: Walk2
     attack_melee: Attack
     attack_ranged: Attack
     hit: Hit
     dying: Death
     dead: Dead
-    fidget: Standing
+    fidget: Fidget
+  script_clips:
+    attack2: Attack2
   skin: gua_c
   attachments:
     - model: worlds/mm6/models/mm6_gua_halberd.glb
-      node: Halberd
+      node: Xbase
 # MM6 male peasant rebuild (mm6_pman_claude_20261013): source-frame B rig, library civilian clips, no attack.
 # Shared tunic region follows native palettes 798/799/800; scale follows the 253 px standing sprite.
 - descriptor: PeasantM1 A
@@ -531,8 +511,9 @@ actors:
   yaw_offset: -1.570796327
   animation:
     cast: Standing
-    run: Walking
-    stride_length: 1.864216
+    run: Jog
+    stride_length: 1.864
+    run_stride_length: 2.03
     upper_body_root: B_Spine
     # The neck and head share a turn toward the party over every clip but the death.
     look:
@@ -557,8 +538,9 @@ actors:
   yaw_offset: -1.570796327
   animation:
     cast: Standing
-    run: Walking
-    stride_length: 1.864216
+    run: Jog
+    stride_length: 1.864
+    run_stride_length: 2.03
     upper_body_root: B_Spine
     # The neck and head share a turn toward the party over every clip but the death.
     look:
@@ -583,8 +565,9 @@ actors:
   yaw_offset: -1.570796327
   animation:
     cast: Standing
-    run: Walking
-    stride_length: 1.864216
+    run: Jog
+    stride_length: 1.864
+    run_stride_length: 2.03
     upper_body_root: B_Spine
     # The neck and head share a turn toward the party over every clip but the death.
     look:
@@ -612,7 +595,10 @@ actors:
   animation:
     cast: Cast
     run: Running
-    stride_length: 1.30
+    stride_length: 1.498
+    run_stride_length: 2.874
+    sprint: Sprint
+    sprint_stride_length: 3.7148
     upper_body_root: B_Spine
     # The neck and head share a turn toward the party over every clip but the death (the source idle looks down).
     look:
@@ -647,7 +633,10 @@ actors:
   animation:
     cast: Cast
     run: Running
-    stride_length: 1.30
+    stride_length: 1.498
+    run_stride_length: 2.874
+    sprint: Sprint
+    sprint_stride_length: 3.7148
     upper_body_root: B_Spine
     # The neck and head share a turn toward the party over every clip but the death (the source idle looks down).
     look:
@@ -682,7 +671,10 @@ actors:
   animation:
     cast: Cast
     run: Running
-    stride_length: 1.30
+    stride_length: 1.498
+    run_stride_length: 2.874
+    sprint: Sprint
+    sprint_stride_length: 3.7148
     upper_body_root: B_Spine
     # The neck and head share a turn toward the party over every clip but the death (the source idle looks down).
     look:
@@ -717,8 +709,11 @@ actors:
   yaw_offset: -1.570796327
   animation:
     cast: Attack
-    run: Running
-    stride_length: 0.28
+    run: Run2
+    stride_length: 0.30
+    run_stride_length: 0.51
+    sprint: Sprint
+    sprint_stride_length: 0.8533
     upper_body_root: Spine2
     # The neck and head share a turn toward the party over every clip but the death.
     look:
@@ -730,7 +725,7 @@ actors:
       attack_melee: {impact: 0.451}
   clips:
     standing: Standing
-    walking: Walking
+    walking: Walk2
     attack_melee: Attack
     attack_ranged: Attack
     hit: Hit
@@ -745,8 +740,11 @@ actors:
   yaw_offset: -1.570796327
   animation:
     cast: Attack
-    run: Running
-    stride_length: 0.28
+    run: Run2
+    stride_length: 0.30
+    run_stride_length: 0.51
+    sprint: Sprint
+    sprint_stride_length: 0.8533
     upper_body_root: Spine2
     # The neck and head share a turn toward the party over every clip but the death.
     look:
@@ -758,7 +756,7 @@ actors:
       attack_melee: {impact: 0.451}
   clips:
     standing: Standing
-    walking: Walking
+    walking: Walk2
     attack_melee: Attack
     attack_ranged: Attack
     hit: Hit
@@ -773,8 +771,11 @@ actors:
   yaw_offset: -1.570796327
   animation:
     cast: Attack
-    run: Running
-    stride_length: 0.28
+    run: Run2
+    stride_length: 0.30
+    run_stride_length: 0.51
+    sprint: Sprint
+    sprint_stride_length: 0.8533
     upper_body_root: Spine2
     # The neck and head share a turn toward the party over every clip but the death.
     look:
@@ -786,7 +787,7 @@ actors:
       attack_melee: {impact: 0.451}
   clips:
     standing: Standing
-    walking: Walking
+    walking: Walk2
     attack_melee: Attack
     attack_ranged: Attack
     hit: Hit
@@ -802,8 +803,11 @@ actors:
   yaw_offset: -1.570796327
   animation:
     cast: Attack
-    run: Running
-    stride_length: 0.26
+    run: Run2
+    stride_length: 0.4845
+    run_stride_length: 0.6998
+    sprint: Sprint
+    sprint_stride_length: 1.018
     upper_body_root: Thorax
     sockets:
       fang_l: {node: Fang_L, offset: [-0.0066, 0.0953, 0.0031]}
@@ -813,7 +817,7 @@ actors:
       attack_ranged: {glow: [fang_r, fang_l], glow_scale: 0.3}
   clips:
     standing: Standing
-    walking: Walking
+    walking: Walk2
     attack_melee: Attack
     attack_ranged: Attack
     hit: Hit
@@ -828,8 +832,11 @@ actors:
   yaw_offset: -1.570796327
   animation:
     cast: Attack
-    run: Running
-    stride_length: 0.26
+    run: Run2
+    stride_length: 0.4845
+    run_stride_length: 0.6998
+    sprint: Sprint
+    sprint_stride_length: 1.018
     upper_body_root: Thorax
     sockets:
       fang_l: {node: Fang_L, offset: [-0.0066, 0.0953, 0.0031]}
@@ -839,7 +846,7 @@ actors:
       attack_ranged: {impact: 0.442, glow: [fang_r, fang_l], glow_scale: 0.3}
   clips:
     standing: Standing
-    walking: Walking
+    walking: Walk2
     attack_melee: Attack
     attack_ranged: Attack
     hit: Hit
@@ -854,8 +861,11 @@ actors:
   yaw_offset: -1.570796327
   animation:
     cast: Attack
-    run: Running
-    stride_length: 0.26
+    run: Run2
+    stride_length: 0.4845
+    run_stride_length: 0.6998
+    sprint: Sprint
+    sprint_stride_length: 1.018
     upper_body_root: Thorax
     sockets:
       fang_l: {node: Fang_L, offset: [-0.0066, 0.0953, 0.0031]}
@@ -865,7 +875,7 @@ actors:
       attack_ranged: {impact: 0.442, glow: [fang_r, fang_l], glow_scale: 0.3}
   clips:
     standing: Standing
-    walking: Walking
+    walking: Walk2
     attack_melee: Attack
     attack_ranged: Attack
     hit: Hit
@@ -884,6 +894,7 @@ actors:
     cast: Cast
     run: Running
     stride_length: 0.5
+    gait_rate: [0.8, 1.5]
     upper_body_root: Head
     # The whole eye (the Head joint: eyeball, jaw, tendrils) turns toward the party over every clip but the death.
     look:
@@ -915,6 +926,7 @@ actors:
     cast: Cast
     run: Running
     stride_length: 0.5
+    gait_rate: [0.8, 1.5]
     upper_body_root: Head
     # The whole eye (the Head joint: eyeball, jaw, tendrils) turns toward the party over every clip but the death.
     look:
@@ -946,6 +958,7 @@ actors:
     cast: Cast
     run: Running
     stride_length: 0.5
+    gait_rate: [0.8, 1.5]
     upper_body_root: Head
     # The whole eye (the Head joint: eyeball, jaw, tendrils) turns toward the party over every clip but the death.
     look:
@@ -977,6 +990,7 @@ actors:
     cast: Attack
     run: Fly
     stride_length: 0.53
+    gait_rate: [0.8, 1.5]
     upper_body_root: Spine2
     sockets: {}
     events:
@@ -1000,6 +1014,7 @@ actors:
     cast: Attack
     run: Fly
     stride_length: 0.53
+    gait_rate: [0.8, 1.5]
     upper_body_root: Spine2
     sockets: {}
     events:
@@ -1023,6 +1038,7 @@ actors:
     cast: Attack
     run: Fly
     stride_length: 0.53
+    gait_rate: [0.8, 1.5]
     upper_body_root: Spine2
     sockets: {}
     events:
@@ -1047,6 +1063,7 @@ actors:
     cast: Attack
     run: Fly
     stride_length: 0.66
+    gait_rate: [0.8, 1.5]
     upper_body_root: Spine2
     # The neck and head share a turn toward the party over every clip but the death.
     look:
@@ -1075,6 +1092,7 @@ actors:
     cast: Attack
     run: Fly
     stride_length: 0.66
+    gait_rate: [0.8, 1.5]
     upper_body_root: Spine2
     # The neck and head share a turn toward the party over every clip but the death.
     look:
@@ -1103,6 +1121,7 @@ actors:
     cast: Attack
     run: Fly
     stride_length: 0.66
+    gait_rate: [0.8, 1.5]
     upper_body_root: Spine2
     # The neck and head share a turn toward the party over every clip but the death.
     look:
@@ -1150,6 +1169,7 @@ actors:
     cast: Cast
     run: Flight
     stride_length: 5.6
+    gait_rate: [0.8, 1.5]
     upper_body_root: mixamorig:Spine
     # The neck and head share a turn toward the party over every clip but the death.
     look:
@@ -1204,6 +1224,7 @@ actors:
     cast: Cast
     run: Flight
     stride_length: 5.6
+    gait_rate: [0.8, 1.5]
     upper_body_root: mixamorig:Spine
     # The neck and head share a turn toward the party over every clip but the death.
     look:
@@ -1258,6 +1279,7 @@ actors:
     cast: Cast
     run: Flight
     stride_length: 5.6
+    gait_rate: [0.8, 1.5]
     upper_body_root: mixamorig:Spine
     # The neck and head share a turn toward the party over every clip but the death.
     look:
@@ -1298,7 +1320,10 @@ actors:
   animation:
     cast: Attack
     run: Walk
+    # No feet (slithers, oozes or floats): its clip keeps a calm rate and glides beyond.
+    gait_rate: [0.8, 1.5]
     stride_length: 0.75
+    run_stride_length: 0.75
     upper_body_root: Spine_01
     # The raised hood (top two spine joints) and head share a turn toward the party over every clip but the death.
     look:
@@ -1326,7 +1351,10 @@ actors:
   animation:
     cast: Attack
     run: Walk
+    # No feet (slithers, oozes or floats): its clip keeps a calm rate and glides beyond.
+    gait_rate: [0.8, 1.5]
     stride_length: 0.75
+    run_stride_length: 0.75
     upper_body_root: Spine_01
     # The raised hood (top two spine joints) and head share a turn toward the party over every clip but the death.
     look:
@@ -1354,7 +1382,10 @@ actors:
   animation:
     cast: Attack
     run: Walk
+    # No feet (slithers, oozes or floats): its clip keeps a calm rate and glides beyond.
+    gait_rate: [0.8, 1.5]
     stride_length: 0.75
+    run_stride_length: 0.75
     upper_body_root: Spine_01
     # The raised hood (top two spine joints) and head share a turn toward the party over every clip but the death.
     look:
@@ -1386,6 +1417,7 @@ actors:
     cast: Attack
     run: Walking
     stride_length: 0.9
+    gait_rate: [0.8, 1.5]
     upper_body_root: Body
     sockets:
       eye_left: Socket_Eye
@@ -1416,6 +1448,7 @@ actors:
     cast: Attack
     run: Walking
     stride_length: 0.9
+    gait_rate: [0.8, 1.5]
     upper_body_root: Body
     sockets:
       eye_left: Socket_Eye
@@ -1446,6 +1479,7 @@ actors:
     cast: Attack
     run: Walking
     stride_length: 0.9
+    gait_rate: [0.8, 1.5]
     upper_body_root: Body
     sockets:
       eye_left: Socket_Eye
@@ -1479,6 +1513,7 @@ actors:
     cast: Attack
     run: Walk
     stride_length: 0.6
+    gait_rate: [0.8, 1.5]
     upper_body_root: Spine_06
     # The top of the arch and the head share a turn toward the party over every clip but the death.
     look:
@@ -1508,6 +1543,7 @@ actors:
     cast: Attack
     run: Walk
     stride_length: 0.6
+    gait_rate: [0.8, 1.5]
     upper_body_root: Spine_06
     # The top of the arch and the head share a turn toward the party over every clip but the death.
     look:
@@ -1537,6 +1573,7 @@ actors:
     cast: Attack
     run: Walk
     stride_length: 0.6
+    gait_rate: [0.8, 1.5]
     upper_body_root: Spine_06
     # The top of the arch and the head share a turn toward the party over every clip but the death.
     look:
@@ -1570,7 +1607,10 @@ actors:
   animation:
     cast: Attack
     run: Walk
+    # No feet (slithers, oozes or floats): its clip keeps a calm rate and glides beyond.
+    gait_rate: [0.8, 1.5]
     stride_length: 0.5
+    run_stride_length: 0.5
     upper_body_root: Body_Root
     sockets:
       head1: {node: Head1, offset: [-0.0508, 0.0663, -0.0012]}
@@ -1599,7 +1639,10 @@ actors:
   animation:
     cast: Attack
     run: Walk
+    # No feet (slithers, oozes or floats): its clip keeps a calm rate and glides beyond.
+    gait_rate: [0.8, 1.5]
     stride_length: 0.5
+    run_stride_length: 0.5
     upper_body_root: Body_Root
     sockets:
       head1: {node: Head1, offset: [-0.0508, 0.0663, -0.0012]}
@@ -1628,7 +1671,10 @@ actors:
   animation:
     cast: Attack
     run: Walk
+    # No feet (slithers, oozes or floats): its clip keeps a calm rate and glides beyond.
+    gait_rate: [0.8, 1.5]
     stride_length: 0.5
+    run_stride_length: 0.5
     upper_body_root: Body_Root
     sockets:
       head1: {node: Head1, offset: [-0.0508, 0.0663, -0.0012]}
@@ -1658,6 +1704,8 @@ actors:
   animation:
     cast: Cast
     run: Running
+    # No feet (slithers, oozes or floats): its clip keeps a calm rate and glides beyond.
+    gait_rate: [0.8, 1.5]
     stride_length: 0.5
     upper_body_root: Body
     sockets:
@@ -1683,6 +1731,8 @@ actors:
   animation:
     cast: Cast
     run: Running
+    # No feet (slithers, oozes or floats): its clip keeps a calm rate and glides beyond.
+    gait_rate: [0.8, 1.5]
     stride_length: 0.5
     upper_body_root: Body
     sockets:
@@ -1708,6 +1758,8 @@ actors:
   animation:
     cast: Cast
     run: Running
+    # No feet (slithers, oozes or floats): its clip keeps a calm rate and glides beyond.
+    gait_rate: [0.8, 1.5]
     stride_length: 0.5
     upper_body_root: Body
     sockets:
@@ -1736,8 +1788,11 @@ actors:
   yaw_offset: -1.570796327
   animation:
     cast: Cast
-    run: Walking
-    stride_length: 0.3
+    run: Run2
+    stride_length: 0.503
+    run_stride_length: 0.665
+    sprint: Sprint
+    sprint_stride_length: 0.945
     upper_body_root: Chest
     # The neck and head share a turn toward the party over every clip but the death (the cast follows it).
     look:
@@ -1766,8 +1821,11 @@ actors:
   yaw_offset: -1.570796327
   animation:
     cast: Cast
-    run: Walking
-    stride_length: 0.3
+    run: Run2
+    stride_length: 0.503
+    run_stride_length: 0.665
+    sprint: Sprint
+    sprint_stride_length: 0.945
     upper_body_root: Chest
     # The neck and head share a turn toward the party over every clip but the death (the cast follows it).
     look:
@@ -1796,8 +1854,11 @@ actors:
   yaw_offset: -1.570796327
   animation:
     cast: Cast
-    run: Walking
-    stride_length: 0.3
+    run: Run2
+    stride_length: 0.503
+    run_stride_length: 0.665
+    sprint: Sprint
+    sprint_stride_length: 0.945
     upper_body_root: Chest
     # The neck and head share a turn toward the party over every clip but the death (the cast follows it).
     look:
@@ -1829,8 +1890,9 @@ actors:
   yaw_offset: -1.570796327
   animation:
     cast: Cast
-    run: Running
-    stride_length: 1.07
+    run: Walking
+    stride_length: 0.902
+    run_stride_length: 1.255
     upper_body_root: Spine02
     # The neck and head share a turn toward the party over every clip but the death.
     look:
@@ -1840,17 +1902,19 @@ actors:
     sockets:
       palm_left: Socket_Palm_Left
       palm_right: Socket_Palm_Right
-    # Source-speed clips after ready pauses: the hook lands 0.604 s into Attack, the one-hand thrust releases 0.729 s
-    # into Ranged (from the right palm) and the two-handed push 0.771 s into Cast.
+    # The ranged attack and the spell play the two-handed push Cast, released 0.771 s in from both palms (user,
+    # 2026-11-12: one attack clip for both; the one-hand Ranged thrust stays in the model unbound). The melee attack
+    # plays Cast too (user review 2026-10-21; the hook Attack clip was removed), landing with its push, without the
+    # spell glow.
     events:
-      attack_melee: {impact: 0.604}
-      attack_ranged: {impact: 0.946, glow: [palm_right], glow_scale: 2}
+      attack_melee: {impact: 0.87}
+      attack_ranged: {impact: 0.87, glow: [palm_left, palm_right], glow_scale: 2}
       cast: {impact: 0.87, glow: [palm_left, palm_right], glow_scale: 2}
   clips:
     standing: Standing
-    walking: Walking
-    attack_melee: Attack
-    attack_ranged: Ranged
+    walking: WalkHeavy
+    attack_melee: Cast
+    attack_ranged: Cast
     hit: Hit
     dying: Death
     dead: Dead
@@ -1863,8 +1927,9 @@ actors:
   yaw_offset: -1.570796327
   animation:
     cast: Cast
-    run: Running
-    stride_length: 1.07
+    run: Walking
+    stride_length: 0.902
+    run_stride_length: 1.255
     upper_body_root: Spine02
     # The neck and head share a turn toward the party over every clip but the death.
     look:
@@ -1874,17 +1939,19 @@ actors:
     sockets:
       palm_left: Socket_Palm_Left
       palm_right: Socket_Palm_Right
-    # Source-speed clips after ready pauses: the hook lands 0.604 s into Attack, the one-hand thrust releases 0.729 s
-    # into Ranged (from the right palm) and the two-handed push 0.771 s into Cast.
+    # The ranged attack and the spell play the two-handed push Cast, released 0.771 s in from both palms (user,
+    # 2026-11-12: one attack clip for both; the one-hand Ranged thrust stays in the model unbound). The melee attack
+    # plays Cast too (user review 2026-10-21; the hook Attack clip was removed), landing with its push, without the
+    # spell glow.
     events:
-      attack_melee: {impact: 0.604}
-      attack_ranged: {impact: 0.946, glow: [palm_right], glow_scale: 2}
+      attack_melee: {impact: 0.87}
+      attack_ranged: {impact: 0.87, glow: [palm_left, palm_right], glow_scale: 2}
       cast: {impact: 0.87, glow: [palm_left, palm_right], glow_scale: 2}
   clips:
     standing: Standing
-    walking: Walking
-    attack_melee: Attack
-    attack_ranged: Ranged
+    walking: WalkHeavy
+    attack_melee: Cast
+    attack_ranged: Cast
     hit: Hit
     dying: Death
     dead: Dead
@@ -1897,8 +1964,9 @@ actors:
   yaw_offset: -1.570796327
   animation:
     cast: Cast
-    run: Running
-    stride_length: 1.07
+    run: Walking
+    stride_length: 0.902
+    run_stride_length: 1.255
     upper_body_root: Spine02
     # The neck and head share a turn toward the party over every clip but the death.
     look:
@@ -1908,17 +1976,19 @@ actors:
     sockets:
       palm_left: Socket_Palm_Left
       palm_right: Socket_Palm_Right
-    # Source-speed clips after ready pauses: the hook lands 0.604 s into Attack, the one-hand thrust releases 0.729 s
-    # into Ranged (from the right palm) and the two-handed push 0.771 s into Cast.
+    # The ranged attack and the spell play the two-handed push Cast, released 0.771 s in from both palms (user,
+    # 2026-11-12: one attack clip for both; the one-hand Ranged thrust stays in the model unbound). The melee attack
+    # plays Cast too (user review 2026-10-21; the hook Attack clip was removed), landing with its push, without the
+    # spell glow.
     events:
-      attack_melee: {impact: 0.604}
-      attack_ranged: {impact: 0.946, glow: [palm_right], glow_scale: 2}
+      attack_melee: {impact: 0.87}
+      attack_ranged: {impact: 0.87, glow: [palm_left, palm_right], glow_scale: 2}
       cast: {impact: 0.87, glow: [palm_left, palm_right], glow_scale: 2}
   clips:
     standing: Standing
-    walking: Walking
-    attack_melee: Attack
-    attack_ranged: Ranged
+    walking: WalkHeavy
+    attack_melee: Cast
+    attack_ranged: Cast
     hit: Hit
     dying: Death
     dead: Dead
@@ -1928,91 +1998,111 @@ actors:
 # Mutant clips. Skins wwf_a/b/c share one texture set and a head set; shorts and pendant gem follow palettes
 # 831/832/833 (region ramps). Scale: native stand frame 246 px x frame scale 0.9 = 221 units against the 1.526 m
 # posed Standing height. Melee only (bite: rears up, claws raised, lunges with the jaws open).
-# MM6 thief / burglar / rogue (thf), Meshy Smart Topology + Meshy rig with cloak chains (baked verlet), finger rig and
-# two daggers in the skinned mesh (shown only in the attack). Skins thf_a/b/c share one texture set; the cloak, hood
-# and undershirt follow palettes 825/826/827 (region ramps).
+# MM6 thief / burglar / rogue (thf), rebuilt 2026-11-11 (level_generation/creatures/mm6_thf_rebuild_claude): the gated HD masters' Smart
+# Topology on MM9's HIGHWAYMAN skeleton and its FIGHTERBASE clips, MPFB five-finger hands, the cloak on 14 keyed chains, the approved
+# daggers on MM9's Ybasesword / Ybasedagger (shown only in the attacks). One shared texture set + head set; the cloak, hood and
+# undershirt follow palettes 825/826/827 (region ramps). Attack: Hattack3 x1.2 (contact 0.375 s); thrown dagger: Rattack1 x1.2
+# (release 0.417 s from the left fist). Scale: native stand frame 171.5 units against the 1.839 m Standing height.
 - descriptor: BThief A
   model: worlds/mm6/models/mm6_thf.glb
-  scale: 108.68
+  scale: 93.26
   yaw_offset: -1.570796327
   animation:
     cast: Attack
-    run: Running
-    stride_length: 1.16
-    upper_body_root: Spine02
-    # The neck and head share a turn toward the party over every clip but the death.
+    run: Jog
+    stride_length: 1.9178
+    run_stride_length: 2.666
+    sprint: Running
+    sprint_stride_length: 3.21
+    upper_body_root: Bip01 Spine1
     look:
-      nodes: [neck, Head]
+      nodes: [Bip01 Neck, Bip01 Head]
       max_yaw_degrees: 60
       max_pitch_degrees: 35
+    sockets:
+      dagger: Ybasedagger
     events:
-      attack_melee: {impact: 0.403}
-      attack_ranged: {impact: 0.403}
+      attack_melee: {impact: 0.375}
+      attack_ranged: {impact: 0.417, release: dagger}
   clips:
     standing: Standing
-    walking: Walking
+    walking: Walk2
     attack_melee: Attack
-    attack_ranged: Attack
+    attack_ranged: AttackRanged
     hit: Hit
     dying: Death
     dead: Dead
     fidget: Fidget
+  script_clips:
+    attack2: Attack2
   skin: thf_a
 - descriptor: BThief B
   model: worlds/mm6/models/mm6_thf.glb
-  scale: 108.68
+  scale: 93.26
   scale_reference: BThief A
   yaw_offset: -1.570796327
   animation:
     cast: Attack
-    run: Running
-    stride_length: 1.16
-    upper_body_root: Spine02
-    # The neck and head share a turn toward the party over every clip but the death.
+    run: Jog
+    stride_length: 1.9178
+    run_stride_length: 2.666
+    sprint: Running
+    sprint_stride_length: 3.21
+    upper_body_root: Bip01 Spine1
     look:
-      nodes: [neck, Head]
+      nodes: [Bip01 Neck, Bip01 Head]
       max_yaw_degrees: 60
       max_pitch_degrees: 35
+    sockets:
+      dagger: Ybasedagger
     events:
-      attack_melee: {impact: 0.403}
-      attack_ranged: {impact: 0.403}
+      attack_melee: {impact: 0.375}
+      attack_ranged: {impact: 0.417, release: dagger}
   clips:
     standing: Standing
-    walking: Walking
+    walking: Walk2
     attack_melee: Attack
-    attack_ranged: Attack
+    attack_ranged: AttackRanged
     hit: Hit
     dying: Death
     dead: Dead
     fidget: Fidget
+  script_clips:
+    attack2: Attack2
   skin: thf_b
 - descriptor: BThief C
   model: worlds/mm6/models/mm6_thf.glb
-  scale: 108.68
+  scale: 93.26
   scale_reference: BThief A
   yaw_offset: -1.570796327
   animation:
     cast: Attack
-    run: Running
-    stride_length: 1.16
-    upper_body_root: Spine02
-    # The neck and head share a turn toward the party over every clip but the death.
+    run: Jog
+    stride_length: 1.9178
+    run_stride_length: 2.666
+    sprint: Running
+    sprint_stride_length: 3.21
+    upper_body_root: Bip01 Spine1
     look:
-      nodes: [neck, Head]
+      nodes: [Bip01 Neck, Bip01 Head]
       max_yaw_degrees: 60
       max_pitch_degrees: 35
+    sockets:
+      dagger: Ybasedagger
     events:
-      attack_melee: {impact: 0.403}
-      attack_ranged: {impact: 0.403}
+      attack_melee: {impact: 0.375}
+      attack_ranged: {impact: 0.417, release: dagger}
   clips:
     standing: Standing
-    walking: Walking
+    walking: Walk2
     attack_melee: Attack
-    attack_ranged: Attack
+    attack_ranged: AttackRanged
     hit: Hit
     dying: Death
     dead: Dead
     fidget: Fidget
+  script_clips:
+    attack2: Attack2
   skin: thf_c
 - descriptor: Werewolf A
   model: worlds/mm6/models/mm6_wwf.glb
@@ -2020,8 +2110,11 @@ actors:
   yaw_offset: -1.570796327
   animation:
     cast: Attack
-    run: Running
-    stride_length: 1.71
+    run: Run2
+    stride_length: 1.7988
+    run_stride_length: 2.8999
+    sprint: Sprint
+    sprint_stride_length: 3.6521
     upper_body_root: Spine02
     # The neck and head share a turn toward the party over every clip but the death.
     look:
@@ -2032,7 +2125,7 @@ actors:
       attack_melee: {impact: 0.331}
   clips:
     standing: Standing
-    walking: Walking
+    walking: Walk2
     attack_melee: Attack
     attack_ranged: Attack
     hit: Hit
@@ -2047,8 +2140,11 @@ actors:
   yaw_offset: -1.570796327
   animation:
     cast: Attack
-    run: Running
-    stride_length: 1.71
+    run: Run2
+    stride_length: 1.7988
+    run_stride_length: 2.8999
+    sprint: Sprint
+    sprint_stride_length: 3.6521
     upper_body_root: Spine02
     # The neck and head share a turn toward the party over every clip but the death.
     look:
@@ -2059,7 +2155,7 @@ actors:
       attack_melee: {impact: 0.331}
   clips:
     standing: Standing
-    walking: Walking
+    walking: Walk2
     attack_melee: Attack
     attack_ranged: Attack
     hit: Hit
@@ -2074,8 +2170,11 @@ actors:
   yaw_offset: -1.570796327
   animation:
     cast: Attack
-    run: Running
-    stride_length: 1.71
+    run: Run2
+    stride_length: 1.7988
+    run_stride_length: 2.8999
+    sprint: Sprint
+    sprint_stride_length: 3.6521
     upper_body_root: Spine02
     # The neck and head share a turn toward the party over every clip but the death.
     look:
@@ -2086,7 +2185,7 @@ actors:
       attack_melee: {impact: 0.331}
   clips:
     standing: Standing
-    walking: Walking
+    walking: Walk2
     attack_melee: Attack
     attack_ranged: Attack
     hit: Hit
@@ -2104,8 +2203,11 @@ actors:
   yaw_offset: -1.570796327
   animation:
     cast: Attack
-    run: Running
-    stride_length: 1.028
+    run: Jog
+    stride_length: 1.5398
+    run_stride_length: 2.5469
+    sprint: Sprint
+    sprint_stride_length: 3.6026
     upper_body_root: mixamorig:Spine
     # The neck and head share a turn toward the party over every clip but the death.
     look:
@@ -2118,7 +2220,7 @@ actors:
       attack_melee: {impact: 0.912}
   clips:
     standing: Standing
-    walking: Walking
+    walking: Walk2
     attack_melee: Attack
     attack_ranged: Attack
     hit: Hit
@@ -2131,12 +2233,15 @@ actors:
       node: Sword
 - descriptor: Skeleton B
   model: worlds/mm6/models/mm6_ske.glb
-  scale: 123.6
+  scale: 141.2556293812688
   yaw_offset: -1.570796327
   animation:
     cast: Attack
-    run: Running
-    stride_length: 1.028
+    run: Jog
+    stride_length: 1.5398
+    run_stride_length: 2.5469
+    sprint: Sprint
+    sprint_stride_length: 3.6026
     upper_body_root: mixamorig:Spine
     # The neck and head share a turn toward the party over every clip but the death.
     look:
@@ -2149,7 +2254,7 @@ actors:
       attack_melee: {impact: 0.912}
   clips:
     standing: Standing
-    walking: Walking
+    walking: Walk2
     attack_melee: Attack
     attack_ranged: Attack
     hit: Hit
@@ -2162,12 +2267,15 @@ actors:
       node: Sword
 - descriptor: Skeleton C
   model: worlds/mm6/models/mm6_ske.glb
-  scale: 123.6
+  scale: 158.9139073453172
   yaw_offset: -1.570796327
   animation:
     cast: Attack
-    run: Running
-    stride_length: 1.028
+    run: Jog
+    stride_length: 1.5398
+    run_stride_length: 2.5469
+    sprint: Sprint
+    sprint_stride_length: 3.6026
     upper_body_root: mixamorig:Spine
     # The neck and head share a turn toward the party over every clip but the death.
     look:
@@ -2180,7 +2288,7 @@ actors:
       attack_melee: {impact: 0.912}
   clips:
     standing: Standing
-    walking: Walking
+    walking: Walk2
     attack_melee: Attack
     attack_ranged: Attack
     hit: Hit
@@ -2205,8 +2313,9 @@ actors:
       palm_right: Socket_Palm_R
       staff_head: Socket_Staff_Head
     cast: Cast
-    run: Walking
-    stride_length: 1.2
+    run: Jog
+    stride_length: 1.428
+    run_stride_length: 2.1277
     upper_body_root: Spine02
     # The neck and head share a turn toward the party over every clip but the death.
     look:
@@ -2246,8 +2355,9 @@ actors:
       palm_right: Socket_Palm_R
       staff_head: Socket_Staff_Head
     cast: Cast
-    run: Walking
-    stride_length: 1.2
+    run: Jog
+    stride_length: 1.428
+    run_stride_length: 2.1277
     upper_body_root: Spine02
     # The neck and head share a turn toward the party over every clip but the death.
     look:
@@ -2287,8 +2397,9 @@ actors:
       palm_right: Socket_Palm_R
       staff_head: Socket_Staff_Head
     cast: Cast
-    run: Walking
-    stride_length: 1.2
+    run: Jog
+    stride_length: 1.428
+    run_stride_length: 2.1277
     upper_body_root: Spine02
     # The neck and head share a turn toward the party over every clip but the death.
     look:
@@ -2333,8 +2444,11 @@ actors:
       l_finger2: {node: B_L_Finger2, offset: [0.0045, -0.0025, -0.0071]}
       r_hand: {node: B_R_Hand, offset: [-0.0002, 0.0612, 0.0051]}
     cast: Attack
-    run: Running
-    stride_length: 1.032258
+    run: Jog
+    stride_length: 1.65
+    run_stride_length: 3.2856
+    sprint: Sprint
+    sprint_stride_length: 4.2974
     upper_body_root: B_Spine
     # The neck and head share a turn toward the party over every clip but the death.
     look:
@@ -2368,8 +2482,11 @@ actors:
       l_finger2: {node: B_L_Finger2, offset: [0.0045, -0.0025, -0.0071]}
       r_hand: {node: B_R_Hand, offset: [-0.0002, 0.0612, 0.0051]}
     cast: Attack
-    run: Running
-    stride_length: 1.032258
+    run: Jog
+    stride_length: 1.65
+    run_stride_length: 3.2856
+    sprint: Sprint
+    sprint_stride_length: 4.2974
     upper_body_root: B_Spine
     # The neck and head share a turn toward the party over every clip but the death.
     look:
@@ -2403,8 +2520,11 @@ actors:
       l_finger2: {node: B_L_Finger2, offset: [0.0045, -0.0025, -0.0071]}
       r_hand: {node: B_R_Hand, offset: [-0.0002, 0.0612, 0.0051]}
     cast: Attack
-    run: Running
-    stride_length: 1.032258
+    run: Jog
+    stride_length: 1.65
+    run_stride_length: 3.2856
+    sprint: Sprint
+    sprint_stride_length: 4.2974
     upper_body_root: B_Spine
     # The neck and head share a turn toward the party over every clip but the death.
     look:
@@ -2440,8 +2560,11 @@ actors:
   yaw_offset: -1.570796327
   animation:
     cast: Attack
-    run: Running
-    stride_length: 1.2
+    run: Jog
+    stride_length: 1.75
+    run_stride_length: 2.8
+    sprint: Sprint
+    sprint_stride_length: 4.1
     upper_body_root: B_Spine
     look:
       nodes: [B_Neck, B_Head]
@@ -2451,7 +2574,7 @@ actors:
       attack_melee: {impact: 0.599}
   clips:
     standing: Standing
-    walking: Walking
+    walking: Walk2
     attack_melee: Attack
     attack_ranged: Attack
     hit: Hit
@@ -2470,8 +2593,11 @@ actors:
   yaw_offset: -1.570796327
   animation:
     cast: Attack
-    run: Running
-    stride_length: 1.2
+    run: Jog
+    stride_length: 1.75
+    run_stride_length: 2.8
+    sprint: Sprint
+    sprint_stride_length: 4.1
     upper_body_root: B_Spine
     look:
       nodes: [B_Neck, B_Head]
@@ -2481,7 +2607,7 @@ actors:
       attack_melee: {impact: 0.599}
   clips:
     standing: Standing
-    walking: Walking
+    walking: Walk2
     attack_melee: Attack
     attack_ranged: Attack
     hit: Hit
@@ -2500,8 +2626,11 @@ actors:
   yaw_offset: -1.570796327
   animation:
     cast: Attack
-    run: Running
-    stride_length: 1.2
+    run: Jog
+    stride_length: 1.75
+    run_stride_length: 2.8
+    sprint: Sprint
+    sprint_stride_length: 4.1
     upper_body_root: B_Spine
     look:
       nodes: [B_Neck, B_Head]
@@ -2511,7 +2640,7 @@ actors:
       attack_melee: {impact: 0.599}
   clips:
     standing: Standing
-    walking: Walking
+    walking: Walk2
     attack_melee: Attack
     attack_ranged: Attack
     hit: Hit
@@ -2536,8 +2665,9 @@ actors:
   yaw_offset: -1.570796327
   animation:
     cast: Cast
-    run: Walking
-    stride_length: 1.25
+    run: Jog
+    stride_length: 1.42
+    run_stride_length: 2.2475
     upper_body_root: B_Spine
     # The neck and head share a turn toward the party over every clip but the death.
     look:
@@ -2567,8 +2697,9 @@ actors:
   yaw_offset: -1.570796327
   animation:
     cast: Cast
-    run: Walking
-    stride_length: 1.25
+    run: Jog
+    stride_length: 1.42
+    run_stride_length: 2.2475
     upper_body_root: B_Spine
     # The neck and head share a turn toward the party over every clip but the death.
     look:
@@ -2598,8 +2729,9 @@ actors:
   yaw_offset: -1.570796327
   animation:
     cast: Cast
-    run: Walking
-    stride_length: 1.25
+    run: Jog
+    stride_length: 1.42
+    run_stride_length: 2.2475
     upper_body_root: B_Spine
     # The neck and head share a turn toward the party over every clip but the death.
     look:
@@ -2632,8 +2764,11 @@ actors:
   yaw_offset: -1.570796327
   animation:
     cast: Attack
-    run: Running
-    stride_length: 1.25
+    run: Jog
+    stride_length: 1.68
+    run_stride_length: 2.9936
+    sprint: Sprint
+    sprint_stride_length: 4.2108
     upper_body_root: B_Spine
     look:
       nodes: [B_Neck, B_Head]
@@ -2661,8 +2796,11 @@ actors:
   yaw_offset: -1.570796327
   animation:
     cast: Attack
-    run: Running
-    stride_length: 1.25
+    run: Jog
+    stride_length: 1.68
+    run_stride_length: 2.9936
+    sprint: Sprint
+    sprint_stride_length: 4.2108
     upper_body_root: B_Spine
     look:
       nodes: [B_Neck, B_Head]
@@ -2690,8 +2828,11 @@ actors:
   yaw_offset: -1.570796327
   animation:
     cast: Attack
-    run: Running
-    stride_length: 1.25
+    run: Jog
+    stride_length: 1.68
+    run_stride_length: 2.9936
+    sprint: Sprint
+    sprint_stride_length: 4.2108
     upper_body_root: B_Spine
     look:
       nodes: [B_Neck, B_Head]
@@ -2721,8 +2862,11 @@ actors:
   yaw_offset: -1.570796327
   animation:
     cast: Attack
-    run: Running
-    stride_length: 0.93
+    run: Walking
+    stride_length: 1.602
+    run_stride_length: 1.602
+    sprint: Sprint
+    sprint_stride_length: 3.7784
     upper_body_root: B_Spine
     look:
       nodes:
@@ -2752,8 +2896,11 @@ actors:
   yaw_offset: -1.570796327
   animation:
     cast: Attack
-    run: Running
-    stride_length: 0.93
+    run: Walking
+    stride_length: 1.602
+    run_stride_length: 1.602
+    sprint: Sprint
+    sprint_stride_length: 3.7784
     upper_body_root: B_Spine
     look:
       nodes:
@@ -2783,8 +2930,11 @@ actors:
   yaw_offset: -1.570796327
   animation:
     cast: Attack
-    run: Running
-    stride_length: 0.93
+    run: Walking
+    stride_length: 1.602
+    run_stride_length: 1.602
+    sprint: Sprint
+    sprint_stride_length: 3.7784
     upper_body_root: B_Spine
     look:
       nodes:
@@ -2818,8 +2968,9 @@ actors:
   yaw_offset: -1.570796327
   animation:
     cast: Cast
-    run: Walking
-    stride_length: 1.284
+    run: Jog
+    stride_length: 1.588
+    run_stride_length: 2.5016
     upper_body_root: B_Spine
     look:
       nodes: [B_Neck, B_Head]
@@ -2849,8 +3000,9 @@ actors:
   yaw_offset: -1.570796327
   animation:
     cast: Cast
-    run: Walking
-    stride_length: 1.284
+    run: Jog
+    stride_length: 1.588
+    run_stride_length: 2.5016
     upper_body_root: B_Spine
     look:
       nodes: [B_Neck, B_Head]
@@ -2880,8 +3032,9 @@ actors:
   yaw_offset: -1.570796327
   animation:
     cast: Cast
-    run: Walking
-    stride_length: 1.284
+    run: Jog
+    stride_length: 1.588
+    run_stride_length: 2.5016
     upper_body_root: B_Spine
     look:
       nodes: [B_Neck, B_Head]
@@ -2914,8 +3067,11 @@ actors:
   yaw_offset: -1.570796327
   animation:
     cast: Attack
-    run: Walking
-    stride_length: 1.2
+    run: Jog
+    stride_length: 1.783
+    run_stride_length: 3.0072
+    sprint: Sprint
+    sprint_stride_length: 3.798
     upper_body_root: B_Spine
     look:
       nodes:
@@ -2948,8 +3104,11 @@ actors:
   yaw_offset: -1.570796327
   animation:
     cast: Attack
-    run: Walking
-    stride_length: 1.2
+    run: Jog
+    stride_length: 1.783
+    run_stride_length: 3.0072
+    sprint: Sprint
+    sprint_stride_length: 3.798
     upper_body_root: B_Spine
     look:
       nodes:
@@ -2982,8 +3141,11 @@ actors:
   yaw_offset: -1.570796327
   animation:
     cast: Attack
-    run: Walking
-    stride_length: 1.2
+    run: Jog
+    stride_length: 1.783
+    run_stride_length: 3.0072
+    sprint: Sprint
+    sprint_stride_length: 3.798
     upper_body_root: B_Spine
     look:
       nodes:
@@ -3020,8 +3182,11 @@ actors:
     sockets:
       sword_tip: SwordTip
     cast: Attack
-    run: Running
-    stride_length: 1.35
+    run: Jog
+    stride_length: 1.767
+    run_stride_length: 3.3738
+    sprint: Sprint
+    sprint_stride_length: 4.1581
     upper_body_root: B_Spine
     look:
       nodes:
@@ -3055,8 +3220,11 @@ actors:
     sockets:
       sword_tip: SwordTip
     cast: Attack
-    run: Running
-    stride_length: 1.35
+    run: Jog
+    stride_length: 1.767
+    run_stride_length: 3.3738
+    sprint: Sprint
+    sprint_stride_length: 4.1581
     upper_body_root: B_Spine
     look:
       nodes:
@@ -3090,8 +3258,11 @@ actors:
     sockets:
       sword_tip: SwordTip
     cast: Attack
-    run: Running
-    stride_length: 1.35
+    run: Jog
+    stride_length: 1.767
+    run_stride_length: 3.3738
+    sprint: Sprint
+    sprint_stride_length: 4.1581
     upper_body_root: B_Spine
     look:
       nodes:
@@ -3125,8 +3296,9 @@ actors:
   yaw_offset: -1.570796327
   animation:
     cast: Cast
-    run: Walking
-    stride_length: 1.57
+    run: Run2
+    stride_length: 1.7026
+    run_stride_length: 1.777
     upper_body_root: B_Spine
     sockets:
       palm_left: Socket_Palm_Left
@@ -3137,7 +3309,7 @@ actors:
       cast: {impact: 0.502, glow: [palm_left, palm_right]}
   clips:
     standing: Standing
-    walking: Walking
+    walking: Walk2
     attack_melee: Attack
     attack_ranged: Attack
     hit: Hit
@@ -3151,8 +3323,9 @@ actors:
   yaw_offset: -1.570796327
   animation:
     cast: Cast
-    run: Walking
-    stride_length: 1.57
+    run: Run2
+    stride_length: 1.7026
+    run_stride_length: 1.777
     upper_body_root: B_Spine
     sockets:
       palm_left: Socket_Palm_Left
@@ -3163,7 +3336,7 @@ actors:
       cast: {impact: 0.502, glow: [palm_left, palm_right]}
   clips:
     standing: Standing
-    walking: Walking
+    walking: Walk2
     attack_melee: Attack
     attack_ranged: Attack
     hit: Hit
@@ -3177,8 +3350,9 @@ actors:
   yaw_offset: -1.570796327
   animation:
     cast: Cast
-    run: Walking
-    stride_length: 1.57
+    run: Run2
+    stride_length: 1.7026
+    run_stride_length: 1.777
     upper_body_root: B_Spine
     sockets:
       palm_left: Socket_Palm_Left
@@ -3189,7 +3363,7 @@ actors:
       cast: {impact: 0.502, glow: [palm_left, palm_right]}
   clips:
     standing: Standing
-    walking: Walking
+    walking: Walk2
     attack_melee: Attack
     attack_ranged: Attack
     hit: Hit
@@ -3206,8 +3380,9 @@ actors:
   yaw_offset: -1.570796327
   animation:
     cast: Cast
-    run: Walking
-    stride_length: 1.25
+    run: Jog
+    stride_length: 1.426
+    run_stride_length: 2.0
     upper_body_root: B_Spine
     look:
       nodes: [B_Neck, B_Head]
@@ -3240,8 +3415,9 @@ actors:
   yaw_offset: -1.570796327
   animation:
     cast: Cast
-    run: Walking
-    stride_length: 1.25
+    run: Jog
+    stride_length: 1.426
+    run_stride_length: 2.0
     upper_body_root: B_Spine
     look:
       nodes: [B_Neck, B_Head]
@@ -3274,8 +3450,9 @@ actors:
   yaw_offset: -1.570796327
   animation:
     cast: Cast
-    run: Walking
-    stride_length: 1.25
+    run: Jog
+    stride_length: 1.426
+    run_stride_length: 2.0
     upper_body_root: B_Spine
     look:
       nodes: [B_Neck, B_Head]
@@ -3311,6 +3488,8 @@ actors:
   animation:
     cast: Cast
     run: Running
+    # No feet (slithers, oozes or floats): its clip keeps a calm rate and glides beyond.
+    gait_rate: [0.8, 1.5]
     stride_length: 0.75
     upper_body_root: B_Pelvis
     look:
@@ -3346,6 +3525,8 @@ actors:
   animation:
     cast: Cast
     run: Running
+    # No feet (slithers, oozes or floats): its clip keeps a calm rate and glides beyond.
+    gait_rate: [0.8, 1.5]
     stride_length: 0.75
     upper_body_root: B_Pelvis
     look:
@@ -3381,6 +3562,8 @@ actors:
   animation:
     cast: Cast
     run: Running
+    # No feet (slithers, oozes or floats): its clip keeps a calm rate and glides beyond.
+    gait_rate: [0.8, 1.5]
     stride_length: 0.75
     upper_body_root: B_Pelvis
     look:
@@ -3419,8 +3602,9 @@ actors:
     sockets:
       arrow_release: Socket_Arrow_Release
     cast: Cast
-    run: Walking
-    stride_length: 1.02417324
+    run: Jog
+    stride_length: 0.866
+    run_stride_length: 2.1358
     upper_body_root: B_Spine
     look:
       nodes: [B_Neck, B_Head]
@@ -3454,8 +3638,9 @@ actors:
     sockets:
       arrow_release: Socket_Arrow_Release
     cast: Cast
-    run: Walking
-    stride_length: 1.02417324
+    run: Jog
+    stride_length: 0.866
+    run_stride_length: 2.1358
     upper_body_root: B_Spine
     look:
       nodes: [B_Neck, B_Head]
@@ -3489,8 +3674,9 @@ actors:
     sockets:
       arrow_release: Socket_Arrow_Release
     cast: Cast
-    run: Walking
-    stride_length: 1.02417324
+    run: Jog
+    stride_length: 0.866
+    run_stride_length: 2.1358
     upper_body_root: B_Spine
     look:
       nodes: [B_Neck, B_Head]
@@ -3523,9 +3709,11 @@ actors:
   yaw_offset: -1.570796327
   animation:
     cast: Attack
-    run: Running
-    stride_length: 0.89
-    run_stride_length: 0.706
+    run: Run2
+    stride_length: 1.0824
+    run_stride_length: 2.1061
+    sprint: Sprint
+    sprint_stride_length: 3.0936
     upper_body_root: B_Spine
     look:
       nodes:
@@ -3540,7 +3728,7 @@ actors:
         impact: 0.836
   clips:
     standing: Standing
-    walking: Walking
+    walking: Walk2
     attack_melee: Attack
     attack_ranged: Attack
     hit: Hit
@@ -3558,9 +3746,11 @@ actors:
   yaw_offset: -1.570796327
   animation:
     cast: Attack
-    run: Running
-    stride_length: 0.89
-    run_stride_length: 0.706
+    run: Run2
+    stride_length: 1.0824
+    run_stride_length: 2.1061
+    sprint: Sprint
+    sprint_stride_length: 3.0936
     upper_body_root: B_Spine
     look:
       nodes:
@@ -3575,7 +3765,7 @@ actors:
         impact: 0.836
   clips:
     standing: Standing
-    walking: Walking
+    walking: Walk2
     attack_melee: Attack
     attack_ranged: Attack
     hit: Hit
@@ -3593,9 +3783,11 @@ actors:
   yaw_offset: -1.570796327
   animation:
     cast: Attack
-    run: Running
-    stride_length: 0.89
-    run_stride_length: 0.706
+    run: Run2
+    stride_length: 1.0824
+    run_stride_length: 2.1061
+    sprint: Sprint
+    sprint_stride_length: 3.0936
     upper_body_root: B_Spine
     look:
       nodes:
@@ -3610,7 +3802,7 @@ actors:
         impact: 0.836
   clips:
     standing: Standing
-    walking: Walking
+    walking: Walk2
     attack_melee: Attack
     attack_ranged: Attack
     hit: Hit
@@ -3633,6 +3825,7 @@ actors:
     cast: Attack
     run: Flight
     stride_length: 2.4
+    gait_rate: [0.8, 1.5]
     upper_body_root: B_Spine
     look:
       nodes: [B_Neck, B_Head]
@@ -3662,6 +3855,7 @@ actors:
     cast: Attack
     run: Flight
     stride_length: 2.4
+    gait_rate: [0.8, 1.5]
     upper_body_root: B_Spine
     look:
       nodes: [B_Neck, B_Head]
@@ -3691,6 +3885,7 @@ actors:
     cast: Attack
     run: Flight
     stride_length: 2.4
+    gait_rate: [0.8, 1.5]
     upper_body_root: B_Spine
     look:
       nodes: [B_Neck, B_Head]
@@ -3725,8 +3920,11 @@ actors:
       l_hand: {node: B_L_Hand, offset: [0.0135, 0.0851, 0.0238]}
       staff_tip: StaffTip
     cast: Cast
-    run: Walking
-    stride_length: 1.253289580
+    run: Run
+    stride_length: 1.7152
+    run_stride_length: 3.2027
+    sprint: Sprint
+    sprint_stride_length: 4.366
     upper_body_root: B_Spine
     look:
       nodes: [B_Neck, B_Head]
@@ -3738,7 +3936,7 @@ actors:
       cast: {impact: 0.974, glow: [l_hand]}
   clips:
     standing: Standing
-    walking: Walking
+    walking: Walk2
     attack_melee: Attack
     attack_ranged: Attack
     hit: Hit
@@ -3760,8 +3958,11 @@ actors:
       l_hand: {node: B_L_Hand, offset: [0.0135, 0.0851, 0.0238]}
       staff_tip: StaffTip
     cast: Cast
-    run: Walking
-    stride_length: 1.253289580
+    run: Run
+    stride_length: 1.7152
+    run_stride_length: 3.2027
+    sprint: Sprint
+    sprint_stride_length: 4.366
     upper_body_root: B_Spine
     look:
       nodes: [B_Neck, B_Head]
@@ -3773,7 +3974,7 @@ actors:
       cast: {impact: 0.974, glow: [l_hand]}
   clips:
     standing: Standing
-    walking: Walking
+    walking: Walk2
     attack_melee: Attack
     attack_ranged: Attack
     hit: Hit
@@ -3795,8 +3996,11 @@ actors:
       l_hand: {node: B_L_Hand, offset: [0.0135, 0.0851, 0.0238]}
       staff_tip: StaffTip
     cast: Cast
-    run: Walking
-    stride_length: 1.253289580
+    run: Run
+    stride_length: 1.7152
+    run_stride_length: 3.2027
+    sprint: Sprint
+    sprint_stride_length: 4.366
     upper_body_root: B_Spine
     look:
       nodes: [B_Neck, B_Head]
@@ -3808,7 +4012,7 @@ actors:
       cast: {impact: 0.974, glow: [l_hand]}
   clips:
     standing: Standing
-    walking: Walking
+    walking: Walk2
     attack_melee: Attack
     attack_ranged: Attack
     hit: Hit
@@ -3829,8 +4033,11 @@ actors:
     sockets:
       axe_head: Socket_Axe_Head
     cast: Cast
-    run: Running
-    stride_length: 1.398605
+    run: Run2
+    stride_length: 1.678
+    run_stride_length: 3.0383
+    sprint: Sprint
+    sprint_stride_length: 3.7452
     upper_body_root: B_Spine
     look:
       nodes: [B_Neck, B_Head]
@@ -3862,8 +4069,11 @@ actors:
     sockets:
       axe_head: Socket_Axe_Head
     cast: Cast
-    run: Running
-    stride_length: 1.398605
+    run: Run2
+    stride_length: 1.678
+    run_stride_length: 3.0383
+    sprint: Sprint
+    sprint_stride_length: 3.7452
     upper_body_root: B_Spine
     look:
       nodes: [B_Neck, B_Head]
@@ -3895,8 +4105,11 @@ actors:
     sockets:
       axe_head: Socket_Axe_Head
     cast: Cast
-    run: Running
-    stride_length: 1.398605
+    run: Run2
+    stride_length: 1.678
+    run_stride_length: 3.0383
+    sprint: Sprint
+    sprint_stride_length: 3.7452
     upper_body_root: B_Spine
     look:
       nodes: [B_Neck, B_Head]
@@ -3931,8 +4144,9 @@ actors:
     sockets:
       arrow: Socket_Arrow
     cast: Cast
-    run: Running
-    stride_length: 1.365689918
+    run: Jog
+    stride_length: 1.2426
+    run_stride_length: 2.2999
     upper_body_root: B_Spine
     look:
       nodes:
@@ -3947,7 +4161,7 @@ actors:
       cast: {impact: 0.489583333333, glow: [arrow]}
   clips:
     standing: Standing
-    walking: Walking
+    walking: Walk2
     attack_melee: Attack
     attack_ranged: Attack
     hit: Hit
@@ -3967,8 +4181,9 @@ actors:
     sockets:
       arrow: Socket_Arrow
     cast: Cast
-    run: Running
-    stride_length: 1.365689918
+    run: Jog
+    stride_length: 1.2426
+    run_stride_length: 2.2999
     upper_body_root: B_Spine
     look:
       nodes:
@@ -3983,7 +4198,7 @@ actors:
       cast: {impact: 0.489583333333, glow: [arrow]}
   clips:
     standing: Standing
-    walking: Walking
+    walking: Walk2
     attack_melee: Attack
     attack_ranged: Attack
     hit: Hit
@@ -4003,8 +4218,9 @@ actors:
     sockets:
       arrow: Socket_Arrow
     cast: Cast
-    run: Running
-    stride_length: 1.365689918
+    run: Jog
+    stride_length: 1.2426
+    run_stride_length: 2.2999
     upper_body_root: B_Spine
     look:
       nodes:
@@ -4019,7 +4235,7 @@ actors:
       cast: {impact: 0.489583333333, glow: [arrow]}
   clips:
     standing: Standing
-    walking: Walking
+    walking: Walk2
     attack_melee: Attack
     attack_ranged: Attack
     hit: Hit
@@ -4039,6 +4255,7 @@ actors:
     cast: Cast
     run: Running
     stride_length: 2.2
+    gait_rate: [0.8, 1.5]
     upper_body_root: Root
     look:
       nodes: [Neck, Head]
@@ -4070,6 +4287,7 @@ actors:
     cast: Cast
     run: Running
     stride_length: 2.2
+    gait_rate: [0.8, 1.5]
     upper_body_root: Root
     look:
       nodes: [Neck, Head]
@@ -4101,6 +4319,7 @@ actors:
     cast: Cast
     run: Running
     stride_length: 2.2
+    gait_rate: [0.8, 1.5]
     upper_body_root: Root
     look:
       nodes: [Neck, Head]
@@ -4130,9 +4349,12 @@ actors:
   yaw_offset: -1.570796327
   skin: ert_a
   animation:
-    run: Walking
+    run: Run
     cast: Attack
-    stride_length: 2.675389974
+    stride_length: 2.7522
+    run_stride_length: 4.0206
+    sprint: Sprint
+    sprint_stride_length: 5.5509
     upper_body_root: B_Spine
     look:
       nodes: [B_Neck, B_Head]
@@ -4147,7 +4369,7 @@ actors:
       cast: {impact: 0.915, glow: [palm_left, palm_right], release: palm_left}
   clips:
     standing: Standing
-    walking: Walking
+    walking: Walk2
     attack_melee: Attack
     attack_ranged: Attack
     hit: Hit
@@ -4161,9 +4383,12 @@ actors:
   yaw_offset: -1.570796327
   skin: ert_b
   animation:
-    run: Walking
+    run: Run
     cast: Attack
-    stride_length: 2.675389974
+    stride_length: 2.7522
+    run_stride_length: 4.0206
+    sprint: Sprint
+    sprint_stride_length: 5.5509
     upper_body_root: B_Spine
     look:
       nodes: [B_Neck, B_Head]
@@ -4178,7 +4403,7 @@ actors:
       cast: {impact: 0.915, glow: [palm_left, palm_right], release: palm_left}
   clips:
     standing: Standing
-    walking: Walking
+    walking: Walk2
     attack_melee: Attack
     attack_ranged: Attack
     hit: Hit
@@ -4192,9 +4417,12 @@ actors:
   yaw_offset: -1.570796327
   skin: ert_c
   animation:
-    run: Walking
+    run: Run
     cast: Attack
-    stride_length: 2.675389974
+    stride_length: 2.7522
+    run_stride_length: 4.0206
+    sprint: Sprint
+    sprint_stride_length: 5.5509
     upper_body_root: B_Spine
     look:
       nodes: [B_Neck, B_Head]
@@ -4209,7 +4437,7 @@ actors:
       cast: {impact: 0.915, glow: [palm_left, palm_right], release: palm_left}
   clips:
     standing: Standing
-    walking: Walking
+    walking: Walk2
     attack_melee: Attack
     attack_ranged: Attack
     hit: Hit
@@ -4228,8 +4456,11 @@ actors:
     sockets:
       hand_right: B_R_Hand
     cast: Cast
-    run: Running
-    stride_length: 1.199315994977951
+    run: Jog
+    stride_length: 1.8
+    run_stride_length: 2.85
+    sprint: Sprint
+    sprint_stride_length: 4.11
     upper_body_root: B_Spine
     look:
       nodes:
@@ -4245,7 +4476,7 @@ actors:
       cast: {impact: 0.43, glow: [hand_right]}
   clips:
     standing: Standing
-    walking: Walking
+    walking: Walk2
     attack_melee: Attack
     attack_ranged: Attack
     hit: Hit
@@ -4266,8 +4497,11 @@ actors:
     sockets:
       hand_right: B_R_Hand
     cast: Cast
-    run: Running
-    stride_length: 1.199315994977951
+    run: Jog
+    stride_length: 1.8
+    run_stride_length: 2.85
+    sprint: Sprint
+    sprint_stride_length: 4.11
     upper_body_root: B_Spine
     look:
       nodes:
@@ -4283,7 +4517,7 @@ actors:
       cast: {impact: 0.43, glow: [hand_right]}
   clips:
     standing: Standing
-    walking: Walking
+    walking: Walk2
     attack_melee: Attack
     attack_ranged: Attack
     hit: Hit
@@ -4305,8 +4539,11 @@ actors:
     sockets:
       hand_right: B_R_Hand
     cast: Cast
-    run: Running
-    stride_length: 1.199315994977951
+    run: Jog
+    stride_length: 1.8
+    run_stride_length: 2.85
+    sprint: Sprint
+    sprint_stride_length: 4.11
     upper_body_root: B_Spine
     look:
       nodes:
@@ -4322,7 +4559,7 @@ actors:
       cast: {impact: 0.43, glow: [hand_right]}
   clips:
     standing: Standing
-    walking: Walking
+    walking: Walk2
     attack_melee: Attack
     attack_ranged: Attack
     hit: Hit
@@ -4344,8 +4581,11 @@ actors:
   skin: mep_a
   animation:
     cast: Cast
-    run: Running
-    stride_length: 0.618182
+    run: Jog
+    stride_length: 1.374
+    run_stride_length: 2.205
+    sprint: Sprint
+    sprint_stride_length: 4.098
     upper_body_root: B_Spine
     look:
       nodes:
@@ -4366,7 +4606,7 @@ actors:
       cast: {impact: 1.055, glow: [staff_head], glow_scale: 0.6}
   clips:
     standing: Standing
-    walking: Walking
+    walking: Walk2
     attack_melee: Attack
     attack_ranged: Attack
     hit: Hit
@@ -4384,8 +4624,11 @@ actors:
   scale_reference: PeasantM3 A
   animation:
     cast: Cast
-    run: Running
-    stride_length: 0.618182
+    run: Jog
+    stride_length: 1.374
+    run_stride_length: 2.205
+    sprint: Sprint
+    sprint_stride_length: 4.098
     upper_body_root: B_Spine
     look:
       nodes:
@@ -4406,7 +4649,7 @@ actors:
       cast: {impact: 1.055, glow: [staff_head], glow_scale: 0.6}
   clips:
     standing: Standing
-    walking: Walking
+    walking: Walk2
     attack_melee: Attack
     attack_ranged: Attack
     hit: Hit
@@ -4424,8 +4667,11 @@ actors:
   scale_reference: PeasantM3 A
   animation:
     cast: Cast
-    run: Running
-    stride_length: 0.618182
+    run: Jog
+    stride_length: 1.374
+    run_stride_length: 2.205
+    sprint: Sprint
+    sprint_stride_length: 4.098
     upper_body_root: B_Spine
     look:
       nodes:
@@ -4446,7 +4692,7 @@ actors:
       cast: {impact: 1.055, glow: [staff_head], glow_scale: 0.6}
   clips:
     standing: Standing
-    walking: Walking
+    walking: Walk2
     attack_melee: Attack
     attack_ranged: Attack
     hit: Hit
@@ -4465,20 +4711,23 @@ actors:
   skin: mfp_a
   animation:
     cast: Attack
-    run: Running
-    stride_length: 0.9
+    run: Jog
+    stride_length: 1.6
+    run_stride_length: 2.05
+    sprint: Sprint
+    sprint_stride_length: 2.6
     upper_body_root: B_Spine
     look:
       nodes: [B_Neck, B_Head]
       max_yaw_degrees: 60
       max_pitch_degrees: 35
     events:
-      attack_melee: {impact: 0.929}
-      attack_ranged: {impact: 0.929}
-      cast: {impact: 0.929}
+      attack_melee: {impact: 0.35}
+      attack_ranged: {impact: 0.35}
+      cast: {impact: 0.35}
   clips:
     standing: Standing
-    walking: Walking
+    walking: Walk2
     attack_melee: Attack
     attack_ranged: Attack
     hit: Hit
@@ -4496,20 +4745,23 @@ actors:
   skin: mfp_b
   animation:
     cast: Attack
-    run: Running
-    stride_length: 0.9
+    run: Jog
+    stride_length: 1.6
+    run_stride_length: 2.05
+    sprint: Sprint
+    sprint_stride_length: 2.6
     upper_body_root: B_Spine
     look:
       nodes: [B_Neck, B_Head]
       max_yaw_degrees: 60
       max_pitch_degrees: 35
     events:
-      attack_melee: {impact: 0.929}
-      attack_ranged: {impact: 0.929}
-      cast: {impact: 0.929}
+      attack_melee: {impact: 0.35}
+      attack_ranged: {impact: 0.35}
+      cast: {impact: 0.35}
   clips:
     standing: Standing
-    walking: Walking
+    walking: Walk2
     attack_melee: Attack
     attack_ranged: Attack
     hit: Hit
@@ -4527,20 +4779,23 @@ actors:
   skin: mfp_c
   animation:
     cast: Attack
-    run: Running
-    stride_length: 0.9
+    run: Jog
+    stride_length: 1.6
+    run_stride_length: 2.05
+    sprint: Sprint
+    sprint_stride_length: 2.6
     upper_body_root: B_Spine
     look:
       nodes: [B_Neck, B_Head]
       max_yaw_degrees: 60
       max_pitch_degrees: 35
     events:
-      attack_melee: {impact: 0.929}
-      attack_ranged: {impact: 0.929}
-      cast: {impact: 0.929}
+      attack_melee: {impact: 0.35}
+      attack_ranged: {impact: 0.35}
+      cast: {impact: 0.35}
   clips:
     standing: Standing
-    walking: Walking
+    walking: Walk2
     attack_melee: Attack
     attack_ranged: Attack
     hit: Hit
@@ -4558,8 +4813,9 @@ actors:
   skin: fmp_a
   animation:
     cast: Standing
-    run: Run
+    run: Jog
     stride_length: 0.804319130253
+    run_stride_length: 1.6
     upper_body_root: B_Spine
     look:
       nodes: [B_Neck, B_Head]
@@ -4582,8 +4838,9 @@ actors:
   skin: fmp_b
   animation:
     cast: Standing
-    run: Run
+    run: Jog
     stride_length: 0.804319130253
+    run_stride_length: 1.6
     upper_body_root: B_Spine
     look:
       nodes: [B_Neck, B_Head]
@@ -4606,8 +4863,9 @@ actors:
   skin: fmp_c
   animation:
     cast: Standing
-    run: Run
+    run: Jog
     stride_length: 0.804319130253
+    run_stride_length: 1.6
     upper_body_root: B_Spine
     look:
       nodes: [B_Neck, B_Head]
@@ -4623,34 +4881,32 @@ actors:
     dead: Dead
     fidget: Fidget
 
-# MM6 Peasant Merchant (mer1, monster IDs 577-579), Codex batch (mm6_mer1_codex/HANDOFF.md): town merchant with a club.
-# Native stand 177.1 units.
+# MM6 Peasant Merchant (mer1, monster IDs 577-579), rebuilt 2026-11-11 (level_generation/creatures/mm6_mer1_rebuild_claude): the gated
+# round-2 HD masters' Smart Topology on MM9's HIGHWAYMAN/FIGHTERBASE skeleton, body clips from MM9 NOBLEMAN (same Bip01 names),
+# FIGHTERBASE Hattack2 as the club blow, MPFB five-finger hands, the tunic skirt on 16 keyed chains. As the native merchant the club
+# hangs at his right hip (joint Club, riding the robe) and is drawn into the fist in the attack. One shared texture set + head set;
+# the tunic follows palettes 252/253/770 (region ramps). Scale: native stand 177.1 units against the 1.744 m Standing height.
 - descriptor: Merchant A
   model: worlds/mm6/models/mm6_mer1.glb
-  scale: 103.944653064
+  scale: 101.55
   yaw_offset: -1.570796327
-  z_offset: -0.103944653
   animation:
     cast: Attack
-    run: Running
-    stride_length: 0.84
-    upper_body_root: B_Spine
+    run: Jog
+    stride_length: 1.7251
+    run_stride_length: 2.0628
+    upper_body_root: Bip01 Spine1
     look:
-      nodes:
-      - B_Neck
-      - B_Head
+      nodes: [Bip01 Neck, Bip01 Head]
       max_yaw_degrees: 25
       max_pitch_degrees: 12
     events:
-      attack_melee:
-        impact: 0.882
-      attack_ranged:
-        impact: 0.882
-      cast:
-        impact: 0.882
+      attack_melee: {impact: 0.321}
+      attack_ranged: {impact: 0.321}
+      cast: {impact: 0.321}
   clips:
     standing: Standing
-    walking: Walking
+    walking: Walk2
     attack_melee: Attack
     attack_ranged: Attack
     hit: Hit
@@ -4663,30 +4919,26 @@ actors:
     node: Club
 - descriptor: Merchant B
   model: worlds/mm6/models/mm6_mer1.glb
-  scale: 103.944653064
+  scale: 101.55
+  scale_reference: Merchant A
   yaw_offset: -1.570796327
-  z_offset: -0.103944653
   animation:
     cast: Attack
-    run: Running
-    stride_length: 0.84
-    upper_body_root: B_Spine
+    run: Jog
+    stride_length: 1.7251
+    run_stride_length: 2.0628
+    upper_body_root: Bip01 Spine1
     look:
-      nodes:
-      - B_Neck
-      - B_Head
+      nodes: [Bip01 Neck, Bip01 Head]
       max_yaw_degrees: 25
       max_pitch_degrees: 12
     events:
-      attack_melee:
-        impact: 0.882
-      attack_ranged:
-        impact: 0.882
-      cast:
-        impact: 0.882
+      attack_melee: {impact: 0.321}
+      attack_ranged: {impact: 0.321}
+      cast: {impact: 0.321}
   clips:
     standing: Standing
-    walking: Walking
+    walking: Walk2
     attack_melee: Attack
     attack_ranged: Attack
     hit: Hit
@@ -4697,33 +4949,28 @@ actors:
   attachments:
   - model: worlds/mm6/models/mm6_mer1_club.glb
     node: Club
-  scale_reference: Merchant A
 - descriptor: Merchant C
   model: worlds/mm6/models/mm6_mer1.glb
-  scale: 103.944653064
+  scale: 101.55
+  scale_reference: Merchant A
   yaw_offset: -1.570796327
-  z_offset: -0.103944653
   animation:
     cast: Attack
-    run: Running
-    stride_length: 0.84
-    upper_body_root: B_Spine
+    run: Jog
+    stride_length: 1.7251
+    run_stride_length: 2.0628
+    upper_body_root: Bip01 Spine1
     look:
-      nodes:
-      - B_Neck
-      - B_Head
+      nodes: [Bip01 Neck, Bip01 Head]
       max_yaw_degrees: 25
       max_pitch_degrees: 12
     events:
-      attack_melee:
-        impact: 0.882
-      attack_ranged:
-        impact: 0.882
-      cast:
-        impact: 0.882
+      attack_melee: {impact: 0.321}
+      attack_ranged: {impact: 0.321}
+      cast: {impact: 0.321}
   clips:
     standing: Standing
-    walking: Walking
+    walking: Walk2
     attack_melee: Attack
     attack_ranged: Attack
     hit: Hit
@@ -4734,7 +4981,6 @@ actors:
   attachments:
   - model: worlds/mm6/models/mm6_mer1_club.glb
     node: Club
-  scale_reference: Merchant A
 # MM6 Genie: native 199 px stand x 0.8 / 2.208 m; shared palette ramps and floating vortex.
 - descriptor: BGenie A
   model: worlds/mm6/models/mm6_djn.glb
@@ -4745,6 +4991,7 @@ actors:
     cast: Cast
     run: Running
     stride_length: 1.65
+    gait_rate: [0.8, 1.5]
     upper_body_root: B_Pelvis
     look:
       nodes: [B_Neck, B_Head]
@@ -4784,6 +5031,7 @@ actors:
     cast: Cast
     run: Running
     stride_length: 1.65
+    gait_rate: [0.8, 1.5]
     upper_body_root: B_Pelvis
     look:
       nodes: [B_Neck, B_Head]
@@ -4823,6 +5071,7 @@ actors:
     cast: Cast
     run: Running
     stride_length: 1.65
+    gait_rate: [0.8, 1.5]
     upper_body_root: B_Pelvis
     look:
       nodes: [B_Neck, B_Head]
@@ -4866,9 +5115,11 @@ actors:
     sockets:
       palm_left: Socket_LeftPalm
     cast: Cast
-    run: Running
-    stride_length: 1.692
-    run_stride_length: 1.8
+    run: Jog
+    stride_length: 1.8
+    run_stride_length: 2.9
+    sprint: Sprint
+    sprint_stride_length: 4.11
     upper_body_root: B_Spine
     look:
       nodes: [B_Neck, B_Head]
@@ -4880,7 +5131,7 @@ actors:
       cast: {impact: 0.731, glow: [palm_left]}
   clips:
     standing: Standing
-    walking: Walking
+    walking: Walk2
     attack_melee: Attack
     attack_ranged: Attack
     hit: Hit
@@ -4903,9 +5154,11 @@ actors:
     sockets:
       palm_left: Socket_LeftPalm
     cast: Cast
-    run: Running
-    stride_length: 1.692
-    run_stride_length: 1.8
+    run: Jog
+    stride_length: 1.8
+    run_stride_length: 2.9
+    sprint: Sprint
+    sprint_stride_length: 4.11
     upper_body_root: B_Spine
     look:
       nodes: [B_Neck, B_Head]
@@ -4917,7 +5170,7 @@ actors:
       cast: {impact: 0.731, glow: [palm_left]}
   clips:
     standing: Standing
-    walking: Walking
+    walking: Walk2
     attack_melee: Attack
     attack_ranged: Attack
     hit: Hit
@@ -4940,9 +5193,11 @@ actors:
     sockets:
       palm_left: Socket_LeftPalm
     cast: Cast
-    run: Running
-    stride_length: 1.692
-    run_stride_length: 1.8
+    run: Jog
+    stride_length: 1.8
+    run_stride_length: 2.9
+    sprint: Sprint
+    sprint_stride_length: 4.11
     upper_body_root: B_Spine
     look:
       nodes: [B_Neck, B_Head]
@@ -4954,7 +5209,7 @@ actors:
       cast: {impact: 0.731, glow: [palm_left]}
   clips:
     standing: Standing
-    walking: Walking
+    walking: Walk2
     attack_melee: Attack
     attack_ranged: Attack
     hit: Hit
@@ -4990,6 +5245,7 @@ actors:
     cast: Cast
     run: Running
     stride_length: 1.0
+    gait_rate: [0.8, 1.5]
     upper_body_root: Spine1
     # Forward flight and the upright hover differ by most of the body's height: ease between them.
     blend_seconds: 0.4
@@ -5033,6 +5289,7 @@ actors:
     cast: Cast
     run: Running
     stride_length: 1.0
+    gait_rate: [0.8, 1.5]
     upper_body_root: Spine1
     # Forward flight and the upright hover differ by most of the body's height: ease between them.
     blend_seconds: 0.4
@@ -5076,6 +5333,7 @@ actors:
     cast: Cast
     run: Running
     stride_length: 1.0
+    gait_rate: [0.8, 1.5]
     upper_body_root: Spine1
     # Forward flight and the upright hover differ by most of the body's height: ease between them.
     blend_seconds: 0.4
@@ -5107,6 +5365,7 @@ actors:
     eye_color: [165, 248, 99]
     run: Running
     stride_length: 2.05
+    gait_rate: [0.8, 1.5]
     upper_body_root: B_Spine
     look:
       nodes: [B_Neck, B_Head]
@@ -5139,6 +5398,7 @@ actors:
     eye_color: [13, 70, 186]
     run: Running
     stride_length: 2.05
+    gait_rate: [0.8, 1.5]
     upper_body_root: B_Spine
     look:
       nodes: [B_Neck, B_Head]
@@ -5171,6 +5431,7 @@ actors:
     eye_color: [248, 1, 0]
     run: Running
     stride_length: 2.05
+    gait_rate: [0.8, 1.5]
     upper_body_root: B_Spine
     look:
       nodes: [B_Neck, B_Head]
@@ -5203,6 +5464,7 @@ actors:
     cast: Cast
     run: Running
     stride_length: 2.72914563
+    gait_rate: [0.8, 1.5]
     upper_body_root: B_Spine
     look:
       nodes: [B_Neck, B_Head]
@@ -5240,6 +5502,7 @@ actors:
     cast: Cast
     run: Running
     stride_length: 2.72914563
+    gait_rate: [0.8, 1.5]
     upper_body_root: B_Spine
     look:
       nodes: [B_Neck, B_Head]
@@ -5277,6 +5540,7 @@ actors:
     cast: Cast
     run: Running
     stride_length: 2.72914563
+    gait_rate: [0.8, 1.5]
     upper_body_root: B_Spine
     look:
       nodes: [B_Neck, B_Head]
@@ -5330,6 +5594,7 @@ actors:
     cast: Cast
     run: Running
     stride_length: 1.0
+    gait_rate: [0.8, 1.5]
     upper_body_root: Spine1
     blend_seconds: 0.125
     death_blend_seconds: 0.2
@@ -5372,6 +5637,7 @@ actors:
     cast: Cast
     run: Running
     stride_length: 1.0
+    gait_rate: [0.8, 1.5]
     upper_body_root: Spine1
     blend_seconds: 0.125
     death_blend_seconds: 0.2
@@ -5414,6 +5680,7 @@ actors:
     cast: Cast
     run: Running
     stride_length: 1.0
+    gait_rate: [0.8, 1.5]
     upper_body_root: Spine1
     blend_seconds: 0.125
     death_blend_seconds: 0.2
@@ -5443,7 +5710,8 @@ actors:
   animation:
     cast: Attack
     run: Standing
-    stride_length: 1.0
+    stride_length: 1
+    run_stride_length: 1
     upper_body_root: Body
     sockets:
       arc: Socket_Arc
@@ -5468,7 +5736,8 @@ actors:
   animation:
     cast: Cast
     run: Running
-    stride_length: 0.23
+    stride_length: 0.377
+    run_stride_length: 0.596
     upper_body_root: Spine1
     blend_seconds: 0.2
     death_blend_seconds: 0.1
@@ -5497,7 +5766,8 @@ actors:
   animation:
     cast: Cast
     run: Running
-    stride_length: 0.23
+    stride_length: 0.377
+    run_stride_length: 0.596
     upper_body_root: Spine1
     blend_seconds: 0.2
     death_blend_seconds: 0.1
@@ -5526,7 +5796,8 @@ actors:
   animation:
     cast: Cast
     run: Running
-    stride_length: 0.23
+    stride_length: 0.377
+    run_stride_length: 0.596
     upper_body_root: Spine1
     blend_seconds: 0.2
     death_blend_seconds: 0.1
@@ -5559,6 +5830,7 @@ actors:
     cast: Attack
     run: Standing
     stride_length: 1.0
+    gait_rate: [0.8, 1.5]
     upper_body_root: Funnel1
     sockets: {}
     # The discharge peaks at 0.33 s of the 0.75 s attack: the blow lands there.
@@ -5584,6 +5856,7 @@ actors:
     cast: Attack
     run: Standing
     stride_length: 1.0
+    gait_rate: [0.8, 1.5]
     upper_body_root: Funnel1
     sockets: {}
     # The discharge peaks at 0.33 s of the 0.75 s attack: the blow lands there.
@@ -5609,6 +5882,7 @@ actors:
     cast: Attack
     run: Standing
     stride_length: 1.0
+    gait_rate: [0.8, 1.5]
     upper_body_root: Funnel1
     sockets: {}
     # The discharge peaks at 0.33 s of the 0.75 s attack: the blow lands there.
@@ -5648,9 +5922,9 @@ actors:
     light: {color: [255, 150, 70], radius: 550}
   animation:
     cast: Attack
-    run: Running
-    stride_length: 0.12
-    run_stride_length: 0.19
+    run: Run2
+    stride_length: 0.111
+    run_stride_length: 0.18
     upper_body_root: Neck1
     blend_seconds: 0.15
     death_blend_seconds: 0.08
@@ -5661,7 +5935,7 @@ actors:
       attack_ranged: {impact: 0.626, glow: [jaw], glow_scale: 1.5}
   clips:
     standing: Standing
-    walking: Walking
+    walking: Walk2
     attack_melee: Attack
     attack_ranged: Attack
     hit: Hit
@@ -5691,9 +5965,9 @@ actors:
     light: {color: [255, 150, 70], radius: 550}
   animation:
     cast: Attack
-    run: Running
-    stride_length: 0.12
-    run_stride_length: 0.19
+    run: Run2
+    stride_length: 0.111
+    run_stride_length: 0.18
     upper_body_root: Neck1
     blend_seconds: 0.15
     death_blend_seconds: 0.08
@@ -5704,7 +5978,7 @@ actors:
       attack_ranged: {impact: 0.626, glow: [jaw], glow_scale: 1.5}
   clips:
     standing: Standing
-    walking: Walking
+    walking: Walk2
     attack_melee: Attack
     attack_ranged: Attack
     hit: Hit
@@ -5734,9 +6008,9 @@ actors:
     light: {color: [255, 150, 70], radius: 550}
   animation:
     cast: Attack
-    run: Running
-    stride_length: 0.12
-    run_stride_length: 0.19
+    run: Run2
+    stride_length: 0.111
+    run_stride_length: 0.18
     upper_body_root: Neck1
     blend_seconds: 0.15
     death_blend_seconds: 0.08
@@ -5747,7 +6021,7 @@ actors:
       attack_ranged: {impact: 0.626, glow: [jaw], glow_scale: 1.5}
   clips:
     standing: Standing
-    walking: Walking
+    walking: Walk2
     attack_melee: Attack
     attack_ranged: Attack
     hit: Hit
@@ -5768,6 +6042,7 @@ actors:
     cast: Attack
     run: Walking
     stride_length: 1.0
+    gait_rate: [0.8, 1.5]
     upper_body_root: Spine
     # The flight lean (the restored side views tilt about 20 degrees) eases in and out.
     blend_seconds: 0.3
@@ -5795,6 +6070,7 @@ actors:
     cast: Attack
     run: Walking
     stride_length: 1.0
+    gait_rate: [0.8, 1.5]
     upper_body_root: Spine
     # The flight lean (the restored side views tilt about 20 degrees) eases in and out.
     blend_seconds: 0.3
@@ -5822,6 +6098,7 @@ actors:
     cast: Attack
     run: Walking
     stride_length: 1.0
+    gait_rate: [0.8, 1.5]
     upper_body_root: Spine
     # The flight lean (the restored side views tilt about 20 degrees) eases in and out.
     blend_seconds: 0.3
@@ -5853,7 +6130,8 @@ actors:
   animation:
     cast: Cast
     run: Standing
-    stride_length: 1.0
+    stride_length: 1
+    run_stride_length: 1
     upper_body_root: B_Spine
     look:
       nodes: [B_Spine1, B_Spine2, B_Neck, B_Head]

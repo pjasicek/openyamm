@@ -2,6 +2,7 @@
 
 #include "game/data/GameDataLoader.h"
 
+#include <algorithm>
 #include <cassert>
 
 namespace OpenYAMM::Game
@@ -18,7 +19,8 @@ const T &requireBound(const T *pValue)
 
 void GameDataRepository::clear()
 {
-    m_pLocalizationCatalog = nullptr;
+    m_rulesetGuideUrl.clear();
+    m_rulesetWorlds.clear();
     m_pMapStats = nullptr;
     m_pMonsterTable = nullptr;
     m_pMonsterProjectileTable = nullptr;
@@ -40,10 +42,12 @@ void GameDataRepository::clear()
     m_pMm9TeacherScheduleTable = nullptr;
     m_pMm9RudeDialogueTable = nullptr;
     m_pMm9SkillTrainerTable = nullptr;
+    m_pMm9HirelingTable = nullptr;
     m_pMm9TransportRouteTable = nullptr;
     m_pMm9QuestInteractionTable = nullptr;
     m_pRosterTable = nullptr;
     m_pCharacterDollTable = nullptr;
+    m_pCharacterVoiceTable = nullptr;
     m_pCharacterInspectTable = nullptr;
     m_pRaceStartingStatsTable = nullptr;
     m_pReadableScrollTable = nullptr;
@@ -68,15 +72,17 @@ void GameDataRepository::clear()
     m_pMergedContinentSettingTable = nullptr;
     m_pMergedMonsterPortraitTable = nullptr;
     m_pMergedPotionSettingTable = nullptr;
+    m_pMawMapLevels = nullptr;
     m_pMergedReagentSettingTable = nullptr;
     m_pMergedComplexItemPictureTable = nullptr;
     m_pMergedTeacherTopicTable = nullptr;
+    m_pMergedRaceSkillTable = nullptr;
     m_pMergedTeacherAutonoteTable = nullptr;
+    m_pTrainerDirectory = nullptr;
 }
 
 void GameDataRepository::bind(const GameDataLoader &loader)
 {
-    m_pLocalizationCatalog = &loader.getLocalizationCatalog();
     m_pMapStats = &loader.getMapStats();
     m_pMonsterTable = &loader.getMonsterTable();
     m_pMonsterProjectileTable = &loader.getMonsterProjectileTable();
@@ -98,10 +104,12 @@ void GameDataRepository::bind(const GameDataLoader &loader)
     m_pMm9TeacherScheduleTable = &loader.getMm9TeacherScheduleTable();
     m_pMm9RudeDialogueTable = &loader.getMm9RudeDialogueTable();
     m_pMm9SkillTrainerTable = &loader.getMm9SkillTrainerTable();
+    m_pMm9HirelingTable = &loader.getMm9HirelingTable();
     m_pMm9TransportRouteTable = &loader.getMm9TransportRouteTable();
     m_pMm9QuestInteractionTable = &loader.getMm9QuestInteractionTable();
     m_pRosterTable = &loader.getRosterTable();
     m_pCharacterDollTable = &loader.getCharacterDollTable();
+    m_pCharacterVoiceTable = &loader.getMergedCharacterVoiceTable();
     m_pCharacterInspectTable = &loader.getCharacterInspectTable();
     m_pRaceStartingStatsTable = &loader.getRaceStartingStatsTable();
     m_pReadableScrollTable = &loader.getReadableScrollTable();
@@ -127,15 +135,20 @@ void GameDataRepository::bind(const GameDataLoader &loader)
     m_pMergedContinentSettingTable = &loader.getMergedContinentSettingTable();
     m_pMergedMonsterPortraitTable = &loader.getMergedMonsterPortraitTable();
     m_pMergedPotionSettingTable = &loader.getMergedPotionSettingTable();
+    m_pMawMapLevels = loader.mawMapLevels();
+    m_pMawItemData = loader.mawItemData();
+    m_pMawPromotionData = loader.mawPromotionData();
+    m_pMawCraftingData = loader.mawCraftingData();
+    m_pMawDimensionData = loader.mawDimensionData();
+    m_pMawTextData = loader.mawTextData();
+    m_rulesetGuideUrl = loader.activeRuleset().guideUrl;
+    m_rulesetWorlds = loader.activeRuleset().worlds;
     m_pMergedReagentSettingTable = &loader.getMergedReagentSettingTable();
     m_pMergedComplexItemPictureTable = &loader.getMergedComplexItemPictureTable();
     m_pMergedTeacherTopicTable = &loader.getMergedTeacherTopicTable();
+    m_pMergedRaceSkillTable = &loader.getMergedRaceSkillTable();
     m_pMergedTeacherAutonoteTable = &loader.getMergedTeacherAutonoteTable();
-}
-
-const LocalizationCatalog &GameDataRepository::localizationCatalog() const
-{
-    return requireBound(m_pLocalizationCatalog);
+    m_pTrainerDirectory = &loader.getTrainerDirectory();
 }
 
 bool GameDataRepository::isBound() const
@@ -253,6 +266,11 @@ const Mm9SkillTrainerTable &GameDataRepository::mm9SkillTrainerTable() const
     return requireBound(m_pMm9SkillTrainerTable);
 }
 
+const Mm9HirelingTable &GameDataRepository::mm9HirelingTable() const
+{
+    return requireBound(m_pMm9HirelingTable);
+}
+
 const Mm9TransportRouteTable &GameDataRepository::mm9TransportRouteTable() const
 {
     return requireBound(m_pMm9TransportRouteTable);
@@ -271,6 +289,11 @@ const RosterTable &GameDataRepository::rosterTable() const
 const CharacterDollTable &GameDataRepository::characterDollTable() const
 {
     return requireBound(m_pCharacterDollTable);
+}
+
+const MergedCharacterVoiceTable &GameDataRepository::characterVoiceTable() const
+{
+    return requireBound(m_pCharacterVoiceTable);
 }
 
 const CharacterInspectTable &GameDataRepository::characterInspectTable() const
@@ -398,6 +421,47 @@ const MergedPotionSettingTable &GameDataRepository::mergedPotionSettingTable() c
     return requireBound(m_pMergedPotionSettingTable);
 }
 
+const MawMapLevels *GameDataRepository::mawMapLevels() const
+{
+    return m_pMawMapLevels;
+}
+
+const MawPromotionData *GameDataRepository::mawPromotionData() const
+{
+    return m_pMawPromotionData;
+}
+
+const MawCraftingData *GameDataRepository::mawCraftingData() const
+{
+    return m_pMawCraftingData;
+}
+
+const MawDimensionData *GameDataRepository::mawDimensionData() const
+{
+    return m_pMawDimensionData;
+}
+
+const std::string &GameDataRepository::rulesetGuideUrl() const
+{
+    return m_rulesetGuideUrl;
+}
+
+bool GameDataRepository::rulesetSupportsWorld(const std::string &worldId) const
+{
+    return m_rulesetWorlds.empty() || std::find(m_rulesetWorlds.begin(), m_rulesetWorlds.end(), worldId)
+        != m_rulesetWorlds.end();
+}
+
+const MawTextData *GameDataRepository::mawTextData() const
+{
+    return m_pMawTextData;
+}
+
+const MawItemData *GameDataRepository::mawItemData() const
+{
+    return m_pMawItemData;
+}
+
 const MergedReagentSettingTable &GameDataRepository::mergedReagentSettingTable() const
 {
     return requireBound(m_pMergedReagentSettingTable);
@@ -413,8 +477,18 @@ const MergedTeacherTopicTable &GameDataRepository::mergedTeacherTopicTable() con
     return requireBound(m_pMergedTeacherTopicTable);
 }
 
+const MergedRaceSkillTable &GameDataRepository::mergedRaceSkillTable() const
+{
+    return requireBound(m_pMergedRaceSkillTable);
+}
+
 const MergedTeacherAutonoteTable &GameDataRepository::mergedTeacherAutonoteTable() const
 {
     return requireBound(m_pMergedTeacherAutonoteTable);
+}
+
+const TrainerDirectory &GameDataRepository::trainerDirectory() const
+{
+    return requireBound(m_pTrainerDirectory);
 }
 } // namespace OpenYAMM::Game

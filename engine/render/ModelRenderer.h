@@ -14,12 +14,14 @@
 #include <memory>
 #include <string>
 #include <unordered_map>
+#include <utility>
 #include <vector>
 
 namespace OpenYAMM::Engine
 {
-// Vectors in the shared u_skyFog uniform (game/shaders/sky_common.sh).
-constexpr uint16_t ModelSkyFogVectors = 8;
+// Vectors in the shared u_skyFog uniform (game/shaders/sky_common.sh): the sky's 8 and the map's mist
+// (game/render/Mist.h: 2, 3 per layer, 3 per volume; game/render/SkyRenderer.cpp checks the sum).
+constexpr uint16_t ModelSkyFogVectors = 8 + 32;
 
 struct ModelRenderLighting
 {
@@ -51,7 +53,26 @@ struct ModelRenderLighting
     std::array<float, 4> fogDistances = {1.0e9f, 1.0e9f, 1.0e9f, 0};
     // Shared sky colour for fog (u_skyFog); all zero keeps the flat fogColor.
     std::array<std::array<float, 4>, ModelSkyFogVectors> skyFog = {};
+    // MM9's fixed-function model lighting (indoor scene model_lighting, devdocs/INDOOR_MODEL_LIGHTING.md) instead of
+    // the PBR path: the texel times min(1, light) in display space, light = ambient (ambientColor x ambient x the
+    // placement light) + each point light's colour x intensity x fixedPointScale x (1 - d^2/r^2) x max(0, N.L), with
+    // mesh normals; no key light, specular, reflection, sun or edge darkening.
+    bool fixedFunctionLighting = false;
+    float fixedPointScale = 1.0f;
 };
+
+// The colour programs of materials with an emissive texture (fs_model_emissive), one per vertex program: single draws
+// (vs_model), instanced creatures (vs_model_skinned_instanced) and static placements (vs_model_instanced).
+struct ModelEmissivePrograms
+{
+    bgfx::ProgramHandle single = BGFX_INVALID_HANDLE;
+    bgfx::ProgramHandle skinnedInstanced = BGFX_INVALID_HANDLE;
+    bgfx::ProgramHandle staticInstanced = BGFX_INVALID_HANDLE;
+};
+
+// Key light direction (unit, towards the light) from above, in front of and left of the camera, like the painted light
+// on the original sprites; viewForward is the camera's unit look direction. Used with ModelRenderLighting::keyFraction.
+std::array<float, 3> spriteKeyLightDirection(const std::array<float, 3> &viewForward);
 
 // One placement of a static (unskinned, unanimated) model, such as a map decoration.
 struct ModelStaticPlacement
@@ -91,6 +112,8 @@ struct ModelStaticGroup
     uint32_t variant = 0;
     // Colour LOD switch sizes; a foliage model can switch to its impostor earlier than a creature.
     std::array<float, 3> lodPixels = ModelLodPixels;
+    // Placements smaller on screen than this are not drawn in colour views (ground items far away); 0 draws all.
+    float minimumPixels = 0.0f;
     std::vector<ModelStaticPlacement> placements;
     // World bounds per placement (placementBounds), including the wind sway; kept aligned with placements.
     std::vector<ModelBounds> bounds;
@@ -132,14 +155,26 @@ public:
     {
         m_staticFoliageVisible = visible;
     }
-    // Bloom (CinematicGrading::glowView): static emitters (glow and flame cards, emissive surfaces) draw again into
-    // this view, writing only their glow; UINT16_MAX for none.
+    // Bloom (CinematicGrading::glowView): emitters (static glow and flame cards and emissive surfaces, creature
+    // materials with "bloom") draw again into this view, writing only their glow; UINT16_MAX for none.
     void setGlowView(uint16_t view)
     {
         m_glowView = view;
         m_glowDrawn = false;
     }
-    // Whether a static emitter drew into the glow view since setGlowView (the bloom chain is skipped otherwise).
+    // Loads the emissive-texture programs the first time a model with an emissive texture is prepared, so models
+    // without one cost nothing. Without a loader, or when loading fails, emissive textures emit nothing.
+    void setEmissiveProgramLoader(std::function<ModelEmissivePrograms()> loader)
+    {
+        m_emissiveProgramLoader = std::move(loader);
+    }
+    // Loads the energy shield shell program (vs_model_shield, fs_model_shield) the first time an instance with a
+    // shield shell (ModelInstanceSystem::setShieldShell) draws, so scenes without shields cost nothing.
+    void setShieldShellProgramLoader(std::function<bgfx::ProgramHandle()> loader)
+    {
+        m_shieldShellProgramLoader = std::move(loader);
+    }
+    // Whether an emitter drew into the glow view since setGlowView (the bloom chain is skipped otherwise).
     bool glowDrawn() const
     {
         return m_glowDrawn;
@@ -222,6 +257,8 @@ private:
         bgfx::IndexBufferHandle indexBuffer = BGFX_INVALID_HANDLE;
         uint32_t indexCount = 0;
         std::array<float, 3> center = {};
+        // Skin joint index carrying most of the weight: a blended skin sorts by where this joint carries `center`.
+        int anchorJoint = -1;
     };
 
     struct MeshResources
@@ -250,6 +287,8 @@ private:
             // One row per colour region, 16 sRGB stops each; invalid when the material has no colour regions.
             bgfx::TextureHandle regionRamps = BGFX_INVALID_HANDLE;
             bgfx::TextureHandle burnMap = BGFX_INVALID_HANDLE;
+            // Only while the emissive programs are loaded (ensureEmissivePrograms).
+            bgfx::TextureHandle emissive = BGFX_INVALID_HANDLE;
         };
         std::shared_ptr<const ModelAsset> asset;
         std::vector<Texture> textures;
@@ -304,6 +343,22 @@ private:
     // depthPass: the depth prepass of the prepassed runs; otherwise every run's shaded draw.
     void submitInstancedSkinned(const std::vector<SkinnedRun> &runs, const ModelRenderLighting &shared,
         uint16_t viewId, bool depthPass);
+    // Loads the emissive programs once (setEmissiveProgramLoader); true when they are available.
+    bool ensureEmissivePrograms();
+    // u_modelSurface: the emission (scaled, e.g. by a creature's pulse; none for an emissive texture without its
+    // program) and the normal map scale (-1 without one).
+    std::array<float, 4> surfaceUniform(const ModelMaterial &material, const AssetResources::MaterialTextures &textures,
+        float emissionScale) const;
+    // The emissive variant of a colour program for a material that samples an emissive texture, else the program.
+    bgfx::ProgramHandle colorProgram(const AssetResources::MaterialTextures &textures, bgfx::ProgramHandle program,
+        bgfx::ProgramHandle emissiveProgram) const;
+    void bindEmissiveTexture(const ModelMaterial &material, const AssetResources::MaterialTextures &textures) const;
+    // A creature (skinned) material that draws its emission into the bloom glow view in this pass ("bloom").
+    bool creatureGlows(const ModelMaterial &material, const AssetResources::MaterialTextures &textures) const;
+    // The glow submission of the colour draw just submitted with BGFX_DISCARD_NONE (its geometry and bindings still
+    // set); keepBindings for a contour shell after it.
+    void submitCreatureGlow(bgfx::ProgramHandle program, const ModelMaterial &material, const ModelMatrix &cullMatrix,
+        bool keepBindings);
     // Creature materials (edge darkening) outside a reflection pass draw a dark contour shell after the body.
     bool drawsContour(const ModelMaterial &material) const;
     // The contour shell of the body just submitted with BGFX_DISCARD_NONE (its geometry and bindings still set).
@@ -320,6 +375,10 @@ private:
         OpaquePass pass = OpaquePass::Shaded);
     // The additive fire standing in for a burning draw's freshly burnt surface (ModelBurn::fireWidth).
     void submitBurnFire(const Draw &draw, uint16_t viewId);
+    // The energy shield shell over a draw (ModelShieldShell), additive after the scene's opaque and blended parts,
+    // and its glow into the bloom view.
+    void submitShieldShell(const Draw &draw, uint16_t viewId, const std::array<float, 3> &cameraPosition);
+    bool ensureShieldShellProgram();
     // Placements of one static group node that share a LOD mesh in one view.
     struct StaticBatch
     {
@@ -343,8 +402,9 @@ private:
     bool allocateStaticInstances(const StaticBatch &batch, const ModelMatrix &nodeMatrix,
         bgfx::InstanceDataBuffer &buffer) const;
     // pCardPivot: the primitive's centre (mesh space) for a card billboard ("openyamm_billboard": "card").
+    // emissionScale: a creature's pulse (instanced creatures; static placements pulse in vs_model_instanced).
     void bindStaticMaterial(const AssetResources &resources, const ModelMaterial &material, int materialIndex,
-        float timeSeconds, bool shadow, const std::array<float, 3> *pCardPivot = nullptr);
+        float timeSeconds, bool shadow, const std::array<float, 3> *pCardPivot = nullptr, float emissionScale = 1.0f);
     void bindColorRegions(const ModelMaterial &material, const AssetResources::MaterialTextures &textures) const;
     // u_modelBurn and the burn map for every fs_model/fs_model_shadow draw: off without a burn (uniforms persist
     // between draws). fire: the additive pass over the burnt surface instead of the burning surface itself.
@@ -371,6 +431,8 @@ private:
     bool m_creatureContour = false;
     // Set while renderReflection draws.
     bool m_reflectionPass = false;
+    // Set while renderPortrait draws: creatures do not glow into the world's bloom view.
+    bool m_portraitPass = false;
     // Clock of scrolling creature textures, from the latest render(); portraits keep the world's.
     float m_creatureTimeSeconds = 0.0f;
     // All cascades side by side in one atlas, so receivers need one sampler.
@@ -412,6 +474,15 @@ private:
     // Counts palette reallocations (each resets every slot's upload).
     uint32_t m_jointPaletteGeneration = 0;
     bgfx::ProgramHandle m_skinnedInstancedProgramHandle = BGFX_INVALID_HANDLE;
+    // Emissive-texture programs and their sampler, created on first use (ensureEmissivePrograms).
+    std::function<ModelEmissivePrograms()> m_emissiveProgramLoader;
+    std::function<bgfx::ProgramHandle()> m_shieldShellProgramLoader;
+    bool m_shieldShellProgramAttempted = false;
+    bgfx::ProgramHandle m_shieldShellProgram = BGFX_INVALID_HANDLE;
+    bgfx::UniformHandle m_shieldShellUniformHandle = BGFX_INVALID_HANDLE;
+    bool m_emissiveProgramsAttempted = false;
+    ModelEmissivePrograms m_emissivePrograms;
+    bgfx::UniformHandle m_emissiveSamplerHandle = BGFX_INVALID_HANDLE;
     // Attachments drawn as static groups (one per model and variant), with each placement's carrier alongside; a
     // carrier keeps its LOD hysteresis and crossfade across frames. Colour LOD level per carrier from the last colour
     // pass (by instance index).

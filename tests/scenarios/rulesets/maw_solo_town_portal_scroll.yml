@@ -1,0 +1,32 @@
+id: rulesets.maw_solo_town_portal_scroll
+title: "Ruleset - MAW: a party of one's Town Portal scroll goes back to the bag; a bigger party's is used up"
+world: mm8
+mode: faithful
+tags: [rulesets, maw, items]
+steps:
+  - note:
+      text: >-
+        MAW hands a solo traveller's travel scroll back (MawSpellRules::keepsScroll). It used to stay on the cursor
+        with the inventory open under the Town Portal map, so a destination click also reached the inventory: New
+        Sorpigal lies over Sort and sorted the bags, other destinations dropped or placed the scroll.
+  - new_game_flow:
+      start_map: out02.odm
+      member_count: 1
+      ruleset: {id: maw, difficulty: maw, progression: free}
+  - setup_shortcut: {kind: grant_item, item_id: 330}
+  - use_item: {item_id: 330, member_index: 0, expect: applied}
+  - assert:
+      held_item: {active: false}
+      inventory_any_member: [{item_id: 330, count: 1}]
+  - new_game_flow:
+      start_map: out02.odm
+      ruleset: {id: maw, difficulty: maw, progression: free}
+      party:
+        members:
+          - {name: Ash, class: Sorcerer, level: 10, skills: [], equipment: {}}
+          - {name: Bree, class: Cleric, level: 10, skills: [], equipment: {}}
+  - setup_shortcut: {kind: grant_item, item_id: 330}
+  - use_item: {item_id: 330, member_index: 0, expect: applied}
+  - assert:
+      held_item: {active: false}
+      inventory_any_member: [{item_id: 330, count: 0}]

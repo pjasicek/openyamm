@@ -1,0 +1,38 @@
+# The Undervault: Warder Halm at the Lift Gate, then the lift up to Landfall's Lift Head (run from
+# output/hesper_stage/scenario_run).
+id: hesper.lowhold.lift_up
+world: hesper
+mode: faithful
+steps:
+- new_game_flow:
+    start_map: hes_undervault.blv
+- assert:
+    map: hes_undervault.blv
+# Warder Halm (NPC 9550, a Guard Sergeant, actor 0) at the Lift Gate: his The Guardian gives M3 (100203) to a party
+# that skipped D1's relay (CR-P4-14).
+- assert:
+    actor_visible: {actor_index: 0, monster_id: 10068, dead: false, near: {x: 3520, y: -200, max_distance: 60}}
+- speak_npc: {source_id: 9550}
+- select_topic: {kind: npc_topic, action_id: 9763}
+- assert:
+    qbit_set: [100203]
+- press_action: {action: cancel_dialog}
+- set_pose:
+    map: hes_undervault.blv
+    x: 3200
+    y: -560
+    z: 0
+    yaw: -1.5707963267948966
+    pitch: 0
+- press_interact: {}
+- select_topic:
+    kind: map_transition_confirm
+    source_id: 0
+    action_id: 0
+    secondary_id: 0
+    selection_index: 0
+    house_dialog: false
+    enabled: true
+    label: OK
+- assert:
+    map: hes_out1.odm

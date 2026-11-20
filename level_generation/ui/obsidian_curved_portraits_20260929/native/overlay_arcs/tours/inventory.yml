@@ -1,0 +1,15 @@
+output_dir: /home/pjasicek/github/OpenYAMM/level_generation/ui/obsidian_curved_portraits_20260929/native/overlay_arcs/images
+exit: true
+steps:
+- wait: 2
+- action: quest
+- wait: 0.5
+- capture: inventory
+- click: [838, 811]
+- capture: inventory-fourth
+- click: [363, 873]
+- capture: inventory-buffs
+- click: [363, 873]
+- click: [300, 656]
+- capture: stats
+- key: Escape

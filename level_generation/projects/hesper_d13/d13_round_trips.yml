@@ -1,0 +1,103 @@
+id: hesper.d13.d13_round_trips
+world: hesper
+mode: faithful
+steps:
+- new_game_flow:
+    start_map: hes_d13.blv
+    party:
+      food: 200
+      members:
+      - name: Deepwell tester 1
+        class: Knight
+        level: 1000
+        endurance: 100
+        equipment: {}
+        skills:
+        - name: Hacking
+          level: 12
+          mastery: 2
+      - name: Deepwell tester 2
+        class: Knight
+        level: 1000
+        endurance: 100
+        equipment: {}
+        skills:
+        - name: Hacking
+          level: 12
+          mastery: 2
+      - name: Deepwell tester 3
+        class: Knight
+        level: 1000
+        endurance: 100
+        equipment: {}
+        skills:
+        - name: Hacking
+          level: 12
+          mastery: 2
+      - name: Deepwell tester 4
+        class: Knight
+        level: 1000
+        endurance: 100
+        equipment: {}
+        skills:
+        - name: Hacking
+          level: 12
+          mastery: 2
+      - name: Deepwell tester 5
+        class: Knight
+        level: 1000
+        endurance: 100
+        equipment: {}
+        skills:
+        - name: Hacking
+          level: 12
+          mastery: 2
+- setup_shortcut:
+    kind: set_qbit
+    id: 100015
+- setup_shortcut:
+    kind: set_qbit
+    id: 100013
+- setup_shortcut:
+    kind: set_qbit
+    id: 100052
+- setup_shortcut:
+    kind: set_qbit
+    id: 100040
+- setup_shortcut:
+    kind: set_qbit
+    id: 100041
+- setup_shortcut:
+    kind: set_qbit
+    id: 100042
+- setup_shortcut:
+    kind: set_qbit
+    id: 100043
+- set_pose:
+    map: hes_d13.blv
+    x: 200
+    y: 1000
+    z: 0
+    yaw: 3.141592653589793
+    pitch: 0
+- press_interact:
+    expect:
+      kind: event_target
+      triggered_event: 50
+- assert:
+    map: hes_d12.blv
+- set_pose:
+    map: hes_d12.blv
+    x: 1600
+    y: 19300
+    z: 2304
+    yaw: 1.5707963267948966
+    pitch: 0
+- press_interact:
+    expect:
+      kind: event_target
+      triggered_event: 53
+- answer_input:
+    text: 'Yes'
+- assert:
+    map: hes_d13.blv

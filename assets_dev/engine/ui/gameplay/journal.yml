@@ -214,6 +214,226 @@ elements:
     notes: 'APPROVED DESIGN DRAFT: preserve action. Shared renderer must draw plate, live label and icon children;
       use semantic state colours and disabled plate from design/button_states.yml. No legacy animated texture-name
       override.'
+  # MAW games: five shorter tabs in place of the four above, the fifth the Progress tab
+  # (level_generation/ui/maw_loot_progress_20261025 B). Same plates, icons and labels, 72 tall every 79.5.
+  - id: JournalTabs5Map
+    anchor: top_left
+    offset_x: 560
+    offset_y: 24
+    width: 67.2
+    height: 72
+    z_index: 30
+    interactive: true
+    asset:
+      default: obsidian_journal_main_normal
+      highlighted: obsidian_journal_main_hover
+      pressed: obsidian_journal_main_pressed
+      selected: obsidian_journal_main_selected
+      disabled: obsidian_journal_main_disabled
+    children:
+    - id: JournalTabs5MapIcon
+      anchor: top_left
+      offset_x: 9.6
+      offset_y: 3.4
+      width: 48
+      height: 48
+      z_index: 31
+      asset:
+        default: obsidian_journal_icon_map
+    - id: JournalTabs5MapLabel
+      anchor: top_left
+      offset_x: 4
+      offset_y: 52.4
+      width: 59.2
+      height: 15.333333
+      z_index: 31
+      text:
+        value: Map
+        font: Fondamento
+        scale: 0.4166666666666667
+        color: '#e8d1a4'
+        align_x: center
+        align_y: middle
+  - id: JournalTabs5Quests
+    anchor: top_left
+    offset_x: 560
+    offset_y: 103.5
+    width: 67.2
+    height: 72
+    z_index: 30
+    interactive: true
+    asset:
+      default: obsidian_journal_main_normal
+      highlighted: obsidian_journal_main_hover
+      pressed: obsidian_journal_main_pressed
+      selected: obsidian_journal_main_selected
+      disabled: obsidian_journal_main_disabled
+    children:
+    - id: JournalTabs5QuestsIcon
+      anchor: top_left
+      offset_x: 9.6
+      offset_y: 3.4
+      width: 48
+      height: 48
+      z_index: 31
+      asset:
+        default: obsidian_journal_icon_quests
+    - id: JournalTabs5QuestsLabel
+      anchor: top_left
+      offset_x: 4
+      offset_y: 52.4
+      width: 59.2
+      height: 15.333333
+      z_index: 31
+      text:
+        value: Quests
+        font: Fondamento
+        scale: 0.4166666666666667
+        color: '#e8d1a4'
+        align_x: center
+        align_y: middle
+  - id: JournalTabs5Story
+    anchor: top_left
+    offset_x: 560
+    offset_y: 183
+    width: 67.2
+    height: 72
+    z_index: 30
+    interactive: true
+    asset:
+      default: obsidian_journal_main_normal
+      highlighted: obsidian_journal_main_hover
+      pressed: obsidian_journal_main_pressed
+      selected: obsidian_journal_main_selected
+      disabled: obsidian_journal_main_disabled
+    children:
+    - id: JournalTabs5StoryIcon
+      anchor: top_left
+      offset_x: 9.6
+      offset_y: 3.4
+      width: 48
+      height: 48
+      z_index: 31
+      asset:
+        default: obsidian_journal_icon_story
+    - id: JournalTabs5StoryLabel
+      anchor: top_left
+      offset_x: 4
+      offset_y: 52.4
+      width: 59.2
+      height: 15.333333
+      z_index: 31
+      text:
+        value: Story
+        font: Fondamento
+        scale: 0.4166666666666667
+        color: '#e8d1a4'
+        align_x: center
+        align_y: middle
+  - id: JournalTabs5Notes
+    anchor: top_left
+    offset_x: 560
+    offset_y: 262.5
+    width: 67.2
+    height: 72
+    z_index: 30
+    interactive: true
+    asset:
+      default: obsidian_journal_main_normal
+      highlighted: obsidian_journal_main_hover
+      pressed: obsidian_journal_main_pressed
+      selected: obsidian_journal_main_selected
+      disabled: obsidian_journal_main_disabled
+    children:
+    - id: JournalTabs5NotesIcon
+      anchor: top_left
+      offset_x: 9.6
+      offset_y: 3.4
+      width: 48
+      height: 48
+      z_index: 31
+      asset:
+        default: obsidian_journal_icon_notes
+    - id: JournalTabs5NotesLabel
+      anchor: top_left
+      offset_x: 4
+      offset_y: 52.4
+      width: 59.2
+      height: 15.333333
+      z_index: 31
+      text:
+        value: Notes
+        font: Fondamento
+        scale: 0.4166666666666667
+        color: '#e8d1a4'
+        align_x: center
+        align_y: middle
+  - id: JournalTabs5Progress
+    anchor: top_left
+    offset_x: 560
+    offset_y: 342
+    width: 67.2
+    height: 72
+    z_index: 30
+    interactive: true
+    asset:
+      default: obsidian_journal_main_normal
+      highlighted: obsidian_journal_main_hover
+      pressed: obsidian_journal_main_pressed
+      selected: obsidian_journal_main_selected
+      disabled: obsidian_journal_main_disabled
+    children:
+    - id: JournalTabs5ProgressIcon
+      anchor: top_left
+      offset_x: 9.6
+      offset_y: 3.4
+      width: 48
+      height: 48
+      z_index: 31
+      asset:
+        default: obsidian_journal_icon_progress
+    - id: JournalTabs5ProgressLabel
+      anchor: top_left
+      offset_x: 4
+      offset_y: 52.4
+      width: 59.2
+      height: 15.333333
+      z_index: 31
+      text:
+        value: Progress
+        font: Fondamento
+        scale: 0.4166666666666667
+        color: '#e8d1a4'
+        align_x: center
+        align_y: middle
+  # The Progress tab's page: the renderer lays out its header, continent cards, map list, details and footer
+  # inside this area (game/ui/GameplayJournalProgress.cpp).
+  - id: JournalProgressPage
+    anchor: top_left
+    offset_x: 34
+    offset_y: 12
+    width: 518
+    height: 456
+    z_index: 20
+  # MAW's aura panel (not a tab): the renderer lays out its cards, aura list, details and right rail inside the
+  # frame (game/ui/GameplayJournalAuras.cpp); the Journal's Close button stays.
+  - id: JournalAuraPage
+    anchor: top_left
+    offset_x: 34
+    offset_y: 12
+    width: 600
+    height: 456
+    z_index: 20
+  # The Notes > Trainers finder (level_generation/ui/journal_trainers_20261105): the renderer lays out its continent
+  # tabs, search, mastery toggles, trainer list, status strip and page number, or a trainer's map, inside this area
+  # (game/ui/GameplayJournalTrainers.cpp). The rail keeps Previous/Next (Zoom in/out on a map) and the categories.
+  - id: JournalTrainerPage
+    anchor: top_left
+    offset_x: 98
+    offset_y: 92
+    width: 364
+    height: 360
+    z_index: 20
   - id: JournalMapViewport
     anchor: top_left
     offset_x: 131
@@ -569,6 +789,24 @@ elements:
       parser only supports left/center/right, so align_x stays parseable until native justification is added. See
       design/theme.yml body_alignment. Use the 360-logical-wide text block and 28-logical gap to submenu controls
       from reference 2105. Preserve original font/scale, native pagination and tintable Autonote.'
+  - id: JournalNotesSearch
+    anchor: top_left
+    offset_x: 109.333333
+    offset_y: 30
+    width: 339.2
+    height: 20
+    z_index: 25
+    interactive: true
+    text:
+      value: '{search}'
+      font: Lucida
+      color: '#e5dcc7'
+      align_x: left
+      align_y: middle
+      scale: 0.7
+      pad_x: 5
+    notes: 'Notes view only: case-insensitive filter over the selected category; typing goes through managed text
+      input, so Android shows its keyboard.'
   - id: JournalNotesPotionButton
     anchor: top_left
     offset_x: 489.066667
@@ -805,6 +1043,47 @@ elements:
       height: 11.65
       text:
         value: Trainers
+        font: Fondamento
+        scale: 0.31666666666666665
+        color: '#e8d1a4'
+        align_x: center
+        align_y: middle
+      offset_x: 4
+      z_index: 31
+    notes: 'APPROVED DESIGN DRAFT: preserve action. Shared renderer must draw plate, live label and icon children;
+      use semantic state colours and disabled plate from design/button_states.yml. No legacy animated texture-name
+      override.'
+  - id: JournalNotesArcomageButton
+    anchor: top_left
+    offset_x: 489.066667
+    offset_y: 422.4
+    width: 60.266667
+    height: 43.733333
+    z_index: 30
+    interactive: true
+    asset:
+      default: obsidian_journal_category_normal
+      highlighted: obsidian_journal_category_hover
+      pressed: obsidian_journal_category_pressed
+      selected: obsidian_journal_category_selected
+      disabled: obsidian_journal_category_disabled
+    children:
+    - id: JournalNotesArcomageButtonIcon
+      anchor: top_left
+      offset_y: 1.908333
+      width: 28.266667
+      height: 28.266667
+      asset:
+        default: obsidian_journal_icon_arcomage
+      offset_x: 16
+      z_index: 31
+    - id: JournalNotesArcomageButtonLabel
+      anchor: top_left
+      offset_y: 30.175
+      width: 52.2667
+      height: 11.65
+      text:
+        value: Arcomage
         font: Fondamento
         scale: 0.31666666666666665
         color: '#e8d1a4'

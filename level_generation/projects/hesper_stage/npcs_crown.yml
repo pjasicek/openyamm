@@ -1,0 +1,86 @@
+# The Crown's people (hes_out4; design/kreegan_world/zone4/THE_CROWN.md section 16, P4's quests/dialogue/CROWN.md):
+# Sorrel the scout at her stall on the plaza (house 9401, from M7: 100007), and after the Kept market is freed (P3's
+# 100601) Vesk's stall at the market's edge (house 9400) with Anni and Tor beside it (actor rows 10261 and 10260).
+# Built and placed by level_generation/projects/hesper_out4/build_out4.py (events 301, 302; the actors' npc ids).
+# Autonotes 10301-10303: THE_CROWN.md section 18.
+
+npcs:
+  - id: 9515
+    name: Sorrel
+    portrait: design/kreegan_world/art/portraits/x2/hes_sorrel.png
+    house: 9401
+    greeting:
+      - "Keep below the rim while we trade. I'm Sorrel. Cells, charges, food; tell me what you need."
+      - "Still out of the beams? Good."
+    topics: [9742, 9743, 9744, 9880]
+  - id: 9610
+    name: Vesk
+    portrait: design/kreegan_world/art/portraits/x2/hes_vesk.png
+    house: 9400
+    greeting:
+      - "A trader again! Not a thing on a chain. What do you need? I have what the devils left lying about."
+      - "A trader again! Not a thing on a chain. What do you need? I have what the devils left lying about."
+    topics: [9851]
+  - id: 9611
+    name: Anni
+    portrait: design/kreegan_world/art/portraits/x2/hes_anni.png
+    greeting: ["Is it true? The collars stay off?", "Is it true? The collars stay off?"]
+    topics: [9852]
+  - id: 9612
+    name: Tor
+    portrait: design/kreegan_world/art/portraits/x2/hes_tor.png
+    greeting: ["I can sit here as long as I like. Nobody has called me back to work.", "I can sit here as long as I like. Nobody has called me back to work."]
+    topics: [9853]
+
+topics:
+  # Sorrel (9515).
+  - id: 9742
+    title: "The cannons"
+    show_until: 100603
+    lua: |
+      evt.SetMessage("One, on top of the dome, and the turrets on its corners. Step inside the great gun's reach and a red beam finds you: three breaths, then it fires. A wall breaks the beam. A doorway breaks it. Nothing else does.")
+  - id: 9743
+    title: "The city"
+    lua: |
+      evt.SetMessage("Grafting yards east and west, the nobles' roosts in the north-east, the slave market in the south-west. The nobles fly down at anything that moves on the open ground. The market's Kept are collared: try not to kill them.")
+  - id: 9744
+    title: "The plaza"
+    lua: |
+      if IsQBitSet(QBit(100603)) then
+          evt.SetMessage("The cannons are dark. I've never heard the city so quiet. Whatever you did, it frightened them.")
+      else
+          evt.SetMessage("This pad was the colony's. The devils never bothered to grow over it; nothing lands here any more.")
+      end
+  - id: 9880
+    title: "The pit"
+    show_until: 100609
+    lua: |
+      evt.SetMessage("There's a pit by the east rim where the Harrowers go to prove themselves. Walls round it, one gate, a blind wall in front so you can't see in. Something lives in it that never leaves. I don't go that way.")
+  # The freed market (from 100601).
+  - id: 9851
+    title: "The market"
+    lua: |
+      evt.SetMessage("They sold us here, to the yards and the roosts, a body at a time. Now I sell cells and charges to the ones who opened the cages. I like this trade better.")
+  - id: 9852
+    title: "The roosts"
+    lua: |
+      evt.SetMessage("The nobles in the roosts kept some of us as pets. They taught us their words so we could fetch. I know what 'Hierarch' means: 'the one in the Voice'.")
+  - id: 9853
+    title: "Going down"
+    lua: |
+      evt.SetMessage("The old town below the Reach, the others say. With water you can drink. I will go there. Tomorrow. Today I want to sit in the sun.")
+
+autonotes:
+  - {id: 10301, category: Misc, text: "The Crown's great cannon. Step into its reach and its sight, and a red beam locks on: three heartbeats, five with the Jammer, then it strikes. Break its sight (a slab, a wall) or leave its reach. The node doors stand just inside; run straight in."}
+  - {id: 10302, category: Misc, text: "The Kept market, the Crown's south-west: collared Kept for sale. A collar node on the auction plinth frees them (a trained hand), or opens once their slaver is dead."}
+  - {id: 10303, category: Misc, text: "The landing pad on the Crown has the colony's lift down to the core under the Crownspire. It runs only while the cannons are dark."}
+  - {id: 10304, category: Misc, text: "The Blooding Ring, by the Crown's east rim: where the Kreegan hunters, the Harrowers, are blooded. Their master waits there alone. When he crouches he will charge. Step aside, and strike him while he stumbles."}
+
+# The stalls (CR-P4-13; LOOT_RULES "Shops"): Sorrel sells the scouts' list (food, Stims, Shield Cells; the Ash Cloak waits
+# for its paperdoll art) and one Shield Burst Cell a restock; Vesk sells Shield Cells, Stims, Breach Charges and EMP
+# Grenades at the Hesperian price.
+vendors:
+  - {id: 9401, picture: 9811, name: "Sorrel's stall", location: The Crown, merchandise: "The scouts' list", restock_days: 7,
+     stock: [[11305, 6], [11302, 4], [11300, 4]], special: [[11301, 1]]}
+  - {id: 9400, picture: 9811, name: "Vesk's stall", location: The Crown, merchandise: "Cells, stims, charges, grenades", restock_days: 7,
+     stock: [[11300, 4], [11302, 4], [11304, 3], [11303, 2]]}

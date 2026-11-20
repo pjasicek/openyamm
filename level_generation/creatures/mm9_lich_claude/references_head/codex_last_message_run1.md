@@ -1,0 +1,3 @@
+Saved run 1’s selected image as [00_three_quarter.png](level_generation/creatures/mm9_lich_claude/references_head/00_three_quarter.png), using built-in image generation. Raw returns, prompts and input hashes are recorded alongside it.
+
+Limitation: both returns were 1254×1254 despite requesting 1024×1024. Preserved unresized with true transparency; used the one allowed correction. Run 2 was not started.

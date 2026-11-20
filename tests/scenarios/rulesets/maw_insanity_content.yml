@@ -1,0 +1,14 @@
+id: rulesets.maw_insanity_content
+title: "Ruleset - MAW Road to Insanity content: Dagger Wound's pirate war runs from the MAW overlay"
+world: mm8
+mode: faithful
+tags: [rulesets, maw]
+steps:
+  # Event 463 (the war's ten-minute timer) is MAW's: the living groups stay, so nothing comes back and the count of
+  # returned pirates (MawPiratesSpawned, the cap of 25 in Insanity) does not move.
+  - new_game_flow:
+      start_map: out01.odm
+      ruleset: {id: maw, challenge_mode: road_to_insanity}
+  - execute_event: {id: 463}
+  - assert:
+      state_dump_named_map_var: {name: MawPiratesSpawned, value: 0}

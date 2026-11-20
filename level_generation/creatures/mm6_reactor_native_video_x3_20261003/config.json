@@ -1,0 +1,21 @@
+{
+  "family": "rea",
+  "title": "MM6 Reactor",
+  "descriptor_ids": [
+    647
+  ],
+  "base_palette": 835,
+  "mask_kind": "blue",
+  "description": "Native MM6 Reactor machine: fixed hourglass-like silver-gray riveted industrial assembly. Large upper cylindrical glass chamber full of luminous emerald green crystals/plasma, rounded black metal underside and short dangling electrode; large lower metal dome on flared foot with upper electrode pointing up. A narrow blue-white zigzag electric arc bridges the separated electrodes. Blue waveform displays on upper band and lower foot, small red/green indicator panel on lower dome. Preserve exact native machinery geometry, glass glare, every light state, curved metal shading, and narrow empty gap around the arc. No character, added tubing, new machinery or ground shadow.",
+  "regions": "Single native palette, preserve all materials.",
+  "variant_names": {
+    "835": "Reactor"
+  },
+  "material_mask_channels": 1,
+  "inventory_file": "inventory.json",
+  "matte": "magenta",
+  "material_module": "materials.py",
+  "standing_reference_frame": 0,
+  "identity_full_sequence": true,
+  "batch_distinct_standing": true
+}

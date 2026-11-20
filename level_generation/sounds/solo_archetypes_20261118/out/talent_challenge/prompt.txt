@@ -1,0 +1,11 @@
+Fantasy warrior taunt ability: a deep brass war horn blast, short and commanding, with a fierce male battle shout on top and a low ringing echo that carries across a battlefield
+
+kind: sfx
+duration: 1.6
+loop: false
+variants: 3
+model: eleven_text_to_sound_v2
+prompt_influence: 0.5
+highpass_hz: 30
+loudness_db: -8
+score_bias: power

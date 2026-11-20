@@ -1,0 +1,46 @@
+output_dir: /home/pjasicek/github/OpenYAMM/level_generation/projects/mm9r_inventastorca/review/cave01
+settle_seconds: 1.5
+exit: true
+shots:
+- name: c1_south
+  position:
+  - -512
+  - -640
+  - -1637
+  yaw: -1.5708
+  pitch: 0.0
+- name: c2_north
+  position:
+  - -512
+  - -768
+  - -1637
+  yaw: 1.5708
+  pitch: 0.0
+- name: c3_west
+  position:
+  - -384
+  - -640
+  - -1637
+  yaw: 3.1416
+  pitch: 0.0
+- name: c4_east
+  position:
+  - -768
+  - -640
+  - -1637
+  yaw: 0.0
+  pitch: 0.0
+- name: c5_up
+  position:
+  - -512
+  - -640
+  - -1637
+  yaw: 1.5708
+  pitch: 1.2217
+- name: c6_db0
+  position:
+  - -707
+  - -512
+  - -1637
+  yaw: 1.5708
+  pitch: 0.5236

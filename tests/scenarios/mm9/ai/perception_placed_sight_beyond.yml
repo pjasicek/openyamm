@@ -1,0 +1,23 @@
+id: mm9.ai.perception_placed_sight_beyond
+title: A placed MM9 monster facing the party does not see it beyond its sight range
+world: mm9
+mode: faithful
+tags: [mm9, actors, ai, arena]
+steps:
+  - note:
+      text: >-
+        Needs the MM9 review root: --asset-root output/mm9_rework/assets_dev (README.md). Drangheim Prison's Nagate
+        Elder (actor 39) has the party 1 628 units along its facing, 1.06 of its 1 536 sight, in plain view: it never
+        notices it, and takes it only from the Nagate Hatchlings' alert (actors 10 and 27 see it; the companion of
+        perception_placed_sight.yml; MM9_AI_NATIVE_RE.md section 5.3).
+  - new_game_flow:
+      start_map: drangheimprison.blv
+  - ai_arena: {path: perception_placed_sight_beyond.arena.yml}
+  - advance_runtime: {seconds: 3}
+  - ai_trace_dump: {actor_index: 39, decisions_only: true}
+  - assert:
+      ai_trace: {actor_index: 39, decision: detect, max_count: 0}
+  - assert:
+      ai_trace: {actor_index: 39, decision: taunt_detect, max_count: 0}
+  - assert:
+      ai_trace: {actor_index: 39, decision: alert, target: party, min_count: 1}

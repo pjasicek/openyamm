@@ -1,5 +1,6 @@
 # Cross-compiles the Windows x64 release from Linux with Ubuntu's MinGW-w64 GCC (POSIX thread model).
-# Used by packaging/build_release_local.sh; needs host shaderc and sprite atlas cooker builds:
+# Used by the release workflow (.github/workflows/packages.yml); needs a host shaderc build, and a host sprite atlas
+# cooker for packages that pack assets_dev:
 #   -DOPENYAMM_HOST_SHADERC=<host build>/openyamm_shaderc
 #   -DOPENYAMM_HOST_SPRITE_ATLAS_COOK=<host build>/game/openyamm_sprite_atlas_cook
 set(CMAKE_SYSTEM_NAME Windows)

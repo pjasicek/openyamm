@@ -1,0 +1,37 @@
+{
+  "map": "assets_dev/worlds/mm6/maps/outd3.odm",
+  "base_bmodels": 79,
+  "buildings": [
+    {
+      "name": "auto_25_HseP130aE",
+      "bmodel": 25,
+      "model_name": "HseP130aE",
+      "units_per_texel": 12,
+      "original_faces": 17,
+      "original_triangles": 43,
+      "hidden_faces": [
+        0,
+        1,
+        2,
+        3,
+        6,
+        7,
+        12,
+        13,
+        14,
+        15,
+        16
+      ],
+      "new_faces": 294,
+      "new_triangles": 587,
+      "new_vertices": 410,
+      "events": [
+        [
+          63,
+          true
+        ]
+      ],
+      "seconds": 0.2
+    }
+  ]
+}

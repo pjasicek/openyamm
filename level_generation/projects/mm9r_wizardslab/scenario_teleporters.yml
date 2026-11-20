@@ -1,0 +1,1514 @@
+# Written by make_scenarios.py from the built map; rerun it after convert.py.
+id: mm9r.wizardslab_teleporters
+title: 'Wizard''s Lab (native BLV): the six colour teleporters, their 30 crystals, the destinations and the closet teleporters'
+world: mm9
+mode: faithful
+tags:
+- mm9
+- mm9_rework
+- draft
+steps:
+- load_map:
+    map: wizardslab.blv
+- note:
+    text: 'Crystal yellow0 (event 230): TeleporterAtBlue -> DestinationYellow.'
+- set_pose:
+    map: wizardslab.blv
+    x: 164
+    y: 7168
+    z: 2
+    yaw: 0.0
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- execute_event:
+    id: 230
+- advance_runtime:
+    seconds: 0.1
+- assert:
+    state_dump_named_map_var:
+      name: Dest1
+      value: 6
+- assert:
+    state_dump_named_map_var:
+      name: CrystalBusy1
+      value: 1
+- set_pose:
+    map: wizardslab.blv
+    x: -16323
+    y: 8479
+    z: 451
+    yaw: 0.0
+    pitch: 0.0
+- advance_runtime:
+    seconds: 1.0
+- assert:
+    state_dump_named_map_var:
+      name: Dest1
+      value: 0
+- advance_runtime:
+    seconds: 3.4
+- assert:
+    state_dump_named_map_var:
+      name: CrystalBusy1
+      value: 0
+- note:
+    text: 'Crystal white0 (event 231): TeleporterAtBlue -> DestinationWhite.'
+- set_pose:
+    map: wizardslab.blv
+    x: 164
+    y: 7168
+    z: 2
+    yaw: 0.0
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- execute_event:
+    id: 231
+- advance_runtime:
+    seconds: 0.1
+- assert:
+    state_dump_named_map_var:
+      name: Dest1
+      value: 5
+- assert:
+    state_dump_named_map_var:
+      name: CrystalBusy1
+      value: 1
+- set_pose:
+    map: wizardslab.blv
+    x: -16323
+    y: 8479
+    z: 451
+    yaw: 0.0
+    pitch: 0.0
+- advance_runtime:
+    seconds: 1.0
+- assert:
+    state_dump_named_map_var:
+      name: Dest1
+      value: 0
+- advance_runtime:
+    seconds: 3.4
+- assert:
+    state_dump_named_map_var:
+      name: CrystalBusy1
+      value: 0
+- note:
+    text: 'Crystal red0 (event 232): TeleporterAtBlue -> DestinationRed.'
+- set_pose:
+    map: wizardslab.blv
+    x: 164
+    y: 7168
+    z: 2
+    yaw: 0.0
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- execute_event:
+    id: 232
+- advance_runtime:
+    seconds: 0.1
+- assert:
+    state_dump_named_map_var:
+      name: Dest1
+      value: 4
+- assert:
+    state_dump_named_map_var:
+      name: CrystalBusy1
+      value: 1
+- set_pose:
+    map: wizardslab.blv
+    x: -16323
+    y: 8479
+    z: 451
+    yaw: 0.0
+    pitch: 0.0
+- advance_runtime:
+    seconds: 1.0
+- assert:
+    state_dump_named_map_var:
+      name: Dest1
+      value: 0
+- advance_runtime:
+    seconds: 3.4
+- assert:
+    state_dump_named_map_var:
+      name: CrystalBusy1
+      value: 0
+- note:
+    text: 'Crystal purple0 (event 233): TeleporterAtBlue -> DestinationPurple.'
+- set_pose:
+    map: wizardslab.blv
+    x: 164
+    y: 7168
+    z: 2
+    yaw: 0.0
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- execute_event:
+    id: 233
+- advance_runtime:
+    seconds: 0.1
+- assert:
+    state_dump_named_map_var:
+      name: Dest1
+      value: 3
+- assert:
+    state_dump_named_map_var:
+      name: CrystalBusy1
+      value: 1
+- set_pose:
+    map: wizardslab.blv
+    x: -16323
+    y: 8479
+    z: 451
+    yaw: 0.0
+    pitch: 0.0
+- advance_runtime:
+    seconds: 1.0
+- assert:
+    state_dump_named_map_var:
+      name: Dest1
+      value: 0
+- advance_runtime:
+    seconds: 3.4
+- assert:
+    state_dump_named_map_var:
+      name: CrystalBusy1
+      value: 0
+- note:
+    text: 'Crystal green0 (event 234): TeleporterAtBlue -> DestinationGreen.'
+- set_pose:
+    map: wizardslab.blv
+    x: 164
+    y: 7168
+    z: 2
+    yaw: 0.0
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- execute_event:
+    id: 234
+- advance_runtime:
+    seconds: 0.1
+- assert:
+    state_dump_named_map_var:
+      name: Dest1
+      value: 2
+- assert:
+    state_dump_named_map_var:
+      name: CrystalBusy1
+      value: 1
+- set_pose:
+    map: wizardslab.blv
+    x: -16323
+    y: 8479
+    z: 451
+    yaw: 0.0
+    pitch: 0.0
+- advance_runtime:
+    seconds: 1.0
+- assert:
+    state_dump_named_map_var:
+      name: Dest1
+      value: 0
+- advance_runtime:
+    seconds: 3.4
+- assert:
+    state_dump_named_map_var:
+      name: CrystalBusy1
+      value: 0
+- note:
+    text: 'Crystal yellow1 (event 235): TeleporterAtGreen -> DestinationYellow.'
+- set_pose:
+    map: wizardslab.blv
+    x: 164
+    y: 7168
+    z: 2
+    yaw: 0.0
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- execute_event:
+    id: 235
+- advance_runtime:
+    seconds: 0.1
+- assert:
+    state_dump_named_map_var:
+      name: Dest2
+      value: 6
+- assert:
+    state_dump_named_map_var:
+      name: CrystalBusy2
+      value: 1
+- set_pose:
+    map: wizardslab.blv
+    x: -17654
+    y: 12431
+    z: -563
+    yaw: 0.0
+    pitch: 0.0
+- advance_runtime:
+    seconds: 1.0
+- assert:
+    state_dump_named_map_var:
+      name: Dest2
+      value: 0
+- advance_runtime:
+    seconds: 3.4
+- assert:
+    state_dump_named_map_var:
+      name: CrystalBusy2
+      value: 0
+- note:
+    text: 'Crystal white1 (event 236): TeleporterAtGreen -> DestinationWhite.'
+- set_pose:
+    map: wizardslab.blv
+    x: 164
+    y: 7168
+    z: 2
+    yaw: 0.0
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- execute_event:
+    id: 236
+- advance_runtime:
+    seconds: 0.1
+- assert:
+    state_dump_named_map_var:
+      name: Dest2
+      value: 5
+- assert:
+    state_dump_named_map_var:
+      name: CrystalBusy2
+      value: 1
+- set_pose:
+    map: wizardslab.blv
+    x: -17654
+    y: 12431
+    z: -563
+    yaw: 0.0
+    pitch: 0.0
+- advance_runtime:
+    seconds: 1.0
+- assert:
+    state_dump_named_map_var:
+      name: Dest2
+      value: 0
+- advance_runtime:
+    seconds: 3.4
+- assert:
+    state_dump_named_map_var:
+      name: CrystalBusy2
+      value: 0
+- note:
+    text: 'Crystal red1 (event 237): TeleporterAtGreen -> DestinationRed.'
+- set_pose:
+    map: wizardslab.blv
+    x: 164
+    y: 7168
+    z: 2
+    yaw: 0.0
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- execute_event:
+    id: 237
+- advance_runtime:
+    seconds: 0.1
+- assert:
+    state_dump_named_map_var:
+      name: Dest2
+      value: 4
+- assert:
+    state_dump_named_map_var:
+      name: CrystalBusy2
+      value: 1
+- set_pose:
+    map: wizardslab.blv
+    x: -17654
+    y: 12431
+    z: -563
+    yaw: 0.0
+    pitch: 0.0
+- advance_runtime:
+    seconds: 1.0
+- assert:
+    state_dump_named_map_var:
+      name: Dest2
+      value: 0
+- advance_runtime:
+    seconds: 3.4
+- assert:
+    state_dump_named_map_var:
+      name: CrystalBusy2
+      value: 0
+- note:
+    text: 'Crystal purple1 (event 238): TeleporterAtGreen -> DestinationPurple.'
+- set_pose:
+    map: wizardslab.blv
+    x: 164
+    y: 7168
+    z: 2
+    yaw: 0.0
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- execute_event:
+    id: 238
+- advance_runtime:
+    seconds: 0.1
+- assert:
+    state_dump_named_map_var:
+      name: Dest2
+      value: 3
+- assert:
+    state_dump_named_map_var:
+      name: CrystalBusy2
+      value: 1
+- set_pose:
+    map: wizardslab.blv
+    x: -17654
+    y: 12431
+    z: -563
+    yaw: 0.0
+    pitch: 0.0
+- advance_runtime:
+    seconds: 1.0
+- assert:
+    state_dump_named_map_var:
+      name: Dest2
+      value: 0
+- advance_runtime:
+    seconds: 3.4
+- assert:
+    state_dump_named_map_var:
+      name: CrystalBusy2
+      value: 0
+- note:
+    text: 'Crystal blue1 (event 239): TeleporterAtGreen -> DestinationBlue.'
+- set_pose:
+    map: wizardslab.blv
+    x: 164
+    y: 7168
+    z: 2
+    yaw: 0.0
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- execute_event:
+    id: 239
+- advance_runtime:
+    seconds: 0.1
+- assert:
+    state_dump_named_map_var:
+      name: Dest2
+      value: 1
+- assert:
+    state_dump_named_map_var:
+      name: CrystalBusy2
+      value: 1
+- set_pose:
+    map: wizardslab.blv
+    x: -17654
+    y: 12431
+    z: -563
+    yaw: 0.0
+    pitch: 0.0
+- advance_runtime:
+    seconds: 1.0
+- assert:
+    state_dump_named_map_var:
+      name: Dest2
+      value: 0
+- advance_runtime:
+    seconds: 3.4
+- assert:
+    state_dump_named_map_var:
+      name: CrystalBusy2
+      value: 0
+- note:
+    text: 'Crystal yellow2 (event 240): TeleporterAtPurple -> DestinationYellow.'
+- set_pose:
+    map: wizardslab.blv
+    x: 164
+    y: 7168
+    z: 2
+    yaw: 0.0
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- execute_event:
+    id: 240
+- advance_runtime:
+    seconds: 0.1
+- assert:
+    state_dump_named_map_var:
+      name: Dest3
+      value: 6
+- assert:
+    state_dump_named_map_var:
+      name: CrystalBusy3
+      value: 1
+- set_pose:
+    map: wizardslab.blv
+    x: -7864
+    y: 15247
+    z: 1720
+    yaw: 0.0
+    pitch: 0.0
+- advance_runtime:
+    seconds: 1.0
+- assert:
+    state_dump_named_map_var:
+      name: Dest3
+      value: 0
+- advance_runtime:
+    seconds: 3.4
+- assert:
+    state_dump_named_map_var:
+      name: CrystalBusy3
+      value: 0
+- note:
+    text: 'Crystal white2 (event 241): TeleporterAtPurple -> DestinationWhite.'
+- set_pose:
+    map: wizardslab.blv
+    x: 164
+    y: 7168
+    z: 2
+    yaw: 0.0
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- execute_event:
+    id: 241
+- advance_runtime:
+    seconds: 0.1
+- assert:
+    state_dump_named_map_var:
+      name: Dest3
+      value: 5
+- assert:
+    state_dump_named_map_var:
+      name: CrystalBusy3
+      value: 1
+- set_pose:
+    map: wizardslab.blv
+    x: -7864
+    y: 15247
+    z: 1720
+    yaw: 0.0
+    pitch: 0.0
+- advance_runtime:
+    seconds: 1.0
+- assert:
+    state_dump_named_map_var:
+      name: Dest3
+      value: 0
+- advance_runtime:
+    seconds: 3.4
+- assert:
+    state_dump_named_map_var:
+      name: CrystalBusy3
+      value: 0
+- note:
+    text: 'Crystal red2 (event 242): TeleporterAtPurple -> DestinationRed.'
+- set_pose:
+    map: wizardslab.blv
+    x: 164
+    y: 7168
+    z: 2
+    yaw: 0.0
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- execute_event:
+    id: 242
+- advance_runtime:
+    seconds: 0.1
+- assert:
+    state_dump_named_map_var:
+      name: Dest3
+      value: 4
+- assert:
+    state_dump_named_map_var:
+      name: CrystalBusy3
+      value: 1
+- set_pose:
+    map: wizardslab.blv
+    x: -7864
+    y: 15247
+    z: 1720
+    yaw: 0.0
+    pitch: 0.0
+- advance_runtime:
+    seconds: 1.0
+- assert:
+    state_dump_named_map_var:
+      name: Dest3
+      value: 0
+- advance_runtime:
+    seconds: 3.4
+- assert:
+    state_dump_named_map_var:
+      name: CrystalBusy3
+      value: 0
+- note:
+    text: 'Crystal green2 (event 243): TeleporterAtPurple -> DestinationGreen.'
+- set_pose:
+    map: wizardslab.blv
+    x: 164
+    y: 7168
+    z: 2
+    yaw: 0.0
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- execute_event:
+    id: 243
+- advance_runtime:
+    seconds: 0.1
+- assert:
+    state_dump_named_map_var:
+      name: Dest3
+      value: 2
+- assert:
+    state_dump_named_map_var:
+      name: CrystalBusy3
+      value: 1
+- set_pose:
+    map: wizardslab.blv
+    x: -7864
+    y: 15247
+    z: 1720
+    yaw: 0.0
+    pitch: 0.0
+- advance_runtime:
+    seconds: 1.0
+- assert:
+    state_dump_named_map_var:
+      name: Dest3
+      value: 0
+- advance_runtime:
+    seconds: 3.4
+- assert:
+    state_dump_named_map_var:
+      name: CrystalBusy3
+      value: 0
+- note:
+    text: 'Crystal blue2 (event 244): TeleporterAtPurple -> DestinationBlue.'
+- set_pose:
+    map: wizardslab.blv
+    x: 164
+    y: 7168
+    z: 2
+    yaw: 0.0
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- execute_event:
+    id: 244
+- advance_runtime:
+    seconds: 0.1
+- assert:
+    state_dump_named_map_var:
+      name: Dest3
+      value: 1
+- assert:
+    state_dump_named_map_var:
+      name: CrystalBusy3
+      value: 1
+- set_pose:
+    map: wizardslab.blv
+    x: -7864
+    y: 15247
+    z: 1720
+    yaw: 0.0
+    pitch: 0.0
+- advance_runtime:
+    seconds: 1.0
+- assert:
+    state_dump_named_map_var:
+      name: Dest3
+      value: 0
+- advance_runtime:
+    seconds: 3.4
+- assert:
+    state_dump_named_map_var:
+      name: CrystalBusy3
+      value: 0
+- note:
+    text: 'Crystal yellow3 (event 245): TeleporterAtRed -> DestinationYellow.'
+- set_pose:
+    map: wizardslab.blv
+    x: 164
+    y: 7168
+    z: 2
+    yaw: 0.0
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- execute_event:
+    id: 245
+- advance_runtime:
+    seconds: 0.1
+- assert:
+    state_dump_named_map_var:
+      name: Dest4
+      value: 6
+- assert:
+    state_dump_named_map_var:
+      name: CrystalBusy4
+      value: 1
+- set_pose:
+    map: wizardslab.blv
+    x: -2949
+    y: 3236
+    z: 246
+    yaw: 0.0
+    pitch: 0.0
+- advance_runtime:
+    seconds: 1.0
+- assert:
+    state_dump_named_map_var:
+      name: Dest4
+      value: 0
+- advance_runtime:
+    seconds: 3.4
+- assert:
+    state_dump_named_map_var:
+      name: CrystalBusy4
+      value: 0
+- note:
+    text: 'Crystal white3 (event 246): TeleporterAtRed -> DestinationWhite.'
+- set_pose:
+    map: wizardslab.blv
+    x: 164
+    y: 7168
+    z: 2
+    yaw: 0.0
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- execute_event:
+    id: 246
+- advance_runtime:
+    seconds: 0.1
+- assert:
+    state_dump_named_map_var:
+      name: Dest4
+      value: 5
+- assert:
+    state_dump_named_map_var:
+      name: CrystalBusy4
+      value: 1
+- set_pose:
+    map: wizardslab.blv
+    x: -2949
+    y: 3236
+    z: 246
+    yaw: 0.0
+    pitch: 0.0
+- advance_runtime:
+    seconds: 1.0
+- assert:
+    state_dump_named_map_var:
+      name: Dest4
+      value: 0
+- advance_runtime:
+    seconds: 3.4
+- assert:
+    state_dump_named_map_var:
+      name: CrystalBusy4
+      value: 0
+- note:
+    text: 'Crystal purple3 (event 247): TeleporterAtRed -> DestinationPurple.'
+- set_pose:
+    map: wizardslab.blv
+    x: 164
+    y: 7168
+    z: 2
+    yaw: 0.0
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- execute_event:
+    id: 247
+- advance_runtime:
+    seconds: 0.1
+- assert:
+    state_dump_named_map_var:
+      name: Dest4
+      value: 3
+- assert:
+    state_dump_named_map_var:
+      name: CrystalBusy4
+      value: 1
+- set_pose:
+    map: wizardslab.blv
+    x: -2949
+    y: 3236
+    z: 246
+    yaw: 0.0
+    pitch: 0.0
+- advance_runtime:
+    seconds: 1.0
+- assert:
+    state_dump_named_map_var:
+      name: Dest4
+      value: 0
+- advance_runtime:
+    seconds: 3.4
+- assert:
+    state_dump_named_map_var:
+      name: CrystalBusy4
+      value: 0
+- note:
+    text: 'Crystal green3 (event 248): TeleporterAtRed -> DestinationGreen.'
+- set_pose:
+    map: wizardslab.blv
+    x: 164
+    y: 7168
+    z: 2
+    yaw: 0.0
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- execute_event:
+    id: 248
+- advance_runtime:
+    seconds: 0.1
+- assert:
+    state_dump_named_map_var:
+      name: Dest4
+      value: 2
+- assert:
+    state_dump_named_map_var:
+      name: CrystalBusy4
+      value: 1
+- set_pose:
+    map: wizardslab.blv
+    x: -2949
+    y: 3236
+    z: 246
+    yaw: 0.0
+    pitch: 0.0
+- advance_runtime:
+    seconds: 1.0
+- assert:
+    state_dump_named_map_var:
+      name: Dest4
+      value: 0
+- advance_runtime:
+    seconds: 3.4
+- assert:
+    state_dump_named_map_var:
+      name: CrystalBusy4
+      value: 0
+- note:
+    text: 'Crystal blue3 (event 249): TeleporterAtRed -> DestinationBlue.'
+- set_pose:
+    map: wizardslab.blv
+    x: 164
+    y: 7168
+    z: 2
+    yaw: 0.0
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- execute_event:
+    id: 249
+- advance_runtime:
+    seconds: 0.1
+- assert:
+    state_dump_named_map_var:
+      name: Dest4
+      value: 1
+- assert:
+    state_dump_named_map_var:
+      name: CrystalBusy4
+      value: 1
+- set_pose:
+    map: wizardslab.blv
+    x: -2949
+    y: 3236
+    z: 246
+    yaw: 0.0
+    pitch: 0.0
+- advance_runtime:
+    seconds: 1.0
+- assert:
+    state_dump_named_map_var:
+      name: Dest4
+      value: 0
+- advance_runtime:
+    seconds: 3.4
+- assert:
+    state_dump_named_map_var:
+      name: CrystalBusy4
+      value: 0
+- note:
+    text: 'Crystal yellow4 (event 250): TeleporterAtWhite -> DestinationYellow.'
+- set_pose:
+    map: wizardslab.blv
+    x: 164
+    y: 7168
+    z: 2
+    yaw: 0.0
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- execute_event:
+    id: 250
+- advance_runtime:
+    seconds: 0.1
+- assert:
+    state_dump_named_map_var:
+      name: Dest5
+      value: 6
+- assert:
+    state_dump_named_map_var:
+      name: CrystalBusy5
+      value: 1
+- set_pose:
+    map: wizardslab.blv
+    x: -41
+    y: 7168
+    z: 246
+    yaw: 0.0
+    pitch: 0.0
+- advance_runtime:
+    seconds: 1.0
+- assert:
+    state_dump_named_map_var:
+      name: Dest5
+      value: 0
+- advance_runtime:
+    seconds: 3.4
+- assert:
+    state_dump_named_map_var:
+      name: CrystalBusy5
+      value: 0
+- note:
+    text: 'Crystal red4 (event 251): TeleporterAtWhite -> DestinationRed.'
+- set_pose:
+    map: wizardslab.blv
+    x: 164
+    y: 7168
+    z: 2
+    yaw: 0.0
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- execute_event:
+    id: 251
+- advance_runtime:
+    seconds: 0.1
+- assert:
+    state_dump_named_map_var:
+      name: Dest5
+      value: 4
+- assert:
+    state_dump_named_map_var:
+      name: CrystalBusy5
+      value: 1
+- set_pose:
+    map: wizardslab.blv
+    x: -41
+    y: 7168
+    z: 246
+    yaw: 0.0
+    pitch: 0.0
+- advance_runtime:
+    seconds: 1.0
+- assert:
+    state_dump_named_map_var:
+      name: Dest5
+      value: 0
+- advance_runtime:
+    seconds: 3.4
+- assert:
+    state_dump_named_map_var:
+      name: CrystalBusy5
+      value: 0
+- note:
+    text: 'Crystal purple4 (event 252): TeleporterAtWhite -> DestinationPurple.'
+- set_pose:
+    map: wizardslab.blv
+    x: 164
+    y: 7168
+    z: 2
+    yaw: 0.0
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- execute_event:
+    id: 252
+- advance_runtime:
+    seconds: 0.1
+- assert:
+    state_dump_named_map_var:
+      name: Dest5
+      value: 3
+- assert:
+    state_dump_named_map_var:
+      name: CrystalBusy5
+      value: 1
+- set_pose:
+    map: wizardslab.blv
+    x: -41
+    y: 7168
+    z: 246
+    yaw: 0.0
+    pitch: 0.0
+- advance_runtime:
+    seconds: 1.0
+- assert:
+    state_dump_named_map_var:
+      name: Dest5
+      value: 0
+- advance_runtime:
+    seconds: 3.4
+- assert:
+    state_dump_named_map_var:
+      name: CrystalBusy5
+      value: 0
+- note:
+    text: 'Crystal green4 (event 253): TeleporterAtWhite -> DestinationGreen.'
+- set_pose:
+    map: wizardslab.blv
+    x: 164
+    y: 7168
+    z: 2
+    yaw: 0.0
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- execute_event:
+    id: 253
+- advance_runtime:
+    seconds: 0.1
+- assert:
+    state_dump_named_map_var:
+      name: Dest5
+      value: 2
+- assert:
+    state_dump_named_map_var:
+      name: CrystalBusy5
+      value: 1
+- set_pose:
+    map: wizardslab.blv
+    x: -41
+    y: 7168
+    z: 246
+    yaw: 0.0
+    pitch: 0.0
+- advance_runtime:
+    seconds: 1.0
+- assert:
+    state_dump_named_map_var:
+      name: Dest5
+      value: 0
+- advance_runtime:
+    seconds: 3.4
+- assert:
+    state_dump_named_map_var:
+      name: CrystalBusy5
+      value: 0
+- note:
+    text: 'Crystal blue4 (event 254): TeleporterAtWhite -> DestinationBlue.'
+- set_pose:
+    map: wizardslab.blv
+    x: 164
+    y: 7168
+    z: 2
+    yaw: 0.0
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- execute_event:
+    id: 254
+- advance_runtime:
+    seconds: 0.1
+- assert:
+    state_dump_named_map_var:
+      name: Dest5
+      value: 1
+- assert:
+    state_dump_named_map_var:
+      name: CrystalBusy5
+      value: 1
+- set_pose:
+    map: wizardslab.blv
+    x: -41
+    y: 7168
+    z: 246
+    yaw: 0.0
+    pitch: 0.0
+- advance_runtime:
+    seconds: 1.0
+- assert:
+    state_dump_named_map_var:
+      name: Dest5
+      value: 0
+- advance_runtime:
+    seconds: 3.4
+- assert:
+    state_dump_named_map_var:
+      name: CrystalBusy5
+      value: 0
+- note:
+    text: 'Crystal white5 (event 255): TeleporterAtYellow -> DestinationWhite.'
+- set_pose:
+    map: wizardslab.blv
+    x: 164
+    y: 7168
+    z: 2
+    yaw: 0.0
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- execute_event:
+    id: 255
+- advance_runtime:
+    seconds: 0.1
+- assert:
+    state_dump_named_map_var:
+      name: Dest6
+      value: 5
+- assert:
+    state_dump_named_map_var:
+      name: CrystalBusy6
+      value: 1
+- set_pose:
+    map: wizardslab.blv
+    x: 492
+    y: 10629
+    z: 246
+    yaw: 0.0
+    pitch: 0.0
+- advance_runtime:
+    seconds: 1.0
+- assert:
+    state_dump_named_map_var:
+      name: Dest6
+      value: 0
+- advance_runtime:
+    seconds: 3.4
+- assert:
+    state_dump_named_map_var:
+      name: CrystalBusy6
+      value: 0
+- note:
+    text: 'Crystal red5 (event 256): TeleporterAtYellow -> DestinationRed.'
+- set_pose:
+    map: wizardslab.blv
+    x: 164
+    y: 7168
+    z: 2
+    yaw: 0.0
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- execute_event:
+    id: 256
+- advance_runtime:
+    seconds: 0.1
+- assert:
+    state_dump_named_map_var:
+      name: Dest6
+      value: 4
+- assert:
+    state_dump_named_map_var:
+      name: CrystalBusy6
+      value: 1
+- set_pose:
+    map: wizardslab.blv
+    x: 492
+    y: 10629
+    z: 246
+    yaw: 0.0
+    pitch: 0.0
+- advance_runtime:
+    seconds: 1.0
+- assert:
+    state_dump_named_map_var:
+      name: Dest6
+      value: 0
+- advance_runtime:
+    seconds: 3.4
+- assert:
+    state_dump_named_map_var:
+      name: CrystalBusy6
+      value: 0
+- note:
+    text: 'Crystal purple5 (event 257): TeleporterAtYellow -> DestinationPurple.'
+- set_pose:
+    map: wizardslab.blv
+    x: 164
+    y: 7168
+    z: 2
+    yaw: 0.0
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- execute_event:
+    id: 257
+- advance_runtime:
+    seconds: 0.1
+- assert:
+    state_dump_named_map_var:
+      name: Dest6
+      value: 3
+- assert:
+    state_dump_named_map_var:
+      name: CrystalBusy6
+      value: 1
+- set_pose:
+    map: wizardslab.blv
+    x: 492
+    y: 10629
+    z: 246
+    yaw: 0.0
+    pitch: 0.0
+- advance_runtime:
+    seconds: 1.0
+- assert:
+    state_dump_named_map_var:
+      name: Dest6
+      value: 0
+- advance_runtime:
+    seconds: 3.4
+- assert:
+    state_dump_named_map_var:
+      name: CrystalBusy6
+      value: 0
+- note:
+    text: 'Crystal green5 (event 258): TeleporterAtYellow -> DestinationGreen.'
+- set_pose:
+    map: wizardslab.blv
+    x: 164
+    y: 7168
+    z: 2
+    yaw: 0.0
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- execute_event:
+    id: 258
+- advance_runtime:
+    seconds: 0.1
+- assert:
+    state_dump_named_map_var:
+      name: Dest6
+      value: 2
+- assert:
+    state_dump_named_map_var:
+      name: CrystalBusy6
+      value: 1
+- set_pose:
+    map: wizardslab.blv
+    x: 492
+    y: 10629
+    z: 246
+    yaw: 0.0
+    pitch: 0.0
+- advance_runtime:
+    seconds: 1.0
+- assert:
+    state_dump_named_map_var:
+      name: Dest6
+      value: 0
+- advance_runtime:
+    seconds: 3.4
+- assert:
+    state_dump_named_map_var:
+      name: CrystalBusy6
+      value: 0
+- note:
+    text: 'Crystal blue5 (event 259): TeleporterAtYellow -> DestinationBlue.'
+- set_pose:
+    map: wizardslab.blv
+    x: 164
+    y: 7168
+    z: 2
+    yaw: 0.0
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- execute_event:
+    id: 259
+- advance_runtime:
+    seconds: 0.1
+- assert:
+    state_dump_named_map_var:
+      name: Dest6
+      value: 1
+- assert:
+    state_dump_named_map_var:
+      name: CrystalBusy6
+      value: 1
+- set_pose:
+    map: wizardslab.blv
+    x: 492
+    y: 10629
+    z: 246
+    yaw: 0.0
+    pitch: 0.0
+- advance_runtime:
+    seconds: 1.0
+- assert:
+    state_dump_named_map_var:
+      name: Dest6
+      value: 0
+- advance_runtime:
+    seconds: 3.4
+- assert:
+    state_dump_named_map_var:
+      name: CrystalBusy6
+      value: 0
+- note:
+    text: 'DestinationBlue: the party arriving stands on floor (TeleporterMulti.scr''s destination).'
+- movement_segment:
+    input: none
+    seconds: 1.0
+    actor_collision: false
+    actor_ai: false
+    start:
+      map: wizardslab.blv
+      x: -16323
+      y: 8274
+      z: 204
+      yaw_degrees: 270.0
+      pitch: 0
+    expect_stop:
+      map: wizardslab.blv
+      x: -16323
+      y: 8274
+      z: 204
+      yaw_degrees: 270.0
+      pitch: 0
+    loose_tolerance: true
+    tolerance_xy: 16
+    tolerance_z: 24
+- note:
+    text: 'DestinationGreen: the party arriving stands on floor (TeleporterMulti.scr''s destination).'
+- movement_segment:
+    input: none
+    seconds: 1.0
+    actor_collision: false
+    actor_ai: false
+    start:
+      map: wizardslab.blv
+      x: -17654
+      y: 12227
+      z: -817
+      yaw_degrees: 270.0
+      pitch: 0
+    expect_stop:
+      map: wizardslab.blv
+      x: -17654
+      y: 12227
+      z: -817
+      yaw_degrees: 270.0
+      pitch: 0
+    loose_tolerance: true
+    tolerance_xy: 16
+    tolerance_z: 24
+- note:
+    text: 'DestinationPurple: the party arriving stands on floor (TeleporterMulti.scr''s destination).'
+- movement_segment:
+    input: none
+    seconds: 1.0
+    actor_collision: false
+    actor_ai: false
+    start:
+      map: wizardslab.blv
+      x: -7864
+      y: 15043
+      z: 1477
+      yaw_degrees: 270.0
+      pitch: 0
+    expect_stop:
+      map: wizardslab.blv
+      x: -7864
+      y: 15043
+      z: 1477
+      yaw_degrees: 270.0
+      pitch: 0
+    loose_tolerance: true
+    tolerance_xy: 16
+    tolerance_z: 24
+- note:
+    text: 'DestinationRed: the party arriving stands on floor (TeleporterMulti.scr''s destination).'
+- movement_segment:
+    input: none
+    seconds: 1.0
+    actor_collision: false
+    actor_ai: false
+    start:
+      map: wizardslab.blv
+      x: -2949
+      y: 3441
+      z: 2
+      yaw_degrees: 90.0
+      pitch: 0
+    expect_stop:
+      map: wizardslab.blv
+      x: -2949
+      y: 3441
+      z: 2
+      yaw_degrees: 90.0
+      pitch: 0
+    loose_tolerance: true
+    tolerance_xy: 16
+    tolerance_z: 24
+- note:
+    text: 'DestinationWhite: the party arriving stands on floor (TeleporterMulti.scr''s destination).'
+- movement_segment:
+    input: none
+    seconds: 1.0
+    actor_collision: false
+    actor_ai: false
+    start:
+      map: wizardslab.blv
+      x: 164
+      y: 7168
+      z: 2
+      yaw_degrees: 0.0
+      pitch: 0
+    expect_stop:
+      map: wizardslab.blv
+      x: 164
+      y: 7168
+      z: 2
+      yaw_degrees: 0.0
+      pitch: 0
+    loose_tolerance: true
+    tolerance_xy: 16
+    tolerance_z: 24
+- note:
+    text: 'DestinationYellow: the party arriving stands on floor (TeleporterMulti.scr''s destination).'
+- movement_segment:
+    input: none
+    seconds: 1.0
+    actor_collision: false
+    actor_ai: false
+    start:
+      map: wizardslab.blv
+      x: 492
+      y: 10834
+      z: 2
+      yaw_degrees: 90.0
+      pitch: 0
+    expect_stop:
+      map: wizardslab.blv
+      x: 492
+      y: 10834
+      z: 2
+      yaw_degrees: 90.0
+      pitch: 0
+    loose_tolerance: true
+    tolerance_xy: 16
+    tolerance_z: 24
+- note:
+    text: 'Teleporter1 (always on, a plain Teleporter, behind its closet''s doors): the closet opened (event 101), the party
+      walks in and touches the volume.'
+- set_pose:
+    map: wizardslab.blv
+    x: 164
+    y: 7168
+    z: 2
+    yaw: 0.0
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- set_pose:
+    map: wizardslab.blv
+    x: 5222
+    y: 12063
+    z: 40
+    yaw: -1.5708
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- execute_event:
+    id: 101
+- advance_runtime:
+    seconds: 2.0
+- assert:
+    mechanism:
+      id: 15
+      state: open
+- movement_segment:
+    input: forward
+    seconds: 2.0
+    actor_collision: false
+    actor_ai: false
+    start:
+      map: wizardslab.blv
+      x: 5222
+      y: 12063
+      z: 40
+      yaw_degrees: -90
+      pitch: 0
+    expect_stop:
+      map: wizardslab.blv
+      x: -1710
+      y: 13230
+      z: 2
+      yaw_degrees: -90
+      pitch: 0
+    loose_tolerance: true
+    tolerance_xy: 1500
+    tolerance_z: 200
+- note:
+    text: 'Teleporter2 (always on, a plain Teleporter, behind its closet''s doors): the closet standing open (MM9 StartOpen),
+      the party walks in and touches the volume.'
+- set_pose:
+    map: wizardslab.blv
+    x: 164
+    y: 7168
+    z: 2
+    yaw: 0.0
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- set_pose:
+    map: wizardslab.blv
+    x: -1711
+    y: 13210
+    z: 40
+    yaw: 1.5708
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    mechanism:
+      id: 17
+      state: open
+- movement_segment:
+    input: forward
+    seconds: 2.0
+    actor_collision: false
+    actor_ai: false
+    start:
+      map: wizardslab.blv
+      x: -1711
+      y: 13210
+      z: 40
+      yaw_degrees: 90
+      pitch: 0
+    expect_stop:
+      map: wizardslab.blv
+      x: 5222
+      y: 12083
+      z: 2
+      yaw_degrees: 90
+      pitch: 0
+    loose_tolerance: true
+    tolerance_xy: 1500
+    tolerance_z: 200

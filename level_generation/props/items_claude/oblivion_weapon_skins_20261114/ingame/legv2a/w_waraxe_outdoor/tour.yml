@@ -1,0 +1,27 @@
+output_dir: /home/pjasicek/github/OpenYAMM/level_generation/props/items_claude/oblivion_weapon_skins_20261114/ingame/legv2a/w_waraxe_outdoor
+exit: true
+steps:
+  - wait: 3
+  - console: viewmodel kit onehand w_waraxe.glb 0
+  - wait: 2
+  - console: viewmodel tier 4
+  - wait: 1.2
+  - capture: t4_idle
+  - console: viewmodel pose onehandattackright 0.25
+  - wait: 0.5
+  - capture: t4_swing
+  - console: viewmodel pose onehandattackright 0.4
+  - wait: 0.5
+  - capture: t4_swing2
+  - console: viewmodel pose off
+  - console: viewmodel tier auto
+  - console: viewmodel weapons ours
+  - console: viewmodel held item031
+  - wait: 2
+  - capture: ours_idle
+  - console: viewmodel pose onehandattackright 0.25
+  - wait: 0.5
+  - capture: ours_swing
+  - console: viewmodel pose onehandattackright 0.4
+  - wait: 0.5
+  - capture: ours_swing2

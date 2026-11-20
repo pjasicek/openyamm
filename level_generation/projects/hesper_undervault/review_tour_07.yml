@@ -1,0 +1,117 @@
+{
+ "output_dir": "/home/pjasicek/github/OpenYAMM/level_generation/projects/hesper_undervault/review/rebuild01",
+ "settle_seconds": 2.0,
+ "exit": true,
+ "shots": [
+  {
+   "name": "arrival",
+   "position": [
+    3200,
+    -300,
+    0
+   ],
+   "yaw": 1.5708,
+   "pitch": 0.05
+  },
+  {
+   "name": "hall_south",
+   "position": [
+    3200,
+    500,
+    0
+   ],
+   "yaw": 1.5708,
+   "pitch": 0.08
+  },
+  {
+   "name": "hall_nw",
+   "position": [
+    700,
+    4300,
+    0
+   ],
+   "yaw": -0.7438,
+   "pitch": 0.05
+  },
+  {
+   "name": "clinic_bay",
+   "position": [
+    900,
+    2400,
+    0
+   ],
+   "yaw": 3.1416,
+   "pitch": 0.05
+  },
+  {
+   "name": "south_wall",
+   "position": [
+    3200,
+    3200,
+    0
+   ],
+   "yaw": -1.5708,
+   "pitch": 0.1
+  },
+  {
+   "name": "north_wall",
+   "position": [
+    3200,
+    1400,
+    0
+   ],
+   "yaw": 1.5708,
+   "pitch": 0.12
+  },
+  {
+   "name": "west_gallery",
+   "position": [
+    192,
+    1500,
+    512
+   ],
+   "yaw": 1.5708,
+   "pitch": 0.0
+  },
+  {
+   "name": "chapel",
+   "position": [
+    3200,
+    5900,
+    384
+   ],
+   "yaw": 1.5708,
+   "pitch": 0.05
+  },
+  {
+   "name": "refuge",
+   "position": [
+    750,
+    -1100,
+    0
+   ],
+   "yaw": 1.5708,
+   "pitch": 0.0
+  },
+  {
+   "name": "works",
+   "position": [
+    5200,
+    -900,
+    0
+   ],
+   "yaw": 0.0,
+   "pitch": 0.0
+  },
+  {
+   "name": "high",
+   "position": [
+    3200,
+    200,
+    1250
+   ],
+   "yaw": 1.5708,
+   "pitch": -0.38
+  }
+ ]
+}

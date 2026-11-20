@@ -2,7 +2,7 @@ plugins {
     id "com.android.application"
 }
 
-def sdl3SourceDirPath = project.findProperty("OPENYAMM_SDL3_SOURCE_DIR")
+def sdl3SourceDirPath = project.findProperty("OPENYAMM_SDL3_SOURCE_DIR") ?: System.getenv("OPENYAMM_SDL3_SOURCE_DIR")
 if (sdl3SourceDirPath == null || sdl3SourceDirPath.toString().trim().isEmpty()) {
     sdl3SourceDirPath = "${rootDir}/../build/_deps/sdl3-src"
 }
@@ -93,12 +93,12 @@ android {
                     "-DOPENYAMM_SDL3_SOURCE_DIR=${sdl3SourceDir.absolutePath}",
                     "-DOPENYAMM_BUILD_DESKTOP_EXECUTABLE=OFF",
                     "-DOPENYAMM_BUILD_TESTS=OFF",
-                    "-DOPENYAMM_BUILD_EDITOR=OFF",
                     "-DOPENYAMM_BUILD_TOOLS=OFF",
                     "-DOPENYAMM_DEV_ASSETS_DIR=assets",
                     "-DOPENYAMM_WINDOW_WIDTH=1280",
                     "-DOPENYAMM_WINDOW_HEIGHT=720",
-                    "-DOPENYAMM_HOST_SHADERC=${rootDir}/../build/openyamm_shaderc"
+                    "-DOPENYAMM_HOST_SHADERC=${System.getenv("OPENYAMM_HOST_SHADERC") ?: "${rootDir}/../build/openyamm_shaderc"}",
+                    "-DOPENYAMM_BGFX_DEBUG=${System.getenv("OPENYAMM_BGFX_DEBUG") ?: "OFF"}"
                 )
             }
         }
@@ -153,6 +153,7 @@ android {
             externalNativeBuild {
                 cmake {
                     abiFilters "arm64-v8a", "x86_64"
+                    arguments "-DOPENYAMM_ANDROID_APK_SHADER_DIR=${buildDir}/openyammShaders/debug"
                 }
             }
         }
@@ -168,6 +169,7 @@ android {
             externalNativeBuild {
                 cmake {
                     abiFilters(*releaseAbis)
+                    arguments "-DOPENYAMM_ANDROID_APK_SHADER_DIR=${buildDir}/openyammShaders/release"
                 }
             }
         }
@@ -179,25 +181,32 @@ android {
 }
 
 def runtimeAssetsRoot = file(project.findProperty("openyamm.android.runtimeAssetsDir") ?: "${rootDir}/../build/android-assets")
+// "bundled" (development builds): the content packs go into the APK. "download" (published releases, packaging/UPDATER_PLAN.md
+// 9.3): a thin APK whose update screen downloads the packs into app storage.
+def contentMode = (project.findProperty("openyamm.android.content") ?: System.getenv("OPENYAMM_ANDROID_CONTENT")
+    ?: "bundled").toString()
+if (!["bundled", "download"].contains(contentMode)) {
+    throw new GradleException("openyamm.android.content must be bundled or download, not ${contentMode}")
+}
 def openYammLicenseFiles = files("${rootDir}/../LICENSE", "${rootDir}/../COPYRIGHT")
 
 def registerOpenYammApkAssetsTask = { taskName, nativeBuildTaskName, shaderBuildDirectories, generatedAssetsRoot ->
     tasks.register(taskName) {
         dependsOn(nativeBuildTaskName)
 
-        def packagedAssetRoots = [
-            [zip: new File(runtimeAssetsRoot, "engine.zip"), into: "engine"],
-            [zip: new File(runtimeAssetsRoot, "worlds/mm6.zip"), into: "worlds/mm6"],
-            [zip: new File(runtimeAssetsRoot, "worlds/mm7.zip"), into: "worlds/mm7"],
-            [zip: new File(runtimeAssetsRoot, "worlds/mm8.zip"), into: "worlds/mm8"]
-        ]
+        // The content packs and their index (tools/package_runtime_assets.py) go into the APK unchanged; they are
+        // stored uncompressed (noCompress "zip"), and the game mounts them in place.
+        def contentIndex = new File(runtimeAssetsRoot, "index.json")
+        def contentPacks = new File(runtimeAssetsRoot, "packs")
 
-        inputs.files(packagedAssetRoots.collect { it.zip })
+        inputs.property("contentMode", contentMode)
+        if (contentMode == "bundled") {
+            inputs.files(contentIndex, fileTree(contentPacks))
+        }
         inputs.files(openYammLicenseFiles)
-        inputs.file(file("${rootDir}/settings.ini"))
         inputs.files(shaderBuildDirectories.collect { shaderBuildDirectory ->
             fileTree(shaderBuildDirectory) {
-                include("*/*/runtime/shaders/**")
+                include("*/runtime/shaders/**")
             }
         })
         outputs.dir(generatedAssetsRoot)
@@ -205,37 +214,35 @@ def registerOpenYammApkAssetsTask = { taskName, nativeBuildTaskName, shaderBuild
         doLast {
             delete(generatedAssetsRoot)
 
-            packagedAssetRoots.each { assetRoot ->
-                if (!assetRoot.zip.isFile()) {
-                    throw new GradleException(
-                        "Missing runtime asset package ${assetRoot.zip}. " +
-                        "Run android/repack_runtime_assets.sh before building the Android APK."
-                    )
+            if (contentMode == "bundled" && !contentIndex.isFile()) {
+                throw new GradleException(
+                    "Missing runtime content ${contentIndex}. " +
+                    "Run android/repack_runtime_assets.sh before building the Android APK."
+                )
+            }
+            if (contentMode == "bundled") {
+                def index = new groovy.json.JsonSlurper().parse(contentIndex)
+                if (index.schema != 1 || index.profile != "android") {
+                    throw new GradleException("${contentIndex} must hold the Android content profile. " +
+                        "Run android/repack_runtime_assets.sh.")
                 }
-
-                if (assetRoot.into == "engine") {
-                    def archive = new java.util.zip.ZipFile(assetRoot.zip)
-                    try {
-                        def marker = archive.getEntry("sprite_texture_profile.json")
-                        def profile = marker == null ? null : new groovy.json.JsonSlurper().parse(
-                            archive.getInputStream(marker))
-                        if (profile?.schema_version != 2 || profile?.texture_profile != "android") {
-                            throw new GradleException("engine.zip must contain the Android ETC2/EAC sprite profile. " +
-                                "Run android/repack_runtime_assets.sh.")
-                        }
-                    } finally {
-                        archive.close()
+                index.packs.each { pack ->
+                    def packFile = new File(contentPacks, pack.file)
+                    if (!packFile.isFile() || packFile.length() != pack.size) {
+                        throw new GradleException("Content pack ${packFile} is missing or does not match the " +
+                            "index. Run android/repack_runtime_assets.sh.")
                     }
                 }
                 copy {
-                    from(zipTree(assetRoot.zip))
-                    into(file("${generatedAssetsRoot}/${assetRoot.into}"))
+                    from(contentIndex)
+                    into(generatedAssetsRoot)
                 }
-            }
-
-            copy {
-                from(file("${rootDir}/settings.ini"))
-                into(generatedAssetsRoot)
+                copy {
+                    from(contentPacks) {
+                        include(index.packs.collect { it.file })
+                    }
+                    into(file("${generatedAssetsRoot}/packs"))
+                }
             }
 
             copy {
@@ -246,7 +253,7 @@ def registerOpenYammApkAssetsTask = { taskName, nativeBuildTaskName, shaderBuild
             copy {
                 shaderBuildDirectories.each { shaderBuildDirectory ->
                     from(fileTree(shaderBuildDirectory) {
-                        include("*/*/runtime/shaders/**")
+                        include("*/runtime/shaders/**")
                     }) {
                         eachFile { details ->
                             def segments = details.relativePath.segments
@@ -271,17 +278,13 @@ def registerOpenYammApkAssetsTask = { taskName, nativeBuildTaskName, shaderBuild
 registerOpenYammApkAssetsTask(
     "syncOpenYammDebugApkAssets",
     "externalNativeBuildDebug",
-    [file("${projectDir}/.cxx/Debug")],
+    [file("${buildDir}/openyammShaders/debug")],
     file("${buildDir}/generated/openyammApkAssets/debug")
 )
 registerOpenYammApkAssetsTask(
     "syncOpenYammReleaseApkAssets",
     "externalNativeBuildRelease",
-    [
-        file("${projectDir}/.cxx/Release"),
-        file("${projectDir}/.cxx/RelWithDebInfo"),
-        file("${projectDir}/.cxx/MinSizeRel")
-    ],
+    [file("${buildDir}/openyammShaders/release")],
     file("${buildDir}/generated/openyammApkAssets/release")
 )
 

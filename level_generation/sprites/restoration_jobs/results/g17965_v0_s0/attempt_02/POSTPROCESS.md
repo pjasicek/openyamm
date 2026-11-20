@@ -1,0 +1,1 @@
+Common .98,0,0 registration; clipping evidence retained in registration_checks.json. restore_native_tone.py restores native green tonal weight with alpha unchanged. Raw and intermediate pixels preserved; final light/dark proofs inspected.

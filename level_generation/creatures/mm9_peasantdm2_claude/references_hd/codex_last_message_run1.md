@@ -1,0 +1,3 @@
+Saved [00_three_quarter.png](level_generation/creatures/mm9_peasantdm2_claude/references_hd/00_three_quarter.png), unresized at 1536×1024, using built-in image generation. Raw returns, exact prompts, hashes, and selection notes are saved alongside it.
+
+Stopped after the permitted correction; run 2 was not started. Residual faults remain: halo/transparency, lowered arms, excessive crown hair, and tight headroom.

@@ -1,0 +1,11 @@
+materials:
+- id: mm5_acid_pond
+  semantic: water
+  applies_to:
+  - terrain
+  match:
+    texture_names:
+    - mm5acid
+    texture_prefixes:
+    - mm5ac
+  terrain_transition_overlay: true

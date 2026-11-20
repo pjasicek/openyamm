@@ -115,9 +115,9 @@ changes that preserve file size. User settings and saves remain in the existing 
 CI builds the signed ARM64 release APK, verifies its signature, resolved version metadata and packaged ABI, and generates a SHA256 checksum
 before uploading it. Emulator runtime checks are run manually.
 
-The asset filter retains underscore-prefixed directories so the `_legacy/sprites_original` bake dependencies
-included in `engine.zip` also reach the APK. Android's default `<dir>_*` exclusion drops these files and prevents
-baked outdoor maps from loading.
+The APK carries the content as packs (`assets/index.json` and `assets/packs/*.zip`, from
+`tools/package_runtime_assets.py`), stored uncompressed so the game mounts them in place. The `_legacy/sprites_original`
+bake dependencies travel inside the engine packs.
 
 Run the runtime check with Python Pillow installed on a disposable emulator (it replaces that emulator's game settings):
 
@@ -135,9 +135,9 @@ The check requires a rendered map and verifies every extracted shader against th
 Home, switching to Settings, and screen off/on, requiring surface recreation and the same game process throughout.
 Logs and screenshots are saved in the output directory.
 
-For a release build using already prepared asset ZIPs outside the ordinary `build/android-assets/` directory,
-pass `-Popenyamm.android.runtimeAssetsDir=/absolute/path` to Gradle. The directory must contain
-`engine.zip` and `worlds/{mm6,mm7,mm8,mmmerge}.zip`.
+For a release build using already prepared content outside the ordinary `build/android-assets/` directory,
+pass `-Popenyamm.android.runtimeAssetsDir=/absolute/path` to Gradle. The directory must contain the Android
+`index.json` and its `packs/`.
 
 The GitHub Actions workflow uses the same signed release path for nightly and tagged packages. Configure these
 repository secrets before running it:
@@ -164,11 +164,10 @@ key; replacing it requires users to uninstall the existing app before installing
 ### Cooked creature textures
 
 `android/repack_runtime_assets.sh` validates the prebuilt Android ETC2/EAC packages in
-`assets_cooked/android/sprites_new/` and creates `build/android-assets/engine.zip` plus world ZIPs.
+`assets_cooked/android/sprites_new/` and creates the content packs in `build/android-assets/`.
 It checks the complete family set, animation/placement metadata and palette lookups against the
 desktop BC7 installation. Repacking and CI need no authoring images, Git LFS or texture encoding.
-Each ZIP contains one profile; Gradle rejects desktop sprite packages and keeps `.oyatlas` entries
-uncompressed in the APK.
+Every pack set holds one profile; Gradle rejects an index of another profile.
 
 After editing accepted artwork, authors explicitly run `python3 tools/cook_sprite_atlases.py --profile desktop`
 and `python3 tools/cook_sprite_atlases.py --profile android` from the repository root, using their local

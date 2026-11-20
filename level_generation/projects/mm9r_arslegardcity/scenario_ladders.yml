@@ -1,0 +1,67 @@
+# Written by make_scenarios.py from the built map; rerun it after convert.py.
+id: mm9r.arslegardcity_ladders
+title: 'Arslegard City (native BLV) - the temple front''s ladders (Ladder6, Ladder7): forward from the foot climbs to the
+  gallery over the door'
+world: mm9
+mode: faithful
+tags:
+- mm9
+- mm9_rework
+- draft
+steps:
+- load_map:
+    map: arslegardcity.blv
+- setup_shortcut:
+    kind: set_qbit
+    id: 90098
+    value: true
+- note:
+    text: 'Ladder6: from the temple''s balcony through its tower''s doorway onto the upper floor, forward takes the ladder,
+      climbs it and steps off at [2760, -1458, 737].'
+- movement_segment:
+    input: forward
+    seconds: 2.5
+    actor_collision: false
+    actor_ai: false
+    start:
+      map: arslegardcity.blv
+      x: 2440
+      y: -1160
+      z: 452
+      yaw_degrees: -30.8
+      pitch: 0
+    expect_stop:
+      map: arslegardcity.blv
+      x: 2760
+      y: -1458
+      z: 737
+      yaw_degrees: -30.8
+      pitch: 0
+    loose_tolerance: true
+    tolerance_xy: 80
+    tolerance_z: 20
+- note:
+    text: 'Ladder7: from the temple''s balcony through its tower''s doorway onto the upper floor, forward takes the ladder,
+      climbs it and steps off at [2760, 662, 737].'
+- movement_segment:
+    input: forward
+    seconds: 2.5
+    actor_collision: false
+    actor_ai: false
+    start:
+      map: arslegardcity.blv
+      x: 2440
+      y: 380
+      z: 452
+      yaw_degrees: 29.5
+      pitch: 0
+    expect_stop:
+      map: arslegardcity.blv
+      x: 2760
+      y: 662
+      z: 737
+      yaw_degrees: 29.5
+      pitch: 0
+    loose_tolerance: true
+    tolerance_xy: 80
+    tolerance_z: 20

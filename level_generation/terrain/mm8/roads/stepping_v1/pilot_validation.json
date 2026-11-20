@@ -1,0 +1,55 @@
+{
+  "scope": "two straight pilots; four self joins only",
+  "checks": [
+    {
+      "name": "plrdew",
+      "side": "E",
+      "boundary_p95": 1.4866746923329777,
+      "boundary_max": 1.688210940192104,
+      "interior_p95": 1.464062055933714,
+      "interior_p999": 2.0982303080104177,
+      "passed": true
+    },
+    {
+      "name": "plrdew",
+      "side": "S",
+      "boundary_p95": 1.5380927508734787,
+      "boundary_max": 1.8236817672733248,
+      "interior_p95": 1.5442779142305334,
+      "interior_p999": 2.05065465019781,
+      "passed": true
+    },
+    {
+      "name": "plrdns",
+      "side": "E",
+      "boundary_p95": 1.4866746923329763,
+      "boundary_max": 1.6882109401920984,
+      "interior_p95": 1.4025908718629188,
+      "interior_p999": 2.03201782026226,
+      "passed": true
+    },
+    {
+      "name": "plrdns",
+      "side": "S",
+      "boundary_p95": 1.3797489404835153,
+      "boundary_max": 1.8228591238919607,
+      "interior_p95": 1.5443205760361245,
+      "interior_p999": 1.9374138819212854,
+      "passed": true
+    }
+  ],
+  "failures": [],
+  "components": [
+    {
+      "name": "plrdew",
+      "components": 11,
+      "holes": 0
+    },
+    {
+      "name": "plrdns",
+      "components": 11,
+      "holes": 0
+    }
+  ],
+  "build_sha256": "25fe340009beaee20c44b3e1209602de47829a7282b42bbc316fad5921cf4966"
+}

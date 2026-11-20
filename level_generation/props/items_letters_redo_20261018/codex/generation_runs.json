@@ -1,0 +1,157 @@
+{
+  "tool": "built-in image_gen",
+  "outputs": [
+    {
+      "output": "emblems_raw.png",
+      "prompt": "CORRECTIVE PASS: deliver an exact 2048 x 1024 pixel PNG canvas, not 1774 x 887. Real alpha transparency is required and was successful in the previous generated image. The first reference is the original emblem sheet and the second is the previous generated atlas. Keep its clean restored identity and layout, but reduce its bright white specular streaks and all directional shading to flat evenly lit base colour. No shadows or glow. Eight emblems in exactly four columns by two rows, each centred within its own 512-square cell and filling about 80% of the cell, no visible grid. Preserve original shape proportions: gold crescent ring with two purple gems; green sprig of exactly three pairs of curled fronds; orange-red spread butterfly and antennae; complete green wavy serpent head at upper left; narrow silver-blue double serpent with central drop; red pointed-wing bat; ivory skull dark eye/nose recesses and teeth; round red wax rosette. No envelopes, no paper, no cords. Transparent gaps and openings, opaque objects. No text. Exact final output dimensions: width 2048 pixels, height 1024 pixels. IMPORTANT: image is a neutral albedo texture, no shiny lighting baked in.",
+      "inputs": [
+        "/home/pjasicek/github/OpenYAMM/level_generation/props/items_letters_redo_20261018/codex/emblem_reference_sheet.png",
+        "/home/pjasicek/.codex/generated_images/01a150d6-25e1-7ac3-9665-427ece116b6a/exec-aba5e1d4-4b71-46b6-99ba-bf790998d118.png"
+      ],
+      "original_generated_file_path": "/home/pjasicek/.codex/generated_images/01a150d6-25e1-7ac3-9665-427ece116b6a/exec-25d27e1a-27af-45bd-9ae5-db549d033ca5.png",
+      "requested_size": [
+        2048,
+        1024
+      ],
+      "attempts": [
+        {
+          "type": "initial",
+          "prompt": "Use case: stylized-concept. Asset type: flat base-colour texture sources for existing Might and Magic VII seal emblems, faithful restoration rather than new designs.\nReference image: emblem_reference_sheet.png, four columns by two rows. It shows the emblems on envelopes; ONLY the emblems are wanted.\nGenerate a 2048 x 1024 PNG with genuine alpha transparency. Four columns by two rows, eight invisible equal 512 x 512 cells. Centre each emblem at the centre of its cell, scale its largest dimension to about 410 pixels (80% of cell), keep proportions and separate all cells with transparent space. All emblems exactly straight from above, no perspective.\nOrder left to right, top row then bottom row:\n1. Gold crescent ring brooch, the open crescent/ring shape from the reference with two small purple gems near its lower ends.\n2. Green fern/leaf sprig: exactly three paired tiers of curled fronds rising from one central stem.\n3. Orange-red butterfly with spread wings and small antennae.\n4. Green serpent in an S-wave with head at the upper left; retain the reference's lateral wavy shape and complete the clipped tail cleanly.\n5. Polished silver-blue caduceus-like double serpent ornament with a central hanging drop. Preserve the reference's long narrow outline, two outward-facing tips at top, joined middle and paired lower pointed loop.\n6. Red bat with spread pointed wings, exact reference silhouette.\n7. Ivory skull with dark eye sockets and nose, teeth.\n8. Round red wax seal with raised rosette/flower impression.\nKeep each emblem's shape, proportions, colour and identity from its cell, reconstructed crisply and cleanly at high resolution; no source pixel blocks. Base colour only with even flat light, very restrained material modelling, no strong specular highlights. No cast/drop shadows, no glow, no ambient occlusion outside the shapes. No envelope, no paper, no cords, no backgrounds, no grid lines, no numbering, no text. Empty space and openings through metal ornaments must have actual transparent alpha, not painted checkerboard. Solid ivory skull eye/nose recesses remain dark. If true transparency is unavailable, use perfectly flat pure magenta #ff00ff instead. Exact output 2048 x 1024.",
+          "inputs": [
+            "/home/pjasicek/github/OpenYAMM/level_generation/props/items_letters_redo_20261018/codex/emblem_reference_sheet.png"
+          ],
+          "original_generated_file_path": "/home/pjasicek/.codex/generated_images/01a150d6-25e1-7ac3-9665-427ece116b6a/exec-aba5e1d4-4b71-46b6-99ba-bf790998d118.png",
+          "size": [
+            1774,
+            887
+          ]
+        },
+        {
+          "type": "corrective",
+          "prompt": "CORRECTIVE PASS: deliver an exact 2048 x 1024 pixel PNG canvas, not 1774 x 887. Real alpha transparency is required and was successful in the previous generated image. The first reference is the original emblem sheet and the second is the previous generated atlas. Keep its clean restored identity and layout, but reduce its bright white specular streaks and all directional shading to flat evenly lit base colour. No shadows or glow. Eight emblems in exactly four columns by two rows, each centred within its own 512-square cell and filling about 80% of the cell, no visible grid. Preserve original shape proportions: gold crescent ring with two purple gems; green sprig of exactly three pairs of curled fronds; orange-red spread butterfly and antennae; complete green wavy serpent head at upper left; narrow silver-blue double serpent with central drop; red pointed-wing bat; ivory skull dark eye/nose recesses and teeth; round red wax rosette. No envelopes, no paper, no cords. Transparent gaps and openings, opaque objects. No text. Exact final output dimensions: width 2048 pixels, height 1024 pixels. IMPORTANT: image is a neutral albedo texture, no shiny lighting baked in.",
+          "inputs": [
+            "/home/pjasicek/github/OpenYAMM/level_generation/props/items_letters_redo_20261018/codex/emblem_reference_sheet.png",
+            "/home/pjasicek/.codex/generated_images/01a150d6-25e1-7ac3-9665-427ece116b6a/exec-aba5e1d4-4b71-46b6-99ba-bf790998d118.png"
+          ],
+          "original_generated_file_path": "/home/pjasicek/.codex/generated_images/01a150d6-25e1-7ac3-9665-427ece116b6a/exec-25d27e1a-27af-45bd-9ae5-db549d033ca5.png",
+          "size": [
+            1774,
+            887
+          ]
+        }
+      ],
+      "size": [
+        1774,
+        887
+      ],
+      "size_bytes": 1094489,
+      "mode": "RGBA",
+      "copied_without_modification": true,
+      "matches_requested_size": false,
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "limitation": "Built-in image generation returned different dimensions after the permitted single corrective regeneration; output copied unchanged as requested."
+    },
+    {
+      "output": "item320_cover.png",
+      "prompt": "CORRECTIVE PASS. Output exactly 1536 x 1024 PNG, same dimensions and edge-to-edge front cover composition as the second reference (previous generation). First reference is original game icon. Keep the large centred golden cobra with red eyes, red nose accent, broad rounded hood, scale structure and throat bands, red leather, gold perimeter border and four corner filigree motifs. Change only the lighting: remove the strong highlights, black recess shading, dimensional cast shadow and metallic glare that were baked into the previous generation. Paint as an evenly illuminated flat BASE COLOUR / ALBEDO texture. Gold should read as muted yellow-gold material colour with restrained scale lines, not glossy illuminated gold. Deep red leather with restrained small-scale grain. Preserve shapes, colours, proportions and crisp detail, no source pixel blocks. The front cover alone fills every pixel edge to edge. No perspective, no page edges, no spine, no thickness, no lettering, no background, no margins. Exact dimensions 1536 x 1024.",
+      "inputs": [
+        "/home/pjasicek/github/OpenYAMM/level_generation/props/items_letters_redo_20261018/codex/item320_icon_x8.png",
+        "/home/pjasicek/.codex/generated_images/01a150d6-25e1-7ac3-9665-427ece116b6a/exec-6a41bd88-e9c7-4603-b99b-60b903668920.png"
+      ],
+      "original_generated_file_path": "/home/pjasicek/.codex/generated_images/01a150d6-25e1-7ac3-9665-427ece116b6a/exec-0e11ad2c-39dd-4129-b6b6-71189aee971c.png",
+      "requested_size": [
+        1536,
+        1024
+      ],
+      "attempts": [
+        {
+          "type": "initial",
+          "prompt": "Use case: stylized-concept. Asset type: flat albedo texture for the existing Might and Magic VII item Prophecies of the Snake.\nReference image: item320_icon_x8.png. Restore its FRONT COVER artwork only as a flat rectangular texture.\nOutput exactly 1536 x 1024 pixels, landscape PNG. The cover fills the entire image edge to edge, absolutely straight-on and square to the frame with zero perspective. Deep red leather, slim gold border at the image's perimeter and gold filigree ornaments in each of the four corners, faithfully matching the reference. Centre the large golden scaled cobra/snake head motif with red eyes, broad rounded hood and the same facial and lower throat-scale structure seen in the reference. Retain its distinctive stout snake face, rounded large forehead scales, hood outline, red jewel-like eyes and small central red facial accent; reconstruct clean detailed scales without copying the source's pixel blocks. Match the icon's colours, material and design rather than inventing a different cobra.\nEven flat lighting for a base-colour texture: no strong highlights, no shadows, no directional light or vignetting. No lettering. No page edges, no spine, no book thickness, no background, no magenta, no angle, no mockup, no surrounding margin. Leather and gold artwork cover every pixel of the full rectangular canvas. This is the cover's flat texture, not a rendering of a physical book. Exact output 1536 x 1024.",
+          "inputs": [
+            "/home/pjasicek/github/OpenYAMM/level_generation/props/items_letters_redo_20261018/codex/item320_icon_x8.png"
+          ],
+          "original_generated_file_path": "/home/pjasicek/.codex/generated_images/01a150d6-25e1-7ac3-9665-427ece116b6a/exec-6a41bd88-e9c7-4603-b99b-60b903668920.png",
+          "size": [
+            1536,
+            1024
+          ]
+        },
+        {
+          "type": "corrective",
+          "prompt": "CORRECTIVE PASS. Output exactly 1536 x 1024 PNG, same dimensions and edge-to-edge front cover composition as the second reference (previous generation). First reference is original game icon. Keep the large centred golden cobra with red eyes, red nose accent, broad rounded hood, scale structure and throat bands, red leather, gold perimeter border and four corner filigree motifs. Change only the lighting: remove the strong highlights, black recess shading, dimensional cast shadow and metallic glare that were baked into the previous generation. Paint as an evenly illuminated flat BASE COLOUR / ALBEDO texture. Gold should read as muted yellow-gold material colour with restrained scale lines, not glossy illuminated gold. Deep red leather with restrained small-scale grain. Preserve shapes, colours, proportions and crisp detail, no source pixel blocks. The front cover alone fills every pixel edge to edge. No perspective, no page edges, no spine, no thickness, no lettering, no background, no margins. Exact dimensions 1536 x 1024.",
+          "inputs": [
+            "/home/pjasicek/github/OpenYAMM/level_generation/props/items_letters_redo_20261018/codex/item320_icon_x8.png",
+            "/home/pjasicek/.codex/generated_images/01a150d6-25e1-7ac3-9665-427ece116b6a/exec-6a41bd88-e9c7-4603-b99b-60b903668920.png"
+          ],
+          "original_generated_file_path": "/home/pjasicek/.codex/generated_images/01a150d6-25e1-7ac3-9665-427ece116b6a/exec-0e11ad2c-39dd-4129-b6b6-71189aee971c.png",
+          "size": [
+            1536,
+            1024
+          ]
+        }
+      ],
+      "size": [
+        1536,
+        1024
+      ],
+      "size_bytes": 3224071,
+      "mode": "RGB",
+      "copied_without_modification": true,
+      "matches_requested_size": true,
+      "alpha_extrema": null
+    },
+    {
+      "output": "item320_spine.png",
+      "prompt": "CORRECTIVE PASS: The previous generation had the WRONG ASPECT RATIO at 2172 x 724 (3:1). This output MUST be EXACTLY 1536 x 256 pixels (6:1), a very long thin HORIZONTAL strip. Do not return 3:1 or any taller canvas. First reference is original book icon, second is previous generated spine. Repaint the spine as an extremely long narrow flat albedo strip with matching deep red leather, gold binding bands crossing the SHORT vertical axis, and SMALL gold ornaments between bands. Keep gold ornaments small enough to fit a 256 pixel high strip. Book long axis runs horizontally. Flat straight-on unwrapped spine surface filling the entire canvas edge to edge. Reduce all strong highlights and shadows from previous generation; evenly lit base colour with restrained material detail. No glossy directional light, no baked shadows, no front cover or cobra motif, no book thickness, no pages, no background, no magenta, no lettering, no margins. The deliverable is one 1536-wide by 256-high PNG, aspect ratio exactly 6 to 1.",
+      "inputs": [
+        "/home/pjasicek/github/OpenYAMM/level_generation/props/items_letters_redo_20261018/codex/item320_icon_x8.png",
+        "/home/pjasicek/.codex/generated_images/01a150d6-25e1-7ac3-9665-427ece116b6a/exec-dca620b0-7afa-4315-a7e3-70272d1106d8.png"
+      ],
+      "original_generated_file_path": "/home/pjasicek/.codex/generated_images/01a150d6-25e1-7ac3-9665-427ece116b6a/exec-082c829d-7e21-4418-9e78-f9a5707e71d8.png",
+      "requested_size": [
+        1536,
+        256
+      ],
+      "attempts": [
+        {
+          "type": "initial",
+          "prompt": "Use case: stylized-concept. Asset type: flat albedo texture strip for the spine of the existing Might and Magic VII book Prophecies of the Snake.\nReference image: item320_icon_x8.png, for the matching deep red leather, gold border and small gold ornament style.\nGenerate the SPINE ONLY, exactly 1536 x 256 pixels, a 6:1 landscape PNG strip. The entire image is the unwrapped spine surface, straight-on with no perspective, no book thickness or background. Lay the book's long spine axis horizontally across the full image width. Same deep red leather as the front cover in the reference, with gold raised binding bands crossing its short axis at several spaced positions and small gold filigree ornaments between bands. Restrained fine leather texture, crisp gold detail and ornament vocabulary consistent with the icon. Fill the whole image edge to edge.\nBase colour only, even flat light, no strong highlights, no shadows, no lettering. No pages, no front cover, no cobra face, no mockup, no margin, no magenta, no surrounding scene. Exact output 1536 x 256.",
+          "inputs": [
+            "/home/pjasicek/github/OpenYAMM/level_generation/props/items_letters_redo_20261018/codex/item320_icon_x8.png"
+          ],
+          "original_generated_file_path": "/home/pjasicek/.codex/generated_images/01a150d6-25e1-7ac3-9665-427ece116b6a/exec-dca620b0-7afa-4315-a7e3-70272d1106d8.png",
+          "size": [
+            2172,
+            724
+          ]
+        },
+        {
+          "type": "corrective",
+          "prompt": "CORRECTIVE PASS: The previous generation had the WRONG ASPECT RATIO at 2172 x 724 (3:1). This output MUST be EXACTLY 1536 x 256 pixels (6:1), a very long thin HORIZONTAL strip. Do not return 3:1 or any taller canvas. First reference is original book icon, second is previous generated spine. Repaint the spine as an extremely long narrow flat albedo strip with matching deep red leather, gold binding bands crossing the SHORT vertical axis, and SMALL gold ornaments between bands. Keep gold ornaments small enough to fit a 256 pixel high strip. Book long axis runs horizontally. Flat straight-on unwrapped spine surface filling the entire canvas edge to edge. Reduce all strong highlights and shadows from previous generation; evenly lit base colour with restrained material detail. No glossy directional light, no baked shadows, no front cover or cobra motif, no book thickness, no pages, no background, no magenta, no lettering, no margins. The deliverable is one 1536-wide by 256-high PNG, aspect ratio exactly 6 to 1.",
+          "inputs": [
+            "/home/pjasicek/github/OpenYAMM/level_generation/props/items_letters_redo_20261018/codex/item320_icon_x8.png",
+            "/home/pjasicek/.codex/generated_images/01a150d6-25e1-7ac3-9665-427ece116b6a/exec-dca620b0-7afa-4315-a7e3-70272d1106d8.png"
+          ],
+          "original_generated_file_path": "/home/pjasicek/.codex/generated_images/01a150d6-25e1-7ac3-9665-427ece116b6a/exec-082c829d-7e21-4418-9e78-f9a5707e71d8.png",
+          "size": [
+            2172,
+            724
+          ]
+        }
+      ],
+      "size": [
+        2172,
+        724
+      ],
+      "size_bytes": 2962648,
+      "mode": "RGB",
+      "copied_without_modification": true,
+      "matches_requested_size": false,
+      "alpha_extrema": null,
+      "limitation": "Built-in image generation returned different dimensions after the permitted single corrective regeneration; output copied unchanged as requested."
+    }
+  ]
+}

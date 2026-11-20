@@ -1,0 +1,24 @@
+output_dir: /home/pjasicek/github/OpenYAMM/level_generation/projects/hesper_d10/review/gloamers
+settle_seconds: 2
+exit: true
+shots:
+- name: flooded_stacks
+  position:
+  - 7740
+  - 150
+  - 0
+  yaw: 3.14159265
+  pitch: -0.25
+  commands:
+  - config set immortal true
+  - config set invisible true
+- name: vault_den
+  position:
+  - -650
+  - -3600
+  - -512
+  yaw: 3.14159265
+  pitch: -0.1
+  commands:
+  - config set immortal true
+  - config set invisible true

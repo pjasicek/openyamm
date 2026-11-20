@@ -54,8 +54,7 @@ struct FontFixture
     }
 };
 
-template<size_t Size>
-int textWidth(const std::array<Engine::FontGlyphMetrics, Size> &metrics, const std::string &text)
+int textWidth(const std::array<Engine::FontGlyphMetrics, 256> &metrics, const std::string &text)
 {
     int width = 0;
     for (unsigned char character : text)
@@ -97,26 +96,6 @@ TEST_CASE("menu outline fonts load independently of legacy metrics")
         CHECK(image->atlas.atlasScale == 1);
         CHECK(image->atlas.glyphMetrics['W'].advance() > image->atlas.glyphMetrics['i'].advance());
         CHECK(image->atlas.glyphMetrics[' '].advance() > 0);
-        const std::optional<uint16_t> cyrillicA = image->atlas.glyphForCodePoint(0x410);
-        CHECK(cyrillicA);
-        CHECK(image->atlas.glyphForCodePoint(0x451));
-        if (cyrillicA)
-        {
-            const int cellWidth = image->atlas.atlasCellWidth + 2 * image->atlas.atlasPadding;
-            const int cellHeight = image->atlas.fontHeight + 2 * image->atlas.atlasPadding;
-            const int cellX = (*cyrillicA % image->atlas.atlasColumns) * cellWidth;
-            const int cellY = (*cyrillicA / image->atlas.atlasColumns) * cellHeight;
-            size_t cyrillicInk = 0;
-            for (int y = 0; y < cellHeight; ++y)
-            {
-                for (int x = 0; x < cellWidth; ++x)
-                {
-                    const size_t offset = (size_t(cellY + y) * image->atlas.atlasWidth + cellX + x) * 4;
-                    cyrillicInk += image->atlas.mainAtlasPixels[offset + 3] > 0;
-                }
-            }
-            CHECK(cyrillicInk > 0);
-        }
         bool fractionalAdvance = false;
         for (const Engine::FontGlyphMetrics &metrics : image->atlas.glyphMetrics)
         {
@@ -158,8 +137,8 @@ TEST_CASE("menu outline font atlas rasterizes at display size with antialiased "
             for (unsigned char character : std::string("Wil\xc9\xe9"))
             {
                 CAPTURE(character);
-                const int cellX = character % font.atlasColumns * cellWidth;
-                const int cellY = character / font.atlasColumns * cellHeight;
+                const int cellX = character % 16 * cellWidth;
+                const int cellY = character / 16 * cellHeight;
                 size_t ink = 0;
                 size_t antialiased = 0;
                 bool sameShadow = true;
@@ -209,7 +188,7 @@ TEST_CASE("enemy label font loads its authored semibold weight and rejects inval
     REQUIRE_MESSAGE(semibold, error);
     CHECK(semibold->atlas.fontHeight == 24);
     CHECK(textWidth(semibold->atlas.glyphMetrics, "Guardian of VARN 617/617") * 0.42f < 144.0f);
-    CHECK(semibold->atlas.mainAtlasPixels.size() < 4 * 1024 * 1024);
+    CHECK(semibold->atlas.mainAtlasPixels.size() < 2 * 1024 * 1024);
 
     const auto writeWeight = [&](int weight)
     {
@@ -243,9 +222,9 @@ TEST_CASE("menu headings fit their layout at the intended font size across displ
 {
     FontFixture fixture;
     Game::UiLayoutManager layouts;
-    for (const char *pLayout : {"settings_gameplay", "settings_video", "settings_audio", "settings_controls",
-                               "settings_keyboard", "continent_selection", "character_creation", "load_game",
-                               "save_game"})
+    for (const char *pLayout : {"settings_gameplay", "settings_interface", "settings_video", "settings_audio",
+                               "settings_controls", "settings_keyboard", "continent_selection", "character_creation",
+                               "load_game", "save_game"})
     {
         const std::filesystem::path path = std::filesystem::path(OPENYAMM_SOURCE_DIR) /
                                            "assets_dev/engine/ui/gameplay" / (std::string(pLayout) + ".yml");
@@ -364,23 +343,10 @@ TEST_CASE("font atlas TTF preserves native layout and rasterizes all CP1252 cell
     REQUIRE_MESSAGE(ttf, error);
     CHECK(ttf->atlas.fontHeight == height);
     CHECK(ttf->atlas.atlasScale == 4);
-    CHECK(ttf->atlas.atlasCellWidth >= cellWidth);
-    CHECK(ttf->atlas.atlasWidth == (ttf->atlas.atlasCellWidth + 10) * ttf->atlas.atlasColumns * 4);
-    CHECK(ttf->atlas.atlasHeight == (height + 10)
-        * ((ttf->atlas.glyphCount + ttf->atlas.atlasColumns - 1) / ttf->atlas.atlasColumns) * 4);
+    CHECK(ttf->atlas.atlasWidth == (cellWidth + 10) * 16 * 4);
+    CHECK(ttf->atlas.atlasHeight == (height + 10) * 16 * 4);
     CHECK(ttf->atlas.firstChar == (*bytes)[0]);
     CHECK(ttf->atlas.lastChar == (*bytes)[1]);
-    CHECK(ttf->atlas.glyphForCodePoint(0x410));
-    CHECK(ttf->atlas.glyphForCodePoint(0x451));
-    for (uint32_t codePoint = 0x410; codePoint <= 0x44f; ++codePoint)
-    {
-        const std::optional<uint16_t> glyph = ttf->atlas.glyphForCodePoint(codePoint);
-        REQUIRE(glyph);
-        const Engine::FontGlyphMetrics &metrics = ttf->atlas.glyphMetrics[*glyph];
-        const int logicalAdvance = metrics.leftSpacing + metrics.width + metrics.rightSpacing;
-        CHECK(metrics.advance() > 0);
-        CHECK(std::abs(metrics.advance() - logicalAdvance) <= 0.51f);
-    }
     for (int character = 0; character < 256; ++character)
     {
         const Engine::FontGlyphMetrics &replacement = ttf->atlas.glyphMetrics[character];
@@ -418,8 +384,8 @@ TEST_CASE("font atlas TTF preserves native layout and rasterizes all CP1252 cell
     {
         CHECK(mainInkCount > 1000);
         // Obsidian uses tintable ivory ink; the restored l retains its native stroke and has no shifted shadow.
-        const int cellX = (108 % ttf->atlas.atlasColumns) * (ttf->atlas.atlasCellWidth + 10) * 4;
-        const int cellY = (108 / ttf->atlas.atlasColumns) * (height + 10) * 4;
+        const int cellX = (108 % 16) * (ttf->atlas.atlasCellWidth + 10) * 4;
+        const int cellY = (108 / 16) * (height + 10) * 4;
         bool coverageMatches = true;
         for (int y = 0; y < (height + 10) * 4; ++y)
         {
@@ -459,4 +425,137 @@ TEST_CASE("legacy font atlas requires its TTF replacement and reports broken des
     CHECK(error.find("invalid TTF descriptor") != std::string::npos);
     CHECK_FALSE(Engine::loadFontAtlas(fixture.assets, {0, 1, 2}, "Arrus", error));
     CHECK(error == "invalid legacy FNT");
+}
+
+TEST_CASE("UTF-8 text converts to the CP1252 bytes of the legacy faces without the platform's iconv")
+{
+    // The MAW Rules panel: times, en dash, em dash and middle dot.
+    CHECK(Engine::utf8ToCp1252("\xC3\x97" "0.50") == "\xD7" "0.50");
+    CHECK(Engine::utf8ToCp1252("1\xE2\x80\x93" "3") == "1\x96" "3");
+    CHECK(Engine::utf8ToCp1252("\xE2\x80\x94") == "\x97");
+    CHECK(Engine::utf8ToCp1252("once \xC2\xB7 fixed") == "once \xB7 fixed");
+    CHECK(Engine::utf8ToCp1252("engine\xE2\x80\x99s \xE2\x82\xAC") == "engine\x92s \x80");
+    CHECK(Engine::utf8ToCp1252("plain") == "plain");
+    // CP1252 has no arrow; a name imported as CP1252 is not valid UTF-8 and stays as it is.
+    CHECK(Engine::utf8ToCp1252("a \xE2\x86\x92 b") == "a ? b");
+    CHECK(Engine::utf8ToCp1252("Caf\xE9") == "Caf\xE9");
+}
+
+TEST_CASE("a Unicode face packs the characters it lists and draws a character it lacks as '?'")
+{
+    FontFixture fixture;
+    const std::filesystem::path truetype = fixture.root / "engine/fonts/truetype";
+    {
+        std::ofstream descriptor(truetype / "unicode_test.yml");
+        descriptor << "file: alegreya_variable.ttf\nmetrics: freetype\nlogical_height: 24\nbaseline: 18\n"
+                   << "encoding: utf-8\ncharacters_file: unicode_test.txt\n";
+        // Cyrillic and Greek letters Alegreya has, and a Han character it lacks.
+        std::ofstream characters(truetype / "unicode_test.txt");
+        characters << "\xd0\x96\xd0\xb6\xce\xa9\xe4\xb8\xad\n";
+    }
+
+    std::string error;
+    const std::optional<Engine::FontAtlasImage> logical =
+        Engine::loadTrueTypeFontAtlas(fixture.assets, "unicode_test", error);
+    REQUIRE_MESSAGE(logical.has_value(), error);
+    const Engine::FontAtlas &atlas = logical->atlas;
+    CHECK(atlas.unicode);
+    // At its logical height a face is magnified on screen: it rasters at three times that, capped at 48.
+    CHECK_EQ(atlas.fontHeight, 24);
+    CHECK_EQ(atlas.rasterHeight, 48);
+    CHECK_EQ(atlas.layoutScale, doctest::Approx(0.5f));
+
+    const int zhe = atlas.glyphIndex(0x416);
+    const int omega = atlas.glyphIndex(0x3a9);
+    const int euro = atlas.glyphIndex(0x20ac);
+    REQUIRE(zhe >= 0);
+    REQUIRE(omega >= 0);
+    REQUIRE(euro >= 0);
+    CHECK_EQ(atlas.glyphIndex(0x4e2d), atlas.glyphIndex('?'));
+    CHECK(atlas.glyph(zhe).width > 0);
+    CHECK(atlas.glyph(zhe).advance() > atlas.glyph(atlas.glyphIndex('.')).advance());
+
+    // Every place lies inside the atlas and overlaps no other.
+    const size_t count = atlas.unicodeGlyphPlacements.size();
+    REQUIRE_EQ(count, atlas.unicodeGlyphMetrics.size());
+    for (size_t index = 0; index < count; ++index)
+    {
+        const Engine::FontGlyphPlacement &place = atlas.unicodeGlyphPlacements[index];
+        CHECK(place.x >= 0);
+        CHECK(place.y >= 0);
+        CHECK(place.x + place.width <= atlas.atlasWidth);
+        CHECK(place.y + place.height <= atlas.atlasHeight);
+        for (size_t other = index + 1; other < count; ++other)
+        {
+            const Engine::FontGlyphPlacement &next = atlas.unicodeGlyphPlacements[other];
+            const bool apart = place.x + place.width <= next.x || next.x + next.width <= place.x
+                || place.y + place.height <= next.y || next.y + next.height <= place.y;
+            CHECK(apart);
+        }
+    }
+
+    // A capital's ink starts near the top of the line; a full stop's sits near the baseline.
+    const int stop = atlas.glyphIndex('.');
+    CHECK(atlas.placement(zhe).top < atlas.placement(stop).top);
+    CHECK_EQ(atlas.kerning('A', 'V'), 0.0f);
+
+    // A display height between the raster steps shares the next step's raster and scales its layout.
+    const std::optional<Engine::FontAtlasImage> display =
+        Engine::loadTrueTypeFontAtlas(fixture.assets, "unicode_test", error, 30);
+    REQUIRE_MESSAGE(display.has_value(), error);
+    CHECK_EQ(display->atlas.fontHeight, 30);
+    CHECK_EQ(display->atlas.rasterHeight, 32);
+    CHECK_EQ(display->atlas.layoutScale, doctest::Approx(30.0f / 32.0f));
+    CHECK_EQ(Engine::unicodeRasterHeight(16, 24), 16);
+    CHECK_EQ(Engine::unicodeRasterHeight(17, 24), 24);
+    CHECK_EQ(Engine::unicodeRasterHeight(200, 24), 128);
+    CHECK_EQ(Engine::unicodeRasterHeight(0, 11), 48);
+    CHECK_EQ(Engine::unicodeRasterHeight(0, 7), 24);
+    // A pack's max_raster_height caps large text, which is then drawn magnified.
+    CHECK_EQ(Engine::unicodeRasterHeight(90, 24, 64), 64);
+    CHECK_EQ(Engine::unicodeRasterHeight(30, 24, 64), 32);
+}
+
+TEST_CASE("a Unicode face needs its character list")
+{
+    FontFixture fixture;
+    {
+        std::ofstream descriptor(fixture.root / "engine/fonts/truetype/unicode_test.yml");
+        descriptor << "file: alegreya_variable.ttf\nmetrics: freetype\nlogical_height: 24\nbaseline: 18\n"
+                   << "encoding: utf-8\n";
+    }
+    std::string error;
+    CHECK_FALSE(Engine::loadTrueTypeFontAtlas(fixture.assets, "unicode_test", error).has_value());
+    CHECK_FALSE(error.empty());
+
+    {
+        std::ofstream descriptor(fixture.root / "engine/fonts/truetype/unicode_test.yml");
+        descriptor << "file: alegreya_variable.ttf\nmetrics: freetype\nlogical_height: 24\nbaseline: 18\n"
+                   << "encoding: utf-8\ncharacters_file: absent.txt\n";
+    }
+    CHECK_FALSE(Engine::loadTrueTypeFontAtlas(fixture.assets, "unicode_test", error).has_value());
+}
+
+TEST_CASE("a legacy face finds the Windows-1252 glyph of a character and its cell in the grid")
+{
+    FontFixture fixture;
+    std::string error;
+    const std::optional<Engine::FontAtlasImage> image =
+        Engine::loadTrueTypeFontAtlas(fixture.assets, "alegreya_semibold", error);
+    REQUIRE_MESSAGE(image.has_value(), error);
+    const Engine::FontAtlas &atlas = image->atlas;
+    CHECK_FALSE(atlas.unicode);
+    CHECK_EQ(atlas.glyphIndex('A'), int('A'));
+    CHECK_EQ(atlas.glyphIndex(0x20ac), 0x80);
+    CHECK_EQ(atlas.glyphIndex(0xe9), 0xe9);
+    // Windows-1252 has no Greek: the face draws '?'.
+    CHECK_EQ(atlas.glyphIndex(0x3a9), int('?'));
+
+    const Engine::FontGlyphPlacement place = atlas.placement('A');
+    CHECK_EQ(place.x, ('A' % 16) * (atlas.atlasCellWidth + 2 * atlas.atlasPadding));
+    CHECK_EQ(place.y, ('A' / 16) * (atlas.fontHeight + 2 * atlas.atlasPadding));
+    CHECK_EQ(place.width, atlas.glyphMetrics['A'].width + 2 * atlas.atlasPadding);
+    CHECK_EQ(place.height, atlas.fontHeight + 2 * atlas.atlasPadding);
+    CHECK_EQ(place.top, -atlas.atlasPadding);
+    CHECK_EQ(atlas.layoutScale, 1.0f);
 }

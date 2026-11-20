@@ -1,0 +1,2503 @@
+format: 0
+themes:
+  - id: theme:cave
+    wall: {texture: d2ceil4, size: [256, 256]}
+    floor: {texture: D2flor5, size: [128, 128]}
+    ceiling: {texture: d2ceil4, size: [256, 256]}
+    notes: "The original's caves: rough rock d2ceil4 on walls, banks and roofs, the trodden D2flor5 on level floors."
+  - id: theme:cave3
+    wall: {texture: d2ceil4, size: [256, 256]}
+    floor: {texture: D2flor5, size: [128, 128]}
+    ceiling: {texture: D2Ceil3, size: [256, 256]}
+    notes: "The east cave's end room and its chest niche, under the darker roof D2Ceil3."
+  - id: theme:cell
+    wall: {texture: OFlrL32, size: [32, 32]}
+    floor: {texture: OFlrL32, size: [32, 32]}
+    ceiling: {texture: OFlrL32, size: [32, 32]}
+    notes: "The twelve lockers off the prison corridor, small flagstones all round (OFlrL32), the back wall OFlr1L32."
+  - id: theme:cells
+    wall: {texture: d6wlALG, size: [256, 256]}
+    floor: {texture: OrErtLgA, size: [256, 256]}
+    ceiling: {texture: T3C2, size: [64, 64]}
+    reveal: {texture: T1trimA, size: [32, 32]}
+    notes: "The prison corridor (sector 7): d6wlALG stone over packed earth."
+  - id: theme:gates
+    wall: {texture: T3WBLTD, size: [256, 256]}
+    floor: {texture: T3F1, size: [128, 128]}
+    ceiling: {texture: T3C2, size: [64, 64]}
+    notes: The corridor of the six gates (sector 51).
+  - id: theme:hall
+    wall: {texture: t1w11a, size: [128, 256]}
+    floor: {texture: OFlr, size: [128, 128]}
+    ceiling: {texture: T3C2, size: [64, 64]}
+    reveal: {texture: T1trimA, size: [32, 32]}
+    notes: "The keep's ashlar t1w11a over flagstones OFlr under the plank ceiling T3C2: the entrance hall, the ramps down to the lower keep, the back stair."
+  - id: theme:hidden
+    wall: {texture: T3WSBP, size: [128, 256]}
+    floor: {texture: T3F2, size: [128, 128]}
+    ceiling: {texture: T3T5, size: [64, 64]}
+    reveal: {texture: T3T6, size: [32, 32]}
+    notes: "The two hidden rooms behind the towers (sectors 52, 53): banded stone, T3F2 floor, T3T5 ceiling."
+  - id: theme:lower
+    wall: {texture: T1wl2ctL, size: [256, 256]}
+    floor: {texture: OFlr, size: [128, 128]}
+    ceiling: {texture: T3C2, size: [64, 64]}
+    reveal: {texture: T3T6, size: [32, 32]}
+    notes: The lower keep's corridor (sector 22).
+  - id: theme:panel
+    wall: {texture: T1wl1ctL, size: [256, 256]}
+    floor: {texture: OFlr, size: [128, 128]}
+    ceiling: {texture: t1c2, size: [64, 64]}
+    reveal: {texture: T1trimA, size: [32, 32]}
+    notes: "The panelled passages from the entrance to the hall of the goblins (T1wl1ctL, beamed ceiling t1c2)."
+  - id: theme:passage
+    wall: {texture: T3WSMP, size: [128, 256]}
+    floor: {texture: OFlr, size: [128, 128]}
+    ceiling: {texture: T3C2, size: [64, 64]}
+    reveal: {texture: T3T6, size: [32, 32]}
+    notes: The passage from the lower keep to the caves (sector 36).
+  - id: theme:quarters
+    wall: {texture: T1wl4ctL, size: [256, 256]}
+    floor: {texture: OFlr, size: [128, 128]}
+    ceiling: {texture: T3c3, size: [128, 128]}
+    reveal: {texture: T1wl4ctL, size: [256, 256]}
+    notes: The four quarters of the lower keep (sectors 23 to 26).
+  - id: theme:ramp
+    wall: {texture: t1w11a, size: [128, 256]}
+    floor: {texture: t1f3, size: [128, 128]}
+    ceiling: {texture: t1c3, size: [64, 64]}
+    reveal: {texture: T1trimA, size: [32, 32]}
+    notes: "The ramps down from the entrance to the prison (sectors 5 and 6): t1f3 floor, t1c3 roof."
+  - id: theme:sewer
+    wall: {texture: d6wlCctr, size: [128, 256]}
+    floor: {texture: T3F2, size: [128, 128]}
+    ceiling: {texture: T3C2, size: [64, 64]}
+    reveal: {texture: T1trimA, size: [32, 32]}
+    notes: "The long way back from the vault to the back stair (sectors 48, 49)."
+  - id: theme:shrine
+    wall: {texture: T3WSBP, size: [128, 256]}
+    floor: {texture: T3T2, size: [64, 64]}
+    ceiling: {texture: T3C1, size: [128, 128]}
+    reveal: {texture: T3T8, size: [32, 32]}
+    notes: "The goblins' hall (sector 4) and its two hidden rooms: banded stone T3WSBP, tiles T3T2."
+  - id: theme:switches
+    wall: {texture: T1spclA, size: [128, 256]}
+    floor: {texture: OFlr, size: [128, 128]}
+    ceiling: {texture: swcirc1, size: [256, 256]}
+    reveal: {texture: T1trimA, size: [32, 32]}
+    notes: "The switch hall (sector 45): T1spclA under the round-patterned ceiling swcirc1."
+  - id: theme:vault
+    wall: {texture: T1wl3ctS, size: [128, 256]}
+    floor: {texture: OFlr, size: [128, 128]}
+    ceiling: {texture: T3C2, size: [64, 64]}
+    reveal: {texture: T3T6, size: [32, 32]}
+    notes: "The treasure vault under the cave and its approach (sectors 46, 47, 50)."
+defaults: {theme: theme:hall, ambient: 19}
+rooms:
+  - id: room:c10
+    name: Locker 10
+    outline: [[-1584, 4480], [-1456, 4480], [-1456, 4608], [-1584, 4608]]
+    floor: -448
+    ceiling: -320
+    theme: theme:cell
+    walls:
+      - wall: 1
+        surface: {texture: OFlr1L32, size: [32, 32]}
+    notes: "Sector 10: a locker 128 deep off the prison corridor, 64 above its floor."
+  - id: room:c11
+    name: Locker 11
+    outline: [[-2192, 5248], [-2128, 5248], [-2128, 5376], [-2192, 5376]]
+    floor: -448
+    ceiling: -320
+    theme: theme:cell
+    walls:
+      - wall: 3
+        surface: {texture: OFlr1L32, size: [32, 32]}
+        panels:
+          - {id: panel:chest2, offset: 32, length: 64, height: 64, surface: {texture: ch2frnt, size: [64, 64]}, notes: "Face 224 (event 42): the chest picture ch2frnt on the back wall."}
+    notes: "Sector 11: a locker 64 deep off the prison corridor, 64 above its floor."
+  - id: room:c12
+    name: Locker 12
+    outline: [[-2256, 4864], [-2128, 4864], [-2128, 4992], [-2256, 4992]]
+    floor: -448
+    ceiling: -320
+    theme: theme:cell
+    walls:
+      - wall: 3
+        surface: {texture: OFlr1L32, size: [32, 32]}
+    notes: "Sector 12: a locker 128 deep off the prison corridor, 64 above its floor."
+  - id: room:c13
+    name: Locker 13
+    outline: [[-2192, 4480], [-2128, 4480], [-2128, 4608], [-2192, 4608]]
+    floor: -448
+    ceiling: -320
+    theme: theme:cell
+    walls:
+      - wall: 3
+        surface: {texture: OFlr1L32, size: [32, 32]}
+        panels:
+          - {id: panel:chest1, offset: 32, length: 64, height: 64, surface: {texture: ch2frnt, size: [64, 64]}, notes: "Face 233 (event 41): the chest picture ch2frnt on the back wall."}
+    notes: "Sector 13: a locker 64 deep off the prison corridor, 64 above its floor."
+  - id: room:c14
+    name: Locker 14
+    outline: [[-2256, 6144], [-2128, 6144], [-2128, 6272], [-2256, 6272]]
+    floor: -448
+    ceiling: -320
+    theme: theme:cell
+    walls:
+      - wall: 3
+        surface: {texture: OFlr1L32, size: [32, 32]}
+    notes: "Sector 14: a locker 128 deep off the prison corridor, 64 above its floor."
+  - id: room:c15
+    name: Locker 15
+    outline: [[-2256, 6528], [-2128, 6528], [-2128, 6656], [-2256, 6656]]
+    floor: -448
+    ceiling: -320
+    theme: theme:cell
+    walls:
+      - wall: 3
+        surface: {texture: OFlr1L32, size: [32, 32]}
+    notes: "Sector 15: a locker 128 deep off the prison corridor, 64 above its floor."
+  - id: room:c16
+    name: Locker 16
+    outline: [[-2256, 6912], [-2128, 6912], [-2128, 7040], [-2256, 7040]]
+    floor: -448
+    ceiling: -320
+    theme: theme:cell
+    walls:
+      - wall: 3
+        surface: {texture: OFlr1L32, size: [32, 32]}
+    notes: "Sector 16: a locker 128 deep off the prison corridor, 64 above its floor."
+  - id: room:c17
+    name: Locker 17
+    outline: [[-1584, 6144], [-1456, 6144], [-1456, 6272], [-1584, 6272]]
+    floor: -448
+    ceiling: -320
+    theme: theme:cell
+    walls:
+      - wall: 1
+        surface: {texture: OFlr1L32, size: [32, 32]}
+    notes: "Sector 17: a locker 128 deep off the prison corridor, 64 above its floor."
+  - id: room:c18
+    name: Locker 18
+    outline: [[-1584, 6528], [-1456, 6528], [-1456, 6656], [-1584, 6656]]
+    floor: -448
+    ceiling: -320
+    theme: theme:cell
+    walls:
+      - wall: 1
+        surface: {texture: OFlr1L32, size: [32, 32]}
+    notes: "Sector 18: a locker 128 deep off the prison corridor, 64 above its floor."
+  - id: room:c19
+    name: Locker 19
+    outline: [[-1584, 6912], [-1456, 6912], [-1456, 7040], [-1584, 7040]]
+    floor: -448
+    ceiling: -320
+    theme: theme:cell
+    walls:
+      - wall: 1
+        surface: {texture: OFlr1L32, size: [32, 32]}
+        panels:
+          - {id: panel:chest4, offset: 32, length: 64, height: 64, surface: {texture: ch2frnt, size: [64, 64]}, notes: "Face 1895 (event 44): the chest picture ch2frnt on the back wall."}
+    notes: "Sector 19: a locker 128 deep off the prison corridor, 64 above its floor."
+  - id: room:c8
+    name: Locker 8
+    outline: [[-1584, 5248], [-1456, 5248], [-1456, 5376], [-1584, 5376]]
+    floor: -448
+    ceiling: -320
+    theme: theme:cell
+    walls:
+      - wall: 1
+        surface: {texture: OFlr1L32, size: [32, 32]}
+    notes: "Sector 8: a locker 128 deep off the prison corridor, 64 above its floor."
+  - id: room:c9
+    name: Locker 9
+    outline: [[-1584, 4864], [-1456, 4864], [-1456, 4992], [-1584, 4992]]
+    floor: -448
+    ceiling: -320
+    theme: theme:cell
+    walls:
+      - wall: 1
+        surface: {texture: OFlr1L32, size: [32, 32]}
+    notes: "Sector 9: a locker 128 deep off the prison corridor, 64 above its floor."
+  - id: room:s1
+    name: Entrance hall
+    outline: [[384, 6016], [768, 6016], [960, 6208], [960, 6592], [768, 6944], [384, 6944], [192, 6592], [192, 6208]]
+    floor: 0
+    ceiling: 512
+    walls:
+      - wall: 0
+        panels:
+          - {offset: 0, length: 64, surface: {texture: T1wl2REb, size: [128, 256]}, notes: Face 4.}
+          - {offset: 320, length: 64, surface: {texture: T1wl2LEb, size: [128, 256]}, notes: Face 6.}
+      - wall: 2
+        panels:
+          - {offset: 0, length: 64, surface: {texture: T1wl2REb, size: [128, 256]}, notes: Face 14.}
+          - {offset: 320, length: 64, surface: {texture: T1wl2LEb, size: [128, 256]}, notes: Face 12.}
+      - wall: 4
+        panels:
+          - {offset: 0, length: 64, surface: {texture: T1wl2REb, size: [128, 256]}, notes: Face 10.}
+          - {offset: 320, length: 64, surface: {texture: T1wl2LEb, size: [128, 256]}, notes: Face 8.}
+      - wall: 6
+        panels:
+          - {offset: 0, length: 64, surface: {texture: T1wl2REb, size: [128, 256]}, notes: Face 0.}
+          - {offset: 320, length: 64, surface: {texture: T1wl2LEb, size: [128, 256]}, notes: Face 2.}
+    platforms:
+      - {rise: 16, surface: {texture: T3T6, size: [32, 32]}, outline: [[192, 6592], [960, 6592], [945, 6618], [207, 6618]], top_surface: {texture: T3T2, size: [64, 64]}, notes: Step 1 (faces 18 and 19).}
+      - {rise: 32, surface: {texture: T3T6, size: [32, 32]}, outline: [[207, 6618], [945, 6618], [931, 6644], [221, 6644]], top_surface: {texture: T3T2, size: [64, 64]}, notes: Step 2.}
+      - {rise: 48, surface: {texture: T3T6, size: [32, 32]}, outline: [[221, 6644], [931, 6644], [917, 6670], [235, 6670]], top_surface: {texture: T3T2, size: [64, 64]}, notes: Step 3.}
+      - {rise: 64, surface: {texture: T3T6, size: [32, 32]}, outline: [[235, 6670], [917, 6670], [903, 6696], [249, 6696]], top_surface: {texture: T3T2, size: [64, 64]}, notes: Step 4.}
+      - {rise: 80, surface: {texture: T3T6, size: [32, 32]}, outline: [[249, 6696], [903, 6696], [889, 6722], [263, 6722]], top_surface: {texture: T3T2, size: [64, 64]}, notes: Step 5.}
+      - {rise: 96, surface: {texture: T3T6, size: [32, 32]}, outline: [[263, 6722], [889, 6722], [874, 6748], [278, 6748]], top_surface: {texture: T3T2, size: [64, 64]}, notes: Step 6.}
+      - {rise: 112, surface: {texture: T3T6, size: [32, 32]}, outline: [[278, 6748], [874, 6748], [860, 6774], [292, 6774]], top_surface: {texture: T3T2, size: [64, 64]}, notes: Step 7.}
+      - {rise: 128, surface: {texture: T3T6, size: [32, 32]}, outline: [[292, 6774], [860, 6774], [846, 6800], [306, 6800]], top_surface: {texture: T3T2, size: [64, 64]}, notes: Step 8.}
+      - {rise: 144, surface: {texture: T3T6, size: [32, 32]}, outline: [[306, 6800], [846, 6800], [832, 6826], [320, 6826]], top_surface: {texture: T3T2, size: [64, 64]}, notes: Step 9.}
+      - {rise: 160, surface: {texture: T3T6, size: [32, 32]}, outline: [[320, 6826], [832, 6826], [818, 6852], [334, 6852]], top_surface: {texture: T3T2, size: [64, 64]}, notes: Step 10.}
+      - {rise: 176, surface: {texture: T3T6, size: [32, 32]}, outline: [[334, 6852], [818, 6852], [804, 6878], [348, 6878]], top_surface: {texture: T3T2, size: [64, 64]}, notes: Step 11 (faces 39 and 40).}
+      - {rise: 192, surface: {texture: T3T6, size: [32, 32]}, outline: [[348, 6878], [804, 6878], [768, 6944], [384, 6944]], top_surface: {texture: T3T2, size: [64, 64]}, notes: The landing in front of the way out (face 41).}
+    notes: "Sector 1, the eight-sided hall the party enters: eleven steps of 16 up to the landing at 192 in front of the way out (t1d1), the steps cut by the hall's two raking walls as the original's are (platforms, each from the floor)."
+  - id: room:s1w
+    name: "Entrance hall, west arm"
+    outline: [[-320, 6272], [192, 6272], [192, 6528], [-320, 6528]]
+    floor: 0
+    ceiling: 256
+    theme: theme:hall
+    walls:
+      - wall: 0
+        surface: {texture: T1wl1ctS, size: [128, 256]}
+      - wall: 2
+        surface: {texture: T1wl1ctS, size: [128, 256]}
+      - wall: 3
+        surface: {texture: T1wl1ctS, size: [128, 256]}
+    notes: Sector 1's low arm (256 high) toward the ramp down (door 2).
+  - id: room:s2
+    name: South passage
+    outline: [[448, 4992], [704, 4992], [704, 5984], [448, 5984]]
+    floor: 0
+    ceiling: 256
+    theme: theme:panel
+    notes: "Sector 2, behind the rising door 1."
+  - id: room:s20
+    name: East passage
+    outline: [[992, 6272], [1472, 6272], [1472, 7040], [1216, 7040], [1216, 6528], [992, 6528]]
+    floor: 0
+    ceiling: 256
+    theme: theme:hall
+    walls:
+      - wall: 0
+        surface: {texture: T1wl1ctS, size: [128, 256]}
+      - wall: 1
+        surface: {texture: T1wl1ctS, size: [128, 256]}
+      - wall: 2
+        surface: {texture: T1wl1ctS, size: [128, 256]}
+      - wall: 3
+        surface: {texture: T1wl1ctS, size: [128, 256]}
+      - wall: 4
+        surface: {texture: T1wl1ctS, size: [128, 256]}
+    notes: "Sector 20's level part, behind the entrance's east door (door 16)."
+  - id: room:s20r
+    name: East ramp
+    outline: [[1504, 6784], [2496, 6784], [2496, 7040], [1504, 7040]]
+    floor: 0
+    slope: {to: -256, toward: east}
+    ceiling: 256
+    ceiling_slope: {to: 0, toward: east}
+    theme: theme:hall
+    notes: "Sector 20's ramp down 256 to the east, through a frame of T3T6 from the level part."
+  - id: room:s21a
+    name: "Back stair, upper ramp"
+    outline: [[2496, 5024], [2752, 5024], [2752, 6784], [2496, 6784]]
+    floor: -256
+    slope: {to: -512, toward: south}
+    ceiling: 0
+    ceiling_slope: {to: -256, toward: south}
+    theme: theme:hall
+    notes: Sector 21's long ramp south.
+  - id: room:s21b
+    name: "Back stair, lower ramp"
+    outline: [[2496, 4000], [2752, 4000], [2752, 4768], [2496, 4768]]
+    floor: -512
+    slope: {to: -768, toward: south}
+    ceiling: -256
+    ceiling_slope: {to: -512, toward: south}
+    theme: theme:hall
+    notes: Sector 21's second ramp down to the lower keep.
+  - id: room:s21m
+    name: Back stair landing
+    outline: [[2496, 4768], [2752, 4768], [2752, 5024], [2496, 5024]]
+    floor: -512
+    ceiling: -256
+    theme: theme:hall
+    notes: Sector 21's landing.
+  - id: room:s21t
+    name: Back stair head
+    outline: [[2496, 6784], [2752, 6784], [2752, 7040], [2496, 7040]]
+    floor: -256
+    ceiling: 0
+    theme: theme:hall
+    notes: "Sector 21's north end: the ramp from the entrance arrives from the west, the door to the sewer passage (door 18) east."
+  - id: room:s22
+    name: Lower keep corridor
+    outline: [[1984, 1664], [2752, 1664], [2752, 3968], [2496, 3968], [2496, 1920], [1984, 1920]]
+    floor: -768
+    ceiling: -512
+    theme: theme:lower
+    notes: "Sector 22: the corridor of the lower keep with the four quarters off it and the passage to the caves south-west."
+  - id: room:s23
+    name: South-west quarter
+    outline: [[1536, 2240], [2432, 2240], [2432, 3040], [1536, 3040]]
+    floor: -768
+    ceiling: -512
+    theme: theme:quarters
+    notes: Sector 23.
+  - id: room:s24
+    name: North-west quarter
+    outline: [[1536, 3104], [2432, 3104], [2432, 3904], [1536, 3904]]
+    floor: -768
+    ceiling: -512
+    theme: theme:quarters
+    platforms:
+      - {at: [1888, 3648], size: [384, 192], rise: 80, surface: {texture: BemStrT1, size: [256, 32]}, notes: The table's stand (faces 1898 to 1901).}
+      - {at: [1888, 3648], size: [448, 256], rise: 32, surface: {texture: BemStarA, size: [256, 32]}, top_surface: {texture: CEDFNCDK, size: [128, 256]}, base: 80, notes: "The table's top, overhanging its stand by 32 (faces 1902 to 1910)."}
+    notes: Sector 24 with its table.
+  - id: room:s25
+    name: South-east quarter
+    outline: [[2816, 2240], [3712, 2240], [3712, 3040], [2816, 3040]]
+    floor: -768
+    ceiling: -512
+    theme: theme:quarters
+    notes: Sector 25.
+  - id: room:s26
+    name: North-east quarter
+    outline: [[2816, 3104], [3712, 3104], [3712, 3904], [2816, 3904]]
+    floor: -768
+    ceiling: -512
+    theme: theme:quarters
+    platforms:
+      - {at: [3360, 3648], size: [384, 192], rise: 80, surface: {texture: BemStrT1, size: [256, 32]}, notes: The table's stand.}
+      - {at: [3360, 3648], size: [448, 256], rise: 32, surface: {texture: BemStarA, size: [256, 32]}, top_surface: {texture: CEDFNCDK, size: [128, 256]}, base: 80, notes: The table's top.}
+    notes: Sector 26 with its table.
+  - id: room:s27
+    name: Cave 27
+    outline: [[-17280, 7104], [-17418, 7276], [-17728, 7360], [-17780, 7548], [-17840, 7686], [-18096, 7794], [-18496, 7360], [-18862, 7240], [-19346, 6722], [-19624, 6468], [-19904, 6464], [-19904, 5888], [-19484, 5786], [-18584, 5464], [-17904, 5498], [-17512, 5810], [-17372, 6294], [-17280, 6592]]
+    floor: -968
+    floor_points: [[-19904, 5888, -848], [-19904, 5952, -968], [-19904, 6080, -968], [-19904, 6272, -968], [-19904, 6336, -968], [-19904, 6464, -848], [-19624, 6468, -848], [-19484, 5786, -854], [-19432, 6400, -968], [-19346, 6722, -883], [-19108, 5752, -968], [-19088, 6934, -968], [-18862, 7240, -891], [-18666, 5648, -968], [-18584, 5464, -848], [-18496, 7360, -891], [-18368, 7360, -968], [-18096, 7794, -788], [-17920, 7360, -968], [-17904, 5498, -848], [-17840, 7686, -788], [-17780, 7548, -948], [-17772, 5696, -968], [-17728, 7360, -848], [-17558, 6064, -968], [-17536, 7228, -968], [-17524, 6400, -968], [-17512, 5810, -848], [-17418, 7276, -848], [-17372, 6294, -848], [-17280, 6592, -815], [-17280, 6720, -968], [-17280, 7040, -968], [-17280, 7104, -868]]
+    floor_lines:
+      - [[-19904, 5952], [-19484, 5786]]
+      - [[-19904, 5952], [-19108, 5752]]
+      - [[-19904, 6336], [-19624, 6468]]
+      - [[-19904, 6336], [-19432, 6400]]
+      - [[-19624, 6468], [-19432, 6400]]
+      - [[-19484, 5786], [-19108, 5752]]
+      - [[-19432, 6400], [-19346, 6722]]
+      - [[-19432, 6400], [-19088, 6934]]
+      - [[-19346, 6722], [-19088, 6934]]
+      - [[-19108, 5752], [-18666, 5648]]
+      - [[-19108, 5752], [-18584, 5464]]
+      - [[-19088, 6934], [-18862, 7240]]
+      - [[-19088, 6934], [-18368, 7360]]
+      - [[-18862, 7240], [-18368, 7360]]
+      - [[-18666, 5648], [-18584, 5464]]
+      - [[-18666, 5648], [-17772, 5696]]
+      - [[-18584, 5464], [-17772, 5696]]
+      - [[-18496, 7360], [-18368, 7360]]
+      - [[-18096, 7794], [-17780, 7548]]
+      - [[-17920, 7360], [-17780, 7548]]
+      - [[-17920, 7360], [-17728, 7360]]
+      - [[-17920, 7360], [-17536, 7228]]
+      - [[-17904, 5498], [-17772, 5696]]
+      - [[-17772, 5696], [-17558, 6064]]
+      - [[-17772, 5696], [-17512, 5810]]
+      - [[-17558, 6064], [-17524, 6400]]
+      - [[-17558, 6064], [-17512, 5810]]
+      - [[-17558, 6064], [-17372, 6294]]
+      - [[-17536, 7228], [-17280, 7040]]
+      - [[-17536, 7228], [-17280, 7104]]
+      - [[-17524, 6400], [-17372, 6294]]
+      - [[-17524, 6400], [-17280, 6592]]
+      - [[-17728, 7360], [-17536, 7228]]
+      - [[-17524, 6400], [-17280, 6720]]
+      - [[-17280, 6592], [-17280, 6720]]
+    floor_surfaces:
+      - {steeper_than: 0.1, surface: {texture: d2ceil4, size: [256, 256]}}
+    steep_floor: true
+    ceiling: -632
+    ceiling_points: [[-19904, 5888, -832], [-19904, 6080, -712], [-19904, 6272, -712], [-19904, 6464, -832], [-19624, 6468, -832], [-19484, 5786, -838], [-19364, 6098, -648], [-19346, 6722, -848], [-19168, 6468, -648], [-18890, 6906, -648], [-18862, 7240, -848], [-18786, 5902, -648], [-18584, 5464, -832], [-18496, 7360, -848], [-18428, 7102, -648], [-18368, 7360, -952], [-18240, 7360, -728], [-18096, 7794, -772], [-17904, 5498, -832], [-17886, 5948, -648], [-17856, 7360, -728], [-17840, 7686, -772], [-17780, 7548, -932], [-17748, 7102, -648], [-17728, 7360, -832], [-17512, 5810, -832], [-17486, 6910, -648], [-17418, 7276, -832], [-17372, 6294, -832], [-17280, 6592, -768], [-17280, 6784, -632], [-17280, 6976, -632], [-17280, 7104, -784]]
+    ceiling_lines:
+      - [[-19904, 5888], [-19364, 6098]]
+      - [[-19904, 6080], [-19364, 6098]]
+      - [[-19904, 6272], [-19624, 6468]]
+      - [[-19904, 6272], [-19364, 6098]]
+      - [[-19624, 6468], [-19364, 6098]]
+      - [[-19484, 5786], [-19364, 6098]]
+      - [[-19484, 5786], [-18786, 5902]]
+      - [[-19364, 6098], [-19168, 6468]]
+      - [[-19364, 6098], [-18786, 5902]]
+      - [[-19346, 6722], [-19168, 6468]]
+      - [[-19346, 6722], [-18890, 6906]]
+      - [[-19168, 6468], [-18890, 6906]]
+      - [[-18890, 6906], [-18428, 7102]]
+      - [[-18786, 5902], [-17886, 5948]]
+      - [[-18496, 7360], [-18428, 7102]]
+      - [[-18496, 7360], [-18240, 7360]]
+      - [[-18428, 7102], [-18240, 7360]]
+      - [[-18240, 7360], [-18096, 7794]]
+      - [[-18240, 7360], [-17856, 7360]]
+      - [[-18240, 7360], [-17840, 7686]]
+      - [[-17904, 5498], [-17886, 5948]]
+      - [[-17886, 5948], [-17512, 5810]]
+      - [[-17886, 5948], [-17486, 6910]]
+      - [[-17886, 5948], [-17372, 6294]]
+      - [[-17856, 7360], [-17840, 7686]]
+      - [[-17856, 7360], [-17780, 7548]]
+      - [[-17856, 7360], [-17748, 7102]]
+      - [[-17856, 7360], [-17728, 7360]]
+      - [[-17748, 7102], [-17728, 7360]]
+      - [[-17486, 6910], [-17418, 7276]]
+      - [[-17486, 6910], [-17372, 6294]]
+      - [[-17486, 6910], [-17280, 6592]]
+      - [[-17486, 6910], [-17280, 6784]]
+      - [[-17486, 6910], [-17280, 6976]]
+      - [[-17486, 6910], [-17280, 7104]]
+    theme: theme:cave
+    notes: "Original sector 27: outline from its floor faces (18 corners), floor and roof by the original's own vertices one for one (34 floor points, 33 roof points; see NOTES.md), creases as lines. Level floor {'D2flor5': 3, 'd2ceil4': 2}, banks {'d2ceil4': 34}."
+  - id: room:s28
+    name: Cave 28
+    outline: [[-15620, 8014], [-15932, 7722], [-16628, 7320], [-16940, 7192], [-17280, 7104], [-17280, 6592], [-16844, 6706], [-16066, 6898], [-15474, 7312], [-15040, 7616], [-15040, 8192], [-15262, 8136]]
+    floor: -968
+    floor_points: [[-17280, 6592, -815], [-17280, 6720, -968], [-17280, 7040, -968], [-17280, 7104, -868], [-16940, 7192, -798], [-16844, 6706, -798], [-16778, 7160, -918], [-16628, 7320, -798], [-16608, 6862, -918], [-16066, 6898, -817], [-16014, 7502, -918], [-15932, 7722, -798], [-15782, 7160, -918], [-15620, 8014, -748], [-15544, 7979, -826], [-15474, 7312, -817], [-15454, 7534, -868], [-15454, 8002, -868], [-15262, 8136, -748], [-15040, 7616, -748], [-15040, 7744, -868], [-15040, 8064, -868], [-15040, 8192, -748]]
+    floor_lines:
+      - [[-17280, 6720], [-16844, 6706]]
+      - [[-17280, 6720], [-16608, 6862]]
+      - [[-17280, 7040], [-16778, 7160]]
+      - [[-17280, 7040], [-16608, 6862]]
+      - [[-16940, 7192], [-16778, 7160]]
+      - [[-16844, 6706], [-16608, 6862]]
+      - [[-16778, 7160], [-16608, 6862]]
+      - [[-16778, 7160], [-16014, 7502]]
+      - [[-16628, 7320], [-16014, 7502]]
+      - [[-16608, 6862], [-16066, 6898]]
+      - [[-16608, 6862], [-15782, 7160]]
+      - [[-16066, 6898], [-15782, 7160]]
+      - [[-16014, 7502], [-15782, 7160]]
+      - [[-16014, 7502], [-15454, 7534]]
+      - [[-15932, 7722], [-15544, 7979]]
+      - [[-15782, 7160], [-15474, 7312]]
+      - [[-15782, 7160], [-15454, 7534]]
+      - [[-15474, 7312], [-15454, 7534]]
+      - [[-15454, 7534], [-15454, 8002]]
+      - [[-15454, 7534], [-15040, 7744]]
+      - [[-15454, 8002], [-15262, 8136]]
+      - [[-17280, 7040], [-16940, 7192]]
+      - [[-16778, 7160], [-16628, 7320]]
+      - [[-16014, 7502], [-15932, 7722]]
+      - [[-16014, 7502], [-15454, 8002]]
+      - [[-15620, 8014], [-15454, 8002]]
+      - [[-15932, 7722], [-15454, 8002]]
+      - [[-15262, 8136], [-15040, 8064]]
+      - [[-15454, 7534], [-15040, 7616]]
+      - [[-15040, 7616], [-15040, 7744]]
+      - [[-15040, 8064], [-15040, 8192]]
+    floor_surfaces:
+      - {steeper_than: 0.1, surface: {texture: d2ceil4, size: [256, 256]}}
+    steep_floor: true
+    ceiling: -468
+    ceiling_points: [[-17280, 6592, -768], [-17280, 6784, -632], [-17280, 6976, -632], [-17280, 7104, -784], [-16940, 7192, -782], [-16844, 6706, -782], [-16628, 7320, -782], [-16606, 6830, -582], [-16604, 7071, -565], [-16070, 7028, -518], [-16066, 6898, -798], [-15932, 7722, -782], [-15620, 8014, -732], [-15598, 7648, -468], [-15510, 7424, -468], [-15474, 7312, -748], [-15266, 7948, -532], [-15262, 8136, -732], [-15040, 7616, -687], [-15040, 7680, -468], [-15040, 8000, -468], [-15040, 8192, -732]]
+    ceiling_lines:
+      - [[-17280, 6784], [-16606, 6830]]
+      - [[-17280, 6976], [-16940, 7192]]
+      - [[-16844, 6706], [-16606, 6830]]
+      - [[-16606, 6830], [-16070, 7028]]
+      - [[-16606, 6830], [-16066, 6898]]
+      - [[-16070, 7028], [-16066, 6898]]
+      - [[-16070, 7028], [-15510, 7424]]
+      - [[-16070, 7028], [-15474, 7312]]
+      - [[-15932, 7722], [-15598, 7648]]
+      - [[-15620, 8014], [-15598, 7648]]
+      - [[-15620, 8014], [-15266, 7948]]
+      - [[-15598, 7648], [-15266, 7948]]
+      - [[-15510, 7424], [-15474, 7312]]
+      - [[-15510, 7424], [-15266, 7948]]
+      - [[-15510, 7424], [-15040, 7616]]
+      - [[-15510, 7424], [-15040, 7680]]
+      - [[-15266, 7948], [-15262, 8136]]
+      - [[-15266, 7948], [-15040, 7680]]
+      - [[-15266, 7948], [-15040, 8000]]
+      - [[-15262, 8136], [-15040, 8000]]
+    theme: theme:cave
+    ambient: 16
+    notes: "Original sector 28: outline from its floor faces (12 corners), floor and roof by the original's own vertices one for one (23 floor points, 22 roof points; see NOTES.md), creases as lines. Level floor {'D2flor5': 4}, banks {'d2ceil4': 31, 'D2flor5': 5}."
+  - id: room:s29
+    name: Cave 29
+    outline: [[-14408, 7360], [-14020, 7260], [-13696, 7296], [-13696, 7872], [-13730, 8108], [-13824, 8320], [-13700, 8574], [-13504, 8768], [-13504, 9280], [-13854, 9222], [-14152, 8780], [-14592, 8320], [-15040, 8192], [-15040, 7616], [-14768, 7610]]
+    floor: -868
+    floor_points: [[-15040, 7616, -748], [-15040, 7744, -868], [-15040, 8064, -868], [-15040, 8192, -748], [-14768, 7610, -748], [-14708, 8188, -868], [-14638, 7740, -868], [-14592, 8320, -748], [-14464, 8320, -868], [-14408, 7360, -748], [-14248, 7470, -868], [-14188, 8646, -818], [-14152, 8780, -727], [-14020, 7260, -748], [-13888, 8320, -868], [-13880, 9088, -818], [-13854, 9222, -710], [-13824, 8320, -756], [-13820, 8048, -868], [-13754, 8690, -818], [-13730, 8108, -748], [-13700, 8574, -756], [-13696, 7296, -745], [-13696, 7360, -868], [-13696, 7744, -868], [-13696, 7872, -774], [-13504, 8768, -648], [-13504, 8896, -768], [-13504, 9216, -768], [-13504, 9280, -654]]
+    floor_lines:
+      - [[-15040, 7744], [-14768, 7610]]
+      - [[-15040, 7744], [-14638, 7740]]
+      - [[-15040, 8064], [-14708, 8188]]
+      - [[-15040, 8192], [-14708, 8188]]
+      - [[-14768, 7610], [-14638, 7740]]
+      - [[-14708, 8188], [-14592, 8320]]
+      - [[-14638, 7740], [-14248, 7470]]
+      - [[-14464, 8320], [-14188, 8646]]
+      - [[-14464, 8320], [-14152, 8780]]
+      - [[-14408, 7360], [-14248, 7470]]
+      - [[-14248, 7470], [-14020, 7260]]
+      - [[-14248, 7470], [-13696, 7360]]
+      - [[-14188, 8646], [-14152, 8780]]
+      - [[-14188, 8646], [-13888, 8320]]
+      - [[-14188, 8646], [-13880, 9088]]
+      - [[-14188, 8646], [-13754, 8690]]
+      - [[-14152, 8780], [-13880, 9088]]
+      - [[-14152, 8780], [-13854, 9222]]
+      - [[-14020, 7260], [-13696, 7360]]
+      - [[-13888, 8320], [-13824, 8320]]
+      - [[-13888, 8320], [-13820, 8048]]
+      - [[-13888, 8320], [-13700, 8574]]
+      - [[-13880, 9088], [-13754, 8690]]
+      - [[-13880, 9088], [-13504, 9216]]
+      - [[-13854, 9222], [-13504, 9216]]
+      - [[-13824, 8320], [-13820, 8048]]
+      - [[-13820, 8048], [-13730, 8108]]
+      - [[-13820, 8048], [-13696, 7744]]
+      - [[-13820, 8048], [-13696, 7872]]
+      - [[-13754, 8690], [-13700, 8574]]
+      - [[-13754, 8690], [-13504, 8768]]
+      - [[-13754, 8690], [-13504, 8896]]
+      - [[-14708, 8188], [-14464, 8320]]
+      - [[-14592, 8320], [-14464, 8320]]
+      - [[-14464, 8320], [-13824, 8320]]
+      - [[-13880, 9088], [-13504, 8896]]
+      - [[-13504, 8896], [-13504, 9216]]
+    floor_surfaces:
+      - {steeper_than: 0.1, surface: {texture: d2ceil4, size: [256, 256]}}
+    steep_floor: true
+    ceiling: -336
+    ceiling_points: [[-15040, 7616, -687], [-15040, 7680, -468], [-15040, 8000, -468], [-15040, 8192, -732], [-14768, 7610, -732], [-14666, 7896, -468], [-14592, 8320, -732], [-14582, 8014, -468], [-14498, 7780, -468], [-14408, 7360, -732], [-14235, 8572, -565], [-14195, 8506, -387], [-14152, 8780, -698], [-14088, 7550, -564], [-14088, 8128, -628], [-14080, 8320, -468], [-14020, 7260, -732], [-13916, 8880, -354], [-13900, 7800, -564], [-13854, 9222, -694], [-13824, 8320, -740], [-13746, 8754, -418], [-13730, 8108, -732], [-13700, 8574, -698], [-13696, 7296, -652], [-13696, 7488, -532], [-13696, 7680, -532], [-13696, 7872, -748], [-13504, 8768, -632], [-13504, 8960, -336], [-13504, 9152, -336], [-13504, 9280, -638]]
+    ceiling_lines:
+      - [[-15040, 7680], [-14498, 7780]]
+      - [[-14768, 7610], [-14498, 7780]]
+      - [[-14498, 7780], [-14408, 7360]]
+      - [[-14498, 7780], [-14088, 7550]]
+      - [[-14408, 7360], [-14088, 7550]]
+      - [[-14152, 8780], [-13916, 8880]]
+      - [[-14088, 7550], [-14088, 8128]]
+      - [[-14088, 7550], [-14020, 7260]]
+      - [[-14088, 7550], [-13900, 7800]]
+      - [[-14088, 7550], [-13696, 7296]]
+      - [[-14088, 7550], [-13696, 7488]]
+      - [[-14088, 8128], [-14080, 8320]]
+      - [[-14088, 8128], [-13900, 7800]]
+      - [[-14088, 8128], [-13824, 8320]]
+      - [[-14088, 8128], [-13730, 8108]]
+      - [[-14080, 8320], [-13824, 8320]]
+      - [[-14080, 8320], [-13746, 8754]]
+      - [[-13916, 8880], [-13854, 9222]]
+      - [[-13916, 8880], [-13746, 8754]]
+      - [[-13916, 8880], [-13504, 9152]]
+      - [[-13900, 7800], [-13730, 8108]]
+      - [[-13900, 7800], [-13696, 7488]]
+      - [[-13900, 7800], [-13696, 7680]]
+      - [[-13900, 7800], [-13696, 7872]]
+      - [[-13854, 9222], [-13504, 9152]]
+      - [[-13746, 8754], [-13504, 8960]]
+      - [[-13746, 8754], [-13504, 9152]]
+      - [[-13700, 8574], [-13504, 8960]]
+    theme: theme:cave
+    ambient: 16
+    notes: "Original sector 29: outline from its floor faces (15 corners), floor and roof by the original's own vertices one for one (30 floor points, 32 roof points; see NOTES.md), creases as lines. Level floor {'D2flor5': 4}, banks {'d2ceil4': 28, 'D2flor5': 7}."
+  - id: room:s3
+    name: Cross passage
+    outline: [[-320, 4480], [-64, 4480], [-64, 4736], [1136, 4736], [1136, 4992], [-320, 4992]]
+    floor: 0
+    ceiling: 256
+    theme: theme:panel
+    notes: "Sector 3: the passage from the entrance east to the switch hall (door 17) and west and south to the goblins' hall (door 23)."
+  - id: room:s30
+    name: Cave 30
+    outline: [[-13696, 7296], [-13380, 7234], [-12428, 7150], [-11400, 7130], [-10830, 7364], [-10624, 7680], [-11904, 7680], [-12292, 7654], [-13100, 7748], [-13696, 7872]]
+    floor: -868
+    floor_points: [[-13696, 7296, -745], [-13696, 7360, -868], [-13696, 7744, -868], [-13696, 7872, -774], [-13380, 7234, -698], [-13324, 7636, -818], [-13100, 7748, -602], [-13024, 7272, -818], [-12829, 7679, -638], [-12482, 7516, -800], [-12428, 7150, -658], [-12292, 7654, -600], [-12072, 7216, -768], [-11904, 7680, -682], [-11648, 7680, -768], [-11400, 7130, -626], [-11212, 7346, -768], [-10944, 7680, -768], [-10830, 7364, -648], [-10624, 7680, -584]]
+    floor_lines:
+      - [[-13696, 7360], [-13380, 7234]]
+      - [[-13696, 7360], [-13324, 7636]]
+      - [[-13696, 7360], [-13024, 7272]]
+      - [[-13696, 7744], [-13324, 7636]]
+      - [[-13696, 7872], [-13324, 7636]]
+      - [[-13380, 7234], [-13024, 7272]]
+      - [[-13324, 7636], [-13024, 7272]]
+      - [[-13324, 7636], [-12482, 7516]]
+      - [[-13024, 7272], [-12428, 7150]]
+      - [[-12482, 7516], [-12292, 7654]]
+      - [[-12482, 7516], [-11904, 7680]]
+      - [[-12482, 7516], [-11648, 7680]]
+      - [[-12428, 7150], [-12072, 7216]]
+      - [[-12072, 7216], [-11648, 7680]]
+      - [[-12072, 7216], [-11400, 7130]]
+      - [[-12072, 7216], [-11212, 7346]]
+      - [[-11400, 7130], [-11212, 7346]]
+      - [[-11212, 7346], [-10944, 7680]]
+      - [[-11212, 7346], [-10830, 7364]]
+      - [[-10944, 7680], [-10830, 7364]]
+      - [[-13324, 7636], [-13100, 7748]]
+      - [[-13100, 7748], [-12482, 7516]]
+      - [[-13024, 7272], [-12482, 7516]]
+      - [[-13024, 7272], [-12072, 7216]]
+    floor_surfaces:
+      - {steeper_than: 0.1, surface: {texture: d2ceil4, size: [256, 256]}}
+    steep_floor: true
+    ceiling: -464
+    ceiling_points: [[-13696, 7296, -652], [-13696, 7488, -532], [-13696, 7680, -532], [-13696, 7872, -748], [-13380, 7234, -682], [-13288, 7454, -482], [-13100, 7748, -586], [-13074, 7510, -482], [-12690, 7398, -514], [-12428, 7150, -570], [-12292, 7654, -552], [-12270, 7504, -470], [-11904, 7680, -552], [-11830, 7502, -464], [-11712, 7680, -502], [-11400, 7130, -584], [-11242, 7426, -464], [-10880, 7680, -464], [-10830, 7364, -632], [-10624, 7680, -568]]
+    ceiling_lines:
+      - [[-13696, 7296], [-13288, 7454]]
+      - [[-13696, 7488], [-13288, 7454]]
+      - [[-13696, 7680], [-13288, 7454]]
+      - [[-13696, 7680], [-13074, 7510]]
+      - [[-13696, 7872], [-13074, 7510]]
+      - [[-13380, 7234], [-13288, 7454]]
+      - [[-13380, 7234], [-13074, 7510]]
+      - [[-13288, 7454], [-13074, 7510]]
+      - [[-13100, 7748], [-13074, 7510]]
+      - [[-13074, 7510], [-12690, 7398]]
+      - [[-13074, 7510], [-12428, 7150]]
+      - [[-12690, 7398], [-12428, 7150]]
+      - [[-12690, 7398], [-11830, 7502]]
+      - [[-12690, 7398], [-11242, 7426]]
+      - [[-12428, 7150], [-11242, 7426]]
+      - [[-12292, 7654], [-11830, 7502]]
+      - [[-12292, 7654], [-11712, 7680]]
+      - [[-11830, 7502], [-11712, 7680]]
+      - [[-11830, 7502], [-11242, 7426]]
+      - [[-11400, 7130], [-11242, 7426]]
+      - [[-11242, 7426], [-10880, 7680]]
+      - [[-11242, 7426], [-10830, 7364]]
+      - [[-10880, 7680], [-10830, 7364]]
+    theme: theme:cave
+    ambient: 16
+    notes: "Original sector 30: outline from its floor faces (10 corners), floor and roof by the original's own vertices one for one (20 floor points, 20 roof points; see NOTES.md), creases as lines. Level floor {'D2flor5': 2}, banks {'d2ceil4': 19, 'D2flor5': 7}."
+  - id: room:s31
+    name: Cave 31
+    outline: [[-8896, 8960], [-9230, 9398], [-9908, 9788], [-10608, 10076], [-10608, 10460], [-11674, 10496], [-11674, 10112], [-12478, 9916], [-12948, 9606], [-13504, 9280], [-13504, 8768], [-13266, 8636], [-12864, 8246], [-12220, 7948], [-11980, 7834], [-11904, 7680], [-10624, 7680], [-10202, 7878], [-9434, 8028], [-8896, 8064]]
+    floor: -832
+    floor_points: [[-13504, 8768, -648], [-13504, 8896, -768], [-13504, 9216, -768], [-13504, 9280, -654], [-13266, 8636, -588], [-13220, 8768, -768], [-13138, 9376, -768], [-12948, 9606, -524], [-12864, 8246, -588], [-12786, 8520, -768], [-12478, 9916, -588], [-12376, 8128, -768], [-12236, 9804, -768], [-12220, 7948, -588], [-11980, 7834, -588], [-11904, 7680, -682], [-11702, 7874, -768], [-11674, 10112, -588], [-11674, 10496, -588], [-11648, 7680, -768], [-11412, 8683, -768], [-10958, 9952, -768], [-10958, 10336, -768], [-10944, 7680, -768], [-10624, 7680, -584], [-10608, 10076, -588], [-10608, 10460, -588], [-10578, 7928, -768], [-10202, 7878, -588], [-10170, 8142, -768], [-9908, 9788, -588], [-9770, 9584, -704], [-9660, 8037, -625], [-9450, 8186, -768], [-9434, 8028, -588], [-9230, 9398, -588], [-8896, 8064, -588], [-8896, 8256, -832], [-8896, 8704, -736], [-8896, 8960, -492]]
+    floor_lines:
+      - [[-13504, 8768], [-13220, 8768]]
+      - [[-13504, 8896], [-13220, 8768]]
+      - [[-13504, 9216], [-13138, 9376]]
+      - [[-13504, 9280], [-13138, 9376]]
+      - [[-13266, 8636], [-13220, 8768]]
+      - [[-13266, 8636], [-12786, 8520]]
+      - [[-13220, 8768], [-12786, 8520]]
+      - [[-13138, 9376], [-12948, 9606]]
+      - [[-13138, 9376], [-12236, 9804]]
+      - [[-12948, 9606], [-12236, 9804]]
+      - [[-12864, 8246], [-12786, 8520]]
+      - [[-12864, 8246], [-12376, 8128]]
+      - [[-12786, 8520], [-12376, 8128]]
+      - [[-12478, 9916], [-12236, 9804]]
+      - [[-12376, 8128], [-12220, 7948]]
+      - [[-12376, 8128], [-11702, 7874]]
+      - [[-12236, 9804], [-11674, 10112]]
+      - [[-12236, 9804], [-10958, 9952]]
+      - [[-12220, 7948], [-11702, 7874]]
+      - [[-11980, 7834], [-11702, 7874]]
+      - [[-11904, 7680], [-11702, 7874]]
+      - [[-11702, 7874], [-11648, 7680]]
+      - [[-11702, 7874], [-10578, 7928]]
+      - [[-11702, 7874], [-9770, 9584]]
+      - [[-11674, 10112], [-10958, 9952]]
+      - [[-11674, 10496], [-10958, 10336]]
+      - [[-10958, 9952], [-10958, 10336]]
+      - [[-10958, 9952], [-10608, 10076]]
+      - [[-10958, 9952], [-9770, 9584]]
+      - [[-10958, 10336], [-10608, 10460]]
+      - [[-10944, 7680], [-10578, 7928]]
+      - [[-10624, 7680], [-10578, 7928]]
+      - [[-10608, 10076], [-9770, 9584]]
+      - [[-10578, 7928], [-10202, 7878]]
+      - [[-10578, 7928], [-9770, 9584]]
+      - [[-10170, 8142], [-9770, 9584]]
+      - [[-10170, 8142], [-9450, 8186]]
+      - [[-10170, 8142], [-9434, 8028]]
+      - [[-9908, 9788], [-9770, 9584]]
+      - [[-9770, 9584], [-9450, 8186]]
+      - [[-9770, 9584], [-9230, 9398]]
+      - [[-9770, 9584], [-8896, 8704]]
+      - [[-9450, 8186], [-9434, 8028]]
+      - [[-9450, 8186], [-8896, 8064]]
+      - [[-9450, 8186], [-8896, 8256]]
+      - [[-9450, 8186], [-8896, 8704]]
+      - [[-9230, 9398], [-8896, 8704]]
+      - [[-10608, 10076], [-10608, 10460]]
+      - [[-10578, 7928], [-10170, 8142]]
+      - [[-10202, 7878], [-10170, 8142]]
+      - [[-8896, 8064], [-8896, 8256]]
+      - [[-8896, 8256], [-8896, 8704]]
+    floor_surfaces:
+      - {steeper_than: 0.1, surface: {texture: d2ceil4, size: [256, 256]}}
+    steep_floor: true
+    ceiling: -312
+    ceiling_points: [[-13504, 8768, -632], [-13504, 8960, -336], [-13504, 9152, -336], [-13504, 9280, -638], [-13266, 8636, -572], [-12948, 9606, -508], [-12864, 8246, -572], [-12780, 9064, -312], [-12478, 9916, -572], [-12264, 8478, -312], [-12220, 7948, -572], [-11980, 7834, -572], [-11904, 7680, -552], [-11748, 9648, -376], [-11712, 7680, -502], [-11674, 10112, -572], [-11674, 10496, -572], [-11254, 8248, -376], [-10924, 10198, -588], [-10880, 7680, -464], [-10784, 9435, -376], [-10714, 9420, -376], [-10624, 7680, -568], [-10608, 10076, -572], [-10608, 10460, -572], [-10440, 8374, -376], [-10202, 7878, -572], [-9908, 9788, -572], [-9853, 9585, -532], [-9636, 8776, -312], [-9434, 8028, -572], [-9230, 9398, -572], [-8896, 8064, -572], [-8896, 8448, -312], [-8896, 8768, -376], [-8896, 8960, -476]]
+    ceiling_lines:
+      - [[-13504, 8768], [-12780, 9064]]
+      - [[-13504, 8960], [-12780, 9064]]
+      - [[-13504, 9152], [-12780, 9064]]
+      - [[-13504, 9280], [-12780, 9064]]
+      - [[-13266, 8636], [-12780, 9064]]
+      - [[-12948, 9606], [-12780, 9064]]
+      - [[-12864, 8246], [-12780, 9064]]
+      - [[-12864, 8246], [-12264, 8478]]
+      - [[-12780, 9064], [-12478, 9916]]
+      - [[-12780, 9064], [-12264, 8478]]
+      - [[-12780, 9064], [-11748, 9648]]
+      - [[-12478, 9916], [-11748, 9648]]
+      - [[-12264, 8478], [-12220, 7948]]
+      - [[-12264, 8478], [-11748, 9648]]
+      - [[-12264, 8478], [-11254, 8248]]
+      - [[-12220, 7948], [-11254, 8248]]
+      - [[-11980, 7834], [-11712, 7680]]
+      - [[-11980, 7834], [-11254, 8248]]
+      - [[-11748, 9648], [-11674, 10112]]
+      - [[-11748, 9648], [-11254, 8248]]
+      - [[-11712, 7680], [-11254, 8248]]
+      - [[-11674, 10112], [-10714, 9420]]
+      - [[-11674, 10112], [-10608, 10076]]
+      - [[-11254, 8248], [-10440, 8374]]
+      - [[-10880, 7680], [-10440, 8374]]
+      - [[-10714, 9420], [-10608, 10076]]
+      - [[-10714, 9420], [-10440, 8374]]
+      - [[-10714, 9420], [-9636, 8776]]
+      - [[-10624, 7680], [-10440, 8374]]
+      - [[-10440, 8374], [-10202, 7878]]
+      - [[-10440, 8374], [-9636, 8776]]
+      - [[-10440, 8374], [-9434, 8028]]
+      - [[-9636, 8776], [-9230, 9398]]
+      - [[-9636, 8776], [-8896, 8768]]
+      - [[-9636, 8776], [-8896, 8960]]
+    theme: theme:cave
+    ambient: 16
+    notes: "Original sector 31: outline from its floor faces (20 corners), floor and roof by the original's own vertices one for one (40 floor points, 36 roof points; see NOTES.md), creases as lines. Level floor {'D2flor5': 6}, banks {'d2ceil4': 37, 'D2flor5': 8}."
+  - id: room:s32
+    name: Cave 32
+    outline: [[-6720, 7296], [-6742, 7740], [-7088, 8466], [-7566, 8738], [-8200, 8798], [-8896, 8960], [-8896, 8064], [-8532, 8042], [-8010, 7696], [-7744, 7296]]
+    floor: -832
+    floor_points: [[-8896, 8064, -588], [-8896, 8256, -832], [-8896, 8704, -736], [-8896, 8960, -492], [-8532, 8042, -588], [-8368, 8652, -768], [-8280, 8174, -768], [-8200, 8798, -588], [-8010, 7696, -588], [-7744, 7296, -588], [-7684, 7814, -768], [-7616, 8576, -768], [-7566, 8738, -588], [-7488, 7296, -768], [-7088, 8466, -588], [-7062, 7904, -768], [-6848, 7296, -768], [-6742, 7740, -588], [-6720, 7296, -588]]
+    floor_lines:
+      - [[-8896, 8256], [-8280, 8174]]
+      - [[-8896, 8704], [-8368, 8652]]
+      - [[-8896, 8704], [-8280, 8174]]
+      - [[-8896, 8704], [-8200, 8798]]
+      - [[-8532, 8042], [-8280, 8174]]
+      - [[-8532, 8042], [-7684, 7814]]
+      - [[-8368, 8652], [-8280, 8174]]
+      - [[-8368, 8652], [-8200, 8798]]
+      - [[-8368, 8652], [-7616, 8576]]
+      - [[-8280, 8174], [-7684, 7814]]
+      - [[-8200, 8798], [-7616, 8576]]
+      - [[-8010, 7696], [-7684, 7814]]
+      - [[-7744, 7296], [-7684, 7814]]
+      - [[-7616, 8576], [-7566, 8738]]
+      - [[-7616, 8576], [-7088, 8466]]
+      - [[-7616, 8576], [-7062, 7904]]
+      - [[-7088, 8466], [-7062, 7904]]
+      - [[-7062, 7904], [-6848, 7296]]
+      - [[-7062, 7904], [-6742, 7740]]
+      - [[-6848, 7296], [-6742, 7740]]
+      - [[-8896, 8064], [-8896, 8256]]
+      - [[-8896, 8256], [-8532, 8042]]
+    floor_surfaces:
+      - {steeper_than: 0.1, surface: {texture: d2ceil4, size: [256, 256]}}
+    steep_floor: true
+    ceiling: -312
+    ceiling_points: [[-8896, 8064, -572], [-8896, 8448, -312], [-8896, 8768, -376], [-8896, 8960, -476], [-8532, 8042, -572], [-8332, 8632, -312], [-8200, 8798, -572], [-8064, 8168, -312], [-8010, 7696, -572], [-7744, 7296, -572], [-7650, 7618, -312], [-7616, 7296, -312], [-7566, 8738, -572], [-7564, 8490, -312], [-7138, 8044, -312], [-7088, 8466, -572], [-6976, 7296, -312], [-6742, 7740, -572], [-6720, 7296, -572]]
+    ceiling_lines:
+      - [[-8896, 8448], [-8532, 8042]]
+      - [[-8896, 8448], [-8332, 8632]]
+      - [[-8896, 8448], [-8064, 8168]]
+      - [[-8896, 8768], [-8332, 8632]]
+      - [[-8532, 8042], [-8064, 8168]]
+      - [[-8332, 8632], [-8200, 8798]]
+      - [[-8332, 8632], [-7564, 8490]]
+      - [[-8200, 8798], [-7564, 8490]]
+      - [[-8010, 7696], [-7650, 7618]]
+      - [[-7744, 7296], [-7650, 7618]]
+      - [[-7650, 7618], [-7616, 7296]]
+      - [[-7566, 8738], [-7564, 8490]]
+      - [[-7564, 8490], [-7138, 8044]]
+      - [[-7564, 8490], [-7088, 8466]]
+      - [[-7138, 8044], [-7088, 8466]]
+      - [[-7138, 8044], [-6976, 7296]]
+      - [[-7138, 8044], [-6742, 7740]]
+      - [[-6976, 7296], [-6742, 7740]]
+    theme: theme:cave
+    ambient: 16
+    notes: "Original sector 32: outline from its floor faces (10 corners), floor and roof by the original's own vertices one for one (19 floor points, 19 roof points; see NOTES.md), creases as lines. Level floor {'D2flor5': 3}, banks {'d2ceil4': 17, 'D2flor5': 2}."
+  - id: room:s33
+    name: Cave 33
+    outline: [[-6144, 4352], [-6264, 5310], [-6438, 6558], [-6720, 7296], [-7744, 7296], [-7520, 6664], [-7452, 5768], [-7412, 4902], [-7296, 4352]]
+    floor: -768
+    floor_points: [[-7744, 7296, -588], [-7520, 6664, -588], [-7488, 7296, -768], [-7452, 5768, -588], [-7412, 4902, -588], [-7296, 4352, -588], [-7274, 6328, -768], [-7178, 5170, -768], [-7040, 4352, -768], [-6848, 7296, -768], [-6720, 7296, -588], [-6690, 6698, -768], [-6506, 5500, -768], [-6438, 6558, -588], [-6400, 4352, -768], [-6264, 5310, -588], [-6144, 4352, -588]]
+    floor_lines:
+      - [[-7520, 6664], [-7488, 7296]]
+      - [[-7520, 6664], [-7274, 6328]]
+      - [[-7488, 7296], [-7274, 6328]]
+      - [[-7452, 5768], [-7178, 5170]]
+      - [[-7412, 4902], [-7178, 5170]]
+      - [[-7412, 4902], [-7040, 4352]]
+      - [[-7178, 5170], [-7040, 4352]]
+      - [[-6848, 7296], [-6690, 6698]]
+      - [[-6720, 7296], [-6690, 6698]]
+      - [[-6690, 6698], [-6506, 5500]]
+      - [[-6690, 6698], [-6438, 6558]]
+      - [[-6506, 5500], [-6438, 6558]]
+      - [[-6506, 5500], [-6400, 4352]]
+      - [[-6506, 5500], [-6264, 5310]]
+      - [[-6400, 4352], [-6264, 5310]]
+      - [[-7274, 6328], [-7178, 5170]]
+    floor_surfaces:
+      - {steeper_than: 0.1, surface: {texture: d2ceil4, size: [256, 256]}}
+    steep_floor: true
+    ceiling: -312
+    ceiling_points: [[-7744, 7296, -572], [-7616, 7296, -312], [-7520, 6664, -572], [-7452, 5768, -572], [-7412, 4902, -572], [-7296, 4352, -572], [-7274, 6522, -312], [-7210, 5360, -312], [-6976, 7296, -312], [-6912, 4352, -312], [-6720, 7296, -572], [-6620, 6482, -312], [-6528, 4352, -312], [-6474, 5076, -312], [-6438, 6558, -572], [-6264, 5310, -572], [-6144, 4352, -572]]
+    ceiling_lines:
+      - [[-7616, 7296], [-7520, 6664]]
+      - [[-7616, 7296], [-7274, 6522]]
+      - [[-7520, 6664], [-7452, 5768]]
+      - [[-7452, 5768], [-7274, 6522]]
+      - [[-7452, 5768], [-7210, 5360]]
+      - [[-7412, 4902], [-7210, 5360]]
+      - [[-7412, 4902], [-6912, 4352]]
+      - [[-7274, 6522], [-7210, 5360]]
+      - [[-7210, 5360], [-6912, 4352]]
+      - [[-6976, 7296], [-6620, 6482]]
+      - [[-6720, 7296], [-6620, 6482]]
+      - [[-6620, 6482], [-6474, 5076]]
+      - [[-6620, 6482], [-6438, 6558]]
+      - [[-6620, 6482], [-6264, 5310]]
+      - [[-6528, 4352], [-6474, 5076]]
+      - [[-6474, 5076], [-6264, 5310]]
+      - [[-6474, 5076], [-6144, 4352]]
+    theme: theme:cave
+    ambient: 16
+    notes: "Original sector 33: outline from its floor faces (9 corners), floor and roof by the original's own vertices one for one (17 floor points, 17 roof points; see NOTES.md), creases as lines. Level floor {'D2flor5': 3}, banks {'d2ceil4': 15}."
+  - id: room:s34
+    name: Cave 34
+    outline: [[-5632, 3328], [-5888, 3650], [-6072, 4008], [-6144, 4352], [-7296, 4352], [-7198, 3956], [-6936, 3136], [-6308, 2428], [-5632, 2048]]
+    floor: -768
+    floor_points: [[-7296, 4352, -588], [-7198, 3956, -588], [-7040, 4352, -768], [-6960, 3610, -768], [-6936, 3136, -685], [-6524, 2736, -768], [-6400, 4352, -768], [-6308, 2428, -685], [-6182, 3758, -768], [-6144, 4352, -588], [-6072, 4008, -588], [-5964, 3408, -768], [-5888, 3650, -588], [-5632, 2048, -588], [-5632, 2176, -768], [-5632, 3072, -768], [-5632, 3328, -588]]
+    floor_lines:
+      - [[-7198, 3956], [-7040, 4352]]
+      - [[-7198, 3956], [-6960, 3610]]
+      - [[-7040, 4352], [-6960, 3610]]
+      - [[-6960, 3610], [-6936, 3136]]
+      - [[-6960, 3610], [-6524, 2736]]
+      - [[-6936, 3136], [-6524, 2736]]
+      - [[-6524, 2736], [-6308, 2428]]
+      - [[-6524, 2736], [-5632, 2176]]
+      - [[-6400, 4352], [-6182, 3758]]
+      - [[-6400, 4352], [-6072, 4008]]
+      - [[-6308, 2428], [-5632, 2176]]
+      - [[-6182, 3758], [-6072, 4008]]
+      - [[-6182, 3758], [-5964, 3408]]
+      - [[-6182, 3758], [-5888, 3650]]
+      - [[-5964, 3408], [-5888, 3650]]
+      - [[-5964, 3408], [-5632, 3072]]
+      - [[-5964, 3408], [-5632, 3328]]
+    floor_surfaces:
+      - {steeper_than: 0.1, surface: {texture: d2ceil4, size: [256, 256]}}
+    steep_floor: true
+    ceiling: -312
+    ceiling_points: [[-7296, 4352, -572], [-7198, 3956, -572], [-6936, 3136, -588], [-6912, 4352, -312], [-6872, 3702, -312], [-6528, 4352, -312], [-6346, 3832, -312], [-6330, 2790, -312], [-6308, 2428, -588], [-6144, 4352, -572], [-6072, 4008, -572], [-5942, 3152, -312], [-5888, 3650, -572], [-5632, 2048, -572], [-5632, 2304, -312], [-5632, 2944, -312], [-5632, 3328, -572]]
+    ceiling_lines:
+      - [[-7296, 4352], [-6872, 3702]]
+      - [[-7198, 3956], [-6872, 3702]]
+      - [[-6936, 3136], [-6872, 3702]]
+      - [[-6936, 3136], [-6330, 2790]]
+      - [[-6912, 4352], [-6872, 3702]]
+      - [[-6872, 3702], [-6330, 2790]]
+      - [[-6528, 4352], [-6346, 3832]]
+      - [[-6528, 4352], [-6072, 4008]]
+      - [[-6346, 3832], [-6072, 4008]]
+      - [[-6346, 3832], [-5942, 3152]]
+      - [[-6346, 3832], [-5888, 3650]]
+      - [[-6330, 2790], [-6308, 2428]]
+      - [[-6330, 2790], [-5632, 2304]]
+      - [[-6308, 2428], [-5632, 2304]]
+      - [[-5942, 3152], [-5888, 3650]]
+      - [[-5942, 3152], [-5632, 2944]]
+    theme: theme:cave
+    ambient: 16
+    notes: "Original sector 34: outline from its floor faces (9 corners), floor and roof by the original's own vertices one for one (17 floor points, 17 roof points; see NOTES.md), creases as lines. Level floor {'D2flor5': 3}, banks {'d2ceil4': 13}."
+  - id: room:s35
+    name: Cave 35
+    outline: [[-5632, 2048], [-4882, 1806], [-3558, 1266], [-2176, 1024], [-1426, 782], [-102, 242], [1280, 256], [1280, 1152], [732, 1558], [-206, 1794], [-1596, 2068], [-2176, 2304], [-2724, 2582], [-3662, 2818], [-5052, 3092], [-5632, 3328]]
+    floor: -768
+    floor_points: [[-5632, 2048, -588], [-5632, 2176, -768], [-5632, 3072, -768], [-5632, 3328, -588], [-5052, 3092, -588], [-4882, 1806, -588], [-4624, 2764, -768], [-4490, 1878, -768], [-3662, 2818, -588], [-3558, 1266, -588], [-3134, 1430, -768], [-3100, 2406, -768], [-2724, 2582, -588], [-2176, 1024, -588], [-2176, 1280, -768], [-2176, 2048, -768], [-2176, 2304, -588], [-1596, 2068, -588], [-1426, 782, -588], [-1168, 1740, -768], [-1034, 854, -768], [-206, 1794, -588], [-102, 242, -588], [322, 406, -768], [356, 1382, -768], [732, 1558, -668], [1280, 256, -652], [1280, 320, -768], [1280, 1088, -768], [1280, 1152, -668]]
+    floor_lines:
+      - [[-5632, 2176], [-4882, 1806]]
+      - [[-5632, 2176], [-4490, 1878]]
+      - [[-5632, 3072], [-5052, 3092]]
+      - [[-5632, 3072], [-4624, 2764]]
+      - [[-5052, 3092], [-4624, 2764]]
+      - [[-4882, 1806], [-4490, 1878]]
+      - [[-4624, 2764], [-3662, 2818]]
+      - [[-4624, 2764], [-3100, 2406]]
+      - [[-4490, 1878], [-3558, 1266]]
+      - [[-4490, 1878], [-3134, 1430]]
+      - [[-3662, 2818], [-3100, 2406]]
+      - [[-3558, 1266], [-3134, 1430]]
+      - [[-3134, 1430], [-2176, 1024]]
+      - [[-3134, 1430], [-2176, 1280]]
+      - [[-3100, 2406], [-2724, 2582]]
+      - [[-3100, 2406], [-2176, 2048]]
+      - [[-2724, 2582], [-2176, 2048]]
+      - [[-2176, 1024], [-2176, 1280]]
+      - [[-2176, 1280], [-1426, 782]]
+      - [[-2176, 1280], [-1034, 854]]
+      - [[-2176, 2048], [-2176, 2304]]
+      - [[-2176, 2048], [-1596, 2068]]
+      - [[-2176, 2048], [-1168, 1740]]
+      - [[-1426, 782], [-1034, 854]]
+      - [[-1168, 1740], [-206, 1794]]
+      - [[-1168, 1740], [356, 1382]]
+      - [[-1034, 854], [-102, 242]]
+      - [[-1034, 854], [322, 406]]
+      - [[-206, 1794], [356, 1382]]
+      - [[-102, 242], [322, 406]]
+      - [[322, 406], [1280, 256]]
+      - [[322, 406], [1280, 320]]
+      - [[356, 1382], [732, 1558]]
+      - [[356, 1382], [1280, 1088]]
+      - [[732, 1558], [1280, 1088]]
+      - [[-1596, 2068], [-1168, 1740]]
+    floor_surfaces:
+      - {steeper_than: 0.1, surface: {texture: d2ceil4, size: [256, 256]}}
+    steep_floor: true
+    ceiling: -312
+    ceiling_points: [[-5632, 2048, -572], [-5632, 2304, -312], [-5632, 2944, -312], [-5632, 3328, -572], [-5052, 3092, -572], [-4882, 1806, -572], [-4440, 2644, -312], [-4400, 1820, -312], [-3662, 2818, -572], [-3558, 1266, -572], [-3268, 1416, -312], [-3164, 2070, -312], [-2724, 2582, -572], [-2406, 1106, -529], [-2176, 1024, -572], [-2176, 1280, -312], [-2176, 1920, -312], [-2176, 2304, -572], [-1913, 956, -569], [-1779, 2122, -573], [-1596, 2068, -572], [-1426, 782, -572], [-984, 1620, -312], [-944, 796, -312], [-206, 1794, -572], [-102, 242, -572], [188, 392, -312], [292, 1046, -312], [732, 1558, -588], [1280, 256, -588], [1280, 384, -512], [1280, 1024, -512], [1280, 1152, -588]]
+    ceiling_lines:
+      - [[-5632, 2304], [-4882, 1806]]
+      - [[-5632, 2304], [-4400, 1820]]
+      - [[-5632, 2944], [-5052, 3092]]
+      - [[-5632, 2944], [-4440, 2644]]
+      - [[-5052, 3092], [-4440, 2644]]
+      - [[-4882, 1806], [-4400, 1820]]
+      - [[-4440, 2644], [-3662, 2818]]
+      - [[-4440, 2644], [-3164, 2070]]
+      - [[-4400, 1820], [-3558, 1266]]
+      - [[-4400, 1820], [-3268, 1416]]
+      - [[-3662, 2818], [-3164, 2070]]
+      - [[-3268, 1416], [-2406, 1106]]
+      - [[-3268, 1416], [-2176, 1280]]
+      - [[-3164, 2070], [-2724, 2582]]
+      - [[-3164, 2070], [-2176, 1920]]
+      - [[-2406, 1106], [-2176, 1024]]
+      - [[-2176, 1024], [-1913, 956]]
+      - [[-2176, 1280], [-1426, 782]]
+      - [[-2176, 1280], [-944, 796]]
+      - [[-2176, 1920], [-1596, 2068]]
+      - [[-2176, 1920], [-984, 1620]]
+      - [[-2176, 2304], [-1779, 2122]]
+      - [[-1596, 2068], [-984, 1620]]
+      - [[-1426, 782], [-944, 796]]
+      - [[-984, 1620], [-206, 1794]]
+      - [[-984, 1620], [292, 1046]]
+      - [[-944, 796], [-102, 242]]
+      - [[-944, 796], [188, 392]]
+      - [[-206, 1794], [292, 1046]]
+      - [[-102, 242], [188, 392]]
+      - [[188, 392], [292, 1046]]
+      - [[188, 392], [1280, 256]]
+      - [[188, 392], [1280, 384]]
+      - [[188, 392], [1280, 1024]]
+      - [[292, 1046], [732, 1558]]
+      - [[292, 1046], [1280, 1024]]
+      - [[732, 1558], [1280, 1024]]
+    theme: theme:cave
+    notes: "Original sector 35: outline from its floor faces (16 corners), floor and roof by the original's own vertices one for one (30 floor points, 33 roof points; see NOTES.md), creases as lines. Level floor {'D2flor5': 6}, banks {'d2ceil4': 27}."
+  - id: room:s36
+    name: Cave passage
+    outline: [[1984, 640], [2368, 640], [2368, 256], [2752, 256], [2752, 512], [2496, 512], [2496, 768], [2240, 768], [2240, 1632], [1984, 1632]]
+    floor: -768
+    ceiling: -512
+    theme: theme:passage
+    walls:
+      - wall: 9
+        panels:
+          - {offset: 480, length: 128, surface: {texture: T3WPF, size: [128, 256]}, notes: Face 1662.}
+          - {offset: 864, length: 128, surface: {texture: T3WPF, size: [128, 256]}, notes: Face 1664.}
+    notes: "Sector 36: from the lower keep's corridor south to the two cave systems, west (through a frame of T3T7) and east."
+  - id: room:s37
+    name: Cave 37
+    outline: [[1280, 1152], [1280, 256], [1536, 416], [1952, 640], [1952, 1152]]
+    floor: -768
+    floor_points: [[1280, 256, -652], [1280, 320, -768], [1280, 1088, -768], [1280, 1152, -668], [1536, 416, -768], [1536, 1152, -768], [1952, 640, -768], [1952, 1152, -768]]
+    floor_lines:
+      - [[1280, 320], [1536, 416]]
+      - [[1280, 1088], [1536, 1152]]
+      - [[1536, 416], [1536, 1152]]
+      - [[1952, 640], [1952, 1152]]
+    floor_surfaces:
+      - {steeper_than: 0.1, surface: {texture: d2ceil4, size: [256, 256]}}
+    steep_floor: true
+    ceiling: -512
+    ceiling_points: [[1280, 256, -588], [1280, 384, -512], [1280, 1024, -512], [1280, 1152, -588], [1312, 576, -512], [1312, 960, -512], [1536, 416, -512], [1536, 1152, -512], [1776, 704, -512], [1776, 960, -512], [1952, 640, -512], [1952, 1152, -512]]
+    ceiling_lines:
+      - [[1280, 384], [1536, 416]]
+      - [[1280, 1024], [1536, 1152]]
+    theme: theme:cave
+    walls:
+      - wall: 3
+        surface: {texture: T3WSMP, size: [128, 256]}
+    notes: "Original sector 37: outline from its floor faces (5 corners), floor and roof by the original's own vertices one for one (8 floor points, 12 roof points; see NOTES.md), creases as lines. Level floor {'D2flor5': 2}, banks {'d2ceil4': 2}."
+  - id: room:s38
+    name: Cave 38
+    outline: [[16320, 7360], [16396, 7514], [16636, 7628], [17280, 7926], [17682, 8316], [17920, 8576], [18048, 8448], [18048, 8704], [17920, 8960], [17364, 9286], [16894, 9596], [16090, 9792], [15024, 9756], [14324, 9468], [13646, 9078], [13312, 8640], [13312, 7744], [13850, 7708], [14618, 7558], [15040, 7360]]
+    floor: -832
+    floor_points: [[13312, 7744, -588], [13312, 7936, -832], [13312, 8384, -736], [13312, 8640, -492], [13646, 9078, -588], [13850, 7708, -588], [13866, 7866, -768], [14186, 9264, -704], [14324, 9468, -588], [14586, 7822, -768], [14618, 7558, -588], [14994, 7608, -768], [15024, 9756, -588], [15040, 7360, -584], [15360, 7360, -768], [15374, 9632, -768], [15828, 8363, -768], [16064, 7360, -768], [16090, 9792, -588], [16118, 7554, -768], [16320, 7360, -648], [16396, 7514, -588], [16636, 7628, -578], [16652, 9484, -768], [16792, 7808, -768], [16894, 9596, -588], [17202, 8200, -768], [17280, 7926, -578], [17364, 9286, -524], [17554, 9056, -768], [17636, 8448, -768], [17682, 8316, -529], [17920, 8576, -768], [17920, 8896, -768], [17920, 8960, -699], [18048, 8448, -768], [18048, 8704, -768]]
+    floor_lines:
+      - [[13312, 7744], [13866, 7866]]
+      - [[13312, 7936], [13866, 7866]]
+      - [[13312, 8384], [13646, 9078]]
+      - [[13312, 8384], [13866, 7866]]
+      - [[13312, 8384], [14186, 9264]]
+      - [[13646, 9078], [14186, 9264]]
+      - [[13850, 7708], [13866, 7866]]
+      - [[13850, 7708], [14586, 7822]]
+      - [[13866, 7866], [14186, 9264]]
+      - [[13866, 7866], [14586, 7822]]
+      - [[14186, 9264], [14324, 9468]]
+      - [[14186, 9264], [14586, 7822]]
+      - [[14186, 9264], [14994, 7608]]
+      - [[14186, 9264], [15024, 9756]]
+      - [[14186, 9264], [15374, 9632]]
+      - [[14186, 9264], [16118, 7554]]
+      - [[14618, 7558], [14994, 7608]]
+      - [[14994, 7608], [15040, 7360]]
+      - [[14994, 7608], [15360, 7360]]
+      - [[14994, 7608], [16118, 7554]]
+      - [[15024, 9756], [15374, 9632]]
+      - [[15374, 9632], [16090, 9792]]
+      - [[15374, 9632], [16652, 9484]]
+      - [[16064, 7360], [16118, 7554]]
+      - [[16090, 9792], [16652, 9484]]
+      - [[16118, 7554], [16320, 7360]]
+      - [[16118, 7554], [16396, 7514]]
+      - [[16118, 7554], [16636, 7628]]
+      - [[16118, 7554], [16792, 7808]]
+      - [[16636, 7628], [16792, 7808]]
+      - [[16652, 9484], [16894, 9596]]
+      - [[16652, 9484], [17364, 9286]]
+      - [[16652, 9484], [17554, 9056]]
+      - [[16792, 7808], [17202, 8200]]
+      - [[16792, 7808], [17280, 7926]]
+      - [[17202, 8200], [17280, 7926]]
+      - [[17202, 8200], [17636, 8448]]
+      - [[17202, 8200], [17682, 8316]]
+      - [[17364, 9286], [17554, 9056]]
+      - [[17554, 9056], [17920, 8896]]
+      - [[17554, 9056], [17920, 8960]]
+      - [[17636, 8448], [17682, 8316]]
+      - [[17636, 8448], [17920, 8576]]
+      - [[17920, 8896], [17920, 8960]]
+      - [[17920, 8896], [18048, 8704]]
+      - [[13312, 7744], [13312, 7936]]
+      - [[13312, 7936], [13312, 8384]]
+      - [[14586, 7822], [14618, 7558]]
+      - [[14586, 7822], [14994, 7608]]
+    floor_surfaces:
+      - {steeper_than: 0.1, surface: {texture: d2ceil4, size: [256, 256]}}
+    steep_floor: true
+    ceiling: 200
+    ceiling_points: [[13312, 7744, -572], [13312, 8128, -312], [13312, 8448, -376], [13312, 8640, -476], [13646, 9078, -572], [13850, 7708, -572], [14052, 8456, -312], [14324, 9468, -572], [14618, 7558, -572], [14856, 8054, -376], [15024, 9756, -572], [15040, 7360, -568], [15130, 9100, -120], [15296, 7360, -208], [15670, 7928, 136], [15966, 8767, 136], [16090, 9792, -572], [16128, 7360, -336], [16164, 9328, 136], [16320, 7360, -632], [16396, 7514, -572], [16636, 7628, -460], [16680, 8158, 200], [16894, 9596, -572], [17196, 8744, 200], [17280, 7926, -460], [17364, 9286, -508], [17682, 8316, -460], [17920, 8576, -451], [17920, 8623, -287], [17920, 8832, -289], [17920, 8960, -512], [17950, 8593, -341], [18048, 8448, -470], [18048, 8704, -512]]
+    ceiling_lines:
+      - [[13312, 8128], [14052, 8456]]
+      - [[13312, 8448], [14052, 8456]]
+      - [[13312, 8640], [14052, 8456]]
+      - [[13646, 9078], [14052, 8456]]
+      - [[13850, 7708], [14052, 8456]]
+      - [[13850, 7708], [14856, 8054]]
+      - [[14052, 8456], [14324, 9468]]
+      - [[14052, 8456], [14856, 8054]]
+      - [[14052, 8456], [15130, 9100]]
+      - [[14324, 9468], [15130, 9100]]
+      - [[14618, 7558], [14856, 8054]]
+      - [[14856, 8054], [15040, 7360]]
+      - [[14856, 8054], [15130, 9100]]
+      - [[14856, 8054], [15296, 7360]]
+      - [[14856, 8054], [15670, 7928]]
+      - [[15024, 9756], [15130, 9100]]
+      - [[15130, 9100], [15670, 7928]]
+      - [[15130, 9100], [16090, 9792]]
+      - [[15130, 9100], [16164, 9328]]
+      - [[15296, 7360], [15670, 7928]]
+      - [[15670, 7928], [16128, 7360]]
+      - [[15670, 7928], [16396, 7514]]
+      - [[15670, 7928], [16636, 7628]]
+      - [[15670, 7928], [16680, 8158]]
+      - [[16090, 9792], [16164, 9328]]
+      - [[16128, 7360], [16396, 7514]]
+      - [[16164, 9328], [16680, 8158]]
+      - [[16164, 9328], [16894, 9596]]
+      - [[16164, 9328], [17196, 8744]]
+      - [[16320, 7360], [16396, 7514]]
+      - [[16636, 7628], [16680, 8158]]
+      - [[16680, 8158], [17196, 8744]]
+      - [[16894, 9596], [17196, 8744]]
+      - [[17196, 8744], [17280, 7926]]
+      - [[17196, 8744], [17364, 9286]]
+      - [[17196, 8744], [17682, 8316]]
+      - [[17196, 8744], [17920, 8576]]
+      - [[17196, 8744], [17920, 8623]]
+      - [[17196, 8744], [17920, 8832]]
+      - [[17196, 8744], [17920, 8960]]
+      - [[17920, 8576], [17920, 8623]]
+      - [[17920, 8623], [17920, 8832]]
+      - [[17920, 8623], [17950, 8593]]
+      - [[17920, 8832], [17920, 8960]]
+      - [[17920, 8832], [18048, 8704]]
+    theme: theme:cave
+    notes: "Original sector 38: outline from its floor faces (20 corners), floor and roof by the original's own vertices one for one (37 floor points, 35 roof points; see NOTES.md), creases as lines. Level floor {'D2flor5': 8}, banks {'d2ceil4': 34, 'D2flor5': 8}."
+  - id: room:s39
+    name: Cave 39
+    outline: [[11136, 6976], [12160, 6976], [12426, 7376], [12948, 7722], [13312, 7744], [13312, 8640], [12616, 8478], [11982, 8418], [11504, 8146], [11158, 7420]]
+    floor: -832
+    floor_points: [[11136, 6976, -588], [11158, 7420, -588], [11264, 6976, -768], [11478, 7584, -768], [11504, 8146, -588], [11904, 6976, -768], [11982, 8418, -588], [12032, 8256, -768], [12095, 7483, -768], [12160, 6976, -588], [12426, 7376, -588], [12616, 8478, -588], [12696, 7854, -768], [12784, 8332, -768], [12948, 7722, -588], [13312, 7744, -588], [13312, 7936, -832], [13312, 8384, -736], [13312, 8640, -492]]
+    floor_lines:
+      - [[11158, 7420], [11264, 6976]]
+      - [[11158, 7420], [11478, 7584]]
+      - [[11264, 6976], [11478, 7584]]
+      - [[11478, 7584], [11504, 8146]]
+      - [[11478, 7584], [12032, 8256]]
+      - [[11504, 8146], [12032, 8256]]
+      - [[11982, 8418], [12032, 8256]]
+      - [[12032, 8256], [12616, 8478]]
+      - [[12032, 8256], [12784, 8332]]
+      - [[12095, 7483], [12160, 6976]]
+      - [[12095, 7483], [12426, 7376]]
+      - [[12095, 7483], [12696, 7854]]
+      - [[12095, 7483], [12948, 7722]]
+      - [[12616, 8478], [12784, 8332]]
+      - [[12616, 8478], [13312, 8384]]
+      - [[12696, 7854], [12784, 8332]]
+      - [[12696, 7854], [12948, 7722]]
+      - [[12696, 7854], [13312, 7936]]
+      - [[12696, 7854], [13312, 8384]]
+      - [[12784, 8332], [13312, 8384]]
+      - [[12948, 7722], [13312, 7936]]
+      - [[13312, 7744], [13312, 7936]]
+    floor_surfaces:
+      - {steeper_than: 0.1, surface: {texture: d2ceil4, size: [256, 256]}}
+    steep_floor: true
+    ceiling: -312
+    ceiling_points: [[11136, 6976, -572], [11158, 7420, -572], [11392, 6976, -312], [11504, 8146, -572], [11554, 7724, -312], [11980, 8170, -312], [11982, 8418, -572], [12032, 6976, -312], [12066, 7298, -312], [12160, 6976, -572], [12426, 7376, -572], [12480, 7848, -312], [12616, 8478, -572], [12740, 7668, -534], [12748, 8312, -312], [12948, 7722, -572], [13312, 7744, -572], [13312, 8128, -312], [13312, 8448, -376], [13312, 8640, -476]]
+    ceiling_lines:
+      - [[11158, 7420], [11392, 6976]]
+      - [[11158, 7420], [11554, 7724]]
+      - [[11392, 6976], [11554, 7724]]
+      - [[11504, 8146], [11554, 7724]]
+      - [[11504, 8146], [11980, 8170]]
+      - [[11554, 7724], [11980, 8170]]
+      - [[11980, 8170], [11982, 8418]]
+      - [[11980, 8170], [12616, 8478]]
+      - [[11980, 8170], [12748, 8312]]
+      - [[12032, 6976], [12066, 7298]]
+      - [[12066, 7298], [12160, 6976]]
+      - [[12066, 7298], [12426, 7376]]
+      - [[12426, 7376], [12740, 7668]]
+      - [[12480, 7848], [12948, 7722]]
+      - [[12480, 7848], [13312, 8128]]
+      - [[12616, 8478], [12748, 8312]]
+      - [[12748, 8312], [13312, 8128]]
+      - [[12748, 8312], [13312, 8448]]
+      - [[12948, 7722], [13312, 8128]]
+    theme: theme:cave
+    ambient: 16
+    notes: "Original sector 39: outline from its floor faces (10 corners), floor and roof by the original's own vertices one for one (19 floor points, 20 roof points; see NOTES.md), creases as lines. Level floor {'D2flor5': 3}, banks {'d2ceil4': 17, 'D2flor5': 2}."
+  - id: room:s3g
+    name: Gate passage
+    outline: [[-320, 4224], [-64, 4224], [-64, 4448], [-320, 4448]]
+    floor: 0
+    ceiling: 256
+    theme: theme:shrine
+    walls:
+      - wall: 1
+        surface: {texture: T3wsbtr, size: [128, 256]}
+      - wall: 3
+        surface: {texture: T3wsbtl, size: [128, 256]}
+    notes: "Sector 3's tail under the gatehouse block that stands into the goblins' hall: T3wsbtl and T3wsbtr sides, a T3WSBP roof."
+  - id: room:s4
+    name: Hall of the goblins
+    outline: [[-832, 2944], [448, 2944], [448, 4480], [-32, 4480], [-32, 4224], [-352, 4224], [-352, 4480], [-832, 4480]]
+    floor: 0
+    ceiling: 512
+    theme: theme:shrine
+    walls:
+      - wall: 1
+        panels:
+          - {offset: 1296, length: 128, surface: {texture: T3wblr, size: [128, 256]}, notes: "Face 123, inside the east tower."}
+          - {offset: 1424, length: 112, surface: {texture: T3WBSL, size: [128, 256]}, notes: "Face 1966, inside the east tower."}
+      - wall: 7
+        panels:
+          - {offset: 0, length: 112, surface: {texture: T3wbsr, size: [128, 256]}, notes: "Face 1965, inside the west tower."}
+          - {offset: 112, length: 128, surface: {texture: T3WBSL, size: [128, 256]}, notes: "Face 125, inside the west tower."}
+      - wall: 0
+        panels:
+          - {offset: 0, length: 1280, bottom: 256, surface: {texture: T3WSBTD, size: [256, 256]}, notes: Face 59.}
+    platforms:
+      - {at: [-816, 2976], size: [32, 64], rise: 256, surface: {texture: T3T5, size: [64, 64]}, top_surface: {texture: T3T6, size: [32, 32]}, notes: "The west ledge south of the alcove (faces 1600, 1613)."}
+      - {at: [-816, 3168], size: [32, 64], rise: 256, surface: {texture: T3T5, size: [64, 64]}, top_surface: {texture: T3T6, size: [32, 32]}, notes: "The west ledge north of the alcove (faces 1601, 1602)."}
+      - {at: [-816, 3072], size: [32, 128], rise: 16, surface: {texture: T3T6, size: [32, 32]}, base: 240, notes: The west alcove's lintel (face 1609).}
+      - {at: [432, 2976], size: [32, 64], rise: 256, surface: {texture: T3T5, size: [64, 64]}, top_surface: {texture: T3T6, size: [32, 32]}, notes: The east ledge south of the alcove (face 1606).}
+      - {at: [368, 3168], size: [160, 64], rise: 256, surface: {texture: T3T5, size: [64, 64]}, top_surface: {texture: T3T6, size: [32, 32]}, notes: "The east ledge north of the alcove, its block reaching west to 288 (faces 1603, 1604, 1765, 1766)."}
+      - {at: [432, 3072], size: [32, 128], rise: 16, surface: {texture: T3T6, size: [32, 32]}, base: 240, notes: The east alcove's lintel (face 1611).}
+      - {at: [-192, 3104], size: [768, 320], rise: 24, surface: {texture: SWhorzdc, size: [32, 32]}, top_surface: {texture: OrErt64B, size: [64, 64]}, notes: "The dais against the south wall, step 1 (faces 61 to 63, 76, 83, 87)."}
+      - {at: [-192, 3072], size: [640, 256], rise: 24, surface: {texture: SWhorzdc, size: [32, 32]}, top_surface: {texture: OrErt64B, size: [64, 64]}, base: 24, notes: Step 2.}
+      - {at: [-192, 3040], size: [512, 192], rise: 24, surface: {texture: SWhorzdc, size: [32, 32]}, top_surface: {texture: OrErt64B, size: [64, 64]}, base: 48, notes: Step 3.}
+      - {at: [-192, 3008], size: [384, 128], rise: 24, surface: {texture: SWhorzdc, size: [32, 32]}, top_surface: {texture: OrErt64B, size: [64, 64]}, base: 72, notes: Step 4.}
+      - {at: [-192, 2976], size: [256, 64], rise: 24, surface: {texture: SWhorzdc, size: [32, 32]}, top_surface: {texture: OrErt64B, size: [64, 64]}, base: 96, notes: "Step 5, the dais's top at 120 under the switch (face 88)."}
+    notes: "Sector 4: a hall 512 high with a dais of five steps against its south wall, ledges at 256 in its south corners over two alcoves, and two towers in its north corners (movers in objects.yml) that sink when the dais's switch is pressed. The gatehouse block of the passage from the north stands into it (room s4g over the passage s3g)."
+  - id: room:s40
+    name: Cave 40
+    outline: [[11712, 4032], [11828, 4582], [11868, 5448], [11936, 6344], [12160, 6976], [11136, 6976], [10854, 6238], [10680, 4990], [10560, 4032]]
+    floor: -768
+    floor_points: [[10560, 4032, -588], [10680, 4990, -588], [10816, 4032, -768], [10854, 6238, -588], [10922, 5180, -768], [11106, 6378, -768], [11136, 6976, -588], [11264, 6976, -768], [11456, 4032, -768], [11594, 4850, -768], [11690, 6008, -768], [11712, 4032, -588], [11828, 4582, -588], [11868, 5448, -588], [11904, 6976, -768], [11936, 6344, -588], [12160, 6976, -588]]
+    floor_lines:
+      - [[10680, 4990], [10816, 4032]]
+      - [[10680, 4990], [10922, 5180]]
+      - [[10816, 4032], [10922, 5180]]
+      - [[10854, 6238], [10922, 5180]]
+      - [[10854, 6238], [11106, 6378]]
+      - [[10922, 5180], [11106, 6378]]
+      - [[11106, 6378], [11136, 6976]]
+      - [[11106, 6378], [11264, 6976]]
+      - [[11456, 4032], [11594, 4850]]
+      - [[11456, 4032], [11828, 4582]]
+      - [[11594, 4850], [11828, 4582]]
+      - [[11594, 4850], [11868, 5448]]
+      - [[11690, 6008], [11904, 6976]]
+      - [[11690, 6008], [11936, 6344]]
+      - [[11904, 6976], [11936, 6344]]
+      - [[11594, 4850], [11690, 6008]]
+      - [[11690, 6008], [11868, 5448]]
+    floor_surfaces:
+      - {steeper_than: 0.1, surface: {texture: d2ceil4, size: [256, 256]}}
+    steep_floor: true
+    ceiling: -312
+    ceiling_points: [[10560, 4032, -572], [10680, 4990, -572], [10854, 6238, -572], [10890, 4756, -312], [10944, 4032, -312], [11036, 6162, -312], [11136, 6976, -572], [11328, 4032, -312], [11392, 6976, -312], [11626, 5040, -312], [11690, 6202, -312], [11712, 4032, -572], [11828, 4582, -572], [11868, 5448, -572], [11936, 6344, -572], [12032, 6976, -312], [12160, 6976, -572]]
+    ceiling_lines:
+      - [[10560, 4032], [10890, 4756]]
+      - [[10680, 4990], [10890, 4756]]
+      - [[10680, 4990], [11036, 6162]]
+      - [[10854, 6238], [11036, 6162]]
+      - [[10890, 4756], [10944, 4032]]
+      - [[10890, 4756], [11036, 6162]]
+      - [[11036, 6162], [11136, 6976]]
+      - [[11036, 6162], [11392, 6976]]
+      - [[11328, 4032], [11626, 5040]]
+      - [[11328, 4032], [11828, 4582]]
+      - [[11626, 5040], [11690, 6202]]
+      - [[11626, 5040], [11828, 4582]]
+      - [[11626, 5040], [11868, 5448]]
+      - [[11690, 6202], [11868, 5448]]
+      - [[11690, 6202], [12032, 6976]]
+      - [[11868, 5448], [11936, 6344]]
+      - [[11936, 6344], [12032, 6976]]
+    theme: theme:cave
+    ambient: 16
+    notes: "Original sector 40: outline from its floor faces (9 corners), floor and roof by the original's own vertices one for one (17 floor points, 17 roof points; see NOTES.md), creases as lines. Level floor {'D2flor5': 3}, banks {'d2ceil4': 15}."
+  - id: room:s41
+    name: Cave 41
+    outline: [[10048, 1728], [10724, 2108], [11352, 2816], [11614, 3636], [11712, 4032], [10560, 4032], [10488, 3688], [10304, 3330], [10048, 3008]]
+    floor: -768
+    floor_points: [[10048, 1728, -588], [10048, 1856, -768], [10048, 2752, -768], [10048, 3008, -588], [10304, 3330, -588], [10380, 3088, -768], [10488, 3688, -588], [10560, 4032, -588], [10598, 3438, -768], [10724, 2108, -685], [10816, 4032, -768], [10940, 2416, -768], [11352, 2816, -685], [11376, 3290, -768], [11456, 4032, -768], [11614, 3636, -588], [11712, 4032, -588]]
+    floor_lines:
+      - [[10048, 1856], [10724, 2108]]
+      - [[10048, 1856], [10940, 2416]]
+      - [[10048, 2752], [10380, 3088]]
+      - [[10048, 3008], [10380, 3088]]
+      - [[10304, 3330], [10380, 3088]]
+      - [[10304, 3330], [10598, 3438]]
+      - [[10380, 3088], [10598, 3438]]
+      - [[10488, 3688], [10598, 3438]]
+      - [[10488, 3688], [10816, 4032]]
+      - [[10598, 3438], [10816, 4032]]
+      - [[10724, 2108], [10940, 2416]]
+      - [[10940, 2416], [11352, 2816]]
+      - [[10940, 2416], [11376, 3290]]
+      - [[11352, 2816], [11376, 3290]]
+      - [[11376, 3290], [11456, 4032]]
+      - [[11376, 3290], [11614, 3636]]
+      - [[11456, 4032], [11614, 3636]]
+    floor_surfaces:
+      - {steeper_than: 0.1, surface: {texture: d2ceil4, size: [256, 256]}}
+    steep_floor: true
+    ceiling: -312
+    ceiling_points: [[10048, 1728, -572], [10048, 1984, -312], [10048, 2624, -312], [10048, 3008, -572], [10304, 3330, -572], [10358, 2832, -312], [10488, 3688, -572], [10560, 4032, -572], [10724, 2108, -588], [10746, 2470, -312], [10762, 3512, -312], [10944, 4032, -312], [11288, 3382, -312], [11328, 4032, -312], [11352, 2816, -588], [11614, 3636, -572], [11712, 4032, -572]]
+    ceiling_lines:
+      - [[10048, 1984], [10724, 2108]]
+      - [[10048, 1984], [10746, 2470]]
+      - [[10048, 2624], [10358, 2832]]
+      - [[10304, 3330], [10358, 2832]]
+      - [[10304, 3330], [10762, 3512]]
+      - [[10358, 2832], [10762, 3512]]
+      - [[10488, 3688], [10762, 3512]]
+      - [[10488, 3688], [10944, 4032]]
+      - [[10724, 2108], [10746, 2470]]
+      - [[10746, 2470], [11288, 3382]]
+      - [[10746, 2470], [11352, 2816]]
+      - [[10762, 3512], [10944, 4032]]
+      - [[11288, 3382], [11328, 4032]]
+      - [[11288, 3382], [11352, 2816]]
+      - [[11288, 3382], [11614, 3636]]
+      - [[11288, 3382], [11712, 4032]]
+    theme: theme:cave
+    ambient: 16
+    notes: "Original sector 41: outline from its floor faces (9 corners), floor and roof by the original's own vertices one for one (17 floor points, 17 roof points; see NOTES.md), creases as lines. Level floor {'D2flor5': 3}, banks {'d2ceil4': 13}."
+  - id: room:s42
+    name: Cave 42
+    outline: [[6592, 704], [7974, 946], [9298, 1486], [10048, 1728], [10048, 3008], [9468, 2772], [8078, 2498], [7140, 2262], [6592, 1984]]
+    floor: -768
+    floor_points: [[6592, 704, -588], [6592, 960, -768], [6592, 1728, -768], [6592, 1984, -588], [7140, 2262, -588], [7516, 2086, -768], [7550, 1110, -768], [7974, 946, -588], [8078, 2498, -588], [8906, 1558, -768], [9040, 2444, -768], [9298, 1486, -588], [9468, 2772, -588], [10048, 1728, -588], [10048, 1856, -768], [10048, 2752, -768], [10048, 3008, -588]]
+    floor_lines:
+      - [[6592, 704], [7550, 1110]]
+      - [[6592, 960], [7550, 1110]]
+      - [[6592, 1728], [7140, 2262]]
+      - [[6592, 1728], [7516, 2086]]
+      - [[7140, 2262], [7516, 2086]]
+      - [[7516, 2086], [8078, 2498]]
+      - [[7516, 2086], [9040, 2444]]
+      - [[7550, 1110], [7974, 946]]
+      - [[7550, 1110], [8906, 1558]]
+      - [[7974, 946], [8906, 1558]]
+      - [[8078, 2498], [9040, 2444]]
+      - [[8906, 1558], [9298, 1486]]
+      - [[8906, 1558], [10048, 1856]]
+      - [[9040, 2444], [9468, 2772]]
+      - [[9040, 2444], [10048, 2752]]
+      - [[9298, 1486], [10048, 1856]]
+      - [[9468, 2772], [10048, 2752]]
+    floor_surfaces:
+      - {steeper_than: 0.1, surface: {texture: d2ceil4, size: [256, 256]}}
+    steep_floor: true
+    ceiling: -312
+    ceiling_points: [[6592, 704, -572], [6592, 960, -312], [6592, 1600, -312], [6592, 1984, -572], [7140, 2262, -572], [7580, 1750, -312], [7684, 1096, -312], [7974, 946, -572], [8078, 2498, -572], [8816, 1500, -312], [8856, 2324, -312], [9298, 1486, -572], [9468, 2772, -572], [10048, 1728, -572], [10048, 1984, -312], [10048, 2624, -312], [10048, 3008, -572]]
+    ceiling_lines:
+      - [[6592, 704], [7684, 1096]]
+      - [[6592, 960], [7684, 1096]]
+      - [[6592, 1600], [7140, 2262]]
+      - [[6592, 1600], [7580, 1750]]
+      - [[7140, 2262], [7580, 1750]]
+      - [[7580, 1750], [8078, 2498]]
+      - [[7580, 1750], [8856, 2324]]
+      - [[7684, 1096], [7974, 946]]
+      - [[7684, 1096], [8816, 1500]]
+      - [[8078, 2498], [8856, 2324]]
+      - [[8816, 1500], [9298, 1486]]
+      - [[8816, 1500], [10048, 1984]]
+      - [[8856, 2324], [9468, 2772]]
+      - [[8856, 2324], [10048, 2624]]
+      - [[9298, 1486], [10048, 1984]]
+      - [[9468, 2772], [10048, 2624]]
+    theme: theme:cave
+    ambient: 16
+    notes: "Original sector 42: outline from its floor faces (9 corners), floor and roof by the original's own vertices one for one (17 floor points, 17 roof points; see NOTES.md), creases as lines. Level floor {'D2flor5': 3}, banks {'d2ceil4': 13}."
+  - id: room:s43
+    name: Cave 43
+    outline: [[3136, -224], [4518, 18], [5842, 462], [6592, 704], [6592, 1984], [6012, 1748], [4622, 1410], [3684, 1078], [3136, 896], [2752, 512], [2752, 256]]
+    floor: -768
+    floor_points: [[2752, 256, -768], [2752, 512, -768], [3136, -224, -588], [3136, -64, -768], [3136, 704, -768], [3136, 896, -588], [3684, 1078, -588], [4060, 1062, -768], [4094, 86, -768], [4518, 18, -588], [4622, 1410, -588], [5450, 534, -768], [5584, 1420, -768], [5842, 462, -588], [6012, 1748, -588], [6592, 704, -588], [6592, 960, -768], [6592, 1728, -768], [6592, 1984, -588]]
+    floor_lines:
+      - [[2752, 256], [3136, -64]]
+      - [[2752, 512], [3136, 704]]
+      - [[3136, -224], [3136, -64]]
+      - [[3136, -224], [4094, 86]]
+      - [[3136, -64], [4094, 86]]
+      - [[3136, 704], [3136, 896]]
+      - [[3136, 704], [3684, 1078]]
+      - [[3136, 704], [4060, 1062]]
+      - [[3684, 1078], [4060, 1062]]
+      - [[4060, 1062], [4622, 1410]]
+      - [[4060, 1062], [5584, 1420]]
+      - [[4094, 86], [4518, 18]]
+      - [[4094, 86], [5450, 534]]
+      - [[4518, 18], [5450, 534]]
+      - [[4622, 1410], [5584, 1420]]
+      - [[5450, 534], [5842, 462]]
+      - [[5450, 534], [6592, 960]]
+      - [[5584, 1420], [6012, 1748]]
+      - [[5584, 1420], [6592, 1728]]
+      - [[5842, 462], [6592, 960]]
+      - [[6012, 1748], [6592, 1728]]
+    floor_surfaces:
+      - {steeper_than: 0.1, surface: {texture: d2ceil4, size: [256, 256]}}
+    steep_floor: true
+    ceiling: -312
+    ceiling_points: [[2752, 256, -501], [2752, 512, -512], [3136, -224, -572], [3136, 64, -312], [3136, 576, -312], [3136, 896, -572], [3684, 1078, -572], [4124, 726, -312], [4228, 72, -312], [4518, 18, -572], [4622, 1410, -572], [5360, 476, -312], [5400, 1300, -312], [5842, 462, -572], [6012, 1748, -572], [6592, 704, -572], [6592, 960, -312], [6592, 1600, -312], [6592, 1984, -572]]
+    ceiling_lines:
+      - [[2752, 256], [3136, 64]]
+      - [[2752, 512], [3136, 576]]
+      - [[3136, -224], [3136, 64]]
+      - [[3136, -224], [4228, 72]]
+      - [[3136, 64], [3136, 576]]
+      - [[3136, 64], [4228, 72]]
+      - [[3136, 576], [3684, 1078]]
+      - [[3136, 576], [4124, 726]]
+      - [[3136, 896], [3684, 1078]]
+      - [[3684, 1078], [4124, 726]]
+      - [[4124, 726], [4622, 1410]]
+      - [[4124, 726], [5400, 1300]]
+      - [[4228, 72], [4518, 18]]
+      - [[4228, 72], [5360, 476]]
+      - [[4518, 18], [5360, 476]]
+      - [[5360, 476], [5842, 462]]
+      - [[5360, 476], [6592, 960]]
+      - [[5400, 1300], [6012, 1748]]
+      - [[5400, 1300], [6592, 1600]]
+      - [[5842, 462], [6592, 704]]
+      - [[5842, 462], [6592, 960]]
+      - [[6012, 1748], [6592, 1600]]
+    theme: theme:cave
+    ambient: 16
+    notes: "Original sector 43: outline from its floor faces (11 corners), floor and roof by the original's own vertices one for one (19 floor points, 19 roof points; see NOTES.md), creases as lines. Level floor {'D2flor5': 4}, banks {'d2ceil4': 15}."
+  - id: room:s44
+    name: Cave 44
+    outline: [[6664, 7212], [6408, 7084], [6082, 6528], [5772, 6058], [5576, 5120], [5576, 4188], [5900, 3488], [6104, 3350], [7218, 3030], [7296, 3026], [7296, 3168], [7232, 3232], [7232, 3328], [7296, 3392], [7392, 3392], [7456, 3328], [7456, 3232], [7392, 3168], [7392, 3022], [7546, 3014], [7810, 3782], [8008, 4204], [8008, 5484], [7854, 5560], [7740, 5800], [7442, 6444], [7052, 6846]]
+    floor: 128
+    floor_points: [[5576, 4188, 308], [5576, 4608, 128], [5576, 4864, 128], [5576, 5120, 128], [5736, 4538, 128], [5736, 5120, 128], [5772, 6058, 308], [5884, 5816, 128], [5900, 3488, 308], [6082, 6528, 372], [6104, 3350, 128], [6312, 6718, 128], [6408, 7084, 183], [6472, 7084, 128], [6624, 4576, 128], [6624, 5088, 128], [6664, 7212, 183], [6920, 6800, 128], [7008, 3296, 128], [7052, 6846, 388], [7136, 3648, 128], [7136, 4576, 128], [7136, 5088, 128], [7168, 6366, 128], [7218, 3030, 128], [7232, 3232, 128], [7232, 3328, 128], [7296, 3026, 128], [7296, 3168, 128], [7296, 3392, 128], [7392, 3022, 128], [7392, 3168, 128], [7392, 3392, 128], [7442, 6444, 318], [7456, 3232, 128], [7456, 3328, 128], [7546, 3014, 308], [7546, 3750, 128], [7560, 5956, 128], [7740, 5800, 318], [7760, 4158, 128], [7810, 3782, 308], [7814, 5282, 128], [7854, 5560, 308], [8008, 4204, 312], [8008, 4524, 128], [8008, 5228, 128], [8008, 5484, 248]]
+    floor_lines:
+      - [[5576, 4188], [5736, 4538]]
+      - [[5576, 4188], [6104, 3350]]
+      - [[5576, 4608], [5736, 4538]]
+      - [[5576, 5120], [5736, 5120]]
+      - [[5576, 5120], [5884, 5816]]
+      - [[5736, 4538], [6104, 3350]]
+      - [[5736, 5120], [5884, 5816]]
+      - [[5772, 6058], [5884, 5816]]
+      - [[5884, 5816], [6082, 6528]]
+      - [[5884, 5816], [6312, 6718]]
+      - [[6082, 6528], [6312, 6718]]
+      - [[6312, 6718], [6408, 7084]]
+      - [[6312, 6718], [6472, 7084]]
+      - [[6408, 7084], [6472, 7084]]
+      - [[6472, 7084], [6664, 7212]]
+      - [[6920, 6800], [7052, 6846]]
+      - [[6920, 6800], [7168, 6366]]
+      - [[7052, 6846], [7168, 6366]]
+      - [[7168, 6366], [7442, 6444]]
+      - [[7168, 6366], [7560, 5956]]
+      - [[7442, 6444], [7560, 5956]]
+      - [[7546, 3750], [7760, 4158]]
+      - [[7546, 3750], [7810, 3782]]
+      - [[7560, 5956], [7740, 5800]]
+      - [[7560, 5956], [7814, 5282]]
+      - [[7740, 5800], [7814, 5282]]
+      - [[7760, 4158], [7810, 3782]]
+      - [[7760, 4158], [8008, 4204]]
+      - [[7760, 4158], [8008, 4524]]
+      - [[7814, 5282], [7854, 5560]]
+      - [[7814, 5282], [8008, 5228]]
+      - [[7814, 5282], [8008, 5484]]
+    floor_surfaces:
+      - {steeper_than: 0.1, surface: {texture: d2ceil4, size: [256, 256]}}
+    steep_floor: true
+    ceiling: 1096
+    ceiling_points: [[5576, 4188, 324], [5576, 4608, 384], [5576, 5120, 384], [5756, 4294, 776], [5772, 6058, 324], [5900, 3488, 324], [6040, 5328, 1032], [6082, 6528, 388], [6104, 3350, 144], [6408, 7084, 368], [6536, 7084, 591], [6624, 6360, 1096], [6664, 7212, 368], [6912, 3216, 584], [7052, 6846, 436], [7210, 5844, 1096], [7218, 3030, 280], [7232, 3232, 475], [7232, 3328, 500], [7296, 3026, 170], [7296, 3168, 436], [7296, 3392, 493], [7314, 4020, 648], [7392, 3022, 225], [7392, 3168, 402], [7392, 3392, 459], [7440, 4834, 1032], [7442, 6444, 436], [7456, 3232, 396], [7456, 3328, 420], [7484, 3281, 398], [7546, 3014, 324], [7740, 5800, 436], [7810, 3782, 324], [7854, 5560, 324], [8008, 4204, 328], [8008, 4460, 688], [8008, 5292, 560], [8008, 5484, 264]]
+    ceiling_lines:
+      - [[5576, 4188], [5756, 4294]]
+      - [[5576, 4608], [5756, 4294]]
+      - [[5576, 5120], [5756, 4294]]
+      - [[5576, 5120], [6040, 5328]]
+      - [[5756, 4294], [5900, 3488]]
+      - [[5756, 4294], [6040, 5328]]
+      - [[5756, 4294], [6912, 3216]]
+      - [[5756, 4294], [7314, 4020]]
+      - [[5756, 4294], [7440, 4834]]
+      - [[5772, 6058], [6040, 5328]]
+      - [[5772, 6058], [6624, 6360]]
+      - [[5900, 3488], [6912, 3216]]
+      - [[5900, 3488], [7218, 3030]]
+      - [[6040, 5328], [6624, 6360]]
+      - [[6040, 5328], [7210, 5844]]
+      - [[6040, 5328], [7440, 4834]]
+      - [[6082, 6528], [6624, 6360]]
+      - [[6408, 7084], [6536, 7084]]
+      - [[6408, 7084], [6624, 6360]]
+      - [[6536, 7084], [6624, 6360]]
+      - [[6536, 7084], [6664, 7212]]
+      - [[6624, 6360], [7052, 6846]]
+      - [[6624, 6360], [7210, 5844]]
+      - [[6624, 6360], [7442, 6444]]
+      - [[6912, 3216], [7218, 3030]]
+      - [[6912, 3216], [7314, 4020]]
+      - [[7210, 5844], [7440, 4834]]
+      - [[7210, 5844], [7740, 5800]]
+      - [[7314, 4020], [7440, 4834]]
+      - [[7314, 4020], [8008, 4204]]
+      - [[7314, 4020], [8008, 4460]]
+      - [[7440, 4834], [7740, 5800]]
+      - [[7440, 4834], [7854, 5560]]
+      - [[7440, 4834], [8008, 4460]]
+      - [[7440, 4834], [8008, 5292]]
+      - [[7854, 5560], [8008, 5292]]
+      - [[7854, 5560], [8008, 5484]]
+      - [[6912, 3216], [7232, 3232]]
+      - [[6912, 3216], [7232, 3328]]
+      - [[7218, 3030], [7296, 3168]]
+    theme: theme:cave
+    platforms:
+      - {at: [6880, 4832], size: [512, 512], rise: 32, surface: {texture: SWhorzA, size: [32, 32]}, top_surface: {texture: orWtr32, size: [32, 32]}, notes: "The fountain's lowest rim (faces 1258 to 1261, event 64)."}
+      - {at: [6880, 4832], size: [512, 512], rise: 32, surface: {texture: orWtr32, size: [32, 32]}, top_surface: {texture: orWtr32, size: [32, 32]}, base: 32, top_size: [384, 384], notes: "The lowest basin's water, rising from 160 at the rim to 192 (faces 1262, 1267 to 1269, 2268 to 2271)."}
+      - {at: [6880, 4832], size: [384, 384], rise: 32, surface: {texture: SWhorzA, size: [32, 32]}, top_surface: {texture: orWtr32, size: [32, 32]}, base: 64, notes: The middle rim (faces 1263 to 1266).}
+      - {at: [6880, 4832], size: [384, 384], rise: 32, surface: {texture: orWtr32, size: [32, 32]}, top_surface: {texture: orWtr32, size: [32, 32]}, base: 96, top_size: [256, 256], notes: "The middle basin's water, 224 to 256 (faces 1286 to 1289, 2272 to 2275)."}
+      - {at: [6880, 4832], size: [256, 256], rise: 32, surface: {texture: SWhorzA, size: [32, 32]}, top_surface: {texture: orWtr32, size: [32, 32]}, base: 128, notes: The top rim (faces 1270 to 1273).}
+      - {at: [6880, 4832], size: [256, 256], rise: 32, surface: {texture: orWtr32, size: [32, 32]}, top_surface: {texture: orWtr32, size: [32, 32]}, base: 160, top_size: [64, 64], notes: "The top basin's water, 288 to 320 round the spout (faces 1275 to 1278, 2276 to 2278)."}
+      - {id: platform:spout, at: [6880, 4832], size: [64, 64], rise: 192, surface: {texture: SWall5, size: [128, 256]}, top_surface: {texture: OrFyr32, size: [32, 32]}, base: 192, notes: "The fountain's spout, 320 to 512 (faces 1279 to 1282, 2279, 2280); the original's top is a hollow of fire OrFyr32 sinking to 448 in the middle (faces 1274, 1283 to 1285), here a flat top of the same picture. Clicked: event 64 (Wizard Eye once a day)."}
+    notes: "Original sector 44: outline from its floor faces (27 corners), floor and roof by the original's own vertices one for one (48 floor points, 39 roof points; see NOTES.md), creases as lines. Level floor {'D2flor5': 35}, banks {'d2ceil4': 25}."
+  - id: room:s44h
+    name: Shaft mouth
+    outline: [[7296, 3026], [7392, 3022], [7392, 3168], [7456, 3232], [7456, 3328], [7392, 3392], [7296, 3392], [7232, 3328], [7232, 3232], [7296, 3168]]
+    floor: 128
+    ceiling: 500
+    ceiling_points: [[7296, 3026, 170], [7392, 3022, 225], [7392, 3168, 402], [7456, 3232, 396], [7456, 3328, 420], [7392, 3392, 459], [7296, 3392, 493], [7232, 3328, 500], [7232, 3232, 475], [7296, 3168, 436]]
+    theme: theme:cave
+    notes: "Part of sector 44 round the shaft's mouth (the hole in its floor down to sector 46) and a strip south of it to the rim, level at 128 as the original's floor is there: the studio opens a floor only in a room whose floor is level. The roof is the original's read at its corners."
+  - id: room:s45
+    name: Switch hall
+    outline: [[1168, 4224], [2192, 4224], [2192, 4512], [2112, 4512], [2112, 4640], [2208, 4640], [2208, 5088], [2112, 5088], [2112, 5216], [2192, 5216], [2192, 5504], [1168, 5504]]
+    floor: 0
+    steep_floor: true
+    ceiling: 384
+    theme: theme:switches
+    walls:
+      - wall: 2
+        surface: {texture: t1c2, size: [64, 64]}
+      - wall: 3
+        surface: {texture: t1c2, size: [64, 64]}
+      - wall: 4
+        surface: {texture: t1c2, size: [64, 64]}
+      - wall: 5
+        surface: {texture: t1f1, size: [128, 128]}
+      - wall: 6
+        surface: {texture: t1c2, size: [64, 64]}
+      - wall: 7
+        surface: {texture: t1c2, size: [64, 64]}
+      - wall: 8
+        surface: {texture: t1c2, size: [64, 64]}
+    platforms:
+      - {at: [1880, 4352], size: [624, 256], rise: 0, surface: {texture: t1f1, size: [128, 128]}, top_surface: {texture: OFlr, size: [128, 128]}, top_slope: {to: 128, toward: east}, notes: The south ramp up 128 to the gallery (face 1978).}
+      - {at: [1880, 4496], size: [624, 32], rise: 128, surface: {texture: t1f1, size: [128, 128]}, top_surface: {texture: OFlrD32, size: [32, 32]}, notes: "The rail between the south ramp and the well, its top level at 128 (faces 1993, 1992, 1245)."}
+      - {at: [1880, 5376], size: [624, 256], rise: 0, surface: {texture: t1f1, size: [128, 128]}, top_surface: {texture: OFlr, size: [128, 128]}, top_slope: {to: 128, toward: east}, notes: The north ramp (face 1980).}
+      - {at: [1880, 5232], size: [624, 32], rise: 128, surface: {texture: t1f1, size: [128, 128]}, top_surface: {texture: OFlrD32, size: [32, 32]}, notes: "The rail between the north ramp and the well (faces 1991, 1990, 1989)."}
+      - {at: [2160, 4864], size: [96, 128], rise: 16, surface: {texture: t1d3E, size: [128, 32]}, top_surface: {texture: t1Trm1, size: [64, 32]}, notes: The console's plinth (faces 2017 to 2022).}
+      - {id: platform:console, at: [2176, 4864], size: [64, 64], rise: 80, surface: {texture: T1doorS, size: [32, 256]}, top_surface: {texture: T1doorS, size: [32, 256]}, base: 16, top_slope: {to: 144, toward: east}, notes: "The console of sixteen switches (faces 2014 to 2016, 2104): upright sides from 16, its top raking at 45 degrees from 96 at the west up to 160 at the east, the sixteen switch plates lying on it (objects.yml, `side: top`) as the original's faces 1998 to 2013."}
+    notes: "Sector 45 below its gallery: the west hall, two ramps up 128 to the gallery along the side walls, rails 32 thick between them and the sunken well in the middle, and the alcove under the gallery with the console of switches. The ramps and rails are blocks of the room (platforms), as one room."
+  - id: room:s45m
+    name: "Switch hall, gallery"
+    outline: [[2192, 4224], [2240, 4224], [2240, 3968], [2496, 3968], [2496, 5760], [2240, 5760], [2240, 5504], [2192, 5504], [2192, 5248], [2240, 5248], [2240, 5088], [2208, 5088], [2208, 4640], [2240, 4640], [2240, 4480], [2192, 4480]]
+    floor: 128
+    ceiling: 384
+    theme: theme:switches
+    walls:
+      - wall: 1
+        surface: {texture: T1wl4ctL, size: [256, 256]}
+      - wall: 2
+        surface: {texture: T1wl4ctL, size: [256, 256]}
+      - wall: 3
+        surface: {texture: T1wl4ctL, size: [256, 256]}
+      - wall: 4
+        surface: {texture: T1wl4ctL, size: [256, 256]}
+      - wall: 5
+        surface: {texture: T1wl4ctL, size: [256, 256]}
+      - wall: 9
+        surface: {texture: t1c2, size: [64, 64]}
+      - wall: 10
+        surface: {texture: t1c2, size: [64, 64]}
+      - wall: 12
+        surface: {texture: t1c2, size: [64, 64]}
+      - wall: 13
+        surface: {texture: t1c2, size: [64, 64]}
+    notes: "Sector 45's gallery at 128 along the east wall, from which the corridor of gates runs east."
+  - id: room:s46
+    name: Shaft
+    outline: [[7296, 3168], [7392, 3168], [7456, 3232], [7456, 3328], [7392, 3392], [7296, 3392], [7232, 3328], [7232, 3232]]
+    floor: -768
+    ceiling: -384
+    theme: theme:cave
+    ambient: 16
+    notes: "Sector 46's shaft: the hole in the cave's floor at 128, 896 above this floor (open to the cave through its whole roof; the rock's thickness 512 is the hole's sides)."
+  - id: room:s46e
+    name: Shaft foot
+    outline: [[7392, 3168], [7520, 3128], [7520, 3432], [7392, 3392], [7456, 3328], [7456, 3232]]
+    floor: -768
+    ceiling: -512
+    theme: theme:vault
+    notes: Sector 46's east part at the shaft's foot.
+  - id: room:s47a
+    name: Vault approach
+    outline: [[7520, 3128], [7904, 3152], [7904, 2640], [8160, 2640], [8160, 3408], [7904, 3408], [7520, 3432]]
+    floor: -768
+    ceiling: -512
+    theme: theme:vault
+    notes: Sector 47's level part.
+  - id: room:s47b
+    name: Vault ramp foot
+    outline: [[9920, 3232], [10176, 3232], [10176, 3968], [9920, 3968]]
+    floor: -1280
+    ceiling: -1024
+    theme: theme:vault
+    walls:
+      - wall: 0
+        surface: {texture: T1wl0sm, size: [128, 256]}
+      - wall: 1
+        surface: {texture: T1wl0sm, size: [128, 256]}
+      - wall: 3
+        surface: {texture: T1wl0sm, size: [128, 256]}
+    notes: Sector 47's foot in front of the vault.
+  - id: room:s47r
+    name: Vault ramp
+    outline: [[8192, 2640], [8320, 2640], [9920, 3232], [9920, 3488], [9792, 3488], [8192, 2896]]
+    floor: -1280
+    floor_points: [[8192, 2640, -768], [8320, 2640, -768], [8192, 2896, -768], [9920, 3232, -1280], [9920, 3488, -1280], [9792, 3488, -1280]]
+    floor_lines:
+      - [[8320, 2640], [8192, 2896]]
+      - [[9920, 3232], [9792, 3488]]
+    ceiling: -512
+    ceiling_points: [[8192, 2640, -512], [8320, 2640, -512], [8192, 2896, -512], [9920, 3232, -1024], [9920, 3488, -1024], [9792, 3488, -1024]]
+    ceiling_lines:
+      - [[8320, 2640], [8192, 2896]]
+      - [[9920, 3232], [9792, 3488]]
+    theme: theme:vault
+    walls:
+      - wall: 1
+        surface: {texture: T1wl0sm, size: [128, 256]}
+      - wall: 4
+        surface: {texture: T1wl0sm, size: [128, 256]}
+    notes: "Sector 47's ramp down 512 along the diagonal (face 1417), level at both ends (faces 1452, 1401)."
+  - id: room:s48a
+    name: Sewer ramp 1
+    outline: [[2784, 6784], [3808, 6784], [3808, 7040], [2784, 7040]]
+    floor: -256
+    slope: {to: -512, toward: east}
+    ceiling: 0
+    ceiling_slope: {to: -256, toward: east}
+    theme: theme:sewer
+    notes: "Sector 48 behind door 18: the first ramp east."
+  - id: room:s48b
+    name: Sewer landing 1
+    outline: [[3808, 6784], [4064, 6784], [4064, 7040], [3808, 7040]]
+    floor: -512
+    ceiling: -256
+    theme: theme:sewer
+    notes: Sector 48.
+  - id: room:s48c
+    name: Sewer ramp 2
+    outline: [[4064, 6784], [4832, 6784], [4832, 7040], [4064, 7040]]
+    floor: -512
+    slope: {to: -640, toward: east}
+    ceiling: -256
+    ceiling_slope: {to: -384, toward: east}
+    theme: theme:sewer
+    notes: Sector 48.
+  - id: room:s48d
+    name: Sewer landing 2
+    outline: [[4832, 6784], [5216, 6784], [5088, 7040], [4832, 7040]]
+    floor: -640
+    ceiling: -384
+    theme: theme:sewer
+    notes: Sector 48.
+  - id: room:s48e
+    name: Sewer diagonal
+    outline: [[5088, 7040], [5216, 6784], [6880, 8112], [6752, 8368]]
+    floor: -640
+    slope: {to: -768, toward: 2}
+    ceiling: -384
+    ceiling_slope: {to: -512, toward: 2}
+    theme: theme:sewer
+    notes: Sector 48's diagonal ramp to the sewer passage.
+  - id: room:s49
+    name: Sewer passage
+    outline: [[6880, 8112], [8160, 8112], [9920, 7328], [10176, 7328], [10176, 7456], [8288, 8368], [6752, 8368]]
+    floor: -768
+    ceiling: -512
+    theme: theme:sewer
+    walls:
+      - wall: 3
+        panels:
+          - {id: panel:armour, offset: 0, length: 128, surface: {texture: d6wlCctr, size: [128, 256]}, notes: "Face 1584 (event 55): the spot of the east wall that gives armour once; the wall's own picture."}
+    notes: "Sector 49's level part, west to the sewer passage; a spot of its east wall gives armour once (event 55)."
+  - id: room:s49r
+    name: Vault exit ramp
+    outline: [[9920, 6048], [10176, 6048], [10176, 7328], [9920, 7328]]
+    floor: -1280
+    slope: {to: -768, toward: north}
+    ceiling: -1024
+    ceiling_slope: {to: -512, toward: north}
+    theme: theme:sewer
+    notes: Sector 49's ramp up 512 north out of the vault.
+  - id: room:s4ae
+    name: East alcove
+    outline: [[448, 3008], [576, 3008], [576, 3136], [448, 3136]]
+    floor: 0
+    ceiling: 240
+    theme: theme:shrine
+    walls:
+      - wall: 0
+        surface: {texture: T3T6, size: [32, 32]}
+      - wall: 1
+        surface: {texture: T3WPF, size: [128, 256]}
+      - wall: 2
+        surface: {texture: T3T6, size: [32, 32]}
+    notes: The alcove in the hall's east wall.
+  - id: room:s4aw
+    name: West alcove
+    outline: [[-960, 3008], [-832, 3008], [-832, 3136], [-960, 3136]]
+    floor: 0
+    ceiling: 240
+    theme: theme:shrine
+    walls:
+      - wall: 0
+        surface: {texture: T3T6, size: [32, 32]}
+      - wall: 2
+        surface: {texture: T3T6, size: [32, 32]}
+      - wall: 3
+        surface: {texture: T3WPF, size: [128, 256]}
+    notes: "The alcove in the hall's west wall (T3T6 sides and floor, T3WPF back)."
+  - id: room:s4g
+    name: Gatehouse top
+    outline: [[-352, 4224], [-32, 4224], [-32, 4480], [-352, 4480]]
+    floor: 288
+    ceiling: 512
+    theme: theme:shrine
+    notes: "The part of sector 4 over the gatehouse block (its top, face 1591, T3WSBP, at 288), open to the hall on three sides."
+  - id: room:s5
+    name: Ramp foot
+    outline: [[-320, 5120], [-64, 5120], [-64, 5376], [-320, 5376]]
+    floor: -256
+    ceiling: 0
+    theme: theme:ramp
+    notes: Sector 5's level foot.
+  - id: room:s50
+    name: Vault
+    outline: [[9408, 4000], [10688, 4000], [10688, 4512], [11200, 4512], [11200, 5536], [10688, 5536], [10688, 6048], [9408, 6048], [9408, 5536], [8896, 5536], [8896, 4512], [9408, 4512]]
+    floor: -1280
+    ceiling: -1024
+    theme: theme:vault
+    notes: "Sector 50: the cross-shaped vault, four chests against its east wall."
+  - id: room:s51
+    name: Corridor of gates
+    outline: [[2496, 4608], [3712, 4608], [4480, 4096], [5248, 4608], [5544, 4608], [5544, 5120], [5248, 5120], [4480, 4608], [3712, 5120], [2496, 5120]]
+    floor: 128
+    ceiling: 384
+    theme: theme:gates
+    notes: "Sector 51: six gates of sliding bands across the corridor (movers in objects.yml), then a bend, then the double door into the cave."
+  - id: room:s52
+    name: West hidden room
+    outline: [[-1344, 3920], [-960, 3920], [-960, 4496], [-608, 4496], [-608, 4688], [-1344, 4688]]
+    floor: 0
+    ceiling: 256
+    theme: theme:hidden
+    platforms:
+      - {at: [-1152, 3968], size: [224, 96], rise: 16, surface: {texture: T3OOR3, size: [128, 128]}, top_surface: {texture: T3OOR2, size: [128, 128]}, notes: The low step in front of the chest (faces 1828 to 1831).}
+      - {at: [-1152, 3952], size: [224, 64], rise: 16, surface: {texture: T3OOR3, size: [128, 128]}, top_surface: {texture: T3OOR2, size: [128, 128]}, base: 16, notes: "The chest's plinth at 32 (faces 1824 to 1827; the chest stands on it between its two visible ends)."}
+    notes: "Sector 52, behind the west tower's secret wall: an L of banded stone, the chest on a low step at its south end."
+  - id: room:s53
+    name: East hidden room
+    outline: [[576, 3920], [960, 3920], [960, 4688], [224, 4688], [224, 4496], [576, 4496]]
+    floor: 0
+    ceiling: 256
+    theme: theme:hidden
+    notes: "Sector 53, behind the east tower's secret wall: empty."
+  - id: room:s54
+    name: West cave end
+    outline: [[-20672, 6080], [-19904, 6080], [-19904, 6272], [-20416, 6272], [-20416, 6656], [-20672, 6656]]
+    floor: -968
+    ceiling: -712
+    theme: theme:cave
+    notes: Sector 54 at the far west end of the caves.
+  - id: room:s55
+    name: West cave stair foot
+    outline: [[-20416, 6400], [-20160, 6400], [-20160, 6960], [-20416, 6960]]
+    floor: -968
+    ceiling: -712
+    theme: theme:cave
+    notes: Sector 55's level part.
+  - id: room:s55s
+    name: West cave stair
+    outline: [[-20416, 6960], [-20160, 6960], [-20160, 7536], [-20416, 7536]]
+    floor: -968
+    slope: {to: -760, toward: north, steps: 13}
+    ceiling: -696
+    ceiling_slope: {to: -504, toward: north}
+    theme: theme:cave
+    notes: "Sector 55's steps: twelve of 16 in the original and the thirteenth at the top room's sill; here thirteen of 16 evenly over the flight."
+  - id: room:s56
+    name: West cave chamber
+    outline: [[-20416, 7536], [-20160, 7536], [-20160, 8176], [-20416, 8176]]
+    floor: -760
+    ceiling: -504
+    theme: theme:cave
+    notes: "Sector 56: a chamber with two raised side niches and the chest's niche at its north end."
+  - id: room:s56e
+    name: East niche
+    outline: [[-20160, 7664], [-19904, 7664], [-19904, 7920], [-20160, 7920]]
+    floor: -696
+    ceiling: -504
+    theme: theme:cave
+    notes: Sector 56's east niche.
+  - id: room:s56n
+    name: Chest niche
+    outline: [[-20352, 8176], [-20224, 8176], [-20224, 8304], [-20352, 8304]]
+    floor: -696
+    ceiling: -568
+    theme: theme:cave
+    notes: "Sector 56's niche with the chest (event 50), 64 above the chamber's floor."
+  - id: room:s56w
+    name: West niche
+    outline: [[-20672, 7664], [-20416, 7664], [-20416, 7920], [-20672, 7920]]
+    floor: -696
+    ceiling: -504
+    theme: theme:cave
+    notes: "Sector 56's west niche, 64 above its floor."
+  - id: room:s57
+    name: East cave end
+    outline: [[18048, 8448], [18560, 8448], [18560, 8704], [18048, 8704]]
+    floor: -768
+    ceiling: -512
+    theme: theme:cave3
+    walls:
+      - wall: 0
+        surface: {texture: D2Ceil3, size: [256, 256]}
+      - wall: 1
+        surface: {texture: d6florA, size: [128, 128]}
+      - wall: 2
+        surface: {texture: D2Ceil3, size: [256, 256]}
+    notes: "Sector 57 at the far east end of the caves: D2Ceil3 walls and roof, the chest's niche framed in d6florA."
+  - id: room:s57n
+    name: East chest niche
+    outline: [[18560, 8512], [18672, 8512], [18672, 8640], [18560, 8640]]
+    floor: -704
+    ceiling: -576
+    theme: theme:cave3
+    notes: "Sector 57's niche with the chest (event 45), 64 above the floor."
+  - id: room:s5r
+    name: Ramp down
+    outline: [[-320, 5376], [-64, 5376], [-64, 6240], [-320, 6240]]
+    floor: 0
+    slope: {to: -256, toward: south}
+    ceiling: 256
+    ceiling_slope: {to: 0, toward: south}
+    theme: theme:ramp
+    notes: "Sector 5's ramp from the entrance's west arm (door 2) down 256 to the south (t1f3 floor, t1c3 roof)."
+  - id: room:s6
+    name: Prison approach
+    outline: [[-1344, 5120], [-1088, 5120], [-1088, 5888], [-1568, 5888], [-1568, 5632], [-1344, 5632]]
+    floor: -512
+    ceiling: -256
+    theme: theme:ramp
+    notes: "Sector 6's level part: north and west to the prison's door (door 3)."
+  - id: room:s6r
+    name: Second ramp
+    outline: [[-1088, 5120], [-320, 5120], [-320, 5376], [-1088, 5376]]
+    floor: -256
+    slope: {to: -512, toward: west}
+    ceiling: 0
+    ceiling_slope: {to: -256, toward: west}
+    theme: theme:ramp
+    notes: Sector 6's ramp west down to -512.
+  - id: room:s7
+    name: Prison corridor
+    outline: [[-2112, 4224], [-1600, 4224], [-1600, 7296], [-2112, 7296]]
+    floor: -512
+    ceiling: -256
+    theme: theme:cells
+    walls:
+      - wall: 0
+        surface: {texture: d6wlActr, size: [128, 256]}
+      - wall: 2
+        surface: {texture: d6wlActr, size: [128, 256]}
+      - wall: 3
+        panels:
+          - {offset: 1408, length: 256, surface: {texture: d6wlAsp1, size: [128, 256]}, notes: "Face 312, opposite the door."}
+    notes: "Sector 7: the long corridor with six lockers on each side, their doors 64 above its floor."
+openings:
+  - id: open:s1_s2
+    from: room:s1
+    to: room:s2
+    width: full
+    height: full
+    notes: Door 1 in the 32-thick wall.
+  - id: open:s1_s20
+    from: room:s1
+    to: room:s20
+    width: full
+    height: full
+    notes: Door 16 in the 32-thick wall.
+  - id: open:s1w_s1
+    from: room:s1w
+    to: room:s1
+    width: full
+    height: full
+    notes: The west arm opens whole into the hall.
+  - id: open:s1w_s5r
+    from: room:s1w
+    to: room:s5r
+    width: full
+    height: full
+    notes: Door 2 in the 32-thick wall.
+  - id: open:s20_s20r
+    from: room:s20
+    to: room:s20r
+    width: full
+    height: full
+    reveal: {texture: T3T6, size: [32, 32]}
+  - id: open:s20r_s21t
+    from: room:s20r
+    to: room:s21t
+    width: full
+    height: full
+  - id: open:s21a_s21m
+    from: room:s21a
+    to: room:s21m
+    width: full
+    height: full
+  - id: open:s21b_s22
+    from: room:s21b
+    to: room:s22
+    width: full
+    height: full
+    reveal: {texture: T3T6, size: [32, 32]}
+  - id: open:s21m_s21b
+    from: room:s21m
+    to: room:s21b
+    width: full
+    height: full
+  - id: open:s21t_s21a
+    from: room:s21t
+    to: room:s21a
+    width: full
+    height: full
+  - id: open:s21t_s48a
+    from: room:s21t
+    to: room:s48a
+    width: full
+    height: full
+    notes: Door 18 in the 32-thick wall.
+  - id: open:s22_s23
+    from: room:s22
+    to: room:s23
+    along: 0.44
+    width: 512
+    height: full
+    threshold: {texture: OFlr, size: [128, 128]}
+    reveal: {texture: T1wl4ctL, size: [256, 256]}
+  - id: open:s22_s24
+    from: room:s22
+    to: room:s24
+    along: 0.56
+    width: 512
+    height: full
+    threshold: {texture: OFlr, size: [128, 128]}
+    reveal: {texture: T1wl4ctL, size: [256, 256]}
+  - id: open:s22_s25
+    from: room:s22
+    to: room:s25
+    along: 0.56
+    width: 512
+    height: full
+    threshold: {texture: OFlr, size: [128, 128]}
+    reveal: {texture: T1wl4ctL, size: [256, 256]}
+  - id: open:s22_s26
+    from: room:s22
+    to: room:s26
+    along: 0.44
+    width: 512
+    height: full
+    threshold: {texture: OFlr, size: [128, 128]}
+    reveal: {texture: T1wl4ctL, size: [256, 256]}
+  - id: open:s22_s36
+    from: room:s22
+    to: room:s36
+    width: full
+    height: full
+  - id: open:s23_s24
+    from: room:s23
+    to: room:s24
+    along: 0.857
+    width: 128
+    height: 240
+    reveal: {texture: T1trimB, size: [32, 32]}
+  - id: open:s25_s26
+    from: room:s25
+    to: room:s26
+    along: 0.143
+    width: 128
+    height: 240
+    reveal: {texture: T1trimB, size: [32, 32]}
+  - id: open:s27_s28
+    from: room:s27
+    to: room:s28
+    width: full
+    height: full
+  - id: open:s27_s54
+    from: room:s27
+    to: room:s54
+    width: full
+    height: full
+  - id: open:s28_s29
+    from: room:s28
+    to: room:s29
+    width: full
+    height: full
+  - id: open:s29_s30
+    from: room:s29
+    to: room:s30
+    width: full
+    height: full
+  - id: open:s29_s31
+    from: room:s29
+    to: room:s31
+    width: full
+    height: full
+  - id: open:s2_s3
+    from: room:s2
+    to: room:s3
+    width: full
+    height: full
+  - id: open:s30_s31
+    from: room:s30
+    to: room:s31
+    width: full
+    height: full
+  - id: open:s31_s32
+    from: room:s31
+    to: room:s32
+    width: full
+    height: full
+  - id: open:s32_s33
+    from: room:s32
+    to: room:s33
+    width: full
+    height: full
+  - id: open:s33_s34
+    from: room:s33
+    to: room:s34
+    width: full
+    height: full
+  - id: open:s34_s35
+    from: room:s34
+    to: room:s35
+    width: full
+    height: full
+  - id: open:s35_s37
+    from: room:s35
+    to: room:s37
+    width: full
+    height: full
+  - id: open:s36_s37
+    from: room:s36
+    to: room:s37
+    along: 0.5
+    width: 256
+    height: full
+    reveal: {texture: T3T7, size: [32, 32]}
+  - id: open:s36_s43
+    from: room:s36
+    to: room:s43
+    width: full
+    height: full
+  - id: open:s38_s39
+    from: room:s38
+    to: room:s39
+    width: full
+    height: full
+  - id: open:s38_s57
+    from: room:s38
+    to: room:s57
+    width: full
+    height: full
+  - id: open:s39_s40
+    from: room:s39
+    to: room:s40
+    width: full
+    height: full
+  - id: open:s3_s45
+    from: room:s3
+    to: room:s45
+    width: full
+    height: full
+    notes: Door 17 in the 32-thick wall.
+  - id: open:s3g_s3
+    from: room:s3g
+    to: room:s3
+    width: full
+    height: full
+    notes: Door 23 in the 32-thick wall.
+  - id: open:s40_s41
+    from: room:s40
+    to: room:s41
+    width: full
+    height: full
+  - id: open:s41_s42
+    from: room:s41
+    to: room:s42
+    width: full
+    height: full
+  - id: open:s42_s43
+    from: room:s42
+    to: room:s43
+    width: full
+    height: full
+  - id: open:s44h_s44_1
+    from: room:s44h
+    to: room:s44
+    from_wall: 1
+    to_wall: 17
+    width: full
+    height: full
+  - id: open:s44h_s44_2
+    from: room:s44h
+    to: room:s44
+    from_wall: 2
+    to_wall: 16
+    width: full
+    height: full
+  - id: open:s44h_s44_3
+    from: room:s44h
+    to: room:s44
+    from_wall: 3
+    to_wall: 15
+    width: full
+    height: full
+  - id: open:s44h_s44_4
+    from: room:s44h
+    to: room:s44
+    from_wall: 4
+    to_wall: 14
+    width: full
+    height: full
+  - id: open:s44h_s44_5
+    from: room:s44h
+    to: room:s44
+    from_wall: 5
+    to_wall: 13
+    width: full
+    height: full
+  - id: open:s44h_s44_6
+    from: room:s44h
+    to: room:s44
+    from_wall: 6
+    to_wall: 12
+    width: full
+    height: full
+  - id: open:s44h_s44_7
+    from: room:s44h
+    to: room:s44
+    from_wall: 7
+    to_wall: 11
+    width: full
+    height: full
+  - id: open:s44h_s44_8
+    from: room:s44h
+    to: room:s44
+    from_wall: 8
+    to_wall: 10
+    width: full
+    height: full
+  - id: open:s44h_s44_9
+    from: room:s44h
+    to: room:s44
+    from_wall: 9
+    to_wall: 9
+    width: full
+    height: full
+  - id: open:s44h_s46
+    from: room:s44h
+    to: room:s46
+    in: floor
+    outline: [[7303, 3184], [7385, 3184], [7440, 3239], [7440, 3321], [7385, 3376], [7303, 3376], [7248, 3321], [7248, 3239]]
+    notes: "The shaft: the hole in the cave's floor, 16 inside the shaft's walls (the studio keeps a hole 16 from both rooms' walls; the original's shaft walls run straight up)."
+  - id: open:s45_s45m_n
+    from: room:s45
+    to: room:s45m
+    from_wall: 9
+    to_wall: 7
+    width: full
+    height: full
+  - id: open:s45_s45m_s
+    from: room:s45
+    to: room:s45m
+    from_wall: 1
+    to_wall: 15
+    width: full
+    height: full
+  - id: open:s45_s45m_w
+    from: room:s45
+    to: room:s45m
+    from_wall: 5
+    to_wall: 11
+    width: full
+    height: full
+  - id: open:s45m_s51
+    from: room:s45m
+    to: room:s51
+    width: full
+    height: full
+  - id: open:s46_s46e_e
+    from: room:s46
+    to: room:s46e
+    from_wall: 2
+    to_wall: 4
+    width: full
+    height: full
+  - id: open:s46_s46e_ne
+    from: room:s46
+    to: room:s46e
+    from_wall: 3
+    to_wall: 3
+    width: full
+    height: full
+  - id: open:s46_s46e_se
+    from: room:s46
+    to: room:s46e
+    from_wall: 1
+    to_wall: 5
+    width: full
+    height: full
+  - id: open:s46e_s47a
+    from: room:s46e
+    to: room:s47a
+    width: full
+    height: full
+  - id: open:s47a_s47r
+    from: room:s47a
+    to: room:s47r
+    width: full
+    height: full
+    reveal: {texture: T3T6, size: [32, 32]}
+  - id: open:s47b_s50
+    from: room:s47b
+    to: room:s50
+    width: full
+    height: full
+    reveal: {texture: T3T6, size: [32, 32]}
+  - id: open:s47r_s47b
+    from: room:s47r
+    to: room:s47b
+    width: full
+    height: full
+  - id: open:s48a_s48b
+    from: room:s48a
+    to: room:s48b
+    width: full
+    height: full
+  - id: open:s48b_s48c
+    from: room:s48b
+    to: room:s48c
+    width: full
+    height: full
+  - id: open:s48c_s48d
+    from: room:s48c
+    to: room:s48d
+    width: full
+    height: full
+  - id: open:s48d_s48e
+    from: room:s48d
+    to: room:s48e
+    width: full
+    height: full
+  - id: open:s48e_s49
+    from: room:s48e
+    to: room:s49
+    width: full
+    height: full
+  - id: open:s49r_s49
+    from: room:s49r
+    to: room:s49
+    width: full
+    height: full
+  - id: open:s4_s3g
+    from: room:s4
+    to: room:s3g
+    width: full
+    height: full
+    notes: The gatehouse's mouth into the hall.
+  - id: open:s4_s4ae
+    from: room:s4
+    to: room:s4ae
+    width: full
+    height: full
+  - id: open:s4_s4aw
+    from: room:s4
+    to: room:s4aw
+    width: full
+    height: full
+  - id: open:s4_s4g_e
+    from: room:s4
+    to: room:s4g
+    from_wall: 3
+    to_wall: 1
+    width: full
+    height: full
+  - id: open:s4_s4g_s
+    from: room:s4
+    to: room:s4g
+    from_wall: 4
+    to_wall: 0
+    width: full
+    height: full
+  - id: open:s4_s4g_w
+    from: room:s4
+    to: room:s4g
+    from_wall: 5
+    to_wall: 3
+    width: full
+    height: full
+  - id: open:s4_s52
+    from: room:s4
+    to: room:s52
+    from_wall: 6
+    to_wall: 2
+    width: full
+    height: full
+    notes: "Door 30's west leaf, the west tower's secret back wall."
+  - id: open:s4_s53
+    from: room:s4
+    to: room:s53
+    from_wall: 2
+    to_wall: 4
+    width: full
+    height: full
+    notes: "Door 30's east leaf, the east tower's secret back wall."
+  - id: open:s50_s49r
+    from: room:s50
+    to: room:s49r
+    width: full
+    height: full
+  - id: open:s51_s44
+    from: room:s51
+    to: room:s44
+    width: 480
+    height: 256
+    notes: Door 60's two leaves (records 45 and 46) in the 32-thick wall.
+  - id: open:s54_s55
+    from: room:s54
+    to: room:s55
+    from_wall: 3
+    to_wall: 3
+    width: full
+    height: full
+  - id: open:s55_s55s
+    from: room:s55
+    to: room:s55s
+    width: full
+    height: full
+  - id: open:s55s_s56
+    from: room:s55s
+    to: room:s56
+    width: full
+    height: full
+  - id: open:s56_s56e
+    from: room:s56
+    to: room:s56e
+    width: full
+    height: full
+  - id: open:s56_s56n
+    from: room:s56
+    to: room:s56n
+    width: full
+    height: full
+  - id: open:s56_s56w
+    from: room:s56
+    to: room:s56w
+    width: full
+    height: full
+  - id: open:s57_s57n
+    from: room:s57
+    to: room:s57n
+    width: full
+    height: full
+  - id: open:s5_s6r
+    from: room:s5
+    to: room:s6r
+    width: full
+    height: full
+  - id: open:s5r_s5
+    from: room:s5r
+    to: room:s5
+    width: full
+    height: full
+  - id: open:s6_s7
+    from: room:s6
+    to: room:s7
+    from_wall: 3
+    to_wall: 1
+    width: full
+    height: full
+    notes: Door 3 in the 32-thick wall.
+  - id: open:s6r_s6
+    from: room:s6r
+    to: room:s6
+    width: full
+    height: full
+  - id: open:s7_c10
+    from: room:s7
+    to: room:c10
+    width: full
+    height: full
+  - id: open:s7_c11
+    from: room:s7
+    to: room:c11
+    width: full
+    height: full
+  - id: open:s7_c12
+    from: room:s7
+    to: room:c12
+    width: full
+    height: full
+  - id: open:s7_c13
+    from: room:s7
+    to: room:c13
+    width: full
+    height: full
+  - id: open:s7_c14
+    from: room:s7
+    to: room:c14
+    width: full
+    height: full
+  - id: open:s7_c15
+    from: room:s7
+    to: room:c15
+    width: full
+    height: full
+  - id: open:s7_c16
+    from: room:s7
+    to: room:c16
+    width: full
+    height: full
+  - id: open:s7_c17
+    from: room:s7
+    to: room:c17
+    width: full
+    height: full
+  - id: open:s7_c18
+    from: room:s7
+    to: room:c18
+    width: full
+    height: full
+  - id: open:s7_c19
+    from: room:s7
+    to: room:c19
+    width: full
+    height: full
+  - id: open:s7_c8
+    from: room:s7
+    to: room:c8
+    width: full
+    height: full
+  - id: open:s7_c9
+    from: room:s7
+    to: room:c9
+    width: full
+    height: full

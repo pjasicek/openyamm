@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="en">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>PC01 original-mask restoration</title>
+<style>
+body { background:#172428;color:#eef3f0;font:16px system-ui;max-width:1000px;margin:24px auto;padding:0 20px; }
+a { color:#9bdcc1; } p { line-height:1.5; } button,select { font:inherit;padding:8px;margin:4px; }
+button[aria-pressed=true] { background:#96d7b4; }
+img { display:block;max-width:100%;image-rendering:pixelated; }
+.stage { width:350px;background:repeating-conic-gradient(#28373c 0% 25%,#3a494e 0% 50%) 0/20px 20px; }
+.parts { display:flex;gap:18px;flex-wrap:wrap;align-items:start; } figure { margin:0; } figcaption { padding:8px 0; }
+</style>
+<h1>PC01: one body, original masks</h1>
+<p>The same restored body is used in every pose. Only the hand layers change. Each of the five exported sprites
+has exactly the original alpha mask enlarged 2×, with its original canvas and coordinates.</p>
+<p><a href="../../../../index.html?doll=1&amp;trial=1&amp;art=candidate">Try candidate equipment in the browser</a> ·
+<a href="manifest.json">Measurements and provenance</a> · <a href="README.md">Method and limitations</a></p>
+<label>Pose <select id="pose"><option value="empty">Empty hands</option><option value="one_hand">Held item</option><option value="two_hand">Two-hand support</option></select></label>
+<div id="modes"><button data-mode="restored" aria-pressed="true">Restored</button><button data-mode="original" aria-pressed="false">Original</button><button data-mode="mask" aria-pressed="false">Mask intersection</button></div>
+<p id="note">Visual review pending. The original blue-black pixels beneath the boots are retained.</p>
+<div class="stage"><img id="doll" src="restored_empty.png" alt="PC01 restored doll" width="350" height="756"></div>
+<h2>Stored sprite parts</h2>
+<div class="parts">
+<figure><img src="pc01bod.png" alt="Shared body"><figcaption>pc01bod · shared body</figcaption></figure>
+<figure><img src="pc01lhu.png" alt="Left hand"><figcaption>pc01lhu</figcaption></figure>
+<figure><img src="pc01rhd.png" alt="Open right arm"><figcaption>pc01rhd</figcaption></figure>
+<figure><img src="pc01rhu.png" alt="Held right arm"><figcaption>pc01rhu</figcaption></figure>
+<figure><img src="pc01rhb.png" alt="Foreground fingers"><figcaption>pc01rhb</figcaption></figure>
+</div>
+<script>
+let mode='restored';
+function update() {
+  document.getElementById('doll').src=mode+'_'+document.getElementById('pose').value+'.png';
+  document.querySelectorAll('[data-mode]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.mode===mode)));
+  document.getElementById('note').textContent=mode==='mask'
+    ? 'Green: identical original/restored coverage. Zero differing alpha pixels. This equality is enforced at extraction.'
+    : 'Visual review pending. The original blue-black pixels beneath the boots are retained.';
+}
+document.getElementById('pose').onchange=update;
+document.querySelectorAll('[data-mode]').forEach(b=>b.onclick=()=>{mode=b.dataset.mode;update();});
+</script>
+</html>

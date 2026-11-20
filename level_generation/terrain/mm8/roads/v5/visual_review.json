@@ -1,0 +1,82 @@
+{
+  "status": "visually_reviewed_for_road_edge_update",
+  "changed": [
+    "drsrne1.png",
+    "drsrne2.png",
+    "gdrdne1.png",
+    "gdrdne2.png"
+  ],
+  "unchanged_files": 235,
+  "exact_pose": [
+    5913.83,
+    5672.083,
+    545,
+    5.446,
+    -0.230994327
+  ],
+  "observations": [
+    "Matched original/v4/final comparison at the supplied Dagger Wound pose: the large left teardrop protrusion is shortened and the opposite hooked end is filled into substantial edge stones.",
+    "Natural polygonal edge variation, stone scale, palette and dark contact shading remain. No claim of a ruler-straight road outline.",
+    "13 sequential walking samples along the reported diagonal inspected; repaired shape repeats without the original long pointed tip. Actor movement partly occludes some later samples.",
+    "Four original/previous/final tile comparisons inspected, including final grey mask cleanup; no new clipped stone or grey-earth tint fringe observed."
+  ],
+  "limitations": [
+    "Sampled exact-pose and movement review is not an exhaustive inspection of every map cell or mip.",
+    "Xvfb captures do not establish GPU performance.",
+    "The walk stage predates final one-pixel coverage-hole cleanup in gdrdne2 only. That texture is absent from out01; every texture used on out01 matches the final export. Final grey artwork was checked offline."
+  ],
+  "evidence": {
+    "roads/v5/build.json": "c8dcee2a915a07e2402d9e819b10568259e321ff51bae4d173b100d832e7eab9",
+    "roads/v5/validation.json": "61e79932e0e2dfca8e8cbb0344d695eec5d5d0557fdab338f5cf8d323ff2d10a",
+    "roads/v5/review_stage.json": "31459fba8724775d68acd598670ab4c6d3a07065de9e870d0976a3a096199558",
+    "roads/v5/exact_comparison.png": "0ed2f7a5b997d6c39e15263a95fefcc4ff9c80480658a8186eb4e94707d153f2",
+    "roads/v5/tile_comparison.png": "721e8c9478a6002f005d93ae82c33203cf7f1889ca45ed726ca429f048de1dbd",
+    "roads/v5/movement_review.png": "b928d963000adbd8a5d8bba5478016a3435dfeb5ac494d234b7895d524cec577",
+    "roads/v5/compose.py": "6700c9762699e8872b5af60f577d9161e92ae6de3439a5219baea24bb68855d2",
+    "roads/v5/generation_receipts.json": "f9f727474fa397faff41fcdbce94364b6485d0e80a702b5ec4ff066b82a48bc7",
+    "roads/v5/captures/mm8_diagonal_v4_exact.json": "df66808928d8bb58778ba462aafc64131c0f98447c1b0780ff115dc37d3a2dc2",
+    "roads/v5/captures/mm8_diagonal_v4_exact.png": "1ed80856795c7b93d31ac593994476082fd188ee0780cc77add4a6adb8773b4a",
+    "roads/v5/captures/mm8_diagonal_native_exact.json": "2a8af9f5329375de28375cba3de752412faf786d588f92c65f0f121c5b170357",
+    "roads/v5/captures/mm8_diagonal_native_exact.png": "d49ff926f75e79e7a95fa9209d7d8908a30450dc18e8b710c6b9ff852c5f8caa",
+    "roads/v5/captures/mm8_diagonal_v5_final.json": "6bbfd82d91fdc14fb9510714b22d213d50225f6976afd4098fbb9c59ae6b6ab9",
+    "roads/v5/captures/mm8_diagonal_v5_final.png": "1bd1f2e8c637b08226ddef74d491747148519a17881319734b3c8fb840b15c10",
+    "roads/v5/captures/mm8_diagonal_v5_final_walk_00.png": "3f495d5893c6bc98b0059a6856e2f4bc3c7d5dfe15e4d41a7a9decb393c90fef",
+    "roads/v5/captures/mm8_diagonal_v5_final_walk_01.png": "2ed3e98a738408e10c282388e221d83a5d9dbf9ab54bb8cd397741b34d6e071e",
+    "roads/v5/captures/mm8_diagonal_v5_final_walk_02.png": "0da4f3e9ab9f4348b479e5dfc565c7fe747cabc50f6c75686bb8dcc382e52f22",
+    "roads/v5/captures/mm8_diagonal_v5_final_walk_03.png": "9aa53eca9016288d740f4407189a05581a0d4457a3e9ebf4e66a9a65bdfd3436",
+    "roads/v5/captures/mm8_diagonal_v5_final_walk_04.png": "d470ba4871440217b1b85de55c985976a3a4cff6dd4057773a208af7a04064bd",
+    "roads/v5/captures/mm8_diagonal_v5_final_walk_05.png": "a44a448bb0f676082ac1ae916b1d54bbb944b4bfb91a0cac247782e1e27aa9c0",
+    "roads/v5/captures/mm8_diagonal_v5_final_walk_06.png": "d8d6f5f0ee0308018c307238e24d3d88dbe64a48ecd2ab3479850fc94b02f24d",
+    "roads/v5/captures/mm8_diagonal_v5_final_walk_07.png": "d9020eebe32f2cc5325fcde7ca0df62f3ed21ae951b1e08378ac2b23aaabe97d",
+    "roads/v5/captures/mm8_diagonal_v5_final_walk_08.png": "f58e59b2854e5d24f34731dfeb9f5fb05af33483b9804b41a61c65af79aa6808",
+    "roads/v5/captures/mm8_diagonal_v5_final_walk_09.png": "fd86638cd21679f67ff1c36b6a11a7ee025dc11b23cf21a07879832f0b3fb60a",
+    "roads/v5/captures/mm8_diagonal_v5_final_walk_10.png": "22b7532f316280c399346e5591d21024d5f5746e9b36e9d26c7bf3738efa6120",
+    "roads/v5/captures/mm8_diagonal_v5_final_walk_11.png": "570135b309970ff3a0c583b28a73405827843c15582ff8d85eff9bb951d72a42",
+    "roads/v5/captures/mm8_diagonal_v5_final_walk_start.png": "f3046bb65d32ab67e0f01c81c849352e12a4d4b1c179abb3fac5a1b9f36c917e",
+    "roads/v5/raw/drsrne2_tip_crop.png": "6f0685c5b1896505fbce9988968c0303ac52c387cc078de2faca58b4c83f6fc4",
+    "roads/v5/raw/drsrne2.png": "11bed4b2e46a13c8f04614392a7bcd8e49032865879e325716d6319b792fa58f",
+    "roads/v5/raw/drsrne2_attempt2.png": "7e0fa01bfa06484ec7015900e45989c3a04376380e02686d268a15fd1dc3a26e",
+    "roads/v5/raw/drsrne2_attempt1.png": "9edf57895e4b989c7e77de3cde324783d228441a6dcfc048892a63167c6854ce",
+    "roads/v5/raw/drsrne1.png": "bd9fa67bcbe24fea1d4b91fd745f119bfc3964cf1041ec62f0c54881aa0cdb8a",
+    "roads/v5/raw/drsrne2_rejected_wrong_stone.png": "e8f9fe8763a525494e45dfe549f1461f60f1cd4e170b1a7c8e74480a54c3396f",
+    "roads/v5/prompts/drsrne2_tip_crop.txt": "ab35b6ec7c684b1dd497716c6a8c794bb0d1370e6147b461ecacaf5b061dad13",
+    "roads/v5/prompts/drsrne2_rejected_wrong_stone.txt": "5aee03f4166de7b6946fa78fbbfd25d0d9312f2ffe783dfccc98804d688f05f9",
+    "roads/v5/prompts/drsrne2_attempt1.txt": "0391569301aef0aa78c1ae4e8cf5862634eb1e2b32ea0187ecf3d2d56e09f220",
+    "roads/v5/prompts/drsrne1.txt": "23c7f453e0f5724a4cb3f9e3c05bb294c12721e1747fa8cfd7ec09872fba725d",
+    "roads/v5/prompts/drsrne2.txt": "034a75a9d3969e39acc21ba98cde0abc71bc3839b7d4dedc71802226eb6c5e77",
+    "roads/v5/prompts/drsrne2_attempt2.txt": "e602b004bdc2d2193a54061deafac5cc959d2daaa555d0eb104c85a8c8b600c1",
+    "roads/v5/inputs/drsrne2_tip_crop.png": "4a09adf5a6ae6eedecd8f741bfd8045b21e14e97023a31b7517d32682d6c92ab",
+    "roads/v5/inputs/drsrne2_marker.png": "2024cc5364a6f81981ec28e6c09bbdb7efc746af62eed4e603220e0849e63ce9"
+  },
+  "generation": {
+    "tool": "built-in imagegen",
+    "calls": 6,
+    "prompts": "roads/v5/prompts",
+    "raw": "roads/v5/raw",
+    "rejected": "drsrne2_rejected_wrong_stone: removed a neighbouring stone; never used",
+    "successful_tip_input": "roads/v5/inputs/drsrne2_tip_crop.png"
+  },
+  "stage_differences_unused_in_captured_map": [
+    "gdrdne2.png"
+  ]
+}

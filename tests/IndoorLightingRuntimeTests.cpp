@@ -622,7 +622,13 @@ TEST_CASE("indoor lighting gives Torchlight priority and boosts indoor intensity
     CHECK(frame.lights.front().kind == IndoorRenderLightKind::Torch);
     CHECK_EQ(frame.lights.front().radius, 2400.0f);
     CHECK_EQ(frame.lights.front().intensity, 1.5f);
-    CHECK_EQ(frame.lights.front().colorAbgr, gameplayTorchLightColorAbgr());
+    CHECK_EQ(frame.lights.front().colorAbgr, gameplayTorchLightColorAbgr(false));
+
+    input.warmTorchLight = true;
+    const IndoorLightingFrame warmFrame = runtime.buildFrame(input);
+
+    REQUIRE_FALSE(warmFrame.lights.empty());
+    CHECK_EQ(warmFrame.lights.front().colorAbgr, gameplayTorchLightColorAbgr(true));
 }
 
 TEST_CASE("gameplay Torchlight follows OE indoor and outdoor light distances")
@@ -637,9 +643,11 @@ TEST_CASE("gameplay Torchlight follows OE indoor and outdoor light distances")
         SkillMastery::Master,
         0);
 
-    const std::optional<GameplayTorchLight> indoorLight = resolveGameplayTorchLight(party, false, true);
-    const std::optional<GameplayTorchLight> outdoorNightLight = resolveGameplayTorchLight(party, true, true);
-    const std::optional<GameplayTorchLight> outdoorDayLight = resolveGameplayTorchLight(party, true, false);
+    const std::optional<GameplayTorchLight> indoorLight = resolveGameplayTorchLight(party, false, 0.0f, false);
+    const std::optional<GameplayTorchLight> outdoorNightLight = resolveGameplayTorchLight(party, true, 1.0f, false);
+    const std::optional<GameplayTorchLight> outdoorDuskLight = resolveGameplayTorchLight(party, true, 0.5f, false);
+    const std::optional<GameplayTorchLight> outdoorDayLight = resolveGameplayTorchLight(party, true, 0.0f, false);
+    const std::optional<GameplayTorchLight> warmDuskLight = resolveGameplayTorchLight(party, true, 0.5f, true);
 
     REQUIRE(indoorLight.has_value());
     REQUIRE(outdoorNightLight.has_value());
@@ -648,7 +656,14 @@ TEST_CASE("gameplay Torchlight follows OE indoor and outdoor light distances")
     CHECK_EQ(indoorLight->radius, 3200.0f);
     CHECK_EQ(indoorLight->intensity, 1.0f);
     CHECK_EQ(outdoorNightLight->radius, 4096.0f);
+    CHECK_EQ(outdoorNightLight->colorAbgr >> 24, 0xffu);
+    REQUIRE(outdoorDuskLight.has_value());
+    CHECK_EQ(outdoorDuskLight->radius, 4096.0f);
+    CHECK_EQ(outdoorDuskLight->colorAbgr >> 24, 128u);
+    CHECK_EQ(outdoorDuskLight->colorAbgr & 0x00ffffffu, outdoorNightLight->colorAbgr & 0x00ffffffu);
     CHECK_FALSE(outdoorDayLight.has_value());
+    REQUIRE(warmDuskLight.has_value());
+    CHECK_EQ(warmDuskLight->colorAbgr, (gameplayTorchLightColorAbgr(true) & 0x00ffffffu) | (128u << 24));
 }
 
 TEST_CASE("indoor Torchlight visibly raises sampled lighting near the party")

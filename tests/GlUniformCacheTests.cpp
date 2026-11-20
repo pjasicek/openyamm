@@ -132,3 +132,18 @@ TEST_CASE("GL uniform cache keeps the selected program valid as program storage 
         CHECK_FALSE(cache.update(1023, 1, &value, sizeof(value)));
     }
 }
+
+TEST_CASE("GL uniform cache always uploads locations past its shadowed range")
+{
+    GlUniformCache cache;
+    cache.saveCurrentProgram(1);
+    const std::array<int, 2> values = {3, 4};
+    const uint32_t last = uint32_t(GlUniformCache::MaxShadowedLocations - 1);
+    CHECK(cache.update(last, 1, values.data(), sizeof(int)));
+    CHECK_FALSE(cache.update(last, 1, values.data(), sizeof(int)));
+    CHECK(cache.update(last, 2, values.data(), sizeof(int)));
+    CHECK(cache.update(last, 2, values.data(), sizeof(int)));
+    CHECK(cache.update(last + 1, 1, values.data(), sizeof(int)));
+    CHECK(cache.update(last + 1, 1, values.data(), sizeof(int)));
+    CHECK_FALSE(cache.update(last, 1, values.data(), sizeof(int)));
+}

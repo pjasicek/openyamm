@@ -1,0 +1,4 @@
+# The Scour's actor behaviour scripts (stage.py merges a map project's behaviors.yml into the world's catalogue): the
+# Harvester's dig-stop loop, attached by the map's load event (evt.SetActorBehavior) until it is dead (100404).
+behaviors:
+  hesper/bosses/harvester: worlds/hesper/behaviors/bosses/harvester.lua

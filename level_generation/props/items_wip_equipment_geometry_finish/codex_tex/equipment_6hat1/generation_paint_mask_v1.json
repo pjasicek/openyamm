@@ -1,0 +1,22 @@
+{
+  "tool": "image_gen.imagegen",
+  "prompt": "Edit image 1, exact 3D geometry guide for green Cloth Hat. Image 2 is original icon appearance reference only. Preserve EXACT 3:4 transparent canvas with three columns, four rows, five identical model silhouettes and locations in each half. Every object MUST remain the same size as gray guide or 1% smaller, NEVER larger. Do not redesign or add anything. TOP TWO ROWS: FRONT/BACK/LEFT then RIGHT/TOP/EMPTY. Realistic UNLIT BASE COLOUR, fine subtle material grain, no baked directional lighting, highlight, ambient occlusion, shadow, glow, floor or text. Soft rich emerald green woven cloth cap and rolled green cloth brim, one small brown feather. Green cloth lining. No metal or leather. All solid surfaces remain opaque and gaps remain transparent. BOTTOM TWO ROWS: identical five objects in same positions as above, but flat material-class masks with no shading or texture: ALL surfaces including feather and lining CLOTH/FUR BLUE #0000ff. Transparent background, no speckles or outlines. Last tile in rows 2 and 4 stays empty. Output a 1536x2048 transparent PNG. Exact guide registration is mandatory.",
+  "inputs": [
+    "/home/pjasicek/github/OpenYAMM/level_generation/props/items_wip_equipment_geometry_finish/codex_tex/equipment_6hat1/paint_mask_guide.png",
+    "/home/pjasicek/github/OpenYAMM/level_generation/props/items_wip_equipment_geometry_finish/references/icons/6hat1.png"
+  ],
+  "selected": false,
+  "reason": "Awaiting exact registration and PBR review",
+  "source_output": "/home/pjasicek/.codex/generated_images/01a14de2-fe9d-7f62-984f-d3dee5255cc3/exec-a6ad52b1-d7e5-4f0f-b572-29f62b4acc02.png",
+  "raw_sha256": "de9e868c9de7d50e83537be59c846740bd77f49d9d9696c8c4ad0849737a0e89",
+  "dimensions": [
+    1086,
+    1448
+  ],
+  "derivation": "Unresized top/bottom half extraction; original retained byte-for-byte",
+  "input_sha256": {
+    "/home/pjasicek/github/OpenYAMM/level_generation/props/items_wip_equipment_geometry_finish/codex_tex/equipment_6hat1/paint_mask_guide.png": "57dac1a4c9e369481c470871dea84359f1ec6301e128de3bdfa98da0fd277570",
+    "/home/pjasicek/github/OpenYAMM/level_generation/props/items_wip_equipment_geometry_finish/references/icons/6hat1.png": "c8fb6534c8b1afb15f60c7a7d117058972758d65e1567fcccbe2dcd2a58a9817"
+  },
+  "prepared_scene_sha256": "80bea9c6b646a9c155b2640b0c4b27065d87d84c94c8176cb753faf5d2fe88e4"
+}

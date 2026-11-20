@@ -1,0 +1,452 @@
+{
+ "id": "20261009-2042-mm8-d24-01",
+ "world": "mm8",
+ "maps": [
+  "d24.blv",
+  "out13.odm",
+  "out02.odm"
+ ],
+ "created": "2026-10-09T18:42:14+00:00",
+ "textures": [
+  "mm8/t31b03a",
+  "mm8/alphanumj",
+  "mm8/alphanum2",
+  "mm8/alphanum9",
+  "mm8/t09b01",
+  "mm8/t08a06",
+  "mm8/t06a08",
+  "mm8/t06b11"
+ ],
+ "requests": {
+  "mm8/t31b03a": {
+   "name": "t31b03a",
+   "versions": [
+    1,
+    2,
+    3,
+    4,
+    5
+   ],
+   "material": "pale cream stone slab door with dark carved corner brackets and a small bronze ring handle, inside a dark wooden frame",
+   "notes": {
+    "2": "the outermost pixel rows and columns continue the reference's edge exactly: same brightness and material right up to the canvas border, with no thin dark or bright line, groove, frame or shadow painted along any edge",
+    "4": "the outermost pixel rows and columns continue the reference's edge exactly: same brightness and material right up to the canvas border, with no thin dark or bright line, groove, frame or shadow painted along any edge",
+    "5": "the outermost pixel rows and columns continue the reference's edge exactly: same brightness and material right up to the canvas border, with no thin dark or bright line, groove, frame or shadow painted along any edge"
+   },
+   "roll": {
+    "1": [
+     67,
+     0
+    ],
+    "3": [
+     67,
+     0
+    ]
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm8/t31a03"
+     ],
+     "fraction": 0.185
+    },
+    "2": {
+     "sources": [
+      "mm8/t31a03"
+     ],
+     "fraction": 0.185
+    },
+    "3": {
+     "sources": [
+      "mm8/t31a03"
+     ],
+     "fraction": 0.185
+    },
+    "4": {
+     "sources": [
+      "mm8/t31a03"
+     ],
+     "fraction": 0.185
+    },
+    "5": {
+     "sources": [
+      "mm8/t31a03"
+     ],
+     "fraction": 0.185
+    }
+   },
+   "context": {
+    "1": {},
+    "2": {},
+    "3": {},
+    "4": {},
+    "5": {}
+   }
+  },
+  "mm8/alphanumj": {
+   "name": "alphanumj",
+   "versions": [
+    1,
+    2,
+    3
+   ],
+   "material": "brushed grey steel plate with a deeply engraved black letter J, bevelled edges, clean letterform cut into the steel with smooth straight edges and smooth curves, no stair steps; only this one glyph on the plate, no other marks",
+   "notes": {
+    "1": "the outermost pixel rows and columns continue the reference's edge exactly: same brightness and material right up to the canvas border, with no thin dark or bright line, groove, frame or shadow painted along any edge",
+    "3": "the outermost pixel rows and columns continue the reference's edge exactly: same brightness and material right up to the canvas border, with no thin dark or bright line, groove, frame or shadow painted along any edge"
+   },
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "3": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {},
+    "2": {},
+    "3": {}
+   },
+   "roll": {
+    "2": [
+     16,
+     0
+    ]
+   }
+  },
+  "mm8/alphanum2": {
+   "name": "alphanum2",
+   "versions": [
+    1
+   ],
+   "material": "brushed grey steel plate with a deeply engraved black numeral 2, bevelled edges, copy the numeral exactly",
+   "notes": {
+    "1": "keep the plate's thin pale highlight line along the very top edge exactly as in the reference; clean smooth glyph edges"
+   },
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm8/alphanum9": {
+   "name": "alphanum9",
+   "versions": [
+    1
+   ],
+   "material": "brushed grey steel plate with a deeply engraved black numeral 9, bevelled edges, copy the numeral exactly",
+   "notes": {
+    "1": "the outermost pixel rows and columns continue the reference's edge exactly: same brightness and material right up to the canvas border, with no thin dark or bright line, groove, frame or shadow painted along any edge"
+   },
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm8/t09b01": {
+   "name": "t09b01",
+   "versions": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10
+   ],
+   "material": "grey granite wall: rows of small ashlar bricks in staggered courses with dark recessed mortar, interrupted by one course of much larger, taller rectangular granite slabs near the bottom",
+   "notes": {
+    "2": "the outermost pixel rows and columns continue the reference's edge exactly: same brightness and material right up to the canvas border, with no thin dark or bright line, groove, frame or shadow painted along any edge",
+    "4": "the outermost pixel rows and columns continue the reference's edge exactly: same brightness and material right up to the canvas border, with no thin dark or bright line, groove, frame or shadow painted along any edge",
+    "5": "the bottom quarter is a course of much larger, taller grey stone blocks exactly as in the reference, below the rows of small bricks; keep that course",
+    "8": "the outermost pixel rows and columns continue the reference's edge exactly: same brightness and material right up to the canvas border, with no thin dark or bright line, groove, frame or shadow painted along any edge; continue the finished neighbouring artwork in the border seamlessly: the same courses, rows, bands and brightness run straight across the joint",
+    "9": "the outermost pixel rows and columns continue the reference's edge exactly: same brightness and material right up to the canvas border, with no thin dark or bright line, groove, frame or shadow painted along any edge",
+    "10": "the outermost pixel rows and columns continue the reference's edge exactly: same brightness and material right up to the canvas border, with no thin dark or bright line, groove, frame or shadow painted along any edge"
+   },
+   "roll": {
+    "1": [
+     0,
+     188
+    ],
+    "3": [
+     0,
+     188
+    ]
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm8/t09a01",
+      "mm8/t09a07"
+     ],
+     "fraction": 0.889
+    },
+    "2": {
+     "sources": [
+      "mm8/t09a01",
+      "mm8/t09a07"
+     ],
+     "fraction": 0.889
+    },
+    "3": {
+     "sources": [
+      "mm8/t09a01",
+      "mm8/t09a07"
+     ],
+     "fraction": 0.889
+    },
+    "4": {
+     "sources": [
+      "mm8/t09a01",
+      "mm8/t09a07"
+     ],
+     "fraction": 0.889
+    },
+    "5": {
+     "sources": [
+      "mm8/t09a01",
+      "mm8/t09a07"
+     ],
+     "fraction": 0.889
+    },
+    "6": {
+     "sources": [
+      "mm8/t09a01",
+      "mm8/t09a07"
+     ],
+     "fraction": 0.889
+    },
+    "7": {
+     "sources": [
+      "mm8/t09a01",
+      "mm8/t09a07"
+     ],
+     "fraction": 0.889
+    },
+    "8": {
+     "sources": [
+      "mm8/t09a01",
+      "mm8/t09a07"
+     ],
+     "fraction": 0.889
+    },
+    "9": {
+     "sources": [
+      "mm8/t09a01",
+      "mm8/t09a07"
+     ],
+     "fraction": 0.889
+    }
+   },
+   "context": {
+    "1": {},
+    "2": {
+     "left": "mm8/t09a07"
+    },
+    "3": {
+     "left": "mm8/t09a07"
+    },
+    "4": {
+     "left": "mm8/t09a07"
+    },
+    "5": {
+     "left": "mm8/t09a07"
+    },
+    "6": {
+     "left": "mm8/t09a07"
+    },
+    "7": {
+     "left": "mm8/t09a07",
+     "bottom": "mm8/t09b11b",
+     "top": "mm8/t09c01"
+    },
+    "8": {
+     "left": "mm8/t09a07",
+     "bottom": "mm8/t09b11b",
+     "top": "mm8/t09c01"
+    },
+    "9": {
+     "left": "mm8/t09a07",
+     "bottom": "mm8/t09b11b",
+     "top": "mm8/t09c01"
+    }
+   },
+   "pad": {
+    "7": [
+     32,
+     32
+    ],
+    "8": [
+     32,
+     32
+    ],
+    "9": [
+     32,
+     32
+    ]
+   }
+  },
+  "mm8/t08a06": {
+   "name": "t08a06",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "dark carved oak timber frame with two arched pale plaster panels, a small mullioned wooden window and a carved wooden arch top",
+   "notes": {
+    "2": "the outermost pixel rows and columns continue the reference's edge exactly: same brightness and material right up to the canvas border, with no thin dark or bright line, groove, frame or shadow painted along any edge"
+   },
+   "roll": {
+    "1": [
+     54,
+     0
+    ]
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm8/t08a01",
+      "mm8/t08a12",
+      "mm8/t08a01b"
+     ],
+     "fraction": 0.802
+    },
+    "2": {
+     "sources": [
+      "mm8/t08a01",
+      "mm8/t08a12",
+      "mm8/t08a01b"
+     ],
+     "fraction": 0.802
+    }
+   },
+   "context": {
+    "1": {},
+    "2": {
+     "left": "mm8/t08a01b",
+     "right": "mm8/t08a03"
+    }
+   }
+  },
+  "mm8/t06a08": {
+   "name": "t06a08",
+   "versions": [
+    1
+   ],
+   "material": "rounded grey river cobblestones in dark mortar beside a dark oak timber post with a carved square wooden panel",
+   "notes": {
+    "1": "the outermost pixel rows and columns continue the reference's edge exactly: same brightness and material right up to the canvas border, with no thin dark or bright line, groove, frame or shadow painted along any edge"
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm8/t06b08",
+      "mm8/t06b06",
+      "mm8/t06a04"
+     ],
+     "fraction": 0.947
+    }
+   },
+   "context": {
+    "1": {
+     "left": "mm8/t06d04"
+    }
+   }
+  },
+  "mm8/t06b11": {
+   "name": "t06b11",
+   "versions": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6
+   ],
+   "material": "small dark carved wooden band tile with a triangle pattern",
+   "notes": {
+    "3": "the outermost pixel rows and columns continue the reference's edge exactly: same brightness and material right up to the canvas border, with no thin dark or bright line, groove, frame or shadow painted along any edge",
+    "5": "the outermost pixel rows and columns continue the reference's edge exactly: same brightness and material right up to the canvas border, with no thin dark or bright line, groove, frame or shadow painted along any edge",
+    "6": "the outermost pixel rows and columns continue the reference's edge exactly: same brightness and material right up to the canvas border, with no thin dark or bright line, groove, frame or shadow painted along any edge"
+   },
+   "standalone": false,
+   "roll": {
+    "1": [
+     0,
+     8
+    ],
+    "2": [
+     0,
+     8
+    ],
+    "4": [
+     0,
+     8
+    ]
+   },
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [
+      "mm8/t06b05"
+     ],
+     "fraction": 0.875
+    },
+    "3": {
+     "sources": [
+      "mm8/t06b05"
+     ],
+     "fraction": 0.875
+    },
+    "4": {
+     "sources": [
+      "mm8/t06b05"
+     ],
+     "fraction": 0.875
+    },
+    "5": {
+     "sources": [
+      "mm8/t06b05"
+     ],
+     "fraction": 0.875
+    },
+    "6": {
+     "sources": [
+      "mm8/t06b05"
+     ],
+     "fraction": 0.812
+    }
+   },
+   "context": {
+    "1": {},
+    "2": {},
+    "3": {},
+    "4": {},
+    "5": {},
+    "6": {}
+   }
+  }
+ }
+}

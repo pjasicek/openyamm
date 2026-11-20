@@ -4,6 +4,8 @@
 #include "game/events/EventRuntime.h"
 #include "game/indoor/IndoorMapData.h"
 #include "game/outdoor/OutdoorMapData.h"
+#include "game/party/Party.h"
+#include "game/rules/GameRules.h"
 
 #include <algorithm>
 #include <cctype>
@@ -369,9 +371,20 @@ bool toggleIndoorDecorationLight(
     return true;
 }
 
-std::optional<InteractiveDecorationFamily> classifyInteractiveDecorationFamily(
+namespace
+{
+// Which list names the campfires. Saves before SaveVersionMMergeCampfireDecorVars numbered the decoration states with
+// the legacy one (devdocs/plans/discord_bugfixes_20261025/C_map_events.md section 5).
+enum class CampFireKeys
+{
+    MMerge,
+    Legacy,
+};
+
+std::optional<InteractiveDecorationFamily> classifyFamily(
     const DecorationEntry &decoration,
-    const std::string &instanceName)
+    const std::string &instanceName,
+    CampFireKeys campFireKeys)
 {
     const std::vector<std::string> keys = collectDecorationKeys(decoration, instanceName);
 
@@ -382,8 +395,9 @@ std::optional<InteractiveDecorationFamily> classifyInteractiveDecorationFamily(
 
     // Bare decNN keys name the merged table's MM8 decorations; MM7's (7decNN) match by their hints. dec32 is MM8's
     // metal bowls, dec01 its elf statue and dec21 its bones (the MM7 barrel, trash heap and cask are 7dec32, 7dec01
-    // and 7dec21); dec10 is an MM8 crystal (MM7's trash heap 7dec10).
-    if (decorationMatchesAnyKey(keys, {"barrel", "dec03"}))
+    // and 7dec21); dec10 is an MM8 crystal (MM7's trash heap 7dec10). MMerge's stat barrels also name MM6's small
+    // barrel, whose hint reads "Keg" (GlobalEventsNewHandler.lua Barrels).
+    if (decorationMatchesAnyKey(keys, {"barrel", "dec03", "smlbarel", "bigbarel", "7dec32"}))
     {
         return InteractiveDecorationFamily::Barrel;
     }
@@ -403,7 +417,12 @@ std::optional<InteractiveDecorationFamily> classifyInteractiveDecorationFamily(
         return InteractiveDecorationFamily::TrashHeap;
     }
 
-    if (decorationMatchesAnyKey(keys, {"campfire", "camp fire", "dec24", "dec25"}))
+    // MMerge's fires that give food, by decoration name (GlobalEventsNewHandler.lua); it leaves out MM8's dec04.
+    const bool campFire = campFireKeys == CampFireKeys::MMerge
+        ? decorationMatchesAnyKey(keys, {"ckfyr00", "cmpfyr00", "fire01", "7dec02", "dec24", "dec25"})
+        : decorationMatchesAnyKey(keys, {"campfire", "camp fire", "dec24", "dec25"});
+
+    if (campFire)
     {
         return InteractiveDecorationFamily::CampFire;
     }
@@ -436,12 +455,12 @@ std::optional<InteractiveDecorationFamily> classifyInteractiveDecorationFamily(
     return std::nullopt;
 }
 
-std::optional<InteractiveDecorationBindingSpec> resolveInteractiveDecorationBindingSpec(
+std::optional<InteractiveDecorationBindingSpec> resolveBindingSpec(
     const DecorationEntry &decoration,
-    const std::string &instanceName)
+    const std::string &instanceName,
+    CampFireKeys campFireKeys)
 {
-    const std::optional<InteractiveDecorationFamily> family =
-        classifyInteractiveDecorationFamily(decoration, instanceName);
+    const std::optional<InteractiveDecorationFamily> family = classifyFamily(decoration, instanceName, campFireKeys);
 
     if (family)
     {
@@ -503,6 +522,21 @@ std::optional<InteractiveDecorationBindingSpec> resolveInteractiveDecorationBind
     }
 
     return std::nullopt;
+}
+}
+
+std::optional<InteractiveDecorationFamily> classifyInteractiveDecorationFamily(
+    const DecorationEntry &decoration,
+    const std::string &instanceName)
+{
+    return classifyFamily(decoration, instanceName, CampFireKeys::MMerge);
+}
+
+std::optional<InteractiveDecorationBindingSpec> resolveInteractiveDecorationBindingSpec(
+    const DecorationEntry &decoration,
+    const std::string &instanceName)
+{
+    return resolveBindingSpec(decoration, instanceName, CampFireKeys::MMerge);
 }
 
 uint32_t makeInteractiveDecorationSeed(
@@ -654,15 +688,18 @@ std::optional<uint16_t> interactiveDecorationEventId(
     return static_cast<uint16_t>(baseEventId + (fixedEvent || state >= eventCount ? 0 : state));
 }
 
-std::vector<IndoorDecorationClearRule> indoorDecorationClearRules(
-    std::span<const IndoorEntity> entities, const DecorationTable &table)
+namespace
 {
-    std::vector<IndoorDecorationClearRule> rules(entities.size());
+template<typename Entity>
+std::vector<DecorationClearRule> buildDecorationClearRules(
+    std::span<const Entity> entities, const DecorationTable &table)
+{
+    std::vector<DecorationClearRule> rules(entities.size());
     int16_t decorVarIndex = 0;
 
     for (size_t entityIndex = 0; entityIndex < entities.size(); ++entityIndex)
     {
-        const IndoorEntity &entity = entities[entityIndex];
+        const Entity &entity = entities[entityIndex];
 
         if (entity.scriptEventId() != 0)
         {
@@ -689,43 +726,264 @@ std::vector<IndoorDecorationClearRule> indoorDecorationClearRules(
     return rules;
 }
 
-std::vector<bool> hiddenIndoorDecorationEntities(
-    std::span<const IndoorEntity> entities, std::span<const IndoorDecorationClearRule> rules,
-    const EventRuntimeState &state)
+template<typename Entity>
+std::vector<bool> buildHiddenDecorationEntities(
+    std::span<const Entity> entities, std::span<const DecorationClearRule> rules,
+    const std::vector<uint16_t> *pDecorationFlags, const EventRuntimeState &state)
 {
     std::vector<bool> hidden(entities.size(), false);
 
     for (size_t entityIndex = 0; entityIndex < entities.size(); ++entityIndex)
     {
-        const IndoorEntity &entity = entities[entityIndex];
-        if (!state.spriteOverrides.empty())
-        {
-            const auto override = state.spriteOverrides.find(entity.spriteOverrideKey(entityIndex));
-            hidden[entityIndex] = override != state.spriteOverrides.end() && override->second.hidden;
-        }
-
-        if (entityIndex >= rules.size())
-        {
-            continue;
-        }
-
-        const IndoorDecorationClearRule &rule = rules[entityIndex];
-        if (rule.decorVarIndex < 0 || size_t(rule.decorVarIndex) >= state.decorVars.size())
-        {
-            continue;
-        }
-
-        hidden[entityIndex] = hidden[entityIndex]
-            || interactiveDecorationIsCleared(state.decorVars[rule.decorVarIndex], rule.eventCount,
-                rule.hideWhenCleared);
+        const Entity &entity = entities[entityIndex];
+        const uint16_t mapFlags = pDecorationFlags != nullptr && entityIndex < pDecorationFlags->size()
+            ? (*pDecorationFlags)[entityIndex] : entity.aiAttributes;
+        const DecorationClearRule *pRule = entityIndex < rules.size() ? &rules[entityIndex] : nullptr;
+        hidden[entityIndex] = isDecorationHidden(entity.spriteOverrideKey(entityIndex), mapFlags, pRule, state);
     }
 
     return hidden;
 }
+}
 
-std::vector<bool> hiddenIndoorDecorationEntities(
-    std::span<const IndoorEntity> entities, const DecorationTable &table, const EventRuntimeState &state)
+std::vector<DecorationClearRule> decorationClearRules(
+    std::span<const IndoorEntity> entities, const DecorationTable &table)
 {
-    return hiddenIndoorDecorationEntities(entities, indoorDecorationClearRules(entities, table), state);
+    return buildDecorationClearRules(entities, table);
+}
+
+std::vector<DecorationClearRule> decorationClearRules(
+    std::span<const OutdoorEntity> entities, const DecorationTable &table)
+{
+    return buildDecorationClearRules(entities, table);
+}
+
+bool isDecorationHidden(
+    uint32_t spriteOverrideKey, uint16_t mapFlags, const DecorationClearRule *pRule, const EventRuntimeState &state)
+{
+    if (pRule != nullptr && pRule->decorVarIndex >= 0 && size_t(pRule->decorVarIndex) < state.decorVars.size()
+        && interactiveDecorationIsCleared(state.decorVars[pRule->decorVarIndex], pRule->eventCount,
+            pRule->hideWhenCleared))
+    {
+        return true;
+    }
+
+    if (!state.spriteOverrides.empty())
+    {
+        const auto override = state.spriteOverrides.find(spriteOverrideKey);
+        if (override != state.spriteOverrides.end())
+        {
+            return override->second.hidden;
+        }
+    }
+
+    return (mapFlags & LevelDecorationInvisible) != 0;
+}
+
+std::vector<bool> hiddenDecorationEntities(
+    std::span<const IndoorEntity> entities, std::span<const DecorationClearRule> rules,
+    const std::vector<uint16_t> *pDecorationFlags, const EventRuntimeState &state)
+{
+    return buildHiddenDecorationEntities(entities, rules, pDecorationFlags, state);
+}
+
+std::vector<bool> hiddenDecorationEntities(
+    std::span<const OutdoorEntity> entities, std::span<const DecorationClearRule> rules,
+    const std::vector<uint16_t> *pDecorationFlags, const EventRuntimeState &state)
+{
+    return buildHiddenDecorationEntities(entities, rules, pDecorationFlags, state);
+}
+
+std::vector<int64_t> partyBaseStatSnapshot(const Party &party)
+{
+    std::vector<int64_t> stats;
+
+    for (const Character &member : party.members())
+    {
+        stats.insert(stats.end(), {member.might, member.intellect, member.personality, member.endurance,
+            member.speed, member.accuracy, member.luck, member.baseResistances.fire, member.baseResistances.air,
+            member.baseResistances.water, member.baseResistances.earth, member.baseResistances.mind,
+            member.baseResistances.body});
+    }
+
+    return stats;
+}
+
+void reportDecorationStatGain(const Party &party, const EventRuntimeState &state, uint8_t decorVarIndex,
+    const std::vector<int64_t> &statsBefore)
+{
+    if (decorVarIndex < state.decorVars.size() && partyBaseStatSnapshot(party) != statsBefore)
+    {
+        party.rules().monsters.decorationRaisedStats(state.mapFileName, decorVarIndex, state.decorVars[decorVarIndex]);
+    }
+}
+
+namespace
+{
+template<typename Entity>
+std::vector<int16_t> legacyCampFireDecorVarRemap(std::span<const Entity> entities, const DecorationTable &table)
+{
+    constexpr size_t DecorVarCount = 125;
+    std::vector<int16_t> remap;
+    size_t newIndex = 0;
+    bool changed = false;
+
+    for (const Entity &entity : entities)
+    {
+        if (entity.scriptEventId() != 0)
+        {
+            continue;
+        }
+
+        const DecorationEntry *pDecoration = table.resolveMapDecoration(entity.decorationListId, entity.name).pEntry;
+        if (pDecoration == nullptr)
+        {
+            continue;
+        }
+
+        const bool legacyInteractive =
+            resolveBindingSpec(*pDecoration, entity.name, CampFireKeys::Legacy).has_value();
+        const bool interactive = resolveBindingSpec(*pDecoration, entity.name, CampFireKeys::MMerge).has_value();
+
+        if (legacyInteractive && remap.size() < DecorVarCount)
+        {
+            const int16_t target = interactive && newIndex < DecorVarCount ? int16_t(newIndex) : int16_t(-1);
+            changed = changed || target != int16_t(remap.size());
+            remap.push_back(target);
+        }
+
+        if (interactive)
+        {
+            changed = changed || !legacyInteractive;
+            ++newIndex;
+        }
+    }
+
+    return changed ? remap : std::vector<int16_t>{};
+}
+
+template<typename Entity>
+void renumberLegacyCampFireDecorVarsFor(
+    EventRuntimeState &state, const std::string &mapFileName, std::span<const Entity> entities,
+    const DecorationTable &table, const Party &party)
+{
+    if (!state.legacyCampFireDecorVars)
+    {
+        return;
+    }
+
+    const std::vector<int16_t> remap = legacyCampFireDecorVarRemap<Entity>(entities, table);
+
+    if (!remap.empty())
+    {
+        remapDecorVars(state.decorVars, remap);
+        party.rules().monsters.decorationsRenumbered(mapFileName, remap);
+    }
+
+    state.legacyCampFireDecorVars = false;
+}
+}
+
+std::vector<int16_t> legacyCampFireDecorVarRemap(
+    std::span<const IndoorEntity> entities, const DecorationTable &table)
+{
+    return legacyCampFireDecorVarRemap<IndoorEntity>(entities, table);
+}
+
+std::vector<int16_t> legacyCampFireDecorVarRemap(
+    std::span<const OutdoorEntity> entities, const DecorationTable &table)
+{
+    return legacyCampFireDecorVarRemap<OutdoorEntity>(entities, table);
+}
+
+void remapDecorVars(std::array<uint8_t, 125> &decorVars, std::span<const int16_t> remap)
+{
+    const std::array<uint8_t, 125> legacy = decorVars;
+
+    // Only the legacy decorations' own slots are cleared; anything a script keeps past them stays where it is.
+    std::fill(decorVars.begin(), decorVars.begin() + std::min(remap.size(), decorVars.size()), uint8_t(0));
+
+    for (size_t legacyIndex = 0; legacyIndex < remap.size() && legacyIndex < legacy.size(); ++legacyIndex)
+    {
+        const int16_t target = remap[legacyIndex];
+
+        if (target >= 0 && size_t(target) < decorVars.size())
+        {
+            decorVars[size_t(target)] = legacy[legacyIndex];
+        }
+    }
+}
+
+namespace
+{
+template<typename Entity>
+void refillLegacySmallBarrelsFor(
+    EventRuntimeState &state, std::span<const Entity> entities, const DecorationTable &table)
+{
+    if (!state.legacySmallBarrelDecorVars)
+    {
+        return;
+    }
+
+    size_t decorVarIndex = 0;
+
+    for (size_t entityIndex = 0; entityIndex < entities.size() && decorVarIndex < state.decorVars.size(); ++entityIndex)
+    {
+        const Entity &entity = entities[entityIndex];
+
+        if (entity.scriptEventId() != 0)
+        {
+            continue;
+        }
+
+        const DecorationEntry *pDecoration = table.resolveMapDecoration(entity.decorationListId, entity.name).pEntry;
+        const std::optional<InteractiveDecorationBindingSpec> spec = pDecoration != nullptr
+            ? resolveInteractiveDecorationBindingSpec(*pDecoration, entity.name)
+            : std::nullopt;
+
+        if (!spec)
+        {
+            continue;
+        }
+
+        uint8_t &decorVar = state.decorVars[decorVarIndex++];
+
+        // A cask holds 1 until opened, then 0, which reads as an empty barrel: an unopened one gets a barrel's colour.
+        if (normalizeDecorationKey(pDecoration->internalName) == "smlbarel" && decorVar != 0)
+        {
+            decorVar = initialInteractiveDecorationState(
+                InteractiveDecorationFamily::Barrel,
+                makeInteractiveDecorationSeed(entityIndex, entity.decorationListId, entity.x, entity.y, entity.z));
+        }
+    }
+
+    state.legacySmallBarrelDecorVars = false;
+}
+}
+
+void refillLegacySmallBarrels(
+    EventRuntimeState &state, std::span<const IndoorEntity> entities, const DecorationTable &table)
+{
+    refillLegacySmallBarrelsFor<IndoorEntity>(state, entities, table);
+}
+
+void refillLegacySmallBarrels(
+    EventRuntimeState &state, std::span<const OutdoorEntity> entities, const DecorationTable &table)
+{
+    refillLegacySmallBarrelsFor<OutdoorEntity>(state, entities, table);
+}
+
+void renumberLegacyCampFireDecorVars(
+    EventRuntimeState &state, const std::string &mapFileName, std::span<const IndoorEntity> entities,
+    const DecorationTable &table, const Party &party)
+{
+    renumberLegacyCampFireDecorVarsFor<IndoorEntity>(state, mapFileName, entities, table, party);
+}
+
+void renumberLegacyCampFireDecorVars(
+    EventRuntimeState &state, const std::string &mapFileName, std::span<const OutdoorEntity> entities,
+    const DecorationTable &table, const Party &party)
+{
+    renumberLegacyCampFireDecorVarsFor<OutdoorEntity>(state, mapFileName, entities, table, party);
 }
 }

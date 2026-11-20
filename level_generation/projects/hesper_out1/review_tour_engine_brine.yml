@@ -1,0 +1,104 @@
+output_dir: /home/pjasicek/github/OpenYAMM/level_generation/projects/hesper_out1/review/engine_brine/raw
+exit: true
+settle_seconds: 3
+shots:
+- name: brine1_0
+  time: '12:00'
+  commands:
+  - weather clear
+  position: &id001
+  - 11773
+  - -7911
+  - 730
+  yaw: 2.3562
+  pitch: -0.2042
+- name: brine1_1
+  time: '12:00'
+  commands:
+  - weather clear
+  position:
+  - 8973
+  - -5111
+  - 730
+  yaw: -0.7854
+  pitch: -0.2042
+- name: brine1_wade
+  time: '12:00'
+  commands:
+  - weather clear
+  position:
+  - 8960
+  - -6912
+  - 354
+  yaw: 0.6
+  pitch: -0.25
+  settle_seconds: 8
+- name: brine2_0
+  time: '12:00'
+  commands:
+  - weather clear
+  position:
+  - -2781
+  - -8312
+  - 1210
+  yaw: 2.3562
+  pitch: -0.2042
+- name: brine2_1
+  time: '12:00'
+  commands:
+  - weather clear
+  position:
+  - -5581
+  - -5512
+  - 1274
+  yaw: -0.7854
+  pitch: -0.235
+- name: brine2_wade
+  time: '12:00'
+  commands:
+  - weather clear
+  position:
+  - -3840
+  - -6912
+  - 962
+  yaw: 0.6
+  pitch: -0.25
+  settle_seconds: 8
+- name: brine3_0
+  time: '12:00'
+  commands:
+  - weather clear
+  position:
+  - -1160
+  - -11640
+  - 1338
+  yaw: 2.3562
+  pitch: -0.2502
+- name: brine3_1
+  time: '12:00'
+  commands:
+  - weather clear
+  position:
+  - -3960
+  - -8840
+  - 1434
+  yaw: -0.7854
+  pitch: -0.2952
+- name: brine3_wade
+  time: '12:00'
+  commands:
+  - weather clear
+  position:
+  - -2816
+  - -10496
+  - 994
+  yaw: 0.6
+  pitch: -0.25
+  settle_seconds: 8
+- name: stream_dusk
+  time: '19:40'
+  commands:
+  - weather clear
+  position: *id001
+  yaw: 2.3562
+  pitch: -0.2042

@@ -1,0 +1,16 @@
+Use case: precise-object-edit.
+Asset: flat surface albedo texture for a 1990s first-person RPG remaster, native 128x256 pixels.
+Reference 1 is a soft enlargement of the original low-resolution texture, surrounded by a border (32 original pixels left/right, 16 top/bottom) showing a mirror of the edge; the border must continue the same layout seamlessly. The right border of Reference 1 is finished high-resolution artwork of the neighbouring wall piece: the texture must continue it seamlessly across that edge (same courses, planks, joints, colours and brightness). Most of Reference 1 is already finished high-resolution artwork (the sharp areas); only the soft, blurry area(s) are a low-resolution guide. Keep every finished area exactly as it is: the same stones, joints, colours and lighting. Repaint only the soft area(s) as new high-definition artwork that continues the finished areas seamlessly. It is a guide for layout,
+colours and materials only and contains no real fine detail. Reproduce EXACTLY its layout:
+every block, plank, joint, ornament, figure and border at the same positions and proportions, the same colours,
+palette and overall brightness. Do not add, remove, move or resize anything.
+Redraw it as new clean high-definition artwork at 4x the original resolution: warm golden-orange sandstone plaster wall with fine grainy texture under a carved stone cornice, around a tall dark reddish-brown plank door with iron bolts and a dark iron handle under a pale stone arch;
+continuous crisp edges and fine natural surface detail invented anew, everything in sharp focus, even diffuse
+lighting.
+Keep the full canvas including the border, flat orthographic view, full bleed, opaque.
+No perspective, vignette, baked highlights or cast shadows, frame, text or watermark.
+Avoid enlarged pixel blocks, dithering, stippled noise, crunchy grain and sharpening halos.
+No dark outline, frame line, vignette or shadow along the outer edges of the canvas: every edge row and column keeps
+the brightness and material of the reference's edge, because the texture is tiled and its edges touch other faces.
+Any fine checkered or crosshatch dither in the reference is a palette artefact: paint smooth continuous material.
+Correction for this attempt: the outermost pixel rows and columns continue the reference's edge exactly: same brightness and material right up to the canvas border, with no thin dark or bright line, groove, frame or shadow painted along any edge

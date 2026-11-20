@@ -1,0 +1,18 @@
+output_dir: /home/pjasicek/github/OpenYAMM/level_generation/projects/mm9r_wizardslab/review/walkthrough_v01c
+settle_seconds: 2.0
+exit: true
+shots:
+- name: relic_side
+  position:
+  - -990
+  - 12656
+  - 0
+  yaw: 0.0
+  pitch: -0.2094
+- name: relic_above
+  position:
+  - -920
+  - 12596
+  - 0
+  yaw: 0.7854
+  pitch: -0.7854

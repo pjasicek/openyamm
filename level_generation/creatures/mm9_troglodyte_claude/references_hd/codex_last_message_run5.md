@@ -1,0 +1,3 @@
+Saved all four run-5 images in [tierA/](/home/pjasicek/github/OpenYAMM/level_generation/creatures/mm9_troglodyte_claude/references_hd/tierA), using built-in image generation. Verified unresized 1024×1536 RGBA with transparency. Raw returns and prompts/input hashes are recorded in `raw/` and `generation_runs.json`.
+
+No builds or Meshy calls. Residual: sharper right-profile teeth and overlapping profile toes.

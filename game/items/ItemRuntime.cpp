@@ -1,12 +1,15 @@
 #include "game/items/ItemRuntime.h"
+#include "engine/Localization.h"
 
 #include "game/items/ItemEnchantRuntime.h"
 #include "game/items/ItemEnchantTables.h"
+#include "game/rules/GameRules.h"
 #include "game/tables/ItemTable.h"
 #include "game/party/SkillData.h"
 
 #include <algorithm>
 #include <limits>
+#include <unordered_map>
 
 namespace OpenYAMM::Game
 {
@@ -120,8 +123,17 @@ bool ItemRuntime::isRareItem(const ItemDefinition &itemDefinition)
 
 bool ItemRuntime::isUniquelyGeneratedRareItem(const ItemDefinition &itemDefinition)
 {
-    return (itemDefinition.rarity == ItemRarity::Artifact || itemDefinition.rarity == ItemRarity::Relic)
-        && itemDefinition.value > 0;
+    return isArtifact(itemDefinition) && itemDefinition.value > 0;
+}
+
+bool ItemRuntime::isArtifact(const ItemDefinition &itemDefinition)
+{
+    return itemDefinition.rarity == ItemRarity::Artifact || itemDefinition.rarity == ItemRarity::Relic;
+}
+
+bool ItemRuntime::isHardened(bool hardenedFlag, const ItemDefinition &itemDefinition)
+{
+    return hardenedFlag || isArtifact(itemDefinition);
 }
 
 std::optional<std::string> ItemRuntime::classRestriction(const ItemDefinition &itemDefinition)
@@ -189,6 +201,54 @@ std::optional<std::string> ItemRuntime::raceRestriction(const ItemDefinition &it
     }
 }
 
+std::optional<std::string> ItemRuntime::wearRequirementText(const ItemDefinition &itemDefinition)
+{
+    if (!itemDefinition.allowedClassRoots.empty())
+    {
+        std::string classes;
+
+        for (const std::string &classRoot : itemDefinition.allowedClassRoots)
+        {
+            classes += (classes.empty() ? "" : ", ") + Engine::localize(displayClassName(classRoot), "class");
+        }
+
+        return Engine::tr("{classes} only", {{"classes", classes}});
+    }
+
+    // MAW's artifactWearReq texts for MMMerge's gated artifacts.
+    static const std::unordered_map<std::string, std::string_view> Texts = {
+        {"Knight", Engine::trNoop("Knights only")},
+        {"Cleric", Engine::trNoop("Clerics only")},
+        {"Lich", Engine::trNoop("Liches only")},
+        {"Necromancer", Engine::trNoop("Necromancers and Liches only")},
+        {"Minotaur", Engine::trNoop("Minotaurs only")},
+        {"Vampire", Engine::trNoop("Vampires only")},
+        {"DarkElf", Engine::trNoop("Dark Elves only")},
+        {"DarkElfOrElf", Engine::trNoop("Elves only")},
+        {"Goblin", Engine::trNoop("Goblins only")},
+        {"Human", Engine::trNoop("Humans only")},
+        {"Dwarf", Engine::trNoop("Dwarves only")},
+        {"Male", Engine::trNoop("Men only")},
+        {"Female", Engine::trNoop("Women only")},
+    };
+    std::optional<std::string> restriction = classRestriction(itemDefinition);
+
+    if (!restriction)
+    {
+        restriction = raceRestriction(itemDefinition);
+    }
+
+    if (!restriction)
+    {
+        return std::nullopt;
+    }
+
+    const std::unordered_map<std::string, std::string_view>::const_iterator textIt = Texts.find(*restriction);
+    return textIt != Texts.end()
+        ? Engine::tr(textIt->second)
+        : Engine::tr("{classes} only", {{"classes", Engine::localize(*restriction, "class")}});
+}
+
 bool ItemRuntime::characterMeetsClassRestriction(const Character &character, const ItemDefinition &itemDefinition)
 {
     if (!itemDefinition.allowedClassRoots.empty())
@@ -212,6 +272,8 @@ bool ItemRuntime::characterMeetsClassRestriction(const Character &character, con
     const int actualAccuracy = static_cast<int>(character.accuracy)
         + character.permanentBonuses.accuracy + character.magicalBonuses.accuracy;
 
+    // Only items with a requirement check it: a negative stat (Lightning Crossbow's Accuracy -50) must not lock out
+    // every item that has none.
     if ((itemDefinition.requiredMight > 0 && actualMight < itemDefinition.requiredMight)
         || (itemDefinition.requiredAccuracy > 0 && actualAccuracy < itemDefinition.requiredAccuracy))
     {
@@ -280,6 +342,16 @@ bool ItemRuntime::canDrop(const ItemDefinition &itemDefinition)
     return !itemDefinition.hasContentFlag("NoDrop");
 }
 
+std::string ItemRuntime::foundItemName(const ItemDefinition &itemDefinition)
+{
+    if (hasMeaningfulUnidentifiedName(itemDefinition))
+    {
+        return Engine::localize(itemDefinition.unidentifiedName);
+    }
+
+    return !itemDefinition.name.empty() ? Engine::localize(itemDefinition.name) : Engine::tr("item");
+}
+
 std::string ItemRuntime::displayName(const InventoryItem &item, const ItemDefinition &itemDefinition)
 {
     return displayName(item, itemDefinition, nullptr, nullptr);
@@ -291,26 +363,38 @@ std::string ItemRuntime::displayName(
     const StandardItemEnchantTable *pStandardEnchantTable,
     const SpecialItemEnchantTable *pSpecialEnchantTable)
 {
+    // An item that needs no identifying (Zokarr's Axe: OY-362) is named as identified, as its tooltip already is.
     if (!item.identified && requiresIdentification(itemDefinition))
     {
-        return itemDefinition.unidentifiedName;
+        return Engine::localize(itemDefinition.unidentifiedName);
     }
 
-    if (item.standardEnchantId != 0 || item.specialEnchantId != 0)
+    return boundGameRules().items.displayName(item, itemDefinition, pStandardEnchantTable, pSpecialEnchantTable);
+}
+
+std::string ItemRuntime::identifiedDisplayName(
+    const InventoryItem &item,
+    const ItemDefinition &itemDefinition,
+    const StandardItemEnchantTable *pStandardEnchantTable,
+    const SpecialItemEnchantTable *pSpecialEnchantTable)
+{
+    // A Special item keeps its own name with its fixed enchantment (Noblebone Bow, not "Noblebone Bow of Carnage"),
+    // as MM7 names its special items.
+    if ((item.standardEnchantId != 0 || item.specialEnchantId != 0) && itemDefinition.rarity != ItemRarity::Special)
     {
         return ItemEnchantRuntime::displayName(item, itemDefinition, pStandardEnchantTable, pSpecialEnchantTable);
     }
 
     if (!itemDefinition.name.empty())
     {
-        return itemDefinition.name;
+        return Engine::localize(itemDefinition.name);
     }
 
     if (hasMeaningfulUnidentifiedName(itemDefinition))
     {
-        return itemDefinition.unidentifiedName;
+        return Engine::localize(itemDefinition.unidentifiedName);
     }
 
-    return "Unknown item";
+    return Engine::tr("Unknown item");
 }
 }

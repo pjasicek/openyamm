@@ -1,0 +1,279 @@
+/* The event form (S5_BROWSER_EDITOR.md 3.18, W3). Colours from the tokens. */
+.form
+{
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+}
+
+.section, .sourceEvents
+{
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+    padding: var(--space-3);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    background: var(--surface);
+}
+
+.sourceEvents
+{
+    margin-bottom: var(--space-3);
+    background: var(--surface-2);
+}
+
+.heading
+{
+    margin: 0;
+    font-size: var(--size-s);
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--text-dim);
+}
+
+.subheading
+{
+    margin: var(--space-2) 0 0;
+    font-size: var(--size-s);
+    font-weight: 600;
+    color: var(--text-dim);
+}
+
+.presets
+{
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--space-1);
+}
+
+.preset, .presetOn
+{
+    padding: var(--space-1) var(--space-3);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    background: var(--surface);
+    color: var(--text);
+    font-size: var(--size-s);
+    cursor: pointer;
+}
+
+.presetOn
+{
+    border-color: var(--accent);
+    background: var(--accent-soft);
+    color: var(--accent);
+    font-weight: 600;
+}
+
+.rows
+{
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+}
+
+.row
+{
+    padding-left: var(--space-2);
+    border-left: 2px solid var(--line);
+}
+
+.step
+{
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-1);
+    padding: var(--space-2);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    background: var(--surface-2);
+}
+
+.stepHead
+{
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+}
+
+.number
+{
+    min-width: 18px;
+    font-family: var(--mono);
+    color: var(--text-dim);
+}
+
+.word, .adder, .chipAdd
+{
+    height: 24px;
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    background: var(--surface);
+    color: var(--text);
+    font-size: var(--size-s);
+}
+
+.adder
+{
+    align-self: flex-start;
+    color: var(--accent);
+}
+
+.spacer
+{
+    flex: 1;
+}
+
+.icon
+{
+    width: 22px;
+    height: 22px;
+    border: 1px solid transparent;
+    border-radius: var(--radius);
+    background: none;
+    color: var(--text-dim);
+    cursor: pointer;
+}
+
+.icon:hover:not(:disabled)
+{
+    border-color: var(--line);
+    color: var(--text);
+}
+
+.icon:disabled
+{
+    opacity: 0.35;
+    cursor: default;
+}
+
+.chips
+{
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--space-1);
+}
+
+.verb
+{
+    min-width: 56px;
+    color: var(--text-dim);
+    font-size: var(--size-s);
+}
+
+.chip
+{
+    display: inline-flex;
+    align-items: center;
+    border: 1px solid var(--plan-link);
+    border-radius: 12px;
+    background: color-mix(in srgb, var(--plan-link) 18%, transparent);
+    overflow: hidden;
+}
+
+.chipName, .chipX
+{
+    border: 0;
+    background: none;
+    color: var(--text);
+    font-family: var(--mono);
+    font-size: var(--size-s);
+    cursor: pointer;
+}
+
+.chipName
+{
+    padding: 2px var(--space-1) 2px var(--space-3);
+}
+
+.chipX
+{
+    padding: 2px var(--space-2);
+    color: var(--text-dim);
+}
+
+.chipAdd
+{
+    width: 44px;
+}
+
+.add
+{
+    align-self: flex-start;
+    padding: var(--space-1) var(--space-3);
+    border: 1px dashed var(--line);
+    border-radius: var(--radius);
+    background: none;
+    color: var(--accent);
+    font-size: var(--size-s);
+    cursor: pointer;
+}
+
+.add:disabled
+{
+    color: var(--text-dim);
+    cursor: default;
+}
+
+.dim
+{
+    margin: 0;
+    color: var(--text-dim);
+    font-size: var(--size-s);
+}
+
+.lua
+{
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-1);
+}
+
+.luaEditor
+{
+    min-height: 120px;
+    max-height: 320px;
+    overflow: auto;
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    background: var(--surface-2);
+    font-family: var(--mono);
+    font-size: var(--size-s);
+}
+
+.luaEditor :global(.cm-editor)
+{
+    min-height: 120px;
+}
+
+.luaBar
+{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-2);
+}
+
+.eventLink
+{
+    align-self: flex-start;
+    border: 0;
+    padding: 0;
+    background: none;
+    color: var(--accent);
+    font-family: var(--mono);
+    font-size: var(--size-s);
+    cursor: pointer;
+    text-align: left;
+}
+
+.variablePick
+{
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+}

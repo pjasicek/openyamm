@@ -35,6 +35,8 @@ constexpr uint64_t MultiplyRenderState = BGFX_STATE_WRITE_RGB | BGFX_STATE_WRITE
     BGFX_STATE_DEPTH_TEST_LEQUAL | BGFX_STATE_BLEND_FUNC(BGFX_STATE_BLEND_DST_COLOR, BGFX_STATE_BLEND_ZERO)
     | BGFX_STATE_MSAA;
 constexpr float CullDistance = 12000.0f;
+// The texture cache key prefix of sprites kept without the transparent-edge bleed (EffectRenderer::prepareAtlas).
+constexpr std::string_view RawTexelsKeyPrefix = "raw-texels:";
 // Consecutive ribbon samples closer than this are merged (the live head right after a sample is left behind).
 constexpr float RibbonMinimumSegment = 0.5f;
 
@@ -60,6 +62,8 @@ struct DrawParticle
     float roll = 0.0f;
     float spriteAnimationSeconds = 0.0f;
     EffectBlendMode blendMode = EffectBlendMode::Alpha;
+    // False for MM9's additive sprites: light without the texture's alpha (EffectSpriteDefinition).
+    bool additiveTextureAlpha = true;
     EffectSpriteAlignment alignment = EffectSpriteAlignment::CameraFacing;
     std::array<float, 3> planeRight = {1.0f, 0.0f, 0.0f};
     std::array<float, 3> planeUp = {0.0f, 0.0f, 1.0f};
@@ -179,6 +183,7 @@ void submitBatch(
     const EffectRenderer::Texture &texture,
     const std::vector<WorldFxParticleVertex> &vertices,
     EffectBlendMode blendMode,
+    bool additiveTextureAlpha,
     uint16_t viewId)
 {
     if (vertices.empty() ||
@@ -196,7 +201,7 @@ void submitBatch(
     std::memcpy(vertexBuffer.data, vertices.data(), vertices.size() * sizeof(WorldFxParticleVertex));
     const float particleParams[4] = {
         blendMode == EffectBlendMode::Additive ? 1.0f : 0.0f,
-        0.0f,
+        additiveTextureAlpha ? 0.0f : 1.0f,
         0.0f,
         0.0f,
     };
@@ -212,8 +217,10 @@ void submitBatch(
         BGFX_SAMPLER_U_CLAMP | BGFX_SAMPLER_V_CLAMP);
     bgfx::setUniform(resources.particleParamsUniformHandle(), particleParams);
     bgfx::setState(renderState(blendMode));
-    // Additive sprites are light: they also draw into the bloom glow, with the same bindings.
-    const bool glow = blendMode == EffectBlendMode::Additive && resources.glowView() != UINT16_MAX;
+    // Additive sprites are light: they also draw into the bloom glow, with the same bindings. MM9's do not: LithTech
+    // had no bloom, and its blurred glow turned their small crisp cores into wide soft blobs.
+    const bool glow = blendMode == EffectBlendMode::Additive && additiveTextureAlpha
+        && resources.glowView() != UINT16_MAX;
     bgfx::submit(viewId, resources.particleProgramHandle(), 0, glow ? BGFX_DISCARD_NONE : BGFX_DISCARD_ALL);
     if (glow)
     {
@@ -261,6 +268,7 @@ void EffectRenderer::render(
     draws.reserve(effects.particles().size() + effects.fixedSprites().size());
     // Particles of one emitter come in a row, so remembering the last sprite saves most atlas lookups.
     std::string_view lastSpriteResource;
+    bool lastRawTexels = false;
     const SpriteAtlas *pLastAtlas = nullptr;
     const auto addDraw = [&](std::string_view spriteResource,
                              const std::array<float, 3> &position,
@@ -271,14 +279,17 @@ void EffectRenderer::render(
                              float roll,
                              float spriteAnimationSeconds,
                              EffectBlendMode blendMode,
+                             bool additiveTextureAlpha,
                              EffectSpriteAlignment alignment,
                              const std::array<float, 3> &planeRight,
                              const std::array<float, 3> &planeUp)
     {
-        if (pLastAtlas == nullptr || spriteResource != lastSpriteResource)
+        const bool rawTexels = blendMode == EffectBlendMode::Additive && !additiveTextureAlpha;
+        if (pLastAtlas == nullptr || spriteResource != lastSpriteResource || rawTexels != lastRawTexels)
         {
-            pLastAtlas = loadAtlas(effectResources, assetFileSystem, spriteResource);
+            pLastAtlas = loadAtlas(effectResources, assetFileSystem, spriteResource, rawTexels);
             lastSpriteResource = spriteResource;
+            lastRawTexels = rawTexels;
         }
         if (pLastAtlas == nullptr)
         {
@@ -303,13 +314,21 @@ void EffectRenderer::render(
         {
             return;
         }
-        // A fading multiply sprite tends to white, which leaves the scene unchanged.
+        // A fading multiply sprite tends to white, which leaves the scene unchanged; MM9's additive light ignores
+        // opacity, so it fades by its colour.
         std::array<float, 4> fadedColor = color;
         if (blendMode == EffectBlendMode::Multiply)
         {
             for (size_t channel = 0; channel < 3; ++channel)
             {
                 fadedColor[channel] = 1.0f + (color[channel] - 1.0f) * viewFade;
+            }
+        }
+        else if (rawTexels)
+        {
+            for (size_t channel = 0; channel < 3; ++channel)
+            {
+                fadedColor[channel] *= viewFade;
             }
         }
         else
@@ -327,6 +346,7 @@ void EffectRenderer::render(
             .roll = roll,
             .spriteAnimationSeconds = spriteAnimationSeconds,
             .blendMode = blendMode,
+            .additiveTextureAlpha = !rawTexels,
             .alignment = alignment,
             .planeRight = planeRight,
             .planeUp = planeUp,
@@ -351,6 +371,7 @@ void EffectRenderer::render(
             particle.roll,
             particle.spriteAnimationSeconds,
             particle.blendMode,
+            particle.additiveTextureAlpha,
             particle.alignment,
             particle.planeRight,
             particle.planeUp);
@@ -367,6 +388,7 @@ void EffectRenderer::render(
             0.0f,
             sprite.spriteAnimationSeconds,
             sprite.blendMode,
+            sprite.additiveTextureAlpha,
             sprite.alignment,
             sprite.planeRight,
             sprite.planeUp);
@@ -404,12 +426,13 @@ void EffectRenderer::render(
         vertices.clear();
         size_t batchEnd = drawIndex;
         while (batchEnd < draws.size() && draws[batchEnd].pTexture == first.pTexture &&
-            draws[batchEnd].blendMode == first.blendMode)
+            draws[batchEnd].blendMode == first.blendMode &&
+            draws[batchEnd].additiveTextureAlpha == first.additiveTextureAlpha)
         {
             writeQuad(vertices, draws[batchEnd], cameraRight, cameraUp, cameraForward, cameraPosition);
             ++batchEnd;
         }
-        submitBatch(resources, *first.pTexture, vertices, first.blendMode, viewId);
+        submitBatch(resources, *first.pTexture, vertices, first.blendMode, first.additiveTextureAlpha, viewId);
         ++m_diagnostics.drawCalls;
         drawIndex = batchEnd;
     }
@@ -698,10 +721,11 @@ const EffectRenderer::Texture *EffectRenderer::loadTexture(
 EffectRenderer::PreparedAtlas EffectRenderer::prepareAtlas(
     const EffectResourceLibrary &effectResources,
     const Engine::AssetFileSystem &assetFileSystem,
-    const std::string &spriteResource)
+    const std::string &spriteResource,
+    bool rawTexels)
 {
     PreparedAtlas prepared;
-    prepared.id = spriteResource;
+    prepared.id = rawTexels ? std::string(RawTexelsKeyPrefix) + spriteResource : spriteResource;
     const EffectSpriteResource *pSprite = effectResources.findSprite(spriteResource);
     if (pSprite == nullptr || (pSprite->framePaths.empty() && pSprite->atlasPath.empty()))
     {
@@ -711,6 +735,10 @@ EffectRenderer::PreparedAtlas EffectRenderer::prepareAtlas(
     prepared.framesPerSecond = pSprite->framesPerSecond;
     prepared.logicalWidth = static_cast<float>(pSprite->logicalWidth);
     prepared.logicalHeight = static_cast<float>(pSprite->logicalHeight);
+    // Without the texture's alpha in additive light, a bled colour in transparent texels would glow. (A cooked atlas
+    // is bled when cooked and draws as it is.)
+    const BgraTexturePixelPreparation pixelPreparation = rawTexels
+        ? BgraTexturePixelPreparation::AlreadyPrepared : BgraTexturePixelPreparation::Required;
     if (!pSprite->atlasPath.empty())
     {
         // A cooked sprite's atlas uploads as stored (BC7 or ASTC blocks, packed and edge-bled as the PNG path packs
@@ -768,16 +796,17 @@ EffectRenderer::PreparedAtlas EffectRenderer::prepareAtlas(
     Engine::BinaryAssetCache binaryAssets;
     if (pSprite->framePaths.size() == 1)
     {
-        prepared.singleFramePath = pSprite->framePaths.front();
+        const std::string &framePath = pSprite->framePaths.front();
+        prepared.singleFramePath = rawTexels ? std::string(RawTexelsKeyPrefix) + framePath : framePath;
         const std::optional<Engine::ImagePixelsBgra> image =
-            Engine::loadImageAssetPixelsBgra(assetFileSystem, prepared.singleFramePath, binaryAssets);
+            Engine::loadImageAssetPixelsBgra(assetFileSystem, framePath, binaryAssets);
         if (image)
         {
             prepared.width = image->width;
             prepared.height = image->height;
             prepared.pixels = prepareBgraTexture2D(static_cast<uint16_t>(image->width),
                 static_cast<uint16_t>(image->height), image->pixels.data(),
-                static_cast<uint32_t>(image->pixels.size()), TextureFilterProfile::Billboard);
+                static_cast<uint32_t>(image->pixels.size()), TextureFilterProfile::Billboard, pixelPreparation);
         }
         prepared.frameUvs = {{0.0f, 0.0f, 1.0f, 1.0f}};
         return prepared;
@@ -825,7 +854,7 @@ EffectRenderer::PreparedAtlas EffectRenderer::prepareAtlas(
     prepared.width = width;
     prepared.height = height;
     prepared.pixels = prepareBgraTexture2D(static_cast<uint16_t>(width), static_cast<uint16_t>(height),
-        pixels.data(), static_cast<uint32_t>(pixels.size()), TextureFilterProfile::Billboard);
+        pixels.data(), static_cast<uint32_t>(pixels.size()), TextureFilterProfile::Billboard, pixelPreparation);
     return prepared;
 }
 
@@ -889,14 +918,17 @@ const EffectRenderer::SpriteAtlas *EffectRenderer::finishAtlas(PreparedAtlas &pr
 const EffectRenderer::SpriteAtlas *EffectRenderer::loadAtlas(
     const EffectResourceLibrary &effectResources,
     const Engine::AssetFileSystem &assetFileSystem,
-    std::string_view spriteResource)
+    std::string_view spriteResource,
+    bool rawTexels)
 {
-    const auto existing = m_pTextureCache->atlases.find(spriteResource);
+    const std::string rawKey =
+        rawTexels ? std::string(RawTexelsKeyPrefix) + std::string(spriteResource) : std::string();
+    const auto existing = m_pTextureCache->atlases.find(rawTexels ? std::string_view(rawKey) : spriteResource);
     if (existing != m_pTextureCache->atlases.end())
     {
         return existing->second.pTexture != nullptr ? &existing->second : nullptr;
     }
-    PreparedAtlas prepared = prepareAtlas(effectResources, assetFileSystem, std::string(spriteResource));
+    PreparedAtlas prepared = prepareAtlas(effectResources, assetFileSystem, std::string(spriteResource), rawTexels);
     return finishAtlas(prepared);
 }
 }

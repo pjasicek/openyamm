@@ -1,0 +1,20 @@
+id: rulesets.maw_loot_filter_priceless
+title: "MAW loot filter - items without a price stay items: the Control Center's blasters survive Very strict"
+world: mm6
+mode: faithful
+tags: [rulesets, maw, loot_filter]
+steps:
+  # Storage container 1 holds one Blaster (1666, value 0), container 8 one Blaster Rifle (1667).
+  - new_game_flow:
+      start_map: oute3.odm
+      ruleset:
+        id: maw
+        progression: horizontal
+        loot_filter: very_strict
+  - load_map: {map: sci-fi.blv}
+  - execute_event: {id: 30}
+  - assert:
+      item_visible: {scene_kind: indoor, chest_id: 1, item_id: 1666, source: chest}
+  - execute_event: {id: 37}
+  - assert:
+      item_visible: {scene_kind: indoor, chest_id: 8, item_id: 1667, source: chest}

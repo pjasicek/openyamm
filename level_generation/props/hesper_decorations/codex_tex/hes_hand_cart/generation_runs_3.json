@@ -1,0 +1,183 @@
+{
+  "brief": "CODEX_BRIEF_3.md",
+  "tool": "built-in image_gen",
+  "status": "Generated and saved unresized returns; strict brief requirements not met after one correction per view.",
+  "runs": [
+    {
+      "view": "left",
+      "attempt": 1,
+      "prompt": "Use case: precise-object-edit. Create paint_left.png: one 1024 x 1024 RGBA texture-source painting, genuine transparent background, at original guide resolution. Image 1 guide_left.png is the EDIT TARGET and absolute geometry authority. Image 2 design_reference.png is ONLY the material/color/design reference. Paint directly over the grey model in Image 1, keeping its exact alpha silhouette, position, size, camera, every edge, opening and detail. Do not reframe, enlarge, move, straighten or reconstruct the model. Preserve all empty space and small holes. The model occupies approximately x196\u2013827 y295\u2013729 in the 1024 square; leave these margins unchanged. Preserve the guide's foreshortened two shafts, wheels, rails, ropes, small front crate, tall back crate, central canister and red bedroll on the right in their precise guide locations. Paint the surface materials of the design reference onto this shape: weathered white prefab composite with a teal and orange band, dark grey rubber tyres, brushed steel axle and hardware, ochre and white crates with black stencils, red cloth, tan rope. Match the reference's material detail and colors but NOT its camera or lighting. Material wear is painted color, not shading. LIGHTING: albedo TEXTURE SOURCE, even flat shadowless illumination from viewer, no cast shadows, no ambient occlusion darkening, no strong specular highlights or reflections, no rim light, no background or floor. Any glowing colors are local paint only, never cast light. Nothing outside the guide silhouette; nothing cropped; no extra parts. Deliver only the single painted left guide, not a comparison or collage.",
+      "inputs": [
+        {
+          "path": "guide_left.png",
+          "sha256": "1774bf4ab36bdcd14ed4edd16347229936af02782ab6c7e582ce04663170c599"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "c9cf4013b2aeefb5d4e67bbbdb8266537aa35ed958088d9d87dfe3bfb8edc854"
+        }
+      ],
+      "source": "/home/pjasicek/.codex/generated_images/01a1604b-4fd6-76e3-8d92-b9de583d4592/exec-e9be9d06-56ac-4710-9519-e25f28587cf2.png",
+      "output": "paint_left_attempt1.png",
+      "selected": false,
+      "reason": "Initial return has incorrect canvas dimensions, altered guide geometry and residual shading.",
+      "output_sha256": "e835a099d6f7fd7bf3882ff79ff21a0ee42c95b2ffc1c1730e4f57799745ebd1",
+      "checks": {
+        "dimensions": [
+          1254,
+          1254
+        ],
+        "required_dimensions": [
+          1024,
+          1024
+        ],
+        "dimensions_pass": false,
+        "unresized_return": true,
+        "alpha_channel_present": true,
+        "transparent_pixels_present": true,
+        "alpha_bounds": [
+          23,
+          31,
+          1218,
+          1226
+        ],
+        "silhouette_identical": false,
+        "materials_visual": "White composite, teal/orange stripes, rubber and worn metal match overall palette. Not all prescribed stencil details are retained.",
+        "flat_even_light_pass": false,
+        "visual_limitations": "Residual directional/occlusion shading and altered geometry; colored fringe pixels around silhouette."
+      }
+    },
+    {
+      "view": "left",
+      "attempt": 2,
+      "prompt": "Use case: precise-object-edit. Create paint_left.png: one 1024 x 1024 RGBA texture-source painting, genuine transparent background, at original guide resolution. Image 1 guide_left.png is the EDIT TARGET and absolute geometry authority. Image 2 design_reference.png is ONLY the material/color/design reference. Paint directly over the grey model in Image 1, keeping its exact alpha silhouette, position, size, camera, every edge, opening and detail. Do not reframe, enlarge, move, straighten or reconstruct the model. Preserve all empty space and small holes. The model occupies approximately x196\u2013827 y295\u2013729 in the 1024 square; leave these margins unchanged. Preserve the guide's foreshortened two shafts, wheels, rails, ropes, small front crate, tall back crate, central canister and red bedroll on the right in their precise guide locations. Paint the surface materials of the design reference onto this shape: weathered white prefab composite with a teal and orange band, dark grey rubber tyres, brushed steel axle and hardware, ochre and white crates with black stencils, red cloth, tan rope. Match the reference's material detail and colors but NOT its camera or lighting. Material wear is painted color, not shading. LIGHTING: albedo TEXTURE SOURCE, even flat shadowless illumination from viewer, no cast shadows, no ambient occlusion darkening, no strong specular highlights or reflections, no rim light, no background or floor. Any glowing colors are local paint only, never cast light. Nothing outside the guide silhouette; nothing cropped; no extra parts. Deliver only the single painted left guide, not a comparison or collage.\nCORRECTIVE REGENERATION (only allowed correction): The earlier attempt was incorrectly 1254 x 1254 and changed geometry. REQUIRED OUTPUT CANVAS IS EXACTLY 1024 x 1024 pixels, UNRESIZED original return. Edit the attached guide's existing canvas directly. Preserve its alpha mask pixel-for-pixel, including silhouette and all holes. Guide object alpha bounds are x197 through826, y295 through728. Do not use the three-quarter reference's rounded silhouette, enlarged ropes or metal handles to replace the guide's geometry. Apply paint INSIDE the fixed original guide only; no alpha outside its existing mask, no loose colored edge pixels, no shadow opacity on background. Flatten the illumination, especially the axle and recesses, removing occlusion shading. Keep the material colors and surface wear of the reference.",
+      "inputs": [
+        {
+          "path": "guide_left.png",
+          "sha256": "1774bf4ab36bdcd14ed4edd16347229936af02782ab6c7e582ce04663170c599"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "c9cf4013b2aeefb5d4e67bbbdb8266537aa35ed958088d9d87dfe3bfb8edc854"
+        }
+      ],
+      "source": "/home/pjasicek/.codex/generated_images/01a1604b-4fd6-76e3-8d92-b9de583d4592/exec-05e57902-ff1e-4dd2-9983-acbc76ba42d0.png",
+      "output": "paint_left.png",
+      "selected": true,
+      "reason": "Selected permitted correction as retained left deliverable; still fails exact canvas/silhouette and flat-albedo requirements. Not approved for baking.",
+      "output_sha256": "98488cccb48cd8d1ac7374b8e9b6e023a041cf5033fe3ca4d3f763aa8a52a961",
+      "checks": {
+        "dimensions": [
+          1254,
+          1254
+        ],
+        "required_dimensions": [
+          1024,
+          1024
+        ],
+        "dimensions_pass": false,
+        "unresized_return": true,
+        "alpha_channel_present": true,
+        "transparent_pixels_present": true,
+        "alpha_bounds": [
+          0,
+          19,
+          1222,
+          1214
+        ],
+        "silhouette_identical": false,
+        "materials_visual": "White composite, teal/orange stripes, rubber and worn metal match overall palette. Not all prescribed stencil details are retained.",
+        "flat_even_light_pass": false,
+        "visual_limitations": "Residual directional/occlusion shading and altered geometry; colored fringe pixels around silhouette."
+      }
+    },
+    {
+      "view": "right",
+      "attempt": 1,
+      "prompt": "Use case: precise-object-edit. Paint right-side albedo texture source for Settler hand cart. REQUIRED OUTPUT: exactly 1024 x 1024 pixels, RGBA transparent background, unresized return. Image 1 guide_right.png is the edit target, original canvas and absolute geometry authority. Image 2 design_reference.png is ONLY the color/material authority. Edit the guide directly by painting surface color inside its existing alpha mask. Preserve its silhouette EXACTLY: same outline, size, position in frame, every edge, opening and detail. Keep all transparent margins and gaps unchanged. Do not rotate, reframe, enlarge, reconstruct or straighten. Preserve the right guide's slope, rear panel, tall back crate protruding above it, wheels, axle, undercarriage and small shaft ends exactly where the guide has them. Do not reveal cargo hidden behind the rear panel. Paint weathered white prefab composite with a broad teal band and narrow orange band, dark grey rubber tyres, brushed steel axle and metal hardware, ochre and white crates with black stencils, red cloth only where visible, tan ropes. Use design_reference for paint/material appearance only, never its geometry, camera, background or lighting. LIGHTING: flat even shadowless viewer illumination, pure albedo texture source, no cast shadows, no ambient occlusion darkening even under the cart, no strong specular highlights/reflections, no rim light, no floor or background. Paint glowing colors locally, never illuminating surroundings. Nothing added outside silhouette and nothing cropped. The original guide remains the precise shape authority; do not add hardware protrusions. Output one painted guide only.",
+      "inputs": [
+        {
+          "path": "guide_right.png",
+          "sha256": "1ea39eed6d610df42331413b2fe8e9d45ed15d1a1444f354ba781c5e94464212"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "c9cf4013b2aeefb5d4e67bbbdb8266537aa35ed958088d9d87dfe3bfb8edc854"
+        }
+      ],
+      "source": "/home/pjasicek/.codex/generated_images/01a1604b-4fd6-76e3-8d92-b9de583d4592/exec-7fb63541-16a8-43dd-9ee8-b353e592d659.png",
+      "output": "paint_right_attempt1.png",
+      "selected": false,
+      "reason": "Initial return enlarges object, changes geometry and shades the undercarriage.",
+      "output_sha256": "d860534751b85e87fc47f1063ec50341f348941dadf75a0127a3dc3f66b28524",
+      "checks": {
+        "dimensions": [
+          1254,
+          1254
+        ],
+        "required_dimensions": [
+          1024,
+          1024
+        ],
+        "dimensions_pass": false,
+        "unresized_return": true,
+        "alpha_channel_present": true,
+        "transparent_pixels_present": true,
+        "alpha_bounds": [
+          0,
+          19,
+          1226,
+          1234
+        ],
+        "silhouette_identical": false,
+        "materials_visual": "White composite, teal/orange stripes, rubber and worn metal match overall palette. Not all prescribed stencil details are retained.",
+        "flat_even_light_pass": false,
+        "visual_limitations": "Residual directional/occlusion shading and altered geometry; colored fringe pixels around silhouette."
+      }
+    },
+    {
+      "view": "right",
+      "attempt": 2,
+      "prompt": "Use case: precise-object-edit. Paint right-side albedo texture source for Settler hand cart. REQUIRED OUTPUT: exactly 1024 x 1024 pixels, RGBA transparent background, unresized return. Image 1 guide_right.png is the edit target, original canvas and absolute geometry authority. Image 2 design_reference.png is ONLY the color/material authority. Edit the guide directly by painting surface color inside its existing alpha mask. Preserve its silhouette EXACTLY: same outline, size, position in frame, every edge, opening and detail. Keep all transparent margins and gaps unchanged. Do not rotate, reframe, enlarge, reconstruct or straighten. Preserve the right guide's slope, rear panel, tall back crate protruding above it, wheels, axle, undercarriage and small shaft ends exactly where the guide has them. Do not reveal cargo hidden behind the rear panel. Paint weathered white prefab composite with a broad teal band and narrow orange band, dark grey rubber tyres, brushed steel axle and metal hardware, ochre and white crates with black stencils, red cloth only where visible, tan ropes. Use design_reference for paint/material appearance only, never its geometry, camera, background or lighting. LIGHTING: flat even shadowless viewer illumination, pure albedo texture source, no cast shadows, no ambient occlusion darkening even under the cart, no strong specular highlights/reflections, no rim light, no floor or background. Paint glowing colors locally, never illuminating surroundings. Nothing added outside silhouette and nothing cropped. The original guide remains the precise shape authority; do not add hardware protrusions. Output one painted guide only.\nCORRECTIVE REGENERATION: Previous attempt enlarged the cart and introduced shading. Keep EXACT original guide canvas 1024 by 1024 pixels. The entire cart must stay within approximately x197\u2013827 and y295\u2013729, including wheels. This is a small centered object with large transparent margins matching Image 1 exactly. Do not fill the canvas. COPY THE GUIDE ALPHA unchanged and ONLY recolor original grey pixels, preserving the openings. No new cargo protruding above the panel. The undercarriage must have the same bright white composite albedo as the other white panels, the axle neutral brushed steel gray. Remove all directional shading and dark occlusion. No drawn shadows between panels. Original guide geometry and pixel dimensions override all aesthetic choices.",
+      "inputs": [
+        {
+          "path": "guide_right.png",
+          "sha256": "1ea39eed6d610df42331413b2fe8e9d45ed15d1a1444f354ba781c5e94464212"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "c9cf4013b2aeefb5d4e67bbbdb8266537aa35ed958088d9d87dfe3bfb8edc854"
+        }
+      ],
+      "source": "/home/pjasicek/.codex/generated_images/01a1604b-4fd6-76e3-8d92-b9de583d4592/exec-a1bcfcad-f2dd-4d53-827a-5cf2d05ec04e.png",
+      "output": "paint_right.png",
+      "selected": true,
+      "reason": "Selected permitted correction for better framing and brighter undercarriage; still fails exact canvas/silhouette and fully flat lighting. Not approved for baking.",
+      "output_sha256": "e311840483ec356dcc0fa404005abc60a47939f731d0f2a60b344730c5d17a04",
+      "checks": {
+        "dimensions": [
+          1254,
+          1254
+        ],
+        "required_dimensions": [
+          1024,
+          1024
+        ],
+        "dimensions_pass": false,
+        "unresized_return": true,
+        "alpha_channel_present": true,
+        "transparent_pixels_present": true,
+        "alpha_bounds": [
+          0,
+          30,
+          1235,
+          1214
+        ],
+        "silhouette_identical": false,
+        "materials_visual": "White composite, teal/orange stripes, rubber and worn metal match overall palette. Not all prescribed stencil details are retained.",
+        "flat_even_light_pass": false,
+        "visual_limitations": "Residual directional/occlusion shading and altered geometry; colored fringe pixels around silhouette."
+      }
+    }
+  ]
+}

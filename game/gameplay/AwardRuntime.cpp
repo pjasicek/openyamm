@@ -4,6 +4,8 @@
 #include "game/party/Party.h"
 #include "game/tables/AwardTable.h"
 
+#include "engine/Localization.h"
+
 #include <algorithm>
 #include <cstdint>
 #include <utility>
@@ -27,6 +29,9 @@ bool isAwardVisible(const AwardDisplayEntry &entry,
 
     case AwardStateKind::PartyAutonote:
         return isAutonoteUnlocked && isAutonoteUnlocked(entry.stateId);
+
+    case AwardStateKind::PartyArcomageWin:
+        return party.hasArcomageWinAt(entry.stateId);
     }
 
     return false;
@@ -102,8 +107,10 @@ std::vector<VisibleAward> buildVisibleAwards(const AwardTable &awardTable,
 
         VisibleAward award = {};
         award.key = entry.key;
+        // A counted award puts its count into the translated text; the screen translates a whole text itself.
         award.text = entry.stateKind == AwardStateKind::CharacterAward && entry.text.find('%') != std::string::npos
-                         ? replaceFirstPrintfUnsigned(entry.text, awardCounterValue(entry.stateId, party))
+                         ? replaceFirstPrintfUnsigned(
+                               Engine::localize(entry.text), awardCounterValue(entry.stateId, party))
                          : entry.text;
         award.priority = entry.priority;
         awards.push_back(std::move(award));

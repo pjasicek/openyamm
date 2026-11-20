@@ -1,0 +1,240 @@
+{
+  "tool": "built-in image_gen",
+  "brief": "CODEX_BRIEF_3.md",
+  "runs": [
+    {
+      "view": "left",
+      "attempt": 1,
+      "prompt": "Use case: precise-object-edit. Asset type: albedo texture-source painting of the LEFT orthographic view of an opened Colony satchel 3D model.\n\nINPUTS:\nImage 1, guide_left.png, is the EDIT TARGET and absolute authority for geometry, alpha silhouette, every shape edge, camera, scale and location. Keep its exact 1024 x 1024 canvas and transparency.\nImage 2, design_reference.png, is the approved HD material and colour reference ONLY; do not copy its perspective, framing, lighting, shadow, background or geometry.\nImage 3, concept_crop.png, is the original concept supporting the design.\n\nPaint the surfaces in Image 1 in place, preserving every existing polygon shape, contour, opening, strap edge and buckle edge. Do NOT turn this into the three-quarter design-reference view. This is the exact side profile shown in the grey guide: the high raised open flap is on the LEFT and the extended loose strap and rectangular buckle are on the RIGHT. Preserve the asymmetric folds. The whole nontransparent silhouette has bounding box x=105..918, y=319..705 on the 1024-square canvas. Do not enlarge or centre it differently. Keep all empty pixels transparent including small openings; retain the original alpha boundary as precisely as possible. There is a large empty transparent margin above and below. No extra geometry.\n\nMaterials and colours: worn faded deep-blue canvas exterior, sand canvas with fine stitching and dust, pale sand lining inside, a red cloth band with gold embroidered sigil on the appropriate flap surface ONLY if visible in this exact side view, tan leather straps, matte brass buckles. Match the design_reference's material distribution on this exact mesh. Treat existing broad band-like geometric strips as tan leather straps; fine fabric weave, stitch marks and dusty scuffs should be surface colour only, without changing their shape. Use the raised flap's visible folded surfaces and openings exactly as the guide; do not invent new openings or relocate the emblem for visibility.\n\nLIGHTING: this is an ALBEDO TEXTURE SOURCE, not a beauty render. Even, flat, shadowless illumination from the viewer; no cast shadows, no ambient-occlusion darkening in creases or openings, no gradient caused by lighting, no strong specular highlights or reflections, no rim light. Readable colour detail across the whole surface, including lining. The grey guide's lighting must be replaced with flat unlit material colour. Brass should be ochre/brass material colour without shiny white highlights. No background, no floor, no checkerboard pixels, no vignette, no labels, no text. Transparent background with actual alpha.\n\nOUTPUT: ONE 1024 x 1024 RGBA PNG, unresized, only the painted LEFT view; silhouette and all geometry stay identical to guide_left.png.",
+      "inputs": [
+        {
+          "path": "guide_left.png",
+          "sha256": "23e2fdce56ce361e5fc994745464702cb28c373bd5f86536e095d4ab7bfbd820"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "1e015135c95a797bdf11b86260ca8883850420eaf7d79c6f3f700a27cbf5a00e"
+        },
+        {
+          "path": "concept_crop.png",
+          "sha256": "526e76b89944f27ffe0be5f06aa5e3afa7fc11659879100a5a6b2d86f9c67848"
+        }
+      ],
+      "source": "/home/pjasicek/.codex/generated_images/01a16acd-cb4c-7010-9379-cffbdb96a7c9/exec-918665cd-f38d-418e-8f3d-2d4c211ad911.png",
+      "output": "paint_left_attempt1.png",
+      "selected": true,
+      "reason": "Best available left return: closer to the design than attempt 2, which adds a second conspicuous red sigil panel. Still fails exact dimensions, silhouette/edge fidelity, clean alpha and flat-lighting checks. Selected only for preservation; not accepted as compliant.",
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "mode": "RGBA",
+        "exact_dimensions": false,
+        "alpha_bbox": [
+          19,
+          19,
+          1240,
+          1254
+        ],
+        "alpha_128_bbox": [
+          127,
+          390,
+          1126,
+          865
+        ],
+        "fully_transparent_pixels": 1277360,
+        "partially_transparent_pixels": 294722,
+        "has_transparent_background": true,
+        "background_clean": false,
+        "background_note": "Low-alpha pixels extend well beyond the visible object.",
+        "silhouette_identical": false,
+        "silhouette_note": "Wrong canvas dimensions; generated contours and internal shape edges differ from guide.",
+        "materials_and_colours": "Requested material family present; placement is approximate, not a verified exact projection.",
+        "flat_even_light": false,
+        "lighting_note": "Residual fold/crevice shading and edge highlights remain.",
+        "complies_with_brief": false,
+        "unresized_return": true
+      },
+      "output_sha256": "43d658edaa533c452c6f1de13eaa645bbe098c2d5eea260778b32939b2c4abc2",
+      "final_output": "paint_left.png"
+    },
+    {
+      "view": "left",
+      "attempt": 2,
+      "prompt": "Output image dimensions: EXACTLY 1024 x 1024 pixels, PNG RGBA. Do not produce 1254 x 1254 or any other size. This is the one allowed corrective generation for a precision texture source.\n\nUse case: precise-object-edit.\nImage 1 guide_left.png: EDIT TARGET. Colour this exact 1024 x 1024 grey model IN PLACE; preserve its original alpha mask pixel-for-pixel, every polygon edge and outline, buckle opening, fold and strap position. This is a strict paint-over; geometry and framing must not change.\nImage 2 design_reference.png: material and colour authority only.\nImage 3 concept_crop.png: original material concept only.\nImage 4 paint_left_attempt1.png: rejected result, solely to illustrate mistakes to avoid. It has the wrong 1254 canvas, stray transparent-edge noise, too much crease shading and specular lighting and subtly changed geometry. Do not use image 4's geometry or alpha.\n\nThe output must use the guide's square canvas unchanged, with the same very large transparent margins. The original left profile bounding rectangle is x=105 through 918 inclusive and y=319 through 705 inclusive, on a 1024 x 1024 canvas. Keep the raised open flap on the LEFT, loose strap and rectangular buckle extending RIGHT. Keep ALL the exact angular original mesh edges, including internal folds, both broad vertical straps, low bulging side wall and narrow rear outline. Do not make a nicer or smoother version of the shape. Do not rotate, zoom, crop, shift, reframe or reinterpret it. NO opaque or translucent pixels outside the original guide's silhouette. Keep the buckle's original empty slot transparent.\n\nOnly change the grey surface colours into the approved worn faded deep-blue canvas exterior, sand canvas, pale sand lining, tan leather straps and muted ochre brass buckles. Show fine weave, thread stitching and sparse dust marks as colour detail. The flap has a red cloth band with a gold embroidered sigil; include only the portion that is actually visible from this precise guide camera, without changing the geometry or relocating the band.\n\nCRITICAL CORRECTION: completely FLAT UNLIT ALBEDO, not 3D lighting. Every surface of a given material has the same average colour regardless of its orientation or depth. Fabric folds are defined by the guide geometry and material seams, NOT by dark shadows or bright highlights. Pale sand lining must stay pale sand even inside the bag. No ambient occlusion, no dark crevices, no cast shadows, no edge lighting, no white gleaming metal, no reflections, no directional gradient. Front-viewer even shadowless illumination. No floor, background, aura, checkerboard, writing or extra objects.\n\nReturn only ONE exact 1024x1024 transparent RGBA painting over guide_left.png with the guide's identical outline, position, size and edges.",
+      "inputs": [
+        {
+          "path": "guide_left.png",
+          "sha256": "23e2fdce56ce361e5fc994745464702cb28c373bd5f86536e095d4ab7bfbd820"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "1e015135c95a797bdf11b86260ca8883850420eaf7d79c6f3f700a27cbf5a00e"
+        },
+        {
+          "path": "concept_crop.png",
+          "sha256": "526e76b89944f27ffe0be5f06aa5e3afa7fc11659879100a5a6b2d86f9c67848"
+        },
+        {
+          "path": "paint_left_attempt1.png",
+          "sha256": "43d658edaa533c452c6f1de13eaa645bbe098c2d5eea260778b32939b2c4abc2"
+        }
+      ],
+      "source": "/home/pjasicek/.codex/generated_images/01a16acd-cb4c-7010-9379-cffbdb96a7c9/exec-3bededc2-410c-4375-8330-4b4f849f0d48.png",
+      "output": "paint_left_attempt2.png",
+      "selected": false,
+      "reason": "Corrective attempt still has incorrect dimensions, altered contours, crease shadows and shiny trim. Also adds a conspicuous second red panel/sigil; first attempt is closer to the design.",
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "mode": "RGBA",
+        "exact_dimensions": false,
+        "alpha_bbox": [
+          25,
+          29,
+          1226,
+          1230
+        ],
+        "alpha_128_bbox": [
+          127,
+          384,
+          1142,
+          866
+        ],
+        "fully_transparent_pixels": 1277810,
+        "partially_transparent_pixels": 294176,
+        "has_transparent_background": true,
+        "background_clean": false,
+        "background_note": "Low-alpha pixels extend well beyond the visible object.",
+        "silhouette_identical": false,
+        "silhouette_note": "Wrong canvas dimensions; generated contours and internal shape edges differ from guide.",
+        "materials_and_colours": "Requested material family present; placement is approximate, not a verified exact projection.",
+        "flat_even_light": false,
+        "lighting_note": "Residual fold/crevice shading and edge highlights remain.",
+        "complies_with_brief": false,
+        "unresized_return": true
+      },
+      "output_sha256": "0db18e6a7e594cede4b911a52f95e75226ff442b7b574a65c43011279d053d7e"
+    },
+    {
+      "view": "right",
+      "attempt": 1,
+      "prompt": "Make ONE 1024 x 1024 RGBA PNG with transparent background. Precision paint-over of the first input image, preserving its full original canvas and alpha mask.\n\nUse case: precise-object-edit. Asset: RIGHT orthographic albedo texture-source view of the opened Colony satchel.\nImage 1 guide_right.png is the edit target: it fixes the EXACT silhouette, position, scale and every shape edge.\nImage 2 design_reference.png is the approved HD material/colour authority.\nImage 3 concept_crop.png is the original concept reference.\nUse the latter two only for surface material identity, never their geometry, camera, dramatic lighting or background.\n\nPaint the surface materials of the design reference onto the exact existing grey geometry in image 1: worn faded deep-blue canvas and sand canvas with stitching and dust, the pale sand lining inside, a red cloth band with a gold embroidered sigil where that flap surface is visible, tan leather straps, brass buckles. Do not invent an emblem on an unrelated surface or duplicate it to make it visible from this side.\n\nLock every pixel of geometry to guide_right.png. This side has the tall rounded raised flap on the RIGHT, low folded opening toward the LEFT, and the loose strap with rectangular buckle extending LEFT. Follow the precise asymmetric angular mesh and strap locations as shown; do not mirror a different image or soften the polygon outlines. The full object occupies x105..918 and y319..705 inclusive within the unchanged 1024x1024 image. Large transparent margins above and below, just as in the guide. Preserve the narrow open slots and empty spaces and all internal shape edges. Add nothing outside the exact silhouette and crop nothing.\n\nThis is ALBEDO: flat, even, shadowless viewer-facing light. Replace the grey render's light and shading with unlit local surface colour. Pale sand lining stays pale sand inside the opening. No ambient-occlusion darkening, no cast shadows, no strong specular highlights, reflections or rim light. Brass is matte brass base colour. Restrained woven fabric texture, leather grain, dust, stitches and scuffs supply colour detail without painted 3D shadow gradients. No background, no floor, no checkerboard, no labels.\n\nReturn the painted RIGHT view only, exactly 1024 x 1024 pixels with real alpha transparency, unchanged scale and framing.",
+      "inputs": [
+        {
+          "path": "guide_right.png",
+          "sha256": "bf3404c0416ea2c8870d9142a87edd46c54c929e599430e8ca717e5de1be2393"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "1e015135c95a797bdf11b86260ca8883850420eaf7d79c6f3f700a27cbf5a00e"
+        },
+        {
+          "path": "concept_crop.png",
+          "sha256": "526e76b89944f27ffe0be5f06aa5e3afa7fc11659879100a5a6b2d86f9c67848"
+        }
+      ],
+      "source": "/home/pjasicek/.codex/generated_images/01a16acd-cb4c-7010-9379-cffbdb96a7c9/exec-89fb5549-464c-48f5-a0e3-79e0eac3cadf.png",
+      "output": "paint_right_attempt1.png",
+      "selected": false,
+      "reason": "Not selected: incorrect canvas size, altered contours, added strap rivet/hardware and pronounced lighting. Corrective attempt 2 is preferred but also fails mandatory checks.",
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "mode": "RGBA",
+        "exact_dimensions": false,
+        "alpha_bbox": [
+          17,
+          21,
+          1236,
+          1228
+        ],
+        "alpha_128_bbox": [
+          123,
+          390,
+          1129,
+          862
+        ],
+        "fully_transparent_pixels": 1281333,
+        "partially_transparent_pixels": 290942,
+        "has_transparent_background": true,
+        "background_clean": false,
+        "background_note": "Low-alpha pixels extend well beyond the visible object.",
+        "silhouette_identical": false,
+        "silhouette_note": "Wrong canvas dimensions; generated contours and internal shape edges differ from guide.",
+        "materials_and_colours": "Requested material family present; placement is approximate, not a verified exact projection.",
+        "flat_even_light": false,
+        "lighting_note": "Residual fold/crevice shading and edge highlights remain.",
+        "complies_with_brief": false,
+        "unresized_return": true
+      },
+      "output_sha256": "f406c10f077ff5f4cbc3066c782f0ec76e3f8d6158ed242cd65aab25e7cb56ad"
+    },
+    {
+      "view": "right",
+      "attempt": 2,
+      "prompt": "1024x1024 transparent RGBA PNG. CORRECTIVE paint-over, exact geometry lock.\n\nEDIT TARGET = first image guide_right.png. Paint on this exact image in place, retaining its exact alpha channel and pixel positions. Do not render a new satchel.\nMATERIAL REFERENCE ONLY = second image design_reference.png.\nORIGINAL CONCEPT = third image concept_crop.png.\n\nThe target is the RIGHT orthographic side view: high flap on the RIGHT, protruding buckle on the LEFT, bounding box x105..918 y319..705 on a 1024-square canvas. Retain every angular grey polygon, opening, fold, strap, buckle slot, silhouette edge and internal shape edge exactly. Preserve the two plain broad vertical straps as the existing shapes; don't add rivets or extra buckles. Do not add piping that changes an edge. No smoothing or reinterpretation of the model. Keep all surrounding pixels fully transparent.\n\nApply only flat diffuse MATERIAL COLOURS: worn faded deep-blue canvas body, sand-coloured canvas and pale sand lining, tan leather straps, matte ochre brass buckle, fine stitching and sparse dust. The red cloth band and embroidered gold circle-with-stem sigil belong to the approved flap design and appear only where that actual surface is visible; do not add an extra decorative panel elsewhere.\n\nCRITICAL: UNLIT ALBEDO PASS. Zero lighting information. No shadow in folds, no ambient occlusion in the interior or under straps, no bright edge, no specular or metallic reflection. Sand lining is evenly pale sand throughout the opening. Leather has the same tan brightness on every face. Brass is flat muted yellow ochre. Canvas has the same average faded blue colour across lit and unlit orientations. Let woven threads, dust and seams provide fine material detail, without sculptural shading. No glow, floor, background or contact shadow.\n\nPrior generation failed because it returned 1254x1254 and shaded 3D imagery with changed shape edges. This is the only corrective attempt: return exactly 1024x1024, retaining the original image's canvas, scale, placement and silhouette pixel-for-pixel. One painted view only.",
+      "inputs": [
+        {
+          "path": "guide_right.png",
+          "sha256": "bf3404c0416ea2c8870d9142a87edd46c54c929e599430e8ca717e5de1be2393"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "1e015135c95a797bdf11b86260ca8883850420eaf7d79c6f3f700a27cbf5a00e"
+        },
+        {
+          "path": "concept_crop.png",
+          "sha256": "526e76b89944f27ffe0be5f06aa5e3afa7fc11659879100a5a6b2d86f9c67848"
+        }
+      ],
+      "source": "/home/pjasicek/.codex/generated_images/01a16acd-cb4c-7010-9379-cffbdb96a7c9/exec-3bd1b30e-d9f3-451a-86e4-d2f40ecd88b4.png",
+      "output": "paint_right_attempt2.png",
+      "selected": true,
+      "reason": "Best available right return: removes the invented strap rivet/hardware and reduces some lighting, but still fails exact size, silhouette/edge fidelity and flat-lighting requirements. Selected only for preservation as the requested output; not accepted as compliant.",
+      "output_sha256": "6b0d9ba877e9c953e4d5c60acae98644db216b588ceec1dbae6b11e05bb26171",
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "mode": "RGBA",
+        "exact_dimensions": false,
+        "alpha_bbox": [
+          0,
+          39,
+          1172,
+          1212
+        ],
+        "alpha_128_bbox": [
+          131,
+          389,
+          1133,
+          864
+        ],
+        "fully_transparent_pixels": 1279622,
+        "partially_transparent_pixels": 292744,
+        "has_transparent_background": true,
+        "background_clean": false,
+        "background_note": "Low-alpha pixels extend well beyond the visible object.",
+        "silhouette_identical": false,
+        "silhouette_note": "Wrong canvas dimensions; generated contours and internal shape edges differ from guide.",
+        "materials_and_colours": "Requested material family present; placement is approximate, not a verified exact projection.",
+        "flat_even_light": false,
+        "lighting_note": "Residual fold/crevice shading and edge highlights remain.",
+        "complies_with_brief": false,
+        "unresized_return": true
+      },
+      "final_output": "paint_right.png"
+    }
+  ],
+  "status": "generation_finished_quality_gates_failed",
+  "selection_note": "Selected means best retained unmodified return, not brief approval. No generated image passed all required checks.",
+  "postprocessing": "None. All PNGs copied byte-for-byte from built-in image generation returns; no resizing, cropping, masking, repainting or recompression.",
+  "retry_limit": "One initial generation plus one corrective generation per view; limit reached for both views."
+}

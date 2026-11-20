@@ -1,0 +1,46 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Carved Obsidian · approved journal & map</title>
+<link rel="stylesheet" href="../hud_overlay_study_20260927/button-theme.css">
+<link rel="stylesheet" href="style.css?v=3"></head><body>
+<header><a href="../obsidian_overlays_20260928/index.html">OPENYAMM <span> / UI STUDIES</span></a>
+<span>JOURNAL · APPROVED REVISION 01</span><a href="staging/index.html">Staged journal assets ↗</a></header>
+<main><div class="intro"><div><p class="eyebrow">CARVED OBSIDIAN · REFERENCES 2090–2094</p>
+<h1>A matching home for maps and records.</h1></div><p>The existing four views, six note categories and map controls.
+Rough stone, antique brass, the original MM reading fonts and Fondamento buttons.</p></div>
+<nav id="view-tabs" aria-label="Review screens"></nav>
+<div class="controls"><label>Content <select id="content-mode"><option value="examples">Examples from game tables</option>
+<option value="reference">As in screenshots · sparse / empty</option><option value="long">Long entries / multiple pages</option></select></label>
+<label id="alignment-control">Body alignment <select id="body-alignment"><option value="justify">Justified · block</option>
+<option value="left">Left aligned · comparison</option></select></label>
+<label id="fog-control">Exploration <select id="fog"><option value="partial">Partly explored</option><option value="start">Small revealed area</option>
+<option value="all">Fully explored</option></select></label><label><input id="legacy" type="checkbox">Original screenshot</label>
+<button id="reopen" hidden>Reopen journal</button><button id="fullscreen">Full screen</button></div>
+<div class="stage-host" id="stage-host"><div class="stage button-theme" id="stage">
+<iframe id="gameplay" src="../hud_concepts_20260927/index.html?concept=obsidian&export=1" title="Approved gameplay HUD behind the journal" tabindex="-1"></iframe>
+<div id="journal-backdrop" aria-hidden="true"></div>
+<section id="journal" class="journal" aria-label="Journal">
+<div class="control-rail" aria-hidden="true"></div><div class="spine" aria-hidden="true"></div>
+<div class="frame" aria-hidden="true"><i class="top"></i><i class="bottom"></i><i class="left"></i><i class="right"></i><i class="tl"></i><i class="tr"></i><i class="bl"></i><i class="br"></i></div>
+<img class="view-emblem" id="view-emblem" alt=""><h2 id="page-title"></h2>
+<section id="text-viewport" aria-label="Journal text"></section>
+<div id="map-area"><canvas id="map" width="900" height="900" aria-label="New Sorpigal map; drag to pan, wheel to zoom"></canvas>
+<div id="map-note" aria-live="polite"></div><p id="coordinates">x: -9728 &nbsp; y: -11319</p></div>
+<div id="page-controls" aria-label="Page or map controls"></div><div id="note-categories" aria-label="Autonote category"></div>
+<nav id="main-navigation" aria-label="Journal view"></nav>
+<button id="close" class="obs-button"><span class="obs-label">Close</span></button>
+<div id="page-number" aria-live="polite"></div>
+</section><div id="status-specimen" hidden></div><img id="legacy-image" alt="Original reference screenshot" hidden>
+</div></div>
+<div class="caption"><span id="caption"></span><span>640 × 480 logical · 1.875× review · approved design, staged for integration</span></div>
+<p id="hint">Map: drag to pan, wheel or buttons to zoom; hover a pin to read its note. Records: Previous / Next or arrow keys.</p>
+<div class="notes"><article><h2>Keep the familiar roles.</h2><p>Map, Quests, Story and Notes keep the right-hand rail.
+The small rail changes between map zoom, page turns and note categories. Close reveals the approved gameplay HUD.</p></article>
+<article><h2>Readable, with the same lettering.</h2><p>Book2 titles and Autonote body text retain their shapes, with soft ivory on dark stone.
+Paragraphs align to both edges, with the final line left aligned. Use Body alignment to compare the previous treatment.</p></article>
+<article><h2>Real map, separate frame.</h2><p>The map is the installed New Sorpigal artwork. Exploration and pins are review fixtures.
+Its 300 × 300 logical viewport, three zoom levels, coordinates and note strip retain their purpose.</p></article></div>
+<details><summary>Assets, layout draft and implementation notes</summary><p><a href="staging/index.html">Staged asset sheet</a> ·
+<a href="staging/README.md">Package guide</a> · <a href="README.md">Design notes</a> ·
+<a href="drafts/journal.yml">Journal YAML draft</a> · <a href="generation_prompts.json">Generated icon prompts</a> ·
+<a href="asset_sources.json">Source receipts</a> · <a href="browser_review.json">Browser checks</a></p></details>
+</main><script src="content.js"></script><script src="app.js?v=2"></script></body></html>

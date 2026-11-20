@@ -1,0 +1,1946 @@
+{
+  "fixtures": {
+    "grass": {
+      "folder": "fixtures/land_v1/grass",
+      "master_tile": 0,
+      "lookup": [
+        198,
+        126,
+        90,
+        414
+      ],
+      "poses": {
+        "island": [
+          -4864.0,
+          512,
+          3000,
+          1.5707963268,
+          -0.96
+        ],
+        "hole": [
+          1280.0,
+          512,
+          3000,
+          1.5707963268,
+          -0.96
+        ],
+        "dirttyl": [
+          -6912.0,
+          14336,
+          2400,
+          1.5707963268,
+          -0.96
+        ],
+        "grastyl": [
+          256.0,
+          14336,
+          2400,
+          1.5707963268,
+          -0.96
+        ],
+        "grastyl2": [
+          -3840.0,
+          -8192,
+          2400,
+          1.5707963268,
+          -0.96
+        ],
+        "grdrte": [
+          768.0,
+          -8192,
+          2400,
+          1.5707963268,
+          -0.96
+        ],
+        "grdrtn": [
+          5376.0,
+          -8192,
+          2400,
+          1.5707963268,
+          -0.96
+        ],
+        "grdrtne": [
+          -13056.0,
+          -12288,
+          2400,
+          1.5707963268,
+          -0.96
+        ],
+        "grdrtnw": [
+          -8448.0,
+          -12288,
+          2400,
+          1.5707963268,
+          -0.96
+        ],
+        "grdrts": [
+          -3840.0,
+          -12288,
+          2400,
+          1.5707963268,
+          -0.96
+        ],
+        "grdrtse": [
+          768.0,
+          -12288,
+          2400,
+          1.5707963268,
+          -0.96
+        ],
+        "grdrtsw": [
+          5376.0,
+          -12288,
+          2400,
+          1.5707963268,
+          -0.96
+        ],
+        "grdrtw": [
+          -13056.0,
+          -16384,
+          2400,
+          1.5707963268,
+          -0.96
+        ],
+        "grdrtxne": [
+          -8448.0,
+          -16384,
+          2400,
+          1.5707963268,
+          -0.96
+        ],
+        "grdrtxnw": [
+          -3840.0,
+          -16384,
+          2400,
+          1.5707963268,
+          -0.96
+        ],
+        "grdrtxse": [
+          768.0,
+          -16384,
+          2400,
+          1.5707963268,
+          -0.96
+        ],
+        "grdrtxsw": [
+          5376.0,
+          -16384,
+          2400,
+          1.5707963268,
+          -0.96
+        ]
+      },
+      "layouts": {
+        "island": {
+          "row": 56,
+          "col": 52,
+          "grid": [
+            [
+              "grdrtnw",
+              "grdrtn",
+              "grdrtn",
+              "grdrtn",
+              "grdrtne"
+            ],
+            [
+              "grdrtw",
+              "grastyl",
+              "grastyl",
+              "grastyl",
+              "grdrte"
+            ],
+            [
+              "grdrtw",
+              "grastyl",
+              "grastyl",
+              "grastyl",
+              "grdrte"
+            ],
+            [
+              "grdrtw",
+              "grastyl",
+              "grastyl",
+              "grastyl",
+              "grdrte"
+            ],
+            [
+              "grdrtsw",
+              "grdrts",
+              "grdrts",
+              "grdrts",
+              "grdrtse"
+            ]
+          ]
+        },
+        "hole": {
+          "row": 56,
+          "col": 64,
+          "grid": [
+            [
+              "grdrtxse",
+              "grdrts",
+              "grdrts",
+              "grdrts",
+              "grdrtxsw"
+            ],
+            [
+              "grdrte",
+              "dirttyl",
+              "dirttyl",
+              "dirttyl",
+              "grdrtw"
+            ],
+            [
+              "grdrte",
+              "dirttyl",
+              "dirttyl",
+              "dirttyl",
+              "grdrtw"
+            ],
+            [
+              "grdrte",
+              "dirttyl",
+              "dirttyl",
+              "dirttyl",
+              "grdrtw"
+            ],
+            [
+              "grdrtxne",
+              "grdrtn",
+              "grdrtn",
+              "grdrtn",
+              "grdrtxnw"
+            ]
+          ]
+        },
+        "grastyl2": {
+          "native_map": "out03",
+          "native_row": 16,
+          "native_col": 56,
+          "row": 76,
+          "col": 56
+        },
+        "grdrte": {
+          "native_map": "out03",
+          "native_row": 34,
+          "native_col": 74,
+          "row": 76,
+          "col": 65
+        },
+        "grdrtn": {
+          "native_map": "out03",
+          "native_row": 73,
+          "native_col": 1,
+          "row": 76,
+          "col": 74
+        },
+        "grdrtne": {
+          "native_map": "out03",
+          "native_row": 78,
+          "native_col": 28,
+          "row": 84,
+          "col": 38
+        },
+        "grdrtnw": {
+          "native_map": "out03",
+          "native_row": 55,
+          "native_col": 51,
+          "row": 84,
+          "col": 47
+        },
+        "grdrts": {
+          "native_map": "out03",
+          "native_row": 93,
+          "native_col": 52,
+          "row": 84,
+          "col": 56
+        },
+        "grdrtse": {
+          "native_map": "out03",
+          "native_row": 62,
+          "native_col": 55,
+          "row": 84,
+          "col": 65
+        },
+        "grdrtsw": {
+          "native_map": "out03",
+          "native_row": 114,
+          "native_col": 42,
+          "row": 84,
+          "col": 74
+        },
+        "grdrtw": {
+          "native_map": "out03",
+          "native_row": 38,
+          "native_col": 53,
+          "row": 92,
+          "col": 38
+        },
+        "grdrtxne": {
+          "native_map": "out03",
+          "native_row": 105,
+          "native_col": 44,
+          "row": 92,
+          "col": 47
+        },
+        "grdrtxnw": {
+          "native_map": "out03",
+          "native_row": 58,
+          "native_col": 62,
+          "row": 92,
+          "col": 56
+        },
+        "grdrtxse": {
+          "native_map": "out03",
+          "native_row": 69,
+          "native_col": 28,
+          "row": 92,
+          "col": 65
+        },
+        "grdrtxsw": {
+          "native_map": "out05",
+          "native_row": 52,
+          "native_col": 58,
+          "row": 92,
+          "col": 74
+        }
+      },
+      "used_names": [
+        "dirttyl",
+        "grastyl",
+        "grastyl2",
+        "grdrte",
+        "grdrtn",
+        "grdrtne",
+        "grdrtnw",
+        "grdrts",
+        "grdrtse",
+        "grdrtsw",
+        "grdrtw",
+        "grdrtxne",
+        "grdrtxnw",
+        "grdrtxse",
+        "grdrtxsw"
+      ],
+      "unavailable_closed_layouts": [],
+      "odm_sha256": "30984c4c88cbb0b5e390ba01b5a606f2849b14a3195526dc564416b1940001e1"
+    },
+    "volcano": {
+      "folder": "fixtures/land_v1/volcano",
+      "master_tile": 0,
+      "lookup": [
+        198,
+        378,
+        198,
+        414
+      ],
+      "poses": {
+        "island": [
+          -4864.0,
+          512,
+          3000,
+          1.5707963268,
+          -0.96
+        ],
+        "hole": [
+          1280.0,
+          512,
+          3000,
+          1.5707963268,
+          -0.96
+        ],
+        "dirttyl": [
+          -6912.0,
+          14336,
+          2400,
+          1.5707963268,
+          -0.96
+        ],
+        "vole": [
+          -8448.0,
+          -8192,
+          2400,
+          1.5707963268,
+          -0.96
+        ],
+        "voln": [
+          -3840.0,
+          -8192,
+          2400,
+          1.5707963268,
+          -0.96
+        ],
+        "volne": [
+          768.0,
+          -8192,
+          2400,
+          1.5707963268,
+          -0.96
+        ],
+        "volnw": [
+          5376.0,
+          -8192,
+          2400,
+          1.5707963268,
+          -0.96
+        ],
+        "vols": [
+          -13056.0,
+          -12288,
+          2400,
+          1.5707963268,
+          -0.96
+        ],
+        "volse": [
+          -8448.0,
+          -12288,
+          2400,
+          1.5707963268,
+          -0.96
+        ],
+        "volsw": [
+          -3840.0,
+          -12288,
+          2400,
+          1.5707963268,
+          -0.96
+        ],
+        "voltyl": [
+          256.0,
+          14336,
+          2400,
+          1.5707963268,
+          -0.96
+        ],
+        "voltylx": [
+          5376.0,
+          -12288,
+          2400,
+          1.5707963268,
+          -0.96
+        ],
+        "volw": [
+          -13056.0,
+          -16384,
+          2400,
+          1.5707963268,
+          -0.96
+        ],
+        "volxne": [
+          -8448.0,
+          -16384,
+          2400,
+          1.5707963268,
+          -0.96
+        ],
+        "volxnw": [
+          -3840.0,
+          -16384,
+          2400,
+          1.5707963268,
+          -0.96
+        ],
+        "volxse": [
+          768.0,
+          -16384,
+          2400,
+          1.5707963268,
+          -0.96
+        ],
+        "volxsw": [
+          5376.0,
+          -16384,
+          2400,
+          1.5707963268,
+          -0.96
+        ]
+      },
+      "layouts": {
+        "island": {
+          "row": 56,
+          "col": 52,
+          "grid": [
+            [
+              "volnw",
+              "voln",
+              "voln",
+              "voln",
+              "volne"
+            ],
+            [
+              "volw",
+              "voltyl",
+              "voltyl",
+              "voltyl",
+              "vole"
+            ],
+            [
+              "volw",
+              "voltyl",
+              "voltyl",
+              "voltyl",
+              "vole"
+            ],
+            [
+              "volw",
+              "voltyl",
+              "voltyl",
+              "voltyl",
+              "vole"
+            ],
+            [
+              "volsw",
+              "vols",
+              "vols",
+              "vols",
+              "volse"
+            ]
+          ]
+        },
+        "hole": {
+          "row": 56,
+          "col": 64,
+          "grid": [
+            [
+              "volxse",
+              "vols",
+              "vols",
+              "vols",
+              "volxsw"
+            ],
+            [
+              "vole",
+              "dirttyl",
+              "dirttyl",
+              "dirttyl",
+              "volw"
+            ],
+            [
+              "vole",
+              "dirttyl",
+              "dirttyl",
+              "dirttyl",
+              "volw"
+            ],
+            [
+              "vole",
+              "dirttyl",
+              "dirttyl",
+              "dirttyl",
+              "volw"
+            ],
+            [
+              "volxne",
+              "voln",
+              "voln",
+              "voln",
+              "volxnw"
+            ]
+          ]
+        },
+        "vole": {
+          "native_map": "elemf",
+          "native_row": 71,
+          "native_col": 44,
+          "row": 76,
+          "col": 47
+        },
+        "voln": {
+          "native_map": "elemf",
+          "native_row": 80,
+          "native_col": 35,
+          "row": 76,
+          "col": 56
+        },
+        "volne": {
+          "native_map": "elemf",
+          "native_row": 78,
+          "native_col": 85,
+          "row": 76,
+          "col": 65
+        },
+        "volnw": {
+          "native_map": "elemf",
+          "native_row": 73,
+          "native_col": 49,
+          "row": 76,
+          "col": 74
+        },
+        "vols": {
+          "native_map": "elemf",
+          "native_row": 79,
+          "native_col": 46,
+          "row": 84,
+          "col": 38
+        },
+        "volse": {
+          "native_map": "elemf",
+          "native_row": 91,
+          "native_col": 45,
+          "row": 84,
+          "col": 47
+        },
+        "volsw": {
+          "native_map": "elemf",
+          "native_row": 80,
+          "native_col": 95,
+          "row": 84,
+          "col": 56
+        },
+        "voltylx": {
+          "native_map": "elemf",
+          "native_row": 103,
+          "native_col": 92,
+          "row": 84,
+          "col": 74
+        },
+        "volw": {
+          "native_map": "elemf",
+          "native_row": 69,
+          "native_col": 42,
+          "row": 92,
+          "col": 38
+        },
+        "volxne": {
+          "native_map": "elemf",
+          "native_row": 81,
+          "native_col": 87,
+          "row": 92,
+          "col": 47
+        },
+        "volxnw": {
+          "native_map": "elemf",
+          "native_row": 76,
+          "native_col": 80,
+          "row": 92,
+          "col": 56
+        },
+        "volxse": {
+          "native_map": "elemf",
+          "native_row": 86,
+          "native_col": 86,
+          "row": 92,
+          "col": 65
+        },
+        "volxsw": {
+          "native_map": "elemf",
+          "native_row": 78,
+          "native_col": 77,
+          "row": 92,
+          "col": 74
+        }
+      },
+      "used_names": [
+        "dirttyl",
+        "vole",
+        "voln",
+        "volne",
+        "volnw",
+        "vols",
+        "volse",
+        "volsw",
+        "voltyl",
+        "voltylx",
+        "volw",
+        "volxne",
+        "volxnw",
+        "volxse",
+        "volxsw"
+      ],
+      "unavailable_closed_layouts": [],
+      "odm_sha256": "4c19352bdc8c14cfee20e91f928f499200c442d423622bf6132606340cf19788"
+    },
+    "rock": {
+      "folder": "fixtures/land_v1/rock",
+      "master_tile": 0,
+      "lookup": [
+        342,
+        126,
+        162,
+        414
+      ],
+      "poses": {
+        "island": [
+          -4864.0,
+          512,
+          3000,
+          1.5707963268,
+          -0.96
+        ],
+        "hole": [
+          1280.0,
+          512,
+          3000,
+          1.5707963268,
+          -0.96
+        ],
+        "dirttyl": [
+          -6912.0,
+          14336,
+          2400,
+          1.5707963268,
+          -0.96
+        ],
+        "rke": [
+          -8448.0,
+          -8192,
+          2400,
+          1.5707963268,
+          -0.96
+        ],
+        "rkn": [
+          -3840.0,
+          -8192,
+          2400,
+          1.5707963268,
+          -0.96
+        ],
+        "rkne": [
+          768.0,
+          -8192,
+          2400,
+          1.5707963268,
+          -0.96
+        ],
+        "rknw": [
+          5376.0,
+          -8192,
+          2400,
+          1.5707963268,
+          -0.96
+        ],
+        "rks": [
+          -13056.0,
+          -12288,
+          2400,
+          1.5707963268,
+          -0.96
+        ],
+        "rkse": [
+          -8448.0,
+          -12288,
+          2400,
+          1.5707963268,
+          -0.96
+        ],
+        "rksw": [
+          -3840.0,
+          -12288,
+          2400,
+          1.5707963268,
+          -0.96
+        ],
+        "rktyl": [
+          256.0,
+          14336,
+          2400,
+          1.5707963268,
+          -0.96
+        ],
+        "rktylx": [
+          5376.0,
+          -12288,
+          2400,
+          1.5707963268,
+          -0.96
+        ],
+        "rkw": [
+          -13056.0,
+          -16384,
+          2400,
+          1.5707963268,
+          -0.96
+        ],
+        "rkxne": [
+          -8448.0,
+          -16384,
+          2400,
+          1.5707963268,
+          -0.96
+        ],
+        "rkxnw": [
+          -3840.0,
+          -16384,
+          2400,
+          1.5707963268,
+          -0.96
+        ],
+        "rkxse": [
+          768.0,
+          -16384,
+          2400,
+          1.5707963268,
+          -0.96
+        ],
+        "rkxsw": [
+          5376.0,
+          -16384,
+          2400,
+          1.5707963268,
+          -0.96
+        ]
+      },
+      "layouts": {
+        "island": {
+          "row": 56,
+          "col": 52,
+          "grid": [
+            [
+              "rknw",
+              "rkn",
+              "rkn",
+              "rkn",
+              "rkne"
+            ],
+            [
+              "rkw",
+              "rktyl",
+              "rktyl",
+              "rktyl",
+              "rke"
+            ],
+            [
+              "rkw",
+              "rktyl",
+              "rktyl",
+              "rktyl",
+              "rke"
+            ],
+            [
+              "rkw",
+              "rktyl",
+              "rktyl",
+              "rktyl",
+              "rke"
+            ],
+            [
+              "rksw",
+              "rks",
+              "rks",
+              "rks",
+              "rkse"
+            ]
+          ]
+        },
+        "hole": {
+          "row": 56,
+          "col": 64,
+          "grid": [
+            [
+              "rkxse",
+              "rks",
+              "rks",
+              "rks",
+              "rkxsw"
+            ],
+            [
+              "rke",
+              "dirttyl",
+              "dirttyl",
+              "dirttyl",
+              "rkw"
+            ],
+            [
+              "rke",
+              "dirttyl",
+              "dirttyl",
+              "dirttyl",
+              "rkw"
+            ],
+            [
+              "rke",
+              "dirttyl",
+              "dirttyl",
+              "dirttyl",
+              "rkw"
+            ],
+            [
+              "rkxne",
+              "rkn",
+              "rkn",
+              "rkn",
+              "rkxnw"
+            ]
+          ]
+        },
+        "rke": {
+          "native_map": "out03",
+          "native_row": 38,
+          "native_col": 48,
+          "row": 76,
+          "col": 47
+        },
+        "rkn": {
+          "native_map": "out02",
+          "native_row": 64,
+          "native_col": 108,
+          "row": 76,
+          "col": 56
+        },
+        "rkne": {
+          "native_map": "out03",
+          "native_row": 74,
+          "native_col": 17,
+          "row": 76,
+          "col": 65
+        },
+        "rknw": {
+          "native_map": "out03",
+          "native_row": 44,
+          "native_col": 93,
+          "row": 76,
+          "col": 74
+        },
+        "rks": {
+          "native_map": "out03",
+          "native_row": 20,
+          "native_col": 76,
+          "row": 84,
+          "col": 38
+        },
+        "rkse": {
+          "native_map": "out03",
+          "native_row": 50,
+          "native_col": 46,
+          "row": 84,
+          "col": 47
+        },
+        "rksw": {
+          "native_map": "out02",
+          "native_row": 119,
+          "native_col": 121,
+          "row": 84,
+          "col": 56
+        },
+        "rktylx": {
+          "native_map": "out02",
+          "native_row": 87,
+          "native_col": 38,
+          "row": 84,
+          "col": 74
+        },
+        "rkw": {
+          "native_map": "out03",
+          "native_row": 35,
+          "native_col": 101,
+          "row": 92,
+          "col": 38
+        },
+        "rkxne": {
+          "native_map": "out03",
+          "native_row": 79,
+          "native_col": 21,
+          "row": 92,
+          "col": 47
+        },
+        "rkxnw": {
+          "native_map": "out03",
+          "native_row": 68,
+          "native_col": 18,
+          "row": 92,
+          "col": 56
+        },
+        "rkxse": {
+          "native_map": "out03",
+          "native_row": 58,
+          "native_col": 44,
+          "row": 92,
+          "col": 65
+        },
+        "rkxsw": {
+          "native_map": "out03",
+          "native_row": 22,
+          "native_col": 95,
+          "row": 92,
+          "col": 74
+        }
+      },
+      "used_names": [
+        "dirttyl",
+        "rke",
+        "rkn",
+        "rkne",
+        "rknw",
+        "rks",
+        "rkse",
+        "rksw",
+        "rktyl",
+        "rktylx",
+        "rkw",
+        "rkxne",
+        "rkxnw",
+        "rkxse",
+        "rkxsw"
+      ],
+      "unavailable_closed_layouts": [],
+      "odm_sha256": "edbef20a43cdbfa25f18495c061a0339bea5eecaa3d2e2123d567a652275b9a2"
+    },
+    "sandstone": {
+      "folder": "fixtures/land_v1/sandstone",
+      "master_tile": 0,
+      "lookup": [
+        306,
+        126,
+        234,
+        414
+      ],
+      "poses": {
+        "hole": [
+          1280.0,
+          512,
+          3000,
+          1.5707963268,
+          -0.96
+        ],
+        "dirttyl": [
+          -6912.0,
+          14336,
+          2400,
+          1.5707963268,
+          -0.96
+        ],
+        "rce": [
+          -8448.0,
+          -8192,
+          2400,
+          1.5707963268,
+          -0.96
+        ],
+        "rcn": [
+          -3840.0,
+          -8192,
+          2400,
+          1.5707963268,
+          -0.96
+        ],
+        "rcne": [
+          768.0,
+          -8192,
+          2400,
+          1.5707963268,
+          -0.96
+        ],
+        "rcnw": [
+          5376.0,
+          -8192,
+          2400,
+          1.5707963268,
+          -0.96
+        ],
+        "rcs": [
+          -13056.0,
+          -12288,
+          2400,
+          1.5707963268,
+          -0.96
+        ],
+        "rcse": [
+          -8448.0,
+          -12288,
+          2400,
+          1.5707963268,
+          -0.96
+        ],
+        "rctyl": [
+          256.0,
+          14336,
+          2400,
+          1.5707963268,
+          -0.96
+        ],
+        "rctylx": [
+          768.0,
+          -12288,
+          2400,
+          1.5707963268,
+          -0.96
+        ],
+        "rcw": [
+          5376.0,
+          -12288,
+          2400,
+          1.5707963268,
+          -0.96
+        ],
+        "rcxne": [
+          -13056.0,
+          -16384,
+          2400,
+          1.5707963268,
+          -0.96
+        ],
+        "rcxnw": [
+          -8448.0,
+          -16384,
+          2400,
+          1.5707963268,
+          -0.96
+        ],
+        "rcxse": [
+          -3840.0,
+          -16384,
+          2400,
+          1.5707963268,
+          -0.96
+        ],
+        "rcxsw": [
+          768.0,
+          -16384,
+          2400,
+          1.5707963268,
+          -0.96
+        ]
+      },
+      "layouts": {
+        "hole": {
+          "row": 56,
+          "col": 64,
+          "grid": [
+            [
+              "rcxse",
+              "rcs",
+              "rcs",
+              "rcs",
+              "rcxsw"
+            ],
+            [
+              "rce",
+              "dirttyl",
+              "dirttyl",
+              "dirttyl",
+              "rcw"
+            ],
+            [
+              "rce",
+              "dirttyl",
+              "dirttyl",
+              "dirttyl",
+              "rcw"
+            ],
+            [
+              "rce",
+              "dirttyl",
+              "dirttyl",
+              "dirttyl",
+              "rcw"
+            ],
+            [
+              "rcxne",
+              "rcn",
+              "rcn",
+              "rcn",
+              "rcxnw"
+            ]
+          ]
+        },
+        "rce": {
+          "native_map": "out08",
+          "native_row": 62,
+          "native_col": 12,
+          "row": 76,
+          "col": 47
+        },
+        "rcn": {
+          "native_map": "out08",
+          "native_row": 67,
+          "native_col": 19,
+          "row": 76,
+          "col": 56
+        },
+        "rcne": {
+          "native_map": "out08",
+          "native_row": 62,
+          "native_col": 35,
+          "row": 76,
+          "col": 65
+        },
+        "rcnw": {
+          "native_map": "out08",
+          "native_row": 55,
+          "native_col": 69,
+          "row": 76,
+          "col": 74
+        },
+        "rcs": {
+          "native_map": "out08",
+          "native_row": 61,
+          "native_col": 68,
+          "row": 84,
+          "col": 38
+        },
+        "rcse": {
+          "native_map": "out08",
+          "native_row": 78,
+          "native_col": 68,
+          "row": 84,
+          "col": 47
+        },
+        "rctylx": {
+          "native_map": "out08",
+          "native_row": 47,
+          "native_col": 2,
+          "row": 84,
+          "col": 65
+        },
+        "rcw": {
+          "native_map": "out08",
+          "native_row": 56,
+          "native_col": 96,
+          "row": 84,
+          "col": 74
+        },
+        "rcxne": {
+          "native_map": "out08",
+          "native_row": 63,
+          "native_col": 12,
+          "row": 92,
+          "col": 38
+        },
+        "rcxnw": {
+          "native_map": "out08",
+          "native_row": 63,
+          "native_col": 29,
+          "row": 92,
+          "col": 47
+        },
+        "rcxse": {
+          "native_map": "out08",
+          "native_row": 77,
+          "native_col": 87,
+          "row": 92,
+          "col": 56
+        },
+        "rcxsw": {
+          "native_map": "out08",
+          "native_row": 53,
+          "native_col": 61,
+          "row": 92,
+          "col": 65
+        }
+      },
+      "used_names": [
+        "dirttyl",
+        "rce",
+        "rcn",
+        "rcne",
+        "rcnw",
+        "rcs",
+        "rcse",
+        "rctyl",
+        "rctylx",
+        "rcw",
+        "rcxne",
+        "rcxnw",
+        "rcxse",
+        "rcxsw"
+      ],
+      "unavailable_closed_layouts": [
+        "island"
+      ],
+      "odm_sha256": "0e891f6e51c44e0359bc4f399e8ed6dc420b566a1ae9773d2e8c282c14eaf5e3"
+    },
+    "red_dirt": {
+      "folder": "fixtures/land_v1/red_dirt",
+      "master_tile": 0,
+      "lookup": [
+        342,
+        126,
+        162,
+        414
+      ],
+      "poses": {
+        "dirttyl": [
+          -6912.0,
+          14336,
+          2400,
+          1.5707963268,
+          -0.96
+        ],
+        "rdnw": [
+          -8448.0,
+          -8192,
+          2400,
+          1.5707963268,
+          -0.96
+        ],
+        "rdtyl": [
+          256.0,
+          14336,
+          2400,
+          1.5707963268,
+          -0.96
+        ]
+      },
+      "layouts": {
+        "rdnw": {
+          "native_map": "out05",
+          "native_row": 110,
+          "native_col": 93,
+          "row": 76,
+          "col": 47
+        }
+      },
+      "used_names": [
+        "dirttyl",
+        "rdnw",
+        "rdtyl"
+      ],
+      "unavailable_closed_layouts": [
+        "island",
+        "hole"
+      ],
+      "odm_sha256": "4cec85ef47cb5778ab87fb40e1733211075afd62e8e000d900aece12cf98e2aa"
+    },
+    "plains_sand": {
+      "folder": "fixtures/land_v1/plains_sand",
+      "master_tile": 0,
+      "lookup": [
+        594,
+        558,
+        450,
+        522
+      ],
+      "poses": {
+        "island": [
+          -4864.0,
+          512,
+          3000,
+          1.5707963268,
+          -0.96
+        ],
+        "hole": [
+          1280.0,
+          512,
+          3000,
+          1.5707963268,
+          -0.96
+        ],
+        "plntyl": [
+          -6912.0,
+          14336,
+          2400,
+          1.5707963268,
+          -0.96
+        ],
+        "plsae": [
+          -8448.0,
+          -8192,
+          2400,
+          1.5707963268,
+          -0.96
+        ],
+        "plsan": [
+          -3840.0,
+          -8192,
+          2400,
+          1.5707963268,
+          -0.96
+        ],
+        "plsane": [
+          768.0,
+          -8192,
+          2400,
+          1.5707963268,
+          -0.96
+        ],
+        "plsanw": [
+          5376.0,
+          -8192,
+          2400,
+          1.5707963268,
+          -0.96
+        ],
+        "plsas": [
+          -13056.0,
+          -12288,
+          2400,
+          1.5707963268,
+          -0.96
+        ],
+        "plsase": [
+          -8448.0,
+          -12288,
+          2400,
+          1.5707963268,
+          -0.96
+        ],
+        "plsasw": [
+          -3840.0,
+          -12288,
+          2400,
+          1.5707963268,
+          -0.96
+        ],
+        "plsatyl": [
+          256.0,
+          14336,
+          2400,
+          1.5707963268,
+          -0.96
+        ],
+        "plsatylx": [
+          5376.0,
+          -12288,
+          2400,
+          1.5707963268,
+          -0.96
+        ],
+        "plsaw": [
+          -13056.0,
+          -16384,
+          2400,
+          1.5707963268,
+          -0.96
+        ],
+        "plsaxne": [
+          -8448.0,
+          -16384,
+          2400,
+          1.5707963268,
+          -0.96
+        ],
+        "plsaxnw": [
+          -3840.0,
+          -16384,
+          2400,
+          1.5707963268,
+          -0.96
+        ],
+        "plsaxse": [
+          768.0,
+          -16384,
+          2400,
+          1.5707963268,
+          -0.96
+        ],
+        "plsaxsw": [
+          5376.0,
+          -16384,
+          2400,
+          1.5707963268,
+          -0.96
+        ]
+      },
+      "layouts": {
+        "island": {
+          "row": 56,
+          "col": 52,
+          "grid": [
+            [
+              "plsanw",
+              "plsan",
+              "plsan",
+              "plsan",
+              "plsane"
+            ],
+            [
+              "plsaw",
+              "plsatyl",
+              "plsatyl",
+              "plsatyl",
+              "plsae"
+            ],
+            [
+              "plsaw",
+              "plsatyl",
+              "plsatyl",
+              "plsatyl",
+              "plsae"
+            ],
+            [
+              "plsaw",
+              "plsatyl",
+              "plsatyl",
+              "plsatyl",
+              "plsae"
+            ],
+            [
+              "plsasw",
+              "plsas",
+              "plsas",
+              "plsas",
+              "plsase"
+            ]
+          ]
+        },
+        "hole": {
+          "row": 56,
+          "col": 64,
+          "grid": [
+            [
+              "plsaxse",
+              "plsas",
+              "plsas",
+              "plsas",
+              "plsaxsw"
+            ],
+            [
+              "plsae",
+              "plntyl",
+              "plntyl",
+              "plntyl",
+              "plsaw"
+            ],
+            [
+              "plsae",
+              "plntyl",
+              "plntyl",
+              "plntyl",
+              "plsaw"
+            ],
+            [
+              "plsae",
+              "plntyl",
+              "plntyl",
+              "plntyl",
+              "plsaw"
+            ],
+            [
+              "plsaxne",
+              "plsan",
+              "plsan",
+              "plsan",
+              "plsaxnw"
+            ]
+          ]
+        },
+        "plsae": {
+          "native_map": "out04",
+          "native_row": 74,
+          "native_col": 68,
+          "row": 76,
+          "col": 47
+        },
+        "plsan": {
+          "native_map": "out04",
+          "native_row": 67,
+          "native_col": 65,
+          "row": 76,
+          "col": 56
+        },
+        "plsane": {
+          "native_map": "out04",
+          "native_row": 62,
+          "native_col": 79,
+          "row": 76,
+          "col": 65
+        },
+        "plsanw": {
+          "native_map": "out04",
+          "native_row": 66,
+          "native_col": 43,
+          "row": 76,
+          "col": 74
+        },
+        "plsas": {
+          "native_map": "out04",
+          "native_row": 98,
+          "native_col": 42,
+          "row": 84,
+          "col": 38
+        },
+        "plsase": {
+          "native_map": "out04",
+          "native_row": 90,
+          "native_col": 25,
+          "row": 84,
+          "col": 47
+        },
+        "plsasw": {
+          "native_map": "out04",
+          "native_row": 61,
+          "native_col": 62,
+          "row": 84,
+          "col": 56
+        },
+        "plsatylx": {
+          "native_map": "out04",
+          "native_row": 78,
+          "native_col": 112,
+          "row": 84,
+          "col": 74
+        },
+        "plsaw": {
+          "native_map": "out04",
+          "native_row": 57,
+          "native_col": 53,
+          "row": 92,
+          "col": 38
+        },
+        "plsaxne": {
+          "native_map": "out04",
+          "native_row": 63,
+          "native_col": 79,
+          "row": 92,
+          "col": 47
+        },
+        "plsaxnw": {
+          "native_map": "out04",
+          "native_row": 67,
+          "native_col": 43,
+          "row": 92,
+          "col": 56
+        },
+        "plsaxse": {
+          "native_map": "out04",
+          "native_row": 91,
+          "native_col": 19,
+          "row": 92,
+          "col": 65
+        },
+        "plsaxsw": {
+          "native_map": "out04",
+          "native_row": 59,
+          "native_col": 62,
+          "row": 92,
+          "col": 74
+        }
+      },
+      "used_names": [
+        "plntyl",
+        "plsae",
+        "plsan",
+        "plsane",
+        "plsanw",
+        "plsas",
+        "plsase",
+        "plsasw",
+        "plsatyl",
+        "plsatylx",
+        "plsaw",
+        "plsaxne",
+        "plsaxnw",
+        "plsaxse",
+        "plsaxsw"
+      ],
+      "unavailable_closed_layouts": [],
+      "odm_sha256": "674b0f819bab115d3131845e053936c32fe87cc3ced46e84d4aa699be9251cbe"
+    },
+    "grey_stone": {
+      "folder": "fixtures/land_v1/grey_stone",
+      "master_tile": 2,
+      "lookup": [
+        702,
+        738,
+        666,
+        774
+      ],
+      "poses": {
+        "island": [
+          -4864.0,
+          512,
+          3000,
+          1.5707963268,
+          -0.96
+        ],
+        "hole": [
+          1280.0,
+          512,
+          3000,
+          1.5707963268,
+          -0.96
+        ],
+        "gdtyl": [
+          -6912.0,
+          14336,
+          2400,
+          1.5707963268,
+          -0.96
+        ],
+        "gse": [
+          -8448.0,
+          -8192,
+          2400,
+          1.5707963268,
+          -0.96
+        ],
+        "gsn": [
+          -3840.0,
+          -8192,
+          2400,
+          1.5707963268,
+          -0.96
+        ],
+        "gsne": [
+          768.0,
+          -8192,
+          2400,
+          1.5707963268,
+          -0.96
+        ],
+        "gsnw": [
+          5376.0,
+          -8192,
+          2400,
+          1.5707963268,
+          -0.96
+        ],
+        "gss": [
+          -13056.0,
+          -12288,
+          2400,
+          1.5707963268,
+          -0.96
+        ],
+        "gsse": [
+          -8448.0,
+          -12288,
+          2400,
+          1.5707963268,
+          -0.96
+        ],
+        "gssw": [
+          -3840.0,
+          -12288,
+          2400,
+          1.5707963268,
+          -0.96
+        ],
+        "gstyl": [
+          256.0,
+          14336,
+          2400,
+          1.5707963268,
+          -0.96
+        ],
+        "gstylx": [
+          5376.0,
+          -12288,
+          2400,
+          1.5707963268,
+          -0.96
+        ],
+        "gsw": [
+          -13056.0,
+          -16384,
+          2400,
+          1.5707963268,
+          -0.96
+        ],
+        "gsxne": [
+          -8448.0,
+          -16384,
+          2400,
+          1.5707963268,
+          -0.96
+        ],
+        "gsxnw": [
+          -3840.0,
+          -16384,
+          2400,
+          1.5707963268,
+          -0.96
+        ],
+        "gsxse": [
+          768.0,
+          -16384,
+          2400,
+          1.5707963268,
+          -0.96
+        ],
+        "gsxsw": [
+          5376.0,
+          -16384,
+          2400,
+          1.5707963268,
+          -0.96
+        ]
+      },
+      "layouts": {
+        "island": {
+          "row": 56,
+          "col": 52,
+          "grid": [
+            [
+              "gsnw",
+              "gsn",
+              "gsn",
+              "gsn",
+              "gsne"
+            ],
+            [
+              "gsw",
+              "gstyl",
+              "gstyl",
+              "gstyl",
+              "gse"
+            ],
+            [
+              "gsw",
+              "gstyl",
+              "gstyl",
+              "gstyl",
+              "gse"
+            ],
+            [
+              "gsw",
+              "gstyl",
+              "gstyl",
+              "gstyl",
+              "gse"
+            ],
+            [
+              "gssw",
+              "gss",
+              "gss",
+              "gss",
+              "gsse"
+            ]
+          ]
+        },
+        "hole": {
+          "row": 56,
+          "col": 64,
+          "grid": [
+            [
+              "gsxse",
+              "gss",
+              "gss",
+              "gss",
+              "gsxsw"
+            ],
+            [
+              "gse",
+              "gdtyl",
+              "gdtyl",
+              "gdtyl",
+              "gsw"
+            ],
+            [
+              "gse",
+              "gdtyl",
+              "gdtyl",
+              "gdtyl",
+              "gsw"
+            ],
+            [
+              "gse",
+              "gdtyl",
+              "gdtyl",
+              "gdtyl",
+              "gsw"
+            ],
+            [
+              "gsxne",
+              "gsn",
+              "gsn",
+              "gsn",
+              "gsxnw"
+            ]
+          ]
+        },
+        "gse": {
+          "native_map": "out06",
+          "native_row": 73,
+          "native_col": 113,
+          "row": 76,
+          "col": 47
+        },
+        "gsn": {
+          "native_map": "out06",
+          "native_row": 51,
+          "native_col": 119,
+          "row": 76,
+          "col": 56
+        },
+        "gsne": {
+          "native_map": "out06",
+          "native_row": 48,
+          "native_col": 89,
+          "row": 76,
+          "col": 65
+        },
+        "gsnw": {
+          "native_map": "out06",
+          "native_row": 61,
+          "native_col": 123,
+          "row": 76,
+          "col": 74
+        },
+        "gss": {
+          "native_map": "out06",
+          "native_row": 73,
+          "native_col": 123,
+          "row": 84,
+          "col": 38
+        },
+        "gsse": {
+          "native_map": "out06",
+          "native_row": 51,
+          "native_col": 112,
+          "row": 84,
+          "col": 47
+        },
+        "gssw": {
+          "native_map": "out06",
+          "native_row": 62,
+          "native_col": 85,
+          "row": 84,
+          "col": 56
+        },
+        "gstylx": {
+          "native_map": "out06",
+          "native_row": 56,
+          "native_col": 117,
+          "row": 84,
+          "col": 74
+        },
+        "gsw": {
+          "native_map": "out06",
+          "native_row": 57,
+          "native_col": 82,
+          "row": 92,
+          "col": 38
+        },
+        "gsxne": {
+          "native_map": "out06",
+          "native_row": 50,
+          "native_col": 90,
+          "row": 92,
+          "col": 47
+        },
+        "gsxnw": {
+          "native_map": "out06",
+          "native_row": 62,
+          "native_col": 96,
+          "row": 92,
+          "col": 56
+        },
+        "gsxse": {
+          "native_map": "out06",
+          "native_row": 54,
+          "native_col": 123,
+          "row": 92,
+          "col": 65
+        },
+        "gsxsw": {
+          "native_map": "out06",
+          "native_row": 61,
+          "native_col": 85,
+          "row": 92,
+          "col": 74
+        }
+      },
+      "used_names": [
+        "gdtyl",
+        "gse",
+        "gsn",
+        "gsne",
+        "gsnw",
+        "gss",
+        "gsse",
+        "gssw",
+        "gstyl",
+        "gstylx",
+        "gsw",
+        "gsxne",
+        "gsxnw",
+        "gsxse",
+        "gsxsw"
+      ],
+      "unavailable_closed_layouts": [],
+      "odm_sha256": "1b5f8e022a942a1a38bd0653a001032b27464fb4551eb9500a58b82b373a3b21"
+    }
+  },
+  "script_sha256": "ba3490bd303054adaab499529693ff43a4fb8f6f701f168e3b6c132700d36cd2"
+}

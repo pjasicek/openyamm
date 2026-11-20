@@ -1,0 +1,156 @@
+{
+ "source": "/home/pjasicek/github/OpenYAMM/level_generation/creatures/claude_shared/material_pass/backup_pre_material_pass/mm6_dwa1_axe.glb",
+ "output": "/home/pjasicek/github/OpenYAMM/level_generation/creatures/claude_shared/material_pass/batch/mm6_dwa1_axe.glb",
+ "assignments": [
+  {
+   "match": "=DwarfAxe_A",
+   "body": "/home/pjasicek/github/OpenYAMM/level_generation/creatures/mm6_dwa1_codex/textures/axe/material_classes_1k.png",
+   "head": null
+  }
+ ],
+ "kept_classes": [],
+ "textures": [
+  {
+   "image": "metal_rough_1k_axe",
+   "size": [
+    1024,
+    1024
+   ],
+   "materials": [
+    "DwarfAxe_A",
+    "DwarfAxe_B",
+    "DwarfAxe_C"
+   ],
+   "layout": [
+    {
+     "part": "body",
+     "box": [
+      0,
+      0,
+      1024,
+      1024
+     ]
+    }
+   ],
+   "old_factors": {
+    "metallicFactor": 0,
+    "roughnessFactor": 1.0,
+    "openyamm_specular": 1,
+    "openyamm_specular_mask": true
+   },
+   "old_r_channel": "specular_mask",
+   "stretched_uv_triangles": 0,
+   "fit_ok": true,
+   "parts": {
+    "body": {
+     "uv_covered_texels": 391985,
+     "uv_covered_without_class": 0.0,
+     "uv_covered_without_class_far": 0.0,
+     "class_texels_outside_uv": 0.5618,
+     "class_map": "/home/pjasicek/github/OpenYAMM/level_generation/creatures/mm6_dwa1_codex/textures/axe/material_classes_1k.png",
+     "class_share_in_uv": {
+      "cloth": 0.1628,
+      "metal": 0.5927,
+      "wood": 0.2445
+     }
+    }
+   },
+   "class_share_total": {
+    "cloth": 0.1628,
+    "metal": 0.5927,
+    "wood": 0.2445
+   },
+   "kept_classes": [],
+   "kept_texels": 0,
+   "old_specular_mean_by_class": {
+    "cloth": 0.035,
+    "metal": 0.651,
+    "wood": 0.035
+   },
+   "new_specular_mean_by_class": {
+    "cloth": 0.3,
+    "metal": 1.0,
+    "wood": 0.3
+   },
+   "new_roughness_mean_by_class": {
+    "cloth": 0.75,
+    "metal": 0.38,
+    "wood": 0.7
+   },
+   "new_factors": {
+    "metallicFactor": 1.0,
+    "roughnessFactor": 1.0,
+    "openyamm_specular": 1.0,
+    "openyamm_specular_mask": true
+   },
+   "metal_base_colour": {
+    "DwarfAxe_A": {
+     "median_srgb": [
+      59,
+      57,
+      53
+     ],
+     "luminance_srgb_p10_p50_p90": [
+      40,
+      57,
+      109
+     ],
+     "share_below_srgb_30": 0.0069,
+     "share_below_srgb_90": 0.7789,
+     "flag": null,
+     "verdict": "very dark (engine phase 2 diffuse floor needed)"
+    },
+    "DwarfAxe_B": {
+     "median_srgb": [
+      59,
+      57,
+      53
+     ],
+     "luminance_srgb_p10_p50_p90": [
+      40,
+      57,
+      109
+     ],
+     "share_below_srgb_30": 0.0069,
+     "share_below_srgb_90": 0.7789,
+     "flag": null,
+     "verdict": "very dark (engine phase 2 diffuse floor needed)"
+    },
+    "DwarfAxe_C": {
+     "median_srgb": [
+      59,
+      57,
+      53
+     ],
+     "luminance_srgb_p10_p50_p90": [
+      40,
+      57,
+      109
+     ],
+     "share_below_srgb_30": 0.0069,
+     "share_below_srgb_90": 0.7789,
+     "flag": null,
+     "verdict": "very dark (engine phase 2 diffuse floor needed)"
+    }
+   },
+   "new_channels": {
+    "R": {
+     "min": 77,
+     "max": 255,
+     "mean": 168.4
+    },
+    "G": {
+     "min": 77,
+     "max": 191,
+     "mean": 140.5
+    },
+    "B": {
+     "min": 0,
+     "max": 255,
+     "mean": 131.0
+    }
+   }
+  }
+ ],
+ "unchanged": []
+}

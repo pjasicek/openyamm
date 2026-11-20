@@ -1,0 +1,138 @@
+{
+  "map": "cd2.blv",
+  "world": "mm6",
+  "kind": "indoor",
+  "structure": {
+    "sectors": 194,
+    "links": 218,
+    "components": 4,
+    "loops": 28
+  },
+  "scale": {
+    "floor_area_millions": 599.74,
+    "sector_floor_area": {
+      "count": 194,
+      "min": 1024,
+      "q1": 147456,
+      "median": 663552,
+      "q3": 1575936,
+      "max": 89370630
+    },
+    "sector_height": {
+      "count": 194,
+      "min": 10,
+      "q1": 346,
+      "median": 400,
+      "q3": 580,
+      "max": 2410
+    },
+    "doorway_width": {
+      "count": 220,
+      "min": 1,
+      "q1": 288,
+      "median": 384,
+      "q3": 576,
+      "max": 5759
+    },
+    "doorway_height": {
+      "count": 220,
+      "min": 90,
+      "q1": 309,
+      "median": 345,
+      "q3": 415,
+      "max": 1350
+    },
+    "floor_level": {
+      "count": 733,
+      "min": -690,
+      "q1": -240,
+      "median": -150,
+      "q3": 60,
+      "max": 1170
+    }
+  },
+  "mechanisms": {
+    "doors": 12,
+    "bound_events": 54,
+    "door_events": 16,
+    "trap_events": 11,
+    "local_teleports": 14,
+    "exits": 1,
+    "summon_events": 7,
+    "chest_events": 1,
+    "text_events": 10,
+    "secret_faces": 6,
+    "pressure_plates": 32,
+    "clickable_faces": 76
+  },
+  "density": {
+    "spawn_points": 132,
+    "fixed_actors": 1,
+    "unique_actors": 1,
+    "lights": 3,
+    "decorations": 415,
+    "spawn_points_per_area": 0.22,
+    "lights_per_area": 0.01,
+    "decorations_per_area": 0.69
+  },
+  "palette": {
+    "textures": 51,
+    "by_area": [{
+        "name": "d2ceil3",
+        "share": 0.421
+      },
+      {
+        "name": "crdrf2",
+        "share": 0.305
+      },
+      {
+        "name": "d2wctra",
+        "share": 0.25
+      },
+      {
+        "name": "d2wlactr",
+        "share": 0.008
+      },
+      {
+        "name": "d2flor4",
+        "share": 0.006
+      },
+      {
+        "name": "d2wlcctr",
+        "share": 0.002
+      },
+      {
+        "name": "crdflr4",
+        "share": 0.001
+      },
+      {
+        "name": "ctwl2",
+        "share": 0.001
+      },
+      {
+        "name": "d2wlbmed",
+        "share": 0.001
+      },
+      {
+        "name": "d2flor5",
+        "share": 0.001
+      },
+      {
+        "name": "ctflor1",
+        "share": 0.001
+      },
+      {
+        "name": "ctceil1",
+        "share": 0.001
+      }
+    ]
+  },
+  "play": {
+    "walked": true,
+    "sectors_with_floor": 194,
+    "reached_at_start": 84,
+    "reached_doors_clear": 179,
+    "walkable_area_millions": 532.39,
+    "unreached_spawn_points": 22
+  }
+}

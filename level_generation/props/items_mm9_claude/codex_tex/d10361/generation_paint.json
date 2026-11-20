@@ -1,0 +1,31 @@
+{
+  "prompt": "Edit the attached paint_mask_guide.png precisely. Use case: precise-object-edit. Image roles: paint_mask_guide.png is the edit target and exact silhouette/layout authority; design_reference.png is the approved ore material/detail reference; icon_x8.png is the original colour reference (ignore magenta background).\nOutput ONE transparent PNG at 1536x2048 (3:4). Guide is three columns by FOUR rows of 512x512 cells. Rows 1-2 and rows 3-4 hold the same five grey orthographic renders: FRONT, BACK, LEFT / RIGHT, TOP, empty. Paint the grey objects only; never redraw, enlarge, move or redesign them. Preserve exact positions, sizes, very low flat side profiles and outlines.\nRows 1-2: paint unlit base colour of the source-faithful Lode of Elemental Thjorad ore lode, grey green stone with irregular gold metal veins, faithful fractured rock detail from design_reference.png scaled to each view. No lighting, cast shadows, ambient occlusion, hot highlights or reflections. \nRows 3-4: matching material segmentation of the painted views, same five silhouettes. FLAT pure colours only, no shading, texture, outlines, or antialiased colour blends inside. Pure red #FF0000 for gold/any metal veins; pure yellow #FFFF00 for matte stone. Other material classes only if present: pure green #00FF00 leather/fur, pure blue #0000FF cloth/hair, pure black #000000 gemstone/crystal/glass/pearl/enamel/liquid through glass. Every silhouette pixel gets exactly one class colour. Match each gold vein in the corresponding painted view with red, stone with yellow.\nKeep every gap and opening exactly as guide and fully transparent. Background fully transparent. Empty cells column 3 row 2 and row 4 remain transparent. No halo, sparkles, aura, ground, outlines or text. This is a texture projection atlas, not a presentation illustration.",
+  "original_output_path": "/home/pjasicek/.codex/generated_images/01a1ad10-3873-77f1-89c9-6c345518f20f/exec-81e0c87e-3c27-4ca4-986e-4d0b81591a56.png",
+  "tool": "built-in image_gen",
+  "corrective_attempt": {
+    "prompt": "Edit the attached paint_mask_guide.png precisely. Use case: precise-object-edit. Image roles: paint_mask_guide.png is the edit target and exact silhouette/layout authority; design_reference.png is the approved ore material/detail reference; icon_x8.png is the original colour reference (ignore magenta background).\nOutput ONE transparent PNG at 1536x2048 (3:4). Guide is three columns by FOUR rows of 512x512 cells. Rows 1-2 and rows 3-4 hold the same five grey orthographic renders: FRONT, BACK, LEFT / RIGHT, TOP, empty. Paint the grey objects only; never redraw, enlarge, move or redesign them. Preserve exact positions, sizes, very low flat side profiles and outlines.\nRows 1-2: paint unlit base colour of the source-faithful Lode of Elemental Thjorad ore lode, grey green stone with irregular gold metal veins, faithful fractured rock detail from design_reference.png scaled to each view. No lighting, cast shadows, ambient occlusion, hot highlights or reflections. \nRows 3-4: matching material segmentation of the painted views, same five silhouettes. FLAT pure colours only, no shading, texture, outlines, or antialiased colour blends inside. Pure red #FF0000 for gold/any metal veins; pure yellow #FFFF00 for matte stone. Other material classes only if present: pure green #00FF00 leather/fur, pure blue #0000FF cloth/hair, pure black #000000 gemstone/crystal/glass/pearl/enamel/liquid through glass. Every silhouette pixel gets exactly one class colour. Match each gold vein in the corresponding painted view with red, stone with yellow.\nKeep every gap and opening exactly as guide and fully transparent. Background fully transparent. Empty cells column 3 row 2 and row 4 remain transparent. No halo, sparkles, aura, ground, outlines or text. This is a texture projection atlas, not a presentation illustration.\nCORRECTION: Preserve the guide silhouette EXACTLY, including all straight base edges. No loose pixels, speckles, torn edges or coloured fringes outside any silhouette. The lower material masks must have clean solid boundaries identical to the upper views and original guide. Keep gold veins and their corresponding red mask regions aligned. Use the original guide as the immutable geometry template.",
+    "original_output_path": "/home/pjasicek/.codex/generated_images/01a1ad10-3873-77f1-89c9-6c345518f20f/exec-0ddea1ab-e0b3-4e95-909c-342afa51ba92.png",
+    "selected": false
+  },
+  "validation": "Selected initial output: corrective attempt had more stray mask pixels. Raw output retained unchanged; mask edge artifacts remain.",
+  "inputs": [
+    {
+      "path": "level_generation/props/items_mm9_claude/codex_tex/d10361/paint_mask_guide.png",
+      "sha256": "d2851fe93d2ad806845c9695d146c685fc02ab24d265819ae55357fb6d566c25"
+    },
+    {
+      "path": "level_generation/props/items_mm9_claude/codex_tex/d10361/design_reference.png",
+      "sha256": "90508569d6447f31a82a7583770861b65f8f36d19d3dad0c9835c5997ee3a965"
+    },
+    {
+      "path": "level_generation/props/items_mm9_claude/codex_tex/d10361/icon_x8.png",
+      "sha256": "c68ce0f40f0a79d68d7323db31c557bba0a96b1cfadf54af996c77ebd791d540"
+    }
+  ],
+  "output": "level_generation/props/items_mm9_claude/codex_tex/d10361/paint_mask_raw_v1.png",
+  "size": [
+    1086,
+    1448
+  ],
+  "mode": "RGBA"
+}

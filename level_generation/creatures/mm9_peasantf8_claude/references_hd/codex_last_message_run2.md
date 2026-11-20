@@ -1,0 +1,3 @@
+Saved run 2’s `01_front.png`–`04_right.png` at 1536×1024 using built-in image generation, plus raw attempts, prompts/hashes, and the [review sheet](/home/pjasicek/github/OpenYAMM/level_generation/creatures/mm9_peasantf8_claude/references_hd/selected_views_review.png).
+
+Both existing master files remain unchanged. Stopped at one correction per view; faint alpha noise and finger-detail limitations remain documented in `generation_runs.json`.

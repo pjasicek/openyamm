@@ -1,0 +1,27 @@
+{
+  "prompt": "Edit paint_mask_guide.png as the exact geometry and layout target. design_reference.png is material/detail reference; icon_x8.png is color reference (ignore its magenta background).\nProduce ONE transparent PNG, 1536x2048 or nearest 3:4 size. Preserve exact guide positions, sizes, outlines and orthographic projections. Three columns by FOUR equal rows. Rows 1-2: FRONT, BACK, LEFT / RIGHT, TOP, empty. Rows 3-4 duplicate these five views as material masks. Paint grey objects only, never redraw, enlarge, move or redesign them.\nPAINT rows 1-2: unlit base colour of a pointed conical great helm of bluish polished steel, vertical steel ridge down front to chin, narrow horizontal eye slit. Plain, no decorative colours. Match approved design reference's steel body, pale steel ridge and rims, fine wear and surface detail, scaled to each view. Any facets/engravings follow reference only. Unlit albedo only: no lighting, cast shadows, ambient occlusion, hot highlights, reflections. No glow, halo, sparkles, aura, ground, outlines or text.\nMATERIAL MASK rows 3-4: fill every metal surface solid pure #FF0000 red (this helmet is entirely metal), without shading, texture, outlines or interior colour blends. If other materials are actually present: leather/fur pure #00FF00; cloth/hair pure #0000FF; gems/glass/enamel/liquids pure #000000; matte nonmetal wood/bone/horn/stone/paper/wax pure #FFFF00. Every silhouette pixel exactly one material colour. Keep every gap and opening exactly as guide and fully transparent, including eye slits. No pixels outside silhouettes. Column 3 of rows 2 and 4 remains empty and transparent. Preserve guide silhouette alignment between paint and mask halves.\nCRITICAL corrective generation: masks must be clean solid red cutouts bounded EXACTLY by guide silhouettes. Absolutely no red speckling, noise or texture outside or inside masks. Background everywhere outside all ten helmets is alpha zero. Eye-slit holes must be fully transparent and retain their full guide width in both paint and mask views. Paint is flat unlit albedo without directional bright bands. Use original guide as strict stencil.",
+  "original_output_path": "/home/pjasicek/.codex/generated_images/01a1ad29-0120-7380-990c-16edae39e2f1/exec-6f5df0fe-169a-459a-8990-4e387d57fe7b.png",
+  "output": "/home/pjasicek/github/OpenYAMM/level_generation/props/items_mm9_claude/codex_tex/d10120/paint_mask_raw_v1.png",
+  "tool": "built-in image_gen",
+  "corrective_regenerations": 1,
+  "validation_notes": "Generated raw output retains stray red pixels outside mask silhouettes and lighting gradients; not fully compliant. No postprocessing per brief.",
+  "inputs": [
+    {
+      "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/items_mm9_claude/codex_tex/d10120/paint_mask_guide.png",
+      "sha256": "43d91e96addcf5a866b94f0c1436d57f3601f45ade9d0ce7f6a0dcc4bee2a9b1"
+    },
+    {
+      "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/items_mm9_claude/codex_tex/d10120/design_reference.png",
+      "sha256": "f2c2b74755d7981ea22f093602f52b54e1e165ba3678c0bc9e4698319d1544d8"
+    },
+    {
+      "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/items_mm9_claude/codex_tex/d10120/icon_x8.png",
+      "sha256": "16a8f83a97a2bf691770c6f2332342395548fc2981c8a7da1265df7c64ff4f81"
+    }
+  ],
+  "size": [
+    1086,
+    1448
+  ],
+  "mode": "RGBA"
+}

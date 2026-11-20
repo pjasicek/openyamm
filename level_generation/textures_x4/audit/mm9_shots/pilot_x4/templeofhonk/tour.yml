@@ -1,0 +1,58 @@
+output_dir: /home/pjasicek/github/OpenYAMM/level_generation/textures_x4/audit/mm9_shots/pilot_x4/templeofhonk
+settle_seconds: 2.0
+exit: true
+shots:
+- name: spawn-ahead
+  position: &id001
+  - -3011
+  - 7670
+  - -521
+  yaw: -1.5708
+  pitch: 0.0
+- name: spawn-floor
+  position: *id001
+  yaw: -1.5708
+  pitch: -0.6
+- name: spawn-ceiling
+  position: *id001
+  yaw: -1.5708
+  pitch: 0.75
+- name: spawn-left
+  position: *id001
+  yaw: 0.0
+  pitch: 0.0
+- name: spawn-right
+  position: *id001
+  yaw: 3.1416
+  pitch: 0.0
+- name: honkvup7f3-d1-closed-front
+  position:
+  - 3703
+  - 819
+  - 655
+  yaw: -3.1416
+  pitch: 0.04
+- name: honkvup7f3-d1-joint-graze
+  position:
+  - 3518
+  - 939
+  - 655
+  yaw: -2.4981
+  pitch: 0.15
+- name: honkvup7f3-d1-closed-back
+  position:
+  - 3014
+  - 819
+  - 655
+  yaw: 0.0
+  pitch: 0.04
+- name: honkvup7f3-d1-open-front
+  position:
+  - 3703
+  - 819
+  - 655
+  yaw: -3.1416
+  pitch: 0.04
+  commands:
+  - event 101
+  settle_seconds: 5.0

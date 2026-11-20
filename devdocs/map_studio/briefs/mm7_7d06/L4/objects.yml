@@ -1,0 +1,413 @@
+format: 0
+start:
+  room: room:cave_mouth
+  at: [-1171, -4160]
+  facing: 56
+  notes: "Near the foot of the mouth cave (its low north end), facing as Emerald Island's entrance event sends the party in (MoveToMap direction 320 of 2048 = 56 degrees; the user found 'n' wrong, 2026-11-13); the exit panel is behind, at the top of the cave. Round seven: given by its point (where round six's offset put it), since the cave's outline changed."
+doors:
+  - id: door:double_n
+    opening: open:door_hall_n_anteroom_n
+    kind: slide_left
+    leaves: 2
+    fold: true
+    state: closed
+    speed: 50
+    edge_surface: {texture: twb1a, size: [128, 256]}
+    pictures:
+      - [{texture: t1d1a, size: [256, 256]}, {texture: t1d1b, size: [256, 256]}]
+      - [{texture: t1d1c, size: [256, 256]}, {texture: t1d1d, size: [256, 256]}]
+    notes: "The north wing's double door (door hall to anteroom), as the original's door records 7 and 8: two leaves that part sideways at 50 a second, each folding against its jamb (`fold`: the original's leaves move only their free edge, 160 of 192, and shrink into the wall's slot, leaving a stub). The original's leaves carry one round seal between them in four quarter textures that meet at the doorway's centre: seen from either side, the viewer's left leaf shows t1d1a over t1d1c and the right leaf t1d1b over t1d1d (four separate bitmaps; none of the faces carries a flip flag, so no picture is mirrored). `pictures` in two rows of two say exactly that, each at its own size from the doorway's middle, and read the same from the anteroom (no `back_pictures`). Opens for good on a click on the door or on the button beside it. Round seven: the leaves' free edges wear twb1a (`edge_surface`), as the original's leaf edges (face 1530 of door record 6)."
+  - id: door:double_s
+    opening: open:door_hall_s_anteroom_s
+    kind: slide_left
+    leaves: 2
+    fold: true
+    state: closed
+    speed: 50
+    edge_surface: {texture: twb1a, size: [128, 256]}
+    pictures:
+      - [{texture: t1d1a, size: [256, 256]}, {texture: t1d1b, size: [256, 256]}]
+      - [{texture: t1d1c, size: [256, 256]}, {texture: t1d1d, size: [256, 256]}]
+    notes: "Mirror of door:double_n, on the critical path to the library. Round seven: the leaves' free edges wear twb1a (`edge_surface`), as the original's leaf edges (face 1530 of door record 6)."
+  - id: door:secret_wall
+    opening: open:library_hidden_passage
+    kind: slide_up
+    state: closed
+    speed: 50
+    surface: {texture: twb1, size: [128, 256]}
+    secret: true
+    notes: "The library's secret lifting wall: the north end of its east wall, the hidden passage's 256-wide mouth, in the same dressed stone as the library's other walls, lifts 256 into its slot and stays open. A secret door, as the original's door 4 (both its faces carry the secret flag): it pulses for a party whose Perception finds secrets (map perception difficulty 0) and opens on a click whether found or not, as the original's event 4 does."
+switches:
+  - id: switch:button_n
+    room: room:door_hall_n
+    kind: button
+    wall: west
+    along: 0.8125
+    height: 144
+    size: [32, 32]
+    notes: "The original's button beside the north double door: a small 7t1butt block 32 square standing 16 out of the door hall's west wall, 128 to 160 above the floor (y 7296 to 7328), which presses in 15 when used and opens both leaves (the original's door 10 and event 3). Here a flat switch plate; its pressed face shows the block's side texture 7t1butts."
+  - id: switch:button_s
+    room: room:door_hall_s
+    kind: button
+    wall: west
+    along: 0.1875
+    height: 144
+    size: [32, 32]
+    notes: "Mirror of switch:button_n (the original's door 9 and event 2, y 4576 to 4608)."
+chests:
+  - id: chest:cabinet_1
+    room: room:dormitory_alcove
+    offset: [128, -220]
+    size: [128, 64, 256]
+    surface: {texture: 7t1cab, size: [128, 256]}
+    end_surface: {texture: 7t1cabs, size: [64, 128]}
+    top_surface: {texture: 7t1cabs, size: [64, 128]}
+    random_levels: [2, 1, 1]
+    notes: "Cabinet against the alcove's south wall, beside the arch. Plan: 3 random items of treasure levels 2, 1, 1. Each roll at its own level, as the original's chest record 1 (event 21)."
+  - id: chest:cabinet_2
+    room: room:dormitory_alcove
+    offset: [-64, -220]
+    size: [128, 64, 256]
+    surface: {texture: 7t1cab, size: [128, 256]}
+    end_surface: {texture: 7t1cabs, size: [64, 128]}
+    top_surface: {texture: 7t1cabs, size: [64, 128]}
+    random_levels: [2, 1, 1, 1]
+    notes: "Cabinet against the alcove's south wall, at its back. Plan: 4 random items of levels 2, 1, 1, 1. Each roll at its own level, as the original's chest record 2 (event 22)."
+  - id: chest:cabinet_3
+    room: room:dormitory_alcove
+    offset: [-64, 220]
+    size: [128, 64, 256]
+    surface: {texture: 7t1cab, size: [128, 256]}
+    end_surface: {texture: 7t1cabs, size: [64, 128]}
+    top_surface: {texture: 7t1cabs, size: [64, 128]}
+    random_levels: [2, 1, 1]
+    notes: "Cabinet against the alcove's north wall, at its back. Plan: 3 random items of levels 2, 1, 1. Each roll at its own level, as the original's chest record 3 (event 23)."
+  - id: chest:cabinet_4
+    room: room:dormitory_alcove
+    offset: [128, 220]
+    size: [128, 64, 256]
+    surface: {texture: 7t1cab, size: [128, 256]}
+    end_surface: {texture: 7t1cabs, size: [64, 128]}
+    top_surface: {texture: 7t1cabs, size: [64, 128]}
+    random_levels: [3, 2, 1]
+    notes: "Cabinet against the alcove's north wall, beside the arch. Plan: 3 random items of levels 3, 2, 1. Each roll at its own level, as the original's chest record 4 (event 24)."
+  - id: chest:cabinet_hat
+    room: room:dormitory_alcove
+    offset: [-156, 0]
+    facing: n
+    size: [128, 64, 256]
+    surface: {texture: 7t1cab, size: [128, 256]}
+    end_surface: {texture: 7t1cabs, size: [64, 128]}
+    top_surface: {texture: 7t1cabs, size: [64, 128]}
+    random_levels: [3, 2, 1]
+    items: [wealthy_hat]
+    notes: "The cabinet against the alcove's back (west) wall, facing the arch: the Wealthy Hat (scavenger hunt) and 3 random items of levels 3, 2, 1, as the original's chest record 5 (event 25)."
+  - id: chest:rock_sinkhole
+    random_levels: [3, 3, 1]
+    box_of: chest:cabinet_hat
+    notes: "The original's chest record 6 (event 26), levels 3, 3, 1. Its box is no box: the original's chest is a secret face of the sinkhole's west wall (f2236, cws1d), here the wall panel panel:rock_chest_sinkhole, whose click opens this chest (wiring evt:chest_rock_sinkhole, `open_chest`). A chest without a box of its own must name one (`box_of`); chest:cabinet_hat is named only for that, its own event never opens this one."
+  - id: chest:rock_south_cavern
+    random_levels: [2, 2, 1]
+    box_of: chest:cabinet_hat
+    trap_level: 1
+    notes: "The original's chest record 7 (event 27), levels 2, 2, 1, trapped (its flag 1). The secret face of the south cavern's bay wall (f39, cws1d) is the wall panel panel:rock_chest_south_cavern; see chest:rock_sinkhole for `box_of`."
+spawns:
+  - id: spawn:aisle_n_bats
+    room: room:moon_nave
+    at: [-1428, 6686]
+    slot: 1
+    notes: "One of the nave's three bat groups, at the original's spawn point 2: over the north rim of the sunken floor, in front of the aisle's east columns."
+  - id: spawn:aisle_s_bats
+    room: room:moon_nave
+    at: [-1594, 5180]
+    slot: 1
+  - id: spawn:apse_bats
+    room: room:apse
+    at: [-3200, 6208]
+    slot: 1
+    notes: "One of the nave's three bat groups round the apse and the aisles (upper level): in the apse's north-west lobe."
+  - id: spawn:hidden_study_rats
+    room: room:hidden_study
+    at: [-3968, 6272]
+    slot: 2
+    notes: "The hidden study's rats, north of the reading stand."
+  - id: spawn:high_east_pocket_rats_e
+    room: room:high_east_pocket
+    at: [4224, -1536]
+    slot: 2
+    notes: "One of the high east pocket's two rat packs, toward its back."
+  - id: spawn:high_east_pocket_rats_w
+    room: room:high_east_pocket
+    at: [3200, -1536]
+    slot: 2
+    notes: "The other rat pack, toward its west end."
+  - id: spawn:item_high_east_1
+    room: room:high_east_pocket
+    at: [3648, -1600]
+    kind: item
+    treasure_level: 1
+    notes: "The high east pocket's three random floor items, the original's item spawn points 6, 10 and 16 (type 2) at their points and levels: this one level 1."
+  - id: spawn:item_high_east_2
+    room: room:high_east_pocket
+    at: [3536, -1696]
+    kind: item
+    treasure_level: 2
+    notes: "The original's item spawn point 10, level 2."
+  - id: spawn:item_high_east_3
+    room: room:high_east_pocket
+    at: [2976, -1488]
+    kind: item
+    treasure_level: 1
+    notes: "The original's item spawn point 16, level 1."
+  - id: spawn:item_ne_pocket_1
+    room: room:ne_pocket
+    at: [4432, 2336]
+    kind: item
+    treasure_level: 1
+    notes: "The northeast pocket's four random floor items, the original's item spawn points 7, 13, 20 and 22 (type 2), all level 1, at their points: this one point 7."
+  - id: spawn:item_ne_pocket_2
+    room: room:ne_pocket
+    at: [4400, 2848]
+    kind: item
+    treasure_level: 1
+    notes: The original's item spawn point 13.
+  - id: spawn:item_ne_pocket_3
+    room: room:ne_pocket
+    at: [4560, 2688]
+    kind: item
+    treasure_level: 1
+    notes: The original's item spawn point 20.
+  - id: spawn:item_ne_pocket_4
+    room: room:ne_pocket
+    at: [4144, 2400]
+    kind: item
+    treasure_level: 1
+    notes: The original's item spawn point 22.
+  - id: spawn:nave_rats_centre
+    room: room:moon_nave
+    at: [-1600, 5952]
+    slot: 2
+    notes: "One of the three rat groups on the sunken floor, under the dome."
+  - id: spawn:nave_rats_e
+    room: room:moon_nave
+    at: [-1024, 5888]
+    slot: 2
+    notes: "Rat group on the sunken floor, toward the stair arch in the east wall, where the temple stair comes down onto that floor."
+  - id: spawn:nave_rats_w
+    room: room:moon_nave
+    at: [-1792, 6016]
+    slot: 2
+    notes: "Rat group on the sunken floor, just short of the steps up to the apse."
+  - id: spawn:ne_chamber_rats
+    room: room:ne_chamber
+    at: [2496, 3328]
+    slot: 2
+    notes: The northeast chamber's light rat group.
+  - id: spawn:ne_pocket_bats
+    room: room:ne_pocket
+    at: [4416, 2816]
+    slot: 1
+    notes: The northeast pocket's mixed pack (one marker per slot).
+  - id: spawn:ne_pocket_rats
+    room: room:ne_pocket
+    at: [4736, 2432]
+    slot: 2
+  - id: spawn:ne_pocket_spiders
+    room: room:ne_pocket
+    at: [4224, 2240]
+    slot: 3
+  - id: spawn:sinkhole_spiders_e
+    room: room:spider_sinkhole
+    at: [-2752, 2944]
+    slot: 3
+    notes: "The sinkhole's three spider groups, the heaviest vermin on the map, spread round the basin."
+  - id: spawn:sinkhole_spiders_s
+    room: room:spider_sinkhole
+    at: [-3328, 2816]
+    slot: 3
+  - id: spawn:sinkhole_spiders_w
+    room: room:spider_sinkhole
+    at: [-3584, 3200]
+    slot: 3
+  - id: spawn:south_cavern_bats
+    room: room:south_cavern
+    at: [2304, -384]
+    slot: 1
+monsters:
+  - id: monster:captain
+    room: room:dormitory
+    monster: Swordsman B
+    at: [-5568, 6784]
+    group: 54
+    carries: longbow
+    notes: "The original's actor 3, the guard captain: monster 404 (Guard, Swordsman B, level 17), 79 hit points, which are its kind's, so no `hp`; the record has no name of its own (unique name 0: the game shows 'Guard'), so no `name`. It carries item 845, the Longbow (the scavenger hunt's), as the original's record does (`carries`): the game leaves it in the corpse. The record's npc id 346 is a leftover that the game does not use for a monster."
+  - id: monster:guard_dormitory
+    room: room:dormitory
+    monster: Swordsman A
+    at: [-5120, 6784]
+    group: 54
+    notes: "The original's actor 2: a temple guard (monster 403, Swordsman A, level 10, 40 hit points, its kind's), in the dormitory's middle aisle, group 54 with the other three. The original's record carries no name, no hit points of its own and no Aggressor bit (attributes 0): peaceful to the party as its kind's table has it (the game's own reading: clear_hostiles never touches it), so `hostile` is left out."
+  - id: monster:guard_library_n
+    room: room:library
+    monster: Swordsman A
+    at: [-5568, 5440]
+    group: 54
+    notes: "The original's actor 1 (monster 403), in the library between the middle case and the north arm."
+  - id: monster:guard_library_s
+    room: room:library
+    monster: Swordsman A
+    at: [-5568, 4800]
+    group: 54
+    notes: "The original's actor 0 (monster 403), in the library between the south arm and the middle case."
+items:
+  - id: item:moon_floor_tile
+    room: room:hidden_study
+    item: moon_floor_tile
+    at: [-4160, 6336]
+    notes: "The map's goal: the original's only sprite object, item 1438 (Floor Tile with the moon insignia, a scavenger hunt item) lying on the hidden study's floor near its north-west corner, at the original's point. Nothing in the original's script tests or sets anything when it is taken: the hunt's quest bit (project.yml qbits hunt_floor_tile, 516) is set and cleared on Emerald Island."
+decorations:
+  - id: deco:torch_aisle_n_e
+    room: room:aisle_n
+    decoration: torch05
+    wall: 2
+    along: 0.5
+    height: 304
+    notes: "Violet wall torch (torch05 carries its own violet light, radius 512), in the middle of the aisle's east corner diagonal (wall 2), as the original's (x -1056, y 7152, 304 above the floor). The aisles' four torches, one on each corner diagonal, are what lights the nave: it has none of its own."
+  - id: deco:torch_aisle_n_w
+    room: room:aisle_n
+    decoration: torch05
+    wall: 4
+    along: 0.5
+    height: 304
+    notes: "On the west corner diagonal (wall 4), as the original's (x -2144, y 7152)."
+  - id: deco:torch_aisle_s_e
+    room: room:aisle_s
+    decoration: torch05
+    wall: 2
+    along: 0.5
+    height: 304
+    notes: "On the east corner diagonal (wall 2), as the original's (x -1056, y 4768)."
+  - id: deco:torch_aisle_s_w
+    room: room:aisle_s
+    decoration: torch05
+    wall: 0
+    along: 0.5
+    height: 304
+    notes: "On the west corner diagonal (wall 0), as the original's (x -2144, y 4768)."
+  - id: deco:torch_anteroom_n
+    room: room:anteroom_n
+    decoration: torch05
+    wall: east
+    along: 0.09
+    height: 256
+  - id: deco:torch_anteroom_s
+    room: room:anteroom_s
+    decoration: torch05
+    wall: east
+    along: 0.94
+    height: 256
+  - id: deco:torch_apse
+    room: room:apse
+    decoration: torch05
+    wall: 7
+    along: 0.5
+    height: 256
+    notes: "Behind the altar, centred on the temple axis (y 5952) on the apse's west wall, 256 above the floor, as the original's (x -3344, y 5952, 48 in front of that wall). The west wall is outline edge 7 (from the 7th to the 8th corner; edge 8 is the south-west diagonal, where it stood before); the compass name would pick a short wall beside the north passage."
+  - id: deco:torch_corridor_n_emitter
+    room: room:wing_corridor_n
+    decoration: torch05
+    wall: north
+    along: 0.02
+    height: 256
+    notes: Marks the north fire-bolt emitter at the corridor's east end.
+  - id: deco:torch_corridor_n_mid
+    room: room:wing_corridor_n
+    decoration: torch05
+    wall: south
+    along: 0.34
+    height: 256
+  - id: deco:torch_corridor_n_west
+    room: room:door_hall_n
+    decoration: torch05
+    wall: north
+    along: 0.94
+    height: 256
+    notes: "The north corridor's third torch: it stands at the corridor's far west end, which the sketch draws as the door hall's corner."
+  - id: deco:torch_corridor_s_emitter
+    room: room:wing_corridor_s
+    decoration: torch05
+    wall: south
+    along: 0.98
+    height: 256
+    notes: Marks the south fire-bolt emitter at the corridor's east end.
+  - id: deco:torch_corridor_s_mid
+    room: room:wing_corridor_s
+    decoration: torch05
+    wall: north
+    along: 0.59
+    height: 256
+  - id: deco:torch_corridor_s_west
+    room: room:door_hall_s
+    decoration: torch05
+    wall: south
+    along: 0.06
+    height: 256
+    notes: "The south corridor's third torch, in the door hall's corner (see deco:torch_corridor_n_west)."
+  - id: deco:torch_dormitory_n
+    room: room:dormitory
+    decoration: torch05
+    wall: north
+    height: 256
+  - id: deco:torch_dormitory_s
+    room: room:dormitory
+    decoration: torch05
+    wall: south
+    height: 256
+  - id: deco:torch_dormitory_w_n
+    room: room:dormitory
+    decoration: torch05
+    wall: west
+    along: 0.15
+    height: 256
+    notes: "The dormitory's west wall carries two torches, either side of the alcove's arch."
+  - id: deco:torch_dormitory_w_s
+    room: room:dormitory
+    decoration: torch05
+    wall: west
+    along: 0.83
+    height: 256
+  - id: deco:torch_hidden_passage_n
+    room: room:hidden_passage
+    decoration: torch05
+    at: [-4656, 6144]
+    height: 256
+    facing: e
+    notes: "Beyond the elbow, against the passage's west wall. A corridor drawn as a path has several walls facing each way, so the torch is placed by point."
+  - id: deco:torch_hidden_passage_s
+    room: room:hidden_passage
+    decoration: torch05
+    at: [-4464, 5456]
+    height: 256
+    facing: n
+    notes: "Before the elbow, against the passage's south wall, just past the lifting wall."
+  - id: deco:torch_library_n
+    room: room:library
+    decoration: torch05
+    wall: north
+    along: 0.47
+    height: 256
+  - id: deco:torch_library_s
+    room: room:library
+    decoration: torch05
+    wall: south
+    along: 0.53
+    height: 256
+exits:
+  - id: exit:mouth
+    room: room:cave_mouth
+    wall: south
+    size: [288, 384]
+    surface: {texture: 7solid01, size: [16, 16]}
+    to: exit:emerald_island
+    notes: "The plain dark panel in the rock at the top of the mouth ramp, from the ramp's top floor up 384 to the ceiling: 'Leave the Temple of the Moon'. 288 wide: the sketch's south wall is 320 long and a panel keeps 16 of wall at its sides."
+notes: "Placement by room and offset from the room's centre, by wall and along, or by point (`at`). The 21 violet torches are torch05 decorations (each carries its own violet light, radius 512): aisles 2 + 2, apse 1, corridors 3 + 3, anterooms 1 + 1, dormitory 4, library 2, hidden passage 2; no point lights (the original's four light records are not lamps). Round five: the original's four placed monsters (group 54: three temple guards, Swordsman A, and the captain, Swordsman B) at their points, peaceful by their kind's table as the original's; the moon floor tile, the map's goal, lying in the hidden study at its point; the 17 monster spawn points at the original's points and slots. Round six: the captain carries the Longbow (`carries`); the seven random floor items are item spawn points at the original's points and levels; each chest's rolls are at the original's levels (`random_levels`). No placeholders. The 15 searchable bookcase faces are clicked blocks in rooms.yml (platforms with ids) wired in wiring.yml, as the original's events; the 7 chests are the five alcove cabinets and the two rock-face panels (not secret: a chest has no secret flag). The double doors part sideways in two leaves; the library's lifting wall is a secret door."

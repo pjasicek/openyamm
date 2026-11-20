@@ -1,0 +1,3 @@
+Saved [out_face.png](/home/pjasicek/github/OpenYAMM/level_generation/creatures/mm9_sven_claude/references_face/out_face.png) at 1254×1254 using built-in image generation, plus `review.png`, overlay checks, and `generation_runs.json` containing prompts and input hashes.
+
+Stopped after the one allowed correction. Residual feature drift remains, so the result does **not** meet the brief’s strict pixel-preservation requirement.

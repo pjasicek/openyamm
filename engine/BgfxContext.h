@@ -55,5 +55,8 @@ private:
     uint8_t m_maxAnisotropy;
     bgfx::RendererType::Enum m_rendererType;
     std::unique_ptr<Callback> m_pCallback;
+#if defined(__APPLE__)
+    void *m_pMetalView = nullptr;
+#endif
 };
 }

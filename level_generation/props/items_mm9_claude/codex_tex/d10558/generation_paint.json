@@ -1,0 +1,23 @@
+{
+  "prompt": "Use case: precise-object-edit. Edit paint_mask_guide.png, the exact grey geometry guide, using design_reference.png for materials and icon_x8.png for colours (magenta is background, never paint magenta). Produce ONE transparent PNG at 1536x2048 or nearest 3:4 size. Preserve the guide's precise silhouettes, sizes, positions, gaps and layout: 3 columns, FOUR rows of square cells. Row 1 FRONT BACK LEFT; row 2 RIGHT TOP EMPTY; row 3 FRONT BACK LEFT; row 4 RIGHT TOP EMPTY. Paint grey objects only; never redraw, move, enlarge or redesign geometry. Object: Nurtigan's Potion, made to cure Nutty Nurtigan. Upper two rows: unlit base colour matching reference, deep green glass bulb and slender neck, blue-violet collar, gold metal domed stopper/rim and gold metal bottom band. Follow reference detail, facets and subtle inner swirls scaled to each view, but remove lighting, hot highlights, reflections, cast shadows and ambient occlusion. No invented ornament. Lower two rows: MATERIAL SEGMENTATION, same silhouettes, strictly FLAT pure colours, no texture or shading or internal antialiased colour blends: glass/liquid/enamel black #000000 (including green glass and blue enamel collar); all gold metal stopper/rim and bottom band red #FF0000; any matte nonmetal solid yellow #FFFF00; any actual cloth/hair blue #0000FF. Every silhouette pixel exactly one category colour. Black mask regions opaque black, not transparent. Top views show central gold cap and surrounding green glass shoulders (red central cap and black surrounding glass in mask). Preserve empty row2 col3 and row4 col3 transparent. Entire background transparent, including gaps; no text, outlines, ground, halo, sparkles, aura, or grid. Output raw generated image without postprocessing.",
+  "inputs": [
+    {
+      "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/items_mm9_claude/codex_tex/d10558/paint_mask_guide.png",
+      "sha256": "1c86e2535b83a544488509b1f01f94bf2a8c8120dbdd6e77338b034de3a9777f"
+    },
+    {
+      "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/items_mm9_claude/codex_tex/d10558/design_reference.png",
+      "sha256": "9b881f3e3928e83e040d15c66c952a4c34c0c5fd85c2c8081ebc3195c59c7386"
+    },
+    {
+      "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/items_mm9_claude/codex_tex/d10558/icon_x8.png",
+      "sha256": "f76ee4cb1cbc7eeb2523953ada07afc1a3cc5e8c4d2c493be87bb64c4dcbf063"
+    }
+  ],
+  "original_output_path": "/home/pjasicek/.codex/generated_images/01a1ad13-296c-7df3-99f0-129486bd93ea/exec-4f99104c-cd65-46a6-9820-e57806c4da72.png",
+  "output": "/home/pjasicek/github/OpenYAMM/level_generation/props/items_mm9_claude/codex_tex/d10558/paint_mask_raw_v1.png",
+  "size": [
+    1086,
+    1448
+  ]
+}

@@ -1,0 +1,189 @@
+# Written by make_scenarios.py from the built map; rerun it after convert.py.
+id: mm9r.lindisfarnemonastery_quests
+title: Lindisfarne Monastery (native BLV) - RUDE dialogues by real clicks and their OnRudeExit events
+world: mm9
+mode: faithful
+tags:
+- mm9
+- mm9_rework
+- draft
+steps:
+- load_map:
+    map: lindisfarnemonastery.blv
+- note:
+    text: 'A hoeing monk (Initiate0, MonkGuardBasic.scr ''1 296''): a click opens dialogue 296.'
+- set_pose:
+    map: lindisfarnemonastery.blv
+    x: 1516
+    y: 5557
+    z: -40
+    yaw: -1.5708
+    pitch: -0.5836
+- advance_runtime:
+    seconds: 0.2
+- press_interact: {}
+- assert:
+    actor_dialog_started:
+      kind: mm9_rude
+      source_id: 296
+- assert:
+    dialog:
+      active: true
+      source_id: 296
+- press_action:
+    action: cancel_dialog
+- note:
+    text: 'Abbot Leffery (NPC283.scr): with the relic found (key 341) and item 368, closing the talk takes the relic, gives
+      3000 gold, 80000 experience and key 342.'
+- setup_shortcut:
+    kind: set_qbit
+    id: 90341
+    value: true
+- grant_item:
+    item_id: 10368
+    count: 1
+- set_pose:
+    map: lindisfarnemonastery.blv
+    x: -425
+    y: 11516
+    z: 103
+    yaw: -1.5708
+    pitch: -0.5852
+- advance_runtime:
+    seconds: 0.2
+- press_interact: {}
+- assert:
+    actor_dialog_started:
+      kind: mm9_rude
+      source_id: 283
+- assert:
+    dialog:
+      active: true
+      source_id: 283
+- press_action:
+    action: cancel_dialog
+- advance_runtime:
+    seconds: 1
+- assert:
+    qbit_set:
+    - 90342
+- note:
+    text: 'Grehgknak (NPC282.scr :giveletter): key 228 without 229 gives key 229 and item 419.'
+- setup_shortcut:
+    kind: set_qbit
+    id: 90228
+    value: true
+- set_pose:
+    map: lindisfarnemonastery.blv
+    x: 3837
+    y: 5350
+    z: -40
+    yaw: -1.5708
+    pitch: -0.5836
+- advance_runtime:
+    seconds: 0.2
+- press_interact: {}
+- assert:
+    actor_dialog_started:
+      kind: mm9_rude
+      source_id: 282
+- assert:
+    dialog:
+      active: true
+      source_id: 282
+- press_action:
+    action: cancel_dialog
+- advance_runtime:
+    seconds: 1
+- assert:
+    qbit_set:
+    - 90229
+- assert:
+    inventory_any_member:
+    - item_id: 10419
+      count: 1
+- note:
+    text: 'Grehgknak (:paladins): key 236 without 237 gives key 237 (and promotes holders of 421-424).'
+- setup_shortcut:
+    kind: set_qbit
+    id: 90236
+    value: true
+- set_pose:
+    map: lindisfarnemonastery.blv
+    x: 3837
+    y: 5350
+    z: -40
+    yaw: -1.5708
+    pitch: -0.5836
+- advance_runtime:
+    seconds: 0.2
+- press_interact: {}
+- assert:
+    actor_dialog_started:
+      kind: mm9_rude
+      source_id: 282
+- assert:
+    dialog:
+      active: true
+      source_id: 282
+- press_action:
+    action: cancel_dialog
+- advance_runtime:
+    seconds: 1
+- assert:
+    qbit_set:
+    - 90237
+- note:
+    text: 'The organ player (NPC420.scr): key 9506 from his talk; closing plays the hymn and takes it.'
+- setup_shortcut:
+    kind: set_qbit
+    id: 99506
+    value: true
+- set_pose:
+    map: lindisfarnemonastery.blv
+    x: -465
+    y: 10324
+    z: 2295
+    yaw: 0.0
+    pitch: -0.5823
+- advance_runtime:
+    seconds: 0.2
+- press_interact: {}
+- assert:
+    actor_dialog_started:
+      kind: mm9_rude
+      source_id: 420
+- assert:
+    dialog:
+      active: true
+      source_id: 420
+- press_action:
+    action: cancel_dialog
+- advance_runtime:
+    seconds: 1
+- assert:
+    qbit_clear:
+    - 99506
+- note:
+    text: Robert Aefgil (NPC284.scr) is hidden; after the abbot agrees (key 253) the next 5:00 gives key 254 and he appears.
+- assert:
+    actor_visible:
+      actor_index: 2
+      hidden: true
+- setup_shortcut:
+    kind: set_qbit
+    id: 90253
+    value: true
+- advance_runtime:
+    seconds: 4
+- console:
+    line: time advance 1440
+- advance_runtime:
+    seconds: 4
+- assert:
+    qbit_set:
+    - 90254
+- assert:
+    actor_visible:
+      actor_index: 2
+      hidden: false

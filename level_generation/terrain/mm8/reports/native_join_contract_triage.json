@@ -1,0 +1,4009 @@
+{
+  "scope": "Contract classification of metric failures; mismatches still require visual context review",
+  "failures": [
+    {
+      "a": "dirt2",
+      "b": "drsrcros",
+      "side": "S",
+      "a_contract": "dirt",
+      "b_contract": "roads_dirt",
+      "compatible": false,
+      "placements": 1,
+      "example": {
+        "map": "out05",
+        "row": 23,
+        "col": 9
+      }
+    },
+    {
+      "a": "dirttyl",
+      "b": "drsrcros",
+      "side": "E",
+      "a_contract": "dirt",
+      "b_contract": "roads_dirt",
+      "compatible": false,
+      "placements": 2,
+      "example": {
+        "map": "out05",
+        "row": 0,
+        "col": 99
+      }
+    },
+    {
+      "a": "drsrcros",
+      "b": "dirttyl",
+      "side": "E",
+      "a_contract": "roads_dirt",
+      "b_contract": "dirt",
+      "compatible": false,
+      "placements": 2,
+      "example": {
+        "map": "out05",
+        "row": 0,
+        "col": 100
+      }
+    },
+    {
+      "a": "drsrcros",
+      "b": "rkw",
+      "side": "E",
+      "a_contract": "roads_dirt",
+      "b_contract": "dirt",
+      "compatible": false,
+      "placements": 1,
+      "example": {
+        "map": "elema",
+        "row": 42,
+        "col": 24
+      }
+    },
+    {
+      "a": "drsrcros",
+      "b": "wtrdrw",
+      "side": "E",
+      "a_contract": "roads_dirt",
+      "b_contract": "dirt",
+      "compatible": false,
+      "placements": 1,
+      "example": {
+        "map": "out01",
+        "row": 73,
+        "col": 7
+      }
+    },
+    {
+      "a": "drsrcros",
+      "b": "dirttyl",
+      "side": "S",
+      "a_contract": "roads_dirt",
+      "b_contract": "dirt",
+      "compatible": false,
+      "placements": 2,
+      "example": {
+        "map": "out05",
+        "row": 0,
+        "col": 100
+      }
+    },
+    {
+      "a": "drsrcros",
+      "b": "grdrtne",
+      "side": "S",
+      "a_contract": "roads_dirt",
+      "b_contract": "dirt",
+      "compatible": false,
+      "placements": 1,
+      "example": {
+        "map": "out01",
+        "row": 73,
+        "col": 7
+      }
+    },
+    {
+      "a": "drsrcros",
+      "b": "rkn",
+      "side": "S",
+      "a_contract": "roads_dirt",
+      "b_contract": "dirt",
+      "compatible": false,
+      "placements": 1,
+      "example": {
+        "map": "elema",
+        "row": 42,
+        "col": 24
+      }
+    },
+    {
+      "a": "drsrew",
+      "b": "grdrtw",
+      "side": "E",
+      "a_contract": "roads_dirt",
+      "b_contract": "dirt",
+      "compatible": false,
+      "placements": 1,
+      "example": {
+        "map": "out05",
+        "row": 63,
+        "col": 97
+      }
+    },
+    {
+      "a": "grastyl",
+      "b": "grdrts",
+      "side": "E",
+      "a_contract": "grass",
+      "b_contract": "grass:10",
+      "compatible": false,
+      "placements": 1,
+      "example": {
+        "map": "out02",
+        "row": 18,
+        "col": 125
+      }
+    },
+    {
+      "a": "grastyl",
+      "b": "grdrtw",
+      "side": "E",
+      "a_contract": "grass",
+      "b_contract": "dirt",
+      "compatible": false,
+      "placements": 3,
+      "example": {
+        "map": "out02",
+        "row": 29,
+        "col": 113
+      }
+    },
+    {
+      "a": "grastyl",
+      "b": "grdrtxnw",
+      "side": "E",
+      "a_contract": "grass",
+      "b_contract": "grass:01",
+      "compatible": false,
+      "placements": 3,
+      "example": {
+        "map": "out02",
+        "row": 13,
+        "col": 125
+      }
+    },
+    {
+      "a": "grastyl",
+      "b": "grdrtxsw",
+      "side": "E",
+      "a_contract": "grass",
+      "b_contract": "grass:10",
+      "compatible": false,
+      "placements": 25,
+      "example": {
+        "map": "out01",
+        "row": 8,
+        "col": 40
+      }
+    },
+    {
+      "a": "grastyl",
+      "b": "grdrtn",
+      "side": "S",
+      "a_contract": "grass",
+      "b_contract": "dirt",
+      "compatible": false,
+      "placements": 2,
+      "example": {
+        "map": "out01",
+        "row": 8,
+        "col": 39
+      }
+    },
+    {
+      "a": "grastyl",
+      "b": "grdrtxne",
+      "side": "S",
+      "a_contract": "grass",
+      "b_contract": "grass:10",
+      "compatible": false,
+      "placements": 3,
+      "example": {
+        "map": "out01",
+        "row": 12,
+        "col": 16
+      }
+    },
+    {
+      "a": "grastyl",
+      "b": "grdrtxnw",
+      "side": "S",
+      "a_contract": "grass",
+      "b_contract": "grass:01",
+      "compatible": false,
+      "placements": 2,
+      "example": {
+        "map": "out01",
+        "row": 8,
+        "col": 40
+      }
+    },
+    {
+      "a": "grdrte",
+      "b": "drsrcros",
+      "side": "E",
+      "a_contract": "dirt",
+      "b_contract": "roads_dirt",
+      "compatible": false,
+      "placements": 1,
+      "example": {
+        "map": "out01",
+        "row": 73,
+        "col": 6
+      }
+    },
+    {
+      "a": "grdrte",
+      "b": "grastyl",
+      "side": "E",
+      "a_contract": "dirt",
+      "b_contract": "grass",
+      "compatible": false,
+      "placements": 2,
+      "example": {
+        "map": "out01",
+        "row": 8,
+        "col": 38
+      }
+    },
+    {
+      "a": "grdrte",
+      "b": "grastyl",
+      "side": "S",
+      "a_contract": "grass:10",
+      "b_contract": "grass",
+      "compatible": false,
+      "placements": 1,
+      "example": {
+        "map": "out01",
+        "row": 106,
+        "col": 6
+      }
+    },
+    {
+      "a": "grdrte",
+      "b": "grdrts",
+      "side": "S",
+      "a_contract": "grass:10",
+      "b_contract": "grass",
+      "compatible": false,
+      "placements": 3,
+      "example": {
+        "map": "out02",
+        "row": 31,
+        "col": 58
+      }
+    },
+    {
+      "a": "grdrte",
+      "b": "grdrtsw",
+      "side": "S",
+      "a_contract": "grass:10",
+      "b_contract": "grass:01",
+      "compatible": false,
+      "placements": 3,
+      "example": {
+        "map": "out03",
+        "row": 48,
+        "col": 51
+      }
+    },
+    {
+      "a": "grdrte",
+      "b": "grdrtw",
+      "side": "S",
+      "a_contract": "grass:10",
+      "b_contract": "grass:01",
+      "compatible": false,
+      "placements": 1,
+      "example": {
+        "map": "out03",
+        "row": 110,
+        "col": 33
+      }
+    },
+    {
+      "a": "grdrte",
+      "b": "grdrtxse",
+      "side": "S",
+      "a_contract": "grass:10",
+      "b_contract": "grass",
+      "compatible": false,
+      "placements": 1,
+      "example": {
+        "map": "out02",
+        "row": 0,
+        "col": 44
+      }
+    },
+    {
+      "a": "grdrte",
+      "b": "grdrtxsw",
+      "side": "S",
+      "a_contract": "grass:10",
+      "b_contract": "grass",
+      "compatible": false,
+      "placements": 2,
+      "example": {
+        "map": "out01",
+        "row": 8,
+        "col": 38
+      }
+    },
+    {
+      "a": "grdrtn",
+      "b": "grdrts",
+      "side": "E",
+      "a_contract": "grass:01",
+      "b_contract": "grass:10",
+      "compatible": false,
+      "placements": 3,
+      "example": {
+        "map": "out02",
+        "row": 32,
+        "col": 59
+      }
+    },
+    {
+      "a": "grdrtn",
+      "b": "grdrtse",
+      "side": "E",
+      "a_contract": "grass:01",
+      "b_contract": "grass:10",
+      "compatible": false,
+      "placements": 2,
+      "example": {
+        "map": "out01",
+        "row": 8,
+        "col": 18
+      }
+    },
+    {
+      "a": "grdrtn",
+      "b": "grdrtxse",
+      "side": "E",
+      "a_contract": "grass:01",
+      "b_contract": "grass",
+      "compatible": false,
+      "placements": 1,
+      "example": {
+        "map": "out01",
+        "row": 25,
+        "col": 108
+      }
+    },
+    {
+      "a": "grdrtn",
+      "b": "drsrncap",
+      "side": "S",
+      "a_contract": "grass",
+      "b_contract": "dirt",
+      "compatible": false,
+      "placements": 2,
+      "example": {
+        "map": "out02",
+        "row": 36,
+        "col": 59
+      }
+    },
+    {
+      "a": "grdrtn",
+      "b": "grdrte",
+      "side": "S",
+      "a_contract": "grass",
+      "b_contract": "grass:10",
+      "compatible": false,
+      "placements": 3,
+      "example": {
+        "map": "out01",
+        "row": 8,
+        "col": 18
+      }
+    },
+    {
+      "a": "grdrtn",
+      "b": "grdrtse",
+      "side": "S",
+      "a_contract": "grass",
+      "b_contract": "grass:10",
+      "compatible": false,
+      "placements": 2,
+      "example": {
+        "map": "out03",
+        "row": 85,
+        "col": 73
+      }
+    },
+    {
+      "a": "grdrtn",
+      "b": "grdrtw",
+      "side": "S",
+      "a_contract": "grass",
+      "b_contract": "grass:01",
+      "compatible": false,
+      "placements": 3,
+      "example": {
+        "map": "out02",
+        "row": 36,
+        "col": 60
+      }
+    },
+    {
+      "a": "grdrtn",
+      "b": "grdrtxnw",
+      "side": "S",
+      "a_contract": "grass",
+      "b_contract": "grass:01",
+      "compatible": false,
+      "placements": 2,
+      "example": {
+        "map": "out02",
+        "row": 64,
+        "col": 123
+      }
+    },
+    {
+      "a": "grdrtn",
+      "b": "rkn",
+      "side": "S",
+      "a_contract": "grass",
+      "b_contract": "dirt",
+      "compatible": false,
+      "placements": 2,
+      "example": {
+        "map": "out03",
+        "row": 60,
+        "col": 70
+      }
+    },
+    {
+      "a": "grdrtn",
+      "b": "rknw",
+      "side": "S",
+      "a_contract": "grass",
+      "b_contract": "dirt",
+      "compatible": false,
+      "placements": 1,
+      "example": {
+        "map": "out03",
+        "row": 95,
+        "col": 59
+      }
+    },
+    {
+      "a": "grdrtn",
+      "b": "wtrdrn",
+      "side": "S",
+      "a_contract": "grass",
+      "b_contract": "dirt",
+      "compatible": false,
+      "placements": 2,
+      "example": {
+        "map": "out02",
+        "row": 32,
+        "col": 59
+      }
+    },
+    {
+      "a": "grdrtne",
+      "b": "grdrts",
+      "side": "S",
+      "a_contract": "grass:10",
+      "b_contract": "grass",
+      "compatible": false,
+      "placements": 1,
+      "example": {
+        "map": "out03",
+        "row": 59,
+        "col": 69
+      }
+    },
+    {
+      "a": "grdrtne",
+      "b": "grdrtxsw",
+      "side": "S",
+      "a_contract": "grass:10",
+      "b_contract": "grass",
+      "compatible": false,
+      "placements": 1,
+      "example": {
+        "map": "out07",
+        "row": 6,
+        "col": 61
+      }
+    },
+    {
+      "a": "grdrtne",
+      "b": "rkn",
+      "side": "S",
+      "a_contract": "grass:10",
+      "b_contract": "dirt",
+      "compatible": false,
+      "placements": 1,
+      "example": {
+        "map": "out03",
+        "row": 60,
+        "col": 71
+      }
+    },
+    {
+      "a": "grdrtne",
+      "b": "wtrdrn",
+      "side": "S",
+      "a_contract": "grass:10",
+      "b_contract": "dirt",
+      "compatible": false,
+      "placements": 1,
+      "example": {
+        "map": "out03",
+        "row": 82,
+        "col": 43
+      }
+    },
+    {
+      "a": "grdrtne",
+      "b": "wtrdrnw",
+      "side": "S",
+      "a_contract": "grass:10",
+      "b_contract": "dirt",
+      "compatible": false,
+      "placements": 2,
+      "example": {
+        "map": "out02",
+        "row": 1,
+        "col": 45
+      }
+    },
+    {
+      "a": "grdrtnw",
+      "b": "dirttyl",
+      "side": "E",
+      "a_contract": "grass:01",
+      "b_contract": "dirt",
+      "compatible": false,
+      "placements": 3,
+      "example": {
+        "map": "out01",
+        "row": 17,
+        "col": 110
+      }
+    },
+    {
+      "a": "grdrtnw",
+      "b": "drsrns_e",
+      "side": "E",
+      "a_contract": "grass:01",
+      "b_contract": "dirt",
+      "compatible": false,
+      "placements": 1,
+      "example": {
+        "map": "out03",
+        "row": 105,
+        "col": 33
+      }
+    },
+    {
+      "a": "grdrtnw",
+      "b": "grdrte",
+      "side": "E",
+      "a_contract": "grass:01",
+      "b_contract": "grass",
+      "compatible": false,
+      "placements": 3,
+      "example": {
+        "map": "out03",
+        "row": 67,
+        "col": 73
+      }
+    },
+    {
+      "a": "grdrtnw",
+      "b": "grdrts",
+      "side": "E",
+      "a_contract": "grass:01",
+      "b_contract": "grass:10",
+      "compatible": false,
+      "placements": 3,
+      "example": {
+        "map": "out03",
+        "row": 79,
+        "col": 60
+      }
+    },
+    {
+      "a": "grdrtnw",
+      "b": "grdrtse",
+      "side": "E",
+      "a_contract": "grass:01",
+      "b_contract": "grass:10",
+      "compatible": false,
+      "placements": 1,
+      "example": {
+        "map": "out03",
+        "row": 96,
+        "col": 57
+      }
+    },
+    {
+      "a": "grdrtnw",
+      "b": "rksw",
+      "side": "E",
+      "a_contract": "grass:01",
+      "b_contract": "dirt",
+      "compatible": false,
+      "placements": 1,
+      "example": {
+        "map": "out03",
+        "row": 79,
+        "col": 89
+      }
+    },
+    {
+      "a": "grdrtnw",
+      "b": "rkw",
+      "side": "E",
+      "a_contract": "grass:01",
+      "b_contract": "dirt",
+      "compatible": false,
+      "placements": 1,
+      "example": {
+        "map": "out03",
+        "row": 66,
+        "col": 74
+      }
+    },
+    {
+      "a": "grdrtnw",
+      "b": "wtrdrsw",
+      "side": "E",
+      "a_contract": "grass:01",
+      "b_contract": "dirt",
+      "compatible": false,
+      "placements": 3,
+      "example": {
+        "map": "out01",
+        "row": 9,
+        "col": 11
+      }
+    },
+    {
+      "a": "grdrtnw",
+      "b": "wtrdrw",
+      "side": "E",
+      "a_contract": "grass:01",
+      "b_contract": "dirt",
+      "compatible": false,
+      "placements": 1,
+      "example": {
+        "map": "out01",
+        "row": 7,
+        "col": 19
+      }
+    },
+    {
+      "a": "grdrtnw",
+      "b": "dirt2",
+      "side": "S",
+      "a_contract": "grass:01",
+      "b_contract": "dirt",
+      "compatible": false,
+      "placements": 1,
+      "example": {
+        "map": "out07",
+        "row": 15,
+        "col": 49
+      }
+    },
+    {
+      "a": "grdrtnw",
+      "b": "dirttyl",
+      "side": "S",
+      "a_contract": "grass:01",
+      "b_contract": "dirt",
+      "compatible": false,
+      "placements": 1,
+      "example": {
+        "map": "out07",
+        "row": 106,
+        "col": 57
+      }
+    },
+    {
+      "a": "grdrtnw",
+      "b": "grdrte",
+      "side": "S",
+      "a_contract": "grass:01",
+      "b_contract": "grass:10",
+      "compatible": false,
+      "placements": 2,
+      "example": {
+        "map": "out03",
+        "row": 66,
+        "col": 74
+      }
+    },
+    {
+      "a": "grdrtnw",
+      "b": "grdrts",
+      "side": "S",
+      "a_contract": "grass:01",
+      "b_contract": "grass",
+      "compatible": false,
+      "placements": 2,
+      "example": {
+        "map": "out03",
+        "row": 78,
+        "col": 61
+      }
+    },
+    {
+      "a": "grdrtnw",
+      "b": "grdrtse",
+      "side": "S",
+      "a_contract": "grass:01",
+      "b_contract": "grass:10",
+      "compatible": false,
+      "placements": 3,
+      "example": {
+        "map": "out01",
+        "row": 7,
+        "col": 19
+      }
+    },
+    {
+      "a": "grdrtnw",
+      "b": "rkn",
+      "side": "S",
+      "a_contract": "grass:01",
+      "b_contract": "dirt",
+      "compatible": false,
+      "placements": 1,
+      "example": {
+        "map": "out03",
+        "row": 79,
+        "col": 60
+      }
+    },
+    {
+      "a": "grdrtnw",
+      "b": "rkne",
+      "side": "S",
+      "a_contract": "grass:01",
+      "b_contract": "dirt",
+      "compatible": false,
+      "placements": 3,
+      "example": {
+        "map": "out02",
+        "row": 68,
+        "col": 106
+      }
+    },
+    {
+      "a": "grdrtnw",
+      "b": "wtrdrne",
+      "side": "S",
+      "a_contract": "grass:01",
+      "b_contract": "dirt",
+      "compatible": false,
+      "placements": 1,
+      "example": {
+        "map": "out02",
+        "row": 48,
+        "col": 76
+      }
+    },
+    {
+      "a": "grdrts",
+      "b": "grdrte",
+      "side": "E",
+      "a_contract": "grass:10",
+      "b_contract": "grass",
+      "compatible": false,
+      "placements": 3,
+      "example": {
+        "map": "out03",
+        "row": 48,
+        "col": 50
+      }
+    },
+    {
+      "a": "grdrts",
+      "b": "grdrtn",
+      "side": "E",
+      "a_contract": "grass:10",
+      "b_contract": "grass:01",
+      "compatible": false,
+      "placements": 3,
+      "example": {
+        "map": "out02",
+        "row": 32,
+        "col": 58
+      }
+    },
+    {
+      "a": "grdrts",
+      "b": "grdrtne",
+      "side": "E",
+      "a_contract": "grass:10",
+      "b_contract": "grass:01",
+      "compatible": false,
+      "placements": 1,
+      "example": {
+        "map": "out03",
+        "row": 82,
+        "col": 42
+      }
+    },
+    {
+      "a": "grdrts",
+      "b": "grdrtxne",
+      "side": "E",
+      "a_contract": "grass:10",
+      "b_contract": "grass",
+      "compatible": false,
+      "placements": 2,
+      "example": {
+        "map": "out01",
+        "row": 7,
+        "col": 39
+      }
+    },
+    {
+      "a": "grdrts",
+      "b": "grdrtxse",
+      "side": "E",
+      "a_contract": "grass:10",
+      "b_contract": "grass",
+      "compatible": false,
+      "placements": 1,
+      "example": {
+        "map": "out02",
+        "row": 67,
+        "col": 6
+      }
+    },
+    {
+      "a": "grdrts",
+      "b": "drsrns",
+      "side": "S",
+      "a_contract": "dirt",
+      "b_contract": "roads_dirt",
+      "compatible": false,
+      "placements": 1,
+      "example": {
+        "map": "out03",
+        "row": 70,
+        "col": 52
+      }
+    },
+    {
+      "a": "grdrts",
+      "b": "grastyl",
+      "side": "S",
+      "a_contract": "dirt",
+      "b_contract": "grass",
+      "compatible": false,
+      "placements": 7,
+      "example": {
+        "map": "out01",
+        "row": 7,
+        "col": 39
+      }
+    },
+    {
+      "a": "grdrts",
+      "b": "grdrtxsw",
+      "side": "S",
+      "a_contract": "dirt",
+      "b_contract": "grass",
+      "compatible": false,
+      "placements": 1,
+      "example": {
+        "map": "out03",
+        "row": 0,
+        "col": 126
+      }
+    },
+    {
+      "a": "grdrtse",
+      "b": "drsrcros",
+      "side": "S",
+      "a_contract": "dirt",
+      "b_contract": "roads_dirt",
+      "compatible": false,
+      "placements": 1,
+      "example": {
+        "map": "out01",
+        "row": 72,
+        "col": 7
+      }
+    },
+    {
+      "a": "grdrtsw",
+      "b": "dirttyl",
+      "side": "E",
+      "a_contract": "grass:10",
+      "b_contract": "dirt",
+      "compatible": false,
+      "placements": 4,
+      "example": {
+        "map": "out01",
+        "row": 44,
+        "col": 79
+      }
+    },
+    {
+      "a": "grdrtsw",
+      "b": "drsrns",
+      "side": "E",
+      "a_contract": "grass:10",
+      "b_contract": "dirt",
+      "compatible": false,
+      "placements": 1,
+      "example": {
+        "map": "out03",
+        "row": 49,
+        "col": 51
+      }
+    },
+    {
+      "a": "grdrtsw",
+      "b": "grdrte",
+      "side": "E",
+      "a_contract": "grass:10",
+      "b_contract": "grass",
+      "compatible": false,
+      "placements": 1,
+      "example": {
+        "map": "out03",
+        "row": 110,
+        "col": 32
+      }
+    },
+    {
+      "a": "grdrtsw",
+      "b": "rkw",
+      "side": "E",
+      "a_contract": "grass:10",
+      "b_contract": "dirt",
+      "compatible": false,
+      "placements": 2,
+      "example": {
+        "map": "out03",
+        "row": 72,
+        "col": 89
+      }
+    },
+    {
+      "a": "grdrtsw",
+      "b": "wtrdrnw",
+      "side": "E",
+      "a_contract": "grass:10",
+      "b_contract": "dirt",
+      "compatible": false,
+      "placements": 1,
+      "example": {
+        "map": "out01",
+        "row": 27,
+        "col": 112
+      }
+    },
+    {
+      "a": "grdrtsw",
+      "b": "wtrdrw",
+      "side": "E",
+      "a_contract": "grass:10",
+      "b_contract": "dirt",
+      "compatible": false,
+      "placements": 1,
+      "example": {
+        "map": "out13",
+        "row": 62,
+        "col": 100
+      }
+    },
+    {
+      "a": "grdrtw",
+      "b": "dirttyl",
+      "side": "E",
+      "a_contract": "grass",
+      "b_contract": "dirt",
+      "compatible": false,
+      "placements": 3,
+      "example": {
+        "map": "out01",
+        "row": 39,
+        "col": 75
+      }
+    },
+    {
+      "a": "grdrtw",
+      "b": "drsrns",
+      "side": "E",
+      "a_contract": "grass",
+      "b_contract": "dirt",
+      "compatible": false,
+      "placements": 2,
+      "example": {
+        "map": "out03",
+        "row": 106,
+        "col": 33
+      }
+    },
+    {
+      "a": "grdrtw",
+      "b": "drsrwcap",
+      "side": "E",
+      "a_contract": "grass",
+      "b_contract": "dirt",
+      "compatible": false,
+      "placements": 1,
+      "example": {
+        "map": "out05",
+        "row": 63,
+        "col": 103
+      }
+    },
+    {
+      "a": "grdrtw",
+      "b": "grdrtn",
+      "side": "E",
+      "a_contract": "grass",
+      "b_contract": "grass:01",
+      "compatible": false,
+      "placements": 2,
+      "example": {
+        "map": "out01",
+        "row": 42,
+        "col": 75
+      }
+    },
+    {
+      "a": "grdrtw",
+      "b": "grdrtne",
+      "side": "E",
+      "a_contract": "grass",
+      "b_contract": "grass:01",
+      "compatible": false,
+      "placements": 1,
+      "example": {
+        "map": "out03",
+        "row": 80,
+        "col": 89
+      }
+    },
+    {
+      "a": "grdrtw",
+      "b": "grdrts",
+      "side": "E",
+      "a_contract": "grass",
+      "b_contract": "grass:10",
+      "compatible": false,
+      "placements": 5,
+      "example": {
+        "map": "out01",
+        "row": 26,
+        "col": 112
+      }
+    },
+    {
+      "a": "grdrtw",
+      "b": "grdrtse",
+      "side": "E",
+      "a_contract": "grass",
+      "b_contract": "grass:10",
+      "compatible": false,
+      "placements": 1,
+      "example": {
+        "map": "out03",
+        "row": 70,
+        "col": 89
+      }
+    },
+    {
+      "a": "grdrtw",
+      "b": "grdrtxsw",
+      "side": "E",
+      "a_contract": "grass",
+      "b_contract": "grass:10",
+      "compatible": false,
+      "placements": 1,
+      "example": {
+        "map": "out02",
+        "row": 104,
+        "col": 111
+      }
+    },
+    {
+      "a": "grdrtw",
+      "b": "rknw",
+      "side": "E",
+      "a_contract": "grass",
+      "b_contract": "dirt",
+      "compatible": false,
+      "placements": 1,
+      "example": {
+        "map": "out03",
+        "row": 71,
+        "col": 89
+      }
+    },
+    {
+      "a": "grdrtw",
+      "b": "grastyl",
+      "side": "S",
+      "a_contract": "grass:01",
+      "b_contract": "grass",
+      "compatible": false,
+      "placements": 2,
+      "example": {
+        "map": "out02",
+        "row": 29,
+        "col": 114
+      }
+    },
+    {
+      "a": "grdrtw",
+      "b": "grdrte",
+      "side": "S",
+      "a_contract": "grass:01",
+      "b_contract": "grass:10",
+      "compatible": false,
+      "placements": 2,
+      "example": {
+        "map": "out03",
+        "row": 106,
+        "col": 33
+      }
+    },
+    {
+      "a": "grdrtw",
+      "b": "grdrts",
+      "side": "S",
+      "a_contract": "grass:01",
+      "b_contract": "grass",
+      "compatible": false,
+      "placements": 4,
+      "example": {
+        "map": "out02",
+        "row": 31,
+        "col": 60
+      }
+    },
+    {
+      "a": "grdrtxne",
+      "b": "grastyl2",
+      "side": "E",
+      "a_contract": "grass:01",
+      "b_contract": "grass",
+      "compatible": false,
+      "placements": 1,
+      "example": {
+        "map": "out02",
+        "row": 10,
+        "col": 105
+      }
+    },
+    {
+      "a": "grdrtxne",
+      "b": "grdrte",
+      "side": "E",
+      "a_contract": "grass:01",
+      "b_contract": "grass",
+      "compatible": false,
+      "placements": 1,
+      "example": {
+        "map": "out01",
+        "row": 13,
+        "col": 16
+      }
+    },
+    {
+      "a": "grdrtxnw",
+      "b": "grdrtn",
+      "side": "E",
+      "a_contract": "grass",
+      "b_contract": "grass:01",
+      "compatible": false,
+      "placements": 1,
+      "example": {
+        "map": "out01",
+        "row": 10,
+        "col": 11
+      }
+    },
+    {
+      "a": "grdrtxnw",
+      "b": "grdrtne",
+      "side": "E",
+      "a_contract": "grass",
+      "b_contract": "grass:01",
+      "compatible": false,
+      "placements": 4,
+      "example": {
+        "map": "out01",
+        "row": 18,
+        "col": 110
+      }
+    },
+    {
+      "a": "grdrtxnw",
+      "b": "grdrtse",
+      "side": "E",
+      "a_contract": "grass",
+      "b_contract": "grass:10",
+      "compatible": false,
+      "placements": 3,
+      "example": {
+        "map": "out01",
+        "row": 57,
+        "col": 90
+      }
+    },
+    {
+      "a": "grdrtxnw",
+      "b": "grdrtxnw",
+      "side": "E",
+      "a_contract": "grass",
+      "b_contract": "grass:01",
+      "compatible": false,
+      "placements": 1,
+      "example": {
+        "map": "out07",
+        "row": 86,
+        "col": 46
+      }
+    },
+    {
+      "a": "grdrtxnw",
+      "b": "grdrtxsw",
+      "side": "E",
+      "a_contract": "grass",
+      "b_contract": "grass:10",
+      "compatible": false,
+      "placements": 1,
+      "example": {
+        "map": "out01",
+        "row": 71,
+        "col": 5
+      }
+    },
+    {
+      "a": "grdrtxnw",
+      "b": "grdrte",
+      "side": "S",
+      "a_contract": "grass",
+      "b_contract": "grass:10",
+      "compatible": false,
+      "placements": 3,
+      "example": {
+        "map": "out01",
+        "row": 105,
+        "col": 6
+      }
+    },
+    {
+      "a": "grdrtxnw",
+      "b": "grdrtse",
+      "side": "S",
+      "a_contract": "grass",
+      "b_contract": "grass:10",
+      "compatible": false,
+      "placements": 1,
+      "example": {
+        "map": "out01",
+        "row": 57,
+        "col": 90
+      }
+    },
+    {
+      "a": "grdrtxnw",
+      "b": "grdrtsw",
+      "side": "S",
+      "a_contract": "grass",
+      "b_contract": "grass:01",
+      "compatible": false,
+      "placements": 3,
+      "example": {
+        "map": "out02",
+        "row": 48,
+        "col": 77
+      }
+    },
+    {
+      "a": "grdrtxse",
+      "b": "grastyl",
+      "side": "E",
+      "a_contract": "grass:10",
+      "b_contract": "grass",
+      "compatible": false,
+      "placements": 10,
+      "example": {
+        "map": "out02",
+        "row": 8,
+        "col": 6
+      }
+    },
+    {
+      "a": "grdrtxse",
+      "b": "grdrte",
+      "side": "E",
+      "a_contract": "grass:10",
+      "b_contract": "grass",
+      "compatible": false,
+      "placements": 3,
+      "example": {
+        "map": "out01",
+        "row": 8,
+        "col": 37
+      }
+    },
+    {
+      "a": "grdrtxse",
+      "b": "grdrtne",
+      "side": "E",
+      "a_contract": "grass:10",
+      "b_contract": "grass:01",
+      "compatible": false,
+      "placements": 1,
+      "example": {
+        "map": "out02",
+        "row": 1,
+        "col": 44
+      }
+    },
+    {
+      "a": "grdrtxse",
+      "b": "grdrtxse",
+      "side": "E",
+      "a_contract": "grass:10",
+      "b_contract": "grass",
+      "compatible": false,
+      "placements": 4,
+      "example": {
+        "map": "out01",
+        "row": 7,
+        "col": 37
+      }
+    },
+    {
+      "a": "grdrtxse",
+      "b": "grastyl",
+      "side": "S",
+      "a_contract": "grass:10",
+      "b_contract": "grass",
+      "compatible": false,
+      "placements": 12,
+      "example": {
+        "map": "out01",
+        "row": 9,
+        "col": 17
+      }
+    },
+    {
+      "a": "grdrtxse",
+      "b": "grastyl2",
+      "side": "S",
+      "a_contract": "grass:10",
+      "b_contract": "grass",
+      "compatible": false,
+      "placements": 2,
+      "example": {
+        "map": "out05",
+        "row": 93,
+        "col": 124
+      }
+    },
+    {
+      "a": "grdrtxse",
+      "b": "grdrts",
+      "side": "S",
+      "a_contract": "grass:10",
+      "b_contract": "grass",
+      "compatible": false,
+      "placements": 3,
+      "example": {
+        "map": "out01",
+        "row": 8,
+        "col": 37
+      }
+    },
+    {
+      "a": "grdrtxse",
+      "b": "grdrtxse",
+      "side": "S",
+      "a_contract": "grass:10",
+      "b_contract": "grass",
+      "compatible": false,
+      "placements": 2,
+      "example": {
+        "map": "out01",
+        "row": 7,
+        "col": 37
+      }
+    },
+    {
+      "a": "grdrtxse",
+      "b": "grdrtxsw",
+      "side": "S",
+      "a_contract": "grass:10",
+      "b_contract": "grass",
+      "compatible": false,
+      "placements": 2,
+      "example": {
+        "map": "out03",
+        "row": 0,
+        "col": 124
+      }
+    },
+    {
+      "a": "grdrtxsw",
+      "b": "grdrtn",
+      "side": "E",
+      "a_contract": "grass",
+      "b_contract": "grass:01",
+      "compatible": false,
+      "placements": 1,
+      "example": {
+        "map": "out01",
+        "row": 9,
+        "col": 38
+      }
+    },
+    {
+      "a": "grdrtxsw",
+      "b": "grdrtne",
+      "side": "E",
+      "a_contract": "grass",
+      "b_contract": "grass:01",
+      "compatible": false,
+      "placements": 2,
+      "example": {
+        "map": "out02",
+        "row": 27,
+        "col": 56
+      }
+    },
+    {
+      "a": "grdrtxsw",
+      "b": "grdrts",
+      "side": "E",
+      "a_contract": "grass",
+      "b_contract": "grass:10",
+      "compatible": false,
+      "placements": 3,
+      "example": {
+        "map": "out07",
+        "row": 101,
+        "col": 7
+      }
+    },
+    {
+      "a": "grdrtxsw",
+      "b": "grdrtxsw",
+      "side": "E",
+      "a_contract": "grass",
+      "b_contract": "grass:10",
+      "compatible": false,
+      "placements": 5,
+      "example": {
+        "map": "out03",
+        "row": 1,
+        "col": 124
+      }
+    },
+    {
+      "a": "grdrtxsw",
+      "b": "grastyl",
+      "side": "S",
+      "a_contract": "grass:01",
+      "b_contract": "grass",
+      "compatible": false,
+      "placements": 19,
+      "example": {
+        "map": "out02",
+        "row": 24,
+        "col": 112
+      }
+    },
+    {
+      "a": "grdrtxsw",
+      "b": "grastyl2",
+      "side": "S",
+      "a_contract": "grass:01",
+      "b_contract": "grass",
+      "compatible": false,
+      "placements": 2,
+      "example": {
+        "map": "out02",
+        "row": 15,
+        "col": 108
+      }
+    },
+    {
+      "a": "grdrtxsw",
+      "b": "grdrts",
+      "side": "S",
+      "a_contract": "grass:01",
+      "b_contract": "grass",
+      "compatible": false,
+      "placements": 4,
+      "example": {
+        "map": "out05",
+        "row": 96,
+        "col": 60
+      }
+    },
+    {
+      "a": "grdrtxsw",
+      "b": "grdrtxse",
+      "side": "S",
+      "a_contract": "grass:01",
+      "b_contract": "grass",
+      "compatible": false,
+      "placements": 4,
+      "example": {
+        "map": "out01",
+        "row": 8,
+        "col": 41
+      }
+    },
+    {
+      "a": "grdrtxsw",
+      "b": "grdrtxsw",
+      "side": "S",
+      "a_contract": "grass:01",
+      "b_contract": "grass",
+      "compatible": false,
+      "placements": 3,
+      "example": {
+        "map": "out02",
+        "row": 23,
+        "col": 112
+      }
+    },
+    {
+      "a": "gse",
+      "b": "gsxsw",
+      "side": "S",
+      "a_contract": "grey_stone:10",
+      "b_contract": "grey_stone",
+      "compatible": false,
+      "placements": 2,
+      "example": {
+        "map": "out06",
+        "row": 17,
+        "col": 91
+      }
+    },
+    {
+      "a": "gsn",
+      "b": "gse",
+      "side": "S",
+      "a_contract": "grey_stone",
+      "b_contract": "grey_stone:10",
+      "compatible": false,
+      "placements": 1,
+      "example": {
+        "map": "out06",
+        "row": 79,
+        "col": 87
+      }
+    },
+    {
+      "a": "gsne",
+      "b": "gdrdnw1",
+      "side": "S",
+      "a_contract": "grey_stone:10",
+      "b_contract": "grey_dirt",
+      "compatible": false,
+      "placements": 1,
+      "example": {
+        "map": "out06",
+        "row": 79,
+        "col": 88
+      }
+    },
+    {
+      "a": "gstyl",
+      "b": "gsxnw",
+      "side": "E",
+      "a_contract": "grey_stone",
+      "b_contract": "grey_stone:01",
+      "compatible": false,
+      "placements": 3,
+      "example": {
+        "map": "out06",
+        "row": 61,
+        "col": 110
+      }
+    },
+    {
+      "a": "gstyl",
+      "b": "gsxsw",
+      "side": "E",
+      "a_contract": "grey_stone",
+      "b_contract": "grey_stone:10",
+      "compatible": false,
+      "placements": 3,
+      "example": {
+        "map": "out06",
+        "row": 1,
+        "col": 112
+      }
+    },
+    {
+      "a": "gstyl",
+      "b": "gsxnw",
+      "side": "S",
+      "a_contract": "grey_stone",
+      "b_contract": "grey_stone:01",
+      "compatible": false,
+      "placements": 2,
+      "example": {
+        "map": "out06",
+        "row": 60,
+        "col": 111
+      }
+    },
+    {
+      "a": "gsxne",
+      "b": "gsxnw",
+      "side": "S",
+      "a_contract": "grey_stone",
+      "b_contract": "grey_stone:01",
+      "compatible": false,
+      "placements": 1,
+      "example": {
+        "map": "out06",
+        "row": 24,
+        "col": 114
+      }
+    },
+    {
+      "a": "gsxnw",
+      "b": "gsxnw",
+      "side": "S",
+      "a_contract": "grey_stone",
+      "b_contract": "grey_stone:01",
+      "compatible": false,
+      "placements": 1,
+      "example": {
+        "map": "out06",
+        "row": 70,
+        "col": 126
+      }
+    },
+    {
+      "a": "gsxse",
+      "b": "gse",
+      "side": "E",
+      "a_contract": "grey_stone:10",
+      "b_contract": "grey_stone",
+      "compatible": false,
+      "placements": 1,
+      "example": {
+        "map": "out06",
+        "row": 73,
+        "col": 112
+      }
+    },
+    {
+      "a": "gsxse",
+      "b": "gstyl",
+      "side": "E",
+      "a_contract": "grey_stone:10",
+      "b_contract": "grey_stone",
+      "compatible": false,
+      "placements": 4,
+      "example": {
+        "map": "out06",
+        "row": 25,
+        "col": 91
+      }
+    },
+    {
+      "a": "gsxse",
+      "b": "gss",
+      "side": "S",
+      "a_contract": "grey_stone:10",
+      "b_contract": "grey_stone",
+      "compatible": false,
+      "placements": 2,
+      "example": {
+        "map": "out06",
+        "row": 73,
+        "col": 112
+      }
+    },
+    {
+      "a": "gsxse",
+      "b": "gstyl",
+      "side": "S",
+      "a_contract": "grey_stone:10",
+      "b_contract": "grey_stone",
+      "compatible": false,
+      "placements": 3,
+      "example": {
+        "map": "out06",
+        "row": 25,
+        "col": 91
+      }
+    },
+    {
+      "a": "gsxsw",
+      "b": "gsn",
+      "side": "E",
+      "a_contract": "grey_stone",
+      "b_contract": "grey_stone:01",
+      "compatible": false,
+      "placements": 2,
+      "example": {
+        "map": "out06",
+        "row": 18,
+        "col": 91
+      }
+    },
+    {
+      "a": "gsxsw",
+      "b": "gsxnw",
+      "side": "E",
+      "a_contract": "grey_stone",
+      "b_contract": "grey_stone:01",
+      "compatible": false,
+      "placements": 1,
+      "example": {
+        "map": "out06",
+        "row": 25,
+        "col": 113
+      }
+    },
+    {
+      "a": "gsxsw",
+      "b": "gstyl",
+      "side": "S",
+      "a_contract": "grey_stone:01",
+      "b_contract": "grey_stone",
+      "compatible": false,
+      "placements": 3,
+      "example": {
+        "map": "out06",
+        "row": 1,
+        "col": 113
+      }
+    },
+    {
+      "a": "lvdrn",
+      "b": "lvdrs",
+      "side": "E",
+      "a_contract": "lava_dirt:10",
+      "b_contract": "lava_dirt:01",
+      "compatible": false,
+      "placements": 1,
+      "example": {
+        "map": "elemf",
+        "row": 101,
+        "col": 76
+      }
+    },
+    {
+      "a": "lvdrn",
+      "b": "voln",
+      "side": "S",
+      "a_contract": "lava",
+      "b_contract": "dirt",
+      "compatible": false,
+      "placements": 1,
+      "example": {
+        "map": "elemf",
+        "row": 101,
+        "col": 76
+      }
+    },
+    {
+      "a": "lvdrnw",
+      "b": "lvdrs",
+      "side": "S",
+      "a_contract": "lava_dirt:10",
+      "b_contract": "lava",
+      "compatible": false,
+      "placements": 1,
+      "example": {
+        "map": "elemf",
+        "row": 100,
+        "col": 77
+      }
+    },
+    {
+      "a": "lvdrnw",
+      "b": "voln",
+      "side": "S",
+      "a_contract": "lava_dirt:10",
+      "b_contract": "dirt",
+      "compatible": false,
+      "placements": 1,
+      "example": {
+        "map": "elemf",
+        "row": 101,
+        "col": 75
+      }
+    },
+    {
+      "a": "lvdrsw",
+      "b": "volnw",
+      "side": "E",
+      "a_contract": "lava_dirt:01",
+      "b_contract": "dirt",
+      "compatible": false,
+      "placements": 2,
+      "example": {
+        "map": "elemf",
+        "row": 49,
+        "col": 101
+      }
+    },
+    {
+      "a": "lvdrsw",
+      "b": "volw",
+      "side": "E",
+      "a_contract": "lava_dirt:01",
+      "b_contract": "dirt",
+      "compatible": false,
+      "placements": 1,
+      "example": {
+        "map": "elemf",
+        "row": 76,
+        "col": 46
+      }
+    },
+    {
+      "a": "lvdrw",
+      "b": "lvdrs",
+      "side": "E",
+      "a_contract": "lava",
+      "b_contract": "lava_dirt:01",
+      "compatible": false,
+      "placements": 1,
+      "example": {
+        "map": "elemf",
+        "row": 48,
+        "col": 101
+      }
+    },
+    {
+      "a": "lvdrw",
+      "b": "volnw",
+      "side": "E",
+      "a_contract": "lava",
+      "b_contract": "dirt",
+      "compatible": false,
+      "placements": 1,
+      "example": {
+        "map": "elemf",
+        "row": 75,
+        "col": 46
+      }
+    },
+    {
+      "a": "lvdrxsw",
+      "b": "lvdrse",
+      "side": "E",
+      "a_contract": "lava",
+      "b_contract": "lava_dirt:01",
+      "compatible": false,
+      "placements": 2,
+      "example": {
+        "map": "elemf",
+        "row": 74,
+        "col": 46
+      }
+    },
+    {
+      "a": "plsan",
+      "b": "plsae",
+      "side": "E",
+      "a_contract": "plains_sand:01",
+      "b_contract": "plains_sand",
+      "compatible": false,
+      "placements": 1,
+      "example": {
+        "map": "out04",
+        "row": 51,
+        "col": 50
+      }
+    },
+    {
+      "a": "plsanw",
+      "b": "lvsw",
+      "side": "E",
+      "a_contract": "plains_sand:01",
+      "b_contract": "plains",
+      "compatible": false,
+      "placements": 1,
+      "example": {
+        "map": "out04",
+        "row": 44,
+        "col": 61
+      }
+    },
+    {
+      "a": "plsaw",
+      "b": "plsas",
+      "side": "E",
+      "a_contract": "plains_sand",
+      "b_contract": "plains_sand:10",
+      "compatible": false,
+      "placements": 1,
+      "example": {
+        "map": "out04",
+        "row": 50,
+        "col": 51
+      }
+    },
+    {
+      "a": "plsaw",
+      "b": "plsae",
+      "side": "S",
+      "a_contract": "plains_sand:01",
+      "b_contract": "plains_sand:10",
+      "compatible": false,
+      "placements": 1,
+      "example": {
+        "map": "out04",
+        "row": 50,
+        "col": 51
+      }
+    },
+    {
+      "a": "plsaxnw",
+      "b": "plsane",
+      "side": "E",
+      "a_contract": "plains_sand",
+      "b_contract": "plains_sand:01",
+      "compatible": false,
+      "placements": 1,
+      "example": {
+        "map": "out04",
+        "row": 45,
+        "col": 61
+      }
+    },
+    {
+      "a": "plsaxnw",
+      "b": "plsas",
+      "side": "E",
+      "a_contract": "plains_sand",
+      "b_contract": "plains_sand:10",
+      "compatible": false,
+      "placements": 1,
+      "example": {
+        "map": "out04",
+        "row": 49,
+        "col": 53
+      }
+    },
+    {
+      "a": "plsaxnw",
+      "b": "plsase",
+      "side": "E",
+      "a_contract": "plains_sand",
+      "b_contract": "plains_sand:10",
+      "compatible": false,
+      "placements": 2,
+      "example": {
+        "map": "out04",
+        "row": 64,
+        "col": 41
+      }
+    },
+    {
+      "a": "plsaxnw",
+      "b": "plsase",
+      "side": "S",
+      "a_contract": "plains_sand",
+      "b_contract": "plains_sand:10",
+      "compatible": false,
+      "placements": 3,
+      "example": {
+        "map": "out04",
+        "row": 49,
+        "col": 53
+      }
+    },
+    {
+      "a": "rce",
+      "b": "rcs",
+      "side": "S",
+      "a_contract": "sandstone:10",
+      "b_contract": "sandstone",
+      "compatible": false,
+      "placements": 1,
+      "example": {
+        "map": "out08",
+        "row": 88,
+        "col": 101
+      }
+    },
+    {
+      "a": "rce",
+      "b": "rcxsw",
+      "side": "S",
+      "a_contract": "sandstone:10",
+      "b_contract": "sandstone",
+      "compatible": false,
+      "placements": 1,
+      "example": {
+        "map": "out08",
+        "row": 50,
+        "col": 23
+      }
+    },
+    {
+      "a": "rcn",
+      "b": "rce",
+      "side": "E",
+      "a_contract": "sandstone:01",
+      "b_contract": "sandstone",
+      "compatible": false,
+      "placements": 2,
+      "example": {
+        "map": "out08",
+        "row": 38,
+        "col": 100
+      }
+    },
+    {
+      "a": "rcn",
+      "b": "rce",
+      "side": "S",
+      "a_contract": "sandstone",
+      "b_contract": "sandstone:10",
+      "compatible": false,
+      "placements": 1,
+      "example": {
+        "map": "out08",
+        "row": 96,
+        "col": 57
+      }
+    },
+    {
+      "a": "rcn",
+      "b": "rcxne",
+      "side": "S",
+      "a_contract": "sandstone",
+      "b_contract": "sandstone:10",
+      "compatible": false,
+      "placements": 1,
+      "example": {
+        "map": "out08",
+        "row": 56,
+        "col": 67
+      }
+    },
+    {
+      "a": "rcne",
+      "b": "dirttyl",
+      "side": "S",
+      "a_contract": "sandstone:10",
+      "b_contract": "dirt",
+      "compatible": false,
+      "placements": 2,
+      "example": {
+        "map": "out08",
+        "row": 89,
+        "col": 102
+      }
+    },
+    {
+      "a": "rcne",
+      "b": "rcxse",
+      "side": "S",
+      "a_contract": "sandstone:10",
+      "b_contract": "sandstone",
+      "compatible": false,
+      "placements": 1,
+      "example": {
+        "map": "out08",
+        "row": 103,
+        "col": 90
+      }
+    },
+    {
+      "a": "rcne",
+      "b": "rcxsw",
+      "side": "S",
+      "a_contract": "sandstone:10",
+      "b_contract": "sandstone",
+      "compatible": false,
+      "placements": 1,
+      "example": {
+        "map": "out08",
+        "row": 29,
+        "col": 111
+      }
+    },
+    {
+      "a": "rcne",
+      "b": "wtrdrnw",
+      "side": "S",
+      "a_contract": "sandstone:10",
+      "b_contract": "dirt",
+      "compatible": false,
+      "placements": 1,
+      "example": {
+        "map": "out08",
+        "row": 104,
+        "col": 91
+      }
+    },
+    {
+      "a": "rcnw",
+      "b": "dirt1",
+      "side": "E",
+      "a_contract": "sandstone:01",
+      "b_contract": "dirt",
+      "compatible": false,
+      "placements": 1,
+      "example": {
+        "map": "out08",
+        "row": 37,
+        "col": 101
+      }
+    },
+    {
+      "a": "rcnw",
+      "b": "dirttyl",
+      "side": "E",
+      "a_contract": "sandstone:01",
+      "b_contract": "dirt",
+      "compatible": false,
+      "placements": 3,
+      "example": {
+        "map": "out08",
+        "row": 50,
+        "col": 38
+      }
+    },
+    {
+      "a": "rcnw",
+      "b": "wtrdrnw",
+      "side": "E",
+      "a_contract": "sandstone:01",
+      "b_contract": "dirt",
+      "compatible": false,
+      "placements": 1,
+      "example": {
+        "map": "out08",
+        "row": 53,
+        "col": 49
+      }
+    },
+    {
+      "a": "rcnw",
+      "b": "wtrdrw",
+      "side": "E",
+      "a_contract": "sandstone:01",
+      "b_contract": "dirt",
+      "compatible": false,
+      "placements": 1,
+      "example": {
+        "map": "out08",
+        "row": 76,
+        "col": 38
+      }
+    },
+    {
+      "a": "rcnw",
+      "b": "dirttyl",
+      "side": "S",
+      "a_contract": "sandstone:01",
+      "b_contract": "dirt",
+      "compatible": false,
+      "placements": 1,
+      "example": {
+        "map": "out08",
+        "row": 77,
+        "col": 52
+      }
+    },
+    {
+      "a": "rcnw",
+      "b": "rce",
+      "side": "S",
+      "a_contract": "sandstone:01",
+      "b_contract": "sandstone:10",
+      "compatible": false,
+      "placements": 2,
+      "example": {
+        "map": "out08",
+        "row": 37,
+        "col": 101
+      }
+    },
+    {
+      "a": "rcnw",
+      "b": "wtrdrn",
+      "side": "S",
+      "a_contract": "sandstone:01",
+      "b_contract": "dirt",
+      "compatible": false,
+      "placements": 1,
+      "example": {
+        "map": "out08",
+        "row": 53,
+        "col": 49
+      }
+    },
+    {
+      "a": "rcs",
+      "b": "rcne",
+      "side": "E",
+      "a_contract": "sandstone:10",
+      "b_contract": "sandstone:01",
+      "compatible": false,
+      "placements": 1,
+      "example": {
+        "map": "out08",
+        "row": 89,
+        "col": 101
+      }
+    },
+    {
+      "a": "rctyl",
+      "b": "rcxsw",
+      "side": "E",
+      "a_contract": "sandstone",
+      "b_contract": "sandstone:10",
+      "compatible": false,
+      "placements": 1,
+      "example": {
+        "map": "out08",
+        "row": 36,
+        "col": 14
+      }
+    },
+    {
+      "a": "rcw",
+      "b": "dirttyl",
+      "side": "E",
+      "a_contract": "sandstone",
+      "b_contract": "dirt",
+      "compatible": false,
+      "placements": 1,
+      "example": {
+        "map": "out08",
+        "row": 51,
+        "col": 38
+      }
+    },
+    {
+      "a": "rcw",
+      "b": "rcn",
+      "side": "E",
+      "a_contract": "sandstone",
+      "b_contract": "sandstone:01",
+      "compatible": false,
+      "placements": 1,
+      "example": {
+        "map": "out08",
+        "row": 83,
+        "col": 51
+      }
+    },
+    {
+      "a": "rcw",
+      "b": "rcs",
+      "side": "E",
+      "a_contract": "sandstone",
+      "b_contract": "sandstone:10",
+      "compatible": false,
+      "placements": 27,
+      "example": {
+        "map": "out08",
+        "row": 30,
+        "col": 109
+      }
+    },
+    {
+      "a": "rcw",
+      "b": "rcse",
+      "side": "E",
+      "a_contract": "sandstone",
+      "b_contract": "sandstone:10",
+      "compatible": false,
+      "placements": 3,
+      "example": {
+        "map": "out08",
+        "row": 38,
+        "col": 43
+      }
+    },
+    {
+      "a": "rcw",
+      "b": "rcxsw",
+      "side": "E",
+      "a_contract": "sandstone",
+      "b_contract": "sandstone:10",
+      "compatible": false,
+      "placements": 29,
+      "example": {
+        "map": "out08",
+        "row": 37,
+        "col": 74
+      }
+    },
+    {
+      "a": "rcw",
+      "b": "dirt2",
+      "side": "S",
+      "a_contract": "sandstone:01",
+      "b_contract": "dirt",
+      "compatible": false,
+      "placements": 1,
+      "example": {
+        "map": "out08",
+        "row": 85,
+        "col": 51
+      }
+    },
+    {
+      "a": "rcw",
+      "b": "dirttyl",
+      "side": "S",
+      "a_contract": "sandstone:01",
+      "b_contract": "dirt",
+      "compatible": false,
+      "placements": 32,
+      "example": {
+        "map": "out08",
+        "row": 30,
+        "col": 109
+      }
+    },
+    {
+      "a": "rcw",
+      "b": "drsrne1",
+      "side": "S",
+      "a_contract": "sandstone:01",
+      "b_contract": "dirt",
+      "compatible": false,
+      "placements": 1,
+      "example": {
+        "map": "out08",
+        "row": 83,
+        "col": 107
+      }
+    },
+    {
+      "a": "rcw",
+      "b": "wtrdrn",
+      "side": "S",
+      "a_contract": "sandstone:01",
+      "b_contract": "dirt",
+      "compatible": false,
+      "placements": 6,
+      "example": {
+        "map": "out08",
+        "row": 52,
+        "col": 23
+      }
+    },
+    {
+      "a": "rcw",
+      "b": "wtrdrne",
+      "side": "S",
+      "a_contract": "sandstone:01",
+      "b_contract": "dirt",
+      "compatible": false,
+      "placements": 17,
+      "example": {
+        "map": "out08",
+        "row": 46,
+        "col": 94
+      }
+    },
+    {
+      "a": "rcw",
+      "b": "wtrdrnw",
+      "side": "S",
+      "a_contract": "sandstone:01",
+      "b_contract": "dirt",
+      "compatible": false,
+      "placements": 3,
+      "example": {
+        "map": "out08",
+        "row": 48,
+        "col": 54
+      }
+    },
+    {
+      "a": "rcxne",
+      "b": "rctyl",
+      "side": "E",
+      "a_contract": "sandstone:01",
+      "b_contract": "sandstone",
+      "compatible": false,
+      "placements": 1,
+      "example": {
+        "map": "out08",
+        "row": 57,
+        "col": 67
+      }
+    },
+    {
+      "a": "rcxnw",
+      "b": "rcne",
+      "side": "E",
+      "a_contract": "sandstone",
+      "b_contract": "sandstone:01",
+      "compatible": false,
+      "placements": 1,
+      "example": {
+        "map": "out08",
+        "row": 84,
+        "col": 83
+      }
+    },
+    {
+      "a": "rcxnw",
+      "b": "rcw",
+      "side": "S",
+      "a_contract": "sandstone",
+      "b_contract": "sandstone:01",
+      "compatible": false,
+      "placements": 1,
+      "example": {
+        "map": "out08",
+        "row": 77,
+        "col": 53
+      }
+    },
+    {
+      "a": "rcxse",
+      "b": "rce",
+      "side": "E",
+      "a_contract": "sandstone:10",
+      "b_contract": "sandstone",
+      "compatible": false,
+      "placements": 2,
+      "example": {
+        "map": "out08",
+        "row": 34,
+        "col": 54
+      }
+    },
+    {
+      "a": "rcxse",
+      "b": "rcne",
+      "side": "E",
+      "a_contract": "sandstone:10",
+      "b_contract": "sandstone:01",
+      "compatible": false,
+      "placements": 1,
+      "example": {
+        "map": "out08",
+        "row": 104,
+        "col": 90
+      }
+    },
+    {
+      "a": "rcxse",
+      "b": "rctyl",
+      "side": "E",
+      "a_contract": "sandstone:10",
+      "b_contract": "sandstone",
+      "compatible": false,
+      "placements": 2,
+      "example": {
+        "map": "out08",
+        "row": 35,
+        "col": 72
+      }
+    },
+    {
+      "a": "rcxse",
+      "b": "rcxse",
+      "side": "E",
+      "a_contract": "sandstone:10",
+      "b_contract": "sandstone",
+      "compatible": false,
+      "placements": 1,
+      "example": {
+        "map": "out08",
+        "row": 34,
+        "col": 53
+      }
+    },
+    {
+      "a": "rcxse",
+      "b": "rcs",
+      "side": "S",
+      "a_contract": "sandstone:10",
+      "b_contract": "sandstone",
+      "compatible": false,
+      "placements": 2,
+      "example": {
+        "map": "out08",
+        "row": 35,
+        "col": 72
+      }
+    },
+    {
+      "a": "rcxse",
+      "b": "rctyl",
+      "side": "S",
+      "a_contract": "sandstone:10",
+      "b_contract": "sandstone",
+      "compatible": false,
+      "placements": 3,
+      "example": {
+        "map": "out08",
+        "row": 34,
+        "col": 53
+      }
+    },
+    {
+      "a": "rcxsw",
+      "b": "rcn",
+      "side": "E",
+      "a_contract": "sandstone",
+      "b_contract": "sandstone:01",
+      "compatible": false,
+      "placements": 1,
+      "example": {
+        "map": "out08",
+        "row": 51,
+        "col": 23
+      }
+    },
+    {
+      "a": "rcxsw",
+      "b": "rcne",
+      "side": "E",
+      "a_contract": "sandstone",
+      "b_contract": "sandstone:01",
+      "compatible": false,
+      "placements": 1,
+      "example": {
+        "map": "out08",
+        "row": 30,
+        "col": 111
+      }
+    },
+    {
+      "a": "rcxsw",
+      "b": "rctyl",
+      "side": "S",
+      "a_contract": "sandstone:01",
+      "b_contract": "sandstone",
+      "compatible": false,
+      "placements": 1,
+      "example": {
+        "map": "out08",
+        "row": 36,
+        "col": 15
+      }
+    },
+    {
+      "a": "rdnw",
+      "b": "dirttyl",
+      "side": "E",
+      "a_contract": "red_dirt:01",
+      "b_contract": "dirt",
+      "compatible": false,
+      "placements": 1,
+      "example": {
+        "map": "out05",
+        "row": 110,
+        "col": 93
+      }
+    },
+    {
+      "a": "rdnw",
+      "b": "dirttyl",
+      "side": "S",
+      "a_contract": "red_dirt:01",
+      "b_contract": "dirt",
+      "compatible": false,
+      "placements": 1,
+      "example": {
+        "map": "out05",
+        "row": 110,
+        "col": 93
+      }
+    },
+    {
+      "a": "rke",
+      "b": "drsrcros",
+      "side": "E",
+      "a_contract": "dirt",
+      "b_contract": "roads_dirt",
+      "compatible": false,
+      "placements": 1,
+      "example": {
+        "map": "elema",
+        "row": 42,
+        "col": 23
+      }
+    },
+    {
+      "a": "rke",
+      "b": "grdrte",
+      "side": "E",
+      "a_contract": "dirt",
+      "b_contract": "grass",
+      "compatible": false,
+      "placements": 2,
+      "example": {
+        "map": "out03",
+        "row": 112,
+        "col": 32
+      }
+    },
+    {
+      "a": "rke",
+      "b": "rktyl",
+      "side": "E",
+      "a_contract": "dirt",
+      "b_contract": "rock",
+      "compatible": false,
+      "placements": 1,
+      "example": {
+        "map": "out02",
+        "row": 76,
+        "col": 27
+      }
+    },
+    {
+      "a": "rke",
+      "b": "rks",
+      "side": "S",
+      "a_contract": "rock:10",
+      "b_contract": "rock",
+      "compatible": false,
+      "placements": 2,
+      "example": {
+        "map": "out02",
+        "row": 32,
+        "col": 22
+      }
+    },
+    {
+      "a": "rke",
+      "b": "rktyl",
+      "side": "S",
+      "a_contract": "rock:10",
+      "b_contract": "rock",
+      "compatible": false,
+      "placements": 1,
+      "example": {
+        "map": "out02",
+        "row": 76,
+        "col": 27
+      }
+    },
+    {
+      "a": "rke",
+      "b": "rkxse",
+      "side": "S",
+      "a_contract": "rock:10",
+      "b_contract": "rock",
+      "compatible": false,
+      "placements": 1,
+      "example": {
+        "map": "out03",
+        "row": 113,
+        "col": 32
+      }
+    },
+    {
+      "a": "rkn",
+      "b": "rks",
+      "side": "E",
+      "a_contract": "rock:01",
+      "b_contract": "rock:10",
+      "compatible": false,
+      "placements": 1,
+      "example": {
+        "map": "out03",
+        "row": 71,
+        "col": 15
+      }
+    },
+    {
+      "a": "rkn",
+      "b": "drsrew",
+      "side": "S",
+      "a_contract": "rock",
+      "b_contract": "dirt",
+      "compatible": false,
+      "placements": 1,
+      "example": {
+        "map": "out03",
+        "row": 71,
+        "col": 15
+      }
+    },
+    {
+      "a": "rkn",
+      "b": "grdrtne",
+      "side": "S",
+      "a_contract": "rock",
+      "b_contract": "dirt",
+      "compatible": false,
+      "placements": 1,
+      "example": {
+        "map": "out02",
+        "row": 33,
+        "col": 23
+      }
+    },
+    {
+      "a": "rkn",
+      "b": "rkw",
+      "side": "S",
+      "a_contract": "rock",
+      "b_contract": "rock:01",
+      "compatible": false,
+      "placements": 1,
+      "example": {
+        "map": "out02",
+        "row": 33,
+        "col": 24
+      }
+    },
+    {
+      "a": "rkne",
+      "b": "rksw",
+      "side": "S",
+      "a_contract": "rock:10",
+      "b_contract": "rock:01",
+      "compatible": false,
+      "placements": 1,
+      "example": {
+        "map": "out03",
+        "row": 25,
+        "col": 98
+      }
+    },
+    {
+      "a": "rkne",
+      "b": "rkw",
+      "side": "S",
+      "a_contract": "rock:10",
+      "b_contract": "rock:01",
+      "compatible": false,
+      "placements": 1,
+      "example": {
+        "map": "out03",
+        "row": 26,
+        "col": 99
+      }
+    },
+    {
+      "a": "rknw",
+      "b": "dirttyl",
+      "side": "E",
+      "a_contract": "rock:01",
+      "b_contract": "dirt",
+      "compatible": false,
+      "placements": 1,
+      "example": {
+        "map": "out03",
+        "row": 78,
+        "col": 95
+      }
+    },
+    {
+      "a": "rknw",
+      "b": "rke",
+      "side": "E",
+      "a_contract": "rock:01",
+      "b_contract": "rock",
+      "compatible": false,
+      "placements": 2,
+      "example": {
+        "map": "out02",
+        "row": 61,
+        "col": 20
+      }
+    },
+    {
+      "a": "rknw",
+      "b": "rks",
+      "side": "E",
+      "a_contract": "rock:01",
+      "b_contract": "rock:10",
+      "compatible": false,
+      "placements": 1,
+      "example": {
+        "map": "out02",
+        "row": 64,
+        "col": 27
+      }
+    },
+    {
+      "a": "rknw",
+      "b": "drsrew",
+      "side": "S",
+      "a_contract": "rock:01",
+      "b_contract": "dirt",
+      "compatible": false,
+      "placements": 1,
+      "example": {
+        "map": "out03",
+        "row": 71,
+        "col": 14
+      }
+    },
+    {
+      "a": "rknw",
+      "b": "rks",
+      "side": "S",
+      "a_contract": "rock:01",
+      "b_contract": "rock",
+      "compatible": false,
+      "placements": 1,
+      "example": {
+        "map": "out03",
+        "row": 70,
+        "col": 16
+      }
+    },
+    {
+      "a": "rks",
+      "b": "rkn",
+      "side": "E",
+      "a_contract": "rock:10",
+      "b_contract": "rock:01",
+      "compatible": false,
+      "placements": 1,
+      "example": {
+        "map": "out02",
+        "row": 33,
+        "col": 22
+      }
+    },
+    {
+      "a": "rks",
+      "b": "rkne",
+      "side": "E",
+      "a_contract": "rock:10",
+      "b_contract": "rock:01",
+      "compatible": false,
+      "placements": 1,
+      "example": {
+        "map": "out03",
+        "row": 25,
+        "col": 97
+      }
+    },
+    {
+      "a": "rks",
+      "b": "rkxse",
+      "side": "E",
+      "a_contract": "rock:10",
+      "b_contract": "rock",
+      "compatible": false,
+      "placements": 1,
+      "example": {
+        "map": "out02",
+        "row": 41,
+        "col": 22
+      }
+    },
+    {
+      "a": "rks",
+      "b": "drsrcros",
+      "side": "S",
+      "a_contract": "dirt",
+      "b_contract": "roads_dirt",
+      "compatible": false,
+      "placements": 1,
+      "example": {
+        "map": "elema",
+        "row": 41,
+        "col": 24
+      }
+    },
+    {
+      "a": "rks",
+      "b": "rkxsw",
+      "side": "S",
+      "a_contract": "dirt",
+      "b_contract": "rock",
+      "compatible": false,
+      "placements": 1,
+      "example": {
+        "map": "out02",
+        "row": 41,
+        "col": 22
+      }
+    },
+    {
+      "a": "rksw",
+      "b": "rkne",
+      "side": "E",
+      "a_contract": "rock:10",
+      "b_contract": "rock:01",
+      "compatible": false,
+      "placements": 1,
+      "example": {
+        "map": "out03",
+        "row": 26,
+        "col": 98
+      }
+    },
+    {
+      "a": "rktyl",
+      "b": "rkxnw",
+      "side": "E",
+      "a_contract": "rock",
+      "b_contract": "rock:01",
+      "compatible": false,
+      "placements": 4,
+      "example": {
+        "map": "out02",
+        "row": 103,
+        "col": 10
+      }
+    },
+    {
+      "a": "rktyl",
+      "b": "rkxsw",
+      "side": "E",
+      "a_contract": "rock",
+      "b_contract": "rock:10",
+      "compatible": false,
+      "placements": 10,
+      "example": {
+        "map": "out02",
+        "row": 50,
+        "col": 21
+      }
+    },
+    {
+      "a": "rktyl",
+      "b": "rke",
+      "side": "S",
+      "a_contract": "rock",
+      "b_contract": "rock:10",
+      "compatible": false,
+      "placements": 1,
+      "example": {
+        "map": "out02",
+        "row": 75,
+        "col": 27
+      }
+    },
+    {
+      "a": "rktyl",
+      "b": "rkxne",
+      "side": "S",
+      "a_contract": "rock",
+      "b_contract": "rock:10",
+      "compatible": false,
+      "placements": 2,
+      "example": {
+        "map": "out02",
+        "row": 78,
+        "col": 27
+      }
+    },
+    {
+      "a": "rktyl",
+      "b": "rkxnw",
+      "side": "S",
+      "a_contract": "rock",
+      "b_contract": "rock:01",
+      "compatible": false,
+      "placements": 3,
+      "example": {
+        "map": "out02",
+        "row": 102,
+        "col": 11
+      }
+    },
+    {
+      "a": "rktylx",
+      "b": "rkxnw",
+      "side": "S",
+      "a_contract": "rock",
+      "b_contract": "rock:01",
+      "compatible": false,
+      "placements": 1,
+      "example": {
+        "map": "out02",
+        "row": 96,
+        "col": 13
+      }
+    },
+    {
+      "a": "rkw",
+      "b": "dirttyl",
+      "side": "E",
+      "a_contract": "rock",
+      "b_contract": "dirt",
+      "compatible": false,
+      "placements": 3,
+      "example": {
+        "map": "out02",
+        "row": 58,
+        "col": 21
+      }
+    },
+    {
+      "a": "rkw",
+      "b": "drsrs_e",
+      "side": "E",
+      "a_contract": "rock",
+      "b_contract": "dirt",
+      "compatible": false,
+      "placements": 1,
+      "example": {
+        "map": "out02",
+        "row": 65,
+        "col": 27
+      }
+    },
+    {
+      "a": "rkw",
+      "b": "rkn",
+      "side": "E",
+      "a_contract": "rock",
+      "b_contract": "rock:01",
+      "compatible": false,
+      "placements": 1,
+      "example": {
+        "map": "out03",
+        "row": 27,
+        "col": 99
+      }
+    },
+    {
+      "a": "rkw",
+      "b": "rks",
+      "side": "E",
+      "a_contract": "rock",
+      "b_contract": "rock:10",
+      "compatible": false,
+      "placements": 1,
+      "example": {
+        "map": "out02",
+        "row": 57,
+        "col": 21
+      }
+    },
+    {
+      "a": "rkw",
+      "b": "rkxnw",
+      "side": "E",
+      "a_contract": "rock",
+      "b_contract": "rock:01",
+      "compatible": false,
+      "placements": 1,
+      "example": {
+        "map": "out02",
+        "row": 97,
+        "col": 12
+      }
+    },
+    {
+      "a": "rkw",
+      "b": "rkxsw",
+      "side": "E",
+      "a_contract": "rock",
+      "b_contract": "rock:10",
+      "compatible": false,
+      "placements": 1,
+      "example": {
+        "map": "out02",
+        "row": 93,
+        "col": 12
+      }
+    },
+    {
+      "a": "rkw",
+      "b": "rke",
+      "side": "S",
+      "a_contract": "rock:01",
+      "b_contract": "rock:10",
+      "compatible": false,
+      "placements": 2,
+      "example": {
+        "map": "out02",
+        "row": 60,
+        "col": 21
+      }
+    },
+    {
+      "a": "rkw",
+      "b": "rks",
+      "side": "S",
+      "a_contract": "rock:01",
+      "b_contract": "rock",
+      "compatible": false,
+      "placements": 1,
+      "example": {
+        "map": "out02",
+        "row": 63,
+        "col": 28
+      }
+    },
+    {
+      "a": "rkxne",
+      "b": "rktyl",
+      "side": "E",
+      "a_contract": "rock:01",
+      "b_contract": "rock",
+      "compatible": false,
+      "placements": 3,
+      "example": {
+        "map": "out02",
+        "row": 49,
+        "col": 21
+      }
+    },
+    {
+      "a": "rkxne",
+      "b": "rkxne",
+      "side": "S",
+      "a_contract": "rock",
+      "b_contract": "rock:10",
+      "compatible": false,
+      "placements": 1,
+      "example": {
+        "map": "out02",
+        "row": 48,
+        "col": 21
+      }
+    },
+    {
+      "a": "rkxnw",
+      "b": "rkn",
+      "side": "E",
+      "a_contract": "rock",
+      "b_contract": "rock:01",
+      "compatible": false,
+      "placements": 1,
+      "example": {
+        "map": "out03",
+        "row": 79,
+        "col": 95
+      }
+    },
+    {
+      "a": "rkxnw",
+      "b": "rks",
+      "side": "E",
+      "a_contract": "rock",
+      "b_contract": "rock:10",
+      "compatible": false,
+      "placements": 1,
+      "example": {
+        "map": "out02",
+        "row": 30,
+        "col": 22
+      }
+    },
+    {
+      "a": "rkxnw",
+      "b": "rke",
+      "side": "S",
+      "a_contract": "rock",
+      "b_contract": "rock:10",
+      "compatible": false,
+      "placements": 1,
+      "example": {
+        "map": "out02",
+        "row": 30,
+        "col": 22
+      }
+    },
+    {
+      "a": "rkxnw",
+      "b": "rkxnw",
+      "side": "S",
+      "a_contract": "rock",
+      "b_contract": "rock:01",
+      "compatible": false,
+      "placements": 1,
+      "example": {
+        "map": "out03",
+        "row": 81,
+        "col": 76
+      }
+    },
+    {
+      "a": "rkxse",
+      "b": "grdrtse",
+      "side": "E",
+      "a_contract": "rock:10",
+      "b_contract": "grass:10",
+      "compatible": false,
+      "placements": 1,
+      "example": {
+        "map": "out03",
+        "row": 114,
+        "col": 32
+      }
+    },
+    {
+      "a": "rkxse",
+      "b": "rke",
+      "side": "E",
+      "a_contract": "rock:10",
+      "b_contract": "rock",
+      "compatible": false,
+      "placements": 1,
+      "example": {
+        "map": "out03",
+        "row": 78,
+        "col": 58
+      }
+    },
+    {
+      "a": "rkxse",
+      "b": "rktyl",
+      "side": "E",
+      "a_contract": "rock:10",
+      "b_contract": "rock",
+      "compatible": false,
+      "placements": 5,
+      "example": {
+        "map": "out02",
+        "row": 45,
+        "col": 17
+      }
+    },
+    {
+      "a": "rkxse",
+      "b": "rkxne",
+      "side": "E",
+      "a_contract": "rock:10",
+      "b_contract": "rock",
+      "compatible": false,
+      "placements": 1,
+      "example": {
+        "map": "out03",
+        "row": 67,
+        "col": 78
+      }
+    },
+    {
+      "a": "rkxse",
+      "b": "rkxse",
+      "side": "E",
+      "a_contract": "rock:10",
+      "b_contract": "rock",
+      "compatible": false,
+      "placements": 5,
+      "example": {
+        "map": "out02",
+        "row": 41,
+        "col": 23
+      }
+    },
+    {
+      "a": "rkxse",
+      "b": "rks",
+      "side": "S",
+      "a_contract": "rock:10",
+      "b_contract": "rock",
+      "compatible": false,
+      "placements": 3,
+      "example": {
+        "map": "out02",
+        "row": 41,
+        "col": 21
+      }
+    },
+    {
+      "a": "rkxse",
+      "b": "rktyl",
+      "side": "S",
+      "a_contract": "rock:10",
+      "b_contract": "rock",
+      "compatible": false,
+      "placements": 5,
+      "example": {
+        "map": "out02",
+        "row": 41,
+        "col": 23
+      }
+    },
+    {
+      "a": "rkxse",
+      "b": "rkxse",
+      "side": "S",
+      "a_contract": "rock:10",
+      "b_contract": "rock",
+      "compatible": false,
+      "placements": 4,
+      "example": {
+        "map": "out03",
+        "row": 31,
+        "col": 52
+      }
+    },
+    {
+      "a": "rkxse",
+      "b": "rkxsw",
+      "side": "S",
+      "a_contract": "rock:10",
+      "b_contract": "rock",
+      "compatible": false,
+      "placements": 1,
+      "example": {
+        "map": "out03",
+        "row": 67,
+        "col": 78
+      }
+    },
+    {
+      "a": "rkxsw",
+      "b": "rkxsw",
+      "side": "E",
+      "a_contract": "rock",
+      "b_contract": "rock:10",
+      "compatible": false,
+      "placements": 2,
+      "example": {
+        "map": "out02",
+        "row": 25,
+        "col": 24
+      }
+    },
+    {
+      "a": "rkxsw",
+      "b": "rktyl",
+      "side": "S",
+      "a_contract": "rock:01",
+      "b_contract": "rock",
+      "compatible": false,
+      "placements": 9,
+      "example": {
+        "map": "out02",
+        "row": 50,
+        "col": 22
+      }
+    },
+    {
+      "a": "rkxsw",
+      "b": "rkxsw",
+      "side": "S",
+      "a_contract": "rock:01",
+      "b_contract": "rock",
+      "compatible": false,
+      "placements": 4,
+      "example": {
+        "map": "out02",
+        "row": 25,
+        "col": 25
+      }
+    },
+    {
+      "a": "trsw",
+      "b": "gdtyl",
+      "side": "E",
+      "a_contract": "tar_grey:01",
+      "b_contract": "grey_dirt",
+      "compatible": false,
+      "placements": 1,
+      "example": {
+        "map": "out06",
+        "row": 56,
+        "col": 34
+      }
+    },
+    {
+      "a": "trxsw",
+      "b": "trse",
+      "side": "E",
+      "a_contract": "tar",
+      "b_contract": "tar_grey:01",
+      "compatible": false,
+      "placements": 1,
+      "example": {
+        "map": "out06",
+        "row": 55,
+        "col": 34
+      }
+    },
+    {
+      "a": "trxsw",
+      "b": "trxsw",
+      "side": "E",
+      "a_contract": "tar",
+      "b_contract": "tar_grey:01",
+      "compatible": false,
+      "placements": 1,
+      "example": {
+        "map": "out06",
+        "row": 47,
+        "col": 70
+      }
+    },
+    {
+      "a": "trxsw",
+      "b": "trxsw",
+      "side": "S",
+      "a_contract": "tar_grey:10",
+      "b_contract": "tar",
+      "compatible": false,
+      "placements": 1,
+      "example": {
+        "map": "out06",
+        "row": 47,
+        "col": 71
+      }
+    },
+    {
+      "a": "vole",
+      "b": "voltyl",
+      "side": "E",
+      "a_contract": "dirt",
+      "b_contract": "volcano",
+      "compatible": false,
+      "placements": 1,
+      "example": {
+        "map": "pbp",
+        "row": 126,
+        "col": 11
+      }
+    },
+    {
+      "a": "voln",
+      "b": "voltyl",
+      "side": "E",
+      "a_contract": "volcano:01",
+      "b_contract": "volcano",
+      "compatible": false,
+      "placements": 1,
+      "example": {
+        "map": "pbp",
+        "row": 122,
+        "col": 13
+      }
+    },
+    {
+      "a": "voln",
+      "b": "voln",
+      "side": "S",
+      "a_contract": "volcano",
+      "b_contract": "dirt",
+      "compatible": false,
+      "placements": 1,
+      "example": {
+        "map": "out01",
+        "row": 104,
+        "col": 102
+      }
+    },
+    {
+      "a": "voln",
+      "b": "volxne",
+      "side": "S",
+      "a_contract": "volcano",
+      "b_contract": "volcano:10",
+      "compatible": false,
+      "placements": 1,
+      "example": {
+        "map": "out01",
+        "row": 104,
+        "col": 101
+      }
+    },
+    {
+      "a": "voln",
+      "b": "volxnw",
+      "side": "S",
+      "a_contract": "volcano",
+      "b_contract": "volcano:01",
+      "compatible": false,
+      "placements": 1,
+      "example": {
+        "map": "out01",
+        "row": 104,
+        "col": 103
+      }
+    },
+    {
+      "a": "volsw",
+      "b": "wtrdrnw",
+      "side": "E",
+      "a_contract": "volcano:10",
+      "b_contract": "dirt",
+      "compatible": false,
+      "placements": 1,
+      "example": {
+        "map": "out01",
+        "row": 114,
+        "col": 110
+      }
+    },
+    {
+      "a": "voltyl",
+      "b": "voln",
+      "side": "E",
+      "a_contract": "volcano",
+      "b_contract": "volcano:01",
+      "compatible": false,
+      "placements": 1,
+      "example": {
+        "map": "pbp",
+        "row": 122,
+        "col": 12
+      }
+    },
+    {
+      "a": "voltyl",
+      "b": "volxnw",
+      "side": "E",
+      "a_contract": "volcano",
+      "b_contract": "volcano:01",
+      "compatible": false,
+      "placements": 2,
+      "example": {
+        "map": "pbp",
+        "row": 121,
+        "col": 19
+      }
+    },
+    {
+      "a": "voltyl",
+      "b": "vole",
+      "side": "S",
+      "a_contract": "volcano",
+      "b_contract": "volcano:10",
+      "compatible": false,
+      "placements": 1,
+      "example": {
+        "map": "pbp",
+        "row": 125,
+        "col": 11
+      }
+    },
+    {
+      "a": "voltyl",
+      "b": "voln",
+      "side": "S",
+      "a_contract": "volcano",
+      "b_contract": "dirt",
+      "compatible": false,
+      "placements": 1,
+      "example": {
+        "map": "pbp",
+        "row": 121,
+        "col": 13
+      }
+    },
+    {
+      "a": "voltyl",
+      "b": "volxne",
+      "side": "S",
+      "a_contract": "volcano",
+      "b_contract": "volcano:10",
+      "compatible": false,
+      "placements": 1,
+      "example": {
+        "map": "pbp",
+        "row": 123,
+        "col": 0
+      }
+    },
+    {
+      "a": "voltyl",
+      "b": "volxnw",
+      "side": "S",
+      "a_contract": "volcano",
+      "b_contract": "volcano:01",
+      "compatible": false,
+      "placements": 2,
+      "example": {
+        "map": "pbp",
+        "row": 120,
+        "col": 20
+      }
+    },
+    {
+      "a": "voltylx",
+      "b": "volxsw",
+      "side": "E",
+      "a_contract": "volcano",
+      "b_contract": "volcano:10",
+      "compatible": false,
+      "placements": 1,
+      "example": {
+        "map": "elemf",
+        "row": 27,
+        "col": 86
+      }
+    },
+    {
+      "a": "volxne",
+      "b": "voltyl",
+      "side": "E",
+      "a_contract": "volcano:01",
+      "b_contract": "volcano",
+      "compatible": false,
+      "placements": 1,
+      "example": {
+        "map": "pbp",
+        "row": 124,
+        "col": 0
+      }
+    },
+    {
+      "a": "volxse",
+      "b": "vole",
+      "side": "E",
+      "a_contract": "volcano:10",
+      "b_contract": "volcano",
+      "compatible": false,
+      "placements": 1,
+      "example": {
+        "map": "pbp",
+        "row": 77,
+        "col": 27
+      }
+    },
+    {
+      "a": "volxse",
+      "b": "voltyl",
+      "side": "E",
+      "a_contract": "volcano:10",
+      "b_contract": "volcano",
+      "compatible": false,
+      "placements": 2,
+      "example": {
+        "map": "elemf",
+        "row": 26,
+        "col": 96
+      }
+    },
+    {
+      "a": "volxse",
+      "b": "volxse",
+      "side": "E",
+      "a_contract": "volcano:10",
+      "b_contract": "volcano",
+      "compatible": false,
+      "placements": 1,
+      "example": {
+        "map": "elemf",
+        "row": 74,
+        "col": 41
+      }
+    },
+    {
+      "a": "volxse",
+      "b": "voltyl",
+      "side": "S",
+      "a_contract": "volcano:10",
+      "b_contract": "volcano",
+      "compatible": false,
+      "placements": 4,
+      "example": {
+        "map": "elemf",
+        "row": 26,
+        "col": 96
+      }
+    },
+    {
+      "a": "volxsw",
+      "b": "volse",
+      "side": "E",
+      "a_contract": "volcano",
+      "b_contract": "volcano:10",
+      "compatible": false,
+      "placements": 1,
+      "example": {
+        "map": "out01",
+        "row": 113,
+        "col": 110
+      }
+    },
+    {
+      "a": "volxsw",
+      "b": "voltyl",
+      "side": "S",
+      "a_contract": "volcano:01",
+      "b_contract": "volcano",
+      "compatible": false,
+      "placements": 1,
+      "example": {
+        "map": "elemf",
+        "row": 27,
+        "col": 87
+      }
+    },
+    {
+      "a": "wtrdre",
+      "b": "wtrdrxse",
+      "side": "S",
+      "a_contract": "shore_dirt:01",
+      "b_contract": "water",
+      "compatible": false,
+      "placements": 1,
+      "example": {
+        "map": "pbp",
+        "row": 31,
+        "col": 30
+      }
+    },
+    {
+      "a": "wtrdre",
+      "b": "wtrdrxsw",
+      "side": "S",
+      "a_contract": "shore_dirt:01",
+      "b_contract": "water",
+      "compatible": false,
+      "placements": 5,
+      "example": {
+        "map": "out05",
+        "row": 24,
+        "col": 83
+      }
+    },
+    {
+      "a": "wtrdrn",
+      "b": "grdrtnw",
+      "side": "S",
+      "a_contract": "water",
+      "b_contract": "dirt",
+      "compatible": false,
+      "placements": 1,
+      "example": {
+        "map": "out01",
+        "row": 37,
+        "col": 4
+      }
+    },
+    {
+      "a": "wtrdrn",
+      "b": "wtrdre",
+      "side": "S",
+      "a_contract": "water",
+      "b_contract": "shore_dirt:01",
+      "compatible": false,
+      "placements": 1,
+      "example": {
+        "map": "out01",
+        "row": 37,
+        "col": 3
+      }
+    },
+    {
+      "a": "wtrdrn",
+      "b": "wtrdrsw",
+      "side": "S",
+      "a_contract": "water",
+      "b_contract": "shore_dirt:10",
+      "compatible": false,
+      "placements": 1,
+      "example": {
+        "map": "out01",
+        "row": 49,
+        "col": 93
+      }
+    },
+    {
+      "a": "wtrdrne",
+      "b": "dirttyl",
+      "side": "S",
+      "a_contract": "shore_dirt:01",
+      "b_contract": "dirt",
+      "compatible": false,
+      "placements": 1,
+      "example": {
+        "map": "pbp",
+        "row": 32,
+        "col": 31
+      }
+    },
+    {
+      "a": "wtrdrne",
+      "b": "grdrtn",
+      "side": "S",
+      "a_contract": "shore_dirt:01",
+      "b_contract": "dirt",
+      "compatible": false,
+      "placements": 1,
+      "example": {
+        "map": "out01",
+        "row": 37,
+        "col": 5
+      }
+    },
+    {
+      "a": "wtrdrne",
+      "b": "wtrdrxsw",
+      "side": "S",
+      "a_contract": "shore_dirt:01",
+      "b_contract": "water",
+      "compatible": false,
+      "placements": 5,
+      "example": {
+        "map": "out05",
+        "row": 21,
+        "col": 71
+      }
+    },
+    {
+      "a": "wtrdrnw",
+      "b": "dirttyl",
+      "side": "S",
+      "a_contract": "shore_dirt:10",
+      "b_contract": "dirt",
+      "compatible": false,
+      "placements": 1,
+      "example": {
+        "map": "out01",
+        "row": 49,
+        "col": 92
+      }
+    },
+    {
+      "a": "wtrdrnw",
+      "b": "grdrtne",
+      "side": "S",
+      "a_contract": "shore_dirt:10",
+      "b_contract": "dirt",
+      "compatible": false,
+      "placements": 1,
+      "example": {
+        "map": "out13",
+        "row": 76,
+        "col": 42
+      }
+    },
+    {
+      "a": "wtrdrxnw",
+      "b": "wtrdrs",
+      "side": "E",
+      "a_contract": "water",
+      "b_contract": "shore_dirt:01",
+      "compatible": false,
+      "placements": 6,
+      "example": {
+        "map": "out05",
+        "row": 16,
+        "col": 121
+      }
+    },
+    {
+      "a": "wtrdrxnw",
+      "b": "wtrdrse",
+      "side": "E",
+      "a_contract": "water",
+      "b_contract": "shore_dirt:01",
+      "compatible": false,
+      "placements": 7,
+      "example": {
+        "map": "out05",
+        "row": 22,
+        "col": 65
+      }
+    },
+    {
+      "a": "wtrdrxnw",
+      "b": "wtrdre",
+      "side": "S",
+      "a_contract": "water",
+      "b_contract": "shore_dirt:01",
+      "compatible": false,
+      "placements": 4,
+      "example": {
+        "map": "out05",
+        "row": 22,
+        "col": 65
+      }
+    },
+    {
+      "a": "wtrdrxnw",
+      "b": "wtrdrse",
+      "side": "S",
+      "a_contract": "water",
+      "b_contract": "shore_dirt:01",
+      "compatible": false,
+      "placements": 9,
+      "example": {
+        "map": "out05",
+        "row": 16,
+        "col": 121
+      }
+    },
+    {
+      "a": "wtrdrxnw",
+      "b": "wtrdrw",
+      "side": "S",
+      "a_contract": "water",
+      "b_contract": "shore_dirt:10",
+      "compatible": false,
+      "placements": 1,
+      "example": {
+        "map": "out13",
+        "row": 76,
+        "col": 43
+      }
+    },
+    {
+      "a": "wtrdrxse",
+      "b": "wtrdrne",
+      "side": "E",
+      "a_contract": "shore_dirt:01",
+      "b_contract": "shore_dirt:10",
+      "compatible": false,
+      "placements": 1,
+      "example": {
+        "map": "pbp",
+        "row": 32,
+        "col": 30
+      }
+    },
+    {
+      "a": "wtrdrxsw",
+      "b": "wtrdrn",
+      "side": "E",
+      "a_contract": "water",
+      "b_contract": "shore_dirt:10",
+      "compatible": false,
+      "placements": 2,
+      "example": {
+        "map": "out05",
+        "row": 22,
+        "col": 71
+      }
+    },
+    {
+      "a": "wtrdrxsw",
+      "b": "wtrdrne",
+      "side": "E",
+      "a_contract": "water",
+      "b_contract": "shore_dirt:10",
+      "compatible": false,
+      "placements": 8,
+      "example": {
+        "map": "out05",
+        "row": 25,
+        "col": 83
+      }
+    },
+    {
+      "a": "wtrdrxsw",
+      "b": "wtrtyl",
+      "side": "S",
+      "a_contract": "shore_dirt:10",
+      "b_contract": "water",
+      "compatible": false,
+      "placements": 1,
+      "example": {
+        "map": "pbp",
+        "row": 16,
+        "col": 61
+      }
+    },
+    {
+      "a": "wtrtyl",
+      "b": "wtrdrxsw",
+      "side": "E",
+      "a_contract": "water",
+      "b_contract": "shore_dirt:01",
+      "compatible": false,
+      "placements": 1,
+      "example": {
+        "map": "pbp",
+        "row": 16,
+        "col": 60
+      }
+    }
+  ]
+}

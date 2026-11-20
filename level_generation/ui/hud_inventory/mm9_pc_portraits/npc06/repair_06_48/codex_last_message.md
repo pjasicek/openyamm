@@ -1,0 +1,3 @@
+Saved [raw.png](level_generation/ui/hud_inventory/mm9_pc_portraits/npc06/repair_06_48/raw.png) using built-in image generation, plus [generation.json](level_generation/ui/hud_inventory/mm9_pc_portraits/npc06/repair_06_48/generation.json) with prompts, hashes and checks. First attempt preserved as `raw_rejected.png`.
+
+No pixel edits or builds. After the allowed retry, faint alpha-1 pixels remain in the gap, so strict transparency is not fully satisfied.

@@ -1,0 +1,215 @@
+{
+  "creature_3d_identity": "mm8:m528",
+  "meshy": {
+    "jobs": {},
+    "credit_limit": 100
+  },
+  "scope": "complete_production",
+  "stage": "complete",
+  "substep": "Engine stars installed and checked in world and inspect portrait.",
+  "user_direction": "Reactor + Air Elemental for effects; new floating spark-ring body animation.",
+  "required_components": [
+    {
+      "id": "smoky_ring",
+      "artifact_role": "smoky_ring",
+      "required": true,
+      "status": "complete",
+      "selected_artifact": "export/mm8_m528.glb",
+      "assembly_review": "Authored on one effect rig; no mechanical contacts. Captured idle, release and dispersion inspected."
+    },
+    {
+      "id": "gold_core",
+      "artifact_role": "gold_core",
+      "required": true,
+      "status": "complete",
+      "selected_artifact": "export/mm8_m528.glb",
+      "assembly_review": "Authored on one effect rig; no mechanical contacts. Captured idle, release and dispersion inspected."
+    },
+    {
+      "id": "orbiting_sparks",
+      "artifact_role": "orbiting_sparks",
+      "required": true,
+      "status": "complete",
+      "selected_artifact": "../../../assets_dev/worlds/mm8/effects/wisp.yml",
+      "assembly_review": "Three tilted engine emission rings; native world and independently animated inspect-portrait captures verified."
+    },
+    {
+      "id": "attack_flash",
+      "artifact_role": "attack_flash",
+      "required": true,
+      "status": "complete",
+      "selected_artifact": "export/mm8_m528.glb",
+      "assembly_review": "Authored on one effect rig; no mechanical contacts. Captured idle, release and dispersion inspected."
+    },
+    {
+      "id": "death_smoke",
+      "artifact_role": "death_smoke",
+      "required": true,
+      "status": "complete",
+      "selected_artifact": "export/mm8_m528.glb",
+      "assembly_review": "Authored on one effect rig; no mechanical contacts. Captured idle, release and dispersion inspected."
+    }
+  ],
+  "route": "Local effect-bodied route. No Meshy or HD masters. Reactor glow and air-elemental blended-surface methods only; m528 geometry and motion are new.",
+  "next_action": {
+    "owner": "user",
+    "action": "Optional artistic review of native particle captures; no production work remains in this scope.",
+    "capture": "review/ingame/particles_portrait_final/inspect_0.png",
+    "body_only_viewer": "http://127.0.0.1:8912/level_generation/creatures/mm8_m528_claude/review/viewer/"
+  },
+  "acceptance": {
+    "technical": "complete",
+    "agent_visual": "complete",
+    "user_artistic": "not_recorded_for_m528_v3"
+  },
+  "correction_ledger": [
+    {
+      "finding": "Native polar projection stretched smoke into bands.",
+      "change": "Seamless turbulent field with measured native grey colours.",
+      "check": "Pilot v2, delivered viewer and native captures."
+    },
+    {
+      "finding": "Analytic attack flash lacked native orange-white character.",
+      "change": "Use retained restored native flash fragment.",
+      "check": "Release captures and temporal frames."
+    },
+    {
+      "finding": "Hidden smoke moved during loops and inflated bounds.",
+      "change": "Keep hidden smoke and corpse components centred; keyed mesh visibility.",
+      "check": "Loop error below 1e-6 m and fully empty native Dead capture."
+    },
+    {
+      "finding": "Death smoke cards were oversized and intersected.",
+      "change": "Small single planes for 12 puffs; reduced scale and dispersion.",
+      "check": "Final death captures, temporal frames and export audit."
+    },
+    {
+      "finding": "Model centre was below the actual native actor sprite centre.",
+      "cause": "Actor sprite renderer bottom-anchors the logical canvas despite source Center flags.",
+      "change": "Tier-specific z_offset = 64 native pixels times tier scale.",
+      "check": "Same-camera indoor/outdoor comparisons and focused bounds-height regression."
+    },
+    {
+      "finding": "Overlapping smoke obscured the gold core in the game.",
+      "change": "Smoke alpha factor reduced to 0.45.",
+      "check": "All four native LODs indoors/outdoors; geometry and animation binary unchanged."
+    },
+    {
+      "finding": "User requested more white sparkling material.",
+      "change": "User requested more white sparkling material: 28 to 48 clusters, 10% larger in both dimensions; lower LOD counts 36/24/16.",
+      "check": "Six-clip audit, 18 viewer switches, focused production regression and eight native LOD captures."
+    },
+    {
+      "finding": "User requested fewer, larger sparks below 9k triangles and reconsidered mesh stars in favour of short-lived engine FX.",
+      "change": "Remove all 48 spark bones and crossed clusters. Reuse the named particle system with at most 24 slightly larger stars, 0.45-second lifetimes and shared batching; 2436 maximum LOD0 main-pass triangles.",
+      "check": "Six-clip export audit, focused lifecycle regression and native indoor/outdoor/portrait captures."
+    },
+    {
+      "finding": "First native portrait showed the body but no engine stars.",
+      "change": "Initialize the portrait particle shader alongside its particle resources.",
+      "check": "Final native inspect_0 and inspect_1 captures show changing white stars around the retained disc."
+    }
+  ],
+  "updated_at": "2026-10-18T14:52:28.395107+00:00",
+  "current_stage": "complete",
+  "current_substep": "engine_particles_verified",
+  "status": "complete",
+  "selected_artifacts": [
+    {
+      "role": "animation_master",
+      "path": "export/m528_master.blend",
+      "sha256": "b937d2f6aeb94fac8854cbeb5ee4f0d7002638766cf8681decb0a92ee2e2d132"
+    },
+    {
+      "role": "runtime_model",
+      "path": "export/mm8_m528.glb",
+      "sha256": "88c30cec70f8a094ad9f7ff7cdbcb60df901bda0a4311ccd9c13537a9ed2a4e6"
+    },
+    {
+      "role": "native_inventory",
+      "path": "source/native_inventory.json",
+      "sha256": "5bb01dec99619b3171408cdc1225e4ed0421ee1de037f61a2f7ac58023d89246"
+    },
+    {
+      "role": "texture_provenance",
+      "path": "textures/provenance.json",
+      "sha256": "f32dd514cda7b5980e9a66e9c104da119b567b2021aa1af0af18c01dac1707df"
+    },
+    {
+      "role": "delivery",
+      "path": "review/delivery.json",
+      "sha256": "d2c0d0a96a1d71b5f3bb06a437b728422192eb3212612dd37b7701da98fb31b3"
+    },
+    {
+      "role": "smoky_ring",
+      "path": "export/mm8_m528.glb",
+      "sha256": "88c30cec70f8a094ad9f7ff7cdbcb60df901bda0a4311ccd9c13537a9ed2a4e6"
+    },
+    {
+      "role": "gold_core",
+      "path": "export/mm8_m528.glb",
+      "sha256": "88c30cec70f8a094ad9f7ff7cdbcb60df901bda0a4311ccd9c13537a9ed2a4e6"
+    },
+    {
+      "role": "orbiting_sparks",
+      "path": "../../../assets_dev/worlds/mm8/effects/wisp.yml",
+      "sha256": "f32282ffaf7db49fe348d26773ad73dc0dae776a2614d4a31be9827906d261ce"
+    },
+    {
+      "role": "attack_flash",
+      "path": "export/mm8_m528.glb",
+      "sha256": "88c30cec70f8a094ad9f7ff7cdbcb60df901bda0a4311ccd9c13537a9ed2a4e6"
+    },
+    {
+      "role": "death_smoke",
+      "path": "export/mm8_m528.glb",
+      "sha256": "88c30cec70f8a094ad9f7ff7cdbcb60df901bda0a4311ccd9c13537a9ed2a4e6"
+    }
+  ],
+  "stage_status": {
+    "native_study": "complete",
+    "model_and_rig": "complete",
+    "animation": "complete",
+    "materials_and_lods": "complete",
+    "installation": "complete",
+    "viewer": "complete",
+    "indoor_outdoor_visual": "complete",
+    "focused_isolated_regression": "complete",
+    "final_shared_manifest_regression": "complete_focused_wisp",
+    "engine_particle_integration": "complete",
+    "portrait_visual": "complete"
+  },
+  "evidence": [
+    "review/delivery.json",
+    "work/motion_audit.json",
+    "review/checks/particles-build.log",
+    "review/checks/particles-viewer.json",
+    "review/checks/particles-final-regression.log",
+    "review/checks/particles-charge-regression.log",
+    "review/ingame/particles_out/",
+    "review/ingame/particles_in/",
+    "review/ingame/particles_portrait_final/"
+  ],
+  "current_request": "Keep the disc; replace white clusters with short-lived engine particle stars, fewer and slightly larger, below 9k triangles.",
+  "user_decisions": [
+    {
+      "statement": "thats fine but I think there should be more of the sparkling white stuff",
+      "scope": "Prior appearance accepted except spark density",
+      "artifact_sha256": "33fdc07e5d925a1bc0433c7596524ae8bfd97ab9fa2e485a3e19c74d08a31e08"
+    }
+  ],
+  "current_scope": "Engine particle replacement for the white spark clusters",
+  "historical_findings": [
+    {
+      "classification": "outside_scope",
+      "detail": "mm8_phoenix_actor_models_keep_native_tiers_and_simulation - Phoenix presentation missing or changed native simulation",
+      "evidence": "review/checks/mm8-final.log"
+    },
+    {
+      "classification": "outside_scope",
+      "detail": "mm8_plane_guardian_actor_models_keep_tiers_scale_and_claw_roles - Guardian height, claw impact or palm socket changed",
+      "evidence": "review/checks/mm8-final.log"
+    }
+  ],
+  "findings": []
+}

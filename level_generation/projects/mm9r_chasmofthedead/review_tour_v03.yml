@@ -1,0 +1,396 @@
+output_dir: /home/pjasicek/github/OpenYAMM/level_generation/projects/mm9r_chasmofthedead/review/v03
+settle_seconds: 1.5
+exit: true
+shots:
+- name: t01_entrance_stair
+  position:
+  - -13189
+  - 27904
+  - 1578
+  yaw: -1.5708
+  pitch: 0.0
+- name: t02_entry_tomb
+  position:
+  - -14234
+  - 25498
+  - 1250
+  yaw: -0.5764
+  pitch: 0.0
+- name: t03_door0_corridor
+  position:
+  - -13189
+  - 23424
+  - 1250
+  yaw: -1.5708
+  pitch: 0.0
+- name: t04_pillar_hall
+  position:
+  - -14336
+  - 21120
+  - 1578
+  yaw: -0.2915
+  pitch: 0.0
+- name: t05_diagonal_chamber_w
+  position:
+  - -15053
+  - 21658
+  - 1578
+  yaw: 2.5536
+  pitch: 0.0
+- name: t06_diagonal_chamber_e
+  position:
+  - -11315
+  - 21658
+  - 1578
+  yaw: 0.588
+  pitch: 0.0
+- name: t07_closing_walls
+  position:
+  - -12698
+  - 19661
+  - 1578
+  yaw: -1.5708
+  pitch: 0.0
+- name: t08_south_hall
+  position:
+  - -13952
+  - 18304
+  - 1578
+  yaw: -0.4324
+  pitch: 0.0
+- name: t09_west_vault
+  position:
+  - -16128
+  - 17792
+  - 1578
+  yaw: 2.3794
+  pitch: 0.0
+- name: t10_stair_top
+  position:
+  - -13353
+  - 16998
+  - 1578
+  yaw: -1.5708
+  pitch: 0.0
+- name: t11_curved_passage
+  position:
+  - -15073
+  - 15258
+  - 923
+  yaw: -1.5708
+  pitch: 0.0
+- name: m01_hall1
+  position:
+  - -13952
+  - 13312
+  - 595
+  yaw: -0.3805
+  pitch: 0.0
+- name: m02_long_stair
+  position:
+  - -12237
+  - 13184
+  - 595
+  yaw: -0.2171
+  pitch: 0.0
+- name: m03_plate_passage
+  position:
+  - -10112
+  - 12621
+  - 329
+  yaw: 0.0
+  pitch: 0.0
+- name: m04_hall2
+  position:
+  - -9523
+  - 12672
+  - 329
+  yaw: -0.3092
+  pitch: 0.0
+- name: m05_corridor
+  position:
+  - -7501
+  - 11366
+  - 329
+  yaw: -1.5708
+  pitch: 0.0
+- name: m06_spike_stair
+  position:
+  - -7142
+  - 9984
+  - 329
+  yaw: 0.0
+  pitch: 0.0
+- name: m07_hall3
+  position:
+  - -5171
+  - 10112
+  - 329
+  yaw: -0.593
+  pitch: 0.0
+- name: m08_south_room
+  position:
+  - -4710
+  - 8064
+  - 329
+  yaw: -1.5708
+  pitch: 0.0
+- name: m09_tunnel
+  position:
+  - -2560
+  - 7552
+  - 441
+  yaw: 0.3681
+  pitch: 0.0
+- name: m10_tunnel_east
+  position:
+  - 307
+  - 9984
+  - 1062
+  yaw: 1.1233
+  pitch: 0.0
+- name: c01_ledge_north
+  position:
+  - 1331
+  - 12339
+  - 1274
+  yaw: 0.4562
+  pitch: 0.0
+- name: c02_ledge_east
+  position:
+  - 7322
+  - 13952
+  - 351
+  yaw: -1.7955
+  pitch: 0.0
+- name: c03_ledge_mid
+  position:
+  - 4992
+  - 9728
+  - -176
+  yaw: -1.6343
+  pitch: 0.0
+- name: c04_ledge_south
+  position:
+  - 3994
+  - 2304
+  - -830
+  yaw: -1.9582
+  pitch: 0.0
+- name: c05_floor_north
+  position:
+  - 3840
+  - 13440
+  - -3931
+  yaw: -1.6078
+  pitch: 0.0
+- name: c06_floor_mid
+  position:
+  - 3072
+  - 8832
+  - -3931
+  yaw: -1.6224
+  pitch: 0.0
+- name: c07_bridge
+  position:
+  - 2253
+  - 4506
+  - -3931
+  yaw: -1.5708
+  pitch: 0.0
+- name: c08_canal
+  position:
+  - 2048
+  - 2048
+  - -3931
+  yaw: -1.3699
+  pitch: 0.0
+- name: c09_gate_south
+  position:
+  - 2580
+  - -384
+  - -3931
+  yaw: -1.5708
+  pitch: 0.0
+- name: c10_sky
+  position:
+  - 3200
+  - 7680
+  - -3931
+  yaw: 1.4056
+  pitch: 0.6632
+- name: d01_gate
+  position:
+  - 7731
+  - 13967
+  - -3931
+  yaw: 0.0
+  pitch: 0.0
+- name: d02_pool_hall
+  position:
+  - 8448
+  - 11981
+  - -4546
+  yaw: 1.5708
+  pitch: 0.0
+- name: d03_octagon
+  position:
+  - 9984
+  - 12160
+  - -5324
+  yaw: 0.838
+  pitch: 0.0
+- name: d04_north_corridor
+  position:
+  - 5888
+  - 16507
+  - -5324
+  yaw: 0.0
+  pitch: 0.0
+- name: d05_north_east_vault
+  position:
+  - 9267
+  - 17101
+  - -5324
+  yaw: 0.6398
+  pitch: 0.0
+- name: d06_north_vault
+  position:
+  - 5786
+  - 16947
+  - -5324
+  yaw: 1.5708
+  pitch: 0.0
+- name: d07_acid_grate
+  position:
+  - 7127
+  - 16000
+  - -5324
+  yaw: 1.5708
+  pitch: 0.0
+- name: d08_ring_south
+  position:
+  - 9114
+  - 10404
+  - -4772
+  yaw: 0.5155
+  pitch: 0.0
+- name: l01_stair_down
+  position:
+  - -6400
+  - 3645
+  - -2313
+  yaw: 3.1416
+  pitch: 0.0
+- name: l02_mummy_hall
+  position:
+  - -8141
+  - 3645
+  - -2866
+  yaw: 3.1416
+  pitch: 0.0
+- name: l03_dais
+  position:
+  - -9503
+  - 2765
+  - -2866
+  yaw: 1.5708
+  pitch: 0.0
+- name: l04_diagonal_arm
+  position:
+  - -7475
+  - 6400
+  - -3125
+  yaw: 1.2545
+  pitch: 0.0
+- name: l05_chest_chamber
+  position:
+  - -7885
+  - 7987
+  - -3358
+  yaw: 2.6929
+  pitch: 0.0
+- name: l06_tomb_two
+  position:
+  - -3891
+  - 6963
+  - -2375
+  yaw: 0.3092
+  pitch: 0.0
+- name: l07_pendulums
+  position:
+  - -5453
+  - 3917
+  - -1883
+  yaw: 0.6832
+  pitch: 0.0
+- name: l08_crusher
+  position:
+  - -2304
+  - 4608
+  - -1883
+  yaw: -0.4424
+  pitch: 0.0
+- name: l09_south_room
+  position:
+  - -5120
+  - 2048
+  - -1883
+  yaw: -0.588
+  pitch: 0.0
+- name: l10_south_hall
+  position:
+  - -3942
+  - -410
+  - -1883
+  yaw: -0.2881
+  pitch: 0.0
+- name: s01_corridor
+  position:
+  - 2580
+  - -2355
+  - -4238
+  yaw: -1.5708
+  pitch: 0.0
+- name: s02_pivot_trap
+  position:
+  - 2580
+  - -3789
+  - -4423
+  yaw: -1.5708
+  pitch: 0.0
+- name: s03_gallery
+  position:
+  - 5079
+  - -3584
+  - -4423
+  yaw: -1.5708
+  pitch: 0.0
+- name: s04_gallery_hall
+  position:
+  - 5632
+  - -8448
+  - -4423
+  yaw: -1.5708
+  pitch: 0.0
+- name: s05_west_room
+  position:
+  - 307
+  - -6912
+  - -4423
+  yaw: 3.1416
+  pitch: 0.0
+- name: s06_tomb_hall
+  position:
+  - 2580
+  - -11008
+  - -4627
+  yaw: -1.5708
+  pitch: 0.0
+- name: s07_crypt
+  position:
+  - 2580
+  - -16333
+  - -5406
+  yaw: -1.5708
+  pitch: 0.0

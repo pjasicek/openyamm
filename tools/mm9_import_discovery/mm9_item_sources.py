@@ -855,6 +855,7 @@ def translate_rule_item(
     provenance: SourceProvenance,
     item_ids: Mm9ItemIdMap,
     unresolved: list[UnresolvedItemReference],
+    blocks_generation: bool = True,
 ) -> int:
     item_id = item_ids.try_translate(raw_item_id)
     if item_id is not None:
@@ -864,6 +865,7 @@ def translate_rule_item(
         source_object_index=provenance.source_object_index,
         raw_mm9_item_id=raw_item_id,
         reason="raw MM9 item id has no canonical mapping",
+        blocks_generation=blocks_generation,
     ))
     return 0
 
@@ -884,10 +886,17 @@ def world_item_from_rule(
     )
     random_item_pool: list[int] = []
     if rule.random_item_range is not None:
+        # A random pool keeps the items that are imported: one left out (MM9's spell books and scrolls, excluded on
+        # purpose) is listed but does not block, unless nothing of the pool is left.
+        pool_unresolved: list[UnresolvedItemReference] = []
         for raw_item_id in range(rule.random_item_range[0], rule.random_item_range[1] + 1):
-            item_id = translate_rule_item(raw_item_id, provenance, item_ids, unresolved)
+            item_id = translate_rule_item(raw_item_id, provenance, item_ids, pool_unresolved,
+                                          blocks_generation=False)
             if item_id > 0:
                 random_item_pool.append(item_id)
+        if not random_item_pool:
+            pool_unresolved = [replace(source, blocks_generation=True) for source in pool_unresolved]
+        unresolved.extend(pool_unresolved)
 
     def translate_list(raw_item_ids: tuple[int, ...]) -> tuple[int, ...]:
         return tuple(
@@ -933,6 +942,19 @@ def persistent_item_mechanism_from_rule(
     def translate(raw_item_id: int) -> int:
         return translate_rule_item(raw_item_id, provenance, item_ids, unresolved)
 
+    # The random pool (GiveRandom.scr, the 1000 Terrors' genie lamp) keeps the imported items: one left out on purpose
+    # (MM9's spell books and scrolls) is listed without blocking, unless nothing of the pool is left.
+    pool_unresolved: list[UnresolvedItemReference] = []
+    random_item_pool = tuple(
+        translated
+        for raw_item_id in rule.random_raw_items
+        if (translated := translate_rule_item(raw_item_id, provenance, item_ids, pool_unresolved,
+                                              blocks_generation=False)) > 0
+    )
+    if rule.random_raw_items and not random_item_pool:
+        pool_unresolved = [replace(source, blocks_generation=True) for source in pool_unresolved]
+    unresolved.extend(pool_unresolved)
+
     return PersistentItemMechanismSource(
         provenance=provenance,
         kind=rule.kind,
@@ -946,11 +968,7 @@ def persistent_item_mechanism_from_rule(
             ItemGrant(raw_item_id, translate(raw_item_id))
             for raw_item_id in rule.grant_raw_items
         ),
-        random_item_pool=tuple(
-            translated
-            for raw_item_id in rule.random_raw_items
-            if (translated := translate(raw_item_id)) > 0
-        ),
+        random_item_pool=random_item_pool,
         model_variants=rule.model_variants,
         model_variant_skins=rule.model_variant_skins,
     )

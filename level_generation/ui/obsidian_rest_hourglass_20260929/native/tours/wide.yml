@@ -1,0 +1,28 @@
+output_dir: ../images/wide
+exit: true
+steps:
+- wait: 1
+- action: rest
+- wait: 0.5
+- capture: rest-early
+- wait: 3
+- capture: rest-half
+- wait: 3.95
+- capture: rest-turn
+- wait: 0.85
+- capture: rest-inverted
+- wait: 2.95
+- capture: rest-inverted-half
+- wait: 4.15
+- capture: rest-second-turn
+- wait: 0.65
+- capture: rest-next-cycle
+- click: [564, 536]
+- wait: 1
+- capture: rest-after-wait-hour
+- click: [564, 596]
+- wait: 1
+- capture: rest-after-wait-minutes
+- click: [1115, 590]
+- expect: gameplay
+- capture: rest-closed

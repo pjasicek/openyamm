@@ -1,0 +1,300 @@
+{
+ "id": "20261009-1530-mm6-6d02-00",
+ "world": "mm6",
+ "maps": [
+  "6d02.blv"
+ ],
+ "created": "2026-10-09T13:30:07+00:00",
+ "textures": [
+  "mm6/wywl",
+  "mm6/stain512",
+  "mm6/carpt01",
+  "mm6/stabig2",
+  "mm6/wywt"
+ ],
+ "requests": {
+  "mm6/wywl": {
+   "name": "wywl",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "smooth warm ochre lime plaster wall with fine sandy texture above a polished dark oak dado rail and wainscot",
+   "notes": {
+    "2": "No dark outline or shadow along any outer edge: every edge keeps the brightness and material of the reference's edge."
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/wltil2",
+      "mm6/wywl2"
+     ],
+     "fraction": 0.473
+    },
+    "2": {
+     "sources": [
+      "mm6/wltil2"
+     ],
+     "fraction": 0.308
+    }
+   },
+   "sections": {
+    "1": [
+     [
+      0,
+      0,
+      288,
+      256
+     ],
+     [
+      0,
+      244,
+      288,
+      512
+     ]
+    ],
+    "2": [
+     [
+      0,
+      0,
+      288,
+      256
+     ],
+     [
+      0,
+      244,
+      288,
+      512
+     ]
+    ]
+   }
+  },
+  "mm6/stain512": {
+   "name": "stain512",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "polished checkerboard floor of dark brown stone and pale grey marble squares with bevelled edges, with a soft coloured light pattern cast through stained glass on it",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/cekr4"
+     ],
+     "fraction": 0.038
+    },
+    "2": {
+     "sources": [
+      "mm6/cekr4"
+     ],
+     "fraction": 0.024
+    }
+   },
+   "sections": {
+    "1": [
+     [
+      0,
+      0,
+      256,
+      272
+     ],
+     [
+      244,
+      0,
+      512,
+      272
+     ],
+     [
+      0,
+      260,
+      256,
+      544
+     ],
+     [
+      244,
+      260,
+      512,
+      544
+     ]
+    ],
+    "2": [
+     [
+      0,
+      0,
+      256,
+      272
+     ],
+     [
+      244,
+      0,
+      512,
+      272
+     ],
+     [
+      0,
+      260,
+      256,
+      544
+     ],
+     [
+      244,
+      260,
+      512,
+      544
+     ]
+    ]
+   }
+  },
+  "mm6/carpt01": {
+   "name": "carpt01",
+   "versions": [
+    1
+   ],
+   "material": "antique Persian carpet in deep red with a dark border, intricate floral arabesque field and central medallion, fine woven pile",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "sections": {
+    "1": [
+     [
+      0,
+      0,
+      256,
+      256
+     ],
+     [
+      244,
+      0,
+      512,
+      256
+     ]
+    ]
+   }
+  },
+  "mm6/stabig2": {
+   "name": "stabig2",
+   "versions": [
+    1
+   ],
+   "material": "three tall Gothic stained-glass windows with saints in bright jewel colours inside a dark carved wooden frame on a smooth ochre plaster wall above a dark oak dado",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "sections": {
+    "1": [
+     [
+      0,
+      0,
+      256,
+      256
+     ],
+     [
+      0,
+      244,
+      256,
+      512
+     ]
+    ]
+   }
+  },
+  "mm6/wywt": {
+   "name": "wywt",
+   "versions": [
+    1,
+    2,
+    3,
+    4
+   ],
+   "material": "woven medieval verdure tapestry of trees, hunters and a castle in muted greens and browns, hanging in a carved gilded frame on a smooth ochre plaster wall above a dark oak dado",
+   "notes": {
+    "3": "Keep the reference tapestry composition exactly: a dense hunt of riders and hounds filling the lower centre, cart and horsemen in the middle clearing; no castle and no buildings.",
+    "4": "Remove the invented horizontal wooden rail across the tapestry; the tapestry is one continuous panel at the reference's size and position, with the riders and hounds in its lower half."
+   },
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "3": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "4": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "sections": {
+    "1": [
+     [
+      0,
+      0,
+      256,
+      256
+     ],
+     [
+      0,
+      244,
+      256,
+      512
+     ]
+    ],
+    "2": [
+     [
+      0,
+      0,
+      288,
+      272
+     ],
+     [
+      0,
+      260,
+      288,
+      544
+     ]
+    ],
+    "3": [
+     [
+      0,
+      0,
+      288,
+      272
+     ],
+     [
+      0,
+      260,
+      288,
+      544
+     ]
+    ],
+    "4": [
+     [
+      0,
+      0,
+      288,
+      272
+     ],
+     [
+      0,
+      260,
+      288,
+      544
+     ]
+    ]
+   }
+  }
+ }
+}

@@ -1,0 +1,62 @@
+{
+ "sprite": "6tree15",
+ "output": "mm6_deco_tree15.glb",
+ "height_m": 7.75,
+ "note": "Tall oval crown from about a quarter of the height on a long straight grey-brown trunk, yellow-green leaves.",
+ "sapling": {
+  "scale": 5.48,
+  "baseSplits": 0,
+  "baseSize": 0.46,
+  "splitHeight": 0.35,
+  "attractUp": [
+   0,
+   0.7,
+   0.35,
+   0
+  ],
+  "seed": 91,
+  "ratio": 0.065,
+  "segSplits": [
+   0,
+   0.25,
+   0.3,
+   0
+  ]
+ },
+ "crown": {
+  "canopy_low": 0.28,
+  "centre": 0.6,
+  "clumps": 140,
+  "inner_clumps": 25
+ },
+ "bark": {
+  "target_srgb": [
+   112,
+   100,
+   84
+  ],
+  "clip_below_crown": true,
+  "root_reach": 0.28
+ },
+ "leaves": {
+  "target_srgb": [
+   115,
+   180,
+   55
+  ],
+  "seeds": [
+   19,
+   47,
+   61,
+   83
+  ],
+  "value": [
+   0.8,
+   1.5
+  ],
+  "jitter_red": [
+   0.85,
+   1.25
+  ]
+ }
+}

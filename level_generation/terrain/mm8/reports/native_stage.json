@@ -1,0 +1,537 @@
+{
+  "stage": "/tmp/openyamm-mm8-terrain-review",
+  "binary_sha256": "54917a618945387ef0b678dc9d4807c9d97105e9a2c6e3f540bb9605d660bcd3",
+  "poses": {
+    "dirt": {
+      "map": "out02",
+      "tile": "dirttyl",
+      "row": 71,
+      "column": 66,
+      "pose": [
+        1280.0,
+        -3840.0,
+        289,
+        1.5707963268,
+        -0.48
+      ],
+      "source_sha256": "246deaf7bc74403f0c55ac39bdf9f2dd9ab57cf3f3a30b7f46a2f5b80d3b3367"
+    },
+    "grass": {
+      "map": "out02",
+      "tile": "grastyl",
+      "row": 25,
+      "column": 36,
+      "pose": [
+        -14080.0,
+        19712.0,
+        289,
+        1.5707963268,
+        -0.48
+      ],
+      "source_sha256": "246deaf7bc74403f0c55ac39bdf9f2dd9ab57cf3f3a30b7f46a2f5b80d3b3367"
+    },
+    "volcano": {
+      "map": "out01",
+      "tile": "voltyl",
+      "row": 101,
+      "column": 93,
+      "pose": [
+        15104.0,
+        -19200.0,
+        417,
+        1.5707963268,
+        -0.48
+      ],
+      "source_sha256": "083a2efc4b859eaed03535bc93e6d66a80737ffac86065a6fd0169688f0045e4"
+    },
+    "rock": {
+      "map": "out03",
+      "tile": "rktyl",
+      "row": 54,
+      "column": 42,
+      "pose": [
+        -11008.0,
+        4864.0,
+        2049,
+        1.5707963268,
+        -0.48
+      ],
+      "source_sha256": "874d31b13fcd6d628d4d5d61bf762c3f693c5c00cfd4a7efe04ea6d2e413113c"
+    },
+    "sandstone": {
+      "map": "out08",
+      "tile": "rctyl",
+      "row": 87,
+      "column": 40,
+      "pose": [
+        -12032.0,
+        -12032.0,
+        2913,
+        1.5707963268,
+        -0.48
+      ],
+      "source_sha256": "cff5f790420e728edbbdc87e6bf03f562238c483034efcc682afafdde9b41e47"
+    },
+    "plains": {
+      "map": "out04",
+      "tile": "plntyl",
+      "row": 13,
+      "column": 59,
+      "pose": [
+        -2304.0,
+        25856.0,
+        289,
+        1.5707963268,
+        -0.48
+      ],
+      "source_sha256": "3baf59f9ac90a14e993049e0b6a9dffe247a92d60aa10303b04aa42ba61160fe"
+    },
+    "plains_sand": {
+      "map": "out04",
+      "tile": "plsatyl",
+      "row": 56,
+      "column": 64,
+      "pose": [
+        256.0,
+        3840.0,
+        289,
+        1.5707963268,
+        -0.48
+      ],
+      "source_sha256": "3baf59f9ac90a14e993049e0b6a9dffe247a92d60aa10303b04aa42ba61160fe"
+    },
+    "grey_stone": {
+      "map": "out06",
+      "tile": "gstyl",
+      "row": 69,
+      "column": 93,
+      "pose": [
+        15104.0,
+        -2816.0,
+        481,
+        1.5707963268,
+        -0.48
+      ],
+      "source_sha256": "8d4378e8be738a8d7046788818636378c0bd75f88af4f17db55c2aacabbe05c1"
+    },
+    "roads_dirt": {
+      "map": "out02",
+      "tile": "drsrns",
+      "row": 87,
+      "column": 104,
+      "pose": [
+        20736.0,
+        -12032.0,
+        161,
+        1.5707963268,
+        -0.48
+      ],
+      "source_sha256": "246deaf7bc74403f0c55ac39bdf9f2dd9ab57cf3f3a30b7f46a2f5b80d3b3367"
+    },
+    "roads_plains": {
+      "map": "out04",
+      "tile": "plrdns",
+      "row": 55,
+      "column": 52,
+      "pose": [
+        -5888.0,
+        4352.0,
+        289,
+        1.5707963268,
+        -0.48
+      ],
+      "source_sha256": "3baf59f9ac90a14e993049e0b6a9dffe247a92d60aa10303b04aa42ba61160fe"
+    },
+    "roads_grey": {
+      "map": "out06",
+      "tile": "gdrdns",
+      "row": 90,
+      "column": 64,
+      "pose": [
+        256.0,
+        -13568.0,
+        257,
+        1.5707963268,
+        -0.48
+      ],
+      "source_sha256": "8d4378e8be738a8d7046788818636378c0bd75f88af4f17db55c2aacabbe05c1"
+    },
+    "lava": {
+      "map": "elemf",
+      "tile": "lavtyl",
+      "row": 65,
+      "column": 69,
+      "pose": [
+        2816.0,
+        -768.0,
+        161,
+        1.5707963268,
+        -0.48
+      ],
+      "source_sha256": "1712bd2317b23fcc7cc62da9f4d323a408052d189544e60b5753a74a33412150"
+    },
+    "tar": {
+      "map": "out06",
+      "tile": "tartyl",
+      "row": 34,
+      "column": 40,
+      "pose": [
+        -12032.0,
+        15104.0,
+        961,
+        1.5707963268,
+        -0.48
+      ],
+      "source_sha256": "8d4378e8be738a8d7046788818636378c0bd75f88af4f17db55c2aacabbe05c1"
+    },
+    "water": {
+      "map": "out01",
+      "tile": "wtrtyl",
+      "row": 80,
+      "column": 65,
+      "pose": [
+        768.0,
+        -8448.0,
+        161,
+        1.5707963268,
+        -0.48
+      ],
+      "source_sha256": "083a2efc4b859eaed03535bc93e6d66a80737ffac86065a6fd0169688f0045e4"
+    },
+    "grey_fringe": {
+      "map": "out06",
+      "tile": "gsn",
+      "row": 110,
+      "column": 86,
+      "pose": [
+        11520.0,
+        -24166.4,
+        289,
+        1.5707963268,
+        -0.65
+      ],
+      "source_sha256": "8d4378e8be738a8d7046788818636378c0bd75f88af4f17db55c2aacabbe05c1"
+    },
+    "grey_fringe_overhead": {
+      "map": "out06",
+      "tile": "gsn",
+      "row": 110,
+      "column": 86,
+      "pose": [
+        11520.0,
+        -23808.0,
+        850,
+        1.5707963268,
+        -1.5
+      ],
+      "diagnostic_flying": true,
+      "source_sha256": "8d4378e8be738a8d7046788818636378c0bd75f88af4f17db55c2aacabbe05c1"
+    },
+    "grey_fringe_fly": {
+      "map": "out06",
+      "tile": "gsn",
+      "row": 110,
+      "column": 86,
+      "pose": [
+        11520.0,
+        -23808.0,
+        850,
+        1.5707963268,
+        -1.5
+      ],
+      "diagnostic_flying": false,
+      "source_sha256": "8d4378e8be738a8d7046788818636378c0bd75f88af4f17db55c2aacabbe05c1",
+      "start_save": "captures/grey_fringe_fly.oysav",
+      "start_save_sha256": "451c69cafc135bf28e668bd2b53734040bcdb2c9d52298e7ec0ab7eeb3b5e9b4"
+    },
+    "grey_fringe_saved": {
+      "map": "out06",
+      "tile": "gsn",
+      "row": 110,
+      "column": 86,
+      "pose": [
+        11520.0,
+        -23808.0,
+        850,
+        1.5707963268,
+        -1.5
+      ],
+      "diagnostic_flying": false,
+      "source_sha256": "8d4378e8be738a8d7046788818636378c0bd75f88af4f17db55c2aacabbe05c1",
+      "start_save": "captures/grey_fringe_fly.oysav",
+      "start_save_sha256": "451c69cafc135bf28e668bd2b53734040bcdb2c9d52298e7ec0ab7eeb3b5e9b4"
+    },
+    "grey_fringe_complete": {
+      "map": "out06",
+      "tile": "gsn",
+      "row": 110,
+      "column": 86,
+      "pose": [
+        11520.0,
+        -23808.0,
+        850,
+        1.5707963268,
+        -1.5
+      ],
+      "diagnostic_flying": false,
+      "source_sha256": "8d4378e8be738a8d7046788818636378c0bd75f88af4f17db55c2aacabbe05c1",
+      "start_save": "captures/grey_fringe_fly.oysav",
+      "start_save_sha256": "451c69cafc135bf28e668bd2b53734040bcdb2c9d52298e7ec0ab7eeb3b5e9b4"
+    },
+    "grey_fringe_detail": {
+      "map": "out06",
+      "tile": "grey_stone_fringe_neighbourhood",
+      "row": 111,
+      "column": 87,
+      "pose": [
+        12032.0,
+        -24320.0,
+        850,
+        1.5707963268,
+        -1.5
+      ],
+      "diagnostic_flying": false,
+      "source_sha256": "8d4378e8be738a8d7046788818636378c0bd75f88af4f17db55c2aacabbe05c1",
+      "start_save": "captures/grey_fringe_detail.oysav",
+      "start_save_sha256": "3c94e0499c562a863f6a63fa6b08658471b0fa5818b3cf24a448a79bb804b5c8"
+    },
+    "stepping_ew": {
+      "map": "out04",
+      "tile": "plrdew",
+      "row": 91,
+      "column": 24,
+      "pose": [
+        -20224.0,
+        -14080.0,
+        161,
+        0,
+        -0.6
+      ],
+      "source_sha256": "3baf59f9ac90a14e993049e0b6a9dffe247a92d60aa10303b04aa42ba61160fe"
+    },
+    "stepping_ns": {
+      "map": "out04",
+      "tile": "plrdns",
+      "row": 55,
+      "column": 52,
+      "pose": [
+        -5888.0,
+        4352.0,
+        289,
+        1.5707963268,
+        -0.6
+      ],
+      "source_sha256": "3baf59f9ac90a14e993049e0b6a9dffe247a92d60aa10303b04aa42ba61160fe"
+    },
+    "stepping_ns_south": {
+      "map": "out04",
+      "tile": "plrdns",
+      "row": 98,
+      "column": 72,
+      "pose": [
+        4352.0,
+        -17664.0,
+        481,
+        1.5707963268,
+        -0.6
+      ],
+      "source_sha256": "3baf59f9ac90a14e993049e0b6a9dffe247a92d60aa10303b04aa42ba61160fe"
+    },
+    "liquid_water": {
+      "map": "out01",
+      "tile": "wtrtyl",
+      "row": 80,
+      "column": 65,
+      "pose": [
+        768.0,
+        -8448.0,
+        161,
+        1.5707963268,
+        -0.48
+      ],
+      "source_sha256": "083a2efc4b859eaed03535bc93e6d66a80737ffac86065a6fd0169688f0045e4",
+      "actions": "liquids/v1/capture_cycle.json",
+      "actions_sha256": "033b6e83964d16cb6498c02baae58adea69e19a63b45e6d1eb41070fe67f1ad9"
+    },
+    "liquid_lava": {
+      "map": "elemf",
+      "tile": "lavtyl",
+      "row": 65,
+      "column": 69,
+      "pose": [
+        2816.0,
+        -768.0,
+        161,
+        1.5707963268,
+        -0.48
+      ],
+      "source_sha256": "1712bd2317b23fcc7cc62da9f4d323a408052d189544e60b5753a74a33412150",
+      "actions": "liquids/v1/capture_cycle.json",
+      "actions_sha256": "033b6e83964d16cb6498c02baae58adea69e19a63b45e6d1eb41070fe67f1ad9"
+    },
+    "liquid_tar": {
+      "map": "out06",
+      "tile": "tartyl",
+      "row": 34,
+      "column": 40,
+      "pose": [
+        -12032.0,
+        15104.0,
+        961,
+        1.5707963268,
+        -0.48
+      ],
+      "source_sha256": "8d4378e8be738a8d7046788818636378c0bd75f88af4f17db55c2aacabbe05c1",
+      "actions": "liquids/v1/capture_cycle.json",
+      "actions_sha256": "033b6e83964d16cb6498c02baae58adea69e19a63b45e6d1eb41070fe67f1ad9"
+    },
+    "liquid_water_flying": {
+      "map": "out01",
+      "tile": "wtrtyl",
+      "row": 80,
+      "column": 65,
+      "pose": [
+        768.0,
+        -8448.0,
+        353,
+        1.5707963268,
+        -0.48
+      ],
+      "source_sha256": "083a2efc4b859eaed03535bc93e6d66a80737ffac86065a6fd0169688f0045e4",
+      "actions": "liquids/v1/capture_cycle.json",
+      "actions_sha256": "033b6e83964d16cb6498c02baae58adea69e19a63b45e6d1eb41070fe67f1ad9",
+      "start_save": "liquids/v1/water_flying.oysav",
+      "start_save_sha256": "0b9e10bb32d0ead6537afe94120f7940ae366f20f3740bb4005ac5d280d83a80"
+    },
+    "liquid_lava_flying": {
+      "map": "elemf",
+      "tile": "lavtyl",
+      "row": 65,
+      "column": 69,
+      "pose": [
+        2816.0,
+        -768.0,
+        353,
+        1.5707963268,
+        -0.48
+      ],
+      "source_sha256": "1712bd2317b23fcc7cc62da9f4d323a408052d189544e60b5753a74a33412150",
+      "actions": "liquids/v1/capture_cycle.json",
+      "actions_sha256": "033b6e83964d16cb6498c02baae58adea69e19a63b45e6d1eb41070fe67f1ad9",
+      "start_save": "liquids/v1/lava_flying.oysav",
+      "start_save_sha256": "17b469969df46ef31468899b63442608da2843984797e772fe421020da8dfa89"
+    },
+    "liquid_tar_flying": {
+      "map": "out06",
+      "tile": "tartyl",
+      "row": 34,
+      "column": 40,
+      "pose": [
+        -12032.0,
+        15104.0,
+        1153,
+        1.5707963268,
+        -0.48
+      ],
+      "source_sha256": "8d4378e8be738a8d7046788818636378c0bd75f88af4f17db55c2aacabbe05c1",
+      "actions": "liquids/v1/capture_cycle.json",
+      "actions_sha256": "033b6e83964d16cb6498c02baae58adea69e19a63b45e6d1eb41070fe67f1ad9",
+      "start_save": "liquids/v1/tar_flying.oysav",
+      "start_save_sha256": "ba77c96f099acfd6d60f4c7c6fcd0dfa0258f0c5aec97a90f9a495f13eb0ca24"
+    },
+    "liquid_lava_alvar": {
+      "map": "out04",
+      "tile": "lavtyl",
+      "row": 49,
+      "column": 114,
+      "pose": [
+        25856.0,
+        7424.0,
+        545,
+        1.5707963268,
+        -0.6
+      ],
+      "source_sha256": "3baf59f9ac90a14e993049e0b6a9dffe247a92d60aa10303b04aa42ba61160fe",
+      "nearest_spawn_distance": 12267.399398405516,
+      "start_save": "liquids/v1/alvar_lava_flying.oysav",
+      "start_save_sha256": "b9224ca47cf451435f049fee6d422862a23e88a9131b13b34efb59066f0958dd",
+      "actions": "liquids/v1/capture_cycle.json",
+      "actions_sha256": "033b6e83964d16cb6498c02baae58adea69e19a63b45e6d1eb41070fe67f1ad9"
+    },
+    "liquid_tar_pool": {
+      "map": "out06",
+      "tile": "tartyl",
+      "row": 69,
+      "column": 62,
+      "pose": [
+        -768.0,
+        -2816.0,
+        577,
+        1.5707963268,
+        -0.6
+      ],
+      "source_sha256": "8d4378e8be738a8d7046788818636378c0bd75f88af4f17db55c2aacabbe05c1",
+      "nearest_spawn_distance": 4505.640908905191,
+      "start_save": "liquids/v1/shadowspire_tar_flying.oysav",
+      "start_save_sha256": "c6b5cbb9c1a8131367bf1ab719643d54f3d298e162b980abfd918d2f82fcea35",
+      "actions": "liquids/v1/capture_cycle.json",
+      "actions_sha256": "033b6e83964d16cb6498c02baae58adea69e19a63b45e6d1eb41070fe67f1ad9"
+    },
+    "liquid_water_flying_banks_v2": {
+      "map": "out01",
+      "tile": "wtrtyl",
+      "row": 80,
+      "column": 65,
+      "pose": [
+        768.0,
+        -8448.0,
+        353,
+        1.5707963268,
+        -0.48
+      ],
+      "source_sha256": "083a2efc4b859eaed03535bc93e6d66a80737ffac86065a6fd0169688f0045e4",
+      "actions": "liquids/v1/capture_cycle.json",
+      "actions_sha256": "033b6e83964d16cb6498c02baae58adea69e19a63b45e6d1eb41070fe67f1ad9",
+      "start_save": "liquids/v1/water_flying.oysav",
+      "start_save_sha256": "0b9e10bb32d0ead6537afe94120f7940ae366f20f3740bb4005ac5d280d83a80"
+    },
+    "liquid_lava_alvar_banks_v2": {
+      "map": "out04",
+      "tile": "lavtyl",
+      "row": 49,
+      "column": 114,
+      "pose": [
+        25856.0,
+        7424.0,
+        545,
+        1.5707963268,
+        -0.6
+      ],
+      "source_sha256": "3baf59f9ac90a14e993049e0b6a9dffe247a92d60aa10303b04aa42ba61160fe",
+      "nearest_spawn_distance": 12267.399398405516,
+      "start_save": "liquids/v1/alvar_lava_flying.oysav",
+      "start_save_sha256": "b9224ca47cf451435f049fee6d422862a23e88a9131b13b34efb59066f0958dd",
+      "actions": "liquids/v1/capture_cycle.json",
+      "actions_sha256": "033b6e83964d16cb6498c02baae58adea69e19a63b45e6d1eb41070fe67f1ad9"
+    },
+    "liquid_tar_pool_banks_v2": {
+      "map": "out06",
+      "tile": "tartyl",
+      "row": 69,
+      "column": 62,
+      "pose": [
+        -768.0,
+        -2816.0,
+        577,
+        1.5707963268,
+        -0.6
+      ],
+      "source_sha256": "8d4378e8be738a8d7046788818636378c0bd75f88af4f17db55c2aacabbe05c1",
+      "nearest_spawn_distance": 4505.640908905191,
+      "start_save": "liquids/v1/shadowspire_tar_flying.oysav",
+      "start_save_sha256": "c6b5cbb9c1a8131367bf1ab719643d54f3d298e162b980abfd918d2f82fcea35",
+      "actions": "liquids/v1/capture_cycle.json",
+      "actions_sha256": "033b6e83964d16cb6498c02baae58adea69e19a63b45e6d1eb41070fe67f1ad9"
+    }
+  }
+}

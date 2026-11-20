@@ -1,0 +1,26 @@
+{
+  "prompt": "Use case: precise-object-edit. Paint the attached paint_mask_guide.png exactly per this specification. The guide is the EDIT TARGET; design_reference.png is material/detail reference and icon_x8.png is colour reference only (magenta is not part of object).\nOutput ONE transparent PNG, 1536x2048 or nearest 3:4 canvas. Preserve guide layout: three columns by FOUR rows of square cells. Rows 1-2 contain five views FRONT, BACK, LEFT / RIGHT, TOP, empty; rows 3-4 repeat exactly those five views. The unusual flattened horizontal views must stay exactly as shown: do NOT replace with conventional upright shirt views. Keep each object's exact position, size, outline, orientation, gaps and openings. Paint only existing grey pixels. Empty cells at column 3 rows 2 and 4 remain transparent.\nRows 1-2 PAINT: unlit base colour of silver-grey chain mail shirt of small round links, short sleeves, royal-blue and yellow striped cloth bands at collar, cuffs and hem, pointed shield-shaped chest cloth panel divided diagonally into yellow and royal blue as reference; long mail skirt split at front edged with same band. Reference facets and detail scaled to each view. No lighting, cast shadows, ambient occlusion, hot highlights/reflections, glow, sparkles, ground, outlines or text.\nRows 3-4 MATERIAL MASK: exact same silhouettes, completely flat pure colours, no texture/shading/outlines/antialiased colour blends inside. #FF0000 every metal part including ALL chain mail. #0000FF every cloth part including coloured bands, chest panel, linings, cords, hair. #00FF00 leather/fur only if present. #000000 gemstones/glass/enamel/liquid only if present. Every silhouette pixel gets exactly one class colour; outside stays fully transparent. Do not draw individual chain-link texture in mask: solid red metal areas and solid blue cloth areas. Keep all guide openings and gaps transparent. Preserve silhouette and layout above all.\nCORRECTION: Match the guide's clean alpha silhouettes precisely. Absolutely no scattered pixels, stippling, noise, debris or red/blue specks outside objects. Mask silhouettes must have clean solid boundaries and uniform fully opaque colour interiors. Preserve all original guide holes. Copy the guide alpha coverage exactly for both halves. Canvas must be 3:4, not a taller ratio.",
+  "inputs": [
+    {
+      "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/items_mm9_claude/codex_tex/d10102/paint_mask_guide.png",
+      "sha256": "42a6c02d90ed3fcad5e9dff90224ef46ea2125c9a757b9875779c40eb080c31a"
+    },
+    {
+      "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/items_mm9_claude/codex_tex/d10102/design_reference.png",
+      "sha256": "1dbf025cdb073377f3e179e659e8c9d567a60865c57170576949646498e94c63"
+    },
+    {
+      "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/items_mm9_claude/codex_tex/d10102/icon_x8.png",
+      "sha256": "e7f2f48358c6a38a1d338ef9a29e24f8d4049d13a9220a14ca505b0f3098bf2b"
+    }
+  ],
+  "original_output_path": "/home/pjasicek/.codex/generated_images/01a1ad3d-da49-79b2-869a-680bbcf1484c/exec-4d637041-93af-4ec5-a9ac-46fa8ccd4f88.png",
+  "output": "/home/pjasicek/github/OpenYAMM/level_generation/props/items_mm9_claude/codex_tex/d10102/paint_mask_raw_v1.png",
+  "size": [
+    1086,
+    1448
+  ],
+  "tool": "built-in image_gen",
+  "generations": 2,
+  "validation_notes": "Corrective generation used. Stray mask pixels and silhouette deviations remain; raw tool output preserved without editing."
+}

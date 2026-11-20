@@ -1,13 +1,17 @@
 #pragma once
 
+#include "engine/Localization.h"
 #include "game/party/Party.h"
+#include "game/party/SpellIds.h"
 #include "game/ui/GameplayOverlayTypes.h"
 #include <algorithm>
 #include <array>
+#include <vector>
 
 namespace OpenYAMM::Game
 {
 class GameplayScreenRuntime;
+class SpellTable;
 
 struct GameplayBuffHudEntry
 {
@@ -109,34 +113,53 @@ struct GameplayBuffHudDefinition
     const GameplayBuffHudLayer *pLayer = nullptr;
     float badgeX = 0;
     float badgeY = 0;
+    bool cornerBadge = true;
 };
 
 // Preserve the desktop skull mapping; the old Android YAML incorrectly assigned these layers to other spells.
 // The far eye extends that mapping for Detect Life; badges cover effects without a legacy desktop layer.
+// Invisibility draws no badge: the party portraits show it.
 // Flight and Water Walk retain separate animated indicators. Special is reserved for future modifiers.
 inline constexpr std::array<GameplayBuffHudDefinition, PartyBuffCount> GameplayBuffHudDefinitions = {{
-    {"Torch Light", "obsidian_buff_sbf01a", GameplayBuffPresentation::Skull, &GameplayBuffHudTorch},
-    {"Wizard Eye", "obsidian_buff_sba01a", GameplayBuffPresentation::Skull, &GameplayBuffHudNearEye},
-    {"Feather Fall", "obsidian_buff_sba02a", GameplayBuffPresentation::Skull, &GameplayBuffHudClouds},
-    {"Detect Life", "obsidian_buff_sbs01a", GameplayBuffPresentation::Skull, &GameplayBuffHudFarEye},
-    {"Water Walk", "obsidian_buff_sbw05a", GameplayBuffPresentation::Movement},
-    {"Fly", "obsidian_buff_sba10a", GameplayBuffPresentation::Movement},
-    {"Invisibility", "obsidian_buff_sba08a", GameplayBuffPresentation::Skull, nullptr, 46, 2},
-    {"Stoneskin", "obsidian_buff_sbe05a", GameplayBuffPresentation::Skull, &GameplayBuffHudStone},
-    {"Day of the Gods", "obsidian_buff_sbl06a", GameplayBuffPresentation::Skull, &GameplayBuffHudHalo},
-    {"Protection from Magic", "obsidian_buff_sbb09a", GameplayBuffPresentation::Skull, &GameplayBuffHudGarland},
-    {"Fire Resistance", "obsidian_buff_sbf03a", GameplayBuffPresentation::Hero, &GameplayBuffHudFireResistance},
-    {"Water Resistance", "obsidian_buff_sbw03a", GameplayBuffPresentation::Hero, &GameplayBuffHudWaterResistance},
-    {"Air Resistance", "obsidian_buff_sba03a", GameplayBuffPresentation::Hero, &GameplayBuffHudAirResistance},
-    {"Earth Resistance", "obsidian_buff_sbe03a", GameplayBuffPresentation::Hero, &GameplayBuffHudEarthResistance},
-    {"Mind Resistance", "obsidian_buff_sbm03a", GameplayBuffPresentation::Hero, &GameplayBuffHudMindResistance},
-    {"Body Resistance", "obsidian_buff_sbb03a", GameplayBuffPresentation::Hero, &GameplayBuffHudBodyResistance},
-    {"Shield", "obsidian_buff_sba06a", GameplayBuffPresentation::Hero, &GameplayBuffHudShield},
-    {"Heroism", "obsidian_buff_sbs07a", GameplayBuffPresentation::Hero, &GameplayBuffHudSword},
-    {"Haste", "obsidian_buff_sbf05a", GameplayBuffPresentation::Hero, &GameplayBuffHudWings},
-    {"Immolation", "obsidian_buff_sbf08a", GameplayBuffPresentation::Hero, &GameplayBuffHudFlames},
-    {"Glamour", "obsidian_buff_sbde01a", GameplayBuffPresentation::Hero, nullptr, 46, 46},
-    {"Levitate", "obsidian_buff_sbv02a", GameplayBuffPresentation::Movement}
+    {Engine::trNoop("Torch Light").data(),
+        "obsidian_buff_sbf01a", GameplayBuffPresentation::Skull, &GameplayBuffHudTorch},
+    {Engine::trNoop("Wizard Eye").data(),
+        "obsidian_buff_sba01a", GameplayBuffPresentation::Skull, &GameplayBuffHudNearEye},
+    {Engine::trNoop("Feather Fall").data(),
+        "obsidian_buff_sba02a", GameplayBuffPresentation::Skull, &GameplayBuffHudClouds},
+    {Engine::trNoop("Detect Life").data(),
+        "obsidian_buff_sbs01a", GameplayBuffPresentation::Skull, &GameplayBuffHudFarEye},
+    {Engine::trNoop("Water Walk").data(), "obsidian_buff_sbw05a", GameplayBuffPresentation::Movement},
+    {Engine::trNoop("Fly").data(), "obsidian_buff_sba10a", GameplayBuffPresentation::Movement},
+    {Engine::trNoop("Invisibility").data(),
+        "obsidian_buff_sba08a", GameplayBuffPresentation::Skull, nullptr, 0, 0, false},
+    {Engine::trNoop("Stoneskin").data(),
+        "obsidian_buff_sbe05a", GameplayBuffPresentation::Skull, &GameplayBuffHudStone},
+    {Engine::trNoop("Day of the Gods").data(),
+        "obsidian_buff_sbl06a", GameplayBuffPresentation::Skull, &GameplayBuffHudHalo},
+    {Engine::trNoop("Protection from Magic").data(),
+        "obsidian_buff_sbb09a", GameplayBuffPresentation::Skull, &GameplayBuffHudGarland},
+    {Engine::trNoop("Fire Resistance").data(),
+        "obsidian_buff_sbf03a", GameplayBuffPresentation::Hero, &GameplayBuffHudFireResistance},
+    {Engine::trNoop("Water Resistance").data(),
+        "obsidian_buff_sbw03a", GameplayBuffPresentation::Hero, &GameplayBuffHudWaterResistance},
+    {Engine::trNoop("Air Resistance").data(),
+        "obsidian_buff_sba03a", GameplayBuffPresentation::Hero, &GameplayBuffHudAirResistance},
+    {Engine::trNoop("Earth Resistance").data(),
+        "obsidian_buff_sbe03a", GameplayBuffPresentation::Hero, &GameplayBuffHudEarthResistance},
+    {Engine::trNoop("Mind Resistance").data(),
+        "obsidian_buff_sbm03a", GameplayBuffPresentation::Hero, &GameplayBuffHudMindResistance},
+    {Engine::trNoop("Body Resistance").data(),
+        "obsidian_buff_sbb03a", GameplayBuffPresentation::Hero, &GameplayBuffHudBodyResistance},
+    {Engine::trNoop("Shield").data(), "obsidian_buff_sba06a", GameplayBuffPresentation::Hero, &GameplayBuffHudShield},
+    {Engine::trNoop("Heroism").data(), "obsidian_buff_sbs07a", GameplayBuffPresentation::Hero, &GameplayBuffHudSword},
+    {Engine::trNoop("Haste").data(), "obsidian_buff_sbf05a", GameplayBuffPresentation::Hero, &GameplayBuffHudWings},
+    {Engine::trNoop("Immolation").data(),
+        "obsidian_buff_sbf08a", GameplayBuffPresentation::Hero, &GameplayBuffHudFlames},
+    {Engine::trNoop("Glamour").data(), "obsidian_buff_sbde01a", GameplayBuffPresentation::Hero, nullptr, 46, 46},
+    {Engine::trNoop("Levitate").data(), "obsidian_buff_sbv02a", GameplayBuffPresentation::Movement},
+    // MM9's own indicator (worlds/mm9/icons_x2): the buff exists only in that world.
+    {Engine::trNoop("Fleet Foot").data(), "fleetfoot01", GameplayBuffPresentation::Movement}
 }};
 
 inline const char *gameplayBuffPanelLayoutId(GameplayBuffPresentation presentation)
@@ -151,17 +174,59 @@ inline const char *gameplayBuffPanelLayoutId(GameplayBuffPresentation presentati
     return nullptr;
 }
 
-inline std::optional<PartyBuffId> gameplayFlightBuff(const Party &party)
+struct GameplayMovementIndicator
 {
+    const char *pLayoutId = nullptr;
+    PartyBuffId buff = PartyBuffId::Fly;
+};
+
+// Fly and Wizard Eye warn before they end (OY-508): in their last ten game minutes their indicator (Fly's icon, Wizard
+// Eye's skull layer) blinks, half a real second on and half off (15 game seconds each). Only the drawing of those
+// indicators asks, so the warning costs nothing per frame elsewhere.
+inline constexpr float GameplayBuffExpiryWarningSeconds = 600.0f;
+
+inline bool gameplayBuffIndicatorLit(const Party &party, PartyBuffId buff)
+{
+    if (buff != PartyBuffId::Fly && buff != PartyBuffId::WizardEye)
+    {
+        return true;
+    }
+
+    const PartyBuffState *pBuff = party.partyBuff(buff);
+    return pBuff == nullptr || pBuff->remainingSeconds > GameplayBuffExpiryWarningSeconds
+        || int(pBuff->remainingSeconds / 15.0f) % 2 == 0;
+}
+
+// The movement indicators beside the skull, left to right without gaps: Fly, Levitate, Water Walk and MM9's Fleet
+// Foot, each while active. Levitate applies Water Walk too; that one is Levitate's own and shows only as Levitate (the
+// buff keeps the spell that applied it last, so a Water Walk cast afterwards shows).
+inline std::vector<GameplayMovementIndicator> gameplayMovementIndicators(const Party &party)
+{
+    std::vector<GameplayMovementIndicator> indicators;
+
     if (party.hasPartyBuff(PartyBuffId::Fly))
     {
-        return PartyBuffId::Fly;
+        indicators.push_back({"OutdoorFlyBuffIcon", PartyBuffId::Fly});
     }
+
     if (party.hasPartyBuff(PartyBuffId::Levitate))
     {
-        return PartyBuffId::Levitate;
+        indicators.push_back({"OutdoorLevitateBuffIcon", PartyBuffId::Levitate});
     }
-    return std::nullopt;
+
+    const PartyBuffState *pWaterWalk = party.partyBuff(PartyBuffId::WaterWalk);
+
+    if (pWaterWalk != nullptr && pWaterWalk->active() && pWaterWalk->spellId != spellIdValue(SpellId::Levitate))
+    {
+        indicators.push_back({"OutdoorWaterWalkBuffIcon", PartyBuffId::WaterWalk});
+    }
+
+    if (party.hasPartyBuff(PartyBuffId::FleetFoot))
+    {
+        indicators.push_back({"OutdoorFleetFootBuffIcon", PartyBuffId::FleetFoot});
+    }
+
+    return indicators;
 }
 
 extern const std::array<const char *, CharacterBuffCount> GameplayPersonalBuffNames;
@@ -192,6 +257,32 @@ inline std::vector<PartyBuffId> sortedGameplaySpecialBuffs(const Party &party)
     return result;
 }
 std::vector<GameplayBuffHudEntry> gameplayBuffHudEntries(GameplayScreenRuntime &context, int width, int height);
+
+// What potions left on a member (a ruleset's timed immunities, aura copies, skill bonuses, regeneration), as
+// personal-buff lines: a name and the game seconds left.
+struct GameplayPotionEffectLine
+{
+    std::string name;
+    float remainingSeconds = 0;
+    // What the line stands for: the effect's kind and key (the aura's spell id, the skill id, the first condition of
+    // an immunity line).
+    TimedPotionEffect::Kind kind = TimedPotionEffect::Kind::Immunity;
+    uint32_t key = 0;
+};
+
+std::vector<GameplayPotionEffectLine> gameplayPotionEffectLines(const Character &member, const SpellTable *pSpellTable);
+
+// An aura the rules hold without a buff slot (MAW's Empower Magic and Meditation), as every member's popup lists it.
+struct GameplayAuraLine
+{
+    std::string name;
+    std::string heldText;
+};
+
+std::vector<GameplayAuraLine> gameplayUnslottedAuraLines(
+    const Party &party,
+    const Character &member,
+    const SpellTable *pSpellTable);
 std::optional<GameplayBuffHudEntry> gameplayMovementBuffAtPoint(GameplayScreenRuntime &context,
     int width, int height, float x, float y);
 void renderGameplayBuffHud(GameplayScreenRuntime &context, int width, int height);

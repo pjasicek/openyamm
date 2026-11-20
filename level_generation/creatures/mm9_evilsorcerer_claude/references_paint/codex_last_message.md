@@ -1,0 +1,3 @@
+Saved all four transparent 1024×1536 PNGs, raw returns, prompts/input hashes in `generation_runs.json`, and the [review sheet](level_generation/creatures/mm9_evilsorcerer_claude/references_paint/selected_views_review.png) under `references_paint/`, using built-in image generation.
+
+Stopped at one correction per view. Geometry and ornament still drift from the brief; these are **not projection-ready**. No builds or Meshy work performed.

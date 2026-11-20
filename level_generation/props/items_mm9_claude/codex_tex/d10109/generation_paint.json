@@ -1,0 +1,28 @@
+{
+  "prompt": "Edit paint_mask_guide.png exactly per this brief. Input 1 is the edit target guide; input 2 design_reference.png is material/detail reference; input 3 icon_x8.png is colour reference only (magenta is background).\nOutput ONE transparent PNG 1536x2048 (3:4). Preserve the guide's exact three-column FOUR-row layout of 512x512 cells, all positions, sizes, orientations, silhouettes and openings. Rows 1-2 and rows 3-4 repeat five views FRONT, BACK, LEFT / RIGHT, TOP, empty. Paint grey pixels only, never redraw, enlarge, move or redesign geometry.\nRows 1-2 PAINT: unlit base colour of a plain sleeveless breastplate of smooth dark gunmetal steel with rolled steel rim at neck and armholes and hem dipping to point below belly. No rivets, no ornament. Match approved design and original icon's material colour, subtle steel surface detail. No lighting, cast shadows, ambient occlusion, hot highlights, reflections, glow, sparkles, ground, outlines or text. The rim is steel too. Visible interior is steel. Respect reference detail but do not invent engravings or ornament.\nRows 3-4 MATERIAL MASK: exact same five silhouettes filled entirely FLAT PURE RED #FF0000, since every part of this object is metal. No shading, texture, outlines, colour variations or antialiased colour blends inside. General material mapping: metal red #FF0000, leather/fur green #00FF00, cloth/hair blue #0000FF, gem/glass/enamel/liquid black #000000, but this item is all steel, so all silhouette pixels are pure red.\nKeep every gap/opening and all background fully transparent. Column 3 row 2 and column 3 row 4 remain empty transparent. Preserve exact guide placement even when views look sideways.\nCORRECTIVE GENERATION: The previous attempt had severe red spray/noise outside bottom-row silhouettes and filled some holes. Strictly preserve the original guide alpha for EVERY view. Clean solid silhouette boundaries, zero scattered pixels, no red splatter anywhere, cutout openings completely transparent. The bottom half must look like exact flat red copies of the original grey guide objects with the original holes cut out. Top half must be diffuse base colour without directional highlights. Use original guide as placement/alpha authority.",
+  "initial_prompt": "Edit paint_mask_guide.png exactly per this brief. Input 1 is the edit target guide; input 2 design_reference.png is material/detail reference; input 3 icon_x8.png is colour reference only (magenta is background).\nOutput ONE transparent PNG 1536x2048 (3:4). Preserve the guide's exact three-column FOUR-row layout of 512x512 cells, all positions, sizes, orientations, silhouettes and openings. Rows 1-2 and rows 3-4 repeat five views FRONT, BACK, LEFT / RIGHT, TOP, empty. Paint grey pixels only, never redraw, enlarge, move or redesign geometry.\nRows 1-2 PAINT: unlit base colour of a plain sleeveless breastplate of smooth dark gunmetal steel with rolled steel rim at neck and armholes and hem dipping to point below belly. No rivets, no ornament. Match approved design and original icon's material colour, subtle steel surface detail. No lighting, cast shadows, ambient occlusion, hot highlights, reflections, glow, sparkles, ground, outlines or text. The rim is steel too. Visible interior is steel. Respect reference detail but do not invent engravings or ornament.\nRows 3-4 MATERIAL MASK: exact same five silhouettes filled entirely FLAT PURE RED #FF0000, since every part of this object is metal. No shading, texture, outlines, colour variations or antialiased colour blends inside. General material mapping: metal red #FF0000, leather/fur green #00FF00, cloth/hair blue #0000FF, gem/glass/enamel/liquid black #000000, but this item is all steel, so all silhouette pixels are pure red.\nKeep every gap/opening and all background fully transparent. Column 3 row 2 and column 3 row 4 remain empty transparent. Preserve exact guide placement even when views look sideways.",
+  "original_output_path": "/home/pjasicek/.codex/generated_images/01a1acc6-505c-7842-9b13-2ea5ab0b1702/exec-4a28e809-6851-4294-8b34-885c9c88cefb.png",
+  "inputs": [
+    {
+      "path": "level_generation/props/items_mm9_claude/codex_tex/d10109/paint_mask_guide.png",
+      "sha256": "a9ce283df861d84c2e0789d44102b6ab134a33f814b268daf9a9234c10ca60bd"
+    },
+    {
+      "path": "level_generation/props/items_mm9_claude/codex_tex/d10109/design_reference.png",
+      "sha256": "8fcdc82bd241f9956a587db5307cf036383d398874c047d8d4ff5963e683f06a"
+    },
+    {
+      "path": "level_generation/props/items_mm9_claude/codex_tex/d10109/icon_x8.png",
+      "sha256": "746bb8b4e0ec2d62c439ba061f5477b92eff8584c894dcf067f4bd24938e6e7a"
+    }
+  ],
+  "output": "level_generation/props/items_mm9_claude/codex_tex/d10109/paint_mask_raw_v1.png",
+  "size": [
+    1086,
+    1448
+  ],
+  "mode": "RGBA",
+  "tool": "built-in image_gen",
+  "corrective_regenerations": 1,
+  "validation": "Failed visual mask requirements: stray red pixels outside silhouettes and imperfect openings remain after one allowed correction. Raw tool output preserved without modification."
+}

@@ -1,0 +1,3 @@
+Saved [00_geometry.png](/home/pjasicek/github/OpenYAMM/level_generation/creatures/mm9_colloidalwarrior_claude/references_head/00_geometry.png) using built-in image generation. Raw returns, exact prompts and input hashes are preserved in `raw/` and `generation_runs.json`.
+
+Limitation: both returns were 1254×1254; preserved unresized as requested. Brow nubs still deviate from the brief. No builds or Meshy operations performed.

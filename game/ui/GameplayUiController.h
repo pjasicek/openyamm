@@ -1,26 +1,36 @@
 #pragma once
 
+#include "game/ui/InventoryItemDoubleClick.h"
+
 #include "engine/AssetFileSystem.h"
 #include "game/app/KeyboardBindings.h"
 #include "game/gameplay/GameplayWorldInteraction.h"
 #include "game/party/CharacterState.h"
 #include "game/events/EventDialogContent.h"
+#include "game/items/AlchemyBenchRuntime.h"
+#include "game/items/CraftingRuntime.h"
+#include "game/items/InventoryBags.h"
 #include "game/party/Party.h"
 #include "game/party/PartySpellSystem.h"
 #include "game/party/SkillData.h"
-#include "game/ui/InventoryItemDoubleClick.h"
+#include "game/ui/HouseShopLedgerCategory.h"
+#include "game/ui/HudReading.h"
+#include "game/ui/InventoryPouchViewState.h"
 
 #include <cstddef>
 #include <cstdint>
 #include <filesystem>
 #include <functional>
+#include <memory>
+#include <optional>
 #include <string>
 #include <utility>
 #include <vector>
 
 namespace OpenYAMM::Game
 {
-class LocalizationCatalog;
+struct RulesetProgressSummary;
+struct TrainerEntry;
 
 class GameplayUiController
 {
@@ -74,7 +84,6 @@ public:
     };
 
     static bool houseShopModeSupportsItemInspection(HouseShopMode mode);
-    void bindLocalizationCatalog(const LocalizationCatalog *pLocalizationCatalog);
 
     enum class InventoryNestedOverlayMode
     {
@@ -98,7 +107,11 @@ public:
         Map = 0,
         Quests,
         Story,
-        Notes
+        Notes,
+        // MAW games only: the game's progress (the Journal's fifth tab).
+        Progress,
+        // MAW games only: the aura panel in the Journal's frame, opened from the buff panels, not a tab.
+        Auras
     };
 
     enum class JournalNotesCategory : uint8_t
@@ -108,7 +121,9 @@ public:
         Obelisk,
         Seer,
         Misc,
-        Trainer
+        Trainer,
+        // Every Arcomage tavern and whether the party has beaten it (not autonotes).
+        Arcomage
     };
 
     enum class HouseBankInputMode : uint8_t
@@ -135,13 +150,13 @@ public:
 
     struct HeldInventoryItemState
     {
+        InventoryItemDoubleClick doubleClick;
         bool active = false;
         InventoryItem item = {};
         uint8_t grabCellOffsetX = 0;
         uint8_t grabCellOffsetY = 0;
         float grabOffsetX = 0.0f;
         float grabOffsetY = 0.0f;
-        InventoryItemDoubleClick doubleClick;
     };
 
     struct ItemInspectOverlayState
@@ -154,6 +169,8 @@ public:
         size_t sourceMemberIndex = 0;
         uint8_t sourceGridX = 0;
         uint8_t sourceGridY = 0;
+        // The bag an inventory item lies in (MAW's multibag): its operations run with that bag open.
+        uint8_t sourceBag = 0;
         EquipmentSlot sourceEquipmentSlot = EquipmentSlot::MainHand;
         size_t sourceWorldItemIndex = 0;
         size_t sourceLootItemIndex = 0;
@@ -182,6 +199,8 @@ public:
         CharacterInspectMasteryLine master = {};
         CharacterInspectMasteryLine grandmaster = {};
         int skillBonus = 0;
+        // A paragraph after the skill bonus (the rules' trainer hint), with colour codes.
+        std::string footer;
         float sourceX = 0.0f;
         float sourceY = 0.0f;
         float sourceWidth = 0.0f;
@@ -197,6 +216,8 @@ public:
         float sourceY = 0.0f;
         float sourceWidth = 0.0f;
         float sourceHeight = 0.0f;
+        // Above the source, right-aligned with it (the map progress bar), instead of beside it.
+        bool above = false;
     };
 
     struct CharacterDetailOverlayState
@@ -215,6 +236,9 @@ public:
         std::string spellPointsText;
         std::string conditionText;
         std::string quickSpellText;
+        // An MM9 hireling's rows (level, HP, AC, condition, attacks, spells, resistances) in place of the member's
+        // hit points, spell points, condition and quick spell.
+        std::vector<std::string> statLines;
         std::vector<ActiveSpellLine> activeSpells;
         float sourceX = 0.0f;
         float sourceY = 0.0f;
@@ -227,6 +251,8 @@ public:
         bool active = false;
         size_t runtimeActorIndex = static_cast<size_t>(-1);
         std::string displayNameOverride;
+        // Alt held: the rules' numbers before the selected member's defences (MAW).
+        bool rawNumbers = false;
         float sourceX = 0.0f;
         float sourceY = 0.0f;
         float sourceWidth = 0.0f;
@@ -255,17 +281,100 @@ public:
     struct ReadableScrollOverlayState
     {
         bool active = false;
-        bool staysOpen = false;
+        // Read with a right click on a portrait: open while that button is held, as in the original.
+        bool heldByRightButton = false;
+        // Read on releasing the right button over a portrait (Modern controls): open until the next click, which only
+        // closes it.
+        bool staysUntilClick = false;
+        bool closeClickStarted = false;
         std::string title;
         std::string body;
+    };
+
+    // Where a looted item went in the bags, so the summary inspects (identifies, repairs) the item itself.
+    struct LootedItemPlace
+    {
+        size_t memberIndex = 0;
+        uint8_t bag = 0;
+        uint8_t gridX = 0;
+        uint8_t gridY = 0;
+    };
+
+    // What MAW's gather key looted on a completed map (lootAllCorpses), until dismissed.
+    struct LootSummaryOverlayState
+    {
+        bool active = false;
+        size_t satchelCount = 0;
+        int goldAmount = 0;
+        // Part of goldAmount the party's followers took.
+        int followerGoldShare = 0;
+        std::vector<InventoryItem> takenItems;
+        // takenItems' places, one each.
+        std::vector<LootedItemPlace> takenItemPlaces;
+        // Items the bags had no room for: left in their satchels, which are gathered in front of the party.
+        std::vector<InventoryItem> leftItems;
+        // Spotted ground items and gold piles taken (WorldItemSpotter), the ones the loot filter sold included.
+        size_t groundItemCount = 0;
+        // Spotted ground items the bags had no room for: left where they lie.
+        std::vector<InventoryItem> leftGroundItems;
+        float scrollOffset = 0.0f;
+    };
+
+    // The Battle Orders window over the spellbook (game/ui/GameplayBattleOrders.h).
+    struct BattleOrdersWindowState
+    {
+        bool open = false;
+        // Opened by the Battle Orders key: closing the window closes the book too.
+        bool closesBook = false;
+        size_t memberIndex = 0;
+        // The list shown: the member's upkeep spells (Character::upkeepOrders), else the attack orders.
+        bool upkeep = false;
+        std::optional<size_t> selectedOrder;
+        // The list's first shown row, and whether its scrollbar is being dragged.
+        size_t listScroll = 0;
+        bool draggingScroll = false;
+        // The Upkeep key's box waits for the key to bind: keys are its, not hotkeys.
+        bool capturingUpkeepKey = false;
+        // Why the last key was refused, shown beside the box until the next click.
+        std::string upkeepKeyRefusal;
+        // The quick key a palette click fills: 0 Quick Cast, 1-4 Quick Spell 1-4.
+        std::optional<size_t> armedQuickSlot;
+        // The slider being dragged (GameplayBattleOrders' Slider) and, for the distance, which end.
+        int draggedSlider = -1;
+        bool draggingMaximum = false;
+        bool copyMenuOpen = false;
+        // The palette's first shown row of icons.
+        size_t paletteRow = 0;
+        // The palette's search: typed text filters the spells by name; while it has focus, keys are text.
+        std::string paletteSearch;
+        bool paletteSearchActive = false;
+        // Escape acts once per press: it clears the search, then closes the window.
+        bool escapeLatch = false;
+        // The potions the upkeep palette offers (carried, or with a known recipe), by name; read twice a second.
+        HudReading<std::vector<uint32_t>, const Party *> upkeepPotions;
+    };
+
+    // The short menu a right click on a spell in the spellbook opens: Quick Cast, the quick spells, the orders.
+    struct SpellbookSpellMenuState
+    {
+        bool open = false;
+        uint32_t spellId = 0;
+        float x = 0.0f;
+        float y = 0.0f;
+        // The spell under the right button when it went down, and when: a quick click opens the menu, a held one only
+        // inspects the spell.
+        uint32_t rightPressSpellId = 0;
+        uint64_t rightPressTicks = 0;
+        bool rightHeld = false;
     };
 
     struct SpellbookState
     {
         bool active = false;
         SpellbookSchool school = SpellbookSchool::Fire;
-        bool hasRememberedSchool = false;
         uint32_t selectedSpellId = 0;
+        BattleOrdersWindowState battleOrders;
+        SpellbookSpellMenuState spellMenu;
     };
 
     struct RestScreenState
@@ -346,6 +455,12 @@ public:
         size_t questPage = 0;
         size_t storyPage = 0;
         size_t notesPage = 0;
+        // 0 opens on the current continent (Shared for recipes); 4 is Shared.
+        uint32_t questContinent = 0;
+        uint32_t notesContinent = 0;
+        // Case-insensitive filter over the notes of the selected category; typing goes to it while active.
+        std::string notesSearch;
+        bool notesSearchActive = false;
         float mapCenterX = 0.0f;
         float mapCenterY = 0.0f;
         int mapZoomStep = 0;
@@ -355,13 +470,13 @@ public:
         float mapDragStartCenterX = 0.0f;
         float mapDragStartCenterY = 0.0f;
         uint32_t selectedMapNoteId = 0;
-        uint32_t hoveredMapNoteId = 0;
-        bool mapNotePlacementActive = false;
-        bool mapNoteEditActive = false;
+        // Typing a personal map note (a right click on the map): the note, its text so far, and whether the right
+        // click created it (cancelling removes it then).
+        bool mapNoteEditing = false;
         uint32_t mapNoteEditId = 0;
-        int32_t mapNoteEditX = 0;
-        int32_t mapNoteEditY = 0;
-        std::string mapNoteEditBuffer;
+        std::string mapNoteEditText;
+        bool mapNoteEditNew = false;
+        uint32_t hoveredMapNoteId = 0;
         float mapCursorWorldX = 0.0f;
         float mapCursorWorldY = 0.0f;
         bool mapCursorWorldValid = false;
@@ -373,11 +488,47 @@ public:
         int cachedMapZoomStep = 0;
         float cachedMapCenterX = 0.0f;
         float cachedMapCenterY = 0.0f;
+        // The Progress tab: the summary built as the tab opened (rebuilt on the next opening), the continent and the
+        // map filter shown, whether the list holds every continent's maps instead (kept between openings), the map
+        // selected and the one under the pointer (file names), and the map list's scroll.
+        std::shared_ptr<const RulesetProgressSummary> progress;
+        size_t progressContinent = 0;
+        bool progressAllContinents = false;
+        uint8_t progressFilter = 0;
+        std::string progressSelectedMap;
+        std::string progressHoveredMap;
+        size_t progressScroll = 0;
+        // The map list's scroll bar thumb is held by the mouse.
+        bool progressScrollDragging = false;
+        // The aura panel: the chosen aura (spell id), the list's scroll and whether its Move-to menu is open.
+        uint32_t auraSelected = 0;
+        size_t auraScroll = 0;
+        bool auraMoveMenuOpen = false;
+        // The Trainers notes' finder (GameplayJournalTrainers.h): the continent shown (0 until the category opens on
+        // the party's), the mastery filter (a SkillMastery, 0 for all), the list's page, and the trainer whose map is
+        // shown with that map's zoom step and centre (world units).
+        uint32_t trainerContinent = 0;
+        uint8_t trainerMastery = 0;
+        size_t trainerPage = 0;
+        std::shared_ptr<const TrainerEntry> trainerShown;
+        int trainerMapZoomStep = 0;
+        float trainerMapCenterX = 0.0f;
+        float trainerMapCenterY = 0.0f;
+    };
+
+    enum class QuickReferencePage : uint8_t
+    {
+        Party,
+        // The playthrough statistics (game/ui/GameplayStatisticsScreen.h).
+        Statistics,
     };
 
     struct QuickReferenceScreenState
     {
         bool active = false;
+        QuickReferencePage page = QuickReferencePage::Party;
+        // The Statistics page shows the Party tab instead of the Overview.
+        bool statisticsPartyTab = false;
     };
 
     enum class AlchemyIngredientFilter : uint8_t
@@ -387,12 +538,73 @@ public:
         Reagents
     };
 
+    enum class CraftingTargetFilter : uint8_t
+    {
+        All = 0,
+        Worn,
+        Packs
+    };
+
+    enum class CraftingMaterialFilter : uint8_t
+    {
+        All = 0,
+        Gems,
+        Special,
+        Potions
+    };
+
+    // The Workbench's Crafting tab (devdocs/maw/CRAFTING_BENCH_DESIGN.md §4.1): an item, a material and their result.
+    struct CraftingBenchState
+    {
+        std::optional<CraftItemRef> target;
+        std::optional<CraftMaterialKey> material;
+        CraftingTargetFilter targetFilter = CraftingTargetFilter::All;
+        CraftingMaterialFilter materialFilter = CraftingMaterialFilter::All;
+        std::string search;
+        bool searchActive = false;
+        float listScrollOffset = 0;
+        size_t materialScrollRow = 0;
+        // A gem batch draws on the lowest tier that still raises the item.
+        bool cheapestGems = true;
+        // The option picked when the step offers several (the Pearl: which enchantment goes); back to the first
+        // whenever the item or the material changes.
+        size_t choice = 0;
+        // Apply was pressed on a step that destroys something; the next press confirms it.
+        bool confirmPending = false;
+        // Merge was pressed; the next press merges the chosen gem's tier.
+        bool mergePending = false;
+        // What the last craft did, shown with a short glow until the slots change.
+        std::string craftedText;
+        uint64_t craftedTicks = 0;
+
+        void clearResult()
+        {
+            confirmPending = false;
+            mergePending = false;
+            craftedText.clear();
+        }
+    };
+
     struct AlchemyBenchState
     {
         bool active = false;
+        // The Workbench shows its Crafting tab (rules with crafting only).
+        bool craftingTab = false;
+        CraftingBenchState crafting;
         // The held item is poured into the target item, as when dropping one item onto another in a pack.
         uint32_t targetItemId = 0;
         uint32_t heldItemId = 0;
+        // The power of the copy each slot mixes, where the player chose one from the slot's power list; the bench
+        // picks the copy otherwise. Cleared with the slot.
+        std::optional<uint16_t> targetPower;
+        std::optional<uint16_t> heldPower;
+        // The power the selected recipe's brew chain aims at, chosen from the result slot's power list; the chain
+        // brews from the strongest ingredients otherwise.
+        std::optional<uint16_t> chainPower;
+        // The open power list: 0 none, 1 the target slot's, 2 the held slot's, 3 the result slot's (a chain); and
+        // its first shown row.
+        uint8_t powerListSlot = 0;
+        size_t powerListScroll = 0;
         uint32_t selectedResultItemId = 0;
         bool showAllRecipes = false;
         std::string recipeSearch;
@@ -414,6 +626,11 @@ public:
         // Potions per recipe brewable by chaining, recomputed only when ingredients or known recipes change.
         uint64_t chainCountsKey = 0;
         std::vector<std::pair<uint32_t, uint32_t>> chainCounts;
+        // The powers the selected recipe's chain can aim at and, at the chosen one, the potions Brew All makes;
+        // planned again only when the ingredients, the known recipes, the selection or the choice change.
+        uint64_t chainPowersKey = 0;
+        std::vector<AlchemyChainPowerOption> chainPowers;
+        uint32_t chainPowerBrewCount = 0;
 
         void clearBrewResult()
         {
@@ -423,6 +640,15 @@ public:
             brewedDiscovery = false;
             brewedExploded = false;
         }
+
+        void clearPowerChoices()
+        {
+            targetPower.reset();
+            heldPower.reset();
+            chainPower.reset();
+            powerListSlot = 0;
+            powerListScroll = 0;
+        }
     };
 
     struct CharacterScreenState
@@ -430,6 +656,14 @@ public:
         bool open = false;
         bool dollJewelryOverlayOpen = false;
         bool adventurersInnRosterOverlayOpen = false;
+        // Several bags (MAW): the open bag fills the grid at full size instead of the four-bag overview (the 1-4
+        // buttons and keys zoom, the overview button returns). Not saved.
+        bool inventoryBagZoomed = false;
+        InventoryPouchViewState inventoryPouch;
+        // The inventory's item search (ItemSearch): what is typed, kept over every bag and member until Escape or the
+        // screen closes, and whether typing goes to it.
+        std::string inventorySearch;
+        bool inventorySearchActive = false;
         CharacterPage page = CharacterPage::Inventory;
         CharacterScreenSource source = CharacterScreenSource::Party;
         size_t sourceIndex = 0;
@@ -438,19 +672,39 @@ public:
         float awardVisibleFraction = 1;
         float skillScrollOffset = 0;
         std::optional<float> scrollDragOffset;
+        // A MAW solo run's Skills page shows the talents instead (the Skills / Talents switch), and the talent under the
+        // pointer (an index in the talent table) for the detail card. Not saved.
+        bool talentsView = false;
+        std::optional<size_t> talentHover;
         size_t adventurersInnScrollOffset = 0;
         AlchemyBenchState alchemyBench = {};
     };
 
     static bool characterScreenSupportsInspection(const CharacterScreenState &screen);
-    // Typing goes to the alchemy bench's recipe search instead of hotkeys.
-    static bool alchemyBenchSearchActive(const CharacterScreenState &screen);
+    // Typing goes to the alchemy bench's recipe search or the inventory's item search instead of hotkeys.
+    static bool characterScreenSearchActive(const CharacterScreenState &screen);
+    // Typing goes to the journal: its notes search, or a personal map note being written.
+    static bool journalSearchActive(const JournalScreenState &screen);
+    // The Battle Orders window's palette search has focus, or the window waits for the Upkeep key: keys are the
+    // window's, not hotkeys.
+    static bool spellbookSearchActive(const SpellbookState &spellbook);
 
     struct InventoryNestedOverlayState
     {
         bool active = false;
         InventoryNestedOverlayMode mode = InventoryNestedOverlayMode::None;
         uint32_t houseId = 0;
+        // A shop's party inventory shows one bag at full size rather than the bag overview (several bags, desktop).
+        bool bagZoomed = false;
+        // The party's pouch a shop's or chest's party inventory shows, and the house it was chosen in (0: a chest):
+        // both outlive the overlay, so a shop's next service shows the same tab.
+        InventoryPouchViewState pouch;
+        uint32_t pouchHouseId = 0;
+        // Sell trash (ShopSell, HouseServiceRuntime::findSellTrash): while picking, the picked items of the whole
+        // party are highlighted, a click on an item adds or removes it instead of selling it, and the button sells
+        // the pick.
+        bool sellTrashPicking = false;
+        std::vector<BagItemRef> sellTrashItems;
     };
 
     struct HouseShopOverlayState
@@ -458,6 +712,33 @@ public:
         bool active = false;
         uint32_t houseId = 0;
         HouseShopMode mode = HouseShopMode::None;
+        // Which of a guild's spellbook shelves is open (HouseServiceRuntime::spellbookShelfSchools).
+        uint32_t spellbookShelf = 0;
+        // A Ledger shop's list (HouseShopLedger): its top row, merchant tab and the order its column headings chose.
+        size_t ledgerFirstRow = 0;
+        HouseShopLedgerCategory ledgerFilter = HouseShopLedgerCategory::All;
+        HouseShopLedgerSort ledgerSort = {};
+    };
+
+    // A stable's or boat's Schedule popup over the house dialogue, or over an MM9 dock's talk (mm9DockId, its RUDE
+    // id); the selected departure is a weekday (0 Monday) and one of its routes.
+    struct TransportScheduleState
+    {
+        bool active = false;
+        uint32_t houseId = 0;
+        uint32_t mm9DockId = 0;
+        std::optional<int> selectedDay;
+        uint32_t selectedRouteIndex = 0;
+        // The press a release completes, and whether each input was held last frame (all held when the popup opens,
+        // so the click or key that opened it does nothing more).
+        int pressedTarget = -1;
+        bool pointerHeld = true;
+        bool upHeld = true;
+        bool downHeld = true;
+        bool leftHeld = true;
+        bool rightHeld = true;
+        bool acceptHeld = true;
+        bool escapeHeld = true;
     };
 
     struct HouseShopVisitState
@@ -491,8 +772,9 @@ public:
         bool applyRecovery = true;
         bool bypassRequiredMastery = false;
         bool bypassGameplayCasterValidation = false;
-        bool bypassTownPortalFailureChecks = false;
         bool lloydRecallMode = false;
+        // The Town Portal map shown (a `town_portal_switch.txt` group); empty: the current map's continent.
+        std::string townPortalContinent;
         bool lloydSetPreviewCapturePending = false;
         bool lloydSetPreviewScreenshotRequested = false;
         uint32_t lloydSetPreviewStartedTicks = 0;
@@ -507,6 +789,13 @@ public:
     struct StatusBarState
     {
         std::string hoverText;
+        // Whether the world's hover set hoverText; the world clears only its own text while overlays block it.
+        bool hoverTextFromWorld = false;
+        // The hovered ground item's name, drawn above the pointer in its rarity colour (MAW); empty otherwise.
+        std::string worldItemLabel;
+        uint32_t worldItemLabelColorAbgr = 0;
+        float worldItemLabelX = 0.0f;
+        float worldItemLabelY = 0.0f;
         std::string eventText;
         float eventRemainingSeconds = 0.0f;
         StatusBarEventPriority eventPriority = StatusBarEventPriority::Normal;
@@ -530,6 +819,7 @@ public:
         ActorInspectOverlayState actorInspectOverlay = {};
         SpellInspectOverlayState spellInspectOverlay = {};
         ReadableScrollOverlayState readableScrollOverlay = {};
+        LootSummaryOverlayState lootSummaryOverlay = {};
         SpellbookState spellbook = {};
         RestScreenState restScreen = {};
         MenuScreenState menuScreen = {};
@@ -543,6 +833,7 @@ public:
         InventoryNestedOverlayState inventoryNestedOverlay = {};
         HouseShopOverlayState houseShopOverlay = {};
         HouseShopVisitState houseShopVisit = {};
+        TransportScheduleState transportSchedule = {};
         HouseBankState houseBankState = {};
         UtilitySpellOverlayState utilitySpellOverlay = {};
         StatusBarState statusBar = {};
@@ -586,6 +877,9 @@ public:
 
     ReadableScrollOverlayState &readableScrollOverlay();
     const ReadableScrollOverlayState &readableScrollOverlay() const;
+
+    LootSummaryOverlayState &lootSummaryOverlay();
+    const LootSummaryOverlayState &lootSummaryOverlay() const;
 
     SpellbookState &spellbook();
     const SpellbookState &spellbook() const;
@@ -644,8 +938,13 @@ public:
     void closeReadableScrollOverlay();
     void openInventoryNestedOverlay(InventoryNestedOverlayMode mode, uint32_t houseId = 0);
     void closeInventoryNestedOverlay();
-    void openHouseShopOverlay(uint32_t houseId, HouseShopMode mode);
+    void openHouseShopOverlay(uint32_t houseId, HouseShopMode mode, uint32_t spellbookShelf = 0);
     void closeHouseShopOverlay();
+    TransportScheduleState &transportSchedule();
+    const TransportScheduleState &transportSchedule() const;
+    void openTransportSchedule(uint32_t houseId);
+    void openMm9TransportSchedule(uint32_t dockId);
+    void closeTransportSchedule();
     void beginHouseShopVisit(uint32_t houseId);
     void markHouseShopTransactionPerformed(uint32_t houseId);
     bool houseShopTransactionPerformed(uint32_t houseId) const;
@@ -663,8 +962,10 @@ public:
         float durationSeconds = 2.0f,
         StatusBarEventPriority priority = StatusBarEventPriority::Normal);
     bool statusBarEventActive() const;
-    void setStatusBarHoverText(const std::string &text);
+    void setStatusBarHoverText(const std::string &text, bool fromWorld = false);
     void clearStatusBarHoverText();
+    // Clears the hover text when the world's hover set it, and the hovered ground item's label.
+    void clearWorldStatusBarHoverText();
     void updateStatusBarEvent(float deltaSeconds);
     void clearEventDialog();
     void setEventDialogContent(const EventDialogContent &content);
@@ -675,6 +976,5 @@ private:
 
     State m_state;
     State *m_pExternalState = nullptr;
-    const LocalizationCatalog *m_pLocalizationCatalog = nullptr;
 };
 }

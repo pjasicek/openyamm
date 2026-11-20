@@ -1,0 +1,3 @@
+Saved [00_three_quarter.png](level_generation/creatures/mm9_troglodyte_claude/references_hd/00_three_quarter.png), unresized at 1024×1536 with verified transparent alpha. Used built-in image generation; both raw returns, prompts and input hashes are recorded in `generation_runs.json`.
+
+Stopped after the allowed correction. Residual faults: three visible digits per hand and overly glossy highlights. No later runs or builds performed.

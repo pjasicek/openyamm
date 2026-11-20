@@ -1,0 +1,27 @@
+{
+  "prompt": "Edit the input paint_mask_guide.png precisely, using design_reference.png for material/detail and icon_x8.png for colour only. Output ONE transparent PNG, 1536x2048 (3:4). Preserve the guide's exact layout: three columns by FOUR rows of 512x512 cells. Rows 1-2 and rows 3-4 contain identical five grey orthographic model renders: FRONT, BACK, LEFT / RIGHT, TOP, empty. Paint grey objects ONLY; never redraw, enlarge, move or redesign them. Each object must retain exactly its guide position, size, outline, gaps and openings. Empty column 3 of rows 2 and 4 stays transparent.\nObject: Soldier's Belt, plain warm-brown leather belt with small steel rivets along it, square steel buckle at front, small steel strap keeper beside it.\nRows 1-2 PAINT: unlit base colour. Warm brown leather following original icon and approved HD reference; restrained leather grain and stitching matching reference scaled to views; steel fittings neutral steel base colour. Facets, engravings, scrollwork and inner swirls follow design reference where present, scaled to each view. No lighting, cast shadows, ambient occlusion, hot highlights, reflections, glow, halo, sparkles, aura, ground, outlines or text.\nRows 3-4 MATERIAL MASK: identical five silhouettes, FLAT pure colours ONLY, no shading, texture, outlines or antialiased colour blends inside: pure red #FF0000 every metal part; pure green #00FF00 every leather or fur part; pure blue #0000FF every cloth or hair part; pure black #000000 every gemstone, crystal, glass, pearl, enamel or liquid through glass. This belt uses green leather and red steel fittings. Every silhouette pixel has exactly one material colour and nothing outside silhouettes. Preserve every gap/opening fully transparent. Do not copy the black display background or magenta icon background. The guide controls geometry absolutely.\nCRITICAL silhouette correction: strictly clip ALL paint and mask colour to the original grey guide silhouettes. No stray speckles, mist, mottling, green noise or colour anywhere in transparent regions, especially inside the large oval openings. Mask silhouettes must be clean solid green leather with clean solid red fittings. The large oval centers are completely empty transparent holes. Maintain the guide's thin oval band thickness exactly. Hard clean silhouette edges.",
+  "original_output_path": "/home/pjasicek/.codex/generated_images/01a1acea-9959-7693-ae40-f7273e32692f/exec-7dc5f3b1-6242-47ef-a384-7f1ab10aee35.png",
+  "output": "/home/pjasicek/github/OpenYAMM/level_generation/props/items_mm9_claude/codex_tex/d10152/paint_mask_raw_v1.png",
+  "tool": "built-in image_gen",
+  "corrective_regenerations": 1,
+  "validation": "Visual inspection: layout retained, but stray green mask pixels remain outside silhouettes. Raw output preserved as requested; not production-ready.",
+  "inputs": [
+    {
+      "path": "level_generation/props/items_mm9_claude/codex_tex/d10152/paint_mask_guide.png",
+      "sha256": "c3228ed1c2e31ac3ffb620f172ea11f6ce5427ddfb97a8e05d515b2a35e6d5fe"
+    },
+    {
+      "path": "level_generation/props/items_mm9_claude/codex_tex/d10152/design_reference.png",
+      "sha256": "c1b4e73a79574a469708b63e4794900022c2bc32e929d3499a1043b1c8ebcf19"
+    },
+    {
+      "path": "level_generation/props/items_mm9_claude/codex_tex/d10152/icon_x8.png",
+      "sha256": "34fc1b88408716d99955845f7d495867d78eca592fd52014699bb579299ed7f0"
+    }
+  ],
+  "size": [
+    1086,
+    1448
+  ],
+  "mode": "RGBA"
+}

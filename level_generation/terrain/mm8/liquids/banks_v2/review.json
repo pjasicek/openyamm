@@ -1,0 +1,25 @@
+{
+  "status": "offline_and_three_family_flat_review_pass",
+  "build_sha256": "9d01b169b754010cc597741cb2dcc6108c43a0eeb8de26f485deedc2c2dfb06c",
+  "validation_sha256": "b7bb32343d47b81c96ad72935d2e123e6dcc02a874ee62971f1f6873e9a42046",
+  "checks": 8134,
+  "failures": 0,
+  "opaque_bank_max_phase_change": 0,
+  "topology_changes": [],
+  "visually_reviewed": {
+    "shore_dirt_island.png": "00a3a81eada6e255906e8572d079722bae918ff343a00b335044c85183d16502",
+    "shore_dirt_hole.png": "aa84fab333344aa7d86fdc5208fc16393f9673708c6c35cf2ab1c442064a4bb8",
+    "lava_dirt_island.png": "5f1bb7334ebe3c8732229666099aa8ff5553083566e67b546c8cca1ff7bb7339",
+    "lava_dirt_hole.png": "0178964e9c8006a375188a15f7fe785d2b118a8a30308364311c605522ec0edc",
+    "tar_grey_island.png": "67aff278f98b3ce4ee499420ddda14f89afcff8cb41ffa5a5d293e9545ebc4cb",
+    "tar_grey_hole.png": "b9b8c3e0ab40df15eadc413ef1c4e08469cc9e4df8d1656019e30196fe6dcf48"
+  },
+  "observations": [
+    "Compared previous and cleaned versions in all six connected 5x5 island/pool layouts at half-size overview. Dirt and lava outlines retain native irregular shapes and dark contact shading, without new rectangular seams.",
+    "Tar purple specks removed; grey-earth phase and dark bank treatment retained.",
+    "Offline acceptance only; native captures, controlled fixtures and movement remain pending."
+  ],
+  "trn_visible_purple_pixels": 0,
+  "native_flat_review_sha256": "0da1af19b234e20d1481070edbf4a42d9ce762862990bd61e3a409cdb42dbf35",
+  "native_flat_scope": "shore_dirt, lava_dirt, tar_grey island/pool layouts; all12 x1/x2 temporal screens pass; other bank families and movement remain"
+}

@@ -360,30 +360,8 @@ TEST_CASE("dynamic bounty monsters load their sprite frame families")
     CHECK(reloadedMapSpriteFrameTable.findFrameIndexBySpriteName("m176s").has_value());
     CHECK(reloadedMapSpriteFrameTable.findFrameIndexBySpriteName("m208w").has_value());
 
-    OpenYAMM::Engine::DirectoryAssetPathCache directoryAssetPathsByPath;
-    OpenYAMM::Engine::AssetPathLookupCache assetPathByKey;
-
-    for (const std::string &spriteName : {std::string("m176s"), std::string("m208w")})
-    {
-        const std::optional<uint16_t> frameIndex =
-            reloadedMapSpriteFrameTable.findFrameIndexBySpriteName(spriteName);
-        REQUIRE(frameIndex.has_value());
-        const OpenYAMM::Game::SpriteFrameEntry *pFrame =
-            reloadedMapSpriteFrameTable.getFrame(*frameIndex, 0);
-        REQUIRE(pFrame != nullptr);
-        const OpenYAMM::Game::ResolvedSpriteTexture resolvedTexture =
-            OpenYAMM::Game::SpriteFrameTable::resolveTexture(*pFrame, 0);
-        const std::optional<std::string> spritePath = OpenYAMM::Engine::findImageAssetPath(
-            assetFileSystem,
-            "Data/sprites",
-            resolvedTexture.textureName,
-            directoryAssetPathsByPath,
-            assetPathByKey);
-        REQUIRE(spritePath.has_value());
-        const std::optional<std::vector<uint8_t>> spriteBytes = assetFileSystem.readBinaryFile(*spritePath);
-        REQUIRE(spriteBytes.has_value());
-        CHECK_FALSE(spriteBytes->empty());
-    }
+    // Their frames are metadata only (tier scales, attack timing): the monster billboard images left the runtime on
+    // 2026-10-21 (assets_legacy/sprites_mm7_monsters_20261021) and every monster draws its model.
 }
 
 TEST_CASE("creature inspect metadata uses original families after merged ID mapping")

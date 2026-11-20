@@ -1,0 +1,624 @@
+{
+ "id": "20261009-1628-mm6-6t3-12",
+ "world": "mm6",
+ "maps": [
+  "6t3.blv",
+  "6d07.blv",
+  "6t7.blv"
+ ],
+ "created": "2026-10-09T14:28:26+00:00",
+ "textures": [
+  "mm6/t3f3",
+  "mm6/t3oor1",
+  "mm6/t3rsml",
+  "mm6/mbdrst",
+  "mm6/mbdbwl",
+  "mm6/ch3frnt",
+  "mm6/ch3top",
+  "mm6/d1spcl1",
+  "mm6/mbbwl",
+  "mm6/solid10",
+  "mm6/top16",
+  "mm6/t3wsmtb",
+  "mm6/t3wsmtbl",
+  "mm6/t3wsbtbr",
+  "mm6/t3wsmtbr",
+  "mm6/t3wsbtbl",
+  "mm6/t3wcl",
+  "mm6/dkwbwl",
+  "mm6/dkwsmbwl",
+  "mm6/bemstarb",
+  "mm6/bookcas1",
+  "mm6/bookcas2",
+  "mm6/d1sbeb",
+  "mm6/scroll"
+ ],
+ "requests": {
+  "mm6/t3f3": {
+   "name": "t3f3",
+   "versions": [
+    1
+   ],
+   "material": "floor tile of dusty pink and dark green marble triangles divided by a grey stone X cross with a central brown square, overgrown with green ivy; copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/t3oor1": {
+   "name": "t3oor1",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "rust-brown smooth worn clay earth floor with faint cracks and darker mottling",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "pad": {
+    "2": [
+     32,
+     16
+    ]
+   },
+   "context": {
+    "2": {
+     "right": "mm6/d8florc"
+    }
+   }
+  },
+  "mm6/t3rsml": {
+   "name": "t3rsml",
+   "versions": [
+    1
+   ],
+   "material": "weathered red-brown vertical wooden plank door with a small barred bronze grate window near the top and a brass latch plate on the right; copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/mbdrst": {
+   "name": "mbdrst",
+   "versions": [
+    1
+   ],
+   "material": "red clay brick wall of small even bricks in running bond with pale grey mortar",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/mbdbwl": {
+   "name": "mbdbwl",
+   "versions": [],
+   "material": "red clay brick wall of small even bricks in running bond with pale grey mortar",
+   "notes": {}
+  },
+  "mm6/ch3frnt": {
+   "name": "ch3frnt",
+   "versions": [
+    1
+   ],
+   "material": "one complete front face of a gold treasure chest: ornate gilded frame with small red and blue jewels at the corners, dark brown wooden centre panel and a gold hasp at the top centre; copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/ch3top": {
+   "name": "ch3top",
+   "versions": [
+    1
+   ],
+   "material": "gilded gold chest lid with dense embossed scrolling foliage pattern inside a gold border, copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/d1spcl1": {
+   "name": "d1spcl1",
+   "versions": [
+    1
+   ],
+   "material": "tan rough stone block wall with a recessed carved stone relief panel of armoured knights in conical helmets riding horses with shields, copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/mbbwl": {
+   "name": "mbbwl",
+   "versions": [
+    1
+   ],
+   "material": "red clay brick wall of small even bricks in running bond with pale grey mortar",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/solid10": {
+   "name": "solid10",
+   "versions": [
+    1
+   ],
+   "material": "plain flat black surface",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/top16": {
+   "name": "top16",
+   "versions": [
+    1
+   ],
+   "material": "plain pale tan wooden strip with fine vertical grain",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/t3wsmtb": {
+   "name": "t3wsmtb",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "grey-brown rough stone block wall with green moss dripping from the mortar joints, with carved ivory bone rib borders along the top and bottom edges",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/t3wsp",
+      "mm6/t3wbstb",
+      "mm6/t3wsptbd",
+      "mm6/t3wsmtd",
+      "mm6/t3wsptr"
+     ],
+     "fraction": 0.242
+    },
+    "2": {
+     "sources": [
+      "mm6/t3wsp",
+      "mm6/t3wsptbd",
+      "mm6/t3wsmtd"
+     ],
+     "fraction": 0.233
+    }
+   },
+   "pad": {
+    "2": [
+     32,
+     16
+    ]
+   },
+   "context": {
+    "2": {
+     "left": "mm6/t3wsmtbl"
+    }
+   }
+  },
+  "mm6/t3wsmtbl": {
+   "name": "t3wsmtbl",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "grey-brown rough stone block wall with green moss dripping from the mortar joints, framed by carved ivory bone rib borders along the top and bottom and a skeleton spine with skull on a dark wooden post along the left edge; copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/t3wsptl",
+      "mm6/t3wsbtl"
+     ],
+     "fraction": 0.443
+    },
+    "2": {
+     "sources": [
+      "mm6/t3wsptl",
+      "mm6/t3wsbtl"
+     ],
+     "fraction": 0.442
+    }
+   },
+   "pad": {
+    "2": [
+     32,
+     16
+    ]
+   },
+   "context": {
+    "2": {
+     "right": "mm6/t3wsmtb"
+    }
+   }
+  },
+  "mm6/t3wsbtbr": {
+   "name": "t3wsbtbr",
+   "versions": [
+    1,
+    2,
+    3
+   ],
+   "material": "grey-brown rough stone block wall with bright red blood dripping from the mortar joints, framed by carved ivory bone rib borders along the top and bottom and a skeleton spine with skull on a dark wooden post along the right edge; copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/t3wsbtr",
+      "mm6/t3wsptr",
+      "mm6/t3wsbtb",
+      "mm6/t3wsp"
+     ],
+     "fraction": 0.311
+    },
+    "2": {
+     "sources": [
+      "mm6/t3wsbtr",
+      "mm6/t3wsptr",
+      "mm6/t3wsbtb",
+      "mm6/t3wsp"
+     ],
+     "fraction": 0.31
+    },
+    "3": {
+     "sources": [
+      "mm6/t3wsbtr",
+      "mm6/t3wsptr",
+      "mm6/t3wsbtb",
+      "mm6/t3wsp"
+     ],
+     "fraction": 0.31
+    }
+   },
+   "context": {
+    "1": {},
+    "2": {
+     "left": "mm6/t3wsbtb"
+    },
+    "3": {
+     "left": "mm6/t3wsbtb"
+    }
+   },
+   "pad": {
+    "2": [
+     32,
+     16
+    ],
+    "3": [
+     32,
+     16
+    ]
+   }
+  },
+  "mm6/t3wsmtbr": {
+   "name": "t3wsmtbr",
+   "versions": [
+    1,
+    2,
+    3
+   ],
+   "material": "grey-brown rough stone block wall with green moss dripping from the mortar joints, framed by carved ivory bone rib borders along the top and bottom and a skeleton spine with skull on a dark wooden post along the right edge; copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/t3wsbtbr",
+      "mm6/t3wsptr",
+      "mm6/t3wsmtb"
+     ],
+     "fraction": 0.439
+    },
+    "2": {
+     "sources": [
+      "mm6/t3wsbtbr",
+      "mm6/t3wsptr",
+      "mm6/t3wsmtb"
+     ],
+     "fraction": 0.439
+    },
+    "3": {
+     "sources": [
+      "mm6/t3wsbtbr",
+      "mm6/t3wsptr",
+      "mm6/t3wsmtb"
+     ],
+     "fraction": 0.439
+    }
+   },
+   "context": {
+    "1": {},
+    "2": {
+     "left": "mm6/t3wsmtb",
+     "right": "mm6/d2lgdor"
+    },
+    "3": {
+     "left": "mm6/t3wsmtb",
+     "right": "mm6/d2lgdor"
+    }
+   },
+   "pad": {
+    "2": [
+     32,
+     16
+    ],
+    "3": [
+     32,
+     16
+    ]
+   }
+  },
+  "mm6/t3wsbtbl": {
+   "name": "t3wsbtbl",
+   "versions": [
+    1,
+    2,
+    3,
+    4,
+    5
+   ],
+   "material": "grey-brown rough stone block wall with bright red blood dripping from the mortar joints, framed by carved ivory bone rib borders along the top and bottom and a skeleton spine with skull on a dark wooden post along the left edge; copy the composition exactly",
+   "notes": {
+    "2": "No dark outline, shadow or hairline along any outer edge; the material continues straight to the canvas border.",
+    "3": "The right edge must not be a dark line or shadow: stone blocks and red-stained mortar run straight to the right canvas border at the same brightness as the wall interior. Keep the bone borders and left skeleton post exactly as in the reference.",
+    "4": "The right edge must not be a dark line or shadow: stone blocks and red-stained mortar run straight to the right canvas border at the same brightness as the wall interior. Keep the bone borders and left skeleton post exactly as in the reference.",
+    "5": "The right edge must not be a dark line or shadow: stone blocks and red-stained mortar run straight to the right canvas border at the same brightness as the wall interior. Keep the bone borders and left skeleton post exactly as in the reference."
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/t3wsmtbl",
+      "mm6/t3wsptl",
+      "mm6/t3wsbtl"
+     ],
+     "fraction": 0.474
+    },
+    "2": {
+     "sources": [
+      "mm6/t3wsmtbl",
+      "mm6/t3wsptl",
+      "mm6/t3wsbtl"
+     ],
+     "fraction": 0.474
+    },
+    "3": {
+     "sources": [
+      "mm6/t3wsmtbl",
+      "mm6/t3wsptl",
+      "mm6/t3wsbtl"
+     ],
+     "fraction": 0.474
+    },
+    "4": {
+     "sources": [
+      "mm6/t3wsmtbl",
+      "mm6/t3wsptl",
+      "mm6/t3wsbtl",
+      "mm6/t3wsbtb"
+     ],
+     "fraction": 0.478
+    },
+    "5": {
+     "sources": [
+      "mm6/t3wsmtbl",
+      "mm6/t3wsptl",
+      "mm6/t3wsbtl",
+      "mm6/t3wsbtb"
+     ],
+     "fraction": 0.478
+    }
+   },
+   "pad": {
+    "4": [
+     32,
+     16
+    ],
+    "5": [
+     32,
+     16
+    ]
+   },
+   "context": {
+    "4": {
+     "right": "mm6/t3wsbtb"
+    },
+    "5": {
+     "right": "mm6/t3wsbtb"
+    }
+   }
+  },
+  "mm6/t3wcl": {
+   "name": "t3wcl",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "crimson velvet curtain gathered and tied in the middle, hanging in front of a grey-brown stone block wall; copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/t3wsp",
+      "mm6/t3wpg"
+     ],
+     "fraction": 0.174
+    },
+    "2": {
+     "sources": [
+      "mm6/t3wsp",
+      "mm6/t3wpg"
+     ],
+     "fraction": 0.174
+    }
+   },
+   "pad": {
+    "2": [
+     32,
+     16
+    ]
+   },
+   "context": {
+    "2": {
+     "right": "mm6/t3wpg",
+     "left": "mm6/t3wpg"
+    }
+   }
+  },
+  "mm6/dkwbwl": {
+   "name": "dkwbwl",
+   "versions": [
+    1
+   ],
+   "material": "dark brown weathered vertical wooden planks with deep grain, dark seams and patches of green moss",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/dkwsmbwl": {
+   "name": "dkwsmbwl",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "dark brown weathered vertical wooden planks with deep grain, dark seams and patches of green moss",
+   "notes": {
+    "2": "Plain vertical weathered planks with clean dark gaps at the reference positions; no small dark brackets, notches or marks along the gaps; seamless left-right."
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/dkwbwl"
+     ],
+     "fraction": 0.621
+    },
+    "2": {
+     "sources": [
+      "mm6/dkwbwl"
+     ],
+     "fraction": 0.621
+    }
+   }
+  },
+  "mm6/bemstarb": {
+   "name": "bemstarb",
+   "versions": [
+    1
+   ],
+   "material": "orange-brown wooden beam with a smooth horizontal top rail above vertical grained plank segments",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/bookcas1": {
+   "name": "bookcas1",
+   "versions": [
+    1
+   ],
+   "material": "dark wooden bookcase shelves filled with rows of old dark leather-bound books with faded spines, copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/bookcas2": {
+   "name": "bookcas2",
+   "versions": [
+    1
+   ],
+   "material": "dark wooden bookcase shelves filled with rows of old dark leather-bound books with faded spines, some leaning, copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/d1sbeb": {
+   "name": "d1sbeb",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "dark brown worn wooden beam end with a pale grey stone band along the top",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "2": {}
+   }
+  },
+  "mm6/scroll": {
+   "name": "scroll",
+   "versions": [
+    1
+   ],
+   "material": "aged yellow parchment with several lines of dark brown hand-lettered pseudo-Greek script, copy every letter shape exactly as in the reference",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  }
+ }
+}

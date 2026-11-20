@@ -1,0 +1,511 @@
+format: 0
+themes:
+  - id: theme:crypt
+    wall: {texture: t5bs, size: [128, 256]}
+    floor: {texture: t2bs, size: [128, 256]}
+    ceiling: {texture: t4bs, size: [128, 256]}
+    door: {texture: t5d1, size: [128, 256]}
+    notes: "The undercroft's caves and crypts: MM7's Barrow I (mdt03) as it lays them: sandy rock t5bs on walls, grey rock t2bs underfoot, green-black rock t4bs overhead."
+  - id: theme:crypt_dressed
+    wall: {texture: hwp1b, size: [128, 256]}
+    floor: {texture: t2bs, size: [128, 256]}
+    ceiling: {texture: t4bs, size: [128, 256]}
+    door: {texture: t5d1, size: [128, 256]}
+    notes: "Dressed crypts (the ossuary, the lich crypt): Barrow I's plastered wall hwp1b with its moulding, over the barrow's rock floor."
+  - id: theme:master_stair
+    wall: {texture: t4s1fl, size: [128, 128]}
+    floor: {texture: t6s1fl, size: [128, 128]}
+    ceiling: {texture: t6s1c, size: [128, 128]}
+    reveal: {texture: t6s1bs, size: [128, 256]}
+    door: {texture: t5d1, size: [128, 256]}
+    notes: "The Yak Master's own stair: d04's green-black slabs t4s1fl (its lower towers' walls) under its coffered ceiling, so that the Master's way reads apart from the clerics' brick."
+  - id: theme:pool
+    wall: {texture: t5bs, size: [128, 256]}
+    floor: {texture: 7slimywtr, liquid: water}
+    ceiling: {texture: t4bs, size: [128, 256]}
+    notes: "The Yak Pool's basin: Barrow I's rock round MM7's slime water (7slimywtr, drawn by the liquid shader, the fluid bit)."
+  - id: theme:sanctum
+    wall: {texture: t4s1fl, size: [128, 128]}
+    bands:
+      - {height: 640, surface: {texture: t4s1fl, size: [128, 128]}}
+      - {height: 896, surface: {texture: t6s1b, size: [128, 256]}}
+    floor: {texture: t6s1fl, size: [128, 128]}
+    ceiling: {texture: t6s1c, size: [128, 128]}
+    reveal: {texture: t6s1bs, size: [128, 256]}
+    door: {texture: t5d1, size: [128, 256]}
+    notes: "The Yak Master's sanctum below: d04's green-black slabs t4s1fl (its lower towers' walls) under the skull frieze."
+  - id: theme:temple
+    wall: {texture: t6s1bs, size: [128, 256]}
+    floor: {texture: t6s1fl, size: [128, 128]}
+    ceiling: {texture: t6s1c, size: [128, 128]}
+    reveal: {texture: t6s1bs, size: [128, 256]}
+    door: {texture: t5d1, size: [128, 256]}
+    notes: "The temple above: MM7's Temple of Baa (d04) as it lays its set: brick t6s1bs on walls, flagstones t6s1fl underfoot, the coffered ceiling t6s1c, iron-bound doors t5d1."
+  - id: theme:temple_tall
+    wall: {texture: t6s1bs, size: [128, 256]}
+    bands:
+      - {height: 640, surface: {texture: t6s1bs, size: [128, 256]}}
+      - {height: 896, surface: {texture: t6s1b, size: [128, 256]}}
+    floor: {texture: t6s1fl, size: [128, 128]}
+    ceiling: {texture: t6s1c, size: [128, 128]}
+    reveal: {texture: t6s1bs, size: [128, 256]}
+    door: {texture: t5d1, size: [128, 256]}
+    notes: "The nave: d04's brick with its skull frieze t6s1b in a band 640 to 896 over the floor (d04 hangs it the same way over its tall halls)."
+defaults: {theme: theme:temple, ambient: 22}
+rooms:
+  - id: room:chapel_e
+    name: East chapel
+    outline: [[1344, 3584], [2176, 3584], [2176, 4864], [1344, 4864]]
+    floor: 0
+    ceiling: 768
+    theme: theme:temple
+    platforms:
+      - {at: [2000, 4224], size: [128, 512], rise: 96, surface: {texture: t4s1fl, size: [128, 128]}, top_surface: {texture: t4s1fl, size: [128, 128]}, notes: A side altar against the east wall.}
+    ambient: 22
+    notes: "The mirror of the west chapel off the nave's east wall; a doorway east into the vestry."
+  - id: room:chapel_w
+    name: West chapel
+    outline: [[-2176, 3584], [-1344, 3584], [-1344, 4864], [-2176, 4864]]
+    floor: 0
+    ceiling: 768
+    theme: theme:temple
+    walls:
+      - wall: north
+        panels:
+          - {id: panel:plaque_w, offset: 186, length: 128, bottom: 58, height: 128, surface: {texture: t6s1c, size: [128, 128]}, notes: "A carved square of the temple's coffer stone behind the lever, so that it shows against the brick."}
+    platforms:
+      - {at: [-2000, 4224], size: [128, 512], rise: 96, surface: {texture: t4s1fl, size: [128, 128]}, top_surface: {texture: t4s1fl, size: [128, 128]}, notes: A side altar against the west wall.}
+    ambient: 22
+    notes: "A side chapel off the nave's west wall, 832 by 1,280; the lever for the west bar of the treasury gate on its north wall; a doorway west into the refectory."
+  - id: room:crypt
+    name: Crypt of the clergy
+    outline: [[-3840, 6912], [-2112, 6912], [-2112, 8448], [-3840, 8448]]
+    floor: -768
+    ceiling: -64
+    theme: theme:crypt
+    pillars:
+      - {at: [-2976, 7488], size: [192, 192], surface: {texture: 7t1s2b, size: [128, 256]}}
+      - {at: [-2976, 7936], size: [192, 192], surface: {texture: 7t1s2b, size: [128, 256]}}
+    platforms:
+      - {id: platform:tomb_1, at: [-3680, 7360], size: [128, 256], rise: 64, surface: {texture: 7t1s2b, size: [128, 256]}, top_surface: {texture: t4s1fl, size: [128, 128]}, notes: A stone tomb.}
+      - {id: platform:tomb_2, at: [-3680, 8000], size: [128, 256], rise: 64, surface: {texture: 7t1s2b, size: [128, 256]}, top_surface: {texture: t4s1fl, size: [128, 128]}, notes: A stone tomb.}
+    ambient: 24
+    notes: "A long rock-cut crypt 1,728 by 1,536 under the clerics' wing: two pillars, stone tombs and coffins along the walls; skeletons."
+  - id: room:dormitory
+    name: Dormitory
+    outline: [[-3840, 2432], [-2240, 2432], [-2240, 3584], [-3840, 3584]]
+    floor: 0
+    ceiling: 576
+    theme: theme:temple
+    platforms:
+      - {id: platform:bed_00, at: [-3648, 2624], size: [256, 128], rise: 40, surface: {texture: 7t1beds, size: [256, 64]}, top_surface: {texture: t2bedsht, size: [128, 256]}, notes: A cleric's cot against the wall.}
+      - {id: platform:bed_01, at: [-2432, 2624], size: [256, 128], rise: 40, surface: {texture: 7t1beds, size: [256, 64]}, top_surface: {texture: t2bedsht, size: [128, 256]}, notes: A cleric's cot against the wall.}
+      - {id: platform:bed_10, at: [-3648, 2944], size: [256, 128], rise: 40, surface: {texture: 7t1beds, size: [256, 64]}, top_surface: {texture: t2bedsht, size: [128, 256]}, notes: A cleric's cot against the wall.}
+      - {id: platform:bed_11, at: [-2432, 2944], size: [256, 128], rise: 40, surface: {texture: 7t1beds, size: [256, 64]}, top_surface: {texture: t2bedsht, size: [128, 256]}, notes: A cleric's cot against the wall.}
+      - {id: platform:bed_20, at: [-3648, 3264], size: [256, 128], rise: 40, surface: {texture: 7t1beds, size: [256, 64]}, top_surface: {texture: t2bedsht, size: [128, 256]}, notes: A cleric's cot against the wall.}
+      - {id: platform:bed_21, at: [-2432, 3264], size: [256, 128], rise: 40, surface: {texture: 7t1beds, size: [256, 64]}, top_surface: {texture: t2bedsht, size: [128, 256]}, notes: A cleric's cot against the wall.}
+    ambient: 24
+    notes: "The clerics' dormitory, 1,600 by 1,152: six cots along the side walls. A secret door in the west wall to a hidden cell."
+  - id: room:far_bank
+    name: "Yak Pool, far bank"
+    outline: [[-192, 8832], [512, 8704], [1088, 8768], [1408, 9088], [1408, 10368], [1024, 10560], [128, 10560], [-192, 10368]]
+    floor: -768
+    rough: {step: 192, depth: 48}
+    ceiling: 0
+    ceiling_points: [[608, 9632, 192]]
+    theme: theme:crypt
+    ambient: 20
+    notes: "A wide cave 1,600 by 1,850 on the east shore: the sanctum way leaves north, the lich crypt east."
+  - id: room:hidden_cell
+    name: Hidden cell
+    outline: [[-4480, 2880], [-3904, 2880], [-3904, 3328], [-4480, 3328]]
+    floor: 0
+    ceiling: 448
+    theme: theme:temple
+    ambient: 26
+    notes: "A cleric's hiding place behind the dormitory's west wall, 576 by 448: a chest."
+  - id: room:library
+    name: Library
+    outline: [[2240, 2432], [3840, 2432], [3840, 3584], [2240, 3584]]
+    floor: 0
+    ceiling: 640
+    theme: theme:temple
+    walls:
+      - wall: east
+        panels:
+          - {id: panel:plaque_e, offset: 512, length: 128, bottom: 58, height: 128, surface: {texture: t6s1c, size: [128, 128]}, notes: A carved square of coffer stone behind the lever.}
+    platforms:
+      - {at: [3040, 2592], size: [1280, 96], rise: 256, surface: {texture: 7t1books, size: [128, 256]}, end_surface: {texture: 7t1cab, size: [128, 256]}, top_surface: {texture: t6s1c, size: [128, 128]}, notes: Bookcases along the south wall (d04's 7t1books1).}
+      - {at: [2640, 3120], size: [96, 512], rise: 256, surface: {texture: 7t1books, size: [128, 256]}, end_surface: {texture: 7t1cab, size: [128, 256]}, top_surface: {texture: t6s1c, size: [128, 128]}, notes: A free-standing bookcase.}
+      - {at: [3200, 3120], size: [96, 512], rise: 256, surface: {texture: 7t1books, size: [128, 256]}, end_surface: {texture: 7t1cab, size: [128, 256]}, top_surface: {texture: t6s1c, size: [128, 128]}, notes: A free-standing bookcase.}
+    ambient: 22
+    notes: "The cult's library, 1,600 by 1,152: bookcases; the lever for the east bar of the treasury gate on its east wall; a chest of the clerics' scrolls."
+  - id: room:lich_crypt
+    name: Lich crypt
+    outline: [[1472, 9088], [3072, 9088], [3072, 10368], [1472, 10368]]
+    floor: -768
+    ceiling: -128
+    theme: theme:crypt_dressed
+    platforms:
+      - {id: platform:lich_tomb_1, at: [2272, 10208], size: [256, 128], rise: 64, surface: {texture: 7t1s2b, size: [128, 256]}, top_surface: {texture: t4s1fl, size: [128, 128]}, notes: A stone tomb.}
+    ambient: 22
+    notes: "The crypt of the dead clergy who would not stay dead, 1,600 by 1,280; the Master's stair climbs from its south wall."
+  - id: room:master_cell
+    name: Master's cell
+    outline: [[1792, 12096], [2816, 12096], [2816, 12864], [1792, 12864]]
+    floor: -768
+    ceiling: -128
+    theme: theme:sanctum
+    platforms:
+      - {id: platform:master_bed, at: [2560, 12480], size: [256, 384], rise: 48, surface: {texture: 7t1beds, size: [256, 64]}, top_surface: {texture: t2bedsht, size: [128, 256]}, notes: The Yak Master's bed against the east wall (d04's bed sheets and frames).}
+      - {at: [2240, 12800], size: [512, 96], rise: 256, surface: {texture: 7t1cab, size: [128, 256]}, top_surface: {texture: t6s1c, size: [128, 128]}, notes: Robe cabinets along the north wall (d04's bedchamber has its 7t1cab cabinets so).}
+      - {id: platform:master_table, at: [2176, 12352], size: [256, 160], rise: 72, surface: {texture: 7gt001a, size: [64, 64]}, top_surface: {texture: 7t1beds, size: [256, 64]}, notes: A table with a candle.}
+    ambient: 22
+    notes: "The Yak Master's cell east of the sanctum: his bed and his hoard."
+  - id: room:master_stair
+    name: Master's stair
+    outline: [[2496, 5312], [3072, 5312], [3072, 9024], [2496, 9024]]
+    floor: 0
+    slope: {to: -768, toward: north, steps: 24, riser: {texture: t4s1fl, size: [128, 128]}, tread: {texture: t6s1fl, size: [128, 128]}}
+    ceiling: 448
+    ceiling_slope: {to: -320, toward: north}
+    theme: theme:master_stair
+    ambient: 22
+    notes: "The Yak Master's own stair: 24 long steps up from the lich crypt to the vestry (3,712 long); the door at its top opens from this side only."
+  - id: room:narthex
+    name: Narthex
+    outline: [[-1280, 1216], [1280, 1216], [1280, 1984], [-1280, 1984]]
+    floor: 0
+    ceiling: 1024
+    theme: theme:temple
+    ambient: 20
+    notes: "A cross hall 2,560 by 768 before the nave; doors west to the clerics' wing and east to the library, the nave through a wide arch north."
+  - id: room:nave
+    name: Nave of Yak
+    outline: [[-1280, 2048], [1280, 2048], [1280, 5632], [-1280, 5632]]
+    floor: 0
+    ceiling: 1088
+    theme: theme:temple_tall
+    pillars:
+      - {at: [-640, 2688], size: [160, 160], surface: {texture: t6s1bs, size: [128, 256]}}
+      - {at: [640, 2688], size: [160, 160], surface: {texture: t6s1bs, size: [128, 256]}}
+      - {at: [-640, 3328], size: [160, 160], surface: {texture: t6s1bs, size: [128, 256]}}
+      - {at: [640, 3328], size: [160, 160], surface: {texture: t6s1bs, size: [128, 256]}}
+      - {at: [-640, 3968], size: [160, 160], surface: {texture: t6s1bs, size: [128, 256]}}
+      - {at: [640, 3968], size: [160, 160], surface: {texture: t6s1bs, size: [128, 256]}}
+      - {at: [-640, 4608], size: [160, 160], surface: {texture: t6s1bs, size: [128, 256]}}
+      - {at: [640, 4608], size: [160, 160], surface: {texture: t6s1bs, size: [128, 256]}}
+    platforms:
+      - {id: platform:dais, at: [0, 5280], size: [1024, 448], rise: 32, surface: {texture: t4s1fl, size: [128, 128]}, top_surface: {texture: t6s1fl, size: [128, 128]}, notes: "The idol's dais, one step up, at the nave's north end."}
+      - {id: platform:idol_plinth, at: [0, 5376], size: [256, 192], rise: 64, surface: {texture: t4s1fl, size: [128, 128]}, top_surface: {texture: t4s1fl, size: [128, 128]}, base: 32, notes: The plinth of Yak's idol.}
+    ceiling_levels:
+      - outline: [[-512, 2304], [512, 2304], [512, 4864], [-512, 4864]]
+        ceiling: 1344
+    ambient: 22
+    notes: "The great hall of the cult, 2,560 by 3,584 and 1,088 high (1,344 under the raised middle), two rows of four brick pillars, Yak's idol on a dais at the north end. The treasury gate stands in the north wall west of the dais; the chapels open off the middle of the side walls."
+  - id: room:near_bank
+    name: "Yak Pool, near bank"
+    outline: [[-2176, 8704], [-1600, 8640], [-1344, 8832], [-1344, 10432], [-1600, 10624], [-2176, 10560]]
+    floor: -768
+    rough: {step: 192, depth: 40}
+    ceiling: -64
+    ceiling_points: [[-1760, 9632, 64]]
+    theme: theme:crypt
+    platforms:
+      - {id: platform:lever_post, at: [-1376, 10080], size: [64, 288], rise: 64, surface: {texture: 7t1s2b, size: [128, 256]}, top_surface: {texture: 7t1s2b, size: [128, 256]}, notes: "A low stone kerb at the pool's edge, north of the causeway's landing, with the three bridge levers on its west face: the party pulls them looking over it at the pool."}
+      - {id: platform:yak_basin, at: [-1440, 8992], size: [128, 192], rise: 56, surface: {texture: 7t1s2b, size: [128, 256]}, top_surface: {texture: 7slimywtr, liquid: water}, notes: "A stone basin at the rim, brimming with the pool's water: 'Yak Pool' (drink)."}
+    ambient: 20
+    notes: "A cave 830 wide on the west shore of the Yak Pool; the whole east wall opens onto the pool (160 down). Three levers on a stone post, a basin of the pool's water, bones at the rim."
+  - id: room:ossuary
+    name: Ossuary
+    outline: [[-3712, 8512], [-2240, 8512], [-2240, 9856], [-3712, 9856]]
+    floor: -768
+    ceiling: -128
+    theme: theme:crypt_dressed
+    ambient: 24
+    notes: "A plastered bone-house 1,472 by 1,344 heaped with the temple's dead; a passage east to the pool."
+  - id: room:passage_e
+    name: East passage
+    path: [[1344, 1600], [2624, 1600], [2624, 2368]]
+    width: 384
+    floor: 0
+    ceiling: 448
+    theme: theme:temple
+    ambient: 24
+    notes: The mirror passage from the narthex's east door round to the library.
+  - id: room:passage_w
+    name: West passage
+    path: [[-1344, 1600], [-2624, 1600], [-2624, 2368]]
+    width: 384
+    floor: 0
+    ceiling: 448
+    theme: theme:temple
+    ambient: 24
+    notes: A narrow passage from the narthex's west door round to the clerics' dormitory.
+  - id: room:porch
+    name: Temple porch
+    outline: [[-640, 0], [640, 0], [640, 1152], [-640, 1152]]
+    floor: 0
+    ceiling: 1024
+    theme: theme:temple
+    ambient: 16
+    notes: "Inside the temple's front door from the fairy woods (X2): a plain brick porch 1,280 by 1,152, the door to the woods in its south wall, the Yak door north."
+  - id: room:refectory
+    name: Refectory
+    outline: [[-3840, 3648], [-2240, 3648], [-2240, 5248], [-3840, 5248]]
+    floor: 0
+    ceiling: 640
+    theme: theme:temple
+    platforms:
+      - {at: [-3264, 4448], size: [256, 1024], rise: 72, surface: {texture: 7gt001a, size: [64, 64]}, top_surface: {texture: 7t1beds, size: [256, 64]}, notes: The long table.}
+      - {at: [-3520, 4448], size: [96, 896], rise: 40, surface: {texture: 7gt001a, size: [64, 64]}, top_surface: {texture: 7t1beds, size: [256, 64]}, notes: "Bench, west"}
+      - {at: [-3008, 4448], size: [96, 896], rise: 40, surface: {texture: 7gt001a, size: [64, 64]}, top_surface: {texture: 7t1beds, size: [256, 64]}, notes: "Bench, east"}
+      - {id: platform:crate, at: [-2368, 4672], size: [128, 128], rise: 128, surface: {texture: 7gt001a, size: [64, 64]}, top_surface: {texture: 7gt001a, size: [64, 64]}, notes: "A crate of d04's riveted boards among the casks (empty: the source's line)."}
+    ambient: 22
+    notes: "The clerics' refectory, 1,600 square: a long table with benches, casks along the east wall; the west stair to the undercroft leaves from its north wall."
+  - id: room:reliquary
+    name: Reliquary
+    outline: [[256, 13760], [768, 13760], [768, 14272], [256, 14272]]
+    floor: -768
+    ceiling: -320
+    theme: theme:sanctum
+    ambient: 22
+    notes: "A small shrine behind the altar, sealed by the Yak Master's will: the Elixir of Restoration."
+  - id: room:sanctum
+    name: The Yak Master's sanctum
+    outline: [[8, 11264], [1016, 11264], [1728, 11976], [1728, 12984], [1016, 13696], [8, 13696], [-704, 12984], [-704, 11976]]
+    floor: -768
+    ceiling: 192
+    theme: theme:sanctum
+    pillars:
+      - {at: [1103, 12725], size: [128, 128], surface: {texture: t4s1fl, size: [128, 128]}}
+      - {at: [757, 13071], size: [128, 128], surface: {texture: t4s1fl, size: [128, 128]}}
+      - {at: [267, 13071], size: [128, 128], surface: {texture: t4s1fl, size: [128, 128]}}
+      - {at: [-79, 12725], size: [128, 128], surface: {texture: t4s1fl, size: [128, 128]}}
+      - {at: [-79, 12235], size: [128, 128], surface: {texture: t4s1fl, size: [128, 128]}}
+      - {at: [267, 11889], size: [128, 128], surface: {texture: t4s1fl, size: [128, 128]}}
+      - {at: [757, 11889], size: [128, 128], surface: {texture: t4s1fl, size: [128, 128]}}
+      - {at: [1103, 12235], size: [128, 128], surface: {texture: t4s1fl, size: [128, 128]}}
+    platforms:
+      - {id: platform:sanctum_dais, at: [512, 13440], size: [896, 384], rise: 32, surface: {texture: t4s1fl, size: [128, 128]}, top_surface: {texture: t6s1fl, size: [128, 128]}, notes: "The altar's dais, one step up."}
+      - {id: platform:altar, at: [512, 13392], size: [384, 128], rise: 96, surface: {texture: t4s1fl, size: [128, 128]}, top_surface: {texture: t6s1c, size: [128, 128]}, base: 32, notes: The black altar of Yak.}
+    ambient: 20
+    notes: "An octagon 2,432 across and 960 high, eight green-black pillars in a ring, the altar on its dais before the reliquary door (north); the Master's cell east."
+  - id: room:sanctum_way
+    name: Sanctum way
+    outline: [[256, 10624], [768, 10624], [768, 11200], [256, 11200]]
+    floor: -768
+    ceiling: 256
+    theme: theme:sanctum
+    ambient: 22
+    notes: A short dressed passage north to the sanctum's doors.
+  - id: room:stair_w
+    name: West stair
+    outline: [[-3328, 5312], [-2752, 5312], [-2752, 6848], [-3328, 6848]]
+    floor: 0
+    slope: {to: -768, toward: north, steps: 24, riser: {texture: t6s1bs, size: [128, 256]}, tread: {texture: t6s1fl, size: [128, 128]}}
+    ceiling: 448
+    ceiling_slope: {to: -320, toward: north}
+    theme: theme:temple
+    ambient: 26
+    notes: "A straight flight of 24 steps of 32 down from the refectory to the crypts (1,536 long)."
+  - id: room:treasury
+    name: Treasury
+    outline: [[-1152, 5696], [-256, 5696], [-256, 6656], [-1152, 6656]]
+    floor: 0
+    ceiling: 960
+    theme: theme:sanctum
+    ambient: 24
+    notes: "The cult's treasury behind the barred gate, 896 by 960: the strongbox with the King's Megacredits."
+  - id: room:vestry
+    name: Vestry
+    outline: [[2240, 3648], [3840, 3648], [3840, 5248], [2240, 5248]]
+    floor: 0
+    ceiling: 640
+    theme: theme:temple
+    platforms:
+      - {at: [3744, 4448], size: [96, 896], rise: 256, surface: {texture: 7t1cab, size: [128, 256]}, top_surface: {texture: t6s1c, size: [128, 128]}, notes: Robe cabinets along the east wall (d04's 7t1cab).}
+    ambient: 22
+    notes: "The priests' vestry, 1,600 square: robe cabinets; the Master's door in its north wall (it opens from the far side, the Master's stair)."
+  - id: room:yak_pool
+    name: Yak Pool
+    outline: [[-1280, 9024], [-256, 9024], [-256, 10368], [-1280, 10368]]
+    floor: -928
+    ceiling: -64
+    theme: theme:pool
+    flights:
+      - {from: [-640, 9312], to: [-1280, 9312], to_height: -768, width: 256, steps: 5, riser: {texture: 7t1s2b, size: [128, 256]}, tread: {texture: t2bs, size: [128, 256]}, notes: "Steps out of the pool onto the near bank, in the doorway's south end."}
+    ambient: 18
+    notes: "The pool that sickens: a rock basin 1,024 by 1,344, its green water 160 under both banks; a causeway of three stone blocks (lifts) rises out of it when the levers are set right."
+openings:
+  - id: open:bank_pool
+    from: room:near_bank
+    to: room:yak_pool
+    link: link:near_bank_pool
+    width: 1024
+    height: 576
+    notes: "The near bank's whole middle opens onto the pool, 160 above its water."
+  - id: open:chapel_e_nave
+    from: room:chapel_e
+    to: room:nave
+    link: link:chapel_e_nave
+    width: 640
+    height: 576
+    shape: arch
+    apex: 704
+  - id: open:chapel_w_nave
+    from: room:chapel_w
+    to: room:nave
+    link: link:chapel_w_nave
+    width: 640
+    height: 576
+    shape: arch
+    apex: 704
+  - id: open:crypt_ossuary
+    from: room:crypt
+    to: room:ossuary
+    link: link:crypt_ossuary
+    width: 448
+    height: 448
+  - id: open:dorm_cell
+    from: room:dormitory
+    to: room:hidden_cell
+    link: link:dormitory_hidden_cell
+    width: 256
+    height: 320
+  - id: open:dorm_refectory
+    from: room:dormitory
+    to: room:refectory
+    link: link:dormitory_refectory
+    width: 384
+    height: 448
+  - id: open:far_lich
+    from: room:far_bank
+    to: room:lich_crypt
+    link: link:far_bank_lich_crypt
+    width: 384
+    height: 448
+  - id: open:far_pool
+    from: room:far_bank
+    to: room:yak_pool
+    link: link:far_bank_pool
+    width: 512
+    height: 576
+    notes: "The far landing of the causeway, 160 above the water."
+  - id: open:far_way
+    from: room:far_bank
+    to: room:sanctum_way
+    link: link:far_bank_sanctum_way
+    width: 384
+    height: 448
+  - id: open:library_vestry
+    from: room:library
+    to: room:vestry
+    link: link:library_vestry
+    width: 384
+    height: 448
+  - id: open:master_cell
+    from: room:sanctum
+    to: room:master_cell
+    link: link:sanctum_master_cell
+    width: 192
+    height: 384
+  - id: open:master_lich
+    from: room:master_stair
+    to: room:lich_crypt
+    link: link:master_stair_lich_crypt
+    width: 384
+    height: 384
+  - id: open:narthex_e
+    from: room:narthex
+    to: room:passage_e
+    link: link:narthex_passage_e
+    width: 192
+    height: 384
+  - id: open:narthex_nave
+    from: room:narthex
+    to: room:nave
+    link: link:narthex_nave
+    width: 1280
+    height: 640
+    shape: arch
+    apex: 704
+  - id: open:narthex_w
+    from: room:narthex
+    to: room:passage_w
+    link: link:narthex_passage_w
+    width: 192
+    height: 384
+  - id: open:ossuary_bank
+    from: room:ossuary
+    to: room:near_bank
+    link: link:ossuary_near_bank
+    width: 448
+    height: 448
+  - id: open:passage_e_lib
+    from: room:passage_e
+    to: room:library
+    link: link:passage_e_library
+    width: 320
+    height: 384
+  - id: open:passage_w_dorm
+    from: room:passage_w
+    to: room:dormitory
+    link: link:passage_w_dormitory
+    width: 320
+    height: 384
+  - id: open:refectory_chapel
+    from: room:refectory
+    to: room:chapel_w
+    link: link:refectory_chapel_w
+    width: 320
+    height: 448
+  - id: open:refectory_stair
+    from: room:refectory
+    to: room:stair_w
+    link: link:refectory_stair_w
+    width: 448
+    height: 384
+  - id: open:reliquary
+    from: room:sanctum
+    to: room:reliquary
+    link: link:sanctum_reliquary
+    width: 256
+    height: 384
+  - id: open:sanctum_doors
+    from: room:sanctum_way
+    to: room:sanctum
+    link: link:sanctum_way_sanctum
+    width: 224
+    height: 448
+  - id: open:stair_crypt
+    from: room:stair_w
+    to: room:crypt
+    link: link:stair_w_crypt
+    width: 448
+    height: 384
+  - id: open:treasury_gate
+    from: room:nave
+    to: room:treasury
+    link: link:nave_treasury
+    width: 224
+    height: 448
+  - id: open:vestry_chapel
+    from: room:vestry
+    to: room:chapel_e
+    link: link:vestry_chapel_e
+    width: 320
+    height: 448
+  - id: open:vestry_master
+    from: room:vestry
+    to: room:master_stair
+    link: link:vestry_master_stair
+    width: 320
+    height: 384
+  - id: open:yak_door
+    from: room:porch
+    to: room:narthex
+    link: link:porch_narthex
+    width: 256
+    height: 512
+notes: "XD-06 Temple of Yak at L4 (x east, y north; the porch floor is 0, the undercroft -768). Two families: MM7's Temple of Baa (d04) for the temple above, the sanctum and the treasury; MM7's Barrow I (mdt03) for the crypts and the pool caves. Written by output/studio_cal/xd06/tools/gen.py."

@@ -115,7 +115,13 @@ def main() -> int:
             continue
 
         if monster_id in binary_rows:
-            rendered_lines.append("\t".join(binary_rows[monster_id]))
+            values = list(binary_rows[monster_id])
+            # dmonlist.bin keeps 32 bytes of the name: "Wimpy Pirate Crossbowman (Female) A" is cut to the same
+            # "Wimpy Pirate Crossbowman (Female" for all three tiers. The monster data's Picture column has it whole.
+            picture = row[2].strip() if len(row) > 2 else ""
+            if len(values[1]) == 32 and picture.startswith(values[1]):
+                values[1] = picture
+            rendered_lines.append("\t".join(values))
         else:
             rendered_lines.append(str(monster_id))
 

@@ -1,0 +1,541 @@
+{
+ "id": "20261009-1649-mm8-out13-02",
+ "world": "mm8",
+ "maps": [
+  "out13.odm"
+ ],
+ "created": "2026-10-09T14:49:40+00:00",
+ "textures": [
+  "mm8/t1books2",
+  "mm8/t1books1",
+  "mm8/gt002f",
+  "mm8/ch002d",
+  "mm8/gt002a",
+  "mm8/gt002c",
+  "mm8/ch002g",
+  "mm8/gt002d",
+  "mm8/gt002b",
+  "mm8/gt002e",
+  "mm8/gt003b",
+  "mm8/gt003a",
+  "mm8/gt002g",
+  "mm8/t06a10",
+  "mm8/btrima2",
+  "mm8/c1fl",
+  "mm8/gcav1flr",
+  "mm8/gcst2-bs",
+  "mm8/gcst2cel",
+  "mm8/gn_mtl01",
+  "mm8/gn_mtl02",
+  "mm8/gn_mtl03",
+  "mm8/grastyl",
+  "mm8/gstntileh"
+ ],
+ "requests": {
+  "mm8/t1books2": {
+   "name": "t1books2",
+   "versions": [
+    1
+   ],
+   "material": "carved golden oak cabinet door panel with raised moulding, carved floral relief and a circular knotwork medallion",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm8/t1books1": {
+   "name": "t1books1",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "golden-brown oak wood board with long straight grain and a few knots",
+   "notes": {
+    "2": "a plain uncarved board: only natural wood grain and knots, no carved lines, shapes or symbols"
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm8/t1books2"
+     ],
+     "fraction": 0.285
+    },
+    "2": {
+     "sources": [
+      "mm8/t1books2"
+     ],
+     "fraction": 0.285
+    }
+   }
+  },
+  "mm8/gt002f": {
+   "name": "gt002f",
+   "versions": [
+    1
+   ],
+   "material": "wooden chest side of brown horizontal planks framed by dark riveted iron bands",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm8/ch002d": {
+   "name": "ch002d",
+   "versions": [
+    1
+   ],
+   "material": "wooden chest side of brown horizontal planks framed by dark riveted iron bands with a black iron lock plate in the centre",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm8/gt002f"
+     ],
+     "fraction": 0.289
+    }
+   }
+  },
+  "mm8/gt002a": {
+   "name": "gt002a",
+   "versions": [
+    1
+   ],
+   "material": "brown wooden chest planks laid horizontally with small dark nails",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm8/gt002f"
+     ],
+     "fraction": 0.384
+    }
+   }
+  },
+  "mm8/gt002c": {
+   "name": "gt002c",
+   "versions": [
+    1
+   ],
+   "material": "wooden chest side of brown horizontal planks framed by dark riveted iron bands with a black iron lock plate in the centre",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm8/ch002d",
+      "mm8/gt002f"
+     ],
+     "fraction": 0.817
+    }
+   }
+  },
+  "mm8/ch002g": {
+   "name": "ch002g",
+   "versions": [
+    1
+   ],
+   "material": "wooden chest side of brown horizontal planks framed by dark riveted iron bands",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm8/ch002d",
+      "mm8/gt002f"
+     ],
+     "fraction": 0.865
+    }
+   }
+  },
+  "mm8/gt002d": {
+   "name": "gt002d",
+   "versions": [
+    1
+   ],
+   "material": "wooden chest front of brown horizontal planks with a small black iron lock plate",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm8/gt002a"
+     ],
+     "fraction": 0.848
+    }
+   }
+  },
+  "mm8/gt002b": {
+   "name": "gt002b",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "wooden chest side of brown horizontal planks framed by dark riveted iron bands",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm8/gt002f",
+      "mm8/gt002a"
+     ],
+     "fraction": 0.828
+    },
+    "2": {
+     "sources": [
+      "mm8/gt002f",
+      "mm8/gt002a"
+     ],
+     "fraction": 0.828
+    }
+   },
+   "pad": {
+    "2": [
+     32,
+     32
+    ]
+   },
+   "context": {
+    "2": {
+     "left": "mm8/gt002a",
+     "right": "mm8/gt002a",
+     "bottom": "mm8/gt002a"
+    }
+   }
+  },
+  "mm8/gt002e": {
+   "name": "gt002e",
+   "versions": [
+    1
+   ],
+   "material": "wooden chest front of brown horizontal planks with two small black iron lock plates",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm8/gt002a"
+     ],
+     "fraction": 0.824
+    }
+   }
+  },
+  "mm8/gt003b": {
+   "name": "gt003b",
+   "versions": [
+    1
+   ],
+   "material": "wooden chest side of brown vertical planks framed by dark riveted iron bands",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm8/gt002f"
+     ],
+     "fraction": 0.234
+    }
+   }
+  },
+  "mm8/gt003a": {
+   "name": "gt003a",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "brown wooden chest planks laid vertically with small dark nails",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm8/gt003b"
+     ],
+     "fraction": 0.446
+    },
+    "2": {
+     "sources": [
+      "mm8/gt003b"
+     ],
+     "fraction": 0.446
+    }
+   },
+   "pad": {
+    "2": [
+     32,
+     32
+    ]
+   },
+   "context": {
+    "2": {
+     "left": "mm8/gt003b",
+     "top": "mm8/gt003b"
+    }
+   }
+  },
+  "mm8/gt002g": {
+   "name": "gt002g",
+   "versions": [
+    1,
+    2,
+    3,
+    4
+   ],
+   "material": "wooden chest end with brown planks inside a dark riveted iron frame with diagonal iron corner braces",
+   "notes": {
+    "3": "the outermost pixel rows and columns continue the reference's edge exactly: same brightness and material right up to the canvas border, with no thin dark or bright line, groove, frame or shadow painted along any edge"
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm8/gt003a",
+      "mm8/gt002a"
+     ],
+     "fraction": 0.491
+    },
+    "2": {
+     "sources": [
+      "mm8/gt003a",
+      "mm8/gt002a"
+     ],
+     "fraction": 0.41
+    },
+    "3": {
+     "sources": [
+      "mm8/gt003a",
+      "mm8/gt002a"
+     ],
+     "fraction": 0.41
+    },
+    "4": {
+     "sources": [
+      "mm8/gt003a",
+      "mm8/gt002a"
+     ],
+     "fraction": 0.41
+    }
+   },
+   "pad": {
+    "2": [
+     8,
+     32
+    ],
+    "3": [
+     8,
+     32
+    ]
+   },
+   "context": {
+    "2": {
+     "bottom": "mm8/gt002c"
+    },
+    "3": {
+     "bottom": "mm8/gt002c"
+    },
+    "4": {
+     "bottom": "mm8/gt002c"
+    }
+   },
+   "roll": {
+    "4": [
+     30,
+     0
+    ]
+   }
+  },
+  "mm8/t06a10": {
+   "name": "t06a10",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "dark weathered brown wood grain",
+   "notes": {
+    "2": "plain continuous wood grain only; no planks, frame, joints or borders"
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm8/t06b08"
+     ],
+     "fraction": 0.609
+    },
+    "2": {
+     "sources": [
+      "mm8/t06b08"
+     ],
+     "fraction": 0.609
+    }
+   }
+  },
+  "mm8/btrima2": {
+   "name": "btrima2",
+   "versions": [
+    1
+   ],
+   "material": "horizontal reddish-brown wooden beam with two pale iron bands holding bolts",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm8/c1fl": {
+   "name": "c1fl",
+   "versions": [
+    1
+   ],
+   "material": "rough dark brown cave earth and rock floor with small embedded pebbles",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm8/gcav1flr": {
+   "name": "gcav1flr",
+   "versions": [
+    1
+   ],
+   "material": "rough dark grey-violet cave rock floor, uneven and gritty",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm8/gcst2-bs": {
+   "name": "gcst2-bs",
+   "versions": [
+    1
+   ],
+   "material": "smooth grey stone panels with a carved vertical channel and recessed borders",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm8/gcst2cel": {
+   "name": "gcst2cel",
+   "versions": [
+    1
+   ],
+   "material": "grey carved stone ceiling panel with a recessed circular medallion inside a square frame, iron rivets at the corners",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm8/gn_mtl01": {
+   "name": "gn_mtl01",
+   "versions": [
+    1
+   ],
+   "material": "smooth pale grey worn plaster with faint mottling",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm8/gn_mtl02": {
+   "name": "gn_mtl02",
+   "versions": [
+    1
+   ],
+   "material": "smooth mid grey worn plaster with faint mottling",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm8/gn_mtl03": {
+   "name": "gn_mtl03",
+   "versions": [
+    1
+   ],
+   "material": "smooth dark grey worn plaster with faint mottling",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm8/grastyl": {
+   "name": "grastyl",
+   "versions": [
+    1
+   ],
+   "material": "short green grass seen from above, dense and even",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm8/gstntileh": {
+   "name": "gstntileh",
+   "versions": [
+    1,
+    2,
+    3
+   ],
+   "material": "dark green-grey marble tiles with small carved floral bosses, in a row",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "3": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "pad": {
+    "2": [
+     16,
+     32
+    ],
+    "3": [
+     16,
+     32
+    ]
+   },
+   "context": {
+    "2": {
+     "top": "mm8/gstn1cl",
+     "bottom": "mm8/gn_mtl02"
+    },
+    "3": {
+     "top": "mm8/gstn1cl",
+     "bottom": "mm8/gn_mtl02"
+    }
+   }
+  }
+ }
+}

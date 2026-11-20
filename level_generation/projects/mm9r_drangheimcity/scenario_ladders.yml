@@ -1,0 +1,267 @@
+# Written by make_scenarios.py from the built map; rerun it after convert.py.
+id: mm9r.drangheimcity_ladders
+title: 'Drangheim City (native BLV) - the three ladders: the tower''s, the small house''s and the leaning one up to the north
+  wall''s walkway, climbed up and back down'
+world: mm9
+mode: faithful
+tags:
+- mm9
+- mm9_rework
+- draft
+steps:
+- load_map:
+    map: drangheimcity.blv
+- note:
+    text: 'TowerLadder: forward from its foot climbs to the top and steps off at [19919, -6323, 2995].'
+- movement_segment:
+    input: forward
+    seconds: 24.1
+    actor_collision: false
+    actor_ai: false
+    start:
+      map: drangheimcity.blv
+      x: 19930
+      y: -6391
+      z: 431
+      yaw_degrees: 270.0
+      pitch: 0
+    expect_stop:
+      map: drangheimcity.blv
+      x: 19919
+      y: -6323
+      z: 2995
+      yaw_degrees: 270.0
+      pitch: 0
+    loose_tolerance: true
+    tolerance_xy: 260
+    tolerance_z: 60
+- note:
+    text: 'TowerLadder1: forward from its foot climbs to the top and steps off at [17326, -8340, 2360].'
+- movement_segment:
+    input: forward
+    seconds: 10.0
+    actor_collision: false
+    actor_ai: false
+    start:
+      map: drangheimcity.blv
+      x: 16924
+      y: -8081
+      z: 1455
+      yaw_degrees: 303.69
+      pitch: 0
+    expect_stop:
+      map: drangheimcity.blv
+      x: 17326
+      y: -8340
+      z: 2360
+      yaw_degrees: 303.69
+      pitch: 0
+    loose_tolerance: true
+    tolerance_xy: 260
+    tolerance_z: 60
+- note:
+    text: 'TowerLadder1: from Klusos House''s window arrival (start 0) along the walkway to the ladder''s top exit, in legs,
+      never leaving the walkway''s height.'
+- movement_segment:
+    input: forward
+    seconds: 0.9
+    actor_collision: false
+    actor_ai: false
+    start:
+      map: drangheimcity.blv
+      x: 15340
+      y: -10281
+      z: 2356
+      yaw_degrees: 5.5
+      pitch: 0
+    expect_stop:
+      map: drangheimcity.blv
+      x: 15662
+      y: -10250
+      z: 2356
+      yaw_degrees: 5.5
+      pitch: 0
+    loose_tolerance: true
+    tolerance_xy: 600
+    tolerance_z: 20
+- movement_segment:
+    input: forward
+    seconds: 5.42
+    actor_collision: false
+    actor_ai: false
+    start:
+      map: drangheimcity.blv
+      x: 15662
+      y: -10250
+      z: 2356
+      yaw_degrees: 90.0
+      pitch: 0
+    expect_stop:
+      map: drangheimcity.blv
+      x: 15662
+      y: -8300
+      z: 2356
+      yaw_degrees: 90.0
+      pitch: 0
+    loose_tolerance: true
+    tolerance_xy: 600
+    tolerance_z: 20
+- movement_segment:
+    input: forward
+    seconds: 1.81
+    actor_collision: false
+    actor_ai: false
+    start:
+      map: drangheimcity.blv
+      x: 15662
+      y: -8300
+      z: 2356
+      yaw_degrees: 37.9
+      pitch: 0
+    expect_stop:
+      map: drangheimcity.blv
+      x: 16175
+      y: -7900
+      z: 2356
+      yaw_degrees: 37.9
+      pitch: 0
+    loose_tolerance: true
+    tolerance_xy: 600
+    tolerance_z: 20
+- movement_segment:
+    input: forward
+    seconds: 1.05
+    actor_collision: false
+    actor_ai: false
+    start:
+      map: drangheimcity.blv
+      x: 16175
+      y: -7900
+      z: 2356
+      yaw_degrees: 7.6
+      pitch: 0
+    expect_stop:
+      map: drangheimcity.blv
+      x: 16550
+      y: -7850
+      z: 2356
+      yaw_degrees: 7.6
+      pitch: 0
+    loose_tolerance: true
+    tolerance_xy: 600
+    tolerance_z: 20
+- movement_segment:
+    input: forward
+    seconds: 1.21
+    actor_collision: false
+    actor_ai: false
+    start:
+      map: drangheimcity.blv
+      x: 16550
+      y: -7850
+      z: 2356
+      yaw_degrees: 336.4
+      pitch: 0
+    expect_stop:
+      map: drangheimcity.blv
+      x: 16950
+      y: -8025
+      z: 2356
+      yaw_degrees: 336.4
+      pitch: 0
+    loose_tolerance: true
+    tolerance_xy: 600
+    tolerance_z: 20
+- movement_segment:
+    input: forward
+    seconds: 0.76
+    actor_collision: false
+    actor_ai: false
+    start:
+      map: drangheimcity.blv
+      x: 16950
+      y: -8025
+      z: 2356
+      yaw_degrees: 335.9
+      pitch: 0
+    expect_stop:
+      map: drangheimcity.blv
+      x: 17200
+      y: -8137
+      z: 2356
+      yaw_degrees: 335.9
+      pitch: 0
+    loose_tolerance: true
+    tolerance_xy: 600
+    tolerance_z: 20
+- movement_segment:
+    input: forward
+    seconds: 0.66
+    actor_collision: false
+    actor_ai: false
+    start:
+      map: drangheimcity.blv
+      x: 17200
+      y: -8137
+      z: 2356
+      yaw_degrees: 301.8
+      pitch: 0
+    expect_stop:
+      map: drangheimcity.blv
+      x: 17326
+      y: -8340
+      z: 2356
+      yaw_degrees: 301.8
+      pitch: 0
+    loose_tolerance: true
+    tolerance_xy: 80
+    tolerance_z: 20
+- note:
+    text: 'TowerLadder1: from its top exit, forward toward its top takes it and climbs down to its foot at [16935, -8096,
+      1454].'
+- movement_segment:
+    input: forward
+    seconds: 5.1
+    actor_collision: false
+    actor_ai: false
+    start:
+      map: drangheimcity.blv
+      x: 17326
+      y: -8340
+      z: 2360
+      yaw_degrees: 232.1
+      pitch: 0
+    expect_stop:
+      map: drangheimcity.blv
+      x: 16935
+      y: -8096
+      z: 1454
+      yaw_degrees: 232.1
+      pitch: 0
+    loose_tolerance: true
+    tolerance_xy: 120
+    tolerance_z: 40
+- note:
+    text: 'HouseLadder: forward from its foot climbs to the top and steps off at [10150, -9126, 1910].'
+- movement_segment:
+    input: forward
+    seconds: 5.9
+    actor_collision: false
+    actor_ai: false
+    start:
+      map: drangheimcity.blv
+      x: 10364
+      y: -8953
+      z: 1476
+      yaw_degrees: 225.0
+      pitch: 0
+    expect_stop:
+      map: drangheimcity.blv
+      x: 10150
+      y: -9126
+      z: 1910
+      yaw_degrees: 225.0
+      pitch: 0
+    loose_tolerance: true
+    tolerance_xy: 260
+    tolerance_z: 60

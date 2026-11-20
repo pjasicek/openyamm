@@ -1,0 +1,86 @@
+{
+  "tool": "built-in imagegen",
+  "source": "/home/pjasicek/.codex/generated_images/01a14de2-b151-7590-9890-726d2905cefd/exec-e903d3da-983f-4887-b1ee-a2f3f0b01df9.png",
+  "saved": "/home/pjasicek/github/OpenYAMM/level_generation/props/weapons_wip_daggers_axes/codex_tex/w02_item248/metal_atlas_v1.png",
+  "sha256": "101484a8bce24ada61acf950f71dc05bbceee418229cd5fe6b8dcddca7c594b0",
+  "kind": "metal",
+  "prompt": "/home/pjasicek/github/OpenYAMM/level_generation/props/weapons_wip_daggers_axes/codex_tex/w02_item248/metal_atlas_prompt.txt",
+  "cells": {
+    "front": {
+      "crop": [
+        0,
+        219,
+        512,
+        288
+      ],
+      "size": [
+        512,
+        69
+      ]
+    },
+    "back": {
+      "crop": [
+        512,
+        219,
+        1024,
+        288
+      ],
+      "size": [
+        512,
+        69
+      ]
+    },
+    "left": {
+      "crop": [
+        0,
+        699,
+        512,
+        766
+      ],
+      "size": [
+        512,
+        67
+      ]
+    },
+    "right": {
+      "crop": [
+        512,
+        699,
+        1024,
+        766
+      ],
+      "size": [
+        512,
+        67
+      ]
+    },
+    "top": {
+      "crop": [
+        0,
+        875,
+        512,
+        1501
+      ],
+      "size": [
+        512,
+        626
+      ]
+    },
+    "bottom": {
+      "crop": [
+        512,
+        875,
+        1024,
+        1501
+      ],
+      "size": [
+        512,
+        626
+      ]
+    }
+  },
+  "guide_sha256": "aada9b5079408ebcb1be12cab94052312f2521ee94202c4d60f47b443fbdd54f",
+  "material_class_note": "Blue neck pixels encode smooth coated dielectric at roughness .50, metallic 0; this class also covers ivory on other designs.",
+  "rejected_correction": "level_generation/props/weapons_wip_daggers_axes/codex_tex/w02_item248/metal_atlas_v2.png",
+  "rejection_reason": "Correction added opaque border and margin artifacts. Selected original mask already separates gold, coated enamel and gems correctly."
+}

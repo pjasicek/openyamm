@@ -1,0 +1,182 @@
+{
+  "bmodels_before": 85,
+  "bmodels_after": 90,
+  "entities": 479,
+  "output_bytes": 1862528,
+  "geometry_sha256": "dd464dbecdf385ec2ee2225ed453f50a31873f814515c071e79cfcc4967eabe7",
+  "scene_sha256": "e4916ff553d25399f058bca348e5866a956cda2c3032d18b7d04125a994b9e9a",
+  "textures": [
+    {
+      "source": "bdoorb",
+      "target": "ns8s00",
+      "logical_size": [
+        128,
+        256
+      ],
+      "native_origin": "assets_dev/worlds/mm8/textures/bdoorb.bmp",
+      "x2_source": "assets_dev/worlds/mm8/textures_x2/bdoorb.png",
+      "x2_sha256": "dbecf20a9d472400c3dd01659c1b80d5569b2d160b6ac3494b7cd562896b4576"
+    },
+    {
+      "source": "btrima1",
+      "target": "ns8s01",
+      "logical_size": [
+        64,
+        256
+      ],
+      "native_origin": "assets_dev/worlds/mm8/textures/btrima1.bmp",
+      "x2_source": "assets_dev/worlds/mm8/textures_x2/btrima1.png",
+      "x2_sha256": "d627afcc82af75ab031c0535b5be300aac204561df2a16a63551c9b7bbc8ef80"
+    },
+    {
+      "source": "btrimb1",
+      "target": "ns8s02",
+      "logical_size": [
+        64,
+        128
+      ],
+      "native_origin": "assets_dev/worlds/mm8/textures/btrimb1.bmp",
+      "x2_source": "assets_dev/worlds/mm8/textures_x2/btrimb1.png",
+      "x2_sha256": "63771106949a8542919bdef30cb9a9aecb1f3af3803c35e8fe4322de728a30d9"
+    },
+    {
+      "source": "btrimb2",
+      "target": "ns8s03",
+      "logical_size": [
+        128,
+        64
+      ],
+      "native_origin": "assets_dev/worlds/mm8/textures/btrimb2.bmp",
+      "x2_source": "assets_dev/worlds/mm8/textures_x2/btrimb2.png",
+      "x2_sha256": "e6af881c0233e5c9fb5101be3990da80dad4c09e09db4dc5dcd91cbd1827745f"
+    },
+    {
+      "source": "bwooda1",
+      "target": "ns8s04",
+      "logical_size": [
+        256,
+        256
+      ],
+      "native_origin": "assets_dev/worlds/mm8/textures/bwooda1.bmp",
+      "x2_source": "assets_dev/worlds/mm8/textures_x2/bwooda1.png",
+      "x2_sha256": "3fad2a2508981b3d6e504a82642f68bc5329a0345b1ec65695475b16f1f2f99c"
+    },
+    {
+      "source": "bwooda2",
+      "target": "ns8s05",
+      "logical_size": [
+        256,
+        256
+      ],
+      "native_origin": "assets_dev/worlds/mm8/textures/bwooda2.bmp",
+      "x2_source": "assets_dev/worlds/mm8/textures_x2/bwooda2.png",
+      "x2_sha256": "b72a90a442f503193383fa578f25366b6084a89bc4004ceae3fbe3626b8913fc"
+    },
+    {
+      "source": "bwoodb1",
+      "target": "ns8s06",
+      "logical_size": [
+        256,
+        256
+      ],
+      "native_origin": "assets_dev/worlds/mm8/textures/bwoodb1.bmp",
+      "x2_source": "assets_dev/worlds/mm8/textures_x2/bwoodb1.png",
+      "x2_sha256": "55583c0ecd8691a16d821cf3f9decacb996a9c3b902ebaa1add25c7eb2468a32"
+    },
+    {
+      "source": "bwoodb3",
+      "target": "ns8s07",
+      "logical_size": [
+        256,
+        256
+      ],
+      "native_origin": "assets_dev/worlds/mm8/textures/bwoodb3.bmp",
+      "x2_source": "assets_dev/worlds/mm8/textures_x2/bwoodb3.png",
+      "x2_sha256": "d6565e8f32e500d673787411093a63b2052842bad0d6b84db156f41406a6b4bc"
+    },
+    {
+      "source": "bwoodb4",
+      "target": "ns8s08",
+      "logical_size": [
+        256,
+        256
+      ],
+      "native_origin": "assets_dev/worlds/mm8/textures/bwoodb4.bmp",
+      "x2_source": "assets_dev/worlds/mm8/textures_x2/bwoodb4.png",
+      "x2_sha256": "b2a18b22cf564c1b796a63f4ac6790258889a970e6cc59a1d9fd47a9af371734"
+    },
+    {
+      "source": "t05a10",
+      "target": "ns8s09",
+      "logical_size": [
+        32,
+        64
+      ],
+      "native_origin": "Logical-size BMP derived from existing x2 PNG; no native BMP was present.",
+      "x2_source": "assets_dev/worlds/mm8/textures_x2/t05a10.png",
+      "x2_sha256": "d7a71b1250c20b64a676f9eb2eaa7be169005efdaa6a85ce0ee2fd2cb00ed810"
+    },
+    {
+      "source": "t05a11",
+      "target": "ns8s10",
+      "logical_size": [
+        64,
+        32
+      ],
+      "native_origin": "Logical-size BMP derived from existing x2 PNG; no native BMP was present.",
+      "x2_source": "assets_dev/worlds/mm8/textures_x2/t05a11.png",
+      "x2_sha256": "929ee21fe3a67e575aa17d5c73b72350c771ed324080b0ab8c7923b5837abca6"
+    },
+    {
+      "source": "t66a12d",
+      "target": "ns8s11",
+      "logical_size": [
+        128,
+        256
+      ],
+      "native_origin": "assets_dev/worlds/mm8/textures/t66a12d.bmp",
+      "x2_source": "assets_dev/worlds/mm8/textures_x2/t66a12d.png",
+      "x2_sha256": "3943349d631820976fe2862303f1162429ad7691b1205b410512c42af75a0ad5"
+    }
+  ],
+  "unchanged": [
+    "terrain arrays",
+    "original BModels",
+    "other decorations",
+    "spawns"
+  ],
+  "ship_event": 29,
+  "ship_position": [
+    2168,
+    -9936,
+    -104
+  ],
+  "door_faces": [
+    [
+      87,
+      42
+    ]
+  ],
+  "suppressed_coplanar_faces": [
+    [
+      111,
+      22
+    ],
+    [
+      111,
+      62
+    ],
+    [
+      114,
+      34
+    ],
+    [
+      114,
+      35
+    ],
+    [
+      114,
+      36
+    ]
+  ]
+}

@@ -21,14 +21,33 @@ inline std::string_view questMarkerTextureName(Mm9QuestMarkerState state)
         return "quest_marker_question";
     }
 
+    if (state == Mm9QuestMarkerState::Trainer)
+    {
+        return "trainer_marker_book";
+    }
+
     return {};
 }
 
 inline uint32_t questMarkerColorAbgr(Mm9QuestMarkerState state, uint8_t alpha)
 {
-    const uint8_t red = state == Mm9QuestMarkerState::InProgress ? 174 : 245;
-    const uint8_t green = state == Mm9QuestMarkerState::InProgress ? 182 : 194;
-    const uint8_t blue = state == Mm9QuestMarkerState::InProgress ? 190 : 48;
+    // Gold for quest work to do, grey for a quest still under way, and the interface's learnable-skill blue
+    // (GameplayUiSkin::Learnable) for a trainer.
+    uint8_t red = 245;
+    uint8_t green = 194;
+    uint8_t blue = 48;
+    if (state == Mm9QuestMarkerState::InProgress)
+    {
+        red = 174;
+        green = 182;
+        blue = 190;
+    }
+    else if (state == Mm9QuestMarkerState::Trainer)
+    {
+        red = 142;
+        green = 188;
+        blue = 250;
+    }
     return static_cast<uint32_t>(red) | (static_cast<uint32_t>(green) << 8) | (static_cast<uint32_t>(blue) << 16) |
            (static_cast<uint32_t>(alpha) << 24);
 }

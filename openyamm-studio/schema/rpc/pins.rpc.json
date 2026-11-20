@@ -1,0 +1,716 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Map Studio RPC: pins",
+  "description": "The review pins of a project (review/pins.yml, pins format 1; S5_BROWSER_EDITOR.md 3.13). The pins document is not part of the project's source: every change raises its own counter and is logged in .oymap/pins/log.jsonl, and none changes the source revision, so an agent's expect_revision stays valid while the person comments. Statuses: open, claimed (an agent works on it), resolved (the agent says what it did), accepted (the person agrees), declined.",
+  "x-group": "pins",
+  "methods": {
+    "list": {
+      "summary": "The project's pins in the order they were made, optionally only those of one status (a pin without a status is open), and the pins document's counter.",
+      "since": 1,
+      "lane": "interactive",
+      "backends": [
+        "native",
+        "wasm"
+      ],
+      "exposed": true,
+      "writes": "none",
+      "assets": "none",
+      "errors": [
+        "not_a_project"
+      ],
+      "params": {
+        "type": "object",
+        "required": [
+          "project"
+        ],
+        "properties": {
+          "project": {
+            "$ref": "common.rpc.json#/$defs/project_path"
+          },
+          "status": {
+            "$ref": "#/$defs/status"
+          }
+        },
+        "additionalProperties": false
+      },
+      "result": {
+        "type": "object",
+        "required": [
+          "pins",
+          "counter"
+        ],
+        "properties": {
+          "counter": {
+            "$ref": "#/$defs/counter"
+          },
+          "pins": {
+            "type": "array",
+            "items": {
+              "$ref": "#/$defs/pin"
+            }
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "add": {
+      "summary": "Pins a note on an object (a top-level id, with its file where the id is in more than one file) or a point, with the pose it was made from. The core gives the id (pin:p<n>) and stamps the time, the source revision and the lock hash. A picture given as bytes is written beside the pins (.oymap/pins/pictures/, outside git).",
+      "since": 1,
+      "lane": "interactive",
+      "backends": [
+        "native",
+        "wasm"
+      ],
+      "exposed": true,
+      "writes": "record",
+      "assets": "none",
+      "errors": [
+        "not_a_project",
+        "locked",
+        "bad_request"
+      ],
+      "params": {
+        "type": "object",
+        "required": [
+          "project",
+          "text"
+        ],
+        "properties": {
+          "project": {
+            "$ref": "common.rpc.json#/$defs/project_path"
+          },
+          "text": {
+            "type": "string",
+            "minLength": 1
+          },
+          "on": {
+            "description": "The object: a top-level id of a source file (door:gate, room:vault), or a keyed sub-object of one in a file of format 1 (room:hall/pillars/pillar2; S5b1 indoor; sketch.yml with S5b2).",
+            "type": "string",
+            "pattern": "^[a-z][a-z0-9_]*:[a-z0-9][a-z0-9_]*(/[a-z_]+/[a-z0-9][a-z0-9_:]*)*$"
+          },
+          "file": {
+            "description": "The file of `on`, needed where the id is in more than one file.",
+            "$ref": "common.rpc.json#/$defs/file_name"
+          },
+          "at": {
+            "description": "A place, [x, y, z] in map units, for a pin on no object.",
+            "$ref": "common.rpc.json#/$defs/point3i"
+          },
+          "pose": {
+            "$ref": "#/$defs/pose_in"
+          },
+          "world": {
+            "type": "string"
+          },
+          "map": {
+            "description": "The map file the pin is on (6d01.blv).",
+            "type": "string"
+          },
+          "author": {
+            "$ref": "#/$defs/author"
+          },
+          "source": {
+            "enum": [
+              "game",
+              "studio",
+              "agent"
+            ]
+          },
+          "picture": {
+            "description": "The picture of the view the pin was made in (the studio's screenshot), as bytes.",
+            "$ref": "#/$defs/picture_in"
+          }
+        },
+        "additionalProperties": false
+      },
+      "result": {
+        "$ref": "#/$defs/pin_answer"
+      }
+    },
+    "claim": {
+      "summary": "An agent takes an open pin (or keeps one it holds). A pin claimed by another is refused unless force.",
+      "since": 1,
+      "lane": "interactive",
+      "backends": [
+        "native",
+        "wasm"
+      ],
+      "exposed": true,
+      "writes": "record",
+      "assets": "none",
+      "errors": [
+        "not_a_project",
+        "locked",
+        "no_such_pin",
+        "wrong_state",
+        "bad_request"
+      ],
+      "params": {
+        "type": "object",
+        "required": [
+          "project",
+          "pin",
+          "by"
+        ],
+        "properties": {
+          "project": {
+            "$ref": "common.rpc.json#/$defs/project_path"
+          },
+          "pin": {
+            "$ref": "#/$defs/pin_id"
+          },
+          "by": {
+            "$ref": "#/$defs/author"
+          },
+          "force": {
+            "type": "boolean"
+          }
+        },
+        "additionalProperties": false
+      },
+      "result": {
+        "$ref": "#/$defs/pin_answer"
+      }
+    },
+    "reply": {
+      "summary": "Adds a reply to a pin's thread (with the source revision now); the status stays.",
+      "since": 1,
+      "lane": "interactive",
+      "backends": [
+        "native",
+        "wasm"
+      ],
+      "exposed": true,
+      "writes": "record",
+      "assets": "none",
+      "errors": [
+        "not_a_project",
+        "locked",
+        "no_such_pin",
+        "bad_request"
+      ],
+      "params": {
+        "$ref": "#/$defs/act_params_text"
+      },
+      "result": {
+        "$ref": "#/$defs/pin_answer"
+      }
+    },
+    "resolve": {
+      "summary": "The agent says what it did: a reply, and the pin open or claimed (by this agent) becomes resolved.",
+      "since": 1,
+      "lane": "interactive",
+      "backends": [
+        "native",
+        "wasm"
+      ],
+      "exposed": true,
+      "writes": "record",
+      "assets": "none",
+      "errors": [
+        "not_a_project",
+        "locked",
+        "no_such_pin",
+        "wrong_state",
+        "bad_request"
+      ],
+      "params": {
+        "$ref": "#/$defs/act_params_text"
+      },
+      "result": {
+        "$ref": "#/$defs/pin_answer"
+      }
+    },
+    "accept": {
+      "summary": "The person agrees with a resolved pin: it becomes accepted (closed). By the user unless `by` says otherwise.",
+      "since": 1,
+      "lane": "interactive",
+      "backends": [
+        "native",
+        "wasm"
+      ],
+      "exposed": true,
+      "writes": "record",
+      "assets": "none",
+      "errors": [
+        "not_a_project",
+        "locked",
+        "no_such_pin",
+        "wrong_state",
+        "bad_request"
+      ],
+      "params": {
+        "$ref": "#/$defs/act_params"
+      },
+      "result": {
+        "$ref": "#/$defs/pin_answer"
+      }
+    },
+    "reopen": {
+      "summary": "A resolved, accepted or declined pin is open again (its claim cleared), with a reply saying why.",
+      "since": 1,
+      "lane": "interactive",
+      "backends": [
+        "native",
+        "wasm"
+      ],
+      "exposed": true,
+      "writes": "record",
+      "assets": "none",
+      "errors": [
+        "not_a_project",
+        "locked",
+        "no_such_pin",
+        "wrong_state",
+        "bad_request"
+      ],
+      "params": {
+        "$ref": "#/$defs/act_params"
+      },
+      "result": {
+        "$ref": "#/$defs/pin_answer"
+      }
+    },
+    "decline": {
+      "summary": "Closes a pin that will not be done, with a reply saying why.",
+      "since": 1,
+      "lane": "interactive",
+      "backends": [
+        "native",
+        "wasm"
+      ],
+      "exposed": true,
+      "writes": "record",
+      "assets": "none",
+      "errors": [
+        "not_a_project",
+        "locked",
+        "no_such_pin",
+        "wrong_state",
+        "bad_request"
+      ],
+      "params": {
+        "$ref": "#/$defs/act_params_text"
+      },
+      "result": {
+        "$ref": "#/$defs/pin_answer"
+      }
+    },
+    "keep": {
+      "summary": "Keeps the pin's own picture in git on purpose: copies it into review/pictures/ and marks the pin `keep: true` (pictures stay out of git otherwise; S5_BROWSER_EDITOR.md 3.13).",
+      "since": 1,
+      "lane": "interactive",
+      "backends": [
+        "native",
+        "wasm"
+      ],
+      "exposed": true,
+      "writes": "record",
+      "assets": "none",
+      "errors": [
+        "not_a_project",
+        "locked",
+        "no_such_pin",
+        "bad_request"
+      ],
+      "params": {
+        "type": "object",
+        "required": [
+          "project",
+          "pin"
+        ],
+        "properties": {
+          "project": {
+            "$ref": "common.rpc.json#/$defs/project_path"
+          },
+          "pin": {
+            "$ref": "#/$defs/pin_id"
+          }
+        },
+        "additionalProperties": false
+      },
+      "result": {
+        "$ref": "#/$defs/pin_answer"
+      }
+    },
+    "import_inbox": {
+      "summary": "Files the game's pins (the `pin <text>` console command writes them with a picture into an inbox folder) into the projects given: a pin goes to the project its map's <stem>.studio.yml names when that is one of them, else to the one project among them that builds or overlays its map. The picture moves into the project's .oymap/pins/pictures/, the pin file into <inbox>/imported/. A pin whose project cannot be told stays in the inbox, listed with the reason.",
+      "since": 1,
+      "lane": "interactive",
+      "backends": [
+        "native"
+      ],
+      "exposed": true,
+      "writes": "record",
+      "assets": "none",
+      "errors": [
+        "bad_request"
+      ],
+      "params": {
+        "type": "object",
+        "required": [
+          "inbox",
+          "projects"
+        ],
+        "properties": {
+          "inbox": {
+            "description": "The inbox folder (the game's debug.pin_inbox_path). A path the host's jail maps.",
+            "type": "string",
+            "minLength": 1
+          },
+          "projects": {
+            "type": "array",
+            "items": {
+              "$ref": "common.rpc.json#/$defs/project_path"
+            }
+          },
+          "dry_run": {
+            "description": "Match and report, move nothing.",
+            "type": "boolean"
+          }
+        },
+        "additionalProperties": false
+      },
+      "result": {
+        "type": "object",
+        "required": [
+          "imported",
+          "skipped"
+        ],
+        "properties": {
+          "imported": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": [
+                "file",
+                "project",
+                "matched_by",
+                "picture"
+              ],
+              "properties": {
+                "file": {
+                  "description": "The inbox file.",
+                  "type": "string"
+                },
+                "project": {
+                  "description": "The project, as given in projects.",
+                  "type": "string"
+                },
+                "pin": {
+                  "description": "The pin's id in that project (absent on a dry run).",
+                  "$ref": "#/$defs/pin_id"
+                },
+                "matched_by": {
+                  "enum": [
+                    "studio_file",
+                    "map"
+                  ]
+                },
+                "picture": {
+                  "description": "Whether the pin came with its picture.",
+                  "type": "boolean"
+                }
+              },
+              "additionalProperties": false
+            }
+          },
+          "skipped": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": [
+                "file",
+                "reason"
+              ],
+              "properties": {
+                "file": {
+                  "type": "string"
+                },
+                "reason": {
+                  "type": "string"
+                }
+              },
+              "additionalProperties": false
+            }
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "tour": {
+      "summary": "The shots of a screenshot tour at the pins' poses (`oymap pins tour`): by default every open, claimed and resolved pin with a pose, in the order they were made. The host's pins tour job writes the tour, builds and installs the project and takes the game's own pictures there (S5_BROWSER_EDITOR.md 3.13: after a batch of fixes, the after pictures).",
+      "since": 1,
+      "lane": "interactive",
+      "backends": [
+        "native",
+        "wasm"
+      ],
+      "exposed": true,
+      "writes": "none",
+      "assets": "none",
+      "errors": [
+        "not_a_project",
+        "failed"
+      ],
+      "params": {
+        "type": "object",
+        "required": [
+          "project"
+        ],
+        "properties": {
+          "project": {
+            "$ref": "common.rpc.json#/$defs/project_path"
+          },
+          "pins": {
+            "description": "Only these pins (pin:p7 ...).",
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1
+            },
+            "maxItems": 200
+          },
+          "status": {
+            "description": "Only pins of these states (default open, claimed, resolved).",
+            "type": "array",
+            "items": {
+              "type": "string",
+              "enum": [
+                "open",
+                "claimed",
+                "resolved",
+                "accepted",
+                "declined"
+              ]
+            },
+            "maxItems": 5
+          }
+        },
+        "additionalProperties": false
+      },
+      "result": {
+        "type": "object",
+        "required": [
+          "map",
+          "world",
+          "shots",
+          "skipped"
+        ],
+        "properties": {
+          "map": {
+            "description": "The map the pins were made on (empty when none says).",
+            "type": "string"
+          },
+          "world": {
+            "type": "string"
+          },
+          "shots": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": [
+                "pin",
+                "name",
+                "position",
+                "yaw_radians",
+                "pitch_radians"
+              ],
+              "properties": {
+                "pin": {
+                  "type": "string"
+                },
+                "name": {
+                  "description": "The picture's name (p7: the tour writes NN-p7.png).",
+                  "type": "string"
+                },
+                "position": {
+                  "description": "The party's feet, as `loc` gave it.",
+                  "type": "array",
+                  "items": {
+                    "type": "number",
+                    "x-decimals": 3
+                  },
+                  "minItems": 3,
+                  "maxItems": 3
+                },
+                "yaw_radians": {
+                  "type": "number",
+                  "x-decimals": 4
+                },
+                "pitch_radians": {
+                  "type": "number",
+                  "x-decimals": 6
+                }
+              },
+              "additionalProperties": false
+            }
+          },
+          "skipped": {
+            "description": "Pins without a pose (no shot).",
+            "$ref": "common.rpc.json#/$defs/strings"
+          }
+        },
+        "additionalProperties": false
+      }
+    }
+  },
+  "$defs": {
+    "pin": {
+      "description": "A pin as review/pins.yml holds it (pins.schema.json, format 1).",
+      "$ref": "pins.schema.json#/$defs/pin"
+    },
+    "pin_id": {
+      "type": "string",
+      "pattern": "^pin:[a-z0-9][a-z0-9_]*$"
+    },
+    "status": {
+      "enum": [
+        "open",
+        "claimed",
+        "resolved",
+        "accepted",
+        "declined"
+      ]
+    },
+    "counter": {
+      "description": "The pins document's change counter (never the source revision).",
+      "type": "integer",
+      "minimum": 0
+    },
+    "author": {
+      "description": "user, or agent:<name>.",
+      "type": "string",
+      "pattern": "^(user|agent(:[A-Za-z0-9_.-]+)?)$"
+    },
+    "pose_in": {
+      "description": "Where the pin was made from, as the game's `loc` prints it.",
+      "type": "object",
+      "required": [
+        "position"
+      ],
+      "properties": {
+        "position": {
+          "type": "array",
+          "items": {
+            "type": "number"
+          },
+          "minItems": 3,
+          "maxItems": 3
+        },
+        "yaw_radians": {
+          "type": "number"
+        },
+        "pitch_degrees": {
+          "type": "number"
+        },
+        "heading_yaw_units": {
+          "type": "integer"
+        }
+      },
+      "additionalProperties": false
+    },
+    "act_params": {
+      "type": "object",
+      "required": [
+        "project",
+        "pin"
+      ],
+      "properties": {
+        "project": {
+          "$ref": "common.rpc.json#/$defs/project_path"
+        },
+        "pin": {
+          "$ref": "#/$defs/pin_id"
+        },
+        "by": {
+          "$ref": "#/$defs/author"
+        },
+        "text": {
+          "type": "string"
+        },
+        "pictures": {
+          "description": "Pictures with the reply (what was changed, seen in the game or the studio), as bytes.",
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/picture_in"
+          },
+          "maxItems": 4
+        }
+      },
+      "additionalProperties": false
+    },
+    "act_params_text": {
+      "type": "object",
+      "required": [
+        "project",
+        "pin",
+        "by",
+        "text"
+      ],
+      "properties": {
+        "project": {
+          "$ref": "common.rpc.json#/$defs/project_path"
+        },
+        "pin": {
+          "$ref": "#/$defs/pin_id"
+        },
+        "by": {
+          "$ref": "#/$defs/author"
+        },
+        "text": {
+          "type": "string",
+          "minLength": 1
+        },
+        "pictures": {
+          "description": "Pictures with the reply (what was changed, seen in the game or the studio), as bytes.",
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/picture_in"
+          },
+          "maxItems": 4
+        }
+      },
+      "additionalProperties": false
+    },
+    "pin_answer": {
+      "type": "object",
+      "required": [
+        "pin",
+        "counter"
+      ],
+      "properties": {
+        "counter": {
+          "$ref": "#/$defs/counter"
+        },
+        "pin": {
+          "$ref": "#/$defs/pin"
+        }
+      },
+      "additionalProperties": false
+    },
+    "picture_in": {
+      "description": "A PNG or JPEG picture as base64 (at most 16 MB decoded). The core checks the signature.",
+      "type": "object",
+      "required": [
+        "media_type",
+        "base64"
+      ],
+      "properties": {
+        "media_type": {
+          "enum": [
+            "image/png",
+            "image/jpeg"
+          ]
+        },
+        "base64": {
+          "type": "string",
+          "minLength": 4,
+          "maxLength": 22400000,
+          "description": "Standard base64 (RFC 4648, padded); the core refuses other characters (no pattern here: a regular expression over megabytes is slow)."
+        }
+      },
+      "additionalProperties": false
+    }
+  }
+}

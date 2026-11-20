@@ -1,0 +1,179 @@
+{
+ "sprite": "6tree09",
+ "output": "mm6_deco_tree09.glb",
+ "height_m": 6.27,
+ "note": "Weeping willow: a tall dome of foliage with curtains of hanging wands down to a quarter of the height, a single thick trunk forking at mid height.",
+ "sapling": {
+  "scale": 4.44,
+  "baseSplits": 0,
+  "splitHeight": 0.45,
+  "splitAngle": [
+   22,
+   15,
+   15,
+   0
+  ],
+  "baseSize": 0.38,
+  "seed": 91,
+  "ratio": 0.035,
+  "curveRes": [
+   12,
+   4,
+   3,
+   1
+  ],
+  "attractUp": [
+   0,
+   0.5,
+   0.2,
+   0
+  ],
+  "downAngle": [
+   90,
+   45,
+   45,
+   45
+  ],
+  "rootFlare": 1.5,
+  "scaleV": 0.0,
+  "segSplits": [
+   0.08,
+   0.25,
+   0.3,
+   0
+  ]
+ },
+ "crown": {
+  "canopy_low": 0.5,
+  "centre": 0.72,
+  "clumps": 80,
+  "inner_clumps": 12,
+  "outer_radius": [
+   0.34,
+   0.52
+  ],
+  "inner_radius": [
+   0.32,
+   0.44
+  ],
+  "lobes": {
+   "fraction": 0.25,
+   "slack": 1.1
+  },
+  "moss": {
+   "kind": "willow",
+   "strands": 1000,
+   "length": [
+    0.5,
+    3.0
+   ],
+   "bottom": [
+    0.22,
+    0.5
+   ],
+   "down": -0.9,
+   "width": 0.42,
+   "srgb": [
+    56,
+    118,
+    50
+   ],
+   "highlight": [
+    0.1,
+    [
+     140,
+     190,
+     90
+    ]
+   ],
+   "seed": 909,
+   "fibres": 5,
+   "keep": [
+    1.0,
+    0.45,
+    0.15
+   ]
+  }
+ },
+ "bark": {
+  "target_srgb": [
+   118,
+   84,
+   56
+  ],
+  "min_thickness": [
+   0.02,
+   0.04,
+   0.07
+  ],
+  "root_reach": 0.3,
+  "roots": 4,
+  "clip_below_crown": true,
+  "budget": [
+   1500,
+   520,
+   200
+  ],
+  "root_radius": 0.6
+ },
+ "lod": {
+  "triangles": [
+   6000,
+   2400,
+   900
+  ],
+  "lod2_card_scale": 0.95,
+  "tone": [
+   1.0,
+   [
+    0.92,
+    0.92,
+    0.92
+   ],
+   [
+    1.05,
+    1.05,
+    1.05
+   ]
+  ]
+ },
+ "leaves": {
+  "target_srgb": [
+   100,
+   200,
+   80
+  ],
+  "seeds": [
+   91,
+   103,
+   117,
+   121
+  ],
+  "value": [
+   0.8,
+   1.5
+  ],
+  "jitter_red": [
+   0.85,
+   1.2
+  ]
+ },
+ "occlusion": {
+  "floor": 0.3,
+  "range": 0.7,
+  "power": 1.4
+ },
+ "impostor_dilate": 6,
+ "impostor_edge_fill": true,
+ "transparent_bounces": 64,
+ "impostor_tone": [
+  0.94,
+  0.85,
+  0.97
+ ],
+ "albedo_tint": [
+  0.543,
+  0.517,
+  0.757
+ ]
+}

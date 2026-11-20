@@ -1,0 +1,33 @@
+id: mm6.sorpigal_ship.collision
+title: New Sorpigal ship copy - boarding both ways, cabin door and save round trip
+world: mm6
+mode: faithful
+steps:
+  - new_game_flow:
+      start_map: oute3.odm
+  - movement_segment:
+      start: {map: oute3.odm, x: 1536, y: -10208, z: 161, yaw: 0, pitch: 0}
+      expect_stop: {map: oute3.odm, x: 2016, y: -10208, z: 89, yaw: 0, pitch: 0}
+      seconds: 1.25
+      input: forward
+      shift: true
+      actor_ai: false
+      tolerance_xy: 16
+      tolerance_z: 3
+  - movement_segment:
+      start: {map: oute3.odm, x: 2016, y: -10208, z: 89, yaw: 3.14159265, pitch: 0}
+      # Walking uphill over the native boarding ramp covers less horizontal distance.
+      expect_stop: {map: oute3.odm, x: 1631, y: -10208, z: 161, yaw: 3.14159265, pitch: 0}
+      seconds: 1.25
+      input: forward
+      shift: true
+      actor_ai: false
+      tolerance_xy: 16
+      tolerance_z: 3
+  - save_game: ship_collision
+  - load_game: ship_collision
+  - assert:
+      map: oute3.odm
+  - press_interact:
+      pose: {map: oute3.odm, x: 2168, y: -10432, z: 89, yaw: -1.57079633, pitch: 0}
+      expect: {can_activate: true, target_index: 87, face_index: 42, triggered_event: 29}

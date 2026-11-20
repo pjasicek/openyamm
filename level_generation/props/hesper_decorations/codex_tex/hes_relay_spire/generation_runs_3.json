@@ -1,0 +1,230 @@
+{
+  "brief": "CODEX_BRIEF_3.md",
+  "tool": "built-in image_gen",
+  "requested_size": [
+    1024,
+    1024
+  ],
+  "postprocessing": "None. Files are byte-for-byte copies of native tool returns.",
+  "runs": [
+    {
+      "view": "left",
+      "attempt": 1,
+      "prompt": "Use case: sketch-to-render.\nAsset type: orthographic painted albedo texture source for the existing Relay Spire 3D model.\nEdit the FIRST input image, the plain grey orthographic geometry guide. This is a strictly registered surface-material paint-over, not a new design or a new render angle.\nInput roles: image 1 is the EDIT TARGET and absolute geometry/alpha authority; image 2 (design_reference.png) is the approved colour/material/design reference ONLY, not a camera or geometry reference; image 3 (concept_crop.png) is supporting material reference ONLY.\nReturn exactly ONE native 1024 x 1024 RGBA PNG with genuine transparent background, unresized.\nGEOMETRY LOCK: Keep the first input's silhouette EXACTLY pixel for pixel, including its alpha contour and internal transparent openings. Same outline, size, position, orthographic camera, every shape edge, horn tip, sphere, spiral rib, opening, root, and panel boundary. Do not shift, rotate, crop, scale, inflate, smooth, extend, remove, or invent geometry. All paint must remain inside the existing guide's alpha. Preserve every small gap and original occlusion edge. The guide's opaque bounding box is x=66..957, y=75..948 on the 1024 square canvas; retain the original margins. The guide is the shape authority even where its simplified geometry differs from the detailed reference.\nSURFACE MATERIALS: Paint the approved reference's glossy black-violet resin vertebrae and roots, rich purple-black organic rib framework and orange rib windows; white/ivory ceramic with restrained gold Ancient trim on dishes/panels; blue/cyan luminous lights on the existing spherical relay elements; ivory tusks. Depict the reference's fine organic and ceramic surface motifs as colour texture within the existing guide shapes without inventing relief or new edges. Identify resin using its intrinsic dark violet colour, NOT reflective highlights. Orange sacs/windows/seams and blue lights are painted with their saturated glowing colour only.\nLIGHTING: This is ALBEDO, not a lit beauty render. Use even, flat, shadowless light from the viewer. No cast shadows, no ambient-occlusion darkening, no strong specular highlights, no reflections, no rim light. Do not transfer the concept's dramatic illumination or the guide's grey lighting. No glow bloom or light spilling onto nearby surfaces. Material base colours stay uniform across facing directions; detail comes from painted colour patterns, not baked directional lighting.\nBACKGROUND: fully transparent alpha including existing openings. No background, floor, environment, shadow, checkerboard painted into the pixels, text, watermark, borders, extra objects or extra architecture. Nothing outside the target silhouette and nothing cropped.\nVIEW: LEFT. Paint directly over guide_left.png. Keep its exact left-side orthographic arrangement: tallest pointed spherical finial near (575,75), broad layered base at the original position, crescent dishes and relay spheres exactly where this left guide places them. Do not use the reference's three-quarter camera. Do not mirror the guide.",
+      "inputs": [
+        {
+          "path": "guide_left.png",
+          "sha256": "d52d022befbb4a2f83106ae5a95635c610371887283ead8719c8f17fe02e46d8"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "0da8ba193a53668519141f702f6c3177293619ae382d1636e66f644e89a04ca6"
+        },
+        {
+          "path": "concept_crop.png",
+          "sha256": "83005ae749fd2b75ed2efe9901ddb97d9ba84aa801b35e4620892b833d9b49c1"
+        }
+      ],
+      "output": "paint_left_attempt_1.png",
+      "selected": false,
+      "reason": "Rejected: native return is 1254x1254, silhouette drifts from guide, and specular highlights are baked into the material colours.",
+      "source_output": "/home/pjasicek/.codex/generated_images/01a16896-aabb-75f1-ac57-61f680431b0a/exec-3b9cee31-545e-4e8b-85a3-cb5388d05184.png",
+      "output_sha256": "f3e3d1e312f03284ad6a74d2730eed97bd6508fb5af02f90bf1474087ac3a02b",
+      "checks": {
+        "native_size": [
+          1254,
+          1254
+        ],
+        "required_size_pass": false,
+        "mode": "RGBA",
+        "transparency_present": true,
+        "alpha_bbox": [
+          0,
+          25,
+          1232,
+          1223
+        ],
+        "guide_alpha_bbox": [
+          66,
+          75,
+          958,
+          949
+        ],
+        "silhouette_identical_to_guide": false,
+        "materials_and_colours_match_reference": true,
+        "materials_review": "Ivory/white ceramic, gold trim, violet-black resin, orange windows and cyan-blue relay lights are present.",
+        "flat_even_light_pass": false,
+        "lighting_review": "Visible baked highlights and material shading.",
+        "unresized_unmodified_return": true,
+        "meets_all_brief_requirements": false
+      }
+    },
+    {
+      "view": "left",
+      "attempt": 2,
+      "prompt": "CORRECTIVE REGENERATION, LEFT VIEW. Deliver exactly 1024 by 1024 pixels, native resolution. The previous attempt failed because it returned 1254 by 1254, changed the silhouette and baked shiny highlights into an albedo image. Correct these failures.\n\nUse case: sketch-to-render. Paint only the existing opaque surface pixels of IMAGE 1, guide_left.png. Treat this as a colour replacement edit of that exact 1024x1024 RGBA canvas. Copy its alpha mask without changes. No scaling, recentering, zooming, cropping, perspective, redrawing outlines or adding silhouettes. Every shape edge, gap, sphere, horn, spiral rib and root stays at precisely the original pixel coordinates. Preserve alpha antialiasing and all transparent openings. Object bounding box stays x=66..957, y=75..948. Highest tip stays (575,75). Do not enlarge the image for additional detail.\n\nIMAGE 2, design_reference.png, supplies materials/colours only; IMAGE 3, concept_crop.png, is a supporting materials reference. Neither supplies geometry, camera or lighting. Transfer the approved materials onto the unchanged guide surfaces: black-violet resin vertebrae and organic roots, vivid orange rib windows, ivory white ceramic and gold Ancient crescent dishes, blue/cyan relay lights on the guide's spheres, ivory tusks. Add the reference's fine resin lattice and ceramic/gold decoration only as flat painted surface colour contained within the guide's existing shapes. Do not create holes, new edges or new architecture.\n\nThis image is a flat UNLIT BASE-COLOUR/ALBEDO texture projection. Even shadowless light from the viewer. Black-violet resin remains its intrinsic purple-black base colour without white glints or specular streaks. Gold is flat ochre/gold pigment without shining reflections. Ivory remains evenly ivory, without shaded gray sides. Orange windows and blue lights are saturated emissive COLOUR patches, without central white light spots, bloom, light rays or coloured light cast on anything else. No directional highlights, rim lighting, cast shadows, ambient occlusion or darkened crevices. Do not copy the lighting from either reference.\n\nOne image only, exact 1024x1024 RGBA with genuine alpha transparency, empty transparent background. No floor, background, backdrop, shadow, text, labels, watermark or checkerboard. Preserve the entire source guide silhouette pixel for pixel. LEFT orthographic side exactly as in image 1, not the reference's three-quarter view.",
+      "inputs": [
+        {
+          "path": "guide_left.png",
+          "sha256": "d52d022befbb4a2f83106ae5a95635c610371887283ead8719c8f17fe02e46d8"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "0da8ba193a53668519141f702f6c3177293619ae382d1636e66f644e89a04ca6"
+        },
+        {
+          "path": "concept_crop.png",
+          "sha256": "83005ae749fd2b75ed2efe9901ddb97d9ba84aa801b35e4620892b833d9b49c1"
+        }
+      ],
+      "output": "paint_left.png",
+      "selected": true,
+      "reason": "Best available after the one allowed correction: flatter blue lights and ivory fields, reference palette retained. Selection does not imply brief compliance: resolution and exact alpha silhouette still fail; some baked highlights remain.",
+      "source_output": "/home/pjasicek/.codex/generated_images/01a16896-aabb-75f1-ac57-61f680431b0a/exec-14488b6a-8957-4feb-97c4-e369142775ad.png",
+      "output_sha256": "8a2a74af7c108bc05c5c5457fbd82c2f6cb75541155be87d02b733f73f7fea77",
+      "checks": {
+        "native_size": [
+          1254,
+          1254
+        ],
+        "required_size_pass": false,
+        "mode": "RGBA",
+        "transparency_present": true,
+        "alpha_bbox": [
+          17,
+          33,
+          1224,
+          1236
+        ],
+        "guide_alpha_bbox": [
+          66,
+          75,
+          958,
+          949
+        ],
+        "silhouette_identical_to_guide": false,
+        "materials_and_colours_match_reference": true,
+        "materials_review": "Ivory/white ceramic, gold trim, violet-black resin, orange windows and cyan-blue relay lights are present.",
+        "flat_even_light_pass": false,
+        "lighting_review": "Correction reduces luminous gradients; residual resin/gold highlights and shaded ceramic remain.",
+        "unresized_unmodified_return": true,
+        "meets_all_brief_requirements": false
+      }
+    },
+    {
+      "view": "right",
+      "attempt": 1,
+      "prompt": "Use case: sketch-to-render. RIGHT VIEW albedo texture painting of the Relay Spire. Required output: exactly 1024 x 1024 pixels, one native RGBA image with genuine transparency.\n\nIMAGE 1 (guide_right.png) is the edit target and geometry authority. Repaint only this exact canvas's opaque surface pixels. Preserve its alpha mask and silhouette pixel for pixel, every geometry edge and transparent opening, the same camera, size and position. No scaling, recentering, mirroring, zooming, cropping, new relief or redrawing outlines. Keep each sphere, horn, spiral rib, root, panel and occlusion at the original coordinates. Object bounding box remains x=66..957, y=75..948; the tallest finial is near (449,75), the wide crescent cluster is on the RIGHT and the low freestanding slab is on the LEFT exactly as the right-side guide. Do not enlarge the output to add detail.\n\nIMAGE 2 (design_reference.png) is the approved material, colour and design reference ONLY. IMAGE 3 (concept_crop.png) supports the surface material reference ONLY. Do not transfer their geometry, perspective, composition or lighting. Paint the design reference's black-violet resin vertebrae and roots with orange rib windows, white ceramic and gold Ancient dishes with blue lights, ivory tusks. Existing spheres receive blue/cyan luminous colour. Ceramic panels and ivory tusks receive fine gold surface motifs. Purple-black organic resin surfaces receive the reference's organic lattice and orange sac/window motifs as colour texture inside the guide shapes, without adding silhouette detail or new gaps.\n\nALBEDO LIGHTING: flat, even, shadowless viewer-facing illumination, unlit material base colours. Resin is intrinsically dark violet, without white glints or bright specular highlights. Ivory is evenly ivory without gray shaded sides. Gold is ochre/gold base colour without reflective streaks. Orange windows and blue lights are painted at their glowing colours without white-hot points, bloom or light cast on their surroundings. No cast shadows, no ambient occlusion, no darkened contact crevices, no directional shading, no strong specular highlights or reflections, no rim light. Do not reproduce the concept's dramatic lighting.\n\nTransparent background and transparent existing openings. No floor, environment, backdrop, extra objects, architecture, lettering, watermark or painted checkerboard. Nothing outside the exact guide silhouette, nothing cropped. Exact 1024-square native unresized output. This is the RIGHT orthographic view fixed by image 1, not a three-quarter beauty render.",
+      "inputs": [
+        {
+          "path": "guide_right.png",
+          "sha256": "d6db7fa1e61d04639a41e689dc03d942321e118f44dd9b817b95b5c8818a0a79"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "0da8ba193a53668519141f702f6c3177293619ae382d1636e66f644e89a04ca6"
+        },
+        {
+          "path": "concept_crop.png",
+          "sha256": "83005ae749fd2b75ed2efe9901ddb97d9ba84aa801b35e4620892b833d9b49c1"
+        }
+      ],
+      "output": "paint_right_attempt_1.png",
+      "selected": false,
+      "reason": "Rejected: native return is 1254x1254; silhouette is not identical; resin, gold and lights retain baked highlights.",
+      "source_output": "/home/pjasicek/.codex/generated_images/01a16896-aabb-75f1-ac57-61f680431b0a/exec-665fa54f-1397-41b5-b4a9-06fe9ff0b60d.png",
+      "output_sha256": "f205a7c2ac8ca0d01ffc8e030e062f974a05553a72b568db47ceb0ea57cc8694",
+      "checks": {
+        "native_size": [
+          1254,
+          1254
+        ],
+        "required_size_pass": false,
+        "mode": "RGBA",
+        "transparency_present": true,
+        "alpha_bbox": [
+          0,
+          26,
+          1251,
+          1254
+        ],
+        "guide_alpha_bbox": [
+          66,
+          75,
+          958,
+          949
+        ],
+        "silhouette_identical_to_guide": false,
+        "materials_and_colours_match_reference": true,
+        "materials_review": "Ivory/white ceramic, gold trim, violet-black resin, orange windows and cyan-blue relay lights are present.",
+        "flat_even_light_pass": false,
+        "lighting_review": "Visible baked highlights and material shading.",
+        "unresized_unmodified_return": true,
+        "meets_all_brief_requirements": false
+      }
+    },
+    {
+      "view": "right",
+      "attempt": 2,
+      "prompt": "Corrective regeneration for the RIGHT side, texture-source albedo, not a beauty render.\nOUTPUT SIZE: 1024x1024 pixels exactly. The first attempt incorrectly returned 1254x1254 with silhouette drift and shaded/specular surfaces. This one correction must fix that.\nUse the first attached image guide_right.png as the actual image to EDIT, preserving its existing 1024x1024 canvas and alpha channel unchanged. Paint material colours on that existing image without redrawing or moving its geometry. The silhouette, gaps, overlaps, all interior and exterior shape edges must be identical. Preserve the guide's unaltered location, scale, framing and right orthographic view. Do not add even tiny roots, gems, ribs, antennas, protrusions or cutouts. Do not introduce gold borders outside an existing edge. Keep every sphere, crescent, horn, pointed tower, spiral band, platform, root and panel at its original coordinates, including the tall tip (449,75), exact opaque bounding box (66,75) to (958,949), right-hand crescent cluster and lower-left slab.\n\nThe second attached image design_reference.png is the authority for material identity and palette only; the third concept_crop.png supports those materials only. Apply: glossy-black-violet resin represented as flat dark purple base colour on vertebrae and roots, orange rib-window motifs, white ceramic and gold Ancient dishes, cyan-blue spherical lights and ivory tusks. Preserve the geometry guide over the design reference wherever they differ. Reference ornamentation must be flat surface texture only, confined to the existing shape.\n\nReturn the BASE COLOUR PASS with all lighting disabled, evenly readable from the viewer. No cast or contact shadows, no AO, no directional gradients, no gray shaded faces, no reflective highlights, no shiny gold streaks, no white pinpoints on resin, no rim light. Describe glossy materials only by colour/pattern, not by reflected light. Blue lights are flat saturated cyan-blue with no white center or halo; orange lights are flat saturated orange with no bloom or illumination of other surfaces. White ceramic is uniform warm ivory, gold trim uniform golden ochre. Organic texture detail uses intrinsic violet and purple-black pigment without lit ridges or shading.\n\nExactly one native 1024x1024 RGBA image. Genuine transparent background and existing holes. No checkerboard, floor, background, shadows, atmospheric glow, text, watermark or crop. Preserve the guide's exact alpha coverage and geometry; change only its surface colours.",
+      "inputs": [
+        {
+          "path": "guide_right.png",
+          "sha256": "d6db7fa1e61d04639a41e689dc03d942321e118f44dd9b817b95b5c8818a0a79"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "0da8ba193a53668519141f702f6c3177293619ae382d1636e66f644e89a04ca6"
+        },
+        {
+          "path": "concept_crop.png",
+          "sha256": "83005ae749fd2b75ed2efe9901ddb97d9ba84aa801b35e4620892b833d9b49c1"
+        }
+      ],
+      "output": "paint_right.png",
+      "selected": true,
+      "reason": "Best available after the one allowed correction: flatter orange windows and blue relay lights; reference palette retained. Selection does not imply brief compliance: exact native dimensions and alpha silhouette still fail, with residual shading/highlights on resin and ceramic.",
+      "source_output": "/home/pjasicek/.codex/generated_images/01a16896-aabb-75f1-ac57-61f680431b0a/exec-ceb340be-e167-4a4d-8058-10c3e98660ea.png",
+      "output_sha256": "6bf329a8c550134cdf831061e2120992d00d6bea567ed8bd317c510683f532c0",
+      "checks": {
+        "native_size": [
+          1254,
+          1254
+        ],
+        "required_size_pass": false,
+        "mode": "RGBA",
+        "transparency_present": true,
+        "alpha_bbox": [
+          25,
+          21,
+          1254,
+          1230
+        ],
+        "guide_alpha_bbox": [
+          66,
+          75,
+          958,
+          949
+        ],
+        "silhouette_identical_to_guide": false,
+        "materials_and_colours_match_reference": true,
+        "materials_review": "Ivory/white ceramic, gold trim, violet-black resin, orange windows and cyan-blue relay lights are present.",
+        "flat_even_light_pass": false,
+        "lighting_review": "Correction reduces luminous gradients; residual resin/gold highlights and shaded ceramic remain.",
+        "unresized_unmodified_return": true,
+        "meets_all_brief_requirements": false
+      }
+    }
+  ],
+  "status": "incomplete_brief_requirements",
+  "selection_meaning": "Best available native return per view; not an approval or a claim that all brief checks passed.",
+  "corrective_regenerations_per_view": {
+    "left": 1,
+    "right": 1
+  },
+  "unresolved": [
+    "The built-in image generator returned 1254x1254 despite explicit requests for native 1024x1024.",
+    "Generated alpha silhouettes and some internal shape edges differ from the guides.",
+    "The corrective returns flatten the luminous colours but retain some baked shading/highlights."
+  ]
+}

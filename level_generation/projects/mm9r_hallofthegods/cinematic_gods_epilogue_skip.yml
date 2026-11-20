@@ -1,0 +1,15 @@
+# gods_epilogue skipped at 20 s: the Writ of Fate and :Release still happen.
+id: mm9r.hallofthegods.cinematic_gods_epilogue_skip
+world: mm9
+mode: faithful
+steps:
+- new_game_flow: {start_map: hallofthegods.blv}
+- setup_shortcut: {kind: set_qbit, id: 90109}
+- execute_event: {id: 1}
+- advance_runtime: {seconds: 20}
+- console: {line: cinematic list, expect_contains: playing gods_epilogue}
+- assert: {state_dump_named_map_var: {name: Cinema.gods_epilogue.step.writ, value: 0}}
+- console: {line: cinematic skip, expect_contains: Skipping}
+- advance_runtime: {seconds: 0.5}
+- assert: {state_dump_named_map_var: {name: Cinema.gods_epilogue.step.writ, value: 1}}
+- assert: {state_dump_named_map_var: {name: CinemaDone, value: 1}}

@@ -1,0 +1,87 @@
+{
+ "output_dir": "/home/pjasicek/github/OpenYAMM/level_generation/projects/hesper_out1/review/village",
+ "settle_seconds": 2.5,
+ "exit": true,
+ "shots": [
+  {
+   "name": "village_road_gate",
+   "position": [
+    3168,
+    864,
+    1460
+   ],
+   "yaw": -1.6866,
+   "pitch": -0.012
+  },
+  {
+   "name": "village_track_gate",
+   "position": [
+    -2304,
+    -4896,
+    1204
+   ],
+   "yaw": 0.5646,
+   "pitch": 0.0368
+  },
+  {
+   "name": "plaza_to_lift",
+   "position": [
+    2016,
+    -2880,
+    1480
+   ],
+   "yaw": 0.9724,
+   "pitch": -0.0326
+  },
+  {
+   "name": "plaza_east",
+   "position": [
+    2592,
+    -1728,
+    1480
+   ],
+   "yaw": 0.0,
+   "pitch": -0.0263
+  },
+  {
+   "name": "plaza_west",
+   "position": [
+    3168,
+    -1440,
+    1480
+   ],
+   "yaw": -2.9997,
+   "pitch": -0.0245
+  },
+  {
+   "name": "plaza_south",
+   "position": [
+    2880,
+    -1037,
+    1480
+   ],
+   "yaw": -1.5708,
+   "pitch": -0.0235
+  },
+  {
+   "name": "lift_cage",
+   "position": [
+    2880,
+    -1037,
+    1450
+   ],
+   "yaw": -1.5708,
+   "pitch": -0.0347
+  },
+  {
+   "name": "village_aerial",
+   "position": [
+    2880,
+    -4896,
+    3424
+   ],
+   "yaw": 1.5708,
+   "pitch": -0.65
+  }
+ ]
+}

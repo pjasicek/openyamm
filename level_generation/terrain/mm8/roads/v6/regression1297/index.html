@@ -1,0 +1,15 @@
+<!doctype html><meta charset="utf-8"><title>Dagger Wound road audit — 1297</title>
+<style>body{background:#182027;color:#e9e5dc;font:17px system-ui;max-width:1600px;margin:24px auto}
+img{max-width:100%;height:auto}button{font:inherit;padding:8px} .pair{display:flex;gap:20px;align-items:flex-start}
+.pair img{max-width:48%}p{max-width:1000px}</style>
+<h1>Dagger Wound: exact installed road path</h1>
+<p>Native out01 rows51–57, columns74–79. PNG pixels are copied directly from the installed pack,
+without blending, smoothing, or resampling. Click the image to inspect full resolution.</p>
+<button onclick="const i=document.querySelector('#path');i.src=i.src.endsWith('labelled_path.png')?'installed_path.png':'labelled_path.png'">Toggle tile boundaries and names</button>
+<a href="installed_path.png"><img id="path" src="labelled_path.png"></a>
+<h2>Original path, same native tile order</h2><a href="original_path.png"><img src="original_path.png"></a>
+<h2>East join: drsrne2 → drsrne1</h2><p>Left: unmarked4× nearest-pixel crop. Right: yellow=actual tile boundary;
+salmon=8px inside each tile, where the retained16px authoring rim meets new artwork.</p>
+<div class="pair"><img src="east_join_clean.png"><img src="east_join_marked.png"></div>
+<h2>South join: drsrne1 → drsrne2</h2>
+<div class="pair"><img src="south_join_clean.png"><img src="south_join_marked.png"></div>

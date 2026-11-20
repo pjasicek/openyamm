@@ -1,0 +1,23 @@
+{
+  "family": "gst",
+  "title": "MM6 Ghost",
+  "descriptor_ids": [
+    547,
+    548,
+    549
+  ],
+  "base_palette": 742,
+  "inventory_file": "inventory.json",
+  "matte": "magenta",
+  "mask_kind": "blue",
+  "description": "MM6 hooded floating skeletal ghost: tarnished tan skull and long thin bony hands, small vivid green eyes under deep hood shadow; long torn white-gray shroud with pointed ragged sleeve and hem strips; a dark desaturated violet-charcoal sleeveless tabard down the chest and back. There are no visible legs or feet. Preserve the silhouette, cloth gaps and individual bone fingers without adding mist, halos, weapons, chains or extra decorations. Cloth is painted/pre-rendered fabric with sharp tattered tips, not a glowing white blob. Native death billows the cloth upward then collapses into a small cloth-and-skull heap; follow every exact source pose.",
+  "regions": "Dark violet tabard shifts to navy blue or dark maroon using a cloth mask, green eyes shift to blue or red through an eye mask. Protect white-gray shroud and tan bones from recoloring.",
+  "variant_names": {
+    "742": "Ghost 1",
+    "743": "Ghost 2",
+    "744": "Ghost 3"
+  },
+  "material_module": "materials.py",
+  "material_mask_channels": 4,
+  "standing_reference_frame": 0
+}

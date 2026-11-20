@@ -60,6 +60,9 @@ const char *classNameFor(MeleeWeaponClass weaponClass)
         case MeleeWeaponClass::Crush:
             return "crush";
 
+        case MeleeWeaponClass::Claw:
+            return "claw";
+
         case MeleeWeaponClass::Slash:
         default:
             return "slash";
@@ -259,15 +262,26 @@ std::optional<MeleeContactEffectPlacement> buildMeleeContactEffect(const MeleeCo
     const float halfSpan = input.memberCount > 1 ? (static_cast<float>(input.memberCount) - 1.0f) * 0.5f : 0.0f;
     const float slot = halfSpan > 0.0f
         ? std::clamp((static_cast<float>(input.memberIndex) - halfSpan) / halfSpan, -1.0f, 1.0f) : 0.0f;
-    const float side = slot < 0.0f ? 1.0f : (slot > 0.0f ? -1.0f : (input.variation < 0.0f ? 1.0f : -1.0f));
+    float side = slot < 0.0f ? 1.0f : (slot > 0.0f ? -1.0f : (input.variation < 0.0f ? 1.0f : -1.0f));
     const TiltRange tiltRange = tiltRangeFor(input.weaponClass);
     const float tiltDegrees = tiltRange.outer + (tiltRange.middle - tiltRange.outer) * (1.0f - std::abs(slot))
         + VariationTiltDegrees * input.variation;
     const float tilt = tiltDegrees * std::numbers::pi_v<float> / 180.0f;
 
-    // On screen the blow travels across towards the other side and downwards; the arc bulges up and outwards.
-    const float blowRight = side * std::cos(tilt);
-    const float blowUp = -std::sin(tilt);
+    // On screen the blow travels across towards the other side and downwards; the arc bulges up and outwards. A view
+    // model's blade gives the direction itself.
+    float blowRight = side * std::cos(tilt);
+    float blowUp = -std::sin(tilt);
+    if (input.blowDirection)
+    {
+        const float directionLength = std::hypot((*input.blowDirection)[0], (*input.blowDirection)[1]);
+        if (directionLength > DirectionEpsilon)
+        {
+            blowRight = (*input.blowDirection)[0] / directionLength;
+            blowUp = (*input.blowDirection)[1] / directionLength;
+            side = blowRight < 0.0f ? -1.0f : 1.0f;
+        }
+    }
     const Vector3 axisX = add(scaled(screenRight, blowRight), scaled(screenUp, blowUp));
     const Vector3 axisY = scaled(add(scaled(screenRight, -blowUp), scaled(screenUp, blowRight)), side);
     const Vector3 axisZ = cross(axisX, axisY);

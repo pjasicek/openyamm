@@ -1,0 +1,30 @@
+# AI arena: the reposition modifier's leash. An Evil Sorcerer (9157) posted beside the east pen's doorway at
+# (1450, -300) with a 250 unit leash (override reposition_leash_radius); the pen's doors open; the party walks slowly
+# past it into the pen and stops just past where the pen's west wall hides it, about 340 units from the post. The
+# spots that see where it vanished and keep 640 units from there all lie beyond the leash: every search finds none
+# (reposition note none), it never leaves its post, and loses the party 8 s after it vanished. See README.md.
+name: mm9_reposition_leash
+world: mm9
+map: thearena.blv
+asset_root: output/mm9_rework/assets_dev
+party:
+  position: [0, -900, 1]
+  # Faces the sorcerer from the pen (the party's facing does not matter to the AI).
+  yaw_degrees: 226
+  pitch_degrees: -8
+  invulnerable: true
+trace: true
+monsters:
+  - monster_id: 9157
+    position: [1450, -300, 1]
+    yaw_degrees: 180
+    overrides: {reposition_leash_radius: 250}
+events:
+  # The pen's doors held open: since the 2026-11-05 rebuild they shut 5 s after opening (MM9's CloseWaitTime).
+  - {at: 0, door: {id: 3, hold: true}}
+  - {at: 0, door: {id: 4, hold: true}}
+  # Round the north of the pit, then slowly past the sorcerer (closing on it below the 200 of a rush).
+  - {at: 4, party_walk: {to: [-300, 300, 1], seconds: 1.5}}
+  - {at: 5.5, party_walk: {to: [1100, 150, 1], seconds: 2}}
+  - {at: 7.5, party_walk: {to: [1560, 0, 1], seconds: 3.5}}
+  - {at: 11, party_walk: {to: [1700, -40, 1], seconds: 1}}

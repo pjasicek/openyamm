@@ -1,0 +1,472 @@
+{
+ "id": "20261101-1523-mm9-sturmfordcity-06",
+ "world": "mm9",
+ "maps": [
+  "sturmfordcity.blv"
+ ],
+ "created": "2026-11-01T14:23:56+00:00",
+ "textures": [
+  "mm9/sturq771da",
+  "mm9/keepdc22uj",
+  "mm9/stur2a9k0g",
+  "mm9/sturz4cexf",
+  "mm9/sturq6aau9",
+  "mm9/stuc2z4ffe",
+  "mm9/sturi2crmo",
+  "mm9/sturvhkjjk",
+  "mm9/sturru4j3t",
+  "mm9/sturglwneo",
+  "mm9/sturv3it6b",
+  "mm9/keeppspzzo",
+  "mm9/sturl98aps",
+  "mm9/extwqjr6hz",
+  "mm9/sturpy8ozj",
+  "mm9/sturk3z7id",
+  "mm9/extwaa6nhz",
+  "mm9/stur5alc97",
+  "mm9/sturn95fhm",
+  "mm9/sturefa7tu",
+  "mm9/tapegz37dv",
+  "mm9/bannmwup80",
+  "mm9/sturucp65j",
+  "mm9/dbla80hka1"
+ ],
+ "requests": {
+  "mm9/sturq771da": {
+   "name": "sturq771da",
+   "versions": [
+    1
+   ],
+   "material": "white-grey plaster wall in dark brown half-timber framing with a large X of diagonal braces, a row of short vertical posts in a band along the top",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/keepdc22uj": {
+   "name": "keepdc22uj",
+   "versions": [
+    1
+   ],
+   "material": "mossy olive-green stone wall of large worn blocks with faint horizontal joints and grey-green lichen patches",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/stur2a9k0g": {
+   "name": "stur2a9k0g",
+   "versions": [
+    1
+   ],
+   "material": "white plaster half-timber wall with a small four-pane window in the centre between white louvred shutters, a flower box with green plants beneath it",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/sturz4cexf": {
+   "name": "sturz4cexf",
+   "versions": [
+    1
+   ],
+   "material": "dark brown wooden boards with grain, a vertical post down the centre crossed by a horizontal beam, darker diagonal seams in the corners",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/sturq6aau9": {
+   "name": "sturq6aau9",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "grey-blue carved stone wall with moulded panels, a small square window with a dark iron-grid lattice in a recessed frame in the centre",
+   "notes": {
+    "2": "keep the light stone band at the very top edge with no dark line, and keep the three small recessed panels in the lintel above the window as in the native"
+   },
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {},
+    "2": {}
+   },
+   "roll": {
+    "2": [
+     0,
+     45
+    ]
+   }
+  },
+  "mm9/stuc2z4ffe": {
+   "name": "stuc2z4ffe",
+   "versions": [
+    1
+   ],
+   "material": "tan plaster wall with a narrow arched window of golden lit lattice panes in the centre above a small wooden flower box",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/sturi2crmo": {
+   "name": "sturi2crmo",
+   "versions": [
+    1
+   ],
+   "material": "white-grey plaster wall in dark brown half-timber framing, two vertical posts and crossing diagonal braces forming an inverted V and X pattern",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/sturvhkjjk": {
+   "name": "sturvhkjjk",
+   "versions": [
+    1
+   ],
+   "material": "white-grey plaster wall in dark half-timber framing with a row of short posts along the top and two diagonal braces at the lower corners",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/sturru4j3t": {
+   "name": "sturru4j3t",
+   "versions": [
+    1
+   ],
+   "material": "pale beige plaster wall framed in light wood with a single diagonal wooden brace from the top left to the bottom right",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/sturglwneo": {
+   "name": "sturglwneo",
+   "versions": [
+    1
+   ],
+   "material": "white plaster half-timber wall with a row of short posts at the top, a small dark window in the centre and diagonal braces at the sides",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/sturv3it6b": {
+   "name": "sturv3it6b",
+   "versions": [
+    1
+   ],
+   "material": "light brown wooden boards with grain, a vertical post down the centre crossed by a horizontal beam",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/keeppspzzo": {
+   "name": "keeppspzzo",
+   "versions": [
+    1
+   ],
+   "material": "a pair of dark grey-green weathered wooden door leaves with curved arch-shaped iron straps and small ring handles at the centre",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/sturl98aps": {
+   "name": "sturl98aps",
+   "versions": [
+    1
+   ],
+   "material": "white-grey plaster wall in dark brown framing with diagonal braces forming a V on the left and right halves",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/extwqjr6hz": {
+   "name": "extwqjr6hz",
+   "versions": [
+    1
+   ],
+   "material": "cream plaster panel framed in honey-brown wood, a central post with two curved braces sweeping out to the upper corners",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/sturpy8ozj": {
+   "name": "sturpy8ozj",
+   "versions": [
+    1
+   ],
+   "material": "a pair of brown wooden door leaves each with three stacked dark recessed panels, small iron ring handles at the centre",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/sturk3z7id": {
+   "name": "sturk3z7id",
+   "versions": [
+    1
+   ],
+   "material": "dark red-brown wooden floorboards running horizontally in staggered lengths with visible grain",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/extwaa6nhz": {
+   "name": "extwaa6nhz",
+   "versions": [
+    1
+   ],
+   "material": "cream plaster panel framed in honey-brown wood with a pointed wooden arch over a central post",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/stur5alc97": {
+   "name": "stur5alc97",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "a narrow pale grey weathered plank door with an iron ring knocker near the top, an iron latch on the right and a dark rail across the bottom",
+   "notes": {
+    "2": "run the planks and rails to the left, right and bottom edges at the native's brightness with no dark outline along them"
+   },
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {},
+    "2": {}
+   },
+   "roll": {
+    "2": [
+     93,
+     185
+    ]
+   }
+  },
+  "mm9/sturn95fhm": {
+   "name": "sturn95fhm",
+   "versions": [
+    1
+   ],
+   "material": "a dark iron door framed by rows of square rivets, a raised oval medallion in the centre bearing a horned demon face",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/sturefa7tu": {
+   "name": "sturefa7tu",
+   "versions": [
+    1
+   ],
+   "material": "a horizontal gilded gold frame around a dark blue-grey panel filled with ornate pale arabesque scroll patterns",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/tapegz37dv": {
+   "name": "tapegz37dv",
+   "versions": [
+    1
+   ],
+   "material": "a green tapestry with fine gold scrollwork, a central gold quatrefoil medallion with a flower and gold tendrils reaching to the corners",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/bannmwup80": {
+   "name": "bannmwup80",
+   "versions": [
+    1
+   ],
+   "material": "a carved brown wooden beam across the top with a turned wooden bracket post below in the centre, its capital flaring up into the beam",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/sturucp65j": {
+   "name": "sturucp65j",
+   "versions": [
+    1
+   ],
+   "material": "a grey stone window frame with four large panes divided by stone mullions and a transom, dark interior behind the glass",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/dbla80hka1": {
+   "name": "dbla80hka1",
+   "versions": [
+    1
+   ],
+   "material": "a pair of red-brown wooden door leaves with rows of square inset panels and two small lit amber lantern windows at the top",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  }
+ }
+}

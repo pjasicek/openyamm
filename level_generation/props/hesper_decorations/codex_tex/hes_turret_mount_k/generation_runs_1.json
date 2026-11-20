@@ -1,0 +1,251 @@
+{
+  "brief": "CODEX_BRIEF_1.md",
+  "tool": "built-in image_gen.imagegen",
+  "requested_size": [
+    1024,
+    1024
+  ],
+  "actual_selected_size": [
+    1254,
+    1254
+  ],
+  "transparency_requested": true,
+  "postprocessing": "None. Selected PNGs copied byte-for-byte from built-in tool returns; no resizing, alpha replacement, recoloring, or cropping.",
+  "maximum_corrective_regenerations_per_view": 1,
+  "corrective_regenerations_used": {
+    "front": 1,
+    "top": 1
+  },
+  "fully_complies_with_brief": false,
+  "unresolved_requirements": [
+    "All tool returns are 1254 x 1254, despite prompts requesting 1024 x 1024.",
+    "Exact guide silhouette/alpha preservation was not achieved.",
+    "Selected front retains baked highlights/shading; selected top is flatter but retains some facet/edge shading."
+  ],
+  "runs": [
+    {
+      "view": "front",
+      "attempt": 1,
+      "prompt": "Use case: style-transfer.\nAsset type: orthographic albedo texture-source painting for an existing 3D game decoration, the Grafted turret mount.\nEdit Image 1, the exact gray model guide. Image 2 (design_reference.png) is ONLY the approved color and surface-material authority. Image 3 (concept_crop.png) is supporting original concept reference. Do not use the reference images' camera, proportions, lighting, silhouette, or background.\nOutput exactly one 1024 x 1024 RGBA PNG with a genuinely transparent background, at the guide's original resolution and registration. Keep the guide's entire alpha silhouette EXACTLY, pixel for pixel: every outline, protrusion, tip, opening, gap, disconnected fragment, size, position, internal shape edge, and overlap boundary stays where the guide puts it. Treat the guide as locked geometry and a locked cutout mask. Paint only the existing opaque surfaces. Do not reinterpret, smooth, inflate, replace, add, remove, move, or crop geometry. Preserve the empty margins. No text.\nMaterials from Image 2: chipped warm-white ceramic blocks and panels with ochre-gold exposed edges, gold metal framing, glossy black-violet organic resin growing across the architecture with fine orange veins and orange sacs, and a FLAT dark resin socket on top. Cracks and chipped ceramic detail are painted surface details, never new silhouette damage or new holes. The existing angular organic shapes are resin, with their existing edges and silhouettes retained. Orange seams and sacs are painted at their glowing orange color.\nLighting is unlit albedo: even, flat, shadowless light from the viewer on EVERY surface. Describe the glossy resin by its deep black-violet material color and restrained surface color variation, WITHOUT specular highlights, reflections, rim light, or baked directional illumination. No cast shadows, ambient-occlusion darkening, contact shadows, gradients from lighting, bloom, aura, reflected orange light, background, floor, or checkerboard. Suppress the reference's dramatic lighting and specular shine. Preserve only material color and small surface texture.\nVIEW: FRONT. Preserve exactly the front orthographic camera of guide_front.png. The guide's nontransparent bounding rectangle is x=104..919, y=232..791 within the 1024-square canvas. The tallest narrow resin spire is at upper right; the wide block in front is white ceramic with gold edges; the top circular socket remains the shallow ellipse and layered rim visible in the guide. Preserve the particular sparse/angular silhouette and every opening in this front guide; do not substitute the fuller three-quarter reference silhouette.",
+      "inputs": [
+        {
+          "path": "guide_front.png",
+          "sha256": "77f4697e317c72349ae6a797a5e4d04b72d8e25251762d927b08663ed26016d9"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "42185eed1d97180a7a3277b1ae896eefc627791431e0aec12289c98b7125ecdd"
+        },
+        {
+          "path": "concept_crop.png",
+          "sha256": "6b11c1ce6d227d04c9e1362450f058b36267285acb1469361e14758d53e0e097"
+        }
+      ],
+      "output": "paint_front.png",
+      "selected": true,
+      "reason": "Selected as the best available front candidate: substantially better guide framing than its corrective attempt (normalized visible-mask IoU 0.985597 versus 0.586506). NOT fully compliant: raw return is 1254 x 1254, alpha differs from guide, and visible specular highlights/baked shading remain. Saved byte-for-byte without resizing or postprocessing.",
+      "raw_output": "/home/pjasicek/.codex/generated_images/01a168a7-b5eb-71b2-9f8f-186b6d670a9a/exec-8c03ebc9-b6f7-44d8-9fdd-20c043f8b862.png",
+      "checks": {
+        "native_size": [
+          1254,
+          1254
+        ],
+        "required_size": [
+          1024,
+          1024
+        ],
+        "size_pass": false,
+        "mode": "RGBA",
+        "has_transparent_pixels": true,
+        "alpha_bbox": [
+          0,
+          23,
+          1240,
+          1228
+        ],
+        "visible_bbox_alpha_at_least_128": [
+          128,
+          284,
+          1126,
+          970
+        ],
+        "exact_guide_alpha_pass": false,
+        "normalized_mask_iou_at_alpha_128": 0.985597,
+        "normalized_mask_comparison_only": "Diagnostic coordinate sampling only; generated images were not resized or edited.",
+        "output_sha256": "fdd4cc2eb4098efd1664ae82155da84eee7ea4c567118be06819891a85370a59",
+        "materials_and_colours_review": "Recognizable warm-white ceramic, ochre gold, dark violet resin, orange veins/sacs, and dark top socket; materials visually reviewed against approved reference.",
+        "flat_even_light_pass": false,
+        "lighting_review": "Too much gold/resin specular shine and crevice darkening for a shadowless albedo source."
+      }
+    },
+    {
+      "view": "top",
+      "attempt": 1,
+      "prompt": "Use case: style-transfer.\nAsset type: orthographic albedo texture-source painting for an existing 3D game decoration, the Grafted turret mount.\nEdit Image 1, the exact gray model guide. Image 2 (design_reference.png) is ONLY the approved color and surface-material authority. Image 3 (concept_crop.png) is supporting original concept reference. Do not use the reference images' camera, proportions, lighting, silhouette, or background.\nOutput exactly one 1024 x 1024 RGBA PNG with a genuinely transparent background, at the guide's original resolution and registration. Keep the guide's entire alpha silhouette EXACTLY, pixel for pixel: every outline, protrusion, tip, opening, gap, disconnected fragment, size, position, internal shape edge, and overlap boundary stays where the guide puts it. Treat the guide as locked geometry and a locked cutout mask. Paint only the existing opaque surfaces. Do not reinterpret, smooth, inflate, replace, add, remove, move, or crop geometry. Preserve the empty margins. No text.\nMaterials from Image 2: chipped warm-white ceramic blocks and panels with ochre-gold exposed edges, gold metal framing, glossy black-violet organic resin growing across the architecture with fine orange veins and orange sacs, and a FLAT dark resin socket on top. Cracks and chipped ceramic detail are painted surface details, never new silhouette damage or new holes. The existing angular organic shapes are resin, with their existing edges and silhouettes retained. Orange seams and sacs are painted at their glowing orange color.\nLighting is unlit albedo: even, flat, shadowless light from the viewer on EVERY surface. Describe the glossy resin by its deep black-violet material color and restrained surface color variation, WITHOUT specular highlights, reflections, rim light, or baked directional illumination. No cast shadows, ambient-occlusion darkening, contact shadows, gradients from lighting, bloom, aura, reflected orange light, background, floor, or checkerboard. Suppress the reference's dramatic lighting and specular shine. Preserve only material color and small surface texture.\nVIEW: TOP. Preserve exactly the straight-down orthographic camera of guide_top.png. The guide's nontransparent bounding rectangle is x=104..919, y=66..957 within the 1024-square canvas. The central large round socket is a flat dark black-violet resin disc with thin orange veins, bounded by the existing concentric gold and white ceramic rim. Ceramic-and-gold structural blocks occupy only the guide's block-shaped areas. The irregular branching/spiked resin footprint and all little projecting fragments stay exactly as the top guide depicts them. Do not tilt the camera or show a front elevation.",
+      "inputs": [
+        {
+          "path": "guide_top.png",
+          "sha256": "07568093ffaaa40e87da57cef6752cc7ac0cb9e736c8a9eb136c622800e6f3ba"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "42185eed1d97180a7a3277b1ae896eefc627791431e0aec12289c98b7125ecdd"
+        },
+        {
+          "path": "concept_crop.png",
+          "sha256": "6b11c1ce6d227d04c9e1362450f058b36267285acb1469361e14758d53e0e097"
+        }
+      ],
+      "output": "/home/pjasicek/.codex/generated_images/01a168a7-b5eb-71b2-9f8f-186b6d670a9a/exec-a8eee239-1a55-4c1f-80f0-4a3a92eb0874.png",
+      "selected": false,
+      "reason": "Rejected in favor of corrective top attempt: strong gold/resin specular highlights and directional facet shading conflict with flat albedo. Raw dimensions and exact guide alpha also fail.",
+      "raw_output": "/home/pjasicek/.codex/generated_images/01a168a7-b5eb-71b2-9f8f-186b6d670a9a/exec-a8eee239-1a55-4c1f-80f0-4a3a92eb0874.png",
+      "checks": {
+        "native_size": [
+          1254,
+          1254
+        ],
+        "required_size": [
+          1024,
+          1024
+        ],
+        "size_pass": false,
+        "mode": "RGBA",
+        "has_transparent_pixels": true,
+        "alpha_bbox": [
+          0,
+          19,
+          1238,
+          1254
+        ],
+        "visible_bbox_alpha_at_least_128": [
+          127,
+          79,
+          1128,
+          1175
+        ],
+        "exact_guide_alpha_pass": false,
+        "normalized_mask_iou_at_alpha_128": 0.982098,
+        "normalized_mask_comparison_only": "Diagnostic coordinate sampling only; generated images were not resized or edited.",
+        "output_sha256": "3b9def90ee51e66f6142b2dc393831287facfd94c8406475e81d97c3f7264229",
+        "materials_and_colours_review": "Recognizable warm-white ceramic, ochre gold, dark violet resin, orange veins/sacs, and dark top socket; materials visually reviewed against approved reference.",
+        "flat_even_light_pass": false,
+        "lighting_review": "Strong highlights on resin/gold and dark directional shading on ceramic sides."
+      }
+    },
+    {
+      "view": "front",
+      "attempt": 2,
+      "prompt": "CORRECTIVE REGENERATION, FRONT VIEW. Required native output: exactly 1024 pixels wide by 1024 pixels high (1,048,576 pixels), transparent RGBA. Return at 1024 x 1024 without upscaling. This is a registered albedo texture source.\n\nImage 1 is guide_front.png, the IMMUTABLE edit target. Image 2 is design_reference.png, MATERIAL COLORS ONLY. Image 3 is concept_crop.png, supporting material reference. Image 4 is the previous painting, shown only to identify failures to correct: it was 1254 x 1254, had shifted/soft edges, dramatic black shading, shiny purple highlights, and baked gold highlights. Do NOT copy these faults.\n\nPaint the materials onto Image 1 with its original 1024 x 1024 canvas unchanged. Copy its alpha silhouette exactly. Its opaque object bounds are x104 through x919 and y232 through y791; every interior opening, tip, triangular shard, straight panel edge, and silhouette edge MUST retain its exact guide pixels. Keep the same front orthographic camera and existing facets. No new geometry, no rounding shapes, no extra roots, no repositioning, no altered proportions, no filling transparent gaps, no crop or zoom.\n\nUse the approved colors: warm-white chipped ceramic on existing masonry blocks; midtone ochre-gold edges and frames; very dark violet-black resin on existing organic branches and spires, with orange veins and orange sacs painted as saturated colored marks; a flat dark resin socket on top. The large front rectangular panel remains exactly rectangular. All material textures must follow the existing shapes without altering their contours.\n\nFLAT UNLIT ALBEDO ONLY. Every surface receives the same even frontal illumination. White ceramic stays the same warm-white base value regardless of facing direction; gold stays a midtone gold, without bright yellow shine or dark brown shading. Resin stays a legible uniform dark violet-black base with fine material variations, without white/lavender highlights or black shadow gradients. No specular shine, reflection, ambient occlusion, cast shadow, directional shading, rim light, bloom, orange light spill, background or floor. Represent orange emissive details by their own orange color only. Preserve Image 1's alpha cutout and leave all surrounding pixels fully transparent. One single front view, exact 1024 x 1024 native return.",
+      "inputs": [
+        {
+          "path": "guide_front.png",
+          "sha256": "77f4697e317c72349ae6a797a5e4d04b72d8e25251762d927b08663ed26016d9"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "42185eed1d97180a7a3277b1ae896eefc627791431e0aec12289c98b7125ecdd"
+        },
+        {
+          "path": "concept_crop.png",
+          "sha256": "6b11c1ce6d227d04c9e1362450f058b36267285acb1469361e14758d53e0e097"
+        },
+        {
+          "path": "/home/pjasicek/.codex/generated_images/01a168a7-b5eb-71b2-9f8f-186b6d670a9a/exec-8c03ebc9-b6f7-44d8-9fdd-20c043f8b862.png",
+          "sha256": "fdd4cc2eb4098efd1664ae82155da84eee7ea4c567118be06819891a85370a59"
+        }
+      ],
+      "output": "/home/pjasicek/.codex/generated_images/01a168a7-b5eb-71b2-9f8f-186b6d670a9a/exec-d30fc0f4-446f-4511-9941-4769615cf53e.png",
+      "selected": false,
+      "reason": "Rejected: corrective attempt still returned 1254 x 1254 and enlarged/reframed the object substantially, reducing normalized visible-mask IoU to 0.586506. Baked shading and specular highlights remain.",
+      "raw_output": "/home/pjasicek/.codex/generated_images/01a168a7-b5eb-71b2-9f8f-186b6d670a9a/exec-d30fc0f4-446f-4511-9941-4769615cf53e.png",
+      "checks": {
+        "native_size": [
+          1254,
+          1254
+        ],
+        "required_size": [
+          1024,
+          1024
+        ],
+        "size_pass": false,
+        "mode": "RGBA",
+        "has_transparent_pixels": true,
+        "alpha_bbox": [
+          0,
+          21,
+          1241,
+          1254
+        ],
+        "visible_bbox_alpha_at_least_128": [
+          17,
+          276,
+          1238,
+          1101
+        ],
+        "exact_guide_alpha_pass": false,
+        "normalized_mask_iou_at_alpha_128": 0.586506,
+        "normalized_mask_comparison_only": "Diagnostic coordinate sampling only; generated images were not resized or edited.",
+        "output_sha256": "2e03c40dd6e2758d98b8430e150c9e135b55a6342b139e20cb80d42c8e89acab",
+        "materials_and_colours_review": "Recognizable warm-white ceramic, ochre gold, dark violet resin, orange veins/sacs, and dark top socket; materials visually reviewed against approved reference.",
+        "flat_even_light_pass": false,
+        "lighting_review": "Some flatter colors, but resin/gold highlights and dark shading remain."
+      }
+    },
+    {
+      "view": "top",
+      "attempt": 2,
+      "prompt": "Native image dimensions must be EXACTLY 1024 x 1024 pixels, transparent RGBA, the same dimensions as Image 1. Do not upscale. Return one single TOP view.\n\nUse case: style-transfer. Paint an UNLIT BASE-COLOR texture onto the exact existing shapes in Image 1 (guide_top.png). This is technical texture painting, with all lighting switched off. Image 2 (design_reference.png) supplies the material colors only, Image 3 (concept_crop.png) supplies original concept detail. Neither reference supplies camera, geometry, lighting or composition.\n\nLOCKED GEOMETRY: trace Image 1 exactly, retaining every polygon shape, edge, opening, pointed projection and disconnected fragment. Preserve its alpha mask pixel-for-pixel and the unchanged 1024 x 1024 canvas. Nontransparent bounds are x=104..919 and y=66..957. Keep all the existing transparent margins, the straight-down orthographic view, central round socket and its exact rings, the existing blocks below and to its left, and every irregular outer spire in its original place. Do not round corners, move edges, add veins as extra geometry, fill gaps, invent new shapes, recenter, zoom or crop. Surface cracks may be painted inside the existing silhouette only.\n\nPaint the existing masonry with warm-white chipped ceramic and midtone ochre-gold edges/framing. Paint the existing organic shapes with dark black-violet resin and saturated orange fine veins and sacs. Paint the socket's flat disc dark black-violet with thin orange vein marks, using its existing inner boundary exactly. Keep resin and masonry material allocation faithful to the design reference.\n\nCRITICAL CORRECTION: REMOVE ALL BAKED LIGHTING. A white ceramic facet is the same warm white value whether vertical or horizontal. A gold facet stays the same ochre gold in either orientation. Resin has the same dark violet base-color on every facet, with fine intrinsic surface coloration. The material may be glossy in the eventual game shader but the supplied base-color image must contain ZERO bright lavender or white glints, specular highlights, reflection stripes, dark cast shadows, ambient occlusion in crevices, rim lighting, volumetric depth shading, or illumination gradients. Orange is a flat saturated emissive COLOR on its own marks, with no glow halo, bloom, light spill or reflected orange on other materials. No floor, no background, no checkerboard. This is a flat, evenly colored material/albedo pass, not a beauty render.\n\nPreserve Image 1's exact registered silhouette and transparent alpha at 1024 x 1024.",
+      "inputs": [
+        {
+          "path": "guide_top.png",
+          "sha256": "07568093ffaaa40e87da57cef6752cc7ac0cb9e736c8a9eb136c622800e6f3ba"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "42185eed1d97180a7a3277b1ae896eefc627791431e0aec12289c98b7125ecdd"
+        },
+        {
+          "path": "concept_crop.png",
+          "sha256": "6b11c1ce6d227d04c9e1362450f058b36267285acb1469361e14758d53e0e097"
+        }
+      ],
+      "output": "paint_top.png",
+      "selected": true,
+      "reason": "Selected as the best available top candidate: corrective attempt noticeably reduces specular shine and makes material colors more even while retaining similar guide framing. NOT fully compliant: raw return is 1254 x 1254, alpha differs from guide, and residual facet/edge shading remains. Saved byte-for-byte without resizing or postprocessing.",
+      "raw_output": "/home/pjasicek/.codex/generated_images/01a168a7-b5eb-71b2-9f8f-186b6d670a9a/exec-af948aac-c35e-412c-9ba1-a531e0aeec39.png",
+      "checks": {
+        "native_size": [
+          1254,
+          1254
+        ],
+        "required_size": [
+          1024,
+          1024
+        ],
+        "size_pass": false,
+        "mode": "RGBA",
+        "has_transparent_pixels": true,
+        "alpha_bbox": [
+          0,
+          20,
+          1234,
+          1254
+        ],
+        "visible_bbox_alpha_at_least_128": [
+          126,
+          78,
+          1129,
+          1176
+        ],
+        "exact_guide_alpha_pass": false,
+        "normalized_mask_iou_at_alpha_128": 0.981789,
+        "normalized_mask_comparison_only": "Diagnostic coordinate sampling only; generated images were not resized or edited.",
+        "output_sha256": "e4178753de4d56ea233881b74920c99f953a3609e3ea53165d601f8549e6ddc9",
+        "materials_and_colours_review": "Recognizable warm-white ceramic, ochre gold, dark violet resin, orange veins/sacs, and dark top socket; materials visually reviewed against approved reference.",
+        "flat_even_light_pass": false,
+        "lighting_review": "Substantially flatter than initial top result; residual dark edge/facet shading and some gold value variation still prevent strict unlit-albedo acceptance."
+      }
+    }
+  ]
+}

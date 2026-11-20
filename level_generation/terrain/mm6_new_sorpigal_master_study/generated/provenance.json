@@ -1,0 +1,120 @@
+[
+  {
+    "material": "grass",
+    "source": "/home/pjasicek/.codex/generated_images/01a07fff-d641-78c1-a58a-4501f7c594bd/exec-bb1aea69-2651-417d-a0a2-bd28d423737f.png",
+    "prompt": "prompts/grass_v1.txt",
+    "mode": "built-in image_gen",
+    "version": "v1",
+    "raw": "generated/v1/grass_raw.png",
+    "runtime": "generated/v1/grass_512.png",
+    "references": [
+      "../mm6_new_sorpigal/source_rgb/6grastyl.png",
+      "review/original/terrain_original_fixed_overview.png"
+    ]
+  },
+  {
+    "material": "dirt",
+    "source": "/home/pjasicek/.codex/generated_images/01a07fff-d641-78c1-a58a-4501f7c594bd/exec-aa26dc90-24ca-4d07-96ac-53bc27837792.png",
+    "prompt": "prompts/dirt_v1.txt",
+    "mode": "built-in image_gen",
+    "version": "v1",
+    "raw": "generated/v1/dirt_raw.png",
+    "runtime": "generated/v1/dirt_512.png",
+    "references": [
+      "../mm6_new_sorpigal/source_rgb/6dirttyl.png",
+      "review/original/terrain_original_fixed_cobbles.png"
+    ]
+  },
+  {
+    "material": "cobbles",
+    "source": "/home/pjasicek/.codex/generated_images/01a07fff-d641-78c1-a58a-4501f7c594bd/exec-f8360a36-9c09-4b2f-9950-3172d1be59bd.png",
+    "prompt": "prompts/cobbles_v1.txt",
+    "mode": "built-in image_gen",
+    "version": "v1",
+    "raw": "generated/v1/cobbles_raw.png",
+    "runtime": "generated/v1/cobbles_512.png",
+    "references": [
+      "../mm6_new_sorpigal/source_rgb/6drsrew.png",
+      "review/original/terrain_original_fixed_cobbles.png"
+    ]
+  },
+  {
+    "material": "volcano",
+    "source": "/home/pjasicek/.codex/generated_images/01a07fff-d641-78c1-a58a-4501f7c594bd/exec-faa1c56f-0394-4c81-a53a-d802c4abfd2f.png",
+    "prompt": "prompts/volcano_v1.txt",
+    "mode": "built-in image_gen",
+    "version": "v1",
+    "raw": "generated/v1/volcano_raw.png",
+    "runtime": "generated/v1/volcano_512.png",
+    "references": [
+      "../mm6_new_sorpigal/source_rgb/6voltyl.png",
+      "review/original/terrain_original_fixed_volcano.png"
+    ]
+  },
+  {
+    "material": "volcano",
+    "version": "v2",
+    "source": "/home/pjasicek/.codex/generated_images/01a07fff-d641-78c1-a58a-4501f7c594bd/exec-ab97162a-7a0a-4799-a95e-fb6e55991ee1.png",
+    "prompt": "prompts/volcano_v2.txt",
+    "mode": "built-in image_gen",
+    "references": [
+      "generated/v1/volcano_raw.png",
+      "review/v1/terrain_v1_fixed_volcano.png"
+    ],
+    "raw": "generated/v2/volcano_raw.png",
+    "runtime": "generated/v2/volcano_512.png"
+  },
+  {
+    "material": "dirt",
+    "source": "/home/pjasicek/.codex/generated_images/01a07fff-d641-78c1-a58a-4501f7c594bd/exec-b8a2da1b-50e8-40d9-ade8-88290c35c226.png",
+    "prompt": "prompts/dirt_v2.txt",
+    "mode": "built-in image_gen",
+    "version": "v2",
+    "raw": "generated/v2/dirt_raw.png",
+    "runtime": "generated/v2/dirt_512.png",
+    "references": [
+      "generated/v1/dirt_raw.png",
+      "review/dirt_v1_repeat_3x3.png"
+    ],
+    "raw_sha256": "aa122b568159d26f96ab006a172e52fed7442a153b1cd14bc74924d27e51ce79",
+    "runtime_sha256": "8503c43c11edbd49e32770ff039d1acac07e61bb292d37063f9159e6a0409c85",
+    "raw_size": [
+      1254,
+      1254
+    ]
+  },
+  {
+    "material": "dirt",
+    "source": "/home/pjasicek/.codex/generated_images/01a07fff-d641-78c1-a58a-4501f7c594bd/exec-5792d1eb-64f5-499e-b9a9-0dd672d9a3a0.png",
+    "prompt": "prompts/dirt_v3.txt",
+    "mode": "built-in image_gen",
+    "version": "v3",
+    "raw": "generated/v3/dirt_raw.png",
+    "runtime": "generated/v3/dirt_512.png",
+    "references": [
+      "generated/v2/dirt_raw.png",
+      "../mm6_new_sorpigal/source_rgb/6dirttyl.png"
+    ],
+    "raw_sha256": "9a55a31670773f51a96d929e750f5d398a81196f92c788aaf8b3f254aa1bb98b",
+    "runtime_sha256": "b806390f349c919b9e8cb656ef6fda94a59ba247d8eb4a6d7672cb5002feaed6",
+    "raw_size": [
+      1254,
+      1254
+    ]
+  },
+  {
+    "material": "dirt",
+    "version": "v4",
+    "source": "/home/pjasicek/.codex/generated_images/01a07fff-d641-78c1-a58a-4501f7c594bd/exec-a2f50fe3-62d4-4d41-a4ea-1ae2c1666e49.png",
+    "mode": "built-in image_gen",
+    "prompt": "prompts/dirt_v4.txt",
+    "references": [
+      "generated/v1/dirt_raw.png",
+      "../../../test_img/1261.png"
+    ],
+    "raw": "generated/v4/dirt_raw.png",
+    "runtime": "generated/v4/dirt_512.png",
+    "raw_sha256": "56a2f2735329bd538532c77ff123db8bd3236b6651c1ad779b9cccf1a25aa5cc",
+    "runtime_sha256": "a084c09ad5b14ba6585c55dd9a8939f0732197658cacda08116b05f670ff3ffd"
+  }
+]

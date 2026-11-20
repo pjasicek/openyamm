@@ -1,0 +1,2110 @@
+{
+  "method": "Native event-bearing faces -> EnterHouse destination -> NPC table column 6. Unique numeric NPC rows, initial table state. Proprietors counted separately. Quest moves, removed/replacement NPCs and hired party members are not simulated. Physical assembly membership follows measure_settlement_density.py; Merchant House added explicitly.",
+  "maps": {
+    "Ravenshore": {
+      "houseDestinations": 61,
+      "occupiedDestinations": 43,
+      "npcRows": 45,
+      "npcCountHistogramAllDestinations": {
+        "0": 18,
+        "1": 41,
+        "2": 2
+      },
+      "npcCountHistogramOccupiedDestinations": {
+        "1": 41,
+        "2": 2
+      },
+      "housesPerAssemblyHistogram": {
+        "1": 48,
+        "3": 1,
+        "4": 2
+      },
+      "assemblies": [
+        {
+          "models": [
+            8
+          ],
+          "houses": [
+            897
+          ],
+          "npcCount": 1
+        },
+        {
+          "models": [
+            9
+          ],
+          "houses": [
+            896
+          ],
+          "npcCount": 1
+        },
+        {
+          "models": [
+            10
+          ],
+          "houses": [
+            894
+          ],
+          "npcCount": 1
+        },
+        {
+          "models": [
+            11
+          ],
+          "houses": [
+            893
+          ],
+          "npcCount": 1
+        },
+        {
+          "models": [
+            12
+          ],
+          "houses": [
+            891
+          ],
+          "npcCount": 1
+        },
+        {
+          "models": [
+            13
+          ],
+          "houses": [
+            903
+          ],
+          "npcCount": 1
+        },
+        {
+          "models": [
+            14
+          ],
+          "houses": [
+            889
+          ],
+          "npcCount": 1
+        },
+        {
+          "models": [
+            15
+          ],
+          "houses": [
+            883
+          ],
+          "npcCount": 1
+        },
+        {
+          "models": [
+            16
+          ],
+          "houses": [
+            874
+          ],
+          "npcCount": 1
+        },
+        {
+          "models": [
+            17
+          ],
+          "houses": [
+            871
+          ],
+          "npcCount": 2
+        },
+        {
+          "models": [
+            18
+          ],
+          "houses": [
+            902
+          ],
+          "npcCount": 1
+        },
+        {
+          "models": [
+            19
+          ],
+          "houses": [
+            900
+          ],
+          "npcCount": 0
+        },
+        {
+          "models": [
+            20
+          ],
+          "houses": [
+            907
+          ],
+          "npcCount": 1
+        },
+        {
+          "models": [
+            21
+          ],
+          "houses": [
+            908
+          ],
+          "npcCount": 1
+        },
+        {
+          "models": [
+            22
+          ],
+          "houses": [
+            909
+          ],
+          "npcCount": 1
+        },
+        {
+          "models": [
+            23
+          ],
+          "houses": [
+            906
+          ],
+          "npcCount": 1
+        },
+        {
+          "models": [
+            24
+          ],
+          "houses": [
+            905
+          ],
+          "npcCount": 1
+        },
+        {
+          "models": [
+            25
+          ],
+          "houses": [
+            508
+          ],
+          "npcCount": 1
+        },
+        {
+          "models": [
+            26
+          ],
+          "houses": [
+            762
+          ],
+          "npcCount": 1
+        },
+        {
+          "models": [
+            27
+          ],
+          "houses": [
+            785
+          ],
+          "npcCount": 1
+        },
+        {
+          "models": [
+            28
+          ],
+          "houses": [
+            853
+          ],
+          "npcCount": 1
+        },
+        {
+          "models": [
+            29
+          ],
+          "houses": [
+            793
+          ],
+          "npcCount": 1
+        },
+        {
+          "models": [
+            30
+          ],
+          "houses": [
+            796
+          ],
+          "npcCount": 1
+        },
+        {
+          "models": [
+            31
+          ],
+          "houses": [
+            805
+          ],
+          "npcCount": 1
+        },
+        {
+          "models": [
+            32
+          ],
+          "houses": [
+            814
+          ],
+          "npcCount": 1
+        },
+        {
+          "models": [
+            33
+          ],
+          "houses": [
+            824
+          ],
+          "npcCount": 1
+        },
+        {
+          "models": [
+            34
+          ],
+          "houses": [
+            867
+          ],
+          "npcCount": 1
+        },
+        {
+          "models": [
+            35
+          ],
+          "houses": [
+            877
+          ],
+          "npcCount": 1
+        },
+        {
+          "models": [
+            36
+          ],
+          "houses": [
+            892
+          ],
+          "npcCount": 1
+        },
+        {
+          "models": [
+            37
+          ],
+          "houses": [
+            898
+          ],
+          "npcCount": 1
+        },
+        {
+          "models": [
+            38
+          ],
+          "houses": [
+            904
+          ],
+          "npcCount": 1
+        },
+        {
+          "models": [
+            39
+          ],
+          "houses": [
+            844
+          ],
+          "npcCount": 1
+        },
+        {
+          "models": [
+            40
+          ],
+          "houses": [
+            886
+          ],
+          "npcCount": 1
+        },
+        {
+          "models": [
+            41
+          ],
+          "houses": [
+            890
+          ],
+          "npcCount": 1
+        },
+        {
+          "models": [
+            42
+          ],
+          "houses": [
+            834
+          ],
+          "npcCount": 1
+        },
+        {
+          "models": [
+            43
+          ],
+          "houses": [
+            899
+          ],
+          "npcCount": 0
+        },
+        {
+          "models": [
+            44
+          ],
+          "houses": [
+            861
+          ],
+          "npcCount": 2
+        },
+        {
+          "models": [
+            45
+          ],
+          "houses": [
+            880
+          ],
+          "npcCount": 1
+        },
+        {
+          "models": [
+            58
+          ],
+          "houses": [
+            799
+          ],
+          "npcCount": 1
+        },
+        {
+          "models": [
+            59
+          ],
+          "houses": [
+            901
+          ],
+          "npcCount": 1
+        },
+        {
+          "models": [
+            60
+          ],
+          "houses": [
+            888
+          ],
+          "npcCount": 1
+        },
+        {
+          "models": [
+            61
+          ],
+          "houses": [
+            895
+          ],
+          "npcCount": 1
+        },
+        {
+          "models": [
+            62
+          ],
+          "houses": [
+            777
+          ],
+          "npcCount": 1
+        },
+        {
+          "models": [
+            89
+          ],
+          "houses": [
+            697
+          ],
+          "npcCount": 1
+        },
+        {
+          "models": [
+            66,
+            67
+          ],
+          "houses": [
+            757
+          ],
+          "npcCount": 1
+        },
+        {
+          "models": [
+            107,
+            108,
+            109,
+            110
+          ],
+          "houses": [
+            304
+          ],
+          "npcCount": 0
+        },
+        {
+          "models": [
+            71,
+            72
+          ],
+          "houses": [
+            237
+          ],
+          "npcCount": 0
+        },
+        {
+          "models": [
+            81,
+            82
+          ],
+          "houses": [
+            1607
+          ],
+          "npcCount": 0
+        },
+        {
+          "models": [
+            46,
+            47,
+            48,
+            49
+          ],
+          "houses": [
+            111,
+            229,
+            1565
+          ],
+          "npcCount": 0
+        },
+        {
+          "models": [
+            50,
+            51,
+            52,
+            53,
+            54
+          ],
+          "houses": [
+            2,
+            77,
+            83,
+            184
+          ],
+          "npcCount": 0
+        },
+        {
+          "models": [
+            78,
+            79,
+            80
+          ],
+          "houses": [
+            37,
+            186,
+            282,
+            452
+          ],
+          "npcCount": 0
+        }
+      ],
+      "houses": [
+        {
+          "house": 2,
+          "name": "Keen Edge",
+          "type": "Weapon Shop",
+          "proprietor": "Reaver",
+          "npcCount": 0,
+          "npcs": [],
+          "bmodels": [
+            50
+          ]
+        },
+        {
+          "house": 37,
+          "name": "The Polished Shield",
+          "type": "Armor Shop",
+          "proprietor": "Walvis",
+          "npcCount": 0,
+          "npcs": [],
+          "bmodels": [
+            78
+          ]
+        },
+        {
+          "house": 77,
+          "name": "Needful Things",
+          "type": "Magic Shop",
+          "proprietor": "Jed",
+          "npcCount": 0,
+          "npcs": [],
+          "bmodels": [
+            52
+          ]
+        },
+        {
+          "house": 83,
+          "name": "Caori's Curios",
+          "type": "Magic Shop",
+          "proprietor": "Caori",
+          "npcCount": 0,
+          "npcs": [],
+          "bmodels": [
+            54
+          ]
+        },
+        {
+          "house": 111,
+          "name": "Apothecary",
+          "type": "Alchemist",
+          "proprietor": "Tristan",
+          "npcCount": 0,
+          "npcs": [],
+          "bmodels": [
+            49
+          ]
+        },
+        {
+          "house": 184,
+          "name": "Vexation's Hexes",
+          "type": "Elemental Guild",
+          "proprietor": "Vexation",
+          "npcCount": 0,
+          "npcs": [],
+          "bmodels": [
+            51
+          ]
+        },
+        {
+          "house": 186,
+          "name": "Self Guild",
+          "type": "Self Guild",
+          "proprietor": "Kojo",
+          "npcCount": 0,
+          "npcs": [],
+          "bmodels": [
+            78
+          ]
+        },
+        {
+          "house": 229,
+          "name": "Kessel's Kantina",
+          "type": "Tavern",
+          "proprietor": "Kessel",
+          "npcCount": 0,
+          "npcs": [],
+          "bmodels": [
+            47
+          ]
+        },
+        {
+          "house": 237,
+          "name": "The Dancing Ogre",
+          "type": "Tavern",
+          "proprietor": "Trishia",
+          "npcCount": 0,
+          "npcs": [],
+          "bmodels": [
+            71
+          ]
+        },
+        {
+          "house": 282,
+          "name": "Steele's Vault",
+          "type": "Bank",
+          "proprietor": "Steele",
+          "npcCount": 0,
+          "npcs": [],
+          "bmodels": [
+            79
+          ]
+        },
+        {
+          "house": 304,
+          "name": "Sanctum",
+          "type": "Temple",
+          "proprietor": "Maricia",
+          "npcCount": 0,
+          "npcs": [],
+          "bmodels": [
+            110
+          ]
+        },
+        {
+          "house": 452,
+          "name": "Guild Caravans",
+          "type": "Stables",
+          "proprietor": "Wayland",
+          "npcCount": 0,
+          "npcs": [],
+          "bmodels": [
+            80
+          ]
+        },
+        {
+          "house": 480,
+          "name": "The Dauntless",
+          "type": "Boats",
+          "proprietor": "Alinor",
+          "npcCount": 0,
+          "npcs": [],
+          "bmodels": [
+            120
+          ]
+        },
+        {
+          "house": 483,
+          "name": "Wind",
+          "type": "Boats",
+          "proprietor": "Peel",
+          "npcCount": 0,
+          "npcs": [],
+          "bmodels": [
+            113
+          ]
+        },
+        {
+          "house": 508,
+          "name": "Wilburt's Hovel",
+          "type": "House",
+          "proprietor": "Placeholder",
+          "npcCount": 1,
+          "npcs": [
+            {
+              "id": 72,
+              "name": "Wilburt",
+              "tableLine": 74
+            }
+          ],
+          "bmodels": [
+            25
+          ]
+        },
+        {
+          "house": 697,
+          "name": "House Understone",
+          "type": "House",
+          "proprietor": "Placeholder",
+          "npcCount": 1,
+          "npcs": [
+            {
+              "id": 289,
+              "name": "Thorne Understone",
+              "tableLine": 291
+            }
+          ],
+          "bmodels": [
+            89
+          ]
+        },
+        {
+          "house": 757,
+          "name": "Oracle",
+          "type": "House",
+          "proprietor": "Placeholder",
+          "npcCount": 1,
+          "npcs": [
+            {
+              "id": 314,
+              "name": "Oracle",
+              "tableLine": 316
+            }
+          ],
+          "bmodels": [
+            67
+          ]
+        },
+        {
+          "house": 762,
+          "name": "Jack's Hovel",
+          "type": "House",
+          "proprietor": "Placeholder",
+          "npcCount": 1,
+          "npcs": [
+            {
+              "id": 250,
+              "name": "Samuel Jack",
+              "tableLine": 252
+            }
+          ],
+          "bmodels": [
+            26
+          ]
+        },
+        {
+          "house": 777,
+          "name": "Iver's Estate",
+          "type": "House",
+          "proprietor": "Placeholder",
+          "npcCount": 1,
+          "npcs": [
+            {
+              "id": 249,
+              "name": "Karlin Ivers",
+              "tableLine": 251
+            }
+          ],
+          "bmodels": [
+            62
+          ]
+        },
+        {
+          "house": 785,
+          "name": "Pederton Place",
+          "type": "House",
+          "proprietor": "Placeholder",
+          "npcCount": 1,
+          "npcs": [
+            {
+              "id": 148,
+              "name": "Ulbrecht Pederton",
+              "tableLine": 150
+            }
+          ],
+          "bmodels": [
+            27
+          ]
+        },
+        {
+          "house": 793,
+          "name": "Puddle's Hovel",
+          "type": "House",
+          "proprietor": "Placeholder",
+          "npcCount": 1,
+          "npcs": [
+            {
+              "id": 118,
+              "name": "Puddle Thain",
+              "tableLine": 120
+            }
+          ],
+          "bmodels": [
+            29
+          ]
+        },
+        {
+          "house": 796,
+          "name": "Forgewright Estate",
+          "type": "House",
+          "proprietor": "Placeholder",
+          "npcCount": 1,
+          "npcs": [
+            {
+              "id": 136,
+              "name": "Tobren Forgewright",
+              "tableLine": 138
+            }
+          ],
+          "bmodels": [
+            30
+          ]
+        },
+        {
+          "house": 799,
+          "name": "Apple Home",
+          "type": "House",
+          "proprietor": "Placeholder",
+          "npcCount": 1,
+          "npcs": [
+            {
+              "id": 217,
+              "name": "Elsie Apple",
+              "tableLine": 219
+            }
+          ],
+          "bmodels": [
+            58
+          ]
+        },
+        {
+          "house": 805,
+          "name": "Treblid's Home",
+          "type": "House",
+          "proprietor": "Placeholder",
+          "npcCount": 1,
+          "npcs": [
+            {
+              "id": 98,
+              "name": "Treblid",
+              "tableLine": 100
+            }
+          ],
+          "bmodels": [
+            31
+          ]
+        },
+        {
+          "house": 814,
+          "name": "Holden's Hovel",
+          "type": "House",
+          "proprietor": "Placeholder",
+          "npcCount": 1,
+          "npcs": [
+            {
+              "id": 248,
+              "name": "Holden",
+              "tableLine": 250
+            }
+          ],
+          "bmodels": [
+            32
+          ]
+        },
+        {
+          "house": 824,
+          "name": "Aznog's Hovel",
+          "type": "House",
+          "proprietor": "Placeholder",
+          "npcCount": 1,
+          "npcs": [
+            {
+              "id": 221,
+              "name": "Aznog Black",
+              "tableLine": 223
+            }
+          ],
+          "bmodels": [
+            33
+          ]
+        },
+        {
+          "house": 834,
+          "name": "Luodrin House",
+          "type": "House",
+          "proprietor": "Placeholder",
+          "npcCount": 1,
+          "npcs": [
+            {
+              "id": 112,
+              "name": "Aerie Luodrin",
+              "tableLine": 114
+            }
+          ],
+          "bmodels": [
+            42
+          ]
+        },
+        {
+          "house": 844,
+          "name": "Applebee Estate",
+          "type": "House",
+          "proprietor": "Placeholder",
+          "npcCount": 1,
+          "npcs": [
+            {
+              "id": 218,
+              "name": "Jillian Applebee",
+              "tableLine": 220
+            }
+          ],
+          "bmodels": [
+            39
+          ]
+        },
+        {
+          "house": 853,
+          "name": "Archibald's Home",
+          "type": "House",
+          "proprietor": "Placeholder",
+          "npcCount": 1,
+          "npcs": [
+            {
+              "id": 166,
+              "name": "Archibald Dawnsglow",
+              "tableLine": 168
+            }
+          ],
+          "bmodels": [
+            28
+          ]
+        },
+        {
+          "house": 861,
+          "name": "Arius' House",
+          "type": "House",
+          "proprietor": "Placeholder",
+          "npcCount": 2,
+          "npcs": [
+            {
+              "id": 241,
+              "name": "Gizmo Bertram ",
+              "tableLine": 243
+            },
+            {
+              "id": 266,
+              "name": "Arius",
+              "tableLine": 268
+            }
+          ],
+          "bmodels": [
+            44
+          ]
+        },
+        {
+          "house": 867,
+          "name": "Deerhunter's House",
+          "type": "House",
+          "proprietor": "Placeholder",
+          "npcCount": 1,
+          "npcs": [
+            {
+              "id": 229,
+              "name": "Poundlin Deerhunter",
+              "tableLine": 231
+            }
+          ],
+          "bmodels": [
+            34
+          ]
+        },
+        {
+          "house": 871,
+          "name": "Townsaver Hall",
+          "type": "House",
+          "proprietor": "Placeholder",
+          "npcCount": 2,
+          "npcs": [
+            {
+              "id": 121,
+              "name": "Matric Townsaver",
+              "tableLine": 123
+            },
+            {
+              "id": 130,
+              "name": "Lisha Sourbrow",
+              "tableLine": 132
+            }
+          ],
+          "bmodels": [
+            17
+          ]
+        },
+        {
+          "house": 874,
+          "name": "Jobber's Home",
+          "type": "House",
+          "proprietor": "Placeholder",
+          "npcCount": 1,
+          "npcs": [
+            {
+              "id": 125,
+              "name": "Jobber ",
+              "tableLine": 127
+            }
+          ],
+          "bmodels": [
+            16
+          ]
+        },
+        {
+          "house": 877,
+          "name": "Maylander's House",
+          "type": "House",
+          "proprietor": "Placeholder",
+          "npcCount": 1,
+          "npcs": [
+            {
+              "id": 271,
+              "name": "Maylander ",
+              "tableLine": 273
+            }
+          ],
+          "bmodels": [
+            35
+          ]
+        },
+        {
+          "house": 880,
+          "name": "Bluesawn Home",
+          "type": "House",
+          "proprietor": "Placeholder",
+          "npcCount": 1,
+          "npcs": [
+            {
+              "id": 222,
+              "name": "Tonk Blueswan",
+              "tableLine": 224
+            }
+          ],
+          "bmodels": [
+            45
+          ]
+        },
+        {
+          "house": 883,
+          "name": "Quicktongue Estate",
+          "type": "House",
+          "proprietor": "Placeholder",
+          "npcCount": 1,
+          "npcs": [
+            {
+              "id": 189,
+              "name": "Raven Quicktoungue",
+              "tableLine": 191
+            }
+          ],
+          "bmodels": [
+            15
+          ]
+        },
+        {
+          "house": 886,
+          "name": "Laraselle Estate",
+          "type": "House",
+          "proprietor": "Placeholder",
+          "npcCount": 1,
+          "npcs": [
+            {
+              "id": 253,
+              "name": "Thomas Laraselle",
+              "tableLine": 255
+            }
+          ],
+          "bmodels": [
+            40
+          ]
+        },
+        {
+          "house": 888,
+          "name": "Hillsman Cottage",
+          "type": "House",
+          "proprietor": "Placeholder",
+          "npcCount": 1,
+          "npcs": [
+            {
+              "id": 247,
+              "name": "Ethan Hillsman",
+              "tableLine": 249
+            }
+          ],
+          "bmodels": [
+            60
+          ]
+        },
+        {
+          "house": 889,
+          "name": "Caverhill Estate",
+          "type": "House",
+          "proprietor": "Placeholder",
+          "npcCount": 1,
+          "npcs": [
+            {
+              "id": 176,
+              "name": "Lanshee Caverhill",
+              "tableLine": 178
+            }
+          ],
+          "bmodels": [
+            14
+          ]
+        },
+        {
+          "house": 890,
+          "name": "Reaver's Home",
+          "type": "House",
+          "proprietor": "Placeholder",
+          "npcCount": 1,
+          "npcs": [
+            {
+              "id": 75,
+              "name": "Reaver",
+              "tableLine": 77
+            }
+          ],
+          "bmodels": [
+            41
+          ]
+        },
+        {
+          "house": 891,
+          "name": "Temper Hall",
+          "type": "House",
+          "proprietor": "Placeholder",
+          "npcCount": 1,
+          "npcs": [
+            {
+              "id": 145,
+              "name": "Taren Temper",
+              "tableLine": 147
+            }
+          ],
+          "bmodels": [
+            12
+          ]
+        },
+        {
+          "house": 892,
+          "name": "Putnam's Home",
+          "type": "House",
+          "proprietor": "Placeholder",
+          "npcCount": 1,
+          "npcs": [
+            {
+              "id": 193,
+              "name": "Alton Putnam",
+              "tableLine": 195
+            }
+          ],
+          "bmodels": [
+            36
+          ]
+        },
+        {
+          "house": 893,
+          "name": "Karrand's Cottage",
+          "type": "House",
+          "proprietor": "Placeholder",
+          "npcCount": 1,
+          "npcs": [
+            {
+              "id": 251,
+              "name": "Payge Karrand",
+              "tableLine": 253
+            }
+          ],
+          "bmodels": [
+            11
+          ]
+        },
+        {
+          "house": 894,
+          "name": "Lathius' Home",
+          "type": "House",
+          "proprietor": "Placeholder",
+          "npcCount": 1,
+          "npcs": [
+            {
+              "id": 73,
+              "name": "Lathius",
+              "tableLine": 75
+            }
+          ],
+          "bmodels": [
+            10
+          ]
+        },
+        {
+          "house": 895,
+          "name": "Guild of Bounty Hunters",
+          "type": "House",
+          "proprietor": "Placeholder",
+          "npcCount": 1,
+          "npcs": [
+            {
+              "id": 109,
+              "name": "Bryant Conlan",
+              "tableLine": 111
+            }
+          ],
+          "bmodels": [
+            61
+          ]
+        },
+        {
+          "house": 896,
+          "name": "Botham Hall",
+          "type": "House",
+          "proprietor": "Placeholder",
+          "npcCount": 1,
+          "npcs": [
+            {
+              "id": 140,
+              "name": "Botham",
+              "tableLine": 142
+            }
+          ],
+          "bmodels": [
+            9
+          ]
+        },
+        {
+          "house": 897,
+          "name": "Neblick's House",
+          "type": "House",
+          "proprietor": "Placeholder",
+          "npcCount": 1,
+          "npcs": [
+            {
+              "id": 105,
+              "name": "Neblick",
+              "tableLine": 107
+            }
+          ],
+          "bmodels": [
+            8
+          ]
+        },
+        {
+          "house": 898,
+          "name": "Stonecleaver Hall",
+          "type": "House",
+          "proprietor": "Placeholder",
+          "npcCount": 1,
+          "npcs": [
+            {
+              "id": 207,
+              "name": "Blacken Stonecleaver",
+              "tableLine": 209
+            }
+          ],
+          "bmodels": [
+            37
+          ]
+        },
+        {
+          "house": 899,
+          "name": "Hostel",
+          "type": "House",
+          "proprietor": "Placeholder",
+          "npcCount": 0,
+          "npcs": [],
+          "bmodels": [
+            43
+          ]
+        },
+        {
+          "house": 900,
+          "name": "Hostel",
+          "type": "House",
+          "proprietor": "Placeholder",
+          "npcCount": 0,
+          "npcs": [],
+          "bmodels": [
+            19
+          ]
+        },
+        {
+          "house": 901,
+          "name": "Brigham's Home",
+          "type": "House",
+          "proprietor": "Placeholder",
+          "npcCount": 1,
+          "npcs": [
+            {
+              "id": 252,
+              "name": "Brigham Kinney",
+              "tableLine": 254
+            }
+          ],
+          "bmodels": [
+            59
+          ]
+        },
+        {
+          "house": 902,
+          "name": "House Memoria",
+          "type": "House",
+          "proprietor": "Placeholder",
+          "npcCount": 1,
+          "npcs": [
+            {
+              "id": 270,
+              "name": "Karanya Memoria",
+              "tableLine": 272
+            }
+          ],
+          "bmodels": [
+            18
+          ]
+        },
+        {
+          "house": 903,
+          "name": "House of Hawthorne ",
+          "type": "House",
+          "proprietor": "Placeholder",
+          "npcCount": 1,
+          "npcs": [
+            {
+              "id": 157,
+              "name": "Straton Hawthorne",
+              "tableLine": 159
+            }
+          ],
+          "bmodels": [
+            13
+          ]
+        },
+        {
+          "house": 904,
+          "name": "Lott's Family Home",
+          "type": "House",
+          "proprietor": "Placeholder",
+          "npcCount": 1,
+          "npcs": [
+            {
+              "id": 202,
+              "name": "Evandar Lotts",
+              "tableLine": 204
+            }
+          ],
+          "bmodels": [
+            38
+          ]
+        },
+        {
+          "house": 905,
+          "name": "House of Nosewort",
+          "type": "House",
+          "proprietor": "Placeholder",
+          "npcCount": 1,
+          "npcs": [
+            {
+              "id": 128,
+              "name": "Oberic Nosewort",
+              "tableLine": 130
+            }
+          ],
+          "bmodels": [
+            24
+          ]
+        },
+        {
+          "house": 906,
+          "name": "Hall of the Tracker",
+          "type": "House",
+          "proprietor": "Placeholder",
+          "npcCount": 1,
+          "npcs": [
+            {
+              "id": 71,
+              "name": "Maddigan the Tracker",
+              "tableLine": 73
+            }
+          ],
+          "bmodels": [
+            23
+          ]
+        },
+        {
+          "house": 907,
+          "name": "Hunter's Hovel",
+          "type": "House",
+          "proprietor": "Placeholder",
+          "npcCount": 1,
+          "npcs": [
+            {
+              "id": 116,
+              "name": "Jasp Hunter",
+              "tableLine": 118
+            }
+          ],
+          "bmodels": [
+            20
+          ]
+        },
+        {
+          "house": 908,
+          "name": "Dervish's Cottage",
+          "type": "House",
+          "proprietor": "Placeholder",
+          "npcCount": 1,
+          "npcs": [
+            {
+              "id": 50,
+              "name": "Dervish Chevron",
+              "tableLine": 52
+            }
+          ],
+          "bmodels": [
+            21
+          ]
+        },
+        {
+          "house": 909,
+          "name": "Dotes Family Hovel",
+          "type": "House",
+          "proprietor": "Placeholder",
+          "npcCount": 1,
+          "npcs": [
+            {
+              "id": 231,
+              "name": "Dotes",
+              "tableLine": 233
+            }
+          ],
+          "bmodels": [
+            22
+          ]
+        },
+        {
+          "house": 1565,
+          "name": "Gymnasium",
+          "type": "Training",
+          "proprietor": "Yarin",
+          "npcCount": 0,
+          "npcs": [],
+          "bmodels": [
+            46
+          ]
+        },
+        {
+          "house": 1607,
+          "name": "The Adventurer's Inn",
+          "type": "The Adventurer's Inn",
+          "proprietor": "Placeholder",
+          "npcCount": 0,
+          "npcs": [],
+          "bmodels": [
+            82
+          ]
+        }
+      ]
+    },
+    "Garrote Gorge": {
+      "houseDestinations": 24,
+      "occupiedDestinations": 17,
+      "npcRows": 21,
+      "npcCountHistogramAllDestinations": {
+        "0": 7,
+        "1": 13,
+        "2": 4
+      },
+      "npcCountHistogramOccupiedDestinations": {
+        "1": 13,
+        "2": 4
+      },
+      "housesPerAssemblyHistogram": {
+        "1": 24
+      },
+      "assemblies": [
+        {
+          "models": [
+            24
+          ],
+          "houses": [
+            541
+          ],
+          "npcCount": 2
+        },
+        {
+          "models": [
+            25
+          ],
+          "houses": [
+            540
+          ],
+          "npcCount": 2
+        },
+        {
+          "models": [
+            27
+          ],
+          "houses": [
+            566
+          ],
+          "npcCount": 1
+        },
+        {
+          "models": [
+            28
+          ],
+          "houses": [
+            567
+          ],
+          "npcCount": 1
+        },
+        {
+          "models": [
+            29
+          ],
+          "houses": [
+            569
+          ],
+          "npcCount": 1
+        },
+        {
+          "models": [
+            31
+          ],
+          "houses": [
+            539
+          ],
+          "npcCount": 2
+        },
+        {
+          "models": [
+            32
+          ],
+          "houses": [
+            542
+          ],
+          "npcCount": 1
+        },
+        {
+          "models": [
+            35,
+            36
+          ],
+          "houses": [
+            565
+          ],
+          "npcCount": 1
+        },
+        {
+          "models": [
+            37,
+            38
+          ],
+          "houses": [
+            563
+          ],
+          "npcCount": 1
+        },
+        {
+          "models": [
+            39,
+            40
+          ],
+          "houses": [
+            571
+          ],
+          "npcCount": 1
+        },
+        {
+          "models": [
+            41
+          ],
+          "houses": [
+            568
+          ],
+          "npcCount": 1
+        },
+        {
+          "models": [
+            42
+          ],
+          "houses": [
+            699
+          ],
+          "npcCount": 1
+        },
+        {
+          "models": [
+            43
+          ],
+          "houses": [
+            570
+          ],
+          "npcCount": 1
+        },
+        {
+          "models": [
+            44
+          ],
+          "houses": [
+            700
+          ],
+          "npcCount": 1
+        },
+        {
+          "models": [
+            45
+          ],
+          "houses": [
+            562
+          ],
+          "npcCount": 1
+        },
+        {
+          "models": [
+            46
+          ],
+          "houses": [
+            538
+          ],
+          "npcCount": 2
+        },
+        {
+          "models": [
+            47
+          ],
+          "houses": [
+            564
+          ],
+          "npcCount": 1
+        },
+        {
+          "models": [
+            16
+          ],
+          "houses": [
+            79
+          ],
+          "npcCount": 0
+        },
+        {
+          "models": [
+            17
+          ],
+          "houses": [
+            306
+          ],
+          "npcCount": 0
+        },
+        {
+          "models": [
+            18
+          ],
+          "houses": [
+            455
+          ],
+          "npcCount": 0
+        },
+        {
+          "models": [
+            19
+          ],
+          "houses": [
+            4
+          ],
+          "npcCount": 0
+        },
+        {
+          "models": [
+            20
+          ],
+          "houses": [
+            39
+          ],
+          "npcCount": 0
+        },
+        {
+          "models": [
+            21,
+            22
+          ],
+          "houses": [
+            232
+          ],
+          "npcCount": 0
+        },
+        {
+          "models": [
+            55
+          ],
+          "houses": [
+            1567
+          ],
+          "npcCount": 0
+        }
+      ],
+      "houses": [
+        {
+          "house": 4,
+          "name": "Lance's Spears",
+          "type": "Weapon Shop",
+          "proprietor": "Lance",
+          "npcCount": 0,
+          "npcs": [],
+          "bmodels": [
+            19
+          ]
+        },
+        {
+          "house": 39,
+          "name": "Plated Protection",
+          "type": "Armor Shop",
+          "proprietor": "Balfour",
+          "npcCount": 0,
+          "npcs": [],
+          "bmodels": [
+            20
+          ]
+        },
+        {
+          "house": 79,
+          "name": "Wards and Pendants",
+          "type": "Magic Shop",
+          "proprietor": "Korxius",
+          "npcCount": 0,
+          "npcs": [],
+          "bmodels": [
+            16
+          ]
+        },
+        {
+          "house": 232,
+          "name": "Dragon's Blood Inn",
+          "type": "Tavern",
+          "proprietor": "Melody",
+          "npcCount": 0,
+          "npcs": [],
+          "bmodels": [
+            22
+          ]
+        },
+        {
+          "house": 306,
+          "name": "Sacred Steel",
+          "type": "Temple",
+          "proprietor": "Laudra",
+          "npcCount": 0,
+          "npcs": [],
+          "bmodels": [
+            17
+          ]
+        },
+        {
+          "house": 455,
+          "name": "Guild Caravans",
+          "type": "Stables",
+          "proprietor": "Dalas",
+          "npcCount": 0,
+          "npcs": [],
+          "bmodels": [
+            18
+          ]
+        },
+        {
+          "house": 538,
+          "name": "Stormlance Residence",
+          "type": "House",
+          "proprietor": "Placeholder",
+          "npcCount": 2,
+          "npcs": [
+            {
+              "id": 49,
+              "name": "Leane Stormlance",
+              "tableLine": 51
+            },
+            {
+              "id": 113,
+              "name": "Jaycin Cardron",
+              "tableLine": 115
+            }
+          ],
+          "bmodels": [
+            46
+          ]
+        },
+        {
+          "house": 539,
+          "name": "Morningstar Residence",
+          "type": "House",
+          "proprietor": "Placeholder",
+          "npcCount": 2,
+          "npcs": [
+            {
+              "id": 131,
+              "name": "Robert Morningstar",
+              "tableLine": 133
+            },
+            {
+              "id": 230,
+              "name": "Isram Delver",
+              "tableLine": 232
+            }
+          ],
+          "bmodels": [
+            31
+          ]
+        },
+        {
+          "house": 540,
+          "name": "Foestryke Residence",
+          "type": "House",
+          "proprietor": "Placeholder",
+          "npcCount": 2,
+          "npcs": [
+            {
+              "id": 92,
+              "name": "Zelim",
+              "tableLine": 94
+            },
+            {
+              "id": 115,
+              "name": "Herald Foestryke",
+              "tableLine": 117
+            }
+          ],
+          "bmodels": [
+            25
+          ]
+        },
+        {
+          "house": 541,
+          "name": "Ironfist Residence",
+          "type": "House",
+          "proprietor": "Placeholder",
+          "npcCount": 2,
+          "npcs": [
+            {
+              "id": 141,
+              "name": "Sethine Ironfist",
+              "tableLine": 143
+            },
+            {
+              "id": 219,
+              "name": "Chadric Benson",
+              "tableLine": 221
+            }
+          ],
+          "bmodels": [
+            24
+          ]
+        },
+        {
+          "house": 542,
+          "name": "Reaverston Residence",
+          "type": "House",
+          "proprietor": "Placeholder",
+          "npcCount": 1,
+          "npcs": [
+            {
+              "id": 144,
+              "name": "Peryn Reaverston",
+              "tableLine": 146
+            }
+          ],
+          "bmodels": [
+            32
+          ]
+        },
+        {
+          "house": 562,
+          "name": "Avalon's Residence",
+          "type": "House",
+          "proprietor": "Placeholder",
+          "npcCount": 1,
+          "npcs": [
+            {
+              "id": 90,
+              "name": "Avalon",
+              "tableLine": 92
+            }
+          ],
+          "bmodels": [
+            45
+          ]
+        },
+        {
+          "house": 563,
+          "name": "Arin Residence",
+          "type": "House",
+          "proprietor": "Placeholder",
+          "npcCount": 1,
+          "npcs": [
+            {
+              "id": 164,
+              "name": "Tugor Arin",
+              "tableLine": 166
+            }
+          ],
+          "bmodels": [
+            37
+          ]
+        },
+        {
+          "house": 564,
+          "name": "Lightsworn Residence",
+          "type": "House",
+          "proprietor": "Placeholder",
+          "npcCount": 1,
+          "npcs": [
+            {
+              "id": 192,
+              "name": "Wanda Lightsworn",
+              "tableLine": 194
+            }
+          ],
+          "bmodels": [
+            47
+          ]
+        },
+        {
+          "house": 565,
+          "name": "Otterton Residence",
+          "type": "House",
+          "proprietor": "Placeholder",
+          "npcCount": 1,
+          "npcs": [
+            {
+              "id": 197,
+              "name": "Kenneth Otterton",
+              "tableLine": 199
+            }
+          ],
+          "bmodels": [
+            35
+          ]
+        },
+        {
+          "house": 566,
+          "name": "Calandril's Residence",
+          "type": "House",
+          "proprietor": "Placeholder",
+          "npcCount": 1,
+          "npcs": [
+            {
+              "id": 87,
+              "name": "Calindril",
+              "tableLine": 89
+            }
+          ],
+          "bmodels": [
+            27
+          ]
+        },
+        {
+          "house": 567,
+          "name": "Maker Residence",
+          "type": "House",
+          "proprietor": "Placeholder",
+          "npcCount": 1,
+          "npcs": [
+            {
+              "id": 205,
+              "name": "Tessa Maker",
+              "tableLine": 207
+            }
+          ],
+          "bmodels": [
+            28
+          ]
+        },
+        {
+          "house": 568,
+          "name": "Slayer Residence",
+          "type": "House",
+          "proprietor": "Placeholder",
+          "npcCount": 1,
+          "npcs": [
+            {
+              "id": 208,
+              "name": "Norbert Slayer",
+              "tableLine": 210
+            }
+          ],
+          "bmodels": [
+            41
+          ]
+        },
+        {
+          "house": 569,
+          "name": "Kern Residence",
+          "type": "House",
+          "proprietor": "Placeholder",
+          "npcCount": 1,
+          "npcs": [
+            {
+              "id": 158,
+              "name": "Bethold Kern",
+              "tableLine": 160
+            }
+          ],
+          "bmodels": [
+            29
+          ]
+        },
+        {
+          "house": 570,
+          "name": "Jeni Residence",
+          "type": "House",
+          "proprietor": "Placeholder",
+          "npcCount": 1,
+          "npcs": [
+            {
+              "id": 203,
+              "name": "Quick Jeni ",
+              "tableLine": 205
+            }
+          ],
+          "bmodels": [
+            43
+          ]
+        },
+        {
+          "house": 571,
+          "name": "Weldrick's Home",
+          "type": "House",
+          "proprietor": "Placeholder",
+          "npcCount": 1,
+          "npcs": [
+            {
+              "id": 232,
+              "name": "Weldrik Falconeye",
+              "tableLine": 234
+            }
+          ],
+          "bmodels": [
+            40
+          ]
+        },
+        {
+          "house": 699,
+          "name": "Nelix's House",
+          "type": "House",
+          "proprietor": "Placeholder",
+          "npcCount": 1,
+          "npcs": [
+            {
+              "id": 280,
+              "name": "Nelix Uriel",
+              "tableLine": 282
+            }
+          ],
+          "bmodels": [
+            42
+          ]
+        },
+        {
+          "house": 700,
+          "name": "Tempus' House",
+          "type": "House",
+          "proprietor": "Placeholder",
+          "npcCount": 1,
+          "npcs": [
+            {
+              "id": 288,
+              "name": "Tempus ",
+              "tableLine": 290
+            }
+          ],
+          "bmodels": [
+            44
+          ]
+        },
+        {
+          "house": 1567,
+          "name": "Godric's Gauntlet",
+          "type": "Training",
+          "proprietor": "Godric",
+          "npcCount": 0,
+          "npcs": [],
+          "bmodels": [
+            55
+          ]
+        }
+      ]
+    }
+  },
+  "sources": [
+    {
+      "path": "assets_dev/engine/data_tables/house_data.txt",
+      "sha256": "03a2057bd9baa19e68931de61d16ff7bfe67bb4e5f6b0cce4d4cd279d1d6eb45"
+    },
+    {
+      "path": "assets_dev/engine/data_tables/npc.txt",
+      "sha256": "1432a20271baa15e3d93ce5ad9909b8dbfc29ee50f8a9fc8a89b41df7dc258fa"
+    },
+    {
+      "path": "assets_dev/worlds/mm8/maps/out02.odm",
+      "sha256": "246deaf7bc74403f0c55ac39bdf9f2dd9ab57cf3f3a30b7f46a2f5b80d3b3367"
+    },
+    {
+      "path": "assets_dev/worlds/mm8/events/maps/out02.lua",
+      "sha256": "2a180e57ef93d494e315fc8781ec48318010f3561208106c40353353656abc09"
+    },
+    {
+      "path": "assets_dev/worlds/mm8/maps/out02.scene.yml",
+      "sha256": "0d0a2756427354fdd3f9d528f24ce0a71f0d4e90c9542543b776d57d335488b1"
+    },
+    {
+      "path": "assets_dev/worlds/mm8/maps/out05.odm",
+      "sha256": "a57bb57f8afdf75d72077013161979e3aa13811bd187b9aeef6e95a28543c40c"
+    },
+    {
+      "path": "assets_dev/worlds/mm8/events/maps/out05.lua",
+      "sha256": "4ef77e797cfc15f8e3352a36460f32be73f3ae014fab7369a54e378355746755"
+    },
+    {
+      "path": "assets_dev/worlds/mm8/maps/out05.scene.yml",
+      "sha256": "2a9e21fbb4aa9e6a33289bbb3bf5c040d0f942ca875b79acde4ae689e48b7a22"
+    }
+  ]
+}

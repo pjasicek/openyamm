@@ -100,6 +100,10 @@ SetMapMetadata({
     [504] = { kind = "enter_dungeon", source = "opcode", targetMap = "d05.blv", targetName = "Abandoned Temple" },
     [505] = { kind = "enter_dungeon", source = "opcode", targetMap = "eleme.blv", targetName = "Plane of Earth" },
     },
+    learnedEffect = {
+    [101] = { autonote = 206, effect = "Intellect +15 (Temporary)" },
+    [102] = { autonote = 207, effect = "Luck +2 (Permanent)" },
+    },
     textureNames = {},
     spriteNames = {},
     castSpellIds = {6, 9, 136},
@@ -857,13 +861,13 @@ RegisterEvent(495, "Flower", function()
     if not IsAtLeast(DisarmTrapSkill, 5) then return end
     local randomStep = PickRandomOption(495, 4, {5, 7, 9, 11})
     if randomStep == 5 then
-        evt.SummonItem(2138, -18832, 5840, 330, 1000, 1, true) -- Diary Page
+        evt.SummonRandomItem(2, 138, -18832, 5840, 330, 1000, 1, true) -- random item of the Gold Ring's kind
     elseif randomStep == 7 then
-        evt.SummonItem(2139, -18832, 5840, 330, 1000, 1, true) -- Page from Agar's Journal
+        evt.SummonRandomItem(2, 139, -18832, 5840, 330, 1000, 1, true) -- random item of the Pearl Ring's kind
     elseif randomStep == 9 then
-        evt.SummonItem(2140, -18832, 5840, 330, 1000, 1, true) -- Remains of a Journal
+        evt.SummonRandomItem(2, 140, -18832, 5840, 330, 1000, 1, true) -- random item of the Gemstone Ring's kind
     elseif randomStep == 11 then
-        evt.SummonItem(2141, -18832, 5840, 330, 1000, 1, true) -- Letter from the Dragon Riders
+        evt.SummonRandomItem(2, 141, -18832, 5840, 330, 1000, 1, true) -- random item of the Amethyst Ring's kind
     end
     SetQBit(QBit(271)) -- Reagent spout area 1
 end, "Flower")

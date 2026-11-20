@@ -1,0 +1,447 @@
+# Isolate each pursuit from residents of both factions before spawning the defender.
+id: hesper.d15.walkability
+world: hesper
+mode: faithful
+steps:
+- &id001
+  new_game_flow:
+    start_map: hes_d15.blv
+    party:
+      members:
+      - name: Undercroft walker
+        class: Knight
+        level: 1000
+        equipment: {}
+        skills:
+        - name: Sword
+          level: 1
+          mastery: 1
+- damage_actor:
+    all: true
+    amount: 1000000
+    tier: kreegan_energy
+- set_pose:
+    map: hes_d15.blv
+    x: 900
+    y: 600
+    z: 512
+    yaw: 0
+    pitch: 0
+- execute_event:
+    id: 101
+- advance_runtime:
+    seconds: 2
+- spawn_actor:
+    monster_id: 10000
+    count: 1
+    x: 2444
+    y: 600
+    z: 0
+- advance_runtime:
+    seconds: 16
+- assert:
+    actor_visible:
+      actor_index: 72
+      report_state: true
+      dead: false
+      near:
+        x: 900
+        y: 600
+        max_distance: 400
+- *id001
+- damage_actor:
+    all: true
+    amount: 1000000
+    tier: kreegan_energy
+- set_pose:
+    map: hes_d15.blv
+    x: 2900
+    y: 1000
+    z: 0
+    yaw: 0
+    pitch: 0
+- spawn_actor:
+    monster_id: 10000
+    count: 1
+    x: 2804
+    y: 300
+    z: -24
+- advance_runtime:
+    seconds: 8
+- assert:
+    actor_visible:
+      actor_index: 72
+      report_state: true
+      dead: false
+      near:
+        x: 2900
+        y: 1000
+        max_distance: 400
+- *id001
+- damage_actor:
+    all: true
+    amount: 1000000
+    tier: kreegan_energy
+- set_pose:
+    map: hes_d15.blv
+    x: 8100
+    y: 300
+    z: -24
+    yaw: 0
+    pitch: 0
+- execute_event:
+    id: 60
+- advance_runtime:
+    seconds: 2
+- spawn_actor:
+    monster_id: 10000
+    count: 1
+    x: 7304
+    y: 300
+    z: -24
+- advance_runtime:
+    seconds: 10
+- assert:
+    actor_visible:
+      actor_index: 72
+      report_state: true
+      dead: false
+      near:
+        x: 8100
+        y: 300
+        max_distance: 400
+- *id001
+- damage_actor:
+    all: true
+    amount: 1000000
+    tier: kreegan_energy
+- set_pose:
+    map: hes_d15.blv
+    x: 4728
+    y: -900
+    z: 0
+    yaw: 0
+    pitch: 0
+- execute_event:
+    id: 103
+- advance_runtime:
+    seconds: 2
+- spawn_actor:
+    monster_id: 10000
+    count: 1
+    x: 4632
+    y: 140
+    z: -24
+- advance_runtime:
+    seconds: 10
+- assert:
+    actor_visible:
+      actor_index: 72
+      report_state: true
+      dead: false
+      near:
+        x: 4728
+        y: -900
+        max_distance: 400
+- *id001
+- damage_actor:
+    all: true
+    amount: 1000000
+    tier: kreegan_energy
+- set_pose:
+    map: hes_d15.blv
+    x: 8392
+    y: 1000
+    z: 0
+    yaw: 0
+    pitch: 0
+- spawn_actor:
+    monster_id: 10000
+    count: 1
+    x: 8296
+    y: 300
+    z: -24
+- advance_runtime:
+    seconds: 8
+- assert:
+    actor_visible:
+      actor_index: 72
+      report_state: true
+      dead: false
+      near:
+        x: 8392
+        y: 1000
+        max_distance: 400
+- *id001
+- damage_actor:
+    all: true
+    amount: 1000000
+    tier: kreegan_energy
+- set_pose:
+    map: hes_d15.blv
+    x: 13304
+    y: 1000
+    z: 0
+    yaw: 0
+    pitch: 0
+- spawn_actor:
+    monster_id: 10000
+    count: 1
+    x: 13208
+    y: 300
+    z: -24
+- advance_runtime:
+    seconds: 8
+- assert:
+    actor_visible:
+      actor_index: 72
+      report_state: true
+      dead: false
+      near:
+        x: 13304
+        y: 1000
+        max_distance: 400
+- *id001
+- damage_actor:
+    all: true
+    amount: 1000000
+    tier: kreegan_energy
+- set_pose:
+    map: hes_d15.blv
+    x: 9092
+    y: 850
+    z: 0
+    yaw: 0
+    pitch: 0
+- execute_event:
+    id: 70
+- advance_runtime:
+    seconds: 2
+- spawn_actor:
+    monster_id: 10000
+    count: 1
+    x: 8996
+    y: 20
+    z: -64
+- advance_runtime:
+    seconds: 10
+- assert:
+    actor_visible:
+      actor_index: 72
+      report_state: true
+      dead: false
+      near:
+        x: 9092
+        y: 850
+        max_distance: 400
+- *id001
+- damage_actor:
+    all: true
+    amount: 1000000
+    tier: kreegan_energy
+- set_pose:
+    map: hes_d15.blv
+    x: 14092
+    y: 850
+    z: 0
+    yaw: 0
+    pitch: 0
+- spawn_actor:
+    monster_id: 10000
+    count: 1
+    x: 13996
+    y: 20
+    z: -64
+- advance_runtime:
+    seconds: 10
+- assert:
+    actor_visible:
+      actor_index: 72
+      report_state: true
+      dead: false
+      near:
+        x: 14092
+        y: 850
+        max_distance: 400
+- *id001
+- damage_actor:
+    all: true
+    amount: 1000000
+    tier: kreegan_energy
+- set_pose:
+    map: hes_d15.blv
+    x: 14292
+    y: 1600
+    z: 0
+    yaw: 0
+    pitch: 0
+- execute_event:
+    id: 61
+- advance_runtime:
+    seconds: 2
+- spawn_actor:
+    monster_id: 10000
+    count: 1
+    x: 14196
+    y: 3160
+    z: -512
+- advance_runtime:
+    seconds: 16
+- assert:
+    actor_visible:
+      actor_index: 72
+      report_state: true
+      dead: false
+      near:
+        x: 14292
+        y: 1600
+        max_distance: 400
+- *id001
+- damage_actor:
+    all: true
+    amount: 1000000
+    tier: kreegan_energy
+- set_pose:
+    map: hes_d15.blv
+    x: 14292
+    y: 9500
+    z: 0
+    yaw: 0
+    pitch: 0
+- execute_event:
+    id: 62
+- advance_runtime:
+    seconds: 2
+- spawn_actor:
+    monster_id: 10000
+    count: 1
+    x: 14196
+    y: 7900
+    z: -512
+- advance_runtime:
+    seconds: 16
+- assert:
+    actor_visible:
+      actor_index: 72
+      report_state: true
+      dead: false
+      near:
+        x: 14292
+        y: 9500
+        max_distance: 400
+- *id001
+- damage_actor:
+    all: true
+    amount: 1000000
+    tier: kreegan_energy
+- set_pose:
+    map: hes_d15.blv
+    x: 12920
+    y: 10556
+    z: 256
+    yaw: 0
+    pitch: 0
+- spawn_actor:
+    monster_id: 10000
+    count: 1
+    x: 14504
+    y: 10556
+    z: 0
+- advance_runtime:
+    seconds: 18
+- assert:
+    actor_visible:
+      actor_index: 72
+      report_state: true
+      dead: false
+      near:
+        x: 12920
+        y: 10556
+        max_distance: 400
+- *id001
+- damage_actor:
+    all: true
+    amount: 1000000
+    tier: kreegan_energy
+- set_pose:
+    map: hes_d15.blv
+    x: 15400
+    y: 11900
+    z: 256
+    yaw: 0
+    pitch: 0
+- spawn_actor:
+    monster_id: 10000
+    count: 1
+    x: 15304
+    y: 10750
+    z: 0
+- advance_runtime:
+    seconds: 14
+- assert:
+    actor_visible:
+      actor_index: 72
+      report_state: true
+      dead: false
+      near:
+        x: 15400
+        y: 11900
+        max_distance: 400
+- *id001
+- damage_actor:
+    all: true
+    amount: 1000000
+    tier: kreegan_energy
+- set_pose:
+    map: hes_d15.blv
+    x: 15100
+    y: 9600
+    z: 256
+    yaw: 0
+    pitch: 0
+- spawn_actor:
+    monster_id: 10000
+    count: 1
+    x: 15004
+    y: 10800
+    z: 0
+- advance_runtime:
+    seconds: 14
+- assert:
+    actor_visible:
+      actor_index: 72
+      report_state: true
+      dead: false
+      near:
+        x: 15100
+        y: 9600
+        max_distance: 400
+- *id001
+- damage_actor:
+    all: true
+    amount: 1000000
+    tier: kreegan_energy
+- set_pose:
+    map: hes_d15.blv
+    x: 13100
+    y: 11600
+    z: 256
+    yaw: 0
+    pitch: 0
+- spawn_actor:
+    monster_id: 10000
+    count: 1
+    x: 13104
+    y: 10700
+    z: 256
+- advance_runtime:
+    seconds: 12
+- assert:
+    actor_visible:
+      actor_index: 72
+      report_state: true
+      dead: false
+      near:
+        x: 13100
+        y: 11600
+        max_distance: 400

@@ -1,0 +1,22 @@
+# AI arena: two MM9 skirmishers (Skeletoid, 9183: BaseMelee footwork from worlds/mm9/modifiers.yml) against a party
+# standing still in The Arena. Monster 0 plays its own data (strafe 0.8, evade 0.4, taunt 0.95 s); monster 1 always
+# strafes and evades (overrides), so the footwork shows in every run. See README.md.
+name: mm9_skirmisher
+world: mm9
+map: thearena.blv
+asset_root: output/mm9_rework/assets_dev
+party:
+  position: [0, -900, 1]
+  yaw_degrees: 90
+  pitch_degrees: -8
+  invulnerable: true
+trace: true
+trace_animation: true
+monsters:
+  - monster_id: 9183
+    position: [-300, 700, 1]
+    yaw_degrees: 270
+  - monster_id: 9183
+    position: [300, 700, 1]
+    yaw_degrees: 270
+    overrides: {strafe_attack_chance: 1, evade_chance: 1}

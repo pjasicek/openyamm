@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="en"><meta charset="utf-8"><title>MM7 m230 restoration review</title>
+<style>
+body{margin:24px;background:#202523;color:#eee;font:16px system-ui}h1{font-size:24px}
+label,button{margin:6px 12px 6px 0;display:inline-block}select,button,input{font:inherit}
+.views{display:flex;gap:16px;flex-wrap:wrap}canvas{background:#303630;max-width:100%;height:auto}
+small{color:#bdc9c0}a{color:#a8d8b3}fieldset{border:1px solid #65756c;margin:14px 0}
+</style>
+<h1>MM7 armored fighter — m230</h1>
+<p>Original and restored sprites at the same logical scale. All three native color variants; five stored views plus native mirrors.</p>
+<fieldset><label>Action <select id="action"></select></label>
+<label>View <select id="view"></select></label>
+<label>Variant <select id="variant"><option value="54">Green / Initiate</option><option value="55">Blue / Champion</option><option value="233">Red / Master</option></select></label>
+<label>Zoom <select id="zoom"><option value="1">1× logical</option><option value="2" selected>2× logical</option><option value="3">3× logical</option></select></label>
+<label>Background <select id="background"><option value="#303630">Dark</option><option value="#eeeeee">Light</option><option value="#708455">Grass</option><option value="#808080">Gray</option></select></label>
+<label><input type="checkbox" id="loop" checked>Loop preview</label>
+<label><input type="checkbox" id="bounds">Show pivot/crop</label>
+<label><input type="checkbox" id="mask">Mask overlay</label>
+<button id="pause">Pause</button><button id="step">Next frame</button><button id="restart">Restart</button></fieldset>
+<p id="status">Loading…</p>
+<div class="views"><div>Native palette rendering<br><canvas id="original"></canvas></div>
+<div>Restored atlas / selective variant<br><canvas id="restored"></canvas></div></div>
+<p><small id="note"></small></p>
+<p><a href="review/standing_variants.png">Variant comparison and masks</a> · <a href="manifest.json">Manifest</a> · <a href="README.md">Delivery notes</a></p>
+<script>
+const DATA = /* MANIFEST */;
+const $=id=>document.getElementById(id), cache=new Map();
+const names=['Front','Front oblique','Profile','Rear oblique','Back','Rear oblique (mirror)','Profile (mirror)','Front oblique (mirror)'];
+for(const name of ['standing','walk','attack','hit','fidget','death','corpse'])$('action').add(new Option(name,name));
+names.forEach((name,i)=>$('view').add(new Option(name,i)));
+let index=0,elapsed=0,last=0,paused=false;
+const query=new URLSearchParams(location.search);
+for(const id of ['action','view','variant','zoom','background']){
+  const value=query.get(id);if(value!==null&&Array.from($(id).options).some(o=>o.value===value))$(id).value=value;
+}
+paused=query.get('paused')==='1';$('pause').textContent=paused?'Play':'Pause';
+index=Math.max(0,Math.min(Number(query.get('frame'))||0,DATA.animations[$('action').value].views[$('view').value].length-1));
+function getImage(path){
+  if(!cache.has(path)){
+    const image=new Image();cache.set(path,image);image.onload=draw;
+    image.onerror=()=>{$('status').textContent='Unable to load '+path;};image.src=path;
+  }
+  return cache.get(path);
+}
+function reset(){index=0;elapsed=0;}
+function sequence(){return DATA.animations[$('action').value].views[$('view').value];}
+function sequenceReady(){
+  let ready=true;
+  for(const step of sequence()){
+    const page=DATA.pages[DATA.frames[step.frame].page];
+    for(const path of ['native_variants/'+step.frame+'_'+$('variant').value+'.png',
+                      $('mask').checked?page.mask_overlay:page.variant_previews[$('variant').value]]){
+      const image=getImage(path);if(!image.complete||!image.naturalWidth)ready=false;
+    }
+  }
+  return ready;
+}
+function setup(canvas){
+  const zoom=Number($('zoom').value),size=288*zoom;
+  if(canvas.width!==size){canvas.width=size;canvas.height=size;}
+  const ctx=canvas.getContext('2d');ctx.setTransform(1,0,0,1,0,0);ctx.fillStyle=$('background').value;ctx.fillRect(0,0,size,size);
+  ctx.scale(zoom,zoom);return ctx;
+}
+function draw(){
+  const seq=sequence(),step=seq[Math.min(index,seq.length-1)],frame=DATA.frames[step.frame],page=DATA.pages[frame.page];
+  const variant=$('variant').value,original=getImage('native_variants/'+step.frame+'_'+variant+'.png');
+  const enhanced=getImage($('mask').checked?page.mask_overlay:page.variant_previews[variant]);
+  for(const [id,im] of [['original',original],['restored',enhanced]]){
+    const ctx=setup($(id));ctx.save();ctx.translate(144,144);if(step.mirrored)ctx.scale(-1,1);
+    ctx.imageSmoothingEnabled=id!=='original';
+    if(im.complete&&im.naturalWidth){
+      if(id==='original')ctx.drawImage(im,-128,-128,256,256);
+      else{
+        const [x,y,w,h]=frame.atlas_xywh,[ox,oy]=frame.crop_origin_px;
+        ctx.drawImage(im,x,y,w,h,ox/2-128,oy/2-128,w/2,h/2);
+        if($('bounds').checked){ctx.strokeStyle='#ffc64b';ctx.lineWidth=.5;ctx.strokeRect(ox/2-128,oy/2-128,w/2,h/2);}
+      }
+    }
+    if($('bounds').checked){ctx.strokeStyle='#67dce5';ctx.lineWidth=.5;ctx.beginPath();ctx.moveTo(-6,0);ctx.lineTo(6,0);ctx.moveTo(0,-6);ctx.lineTo(0,6);ctx.stroke();}
+    ctx.restore();
+  }
+  $('status').textContent=step.frame+' — '+(index+1)+' / '+seq.length+' — '+step.duration_ms+' ms'+(step.mirrored?' — native mirror':'');
+  $('note').textContent=DATA.animations[$('action').value].single_view?
+    'This action has one native view, used at every angle. No extra views were invented.':
+    'The center pivot and native logical canvas remain fixed. Crops and mirrored views use their recorded offsets.';
+}
+function tick(now){
+  const ready=sequenceReady();
+  if(last&&!paused&&ready){elapsed+=Math.min(now-last,250);let seq=sequence();
+    while(elapsed>=seq[index].duration_ms){elapsed-=seq[index].duration_ms;
+      if(index+1<seq.length)index++;else if($('loop').checked)index=0;else{elapsed=0;break;}
+    }
+  }
+  last=now;draw();requestAnimationFrame(tick);
+}
+for(const id of ['action','view'])$(id).onchange=reset;
+$('pause').onclick=()=>{paused=!paused;$('pause').textContent=paused?'Play':'Pause';};
+$('step').onclick=()=>{paused=true;$('pause').textContent='Play';index=(index+1)%sequence().length;elapsed=0;};
+$('restart').onclick=reset;
+requestAnimationFrame(tick);
+</script></html>

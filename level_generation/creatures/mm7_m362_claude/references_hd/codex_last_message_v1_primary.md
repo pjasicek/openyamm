@@ -1,0 +1,3 @@
+Saved [00_three_quarter.png](/home/pjasicek/github/OpenYAMM/level_generation/creatures/mm7_m362_claude/references_hd/00_three_quarter.png), generated with the built-in tool at 1024 × 1536 with transparent alpha, unresized.
+
+Both raw returns and full prompts are preserved in `raw/` and `generation_runs.json`. Selected v2 after one correction; remaining arm-angle and finger-spread deviations are documented.

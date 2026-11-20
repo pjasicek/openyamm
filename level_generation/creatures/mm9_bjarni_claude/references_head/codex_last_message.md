@@ -1,0 +1,3 @@
+Saved all four images in [references_head](/home/pjasicek/github/OpenYAMM/level_generation/creatures/mm9_bjarni_claude/references_head), plus raw returns, the review sheet and generation records with prompts and input hashes. All are unresized 1254×1254 RGBA from built-in image generation.
+
+No builds or Meshy calls. Remaining limitations: tight shoulder framing, some eyelid pinkness, and a profile not guaranteed exactly 90°.

@@ -1,0 +1,103 @@
+# MM9 promotion playthrough, segment 61: the Transmutation Engine (guide: side_a.yml become-a-lich). From the kitchen
+# (Level A) down to the engine hall, walked, every rotating door clicked once it stands shut: back through the east
+# room (166, 159), the central room (148), down the grand stair to the lobby, the side room (142, 112), the hall, west
+# through RotatingDoor185 (151) into the ring round the atrium, north and east round it (RotatingDoor188 154,
+# RotatingDoor137 111, RotatingDoor135 109), south along the east column (RotatingDoor146 114, RotatingDoor181 147,
+# RotatingDoor178 144), east and down the east wing's stair to the ground storey, north (RotatingDoor158 126), west
+# (RotatingDoor160 128) into the cross hall over the engine pit, down its south-east stair to the engine hall's floor
+# and into pod 1 (POD_BOX, the south-east of the four pods). Its switch (event 200) lowers the lid; 3 s later the engine
+# strikes: with the Lich Instructions (key 296) the Wizard (member 3), who carries the Elixir of Defedation, drinks it
+# and becomes a Lich; the first strike pays 55 500 experience to every member and key 299, whoever it changes; the
+# others keep their classes. Research: prep/B_assassin_crusader_lich.md.
+#   python3 tests/playthrough/mm9/promotions/run.py 61
+id: mm9.promotions.61_lichlab_engine
+title: "MM9 promotions 61: down to the Transmutation Engine; the Wizard becomes a Lich"
+world: mm9
+mode: faithful
+tags: [mm9, playthrough, promotions]
+steps:
+  - load_game: {path: output/playthrough/mm9/promotions/checkpoints/60_lichlab_elixir.oysav}
+  - setup_shortcut: {kind: immortal}
+  - assert: {map: lichlab.blv, qbit_set: [90296], qbit_clear: [90299]}
+
+  # Level A back to the grand stair, down to the lobby.
+  - walk_to: {x: 820, y: 3450, z: 2376, z_tolerance: 200, timeout_seconds: 30, clear_hostiles: 2000}
+  - play_lua: {source: 'for t = 1, 24 do if door_state(78) == "closed" then break end; wait(0.5) end; click(166); wait(1.5)'}   # RotatingDoor200
+  - walk_to: {x: 820, y: 2950, z: 2376, z_tolerance: 200, plan: false, timeout_seconds: 20, clear_hostiles: 2000}
+  - walk_to: {x: 250, y: 1966, z: 2376, z_tolerance: 200, timeout_seconds: 30, clear_hostiles: 2000}
+  - play_lua: {source: 'for t = 1, 24 do if door_state(71) == "closed" then break end; wait(0.5) end; click(159); wait(1.5)'}   # RotatingDoor193
+  - walk_to: {via: [[100, 1966, 2376]], x: -400, y: 1966, z: 2376, z_tolerance: 200, plan: false, timeout_seconds: 30, clear_hostiles: 2000}
+  - walk_to: {x: -1311, y: 1000, z: 2376, z_tolerance: 200, timeout_seconds: 30, clear_hostiles: 2000}
+  - play_lua: {source: 'for t = 1, 24 do if door_state(60) == "closed" then break end; wait(0.5) end; click(148); wait(1.5)'}   # RotatingDoor182
+  - walk_to: {x: -1311, y: 300, z: 2376, z_tolerance: 200, plan: false, timeout_seconds: 30, clear_hostiles: 2000}
+  - walk_to: {x: -1311, y: -3328, z: 1311, z_tolerance: 200, plan: false, timeout_seconds: 30, clear_hostiles: 2000}
+
+  # Level B: the side room and the hall, then west into the ring round the atrium.
+  - walk_to: {x: 550, y: -3930, z: 1311, z_tolerance: 200, timeout_seconds: 30, clear_hostiles: 2000}
+  - play_lua: {source: 'for t = 1, 24 do if door_state(54) == "closed" then break end; wait(0.5) end; click(142); wait(1.5)'}   # RotatingDoor176
+  - walk_to: {via: [[950, -3930, 1311]], x: 1536, y: -3328, z: 1311, z_tolerance: 200, plan: false, timeout_seconds: 30, clear_hostiles: 2000}
+  - walk_to: {x: 1885, y: -2300, z: 1311, z_tolerance: 200, timeout_seconds: 30, clear_hostiles: 2000}
+  - play_lua: {source: 'for t = 1, 24 do if door_state(24) == "closed" then break end; wait(0.5) end; click(112); wait(1.5)'}   # RotatingDoor138
+  - walk_to: {x: 1885, y: -1700, z: 1311, z_tolerance: 200, plan: false, timeout_seconds: 30, clear_hostiles: 2000}
+  - walk_to: {x: -1966, y: 350, z: 1311, z_tolerance: 200, timeout_seconds: 60, clear_hostiles: 2000}
+  - play_lua: {source: 'for t = 1, 24 do if door_state(63) == "closed" then break end; wait(0.5) end; click(151); wait(1.5)'}   # RotatingDoor185
+  - walk_to: {x: -1966, y: 1000, z: 1311, z_tolerance: 200, plan: false, timeout_seconds: 30, clear_hostiles: 2000}
+
+  # North and east round the ring, through the north-east rooms.
+  - walk_to: {x: 1850, y: 9011, z: 1311, z_tolerance: 200, timeout_seconds: 90, clear_hostiles: 2000}
+  - play_lua: {source: 'for t = 1, 24 do if door_state(66) == "closed" then break end; wait(0.5) end; click(154); wait(1.5)'}   # RotatingDoor188
+  - walk_to: {x: 2400, y: 9011, z: 1311, z_tolerance: 200, plan: false, timeout_seconds: 20, clear_hostiles: 2000}
+  - walk_to: {x: 2950, y: 9650, z: 1311, z_tolerance: 200, timeout_seconds: 30, clear_hostiles: 2000}
+  - play_lua: {source: 'for t = 1, 24 do if door_state(23) == "closed" then break end; wait(0.5) end; click(111); wait(1.5)'}   # RotatingDoor137
+  - walk_to: {x: 2950, y: 10150, z: 1311, z_tolerance: 200, plan: false, timeout_seconds: 20, clear_hostiles: 2000}
+  - walk_to: {x: 3150, y: 10404, z: 1311, z_tolerance: 200, timeout_seconds: 30, clear_hostiles: 2000}
+  - play_lua: {source: 'for t = 1, 24 do if door_state(21) == "closed" then break end; wait(0.5) end; click(109); wait(1.5)'}   # RotatingDoor135
+  - walk_to: {x: 3600, y: 10404, z: 1311, z_tolerance: 200, plan: false, timeout_seconds: 20, clear_hostiles: 2000}
+
+  # South along the east column, east and down the wing's stair to the ground storey.
+  - walk_to: {x: 4300, y: 7024, z: 1311, z_tolerance: 200, timeout_seconds: 60, clear_hostiles: 2000}
+  - play_lua: {source: 'for t = 1, 24 do if door_state(26) == "closed" then break end; wait(0.5) end; click(114); wait(1.5)'}   # RotatingDoor146
+  - walk_to: {x: 3700, y: 7024, z: 1311, z_tolerance: 200, plan: false, timeout_seconds: 20, clear_hostiles: 2000}
+  - walk_to: {x: 3440, y: 4150, z: 1311, z_tolerance: 200, timeout_seconds: 60, clear_hostiles: 2000}
+  - play_lua: {source: 'for t = 1, 24 do if door_state(59) == "closed" then break end; wait(0.5) end; click(147); wait(1.5)'}   # RotatingDoor181
+  - walk_to: {x: 3440, y: 3500, z: 1311, z_tolerance: 200, plan: false, timeout_seconds: 20, clear_hostiles: 2000}
+  - walk_to: {x: 3768, y: 2850, z: 1311, z_tolerance: 200, timeout_seconds: 30, clear_hostiles: 2000}
+  - play_lua: {source: 'for t = 1, 24 do if door_state(56) == "closed" then break end; wait(0.5) end; click(144); wait(1.5)'}   # RotatingDoor178
+  - walk_to: {x: 3768, y: 2250, z: 1311, z_tolerance: 200, plan: false, timeout_seconds: 20, clear_hostiles: 2000}
+  - walk_to: {via: [[4464, 1929, 1311], [6024, 1929, 1303], [7178, 913, 709], [6091, 617, 171]], x: 4763, y: 992, z: 0, z_tolerance: 200, timeout_seconds: 60, clear_hostiles: 2000}
+
+  # The ground storey: north, west into the cross hall, down its south-east stair, into pod 1.
+  # The wing's touch trigger (RightWingBatTrigger0, event 235) sends its hanging ickies off, hostile: they die here
+  # instead of drifting into the column ahead (a peaceful icky blocks the way).
+  - walk_to: {x: 4546, y: -144, z: 0, z_tolerance: 200, timeout_seconds: 30, clear_hostiles: 2000}
+  - assert: {state_dump_named_map_var: {name: BatsRightWing, value: 1}}
+  - clear_hostiles: {radius: 6000}
+  - walk_to: {x: 4150, y: 4096, z: 0, z_tolerance: 200, timeout_seconds: 60, clear_hostiles: 2000}
+  - play_lua: {source: 'for t = 1, 24 do if door_state(38) == "closed" then break end; wait(0.5) end; click(126); wait(1.5)'}   # RotatingDoor158
+  - walk_to: {x: 3400, y: 4096, z: 0, z_tolerance: 200, plan: false, timeout_seconds: 20, clear_hostiles: 2000}
+  - walk_to: {x: 1550, y: 4505, z: 0, z_tolerance: 200, timeout_seconds: 60, clear_hostiles: 2000}
+  - play_lua: {source: 'for t = 1, 24 do if door_state(40) == "closed" then break end; wait(0.5) end; click(128); wait(1.5)'}   # RotatingDoor160
+  - walk_to: {via: [[1000, 4505, 0]], x: 805, y: 4669, z: 0, z_tolerance: 200, plan: false, timeout_seconds: 20, clear_hostiles: 2000}
+  - walk_to: {x: -1075, y: 4669, z: -654, z_tolerance: 200, plan: false, timeout_seconds: 30, clear_hostiles: 2000}
+  - walk_to: {x: -1260, y: 5765, z: -654, z_tolerance: 200, radius: 30, timeout_seconds: 30, clear_hostiles: 2000}
+  - clear_hostiles: {radius: 3000}
+
+  # The pod's switch: the lid, the strike, the change.
+  - play_lua:
+      max_seconds: 30
+      source: |
+        log("CLASSES before: " .. classes())
+        if classes() ~= "Champion PriestLight Assassin Wizard" then error("unexpected classes: " .. classes()) end
+        for i = 0, 3 do remember("xp" .. i, experience(i)) end
+        click(200); wait(6)
+        log("CLASSES after: " .. classes())
+        if classes() ~= "Champion PriestLight Assassin Lich" then error("the engine gave: " .. classes()) end
+        for i = 0, 3 do
+          local gain = experience(i) - recall("xp" .. i)
+          log("member " .. i .. " experience +" .. gain)
+          if gain ~= 55500 then error("member " .. i .. " gained " .. gain .. ", not 55500") end
+        end
+        if item_count(10246) ~= 0 then error("the elixir was not drunk") end
+        log("the Wizard drank the Elixir of Defedation and is a Lich")
+  - assert: {qbit_set: [90299], state_dump_named_map_var: {name: Transmuted, value: 1}}
+  - save_game: {name: "61 Lich", path: output/playthrough/mm9/promotions/checkpoints/61_lichlab_engine.oysav}

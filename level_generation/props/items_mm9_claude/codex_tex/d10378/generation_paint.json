@@ -1,0 +1,24 @@
+{
+  "prompt": "Edit paint_mask_guide.png as a precise texture painting task. Use case: precise-object-edit. Output ONE transparent PNG 1536x2048, 3:4 canvas. Input 1 paint_mask_guide.png is the exact edit target; input 2 design_reference.png is approved material/detail reference; input 3 icon_x8.png is original colour reference, ignore magenta background.\nPreserve the guide's exact geometry, silhouettes, placement, scale and openings. Three columns FOUR rows, 512x512 cells. Rows 1-2: FRONT BACK LEFT / RIGHT TOP empty. Rows 3-4 repeat identical five views as material masks. Never move, enlarge, redesign or redraw the shapes.\nPaint ONLY grey objects of rows 1-2 with unlit base colour of upright tied burlap bags: warm tan woven cloth, gathered open necks, cloth rope bindings and worn dark brown emblem matching the design reference, positioned consistently on the fronts of each bag. Back views show back cloth. Follow the actual mesh outlines, not the reference silhouette. Crisp fine weave and reference-faithful details without illumination baked in. No lighting, cast shadows, ambient occlusion, hot highlights, reflections, glow, ground, outlines, text, halo or sparkle.\nRows 3-4 MATERIAL MASK: fill each entire existing bag silhouette FLAT pure BLUE #0000FF because bags and rope bindings are cloth. No texture, shading, outlines or interior antialiased colour blends. Classification if applicable: glass/gems/liquid black #000000; metal red #FF0000; matte nonmetal solids yellow #FFFF00; all cloth, cords and hair blue #0000FF. These bags have only cloth and cord so every occupied mask pixel is pure blue, including printed emblem areas. Preserve transparency outside silhouettes and all gaps/openings. Column 3 of rows 2 and 4 stays wholly empty transparent. Preserve entire sheet layout exactly.",
+  "inputs": [
+    {
+      "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/items_mm9_claude/codex_tex/d10378/paint_mask_guide.png",
+      "sha256": "399257e21929cfbb89c31ff5e946773133f6f958511cf9d8eccaf5a92af840ac"
+    },
+    {
+      "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/items_mm9_claude/codex_tex/d10378/design_reference.png",
+      "sha256": "2558b27be5526cf70130b63b2c665c4bf733529e9e6eb80ec818eeeb69bf2daf"
+    },
+    {
+      "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/items_mm9_claude/codex_tex/d10378/icon_x8.png",
+      "sha256": "f5a3cb363b3228e81cfbd04607a5093d4b680c20a0189f895f217bafc226dc23"
+    }
+  ],
+  "original_output_path": "/home/pjasicek/.codex/generated_images/01a1ad2e-fa8c-7302-bee9-04e453117558/exec-02ae29a7-0dc0-42ba-a6b0-cd6620051aeb.png",
+  "output": "/home/pjasicek/github/OpenYAMM/level_generation/props/items_mm9_claude/codex_tex/d10378/paint_mask_raw_v1.png",
+  "size": [
+    1086,
+    1448
+  ],
+  "tool": "built-in image_gen"
+}

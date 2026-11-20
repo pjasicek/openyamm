@@ -2,6 +2,7 @@ schema: openyamm.mm9EffectAssetImport.v1
 effects:
 - sparklies
 - spell-paralyze
+- spell-skullcurse
 - fg spell-elemental protection
 - spell-town portal
 - spell-dark grasp
@@ -24,6 +25,10 @@ effects:
 - elemental blast
 - Njam lightball for cutscene
 - GreaterDemon
+- dragon smoke
+- redyeldots
+- greenyeldots
+- bluedots
 - smoke
 - smokestack
 - firefly
@@ -33,6 +38,7 @@ effects:
 - oval
 - mist
 - fireblue
+- LichKingRes
 - redpops
 - greenpool
 - specks
@@ -48,6 +54,10 @@ resources:
   kind: model
   asset: engine/effects/mm9/models/spells/bugpath.glb
   status: converted-animation-path
+- legacy: models/spells/headtwirl.abc
+  kind: model
+  asset: engine/effects/mm9/models/spells/headtwirl.glb
+  status: converted-animation-path
 - legacy: models/spells/pathup.abc
   kind: model
   asset: engine/effects/mm9/models/spells/pathup.glb
@@ -57,6 +67,11 @@ resources:
   asset: engine/effects/mm9/audio/spells/column03.wav
   status: copied
   sha256: 7e225d8f1f6a0032cfd20225a5af5436eee7fc6433258a4f56438c94904487f8
+- legacy: sounds/spells/curse.wav
+  kind: sound
+  asset: engine/effects/mm9/audio/spells/curse.wav
+  status: copied
+  sha256: 99edb633ae5ef5e18d9c578cb87abb5413aeade7cf2a5ede4a63f08a48ec6dc3
 - legacy: sounds/spells/darkgrasp.wav
   kind: sound
   asset: engine/effects/mm9/audio/spells/darkgrasp.wav
@@ -259,6 +274,10 @@ resources:
   kind: sprite
   asset: engine/effects/mm9/sprites/weapons/blurredyellowstar.yml
   status: compiled
+- legacy: sprites/weapons/explosion1.spr
+  kind: sprite
+  asset: engine/effects/mm9/sprites/weapons/explosion1.yml
+  status: compiled
 - legacy: sprites/weapons/firebolt.spr
   kind: sprite
   asset: engine/effects/mm9/sprites/weapons/firebolt.yml
@@ -378,6 +397,54 @@ resources:
 - legacy: spritetextures/electricity/lball_013.dtx
   kind: texture
   asset: engine/effects/mm9/textures/electricity/lball_013.png
+  status: converted
+- legacy: spritetextures/explosions/explosion1/simplexplode_0004.dtx
+  kind: texture
+  asset: engine/effects/mm9/textures/explosions/explosion1/simplexplode_0004.png
+  status: converted
+- legacy: spritetextures/explosions/explosion1/simplexplode_0008.dtx
+  kind: texture
+  asset: engine/effects/mm9/textures/explosions/explosion1/simplexplode_0008.png
+  status: converted
+- legacy: spritetextures/explosions/explosion1/simplexplode_0012.dtx
+  kind: texture
+  asset: engine/effects/mm9/textures/explosions/explosion1/simplexplode_0012.png
+  status: converted
+- legacy: spritetextures/explosions/explosion1/simplexplode_0016.dtx
+  kind: texture
+  asset: engine/effects/mm9/textures/explosions/explosion1/simplexplode_0016.png
+  status: converted
+- legacy: spritetextures/explosions/explosion1/simplexplode_0020.dtx
+  kind: texture
+  asset: engine/effects/mm9/textures/explosions/explosion1/simplexplode_0020.png
+  status: converted
+- legacy: spritetextures/explosions/explosion1/simplexplode_0024.dtx
+  kind: texture
+  asset: engine/effects/mm9/textures/explosions/explosion1/simplexplode_0024.png
+  status: converted
+- legacy: spritetextures/explosions/explosion1/simplexplode_0028.dtx
+  kind: texture
+  asset: engine/effects/mm9/textures/explosions/explosion1/simplexplode_0028.png
+  status: converted
+- legacy: spritetextures/explosions/explosion1/simplexplode_0032.dtx
+  kind: texture
+  asset: engine/effects/mm9/textures/explosions/explosion1/simplexplode_0032.png
+  status: converted
+- legacy: spritetextures/explosions/explosion1/simplexplode_0036.dtx
+  kind: texture
+  asset: engine/effects/mm9/textures/explosions/explosion1/simplexplode_0036.png
+  status: converted
+- legacy: spritetextures/explosions/explosion1/simplexplode_0040.dtx
+  kind: texture
+  asset: engine/effects/mm9/textures/explosions/explosion1/simplexplode_0040.png
+  status: converted
+- legacy: spritetextures/explosions/explosion1/simplexplode_0044.dtx
+  kind: texture
+  asset: engine/effects/mm9/textures/explosions/explosion1/simplexplode_0044.png
+  status: converted
+- legacy: spritetextures/explosions/explosion1/simplexplode_0048.dtx
+  kind: texture
+  asset: engine/effects/mm9/textures/explosions/explosion1/simplexplode_0048.png
   status: converted
 - legacy: spritetextures/feather1.dtx
   kind: texture

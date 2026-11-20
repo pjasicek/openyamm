@@ -1,0 +1,73 @@
+# Written by mm9r_common/dungeon/swim_check.py from the built map; rerun it after convert.py.
+id: mm9r.arslegardcity_swim_check
+title: 'Arslegard City (native BLV) - swim check: the party on each volume''s bed, up to its surface; swimmers stay in their
+  water'
+world: mm9
+mode: faithful
+tags:
+- mm9
+- mm9_rework
+- draft
+steps:
+- load_map:
+    map: arslegardcity.blv
+- note:
+    text: 'BlueWater0: on its bed at 492, 61 under its top 553.0'
+- set_pose:
+    map: arslegardcity.blv
+    x: 19266
+    y: -12338
+    z: 493
+    yaw: 0.0
+    pitch: 0.0
+- advance_runtime:
+    seconds: 1.0
+- assert:
+    water:
+      eye_under: false
+      foot_z_max: 503.5
+- note:
+    text: 'BlueWater1: on its bed at 492, 92 under its top 583.7'
+- set_pose:
+    map: arslegardcity.blv
+    x: 19397
+    y: -12350
+    z: 493
+    yaw: 0.0
+    pitch: 0.0
+- advance_runtime:
+    seconds: 1.0
+- assert:
+    water:
+      eye_under: false
+      foot_z_max: 503.5
+- note:
+    text: 'BlueWater2: on its bed at 492, 61 under its top 553.0'
+- set_pose:
+    map: arslegardcity.blv
+    x: 19266
+    y: -11232
+    z: 493
+    yaw: 0.0
+    pitch: 0.0
+- advance_runtime:
+    seconds: 1.0
+- assert:
+    water:
+      eye_under: false
+      foot_z_max: 503.5
+- note:
+    text: 'BlueWater3: on its bed at 492, 92 under its top 583.7'
+- set_pose:
+    map: arslegardcity.blv
+    x: 19397
+    y: -11121
+    z: 493
+    yaw: 0.0
+    pitch: 0.0
+- advance_runtime:
+    seconds: 1.0
+- assert:
+    water:
+      eye_under: false
+      foot_z_max: 503.5

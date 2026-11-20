@@ -1,0 +1,32 @@
+# The colony log tablets VII-IX (BROOD_SPIRES.md events 13-15; S9): each plinth gives its tablet once (map variables
+# 5-7). Hybrid: the plinths are model decorations, which headless runs cannot click, so the events run directly
+# (hybrid runs have no event state to read the map variables from: the second click's "empty" is checked in the game).
+id: hesper.out3.brood_tablets
+world: hesper
+mode: hybrid
+steps:
+- new_game_flow:
+    start_map: hes_out3.odm
+- load_map:
+    map: hes_out3.odm
+- interact_target:
+    triggered_event: 13
+- assert:
+    inventory_any_member:
+    - item_id: 11366
+- interact_target:
+    triggered_event: 13
+- interact_target:
+    triggered_event: 14
+- assert:
+    inventory_any_member:
+    - item_id: 11367
+- interact_target:
+    triggered_event: 14
+- interact_target:
+    triggered_event: 15
+- assert:
+    inventory_any_member:
+    - item_id: 11368
+- interact_target:
+    triggered_event: 15

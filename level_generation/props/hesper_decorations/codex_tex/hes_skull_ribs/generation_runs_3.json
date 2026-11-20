@@ -1,0 +1,232 @@
+{
+  "brief": "CODEX_BRIEF_3.md",
+  "status": "generated_but_not_brief_compliant",
+  "required_size": [
+    1024,
+    1024
+  ],
+  "selected_means": "Best available saved return, not acceptance or exact compliance.",
+  "postprocessing": "None. All PNGs are byte-for-byte copies of the native tool returns; no resizing, alpha modification, or painting outside image_gen.",
+  "corrective_regenerations_per_view": {
+    "left": 1,
+    "right": 1
+  },
+  "runs": [
+    {
+      "view": "left",
+      "attempt": 1,
+      "prompt": "Use case: sketch-to-render. Asset type: orthographic albedo texture-source painting.\nProduce ONE 1024 x 1024 transparent PNG: paint_left.png.\nInput 1 guide_left.png is the EDIT TARGET and absolute geometry/placement authority. Input 2 design_reference.png is ONLY the approved colour/material/design reference. Input 3 concept_crop.png is supporting original concept.\nPaint directly over the grey object in input 1. Keep its EXACT pixel-space silhouette, scale, position, orthographic LEFT camera and every shape edge and opening. Do not redesign or compose a new object. The skull dome is on the LEFT, its elongated nose slopes to the RIGHT. Preserve the very large transparent margins above and below: object spans approximately x65\u2013959, y367\u2013657 in the 1024-square canvas. Do NOT enlarge to fill the image.\nThis is the Giant Kreegan skull and ribs: apply bleached old bone, cracked and pitted, pale ivory with grey-violet ash dust in every crack; sockets and joints have darker brown-grey bone as MATERIAL COLOUR. Grey-violet ash mound beneath the skull, remaining within the guide's footprint. Match design_reference materials while preserving every plate, rib, rock, point and opening of the grey guide. Fine cracks and pits are painted surface detail only. Nothing outside the silhouette, nothing cropped, no new holes, no shifted ribs, no added anatomy.\nLIGHTING: TEXTURE SOURCE (albedo). Flat, even, shadowless viewer lighting. NO cast shadows, NO ambient occlusion darkening, NO strong specular highlights or reflections, NO rim light. Do not reproduce the dramatic lighting of the reference. No background, no floor. Any existing glowing orange sacs or seams must be painted in their glowing colour without lighting surroundings, but do not invent them.\nReturn the original unresized 1024 x 1024 image with true alpha transparency, preserving all original openings and empty pixels. No labels, no border, no watermark.",
+      "output": "paint_left_attempt1.png",
+      "selected": false,
+      "reason": "Superseded by the one corrective generation. Native return is 1254x1254, with silhouette drift and baked lighting.",
+      "tool": "built-in image_gen",
+      "source": "/home/pjasicek/.codex/generated_images/01a1563c-2100-7121-b45b-2aff20d185e1/exec-64de61ef-d03b-42e3-9592-459cd823d4e5.png",
+      "inputs": [
+        {
+          "path": "guide_left.png",
+          "sha256": "fad3bb005875ad209c4c30a19679c648da37b23fdc045d2fd31b7cb46a759e96"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "edeb0a5097e207879a742ff8ee97e14f61c0aa7324affc1012772079c7809de6"
+        },
+        {
+          "path": "concept_crop.png",
+          "sha256": "cab431549b6f54b296447e0d9e3ca75959d9cd5f7d37af9d04ce14b292db01e8"
+        }
+      ],
+      "output_sha256": "e6e18c0280019a6354cb85408e45b980c69fa0ba1bad3e8ab311329127144fc6",
+      "checks": {
+        "size_pixels": [
+          1254,
+          1254
+        ],
+        "size_1024x1024": false,
+        "mode": "RGBA",
+        "has_transparent_pixels": true,
+        "has_opaque_pixels": true,
+        "alpha_bbox_nonzero": [
+          0,
+          19,
+          1224,
+          1254
+        ],
+        "alpha_bbox_at_128": [
+          80,
+          451,
+          1174,
+          804
+        ],
+        "silhouette_identical_to_guide": false,
+        "silhouette_reason": "Canvas dimensions differ from the guide; visual edge and internal opening differences remain.",
+        "materials_and_colours": "Broadly matches pale ivory weathered bone, ash and brown-grey recesses.",
+        "flat_even_light": false,
+        "lighting_reason": "Residual dark crevice shading and bright edge highlights remain.",
+        "transparent_background": "RGBA with transparent background, but alpha speckles/fringes remain.",
+        "brief_compliant": false
+      }
+    },
+    {
+      "view": "left",
+      "attempt": 2,
+      "prompt": "Use case: sketch-to-render. Asset type: orthographic albedo texture-source painting.\nProduce ONE 1024 x 1024 transparent PNG: paint_left.png.\nInput 1 guide_left.png is the EDIT TARGET and absolute geometry/placement authority. Input 2 design_reference.png is ONLY the approved colour/material/design reference. Input 3 concept_crop.png is supporting original concept.\nPaint directly over the grey object in input 1. Keep its EXACT pixel-space silhouette, scale, position, orthographic LEFT camera and every shape edge and opening. Do not redesign or compose a new object. The skull dome is on the LEFT, its elongated nose slopes to the RIGHT. Preserve the very large transparent margins above and below: object spans approximately x65\u2013959, y367\u2013657 in the 1024-square canvas. Do NOT enlarge to fill the image.\nThis is the Giant Kreegan skull and ribs: apply bleached old bone, cracked and pitted, pale ivory with grey-violet ash dust in every crack; sockets and joints have darker brown-grey bone as MATERIAL COLOUR. Grey-violet ash mound beneath the skull, remaining within the guide's footprint. Match design_reference materials while preserving every plate, rib, rock, point and opening of the grey guide. Fine cracks and pits are painted surface detail only. Nothing outside the silhouette, nothing cropped, no new holes, no shifted ribs, no added anatomy.\nLIGHTING: TEXTURE SOURCE (albedo). Flat, even, shadowless viewer lighting. NO cast shadows, NO ambient occlusion darkening, NO strong specular highlights or reflections, NO rim light. Do not reproduce the dramatic lighting of the reference. No background, no floor. Any existing glowing orange sacs or seams must be painted in their glowing colour without lighting surroundings, but do not invent them.\nReturn the original unresized 1024 x 1024 image with true alpha transparency, preserving all original openings and empty pixels. No labels, no border, no watermark.\nCORRECTIVE REGENERATION (only one allowed): the previous return was 1254 x 1254 and altered the silhouette and some openings. Correct these errors. Generate a native EXACTLY 1024 x 1024 PNG, no scaling or reframing. The first input guide_left.png remains the absolute unchanged edit target. Only replace its grey RGB surface with painted albedo; retain its alpha boundary and every opening exactly, including the top dome at y367 and the base at y656, x66 to957. The object must occupy only the original narrow horizontal middle band. Do not enlarge it. Preserve original plate and rib edges instead of inventing cracks as silhouette cuts. Remove shading and bright edge highlights. Genuine transparent alpha, no stray alpha pixels beyond the guide, no reddish edge fringe. Design reference determines only pale ivory bone and ash colours. Return one native 1024-square image.",
+      "output": "paint_left.png",
+      "selected": true,
+      "reason": "Best available left-view return after the single allowed correction. Surface colour and framing broadly match; saved unresized. NOT accepted as brief-compliant: resolution is 1254x1254, edges/openings differ, low-alpha speckles/fringes remain, and dark crevice shading/bright edge highlights are visible.",
+      "tool": "built-in image_gen",
+      "source": "/home/pjasicek/.codex/generated_images/01a1563c-2100-7121-b45b-2aff20d185e1/exec-136b6fc7-b72f-41c5-b469-f7a9fd9cdd41.png",
+      "inputs": [
+        {
+          "path": "guide_left.png",
+          "sha256": "fad3bb005875ad209c4c30a19679c648da37b23fdc045d2fd31b7cb46a759e96"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "edeb0a5097e207879a742ff8ee97e14f61c0aa7324affc1012772079c7809de6"
+        },
+        {
+          "path": "concept_crop.png",
+          "sha256": "cab431549b6f54b296447e0d9e3ca75959d9cd5f7d37af9d04ce14b292db01e8"
+        }
+      ],
+      "output_sha256": "ec22cfd9d55f70da107ef16f6c96c83ca0796cf1bb246d2cddc71fc303de8473",
+      "checks": {
+        "size_pixels": [
+          1254,
+          1254
+        ],
+        "size_1024x1024": false,
+        "mode": "RGBA",
+        "has_transparent_pixels": true,
+        "has_opaque_pixels": true,
+        "alpha_bbox_nonzero": [
+          0,
+          21,
+          1226,
+          1238
+        ],
+        "alpha_bbox_at_128": [
+          81,
+          449,
+          1174,
+          803
+        ],
+        "silhouette_identical_to_guide": false,
+        "silhouette_reason": "Canvas dimensions differ from the guide; visual edge and internal opening differences remain.",
+        "materials_and_colours": "Broadly matches pale ivory weathered bone, ash and brown-grey recesses.",
+        "flat_even_light": false,
+        "lighting_reason": "Residual dark crevice shading and bright edge highlights remain.",
+        "transparent_background": "RGBA with transparent background, but alpha speckles/fringes remain.",
+        "brief_compliant": false
+      }
+    },
+    {
+      "view": "right",
+      "attempt": 1,
+      "prompt": "Use case: sketch-to-render. Orthographic albedo texture-source painting, not a new concept.\nReturn ONE native 1024 x 1024 transparent PNG: paint_right.png.\nImage 1 guide_right.png: EDIT TARGET. Its geometry, alpha, framing and camera are locked. Image 2 design_reference.png: approved colour/material authority ONLY. Image 3 concept_crop.png: supporting original concept only.\nPaint the grey surface of image 1 without changing its shape. EXACTLY preserve every edge, opening, rib, rock, skull plate and point; same size and position. RIGHT VIEW: elongated nose points LEFT, skull dome is on the RIGHT. Keep the very large transparent margins above and below. Guide alpha bounding box is x66 to957 and y367 to656 inclusive on a 1024x1024 canvas. Do not enlarge, rotate, recenter, flip, crop or change perspective. Nothing added outside that silhouette. Keep all visible internal geometry; do not add or remove holes or ribs.\nMatch approved HD design materials: bleached old bone, cracked and pitted, pale ivory with grey-violet ash dust in every crack and darker brown-grey bone MATERIAL COLOUR in sockets and joints. The ash mound is grey-violet. Paint fine surface cracks and pits, no displaced geometry.\nLIGHTING IS ALBEDO: even, flat, shadowless viewer light. No cast shadows, no ambient-occlusion darkening, no strong specular highlights or reflections, no rim light. Keep surface colour readable across inward-facing and outward-facing surfaces equally. Do not copy reference lighting. No background, no floor, no added glow. If a glowing orange sac or seam is present in the guide, paint only its emitting colour without casting any light on its surroundings.\nA single native EXACT 1024 x 1024 PNG, original unresized return with genuine transparent alpha and preserved holes. No matte, no opaque background, no scattered pixels, no coloured edge fringes. No text or watermark.",
+      "output": "paint_right_attempt1.png",
+      "selected": false,
+      "reason": "Superseded by the one corrective generation. Native return is 1254x1254, with silhouette drift and baked lighting.",
+      "tool": "built-in image_gen",
+      "source": "/home/pjasicek/.codex/generated_images/01a1563c-2100-7121-b45b-2aff20d185e1/exec-57d30864-7ce1-4b83-918e-837f74831775.png",
+      "inputs": [
+        {
+          "path": "guide_right.png",
+          "sha256": "df7d386ba53bebf50a48f8d500f45f6537ab7fff8b16e2ebcbe0020ff100e8b9"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "edeb0a5097e207879a742ff8ee97e14f61c0aa7324affc1012772079c7809de6"
+        },
+        {
+          "path": "concept_crop.png",
+          "sha256": "cab431549b6f54b296447e0d9e3ca75959d9cd5f7d37af9d04ce14b292db01e8"
+        }
+      ],
+      "output_sha256": "b1a5e1a840092c1fca6faf99e759168c67b192cfef5e217148bfd40a06f74f79",
+      "checks": {
+        "size_pixels": [
+          1254,
+          1254
+        ],
+        "size_1024x1024": false,
+        "mode": "RGBA",
+        "has_transparent_pixels": true,
+        "has_opaque_pixels": true,
+        "alpha_bbox_nonzero": [
+          0,
+          33,
+          1222,
+          1254
+        ],
+        "alpha_bbox_at_128": [
+          80,
+          450,
+          1175,
+          804
+        ],
+        "silhouette_identical_to_guide": false,
+        "silhouette_reason": "Canvas dimensions differ from the guide; visual edge and internal opening differences remain.",
+        "materials_and_colours": "Broadly matches pale ivory weathered bone, ash and brown-grey recesses.",
+        "flat_even_light": false,
+        "lighting_reason": "Residual dark crevice shading and bright edge highlights remain.",
+        "transparent_background": "RGBA with transparent background, but alpha speckles/fringes remain.",
+        "brief_compliant": false
+      }
+    },
+    {
+      "view": "right",
+      "attempt": 2,
+      "prompt": "Use case: sketch-to-render. Orthographic albedo texture-source painting, not a new concept.\nReturn ONE native 1024 x 1024 transparent PNG: paint_right.png.\nImage 1 guide_right.png: EDIT TARGET. Its geometry, alpha, framing and camera are locked. Image 2 design_reference.png: approved colour/material authority ONLY. Image 3 concept_crop.png: supporting original concept only.\nPaint the grey surface of image 1 without changing its shape. EXACTLY preserve every edge, opening, rib, rock, skull plate and point; same size and position. RIGHT VIEW: elongated nose points LEFT, skull dome is on the RIGHT. Keep the very large transparent margins above and below. Guide alpha bounding box is x66 to957 and y367 to656 inclusive on a 1024x1024 canvas. Do not enlarge, rotate, recenter, flip, crop or change perspective. Nothing added outside that silhouette. Keep all visible internal geometry; do not add or remove holes or ribs.\nMatch approved HD design materials: bleached old bone, cracked and pitted, pale ivory with grey-violet ash dust in every crack and darker brown-grey bone MATERIAL COLOUR in sockets and joints. The ash mound is grey-violet. Paint fine surface cracks and pits, no displaced geometry.\nLIGHTING IS ALBEDO: even, flat, shadowless viewer light. No cast shadows, no ambient-occlusion darkening, no strong specular highlights or reflections, no rim light. Keep surface colour readable across inward-facing and outward-facing surfaces equally. Do not copy reference lighting. No background, no floor, no added glow. If a glowing orange sac or seam is present in the guide, paint only its emitting colour without casting any light on its surroundings.\nA single native EXACT 1024 x 1024 PNG, original unresized return with genuine transparent alpha and preserved holes. No matte, no opaque background, no scattered pixels, no coloured edge fringes. No text or watermark.\nCORRECTION, the only permitted corrective regeneration for this view: the previous tool return was 1254x1254, not the required 1024x1024. Return EXACTLY native 1024 by 1024 pixels. Keep input 1's alpha and all original geometry edges unchanged. Do not replace it with an enlarged approximate redraw. Its alpha footprint must be exactly x66..957, y367..656. Retain its fine internal apertures. No low-alpha stray pixels outside the footprint, no red or yellow edge fringe. Reduce the contrast caused by dark crevice shading and white edge highlights so this is a flat albedo painting. Pale ivory bone with grey-violet ash in cracks, dark brown-grey material colour inside sockets, grey-violet rubble. Use guide_right.png as the actual paint-over canvas with original unchanged alpha, not as a composition suggestion. True transparent background.",
+      "output": "paint_right.png",
+      "selected": true,
+      "reason": "Best available right-view return after the single allowed correction. Surface colour and framing broadly match; saved unresized. NOT accepted as brief-compliant: resolution differs, edges/openings differ, edge fringes remain, and crevice shading and highlights are visible.",
+      "tool": "built-in image_gen",
+      "source": "/home/pjasicek/.codex/generated_images/01a1563c-2100-7121-b45b-2aff20d185e1/exec-24a9ad8c-4f07-47aa-b41e-6c3b1f851a7b.png",
+      "inputs": [
+        {
+          "path": "guide_right.png",
+          "sha256": "df7d386ba53bebf50a48f8d500f45f6537ab7fff8b16e2ebcbe0020ff100e8b9"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "edeb0a5097e207879a742ff8ee97e14f61c0aa7324affc1012772079c7809de6"
+        },
+        {
+          "path": "concept_crop.png",
+          "sha256": "cab431549b6f54b296447e0d9e3ca75959d9cd5f7d37af9d04ce14b292db01e8"
+        }
+      ],
+      "output_sha256": "fa5d8437d256f4009c3f5c65be57df9f11b1e5c8091efc57a090f1c4f2364185",
+      "checks": {
+        "size_pixels": [
+          1254,
+          1254
+        ],
+        "size_1024x1024": false,
+        "mode": "RGBA",
+        "has_transparent_pixels": true,
+        "has_opaque_pixels": true,
+        "alpha_bbox_nonzero": [
+          0,
+          0,
+          1232,
+          1085
+        ],
+        "alpha_bbox_at_128": [
+          81,
+          450,
+          1173,
+          803
+        ],
+        "silhouette_identical_to_guide": false,
+        "silhouette_reason": "Canvas dimensions differ from the guide; visual edge and internal opening differences remain.",
+        "materials_and_colours": "Broadly matches pale ivory weathered bone, ash and brown-grey recesses.",
+        "flat_even_light": false,
+        "lighting_reason": "Residual dark crevice shading and bright edge highlights remain.",
+        "transparent_background": "RGBA with transparent background, but alpha speckles/fringes remain.",
+        "brief_compliant": false
+      }
+    }
+  ]
+}

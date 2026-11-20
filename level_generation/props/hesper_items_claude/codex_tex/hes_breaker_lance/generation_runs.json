@@ -1,0 +1,529 @@
+{
+  "tool": "built-in image_gen",
+  "requested_size": [
+    1024,
+    1024
+  ],
+  "preserve_unresized_returns": true,
+  "metric_note": "Normalized silhouette metrics compare generated alpha >127 against guide alpha nearest-neighbour sampled at the returned canvas size in memory; saved images are untouched. Exact silhouette requires identical dimensions and alpha.",
+  "runs": [
+    {
+      "view": "front",
+      "run": 1,
+      "prompt": "Use case: precise-object-edit.\nAsset type: game-model projected albedo texture source, one orthographic view of the Hesper breaker lance, a siege scatter gun used to clear breaches.\nInput image 1 is the EDIT TARGET: the plain white model guide. It is the absolute authority for silhouette, camera, framing, pixel positions, size and every part edge. Input image 2 is design_reference.png, the sole authority for design, materials, colour and surface details, NOT for shape or perspective.\nPaint ONLY the existing model surfaces in input image 1. Preserve its 1024 x 1024 canvas and original alpha silhouette EXACTLY, including transparent holes and gaps; do not shift, enlarge, shrink, rotate, crop or reshape any geometry. Treat the guide as an immutable silhouette stencil. Nothing may extend outside its existing alpha. Retain the large transparent margins.\nMATERIALS: faithfully transfer the design's warm white/ivory ceramic plates with fine wear and restrained hairline wear marks, brushed muted old gold fittings and narrow trims, black-violet resin body with organic grain and seams, and bright orange/amber energy slots. Follow the plate edges of the GUIDE and keep the design's engraved lines, seams, panel joins and non-letter markings. Exposed energy is painted bright orange with yellow-orange centers, without bloom or light spilling onto adjoining surfaces. Continue unseen surfaces plausibly with the same material vocabulary. Do not introduce blue energy, leather, cloth or paper where the design does not show them.\nLIGHTING: FLAT ALBEDO texture source. Uniform, even, shadowless illumination from the viewer. Remove the guide's grey lighting gradients and the design reference's dramatic shading. Metal is its base gold colour with only the faintest sheen. No cast shadows, ambient-occlusion darkening, dark directional shading, bright specular highlights, reflections, rim lighting, background or floor. Fine surface colour variation is allowed; baked lighting is not.\nOutput: exactly ONE 1024 x 1024 PNG with genuine transparent background. No text, letters, labels, border, watermark, checkerboard pixels, added objects or extra views.\nVIEW FRONT: Use the exact very narrow horizontal projection in guide_front.png: stock on the LEFT, barrel cluster on the RIGHT. Preserve the flattened narrow body, every triangular plate and little rounded protrusion, and the two visible outer barrel rails. Occupied bounding rectangle is x=66..957, y=433..590 on a 1024 x 1024 canvas. Do not substitute the taller side profile from the design reference.",
+      "inputs": [
+        {
+          "path": "guide_front.png",
+          "sha256": "24cdd8709f842a4501e57a99f91a05072fc781176f2140efc818c4426b1ada20"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "65b9039bb59ead0319fbdcc1ea5aeceb9745c0534963ba9ba4ecdc81b0bb08eb"
+        }
+      ],
+      "output": "attempts/paint_front_run1.png",
+      "source": "/home/pjasicek/.codex/generated_images/01a16e85-c1dc-7603-868d-859c7c9cbc52/exec-ceabfe35-9679-43c3-be3e-c5a34d1240a2.png",
+      "selected": false,
+      "reason": "Not selected: the corrective return is closer to the guide silhouette. Original return preserved unmodified.",
+      "output_sha256": "1e2c466aeb7bbe3610ac255f99dd927da703830c623daede5f617e99e27ea342",
+      "returned_size": [
+        1254,
+        1254
+      ],
+      "unresized": true,
+      "checks": {
+        "rgba_with_transparency": true,
+        "fully_transparent_outside_guide": false,
+        "alpha_bbox": [
+          0,
+          23,
+          1226,
+          1190
+        ],
+        "solid_alpha_bbox": [
+          64,
+          539,
+          1193,
+          729
+        ],
+        "guide_alpha_bbox": [
+          66,
+          433,
+          958,
+          591
+        ],
+        "silhouette_identical": false,
+        "normalized_silhouette_iou": 0.786572,
+        "normalized_outside_guide_pixels": 19147,
+        "normalized_missing_guide_pixels": 7804,
+        "nonzero_alpha_outside_guide_pixels": 25768,
+        "faint_alpha_pixels_outside_guide": 8074,
+        "colours_and_materials": "Ivory ceramic, muted gold, dark violet resin and orange energy present; visual palette matches reference.",
+        "flat_even_light": "Failed strict albedo check: surface shading and highlights remain.",
+        "no_text_or_letters": true
+      },
+      "status": "returned"
+    },
+    {
+      "view": "back",
+      "run": 1,
+      "prompt": "Use case: precise-object-edit.\nAsset type: game-model projected albedo texture source, one orthographic view of the Hesper breaker lance, a siege scatter gun used to clear breaches.\nInput image 1 is the EDIT TARGET: the plain white model guide. It is the absolute authority for silhouette, camera, framing, pixel positions, size and every part edge. Input image 2 is design_reference.png, the sole authority for design, materials, colour and surface details, NOT for shape or perspective.\nPaint ONLY the existing model surfaces in input image 1. Preserve its 1024 x 1024 canvas and original alpha silhouette EXACTLY, including transparent holes and gaps; do not shift, enlarge, shrink, rotate, crop or reshape any geometry. Treat the guide as an immutable silhouette stencil. Nothing may extend outside its existing alpha. Retain the large transparent margins.\nMATERIALS: faithfully transfer the design's warm white/ivory ceramic plates with fine wear and restrained hairline wear marks, brushed muted old gold fittings and narrow trims, black-violet resin body with organic grain and seams, and bright orange/amber energy slots. Follow the plate edges of the GUIDE and keep the design's engraved lines, seams, panel joins and non-letter markings. Exposed energy is painted bright orange with yellow-orange centers, without bloom or light spilling onto adjoining surfaces. Continue unseen surfaces plausibly with the same material vocabulary. Do not introduce blue energy, leather, cloth or paper where the design does not show them.\nLIGHTING: FLAT ALBEDO texture source. Uniform, even, shadowless illumination from the viewer. Remove the guide's grey lighting gradients and the design reference's dramatic shading. Metal is its base gold colour with only the faintest sheen. No cast shadows, ambient-occlusion darkening, dark directional shading, bright specular highlights, reflections, rim lighting, background or floor. Fine surface colour variation is allowed; baked lighting is not.\nOutput: exactly ONE 1024 x 1024 PNG with genuine transparent background. No text, letters, labels, border, watermark, checkerboard pixels, added objects or extra views.\nVIEW BACK: Use the exact very narrow horizontal reverse projection in guide_back.png: barrel cluster on the LEFT, stock on the RIGHT. Preserve every existing part, the reverse face, the small rounded protrusions, and all gaps. Occupied bounding rectangle is x=66..957, y=433..590 on a 1024 x 1024 canvas. Plausibly continue the same materials over the reverse surfaces. Do not substitute the taller side profile from the design reference.",
+      "inputs": [
+        {
+          "path": "guide_back.png",
+          "sha256": "bd6dbf206f715321cc30fa76f1f2d16250c7f1ebcbe5aed6f3f82e95c84d40c7"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "65b9039bb59ead0319fbdcc1ea5aeceb9745c0534963ba9ba4ecdc81b0bb08eb"
+        }
+      ],
+      "output": "paint_back.png",
+      "source": "/home/pjasicek/.codex/generated_images/01a16e85-c1dc-7603-868d-859c7c9cbc52/exec-b1a6aca2-5119-47d3-9e2b-ce1489ce427e.png",
+      "selected": true,
+      "reason": "Initial return retained because the only corrective request was rejected by the tool safety filter. The stock is too broad; silhouette, clean alpha and flat albedo requirements still fail.",
+      "output_sha256": "d3009dfc0afd74463c8d2f7b7b7c1439958efaff26f4431bffbac7631adc1e39",
+      "returned_size": [
+        1254,
+        1254
+      ],
+      "unresized": true,
+      "checks": {
+        "rgba_with_transparency": true,
+        "fully_transparent_outside_guide": false,
+        "alpha_bbox": [
+          31,
+          20,
+          1228,
+          1223
+        ],
+        "solid_alpha_bbox": [
+          79,
+          528,
+          1174,
+          765
+        ],
+        "guide_alpha_bbox": [
+          66,
+          433,
+          958,
+          591
+        ],
+        "silhouette_identical": false,
+        "normalized_silhouette_iou": 0.844477,
+        "normalized_outside_guide_pixels": 19040,
+        "normalized_missing_guide_pixels": 583,
+        "nonzero_alpha_outside_guide_pixels": 27160,
+        "faint_alpha_pixels_outside_guide": 10554,
+        "colours_and_materials": "Ivory ceramic, muted gold, dark violet resin and orange energy present; visual palette matches reference.",
+        "flat_even_light": "Failed strict albedo check: surface shading and highlights remain.",
+        "no_text_or_letters": true
+      },
+      "status": "returned",
+      "raw_output": "attempts/paint_back_run1.png"
+    },
+    {
+      "view": "left",
+      "run": 1,
+      "prompt": "Use case: precise-object-edit.\nAsset type: game-model projected albedo texture source, one orthographic view of the Hesper breaker lance, a siege scatter gun used to clear breaches.\nInput image 1 is the EDIT TARGET: the plain white model guide. It is the absolute authority for silhouette, camera, framing, pixel positions, size and every part edge. Input image 2 is design_reference.png, the sole authority for design, materials, colour and surface details, NOT for shape or perspective.\nPaint ONLY the existing model surfaces in input image 1. Preserve its 1024 x 1024 canvas and original alpha silhouette EXACTLY, including transparent holes and gaps; do not shift, enlarge, shrink, rotate, crop or reshape any geometry. Treat the guide as an immutable silhouette stencil. Nothing may extend outside its existing alpha. Retain the large transparent margins.\nMATERIALS: faithfully transfer the design's warm white/ivory ceramic plates with fine wear and restrained hairline wear marks, brushed muted old gold fittings and narrow trims, black-violet resin body with organic grain and seams, and bright orange/amber energy slots. Follow the plate edges of the GUIDE and keep the design's engraved lines, seams, panel joins and non-letter markings. Exposed energy is painted bright orange with yellow-orange centers, without bloom or light spilling onto adjoining surfaces. Continue unseen surfaces plausibly with the same material vocabulary. Do not introduce blue energy, leather, cloth or paper where the design does not show them.\nLIGHTING: FLAT ALBEDO texture source. Uniform, even, shadowless illumination from the viewer. Remove the guide's grey lighting gradients and the design reference's dramatic shading. Metal is its base gold colour with only the faintest sheen. No cast shadows, ambient-occlusion darkening, dark directional shading, bright specular highlights, reflections, rim lighting, background or floor. Fine surface colour variation is allowed; baked lighting is not.\nOutput: exactly ONE 1024 x 1024 PNG with genuine transparent background. No text, letters, labels, border, watermark, checkerboard pixels, added objects or extra views.\nVIEW LEFT: Use the exact small end-on projection in guide_left.png: looking along the gun from the butt/stock end. The broad horizontal rounded stock end in front occludes the receiver; two raised barrel ends are visible above and two lobes below. Preserve all occlusion and overlap exactly. Occupied bounding rectangle is x=398..625, y=434..590 on the 1024 x 1024 canvas. This is a SMALL centered object with enormous transparent margins; do NOT enlarge it.",
+      "inputs": [
+        {
+          "path": "guide_left.png",
+          "sha256": "93890a1aefd1ead3fc6ea657510b49f91d660a26c56eef3f89cb1c018c685040"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "65b9039bb59ead0319fbdcc1ea5aeceb9745c0534963ba9ba4ecdc81b0bb08eb"
+        }
+      ],
+      "output": "attempts/paint_left_run1.png",
+      "source": "/home/pjasicek/.codex/generated_images/01a16e85-c1dc-7603-868d-859c7c9cbc52/exec-29804897-bfe7-4bec-8984-ac981d626f9e.png",
+      "selected": false,
+      "reason": "Not selected: the corrective return is closer to the guide silhouette. Original return preserved unmodified.",
+      "output_sha256": "84f0722d2159b9eb1085c3eaff2f0146cc54d1fdd3d90fbc384755b1b42944e1",
+      "returned_size": [
+        1254,
+        1254
+      ],
+      "unresized": true,
+      "checks": {
+        "rgba_with_transparency": true,
+        "fully_transparent_outside_guide": false,
+        "alpha_bbox": [
+          136,
+          109,
+          1226,
+          1228
+        ],
+        "solid_alpha_bbox": [
+          482,
+          529,
+          790,
+          752
+        ],
+        "guide_alpha_bbox": [
+          398,
+          434,
+          626,
+          591
+        ],
+        "silhouette_identical": false,
+        "normalized_silhouette_iou": 0.629938,
+        "normalized_outside_guide_pixels": 11938,
+        "normalized_missing_guide_pixels": 2507,
+        "nonzero_alpha_outside_guide_pixels": 13858,
+        "faint_alpha_pixels_outside_guide": 2299,
+        "colours_and_materials": "Ivory ceramic, muted gold, dark violet resin and orange energy present; visual palette matches reference.",
+        "flat_even_light": "Failed strict albedo check: surface shading and highlights remain.",
+        "no_text_or_letters": true
+      },
+      "status": "returned"
+    },
+    {
+      "view": "right",
+      "run": 1,
+      "prompt": "Use case: precise-object-edit.\nAsset type: game-model projected albedo texture source, one orthographic view of the Hesper breaker lance, a siege scatter gun used to clear breaches.\nInput image 1 is the EDIT TARGET: the plain white model guide. It is the absolute authority for silhouette, camera, framing, pixel positions, size and every part edge. Input image 2 is design_reference.png, the sole authority for design, materials, colour and surface details, NOT for shape or perspective.\nPaint ONLY the existing model surfaces in input image 1. Preserve its 1024 x 1024 canvas and original alpha silhouette EXACTLY, including transparent holes and gaps; do not shift, enlarge, shrink, rotate, crop or reshape any geometry. Treat the guide as an immutable silhouette stencil. Nothing may extend outside its existing alpha. Retain the large transparent margins.\nMATERIALS: faithfully transfer the design's warm white/ivory ceramic plates with fine wear and restrained hairline wear marks, brushed muted old gold fittings and narrow trims, black-violet resin body with organic grain and seams, and bright orange/amber energy slots. Follow the plate edges of the GUIDE and keep the design's engraved lines, seams, panel joins and non-letter markings. Exposed energy is painted bright orange with yellow-orange centers, without bloom or light spilling onto adjoining surfaces. Continue unseen surfaces plausibly with the same material vocabulary. Do not introduce blue energy, leather, cloth or paper where the design does not show them.\nLIGHTING: FLAT ALBEDO texture source. Uniform, even, shadowless illumination from the viewer. Remove the guide's grey lighting gradients and the design reference's dramatic shading. Metal is its base gold colour with only the faintest sheen. No cast shadows, ambient-occlusion darkening, dark directional shading, bright specular highlights, reflections, rim lighting, background or floor. Fine surface colour variation is allowed; baked lighting is not.\nOutput: exactly ONE 1024 x 1024 PNG with genuine transparent background. No text, letters, labels, border, watermark, checkerboard pixels, added objects or extra views.\nVIEW RIGHT: Use the exact small muzzle-end projection in guide_right.png: six existing barrel mouths in a hexagonal cluster around the central polygonal hub, two above, two at the sides and two below, and the existing outer side projections. Keep each mouth shape, diameter, position and overlap as in the guide. Paint barrel rims as worn ivory ceramic with thin muted gold joins; interiors show bright orange cores; the center and intervening body are black-violet resin. Occupied bounding rectangle is x=398..625, y=434..589 on the 1024 x 1024 canvas. This is a SMALL centered object with enormous transparent margins; do NOT enlarge it.",
+      "inputs": [
+        {
+          "path": "guide_right.png",
+          "sha256": "32c078363a82d154a050141c19856488a70ffd8f2efd86e85a1fd9ec074452fe"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "65b9039bb59ead0319fbdcc1ea5aeceb9745c0534963ba9ba4ecdc81b0bb08eb"
+        }
+      ],
+      "output": "attempts/paint_right_run1.png",
+      "source": "/home/pjasicek/.codex/generated_images/01a16e85-c1dc-7603-868d-859c7c9cbc52/exec-8366d241-437d-4277-aec0-70aacabe2689.png",
+      "selected": false,
+      "reason": "Not selected: the corrective return is closer to the guide silhouette. Original return preserved unmodified.",
+      "output_sha256": "f267114ab320ac3893c153549d3a9131f60412fe8f81f0d0b83e0e0e315919ea",
+      "returned_size": [
+        1254,
+        1254
+      ],
+      "unresized": true,
+      "checks": {
+        "rgba_with_transparency": true,
+        "fully_transparent_outside_guide": false,
+        "alpha_bbox": [
+          49,
+          95,
+          1073,
+          1214
+        ],
+        "solid_alpha_bbox": [
+          483,
+          532,
+          772,
+          725
+        ],
+        "guide_alpha_bbox": [
+          398,
+          434,
+          626,
+          590
+        ],
+        "silhouette_identical": false,
+        "normalized_silhouette_iou": 0.908764,
+        "normalized_outside_guide_pixels": 2690,
+        "normalized_missing_guide_pixels": 27,
+        "nonzero_alpha_outside_guide_pixels": 4598,
+        "faint_alpha_pixels_outside_guide": 2455,
+        "colours_and_materials": "Ivory ceramic, muted gold, dark violet resin and orange energy present; visual palette matches reference.",
+        "flat_even_light": "Failed strict albedo check: surface shading and highlights remain.",
+        "no_text_or_letters": true
+      },
+      "status": "returned"
+    },
+    {
+      "view": "top",
+      "run": 1,
+      "prompt": "Use case: precise-object-edit.\nAsset type: game-model projected albedo texture source, one orthographic view of the Hesper breaker lance, a siege scatter gun used to clear breaches.\nInput image 1 is the EDIT TARGET: the plain white model guide. It is the absolute authority for silhouette, camera, framing, pixel positions, size and every part edge. Input image 2 is design_reference.png, the sole authority for design, materials, colour and surface details, NOT for shape or perspective.\nPaint ONLY the existing model surfaces in input image 1. Preserve its 1024 x 1024 canvas and original alpha silhouette EXACTLY, including transparent holes and gaps; do not shift, enlarge, shrink, rotate, crop or reshape any geometry. Treat the guide as an immutable silhouette stencil. Nothing may extend outside its existing alpha. Retain the large transparent margins.\nMATERIALS: faithfully transfer the design's warm white/ivory ceramic plates with fine wear and restrained hairline wear marks, brushed muted old gold fittings and narrow trims, black-violet resin body with organic grain and seams, and bright orange/amber energy slots. Follow the plate edges of the GUIDE and keep the design's engraved lines, seams, panel joins and non-letter markings. Exposed energy is painted bright orange with yellow-orange centers, without bloom or light spilling onto adjoining surfaces. Continue unseen surfaces plausibly with the same material vocabulary. Do not introduce blue energy, leather, cloth or paper where the design does not show them.\nLIGHTING: FLAT ALBEDO texture source. Uniform, even, shadowless illumination from the viewer. Remove the guide's grey lighting gradients and the design reference's dramatic shading. Metal is its base gold colour with only the faintest sheen. No cast shadows, ambient-occlusion darkening, dark directional shading, bright specular highlights, reflections, rim lighting, background or floor. Fine surface colour variation is allowed; baked lighting is not.\nOutput: exactly ONE 1024 x 1024 PNG with genuine transparent background. No text, letters, labels, border, watermark, checkerboard pixels, added objects or extra views.\nVIEW TOP: Use the exact orthographic projection in guide_top.png: stock on LEFT, muzzle on RIGHT, trigger guard and grip below, serrated ridge above, and existing long outer muzzle horns. Preserve every part edge and transparent hole exactly. Occupied bounding rectangle is x=66..957, y=398..625 on a 1024 x 1024 canvas. Do not change the camera to match the perspective in the design reference.",
+      "inputs": [
+        {
+          "path": "guide_top.png",
+          "sha256": "192cc86a44fb51f9c09e5aa75f6e3224e5bcf44889f47cdbb50c788ebf70e92c"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "65b9039bb59ead0319fbdcc1ea5aeceb9745c0534963ba9ba4ecdc81b0bb08eb"
+        }
+      ],
+      "output": "paint_top.png",
+      "source": "/home/pjasicek/.codex/generated_images/01a16e85-c1dc-7603-868d-859c7c9cbc52/exec-7824a264-628f-4554-be88-fdc4f2a07e76.png",
+      "selected": true,
+      "reason": "Initial return retained because the only corrective request was rejected by the tool safety filter. Overall silhouette is close, but exact silhouette, clean alpha and flat albedo requirements still fail.",
+      "output_sha256": "8843bafe6e32b57755bbde747a88aed0612b5be4ce2459981ac2d10e1e6d4bf8",
+      "returned_size": [
+        1254,
+        1254
+      ],
+      "unresized": true,
+      "checks": {
+        "rgba_with_transparency": true,
+        "fully_transparent_outside_guide": false,
+        "alpha_bbox": [
+          25,
+          37,
+          1202,
+          1254
+        ],
+        "solid_alpha_bbox": [
+          77,
+          488,
+          1181,
+          768
+        ],
+        "guide_alpha_bbox": [
+          66,
+          398,
+          958,
+          626
+        ],
+        "silhouette_identical": false,
+        "normalized_silhouette_iou": 0.958965,
+        "normalized_outside_guide_pixels": 6156,
+        "normalized_missing_guide_pixels": 1478,
+        "nonzero_alpha_outside_guide_pixels": 16335,
+        "faint_alpha_pixels_outside_guide": 12033,
+        "colours_and_materials": "Ivory ceramic, muted gold, dark violet resin and orange energy present; visual palette matches reference.",
+        "flat_even_light": "Failed strict albedo check: surface shading and highlights remain.",
+        "no_text_or_letters": true
+      },
+      "status": "returned",
+      "raw_output": "attempts/paint_top_run1.png"
+    },
+    {
+      "view": "front",
+      "run": 2,
+      "prompt": "CORRECTIVE REGENERATION, the only correction permitted for this view.\nEdit input image 1 IN PLACE. Paint its white mesh, not a newly drawn object. This is a texture projection stencil: copy its alpha channel and every existing contour exactly, change surface colours only. Output a 1024 by 1024 transparent PNG with the guide's unchanged pixel layout. Outside the exact silhouette alpha must be ZERO, with no stray low-opacity speckles or glow. Do not reposition or scale.\nThe initial attempt widened and reshaped the stock, moved the small spherical protrusions and added reference-derived geometry. Keep the guide's simple narrow end profile and its EXACT part boundaries. Do not turn the stock into the side-on fan shape. Texture the existing upper and lower rails and central body without adding extra projecting tubes.\nThe other issue was baked lighting. Make the result a TRUE UNLIT BASE-COLOUR / ALBEDO pass: flat ivory ceramic, flat brushed old gold, black-violet resin and solid bright amber-orange light slots. Even values across each material, fine intrinsic wear, engraved seams and organic grain only. NO highlights on spherical parts, NO white reflection streaks on gold, NO crevice shadows or occlusion, NO directional lighting, NO orange bloom. Do not copy the reference's lighting.\nUse case: precise-object-edit.\nAsset type: game-model projected albedo texture source, one orthographic view of the Hesper breaker lance, a siege scatter gun used to clear breaches.\nInput image 1 is the EDIT TARGET: the plain white model guide. It is the absolute authority for silhouette, camera, framing, pixel positions, size and every part edge. Input image 2 is design_reference.png, the sole authority for design, materials, colour and surface details, NOT for shape or perspective.\nPaint ONLY the existing model surfaces in input image 1. Preserve its 1024 x 1024 canvas and original alpha silhouette EXACTLY, including transparent holes and gaps; do not shift, enlarge, shrink, rotate, crop or reshape any geometry. Treat the guide as an immutable silhouette stencil. Nothing may extend outside its existing alpha. Retain the large transparent margins.\nMATERIALS: faithfully transfer the design's warm white/ivory ceramic plates with fine wear and restrained hairline wear marks, brushed muted old gold fittings and narrow trims, black-violet resin body with organic grain and seams, and bright orange/amber energy slots. Follow the plate edges of the GUIDE and keep the design's engraved lines, seams, panel joins and non-letter markings. Exposed energy is painted bright orange with yellow-orange centers, without bloom or light spilling onto adjoining surfaces. Continue unseen surfaces plausibly with the same material vocabulary. Do not introduce blue energy, leather, cloth or paper where the design does not show them.\nLIGHTING: FLAT ALBEDO texture source. Uniform, even, shadowless illumination from the viewer. Remove the guide's grey lighting gradients and the design reference's dramatic shading. Metal is its base gold colour with only the faintest sheen. No cast shadows, ambient-occlusion darkening, dark directional shading, bright specular highlights, reflections, rim lighting, background or floor. Fine surface colour variation is allowed; baked lighting is not.\nOutput: exactly ONE 1024 x 1024 PNG with genuine transparent background. No text, letters, labels, border, watermark, checkerboard pixels, added objects or extra views.\nVIEW FRONT: Use the exact very narrow horizontal projection in guide_front.png: stock on the LEFT, barrel cluster on the RIGHT. Preserve the flattened narrow body, every triangular plate and little rounded protrusion, and the two visible outer barrel rails. Occupied bounding rectangle is x=66..957, y=433..590 on a 1024 x 1024 canvas. Do not substitute the taller side profile from the design reference.",
+      "inputs": [
+        {
+          "path": "guide_front.png",
+          "sha256": "24cdd8709f842a4501e57a99f91a05072fc781176f2140efc818c4426b1ada20"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "65b9039bb59ead0319fbdcc1ea5aeceb9745c0534963ba9ba4ecdc81b0bb08eb"
+        }
+      ],
+      "output": "paint_front.png",
+      "source": "/home/pjasicek/.codex/generated_images/01a16e85-c1dc-7603-868d-859c7c9cbc52/exec-1e4d72cf-040a-40c0-bb53-055fecbea38f.png",
+      "selected": true,
+      "reason": "Corrective return better preserves the narrow stock and guide placement; normalized silhouette overlap improved from 0.786572 to 0.953494. Exact silhouette, clean alpha and flat albedo requirements still fail.",
+      "status": "returned",
+      "unresized": true,
+      "output_sha256": "64c8da6625537fb41ebfcbbc2489c4d722b9622dfcc047099235f07c48a8f851",
+      "returned_size": [
+        1254,
+        1254
+      ],
+      "checks": {
+        "rgba_with_transparency": true,
+        "fully_transparent_outside_guide": false,
+        "alpha_bbox": [
+          41,
+          52,
+          1226,
+          1206
+        ],
+        "solid_alpha_bbox": [
+          80,
+          534,
+          1174,
+          721
+        ],
+        "guide_alpha_bbox": [
+          66,
+          433,
+          958,
+          591
+        ],
+        "silhouette_identical": false,
+        "normalized_silhouette_iou": 0.953494,
+        "normalized_outside_guide_pixels": 1458,
+        "normalized_missing_guide_pixels": 3592,
+        "nonzero_alpha_outside_guide_pixels": 11403,
+        "faint_alpha_pixels_outside_guide": 10720,
+        "colours_and_materials": "Ivory ceramic, muted gold, dark violet resin and orange energy present; visual palette matches reference.",
+        "flat_even_light": "Failed strict albedo check: surface shading and highlights remain.",
+        "no_text_or_letters": true
+      },
+      "raw_output": "attempts/paint_front_run2.png"
+    },
+    {
+      "view": "back",
+      "run": 2,
+      "prompt": "CORRECTIVE REGENERATION, the only correction permitted for this view.\nEdit input image 1 IN PLACE. Paint its white mesh, not a newly drawn object. This is a texture projection stencil: copy its alpha channel and every existing contour exactly, change surface colours only. Output a 1024 by 1024 transparent PNG with the guide's unchanged pixel layout. Outside the exact silhouette alpha must be ZERO, with no stray low-opacity speckles or glow. Do not reposition or scale.\nThe initial attempt enlarged the stock into a fan and rounded the existing faceted receiver silhouette. Restore the exact narrow stock, existing facets and silhouette from the guide. The gun still points LEFT; do not mirror the guide.\nThe other issue was baked lighting. Make the result a TRUE UNLIT BASE-COLOUR / ALBEDO pass: flat ivory ceramic, flat brushed old gold, black-violet resin and solid bright amber-orange light slots. Even values across each material, fine intrinsic wear, engraved seams and organic grain only. NO highlights on spherical parts, NO white reflection streaks on gold, NO crevice shadows or occlusion, NO directional lighting, NO orange bloom. Do not copy the reference's lighting.\nUse case: precise-object-edit.\nAsset type: game-model projected albedo texture source, one orthographic view of the Hesper breaker lance, a siege scatter gun used to clear breaches.\nInput image 1 is the EDIT TARGET: the plain white model guide. It is the absolute authority for silhouette, camera, framing, pixel positions, size and every part edge. Input image 2 is design_reference.png, the sole authority for design, materials, colour and surface details, NOT for shape or perspective.\nPaint ONLY the existing model surfaces in input image 1. Preserve its 1024 x 1024 canvas and original alpha silhouette EXACTLY, including transparent holes and gaps; do not shift, enlarge, shrink, rotate, crop or reshape any geometry. Treat the guide as an immutable silhouette stencil. Nothing may extend outside its existing alpha. Retain the large transparent margins.\nMATERIALS: faithfully transfer the design's warm white/ivory ceramic plates with fine wear and restrained hairline wear marks, brushed muted old gold fittings and narrow trims, black-violet resin body with organic grain and seams, and bright orange/amber energy slots. Follow the plate edges of the GUIDE and keep the design's engraved lines, seams, panel joins and non-letter markings. Exposed energy is painted bright orange with yellow-orange centers, without bloom or light spilling onto adjoining surfaces. Continue unseen surfaces plausibly with the same material vocabulary. Do not introduce blue energy, leather, cloth or paper where the design does not show them.\nLIGHTING: FLAT ALBEDO texture source. Uniform, even, shadowless illumination from the viewer. Remove the guide's grey lighting gradients and the design reference's dramatic shading. Metal is its base gold colour with only the faintest sheen. No cast shadows, ambient-occlusion darkening, dark directional shading, bright specular highlights, reflections, rim lighting, background or floor. Fine surface colour variation is allowed; baked lighting is not.\nOutput: exactly ONE 1024 x 1024 PNG with genuine transparent background. No text, letters, labels, border, watermark, checkerboard pixels, added objects or extra views.\nVIEW BACK: Use the exact very narrow horizontal reverse projection in guide_back.png: barrel cluster on the LEFT, stock on the RIGHT. Preserve every existing part, the reverse face, the small rounded protrusions, and all gaps. Occupied bounding rectangle is x=66..957, y=433..590 on a 1024 x 1024 canvas. Plausibly continue the same materials over the reverse surfaces. Do not substitute the taller side profile from the design reference.",
+      "inputs": [
+        {
+          "path": "guide_back.png",
+          "sha256": "bd6dbf206f715321cc30fa76f1f2d16250c7f1ebcbe5aed6f3f82e95c84d40c7"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "65b9039bb59ead0319fbdcc1ea5aeceb9745c0534963ba9ba4ecdc81b0bb08eb"
+        }
+      ],
+      "output": null,
+      "source": null,
+      "selected": false,
+      "reason": "Image generation rejected with HTTP 400 moderation_blocked; category violence; request ID f1b98c8a-d146-4325-ac68-00232244b109.",
+      "status": "failed",
+      "error": "Image generation rejected with HTTP 400 moderation_blocked; category violence; request ID f1b98c8a-d146-4325-ac68-00232244b109."
+    },
+    {
+      "view": "left",
+      "run": 2,
+      "prompt": "CORRECTIVE REGENERATION, the only correction permitted for this view.\nEdit input image 1 IN PLACE. Paint its white mesh, not a newly drawn object. This is a texture projection stencil: copy its alpha channel and every existing contour exactly, change surface colours only. Output a 1024 by 1024 transparent PNG with the guide's unchanged pixel layout. Outside the exact silhouette alpha must be ZERO, with no stray low-opacity speckles or glow. Do not reposition or scale.\nThe initial attempt made this small butt-end view too tall and wide and invented open glowing barrel mouths facing the viewer. Keep the guide's EXACT small outline, its occlusions and faceted lobes. The broad foreground butt end remains closed; the gun points AWAY from the viewer. Preserve x=398..625, y=434..590 at 1024 pixels.\nThe other issue was baked lighting. Make the result a TRUE UNLIT BASE-COLOUR / ALBEDO pass: flat ivory ceramic, flat brushed old gold, black-violet resin and solid bright amber-orange light slots. Even values across each material, fine intrinsic wear, engraved seams and organic grain only. NO highlights on spherical parts, NO white reflection streaks on gold, NO crevice shadows or occlusion, NO directional lighting, NO orange bloom. Do not copy the reference's lighting.\nUse case: precise-object-edit.\nAsset type: game-model projected albedo texture source, one orthographic view of the Hesper breaker lance, a siege scatter gun used to clear breaches.\nInput image 1 is the EDIT TARGET: the plain white model guide. It is the absolute authority for silhouette, camera, framing, pixel positions, size and every part edge. Input image 2 is design_reference.png, the sole authority for design, materials, colour and surface details, NOT for shape or perspective.\nPaint ONLY the existing model surfaces in input image 1. Preserve its 1024 x 1024 canvas and original alpha silhouette EXACTLY, including transparent holes and gaps; do not shift, enlarge, shrink, rotate, crop or reshape any geometry. Treat the guide as an immutable silhouette stencil. Nothing may extend outside its existing alpha. Retain the large transparent margins.\nMATERIALS: faithfully transfer the design's warm white/ivory ceramic plates with fine wear and restrained hairline wear marks, brushed muted old gold fittings and narrow trims, black-violet resin body with organic grain and seams, and bright orange/amber energy slots. Follow the plate edges of the GUIDE and keep the design's engraved lines, seams, panel joins and non-letter markings. Exposed energy is painted bright orange with yellow-orange centers, without bloom or light spilling onto adjoining surfaces. Continue unseen surfaces plausibly with the same material vocabulary. Do not introduce blue energy, leather, cloth or paper where the design does not show them.\nLIGHTING: FLAT ALBEDO texture source. Uniform, even, shadowless illumination from the viewer. Remove the guide's grey lighting gradients and the design reference's dramatic shading. Metal is its base gold colour with only the faintest sheen. No cast shadows, ambient-occlusion darkening, dark directional shading, bright specular highlights, reflections, rim lighting, background or floor. Fine surface colour variation is allowed; baked lighting is not.\nOutput: exactly ONE 1024 x 1024 PNG with genuine transparent background. No text, letters, labels, border, watermark, checkerboard pixels, added objects or extra views.\nVIEW LEFT: Use the exact small end-on projection in guide_left.png: looking along the gun from the butt/stock end. The broad horizontal rounded stock end in front occludes the receiver; two raised barrel ends are visible above and two lobes below. Preserve all occlusion and overlap exactly. Occupied bounding rectangle is x=398..625, y=434..590 on the 1024 x 1024 canvas. This is a SMALL centered object with enormous transparent margins; do NOT enlarge it.",
+      "inputs": [
+        {
+          "path": "guide_left.png",
+          "sha256": "93890a1aefd1ead3fc6ea657510b49f91d660a26c56eef3f89cb1c018c685040"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "65b9039bb59ead0319fbdcc1ea5aeceb9745c0534963ba9ba4ecdc81b0bb08eb"
+        }
+      ],
+      "output": "paint_left.png",
+      "source": "/home/pjasicek/.codex/generated_images/01a16e85-c1dc-7603-868d-859c7c9cbc52/exec-22c2e19f-746c-4e82-8abb-bb629b92ea4d.png",
+      "selected": true,
+      "reason": "Corrective return better preserves the small butt-end silhouette and occlusions; normalized silhouette overlap improved from 0.629938 to 0.959466. Exact silhouette, clean alpha and flat albedo requirements still fail.",
+      "status": "returned",
+      "unresized": true,
+      "output_sha256": "b081c61d9ead62bdde72cd2175db15d4483757b92a542e1825d6059ff7262584",
+      "returned_size": [
+        1254,
+        1254
+      ],
+      "checks": {
+        "rgba_with_transparency": true,
+        "fully_transparent_outside_guide": false,
+        "alpha_bbox": [
+          144,
+          55,
+          1216,
+          1175
+        ],
+        "solid_alpha_bbox": [
+          487,
+          531,
+          768,
+          722
+        ],
+        "guide_alpha_bbox": [
+          398,
+          434,
+          626,
+          591
+        ],
+        "silhouette_identical": false,
+        "normalized_silhouette_iou": 0.959466,
+        "normalized_outside_guide_pixels": 1053,
+        "normalized_missing_guide_pixels": 88,
+        "nonzero_alpha_outside_guide_pixels": 2897,
+        "faint_alpha_pixels_outside_guide": 2325,
+        "colours_and_materials": "Ivory ceramic, muted gold, dark violet resin and orange energy present; visual palette matches reference.",
+        "flat_even_light": "Failed strict albedo check: surface shading and highlights remain.",
+        "no_text_or_letters": true
+      },
+      "raw_output": "attempts/paint_left_run2.png"
+    },
+    {
+      "view": "right",
+      "run": 2,
+      "prompt": "CORRECTIVE REGENERATION, the only correction permitted for this view.\nEdit input image 1 IN PLACE. Paint its white mesh, not a newly drawn object. This is a texture projection stencil: copy its alpha channel and every existing contour exactly, change surface colours only. Output a 1024 by 1024 transparent PNG with the guide's unchanged pixel layout. Outside the exact silhouette alpha must be ZERO, with no stray low-opacity speckles or glow. Do not reposition or scale.\nKeep the exact faceted mouth shapes rather than turning them into projecting circular tubes. Preserve the guide's six existing sockets and central polygon. Central hub is black-violet resin rather than ivory. The side projections must keep their original size and outline.\nThe other issue was baked lighting. Make the result a TRUE UNLIT BASE-COLOUR / ALBEDO pass: flat ivory ceramic, flat brushed old gold, black-violet resin and solid bright amber-orange light slots. Even values across each material, fine intrinsic wear, engraved seams and organic grain only. NO highlights on spherical parts, NO white reflection streaks on gold, NO crevice shadows or occlusion, NO directional lighting, NO orange bloom. Do not copy the reference's lighting.\nUse case: precise-object-edit.\nAsset type: game-model projected albedo texture source, one orthographic view of the Hesper breaker lance, a siege scatter gun used to clear breaches.\nInput image 1 is the EDIT TARGET: the plain white model guide. It is the absolute authority for silhouette, camera, framing, pixel positions, size and every part edge. Input image 2 is design_reference.png, the sole authority for design, materials, colour and surface details, NOT for shape or perspective.\nPaint ONLY the existing model surfaces in input image 1. Preserve its 1024 x 1024 canvas and original alpha silhouette EXACTLY, including transparent holes and gaps; do not shift, enlarge, shrink, rotate, crop or reshape any geometry. Treat the guide as an immutable silhouette stencil. Nothing may extend outside its existing alpha. Retain the large transparent margins.\nMATERIALS: faithfully transfer the design's warm white/ivory ceramic plates with fine wear and restrained hairline wear marks, brushed muted old gold fittings and narrow trims, black-violet resin body with organic grain and seams, and bright orange/amber energy slots. Follow the plate edges of the GUIDE and keep the design's engraved lines, seams, panel joins and non-letter markings. Exposed energy is painted bright orange with yellow-orange centers, without bloom or light spilling onto adjoining surfaces. Continue unseen surfaces plausibly with the same material vocabulary. Do not introduce blue energy, leather, cloth or paper where the design does not show them.\nLIGHTING: FLAT ALBEDO texture source. Uniform, even, shadowless illumination from the viewer. Remove the guide's grey lighting gradients and the design reference's dramatic shading. Metal is its base gold colour with only the faintest sheen. No cast shadows, ambient-occlusion darkening, dark directional shading, bright specular highlights, reflections, rim lighting, background or floor. Fine surface colour variation is allowed; baked lighting is not.\nOutput: exactly ONE 1024 x 1024 PNG with genuine transparent background. No text, letters, labels, border, watermark, checkerboard pixels, added objects or extra views.\nVIEW RIGHT: Use the exact small muzzle-end projection in guide_right.png: six existing barrel mouths in a hexagonal cluster around the central polygonal hub, two above, two at the sides and two below, and the existing outer side projections. Keep each mouth shape, diameter, position and overlap as in the guide. Paint barrel rims as worn ivory ceramic with thin muted gold joins; interiors show bright orange cores; the center and intervening body are black-violet resin. Occupied bounding rectangle is x=398..625, y=434..589 on the 1024 x 1024 canvas. This is a SMALL centered object with enormous transparent margins; do NOT enlarge it.",
+      "inputs": [
+        {
+          "path": "guide_right.png",
+          "sha256": "32c078363a82d154a050141c19856488a70ffd8f2efd86e85a1fd9ec074452fe"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "65b9039bb59ead0319fbdcc1ea5aeceb9745c0534963ba9ba4ecdc81b0bb08eb"
+        }
+      ],
+      "output": "paint_right.png",
+      "source": "/home/pjasicek/.codex/generated_images/01a16e85-c1dc-7603-868d-859c7c9cbc52/exec-d939536a-dab2-44ba-82a0-dc97a35e878a.png",
+      "selected": true,
+      "reason": "Corrective return better preserves the faceted six sockets and dark resin center; normalized silhouette overlap improved from 0.908764 to 0.965999. Exact silhouette, clean alpha and flat albedo requirements still fail.",
+      "status": "returned",
+      "unresized": true,
+      "output_sha256": "fd4391301bc8e3813a4de627c48d595e4a6ae0a9f99bfe514b96054e969d49d2",
+      "returned_size": [
+        1254,
+        1254
+      ],
+      "checks": {
+        "rgba_with_transparency": true,
+        "fully_transparent_outside_guide": false,
+        "alpha_bbox": [
+          49,
+          37,
+          1226,
+          1214
+        ],
+        "solid_alpha_bbox": [
+          488,
+          531,
+          767,
+          723
+        ],
+        "guide_alpha_bbox": [
+          398,
+          434,
+          626,
+          590
+        ],
+        "silhouette_identical": false,
+        "normalized_silhouette_iou": 0.965999,
+        "normalized_outside_guide_pixels": 909,
+        "normalized_missing_guide_pixels": 43,
+        "nonzero_alpha_outside_guide_pixels": 2397,
+        "faint_alpha_pixels_outside_guide": 2046,
+        "colours_and_materials": "Ivory ceramic, muted gold, dark violet resin and orange energy present; visual palette matches reference.",
+        "flat_even_light": "Failed strict albedo check: surface shading and highlights remain.",
+        "no_text_or_letters": true
+      },
+      "raw_output": "attempts/paint_right_run2.png"
+    },
+    {
+      "view": "top",
+      "run": 2,
+      "prompt": "CORRECTIVE REGENERATION, the only correction permitted for this view.\nEdit input image 1 IN PLACE. Paint its white mesh, not a newly drawn object. This is a texture projection stencil: copy its alpha channel and every existing contour exactly, change surface colours only. Output a 1024 by 1024 transparent PNG with the guide's unchanged pixel layout. Outside the exact silhouette alpha must be ZERO, with no stray low-opacity speckles or glow. Do not reposition or scale.\nThe initial attempt was close in overall shape but changed the thin muzzle horns, trigger guard and some edges. Keep every original guide edge, hole and facet precisely. Avoid the reference image's dimensional shading and bright metallic reflections.\nThe other issue was baked lighting. Make the result a TRUE UNLIT BASE-COLOUR / ALBEDO pass: flat ivory ceramic, flat brushed old gold, black-violet resin and solid bright amber-orange light slots. Even values across each material, fine intrinsic wear, engraved seams and organic grain only. NO highlights on spherical parts, NO white reflection streaks on gold, NO crevice shadows or occlusion, NO directional lighting, NO orange bloom. Do not copy the reference's lighting.\nUse case: precise-object-edit.\nAsset type: game-model projected albedo texture source, one orthographic view of the Hesper breaker lance, a siege scatter gun used to clear breaches.\nInput image 1 is the EDIT TARGET: the plain white model guide. It is the absolute authority for silhouette, camera, framing, pixel positions, size and every part edge. Input image 2 is design_reference.png, the sole authority for design, materials, colour and surface details, NOT for shape or perspective.\nPaint ONLY the existing model surfaces in input image 1. Preserve its 1024 x 1024 canvas and original alpha silhouette EXACTLY, including transparent holes and gaps; do not shift, enlarge, shrink, rotate, crop or reshape any geometry. Treat the guide as an immutable silhouette stencil. Nothing may extend outside its existing alpha. Retain the large transparent margins.\nMATERIALS: faithfully transfer the design's warm white/ivory ceramic plates with fine wear and restrained hairline wear marks, brushed muted old gold fittings and narrow trims, black-violet resin body with organic grain and seams, and bright orange/amber energy slots. Follow the plate edges of the GUIDE and keep the design's engraved lines, seams, panel joins and non-letter markings. Exposed energy is painted bright orange with yellow-orange centers, without bloom or light spilling onto adjoining surfaces. Continue unseen surfaces plausibly with the same material vocabulary. Do not introduce blue energy, leather, cloth or paper where the design does not show them.\nLIGHTING: FLAT ALBEDO texture source. Uniform, even, shadowless illumination from the viewer. Remove the guide's grey lighting gradients and the design reference's dramatic shading. Metal is its base gold colour with only the faintest sheen. No cast shadows, ambient-occlusion darkening, dark directional shading, bright specular highlights, reflections, rim lighting, background or floor. Fine surface colour variation is allowed; baked lighting is not.\nOutput: exactly ONE 1024 x 1024 PNG with genuine transparent background. No text, letters, labels, border, watermark, checkerboard pixels, added objects or extra views.\nVIEW TOP: Use the exact orthographic projection in guide_top.png: stock on LEFT, muzzle on RIGHT, trigger guard and grip below, serrated ridge above, and existing long outer muzzle horns. Preserve every part edge and transparent hole exactly. Occupied bounding rectangle is x=66..957, y=398..625 on a 1024 x 1024 canvas. Do not change the camera to match the perspective in the design reference.",
+      "inputs": [
+        {
+          "path": "guide_top.png",
+          "sha256": "192cc86a44fb51f9c09e5aa75f6e3224e5bcf44889f47cdbb50c788ebf70e92c"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "65b9039bb59ead0319fbdcc1ea5aeceb9745c0534963ba9ba4ecdc81b0bb08eb"
+        }
+      ],
+      "output": null,
+      "source": null,
+      "selected": false,
+      "reason": "Image generation rejected with HTTP 400 moderation_blocked; category violence; request ID eec07e7f-159a-4510-aa46-1e450ee3292f.",
+      "status": "failed",
+      "error": "Image generation rejected with HTTP 400 moderation_blocked; category violence; request ID eec07e7f-159a-4510-aa46-1e450ee3292f."
+    }
+  ],
+  "status": "All five requested files saved; strict visual constraints not fully met.",
+  "selection_note": "Selected means best available return within the one-correction-per-view limit, not acceptance of exact compliance.",
+  "limitations": [
+    "All successful returns are 1254 x 1254, not the requested 1024 x 1024. All files retain original returned bytes; no resizing, masking, retouching or other image processing was applied.",
+    "No selected image has a pixel-identical guide silhouette. Residual geometry drift and faint nonzero alpha outside the intended silhouette remain.",
+    "Palette and materials match the reference, but painted highlights and crevice shading remain, so these are not strict flat albedo.",
+    "Back and top corrective requests were rejected by the built-in image tool safety filter under violence. No further attempts were made."
+  ],
+  "selected_outputs": {
+    "front": "paint_front.png",
+    "back": "paint_back.png",
+    "left": "paint_left.png",
+    "right": "paint_right.png",
+    "top": "paint_top.png"
+  }
+}

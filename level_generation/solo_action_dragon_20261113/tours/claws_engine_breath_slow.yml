@@ -1,0 +1,40 @@
+# The dragon's breath in slow motion (a quarter speed; tour waits are real time): a live Attack press at a goblin out of
+# claw reach, the inhale, the release from the bottom centre (the mouth), the flight and the impact.
+# cd /home/pjasicek/github/OpenYAMM && SDL_AUDIODRIVER=dummy ./tools/run_game.sh --isolated claws_breath_slow \
+#   --world mm6 --map oute3.odm --ruleset maw:solo --set video.resolution=1600x900 --set video.window_mode=windowed \
+#   --set debug.console=true --set gameplay.enemy_health_bars=off --set debug.time_scale=0.25 \
+#   --set debug.menu_input_tour_path=/home/pjasicek/github/OpenYAMM/level_generation/solo_action_dragon_20261113/tours/claws_engine_breath_slow.yml \
+#   --seconds 90
+output_dir: /home/pjasicek/github/OpenYAMM/level_generation/solo_action_dragon_20261113/renders/engine/breath_slow
+exit: true
+steps:
+  - wait: 3
+  - console: testparty apply early solo_dragon
+  - console: config set immortal 1
+  - wait: 4
+  - console: actor spawn 271 1 -9728 -9800 161
+  - console: actor immobile last on
+  - console: viewmodel trace on
+  - wait: 6
+  - capture: 00_target
+  - action: attack
+  - wait: 0.5
+  - capture: 01_inhale_early
+  - wait: 0.5
+  - capture: 02_inhale
+  - wait: 0.4
+  - capture: 03_inhale_late
+  - wait: 0.3
+  - capture: 04_release
+  - wait: 0.25
+  - capture: 05_flight
+  - wait: 0.25
+  - capture: 06_flight
+  - wait: 0.3
+  - capture: 07_flight
+  - wait: 0.5
+  - capture: 08_recover
+  - wait: 1.5
+  - capture: 09_impact
+  - wait: 4
+  - console: actor remaining

@@ -1,0 +1,16 @@
+id: release.save_load_roundtrip
+title: Release check - a save written in New Sorpigal loads back after changing maps
+world: mm6
+mode: faithful
+tags: [mm6, release]
+steps:
+  - new_game_flow:
+      start_map: oute3.odm
+  - save_game: release_check
+  - load_map:
+      map: 6d01.blv
+  - assert:
+      map: 6d01.blv
+  - load_game: release_check
+  - assert:
+      map: oute3.odm

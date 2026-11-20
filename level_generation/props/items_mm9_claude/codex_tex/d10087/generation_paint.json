@@ -1,0 +1,26 @@
+{
+  "prompt": "Edit target: input 1 paint_mask_guide.png. Input 2 design_reference.png is material/detail reference only; input 3 icon_x8.png is colour reference only, magenta is not part of item. Use case: precise-object-edit. Follow this brief exactly; actual guide pixel geometry and orientation are authoritative, do not reinterpret view names or rearrange views:\n# Padded Leather: paint + material mask view atlas\n\nScope: image generation only. Write ONLY into `level_generation/props/items_mm9_claude/codex_tex/d10087/`. Do not edit any other file, do not run builds.\n\nInputs (attached):\n- `paint_mask_guide.png`: 1536x2048 transparent sheet, three columns by FOUR rows of 512x512 cells. Rows 1-2 and rows\n  3-4 hold the same five grey orthographic renders of the exact 3D model: FRONT, BACK, LEFT / RIGHT, TOP, empty.\n\nTask: use your built-in image generation tool to paint the guide sheet. Output ONE PNG with a transparent background\nand a 3:4 canvas (1536x2048 or the tool's nearest 3:4 size), the same layout, each object in exactly the same position,\nsize and outline as its grey guide. Paint the grey objects only; never redraw, enlarge, move or redesign them.\n\n- Rows 1-2 (PAINT): the unlit base colour of the item on each view: A bright orange-tan leather tunic with short sleeves, a small V neck laced with a dark cord, a narrow dark leather belt set with small square steel studs at the waist, a skirt split at the front, and a pale tan edging at the hem, neck and cuffs..\n- Rows 3-4 (MATERIAL MASK): the same five silhouettes filled with FLAT pure colours only, no shading, no texture, no\n  outlines, no antialiased colour blends inside:\n  - pure red #FF0000: every metal part (steel, iron, chain mail, gold, silver, bronze, copper, brass)\n  - pure green #00FF00: every leather part (straps, padding, hide, suede) and fur\n  - pure blue #0000FF: every cloth part (tabards, quilting, linings, cords, ribbons) and hair\n  - pure black #000000: every gemstone, crystal, glass, pearl, enamel or liquid seen through glass\n  Every pixel of each silhouette gets exactly one of these colours; nothing outside the silhouettes.\n- `design_reference.png`: the approved HD painting or master of the item, the material and detail reference.\n- `icon_x8.png`: the original game icon (magenta is background), the colour reference.\n\nObject: A bright orange-tan leather tunic with short sleeves, a small V neck laced with a dark cord, a narrow dark leather belt set with small square steel studs at the waist, a skirt split at the front, and a pale tan edging at the hem, neck and cuffs.\n\n- Facets, engravings, scrollwork and inner swirls follow the design reference, scaled to each view.\n- Keep every gap and opening exactly as in the guide and fully transparent.\n- Unlit base colour only: no lighting, no cast shadows, no ambient occlusion, no hot highlights or reflections, no\n  glow halo, sparkles or aura outside the silhouette, no ground, no outlines, no text.\n- The empty cells (column 3 of row 2 and row 4) stay empty and transparent.\n\nSave the generated image (copy the file the tool produced) to `level_generation/props/items_mm9_claude/codex_tex/d10087/paint_mask_raw_v1.png` and write\n`generation_paint.json` (prompt, inputs with sha256, original output path, output, size). At most one corrective\nregeneration, only if the silhouettes or layout are clearly wrong.\n\nCORRECTIVE GENERATION: Match the original grey guide silhouettes EXACTLY including all transparent holes. Absolutely no speckles, spray, noise, halo or colour outside objects. Lower two rows must have crisp solid silhouettes with fully transparent holes matching upper rows. Leather belt is GREEN, only individual metal studs RED; gold eyelets RED; cord BLUE. No black outlines in masks. Preserve original 3 by 4 grid. Output 1536x2048.",
+  "inputs": [
+    {
+      "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/items_mm9_claude/codex_tex/d10087/paint_mask_guide.png",
+      "sha256": "81235c16787198d75d5e80056092c0300ae32e9c45f0f5c58e9f7269f766e743"
+    },
+    {
+      "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/items_mm9_claude/codex_tex/d10087/design_reference.png",
+      "sha256": "f990c910fe95d35b40cdfccc5b4a3ab1efa3bee951c1ea49ec9862464c9c8d70"
+    },
+    {
+      "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/items_mm9_claude/codex_tex/d10087/icon_x8.png",
+      "sha256": "2258cec45c8f8dbd66a408df240c25f75e18c0cb710a7a23776c3a2282ce0494"
+    }
+  ],
+  "original_output_path": "/home/pjasicek/.codex/generated_images/01a1ac85-f2b1-7400-ae7a-710e67adfaea/exec-a5745cf7-ae4f-4a15-aff2-38e8901b67dd.png",
+  "output": "/home/pjasicek/github/OpenYAMM/level_generation/props/items_mm9_claude/codex_tex/d10087/paint_mask_raw_v1.png",
+  "size": [
+    1086,
+    1448
+  ],
+  "tool": "built-in image_gen",
+  "corrective_regenerations": 1,
+  "validation": "Visual inspection: colour spill outside silhouettes remains after the permitted corrective generation; raw output retained without modification."
+}

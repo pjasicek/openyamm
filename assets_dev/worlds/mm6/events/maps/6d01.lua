@@ -160,7 +160,7 @@ RegisterEvent(20, "B", function()
     evt.SetDoorState(56, DoorAction.Close)
     evt.SetDoorState(57, DoorAction.Open)
     evt.SetDoorState(58, DoorAction.Open)
-    evt.SetTexture(2011, "t1swdu")
+    evt.SetTexture(-2011, "t1swdu")
 end, "B")
 
 RegisterEvent(21, "C", function()
@@ -170,7 +170,7 @@ RegisterEvent(21, "C", function()
     evt.SetDoorState(58, DoorAction.Close)
     evt.SetDoorState(55, DoorAction.Open)
     evt.SetDoorState(56, DoorAction.Open)
-    evt.SetTexture(2012, "t1swdu")
+    evt.SetTexture(-2012, "t1swdu")
 end, "C")
 
 RegisterEvent(22, "D", function()
@@ -181,7 +181,7 @@ RegisterEvent(22, "D", function()
     evt.SetDoorState(51, DoorAction.Close)
     evt.SetDoorState(57, DoorAction.Open)
     evt.SetDoorState(58, DoorAction.Open)
-    evt.SetTexture(2013, "t1swdu")
+    evt.SetTexture(-2013, "t1swdu")
 end, "D")
 
 RegisterEvent(23, "E", function()
@@ -192,7 +192,7 @@ RegisterEvent(23, "E", function()
     evt.SetDoorState(40, DoorAction.Open)
     evt.SetDoorState(52, DoorAction.Open)
     evt.SetDoorState(51, DoorAction.Open)
-    evt.SetTexture(2009, "t1swdu")
+    evt.SetTexture(-2009, "t1swdu")
 end, "E")
 
 RegisterEvent(24, "F", function()
@@ -203,7 +203,7 @@ RegisterEvent(24, "F", function()
     evt.SetDoorState(48, DoorAction.Close)
     evt.SetDoorState(55, DoorAction.Open)
     evt.SetDoorState(56, DoorAction.Open)
-    evt.SetTexture(2008, "t1swdu")
+    evt.SetTexture(-2008, "t1swdu")
 end, "F")
 
 RegisterEvent(25, "G", function()
@@ -211,7 +211,7 @@ RegisterEvent(25, "G", function()
     SetValue(MapVar(7), 1)
     evt.SetDoorState(59, DoorAction.Close)
     evt.SetDoorState(60, DoorAction.Close)
-    evt.SetTexture(2007, "t1swdu")
+    evt.SetTexture(-2007, "t1swdu")
 end, "G")
 
 RegisterEvent(26, "H", function()
@@ -222,7 +222,7 @@ RegisterEvent(26, "H", function()
     evt.SetDoorState(36, DoorAction.Open)
     evt.SetDoorState(47, DoorAction.Open)
     evt.SetDoorState(48, DoorAction.Open)
-    evt.SetTexture(2006, "t1swdu")
+    evt.SetTexture(-2006, "t1swdu")
 end, "H")
 
 RegisterEvent(27, "I", function()
@@ -233,7 +233,7 @@ RegisterEvent(27, "I", function()
     evt.SetDoorState(48, DoorAction.Close)
     evt.SetDoorState(38, DoorAction.Open)
     evt.SetDoorState(44, DoorAction.Open)
-    evt.SetTexture(2002, "t1swdu")
+    evt.SetTexture(-2002, "t1swdu")
 end, "I")
 
 RegisterEvent(28, "J", function()
@@ -245,7 +245,7 @@ RegisterEvent(28, "J", function()
     evt.SetDoorState(40, DoorAction.Open)
     evt.SetDoorState(52, DoorAction.Open)
     evt.SetDoorState(51, DoorAction.Open)
-    evt.SetTexture(2003, "t1swdu")
+    evt.SetTexture(-2003, "t1swdu")
 end, "J")
 
 RegisterEvent(29, "K", function()
@@ -255,7 +255,7 @@ RegisterEvent(29, "K", function()
     evt.SetDoorState(60, DoorAction.Close)
     evt.SetDoorState(57, DoorAction.Open)
     evt.SetDoorState(58, DoorAction.Open)
-    evt.SetTexture(2004, "t1swdu")
+    evt.SetTexture(-2004, "t1swdu")
 end, "K")
 
 RegisterEvent(30, "L", function()
@@ -265,7 +265,7 @@ RegisterEvent(30, "L", function()
     evt.SetDoorState(44, DoorAction.Close)
     evt.SetDoorState(55, DoorAction.Open)
     evt.SetDoorState(56, DoorAction.Open)
-    evt.SetTexture(2005, "t1swdu")
+    evt.SetTexture(-2005, "t1swdu")
 end, "L")
 
 RegisterEvent(31, "M", function()
@@ -281,7 +281,7 @@ RegisterEvent(32, "N", function()
     evt.SetDoorState(36, DoorAction.Open)
     evt.SetDoorState(47, DoorAction.Open)
     evt.SetDoorState(48, DoorAction.Open)
-    evt.SetTexture(2000, "t1swdu")
+    evt.SetTexture(-2000, "t1swdu")
 end, "N")
 
 RegisterEvent(33, "O", function()
@@ -291,7 +291,7 @@ RegisterEvent(33, "O", function()
     evt.SetDoorState(58, DoorAction.Close)
     evt.SetDoorState(59, DoorAction.Open)
     evt.SetDoorState(60, DoorAction.Open)
-    evt.SetTexture(1999, "t1swdu")
+    evt.SetTexture(-1999, "t1swdu")
 end, "O")
 
 RegisterEvent(34, "P", function()
@@ -308,19 +308,19 @@ RegisterEvent(34, "P", function()
     SetValue(MapVar(12), 0)
     SetValue(MapVar(13), 0)
     SetValue(MapVar(14), 0)
-    evt.SetTexture(2011, "t1swdd")
-    evt.SetTexture(2012, "t1swdd")
-    evt.SetTexture(2013, "t1swdd")
-    evt.SetTexture(2009, "t1swdd")
-    evt.SetTexture(2008, "t1swdd")
-    evt.SetTexture(2007, "t1swdd")
-    evt.SetTexture(2006, "t1swdd")
-    evt.SetTexture(2002, "t1swdd")
-    evt.SetTexture(2003, "t1swdd")
-    evt.SetTexture(2004, "t1swdd")
-    evt.SetTexture(2005, "t1swdd")
-    evt.SetTexture(2000, "t1swdd")
-    evt.SetTexture(1999, "t1swdd")
+    evt.SetTexture(-2011, "t1swdd")
+    evt.SetTexture(-2012, "t1swdd")
+    evt.SetTexture(-2013, "t1swdd")
+    evt.SetTexture(-2009, "t1swdd")
+    evt.SetTexture(-2008, "t1swdd")
+    evt.SetTexture(-2007, "t1swdd")
+    evt.SetTexture(-2006, "t1swdd")
+    evt.SetTexture(-2002, "t1swdd")
+    evt.SetTexture(-2003, "t1swdd")
+    evt.SetTexture(-2004, "t1swdd")
+    evt.SetTexture(-2005, "t1swdd")
+    evt.SetTexture(-2000, "t1swdd")
+    evt.SetTexture(-1999, "t1swdd")
     evt.SetDoorState(40, DoorAction.Open)
     evt.SetDoorState(51, DoorAction.Open)
     evt.SetDoorState(52, DoorAction.Open)
@@ -421,43 +421,43 @@ end)
 
 RegisterEvent(66, nil, function()
     if IsAtLeast(MapVar(2), 1) then
-        evt.SetTexture(2011, "t1swdu")
+        evt.SetTexture(-2011, "t1swdu")
     end
     if IsAtLeast(MapVar(3), 1) then
-        evt.SetTexture(2012, "t1swdu")
+        evt.SetTexture(-2012, "t1swdu")
     end
     if IsAtLeast(MapVar(4), 1) then
-        evt.SetTexture(2013, "t1swdu")
+        evt.SetTexture(-2013, "t1swdu")
     end
     if IsAtLeast(MapVar(4), 1) then
-        evt.SetTexture(2009, "t1swdu")
+        evt.SetTexture(-2009, "t1swdu")
     end
     if IsAtLeast(MapVar(6), 1) then
-        evt.SetTexture(2008, "t1swdu")
+        evt.SetTexture(-2008, "t1swdu")
     end
     if IsAtLeast(MapVar(7), 1) then
-        evt.SetTexture(2007, "t1swdu")
+        evt.SetTexture(-2007, "t1swdu")
     end
     if IsAtLeast(MapVar(8), 1) then
-        evt.SetTexture(2006, "t1swdu")
+        evt.SetTexture(-2006, "t1swdu")
     end
     if IsAtLeast(MapVar(9), 1) then
-        evt.SetTexture(2002, "t1swdu")
+        evt.SetTexture(-2002, "t1swdu")
     end
     if IsAtLeast(MapVar(10), 1) then
-        evt.SetTexture(2003, "t1swdu")
+        evt.SetTexture(-2003, "t1swdu")
     end
     if IsAtLeast(MapVar(11), 1) then
-        evt.SetTexture(2004, "t1swdu")
+        evt.SetTexture(-2004, "t1swdu")
     end
     if IsAtLeast(MapVar(12), 1) then
-        evt.SetTexture(2005, "t1swdu")
+        evt.SetTexture(-2005, "t1swdu")
     end
     if IsAtLeast(MapVar(13), 1) then
-        evt.SetTexture(2000, "t1swdu")
+        evt.SetTexture(-2000, "t1swdu")
     end
     if IsAtLeast(MapVar(14), 1) then
-        evt.SetTexture(1999, "t1swdu")
+        evt.SetTexture(-1999, "t1swdu")
     end
 end)
 

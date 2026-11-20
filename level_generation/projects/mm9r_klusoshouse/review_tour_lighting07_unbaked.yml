@@ -1,0 +1,88 @@
+output_dir: /home/pjasicek/github/OpenYAMM/level_generation/projects/mm9r_klusoshouse/review/lighting07_unbaked
+settle_seconds: 1.5
+exit: true
+shots:
+- name: l01_front_door
+  position:
+  - 870
+  - 842
+  - 42
+  yaw: 3.1416
+  pitch: 0.0
+- name: l03_front_hall_north
+  position:
+  - 384
+  - 256
+  - 1
+  yaw: 1.5153
+  pitch: 0.0
+- name: l05_central_room
+  position:
+  - -102
+  - 845
+  - 1
+  yaw: 3.1416
+  pitch: 0.0
+- name: l08_dining_room
+  position:
+  - -589
+  - -154
+  - 1
+  yaw: -2.4285
+  pitch: 0.0
+- name: l10_kitchen
+  position:
+  - -1510
+  - 1126
+  - 1
+  yaw: -1.6002
+  pitch: 0.0
+- name: l12_great_hall
+  position:
+  - -205
+  - 2304
+  - 1
+  yaw: 3.1416
+  pitch: 0.0
+- name: u03_corridor_ew
+  position:
+  - -205
+  - -164
+  - 452
+  yaw: 3.1416
+  pitch: 0.0
+- name: u04_corridor_ns
+  position:
+  - -164
+  - -102
+  - 452
+  yaw: 1.5708
+  pitch: 0.0
+- name: u05_gallery_west
+  position:
+  - 410
+  - 1434
+  - 452
+  yaw: 3.1416
+  pitch: 0.0
+- name: u09_bedroom_east
+  position:
+  - 512
+  - 768
+  - 452
+  yaw: -2.2974
+  pitch: 0.0
+- name: u10_bedroom_middle
+  position:
+  - -589
+  - 1075
+  - 452
+  yaw: -2.0344
+  pitch: 0.0
+- name: u13_bedroom_south
+  position:
+  - -640
+  - -768
+  - 452
+  yaw: -2.4527
+  pitch: 0.0

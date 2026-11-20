@@ -1,0 +1,784 @@
+{
+ "id": "20261009-1628-mm6-6d04-25",
+ "world": "mm6",
+ "maps": [
+  "6d04.blv"
+ ],
+ "created": "2026-10-09T14:28:27+00:00",
+ "textures": [
+  "mm6/thawd1",
+  "mm6/thcwd1",
+  "mm6/thcwctbd",
+  "mm6/whft",
+  "mm6/whend",
+  "mm6/whcntr",
+  "mm6/thawcd",
+  "mm6/swpend1a",
+  "mm6/swpend1",
+  "mm6/swpend3",
+  "mm6/swplft1",
+  "mm6/swprt1",
+  "mm6/thawtbt",
+  "mm6/thcwtbt",
+  "mm6/swpend2",
+  "mm6/swpcnr1",
+  "mm6/thawcts",
+  "mm6/vlcwl4re",
+  "mm6/vlcwl1u",
+  "mm6/swpwin2",
+  "mm6/vlctrm4",
+  "mm6/vlctrm9",
+  "mm6/vlctrm8",
+  "mm6/vlcsaoff"
+ ],
+ "requests": {
+  "mm6/thawd1": {
+   "name": "thawd1",
+   "versions": [
+    1
+   ],
+   "material": "golden bamboo and woven reed double door in a dark wood frame, a diamond lattice panel of woven cane on each leaf, two bronze U-shaped ring handles, carved bands top and bottom; copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/thcwd1": {
+   "name": "thcwd1",
+   "versions": [
+    1
+   ],
+   "material": "golden bamboo and woven reed double door in a dark wood frame, a diamond lattice panel of woven cane on each leaf, two bronze U-shaped ring handles, carved bands top and bottom; copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/thawd1"
+     ],
+     "fraction": 0.532
+    }
+   }
+  },
+  "mm6/thcwctbd": {
+   "name": "thcwctbd",
+   "versions": [
+    1
+   ],
+   "material": "golden lashed bamboo pole wall with dark gaps between vertical canes, with a plain horizontal bamboo beam along the top and bottom edges",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/thcwd2"
+     ],
+     "fraction": 0.164
+    }
+   }
+  },
+  "mm6/whft": {
+   "name": "whft",
+   "versions": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7
+   ],
+   "material": "weathered grey-brown horizontal wooden plank wall with a dark pointed gothic arch frame of timber posts across the top",
+   "notes": {
+    "2": "No dark outline or shadow along any outer edge; the planks run straight to the right border.",
+    "3": "No dark outline or shadow along the right edge; planks continue to the edge as in the reference.",
+    "4": "No dark or light hairline on any edge: the outermost pixels continue the material exactly.",
+    "5": "The planks are cut off by the right border: no plank end, gap, shadow or dark line along the right edge; wood at full brightness up to the last pixel, continuing straight into the neighbouring plank wall.",
+    "6": "The planks are cut off by the right border: no plank end, gap, shadow or dark line along the right edge; wood at full brightness up to the last pixel, continuing straight into the neighbouring plank wall.",
+    "7": "The planks are cut off by the right border: no plank end, gap, shadow or dark line along the right edge; wood at full brightness up to the last pixel, continuing straight into the neighbouring plank wall."
+   },
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "3": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "4": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "5": {
+     "sources": [
+      "mm6/whrt",
+      "mm6/whtrim"
+     ],
+     "fraction": 0.397
+    },
+    "6": {
+     "sources": [
+      "mm6/whend"
+     ],
+     "fraction": 0.65
+    },
+    "7": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "4": {},
+    "5": {
+     "right": "mm6/whrt"
+    },
+    "6": {
+     "right": "mm6/whdor",
+     "top": "mm6/whend",
+     "bottom": "mm6/whend"
+    },
+    "7": {
+     "right": "mm6/whdor"
+    }
+   },
+   "pad": {
+    "6": [
+     32,
+     32
+    ],
+    "7": [
+     32,
+     16
+    ]
+   }
+  },
+  "mm6/whend": {
+   "name": "whend",
+   "versions": [
+    1,
+    2,
+    3
+   ],
+   "material": "weathered grey-brown horizontal wooden plank wall with a dark pointed gothic arch frame of timber posts across the top, framed on both sides by dark wooden posts",
+   "notes": {
+    "2": "No dark or light hairline on any edge: the outermost pixels continue the material exactly."
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/whft"
+     ],
+     "fraction": 0.65
+    },
+    "2": {
+     "sources": [
+      "mm6/whft"
+     ],
+     "fraction": 0.622
+    },
+    "3": {
+     "sources": [
+      "mm6/whft"
+     ],
+     "fraction": 0.622
+    }
+   },
+   "pad": {
+    "2": [
+     16,
+     32
+    ],
+    "3": [
+     16,
+     32
+    ]
+   },
+   "context": {
+    "2": {
+     "bottom": "mm6/whft",
+     "top": "mm6/whft"
+    },
+    "3": {
+     "bottom": "mm6/whft",
+     "top": "mm6/whft"
+    }
+   }
+  },
+  "mm6/whcntr": {
+   "name": "whcntr",
+   "versions": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6
+   ],
+   "material": "weathered grey-brown horizontal wooden plank wall with dark gaps between boards",
+   "notes": {
+    "3": "No dark or light hairline on any edge: the outermost pixels continue the material exactly.",
+    "4": "No dark or light hairline on any edge: the outermost pixels continue the material exactly.",
+    "5": "The bottom plank edge has one clean consistent finish across the whole width as in the reference; no smeared or stretched band along the bottom rows.",
+    "6": "The bottom plank has real wood grain down to the last row across the full width and ends in the reference's dark plank-gap shadow; no smeared or repeated rows."
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/whft"
+     ],
+     "fraction": 0.735
+    },
+    "2": {
+     "sources": [
+      "mm6/whft"
+     ],
+     "fraction": 0.735
+    },
+    "3": {
+     "sources": [
+      "mm6/whft",
+      "mm6/whrt",
+      "mm6/whtrim"
+     ],
+     "fraction": 0.949
+    },
+    "4": {
+     "sources": [
+      "mm6/whft"
+     ],
+     "fraction": 0.735
+    },
+    "5": {
+     "sources": [
+      "mm6/whft"
+     ],
+     "fraction": 0.735
+    },
+    "6": {
+     "sources": [
+      "mm6/whft"
+     ],
+     "fraction": 0.735
+    }
+   },
+   "context": {
+    "2": {
+     "left": "mm6/whft"
+    },
+    "3": {
+     "right": "mm6/whrt",
+     "left": "mm6/whft"
+    },
+    "4": {
+     "left": "mm6/whft",
+     "right": "mm6/whdor",
+     "bottom": "mm6/whft",
+     "top": "mm6/swprrf2"
+    },
+    "5": {
+     "left": "mm6/whft",
+     "right": "mm6/whdor",
+     "bottom": "mm6/whft",
+     "top": "mm6/swprrf2"
+    },
+    "6": {
+     "left": "mm6/whft",
+     "right": "mm6/whdor",
+     "bottom": "mm6/whft",
+     "top": "mm6/swprrf2"
+    }
+   },
+   "pad": {
+    "4": [
+     32,
+     32
+    ],
+    "5": [
+     32,
+     32
+    ],
+    "6": [
+     32,
+     32
+    ]
+   }
+  },
+  "mm6/thawcd": {
+   "name": "thawcd",
+   "versions": [
+    1
+   ],
+   "material": "golden lashed bamboo pole wall with dark gaps between vertical canes",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/thcwctbd"
+     ],
+     "fraction": 0.293
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm6/swpend1a": {
+   "name": "swpend1a",
+   "versions": [
+    1
+   ],
+   "material": "weathered grey-green vertical wooden plank wall with two heavy horizontal crossbeams and dark wooden posts at both edges",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/swpend1": {
+   "name": "swpend1",
+   "versions": [
+    1
+   ],
+   "material": "weathered grey-green vertical wooden plank wall with two heavy horizontal crossbeams and dark wooden posts at both edges",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/swpend1a"
+     ],
+     "fraction": 0.566
+    }
+   }
+  },
+  "mm6/swpend3": {
+   "name": "swpend3",
+   "versions": [
+    1
+   ],
+   "material": "dark rusty-brown rough mud wall panel set in a dark wooden frame with iron corner brackets",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/swpend3a"
+     ],
+     "fraction": 0.464
+    }
+   }
+  },
+  "mm6/swplft1": {
+   "name": "swplft1",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "weathered grey-green vertical wooden plank wall with two heavy horizontal crossbeams, with a dark wooden post on the left edge",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/swpend1",
+      "mm6/swpend1a"
+     ],
+     "fraction": 0.408
+    },
+    "2": {
+     "sources": [
+      "mm6/swpend1",
+      "mm6/swpend1a"
+     ],
+     "fraction": 0.408
+    }
+   },
+   "pad": {
+    "2": [
+     32,
+     32
+    ]
+   },
+   "context": {
+    "2": {
+     "right": "mm6/swprt1",
+     "top": "mm6/whft",
+     "left": "mm6/whrt"
+    }
+   }
+  },
+  "mm6/swprt1": {
+   "name": "swprt1",
+   "versions": [
+    1
+   ],
+   "material": "weathered grey-green vertical wooden plank wall with two heavy horizontal crossbeams, with a dark wooden post on the right edge",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/swpend1"
+     ],
+     "fraction": 0.16
+    }
+   }
+  },
+  "mm6/thawtbt": {
+   "name": "thawtbt",
+   "versions": [
+    1
+   ],
+   "material": "golden lashed bamboo wall niche framed by bamboo poles, holding a carved brown wooden tiki totem idol with a grimacing face, bamboo beams top and bottom; copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/thcwtbt": {
+   "name": "thcwtbt",
+   "versions": [
+    1
+   ],
+   "material": "golden lashed bamboo wall niche framed by bamboo poles, holding a carved brown wooden tiki totem idol with a grimacing face, bamboo beams top and bottom; copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/thawtbt"
+     ],
+     "fraction": 0.524
+    }
+   }
+  },
+  "mm6/swpend2": {
+   "name": "swpend2",
+   "versions": [
+    1
+   ],
+   "material": "mossy grey swamp boulders and rubble overgrown with green moss and hanging roots, between two weathered teal-green wooden posts",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/swpend2a"
+     ],
+     "fraction": 0.452
+    }
+   }
+  },
+  "mm6/swpcnr1": {
+   "name": "swpcnr1",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "weathered grey-green vertical wooden plank wall with two heavy horizontal crossbeams, corner piece",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/swpend1a",
+      "mm6/swplft1",
+      "mm6/swprt1"
+     ],
+     "fraction": 0.307
+    },
+    "2": {
+     "sources": [
+      "mm6/swpend1a",
+      "mm6/swplft1",
+      "mm6/swprt1"
+     ],
+     "fraction": 0.307
+    }
+   },
+   "pad": {
+    "2": [
+     32,
+     16
+    ]
+   },
+   "context": {
+    "2": {
+     "left": "mm6/swplft1",
+     "right": "mm6/swplft1"
+    }
+   }
+  },
+  "mm6/thawcts": {
+   "name": "thawcts",
+   "versions": [
+    1
+   ],
+   "material": "golden lashed bamboo pole wall with dark gaps between vertical canes, with a plain horizontal bamboo beam along the top and bottom edges",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/thawcd",
+      "mm6/thcwctbd"
+     ],
+     "fraction": 0.34
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm6/vlcwl4re": {
+   "name": "vlcwl4re",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "dark volcanic basalt rock wall with a glowing orange-red lava crack edge running up the right side, black charred twisted root texture on the left",
+   "notes": {
+    "2": "No dark outline or shadow along any outer edge."
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/vlcwl4",
+      "mm6/vlcwl4ua"
+     ],
+     "fraction": 0.324
+    },
+    "2": {
+     "sources": [
+      "mm6/vlcwl4",
+      "mm6/vlcwl4ua"
+     ],
+     "fraction": 0.324
+    }
+   },
+   "roll": {
+    "2": [
+     0,
+     176
+    ]
+   },
+   "context": {
+    "2": {}
+   }
+  },
+  "mm6/vlcwl1u": {
+   "name": "vlcwl1u",
+   "versions": [
+    1
+   ],
+   "material": "dark volcanic rock wall with a carved pale stone tribal idol statue with a big-eyed mask face and crouching body, faint orange lava glow; copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/vlcwl1"
+     ],
+     "fraction": 0.227
+    }
+   }
+  },
+  "mm6/swpwin2": {
+   "name": "swpwin2",
+   "versions": [
+    1
+   ],
+   "material": "dark mossy rock and root wall with a black cave opening in the middle, hanging roots and grey boulders, overgrown with green moss",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/swpcnr2"
+     ],
+     "fraction": 0.158
+    }
+   }
+  },
+  "mm6/vlctrm4": {
+   "name": "vlctrm4",
+   "versions": [
+    1
+   ],
+   "material": "square grey stone panel with deeply carved abstract runic glyphs in four rows inside a raised bevelled border; copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/vlctrm9": {
+   "name": "vlctrm9",
+   "versions": [
+    1
+   ],
+   "material": "square grey stone panel with deeply carved abstract runic glyphs in four rows inside a raised bevelled border, glowing orange-red lava in the recessed carvings; copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/vlctrm4"
+     ],
+     "fraction": 0.255
+    }
+   }
+  },
+  "mm6/vlctrm8": {
+   "name": "vlctrm8",
+   "versions": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10
+   ],
+   "material": "square stone panel of glowing red-orange molten lava with raised dark grey carved abstract runic glyphs in four rows inside a grey bevelled border; copy the composition exactly",
+   "notes": {
+    "2": "No dark outline or shadow along any outer edge: the grey stone frame bevel reaches the bottom edge with the same brightness as at the top, as in the reference.",
+    "3": "No dark line or shadow along the bottom edge: the grey stone frame along the bottom is the same light grey as along the top and runs straight to the canvas border, as in the reference.",
+    "4": "No dark outline or shadow along any outer edge.",
+    "5": "The light grey bevelled stone frame along the bottom is as bright as along the top and runs straight to the bottom border: no dark line or shadow at the bottom edge.",
+    "6": "The bottom stone frame edge keeps the native's brightness: no dark line or shadow along the bottom edge.",
+    "7": "No dark line or shadow along the bottom edge; the stone frame keeps the native's brightness to the outermost row.",
+    "8": "The outermost bottom row of the tile is the bright light-grey highlight of the stone frame bevel, as bright as in the reference; the only dark joint line is the one along the very top edge. No dark line or shadow at the bottom edge.",
+    "9": "Bottom frame edge as light as the reference: the outermost rows continue the stone frame; no dark rim or shadow along the bottom.",
+    "10": "Copy the native frame exactly: the right edge is the grey stone frame continuing to the canvas border, with no pale highlight line on the outermost pixels; no dark band along the bottom edge (the dark groove belongs only at the top edge)."
+   },
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "3": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "4": {
+     "sources": [
+      "mm6/vlctrm3"
+     ],
+     "fraction": 0.139
+    },
+    "5": {
+     "sources": [
+      "mm6/vlctrm3"
+     ],
+     "fraction": 0.139
+    },
+    "6": {
+     "sources": [
+      "mm6/vlctrm3"
+     ],
+     "fraction": 0.139
+    },
+    "7": {
+     "sources": [
+      "mm6/vlctrm3"
+     ],
+     "fraction": 0.139
+    },
+    "8": {
+     "sources": [
+      "mm6/vlctrm3"
+     ],
+     "fraction": 0.139
+    },
+    "9": {
+     "sources": [
+      "mm6/vlctrm3"
+     ],
+     "fraction": 0.139
+    },
+    "10": {
+     "sources": [
+      "mm6/vlctrm3"
+     ],
+     "fraction": 0.139
+    }
+   },
+   "roll": {
+    "4": [
+     0,
+     51
+    ],
+    "5": [
+     0,
+     51
+    ],
+    "6": [
+     0,
+     51
+    ],
+    "7": [
+     0,
+     51
+    ],
+    "8": [
+     0,
+     51
+    ],
+    "9": [
+     0,
+     51
+    ],
+    "10": [
+     60,
+     51
+    ]
+   },
+   "context": {
+    "4": {},
+    "5": {},
+    "6": {},
+    "7": {},
+    "8": {},
+    "9": {},
+    "10": {}
+   }
+  },
+  "mm6/vlcsaoff": {
+   "name": "vlcsaoff",
+   "versions": [
+    1,
+    2,
+    3
+   ],
+   "material": "small square tan stone tile with a dull red circular sun disk surrounded by dark radiating rays; copy the composition exactly",
+   "notes": {
+    "2": "Copy the composition exactly: sunburst rays and round red centre placed and sized as in the reference. No dark strip, outline or shadow along any outer edge.",
+    "3": "No dark border or outline around the tile, especially along the bottom edge; the dark rays reach the tile edges as in the reference."
+   },
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "3": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  }
+ }
+}

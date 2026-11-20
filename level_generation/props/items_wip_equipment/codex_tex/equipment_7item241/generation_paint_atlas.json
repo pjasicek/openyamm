@@ -1,0 +1,21 @@
+{
+  "tool": "image_gen.imagegen",
+  "prompt": "EDIT ONLY IMAGE 1, the exact grey mesh-guide atlas for existing Might and Magic Phynaxian Crown (7item241). Image 2 is the authoritative inventory icon for colours/materials only. Identity: Royal red velvet domed crown with silver arches, pearl-studded silver rim, red gems and a tiny gold-and-silver cross finial. Exact material boundaries: Red velvet cap BLUE. Silver arches/rim and gold finial RED. Pearls and coloured jewels BLACK. Preserve the exact 1536x1024 3:2 canvas, three columns by two rows, all object sizes, outlines, positions, shape edges and transparency. Top row FRONT / BACK / LEFT; bottom row RIGHT / TOP / EMPTY. Do not move, expand, rotate, relight or reconstruct the geometry. Paint realistic base-colour materials from the inventory icon onto only the guide surfaces. Flat even shadowless illumination, no cast shadows, AO, reflections or specular highlights; subtle fine material grain. All existing solid grey surfaces remain opaque, including interiors and lower hidden-facing surfaces. Do not cut holes or alter outlines to illustrate surface texture. Background and empty bottom-right tile truly transparent; no floor, background haze, text, labels or borders. Keep EACH guide view's width/height and all internal edges EXACTLY. Output ONE 3:2 landscape atlas.",
+  "input_guide": "/home/pjasicek/github/OpenYAMM/level_generation/props/items_wip_equipment/codex_tex/equipment_7item241/inputs/guide_paint.png",
+  "input_guide_sha256": "898c08b7b6b9313749cbd61b17e67dd89f46bb5c41c8b647962a7b5d1efc4102",
+  "revision": 1,
+  "input_icon": "7item241",
+  "source_output": "/home/pjasicek/.codex/generated_images/01a14de2-7ad6-7e83-ba24-ee6db541bc51/exec-abd966ce-da0b-484b-8958-b90b4a978667.png",
+  "output": "paint_atlas.png",
+  "selected": true,
+  "reason": "Not installed by equipment worker; see final per-icon ledger decision.",
+  "raw_output": "paint_raw_v1.png",
+  "output_sha256": "ae73d67d27cd64d9f68c221e72afbb11c221e654e9d65542ff35c2a99a77e768",
+  "input_icon_path": "assets_dev/engine/icons_x2/7item241.png",
+  "input_icon_sha256": "3febe733b53bd2c0250bda4e23c47aad882eb621c6dc7b3e06bfa60119bf686c",
+  "active_bytes_match": true,
+  "alpha_extrema": [
+    0,
+    254
+  ]
+}

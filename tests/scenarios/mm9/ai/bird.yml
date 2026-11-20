@@ -1,0 +1,58 @@
+id: mm9.ai.bird
+title: An MM9 bird passes its target, backs off upward, swoops back in and backs off when hit while it cannot attack
+world: mm9
+mode: faithful
+tags: [mm9, actors, ai, arena]
+steps:
+  - note:
+      text: >-
+        Needs the MM9 review root: --asset-root output/mm9_rework/assets_dev (README.md). A Bird (BaseFly.inc) notices
+        the party with its taunt, flies at it, passes it, backs off upward and swoops back in; the party hits it while it
+        backs off (it cannot attack): it rolls BaseFly's 50 in 101 switch (keeping the party) and backs off again.
+  # A party for the monsters to strike (the arena keeps it invulnerable): without one no blow or spell lands.
+  - new_game_flow:
+      start_map: thearena.blv
+  - ai_arena: {path: bird.arena.yml}
+  - advance_runtime: {seconds: 4.4}
+  - damage_actor: {actor_index: 5, amount: 1}
+  - advance_runtime: {seconds: 15.6}
+  - ai_trace_dump: {decisions_only: true}
+  # A flier always taunts as it notices its target (BaseFly.inc OnFoundTarget), and never with a roll.
+  - assert:
+      ai_trace: {arena_monster: 0, decision: taunt_detect, detail: always, min_count: 1, max_count: 1}
+  - assert:
+      ai_trace: {arena_monster: 0, decision: detect, max_count: 0}
+  # Passes, each followed by a back-off upward and a swoop (30-50 degrees to a side).
+  - assert:
+      ai_trace: {arena_monster: 0, decision: fly_pass, target: party, min_count: 4}
+  - assert:
+      ai_trace: {arena_monster: 0, decision: attack_melee, min_count: 4}
+  - assert:
+      ai_trace: {arena_monster: 0, decision: back_off, detail: up, min_count: 4}
+  - assert:
+      ai_trace: {arena_monster: 0, decision: swoop, min_count: 4}
+  - assert:
+      ai_trace: {arena_monster: 0, decision: pursue, min_count: 4}
+  # The hit during its first back-off: the 50/101 roll, and (kept, not ready) a new back-off at once.
+  - assert:
+      ai_trace: {arena_monster: 0, decision: retarget, detail: chance 0.50, after: 4.3, before: 4.5, min_count: 1}
+  - assert:
+      ai_trace: {arena_monster: 0, decision: back_off, detail: up hit, after: 4.3, before: 4.5, min_count: 1}
+  # No FlyRange shots, no ground footwork, no flight.
+  - assert:
+      ai_trace: {arena_monster: 0, decision: shot_check, max_count: 0}
+  - assert:
+      ai_trace: {arena_monster: 0, decision: strafe_attack, max_count: 0}
+  - assert:
+      ai_trace: {arena_monster: 0, decision: flee, max_count: 0}
+  - assert:
+      ai_trace: {arena_monster: 0, decision: wait_cooldown, max_count: 0}
+  # Animation (MM9_ANIMATION_AUDIT.md): the Crow has no `Top` set, so the pass strikes with the whole body as MM9's plain
+  # animator plays it (no layer, P2), the back-off beats its wings forwards and the clips do not flicker between the
+  # pass and the back-off.
+  - assert:
+      ai_trace: {arena_monster: 0, event: anim, detail: "main=AttackMelee speed=4", min_count: 1}
+  - assert:
+      ai_trace: {arena_monster: 0, event: anim, detail: "layer=", max_count: 0}
+  - assert:
+      ai_trace: {arena_monster: 0, event: anim, detail: "blend=", max_in_window: {count: 2, seconds: 0.3}}

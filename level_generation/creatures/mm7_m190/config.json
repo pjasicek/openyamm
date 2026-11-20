@@ -1,0 +1,27 @@
+{
+  "label": "Dwarf A",
+  "creature": "dwarf_warrior",
+  "base_palette": 191,
+  "connected_pose_calibration": true,
+  "per_batch_window": true,
+  "neutralize_green_contours": false,
+  "protect_warm_contours": true,
+  "batch_mode": "per_action_view",
+  "actions": [
+    "w",
+    "a",
+    "n"
+  ],
+  "identity_frames": [
+    "m190sa0",
+    "m190sa1",
+    "m190sa2",
+    "m190sa3",
+    "m190sa4"
+  ],
+  "identity_view": "front, front-right oblique, right profile, rear-right oblique, back in row-major order",
+  "description": "The exact original short broad adult male dwarf warrior: muscular stocky body, short sturdy legs, tan ruddy skin, broad stern face with large nose, and a very long straight ochre-brown beard divided into narrow pointed locks hanging to the belt. Matching long brown hair behind the head. Dark steel domed helmet with thin brass rim, a short central ivory spike and two tall upward-curving ivory side horns. Dark polished blue-gray plate breastplate and broad rounded shoulder armor, short fine silver chainmail sleeves and chainmail skirt over green cloth; preserve native ragged green rectangular hem tabs and small green shoulder collar. Thick brown waist belt with brass buckle; short brown leg coverings, exposed tan knees, dark steel greaves with narrow brass upper rims, dark pointed boots. Heavy dark metal forearm guards with brass rims and small studs. Right hand holds the native short double-bladed silver battle axe with curved crescent cutting edges, brown shaft, brass collars and curled brass grip ornament. Left hand is empty and loosely clenched. Preserve the exact axe orientation, occlusion, horn profile, chainmail pattern, beard length, original body proportions and dark tonal weight. No shield, cape, extra weapons, added insignia, jewelry, glow or costume redesign. Only native green cloth changes to blue and muted red through offline variants; protect brown beard/hair, skin, chainmail, steel, ivory and brass.",
+  "blue_cloth_base_repair": true,
+  "material_edge_hue_repair": true,
+  "exclude_magenta_interior": true
+}

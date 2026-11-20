@@ -1,0 +1,21 @@
+{
+  "tool": "image_gen.imagegen",
+  "prompt": "EDIT ONLY IMAGE 1, the exact grey mesh-guide atlas for existing Might and Magic Moon Temple Cloak (item123). Image 2 is the authoritative inventory icon for colours/materials only. Identity: Neat rectangular folded blue brocade cloak, three visible thick edge layers, diagonal blue flap and round silver spiral clasp. Exact material boundaries: Blue brocade cloth BLUE; silver spiral clasp RED. Preserve the exact 1536x1024 3:2 canvas, three columns by two rows, all object sizes, outlines, positions, shape edges and transparency. Top row FRONT / BACK / LEFT; bottom row RIGHT / TOP / EMPTY. Do not move, expand, rotate, relight or reconstruct the geometry. Make a technical flat material-ID map, not an illustration. Fill every existing solid grey pixel with one opaque flat class colour: RED #ff0000 exposed steel/gold/iron, GREEN #00ff00 leather, BLUE #0000ff cloth/fur, YELLOW #ffff00 horn/wood, BLACK #000000 gems. No shading, outlines, texture, glow, gradients or new holes. Assign each surface by the specific icon and material notes. Do not assume all fingers or toes have one material. Preserve holes in buckle frames and keep leather visible within them GREEN. All solid mesh surfaces remain opaque, including linings. Background and empty bottom-right tile truly transparent; no floor, background haze, text, labels or borders. Keep EACH guide view's width/height and all internal edges EXACTLY. Output ONE 3:2 landscape atlas.",
+  "input_guide": "/home/pjasicek/github/OpenYAMM/level_generation/props/items_wip_equipment/codex_tex/equipment_item123/inputs/guide_mask.png",
+  "input_guide_sha256": "57ce14b399008632d92366b27480dfbe3b342162f00981c5806fea4f4942e23e",
+  "revision": 1,
+  "input_icon": "item123",
+  "source_output": "/home/pjasicek/.codex/generated_images/01a14de2-7ad6-7e83-ba24-ee6db541bc51/exec-5ca13da6-437f-4eb7-9c58-82805ba39f80.png",
+  "output": "mask_atlas.png",
+  "selected": false,
+  "reason": "Awaiting visual review and exact-guide registration",
+  "raw_output": "mask_raw_v1.png",
+  "output_sha256": "215c8d77fbe421535e4932c4c9569476c027768a74bc4977abed277309f396db",
+  "input_icon_path": "assets_dev/engine/icons_x2/item123.png",
+  "input_icon_sha256": "8aa06f6a81a87b5e97fb797daf81c468dfa0fdfbe436c463a3686b1cacd521d9",
+  "active_bytes_match": false,
+  "alpha_extrema": [
+    0,
+    254
+  ]
+}

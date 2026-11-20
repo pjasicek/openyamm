@@ -1,0 +1,149 @@
+{
+  "version": 1,
+  "clips": {
+    "rest": [
+      "Standing",
+      "Fidget"
+    ],
+    "walk": [
+      "Walking"
+    ],
+    "run": [
+      "Running"
+    ],
+    "attack": [
+      "Attack*"
+    ]
+  },
+  "props": [
+    {
+      "name": "poleaxe",
+      "file": "export/mm6_example_axe.glb",
+      "node": "Axe",
+      "kind": "melee",
+      "grip_point": [
+        0,
+        0,
+        0
+      ],
+      "tip": [
+        0,
+        0,
+        0.8
+      ],
+      "edge_axis": [
+        1,
+        0,
+        0
+      ],
+      "grip_surface": {
+        "bounds": [
+          [
+            -0.03,
+            -0.03,
+            -0.08
+          ],
+          [
+            0.03,
+            0.03,
+            0.08
+          ]
+        ]
+      },
+      "hands": [
+        {
+          "side": "R"
+        },
+        {
+          "side": "L",
+          "clips": [
+            "Attack*"
+          ],
+          "grip_point": [
+            0,
+            0,
+            -0.2
+          ],
+          "surface": {
+            "bounds": [
+              [
+                -0.03,
+                -0.03,
+                -0.28
+              ],
+              [
+                0.03,
+                0.03,
+                -0.12
+              ]
+            ]
+          }
+        }
+      ],
+      "impacts": {
+        "Attack": 0.7
+      }
+    }
+  ],
+  "regions": {
+    "robe": {
+      "weights": [
+        "Robe_*"
+      ],
+      "weight_min": 0.01
+    }
+  },
+  "cloth": [
+    {
+      "name": "robe",
+      "surface": "robe",
+      "samples": {
+        "weights": [
+          "B_*_Thigh",
+          "B_*_Calf",
+          "B_*_Foot",
+          "B_*_Toe*"
+        ],
+        "weight_min": 0.5
+      },
+      "opening": {
+        "axis": [
+          0,
+          0,
+          -1
+        ]
+      }
+    }
+  ],
+  "thresholds": {
+    "cloth_penetration_mm": 0.01
+  },
+  "posture": {
+    "*": {
+      "pelvis_min_m": 0.6,
+      "pelvis_max_m": 1.1,
+      "trunk_lean_deg": 35
+    },
+    "Death": {
+      "pelvis_min_m": 0.05,
+      "pelvis_max_m": 1.1,
+      "trunk_lean_deg": 180
+    },
+    "Dead": {
+      "pelvis_min_m": 0.05,
+      "pelvis_max_m": 0.4,
+      "trunk_lean_deg": 180
+    }
+  },
+  "previous_counts": {
+    "body": {
+      "colour": [
+        12000,
+        6600,
+        3000,
+        1200
+      ]
+    }
+  },
+  "refine_hz": 48
+}

@@ -1,0 +1,924 @@
+format: 0
+level: L3
+pitch: "Ravenshore is the merchant-ruled port at the heart of the continent and the party's home after the tutorial islands: a crowded harbour town of dark-elf, human and ogre households where every road, ship and caravan of the region meets. The town sits at sea level on the north-east shore of a wide bay, its market packed around a square dominated by a huge glowing crystal, a raised temple on the point beyond, two ships at the piers and a poorer lane village across the river mouth. Behind it a broad green basin, closed east and west by high upland walls and open to the north along a winding river, holds wolf-haunted woods in the west and a centaur meadow in the north-east, with six dungeon doors spread from the town square to a sea cave and a cliff-top chapel. It is played as a hub: shop, train, bank and take quests in town, make short low-level forays into the basin, leave by three roads, two ships or the guild caravans, and keep coming back; several doors stay shut until the story opens them."
+purpose: "Regional hub and respawn town (home and death-return point once visited); the main-quest council hall and the endgame portal are both on its square. Second map of the campaign, lowest band after the starter islands. Play pattern: a service-dense town (nearly every service a short walk from the square), a wilderness ring of easy-to-medium fights, optional caches and stat bonuses, three road exits plus ships and caravans."
+mood: "Busy, prosperous and safe in town, with a pleasant early-adventure countryside whose danger grows with distance."
+datum: sea_level
+spaces:
+  - id: district:harbour
+    name: Harbour
+    kind: district
+    part_of: town:ravenshore
+    where: "South-west edge of the market, on the bay."
+    floor: 0
+    relief: flat
+    features:
+      - {kind: pier, count: 2, notes: "Timber piers on piles, each in two or three parts. The west pier runs out west into the bay with a ship moored along each side (the smuggler's to the north, the captain's to the south); the south pier runs out south and has no ship."}
+      - {kind: plaza, where: "Inland of the piers, beside the council hall", notes: "The fountain plaza: arrivals and the fountain approach; kept open, no road surface."}
+    purpose: "Piers, two moored ships, crate stacks, the fountain plaza; arrivals by sea."
+    safe: true
+    keep_clear: [spawns]
+    theme: "MM8 harbour kit: timber piers on piles, moored three-masted ships (as at the Dagger Wound and Regna harbours), stacked cargo crates, a two-part stone fountain."
+    density: open
+    buildings:
+      - {id: building:captains_ship, type: "moored three-masted ship (five parts: hull, deck house, fore and aft castles, masts)", service: ship (captain), count: 1, doors: 1, footprint_cells: [5.5, 2], notes: "Moored along the south side of the west pier, about 5.4 cells long and 2 wide; boarded by a gangway door at its west end."}
+      - {id: building:smugglers_ship, type: moored three-masted ship (the same form), service: ship (smuggler), count: 1, doors: 1, footprint_cells: [5.5, 2], notes: "Moored along the north side of the west pier, the same size; boarded by a gangway door at its east end. Absent until the story letter is delivered (state:smuggler_ship_docked)."}
+    palette: ["dec03 barrels: lines and pairs along the pier heads and crate stacks, about 8", "crate stacks: 4, labelled sealed crates, no action"]
+    population:
+      - {id: pop:townsfolk_harbour, actor: Dark Elf Peasant, groups: 2, placed: true, rank: mixed, hostile: false}
+      - {id: pop:guards_harbour, actor: Dark Elven Defender, groups: 3, level_vs_slots: well above every countryside monster (about level 27), placed: true, rank: b, hostile: false}
+    notes: "Ground: road material (pebbles) on the plaza, sand along the shore."
+  - id: district:market
+    name: Market district
+    kind: district
+    part_of: town:ravenshore
+    share: 0.05
+    shape: "Orthogonal street grid of about three by three blocks: one long east-west street on the north side and one north-south east street; joined service blocks and houses form the streets and enclosed pockets."
+    where: "South-east of centre, on the bay's north-east shore, between the river mouth and the east uplands."
+    floor: 0
+    relief: flat
+    purpose: "The square, the services, rich and middle housing, the guild hall."
+    safe: true
+    keep_clear: [spawns]
+    theme: "MM8 dark-elf town kit (as catalogued at Alvar: dark-elf houses in poor, middle and rich tiers and a joined four-shop block), mixed with the human house forms of the Garrote Gorge kit and the world's ogre house forms; one coherent texture set across all three cultures."
+    density: dense
+    coverage: 0.3
+    building_gap: 600
+    buildings:
+      - {id: building:nw_block, type: "joined service block: four shops round a corner court in five parts, the curio shop rising to a tower about 1,300 high; about 4.5 by 4 cells in all (east-west by north-south)", service: "weapon shop; elemental magic guild; magic shop; magic shop", count: 1, doors: 4, joined: true, footprint_cells: [4.5, 4], notes: North-west of the square. Each magic shop also carries its sign on a second face.}
+      - {id: building:ne_block, type: "joined service block in four parts: a tall training hall (about 1,000 high), a tavern and an alchemist; about 3.9 by 3.75 cells in all", service: "training hall; tavern; alchemist", count: 1, doors: 4, joined: true, footprint_cells: [4, 4], notes: North-east of the square. The fourth door is a locked dummy door ('The door is locked').}
+      - {id: building:se_block, type: "joined service block in three parts: a long front with the armour shop and the self-magic guild, a bank tower (about 830 high) and the stable wing; about 4 by 4.4 cells in all", service: "armour shop; bank; self-magic guild; caravan stable", count: 1, doors: 4, joined: true, footprint_cells: [4.5, 4], notes: "South-east of the square. The bank's sign is on all three parts; caravan arrivals stand in front of the stable wing."}
+      - {id: building:inn, type: "free-standing two-part long hall, about 3.75 by 2.9 cells and 930 high", service: adventurers' inn, count: 1, doors: 1, footprint_cells: [4, 3], notes: "Hirelings; south of the square."}
+      - {id: building:council_hall, type: "guild house in three parts, L-shaped round a small yard: a north range and a tall square tower (about 1,150 high) on the east; about 4.6 by 4.1 cells in all", count: 1, doors: 2, footprint_cells: [4.5, 4], notes: "Exterior closes the square's south-west corner; a dungeon entrance, not a service. Its yard opens south-west onto the waterfront street where it meets the harbour plaza by the fountain, and both doors are reached from it, each 256 up: the free door at the hall's north-west corner, on a porch at the top of a short stair that climbs north from the yard (the door faces west onto the porch); the quest-gated door in the tower's south face, on a walled terrace reached by a ramp from the yard. Neither door opens onto the square."}
+      - {id: building:market_rich, type: house, tier: rich, count: 7, doors: 1, footprint_cells: [[2, 1.5], [2, 1.5], [3.5, 2.5], [3.5, 2.5], [3.5, 2.5], [2.5, 2], [2.5, 2]], notes: "Two dark-elf tower houses (tall, about 1.25 by 1.75 cells, 770 high), three dark-elf long estates (about 2.5 by 3.25 cells; one is a hostel) and two human manors (about 2.4 by 2.1 cells, 770 high; one is the bounty hunters' hall near the inn). Round the square and on the north fringe. Sketch index per house: 1 dark-elf tower house; 2 dark-elf tower house; 3 dark-elf long estate (the quest lodging counted as a hostel); 4 dark-elf long estate; 5 dark-elf long estate; 6 human manor (the bounty hunters' hall); 7 human manor."}
+      - {id: building:market_middle, type: house, tier: middle, count: 9, doors: 1, footprint_cells: [[2, 1.5], [2, 1.5], [2, 1.5], [4, 1.5], [4, 1.5], [4, 1.5], [4, 1.5], [3.5, 2.5], [3.5, 2.5]], notes: "Three dark-elf houses (about 1.5 by 1.75 cells), four human long houses (about 4 by 1.6 cells) and two ogre long lodges (low, about 3.5 by 2.5 cells). Round the square, on the north fringe and one lodge in the south-east corner. Sketch index per house: 1 dark-elf house; 2 dark-elf house; 3 dark-elf house; 4 human long house; 5 human long house; 6 human long house; 7 human long house; 8 ogre long lodge (south-east corner); 9 ogre long lodge."}
+      - {id: building:market_poor, type: house, tier: poor, count: 5, doors: 1, footprint_cells: [[1.5, 1.5], [1.5, 1], [1.5, 1], [1.5, 1], [2, 2.5]], notes: "One dark-elf cottage, three human cottages (about 1.3 by 1.1 cells) and one ogre hut (about 2.6 by 1.9 cells): the poor cluster in the south-east corner, two on the east street. Sketch index per house: 1 dark-elf cottage; 2 human cottage; 3 human cottage; 4 human cottage; 5 ogre hut."}
+      - {id: building:market_warehouse, type: warehouse home, count: 1, doors: 1, footprint_cells: [1.5, 3.5], notes: Dock kit warehouse (about 3.3 by 1.5 cells) on the harbour edge of the market.}
+    palette: ["close-planted garden beds at house fronts, court edges and the square's pockets, about 250 low plants in all: flowers plant17, plant19, plant21, plant23, plant26, plant27, plant31, plant33, plant16, plant24; shrubs plant32 (the commonest), plant29, plant30; leafy plants plant04, plant09, plant13", "rock22 small garden stones edging the beds, about 40", "rock16, rock26, rock27 scattered stones and a few boulders, about 30", "trees sparse: tree12, tree13, tree11, tree61a, about 30, mostly in back yards", "dec03 barrels in pairs at service doors and street corners, about 10", "the potion tree (a single tree12 by the alchemist, see poi:potion_tree)"]
+    population:
+      - {id: pop:townsfolk_market, actor: Dark Elf Peasant, groups: 25, placed: true, rank: mixed, hostile: false, notes: "Ranks a and b (levels 1 and 5), in the streets, the square and before the services."}
+      - {id: pop:guards_market, actor: Dark Elven Defender, groups: 9, level_vs_slots: well above every countryside monster (about level 27), placed: true, rank: b, hostile: false}
+    treasure:
+      - {kind: chest, count: 1, tier: [1, 2], items: 5, notes: In a market back yard. Trapped at the map's trap level.}
+      - {kind: chest, count: 1, pool: [glomenthal, gold_pile], item: glomenthal, condition: {award: 41}, notes: "Locked prize chest at the north end of the market; opens only for the card-game champion award. Holds one artifact (Glomenthal) and 18 piles of gold. Not trapped."}
+      - {kind: chest, count: 1, container: box:vault, condition: {item: emperor_thorns_key, consume: true}, notes: The sealed vault's contents (poi:sealed_vault).}
+    notes: "Ground: road material (pebbles) on the streets and the square, dirt in back yards and service yards, grass in the gardens; no sand except at the shore. Sea-level building pads."
+  - id: district:temple_point
+    name: Temple point
+    kind: district
+    part_of: town:ravenshore
+    where: "South-east of the market, on the coast, on the point."
+    floor: 640
+    features:
+      - {kind: terrace, notes: "The whole point is raised to the temple's level; the processional climbs onto it."}
+      - {kind: forecourt, where: Before the temple door, notes: Kept open.}
+    purpose: "The Sanctum on its terrace, with forecourt."
+    safe: true
+    keep_clear: [spawns]
+    theme: "MM8 temple kit at landmark scale: a stone temple of four parts (a central nave about 2,050 high, two front towers about 1,800 high and a rear hall), about 5.25 by 6.25 cells in all."
+    density: open
+    buildings:
+      - {id: building:sanctum, type: temple, service: temple, count: 1, doors: 1, footprint_cells: [5, 6], notes: "The Sanctum: a single landmark in open ground; the door faces north up the processional."}
+    palette: ["dec03 barrels, one pair by the door", a few garden plants at the forecourt edge]
+    notes: "Ground: road material on the forecourt and the processional, grass round it."
+  - id: district:waterfront_row
+    name: West waterfront row
+    kind: district
+    part_of: town:ravenshore
+    where: "Between the town bridge and the harbour, on the market side of the river."
+    floor: 0
+    relief: flat
+    purpose: A handful of rich and middle houses and the stat-challenge garden.
+    safe: true
+    keep_clear: [spawns]
+    theme: "As the market: the dark-elf town kit, rich and middle tiers, one ogre lodge, one dock warehouse."
+    fires: 1
+    density: sparse
+    buildings:
+      - {id: building:waterfront_rich, type: house, tier: rich, count: 2, doors: 1, footprint_cells: [[2, 1.5], [3.5, 2.5]], notes: "One dark-elf tower house and one dark-elf long estate. Sketch index per house: 1 dark-elf tower house; 2 dark-elf long estate."}
+      - {id: building:waterfront_middle, type: house, tier: middle, count: 2, doors: 1, footprint_cells: [[2, 1.5], [3.5, 2.5]], notes: "One dark-elf house (a hostel) and one ogre long lodge. Sketch index per house: 1 dark-elf house (the hostel); 2 ogre long lodge."}
+      - {id: building:waterfront_warehouse, type: warehouse home, count: 1, doors: 1, footprint_cells: [1.5, 3.5], notes: Dock kit warehouse near the harbour.}
+    palette: ["the challenge garden: a lit stone fire basin (dec43) ringed by about 8 rock22 small stones, with flower beds (plant19, plant27, plant17) and two or three trees", "garden beds at the house fronts as in the market, about 20 plants"]
+    population:
+      - {id: pop:townsfolk_waterfront, actor: Dark Elf Peasant, groups: 4, placed: true, rank: mixed, hostile: false}
+      - {id: pop:guards_waterfront, actor: Dark Elven Defender, groups: 3, placed: true, rank: b, hostile: false}
+    notes: "A loose row facing the bay along the waterfront street (road:waterfront_street). Ground: grass with dirt house yards; road material on the street."
+  - id: district:west_lanes
+    name: West lanes
+    kind: district
+    part_of: town:ravenshore
+    share: 0.025
+    shape: "One winding lane with small houses on both sides, short side gaps, rear plots."
+    where: "Across the river mouth, west of the market, centred near the map's middle."
+    floor: [128, 192]
+    relief: flat
+    purpose: Poorer working village with the second tavern and the bad well.
+    safe: true
+    keep_clear: [spawns]
+    theme: "MM8 dark-elf town kit, poor tier (cottages, small houses, one tall hall) and one middle low house, with human cottages and ogre huts from the same kits as the market."
+    fires: 2
+    density: medium
+    coverage: 0.17
+    building_gap: 460
+    buildings:
+      - {id: building:dancing_ogre, type: "free-standing two-part tavern, about 2.5 by 2.75 cells and 800 high", service: tavern, count: 1, doors: 1, footprint_cells: [3, 3], notes: "The second tavern, at the lane's south end."}
+      - {id: building:lanes_poor, type: house, tier: poor, count: 16, doors: 1, footprint_cells: [[1.5, 1.5], [1.5, 1.5], [1.5, 1.5], [1.5, 1.5], [1.5, 1.5], [1, 1.5], [1, 1.5], [1, 1.5], [1.5, 1.5], [1.5, 1], [1.5, 1], [1.5, 1], [1.5, 1], [1.5, 1], [2, 2.5], [2, 2.5]], notes: "Five dark-elf cottages (about 1.25 by 1.6 cells), three dark-elf small houses (about 1 by 1.5 cells), one dark-elf tall hall (about 1.6 by 1.5 cells, taller), five human cottages and two ogre huts. Opposing frontages along the lane. Sketch index per house: 1 dark-elf cottage; 2 dark-elf cottage; 3 dark-elf cottage; 4 dark-elf cottage; 5 dark-elf cottage; 6 dark-elf small house; 7 dark-elf small house; 8 dark-elf small house; 9 dark-elf tall hall; 10 human cottage; 11 human cottage; 12 human cottage; 13 human cottage; 14 human cottage; 15 ogre hut; 16 ogre hut."}
+      - {id: building:lanes_middle, type: house, tier: middle, count: 1, doors: 1, footprint_cells: [1.5, 1], notes: "One dark-elf low house (about 1.6 by 1.1 cells), near the river."}
+    palette: ["dec23 refuse heaps in the rear plots, about 12", "rock20, rock16, rock52, rock09 rough stones round the plots, about 17", "rock10 boulders, 2", "dec24 cook fires, 2", "dec03 barrels, a few", "almost no trees or flowers: one or two trees at the lane ends"]
+    population:
+      - {id: pop:townsfolk_lanes, actor: Dark Elf Peasant, groups: 14, placed: true, rank: mixed, hostile: false}
+      - {id: pop:guards_lanes, actor: Dark Elven Defender, groups: 5, placed: true, rank: b, hostile: false}
+    notes: "Slightly raised above the sea-level market pads, at 128-192. Ground: a dirt lane (no road material), dirt and stony dirt in the rear plots, grass between."
+  - id: edge:east
+    name: East edge (E-edge)
+    kind: junction
+    part_of: wild:upland_e
+    where: Outer end of the east cut.
+    purpose: "Road node: the Shadowspire road leaves the map; the east arrival stands just inside the prompt."
+  - id: edge:north
+    name: North edge (N-edge)
+    kind: junction
+    part_of: wild:basin
+    where: "North-centre, slightly west, at the north end of the north road, east of the river."
+    purpose: "Road node: the Alvar road leaves the map; the north arrival."
+    notes: A short walk from the first wolves.
+  - id: edge:west
+    name: West edge (W-edge)
+    kind: junction
+    part_of: wild:upland_w
+    where: Outer end of the west pass.
+    purpose: "Road node: the Garrote Gorge road leaves the map; the west arrival stands just inside the prompt."
+  - id: junction:cw_jct
+    name: Central-west junction (CW-jct)
+    kind: junction
+    part_of: wild:basin
+    where: "Mid-basin, west of the river."
+    purpose: "Road node: the spine meets the road from the west pass and the north-shore road into town."
+  - id: junction:e_jct
+    name: East junction (E-jct)
+    kind: junction
+    part_of: district:market
+    where: "North end of the market's east street, at the town's north-east back door."
+    purpose: "Road node: the east street meets the road through the east cut; the east arrival stands 7 cells further out in the cut."
+  - id: junction:n_jct
+    name: North junction (N-jct)
+    kind: junction
+    part_of: wild:basin
+    where: "Upper basin, north of the upper bridge."
+    purpose: "Road node: the north road meets the spine and the meadow loop."
+    treasure:
+      - {kind: decoration, count: 1, tier: [3, 7], items: 4, reached_by: road, notes: "A willow (tree59) beside the upper bridge that opens as a chest: three level-3 items and one top-grade (level 7) roll. Not trapped as a tree."}
+  - id: junction:town_bridge
+    name: Town bridge (T-bridge)
+    kind: junction
+    part_of: town:ravenshore
+    where: "The river's last east-west stretch, about 5 cells before it bends south for its last run into the bay; between the west lanes on the north bank and the waterfront row on the south bank."
+    purpose: "Road node: the town's west entrance; the crystal is straight ahead across the bridge."
+  - id: junction:w_jct
+    name: West junction (W-jct)
+    kind: junction
+    part_of: wild:wolf_woods
+    where: "Inner end of the west pass, in the wolf woods."
+    purpose: "Road node: the west pass road meets the woods road and the chapel side road. The west arrival stands well up the pass, just inside the prompt."
+    notes: A short walk from the first wolves.
+  - id: town:ravenshore
+    name: Ravenshore
+    kind: town
+    where: "South-east of centre, on the bay's north-east shore, on both sides of the river mouth."
+    purpose: "Every service, the council hall, the endgame portal, the piers; the safe hub."
+    safe:
+      not:
+        qbit: pirates_invaded
+    keep_clear: [spawns]
+    buildings:
+      - {type: house, service: hostel, count: 2, notes: "Quest-NPC lodgings: one dark-elf long estate in the market, one dark-elf house on the waterfront row; counted among the 44 houses."}
+      - {type: house, service: bounty hunters' hall, count: 1, notes: "A human manor south of the square; counted among the 44 houses."}
+    notes: "Residences: 44 ordinary enterable houses in 13 recurring forms: dark-elf cottage 6, small house 3, tall hall 1, house 4, low house 1, tower house 3, long estate 4; human cottage 8, long house 4, manor 2; ogre hut 3, long lodge 3; dock warehouse 2. Cultures: 22 dark-elf, 14 human, 6 ogre, 2 warehouses. Every door faces a shared street or lane; no private spurs. One resident per house. Townsfolk and guards are listed per district (45 and 20 in all)."
+  - id: water:north_pond
+    name: North pond
+    kind: water
+    where: The far north of the map.
+    purpose: Scenery only.
+    backdrop: true
+  - id: water:river
+    name: River
+    kind: water
+    shape: "Enters the north edge just west of centre, runs south, swings east across the upper basin (upper bridge), meanders south-east, loops round and runs south-west into the bay's north-east corner, separating the west lanes from the market (town bridge)."
+    where: From the north edge just west of centre to the bay's north-east corner.
+    purpose: "Leads the eye from the north arrival to the bay; splits the woods from the meadow and the lanes from the market."
+    palette: ["tree59 willows along the banks, a few"]
+    notes: "Ground: grass to the waterline with short sand margins."
+  - id: water:sea_and_bay
+    name: Sea and bay
+    kind: water
+    share: 0.25
+    where: "The whole south: open sea across the southern fifth to quarter, and a broad bay biting north into the south-west and south-centre almost to the map's middle."
+    purpose: "Travel by ship, sightlines, buoys; sightline space between the lanes, the town and the headland."
+    empty: true
+    keep_clear: [buildings]
+    palette: ["dec30 bell buoys, 4, spread across the bay"]
+    notes: "Ground: the world's sand beach and seabed at every shore."
+  - id: water:smugglers_inlet
+    name: Smugglers' inlet
+    kind: water
+    part_of: wild:sw_headland
+    shape: Cliff-ringed.
+    where: "Inside the south-west headland's horseshoe, opening south to the sea."
+    purpose: Holds the sea cave of Smuggler's Cove.
+    empty: true
+    keep_clear: [spawns]
+    theme: "Sea-cave mouth: a dark rock arch about 2 by 2.5 cells and 960 high in the inlet's cliff, at the waterline."
+    reached_by: water
+  - id: wild:basin
+    name: Basin
+    kind: wild
+    where: "The middle three-fifths of the map's width, from the bay to the north edge."
+    floor: [0, 1350]
+    relief: uneven
+    purpose: "The countryside ring: low and rolling, the river, the woods and the meadow."
+    theme: MM8 temperate countryside.
+    notes: "Sea level at the coast to a few hundred units inland; gentle knolls to about 1,000-1,350. No cliffs inside it. Ground: grass with patchy-grass variation over most of it; dirt and stony dirt on knoll tops and round camps; the world's stony-dirt variant for about a tenth of the dirt."
+  - id: wild:ne_meadow
+    name: North-east meadow
+    kind: wild
+    part_of: wild:basin
+    share: 0.14
+    where: "East of the river, north of town, up to the east uplands."
+    relief: uneven
+    purpose: "The seer, the obelisk, the tomb, the pedestal hill and the centaurs."
+    keep_clear: [buildings]
+    theme: "MM8 temperate countryside, open grassland."
+    density: sparse
+    palette: ["rock17 scattered rocks, the commonest, about 35; rock25 about 16; rock01 boulders about 8; rock05, rock16, rock26 a few", "trees scattered singly or in twos: tree12, tree10, tree62a, tree60a, about 45; tree59 willows near water, about 7", "flowers in loose drifts: plant16, plant17, plant19, about 16", "rock65 and rock68 ancient rune stones, one each, near the seer and the obelisk", "dec03 barrels, a pair at the obelisk"]
+    population:
+      - {id: pop:centaurs, slot: 2, groups: 16, per_marker: [1, 3], spacing: [1000, 2000], levels: [11, 18], clear_of: [{space: town:ravenshore, distance: 0.1}], strength: light, shape: loose, rank: mixed, notes: "Single markers around the pedestal knoll and the north meadow camp; ranks a to c of the centaur family."}
+    notes: "Open grassland, kept open for long views; about 150 decorations in all. Ground: grass and patchy grass, rock where the east cliffs begin."
+  - id: wild:sw_headland
+    name: South-west headland
+    kind: wild
+    share: 0.05
+    shape: A horseshoe of rock ridges enclosing a small cliff-ringed sea inlet that opens south.
+    where: "The bay's west arm, in the south-west, joined to the west uplands."
+    floor: [2000, 6400]
+    relief: uneven
+    purpose: "The highest landmark; hides the smugglers' inlet."
+    empty: true
+    keep_clear: [spawns, buildings]
+    density: open
+    palette: ["rock47 rocks, two; otherwise bare"]
+    notes: "Ground: rock on the tops, cliff on every steep face; no grass."
+  - id: wild:upland_e
+    name: East uplands
+    kind: wild
+    share: 0.17
+    where: The outer fifth of the map on the east side.
+    floor: [2000, 3300]
+    relief: flat
+    purpose: "Frame: the east cut and two rim chests."
+    empty: true
+    keep_clear: [spawns, buildings]
+    backdrop: true
+    density: open
+    palette: ["almost bare: a few rock26 boulders on the rim; scattered trees (tree13, tree12) and rock16 along the east cut's road"]
+    treasure:
+      - {kind: chest, count: 1, tier: [2, 4], items: 6, reached_by: off_road, notes: "North-east rim chest, up the pass shoulders; mostly level 3. Trapped at the map's trap level."}
+      - {kind: chest, count: 1, tier: [4, 5], items: 5, reached_by: off_road, notes: "East rim chest, up the pass shoulders. Trapped at the map's trap level."}
+    notes: "Flat-topped plateau, typically 2,200-2,500 high and rising to about 3,100-3,300 in places, with steep rock faces down to the basin along its whole length, cut to sea level by one pass about the middle. Backdrop beyond the travel prompts; only the inner rim and the pass are walked. Ground: rock on the plateau, cliff on the faces, grass and dirt on the pass floor."
+  - id: wild:upland_w
+    name: West uplands
+    kind: wild
+    share: 0.17
+    where: The outer fifth of the map on the west side.
+    floor: [2000, 3700]
+    relief: flat
+    purpose: "Frame: the west pass, a rim chest, the chapel spur."
+    empty: true
+    keep_clear: [spawns, buildings]
+    backdrop: true
+    density: open
+    palette: ["almost bare: rock26 boulders on the rim, about 4"]
+    treasure:
+      - {kind: chest, count: 1, tier: [4, 5], items: 6, reached_by: off_road, notes: "North-west rim chest, up the pass shoulders. Trapped at the map's trap level."}
+    notes: "Flat-topped plateau, typically 2,200-2,500 high and rising to about 3,700 at its highest, with steep rock faces down to the basin along its whole length, cut to sea level by one pass a little north of the middle. Backdrop beyond the travel prompts; only the inner rim, the pass and the chapel spur are walked. Ground: rock on the plateau, cliff on the faces, grass on the pass floor."
+  - id: wild:wolf_woods
+    name: Wolf woods
+    kind: wild
+    part_of: wild:basin
+    share: 0.17
+    where: "West half of the basin, from the west uplands to the river, north of the bay."
+    relief: uneven
+    features:
+      - {kind: clearing, notes: "Clearings between the packs, kept open."}
+    purpose: Low-level hunting ground with the wolf den.
+    theme: "MM8 temperate countryside, dense open woodland."
+    density: dense
+    palette: ["trees, about 180: tree11 about 50, tree10 about 43, tree12 about 39, tree60a about 29, tree62a about 16; tree59 willows by the river, a few", "rocks, about 34: rock01 boulders about 12, rock16, rock02, rock20, rock26, rock05, rock47 a few each", "dec29 bone piles round the den mouth, 6", "dec25 campfire at the woods camp, 1"]
+    population:
+      - {id: pop:dire_wolves, slot: 3, groups: 43, per_marker: [1, 3], packs: 10, spacing: 4000, levels: [9, 19], clear_of: [{space: district:west_lanes, distance: 0.167}], strength: pack, shape: tight, rank: mixed, notes: "Packs of 3-5 markers (about 85 wolves expected) with clear gaps between them, from the west pass and the den to the river and the central-west junction. One pack stands at the den mouth. Ranks: yearlings (a, about level 9), dire wolves (b, about 14) and pack leaders (c, about 19)."}
+    notes: "Dense open woodland with two camps; trees stand away from buildings, mostly on gentle ground. Ground: grass with patchy-grass variation, dirt under the densest stands."
+  - id: zone:chapel_spur
+    name: Chapel spur
+    kind: zone
+    part_of: wild:upland_w
+    where: "Up on a spur of the west uplands, south of the west pass."
+    purpose: "Road node (dead end): the Chapel of Eep entrance."
+    empty: true
+    keep_clear: [spawns]
+    theme: "Chapel exterior: a small stone chapel of three parts (nave and two side wings), about 5.75 by 5 cells in all and 640 high, on the spur top."
+    fires: 1
+    palette: ["dec03 barrels, a pair by the chapel door", dec41 beacon fire on the upland edge nearby]
+    notes: "Quiet; the nearest wolves are far off. Its fire is a beacon on the upland edge."
+  - id: zone:den_mouth
+    name: Dire Wolf Den mouth
+    kind: zone
+    part_of: wild:wolf_woods
+    where: "Foot of the west uplands' cliff, north-west wolf woods."
+    purpose: "Entrance to the Dire Wolf Den; guarded."
+    theme: "A tiny earth-faced den mouth (about 1 by 1.75 cells, 576 high) half sunk into the cliff foot, faced with the same dirt as the ground."
+    palette: ["dec29 bone piles, 6, scattered before the mouth"]
+    treasure:
+      - {kind: chest, count: 1, tier: 2, items: 6, reached_by: off_road, notes: Beside the den mouth. Trapped at the map's trap level.}
+    reached_by: off_road
+    notes: Guarded by a wolf pack (counted in the woods' population).
+  - id: zone:meadow_camp
+    name: North meadow camp
+    kind: zone
+    part_of: wild:ne_meadow
+    where: Northern part of the north-east meadow.
+    purpose: Wilderness camp with a fire and a three-chest cache.
+    fires: 1
+    palette: ["dec25 campfire, 1", a three-chest cache as one piece (three chests side by side)]
+    treasure:
+      - {kind: chest, count: 1, tier: 3, items: 7, notes: Trapped at the map's trap level.}
+      - {kind: chest, count: 2, tier: [3, 4], items: 6, notes: Trapped at the map's trap level.}
+  - id: zone:pedestal_knoll
+    name: Pedestal knoll
+    kind: zone
+    part_of: wild:ne_meadow
+    where: "A grassy knoll in the north-east meadow, among the centaurs."
+    floor: [1000, 1350]
+    purpose: "Focal point: the buff pedestal on top and a reagent rock."
+    keep_clear: [buildings]
+    density: open
+    palette: [dec45 glowing magic pedestal on the crown, rock17 reagent rock on the slope]
+    reached_by: off_road
+  - id: zone:seer_ring
+    name: Seer's ring (Oracle)
+    kind: zone
+    part_of: wild:ne_meadow
+    shape: A broad round stone platform.
+    where: "North-east meadow, east along the loop road from the north junction."
+    purpose: "Road node and focal point: the seer."
+    safe: true
+    keep_clear: [spawns]
+    theme: "A round stone platform about 4.25 cells across, low (about 30 high), with a small shrine house (about 1.3 by 1.1 cells) at its centre."
+    density: open
+    buildings:
+      - {id: building:oracle, type: stone ring with shrine, service: seer, count: 1, doors: 1, footprint_cells: [4.5, 4.5], notes: Not locked during the invasion.}
+    treasure:
+      - {kind: chest, count: 1, tier: [1, 2], items: 7, notes: Beside the seer. Trapped at the map's trap level.}
+  - id: zone:square
+    name: Crystal square
+    kind: zone
+    part_of: district:market
+    where: Heart of the market district.
+    floor: 0
+    relief: flat
+    purpose: "Orientation centre: the crystal stands at its centre, the council hall closes its south-west corner."
+    safe: true
+    keep_clear: [spawns, buildings]
+    theme: "The crystal: a cluster of four glowing crystal shards about 3 by 4 cells in all on a low plinth (about 320), rising about 1,700 above it, the tallest thing in town."
+    density: open
+    palette: [a few planted pockets of the market's flowers and shrubs at the square's edges]
+  - id: zone:tomb
+    name: Tomb of Lord Brinne
+    kind: zone
+    part_of: wild:ne_meadow
+    where: "Foot of the north-east cliffs, end of the meadow loop road."
+    purpose: "Road node (dead end): the tomb entrance."
+    theme: "A large stepped block monument about 4.25 by 4 cells and about 2,150 high, crowned by a ring of eight standing torches (dec06)."
+    light: torchlit
+    fires: 8
+    notes: "Centaurs roam the meadow nearby; no guard at the door."
+  - id: zone:wolf_camp
+    name: Woods camp
+    kind: zone
+    part_of: wild:wolf_woods
+    where: On a rise in the wolf woods.
+    purpose: Wilderness camp with a fire and a chest.
+    fires: 1
+    palette: ["dec25 campfire, 1"]
+    treasure:
+      - {kind: chest, count: 1, tier: [1, 2], items: 6, notes: Trapped at the map's trap level.}
+links:
+  - id: road:chapel_road
+    from: junction:w_jct
+    to: zone:chapel_spur
+    kind: road
+    purpose: "Side road to the Chapel of Eep; dead end."
+    notes: "Bends south, then climbs onto an upland spur."
+  - id: road:east_cut
+    from: junction:e_jct
+    to: edge:east
+    kind: road
+    purpose: Road to Shadowspire.
+    notes: Through the east cut (see the neighbour's approach).
+  - id: road:east_street
+    from: zone:square
+    to: junction:e_jct
+    kind: road
+    purpose: Market to the east pass and the north-east houses.
+    notes: "Straight north along the town's east side, passing the Might well and the vault."
+  - id: road:harbour_plaza
+    from: zone:square
+    to: district:harbour
+    kind: open
+    purpose: To the piers and the fountain.
+    notes: No road surface.
+  - id: road:lanes_lane
+    from: district:west_lanes
+    to: junction:town_bridge
+    kind: road
+    purpose: Continues the road into town as the single winding lane of the west lanes.
+  - id: road:meadow_loop
+    from: junction:n_jct
+    to: zone:seer_ring
+    kind: road
+    purpose: "Optional road into the north-east meadow: the seer, then on to the tomb; the obelisk stands off the road."
+    notes: Winding road east.
+  - id: road:north_road
+    from: edge:north
+    to: junction:n_jct
+    kind: road
+    purpose: Main road from Alvar into the basin.
+    notes: "Long, gently bent, runs on the river's east side, about 10 cells off it, until the two close at the north junction."
+  - id: road:north_shore
+    from: junction:cw_jct
+    to: district:west_lanes
+    kind: road
+    purpose: Road into town from the countryside.
+    notes: Follows the bay's north shore.
+  - id: road:processional
+    from: zone:square
+    to: district:temple_point
+    kind: road
+    rise: 640
+    purpose: Processional to the Sanctum.
+    notes: "Leaves from the south end of the east street, runs south from the market and rises onto the point."
+  - id: road:spine
+    from: junction:n_jct
+    to: junction:cw_jct
+    kind: road
+    crosses: [water:river]
+    features: ["bridge: the upper bridge, a two-part timber-and-stone bridge of the Alvar bridge kit, about 7 cells long"]
+    purpose: "Spine of the countryside: links the north road to the west roads and the town."
+    notes: "Crosses the river on the upper bridge, then runs south down the west bank."
+  - id: road:tomb_road
+    from: zone:seer_ring
+    to: zone:tomb
+    kind: road
+    purpose: "Continues the meadow road from the seer's ring to the tomb; dead end. It does not pass the obelisk."
+    notes: "Leaves the ring southwards, then turns east to the tomb at the foot of the east cliffs."
+  - id: road:town_bridge
+    from: junction:town_bridge
+    to: zone:square
+    kind: bridge
+    crosses: [water:river]
+    features: ["bridge: the town bridge, the same two-part bridge kit, about 7 cells long, abutments on both banks"]
+    purpose: Town entrance from the west.
+    notes: "Short; the crystal is straight ahead across the bridge."
+  - id: road:waterfront_street
+    from: district:waterfront_row
+    to: district:harbour
+    kind: road
+    purpose: Town street from the town bridge's south end along the waterfront row to the harbour plaza.
+    notes: "Leaves the bridge road just south of the bridge and runs south between the waterfront houses and the challenge garden, then down the council hall's west side to the fountain, where the hall's yard opens off it, and on along the hall's south side to the square's west edge. A short cross street runs along the hall's north side to the square."
+  - id: road:west_pass
+    from: edge:west
+    to: junction:w_jct
+    kind: road
+    purpose: Road from Garrote Gorge.
+    notes: Through the west pass (see the neighbour's approach).
+  - id: road:woods_road
+    from: junction:w_jct
+    to: junction:cw_jct
+    kind: road
+    purpose: Joins the west pass road to the spine.
+    notes: Descends south-east through the wolf woods.
+  - id: water:inlet_approach
+    from: water:sea_and_bay
+    to: water:smugglers_inlet
+    kind: water
+    purpose: "The only way to Smuggler's Cove: water walking or flight, so a later return."
+entrances:
+  - id: entrance:captains_ship
+    space: district:harbour
+    kind: both
+    neighbours: [boat:captain_dagger_wound, boat:captain_regna]
+    facing: e
+    how: "Board the captain's ship at the piers; arrivals land on the pier."
+  - id: entrance:chapel_of_eep
+    space: zone:chapel_spur
+    kind: both
+    neighbour: door:chapel_of_eep
+    how: "At the end of the chapel side road, up on the upland spur."
+    reached_by: road
+  - id: entrance:council_hall_porch
+    space: district:market
+    kind: both
+    neighbour: door:council_hall
+    how: "The free door at the council hall's north-west corner: it faces west onto a porch 256 up, at the top of a short stair that climbs north from the hall's yard beside the fountain."
+    notes: Opens at any time.
+  - id: entrance:council_hall_terrace
+    space: district:market
+    kind: both
+    neighbour: door:council_hall
+    how: "The quest-gated door in the south face of the council hall's tower: on a walled terrace 256 up, reached by a ramp from the hall's yard. Not on the square."
+    variants:
+      - condition: {not: {qbit: council_hall_open}}
+        behaviour: A talk with the guild master at the door instead of entering.
+  - id: entrance:crystal
+    space: zone:square
+    kind: both
+    neighbour: door:crystal
+    how: The crystal at the centre of the square.
+    condition: {item: conflux_key}
+  - id: entrance:east_arrival
+    space: edge:east
+    kind: arrival
+    neighbour: edge:shadowspire
+    facing: w
+    how: "In the east cut just inside the travel prompt, 7 cells out from the east junction at the town's north-east back door; a few minutes from the market."
+  - id: entrance:east_exit
+    space: edge:east
+    kind: exit
+    neighbour: edge:shadowspire
+    how: The east map edge at the outer end of the east cut.
+  - id: entrance:north
+    space: edge:north
+    kind: both
+    neighbour: edge:alvar
+    facing: s
+    how: "Arrival north-centre, slightly west, on the north road east of the river; the exit is the north edge on the north road."
+  - id: entrance:smugglers_cove
+    space: water:smugglers_inlet
+    kind: both
+    neighbour: door:smugglers_cove
+    how: A sea cave inside the cliff-ringed inlet.
+    reached_by: water
+  - id: entrance:smugglers_ship
+    space: district:harbour
+    kind: both
+    neighbours: [boat:smuggler_ravage_roaming, boat:smuggler_shadowspire]
+    facing: e
+    how: "Board the smuggler's ship at the piers; arrivals land on the pier."
+    condition: {qbit: smuggler_ship_docked}
+  - id: entrance:south_sea
+    space: water:sea_and_bay
+    kind: exit
+    neighbour: edge:south_sea
+    how: The south map edge over open sea.
+  - id: entrance:stable
+    space: district:market
+    kind: both
+    neighbours: [stable:alvar, stable:shadowspire, stable:garrote_gorge]
+    facing: w
+    how: "The guild caravan stable in the market's south-east service block; arrivals appear in front of the stable."
+  - id: entrance:tomb_of_lord_brinne
+    space: zone:tomb
+    kind: both
+    neighbour: door:tomb_of_lord_brinne
+    how: "At the foot of the north-east cliffs, at the end of the meadow loop road."
+  - id: entrance:west_arrival
+    space: edge:west
+    kind: arrival
+    neighbour: edge:garrote_gorge
+    facing: e
+    how: "On the west pass road just inside the travel prompt, well short of the west junction (about 18 cells in a straight line, nearer 28 along the winding pass road); the woods and the first wolves lie ahead."
+  - id: entrance:west_exit
+    space: edge:west
+    kind: exit
+    neighbour: edge:garrote_gorge
+    how: The west map edge at the outer end of the west pass.
+  - id: entrance:wolf_den
+    space: zone:den_mouth
+    kind: both
+    neighbour: door:wolf_den
+    how: A den mouth at the foot of the west uplands' cliff.
+    reached_by: off_road
+goals:
+  - id: goal:clear_wolves
+    space: wild:wolf_woods
+    kind: kill
+    what: Every dire wolf on the map.
+    gives:
+      qbit: dire_wolves_cleared
+    notes: "Completes a local quest; checked by set_pieces check:wolves_cleared."
+keys:
+  - id: key:card_game_champion
+    grants: {award: 41}
+    how: "The card-game champion award, won elsewhere."
+  - id: key:conflux_key
+    grants: {item: conflux_key}
+    how: "Another map: the key is built late in the story."
+  - id: key:council_hall_open
+    grants: {qbit: council_hall_open}
+    how: The campaign's opening quest.
+  - id: key:emperor_thorns_key
+    grants: {item: emperor_thorns_key}
+    how: "Another map: a late-story key item."
+  - id: key:smuggler_ship_docked
+    grants: {qbit: smuggler_ship_docked}
+    how: "Another map: an early story letter delivered."
+containers:
+  - id: box:vault
+    kind: vault chest
+    tier: 6
+    items: 4
+    notes: "Three artifacts (Elderaxe, Foulfang, the Scepter of Kings), four level-6 random items, 7 piles of gold, 3 diamonds and 7 pieces of stalt-laced ore. Not trapped."
+points_of_interest:
+  - id: poi:bad_well
+    space: district:west_lanes
+    kind: well
+    behaviour: "Drink: 'not so refreshing', inflicts poison. Works every time."
+    reached_by: road
+    notes: "Near the town bridge; a stone well of the shared well kit, standing off the lane, not on it."
+  - id: poi:buff_pedestal
+    space: zone:pedestal_knoll
+    kind: pedestal
+    behaviour: Grants the Earth Resistance buff.
+    rule: native:buff_pedestal
+    reached_by: off_road
+    notes: "Top of the grassy knoll, among the centaurs; the glowing pedestal is the knoll's only light."
+  - id: poi:crystal
+    space: zone:square
+    kind: portal
+    behaviour: Enters the endgame dungeon.
+    also: [entrance:crystal, landmark:crystal]
+    condition: {item: conflux_key}
+    reached_by: road
+    notes: Locked face animation without the key. Gone after the ending (state:after_ending).
+  - id: poi:fountain
+    space: district:harbour
+    kind: fountain
+    behaviour: "Drink: refreshing; sets the town's Town Portal anchor."
+    gives:
+      qbit: town_portal_ravenshore
+    variants:
+      - condition: {gold: {below: 100, include_bank: true}}
+        behaviour: "Also gives 200 gold and records an autonote, at most twice in a game."
+    reached_by: road
+    notes: "Harbour plaza, beside the council hall; a two-part stone fountain (basin and spout)."
+  - id: poi:luck_buoy
+    space: water:sea_and_bay
+    kind: buoy
+    behaviour: 5 skill points to the character who uses it.
+    uses: {times: 1, per: party, reset: never}
+    condition: {stat: {name: luck, at_least: 20}}
+    reached_by: water
+    notes: "One of the bay's four buoys, west of the harbour; the other three do nothing."
+  - id: poi:might_well
+    space: district:market
+    kind: well
+    behaviour: "Drink: temporary Might +25 while no Might bonus is active, and records an autonote; otherwise 'Refreshing'."
+    reached_by: road
+    notes: "East edge of the market, off the east street; a stone well of the shared well kit."
+  - id: poi:obelisk
+    space: wild:ne_meadow
+    kind: obelisk
+    behaviour: Gives one fragment of the continent's obelisk riddle and records it as an autonote.
+    rule: native:obelisk
+    uses: {times: 1, per: party, reset: never}
+    reached_by: off_road
+    notes: "Off the road, at the foot of the east cliffs about 9 cells east of the seer's ring; the world's shared obelisk, a pair of barrels beside it."
+  - id: poi:potion_tree
+    space: district:market
+    kind: tree
+    behaviour: Takes one potion the party carries and gives back an empty potion bottle.
+    reached_by: road
+    notes: "A single tree in the alchemist's yard, east of the square."
+  - id: poi:reagent_rock
+    space: zone:pedestal_knoll
+    kind: reagent_spot
+    behaviour: "Drops one random stat-boost potion (Might, Intellect, Personality, Endurance, Speed or Accuracy) at the rock."
+    uses: {times: 1, per: party, reset: never}
+    condition: {stat: {name: disarm_trap_skill, at_least: 7}}
+    reached_by: off_road
+    notes: A rock on the pedestal knoll.
+  - id: poi:reagent_tree
+    space: wild:wolf_woods
+    kind: reagent_spot
+    behaviour: "Drops one random reagent (berries, root, poppy pod, mushroom or an empty bottle) at the tree."
+    uses: {times: 1, per: party, reset: never}
+    condition: {stat: {name: disarm_trap_skill, at_least: 3}}
+    reached_by: off_road
+    notes: "A tree north of the west lanes, towards the river, about 17 cells east of the central-west junction."
+  - id: poi:sealed_vault
+    space: district:market
+    kind: vault
+    behaviour: "Opens with a late-story key item, which is used up; from then on it opens freely. Holds box:vault."
+    condition: {item: emperor_thorns_key, consume: true}
+    reached_by: road
+    notes: "North-east edge of the market, on the east street: a low stone vault door set in a walled corner pad."
+  - id: poi:stat_challenge
+    space: district:waterfront_row
+    kind: stat_challenge
+    behaviour: "Top tier: a character with a stat of 200 gains 10 skill points."
+    rule: native:stat_challenge
+    uses: {times: 1, per: character, reset: never}
+    condition: {stat: {name: any, at_least: 200}}
+    reached_by: road
+    notes: "In a garden ringed by small stones, flowers and trees; the challenge is a lit fire basin."
+landmarks:
+  - id: landmark:crystal
+    space: zone:square
+    what: "The crystal, the tallest object in town."
+    seen_from: [junction:town_bridge, district:west_lanes]
+    notes: "Straight ahead from the town bridge; across the bay from the lanes."
+  - id: landmark:obelisk
+    space: wild:ne_meadow
+    what: The obelisk in the north-east meadow.
+  - id: landmark:sanctum
+    space: district:temple_point
+    what: The Sanctum's towers on the south-east point.
+    seen_from: [district:market, district:harbour, water:sea_and_bay]
+    notes: Closes the south end of the east street.
+  - id: landmark:seer_ring
+    space: zone:seer_ring
+    what: "The seer's ring, a broad round stone platform."
+  - id: landmark:ships
+    space: district:harbour
+    what: "Two ships at the piers: this is the port."
+  - id: landmark:sw_headland
+    space: wild:sw_headland
+    what: "The highest mass of the map, framing the bay's west side and hiding the cove."
+  - id: landmark:tomb
+    space: zone:tomb
+    what: "The tomb, a large block monument at the north-east cliff foot, its torches visible at dusk."
+    seen_from: [zone:seer_ring]
+    notes: Seen down the tomb road.
+  - id: landmark:upland_walls
+    spaces: [wild:upland_w, wild:upland_e]
+    what: The upland walls east and west with their two notches.
+    notes: The east cut screens Shadowspire (neighbour edge:shadowspire is screened).
+sightlines:
+  - id: sight:harbour_plaza
+    from: district:harbour
+    to: [landmark:ships, landmark:sanctum]
+    what: "The ships to the west, the temple to the south-east."
+  - id: sight:north_arrival
+    from: edge:north
+    to: [water:river, water:sea_and_bay]
+    what: The river leads the eye south to the bay and the skyline.
+  - id: sight:town_bridge
+    from: junction:town_bridge
+    to: [landmark:crystal]
+    what: The crystal straight ahead across the bridge.
+  - id: sight:west_lanes
+    from: district:west_lanes
+    to: [district:market, landmark:crystal]
+    what: Across the river mouth to the market's towers and the crystal.
+set_pieces:
+  - id: check:pirates_defeated
+    kind: scripted
+    spaces: [town:ravenshore]
+    rule: "During the invasion, when the whole pirate force is dead, the status line reads 'The Invaders have been defeated!' and the invasion ends."
+    period: 7.5
+    enabled_by: {qbit: pirates_invaded, kills: {group: pop:pirate_force, all: true}}
+    gives:
+      qbit: pirates_defeated
+  - id: check:wolves_cleared
+    kind: scripted
+    spaces: [wild:wolf_woods, zone:den_mouth]
+    rule: "The first time every dire wolf on the map is dead, one more wolf (a yearling) is summoned at the den and the wolf-hunt giver's bit is set; when that one is dead too, the status line reads 'You have killed all of the Dire Wolves' and the local quest is complete."
+    period: 10
+    enabled_by: {kills: {monster: Dire Wolf, all: true}}
+    gives:
+      - qbit: wolf_hunt_last_wolf
+      - qbit: dire_wolves_cleared
+    population:
+      - {id: pop:last_wolf, slot: 3, groups: 1, per_marker: [1, 1], rank: a, notes: The straggler summoned at the den mouth.}
+  - id: scripted:ending
+    kind: scripted
+    spaces: [town:ravenshore]
+    rule: "On entering the map once all four lords are rescued: the ending movie plays, every character gains 100,000 experience, the council members go home to their own maps, townsfolk across the continent hail the party, and the crystal is removed for good."
+    enabled_by: {qbit: all_lords_rescued}
+    gives:
+      qbit: endgame_seen
+  - id: trigger:pirate_landing
+    kind: scripted
+    spaces: [town:ravenshore]
+    rule: "On entering the map, from about two months (1,344 hours of the story clock) after the pirate leader on the islands is killed, unless the pirate fleet has been sunk first: the hidden pirate force appears, the party's bank balance is set to zero and the invasion begins."
+    enabled_by: {qbit: pirate_leader_dead, not: {qbit: pirate_fleet_sunk}}
+    gives:
+      qbit: pirates_invaded
+mechanisms:
+  - {kind: house door (enter house), count: 44, notes: "One per ordinary house; locked during the invasion."}
+  - {kind: service door (enter house), count: 15, notes: "The 14 land services and the seer; the services lock during the invasion, the seer does not."}
+  - {kind: ship gangway door (enter house), count: 2, notes: "Captain's and smuggler's ships; locked during the invasion; the smuggler's ship exists only after its story bit."}
+  - {kind: dungeon door, count: 7, notes: "Council hall 2, crystal, den, cove, chapel, tomb."}
+  - {kind: quest-gated door (talk instead of entering), count: 1, notes: "The council hall's terrace door, in its tower's south face."}
+  - {kind: key-item door, count: 1, notes: "The crystal: locked face animation without the key."}
+  - {kind: locked dummy door, count: 1, notes: "In the north-east service block: 'The door is locked', never opens."}
+  - {kind: "chest (trapped, random items)", count: 11, notes: "Market yard, den, woods camp, seer, three rim chests, the three-chest cache counted as three, and the hollow tree; trap level from the map card."}
+  - {kind: award-locked chest, count: 1, notes: "The prize chest; card-game champion award."}
+  - {kind: key-consumed vault, count: 1, notes: "The sealed vault; opens freely once the key has been used."}
+  - {kind: well, count: 2, notes: The Might well and the bad well.}
+  - {kind: fountain, count: 1}
+  - {kind: buoy (one active), count: 4}
+  - {kind: obelisk, count: 1}
+  - {kind: buff pedestal, count: 1}
+  - {kind: stat challenge, count: 1}
+  - {kind: "reagent spot (skill-gated, once)", count: 2}
+  - {kind: potion tree, count: 1}
+  - {kind: label-only prop (sealed crates), count: 4, notes: Crate stacks at the harbour that only name themselves.}
+  - {kind: story-shown model, count: 2, notes: The smuggler's ship (shown by its story bit) and the crystal (removed after the ending).}
+  - {kind: map-load check, count: 3, notes: "The pirate landing, the ending, and the first-visit bit that makes this the party's starting town."}
+  - {kind: timer check, count: 2, notes: "Pirates defeated, wolves cleared."}
+  - {kind: ambient sound emitter, count: 1, notes: "A horse neighs now and then at the caravan stable (random, about one time in three)."}
+height_bands:
+  - id: band:basin
+    range: [0, 1350]
+    spaces: [wild:basin, wild:wolf_woods, wild:ne_meadow]
+    notes: "Sea level at the coast to a few hundred inland; knolls to about 1,000-1,350."
+  - id: band:headland
+    range: [2000, 6400]
+    spaces: [wild:sw_headland]
+    notes: The inlet it encloses is at sea level.
+  - id: band:town
+    range: [0, 640]
+    spaces: [town:ravenshore, district:market, district:harbour, district:temple_point, district:waterfront_row, district:west_lanes]
+    notes: "The town is flat: sea-level market pads, lanes slightly raised (128-192), temple terrace about 640 up."
+  - id: band:uplands
+    range: [2000, 3700]
+    spaces: [wild:upland_w, wild:upland_e]
+    notes: "Typically 2,200-2,500; the west rises to about 3,700, the east to about 3,100-3,300. Each cut to sea level by one pass."
+states:
+  - id: state:after_ending
+    condition: {qbit: endgame_seen}
+    hides: [the crystal]
+    seals: [entrance:crystal]
+  - id: state:pirate_invasion
+    condition: {qbit: pirates_invaded}
+    lifted_by: {qbit: pirates_defeated}
+    locks: [building:nw_block, building:ne_block, building:se_block, building:inn, building:sanctum, building:dancing_ogre, building:captains_ship, building:smugglers_ship, building:market_rich, building:market_middle, building:market_poor, building:market_warehouse, building:waterfront_rich, building:waterfront_middle, building:waterfront_warehouse, building:lanes_poor, building:lanes_middle]
+    effects: [The party's bank balance is set to zero when the pirates land., "Every house, service and ship door shows the locked face animation; the seer, the council hall and the dungeon doors stay open.", The townsfolk and guards stay where they are.]
+    population:
+      - {id: pop:pirate_force, actors: [{actor: Regnan Bandit, count: 42}, {actor: Regnan Pirate, count: 26}, {actor: Regnan Brigadier, count: 10}], levels: [18, 50], placed: true, strength: heavy, rank: mixed, hostile: true, hidden_until: {qbit: pirates_invaded}, notes: "78 placed raiders, hidden until the landing: about 28 in the west lanes, 16 on the harbour, 13 on the waterfront row, 13 in the market and 8 on the town's outskirts. Far stronger than anything else on the map at that point in the story."}
+  - id: state:smuggler_ship_docked
+    condition: {qbit: smuggler_ship_docked}
+    shows: [the smuggler's ship at its pier]
+    opens: [entrance:smugglers_ship]
+    notes: Before the letter is delivered the smuggler's pier is empty and its ship cannot be boarded.
+landform:
+  relief: "0 to 6,400. A low rolling basin (the middle three-fifths of the width, from the bay to the north edge) between flat-topped uplands (the outer fifth on each side, typically 2,200-2,500, rising to about 3,700 in the west and 3,100-3,300 in the east) with steep rock faces along their whole length, each cut to sea level by one pass (west a little north of the middle, east about the middle). A south-west headland of rock ridges rises to about 6,400. The town is flat."
+  height_range: [0, 6400]
+  water: "Open sea across the whole southern fifth to quarter and a broad bay biting north into the south-west and south-centre almost to the map's middle. A river enters the north edge just west of centre and winds to the bay's north-east corner (course under spaces, water:river); two crossings: the upper bridge and the town bridge. A small cliff-ringed sea inlet inside the headland opens south."
+  water_share: 0.25
+  coast: "The town is on the bay's north-east shore; the east shore curves away south-east to the corner. The south-west headland forms the bay's west arm."
+  caps:
+    - {kind: bare rock, where: The south-west headland's ridges.}
+  rim: {width_share: 0.2, broken_by: [road:west_pass, road:east_cut], notes: "East and west only: the north is open grassland along the river and the south is sea."}
+  notes: "Terrain materials (the MM8 world set): grass with patchy-grass variation covers most land; dirt (with the stony variant on about a tenth) on yards, lanes, knoll tops and camps; road (pebbles) on every road and the market streets, about 4 % of land; rock on the uplands' and headland's tops; cliff on every steep face; sand on all shores. About 3/4 of the land cells grass, 1/7 dirt, 1/9 rock."
+atmosphere: "Temperate coastal daylight. Sky: the continent's ordinary daily sky ladder (clear and fair days most often, cloudy to stormy now and then), no map sky theme and no map fog. Weather: rain allowed at the world's default chance, never snow. Music: the Jadame plains and town track (track 9) everywhere on the map. Sound environment: plains (open air, no echo). Ambient: a horse neighing now and then by the caravan stable; otherwise the world's default outdoor sounds. Lights: 14 fires (two camp fires, two cook fires in the lanes, the chapel beacon, the challenge's fire basin, eight torches crowning the tomb) and the pedestal's glow; the town itself has no lamps."
+diagram: {text: "North up, not to scale.\n                            [Alvar] N-edge\n   W UPLANDS                    |  north road, east side of river        E UPLANDS\n   (rim chest)        hollow-tree chest                                   (rim chests)\n                      (N-jct)=====loop road====[Seer ring]  [Obelisk]\n   [Den]* bones          ||upper bridge          NE MEADOW: centaurs,\n     WOLF WOODS         (river)                  pedestal knoll, 3-chest camp\n [Garrote]==W pass==(W-jct)  \\                          [Tomb] at cliff foot\n      |   camp+chest   \\    (CW-jct)--reagent tree          river loops\n  [Chapel] on spur      \\___/     \\                          \\        (E-jct)==E cut==[Shadowspire]\n                                   \\__north-shore road__ WEST LANES ==T-bridge== MARKET  (vault, prize chest)\n  SW HEADLAND (highest)                           (bad well, 2nd tavern)   [Crystal] square  (Might well)\n   [Smuggler's Cove] in                  BAY (buoys)          council hall | 3 service blocks\n   cliff-ringed inlet                                  HARBOUR: fountain, piers, 2 ships, inn\n                                                                              [Sanctum] on the point\n                                OPEN SEA (whole south)\n"}
+sketch: {file: sketch.yml, grid: 512}
+totals:
+  bounty_hunters_halls: 1
+  bridges: 2
+  buoys: 4
+  centaur_markers: 16
+  chests_free: 10
+  chests_in_trees: 1
+  chests_locked: 1
+  decorations_flowers_and_low_plants: 269
+  decorations_lights: 15
+  decorations_props: 45
+  decorations_rocks: 205
+  decorations_trees: 268
+  dungeon_doors: 7
+  dungeon_entrances: 6
+  fires: 14
+  fountains: 1
+  guards: 20
+  hostels: 2
+  house_forms: 13
+  houses: 44
+  houses_dark_elf: 22
+  houses_human: 14
+  houses_ogre: 6
+  houses_warehouse: 2
+  invasion_actors: 78
+  physical_building_assemblies: 51
+  piers: 2
+  road_share_of_land: 0.04
+  seers: 1
+  services_land: 14
+  ships: 2
+  townsfolk: 45
+  vaults: 1
+  wells: 2
+  wolf_markers: 43
+  wolf_packs: 10
+  wolves_expected: 85
+notes: "Positions are compass words and fractions of the whole map, north up. Decoration names are the shared MM8 decoration table's (each bound to a 3D model in the engine decoration library); building kits are named by the MM8 towns they are catalogued from."

@@ -1,0 +1,49 @@
+# MM9 playthrough, segment 41: Kira's messenger and Bjarni (guide: Chapter II, "Peace between Sturmford and Drangheim").
+# Thronheim to Sturmford by sea (The Raider, four days; outdoors the party is moved), the city gate: Thorolf
+# Ratatoskssen waits by it with the news that Sturmford and Drangheim have gone to war (84). Bjarni on his throne
+# blames Drangheim; the party owns up to the Anskram Keep raid and he will withdraw for a treaty (86).
+#   python3 tests/playthrough/mm9/run.py 41
+id: mm9.playthrough.41_thorolf_bjarni
+title: "MM9 playthrough 41: Thorolf's news; Bjarni will stop his army for a treaty"
+world: mm9
+mode: faithful
+tags: [mm9, playthrough]
+steps:
+  - load_game: {path: output/playthrough/mm9/checkpoints/40_kira_pledge.oysav}
+  - setup_shortcut: {kind: immortal}
+  - assert: {map: thronheimcity.blv, qbit_set: [90083], qbit_clear: [90084, 90086]}
+
+  - travel: {map: sturmford.blv, days: 4}
+  - set_pose: {map: sturmford.blv, x: 8090, y: -3312, z: 252, yaw: 3.1416, pitch: 0}
+  - advance_runtime: {seconds: 0.5}
+  - walk_to: {x: 7300, y: -3312, z: 400, z_tolerance: 500, radius: 10, plan: false, timeout_seconds: 20, expect: dialog}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.0, follow_map_move: true}
+  - assert: {map: sturmfordcity.blv}
+
+  # Thorolf Ratatoskssen by the gate (shown with 83 until 84).
+  - set_pose: {map: sturmfordcity.blv, x: 10294, y: 14090, z: 19723, yaw: 3.1416, pitch: 0}
+  - interact_actor: {actor_index: 44}
+  - select_topic: {match_label: "What is it?"}
+  - select_topic: {match_label: "What?!  Why?"}
+  - select_topic: {match_label: "We must stop this!  Tell Kira we'll find a way to stop the war!"}
+  - select_topic: {match_label: "Goodbye."}
+  - advance_runtime: {seconds: 1}
+  - assert: {qbit_set: [90084]}
+
+  # Bjarni Thorvaldssen on his throne.
+  - set_pose: {map: sturmfordcity.blv, x: 7011, y: 8192, z: 19723, yaw: 0, pitch: 0}
+  - advance_runtime: {seconds: 0.5}
+  - interact_actor: {actor_index: 56}
+  - select_topic: {match_label: "What is the meaning of this?!"}
+  - select_topic: {match_label: "Kira has told us you have gone to war with Drangheim!!"}
+  - select_topic: {match_label: "You must stop this war immediately!"}
+  - select_topic: {match_label: "They didn't do that, we did!"}
+  - select_topic: {match_label: "Sigmund wouldn't join the coalition unless we did."}
+  - select_topic: {match_label: "It wasn't their fault.  The blame lies with us."}
+  - select_topic: {match_label: "What would convince you to withdraw your army?"}
+  - select_topic: {match_label: "We will get you that treaty!"}
+  - select_topic: {match_label: "Goodbye."}
+  - advance_runtime: {seconds: 0.5}
+  - assert: {qbit_set: [90086], qbit_clear: [90087]}
+  - save_game: {name: "41 Bjarni wants a treaty", path: output/playthrough/mm9/checkpoints/41_thorolf_bjarni.oysav}

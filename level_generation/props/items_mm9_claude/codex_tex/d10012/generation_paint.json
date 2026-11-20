@@ -1,0 +1,27 @@
+{
+  "prompt": "Edit paint_mask_guide.png (image 3) exactly, using image 1 design_reference.png for detail/materials and image 2 icon_x8.png for colour. Produce ONE transparent PNG 1536x2048 (3:4). Preserve guide positions, sizes, outlines and all gaps precisely; paint only existing grey objects, never move, enlarge, redesign or redraw silhouettes. Three columns, FOUR rows of 512x512 cells. Rows 1-2 are five orthographic views FRONT,BACK,LEFT / RIGHT,TOP,empty, exactly as the guide (end-on views in row1 columns1,2; thin horizontal sword row1 column3 and row2 column1; broad upright sword row2 column2). Rows3-4 repeat identical positions of those five views for flat material segmentation. Empty row2 column3 and row4 column3 fully transparent. Object: Favored sword of the mercenaries. PAINT top two rows: unlit base colour, steel long straight pointed blade with longitudinal fuller, reddish copper curved guard with silver tips, red-brown spiral leather grip, copper round pommel as approved references. Facets and details follow the design reference scaled to every view. No lighting, cast shadows, ambient occlusion, hot highlights, reflections, glow, ground, outlines, text. MATERIAL MASK bottom two rows: fill exactly the same five silhouettes with FLAT pure colours, no shading, texture, outlines or antialiased colour blends inside. #FF0000 all metal including blade, guard, tips, collars, pommel; #00FF00 leather grip. #0000FF any cloth/hair; #FFFF00 any matte nonmetal solid; #000000 any gemstone/glass/enamel. Every silhouette pixel exactly one allowed colour. Nothing outside silhouettes. Preserve all empty space and genuine alpha transparency.\nCORRECTION: Prior output incorrectly widened horizontal edge-on views into full blade/guard profile and added ragged red pixels. Use the ORIGINAL grey guide as strict geometry: horizontal views have an almost hairline blade and small rectangular guard seen edge-on, NOT a curved guard facing the viewer. Preserve those thin silhouettes precisely. All contours clean, no stray pixels or red marks on painted views. Preserve flat broad upright blade width and straight edges. Copy original guide alpha silhouettes exactly. Do not invent perspective.",
+  "initial_prompt": "Edit paint_mask_guide.png (image 3) exactly, using image 1 design_reference.png for detail/materials and image 2 icon_x8.png for colour. Produce ONE transparent PNG 1536x2048 (3:4). Preserve guide positions, sizes, outlines and all gaps precisely; paint only existing grey objects, never move, enlarge, redesign or redraw silhouettes. Three columns, FOUR rows of 512x512 cells. Rows 1-2 are five orthographic views FRONT,BACK,LEFT / RIGHT,TOP,empty, exactly as the guide (end-on views in row1 columns1,2; thin horizontal sword row1 column3 and row2 column1; broad upright sword row2 column2). Rows3-4 repeat identical positions of those five views for flat material segmentation. Empty row2 column3 and row4 column3 fully transparent. Object: Favored sword of the mercenaries. PAINT top two rows: unlit base colour, steel long straight pointed blade with longitudinal fuller, reddish copper curved guard with silver tips, red-brown spiral leather grip, copper round pommel as approved references. Facets and details follow the design reference scaled to every view. No lighting, cast shadows, ambient occlusion, hot highlights, reflections, glow, ground, outlines, text. MATERIAL MASK bottom two rows: fill exactly the same five silhouettes with FLAT pure colours, no shading, texture, outlines or antialiased colour blends inside. #FF0000 all metal including blade, guard, tips, collars, pommel; #00FF00 leather grip. #0000FF any cloth/hair; #FFFF00 any matte nonmetal solid; #000000 any gemstone/glass/enamel. Every silhouette pixel exactly one allowed colour. Nothing outside silhouettes. Preserve all empty space and genuine alpha transparency.",
+  "original_output_path": "/home/pjasicek/.codex/generated_images/01a1ac43-c83e-7f50-b3af-fe7166512340/exec-f132835e-9ee9-4722-af82-f241f5ff3de1.png",
+  "tool": "built-in image_gen",
+  "corrective_regenerations": 1,
+  "inputs": [
+    {
+      "path": "level_generation/props/items_mm9_claude/codex_tex/d10012/design_reference.png",
+      "sha256": "71b635be683836a533ace8c586384492b0e8443c8e63c696e8b37cceb39a1e52"
+    },
+    {
+      "path": "level_generation/props/items_mm9_claude/codex_tex/d10012/icon_x8.png",
+      "sha256": "170a97e47395abc1c8966e888a8f9c536172d4ca30ace970321c5b1cffe9ed08"
+    },
+    {
+      "path": "level_generation/props/items_mm9_claude/codex_tex/d10012/paint_mask_guide.png",
+      "sha256": "ebcad85ef7ea46bf09331509f6a418a7f0565ac4638e9619c91da9cb6a04ae56"
+    }
+  ],
+  "output": "level_generation/props/items_mm9_claude/codex_tex/d10012/paint_mask_raw_v1.png",
+  "size": [
+    1086,
+    1448
+  ],
+  "validation": "Layout retained, but visible stray coloured pixels and silhouette deviations remain after the single permitted correction; not exact brief compliance."
+}

@@ -1,0 +1,60 @@
+output_dir: /home/pjasicek/github/OpenYAMM/level_generation/projects/mm9r_inventastorca/review/hints01
+settle_seconds: 4.0
+exit: true
+shots:
+- name: h00_wait
+  position:
+  - 369
+  - 154
+  - -890
+  yaw: 3.0796
+  pitch: 0.0
+- name: h01_cracked_wall0
+  position:
+  - -707
+  - 384
+  - -890
+  yaw: -1.5708
+  pitch: 0.0
+- name: h02_switch_panel
+  position:
+  - 973
+  - -3840
+  - -1637
+  yaw: -0.2808
+  pitch: 0.0
+- name: h03_switch0
+  position:
+  - -1946
+  - -6784
+  - -1474
+  yaw: -1.7819
+  pitch: 0.0
+- name: h04_trapdoor
+  position:
+  - -1843
+  - -6554
+  - -859
+  yaw: -1.5708
+  pitch: -0.6981
+- name: h05_cracked_wall2
+  position:
+  - -5632
+  - -3507
+  - -857
+  yaw: 0.0
+  pitch: 0.0
+- name: h06_desk_drawer
+  position:
+  - -5760
+  - -4736
+  - -857
+  yaw: -2.2265
+  pitch: -0.4363
+- name: h07_bookcase_switch
+  position:
+  - -205
+  - -5120
+  - -1637
+  yaw: 2.6621
+  pitch: 0.0

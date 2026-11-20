@@ -1,0 +1,46 @@
+{
+  "status": "visually_reviewed_for_road_edge_update",
+  "changed": [
+    "drsrne1.png",
+    "drsrne2.png",
+    "drsrnw1.png",
+    "drsrnw2.png",
+    "gdrdne1.png",
+    "gdrdne2.png",
+    "gdrdnw1.png",
+    "gdrdnw2.png"
+  ],
+  "unchanged_files": 231,
+  "protected_other_roads": 28,
+  "pose": [
+    7766.5,
+    3508.695,
+    545,
+    1.782,
+    -26.385
+  ],
+  "pitch_unit": "degrees",
+  "evidence": {
+    "roads/v11/build.py": "78762b041986aba5d4103e70ab69edccd4b6d073e6708b7356dcbca51da4c7af",
+    "roads/v11/repair_exact_join.py": "e97c9340a36643819a149a5e71281a8e625ae4e005babbe7890ec5a0c23abbe9",
+    "roads/v11/generation.json": "98c7e1b0970e5165ba30711b5c9cdbe60854e5ce2d8f91a329a8a1507cdbce7d",
+    "roads/v11/protected_straights.json": "c031a14e25bc983aa0790c0d29d9d5371299a4e10f6aa4521a074a1317dbad2c",
+    "roads/v11/validation.json": "cad1b2ae0b4cac608fe89d5b025f631150eae214a1c3a7d97df6c9212fd8deba",
+    "roads/v11/exact_pose_comparison.png": "f59079b0df7e159f2f99c3d80bdd1c477d83e623849ad6b99268aa5a0ce80caf",
+    "roads/v11/join_comparison.png": "52b7a6db97fd33bc759db896b5b14b82d6ce8f32ab2402aa1869b2da0548ecb6",
+    "roads/v11/captures/mm8_1302_before.json": "a29e825a282edb487a2e9009a8bd2c2287d1fbd0540fd7de04a1cf12794f7d74",
+    "roads/v11/captures/mm8_1302_before.png": "b91cfa150ee0b21d407c8afd9dd871dab9128453cac6515e94d0f213c705eb83",
+    "roads/v11/captures/mm8_1302_exact_repair.json": "653fe271a52ed3a581fcef62070647f365875fbafa36195d32f039488d33e640",
+    "roads/v11/captures/mm8_1302_exact_repair.png": "253be09bdb3cec0f68a6a47881c2f496afeb8f2403569411c2e9e3ba2fb5ffa7"
+  },
+  "findings": [
+    "Exact1302 camera reproduced for before and final candidate.",
+    "Exaggerated bright diagonal speckle reduced; grain calibrated against accepted stone pixels.",
+    "NE2 east joining stone repaired with focused shared crop; only diagonal half installed. Pinched shape improved without donor-strip serrations.",
+    "All straight/junction road textures and all tile boundary pixels remain byte-identical to installed v10."
+  ],
+  "limitations": [
+    "Review focuses on the supplied pose; other diagonal variants receive material calibration, not a newly generated junction patch.",
+    "Rejected broad pair generation and endpoint-strip candidate remain evidence only, not installed."
+  ]
+}

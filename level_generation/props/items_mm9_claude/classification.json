@@ -1,0 +1,3333 @@
+{
+ "d10002": {
+  "design_id": 10002,
+  "name": "Poor Sword",
+  "family": "sword",
+  "route": "blender",
+  "items": [
+   10002
+  ],
+  "length": 142.2,
+  "master": "items/10002/paint_a.png",
+  "icon": "items/10002/icon_a_x2.png",
+  "description": "Use case: stylized-concept Asset type: low-resolution fantasy RPG inventory item sprite for OpenYAMM Primary request: create a full-length inventory sprite of the MM9 Poor Sword shown in Image 1, redesigned for the tall MM6-MM8 inventory presentation shown in Image 2. Input images: Image 1 is the object-design reference; preserve its simple straight pale-steel blade, short dark grip, small gold crossguard, and modest inexpensive character. Image 2 is only the style, orientation, silhouette-scale, and late-1990s pre-rendered RPG reference. Subject: exactly one complete one-handed short sword, p CORRECTION (overrides the notes above): give the sword a full one-hand grip. From the bottom of the crossguard to the end of the pommel must be about 22-25% of the total length. The paperdoll hand closes over the grip, so the grip must be long enough for a fist plus a visible pommel, like MM6-MM8 swords (look at the style reference: their hilt below the guard is about a quarter of the length). Crossguard perfectly horizontal, at right angles to the blade."
+ },
+ "d10005": {
+  "design_id": 10005,
+  "name": "Shaba Couta",
+  "family": "sword",
+  "route": "blender",
+  "items": [
+   10005
+  ],
+  "length": 142.2,
+  "master": "items/10005/paint_a.png",
+  "icon": "items/10005/icon_a_x2.png",
+  "description": "Faithfully reconstruct the exact MM9 Shaba Couta from the isolated and mechanically rotated PCX references as an MM6-MM8-style inventory sprite. Repaint the same object; do not redesign it or substitute a generic sword. Preserve its broad, slightly leaf-shaped pale blade; short asymmetrical yellow-gold guard with one branch curling upward and the other downward; short dark-brown grip; and small solid round yellow-gold pommel. Preserve the relative sizes and colors. Render exactly one complete vertical sword in grounded late-1990s pre-rendered RPG style, with restrained detail and neutral upper"
+ },
+ "d10007": {
+  "design_id": 10007,
+  "name": "Scramasax",
+  "family": "sword",
+  "route": "blender",
+  "items": [
+   10007
+  ],
+  "length": 142.2,
+  "master": "items/10007/paint_a.png",
+  "icon": "items/10007/icon_a_x2.png",
+  "description": "Faithfully reconstruct the exact MM9 Scramasax from the isolated and mechanically rotated PCX references as an MM6-MM8-style inventory sprite. Repaint the same object; do not redesign it. Preserve the very narrow, straight dark-gray single-edged blade and pale cutting edge, tiny flat yellow-brass guard, distinctive grip made from alternating pale-silver and dark bands, and small reddish-copper faceted pommel. Keep its unusually lean utilitarian silhouette. Render one complete vertical sword with restrained late-1990s pre-rendered realism and genuine transparent alpha. No broad blade, leather g"
+ },
+ "d10009": {
+  "design_id": 10009,
+  "name": "Imperial Sword",
+  "family": "sword",
+  "route": "blender",
+  "items": [
+   10009,
+   10563,
+   10564,
+   10565,
+   10566,
+   10567
+  ],
+  "length": 142.2,
+  "master": "items/10009/paint_a.png",
+  "icon": "items/10009/icon_a_x2.png",
+  "description": "Faithfully reconstruct the exact MM9 Imperial Sword from the isolated and mechanically rotated PCX references as an MM6-MM8-style inventory sprite. Repaint the same object; do not redesign it. Preserve its broad pale-steel blade with gentle asymmetry and swept cutting edge, simple thin yellow-gold guard angled across the hilt, very short dark grip, and compact dark-and-gold pommel. Render one complete vertical sword in restrained late-1990s pre-rendered realism with genuine transparent alpha. No ornate symmetric guard, blade fuller, jewel pommel, excessive gold, text, glow, shadow, frame, scen CORRECTION (overrides the notes above, which wrongly asked for a very short grip and an angled guard): the thin gold crossguard is PERFECTLY HORIZONTAL, at right angles to the vertical blade, and symmetric left/right. Below it a dark wrapped grip and the dark-and-gold pommel; from the bottom of the guard to the end of the pommel is about 22-25% of the total length. The paperdoll hand closes over the grip, so the grip must be long enough for a fist plus a visible pommel, like MM6-MM8 swords (look at the style reference: their hilt below the guard is about a quarter of the length)."
+ },
+ "d10012": {
+  "design_id": 10012,
+  "name": "Mercenary Sword",
+  "family": "sword",
+  "route": "blender",
+  "items": [
+   10012
+  ],
+  "length": 142.2,
+  "master": "items/10012/paint_a.png",
+  "icon": "items/10012/icon_a_x2.png",
+  "description": "Favored sword of the mercenaries."
+ },
+ "d10015": {
+  "design_id": 10015,
+  "name": "Mortuary Sword",
+  "family": "sword",
+  "route": "blender",
+  "items": [
+   10015
+  ],
+  "length": 142.2,
+  "master": "items/10015/paint_a.png",
+  "icon": "items/10015/icon_a_x2.png",
+  "description": "Faithfully repaint the exact isolated and mechanically rotated MM9 Mortuary Sword PCX as an MM6-MM8-style inventory sprite without redesigning it. Preserve its very narrow straight pale-gray blade with dark spine, tiny flat reddish-gold circular guard, compact segmented brown-and-gold grip, and small gold cap pommel. Keep its austere funerary silhouette. Render one complete vertical sword with restrained late-1990s realism and genuine transparent alpha. No curved blade, large guard, generic replacement, text, glow, shadow, frame, or watermark."
+ },
+ "d10017": {
+  "design_id": 10017,
+  "name": "Saber",
+  "family": "sword",
+  "route": "blender",
+  "items": [
+   10017
+  ],
+  "length": 142.2,
+  "master": "items/10017/paint_a.png",
+  "icon": "items/10017/icon_a_x2.png",
+  "description": "Faithfully repaint the exact isolated and mechanically rotated MM9 Saber PCX as an MM6-MM8-style inventory sprite without redesigning it. Preserve its slim strongly curved pale-steel blade, small orange-gold crossbar, distinctive orange-gold D-shaped knuckle bow, short dark-brown grip, and pale pommel cap. Render one complete vertical sword with restrained late-1990s realism and genuine transparent alpha. No straight blade, open generic crossguard, generic replacement, text, glow, shadow, frame, or watermark."
+ },
+ "d10018": {
+  "design_id": 10018,
+  "name": "Scimitar",
+  "family": "sword",
+  "route": "blender",
+  "items": [
+   10018
+  ],
+  "length": 142.2,
+  "master": "items/10018/paint_a.png",
+  "icon": "items/10018/icon_a_x2.png",
+  "description": "Faithfully repaint the exact isolated and mechanically rotated MM9 Scimitar PCX as an MM6-MM8-style inventory sprite without redesigning it. Preserve its broad dramatically swept pale-steel blade and convex cutting edge, muted brass guard with curled tips, short dark grip, and vivid green pommel cap. Render one complete vertical sword with restrained late-1990s realism and genuine transparent alpha. No narrow straight blade, orange knuckle bow, missing green accent, generic replacement, text, glow, shadow, frame, or watermark."
+ },
+ "d10175": {
+  "design_id": 10175,
+  "name": "Sing Sword",
+  "family": "sword",
+  "route": "hybrid",
+  "items": [
+   10175
+  ],
+  "length": 124.2,
+  "master": "items/10175/paint_a.png",
+  "icon": "items/10175/icon_a_x2.png",
+  "description": "Faithfully repaint the exact isolated and mechanically rotated MM9 Sing Sword PCX as an MM6-MM8-style inventory sprite without redesigning it. Preserve its narrow pale-gold blade, ornate scalloped orange-gold guard, segmented red-and-gold grip, and distinctive open ring pommel. Render one complete vertical sword with restrained late-1990s pre-rendered realism and genuine transparent alpha. No generic replacement, closed pommel, text, glow, shadow, frame, scenery, hands, or watermark."
+ },
+ "d10176": {
+  "design_id": 10176,
+  "name": "Excala Banna",
+  "family": "sword",
+  "route": "hybrid",
+  "items": [
+   10176
+  ],
+  "length": 135.9,
+  "master": "items/10176/paint_a.png",
+  "icon": "items/10176/icon_a_x2.png",
+  "description": "Faithfully repaint the exact isolated and mechanically rotated MM9 Excala Banna PCX as an MM6-MM8-style inventory sprite without redesigning it. Preserve its yellow-gold blade, simple vivid yellow-green wing guard, yellow grip, and unmistakable hollow ring pommel. Render one complete vertical sword with restrained late-1990s pre-rendered realism and genuine transparent alpha. No generic replacement, solid pommel, ornate guard, text, glow, shadow, frame, scenery, hands, or watermark."
+ },
+ "d10178": {
+  "design_id": 10178,
+  "name": "Mevan Sword",
+  "family": "sword",
+  "route": "blender",
+  "items": [
+   10178
+  ],
+  "length": 142.2,
+  "master": "items/10178/paint_a.png",
+  "icon": "items/10178/icon_a_x2.png",
+  "description": "Faithfully repaint the exact isolated and mechanically rotated MM9 Mevan Sword PCX as an MM6-MM8-style inventory sprite without redesigning it. Preserve its plain gray blade, curved brown guard, alternating striped grip, and small dark pommel. Keep the simple ominous silhouette. Render one complete vertical sword with restrained late-1990s pre-rendered realism and genuine transparent alpha. No ornate generic replacement, text, glow, shadow, frame, scenery, hands, or watermark."
+ },
+ "d10179": {
+  "design_id": 10179,
+  "name": "Jorhgamesh",
+  "family": "sword",
+  "route": "hybrid",
+  "items": [
+   10179
+  ],
+  "length": 140.8,
+  "master": "items/10179/paint_a.png",
+  "icon": "items/10179/icon_a_x2.png",
+  "description": "Faithfully repaint the exact isolated and mechanically rotated MM9 Jorhgamesh PCX as an MM6-MM8-style inventory sprite without redesigning it. Preserve its white flame-like notched scimitar blade, gold crescent guard, blue hilt gem, striped grip, and compact pommel. Render one complete vertical sword with restrained late-1990s pre-rendered realism and genuine transparent alpha. Do not smooth away the blade notches or replace it with a generic scimitar. No text, glow, shadow, frame, scenery, hands, or watermark."
+ },
+ "d10219": {
+  "design_id": 10219,
+  "name": "Prize Gladius",
+  "family": "sword",
+  "route": "blender",
+  "items": [
+   10219
+  ],
+  "length": 142.2,
+  "master": "items/10219/paint_a.png",
+  "icon": "items/10219/icon_a_x2.png",
+  "description": "Faithfully repaint the exact isolated and mechanically rotated MM9 Prize Gladius PCX as an MM6-MM8-style inventory sprite without redesigning it. Preserve its icy-blue broad curved blade, nearly guardless black-and- gold hilt, red grip band, and distinctive looped hilt silhouette. Render one complete vertical sword with restrained late-1990s pre-rendered realism and genuine transparent alpha. No generic Roman gladius, projecting crossguard, text, glow, shadow, frame, scenery, hands, or watermark."
+ },
+ "d10362": {
+  "design_id": 10362,
+  "name": "Wooden Sword",
+  "family": "sword",
+  "route": "blender",
+  "items": [
+   10362
+  ],
+  "length": 142.2,
+  "master": "items/10362/paint_a.png",
+  "icon": "items/10362/icon_a_x2.png",
+  "description": "Faithfully repaint the exact isolated and mechanically rotated MM9 Wooden Sword PCX as an MM6-MM8-style inventory sprite without redesigning it. Preserve the entirely carved brown wood construction, blunt toy-like blade, plain wooden guard, simple grip, visible grain, and small wooden pommel. Render one complete vertical sword with restrained late-1990s pre-rendered realism and genuine transparent alpha. No metal, gems, sharp steel edge, generic replacement, text, glow, shadow, frame, scenery, hands, or watermark."
+ },
+ "d10021": {
+  "design_id": 10021,
+  "name": "Flamberge",
+  "family": "sword2h",
+  "route": "blender",
+  "items": [
+   10021
+  ],
+  "length": 175.5,
+  "master": "items/10021/paint_a.png",
+  "icon": "items/10021/icon_a_x2.png",
+  "description": "Faithfully repaint the isolated and mechanically rotated original MM9 PCX as an MM6-MM8-style inventory sprite. Treat the MM9 PCX as binding for identity, silhouette, proportions, components, and colors. Preserve the narrow flame-waved pale blade, upward-curving gold crescent guard, red center jewel, long reddish-brown grip, and small pommel. Render one complete vertical two-handed sword on genuine transparent alpha. Do not straighten the blade or substitute a generic sword. No text, glow, shadow, frame, scenery, or watermark."
+ },
+ "d10022": {
+  "design_id": 10022,
+  "name": "The Chopper",
+  "family": "sword2h",
+  "route": "blender",
+  "items": [
+   10022
+  ],
+  "length": 175.5,
+  "master": "items/10022/paint_a.png",
+  "icon": "items/10022/icon_a_x2.png",
+  "description": "Faithfully repaint the isolated and mechanically rotated original MM9 PCX as an MM6-MM8-style inventory sprite. Treat the MM9 PCX as binding for identity, silhouette, proportions, components, and colors. Preserve the two tall parallel gray blade prongs and their open central slot, uneven chopped tips, compact silver guard, red center accent, blue-and-pale banded grip, and dark pommel. Render one complete vertical two-handed weapon on genuine transparent alpha. Do not merge the prongs or substitute a generic sword. No text, glow, shadow, frame, scenery, or watermark."
+ },
+ "d10224": {
+  "design_id": 10224,
+  "name": "Broderick's Two-handed Sword",
+  "family": "sword2h",
+  "route": "blender",
+  "items": [
+   10224
+  ],
+  "length": 175.5,
+  "master": "items/10224/paint_a.png",
+  "icon": "items/10224/icon_a_x2.png",
+  "description": "Faithfully repaint the isolated and mechanically rotated original MM9 PCX as an MM6-MM8-style inventory sprite. Treat the MM9 PCX as binding for identity, silhouette, proportions, components, and colors. Preserve the plain broad straight pale blade with shaded right edge and rounded point, short muted-gold guard, vivid blue grip, and tiny blue-and-gold pommel. Render one complete vertical two-handed sword on genuine transparent alpha. Do not add ornament or substitute a generic greatsword. No text, glow, shadow, frame, scenery, or watermark. CORRECTION (overrides the notes above): the gold crossguard is PERFECTLY HORIZONTAL, at right angles to the vertical blade, and symmetric left/right; it must not slant. The blue grip is a full TWO-HANDED grip: from the bottom of the guard to the end of the pommel is about 30% of the total length, like MM6-MM8 two-handed swords."
+ },
+ "d10026": {
+  "design_id": 10026,
+  "name": "Stiletto",
+  "family": "dagger",
+  "route": "blender",
+  "items": [
+   10026
+  ],
+  "length": 110.7,
+  "master": "items/10026/paint_a.png",
+  "icon": "items/10026/icon_a_x2.png",
+  "description": "Faithfully repaint the original isolated and mechanically upright MM9 PCX, which is binding for the design. Preserve the extremely narrow continuous needle-point steel blade, wide low gold oval guard, red/pale/gold banded grip, and round gold pommel. Render one complete vertical Stiletto in restrained MM6-MM8 inventory style on genuine transparent alpha. Do not blunt, break, broaden, or redesign the blade."
+ },
+ "d10029": {
+  "design_id": 10029,
+  "name": "Elite Dagger",
+  "family": "dagger",
+  "route": "blender",
+  "items": [
+   10029
+  ],
+  "length": 110.7,
+  "master": "items/10029/paint_a.png",
+  "icon": "items/10029/icon_a_x2.png",
+  "description": "Faithfully repaint the original isolated and mechanically upright MM9 PCX, which is binding for the design. Preserve the narrow straight pale blade, ornate asymmetrical orange-gold curled guard, pale horizontally banded grip, and wide pale cap pommel. Render one complete vertical Elite Dagger in restrained MM6-MM8 inventory style on genuine transparent alpha. Do not replace it with a generic dagger."
+ },
+ "d10032": {
+  "design_id": 10032,
+  "name": "Baselard",
+  "family": "dagger",
+  "route": "blender",
+  "items": [
+   10032
+  ],
+  "length": 110.7,
+  "master": "items/10032/paint_a.png",
+  "icon": "items/10032/icon_a_x2.png",
+  "description": "Faithfully repaint the original isolated and mechanically upright MM9 PCX, which is binding for the design. Preserve the broad straight double-edged spear-point blade, thin muted-gold guard, compact dark-brown grip, and small gold pommel. Render one complete vertical Baselard in restrained MM6-MM8 inventory style on genuine transparent alpha. Do not redesign or embellish it."
+ },
+ "d10033": {
+  "design_id": 10033,
+  "name": "Chedian Dirk",
+  "family": "dagger",
+  "route": "blender",
+  "items": [
+   10033
+  ],
+  "length": 110.7,
+  "master": "items/10033/paint_a.png",
+  "icon": "items/10033/icon_a_x2.png",
+  "description": "Faithfully repaint the original isolated and mechanically upright MM9 PCX, which is binding for the design. Preserve the strongly swept curved pale blade, reddish-brown guard, and short dark-brown grip whose pommel hooks sharply backward. Render one complete vertical Chedian Dirk in restrained MM6-MM8 inventory style on genuine transparent alpha. Do not straighten the blade or replace the hooked hilt."
+ },
+ "d10180": {
+  "design_id": 10180,
+  "name": "Black's Heart",
+  "family": "dagger",
+  "route": "hybrid",
+  "items": [
+   10180
+  ],
+  "length": 110.7,
+  "master": "items/10180/paint_a.png",
+  "icon": "items/10180/icon_a_x2.png",
+  "description": "Faithfully repaint the binding original MM9 PCX in MM6-MM8 inventory style. Preserve the extremely narrow pale-bronze blade, upward-curling silver guard, black banded grip, and large vivid purple orb pommel. Render one complete vertical Black's Heart on genuine transparent alpha without generic substitution or redesign."
+ },
+ "d10181": {
+  "design_id": 10181,
+  "name": "Integris",
+  "family": "dagger",
+  "route": "blender",
+  "items": [
+   10181
+  ],
+  "length": 110.7,
+  "master": "items/10181/paint_a.png",
+  "icon": "items/10181/icon_a_x2.png",
+  "description": "Faithfully repaint the binding original MM9 PCX in MM6-MM8 inventory style. Preserve the long very narrow pale blade and warm accents, simple pale-gold guard, slim gold/orange grip with red bands, and dark end cap. Render one complete vertical Integris on genuine transparent alpha without generic substitution or redesign."
+ },
+ "d10034": {
+  "design_id": 10034,
+  "name": "Throwing Dagger",
+  "family": "throwing",
+  "route": "blender",
+  "items": [
+   10034
+  ],
+  "length": 101.7,
+  "master": "items/10034/paint_a.png",
+  "icon": "items/10034/icon_a_x2.png",
+  "description": "Faithfully repaint the original MM9 PCX as an MM6-MM8-style inventory sprite. Treat its exact three-dagger bundle as binding: three pale blades fanned upward, small gold guards, three gathered brown grips, and the red base accent. Do not collapse the bundle into one dagger. Render the full bundle on genuine transparent alpha."
+ },
+ "d10040": {
+  "design_id": 10040,
+  "name": "Throwing Axe",
+  "family": "throwing",
+  "route": "blender",
+  "items": [
+   10040
+  ],
+  "length": 112.5,
+  "master": "items/10040/paint_a.png",
+  "icon": "items/10040/icon_a_x2.png",
+  "description": "Faithfully repaint the binding original MM9 PCX in MM6-MM8 inventory style. Preserve the broad bright-silver crescent blade, small narrow upward rear pick, gold socket collar, and slim reddish-brown handle. Render one complete upright Throwing Axe on genuine transparent alpha without generic substitution."
+ },
+ "d10185": {
+  "design_id": 10185,
+  "name": "Trolleri",
+  "family": "throwing",
+  "route": "blender",
+  "items": [
+   10185
+  ],
+  "length": 112.5,
+  "master": "items/10185/paint_a.png",
+  "icon": "items/10185/icon_a_x2.png",
+  "description": "Faithfully repaint the binding original MM9 PCX in MM6-MM8 inventory style. Preserve the strongly curved pale blade, gold-and-red jeweled guard, curved orange-gold handle, and blue jewel in the hooked round pommel. Render one complete Trolleri on genuine transparent alpha without straightening or generic substitution."
+ },
+ "d10186": {
+  "design_id": 10186,
+  "name": "Tillhygge",
+  "family": "throwing",
+  "route": "blender",
+  "items": [
+   10186
+  ],
+  "length": 109.8,
+  "master": "items/10186/paint_a.png",
+  "icon": "items/10186/icon_a_x2.png",
+  "description": "Faithfully repaint the binding original MM9 PCX in MM6-MM8 inventory style. Preserve the broad pale single blade, exceptionally long narrow down-curved rear pick, compact steel socket, and short curved red-orange grip. Render one complete upright Tillhygge on genuine transparent alpha without redesign or generic substitution."
+ },
+ "d10036": {
+  "design_id": 10036,
+  "name": "Hatchet",
+  "family": "axe",
+  "route": "blender",
+  "items": [
+   10036
+  ],
+  "length": 127.8,
+  "master": "items/10036/paint_a.png",
+  "icon": "items/10036/icon_a_x2.png",
+  "description": "Faithfully repaint the binding original MM9 PCX in MM6-MM8 inventory style. Preserve the short plain brown handle protruding through the top eye, pale steel socket, and disproportionately broad single flared blade with smooth convex edge. Render one complete practical Hatchet on genuine transparent RGBA without ornament. CORRECTION (overrides the notes above): proportions like MM6-MM8 one-handed axes. The handle is long and slender: total height at least 2.4 times the width of the head, with the broad flared blade at the top. Keep the design, only the haft is longer and the head relatively smaller."
+ },
+ "d10037": {
+  "design_id": 10037,
+  "name": "Combat Axe",
+  "family": "axe",
+  "route": "blender",
+  "items": [
+   10037
+  ],
+  "length": 127.8,
+  "master": "items/10037/paint_a.png",
+  "icon": "items/10037/icon_a_x2.png",
+  "description": "Faithfully repaint the binding original MM9 PCX in MM6-MM8 inventory style. Preserve the broad pale-gray single-bit head, rounded lower cutting edge, tall top spike, smaller rear spike, central socket, and plain brown handle. Render one complete upright Combat Axe on genuine transparent alpha without redesign. CORRECTION (overrides the notes above): proportions like MM6-MM8 one-handed axes. The handle is long and slender: total height at least 2.4 times the width of the head (spikes included). Keep the design, only the haft is longer and the head relatively smaller."
+ },
+ "d10038": {
+  "design_id": 10038,
+  "name": "Battle Witch",
+  "family": "axe",
+  "route": "hybrid",
+  "items": [
+   10038
+  ],
+  "length": 118.8,
+  "master": "items/10038/paint_a.png",
+  "icon": "items/10038/icon_a_x2.png",
+  "description": "Faithfully repaint the binding original MM9 PCX in MM6-MM8 inventory style. Preserve the ornate silver scalloped crescent blade, small angular rear blade, gold socket fittings, reddish-brown handle, and gold end cap. Render one complete upright Battle Witch on genuine transparent alpha without generic substitution."
+ },
+ "d10039": {
+  "design_id": 10039,
+  "name": "Storm Axe",
+  "family": "axe",
+  "route": "hybrid",
+  "items": [
+   10039
+  ],
+  "length": 119.2,
+  "master": "items/10039/paint_a.png",
+  "icon": "items/10039/icon_a_x2.png",
+  "description": "Enchanted by the Sturmford Mages, it is very rare to see the blade of this axe dulled."
+ },
+ "d10183": {
+  "design_id": 10183,
+  "name": "Sygnir",
+  "family": "axe",
+  "route": "hybrid",
+  "items": [
+   10183
+  ],
+  "length": 127.8,
+  "master": "items/10183/paint_a.png",
+  "icon": "items/10183/icon_a_x2.png",
+  "description": "Faithfully repaint the binding original MM9 PCX in MM6-MM8 inventory style. Preserve the symmetrical double silver crescent head, tall central spike, short brown grip with gold bands, and small pale pointed pommel. Render one complete upright Sygnir on genuine transparent alpha without redesign or generic substitution. CORRECTION (overrides the notes above): proportions like MM6-MM8 one-handed axes. The haft is long and slender: total height at least 2.4 times the width of the double crescent head, with the gold-banded grip and pale pommel at the bottom. Keep the design, only the haft is longer and the head relatively smaller."
+ },
+ "d10182": {
+  "design_id": 10182,
+  "name": "Bloodaxe",
+  "family": "axe2h",
+  "route": "hybrid",
+  "items": [
+   10182
+  ],
+  "length": 221.8,
+  "master": "items/10182/paint_a.png",
+  "icon": "items/10182/icon_a_x2.png",
+  "description": "Faithfully repaint the binding original MM9 PCX in MM6-MM8 inventory style. Preserve the small bright single axe head, copper top cap, long narrow pale upper shaft, dark leather lower handle, and restrained metal bands. Render one complete upright Bloodaxe on genuine transparent alpha without redesign or added ornament."
+ },
+ "d10041": {
+  "design_id": 10041,
+  "name": "Student's Bow",
+  "family": "bow",
+  "route": "blender",
+  "items": [
+   10041
+  ],
+  "length": 179.1,
+  "master": "items/10041/paint_a.png",
+  "icon": "items/10041/icon_a_x2.png",
+  "description": "preserve the slim brown limbs, dark string, hooked lower tip, warm-gold grip, and blue bands from the MM9 PCX"
+ },
+ "d10042": {
+  "design_id": 10042,
+  "name": "Cavalry Bow",
+  "family": "bow",
+  "route": "blender",
+  "items": [
+   10042
+  ],
+  "length": 179.1,
+  "master": "items/10042/paint_a.png",
+  "icon": "items/10042/icon_a_x2.png",
+  "description": "preserve the plain angular reddish-brown limbs, long olive string, sharp lower bend, and pale center from the MM9 PCX"
+ },
+ "d10043": {
+  "design_id": 10043,
+  "name": "Coward's Bow",
+  "family": "bow",
+  "route": "blender",
+  "items": [
+   10043
+  ],
+  "length": 179.1,
+  "master": "items/10043/paint_a.png",
+  "icon": "items/10043/icon_a_x2.png",
+  "description": "preserve the recurved red-orange limbs, pale string, black bands, gold-striped sections, and silver-blue grip"
+ },
+ "d10048": {
+  "design_id": 10048,
+  "name": "Composite Bow",
+  "family": "bow",
+  "route": "blender",
+  "items": [
+   10048
+  ],
+  "length": 179.1,
+  "master": "items/10048/paint_a.png",
+  "icon": "items/10048/icon_a_x2.png",
+  "description": "preserve the ornate recurved orange limbs, dark-gold bands, pale string, silver-blue grip, and hooked tips"
+ },
+ "d10050": {
+  "design_id": 10050,
+  "name": "Dark Bow",
+  "family": "bow",
+  "route": "blender",
+  "items": [
+   10050
+  ],
+  "length": 179.1,
+  "master": "items/10050/paint_a.png",
+  "icon": "items/10050/icon_a_x2.png",
+  "description": "preserve the rounded rectangular outline, doubled dark string, green-white segmented limb, gold grip, and pale guard"
+ },
+ "d10184": {
+  "design_id": 10184,
+  "name": "Everstrike",
+  "family": "bow",
+  "route": "blender",
+  "items": [
+   10184
+  ],
+  "length": 179.1,
+  "master": "items/10184/paint_a.png",
+  "icon": "items/10184/icon_a_x2.png",
+  "description": "preserve the asymmetrical orange limbs, pale string, banded grip, side stabilizers, and red-white circular nocks"
+ },
+ "d10051": {
+  "design_id": 10051,
+  "name": "Deadman's Crossbow",
+  "family": "crossbow",
+  "route": "blender",
+  "items": [
+   10051
+  ],
+  "length": 81.0,
+  "master": "items/10051/paint_a.png",
+  "icon": "items/10051/icon_a_x2.png",
+  "description": "preserve the ivory recurved limbs, black string, long brown stock, cream mechanism, and pale rear hook"
+ },
+ "d10055": {
+  "design_id": 10055,
+  "name": "Thjoradric Arbalest",
+  "family": "crossbow",
+  "route": "blender",
+  "items": [
+   10055
+  ],
+  "length": 108.9,
+  "master": "items/10055/paint_a.png",
+  "icon": "items/10055/icon_a_x2.png",
+  "description": "This massive hulking crossbow is normally mounted on a carriage for easy transportation.  It has been removed for some reason, and if you have the stength to carry it, it is certain you will put fear and a bolt into your opponent's heart."
+ },
+ "d10187": {
+  "design_id": 10187,
+  "name": "Kraftig Bage",
+  "family": "crossbow",
+  "route": "hybrid",
+  "items": [
+   10187
+  ],
+  "length": 126.0,
+  "master": "items/10187/paint_a.png",
+  "icon": "items/10187/icon_a_x2.png",
+  "description": "preserve the white recurved limbs, black string, white stock, green gems, side lever, green knob, and pointed butt"
+ },
+ "d10188": {
+  "design_id": 10188,
+  "name": "Blackpowder",
+  "family": "firearm",
+  "route": "blender",
+  "items": [
+   10188
+  ],
+  "length": 108.0,
+  "master": "items/10188/paint_a.png",
+  "icon": "items/10188/icon_a_x2.png",
+  "description": "preserve the short open cannon barrel, copper breech, steel bands, long tapered wood stock, gold collar, and side lever"
+ },
+ "d10056": {
+  "design_id": 10056,
+  "name": "Crude Spear",
+  "family": "spear",
+  "route": "blender",
+  "items": [
+   10056
+  ],
+  "length": 257.4,
+  "master": "items/10056/paint_a.png",
+  "icon": "items/10056/icon_a_x2.png",
+  "description": "Faithfully extrapolate the complete MM9 Crude Spear in MM6-MM8 inventory style. Preserve the broad asymmetric pale leaf/flame point, copper collar, long simple reddish-brown shaft, crossed upper bindings, and two loose narrow leather tails. Render one full-length spear on transparent RGBA without added ornament."
+ },
+ "d10057": {
+  "design_id": 10057,
+  "name": "Sergeant's Spear",
+  "family": "spear",
+  "route": "blender",
+  "items": [
+   10057
+  ],
+  "length": 257.4,
+  "master": "items/10057/paint_a.png",
+  "icon": "items/10057/icon_a_x2.png",
+  "description": "Faithfully extrapolate the complete MM9 Sergeant's Spear in MM6-MM8 inventory style. Preserve the very long narrow symmetric silver lance blade with center ridge, straight short silver crossbar, thin silver neck, and plain warm-brown lower shaft. Render one full-length spear on genuine transparent RGBA."
+ },
+ "d10058": {
+  "design_id": 10058,
+  "name": "Abli Duta",
+  "family": "spear",
+  "route": "blender",
+  "items": [
+   10058
+  ],
+  "length": 257.4,
+  "master": "items/10058/paint_a.png",
+  "icon": "items/10058/icon_a_x2.png",
+  "description": "Faithfully extrapolate the complete MM9 Abli Duta in MM6-MM8 inventory style. Preserve the warm-brown shaft with gold bands, stacked pale-silver and rose-pink upper fittings, gold-red collar, and long faceted pink-white lance blade with stepped side projections. Render one full-length polearm on transparent RGBA."
+ },
+ "d10059": {
+  "design_id": 10059,
+  "name": "Pike",
+  "family": "spear",
+  "route": "blender",
+  "items": [
+   10059
+  ],
+  "length": 257.4,
+  "master": "items/10059/paint_a.png",
+  "icon": "items/10059/icon_a_x2.png",
+  "description": "Faithfully extrapolate the complete MM9 Pike in MM6-MM8 inventory style. Preserve the long plain reddish-brown shaft with sparse pale bands, gold socket, small red-orange flared collar, and slender symmetric pale-silver leaf point with central ridge. Render one practical full-length pike on transparent RGBA."
+ },
+ "d10060": {
+  "design_id": 10060,
+  "name": "Imperial Spear",
+  "family": "spear",
+  "route": "blender",
+  "items": [
+   10060
+  ],
+  "length": 257.4,
+  "master": "items/10060/paint_a.png",
+  "icon": "items/10060/icon_a_x2.png",
+  "description": "Faithfully extrapolate the complete MM9 Imperial Spear in MM6-MM8 inventory style. Preserve the slim orange-pale lance point with paired swept barbs, bright green center gem, curved gold quillons, and very long ivory-orange-gold spiral-wrapped lower shaft. Render one full-length spear on genuine transparent RGBA."
+ },
+ "d10189": {
+  "design_id": 10189,
+  "name": "Gungnir",
+  "family": "spear",
+  "route": "hybrid",
+  "items": [
+   10189
+  ],
+  "length": 257.4,
+  "master": "items/10189/paint_a.png",
+  "icon": "items/10189/icon_a_x2.png",
+  "description": "Faithfully extrapolate the complete MM9 Gungnir in MM6-MM8 inventory style. Preserve the gold central leaf point with two backward barbs, vivid red shaft, sparse gold bands, and ornate gold butt. Render one complete full-length spear on genuine transparent RGBA without redesign or generic substitution."
+ },
+ "d10190": {
+  "design_id": 10190,
+  "name": "Formanir",
+  "family": "spear",
+  "route": "blender",
+  "items": [
+   10190
+  ],
+  "length": 257.4,
+  "master": "items/10190/paint_a.png",
+  "icon": "items/10190/icon_a_x2.png",
+  "description": "Faithfully extrapolate the complete MM9 Formanir in MM6-MM8 inventory style. Preserve the large golden-orange leaf/flame point with cream center ridge, tiny blue-violet socket, orange-and-ivory wrapped upper shaft, sparse gold collars, and long golden-brown lower shaft. Render one full-length spear without redesign."
+ },
+ "d10191": {
+  "design_id": 10191,
+  "name": "Einherjar",
+  "family": "spear",
+  "route": "hybrid",
+  "items": [
+   10191
+  ],
+  "length": 257.4,
+  "master": "items/10191/paint_a.png",
+  "icon": "items/10191/icon_a_x2.png",
+  "description": "Faithfully extrapolate the complete MM9 Einherjar in MM6-MM8 inventory style. Preserve its very long narrow spear point and four visibly asymmetric scythe-like blades crossing around the orange-copper socket, dark olive-brown shaft, blue-violet collar, sparse gold fittings, and metal butt. Do not simplify it to a trident."
+ },
+ "d10061": {
+  "design_id": 10061,
+  "name": "Halberd",
+  "family": "halberd",
+  "route": "blender",
+  "items": [
+   10061
+  ],
+  "length": 253.8,
+  "master": "items/10061/paint_a.png",
+  "icon": "items/10061/icon_a_x2.png",
+  "description": "Faithfully extrapolate the complete MM9 Halberd in MM6-MM8 inventory style. Preserve the gray-steel three-part head with long up-curved blade, rounded left crescent, larger swept batwing-like right/lower blade, small socket, and very long plain brown shaft. Render the full polearm on transparent RGBA."
+ },
+ "d10062": {
+  "design_id": 10062,
+  "name": "Ronenguard Bill",
+  "family": "halberd",
+  "route": "blender",
+  "items": [
+   10062
+  ],
+  "length": 253.8,
+  "master": "items/10062/paint_a.png",
+  "icon": "items/10062/icon_a_x2.png",
+  "description": "Faithfully extrapolate the complete MM9 Ronenguard Bill in MM6-MM8 inventory style. Preserve the compact pale hooked teardrop head, one long up-curved point, dark inset, plain orange-brown shaft, and only its simple dark and gold bands. Render one full-length bill on transparent RGBA without invented studs or decoration."
+ },
+ "d10063": {
+  "design_id": 10063,
+  "name": "Yagar Axe",
+  "family": "halberd",
+  "route": "blender",
+  "items": [
+   10063
+  ],
+  "length": 253.8,
+  "master": "items/10063/paint_a.png",
+  "icon": "items/10063/icon_a_x2.png",
+  "description": "Faithfully extrapolate the complete MM9 Yagar Axe in MM6-MM8 inventory style. Preserve the tall center spear point, rounded left crescent, smaller angular swept right blade, long dark shaft, sparse pale bands, and metal end cap. Render one complete upright poleaxe on genuine transparent RGBA without redesign."
+ },
+ "d10064": {
+  "design_id": 10064,
+  "name": "Regimental Halberd",
+  "family": "halberd",
+  "route": "blender",
+  "items": [
+   10064
+  ],
+  "length": 253.8,
+  "master": "items/10064/paint_a.png",
+  "icon": "items/10064/icon_a_x2.png",
+  "description": "This halberd is used by the Mercantile Regiment, that formed when highwaymen were taking off with much of the Trade Merchant's profits.  It is tall, heavy, and deadly."
+ },
+ "d10065": {
+  "design_id": 10065,
+  "name": "Laga Couta",
+  "family": "halberd",
+  "route": "blender",
+  "items": [
+   10065
+  ],
+  "length": 253.8,
+  "master": "items/10065/paint_a.png",
+  "icon": "items/10065/icon_a_x2.png",
+  "description": "Faithfully repaint the binding original MM9 PCX in MM6-MM8 inventory style. Preserve the broad pale single blade, elaborate thin rear hook-and-spike cluster, long reddish-brown shaft, gold bands, and pale end cap. Render one complete upright Laga Couta on genuine transparent alpha without redesign or generic substitution."
+ },
+ "d10192": {
+  "design_id": 10192,
+  "name": "Stouka Couta",
+  "family": "halberd",
+  "route": "hybrid",
+  "items": [
+   10192
+  ],
+  "length": 253.8,
+  "master": "items/10192/paint_a.png",
+  "icon": "items/10192/icon_a_x2.png",
+  "description": "Faithfully extrapolate the complete MM9 Stouka Couta in MM6-MM8 inventory style. Preserve the broad tall gray single blade left of a long narrow silver spear spike, small downward rear hook, pale-blue socket bands, dark charcoal-blue shaft, and short copper-brown butt grip. Do not substitute a generic halberd."
+ },
+ "d10066": {
+  "design_id": 10066,
+  "name": "Bone Club",
+  "family": "mace",
+  "route": "hybrid",
+  "items": [
+   10066
+  ],
+  "length": 151.2,
+  "master": "items/10066/paint_a.png",
+  "icon": "items/10066/icon_a_x2.png",
+  "description": "Faithfully repaint the binding original MM9 PCX in MM6-MM8 inventory style. Preserve the pale animal-bone shaft, angled knobby joint head, short dark lower wrap, and broad flared bone pommel. Render one complete upright primitive Bone Club on genuine transparent alpha without redesign or generic substitution."
+ },
+ "d10067": {
+  "design_id": 10067,
+  "name": "Crude Mace",
+  "family": "mace",
+  "route": "blender",
+  "items": [
+   10067
+  ],
+  "length": 151.2,
+  "master": "items/10067/paint_a.png",
+  "icon": "items/10067/icon_a_x2.png",
+  "description": "Faithfully repaint the binding original MM9 PCX in MM6-MM8 inventory style. Preserve the very thin plain dark shaft and elongated narrow hollow ribbed metal head with longitudinal bars, upper loop, and small base collar. Render one complete upright Crude Mace on genuine transparent alpha without making it a round spiked mace."
+ },
+ "d10068": {
+  "design_id": 10068,
+  "name": "Spiked Club",
+  "family": "mace",
+  "route": "hybrid",
+  "items": [
+   10068
+  ],
+  "length": 151.2,
+  "master": "items/10068/paint_a.png",
+  "icon": "items/10068/icon_a_x2.png",
+  "description": "Faithfully repaint the binding original MM9 PCX in MM6-MM8 inventory style. Preserve the long slim brown club, cylindrical upper striking section with many small pale spikes, silver cap, tightly wrapped lower grip, metal bands, and small silver butt cap. Render one complete upright Spiked Club on genuine transparent alpha."
+ },
+ "d10069": {
+  "design_id": 10069,
+  "name": "Dragon Club",
+  "family": "mace",
+  "route": "hybrid",
+  "items": [
+   10069
+  ],
+  "length": 151.2,
+  "master": "items/10069/paint_a.png",
+  "icon": "items/10069/icon_a_x2.png",
+  "description": "Faithfully repaint the binding original MM9 PCX in MM6-MM8 inventory style. Preserve the pale organic dragon bone, thick curved blunt upper end, natural pits and mottling, crooked tapered lower shaft, and narrow gold-dark collar. Render one complete upright Dragon Club on genuine transparent alpha without generic substitution."
+ },
+ "d10070": {
+  "design_id": 10070,
+  "name": "Thjoradric Mace",
+  "family": "mace",
+  "route": "hybrid",
+  "items": [
+   10070
+  ],
+  "length": 151.2,
+  "master": "items/10070/paint_a.png",
+  "icon": "items/10070/icon_a_x2.png",
+  "description": "Faithfully repaint the binding original MM9 PCX in MM6-MM8 inventory style. Preserve the long reddish-brown shaft with pale bands and the complex bright-silver head: tall central point, symmetrical swept wing-blades, small lower points, and copper-gold top accent. Render one complete upright mace on transparent RGBA."
+ },
+ "d10198": {
+  "design_id": 10198,
+  "name": "Spencer's Obedience",
+  "family": "mace",
+  "route": "hybrid",
+  "items": [
+   10198
+  ],
+  "length": 151.2,
+  "master": "items/10198/paint_a.png",
+  "icon": "items/10198/icon_a_x2.png",
+  "description": "Faithfully repaint the binding original MM9 PCX in MM6-MM8 inventory style. Preserve the short thick tapered reddish leather-wrapped body with gold bands, compact gold-copper crown, dark top nub, and several short black spikes radiating around the crown. Render the complete peculiar club on transparent RGBA."
+ },
+ "d10234": {
+  "design_id": 10234,
+  "name": "Fre's Smooth Mace",
+  "family": "mace",
+  "route": "hybrid",
+  "items": [
+   10234
+  ],
+  "length": 151.2,
+  "master": "items/10234/paint_a.png",
+  "icon": "items/10234/icon_a_x2.png",
+  "description": "Faithfully repaint the binding original MM9 PCX in MM6-MM8 inventory style. Preserve the segmented brown shaft with vivid green sections and silver collars, small gold end cap, and compact faceted onion-diamond gold head with broad side lobes, green band, and pointed top. Render on transparent RGBA."
+ },
+ "d10081": {
+  "design_id": 10081,
+  "name": "Hammer",
+  "family": "hammer",
+  "route": "blender",
+  "items": [
+   10081
+  ],
+  "length": 132.3,
+  "master": "items/10081/paint_a.png",
+  "icon": "items/10081/icon_a_x2.png",
+  "description": "Faithfully repaint the binding original MM9 PCX in MM6-MM8 inventory style. Preserve the long plain brown handle, narrow pale neck, and small practical iron head with a long tapered beak, short blunt opposing face, and raised central ridge. Render one complete upright Hammer on genuine transparent RGBA."
+ },
+ "d10082": {
+  "design_id": 10082,
+  "name": "Dwarven Hammer",
+  "family": "hammer",
+  "route": "blender",
+  "items": [
+   10082
+  ],
+  "length": 106.7,
+  "master": "items/10082/paint_a.png",
+  "icon": "items/10082/icon_a_x2.png",
+  "description": "Faithfully repaint the binding original MM9 PCX in MM6-MM8 inventory style. Preserve the ornate broad symmetrical pale-silver head with stepped rectangular faces, gold details, round red center jewel, gold neck, and short brown handle with diagonal gold wrap. Render the complete hammer on transparent RGBA."
+ },
+ "d10083": {
+  "design_id": 10083,
+  "name": "Pondata",
+  "family": "hammer",
+  "route": "blender",
+  "items": [
+   10083
+  ],
+  "length": 136.8,
+  "master": "items/10083/paint_a.png",
+  "icon": "items/10083/icon_a_x2.png",
+  "description": "Faithfully repaint the binding original MM9 PCX in MM6-MM8 inventory style. Preserve the long plain brown handle with gold pommel, broad textured gold lattice collar, and compact silver double head with a blunt flared face, angular tapered opposing face, top ridge, and tiny colored accents. Render on transparent RGBA."
+ },
+ "d10084": {
+  "design_id": 10084,
+  "name": "Dragon Hammer",
+  "family": "hammer",
+  "route": "hybrid",
+  "items": [
+   10084
+  ],
+  "length": 120.2,
+  "master": "items/10084/paint_a.png",
+  "icon": "items/10084/icon_a_x2.png",
+  "description": "Faithfully repaint the binding original MM9 PCX in MM6-MM8 inventory style. Preserve the long banded dark shaft and airy dragonfly-like cross head: square gold core, two swept pale wing-blades, thin upper spike, and paired lower fins. Do not substitute a normal hammer. Render the complete weapon on transparent RGBA."
+ },
+ "d10085": {
+  "design_id": 10085,
+  "name": "Trellborg Hammer",
+  "family": "hammer",
+  "route": "hybrid",
+  "items": [
+   10085
+  ],
+  "length": 119.2,
+  "master": "items/10085/paint_a.png",
+  "icon": "items/10085/icon_a_x2.png",
+  "description": "Faithfully repaint the binding original MM9 PCX in MM6-MM8 inventory style. Preserve the exceptionally massive bright-silver double rectangular block head with deep beveled geometric panels, thick socket, and very long thin plain reddish-brown handle. Render one complete hammer on genuine transparent RGBA."
+ },
+ "d10193": {
+  "design_id": 10193,
+  "name": "Vanir's Hammer",
+  "family": "hammer",
+  "route": "hybrid",
+  "items": [
+   10193
+  ],
+  "length": 136.8,
+  "master": "items/10193/paint_a.png",
+  "icon": "items/10193/icon_a_x2.png",
+  "description": "Faithfully repaint the binding original MM9 PCX in MM6-MM8 inventory style. Preserve the long slim crimson-and- pale spiral-banded shaft and small asymmetric gold head with a tall center spike, short down-curved pick, and compact rectangular blunt block. Render one complete Vanir's Hammer on transparent RGBA."
+ },
+ "d10199": {
+  "design_id": 10199,
+  "name": "Mjulnir",
+  "family": "hammer",
+  "route": "hybrid",
+  "items": [
+   10199
+  ],
+  "length": 117.9,
+  "master": "items/10199/paint_a.png",
+  "icon": "items/10199/icon_a_x2.png",
+  "description": "Faithfully repaint the binding original MM9 PCX in MM6-MM8 inventory style. Preserve the enormous charcoal-black double rectangular lattice head with intricate gridded faces and thick gold center band, narrow silver neck, short brown grip, and pointed gold pommel. Render the complete Mjulnir on transparent RGBA."
+ },
+ "d10229": {
+  "design_id": 10229,
+  "name": "Death Hammer",
+  "family": "hammer",
+  "route": "hybrid",
+  "items": [
+   10229
+  ],
+  "length": 111.6,
+  "master": "items/10229/paint_a.png",
+  "icon": "items/10229/icon_a_x2.png",
+  "description": "Faithfully repaint the binding original MM9 PCX in MM6-MM8 inventory style. Preserve the extremely thin black handle and compact asymmetrical gothic head with long up-curved horn, layered dark scrollwork around a bright pale round orb/face, and short angular opposite projection. Render on transparent RGBA. CORRECTION (overrides the notes above): the hammer head sits PERFECTLY HORIZONTAL, at right angles to the vertical haft (horn pointing out sideways and curving up, the short projection on the other side), not tilted. Make the haft long like MM6-MM8 war hammers: total height at least 2.6 times the width of the head, the thin black haft with its grip and pommel at the bottom."
+ },
+ "d10197": {
+  "design_id": 10197,
+  "name": "Thjorad",
+  "family": "hammer2h",
+  "route": "hybrid",
+  "items": [
+   10197
+  ],
+  "length": 137.7,
+  "master": "items/10197/paint_a.png",
+  "icon": "items/10197/icon_a_x2.png",
+  "description": "Faithfully repaint the binding original MM9 PCX in MM6-MM8 inventory style. Preserve the oversized broad pale- silver double rectangular head with layered ridges and copper bands, thick socket, and very long narrow brown two-handed shaft with pale lower grip. Render one complete full-length Thjorad on transparent RGBA."
+ },
+ "d10071": {
+  "design_id": 10071,
+  "name": "Flail",
+  "family": "flail",
+  "route": "blender",
+  "items": [
+   10071
+  ],
+  "length": 145.8,
+  "master": "items/10071/paint_a.png",
+  "icon": "items/10071/icon_a_x2.png",
+  "description": "Faithfully repaint the binding original MM9 PCX in MM6-MM8 inventory style. Preserve the long plain brown handle with pale metal bands, compact top hinge and short link, and single narrow brown cylindrical hanging beater with a pale end cap. Render one complete upright historical flail on transparent RGBA."
+ },
+ "d10072": {
+  "design_id": 10072,
+  "name": "Horseman's Flail",
+  "family": "flail",
+  "route": "blender",
+  "items": [
+   10072
+  ],
+  "length": 145.8,
+  "master": "items/10072/paint_a.png",
+  "icon": "items/10072/icon_a_x2.png",
+  "description": "Faithfully repaint the binding original MM9 PCX in MM6-MM8 inventory style. Preserve the slim dark handle with orange-gold fittings, compact top attachment, exactly two long separate pale chains, and two distinct small angular spiked silver weights. Render the complete two-tail silhouette on genuine transparent RGBA."
+ },
+ "d10073": {
+  "design_id": 10073,
+  "name": "Morning Star",
+  "family": "flail",
+  "route": "blender",
+  "items": [
+   10073
+  ],
+  "length": 145.8,
+  "master": "items/10073/paint_a.png",
+  "icon": "items/10073/icon_a_x2.png",
+  "description": "Faithfully repaint the binding original MM9 PCX in MM6-MM8 inventory style. Preserve the long reddish-brown shaft with pale bands and end cap, one curved pale chain, and exactly one compact angular star-shaped spiked weight hanging close along the upper-right side. Render the complete weapon on genuine transparent RGBA."
+ },
+ "d10074": {
+  "design_id": 10074,
+  "name": "War Star",
+  "family": "flail",
+  "route": "blender",
+  "items": [
+   10074
+  ],
+  "length": 145.8,
+  "master": "items/10074/paint_a.png",
+  "icon": "items/10074/icon_a_x2.png",
+  "description": "Faithfully repaint the binding original MM9 PCX in MM6-MM8 inventory style. Preserve the short dark-brown handle with repeated pale metal rings and wrapped lower grip, long curved chain, and compact asymmetrical jagged silver bladed weight rather than a generic sphere. Render the complete War Star on transparent RGBA. CORRECTION (overrides the notes above): the handle is far too thick. Make it a SLIM rod like the flail in the style reference and like MM6-MM8 flails: its width is only about 1/18 of the item's total height (a paperdoll fist must close around it), the same width from the grip to the chain ring. Keep its colours, rings and wrapping, and keep the chain and the striking head exactly as designed; only the handle becomes thinner."
+ },
+ "d10075": {
+  "design_id": 10075,
+  "name": "Imperial Star",
+  "family": "flail",
+  "route": "blender",
+  "items": [
+   10075
+  ],
+  "length": 145.8,
+  "master": "items/10075/paint_a.png",
+  "icon": "items/10075/icon_a_x2.png",
+  "description": "Faithfully repaint the binding original MM9 PCX in MM6-MM8 inventory style. Preserve the short reddish handle, silver cap, curved chain, and ornate bright weight built around a round central orb with opposing crescent-wing blades and smaller points. Render one complete Imperial Star on genuine transparent RGBA. CORRECTION (overrides the notes above): the handle is far too thick. Make it a SLIM rod like the flail in the style reference and like MM6-MM8 flails: its width is only about 1/18 of the item's total height (a paperdoll fist must close around it), the same width from the grip to the chain ring. Keep its colours, rings and wrapping, and keep the chain and the striking head exactly as designed; only the handle becomes thinner."
+ },
+ "d10194": {
+  "design_id": 10194,
+  "name": "Blutterbunger",
+  "family": "flail",
+  "route": "hybrid",
+  "items": [
+   10194
+  ],
+  "length": 145.8,
+  "master": "items/10194/paint_a.png",
+  "icon": "items/10194/icon_a_x2.png",
+  "description": "Faithfully repaint the binding original MM9 PCX in MM6-MM8 inventory style. Preserve the short copper-brown handle with dark lower wrap, curved pale chain, and distinctive bronze multi-lobed cluster weight made of several connected knobby spiked bulbs. Render the complete Blutterbunger on genuine transparent RGBA. CORRECTION (overrides the notes above): the handle is far too thick. Make it a SLIM rod like the flail in the style reference and like MM6-MM8 flails: its width is only about 1/18 of the item's total height (a paperdoll fist must close around it), the same width from the grip to the chain ring. Keep its colours, rings and wrapping, and keep the chain and the striking head exactly as designed; only the handle becomes thinner."
+ },
+ "d10195": {
+  "design_id": 10195,
+  "name": "Manarus",
+  "family": "flail",
+  "route": "hybrid",
+  "items": [
+   10195
+  ],
+  "length": 145.8,
+  "master": "items/10195/paint_a.png",
+  "icon": "items/10195/icon_a_x2.png",
+  "description": "Faithfully repaint the binding original MM9 PCX in MM6-MM8 inventory style. Preserve the very long plain dark- brown handle, small pale fittings, long chain of large links, and exactly one compact dull-silver rounded weight with only a few subtle blunt spikes. Render the complete Manarus on transparent RGBA."
+ },
+ "d10076": {
+  "design_id": 10076,
+  "name": "Wooden Staff",
+  "family": "staff",
+  "route": "blender",
+  "items": [
+   10076
+  ],
+  "length": 259.2,
+  "master": "items/10076/paint_a.png",
+  "icon": "items/10076/icon_a_x2.png",
+  "description": "Faithfully repaint the binding original MM9 PCX in MM6-MM8 inventory style. Preserve the extremely simple full-length straight brown staff, subtly different upper and lower wood tones, narrow pale center collar, and small faceted gold diamond caps at both ends. Render one complete staff on genuine transparent RGBA."
+ },
+ "d10077": {
+  "design_id": 10077,
+  "name": "Tournament Staff",
+  "family": "staff",
+  "route": "blender",
+  "items": [
+   10077
+  ],
+  "length": 259.2,
+  "master": "items/10077/paint_a.png",
+  "icon": "items/10077/icon_a_x2.png",
+  "description": "Faithfully repaint the binding original MM9 PCX in MM6-MM8 inventory style. Preserve the full-length very slim dark shaft, repeated diagonal orange-gold wrap, small gold diamond fittings, pale stud accents, silver-white top cap, and tiny lower fitting. Render one complete Tournament Staff on genuine transparent RGBA."
+ },
+ "d10078": {
+  "design_id": 10078,
+  "name": "Steel Staff",
+  "family": "staff",
+  "route": "blender",
+  "items": [
+   10078
+  ],
+  "length": 259.2,
+  "master": "items/10078/paint_a.png",
+  "icon": "items/10078/icon_a_x2.png",
+  "description": "Faithfully repaint the binding original MM9 PCX in MM6-MM8 inventory style. Preserve the extremely slim straight pale-silver shaft, narrow brown-and-gold grip sections near both ends, small gold upper collar, and dark-silver tip caps. Render one complete austere Steel Staff on genuine transparent RGBA."
+ },
+ "d10079": {
+  "design_id": 10079,
+  "name": "Monastic Staff",
+  "family": "staff",
+  "route": "blender",
+  "items": [
+   10079
+  ],
+  "length": 259.2,
+  "master": "items/10079/paint_a.png",
+  "icon": "items/10079/icon_a_x2.png",
+  "description": "Faithfully repaint the binding original MM9 PCX in MM6-MM8 inventory style. Preserve the slender red-orange and gold-banded shaft and compact red-metal open pronged crown cradling one bright cyan-blue faceted orb. Render one complete Monastic Staff on transparent RGBA without an aura or generic redesign."
+ },
+ "d10080": {
+  "design_id": 10080,
+  "name": "Truth Staff",
+  "family": "staff",
+  "route": "hybrid",
+  "items": [
+   10080
+  ],
+  "length": 259.2,
+  "master": "items/10080/paint_a.png",
+  "icon": "items/10080/icon_a_x2.png",
+  "description": "Faithfully repaint the binding original MM9 PCX in MM6-MM8 inventory style. Preserve the slim pale ivory-silver shaft, sparse bronze-gold fittings, small lower cap, and open circular golden sun-wheel head with dark openings and bright center. Render one complete Truth Staff on genuine transparent RGBA."
+ },
+ "d10196": {
+  "design_id": 10196,
+  "name": "Samarjit",
+  "family": "staff",
+  "route": "hybrid",
+  "items": [
+   10196
+  ],
+  "length": 259.2,
+  "master": "items/10196/paint_a.png",
+  "icon": "items/10196/icon_a_x2.png",
+  "description": "Faithfully repaint the binding original MM9 PCX in MM6-MM8 inventory style. Preserve the full-length slim segmented gold-and-dark staff, purple central grip, small asymmetric crosspiece, and tall faceted gold flame-leaf finial. Render one complete Samarjit on transparent RGBA without generic redesign."
+ },
+ "d10142": {
+  "design_id": 10142,
+  "name": "Footman's Buckler",
+  "family": "shield",
+  "route": "plate",
+  "items": [
+   10142
+  ],
+  "length": 75.6,
+  "master": "items/10142/paint_a.png",
+  "icon": "items/10142/icon_a_x2.png",
+  "description": "preserve the upright oval wooden buckler, dark iron rim, and heavy iron grid of two rails and three ribs"
+ },
+ "d10143": {
+  "design_id": 10143,
+  "name": "Small Shield",
+  "family": "shield",
+  "route": "plate",
+  "items": [
+   10143
+  ],
+  "length": 83.7,
+  "master": "items/10143/paint_a.png",
+  "icon": "items/10143/icon_a_x2.png",
+  "description": "preserve the upright oval shield, diagonal reddish wooden planks, simple iron rim, and four sparse rivets"
+ },
+ "d10144": {
+  "design_id": 10144,
+  "name": "Kite Shield",
+  "family": "shield",
+  "route": "plate",
+  "items": [
+   10144
+  ],
+  "length": 135.0,
+  "master": "items/10144/paint_a.png",
+  "icon": "items/10144/icon_a_x2.png",
+  "description": "preserve the unusually narrow upright pointed wood kite shield, dark rim, central plank, and gold side studs"
+ },
+ "d10145": {
+  "design_id": 10145,
+  "name": "Heater",
+  "family": "shield",
+  "route": "plate",
+  "items": [
+   10145
+  ],
+  "length": 135.0,
+  "master": "items/10145/paint_a.png",
+  "icon": "items/10145/icon_a_x2.png",
+  "description": "preserve the upright broad pointed heater silhouette, vertical golden-brown boards, and plain iron rim"
+ },
+ "d10146": {
+  "design_id": 10146,
+  "name": "Pavise",
+  "family": "shield",
+  "route": "plate",
+  "items": [
+   10146
+  ],
+  "length": 135.0,
+  "master": "items/10146/paint_a.png",
+  "icon": "items/10146/icon_a_x2.png",
+  "description": "preserve the tall upright rectangular pavise, quartered red-white field, dark rim, and blue armored fist emblem CORRECTION: the emblem on the source is a blue CASTLE TOWER (a crenellated chess-rook-like tower with a doorway and"
+ },
+ "d10147": {
+  "design_id": 10147,
+  "name": "Ronenguard Shield",
+  "family": "shield",
+  "route": "plate",
+  "items": [
+   10147
+  ],
+  "length": 135.0,
+  "master": "items/10147/paint_a.png",
+  "icon": "items/10147/icon_a_x2.png",
+  "description": "preserve the narrow upright silver shield and its symmetrical raised mask-and-sword relief"
+ },
+ "d10148": {
+  "design_id": 10148,
+  "name": "Prote der Solle",
+  "family": "shield",
+  "route": "plate",
+  "items": [
+   10148
+  ],
+  "length": 125.1,
+  "master": "items/10148/paint_a.png",
+  "icon": "items/10148/icon_a_x2.png",
+  "description": "preserve the upright dark-gold oval shield, pale rim, ornate border, and green-gold four-way swirling emblem"
+ },
+ "d10149": {
+  "design_id": 10149,
+  "name": "Haklea Shovis",
+  "family": "shield",
+  "route": "plate",
+  "items": [
+   10149
+  ],
+  "length": 131.4,
+  "master": "items/10149/paint_a.png",
+  "icon": "items/10149/icon_a_x2.png",
+  "description": "preserve the upright silver-rimmed heater shield and dense raised gold knotwork covering its dark face"
+ },
+ "d10207": {
+  "design_id": 10207,
+  "name": "Arrowfoe",
+  "family": "shield",
+  "route": "plate",
+  "items": [
+   10207
+  ],
+  "length": 120.2,
+  "master": "items/10207/paint_a.png",
+  "icon": "items/10207/icon_a_x2.png",
+  "description": "preserve the upright oval shield, alternating yellow-red curved quadrants, studded rim, and blue-gray boss"
+ },
+ "d10223": {
+  "design_id": 10223,
+  "name": "Prize Shield",
+  "family": "shield",
+  "route": "plate",
+  "items": [
+   10223
+  ],
+  "length": 94.5,
+  "master": "items/10223/paint_a.png",
+  "icon": "items/10223/icon_a_x2.png",
+  "description": "preserve the upright round pale-silver shield, thick red studded rim, and red-over-white central boss"
+ },
+ "d10363": {
+  "design_id": 10363,
+  "name": "Wooden Shield",
+  "family": "shield",
+  "route": "plate",
+  "items": [
+   10363
+  ],
+  "length": 135.0,
+  "master": "items/10363/paint_a.png",
+  "icon": "items/10363/icon_a_x2.png",
+  "description": "preserve the upright tan wooden heater shield, plain wood rim, and large blue heraldic lion"
+ },
+ "d10375": {
+  "design_id": 10375,
+  "name": "Kira's Shield",
+  "family": "shield",
+  "route": "plate",
+  "items": [
+   10375
+  ],
+  "length": 135.0,
+  "master": "items/10375/paint_a.png",
+  "icon": "items/10375/icon_a_x2.png",
+  "description": "source-faithful upright point-down shield"
+ },
+ "d10116": {
+  "design_id": 10116,
+  "name": "Coif",
+  "family": "helm",
+  "route": "meshy",
+  "items": [
+   10116
+  ],
+  "length": 61.2,
+  "master": "items/10116/paint_a.png",
+  "icon": "items/10116/icon_a_x2.png",
+  "description": "A chain mail coif of grey steel links: a hood covering the head, ears and neck with an oval face opening and a mail cape spreading over the top of the shoulders; the face shows through where Image 1 leaves it open."
+ },
+ "d10117": {
+  "design_id": 10117,
+  "name": "Plain Helm",
+  "family": "helm",
+  "route": "meshy",
+  "items": [
+   10117,
+   10204
+  ],
+  "length": 59.4,
+  "master": "items/10117/paint_a.png",
+  "icon": "items/10117/icon_a_x2.png",
+  "description": "A rounded bronze-brown steel skullcap with a broad steel brow band, two crossing steel bands over the dome with rivets, a small knob at the top, and a straight steel nasal bar down over the nose."
+ },
+ "d10119": {
+  "design_id": 10119,
+  "name": "Barbute Helm",
+  "family": "helm",
+  "route": "meshy",
+  "items": [
+   10119
+  ],
+  "length": 61.2,
+  "master": "items/10119/paint_a.png",
+  "icon": "items/10119/icon_a_x2.png",
+  "description": "A tall rounded barbute of polished silver steel enclosing the head, with a T-shaped face opening: two dark eye slits joined to a vertical slot over the mouth; plain, no trim."
+ },
+ "d10120": {
+  "design_id": 10120,
+  "name": "Loaf Helm",
+  "family": "helm",
+  "route": "meshy",
+  "items": [
+   10120
+  ],
+  "length": 61.2,
+  "master": "items/10120/paint_a.png",
+  "icon": "items/10120/icon_a_x2.png",
+  "description": "A pointed conical great helm of bluish polished steel with a vertical steel ridge running down the front to the chin, crossed by a narrow horizontal eye slit; plain, no colours."
+ },
+ "d10121": {
+  "design_id": 10121,
+  "name": "Bascinet",
+  "family": "helm",
+  "route": "meshy",
+  "items": [
+   10121
+  ],
+  "length": 61.2,
+  "master": "items/10121/paint_a.png",
+  "icon": "items/10121/icon_a_x2.png",
+  "description": "A rounded bascinet of polished silver steel with a closed visor carrying one horizontal eye slit, a ridge over the crown, and a flared steel gorget plate below the chin; plain, no trim."
+ },
+ "d10122": {
+  "design_id": 10122,
+  "name": "Sallet",
+  "family": "helm",
+  "route": "meshy",
+  "items": [
+   10122
+  ],
+  "length": 59.4,
+  "master": "items/10122/paint_a.png",
+  "icon": "items/10122/icon_a_x2.png",
+  "description": "A rounded open sallet of polished silver steel: a tall smooth dome with a short flared brim; the face stays open where Image 1 leaves it open; plain, no trim."
+ },
+ "d10123": {
+  "design_id": 10123,
+  "name": "Dragon Helm",
+  "family": "helm",
+  "route": "meshy",
+  "items": [
+   10123
+  ],
+  "length": 61.2,
+  "master": "items/10123/paint_a.png",
+  "icon": "items/10123/icon_a_x2.png",
+  "description": "A closed great helm of dark blued black steel with a fine scale texture; a bold polished gold cross frames the T-shaped eye and breath slit, with a gold band along the bottom rim; the face is hidden."
+ },
+ "d10124": {
+  "design_id": 10124,
+  "name": "Imperial Helm",
+  "family": "helm",
+  "route": "meshy",
+  "items": [
+   10124
+  ],
+  "length": 61.2,
+  "master": "items/10124/paint_a.png",
+  "icon": "items/10124/icon_a_x2.png",
+  "description": "A tall flat-topped great helm of silver steel with a bold polished gold cross on the front framing the horizontal eye slit, and rows of small round breathing holes on both sides of the cross below the slit."
+ },
+ "d10125": {
+  "design_id": 10125,
+  "name": "Jarl's Helm",
+  "family": "helm",
+  "route": "meshy",
+  "items": [
+   10125
+  ],
+  "length": 61.2,
+  "master": "items/10125/paint_a.png",
+  "icon": "items/10125/icon_a_x2.png",
+  "description": "A rounded polished silver steel dome with vertical riveted ridges and a riveted brow band, two round spectacle eye guards joined by a short pointed nasal; the lower face stays open where Image 1 leaves it open."
+ },
+ "d10203": {
+  "design_id": 10203,
+  "name": "Witchbane",
+  "family": "helm",
+  "route": "meshy",
+  "items": [
+   10203
+  ],
+  "length": 61.2,
+  "master": "items/10203/paint_a.png",
+  "icon": "items/10203/icon_a_x2.png",
+  "description": "A helm made from a large old yellowed bone skull: the cranium covers the head, the face is the skull's dark eye sockets and nose hole over a gaping open jaw, and a blue-grey steel collar with bone fangs flares below it."
+ },
+ "d10221": {
+  "design_id": 10221,
+  "name": "Prize Skullcap",
+  "family": "helm",
+  "route": "meshy",
+  "items": [
+   10221
+  ],
+  "length": 61.2,
+  "master": "items/10221/paint_a.png",
+  "icon": "items/10221/icon_a_x2.png",
+  "description": "A tall pointed conical skullcap of polished grey steel with raised steel bands up the front and sides set with small red square studs, and a heavy steel brow rim with a row of red studs."
+ },
+ "d10226": {
+  "design_id": 10226,
+  "name": "Broderick's Helm",
+  "family": "helm",
+  "route": "meshy",
+  "items": [
+   10226
+  ],
+  "length": 61.2,
+  "master": "items/10226/paint_a.png",
+  "icon": "items/10226/icon_a_x2.png",
+  "description": "A tall flat-topped great helm of silver steel with a pale-blue enamelled steel cross on the front framing the horizontal eye slit, and rows of small round breathing holes on both sides of the cross below the slit."
+ },
+ "d10231": {
+  "design_id": 10231,
+  "name": "Death Cap",
+  "family": "helm",
+  "route": "meshy",
+  "items": [
+   10231
+  ],
+  "length": 61.2,
+  "master": "items/10231/paint_a.png",
+  "icon": "items/10231/icon_a_x2.png",
+  "description": "A dark blackened steel helm whose front is sculpted as a skull face: hollow dark eye sockets and a nose hole, the helm flaring at the cheeks with the chin open below; dark steel with dull pale highlights."
+ },
+ "d10236": {
+  "design_id": 10236,
+  "name": "Fre's Helm",
+  "family": "helm",
+  "route": "meshy",
+  "items": [
+   10236
+  ],
+  "length": 61.2,
+  "master": "items/10236/paint_a.png",
+  "icon": "items/10236/icon_a_x2.png",
+  "description": "A rounded helm with a green enamelled dome divided by bronze bands, a bronze brow band with rivets and a small spike on top, and a polished gold spectacle mask with two oval eye holes and a pointed nasal below it."
+ },
+ "d10364": {
+  "design_id": 10364,
+  "name": "Fur Cap",
+  "family": "helm",
+  "route": "meshy",
+  "items": [
+   10364
+  ],
+  "length": 61.2,
+  "master": "items/10364/paint_a.png",
+  "icon": "items/10364/icon_a_x2.png",
+  "description": "A round flat-topped cap of spotted tan and brown fur with a thick fur brim; a striped brown-and-cream raccoon tail hangs from the back."
+ },
+ "d10086": {
+  "design_id": 10086,
+  "name": "Arming Doublet",
+  "family": "armor",
+  "route": "meshy",
+  "items": [
+   10086
+  ],
+  "length": 120.5,
+  "master": "items/10086/paint_a.png",
+  "icon": "items/10086/icon_a_x2.png",
+  "description": "A dark-brown quilted leather doublet with a high round collar, long padded sleeves and a wrap front crossing from the left shoulder to the waist, tied at the waist with a thin leather cord; fine diagonal quilting seams, a long skirt split at the front, and a paler worn leather edging at the hem and cuffs."
+ },
+ "d10087": {
+  "design_id": 10087,
+  "name": "Padded Leather",
+  "family": "armor",
+  "route": "meshy",
+  "items": [
+   10087
+  ],
+  "length": 120.5,
+  "master": "items/10087/paint_a.png",
+  "icon": "items/10087/icon_a_x2.png",
+  "description": "A bright orange-tan leather tunic with short sleeves, a small V neck laced with a dark cord, a narrow dark leather belt set with small square steel studs at the waist, a skirt split at the front, and a pale tan edging at the hem, neck and cuffs."
+ },
+ "d10088": {
+  "design_id": 10088,
+  "name": "Hardened Leather",
+  "family": "armor",
+  "route": "meshy",
+  "items": [
+   10088
+  ],
+  "length": 120.5,
+  "master": "items/10088/paint_a.png",
+  "icon": "items/10088/icon_a_x2.png",
+  "description": "A sleeveless fitted vest of smooth dark-brown hardened leather with a high round neck; an olive-bronze leather panel crossing diagonally from the near shoulder over the chest, edged with a row of small brass studs; a rolled leather hem band with brass studs."
+ },
+ "d10089": {
+  "design_id": 10089,
+  "name": "Beldonian Hard Leather",
+  "family": "armor",
+  "route": "meshy",
+  "items": [
+   10089
+  ],
+  "length": 120.5,
+  "master": "items/10089/paint_a.png",
+  "icon": "items/10089/icon_a_x2.png",
+  "description": "A sleeveless fitted vest of glossy cobalt-blue leather with a round neck, a large pale-blue leather flap standing up over each shoulder, a rounded chest panel outlined by silver piping and small silver studs, and a silver-studded rolled hem band."
+ },
+ "d10090": {
+  "design_id": 10090,
+  "name": "Scaled Leather",
+  "family": "armor",
+  "route": "meshy",
+  "items": [
+   10090
+  ],
+  "length": 120.5,
+  "master": "items/10090/paint_a.png",
+  "icon": "items/10090/icon_a_x2.png",
+  "description": "A sleeveless round-neck vest covered in large overlapping square ochre-orange leather scales in rows, a pale leather band around the neck and armholes, a dark leather strap with two brass rivets down the near side, and a pale rolled hem."
+ },
+ "d10091": {
+  "design_id": 10091,
+  "name": "Imperial Scale",
+  "family": "armor",
+  "route": "meshy",
+  "items": [
+   10091
+  ],
+  "length": 120.5,
+  "master": "items/10091/paint_a.png",
+  "icon": "items/10091/icon_a_x2.png",
+  "description": "A vest of small rounded copper-orange leather scales overlapping in rows, pale white-steel shoulder guards rimmed in brass, three short steel straps across the upper chest, a brass-edged round collar and a brass-edged hem."
+ },
+ "d10092": {
+  "design_id": 10092,
+  "name": "Brigandine",
+  "family": "armor",
+  "route": "meshy",
+  "items": [
+   10092
+  ],
+  "length": 120.5,
+  "master": "items/10092/paint_a.png",
+  "icon": "items/10092/icon_a_x2.png",
+  "description": "A short-sleeved black-brown leather brigandine densely covered in small silver rivets, built of horizontal panels, with a brown leather belt at the waist and a short skirt of vertical studded panels below it."
+ },
+ "d10093": {
+  "design_id": 10093,
+  "name": "Combat Brigandine",
+  "family": "armor",
+  "route": "meshy",
+  "items": [
+   10093
+  ],
+  "length": 120.5,
+  "master": "items/10093/paint_a.png",
+  "icon": "items/10093/icon_a_x2.png",
+  "description": "A long-sleeved warm-brown leather brigandine of square riveted leather panels with silver rivets at every corner, a round collar, a brown leather belt at the waist and a long skirt split at the front."
+ },
+ "d10094": {
+  "design_id": 10094,
+  "name": "Brigan der Combit",
+  "family": "armor",
+  "route": "meshy",
+  "items": [
+   10094
+  ],
+  "length": 120.5,
+  "master": "items/10094/paint_a.png",
+  "icon": "items/10094/icon_a_x2.png",
+  "description": "A short-sleeved brigandine of grey-brown square leather plates, each edged and studded with small brass rivets; a bright orange-tan leather trim at the collar, cuffs, front split and hem; a narrow belt at the waist and a long skirt split at the front."
+ },
+ "d10095": {
+  "design_id": 10095,
+  "name": "Aklean Bouila",
+  "family": "armor",
+  "route": "meshy",
+  "items": [
+   10095
+  ],
+  "length": 120.5,
+  "master": "items/10095/paint_a.png",
+  "icon": "items/10095/icon_a_x2.png",
+  "description": "A short-sleeved deep-green leather jerkin with large pale-green rounded shoulder pads, a yellow-green shield- shaped chest panel framed by brass studs, a brass-trimmed round collar, and a short skirt of green and yellow- green checkered panels with a brass-trimmed hem."
+ },
+ "d10096": {
+  "design_id": 10096,
+  "name": "Butted Chain",
+  "family": "armor",
+  "route": "meshy",
+  "items": [
+   10096
+  ],
+  "length": 120.5,
+  "master": "items/10096/paint_a.png",
+  "icon": "items/10096/icon_a_x2.png",
+  "description": "A sleeveless tunic of large rusty brown-bronze butted chain rings, coarse and slightly irregular with a few broken links, a plain round neck and a short split skirt."
+ },
+ "d10097": {
+  "design_id": 10097,
+  "name": "Rivited Chain",
+  "family": "armor",
+  "route": "meshy",
+  "items": [
+   10097
+  ],
+  "length": 120.5,
+  "master": "items/10097/paint_a.png",
+  "icon": "items/10097/icon_a_x2.png",
+  "description": "A sleeveless tunic of bright silver-grey riveted chain mail with fine even links, a plain round neck and a long skirt split at the front; no trim, no other colours."
+ },
+ "d10098": {
+  "design_id": 10098,
+  "name": "Iron Chain",
+  "family": "armor",
+  "route": "meshy",
+  "items": [
+   10098
+  ],
+  "length": 120.5,
+  "master": "items/10098/paint_a.png",
+  "icon": "items/10098/icon_a_x2.png",
+  "description": "A short-sleeved tunic of dark iron-grey chain mail with an overlapping wrap front crossing diagonally to the hip, a plain round neck and a skirt split at the front; dull dark iron, no trim."
+ },
+ "d10099": {
+  "design_id": 10099,
+  "name": "Steel Chain",
+  "family": "armor",
+  "route": "meshy",
+  "items": [
+   10099
+  ],
+  "length": 120.5,
+  "master": "items/10099/paint_a.png",
+  "icon": "items/10099/icon_a_x2.png",
+  "description": "A short-sleeved tunic of bright polished steel chain mail with a soft draped cowl around the round neck and a skirt split at the front; bright silver, no trim, no other colours."
+ },
+ "d10100": {
+  "design_id": 10100,
+  "name": "Chain Haubergeon",
+  "family": "armor",
+  "route": "meshy",
+  "items": [
+   10100
+  ],
+  "length": 120.5,
+  "master": "items/10100/paint_a.png",
+  "icon": "items/10100/icon_a_x2.png",
+  "description": "A short-sleeved silver-grey chain mail shirt ending at the waist, with a pointed V-shaped bib of finer, denser mail hanging from the neck over the chest; no trim, no other colours."
+ },
+ "d10101": {
+  "design_id": 10101,
+  "name": "Chain Hauberk",
+  "family": "armor",
+  "route": "meshy",
+  "items": [
+   10101
+  ],
+  "length": 120.5,
+  "master": "items/10101/paint_a.png",
+  "icon": "items/10101/icon_a_x2.png",
+  "description": "A short-sleeved long chain mail hauberk of silver-grey links with a round neck and a long skirt split at the front; no trim, no other colours."
+ },
+ "d10102": {
+  "design_id": 10102,
+  "name": "Chedian Chain",
+  "family": "armor",
+  "route": "meshy",
+  "items": [
+   10102
+  ],
+  "length": 120.5,
+  "master": "items/10102/paint_a.png",
+  "icon": "items/10102/icon_a_x2.png",
+  "description": "A silver-grey chain mail shirt of small round links with short sleeves; royal-blue and yellow striped bands at the collar, the sleeve cuffs and the hem; on the chest a pointed shield-shaped cloth panel divided diagonally into yellow and royal blue; a long mail skirt split at the front, edged with the same blue and yellow band."
+ },
+ "d10103": {
+  "design_id": 10103,
+  "name": "Chain Harness",
+  "family": "armor",
+  "route": "meshy",
+  "items": [
+   10103
+  ],
+  "length": 119.3,
+  "master": "items/10103/paint_a.png",
+  "icon": "items/10103/icon_a_x2.png",
+  "description": "A long-sleeved silver-grey chain mail shirt with a round neck, its lower part a short skirt of mail over mail shorts; no trim, no other colours."
+ },
+ "d10104": {
+  "design_id": 10104,
+  "name": "Lachmon Hauberk",
+  "family": "armor",
+  "route": "meshy",
+  "items": [
+   10104
+  ],
+  "length": 120.5,
+  "master": "items/10104/paint_a.png",
+  "icon": "items/10104/icon_a_x2.png",
+  "description": "A short-sleeved long hauberk of pale green-silver chain mail with a round neck and a long skirt split at the front; pale green tint on silver links, no trim."
+ },
+ "d10105": {
+  "design_id": 10105,
+  "name": "Trigvanian Mail",
+  "family": "armor",
+  "route": "meshy",
+  "items": [
+   10105
+  ],
+  "length": 119.3,
+  "master": "items/10105/paint_a.png",
+  "icon": "items/10105/icon_a_x2.png",
+  "description": "A long-sleeved green-silver chain mail shirt with a bronze-edged neck and a front panel of finer mail edged in bronze, carrying two large dark-green spiral discs one above the other on the chest and belly; mail skirt below."
+ },
+ "d10108": {
+  "design_id": 10108,
+  "name": "Ronenguard Plate",
+  "family": "armor",
+  "route": "meshy",
+  "items": [
+   10108
+  ],
+  "length": 120.5,
+  "master": "items/10108/paint_a.png",
+  "icon": "items/10108/icon_a_x2.png",
+  "description": "A sleeveless breastplate of dark blued steel ending in a point below the belly, with riveted steel bands along the armholes, neck and edges, a horizontal riveted seam across the chest and a vertical riveted strap down each side."
+ },
+ "d10109": {
+  "design_id": 10109,
+  "name": "Field Plate",
+  "family": "armor",
+  "route": "meshy",
+  "items": [
+   10109
+  ],
+  "length": 120.5,
+  "master": "items/10109/paint_a.png",
+  "icon": "items/10109/icon_a_x2.png",
+  "description": "A plain sleeveless breastplate of smooth dark gunmetal steel with a rolled steel rim at the neck and armholes and a hem that dips to a point below the belly; no rivets, no ornament."
+ },
+ "d10110": {
+  "design_id": 10110,
+  "name": "Full Plate",
+  "family": "armor",
+  "route": "meshy",
+  "items": [
+   10110
+  ],
+  "length": 120.5,
+  "master": "items/10110/paint_a.png",
+  "icon": "items/10110/icon_a_x2.png",
+  "description": "Blue-grey polished steel full plate: a smooth rounded breastplate, layered rounded shoulder plates, segmented steel arm plates, and a skirt of overlapping horizontal steel lames below the waist."
+ },
+ "d10111": {
+  "design_id": 10111,
+  "name": "Paladin's Plate",
+  "family": "armor",
+  "route": "meshy",
+  "items": [
+   10111
+  ],
+  "length": 120.5,
+  "master": "items/10111/paint_a.png",
+  "icon": "items/10111/icon_a_x2.png",
+  "description": "Silver steel plate with gold trim: angular shoulder plates with small gold bars, a breastplate with a vertical gold ridge and a round gold-ringed boss on the chest, a gold band at the waist, and long steel tasset plates edged in gold."
+ },
+ "d10112": {
+  "design_id": 10112,
+  "name": "Heavy Plate",
+  "family": "armor",
+  "route": "meshy",
+  "items": [
+   10112
+  ],
+  "length": 120.5,
+  "master": "items/10112/paint_a.png",
+  "icon": "items/10112/icon_a_x2.png",
+  "description": "Dark blue-black steel plate: a smooth breastplate, large rounded shoulder plates, segmented arm plates, and a long skirt of vertical dark steel strips; plain, no gold, no other colours."
+ },
+ "d10113": {
+  "design_id": 10113,
+  "name": "Thjoradric Plate",
+  "family": "armor",
+  "route": "meshy",
+  "items": [
+   10113
+  ],
+  "length": 120.5,
+  "master": "items/10113/paint_a.png",
+  "icon": "items/10113/icon_a_x2.png",
+  "description": "Warm polished copper plate armour: a domed breastplate with a vertical centre ridge, layered rounded copper shoulder plates, ribbed segmented copper arm plates, and a long skirt of vertical copper plate strips on riveted bands; small dark rivets, soft pale highlights on the copper, no other colours."
+ },
+ "d10114": {
+  "design_id": 10114,
+  "name": "Imperial Harness",
+  "family": "armor",
+  "route": "meshy",
+  "items": [
+   10114
+  ],
+  "length": 120.5,
+  "master": "items/10114/paint_a.png",
+  "icon": "items/10114/icon_a_x2.png",
+  "description": "A long coat of charcoal-black plate covered by a dense lattice of polished gold bands crossing at right angles, gold rivets at the crossings, a high gold-rimmed collar, a plain silver steel forearm guard on the near arm and a gold-edged hem."
+ },
+ "d10115": {
+  "design_id": 10115,
+  "name": "Dark Plate",
+  "family": "armor",
+  "route": "meshy",
+  "items": [
+   10115
+  ],
+  "length": 120.5,
+  "master": "items/10115/paint_a.png",
+  "icon": "items/10115/icon_a_x2.png",
+  "description": "Dark bronze and gold plate armour: each shoulder guard is a roaring golden lion head, a sculpted gold-bronze breastplate with gold rivets, a thin purple trim along the edges and at the waist, and dark bronze tasset plates edged in gold."
+ },
+ "d10200": {
+  "design_id": 10200,
+  "name": "Igdrasine",
+  "family": "armor",
+  "route": "meshy",
+  "items": [
+   10200
+  ],
+  "length": 120.5,
+  "master": "items/10200/paint_a.png",
+  "icon": "items/10200/icon_a_x2.png",
+  "description": "A sleeveless fitted leather jerkin quartered in green and blue (green upper near side and lower far side, blue upper far side and lower near side), a golden tree with spreading leafy branches embossed on the chest, gold studs on the green quarters, and a gold-rimmed neck, armholes and hem."
+ },
+ "d10201": {
+  "design_id": 10201,
+  "name": "Poltergeist",
+  "family": "armor",
+  "route": "meshy",
+  "items": [
+   10201
+  ],
+  "length": 120.5,
+  "master": "items/10201/paint_a.png",
+  "icon": "items/10201/icon_a_x2.png",
+  "description": "A short-sleeved shirt of mossy green-and-white chain mail with an irregular mottled green patina, a steel band crossing from the near shoulder, and a steel band around the waist."
+ },
+ "d10202": {
+  "design_id": 10202,
+  "name": "Swordsbane",
+  "family": "armor",
+  "route": "meshy",
+  "items": [
+   10202
+  ],
+  "length": 120.5,
+  "master": "items/10202/paint_a.png",
+  "icon": "items/10202/icon_a_x2.png",
+  "description": "Bronze-copper plate armour with red enamel trim: rounded layered bronze shoulder plates with dark rivets, a breastplate of vertical bronze ribs edged in red, and a long skirt of horizontal bronze lames with red-edged side panels."
+ },
+ "d10220": {
+  "design_id": 10220,
+  "name": "Prize Plate",
+  "family": "armor",
+  "route": "meshy",
+  "items": [
+   10220
+  ],
+  "length": 120.5,
+  "master": "items/10220/paint_a.png",
+  "icon": "items/10220/icon_a_x2.png",
+  "description": "A polished silver steel breastplate of overlapping horizontal lames with a central ridge, a brass collar, brass shoulder plates, each shoulder plate set with a small bunch of bright red feather plumes, and a brass hem rim."
+ },
+ "d10225": {
+  "design_id": 10225,
+  "name": "Broderick's Hauberk",
+  "family": "armor",
+  "route": "meshy",
+  "items": [
+   10225
+  ],
+  "length": 120.5,
+  "master": "items/10225/paint_a.png",
+  "icon": "items/10225/icon_a_x2.png",
+  "description": "A short-sleeved silver chain mail hauberk trimmed with bright blue cloth at the neck, the cuffs and the edges of a skirt split at the front, and a pale blue-white belt with a silver buckle at the waist."
+ },
+ "d10230": {
+  "design_id": 10230,
+  "name": "Death Cuirass",
+  "family": "armor",
+  "route": "meshy",
+  "items": [
+   10230
+  ],
+  "length": 120.5,
+  "master": "items/10230/paint_a.png",
+  "icon": "items/10230/icon_a_x2.png",
+  "description": "A sleeveless glossy black plate cuirass with a gold-rimmed neck, armholes and hem, and two large gold spiral scrolls on the upper chest; faint dark black flame-like patterns embossed over the lower breastplate."
+ },
+ "d10367": {
+  "design_id": 10367,
+  "name": "Quilted Armor",
+  "family": "armor",
+  "route": "meshy",
+  "items": [
+   10367
+  ],
+  "length": 120.5,
+  "master": "items/10367/paint_a.png",
+  "icon": "items/10367/icon_a_x2.png",
+  "description": "A simple tan-gold quilted cloth tube wrapped around the torso with diamond stitching, held up by two pale cloth shoulder straps knotted to the top edge, and loose pale cloth ties knotted at the sides; no sleeves, no collar."
+ },
+ "d10126": {
+  "design_id": 10126,
+  "name": "Leather Boots",
+  "family": "boots",
+  "route": "meshy",
+  "items": [
+   10126
+  ],
+  "length": 59.4,
+  "master": "items/10126/paint_a.png",
+  "icon": "items/10126/icon_a_x2.png",
+  "description": "Warm reddish-brown leather ankle boots with a turned-down cuff, three small brass buttons up the outer side, rounded toes and a dark sole."
+ },
+ "d10127": {
+  "design_id": 10127,
+  "name": "Hardened Boots",
+  "family": "boots",
+  "route": "meshy",
+  "items": [
+   10127
+  ],
+  "length": 59.4,
+  "master": "items/10127/paint_a.png",
+  "icon": "items/10127/icon_a_x2.png",
+  "description": "Tall plain warm-brown leather boots reaching up the calf, each with a narrow leather strap and steel buckle at the ankle, rounded toes and a dark heel."
+ },
+ "d10128": {
+  "design_id": 10128,
+  "name": "Chain Boots",
+  "family": "boots",
+  "route": "meshy",
+  "items": [
+   10128
+  ],
+  "length": 63.5,
+  "master": "items/10128/paint_a.png",
+  "icon": "items/10128/icon_a_x2.png",
+  "description": "Boots of grey steel chain mail with a wide turned-down reddish-brown leather cuff at the top, small leather tabs under the cuff and dark leather soles."
+ },
+ "d10129": {
+  "design_id": 10129,
+  "name": "Ronenguard Boots",
+  "family": "boots",
+  "route": "meshy",
+  "items": [
+   10129
+  ],
+  "length": 66.6,
+  "master": "items/10129/paint_a.png",
+  "icon": "items/10129/icon_a_x2.png",
+  "description": "Brown leather boots with a wide turned-down brown leather cuff, a steel band around the shin, and steel plates over the foot and toes divided by a brown leather strap."
+ },
+ "d10130": {
+  "design_id": 10130,
+  "name": "Steel Boots",
+  "family": "boots",
+  "route": "meshy",
+  "items": [
+   10130
+  ],
+  "length": 59.4,
+  "master": "items/10130/paint_a.png",
+  "icon": "items/10130/icon_a_x2.png",
+  "description": "Ankle boots of polished steel plates over the foot and ankle, a riveted steel strap across the instep, and a soft reddish-brown leather rim at the top."
+ },
+ "d10131": {
+  "design_id": 10131,
+  "name": "Sabaton",
+  "family": "boots",
+  "route": "meshy",
+  "items": [
+   10131
+  ],
+  "length": 63.9,
+  "master": "items/10131/paint_a.png",
+  "icon": "items/10131/icon_a_x2.png",
+  "description": "Sabatons: shins of stacked horizontal polished steel rings, a strip of chain mail at the ankle, and rounded polished steel plates over the feet."
+ },
+ "d10132": {
+  "design_id": 10132,
+  "name": "Prote der Fatta",
+  "family": "boots",
+  "route": "meshy",
+  "items": [
+   10132
+  ],
+  "length": 59.4,
+  "master": "items/10132/paint_a.png",
+  "icon": "items/10132/icon_a_x2.png",
+  "description": "Plate boots: black lacquered shin plates with a polished gold rim at the top and a gold band at the ankle, and white-silver segmented plates over the feet ending in pointed toes."
+ },
+ "d10205": {
+  "design_id": 10205,
+  "name": "Walking Boots",
+  "family": "boots",
+  "route": "meshy",
+  "items": [
+   10205
+  ],
+  "length": 65.2,
+  "master": "items/10205/paint_a.png",
+  "icon": "items/10205/icon_a_x2.png",
+  "description": "Tall soft rust-red suede boots reaching up the calf, with a row of four small square gold buttons on short leather straps down the outer side, soft rounded toes and a thin dark sole."
+ },
+ "d10233": {
+  "design_id": 10233,
+  "name": "Death Boots",
+  "family": "boots",
+  "route": "meshy",
+  "items": [
+   10233
+  ],
+  "length": 66.6,
+  "master": "items/10233/paint_a.png",
+  "icon": "items/10233/icon_a_x2.png",
+  "description": "Tall boots of deep blue fabric reaching up the calf, with a polished silver steel shin plate of stacked bands down the front, a silver rim at the top, and segmented silver steel plates over the feet."
+ },
+ "d10238": {
+  "design_id": 10238,
+  "name": "Fre's Chain Boots",
+  "family": "boots",
+  "route": "meshy",
+  "items": [
+   10238
+  ],
+  "length": 66.6,
+  "master": "items/10238/paint_a.png",
+  "icon": "items/10238/icon_a_x2.png",
+  "description": "Tall boots of fine bronze-gold chain mail reaching up the calf, with a dark-green rim and gold band at the top and a dark-green welt and gold band around the sole."
+ },
+ "d10366": {
+  "design_id": 10366,
+  "name": "Fuzzy Slippers",
+  "family": "boots",
+  "route": "meshy",
+  "items": [
+   10366
+  ],
+  "length": 59.4,
+  "master": "items/10366/paint_a.png",
+  "icon": "items/10366/icon_a_x2.png",
+  "description": "Fuzzy slippers shaped like sleepy green-grey furry rabbits: each toe is a rabbit face with closed eyes, a pink nose and a long floppy ear laid back along the side, on a soft pale-pink fur sole; low, no shaft."
+ },
+ "d10133": {
+  "design_id": 10133,
+  "name": "Leather Gloves",
+  "family": "gauntlets",
+  "route": "meshy",
+  "items": [
+   10133
+  ],
+  "length": 57.6,
+  "master": "items/10133/paint_a.png",
+  "icon": "items/10133/icon_a_x2.png",
+  "description": "source-faithful pair vertical cuffs-down"
+ },
+ "d10134": {
+  "design_id": 10134,
+  "name": "Leather Gauntlets",
+  "family": "gauntlets",
+  "route": "meshy",
+  "items": [
+   10134
+  ],
+  "length": 57.6,
+  "master": "items/10134/paint_a.png",
+  "icon": "items/10134/icon_a_x2.png",
+  "description": "source-faithful pair vertical cuffs-down"
+ },
+ "d10135": {
+  "design_id": 10135,
+  "name": "Mail Gauntlets",
+  "family": "gauntlets",
+  "route": "meshy",
+  "items": [
+   10135
+  ],
+  "length": 57.6,
+  "master": "items/10135/paint_a.png",
+  "icon": "items/10135/icon_a_x2.png",
+  "description": "source-faithful pair vertical cuffs-down"
+ },
+ "d10136": {
+  "design_id": 10136,
+  "name": "Steel Gauntlets",
+  "family": "gauntlets",
+  "route": "meshy",
+  "items": [
+   10136
+  ],
+  "length": 57.6,
+  "master": "items/10136/paint_a.png",
+  "icon": "items/10136/icon_a_x2.png",
+  "description": "source-faithful pair vertical cuffs-down"
+ },
+ "d10137": {
+  "design_id": 10137,
+  "name": "Exceptional Mail Gauntlets",
+  "family": "gauntlets",
+  "route": "meshy",
+  "items": [
+   10137
+  ],
+  "length": 57.6,
+  "master": "items/10137/paint_a.png",
+  "icon": "items/10137/icon_a_x2.png",
+  "description": "source-faithful pair vertical cuffs-down"
+ },
+ "d10138": {
+  "design_id": 10138,
+  "name": "Superior Steel Gauntlets",
+  "family": "gauntlets",
+  "route": "meshy",
+  "items": [
+   10138
+  ],
+  "length": 57.6,
+  "master": "items/10138/paint_a.png",
+  "icon": "items/10138/icon_a_x2.png",
+  "description": "source-faithful pair vertical cuffs-down"
+ },
+ "d10139": {
+  "design_id": 10139,
+  "name": "Prote der Hanne",
+  "family": "gauntlets",
+  "route": "meshy",
+  "items": [
+   10139
+  ],
+  "length": 55.8,
+  "master": "items/10139/paint_a.png",
+  "icon": "items/10139/icon_a_x2.png",
+  "description": "source-faithful pair vertical cuffs-down"
+ },
+ "d10140": {
+  "design_id": 10140,
+  "name": "Processional Gauntlets",
+  "family": "gauntlets",
+  "route": "meshy",
+  "items": [
+   10140
+  ],
+  "length": 57.6,
+  "master": "items/10140/paint_a.png",
+  "icon": "items/10140/icon_a_x2.png",
+  "description": "source-faithful pair vertical cuffs-down"
+ },
+ "d10141": {
+  "design_id": 10141,
+  "name": "Magreeb Gauntlets",
+  "family": "gauntlets",
+  "route": "meshy",
+  "items": [
+   10141
+  ],
+  "length": 57.6,
+  "master": "items/10141/paint_a.png",
+  "icon": "items/10141/icon_a_x2.png",
+  "description": "source-faithful pair vertical cuffs-down"
+ },
+ "d10206": {
+  "design_id": 10206,
+  "name": "Laet'ax",
+  "family": "gauntlets",
+  "route": "meshy",
+  "items": [
+   10206
+  ],
+  "length": 57.6,
+  "master": "items/10206/paint_a.png",
+  "icon": "items/10206/icon_a_x2.png",
+  "description": "source-faithful pair vertical cuffs-down"
+ },
+ "d10227": {
+  "design_id": 10227,
+  "name": "Broderick's Gloves",
+  "family": "gauntlets",
+  "route": "meshy",
+  "items": [
+   10227
+  ],
+  "length": 54.0,
+  "master": "items/10227/paint_a.png",
+  "icon": "items/10227/icon_a_x2.png",
+  "description": "source-faithful pair vertical cuffs-down"
+ },
+ "d10237": {
+  "design_id": 10237,
+  "name": "Fre's Gloves",
+  "family": "gauntlets",
+  "route": "meshy",
+  "items": [
+   10237
+  ],
+  "length": 57.6,
+  "master": "items/10237/paint_a.png",
+  "icon": "items/10237/icon_a_x2.png",
+  "description": "source-faithful pair vertical cuffs-down"
+ },
+ "d10365": {
+  "design_id": 10365,
+  "name": "Cloth Gloves",
+  "family": "gauntlets",
+  "route": "meshy",
+  "items": [
+   10365
+  ],
+  "length": 57.6,
+  "master": "items/10365/paint_a.png",
+  "icon": "items/10365/icon_a_x2.png",
+  "description": "source-faithful pair vertical cuffs-down CORRECTION: these are soft KNITTED WOOL gloves: matte red yarn with a visible knit/stitch texture and white knitted"
+ },
+ "d10150": {
+  "design_id": 10150,
+  "name": "Peasant Belt",
+  "family": "belt",
+  "route": "blender",
+  "items": [
+   10150
+  ],
+  "length": 61.2,
+  "master": "items/10150/paint_a.png",
+  "icon": "items/10150/icon_a_x2.png",
+  "description": "A plain tan-yellow cloth sash belt painted with dark-red X marks along it, tied at the front with a thin red- brown leather cord loop whose ends hang down a little."
+ },
+ "d10151": {
+  "design_id": 10151,
+  "name": "Fancy Belt",
+  "family": "belt",
+  "route": "blender",
+  "items": [
+   10151
+  ],
+  "length": 61.2,
+  "master": "items/10151/paint_a.png",
+  "icon": "items/10151/icon_a_x2.png",
+  "description": "A narrow red-brown leather belt with a rounded silver buckle at the front, small silver keepers along it, and the strap end hanging down with a silver tip."
+ },
+ "d10152": {
+  "design_id": 10152,
+  "name": "Soldier's Belt",
+  "family": "belt",
+  "route": "blender",
+  "items": [
+   10152
+  ],
+  "length": 61.2,
+  "master": "items/10152/paint_a.png",
+  "icon": "items/10152/icon_a_x2.png",
+  "description": "A plain warm-brown leather belt with a row of small steel rivets along it, a square steel buckle at the front and a small steel strap keeper beside it."
+ },
+ "d10153": {
+  "design_id": 10153,
+  "name": "Regal Belt",
+  "family": "belt",
+  "route": "blender",
+  "items": [
+   10153
+  ],
+  "length": 61.2,
+  "master": "items/10153/paint_a.png",
+  "icon": "items/10153/icon_a_x2.png",
+  "description": "A belt of linked polished gold plaques, each set with an oval red gem, small gold beads between them, and an ornate gold clasp with a larger red gem at the front."
+ },
+ "d10154": {
+  "design_id": 10154,
+  "name": "Dragon Belt",
+  "family": "belt",
+  "route": "blender",
+  "items": [
+   10154
+  ],
+  "length": 61.2,
+  "master": "items/10154/paint_a.png",
+  "icon": "items/10154/icon_a_x2.png",
+  "description": "A belt of gold-green overlapping dragon scales, with a gold quatrefoil clasp at the front set with four round green gems around a gold boss."
+ },
+ "d10208": {
+  "design_id": 10208,
+  "name": "Hubris",
+  "family": "belt",
+  "route": "blender",
+  "items": [
+   10208
+  ],
+  "length": 61.2,
+  "master": "items/10208/paint_a.png",
+  "icon": "items/10208/icon_a_x2.png",
+  "description": "A broad dark-red leather belt with ornate gold fittings: a large round gold medallion clasp at the front on a gold plate, small square gold studs beside it, and gold scrollwork ornaments at the sides."
+ },
+ "d10155": {
+  "design_id": 10155,
+  "name": "Iron Ring",
+  "family": "ring",
+  "route": "blender",
+  "items": [
+   10155
+  ],
+  "length": 28.8,
+  "master": "items/10155/paint_a.png",
+  "icon": "items/10155/icon_a_x2.png",
+  "description": "source-faithful upright hoop plane"
+ },
+ "d10156": {
+  "design_id": 10156,
+  "name": "Gold Ring",
+  "family": "ring",
+  "route": "blender",
+  "items": [
+   10156
+  ],
+  "length": 28.8,
+  "master": "items/10156/paint_a.png",
+  "icon": "items/10156/icon_a_x2.png",
+  "description": "source-faithful upright hoop plane"
+ },
+ "d10157": {
+  "design_id": 10157,
+  "name": "Puzzle Ring",
+  "family": "ring",
+  "route": "blender",
+  "items": [
+   10157
+  ],
+  "length": 27.0,
+  "master": "items/10157/paint_a.png",
+  "icon": "items/10157/icon_a_x2.png",
+  "description": "source-faithful upright hoop plane"
+ },
+ "d10158": {
+  "design_id": 10158,
+  "name": "Pearl Ring",
+  "family": "ring",
+  "route": "blender",
+  "items": [
+   10158
+  ],
+  "length": 27.0,
+  "master": "items/10158/paint_a.png",
+  "icon": "items/10158/icon_a_x2.png",
+  "description": "A large, lovely pearl adorns this otherwise unremarkable ring."
+ },
+ "d10159": {
+  "design_id": 10159,
+  "name": "Diamond Ring",
+  "family": "ring",
+  "route": "blender",
+  "items": [
+   10159
+  ],
+  "length": 28.8,
+  "master": "items/10159/paint_a.png",
+  "icon": "items/10159/icon_a_x2.png",
+  "description": "source-faithful upright hoop plane"
+ },
+ "d10209": {
+  "design_id": 10209,
+  "name": "Weregild",
+  "family": "ring",
+  "route": "blender",
+  "items": [
+   10209
+  ],
+  "length": 27.0,
+  "master": "items/10209/paint_a.png",
+  "icon": "items/10209/icon_a_x2.png",
+  "description": "source-faithful upright hoop plane"
+ },
+ "d10210": {
+  "design_id": 10210,
+  "name": "Soulband",
+  "family": "ring",
+  "route": "blender",
+  "items": [
+   10210
+  ],
+  "length": 28.8,
+  "master": "items/10210/paint_a.png",
+  "icon": "items/10210/icon_a_x2.png",
+  "description": "Soulband wasn't so much created as it was evolved from something else.  It started it's life as a trinket worn by a small child who became possessed by a Revenant.  Since that time it has passed from owner to owner, taking a little piece of them with when it passed to it's new owner. (Effects: +50 SP; +5 Light, +3 Meditiation; of Speed)"
+ },
+ "d10211": {
+  "design_id": 10211,
+  "name": "Sturkabygel",
+  "family": "ring",
+  "route": "blender",
+  "items": [
+   10211
+  ],
+  "length": 28.8,
+  "master": "items/10211/paint_a.png",
+  "icon": "items/10211/icon_a_x2.png",
+  "description": "source-faithful upright hoop plane"
+ },
+ "d10212": {
+  "design_id": 10212,
+  "name": "Lubricious",
+  "family": "ring",
+  "route": "blender",
+  "items": [
+   10212
+  ],
+  "length": 27.0,
+  "master": "items/10212/paint_a.png",
+  "icon": "items/10212/icon_a_x2.png",
+  "description": "source-faithful upright hoop plane"
+ },
+ "d10222": {
+  "design_id": 10222,
+  "name": "Prize Ring",
+  "family": "ring",
+  "route": "blender",
+  "items": [
+   10222
+  ],
+  "length": 28.8,
+  "master": "items/10222/paint_a.png",
+  "icon": "items/10222/icon_a_x2.png",
+  "description": "source-faithful upright hoop plane"
+ },
+ "d10232": {
+  "design_id": 10232,
+  "name": "Death Ring",
+  "family": "ring",
+  "route": "blender",
+  "items": [
+   10232
+  ],
+  "length": 28.8,
+  "master": "items/10232/paint_a.png",
+  "icon": "items/10232/icon_a_x2.png",
+  "description": "source-faithful upright hoop plane"
+ },
+ "d10235": {
+  "design_id": 10235,
+  "name": "Fre's Ring",
+  "family": "ring",
+  "route": "blender",
+  "items": [
+   10235
+  ],
+  "length": 27.0,
+  "master": "items/10235/paint_a.png",
+  "icon": "items/10235/icon_a_x2.png",
+  "description": "source-faithful upright hoop plane"
+ },
+ "d10160": {
+  "design_id": 10160,
+  "name": "Bronze Amulet",
+  "family": "amulet",
+  "route": "blender",
+  "items": [
+   10160
+  ],
+  "length": 46.8,
+  "master": "items/10160/paint_a.png",
+  "icon": "items/10160/icon_a_x2.png",
+  "description": "source-faithful upright pendant"
+ },
+ "d10161": {
+  "design_id": 10161,
+  "name": "Platinum Amulet",
+  "family": "amulet",
+  "route": "blender",
+  "items": [
+   10161
+  ],
+  "length": 44.6,
+  "master": "items/10161/paint_a.png",
+  "icon": "items/10161/icon_a_x2.png",
+  "description": "source-faithful upright pendant"
+ },
+ "d10162": {
+  "design_id": 10162,
+  "name": "Gemmed Amulet",
+  "family": "amulet",
+  "route": "blender",
+  "items": [
+   10162
+  ],
+  "length": 32.9,
+  "master": "items/10162/paint_a.png",
+  "icon": "items/10162/icon_a_x2.png",
+  "description": "source-faithful upright pendant"
+ },
+ "d10163": {
+  "design_id": 10163,
+  "name": "Warrior Amulet",
+  "family": "amulet",
+  "route": "blender",
+  "items": [
+   10163
+  ],
+  "length": 49.5,
+  "master": "items/10163/paint_a.png",
+  "icon": "items/10163/icon_a_x2.png",
+  "description": "source-faithful upright pendant"
+ },
+ "d10164": {
+  "design_id": 10164,
+  "name": "Thjoradric Amulet",
+  "family": "amulet",
+  "route": "blender",
+  "items": [
+   10164
+  ],
+  "length": 42.3,
+  "master": "items/10164/paint_a.png",
+  "icon": "items/10164/icon_a_x2.png",
+  "description": "source-faithful upright pendant"
+ },
+ "d10213": {
+  "design_id": 10213,
+  "name": "The Green Man",
+  "family": "amulet",
+  "route": "blender",
+  "items": [
+   10213
+  ],
+  "length": 49.1,
+  "master": "items/10213/paint_a.png",
+  "icon": "items/10213/icon_a_x2.png",
+  "description": "source-faithful upright pendant"
+ },
+ "d10214": {
+  "design_id": 10214,
+  "name": "Mountbatten",
+  "family": "amulet",
+  "route": "blender",
+  "items": [
+   10214
+  ],
+  "length": 36.9,
+  "master": "items/10214/paint_a.png",
+  "icon": "items/10214/icon_a_x2.png",
+  "description": "source-faithful upright pendant"
+ },
+ "d10215": {
+  "design_id": 10215,
+  "name": "Pendant of the Spheres",
+  "family": "amulet",
+  "route": "blender",
+  "items": [
+   10215
+  ],
+  "length": 49.5,
+  "master": "items/10215/paint_a.png",
+  "icon": "items/10215/icon_a_x2.png",
+  "description": "source-faithful upright pendant"
+ },
+ "d10216": {
+  "design_id": 10216,
+  "name": "Fizbin of Misfortune",
+  "family": "amulet",
+  "route": "blender",
+  "items": [
+   10216
+  ],
+  "length": 49.5,
+  "master": "items/10216/paint_a.png",
+  "icon": "items/10216/icon_a_x2.png",
+  "description": "source-faithful upright amulet"
+ },
+ "d10217": {
+  "design_id": 10217,
+  "name": "Screever",
+  "family": "amulet",
+  "route": "blender",
+  "items": [
+   10217
+  ],
+  "length": 37.4,
+  "master": "items/10217/paint_a.png",
+  "icon": "items/10217/icon_a_x2.png",
+  "description": "source-faithful upright pendant"
+ },
+ "d10218": {
+  "design_id": 10218,
+  "name": "Fre's Heart",
+  "family": "amulet",
+  "route": "blender",
+  "items": [
+   10218
+  ],
+  "length": 49.5,
+  "master": "items/10218/paint_a.png",
+  "icon": "items/10218/icon_a_x2.png",
+  "description": "source-faithful upright heart jewel"
+ },
+ "d10228": {
+  "design_id": 10228,
+  "name": "Broderick's Amulet",
+  "family": "amulet",
+  "route": "blender",
+  "items": [
+   10228
+  ],
+  "length": 37.8,
+  "master": "items/10228/paint_a.png",
+  "icon": "items/10228/icon_a_x2.png",
+  "description": "source-faithful upright pendant"
+ },
+ "d10242": {
+  "design_id": 10242,
+  "name": "Verhoffin's Book",
+  "family": "book",
+  "route": "blender",
+  "items": [
+   10242
+  ],
+  "length": 64.8,
+  "master": "items/10242/paint_a.png",
+  "icon": "items/10242/icon_a_x2.png",
+  "description": "source-faithful closed book"
+ },
+ "d10243": {
+  "design_id": 10243,
+  "name": "Verhoffin's Book",
+  "family": "book",
+  "route": "blender",
+  "items": [
+   10243,
+   10560,
+   10562
+  ],
+  "length": 64.8,
+  "master": "items/10243/paint_a.png",
+  "icon": "items/10243/icon_a_x2.png",
+  "description": "This is a book that requires scholars to translate it's mysteries.  It is currently locked."
+ },
+ "d10244": {
+  "design_id": 10244,
+  "name": "Book Key",
+  "family": "book",
+  "route": "blender",
+  "items": [
+   10244
+  ],
+  "length": 64.8,
+  "master": "items/10244/paint_a.png",
+  "icon": "items/10244/icon_a_x2.png",
+  "description": "source-faithful vertical key bow-up"
+ },
+ "d10248": {
+  "design_id": 10248,
+  "name": "Ludwig's Manuscript",
+  "family": "book",
+  "route": "blender",
+  "items": [
+   10248
+  ],
+  "length": 64.8,
+  "master": "items/10248/paint_a.png",
+  "icon": "items/10248/icon_a_x2.png",
+  "description": "source-faithful manuscript sheet"
+ },
+ "d10285": {
+  "design_id": 10285,
+  "name": "Blade Skill",
+  "family": "book",
+  "route": "blender",
+  "items": [
+   10285,
+   10287,
+   10288,
+   10290,
+   10291,
+   10292,
+   10294,
+   10295,
+   10296,
+   10297
+  ],
+  "length": 64.8,
+  "master": "items/10285/paint_a.png",
+  "icon": "items/10285/icon_a_x2.png",
+  "description": "Allows character to learn Blade skill at Normal level"
+ },
+ "d10286": {
+  "design_id": 10286,
+  "name": "Bow Skill",
+  "family": "book",
+  "route": "blender",
+  "items": [
+   10286,
+   10289,
+   10293,
+   10298,
+   10299,
+   10300,
+   10301,
+   10302,
+   10303
+  ],
+  "length": 64.8,
+  "master": "items/10286/paint_a.png",
+  "icon": "items/10286/icon_a_x2.png",
+  "description": "Allows character to learn Bow skill at Normal level"
+ },
+ "d10304": {
+  "design_id": 10304,
+  "name": "Body Building Skill",
+  "family": "book",
+  "route": "blender",
+  "items": [
+   10304,
+   10305,
+   10306,
+   10307
+  ],
+  "length": 64.8,
+  "master": "items/10304/paint_a.png",
+  "icon": "items/10304/icon_a_x2.png",
+  "description": "Allows character to learn Body Building skill at Normal level"
+ },
+ "d10391": {
+  "design_id": 10391,
+  "name": "Book of Rules",
+  "family": "book",
+  "route": "blender",
+  "items": [
+   10391
+  ],
+  "length": 64.8,
+  "master": "items/10391/paint_a.png",
+  "icon": "items/10391/icon_a_x2.png",
+  "description": "source-faithful closed book"
+ },
+ "d10245": {
+  "design_id": 10245,
+  "name": "Lich Instructions",
+  "family": "scroll",
+  "route": "blender",
+  "items": [
+   10245,
+   10447
+  ],
+  "length": 63.0,
+  "master": "items/10245/paint_a.png",
+  "icon": "items/10245/icon_a_x2.png",
+  "description": "This message seems to be the first part of the world's knowledge on creating a Lich. First you need an agreeable Mage\u00e2\u0080\u00a6"
+ },
+ "d10247": {
+  "design_id": 10247,
+  "name": "Love Letter",
+  "family": "scroll",
+  "route": "blender",
+  "items": [
+   10247
+  ],
+  "length": 62.1,
+  "master": "items/10247/paint_a.png",
+  "icon": "items/10247/icon_a_x2.png",
+  "description": "source-faithful folded letter"
+ },
+ "d10251": {
+  "design_id": 10251,
+  "name": "Scroll of Bad News",
+  "family": "scroll",
+  "route": "blender",
+  "items": [
+   10251
+  ],
+  "length": 63.0,
+  "master": "items/10251/paint_a.png",
+  "icon": "items/10251/icon_a_x2.png",
+  "description": "source-faithful rolled scroll"
+ },
+ "d10392": {
+  "design_id": 10392,
+  "name": "Writ of Fate",
+  "family": "scroll",
+  "route": "blender",
+  "items": [
+   10392,
+   10393,
+   10394
+  ],
+  "length": 63.0,
+  "master": "items/10392/paint_a.png",
+  "icon": "items/10392/icon_a_x2.png",
+  "description": "This is your Writ of Fate."
+ },
+ "d10397": {
+  "design_id": 10397,
+  "name": "Gospel of Honk",
+  "family": "scroll",
+  "route": "blender",
+  "items": [
+   10397
+  ],
+  "length": 32.4,
+  "master": "items/10397/paint_a.png",
+  "icon": "items/10397/icon_a_x2.png",
+  "description": "source-faithful upright readable page"
+ },
+ "d10400": {
+  "design_id": 10400,
+  "name": "Victory Certificate",
+  "family": "scroll",
+  "route": "reuse?",
+  "items": [
+   10400,
+   10401,
+   10419,
+   10424,
+   10425,
+   10426,
+   10427,
+   10428,
+   10429,
+   10430,
+   10432,
+   10433,
+   10434,
+   10435,
+   10436,
+   10437,
+   10438,
+   10439,
+   10440,
+   10441,
+   10442,
+   10443,
+   10444,
+   10446,
+   10448,
+   10449,
+   10450,
+   10451,
+   10452,
+   10453,
+   10454,
+   10455,
+   10456,
+   10457,
+   10458,
+   10459,
+   10460,
+   10461,
+   10462,
+   10463,
+   10464,
+   10465,
+   10466,
+   10467,
+   10468,
+   10469,
+   10470,
+   10471,
+   10472,
+   10473,
+   10474,
+   10475,
+   10476,
+   10477,
+   10478,
+   10479,
+   10480,
+   10481,
+   10482,
+   10483,
+   10484,
+   10485,
+   10486,
+   10487,
+   10488,
+   10489,
+   10490,
+   10491,
+   10492,
+   10493,
+   10494,
+   10495,
+   10496,
+   10497,
+   10498,
+   10499,
+   10500,
+   10501,
+   10502,
+   10503,
+   10557,
+   10569,
+   10571,
+   10572,
+   10573,
+   10574,
+   10575,
+   10577,
+   10578,
+   10579,
+   10580,
+   10581,
+   10582,
+   10583,
+   10584,
+   10585,
+   10586,
+   10587,
+   10588,
+   10589,
+   10592,
+   10593,
+   10594,
+   10595,
+   10597,
+   10598
+  ],
+  "length": 63.0,
+  "master": "items/10400/paint_a.png",
+  "icon": "items/10400/icon_a_x2.png",
+  "description": "This is the certificate you won for beating Ivan the Smart."
+ },
+ "d10445": {
+  "design_id": 10445,
+  "name": "Accountant's Key",
+  "family": "key",
+  "route": "reuse?",
+  "items": [
+   10445,
+   10559,
+   10568,
+   10570,
+   10576,
+   10596,
+   10599,
+   10600
+  ],
+  "length": 55.8,
+  "master": "items/10445/paint_a.png",
+  "icon": "items/10445/icon_a_x2.png",
+  "description": "This is a simple key."
+ },
+ "d10246": {
+  "design_id": 10246,
+  "name": "Elixir of Defedation",
+  "family": "bottle",
+  "route": "blender",
+  "items": [
+   10246
+  ],
+  "length": 55.4,
+  "master": "items/10246/paint_a.png",
+  "icon": "items/10246/icon_a_x2.png",
+  "description": "source-faithful upright jar"
+ },
+ "d10378": {
+  "design_id": 10378,
+  "name": "Elixir Ingredients",
+  "family": "bottle",
+  "route": "blender",
+  "items": [
+   10378
+  ],
+  "length": 32.4,
+  "master": "items/10378/paint_a.png",
+  "icon": "items/10378/icon_a_x2.png",
+  "description": "source-faithful upright tied bags"
+ },
+ "d10558": {
+  "design_id": 10558,
+  "name": "Nurtigan's Potion",
+  "family": "bottle",
+  "route": "blender",
+  "items": [
+   10558,
+   10561
+  ],
+  "length": 38.2,
+  "master": "items/10558/paint_a.png",
+  "icon": "items/10558/icon_a_x2.png",
+  "description": "This potion was made to cure Nutty Nurtigan."
+ },
+ "d10239": {
+  "design_id": 10239,
+  "name": "Green Stone",
+  "family": "misc",
+  "route": "blender",
+  "items": [
+   10239,
+   10261
+  ],
+  "length": 57.6,
+  "master": "items/10239/paint_a.png",
+  "icon": "items/10239/icon_a_x2.png",
+  "description": "This is a stone that has a slight green tint to it."
+ },
+ "d10240": {
+  "design_id": 10240,
+  "name": "Lock of Hair",
+  "family": "misc",
+  "route": "blender",
+  "items": [
+   10240
+  ],
+  "length": 57.6,
+  "master": "items/10240/paint_a.png",
+  "icon": "items/10240/icon_a_x2.png",
+  "description": "source-faithful vertical lock"
+ },
+ "d10241": {
+  "design_id": 10241,
+  "name": "Tree of Life",
+  "family": "misc",
+  "route": "meshy",
+  "items": [
+   10241
+  ],
+  "length": 57.6,
+  "master": "items/10241/paint_a.png",
+  "icon": "items/10241/icon_a_x2.png",
+  "description": "source-faithful upright banner"
+ },
+ "d10249": {
+  "design_id": 10249,
+  "name": "Keg of Strange Brew",
+  "family": "misc",
+  "route": "blender",
+  "items": [
+   10249
+  ],
+  "length": 57.6,
+  "master": "items/10249/paint_a.png",
+  "icon": "items/10249/icon_a_x2.png",
+  "description": "source-faithful keg on integral cradle"
+ },
+ "d10250": {
+  "design_id": 10250,
+  "name": "Black Orb of Knowledge",
+  "family": "misc",
+  "route": "blender",
+  "items": [
+   10250
+  ],
+  "length": 57.6,
+  "master": "items/10250/paint_a.png",
+  "icon": "items/10250/icon_a_x2.png",
+  "description": "source-faithful orb"
+ },
+ "d10252": {
+  "design_id": 10252,
+  "name": "Orb of Linking",
+  "family": "misc",
+  "route": "blender",
+  "items": [
+   10252
+  ],
+  "length": 57.6,
+  "master": "items/10252/paint_a.png",
+  "icon": "items/10252/icon_a_x2.png",
+  "description": "source-faithful upright antenna orb"
+ },
+ "d10358": {
+  "design_id": 10358,
+  "name": "Jar",
+  "family": "misc",
+  "route": "reuse?",
+  "items": [
+   10358,
+   10431
+  ],
+  "length": 57.6,
+  "master": "items/10358/paint_a.png",
+  "icon": "items/10358/icon_a_x2.png",
+  "description": "A plain glass jar that could hold any liquid with great efficiency."
+ },
+ "d10359": {
+  "design_id": 10359,
+  "name": "Lump of Elemental Thjorad",
+  "family": "misc",
+  "route": "blender",
+  "items": [
+   10359
+  ],
+  "length": 57.6,
+  "master": "items/10359/paint_a.png",
+  "icon": "items/10359/icon_a_x2.png",
+  "description": "source-faithful ore lump"
+ },
+ "d10360": {
+  "design_id": 10360,
+  "name": "Chunk of Elemental Thjorad",
+  "family": "misc",
+  "route": "blender",
+  "items": [
+   10360
+  ],
+  "length": 57.6,
+  "master": "items/10360/paint_a.png",
+  "icon": "items/10360/icon_a_x2.png",
+  "description": "source-faithful ore chunk"
+ },
+ "d10361": {
+  "design_id": 10361,
+  "name": "Lode of Elemental Thjorad",
+  "family": "misc",
+  "route": "blender",
+  "items": [
+   10361
+  ],
+  "length": 57.6,
+  "master": "items/10361/paint_a.png",
+  "icon": "items/10361/icon_a_x2.png",
+  "description": "source-faithful ore lode"
+ },
+ "d10368": {
+  "design_id": 10368,
+  "name": "Saint's Relic",
+  "family": "misc",
+  "route": "meshy",
+  "items": [
+   10368
+  ],
+  "length": 57.6,
+  "master": "items/10368/paint_a.png",
+  "icon": "items/10368/icon_a_x2.png",
+  "description": "source-faithful vertical bone relic"
+ },
+ "d10369": {
+  "design_id": 10369,
+  "name": "The Golden Honk",
+  "family": "misc",
+  "route": "meshy",
+  "items": [
+   10369
+  ],
+  "length": 57.6,
+  "master": "items/10369/paint_a.png",
+  "icon": "items/10369/icon_a_x2.png",
+  "description": "source-faithful upright bird statue"
+ },
+ "d10370": {
+  "design_id": 10370,
+  "name": "Dolly",
+  "family": "misc",
+  "route": "meshy",
+  "items": [
+   10370
+  ],
+  "length": 57.6,
+  "master": "items/10370/paint_a.png",
+  "icon": "items/10370/icon_a_x2.png",
+  "description": "source-faithful standing doll"
+ },
+ "d10371": {
+  "design_id": 10371,
+  "name": "Farmer's Plow",
+  "family": "misc",
+  "route": "blender",
+  "items": [
+   10371
+  ],
+  "length": 57.6,
+  "master": "items/10371/paint_a.png",
+  "icon": "items/10371/icon_a_x2.png",
+  "description": "source-faithful upright handles-above plow"
+ },
+ "d10372": {
+  "design_id": 10372,
+  "name": "Midwife's Bag of Herbs",
+  "family": "misc",
+  "route": "meshy",
+  "items": [
+   10372
+  ],
+  "length": 57.6,
+  "master": "items/10372/paint_a.png",
+  "icon": "items/10372/icon_a_x2.png",
+  "description": "source-faithful upright tied bags"
+ },
+ "d10373": {
+  "design_id": 10373,
+  "name": "Basket of Food",
+  "family": "misc",
+  "route": "meshy",
+  "items": [
+   10373
+  ],
+  "length": 57.6,
+  "master": "items/10373/paint_a.png",
+  "icon": "items/10373/icon_a_x2.png",
+  "description": "source-faithful upright basket"
+ },
+ "d10379": {
+  "design_id": 10379,
+  "name": "Broken Jar",
+  "family": "misc",
+  "route": "meshy",
+  "items": [
+   10379
+  ],
+  "length": 57.6,
+  "master": "items/10379/paint_a.png",
+  "icon": "items/10379/icon_a_x2.png",
+  "description": "source-faithful upright broken jar"
+ },
+ "d10380": {
+  "design_id": 10380,
+  "name": "Basilisk Skin",
+  "family": "misc",
+  "route": "meshy",
+  "items": [
+   10380
+  ],
+  "length": 57.6,
+  "master": "items/10380/paint_a.png",
+  "icon": "items/10380/icon_a_x2.png",
+  "description": "source-faithful vertically hanging hide"
+ },
+ "d10390": {
+  "design_id": 10390,
+  "name": "Crona Kiga",
+  "family": "misc",
+  "route": "meshy",
+  "items": [
+   10390
+  ],
+  "length": 57.6,
+  "master": "items/10390/paint_a.png",
+  "icon": "items/10390/icon_a_x2.png",
+  "description": "source-faithful upright crown"
+ },
+ "d10395": {
+  "design_id": 10395,
+  "name": "Dragon",
+  "family": "misc",
+  "route": "meshy",
+  "items": [
+   10395
+  ],
+  "length": 57.6,
+  "master": "items/10395/paint_a.png",
+  "icon": "items/10395/icon_a_x2.png",
+  "description": "source-faithful standing dragon figurine"
+ },
+ "d10396": {
+  "design_id": 10396,
+  "name": "Capstone of Order",
+  "family": "misc",
+  "route": "blender",
+  "items": [
+   10396
+  ],
+  "length": 57.6,
+  "master": "items/10396/paint_a.png",
+  "icon": "items/10396/icon_a_x2.png",
+  "description": "source-faithful upright stepped capstone"
+ },
+ "d10398": {
+  "design_id": 10398,
+  "name": "Broken Slag Extractor",
+  "family": "misc",
+  "route": "meshy",
+  "items": [
+   10398
+  ],
+  "length": 57.6,
+  "master": "items/10398/paint_a.png",
+  "icon": "items/10398/icon_a_x2.png",
+  "description": "source-faithful upright damaged machine part"
+ },
+ "d10399": {
+  "design_id": 10399,
+  "name": "Slag Extractor",
+  "family": "misc",
+  "route": "meshy",
+  "items": [
+   10399
+  ],
+  "length": 57.6,
+  "master": "items/10399/paint_a.png",
+  "icon": "items/10399/icon_a_x2.png",
+  "description": "source-faithful upright machine part"
+ },
+ "d10590": {
+  "design_id": 10590,
+  "name": "Clover",
+  "family": "misc",
+  "route": "blender",
+  "items": [
+   10590
+  ],
+  "length": 57.6,
+  "master": "items/10590/paint_a.png",
+  "icon": "items/10590/icon_a_x2.png",
+  "description": "source-faithful upright stem-down clover"
+ },
+ "d10591": {
+  "design_id": 10591,
+  "name": "King Basilisk Skin",
+  "family": "misc",
+  "route": "meshy",
+  "items": [
+   10591
+  ],
+  "length": 57.6,
+  "master": "items/10591/paint_a.png",
+  "icon": "items/10591/icon_a_x2.png",
+  "description": "source-faithful vertically hanging hide"
+ }
+}

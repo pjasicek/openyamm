@@ -1,0 +1,32 @@
+{
+ "creature_3d_identity": "mm7:m312-reduce",
+ "meshy": {
+  "jobs": {},
+  "credit_limit": 1
+ },
+ "scope": "Triangle reduction of batch J m312 (user: reduce tris count now); no retexture, not installed",
+ "source": {
+  "glb": "../mm7_m312_claude/export/mm7_m312.glb",
+  "sha256": "b7fe0f7cbb98037b44cc9badbe5959a816b5c17ef45a620045b3930bbd40213f",
+  "rollback": "work/mm7_m312_source_pre_reduce.glb"
+ },
+ "selected": {
+  "export/mm7_m312.glb": "9c18fe2ecdf70ea4d8fc9ef88ce911a185244459d1dab49391d28bc431c4f3bf"
+ },
+ "status": {
+  "stage": "exported",
+  "lod0": [
+   10591,
+   8517
+  ],
+  "lods": [
+   8517,
+   4257,
+   1522,
+   499
+  ],
+  "pick": "Cand_81 of work/ladder_d.blend",
+  "user_acceptance": "not recorded",
+  "install": "not done"
+ }
+}

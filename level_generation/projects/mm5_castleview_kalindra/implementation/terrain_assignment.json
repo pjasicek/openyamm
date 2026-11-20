@@ -1,0 +1,2525 @@
+{
+  "status": "all categorical material joins assigned; regional visual and frontage review remains open",
+  "roadCells": 287,
+  "flatWaterOrShoreQuads": 702,
+  "transitionCounts": {
+    "dirttyl": 4834,
+    "volsw": 1,
+    "vols": 4,
+    "volse": 1,
+    "mm5sd05": 23,
+    "7sand": 1074,
+    "rcnw": 2,
+    "rcn": 116,
+    "rcne": 11,
+    "rcw": 45,
+    "rctyl": 601,
+    "rce": 40,
+    "rcxne": 14,
+    "rcxnw": 3,
+    "mm5sd07": 2,
+    "mm5sd03": 4,
+    "mm5sd01": 2,
+    "rcxse": 6,
+    "rcs": 113,
+    "rcxsw": 14,
+    "rcsw": 13,
+    "rcse": 3,
+    "mm5sd13": 6,
+    "mm5sd12": 39,
+    "mm5sd04": 5,
+    "mm5ac14": 2,
+    "mm5ac18": 14,
+    "mm5ac12": 2,
+    "mm5ac17": 11,
+    "mm5acid": 127,
+    "mm5ac16": 10,
+    "mm5ac22": 1,
+    "mm5ac20": 1,
+    "grdrtnw": 30,
+    "grdrtn": 166,
+    "grdrtne": 34,
+    "grdrtw": 141,
+    "grastyl": 2831,
+    "grdrte": 138,
+    "mm5ac15": 2,
+    "mm5ac19": 13,
+    "mm5ac23": 1,
+    "mm5ac21": 2,
+    "mm5ac13": 3,
+    "grdrtxne": 22,
+    "grdrtxnw": 18,
+    "grdrtxse": 15,
+    "grdrts": 175,
+    "grdrtxsw": 16,
+    "grdrtsw": 28,
+    "grdrtse": 27,
+    "wtrdrnw": 11,
+    "wtrdrn": 102,
+    "wtrdrw": 39,
+    "wtrtyl": 182,
+    "wtrdrxse": 11,
+    "wtrdrs": 99,
+    "wtrdrxnw": 10,
+    "wtrdre": 39,
+    "wtrdrse": 11,
+    "wtrdrne": 1,
+    "wtrdrxne": 1,
+    "wtrdrsw": 4,
+    "wtrdrxsw": 3
+  },
+  "diagonalRoadCells": [
+    {
+      "cell": [
+        35,
+        40
+      ],
+      "portsNESW": 12,
+      "pairedNeighbors": [
+        [
+          36,
+          40
+        ]
+      ],
+      "texture": "drsrne1"
+    },
+    {
+      "cell": [
+        36,
+        40
+      ],
+      "portsNESW": 3,
+      "pairedNeighbors": [
+        [
+          35,
+          40
+        ]
+      ],
+      "texture": "drsrne2"
+    },
+    {
+      "cell": [
+        36,
+        42
+      ],
+      "portsNESW": 12,
+      "pairedNeighbors": [
+        [
+          37,
+          42
+        ]
+      ],
+      "texture": "drsrne1"
+    },
+    {
+      "cell": [
+        37,
+        42
+      ],
+      "portsNESW": 3,
+      "pairedNeighbors": [
+        [
+          36,
+          42
+        ]
+      ],
+      "texture": "drsrne2"
+    },
+    {
+      "cell": [
+        37,
+        44
+      ],
+      "portsNESW": 12,
+      "pairedNeighbors": [
+        [
+          38,
+          44
+        ]
+      ],
+      "texture": "drsrne1"
+    },
+    {
+      "cell": [
+        38,
+        44
+      ],
+      "portsNESW": 3,
+      "pairedNeighbors": [
+        [
+          37,
+          44
+        ],
+        [
+          38,
+          45
+        ]
+      ],
+      "texture": "drsrne2"
+    },
+    {
+      "cell": [
+        38,
+        45
+      ],
+      "portsNESW": 12,
+      "pairedNeighbors": [
+        [
+          38,
+          44
+        ]
+      ],
+      "texture": "drsrne1"
+    },
+    {
+      "cell": [
+        52,
+        44
+      ],
+      "portsNESW": 6,
+      "pairedNeighbors": [
+        [
+          52,
+          45
+        ]
+      ],
+      "texture": "drsrnw1"
+    },
+    {
+      "cell": [
+        52,
+        45
+      ],
+      "portsNESW": 9,
+      "pairedNeighbors": [
+        [
+          52,
+          44
+        ]
+      ],
+      "texture": "drsrnw2"
+    },
+    {
+      "cell": [
+        54,
+        43
+      ],
+      "portsNESW": 6,
+      "pairedNeighbors": [
+        [
+          54,
+          44
+        ]
+      ],
+      "texture": "drsrnw1"
+    },
+    {
+      "cell": [
+        54,
+        44
+      ],
+      "portsNESW": 9,
+      "pairedNeighbors": [
+        [
+          54,
+          43
+        ]
+      ],
+      "texture": "drsrnw2"
+    },
+    {
+      "cell": [
+        56,
+        42
+      ],
+      "portsNESW": 6,
+      "pairedNeighbors": [
+        [
+          56,
+          43
+        ]
+      ],
+      "texture": "drsrnw1"
+    },
+    {
+      "cell": [
+        56,
+        43
+      ],
+      "portsNESW": 9,
+      "pairedNeighbors": [
+        [
+          56,
+          42
+        ]
+      ],
+      "texture": "drsrnw2"
+    },
+    {
+      "cell": [
+        61,
+        41
+      ],
+      "portsNESW": 6,
+      "pairedNeighbors": [
+        [
+          61,
+          42
+        ]
+      ],
+      "texture": "drsrnw1"
+    },
+    {
+      "cell": [
+        61,
+        42
+      ],
+      "portsNESW": 9,
+      "pairedNeighbors": [
+        [
+          61,
+          41
+        ]
+      ],
+      "texture": "drsrnw2"
+    },
+    {
+      "cell": [
+        61,
+        53
+      ],
+      "portsNESW": 6,
+      "pairedNeighbors": [
+        [
+          62,
+          53
+        ]
+      ],
+      "texture": "drsrnw1"
+    },
+    {
+      "cell": [
+        61,
+        60
+      ],
+      "portsNESW": 3,
+      "pairedNeighbors": [
+        [
+          61,
+          61
+        ]
+      ],
+      "texture": "drsrne2"
+    },
+    {
+      "cell": [
+        61,
+        61
+      ],
+      "portsNESW": 12,
+      "pairedNeighbors": [
+        [
+          61,
+          60
+        ]
+      ],
+      "texture": "drsrne1"
+    },
+    {
+      "cell": [
+        62,
+        53
+      ],
+      "portsNESW": 9,
+      "pairedNeighbors": [
+        [
+          61,
+          53
+        ]
+      ],
+      "texture": "drsrnw2"
+    },
+    {
+      "cell": [
+        63,
+        65
+      ],
+      "portsNESW": 6,
+      "pairedNeighbors": [
+        [
+          63,
+          66
+        ]
+      ],
+      "texture": "drsrnw1"
+    },
+    {
+      "cell": [
+        63,
+        66
+      ],
+      "portsNESW": 9,
+      "pairedNeighbors": [
+        [
+          63,
+          65
+        ]
+      ],
+      "texture": "drsrnw2"
+    },
+    {
+      "cell": [
+        65,
+        60
+      ],
+      "portsNESW": 6,
+      "pairedNeighbors": [
+        [
+          66,
+          60
+        ]
+      ],
+      "texture": "drsrnw1"
+    },
+    {
+      "cell": [
+        66,
+        60
+      ],
+      "portsNESW": 9,
+      "pairedNeighbors": [
+        [
+          65,
+          60
+        ]
+      ],
+      "texture": "drsrnw2"
+    },
+    {
+      "cell": [
+        68,
+        64
+      ],
+      "portsNESW": 6,
+      "pairedNeighbors": [
+        [
+          68,
+          65
+        ]
+      ],
+      "texture": "drsrnw1"
+    },
+    {
+      "cell": [
+        68,
+        65
+      ],
+      "portsNESW": 9,
+      "pairedNeighbors": [
+        [
+          68,
+          64
+        ]
+      ],
+      "texture": "drsrnw2"
+    },
+    {
+      "cell": [
+        70,
+        41
+      ],
+      "portsNESW": 3,
+      "pairedNeighbors": [
+        [
+          70,
+          42
+        ]
+      ],
+      "texture": "drsrne2"
+    },
+    {
+      "cell": [
+        70,
+        42
+      ],
+      "portsNESW": 12,
+      "pairedNeighbors": [
+        [
+          70,
+          41
+        ]
+      ],
+      "texture": "drsrne1"
+    },
+    {
+      "cell": [
+        70,
+        58
+      ],
+      "portsNESW": 3,
+      "pairedNeighbors": [
+        [
+          70,
+          59
+        ]
+      ],
+      "texture": "drsrne2"
+    },
+    {
+      "cell": [
+        70,
+        59
+      ],
+      "portsNESW": 12,
+      "pairedNeighbors": [
+        [
+          70,
+          58
+        ]
+      ],
+      "texture": "drsrne1"
+    },
+    {
+      "cell": [
+        70,
+        63
+      ],
+      "portsNESW": 6,
+      "pairedNeighbors": [
+        [
+          70,
+          64
+        ],
+        [
+          71,
+          63
+        ]
+      ],
+      "texture": "drsrnw1"
+    },
+    {
+      "cell": [
+        70,
+        64
+      ],
+      "portsNESW": 9,
+      "pairedNeighbors": [
+        [
+          70,
+          63
+        ]
+      ],
+      "texture": "drsrnw2"
+    },
+    {
+      "cell": [
+        71,
+        63
+      ],
+      "portsNESW": 9,
+      "pairedNeighbors": [
+        [
+          70,
+          63
+        ]
+      ],
+      "texture": "drsrnw2"
+    },
+    {
+      "cell": [
+        72,
+        42
+      ],
+      "portsNESW": 3,
+      "pairedNeighbors": [
+        [
+          72,
+          43
+        ]
+      ],
+      "texture": "drsrne2"
+    },
+    {
+      "cell": [
+        72,
+        43
+      ],
+      "portsNESW": 12,
+      "pairedNeighbors": [
+        [
+          72,
+          42
+        ]
+      ],
+      "texture": "drsrne1"
+    },
+    {
+      "cell": [
+        74,
+        43
+      ],
+      "portsNESW": 3,
+      "pairedNeighbors": [
+        [
+          74,
+          44
+        ]
+      ],
+      "texture": "drsrne2"
+    },
+    {
+      "cell": [
+        74,
+        44
+      ],
+      "portsNESW": 12,
+      "pairedNeighbors": [
+        [
+          74,
+          43
+        ]
+      ],
+      "texture": "drsrne1"
+    },
+    {
+      "cell": [
+        76,
+        47
+      ],
+      "portsNESW": 12,
+      "pairedNeighbors": [
+        [
+          77,
+          47
+        ]
+      ],
+      "texture": "drsrne1"
+    },
+    {
+      "cell": [
+        76,
+        72
+      ],
+      "portsNESW": 6,
+      "pairedNeighbors": [
+        [
+          77,
+          72
+        ]
+      ],
+      "texture": "drsrnw1"
+    },
+    {
+      "cell": [
+        77,
+        47
+      ],
+      "portsNESW": 3,
+      "pairedNeighbors": [
+        [
+          76,
+          47
+        ]
+      ],
+      "texture": "drsrne2"
+    },
+    {
+      "cell": [
+        77,
+        50
+      ],
+      "portsNESW": 12,
+      "pairedNeighbors": [
+        [
+          78,
+          50
+        ]
+      ],
+      "texture": "drsrne1"
+    },
+    {
+      "cell": [
+        77,
+        65
+      ],
+      "portsNESW": 6,
+      "pairedNeighbors": [
+        [
+          78,
+          65
+        ]
+      ],
+      "texture": "drsrnw1"
+    },
+    {
+      "cell": [
+        77,
+        72
+      ],
+      "portsNESW": 9,
+      "pairedNeighbors": [
+        [
+          76,
+          72
+        ]
+      ],
+      "texture": "drsrnw2"
+    },
+    {
+      "cell": [
+        78,
+        50
+      ],
+      "portsNESW": 3,
+      "pairedNeighbors": [
+        [
+          77,
+          50
+        ]
+      ],
+      "texture": "drsrne2"
+    },
+    {
+      "cell": [
+        78,
+        65
+      ],
+      "portsNESW": 9,
+      "pairedNeighbors": [
+        [
+          77,
+          65
+        ]
+      ],
+      "texture": "drsrnw2"
+    }
+  ],
+  "removedSaddleVertices": [],
+  "unresolvedBoundaryCells": [],
+  "geometryBoundaryCells": [
+    {
+      "cell": [
+        0,
+        21
+      ],
+      "family": "mm5void"
+    },
+    {
+      "cell": [
+        1,
+        21
+      ],
+      "family": "mm5void"
+    },
+    {
+      "cell": [
+        1,
+        22
+      ],
+      "family": "mm5void"
+    },
+    {
+      "cell": [
+        1,
+        23
+      ],
+      "family": "mm5void"
+    },
+    {
+      "cell": [
+        1,
+        24
+      ],
+      "family": "mm5void"
+    },
+    {
+      "cell": [
+        2,
+        24
+      ],
+      "family": "mm5void"
+    },
+    {
+      "cell": [
+        3,
+        24
+      ],
+      "family": "mm5void"
+    },
+    {
+      "cell": [
+        4,
+        24
+      ],
+      "family": "mm5void"
+    },
+    {
+      "cell": [
+        5,
+        24
+      ],
+      "family": "mm5void"
+    },
+    {
+      "cell": [
+        6,
+        24
+      ],
+      "family": "mm5void"
+    },
+    {
+      "cell": [
+        7,
+        24
+      ],
+      "family": "mm5void"
+    },
+    {
+      "cell": [
+        8,
+        24
+      ],
+      "family": "mm5void"
+    },
+    {
+      "cell": [
+        9,
+        24
+      ],
+      "family": "mm5void"
+    },
+    {
+      "cell": [
+        10,
+        24
+      ],
+      "family": "mm5void"
+    },
+    {
+      "cell": [
+        11,
+        24
+      ],
+      "family": "mm5void"
+    },
+    {
+      "cell": [
+        12,
+        21
+      ],
+      "family": "mm5void"
+    },
+    {
+      "cell": [
+        12,
+        22
+      ],
+      "family": "mm5void"
+    },
+    {
+      "cell": [
+        12,
+        23
+      ],
+      "family": "mm5void"
+    },
+    {
+      "cell": [
+        12,
+        24
+      ],
+      "family": "mm5void"
+    },
+    {
+      "cell": [
+        13,
+        21
+      ],
+      "family": "mm5void"
+    },
+    {
+      "cell": [
+        14,
+        21
+      ],
+      "family": "mm5void"
+    },
+    {
+      "cell": [
+        15,
+        21
+      ],
+      "family": "mm5void"
+    },
+    {
+      "cell": [
+        16,
+        21
+      ],
+      "family": "mm5void"
+    },
+    {
+      "cell": [
+        17,
+        21
+      ],
+      "family": "mm5void"
+    },
+    {
+      "cell": [
+        18,
+        21
+      ],
+      "family": "mm5void"
+    },
+    {
+      "cell": [
+        19,
+        21
+      ],
+      "family": "mm5void"
+    },
+    {
+      "cell": [
+        20,
+        21
+      ],
+      "family": "mm5void"
+    },
+    {
+      "cell": [
+        21,
+        21
+      ],
+      "family": "mm5void"
+    },
+    {
+      "cell": [
+        22,
+        21
+      ],
+      "family": "mm5void"
+    },
+    {
+      "cell": [
+        23,
+        21
+      ],
+      "family": "mm5void"
+    },
+    {
+      "cell": [
+        24,
+        21
+      ],
+      "family": "mm5void"
+    },
+    {
+      "cell": [
+        25,
+        21
+      ],
+      "family": "mm5void"
+    },
+    {
+      "cell": [
+        26,
+        21
+      ],
+      "family": "mm5void"
+    },
+    {
+      "cell": [
+        27,
+        18
+      ],
+      "family": "mm5void"
+    },
+    {
+      "cell": [
+        27,
+        19
+      ],
+      "family": "mm5void"
+    },
+    {
+      "cell": [
+        27,
+        20
+      ],
+      "family": "mm5void"
+    },
+    {
+      "cell": [
+        27,
+        21
+      ],
+      "family": "mm5void"
+    },
+    {
+      "cell": [
+        28,
+        18
+      ],
+      "family": "mm5void"
+    },
+    {
+      "cell": [
+        29,
+        18
+      ],
+      "family": "mm5void"
+    },
+    {
+      "cell": [
+        30,
+        18
+      ],
+      "family": "mm5void"
+    },
+    {
+      "cell": [
+        31,
+        18
+      ],
+      "family": "mm5void"
+    },
+    {
+      "cell": [
+        32,
+        18
+      ],
+      "family": "mm5void"
+    },
+    {
+      "cell": [
+        33,
+        18
+      ],
+      "family": "mm5void"
+    },
+    {
+      "cell": [
+        34,
+        18
+      ],
+      "family": "mm5void"
+    },
+    {
+      "cell": [
+        35,
+        18
+      ],
+      "family": "mm5void"
+    },
+    {
+      "cell": [
+        36,
+        18
+      ],
+      "family": "mm5void"
+    },
+    {
+      "cell": [
+        37,
+        18
+      ],
+      "family": "mm5void"
+    },
+    {
+      "cell": [
+        38,
+        18
+      ],
+      "family": "mm5void"
+    },
+    {
+      "cell": [
+        39,
+        18
+      ],
+      "family": "mm5void"
+    },
+    {
+      "cell": [
+        40,
+        18
+      ],
+      "family": "mm5void"
+    },
+    {
+      "cell": [
+        41,
+        18
+      ],
+      "family": "mm5void"
+    },
+    {
+      "cell": [
+        42,
+        18
+      ],
+      "family": "mm5void"
+    },
+    {
+      "cell": [
+        43,
+        18
+      ],
+      "family": "mm5void"
+    },
+    {
+      "cell": [
+        44,
+        18
+      ],
+      "family": "mm5void"
+    },
+    {
+      "cell": [
+        45,
+        18
+      ],
+      "family": "mm5void"
+    },
+    {
+      "cell": [
+        46,
+        18
+      ],
+      "family": "mm5void"
+    },
+    {
+      "cell": [
+        46,
+        19
+      ],
+      "family": "mm5void"
+    },
+    {
+      "cell": [
+        46,
+        20
+      ],
+      "family": "mm5void"
+    },
+    {
+      "cell": [
+        46,
+        21
+      ],
+      "family": "mm5void"
+    },
+    {
+      "cell": [
+        47,
+        21
+      ],
+      "family": "mm5void"
+    },
+    {
+      "cell": [
+        48,
+        21
+      ],
+      "family": "mm5void"
+    },
+    {
+      "cell": [
+        49,
+        21
+      ],
+      "family": "mm5void"
+    },
+    {
+      "cell": [
+        50,
+        21
+      ],
+      "family": "mm5void"
+    },
+    {
+      "cell": [
+        51,
+        21
+      ],
+      "family": "mm5void"
+    },
+    {
+      "cell": [
+        52,
+        21
+      ],
+      "family": "mm5void"
+    },
+    {
+      "cell": [
+        53,
+        21
+      ],
+      "family": "mm5void"
+    },
+    {
+      "cell": [
+        54,
+        21
+      ],
+      "family": "mm5void"
+    },
+    {
+      "cell": [
+        55,
+        21
+      ],
+      "family": "mm5void"
+    },
+    {
+      "cell": [
+        56,
+        21
+      ],
+      "family": "mm5void"
+    },
+    {
+      "cell": [
+        57,
+        21
+      ],
+      "family": "mm5void"
+    },
+    {
+      "cell": [
+        58,
+        21
+      ],
+      "family": "mm5void"
+    },
+    {
+      "cell": [
+        59,
+        21
+      ],
+      "family": "mm5void"
+    },
+    {
+      "cell": [
+        60,
+        21
+      ],
+      "family": "mm5void"
+    },
+    {
+      "cell": [
+        61,
+        21
+      ],
+      "family": "mm5void"
+    },
+    {
+      "cell": [
+        62,
+        21
+      ],
+      "family": "mm5void"
+    },
+    {
+      "cell": [
+        63,
+        18
+      ],
+      "family": "mm5void"
+    },
+    {
+      "cell": [
+        63,
+        19
+      ],
+      "family": "mm5void"
+    },
+    {
+      "cell": [
+        63,
+        20
+      ],
+      "family": "mm5void"
+    },
+    {
+      "cell": [
+        63,
+        21
+      ],
+      "family": "mm5void"
+    },
+    {
+      "cell": [
+        64,
+        18
+      ],
+      "family": "mm5void"
+    },
+    {
+      "cell": [
+        65,
+        18
+      ],
+      "family": "mm5void"
+    },
+    {
+      "cell": [
+        66,
+        18
+      ],
+      "family": "mm5void"
+    },
+    {
+      "cell": [
+        67,
+        18
+      ],
+      "family": "mm5void"
+    },
+    {
+      "cell": [
+        68,
+        18
+      ],
+      "family": "mm5void"
+    },
+    {
+      "cell": [
+        69,
+        18
+      ],
+      "family": "mm5void"
+    },
+    {
+      "cell": [
+        70,
+        18
+      ],
+      "family": "mm5void"
+    },
+    {
+      "cell": [
+        71,
+        18
+      ],
+      "family": "mm5void"
+    },
+    {
+      "cell": [
+        72,
+        18
+      ],
+      "family": "mm5void"
+    },
+    {
+      "cell": [
+        73,
+        18
+      ],
+      "family": "mm5void"
+    },
+    {
+      "cell": [
+        74,
+        18
+      ],
+      "family": "mm5void"
+    },
+    {
+      "cell": [
+        75,
+        18
+      ],
+      "family": "mm5void"
+    },
+    {
+      "cell": [
+        76,
+        18
+      ],
+      "family": "mm5void"
+    },
+    {
+      "cell": [
+        76,
+        19
+      ],
+      "family": "mm5void"
+    },
+    {
+      "cell": [
+        76,
+        20
+      ],
+      "family": "mm5void"
+    },
+    {
+      "cell": [
+        76,
+        21
+      ],
+      "family": "mm5void"
+    },
+    {
+      "cell": [
+        77,
+        21
+      ],
+      "family": "mm5void"
+    },
+    {
+      "cell": [
+        78,
+        21
+      ],
+      "family": "mm5void"
+    },
+    {
+      "cell": [
+        79,
+        21
+      ],
+      "family": "mm5void"
+    },
+    {
+      "cell": [
+        80,
+        21
+      ],
+      "family": "mm5void"
+    },
+    {
+      "cell": [
+        81,
+        21
+      ],
+      "family": "mm5void"
+    },
+    {
+      "cell": [
+        82,
+        21
+      ],
+      "family": "mm5void"
+    },
+    {
+      "cell": [
+        83,
+        21
+      ],
+      "family": "mm5void"
+    },
+    {
+      "cell": [
+        84,
+        21
+      ],
+      "family": "mm5void"
+    },
+    {
+      "cell": [
+        85,
+        21
+      ],
+      "family": "mm5void"
+    },
+    {
+      "cell": [
+        86,
+        21
+      ],
+      "family": "mm5void"
+    },
+    {
+      "cell": [
+        87,
+        21
+      ],
+      "family": "mm5void"
+    },
+    {
+      "cell": [
+        88,
+        21
+      ],
+      "family": "mm5void"
+    },
+    {
+      "cell": [
+        89,
+        21
+      ],
+      "family": "mm5void"
+    },
+    {
+      "cell": [
+        90,
+        18
+      ],
+      "family": "mm5void"
+    },
+    {
+      "cell": [
+        90,
+        19
+      ],
+      "family": "mm5void"
+    },
+    {
+      "cell": [
+        90,
+        20
+      ],
+      "family": "mm5void"
+    },
+    {
+      "cell": [
+        90,
+        21
+      ],
+      "family": "mm5void"
+    },
+    {
+      "cell": [
+        91,
+        18
+      ],
+      "family": "mm5void"
+    },
+    {
+      "cell": [
+        92,
+        18
+      ],
+      "family": "mm5void"
+    },
+    {
+      "cell": [
+        93,
+        18
+      ],
+      "family": "mm5void"
+    },
+    {
+      "cell": [
+        94,
+        18
+      ],
+      "family": "mm5void"
+    },
+    {
+      "cell": [
+        95,
+        18
+      ],
+      "family": "mm5void"
+    },
+    {
+      "cell": [
+        96,
+        18
+      ],
+      "family": "mm5void"
+    },
+    {
+      "cell": [
+        97,
+        18
+      ],
+      "family": "mm5void"
+    },
+    {
+      "cell": [
+        98,
+        18
+      ],
+      "family": "mm5void"
+    },
+    {
+      "cell": [
+        99,
+        18
+      ],
+      "family": "mm5void"
+    },
+    {
+      "cell": [
+        100,
+        18
+      ],
+      "family": "mm5void"
+    },
+    {
+      "cell": [
+        101,
+        18
+      ],
+      "family": "mm5void"
+    },
+    {
+      "cell": [
+        102,
+        18
+      ],
+      "family": "mm5void"
+    },
+    {
+      "cell": [
+        103,
+        18
+      ],
+      "family": "mm5void"
+    },
+    {
+      "cell": [
+        103,
+        19
+      ],
+      "family": "mm5void"
+    },
+    {
+      "cell": [
+        103,
+        20
+      ],
+      "family": "mm5void"
+    },
+    {
+      "cell": [
+        103,
+        21
+      ],
+      "family": "mm5void"
+    },
+    {
+      "cell": [
+        103,
+        82
+      ],
+      "family": "mm5void"
+    },
+    {
+      "cell": [
+        103,
+        83
+      ],
+      "family": "mm5void"
+    },
+    {
+      "cell": [
+        103,
+        84
+      ],
+      "family": "mm5void"
+    },
+    {
+      "cell": [
+        103,
+        85
+      ],
+      "family": "mm5void"
+    },
+    {
+      "cell": [
+        103,
+        86
+      ],
+      "family": "mm5void"
+    },
+    {
+      "cell": [
+        103,
+        87
+      ],
+      "family": "mm5void"
+    },
+    {
+      "cell": [
+        103,
+        88
+      ],
+      "family": "mm5void"
+    },
+    {
+      "cell": [
+        103,
+        89
+      ],
+      "family": "mm5void"
+    },
+    {
+      "cell": [
+        103,
+        90
+      ],
+      "family": "mm5void"
+    },
+    {
+      "cell": [
+        103,
+        91
+      ],
+      "family": "mm5void"
+    },
+    {
+      "cell": [
+        103,
+        92
+      ],
+      "family": "mm5void"
+    },
+    {
+      "cell": [
+        103,
+        93
+      ],
+      "family": "mm5void"
+    },
+    {
+      "cell": [
+        104,
+        21
+      ],
+      "family": "mm5void"
+    },
+    {
+      "cell": [
+        104,
+        82
+      ],
+      "family": "mm5void"
+    },
+    {
+      "cell": [
+        104,
+        93
+      ],
+      "family": "mm5void"
+    },
+    {
+      "cell": [
+        105,
+        21
+      ],
+      "family": "mm5void"
+    },
+    {
+      "cell": [
+        105,
+        82
+      ],
+      "family": "mm5void"
+    },
+    {
+      "cell": [
+        105,
+        93
+      ],
+      "family": "mm5void"
+    },
+    {
+      "cell": [
+        106,
+        21
+      ],
+      "family": "mm5void"
+    },
+    {
+      "cell": [
+        106,
+        22
+      ],
+      "family": "mm5void"
+    },
+    {
+      "cell": [
+        106,
+        23
+      ],
+      "family": "mm5void"
+    },
+    {
+      "cell": [
+        106,
+        24
+      ],
+      "family": "mm5void"
+    },
+    {
+      "cell": [
+        106,
+        40
+      ],
+      "family": "mm5void"
+    },
+    {
+      "cell": [
+        106,
+        41
+      ],
+      "family": "mm5void"
+    },
+    {
+      "cell": [
+        106,
+        42
+      ],
+      "family": "mm5void"
+    },
+    {
+      "cell": [
+        106,
+        43
+      ],
+      "family": "mm5void"
+    },
+    {
+      "cell": [
+        106,
+        44
+      ],
+      "family": "mm5void"
+    },
+    {
+      "cell": [
+        106,
+        45
+      ],
+      "family": "mm5void"
+    },
+    {
+      "cell": [
+        106,
+        46
+      ],
+      "family": "mm5void"
+    },
+    {
+      "cell": [
+        106,
+        47
+      ],
+      "family": "mm5void"
+    },
+    {
+      "cell": [
+        106,
+        48
+      ],
+      "family": "mm5void"
+    },
+    {
+      "cell": [
+        106,
+        49
+      ],
+      "family": "mm5void"
+    },
+    {
+      "cell": [
+        106,
+        50
+      ],
+      "family": "mm5void"
+    },
+    {
+      "cell": [
+        106,
+        51
+      ],
+      "family": "mm5void"
+    },
+    {
+      "cell": [
+        106,
+        52
+      ],
+      "family": "mm5void"
+    },
+    {
+      "cell": [
+        106,
+        53
+      ],
+      "family": "mm5void"
+    },
+    {
+      "cell": [
+        106,
+        54
+      ],
+      "family": "mm5void"
+    },
+    {
+      "cell": [
+        106,
+        55
+      ],
+      "family": "mm5void"
+    },
+    {
+      "cell": [
+        106,
+        56
+      ],
+      "family": "mm5void"
+    },
+    {
+      "cell": [
+        106,
+        57
+      ],
+      "family": "mm5void"
+    },
+    {
+      "cell": [
+        106,
+        73
+      ],
+      "family": "mm5void"
+    },
+    {
+      "cell": [
+        106,
+        74
+      ],
+      "family": "mm5void"
+    },
+    {
+      "cell": [
+        106,
+        75
+      ],
+      "family": "mm5void"
+    },
+    {
+      "cell": [
+        106,
+        76
+      ],
+      "family": "mm5void"
+    },
+    {
+      "cell": [
+        106,
+        77
+      ],
+      "family": "mm5void"
+    },
+    {
+      "cell": [
+        106,
+        78
+      ],
+      "family": "mm5void"
+    },
+    {
+      "cell": [
+        106,
+        79
+      ],
+      "family": "mm5void"
+    },
+    {
+      "cell": [
+        106,
+        80
+      ],
+      "family": "mm5void"
+    },
+    {
+      "cell": [
+        106,
+        81
+      ],
+      "family": "mm5void"
+    },
+    {
+      "cell": [
+        106,
+        82
+      ],
+      "family": "mm5void"
+    },
+    {
+      "cell": [
+        106,
+        93
+      ],
+      "family": "mm5void"
+    },
+    {
+      "cell": [
+        106,
+        94
+      ],
+      "family": "mm5void"
+    },
+    {
+      "cell": [
+        106,
+        95
+      ],
+      "family": "mm5void"
+    },
+    {
+      "cell": [
+        106,
+        96
+      ],
+      "family": "mm5void"
+    },
+    {
+      "cell": [
+        106,
+        97
+      ],
+      "family": "mm5void"
+    },
+    {
+      "cell": [
+        106,
+        98
+      ],
+      "family": "mm5void"
+    },
+    {
+      "cell": [
+        106,
+        99
+      ],
+      "family": "mm5void"
+    },
+    {
+      "cell": [
+        106,
+        100
+      ],
+      "family": "mm5void"
+    },
+    {
+      "cell": [
+        106,
+        101
+      ],
+      "family": "mm5void"
+    },
+    {
+      "cell": [
+        106,
+        102
+      ],
+      "family": "mm5void"
+    },
+    {
+      "cell": [
+        106,
+        103
+      ],
+      "family": "mm5void"
+    },
+    {
+      "cell": [
+        106,
+        104
+      ],
+      "family": "mm5void"
+    },
+    {
+      "cell": [
+        106,
+        105
+      ],
+      "family": "mm5void"
+    },
+    {
+      "cell": [
+        106,
+        106
+      ],
+      "family": "mm5void"
+    },
+    {
+      "cell": [
+        106,
+        107
+      ],
+      "family": "mm5void"
+    },
+    {
+      "cell": [
+        106,
+        108
+      ],
+      "family": "mm5void"
+    },
+    {
+      "cell": [
+        106,
+        124
+      ],
+      "family": "mm5void"
+    },
+    {
+      "cell": [
+        106,
+        125
+      ],
+      "family": "mm5void"
+    },
+    {
+      "cell": [
+        106,
+        126
+      ],
+      "family": "mm5void"
+    },
+    {
+      "cell": [
+        107,
+        24
+      ],
+      "family": "mm5void"
+    },
+    {
+      "cell": [
+        107,
+        40
+      ],
+      "family": "mm5void"
+    },
+    {
+      "cell": [
+        107,
+        57
+      ],
+      "family": "mm5void"
+    },
+    {
+      "cell": [
+        107,
+        73
+      ],
+      "family": "mm5void"
+    },
+    {
+      "cell": [
+        107,
+        108
+      ],
+      "family": "mm5void"
+    },
+    {
+      "cell": [
+        107,
+        124
+      ],
+      "family": "mm5void"
+    },
+    {
+      "cell": [
+        108,
+        24
+      ],
+      "family": "mm5void"
+    },
+    {
+      "cell": [
+        108,
+        40
+      ],
+      "family": "mm5void"
+    },
+    {
+      "cell": [
+        108,
+        57
+      ],
+      "family": "mm5void"
+    },
+    {
+      "cell": [
+        108,
+        73
+      ],
+      "family": "mm5void"
+    },
+    {
+      "cell": [
+        108,
+        108
+      ],
+      "family": "mm5void"
+    },
+    {
+      "cell": [
+        108,
+        124
+      ],
+      "family": "mm5void"
+    },
+    {
+      "cell": [
+        109,
+        24
+      ],
+      "family": "mm5void"
+    },
+    {
+      "cell": [
+        109,
+        25
+      ],
+      "family": "mm5void"
+    },
+    {
+      "cell": [
+        109,
+        26
+      ],
+      "family": "mm5void"
+    },
+    {
+      "cell": [
+        109,
+        27
+      ],
+      "family": "mm5void"
+    },
+    {
+      "cell": [
+        109,
+        28
+      ],
+      "family": "mm5void"
+    },
+    {
+      "cell": [
+        109,
+        29
+      ],
+      "family": "mm5void"
+    },
+    {
+      "cell": [
+        109,
+        30
+      ],
+      "family": "mm5void"
+    },
+    {
+      "cell": [
+        109,
+        31
+      ],
+      "family": "mm5void"
+    },
+    {
+      "cell": [
+        109,
+        32
+      ],
+      "family": "mm5void"
+    },
+    {
+      "cell": [
+        109,
+        33
+      ],
+      "family": "mm5void"
+    },
+    {
+      "cell": [
+        109,
+        34
+      ],
+      "family": "mm5void"
+    },
+    {
+      "cell": [
+        109,
+        35
+      ],
+      "family": "mm5void"
+    },
+    {
+      "cell": [
+        109,
+        36
+      ],
+      "family": "mm5void"
+    },
+    {
+      "cell": [
+        109,
+        37
+      ],
+      "family": "mm5void"
+    },
+    {
+      "cell": [
+        109,
+        38
+      ],
+      "family": "mm5void"
+    },
+    {
+      "cell": [
+        109,
+        39
+      ],
+      "family": "mm5void"
+    },
+    {
+      "cell": [
+        109,
+        40
+      ],
+      "family": "mm5void"
+    },
+    {
+      "cell": [
+        109,
+        57
+      ],
+      "family": "mm5void"
+    },
+    {
+      "cell": [
+        109,
+        58
+      ],
+      "family": "mm5void"
+    },
+    {
+      "cell": [
+        109,
+        59
+      ],
+      "family": "mm5void"
+    },
+    {
+      "cell": [
+        109,
+        60
+      ],
+      "family": "mm5void"
+    },
+    {
+      "cell": [
+        109,
+        61
+      ],
+      "family": "mm5void"
+    },
+    {
+      "cell": [
+        109,
+        62
+      ],
+      "family": "mm5void"
+    },
+    {
+      "cell": [
+        109,
+        63
+      ],
+      "family": "mm5void"
+    },
+    {
+      "cell": [
+        109,
+        64
+      ],
+      "family": "mm5void"
+    },
+    {
+      "cell": [
+        109,
+        65
+      ],
+      "family": "mm5void"
+    },
+    {
+      "cell": [
+        109,
+        66
+      ],
+      "family": "mm5void"
+    },
+    {
+      "cell": [
+        109,
+        67
+      ],
+      "family": "mm5void"
+    },
+    {
+      "cell": [
+        109,
+        68
+      ],
+      "family": "mm5void"
+    },
+    {
+      "cell": [
+        109,
+        69
+      ],
+      "family": "mm5void"
+    },
+    {
+      "cell": [
+        109,
+        70
+      ],
+      "family": "mm5void"
+    },
+    {
+      "cell": [
+        109,
+        71
+      ],
+      "family": "mm5void"
+    },
+    {
+      "cell": [
+        109,
+        72
+      ],
+      "family": "mm5void"
+    },
+    {
+      "cell": [
+        109,
+        73
+      ],
+      "family": "mm5void"
+    },
+    {
+      "cell": [
+        109,
+        108
+      ],
+      "family": "mm5void"
+    },
+    {
+      "cell": [
+        109,
+        109
+      ],
+      "family": "mm5void"
+    },
+    {
+      "cell": [
+        109,
+        110
+      ],
+      "family": "mm5void"
+    },
+    {
+      "cell": [
+        109,
+        111
+      ],
+      "family": "mm5void"
+    },
+    {
+      "cell": [
+        109,
+        112
+      ],
+      "family": "mm5void"
+    },
+    {
+      "cell": [
+        109,
+        113
+      ],
+      "family": "mm5void"
+    },
+    {
+      "cell": [
+        109,
+        114
+      ],
+      "family": "mm5void"
+    },
+    {
+      "cell": [
+        109,
+        115
+      ],
+      "family": "mm5void"
+    },
+    {
+      "cell": [
+        109,
+        116
+      ],
+      "family": "mm5void"
+    },
+    {
+      "cell": [
+        109,
+        117
+      ],
+      "family": "mm5void"
+    },
+    {
+      "cell": [
+        109,
+        118
+      ],
+      "family": "mm5void"
+    },
+    {
+      "cell": [
+        109,
+        119
+      ],
+      "family": "mm5void"
+    },
+    {
+      "cell": [
+        109,
+        120
+      ],
+      "family": "mm5void"
+    },
+    {
+      "cell": [
+        109,
+        121
+      ],
+      "family": "mm5void"
+    },
+    {
+      "cell": [
+        109,
+        122
+      ],
+      "family": "mm5void"
+    },
+    {
+      "cell": [
+        109,
+        123
+      ],
+      "family": "mm5void"
+    },
+    {
+      "cell": [
+        109,
+        124
+      ],
+      "family": "mm5void"
+    }
+  ],
+  "geometryBoundaryTreatment": "source-owned cliff/boundary/spill models; see implementation/world_rim.json",
+  "limitations": [
+    "regional scenery/rim composition and final road grades/frontage fit pending"
+  ]
+}

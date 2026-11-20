@@ -1,0 +1,663 @@
+{
+  "tool": "built-in image_gen",
+  "requested_size": [
+    1024,
+    1024
+  ],
+  "preserve_unresized_returns": true,
+  "max_corrective_regenerations_per_view": 1,
+  "runs": [
+    {
+      "view": "front",
+      "attempt": 1,
+      "prompt": "Use case: style-transfer. Asset: albedo texture projection source for an existing 3D game item.\nImage 1 is the EDIT TARGET: the exact orthographic geometry guide. Image 2 is ONLY the material/design reference, not a pose or silhouette reference.\nPaint only the surfaces inside image 1. Preserve its exact alpha outline, framing, position, scale, orientation and all internal part edges. Keep the angular model geometry; do not remodel, smooth the silhouette, rotate, enlarge, recenter, crop or add geometry.\nSubject: Hesper founder's head, a calm robed colonist statue broken at the neck. All face, eyes, hood and broken base are weathered warm white/ivory colonial statue stone, with fine pores, subtle hairline cracks, worn chips, sparse embedded gray-brown soot stains. Hood is carved stone, not actual fabric. Match image 2's aged stone and restrained worn ochre-gold inlay on the brow band and narrow hood rim; metal base color with only a faint sheen. Apply the reference motifs where the guide has the corresponding parts, no extra objects or ornaments.\nLighting: completely flat, even, shadowless viewer-facing albedo. Remove the guide's gray lighting gradients, keep only real material colors and surface wear. No cast shadow, no ambient occlusion, no dark hood-cavity lighting, no directional shading, no bright specular highlights, no reflections, no rim light. No text, letters, labels, watermarks, background, floor or contact shadow.\nOutput exactly one 1024 x 1024 RGBA PNG with genuine transparent background. Keep every original transparent pixel transparent and the complete guide silhouette at exactly its original coordinates.\nVIEW CONSTRAINT: FRONT view. The face looks straight at the viewer, precisely as image 1. Keep the brow, blank sculpted stone eyes, nose, mouth, chin and broken neck exactly in place. Paint worn gold across the existing brow-band shape and its central motif, without creating protruding geometry. Keep both stone hood flaps and the jagged bottom break unchanged.",
+      "inputs": [
+        {
+          "file": "guide_front.png",
+          "role": "edit_target",
+          "sha256": "018822eeb1589869f21262e5ab7b71d7e489c18299904f45cf93c1387919e8eb"
+        },
+        {
+          "file": "design_reference.png",
+          "role": "material_design_reference",
+          "sha256": "b6044e44eea25c93730aeb517c00414ae0bf3b1700d0ea6fd8baac215a6a1c69"
+        }
+      ],
+      "output": "paint_front_attempt1.png",
+      "selected": false,
+      "reason": "Material matches; rejected for shifted geometry and baked hood/neck shadows. Corrective regeneration will prioritize the guide canvas and albedo lighting.",
+      "source_output": "/home/pjasicek/.codex/generated_images/01a16e9c-2e81-7022-9ceb-a6c3f02da2de/exec-271a6f3b-704a-416e-9797-cdde35817567.png",
+      "output_sha256": "2ae4941536842e6be2983efb4af573aaf9305a3a4b68a0052858a4f9aa8faa58",
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "mode": "RGBA",
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "alpha_bbox": [
+          0,
+          17,
+          1240,
+          1254
+        ],
+        "guide_alpha_bbox": [
+          125,
+          66,
+          899,
+          958
+        ],
+        "silhouette_identical": false,
+        "normalized_canvas_silhouette_iou_at_alpha_128": 0.932068,
+        "size_matches_request": false,
+        "transparent_background": true,
+        "source_return_preserved_byte_for_byte": true,
+        "materials_match_reference": true,
+        "flat_shadowless_albedo": false,
+        "no_text_or_letters": true,
+        "alpha_cleanly_matches_guide": false
+      },
+      "fully_meets_brief": false
+    },
+    {
+      "view": "front",
+      "attempt": 2,
+      "prompt": "Use case: style-transfer. Asset: albedo texture projection source for an existing 3D game item.\nImage 2 is the EDIT TARGET: the exact orthographic geometry guide. Image 1 is ONLY the material/design reference, not a pose or silhouette reference.\nPaint only the surfaces inside image 2. Preserve its exact alpha outline, framing, position, scale, orientation and all internal part edges. Keep the angular model geometry; do not remodel, smooth the silhouette, rotate, enlarge, recenter, crop or add geometry.\nSubject: Hesper founder's head, a calm robed colonist statue broken at the neck. All face, eyes, hood and broken base are weathered warm white/ivory colonial statue stone, with fine pores, subtle hairline cracks, worn chips, sparse embedded gray-brown soot stains. Hood is carved stone, not actual fabric. Match image 1's aged stone and restrained worn ochre-gold inlay on the brow band and narrow hood rim; metal base color with only a faint sheen. Apply the reference motifs where the guide has the corresponding parts, no extra objects or ornaments.\nLighting: completely flat, even, shadowless viewer-facing albedo. Remove the guide's gray lighting gradients, keep only real material colors and surface wear. No cast shadow, no ambient occlusion, no dark hood-cavity lighting, no directional shading, no bright specular highlights, no reflections, no rim light. No text, letters, labels, watermarks, background, floor or contact shadow.\nOutput exactly one 1024 x 1024 RGBA PNG with genuine transparent background. Keep every original transparent pixel transparent and the complete guide silhouette at exactly its original coordinates.\nVIEW CONSTRAINT: FRONT view. The face looks straight at the viewer, precisely as image 2. Keep the brow, blank sculpted stone eyes, nose, mouth, chin and broken neck exactly in place. Paint worn gold across the existing brow-band shape and its central motif, without creating protruding geometry. Keep both stone hood flaps and the jagged bottom break unchanged.\nCORRECTIVE PASS: Exact 1024 x 1024 canvas of IMAGE 2, the guide. Treat IMAGE 2 as a rigid mask, NEVER as inspiration. Recolor the existing polygons without repositioning any edge: hood top begins y=66, outer extents x=125..898, bottom y=957. Face center remains around x=490, not recentered to 512. Keep eyes near y=415, nose tip y=500, mouth y=590 and chin y=685. This is UNLIT BASE COLOR: paint the inside hood, under chin, nose and brow just as ivory and bright as the outer hood; no dark crevice shading, no shadows anywhere. No reflected glints on gold. Preserve the exact shape of the angular existing brow band. Only paint surface coloration. Do not render a relit statue.",
+      "source_output": "/home/pjasicek/.codex/generated_images/01a16e9c-2e81-7022-9ceb-a6c3f02da2de/exec-e6751447-1f3a-464a-ad8a-9503b4fe528b.png",
+      "output": "paint_front.png",
+      "selected": true,
+      "reason": "Selected corrective return: closer guide proportions and bright stone material. Still fails pixel-identical silhouette and shadowless-albedo requirements; one allowed correction exhausted. Retained unresized as required.",
+      "inputs": [
+        {
+          "file": "design_reference.png",
+          "role": "material_design_reference",
+          "sha256": "b6044e44eea25c93730aeb517c00414ae0bf3b1700d0ea6fd8baac215a6a1c69"
+        },
+        {
+          "file": "guide_front.png",
+          "role": "edit_target",
+          "sha256": "018822eeb1589869f21262e5ab7b71d7e489c18299904f45cf93c1387919e8eb"
+        }
+      ],
+      "output_sha256": "6fc87a3ea5ce61eda39bb3b04e6d85c54f8dfcfed927f64baf4843527c7af958",
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "mode": "RGBA",
+        "transparent_background": true,
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "alpha_bbox": [
+          0,
+          0,
+          1240,
+          1254
+        ],
+        "opaque_bbox": [
+          154,
+          79,
+          1101,
+          1174
+        ],
+        "guide_alpha_bbox": [
+          125,
+          66,
+          899,
+          958
+        ],
+        "silhouette_identical": false,
+        "size_matches_request": false,
+        "materials_match_reference": true,
+        "no_text_or_letters": true,
+        "flat_shadowless_albedo": false,
+        "geometry_exact": false,
+        "notes": "Residual shadows under hood, brow, nose and chin; gold retains highlights; geometry differs from guide.",
+        "normalized_canvas_silhouette_iou_at_alpha_128": 0.99469,
+        "source_return_preserved_byte_for_byte": true,
+        "alpha_cleanly_matches_guide": false
+      },
+      "fully_meets_brief": false
+    },
+    {
+      "view": "back",
+      "attempt": 1,
+      "prompt": "Use case: style-transfer. Asset: albedo texture projection source for an existing 3D game item.\nImage 2 is the EDIT TARGET: the exact orthographic geometry guide. Image 1 is ONLY the material/design reference, not a pose or silhouette reference.\nPaint only the surfaces inside image 2. Preserve its exact alpha outline, framing, position, scale, orientation and all internal part edges. Keep the angular model geometry; do not remodel, smooth the silhouette, rotate, enlarge, recenter, crop or add geometry.\nSubject: Hesper founder's head, a calm robed colonist statue broken at the neck. All face, eyes, hood and broken base are weathered warm white/ivory colonial statue stone, with fine pores, subtle hairline cracks, worn chips, sparse embedded gray-brown soot stains. Hood is carved stone, not actual fabric. Match image 1's aged stone and restrained worn ochre-gold inlay on the brow band and narrow hood rim; metal base color with only a faint sheen. Apply the reference motifs where the guide has the corresponding parts, no extra objects or ornaments.\nLighting: completely flat, even, shadowless viewer-facing albedo. Remove the guide's gray lighting gradients, keep only real material colors and surface wear. No cast shadow, no ambient occlusion, no dark hood-cavity lighting, no directional shading, no bright specular highlights, no reflections, no rim light. No text, letters, labels, watermarks, background, floor or contact shadow.\nOutput exactly one 1024 x 1024 RGBA PNG with genuine transparent background. Keep every original transparent pixel transparent and the complete guide silhouette at exactly its original coordinates.\nVIEW CONSTRAINT: BACK view. Only the back of the carved stone hood and jagged broken base are visible. Preserve image 1's broad faceted hood panels and every existing fold boundary. Continue the reference's weathered ivory stone, sparse cracks and small soot stains plausibly across the back. Do not place a face, eyes, brow circlet or front medallion on the back. Gold only along existing exposed hood hems where physically plausible.",
+      "inputs": [
+        {
+          "file": "design_reference.png",
+          "role": "material_design_reference",
+          "sha256": "b6044e44eea25c93730aeb517c00414ae0bf3b1700d0ea6fd8baac215a6a1c69"
+        },
+        {
+          "file": "guide_back.png",
+          "role": "edit_target",
+          "sha256": "1e01d5a5ed6278351c85d07117890c4f4be94baaaa9b3d488b3bf25cc7e8a05d"
+        }
+      ],
+      "output": "paint_back_attempt1.png",
+      "selected": false,
+      "reason": "Weathered stone and worn gold match, but hood recesses have baked shading and the silhouette is not identical. Trying one correction.",
+      "source_output": "/home/pjasicek/.codex/generated_images/01a16e9c-2e81-7022-9ceb-a6c3f02da2de/exec-f0514685-d14d-4101-83ca-9a975a21a0ac.png",
+      "output_sha256": "2f03aba7f06792b5c6c4aa90e283003015725c1085d070f3df6c189ed6dc09cd",
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "mode": "RGBA",
+        "transparent_background": true,
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "alpha_bbox": [
+          0,
+          9,
+          1240,
+          1254
+        ],
+        "opaque_bbox": [
+          151,
+          71,
+          1103,
+          1164
+        ],
+        "guide_alpha_bbox": [
+          125,
+          66,
+          899,
+          958
+        ],
+        "silhouette_identical": false,
+        "size_matches_request": false,
+        "materials_match_reference": true,
+        "no_text_or_letters": true,
+        "flat_shadowless_albedo": false,
+        "geometry_exact": false,
+        "notes": "Directional shading and dark lower hood recesses; gold hem highlights.",
+        "normalized_canvas_silhouette_iou_at_alpha_128": 0.962708,
+        "source_return_preserved_byte_for_byte": true,
+        "alpha_cleanly_matches_guide": false
+      },
+      "fully_meets_brief": false
+    },
+    {
+      "view": "back",
+      "attempt": 2,
+      "prompt": "Use case: style-transfer. Asset: albedo texture projection source for an existing 3D game item.\nImage 2 is the EDIT TARGET: the exact orthographic geometry guide. Image 1 is ONLY the material/design reference, not a pose or silhouette reference.\nPaint only the surfaces inside image 2. Preserve its exact alpha outline, framing, position, scale, orientation and all internal part edges. Keep the angular model geometry; do not remodel, smooth the silhouette, rotate, enlarge, recenter, crop or add geometry.\nSubject: Hesper founder's head, a calm robed colonist statue broken at the neck. All face, eyes, hood and broken base are weathered warm white/ivory colonial statue stone, with fine pores, subtle hairline cracks, worn chips, sparse embedded gray-brown soot stains. Hood is carved stone, not actual fabric. Match image 1's aged stone and restrained worn ochre-gold inlay on the brow band and narrow hood rim; metal base color with only a faint sheen. Apply the reference motifs where the guide has the corresponding parts, no extra objects or ornaments.\nLighting: completely flat, even, shadowless viewer-facing albedo. Remove the guide's gray lighting gradients, keep only real material colors and surface wear. No cast shadow, no ambient occlusion, no dark hood-cavity lighting, no directional shading, no bright specular highlights, no reflections, no rim light. No text, letters, labels, watermarks, background, floor or contact shadow.\nOutput exactly one 1024 x 1024 RGBA PNG with genuine transparent background. Keep every original transparent pixel transparent and the complete guide silhouette at exactly its original coordinates.\nVIEW CONSTRAINT: BACK view. Only the back of the carved stone hood and jagged broken base are visible. Preserve image 1's broad faceted hood panels and every existing fold boundary. Continue the reference's weathered ivory stone, sparse cracks and small soot stains plausibly across the back. Do not place a face, eyes, brow circlet or front medallion on the back. Gold only along existing exposed hood hems where physically plausible.\nCORRECTION: Lock the exact 1024x1024 canvas and alpha of image 2, not the 1254x1254 material reference. Use the guide as a paint-by-polygon template. Top y=66, left x=125, right x=898, bottom y=957. No silhouette chipping, new notches, softening, enlargement or recentering. The surface colors must be COMPLETELY UNLIT: all hood panels, deep fold panels, recessed lower left and bottom break should have the SAME bright ivory stone base value. Remove every dark band from geometric shadow. Gold is a subdued solid ochre-gold base color, no glints. Fine mottling and cracks are pigment only; no height shading. Keep the exact guide panels even where their lighting is removed. This is a diffuse color pass for projection, not a shaded product render.",
+      "source_output": "/home/pjasicek/.codex/generated_images/01a16e9c-2e81-7022-9ceb-a6c3f02da2de/exec-24f412bc-b449-4fe6-af82-e6a425d2279f.png",
+      "output": "paint_back.png",
+      "selected": true,
+      "reason": "Selected corrective return for a flatter, brighter stone treatment and closer hood shape. Still fails exact guide silhouette and fully shadowless albedo; correction limit reached. Original return preserved unresized.",
+      "inputs": [
+        {
+          "file": "design_reference.png",
+          "role": "material_design_reference",
+          "sha256": "b6044e44eea25c93730aeb517c00414ae0bf3b1700d0ea6fd8baac215a6a1c69"
+        },
+        {
+          "file": "guide_back.png",
+          "role": "edit_target",
+          "sha256": "1e01d5a5ed6278351c85d07117890c4f4be94baaaa9b3d488b3bf25cc7e8a05d"
+        }
+      ],
+      "output_sha256": "3eaf84084899563f47092f8e935d5e14640c7d8f5676f83c42dbdacad41fed7a",
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "mode": "RGBA",
+        "transparent_background": true,
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "alpha_bbox": [
+          0,
+          17,
+          1218,
+          1232
+        ],
+        "opaque_bbox": [
+          152,
+          79,
+          1108,
+          1176
+        ],
+        "guide_alpha_bbox": [
+          125,
+          66,
+          899,
+          958
+        ],
+        "silhouette_identical": false,
+        "size_matches_request": false,
+        "materials_match_reference": true,
+        "no_text_or_letters": true,
+        "flat_shadowless_albedo": false,
+        "geometry_exact": false,
+        "notes": "Residual shading in the lower hood recesses, altered break edges, and metal highlights.",
+        "normalized_canvas_silhouette_iou_at_alpha_128": 0.985486,
+        "source_return_preserved_byte_for_byte": true,
+        "alpha_cleanly_matches_guide": false
+      },
+      "fully_meets_brief": false
+    },
+    {
+      "view": "left",
+      "attempt": 1,
+      "prompt": "Use case: style-transfer. Asset: albedo texture projection source for an existing 3D game item.\nImage 2 is the EDIT TARGET: the exact orthographic geometry guide. Image 1 is ONLY the material/design reference, not a pose or silhouette reference.\nPaint only the surfaces inside image 2. Preserve its exact alpha outline, framing, position, scale, orientation and all internal part edges. Keep the angular model geometry; do not remodel, smooth the silhouette, rotate, enlarge, recenter, crop or add geometry.\nSubject: Hesper founder's head, a calm robed colonist statue broken at the neck. All face, eyes, hood and broken base are weathered warm white/ivory colonial statue stone, with fine pores, subtle hairline cracks, worn chips, sparse embedded gray-brown soot stains. Hood is carved stone, not actual fabric. Match image 1's aged stone and restrained worn ochre-gold inlay on the brow band and narrow hood rim; metal base color with only a faint sheen. Apply the reference motifs where the guide has the corresponding parts, no extra objects or ornaments.\nLighting: completely flat, even, shadowless viewer-facing albedo. Remove the guide's gray lighting gradients, keep only real material colors and surface wear. No cast shadow, no ambient occlusion, no dark hood-cavity lighting, no directional shading, no bright specular highlights, no reflections, no rim light. No text, letters, labels, watermarks, background, floor or contact shadow.\nOutput exactly one 1024 x 1024 RGBA PNG with genuine transparent background. Keep every original transparent pixel transparent and the complete guide silhouette at exactly its original coordinates.\nVIEW CONSTRAINT: LEFT view exactly as image 2: the facial profile points toward the RIGHT edge of the image. Preserve that orientation and exact nose, lip, chin, brow, hood contours and fractured base. The broad visible hood side is weathered ivory carved stone. Apply worn gold only to the existing front hood rim and visible brow-band segment; no new medallion on the hood side.",
+      "inputs": [
+        {
+          "file": "design_reference.png",
+          "role": "material_design_reference",
+          "sha256": "b6044e44eea25c93730aeb517c00414ae0bf3b1700d0ea6fd8baac215a6a1c69"
+        },
+        {
+          "file": "guide_left.png",
+          "role": "edit_target",
+          "sha256": "11e583f780d78f5900feb320b8712fb370862807142f2269fa7ff474a6b06dd7"
+        }
+      ],
+      "output": "paint_left_attempt1.png",
+      "selected": false,
+      "reason": "Correct profile direction and matching material, but geometry has been rounded, silhouette shifted, and directional shading retained. One guide-only corrective pass will prioritize geometry.",
+      "source_output": "/home/pjasicek/.codex/generated_images/01a16e9c-2e81-7022-9ceb-a6c3f02da2de/exec-52915d65-d7b2-46bf-9e05-b4cc011e8a0e.png",
+      "output_sha256": "e9f21ea737b167061cd00cddd341ce9b3bbcc5ab8f57a2f8498afce14589881e",
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "mode": "RGBA",
+        "transparent_background": true,
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "alpha_bbox": [
+          0,
+          31,
+          1242,
+          1254
+        ],
+        "opaque_bbox": [
+          158,
+          79,
+          1092,
+          1184
+        ],
+        "guide_alpha_bbox": [
+          131,
+          66,
+          893,
+          958
+        ],
+        "silhouette_identical": false,
+        "size_matches_request": false,
+        "materials_match_reference": true,
+        "no_text_or_letters": true,
+        "flat_shadowless_albedo": false,
+        "geometry_exact": false,
+        "notes": "Face and hood rounded; dark neck and hood folds; shiny gold; broken base differs.",
+        "normalized_canvas_silhouette_iou_at_alpha_128": 0.95688,
+        "source_return_preserved_byte_for_byte": true,
+        "alpha_cleanly_matches_guide": false
+      },
+      "fully_meets_brief": false
+    },
+    {
+      "view": "left",
+      "attempt": 2,
+      "prompt": "Use case: precise-object-edit. This is a rigid albedo paint-over of the single supplied 1024x1024 guide_left.png, not a new render. Preserve EVERY pixel of its alpha, exact jagged outline, low-polygon angular geometry and all internal edges. Do not add, move, round or remodel anything. Return 1024x1024 transparent PNG.\nPaint its surfaces as the approved Hesper founder statue design: warm white ivory colonial statue stone on face, blank stone eye, hood, neck and fractured bottom. Fine gray-brown mineral flecks, tiny pale chips, scattered thin hairline cracks, restrained old soot discoloration. Narrow worn ochre-gold inlay on the existing front hood rim, and the visible existing brow band. No gold ornaments on the broad side panel. The hood is stone. No flesh, cloth, glass, glow or other materials.\nKeep the exact LEFT side view with nose pointing RIGHT, not a three-quarter angle. Do not expand the visible face area. Keep the profile's straight angular nose, lips, chin and exact broken base.\nEliminate ALL directional light and occlusion from the input: the dark guide polygons are GEOMETRY GUIDES, not dark material. Color every stone polygon with the SAME bright ivory base, including neck, eye, nostril, inner hood and recessed fold polygons. Only subtle real pigment/grain differences. Flat matte gold color, no sheen or highlight. No shadows, no gradients, no relief shading, no cavity shading. This is an unlit base-color texture source for projection, not photography.\nNo background or floor, no letters, labels or symbols. Preserve the existing transparent pixels unchanged. Object extents remain x=131..892, y=66..957 on the original 1024x1024 canvas. No isolated pixels beyond that silhouette.",
+      "source_output": "/home/pjasicek/.codex/generated_images/01a16e9c-2e81-7022-9ceb-a6c3f02da2de/exec-3bfb390c-3312-46f3-b150-aa12cdc4c8ab.png",
+      "output": "paint_left.png",
+      "selected": true,
+      "reason": "Selected guide-only correction: substantially closer angular geometry and much flatter stone/gold colors. Output remains 1254x1254 with nonidentical alpha and some facet shading. Correction limit reached; unresized return preserved.",
+      "material_reference_context": {
+        "file": "design_reference.png",
+        "sha256": "b6044e44eea25c93730aeb517c00414ae0bf3b1700d0ea6fd8baac215a6a1c69",
+        "usage": "Observed design translated into the corrective prompt; not passed as an image to this call."
+      },
+      "inputs": [
+        {
+          "file": "guide_left.png",
+          "role": "edit_target",
+          "sha256": "11e583f780d78f5900feb320b8712fb370862807142f2269fa7ff474a6b06dd7"
+        }
+      ],
+      "output_sha256": "851bba14d0eb91541639e1777e8a8055ed402eaf31d34d9b873609be1bafe4dd",
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "mode": "RGBA",
+        "transparent_background": true,
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "alpha_bbox": [
+          0,
+          39,
+          1234,
+          1254
+        ],
+        "opaque_bbox": [
+          161,
+          80,
+          1093,
+          1174
+        ],
+        "guide_alpha_bbox": [
+          131,
+          66,
+          893,
+          958
+        ],
+        "silhouette_identical": false,
+        "size_matches_request": false,
+        "materials_match_reference": true,
+        "no_text_or_letters": true,
+        "flat_shadowless_albedo": false,
+        "geometry_exact": false,
+        "notes": "Reference material palette retained with lighter wear; much closer guide facets, but some shape drift, facet shading and alpha fringe remain.",
+        "normalized_canvas_silhouette_iou_at_alpha_128": 0.996351,
+        "source_return_preserved_byte_for_byte": true,
+        "alpha_cleanly_matches_guide": false
+      },
+      "fully_meets_brief": false
+    },
+    {
+      "view": "right",
+      "attempt": 1,
+      "prompt": "Use case: precise-object-edit. This is a rigid albedo paint-over of the single supplied 1024x1024 guide_right.png, not a new render. Preserve EVERY pixel of its alpha, exact jagged outline, low-polygon angular geometry and all internal edges. Do not add, move, round or remodel anything. Return 1024x1024 transparent PNG.\nPaint its surfaces as the approved Hesper founder statue design: warm white ivory colonial statue stone on face, blank stone eye, hood, neck and fractured bottom. Fine gray-brown mineral flecks, tiny pale chips, scattered thin hairline cracks, restrained old soot discoloration. Narrow worn ochre-gold inlay on the existing front hood rim, and the visible existing brow band. No gold ornaments on the broad side panel. The hood is stone. No flesh, cloth, glass, glow or other materials.\nKeep the exact RIGHT side view with nose pointing LEFT, not a three-quarter angle. Do not expand the visible face area. Keep the profile's straight angular nose, lips, chin and exact broken base.\nEliminate ALL directional light and occlusion from the input: the dark guide polygons are GEOMETRY GUIDES, not dark material. Color every stone polygon with the SAME bright ivory base, including neck, eye, nostril, inner hood and recessed fold polygons. Only subtle real pigment/grain differences. Flat matte gold color, no sheen or highlight. No shadows, no gradients, no relief shading, no cavity shading. This is an unlit base-color texture source for projection, not photography.\nNo background or floor, no letters, labels or symbols. Preserve the existing transparent pixels unchanged. Object extents remain x=131..892, y=66..957 on the original 1024x1024 canvas. No isolated pixels beyond that silhouette.",
+      "inputs": [
+        {
+          "file": "guide_right.png",
+          "role": "edit_target",
+          "sha256": "33fbf056cb365f43d16ebf52fe16977a9e9db328bd14136796368a502f09e4df"
+        }
+      ],
+      "output": "paint_right_attempt1.png",
+      "selected": false,
+      "reason": "Guide-driven painting is close in shape and flat color, but adds a diagonal gold segment near the upper rim, retains facet shading and alpha fringe. One targeted correction requested.",
+      "source_output": "/home/pjasicek/.codex/generated_images/01a16e9c-2e81-7022-9ceb-a6c3f02da2de/exec-f3002c38-d6de-4f14-8718-ae1a046c3ad6.png",
+      "material_reference_context": {
+        "file": "design_reference.png",
+        "sha256": "b6044e44eea25c93730aeb517c00414ae0bf3b1700d0ea6fd8baac215a6a1c69",
+        "usage": "Observed reference material description supplied in prompt."
+      },
+      "output_sha256": "f006ab8299c55bf5b15d86eb46809110b512e57058f8d6fbf0bbdc12bbd45cfd",
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "mode": "RGBA",
+        "transparent_background": true,
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "alpha_bbox": [
+          0,
+          32,
+          1248,
+          1254
+        ],
+        "opaque_bbox": [
+          162,
+          80,
+          1093,
+          1173
+        ],
+        "guide_alpha_bbox": [
+          131,
+          66,
+          893,
+          958
+        ],
+        "silhouette_identical": false,
+        "size_matches_request": false,
+        "materials_match_reference": true,
+        "no_text_or_letters": true,
+        "flat_shadowless_albedo": false,
+        "geometry_exact": false,
+        "notes": "Mostly matte ivory and gold; residual fold/brow shading and extra upper gold stripe.",
+        "normalized_canvas_silhouette_iou_at_alpha_128": 0.994654,
+        "source_return_preserved_byte_for_byte": true,
+        "alpha_cleanly_matches_guide": false
+      },
+      "fully_meets_brief": false
+    },
+    {
+      "view": "right",
+      "attempt": 2,
+      "prompt": "Use case: precise-object-edit. This is a rigid albedo paint-over of the single supplied 1024x1024 guide_right.png, not a new render. Preserve EVERY pixel of its alpha, exact jagged outline, low-polygon angular geometry and all internal edges. Do not add, move, round or remodel anything. Return 1024x1024 transparent PNG.\nPaint its surfaces as the approved Hesper founder statue design: warm white ivory colonial statue stone on face, blank stone eye, hood, neck and fractured bottom. Fine gray-brown mineral flecks, tiny pale chips, scattered thin hairline cracks, restrained old soot discoloration. Narrow worn ochre-gold inlay on the existing front hood rim, and the visible existing brow band. No gold ornaments on the broad side panel. The hood is stone. No flesh, cloth, glass, glow or other materials.\nKeep the exact RIGHT side view with nose pointing LEFT, not a three-quarter angle. Do not expand the visible face area. Keep the profile's straight angular nose, lips, chin and exact broken base.\nEliminate ALL directional light and occlusion from the input: the dark guide polygons are GEOMETRY GUIDES, not dark material. Color every stone polygon with the SAME bright ivory base, including neck, eye, nostril, inner hood and recessed fold polygons. Only subtle real pigment/grain differences. Flat matte gold color, no sheen or highlight. No shadows, no gradients, no relief shading, no cavity shading. This is an unlit base-color texture source for projection, not photography.\nNo background or floor, no letters, labels or symbols. Preserve the existing transparent pixels unchanged. Object extents remain x=131..892, y=66..957 on the original 1024x1024 canvas. No isolated pixels beyond that silhouette.\nCORRECTION PRIORITIES: Trace the provided guide silhouette pixel-for-pixel, retain its 1024x1024 source dimensions and transparent margin without stray fringe or detached pixels. Use zero geometric shading: even the deep hood side recess and every bottom fragment remain the same ivory brightness as the crown. The narrow gold rim follows ONLY the existing edge descending from the front of the hood past the temple; do not create an extra diagonal gold stripe across the upper crown or a gold crossing/junction. Keep any small visible forehead-band segment distinct from the hood rim. No gold reflections. Preserve every angular face and break-plane edge instead of beautifying the mesh.",
+      "source_output": "/home/pjasicek/.codex/generated_images/01a16e9c-2e81-7022-9ceb-a6c3f02da2de/exec-db7519a5-128c-4dc1-9af6-cb36986a80d9.png",
+      "output": "paint_right.png",
+      "selected": true,
+      "reason": "Selected correction for improved gold-rim placement and matte materials while retaining the angular profile. Exact silhouette and flat-albedo checks still fail; correction limit reached. Retained unresized.",
+      "material_reference_context": {
+        "file": "design_reference.png",
+        "sha256": "b6044e44eea25c93730aeb517c00414ae0bf3b1700d0ea6fd8baac215a6a1c69",
+        "usage": "Observed reference material description supplied in prompt."
+      },
+      "inputs": [
+        {
+          "file": "guide_right.png",
+          "role": "edit_target",
+          "sha256": "33fbf056cb365f43d16ebf52fe16977a9e9db328bd14136796368a502f09e4df"
+        }
+      ],
+      "output_sha256": "f91d780ade7367dcd646de72f887363d2a9c40c6b1c10f3ccc5b19936009f5fe",
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "mode": "RGBA",
+        "transparent_background": true,
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "alpha_bbox": [
+          0,
+          19,
+          1240,
+          1254
+        ],
+        "opaque_bbox": [
+          161,
+          80,
+          1093,
+          1174
+        ],
+        "guide_alpha_bbox": [
+          131,
+          66,
+          893,
+          958
+        ],
+        "silhouette_identical": false,
+        "size_matches_request": false,
+        "materials_match_reference": true,
+        "no_text_or_letters": true,
+        "flat_shadowless_albedo": false,
+        "geometry_exact": false,
+        "notes": "Some facet/recess shading remains; alpha fringe and stray colored edge pixels visible. Crown gold junction improved.",
+        "normalized_canvas_silhouette_iou_at_alpha_128": 0.9946,
+        "source_return_preserved_byte_for_byte": true,
+        "alpha_cleanly_matches_guide": false
+      },
+      "fully_meets_brief": false
+    },
+    {
+      "view": "top",
+      "attempt": 1,
+      "prompt": "Use case: precise-object-edit. Edit only the supplied 1024x1024 guide_top.png by painting its existing surfaces. Preserve every original alpha pixel, exact jagged silhouette, angular surface boundaries, orthographic camera and framing. Output one 1024x1024 RGBA PNG with genuine transparent background.\nThis is the TOP view of the Hesper founder's broken stone head: looking DIRECTLY DOWN on a hood carved from white stone, not cloth. The broad polygonal crown fills most of the guide; retain the two side lobes and tiny nose projection at the bottom. No face or ornaments drawn on the crown. Do not tilt or rotate it into a frontal view.\nMaterials from approved design: warm off-white/ivory statue stone, slightly weathered with fine mineral grain, restrained gray-brown soot flecks, occasional small pale chips and sparse hairline cracks. Continue this same material on unseen crown surfaces. Worn ochre-gold is only on a narrow existing exposed hood rim if visible from this exact top view; the crown itself is stone, not gold. No added decoration.\nThis is an UNLIT ALBEDO texture source. Replace all gray shading in the guide with the SAME bright ivory stone base value. Only the real pigment, wear, tiny grain and crack colors vary. No shadows, ambient occlusion, highlights, reflections, rim lighting, cavity shading, shading gradients or strong facet value changes. Do not draw stone relief with shading. No floor or background, text, letters or watermark.\nThe exact guide outline remains x=125..898, y=131..892, on its original 1024x1024 canvas. Do not recenter, resize, smooth, chip or add anything outside it. Leave transparent pixels untouched.",
+      "inputs": [
+        {
+          "file": "guide_top.png",
+          "role": "edit_target",
+          "sha256": "1d64d3115840ae0683ae931a24b8155f599278536a220496d65d5dbb26e6fcf4"
+        }
+      ],
+      "output": "paint_top_attempt1.png",
+      "selected": false,
+      "reason": "Correct overhead material continuation but crown and edge facets are softened, some shading remains, and alpha is not identical. One corrective attempt requested.",
+      "source_output": "/home/pjasicek/.codex/generated_images/01a16e9c-2e81-7022-9ceb-a6c3f02da2de/exec-d4b633ec-c4df-423d-bee3-cc2b570cf68b.png",
+      "material_reference_context": {
+        "file": "design_reference.png",
+        "sha256": "b6044e44eea25c93730aeb517c00414ae0bf3b1700d0ea6fd8baac215a6a1c69",
+        "usage": "Observed reference material description supplied in prompt."
+      },
+      "output_sha256": "8feb51ad2613b2c53c5139aaef0ff628c0a1279ee0f2504d8cccee4558d4bd43",
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "mode": "RGBA",
+        "transparent_background": true,
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "alpha_bbox": [
+          0,
+          17,
+          1240,
+          1254
+        ],
+        "opaque_bbox": [
+          156,
+          160,
+          1100,
+          1092
+        ],
+        "guide_alpha_bbox": [
+          125,
+          131,
+          899,
+          893
+        ],
+        "silhouette_identical": false,
+        "size_matches_request": false,
+        "materials_match_reference": true,
+        "no_text_or_letters": true,
+        "flat_shadowless_albedo": false,
+        "geometry_exact": false,
+        "notes": "Near-flat ivory surface but rounded crown edges, shaded side facets and stray fringe pixels remain.",
+        "normalized_canvas_silhouette_iou_at_alpha_128": 0.995063,
+        "source_return_preserved_byte_for_byte": true,
+        "alpha_cleanly_matches_guide": false
+      },
+      "fully_meets_brief": false
+    },
+    {
+      "view": "top",
+      "attempt": 2,
+      "prompt": "Use case: precise-object-edit. Edit only the supplied 1024x1024 guide_top.png by painting its existing surfaces. Preserve every original alpha pixel, exact jagged silhouette, angular surface boundaries, orthographic camera and framing. Output one 1024x1024 RGBA PNG with genuine transparent background.\nThis is the TOP view of the Hesper founder's broken stone head: looking DIRECTLY DOWN on a hood carved from white stone, not cloth. The broad polygonal crown fills most of the guide; retain the two side lobes and tiny nose projection at the bottom. No face or ornaments drawn on the crown. Do not tilt or rotate it into a frontal view.\nMaterials from approved design: warm off-white/ivory statue stone, slightly weathered with fine mineral grain, restrained gray-brown soot flecks, occasional small pale chips and sparse hairline cracks. Continue this same material on unseen crown surfaces. Worn ochre-gold is only on a narrow existing exposed hood rim if visible from this exact top view; the crown itself is stone, not gold. No added decoration.\nThis is an UNLIT ALBEDO texture source. Replace all gray shading in the guide with the SAME bright ivory stone base value. Only the real pigment, wear, tiny grain and crack colors vary. No shadows, ambient occlusion, highlights, reflections, rim lighting, cavity shading, shading gradients or strong facet value changes. Do not draw stone relief with shading. No floor or background, text, letters or watermark.\nThe exact guide outline remains x=125..898, y=131..892, on its original 1024x1024 canvas. Do not recenter, resize, smooth, chip or add anything outside it. Leave transparent pixels untouched.\nCORRECTION: Keep the guide's large angular crown planes absolutely unchanged, including its sharp straight lower rim. Do not round the corners or bevel any surface. Paint only colors on top of those planes. Match the original guide alpha as a rigid pixel mask: no detached fragments or pale border outside the mask. Preserve the exact 1024x1024 canvas. The very small facial projection at the bottom must keep its original shape. All stone planes use the same bright ivory base color; remove the rounded lighting gradient, the darker side strips and any lower-edge shadow. Keep wear subtle, entirely in base-color pigment.",
+      "source_output": "/home/pjasicek/.codex/generated_images/01a16e9c-2e81-7022-9ceb-a6c3f02da2de/exec-213baeb1-f49e-420f-8a78-af8aeb0d3950.png",
+      "output": "paint_top.png",
+      "selected": true,
+      "reason": "Selected correction for somewhat flatter ivory coloration and clearer planar crown. Still differs from the guide alpha/edges and retains shading on side facets; correction limit reached. Original 1254x1254 return preserved.",
+      "material_reference_context": {
+        "file": "design_reference.png",
+        "sha256": "b6044e44eea25c93730aeb517c00414ae0bf3b1700d0ea6fd8baac215a6a1c69",
+        "usage": "Observed reference material description supplied in prompt."
+      },
+      "inputs": [
+        {
+          "file": "guide_top.png",
+          "role": "edit_target",
+          "sha256": "1d64d3115840ae0683ae931a24b8155f599278536a220496d65d5dbb26e6fcf4"
+        }
+      ],
+      "output_sha256": "3a19bc2580cdfa6e093fa15da3d67c161f72915fd2a984d009aff239376b85ba",
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "mode": "RGBA",
+        "transparent_background": true,
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "alpha_bbox": [
+          0,
+          19,
+          1220,
+          1254
+        ],
+        "opaque_bbox": [
+          155,
+          161,
+          1100,
+          1092
+        ],
+        "guide_alpha_bbox": [
+          125,
+          131,
+          899,
+          893
+        ],
+        "silhouette_identical": false,
+        "size_matches_request": false,
+        "materials_match_reference": true,
+        "no_text_or_letters": true,
+        "flat_shadowless_albedo": false,
+        "geometry_exact": false,
+        "notes": "No invented frontal face or crown ornament; some side-facet shading, softened geometry and stray alpha fringe remain.",
+        "normalized_canvas_silhouette_iou_at_alpha_128": 0.995543,
+        "source_return_preserved_byte_for_byte": true,
+        "alpha_cleanly_matches_guide": false
+      },
+      "fully_meets_brief": false
+    }
+  ],
+  "brief_sha256": "c4921d15eb74ab981d5abb894472fdaa4cb215abf0ac50b04088e7005e4c9c7f",
+  "status": "generation_finished_quality_checks_failed",
+  "summary": {
+    "selected_outputs": [
+      "paint_front.png",
+      "paint_back.png",
+      "paint_left.png",
+      "paint_right.png",
+      "paint_top.png"
+    ],
+    "actual_output_sizes": [
+      [
+        1254,
+        1254
+      ]
+    ],
+    "generation_calls": 10,
+    "corrective_regenerations_per_view": 1,
+    "all_outputs_preserved_unresized": true,
+    "all_input_hashes_verified_unchanged": true,
+    "fully_meets_brief": false,
+    "limitations": [
+      "The tool returned 1254x1254 for every call despite requesting 1024x1024; all returns kept unresized as the brief requires.",
+      "Exact guide silhouettes, positions and internal edges were not preserved. Some outputs contain stray alpha fringe/colored edge pixels.",
+      "Some baked shading remains, strongest in the front and back; these are not fully shadowless albedo sources.",
+      "Guide-only side/top corrections are lighter and less weathered than the front/back, so cross-view tonal consistency is imperfect."
+    ],
+    "postprocessing": "None; generated PNG bytes copied without resizing, alpha replacement, repainting or other modification.",
+    "scope": "Image generation and generation_runs.json only; no builds, model baking or runtime installation."
+  }
+}

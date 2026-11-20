@@ -1,0 +1,26 @@
+# Robert and Douglas's banter (bob_and_doug, frosgardcity.cinematics.yml; NPC214.scr/NPC213.scr): no cameras or
+# letterbox. Outside their house (in range, no line of sight) nothing starts; in the room Douglas sees the party
+# (600 LT) and the poll starts it, key 111 at once;
+# it plays its nine lines (35.1 s), no save meanwhile, then it is over and never starts again. README "Cinematics".
+id: mm9r.frosgardcity.cinematic_bob_and_doug_play
+world: mm9
+mode: faithful
+steps:
+- new_game_flow: {start_map: frosgardcity.blv}
+- set_pose: {map: frosgardcity.blv, x: 3000, y: -3031, z: 45, yaw: 3.1416, pitch: 0.0}
+- console: {line: cinematic list, expect_contains: bob_and_doug}
+- advance_runtime: {seconds: 2.5}
+- note: {text: "outside the house's east wall, 460 units from Douglas: he cannot see the party, nothing starts"}
+- assert: {qbit_clear: [90111]}
+- set_pose: {map: frosgardcity.blv, x: 2100, y: -3000, z: 45, yaw: 0.0, pitch: 0.0}
+- advance_runtime: {seconds: 1.5}
+- console: {line: cinematic list, expect_contains: playing bob_and_doug}
+- assert: {qbit_set: [90111]}
+- save_game: {name: mid_banter, expect_failure: true}
+- advance_runtime: {seconds: 20}
+- console: {line: cinematic list, expect_contains: playing bob_and_doug}
+- advance_runtime: {seconds: 16}
+- note: {text: "over after Douglas's 09 (35.1 s): a save works again, and with 111 the poll starts nothing"}
+- save_game: {name: after_banter}
+- advance_runtime: {seconds: 2}
+- save_game: {name: not_again}

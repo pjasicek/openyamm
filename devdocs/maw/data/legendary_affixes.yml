@@ -1,0 +1,227 @@
+# draft extracted from MAW ef23ee17
+#
+# The 25 legendary affixes of the MAW mod as data. Paths are relative to the MAW Scripts/ folder.
+# `id` is the key MAW uses everywhere (legendaryEffects, vars.legendaries): 11..35. The item stores id - 10
+# (1..25) in bits 0-5 of BonusExpireTime (LEGENDARY_AFFIX_BASE = 10, General/zMaw_ItemBits.lua:115, :220-226).
+# `text` is the tooltip text (yellow 255,255,30), verbatim from General/zzMaw-Items.lua:1572-1601 unless noted.
+# `effect` restates what the code does, with the code's numbers; where the text and the code disagree the code is
+# given and the difference is listed under `notes`.
+
+rules:
+  count: 25                    # LEGENDARY_AFFIX_COUNT, derived from the keys (zzMaw-Items.lua:1607-1610)
+  rolled_on: "every Legendary and Celestial drop (rarity >= 7) (zzMaw-Items.lua:1234-1250)"
+  selection: >-
+    get_affix(vars.legendaryAffixDropped) (zzMaw-Items.lua:1372-1402): weight of affix i = 1/(N*(count_i + 1)),
+    normalised; count_i is how often affix i has dropped in this save, so rarely seen affixes are favoured.
+    The counter of the chosen affix is incremented.
+  generation_side_effect: >-
+    an item rolled with affix 19 swaps special enchant 40 (Lichs') to 39 (of Ascension) and 41 (of Darkness) to
+    46 (of The Dragon), so the special is one that deals enchant damage (zzMaw-Items.lua:1242-1249)
+  blocked: "Austerity mode and shops never roll Legendary or Celestial (noLegendary, zzMaw-Items.lua:1160)"
+  active_when: >-
+    equipped. itemStats rebuilds vars.legendaries[rosterIndex] from the active items on every refresh
+    (zzMaw-Items.lua:3384-3391). Checks use table.find, so two items with the same affix do not stack.
+  check_helper: "hasLegendary(id, n), Modules/MawCore/Damage.lua:44-48; elsewhere table.find(vars.legendaries[id], n)"
+  tooltip:
+    position: "replaces the item's flavour text; printed before the special-enchant text (Tooltip.lua:392-425)"
+    colour: [255, 255, 30]
+  stats_screen: "'Currently Active Legendary effects:' list of the equipped affix texts (zzMaw-Stats.lua:448-452)"
+  balance_model: >-
+    the expected-player estimate ramps some affixes in between level 100 and 420 (LEGENDARY_START_LEVEL /
+    LEGENDARY_FULL_LEVEL, Modules/MawCore/Estimates.lua:72-77): 28 +0.5 armour (:356), 16 +0.5 resistance (:378),
+    18 0.10 (:405), 22 0.03 per monster (:406), 21 0.05 per monster (:507), 11 0.15 damage (:512), 33 +10 (:513)
+  crafting: "Oracle's Orb extracts and imprints affixes (see CRAFTING.md); not repeated here"
+
+affixes:
+  11:
+    text: "Killing a monster with a single-target attack halves the recovery time"
+    effect: >-
+      after a hit, if the target is dead on the next tick: pl.RecoveryDelay = pl.RecoveryDelay / 2. Skipped when
+      the hit was an AoE spell (aoespells, zzMaw-Spells.lua:2094) or a bow arrow (Spell 133).
+    numbers: {recovery_mult: 0.5}
+    source: "Modules/MawCore/Damage.lua:1099-1115"
+    notes:
+      - "The skip uses `return`, which also skips the Shaman spell-damage bonus that follows in the same stage
+        (Damage.lua:1116-1126) for AoE hits: a Shaman wearing this affix loses that bonus on AoE spells."
+  12:
+    text: >-
+      Might and accuracy enchantments give 40% bonus to intellect and personality. Intellect and personality
+      enchantments give 40% bonus to might and accuracy
+    effect: >-
+      for every base enchant of type 1 (Might) or 5 (Accuracy): Intellect and Personality += 0.4 x power; for type
+      2 (Intellect) or 3 (Personality): Might and Accuracy += 0.4 x power. Base enchants only (both slots), after
+      the HP/SP and hat transforms; not special enchants or artifacts.
+    numbers: {share: 0.4}
+    source: "General/zzMaw-Items.lua:2733-2742 (collectEnchant)"
+  13:
+    text: "Immunity to all status effects from monsters"
+    effect: "events.DoBadThingToPlayer: t.Allow = false for every condition, whatever its source"
+    source: "Global/zzMaw_Legendaries.lua:34-42"
+    notes:
+      - "Not limited to monsters: any DoBadThingToPlayer call is refused."
+  14:
+    text: "Crit chance increased by 10% and crit chance over 100% increases total damage"
+    effect: >-
+      crit chance is not capped at 1 and gets +0.10 (getCritInfo); in the legendary damage stage the hit is
+      multiplied by max(critChance, 1) and rounded
+    numbers: {crit_chance_bonus: 0.1}
+    source: ["General/zzMaw-Stats.lua:133-138", "Modules/MawCore/Damage.lua:1076-1080"]
+  15:
+    text: "Divine protection (instead of dying you go back to 25% HP, once every 5 minutes)"
+    effect: >-
+      when a conscious, living character takes damage >= current HP and the cooldown has passed: HP = full HP / 4,
+      the damage becomes 0, status text 'Legendary power saves you from lethal damage'; cooldown Game.Time +
+      const.Minute*150 (150 game minutes = 300 real seconds at 2 s per game minute)
+    numbers: {hp_fraction: 0.25, cooldown_game_minutes: 150, cooldown_real_seconds: 300}
+    source: ["Modules/MawCore/Damage.lua:1870-1888", "Global/zzMaw_Legendaries.lua:44-51 (cooldown init)"]
+    state: "vars.legendaryProtectionCooldown[rosterIndex]"
+  16:
+    text: "Increase the effect of resistances base enchants by 50%"
+    effect: >-
+      the per-element item resistance from base enchants (vars.normalEnchantResistance, already +10 on enchant 1
+      and halved on rings) x1.5 before it becomes the damage multiplier 1/(1 + r/100); the tooltip shows the
+      raised % too
+    numbers: {mult: 1.5}
+    source: ["General/zzMaw-Stats.lua:1120-1123", "Modules/MawCore/Tooltip.lua:264-273, :285-294"]
+    notes:
+      - "Global/zzMaw_Legendaries.lua:54 still carries an old comment ('highest resistance used'), not the effect."
+  17:
+    text: >-
+      Your hits deal 2% of current monster HP as physical damage (1% for AoE, multi-hit spells and arrows).\n
+      Damage is increased by weapon base attack speed or Ascensions for spells.
+    effect: >-
+      on a hit that already dealt damage (melee with DamageKind physical, or any projectile): extra = 2% of the
+      monster's current HP (MonsterHP.current; spell 44 uses mon.HP), divided by (1 + physical resistance/100);
+      x0.5 for AoE spells and for spell 133 (bow arrows); then x the melee speed damage multiplier (melee),
+      the ranged multiplier (arrows), the melee multiplier for Death Knight and Assassin spells, or
+      1.015^Learning skill for other spells
+    numbers: {current_hp_share: 0.02, aoe_or_arrow_mult: 0.5, ascension_base: 1.015}
+    source: "Modules/MawCore/Damage.lua:1021-1047"
+  18:
+    text: "Reduce all damage taken by 10%"
+    effect: "damage taken x0.9 after armour/resistance mitigation and the 10% damage floor (applyPostMitigation)"
+    numbers: {mult: 0.9}
+    source: "General/zzMaw-Stats.lua:764-768"
+  19:
+    text: "Increases damage from weapon enchants by 50%"
+    effect: >-
+      x1.5 on special-enchant weapon damage (calcEnchantDamage) and on the buff-rework Fire Aura damage
+      (calcFireAuraDamage), in damage, power estimates and tooltips; at generation swaps specials 40->39, 41->46
+    numbers: {mult: 1.5}                           # LEGENDARY19_ENCHANT_MULT
+    source: ["General/zzMaw-Items.lua:2097-2104", "General/zzMaw-Items.lua:2136", "General/zzMaw-Items.lua:4296",
+             "General/zzMaw-Items.lua:1242-1249", "General/zzMaw-Items.lua:1823-1826 (tooltip ranges)"]
+  20:
+    text: "Meditation restores 1% more mana for each 1% of your mana reserved by buffs"
+    effect: >-
+      meditation regen per second is computed on pool = ceil(fullSP*(1 - reserved)^0.5) and, with this affix and
+      reserved > 0, multiplied by (1 + reserved) (reserved = share 0..1 of SP reserved by buff auras)
+    numbers: {per_reserved_share: 1}
+    source: ["General/zzMaw-Spells.lua:3480-3492", "Modules/MawCore/Formulas.lua:207-218"]
+  21:
+    text: "Increase melee damage by 5% for each enemy in the nearbies"
+    tooltip_extra: "\\nCurrent bonus Damage: <min(count*5, 100)>%  (live count, Tooltip.lua:399-410)"
+    effect: >-
+      damage x min(1 + 0.05 x number of active monsters within 512 units of the party, 2); distance =
+      2D distance minus monster BodyRadius (getDistanceToMonster, Global/zzMaw_Legendaries.lua:1-3)
+    numbers: {per_monster: 0.05, cap_mult: 2, radius: 512}
+    source: "Modules/MawCore/Damage.lua:1063-1074"
+    notes:
+      - "The stage is not limited to melee: spells and arrows that reach stage_legendaries are multiplied too."
+  22:
+    text: "Reduces damage by 3% for each enemy in the nearbies"
+    tooltip_extra: "\\nCurrent Reduction: <round(min(1 - 0.97^count, 0.5)*10000)/100>%  (Tooltip.lua:411-423)"
+    effect: "damage taken x max(0.97^count, 0.5), count = active monsters within 512 (multiplicative, not 3% each)"
+    numbers: {per_monster_factor: 0.97, floor_mult: 0.5, radius: 512}
+    source: "General/zzMaw-Stats.lua:722-740, :768"
+  23:
+    text: "Successfully covering an ally restores 3% of your HP"
+    effect: "when the Cover skill redirects a hit to this character: HP += 3% of max HP"
+    numbers: {hp_share: 0.03}
+    source: ["General/zzMAW-Skills.lua:1294-1296 (GetMaxHP)", "General/zzMaw-Monsters.lua:3982-3984 (GetFullHP)"]
+  24:
+    text: >-
+      Killing a Monster restores 10% of Health and 5% of Mana, counted on the pool left after buffs reserve
+      theirs
+    text_source: "rewritten at GameInitialized2 from MawCore.Formulas (General/zzMaw-Items.lua:1612-1616)"
+    effect: "next tick after a hit, if the monster is dead: HP += 0.10 x GetMaxHP, SP += 0.05 x getMaxMana (capped)"
+    numbers: {hp_share: 0.10, sp_share: 0.05}      # Formulas.legendary24Health / legendary24Mana
+    source: ["Modules/MawCore/Damage.lua:1082-1097", "Modules/MawCore/Formulas.lua:231-232"]
+  25:
+    text: "Increases Ascension Skill level by 10"
+    effect: "events.GetSkill: Learning (MAW's Ascension) +10"
+    numbers: {skill: 10}
+    source: "General/zzMAW-Skills.lua:2621-2627"
+  26:
+    text: "Your weapon enchants can deal critical damage"
+    effect: >-
+      special-enchant damage and Fire Aura damage roll the character's crit (getCritInfo, 'spell' crit for spell
+      hits): on success x critMult; power estimates use 1 + min(critChance,1)*(critMult - 1); tooltips never crit
+    source: ["General/zzMaw-Items.lua:2137-2149", "General/zzMaw-Items.lua:4297-4309"]
+  27:
+    text: "Leech overhealing heals the most injured party member instead"
+    effect: >-
+      leech healing above max HP goes to the party member with the lowest HP share (or, in multiplayer, to a
+      remote member if that one is lower), capped at their max HP
+    source: "Modules/MawCore/Damage.lua:1312-1320"
+  28:
+    text: "AC gained from armors is doubled"
+    effect: "each armour piece's item AC (collectArmorAC: body, shield, helm, belt, cloak, gloves, boots) x1.5"
+    numbers: {mult: 1.5}
+    source: "General/zzMaw-Items.lua:2713-2716"
+    notes:
+      - "Text says doubled, code applies x1.5."
+      - "Applied after the piece's AC has been added to armorAC/shieldAC, so the armour-skill scaling of
+        addArmorSkillAC (:2963-3000) uses the unmultiplied value."
+  29:
+    text: "Each attack makes the monster take 1% more damage of any kind, stacking until it dies"
+    text_source: "rewritten from Formulas.legendary29DamageTaken (General/zzMaw-Items.lua:1617-1619)"
+    effect: >-
+      every hit by the wearer adds 1 stack (mapvars.legendaryDamageTaken[monsterIndex]); melee hits of a
+      non-physical damage kind add none; AoE spells add one only with probability 0.4; all damage the monster
+      takes is x(1 + stacks/100); stacks reset on MonsterKilled; the monster tooltip shows 'All damage taken: +N%'
+    numbers: {per_stack_percent: 1, aoe_stack_chance: 0.4}
+    source: ["Modules/MawCore/Damage.lua:569-577", "Modules/MawCore/Damage.lua:1132-1139",
+             "General/zzMaw-Stats.lua:935-944", "General/zzMaw-Monsters.lua:2122-2125"]
+  30:
+    text: >-
+      Threshold HP to determine death/eradication depends on SP multiplied by mana shield efficiency instead, if
+      higher
+    effect: >-
+      only at bolster >= 300 (Nightmare rules): threshold = max(full HP, full SP) x mana shield efficiency
+      (manaShieldManaEfficiency: 1 + min(skill, skillCap[51])^1.4/60, 5 at skill 50); dead below -threshold,
+      eradicated below -2 x threshold
+    source: ["Modules/MawCore/Damage.lua:1907-1923", "Global/zzMaw_Legendaries.lua:92-102"]
+    notes:
+      - "The efficiency multiplies the threshold even when HP is the larger pool, so the affix also raises an
+        HP-based threshold for anyone with Mana Shield skill."
+  31:
+    text: "Leech also restores Mana, but its effect is halved"
+    effect: >-
+      leech is computed against max SP instead of max HP, halved; the halved amount is added to SP and the same
+      fraction of max HP is added to HP
+    source: ["Modules/MawCore/Damage.lua:1225-1232", "Modules/MawCore/Damage.lua:1302-1310"]
+  32:
+    text: >-
+      Buffs reserve Hit Points instead of Mana and Hit Point coefficient is used instead.\nEnlightenment bonus
+      still apply.
+    effect: >-
+      buff-aura reservation uses the class HP coefficient (hpScalings[class] + Enlightenment mastery/2) and the
+      HP pool (vars.maxHPPool/currentHPPool) instead of SP; casting is refused with 'Not enough Hit Points'
+      outside houses; spell tooltips say 'Health Reserved'
+    source: ["General/zzMaw-Spells.lua:2766-2780", "General/zzMaw-Spells.lua:2821-2827",
+             "General/zzMaw-Spells.lua:3033-3040", "General/zzMaw-Spells.lua:2458-2480"]
+  33:
+    text: "Increase Melee weapon skill by 10"
+    effect: >-
+      events.GetSkill: Staff, Sword, Dagger, Axe, Spear, Mace (skills 0, 1, 2, 3, 4, 6) +10; not Bow, Blaster,
+      Unarmed
+    numbers: {skill: 10}
+    source: "General/zzMAW-Skills.lua:2597-2604"
+  34:
+    text: "Overhealing refunds mana"
+    effect: "after a heal spell: SP += floor(spell cost x overheal / total heal)"
+    source: ["General/zzMaw-Spells.lua:1149-1165 (processHealLegendaries)", "General/zzMaw-Spells.lua:1224-1231"]
+  35:
+    text: "Overhealing reduces recovery time equal to half overhealing amount"
+    effect: "after a heal spell: recovery delay = floor(delay x (1 - (overheal / total heal)/2))"
+    source: ["General/zzMaw-Spells.lua:1166-1172 (processHealLegendaries)", "General/zzMaw-Spells.lua:1233-1240"]

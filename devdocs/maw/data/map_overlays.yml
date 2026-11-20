@@ -1,0 +1,640 @@
+# draft extracted from MAW ef23ee17
+# Per-map overlay operations needed to express MAW's map and content changes on top of OpenYAMM's base maps
+# and generated events. Companion of devdocs/maw/MAPS_CONTENT.md (sections in brackets).
+# Sources: Maw-Mod-MMMerge Data/zMaw.games.lod (maps), Scripts/Maps, Scripts/Global, Scripts/General.
+# Conventions:
+#   - Coordinates are world units. Terrain cells: x = (cx-64)*512, y = (64-cy)*512; height value * 32 = z.
+#     Cell strings are "cx,cy:base>maw".
+#   - bmodel and face indices are base MMMerge indices; OpenYAMM appends its own bmodels after them, so they
+#     are valid in assets_dev/worlds/*/maps/*.odm.
+#   - map_var: MMExt MapVarN == OpenYAMM MapVar(N+2). Names below use the OpenYAMM index.
+#   - op kinds: replace (ReplaceMapEvent), register (RegisterEvent/RegisterMapTimerEvent), on_load
+#     (RegisterMapOnLoadEvent), keep_base (MAW drops it; do NOT port the drop).
+#   - "needs:" lists engine features that do not exist yet (MAPS_CONTENT.md 2.5 and 3.0).
+#   - Monster ids are Monsters.txt ids; tiers are [A%, B%, C%] weights (MAW pseudoSpawnpoint).
+format: 1
+source: {repo: Maw-Mod-MMMerge, commit: ef23ee17}
+
+# As built (2026-10-24): the overlays below are in assets_dev/rulesets/maw/ (map names are unique across worlds).
+overlay_files:
+  map_events: "rulesets/maw/events/maps/<map>_maw.lua"
+  global_events: "rulesets/maw/events/Global_maw.lua"
+  scene: "rulesets/maw/maps/<map>_zz_maw.scene.yml"  # sorts after <map>.scene.N.yml, <map>_1.scene.yml
+  gate: "mounted only for games started with the MAW ruleset"
+
+teleport_events:                     # [2.2] same ids in oute3, out02, 7out02; free in our generated events
+  1777:
+    hint: Antagarich
+    survival_mode_target: {map: 7out01.odm, pos: [12567, 1728, 1], dir: 512}   # oute3 copy only
+    if_qbit: 527                     # Able to use boat to get off Emerald Island
+    then: {map: 7out02.odm, pos: [-16832, 12512, 372], dir: 0, icon: 3}
+    else: {map: 7out01.odm, pos: [12552, 800, 193], dir: 512, icon: 3}
+  1888:
+    hint: Jadame
+    if_qbit: 93                      # entered out02.odm
+    then: {map: out02.odm, pos: [10219, -15624, 265], dir: 0, icon: 3}
+    else: {map: out01.odm, pos: [3560, 7696, 544], dir: 0, icon: 3}
+  2666:
+    hint: Enroth
+    survival_mode_target: {map: 7out01.odm, pos: [12567, 1728, 1], dir: 512}   # 7out02 copy only
+    target: {map: oute3.odm, pos: [-9729, -10555, 160], dir: 512, icon: 3}
+
+maps:
+  oute3:                             # New Sorpigal, mm6 [2.2, 3.1]
+    world: mm6
+    openyamm_base_differs: "ship bmodels 85-89 (event 29) replace the SHP decoration; unrelated to MAW"
+    scene:
+      add_entities:                  # authored_content.entities; decoration_list_id = decoration_data '#' - 1
+        - {name: ped06, decoration_list_id: 12, position: [-11775, -1024, 864], facing: 1522, event: 1777, flags: 1}
+        - {name: dec57, decoration_list_id: 300, position: [-11775, -1024, 1024], facing: 558, event: 1777, flags: 1}
+        - {name: Corinth, decoration_list_id: 149, position: [-12100, -1024, 864], facing: 482, event: 0, flags: 0}
+        - {name: Corinth, decoration_list_id: 149, position: [-11400, -1024, 864], facing: 518, event: 0, flags: 0}
+        - {name: ped06, decoration_list_id: 12, position: [-7702, -1024, 896], facing: 1522, event: 1888, flags: 1}
+        - {name: dec57, decoration_list_id: 300, position: [-7702, -1024, 1050], facing: 558, event: 1888, flags: 1}
+        - {name: Corinth, decoration_list_id: 149, position: [-8027, -1024, 896], facing: 482, event: 0, flags: 0}
+        - {name: Corinth, decoration_list_id: 149, position: [-7327, -1024, 896], facing: 518, event: 0, flags: 0}
+      remove_entities:               # needs: entity removal op
+        - {name: 6tree05, position: [-10912, -1736, 670]}
+        - {name: 6tree05, position: [-11504, -344, 876]}
+        - {name: 6tree05, position: [-12256, -688, 796]}
+        - {name: 6tree05, position: [-7392, -760, 825]}
+      terrain:                       # needs: terrain height override op
+        height_cells: >-
+          40,65:23>27 41,65:30>27 42,65:30>27 48,65:22>28 49,65:22>28 50,65:21>28 41,66:35>27 42,66:30>27 49,66:34>28
+          50,66:30>28 42,67:23>27 49,67:30>28 50,67:30>28
+      model_bindings: "corinth needs an outdoor entry in engine/models/decorations.yml (indoor only today)"
+    events:
+      - {op: register, id: 1777, ref: teleport_events.1777}
+      - {op: register, id: 1888, ref: teleport_events.1888}
+      - op: replace
+        id: 104
+        maw: "Doom (Mode 2): outb3.odm (-9477, -13062, 129) dir 0; else base outb3.odm (12808, 6832, 64) dir 512"
+      - {op: replace, id: 261, ref: shrines.oute3}
+      - {op: skip, id: 30, note: "Redone only: HouseDoor 30 -> house 560 Tarent Hovel"}
+
+  out02:                             # Ravenshore, mm8 [2.2, 3.3]
+    world: mm8
+    scene:
+      bmodel_instances:              # needs: bmodel instancing op (exact translated copies of base bmodels)
+        - {new_index: 125, source: 108, name: Out02Temple_N_4, offset: [-704, 17324, -1472],
+           face_events: {"0-11": 2666}, keeps: "46 faces with event 186 (hint Sanctum, no action)"}
+        - {new_index: 128, source: 73, name: d28entrance_1, offset: [1428, -15474, -1488],
+           face_events: {"8-15": 1777},
+           keeps: "50 faces hint 405 'The Tomb of Lord Brinne'; event 506 face (enter d28.blv) below the plaza"}
+        - {new_index: 121, source: 65, name: Obelisk_3, offset: [3640, -22852, -576], keeps: "event 150"}
+        - {new_index: 122, source: 65, name: Obelisk_4, offset: [3640, -23652, -576], keeps: "event 150"}
+        - {new_index: 123, source: 65, name: Obelisk_10, offset: [2840, -24912, -576], keeps: "event 150"}
+        - {new_index: 124, source: 65, name: Obelisk_12, offset: [3640, -24912, -576], keeps: "event 150"}
+        - {new_index: 126, source: 65, name: Obelisk_9, offset: [3640, -24112, -576], keeps: "event 150"}
+        - {new_index: 127, source: 65, name: Obelisk_11, offset: [2840, -24112, -576], keeps: "event 150"}
+        - {new_index: 129, source: 65, name: Obelisk_2, offset: [2840, -23652, -576], keeps: "event 150"}
+        - {new_index: 130, source: 65, name: Obelisk_1, offset: [2840, -22852, -576], keeps: "event 150"}
+      port_note: "clear event 150 on the obelisk copies (MAW leaks obelisk message 7 / QBit 187) and 506 on the tomb"
+      add_entities:
+        - {name: dec57, decoration_list_id: 300, position: [20400, -1220, 800], facing: 0, event: 0, flags: 0}
+        - {name: dec57, decoration_list_id: 300, position: [20400, -2020, 800], facing: 0, event: 0, flags: 0}
+        - {name: dec57, decoration_list_id: 300, position: [20400, -2480, 800], facing: 0, event: 0, flags: 0}
+        - {name: dec57, decoration_list_id: 300, position: [20400, -3280, 800], facing: 0, event: 0, flags: 0}
+        - {name: dec57, decoration_list_id: 300, position: [19600, -1220, 800], facing: 0, event: 0, flags: 0}
+        - {name: dec57, decoration_list_id: 300, position: [19600, -2020, 800], facing: 0, event: 0, flags: 0}
+        - {name: dec57, decoration_list_id: 300, position: [19600, -2480, 800], facing: 0, event: 0, flags: 0}
+        - {name: dec57, decoration_list_id: 300, position: [19600, -3280, 800], facing: 0, event: 0, flags: 0}
+      terrain:                       # needs: terrain height and tile override ops
+        height_cells: >-
+          105,64:0>2 106,64:0>2 105,65:3>2 106,65:20>2 107,65:19>8 108,65:19>21 103,66:19>2 104,66:26>2 105,66:28>2
+          106,66:28>2 107,66:31>14 108,66:32>28 101,67:4>2 102,67:26>2 103,67:26>2 104,67:36>2 105,67:36>2 106,67:40>2
+          107,67:43>19 108,67:46>36 109,67:50>51 101,68:18>2 102,68:25>2 103,68:24>2 104,68:37>2 105,68:42>2 106,68:49>2
+          107,68:53>22 108,68:57>41 109,68:60>65 101,69:21>2 102,69:30>2 103,69:31>2 104,69:46>2 105,69:48>2 106,69:60>2
+          107,69:55>21 108,69:67>45 101,70:17>2 102,70:0>2 103,70:28>2 104,70:40>2 105,70:45>2 106,70:54>2 107,70:58>20
+          108,70:64>47 109,70:69>72 102,71:0>2 103,71:0>2 104,71:40>2 105,71:46>2 106,71:54>2 107,71:59>19 108,71:65>47
+          109,71:72>74 110,71:80>81 105,72:47>2 106,72:55>0 107,72:60>19 108,72:66>48 109,72:72>77 105,73:0>2
+          106,73:58>0 107,73:59>20 108,73:68>49 109,73:73>77 105,74:0>2 106,74:54>0 107,74:58>21 108,74:65>49
+          109,74:70>75 105,75:0>2 107,75:54>21 108,75:61>47 109,75:67>73 105,76:0>2 106,76:0>2 107,76:51>22 108,76:59>48
+          109,76:65>73 107,77:47>40 108,77:58>54 109,77:64>71
+        tile_cells: >-
+          101,64:176>104 102,64:180>108 103,64:180>108 104,64:180>108 105,64:180>102 106,64:180>11 107,64:180>176
+          100,65:1>104 101,65:179>112 102,65:173>100 103,65:162>91 104,65:162>96 105,65:162>106 106,65:162>8
+          107,65:162>179 108,65:162>164 100,66:176>107 101,66:184>97 102,66:162>101 103,66:162>96 104,66:165>100
+          105,66:162>106 106,66:162>4 107,66:162>179 108,66:183>167 109,66:181>183 100,67:179>107 101,67:162>101
+          102,67:165>95 103,67:163>94 104,67:162>90 105,67:183>106 106,67:181>9 107,67:181>179 108,67:175>169
+          109,67:104>178 110,67:108>94 111,67:112>95 100,68:179>107 101,68:162>100 102,68:165>98 103,68:162>90
+          104,68:162>94 105,68:178>106 106,68:104>12 107,68:108>179 108,68:108>171 109,68:112>182 110,68:90>174
+          111,68:90>107 100,69:179>107 101,69:162>94 102,69:162>90 103,69:162>101 104,69:162>95 105,69:182>106
+          106,69:174>12 107,69:107>179 108,69:90>163 109,69:90>162 110,69:90>178 111,69:93>107 100,70:179>107
+          101,70:162>100 102,70:162>90 103,70:162>97 104,70:162>91 105,70:162>106 106,70:178>10 107,70:105>179
+          108,70:109>170 109,70:113>164 110,70:93>178 111,70:90>107 100,71:177>105 101,71:185>113 102,71:163>95
+          103,71:162>100 104,71:163>92 105,71:162>106 106,71:182>12 107,71:180>179 108,71:174>173 109,71:105>162
+          110,71:113>178 111,71:90>107 101,72:177>105 102,72:185>113 103,72:169>101 104,72:162>97 105,72:162>106
+          106,72:168>1 107,72:163>179 108,72:182>168 109,72:174>162 110,72:107>178 111,72:90>107 102,73:177>105
+          103,73:185>113 104,73:163>97 105,73:166>106 106,73:162>12 107,73:163>179 108,73:162>163 109,73:178>183
+          110,73:107>175 111,73:90>107 103,74:177>105 104,74:185>109 105,74:162>103 106,74:162>6 107,74:162>179
+          108,74:162>168 110,74:107>104 111,74:90>112 104,75:177>6 105,75:185>11 106,75:162>4 107,75:162>179 104,76:1>12
+          105,76:179>6 106,76:162>176 107,76:162>184 105,77:179>176 106,77:162>184
+    events:
+      - {op: register, id: 2666, ref: teleport_events.2666, note: "no Survival branch in MAW's out02 copy"}
+      - {op: register, id: 1777, ref: teleport_events.1777}
+      - {op: skip, note: "multiplayer Breach/Alvar travel broadcast"}
+
+  7out02:                            # Harmondale, mm7 [2.2, 3.2]
+    world: mm7
+    scene:
+      bmodel_instances:              # needs: bmodel instancing op
+        - {new_index: 114, source: 71, name: Shrine__4, offset: [-23691, 21957, 824], face_events: {"42-49": 2666},
+           keeps: "4 Altar faces (event 221 -> out12 when QBit 758), 52 Shrine hint faces (222)"}
+        - {new_index: 116, source: 70, name: Shrine__5, offset: [-23691, 21957, 824], keeps: "64 faces event 222"}
+        - {new_index: 117, source: 71, name: Shrine__2, offset: [-23403, 13218, 556], face_events: {"42-49": 1888},
+           keeps: "4 Altar faces (221), 52 Shrine hint faces (222)"}
+        - {new_index: 115, source: 70, name: Shrine__3, offset: [-23403, 13218, 556], keeps: "64 faces event 222"}
+      port_note: "clear event 221 on the copied Altar faces"
+      terrain:                       # needs: terrain height override op
+        height_cells: >-
+          30,30:62>27 31,30:58>27 32,30:52>27 33,30:46>27 34,30:41>28 35,30:37>47 36,30:33>42 37,30:27>37 30,31:60>28
+          31,31:54>28 32,31:47>28 33,31:40>28 34,31:34>28 35,31:30>41 36,31:26>36 37,31:20>31 30,32:56>28 31,32:47>28
+          32,32:39>28 33,32:32>28 35,32:25>35 36,32:20>30 37,32:20>25 29,33:59>22 30,33:51>27 31,33:41>27 32,33:32>28
+          33,33:26>28 34,33:23>28 35,33:23>20 36,33:20>12 37,33:0>6 29,34:55>22 30,34:46>27 31,34:35>27 32,34:25>27
+          33,34:20>21 34,34:20>18 35,34:20>14 36,34:20>6 29,35:45>22 30,35:36>23 31,35:26>22 32,35:20>21 33,35:20>14
+          34,35:0>11 35,35:0>7 29,36:15>17 30,36:20>18 31,36:20>17 32,36:20>16 33,36:5>6 31,37:15>14 32,37:10>13
+          29,38:15>14 30,38:15>14 31,38:15>12 32,38:9>10
+    events:
+      - {op: register, id: 2666, ref: teleport_events.2666}
+      - {op: register, id: 1888, ref: teleport_events.1888}
+      - op: register
+        id: 1000
+        kind: timer
+        interval_game_seconds: 30
+        maw: "once (map var ambush) when party in x 17390..19429, y -20015..-19454, z < 800: 'It's an ambush!'"
+        spawns:                      # needs: summon by monster id
+          - {monster: 271, pos: [19613, -17760, 1595], count: 2, tiers: [60, 30, 10], radius: 64, group: 1}
+          - {monster: 271, pos: [19307, -18344, 1568], count: 2, tiers: [60, 30, 10], radius: 64, group: 1}
+          - {monster: 271, pos: [18344, -18861, 1666], count: 2, tiers: [60, 30, 10], radius: 64, group: 1}
+          - {monster: 271, pos: [16201, -21635, 3022], count: 8, tiers: [60, 30, 10], radius: 1400, group: 1}
+      - op: on_load
+        maw: "once per map (map var maw): Goblin's Lieutenant"
+        spawns:
+          - {monster: 106, pos: [8200, 4098, 385], count: 1, tiers: [100, 0, 0], radius: 0, group: 1,
+             overrides: {name_id: 301, hp_scale: 3, spell_chance: 100, speed: 0}}
+        place_mon: {301: "Goblin's Lieutenant"}
+      - op: register
+        id: 1001
+        kind: timer
+        interval_game_seconds: 300
+        maw: "until NameId 301 dies or 10 ticks, while party within 2000 of (8200, 4098, 385): 'Goblin Reinforcements'"
+        spawns:
+          - {monster: 271, pos: [6613, 2546, 122], count: 1, tiers: [60, 30, 10], radius: 64, group: 1}
+          - {monster: 271, pos: [6601, 5690, 122], count: 1, tiers: [60, 30, 10], radius: 64, group: 1}
+          - {monster: 271, pos: [9765, 2500, 122], count: 2, tiers: [60, 30, 10], radius: 64, group: 1}
+      - {op: keep_base, note: "MAW drops Judge Grey's 6-month death and the Arbiter messenger (7out02_mmmerge.lua)"}
+      - {op: skip, ids: [303, 304, 305], note: "Redone teleportal keys and hub"}
+
+  elemf:                             # Plane of Fire, mm8 [2.3]
+    world: mm8
+    scene:
+      spawns:                        # needs: outdoor spawn removal op
+        remove:  # [x, y, z, radius, type, index, group]
+          - [2848, -18720, 0, 32, 3, 1, 0]
+          - [384, -20416, 0, 32, 3, 1, 0]
+          - [-3392, -20640, 0, 32, 3, 1, 0]
+          - [4384, -21184, 0, 32, 3, 1, 0]
+      interactive_faces:             # optional, visual only: clear 0x4000 (animated) on LavTyl door steps
+        - {bmodel: 17, event: 12, attributes: 0x2001108}
+        - {bmodel: 25, event: 18, attributes: 0x2001108}
+        - {bmodel: 27, event: 20, attributes: 0x2001108}
+        - {bmodel: 29, event: 22, attributes: 0x2001108}
+
+  out05:                             # Garrote Gorge, mm8 [2.3]
+    world: mm8
+    scene:
+      actor_overrides:               # needs: actor field overrides (position is supported today)
+        - {actors: [0, 2], hp: 800, radius: 200}
+        - {actors: [1], hp: 800, radius: 200, position: [-6001, -8685, 586]}
+
+  d12:                               # Ogre Fortress, mm8 [2.3]
+    world: mm8
+    scene:
+      spawns:                        # needs: indoor spawn add/remove
+        remove:  # [x, y, z, radius, type, index, group]
+          - [-3456, 768, 0, 32, 3, 1, 10]
+          - [-3456, -640, 0, 32, 3, 3, 10]
+          - [-3968, 768, 0, 32, 3, 3, 10]
+        add:  # [x, y, z, radius, type, index, group]
+          - [-4398, -561, 0, 32, 3, 1, 10]
+          - [-3968, 768, 0, 32, 3, 1, 10]
+      actor_overrides:               # needs: indoor actor overrides
+        - {actors: [0, 1], radius: 90}
+
+  d18:                               # Naga Vault, mm8 [2.3]
+    world: mm8
+    scene:
+      spawns:                        # needs: indoor spawn add/remove
+        remove:  # [x, y, z, radius, type, index, group]
+          - [-556, -954, -112, 32, 3, 1, 0]
+          - [-224, -892, -112, 32, 3, 1, 0]
+          - [-640, -768, 0, 32, 3, 2, 0]
+          - [-1024, -1024, 0, 32, 3, 2, 0]
+        add:  # [x, y, z, radius, type, index, group]
+          - [266, 376, -144, 32, 3, 2, 0]
+          - [-520, -172, -128, 32, 3, 1, 0]
+          - [470, -473, -128, 32, 3, 10, 0]
+          - [1651, 359, -128, 32, 3, 7, 0]
+          - [1642, 503, -128, 32, 3, 7, 0]
+          - [291, 1273, -128, 32, 3, 10, 0]
+          - [1648, 419, -128, 32, 3, 10, 0]
+          - [5798, -1698, 704, 32, 3, 1, 0]
+          - [4004, 282, 760, 32, 3, 2, 0]
+          - [758, -468, -128, 32, 3, 10, 0]
+          - [6052, -1465, 704, 32, 3, 1, 0]
+          - [3751, 96, 754, 32, 3, 2, 0]
+          - [-166, -959, -144, 32, 3, 2, 0]
+          - [546, 712, -144, 32, 3, 1, 0]
+          - [3450, 293, 760, 32, 3, 2, 0]
+          - [3526, -268, 760, 32, 3, 2, 0]
+          - [560, -41, -144, 32, 3, 1, 0]
+          - [1006, -463, -128, 32, 3, 10, 0]
+          - [-933, -959, -144, 32, 3, 2, 0]
+          - [290, -476, -128, 32, 3, 10, 0]
+          - [539, 1274, -128, 32, 3, 10, 0]
+          - [3906, -274, 760, 32, 3, 2, 0]
+          - [5805, -1325, 704, 32, 3, 1, 0]
+      actor_overrides:
+        - {actors: [0, 1, 2, 3], name_id: 205, hp: 1500, move_speed: 235, radius: 90, clear_attributes: 0x200000}
+      place_mon: {205: "Naga Empress"}       # General/zSERIOUSMAW.lua
+      sprite_object_note: "object 0 type 1 -> 77 (journal scrap); no-op in OpenYAMM (3D ground items)"
+
+  d08:                               # Dire Wolf Den, mm8 [2.3]
+    world: mm8
+    scene:
+      actor_overrides:
+        - {actors: [0], move_speed: 300, clear_attributes: 0x200000}   # Pack Master
+
+  d42:                               # Arena, mm8 [2.3, 4.7]
+    world: mm8
+    scene:
+      face_attribute_overrides:      # supported (indoor overlay); faces identified by geometry, sector 1
+        - {texture: Gcst2cel, bbox: "x 3552, y 2560..3072, z 448..512", set: 0x20000000}
+        - {texture: Gcst2cel, bbox: "x 4128, y 2560..3072, z 448..512", set: 0x20000000}
+        - {texture: Gcst2cel, bbox: "x 3552..4128, y 3072, z 448..512", set: 0x20000000}
+        - {texture: Gcst2flr, bbox: "x 3584..4096, y 2560..3072, z 448", set: 0x20000000}
+        - {texture: Gcst2flr, bbox: "x 3552..4128, y 2560..3072, z 512", set: 0x20000000}
+        - {texture: Gcst2-bs, bbox: "x 3968..4096, y 2560, z 192..448", clear: 0x80000}
+      note: "resolve face indices from d42.blv before writing the overlay"
+
+  d04:                               # Temple of Baa, mm7 [2.3]
+    world: mm7
+    scene:
+      actor_overrides:
+        - {actors: [0, 4, 5, 6, 10, 11, 17, 18, 19, 20, 21, 22, 23, 24, 29, 30, 31, 32, 33], name_id: 211, hp: 252}
+        - {actors: [7, 8, 9, 12, 13, 14, 15, 16], name_id: 212, hp: 370}
+        - {actors: [1, 2, 3, 25, 26, 27, 28], name_id: 213, hp: 508}
+        - {actors: [34], name_id: 214, hp: 508}           # still carries 1332 Cloak of the Sheep
+      place_mon: {211: "Cleric of Baa", 212: "Priest of Baa", 213: "Cardinal of Baa", 214: "High Cardinal"}
+
+  7d33:                              # Castle Gryphonheart, mm7 [2.3]
+    world: mm7
+    scene:
+      actor_overrides:
+        - {actors: [0, 1, 2, 3, 4, 5], carried_item: 0}   # was 806 Graceful Sword
+
+  mdt09:                             # Wromthrax's Cave, mm7 [2.3]
+    world: mm7
+    scene:
+      note: "stored stat bytes of actor 0 only (level 90->55 ...); superseded by MAW runtime monster stats; skip"
+
+  # ---------------------------------------------------------------- script-only maps [3.1-3.3]
+  outb1:
+    world: mm6
+    events:
+      - {op: replace, ids: [261, 262], ref: shrines.outb1}
+      - op: replace
+        id: 101
+        maw: "if MapVar(2) >= 1 and gold >= 5000: -5000 gold, +5000 XP to current member (unscaled), MapVar(2) -= 1,
+          autonote 434; else 'Refreshing!'"
+      - {op: register, kind: refill, maw: "MapVar(2) = 10 every game month (in addition to the base refill)"}
+  outb2: {world: mm6, events: [{op: replace, id: 261, ref: shrines.outb2}]}
+  outb3:
+    world: mm6
+    events:
+      - op: replace
+        id: 92
+        maw: "Doom: status 'Access have been destroyed'; else if member 0 level >= 255 or difficulty <= MAW:
+          move znwc.blv (-640, 512, -416) dir 512; else 'You must prove your worth first'"
+  outc1: {world: mm6, events: [{op: replace, id: 261, ref: shrines.outc1}]}
+  outc2: {world: mm6, events: [{op: replace, id: 261, ref: shrines.outc2}]}
+  outc3: {world: mm6, events: [{op: replace, id: 261, ref: shrines.outc3}]}
+  outd1: {world: mm6, events: [{op: replace, id: 261, ref: shrines.outd1}]}
+  outd2: {world: mm6, events: [{op: replace, id: 261, ref: shrines.outd2}]}
+  outd3: {world: mm6, events: [{op: replace, id: 261, ref: shrines.outd3}]}
+  oute1: {world: mm6, events: [{op: replace, id: 261, ref: shrines.oute1}]}
+  oute2: {world: mm6, events: [{op: replace, id: 261, ref: shrines.oute2}]}
+  pyramid:
+    world: mm6
+    events:
+      - op: replace
+        id: 12
+        optional: true
+        maw: "timer 1.5 min, if MapVar(2) >= 1: Crystal Skull 2086 on current member protects; else 5 damage of
+          Phys/Water/Earth/Air/Fire/Body (base: Water/Fire/Air/Magic/Physical/Body, skull on ForPlayer(6))"
+  znwc:
+    world: mm6
+    events:
+      - op: replace
+        id: 61
+        optional: true
+        maw: "same items/prices; map var reagentsLooted counts sales; at 50 says 'empty' but keeps selling (bug)"
+        port: "if wanted, stop sales at 50"
+  6d05:
+    world: mm6
+    events:
+      - op: replace
+        id: 9
+        optional: true
+        maw: "key 2108 opens door 9 (Close state) and summons 6x3 BDwarves; no QBit 1051 check; key kept (exploit)"
+        port: "do not port as is; at most allow the door without the 1051 lock and summon once"
+  6d18:
+    world: mm6
+    events:
+      - op: replace
+        id: 35
+        maw: "toggle doors 43 and 53 and facet 2255 (vlcwl3a, door 53) invisible+untouchable"
+        needs: "index-based indoor facet bit call, or fix door 53's face set"
+
+  7d06:
+    world: mm7
+    events:
+      - op: on_load
+        maw: "once per map (map var maw)"
+        spawns:
+          - {monster: 397, pos: [-3954, 5878, -95], count: 3, tiers: [100, 0, 0], radius: 64, group: 1}
+          - {monster: 397, pos: [-3954, 5878, -95], count: 1, tiers: [0, 100, 0], radius: 64, group: 1}
+  7d11:
+    world: mm7
+    standard_fix: true
+    events:
+      - {op: on_load, maw: "if MapVar(17), MapVar(18), MapVar(19) all >= 1: open doors 1 and 2 (DoorAction.Open)"}
+  7d20:
+    world: mm7
+    events:
+      - op: replace
+        id: 196
+        optional: true
+        maw: "Wine Rack: same odds, items 225/229/230/224/240 instead of 1025/1029/1030/1024/1040; MapVar(6)"
+  7d21:
+    world: mm7
+    events:
+      - op: register
+        id: 1000
+        kind: timer
+        interval_game_seconds: 60
+        maw: "once (map var ambush) when party in x -1183..526, y 10342..12144: 'It's a trap!'"
+        spawns:
+          - {monster: 412, pos: [-3723, 9579, 1], count: 8, tiers: [70, 30, 0], radius: 256, group: 1}
+      - op: register
+        id: 1001
+        kind: timer
+        interval_game_seconds: 60
+        maw: "after 1000, once (ambush2) when party in x -5321..-4316, y 8514..9882: 'Queen Arrived!'"
+        spawns:
+          - {monster: 412, pos: [-6396, 6862, 1], count: 10, tiers: [70, 30, 0], radius: 256, group: 1}
+          - {monster: 412, pos: [-6396, 6862, 1], count: 1, tiers: [0, 0, 100], radius: 256, group: 1,
+             overrides: {hp_scale: 2}}
+  7d24:
+    world: mm7
+    events:
+      - op: register
+        id: 1000
+        kind: timer
+        interval_game_seconds: 60
+        maw: "once when party in x -8205..-7060, y 6216..7546: 'Monsters swarming...'; then 20 more ticks"
+        spawns:
+          - {monster: 412, pos: [-7532, 7495, -1535], count: 4, tiers: [50, 35, 15], radius: 256, group: 1}
+      - op: register
+        id: 1001
+        kind: timer
+        interval_game_seconds: 60
+        maw: "each tick 1 more troglodyte (412, 50/35/15); on the 20th tick instead the boss"
+        boss:
+          - {monster: 296, pos: [-7532, 7495, -1535], count: 1, tiers: [0, 100, 0], radius: 256, group: 1,
+             overrides: {hp_scale: 2.5, melee_only_attack: true, spell: 6, spell_chance: 100, spell_skill: 3,
+                         speed: 400, move_type: 0, treasure_percent: 100,
+                         carried_item: "410 if bolsterLevel > 25 else 405"}}
+      - {op: keep_base, note: "MAW drops event 416 (QBit 647) and the Dwarf King QBit 658 exit hook"}
+  7d29:
+    world: mm7
+    events:
+      - op: register
+        id: 1000
+        kind: timer
+        interval_game_seconds: 60
+        maw: "once per game (global var goblingKing) when group 56 is dead: 'Noises from the throne room'"
+        spawns:
+          - {monster: 271, pos: [-5110, 2852, 65], count: 1, tiers: [0, 0, 100], radius: 64, group: 1,
+             overrides: {name_id: 300, hp_scale: 3, speed: 400}}
+          - {monster: 271, pos: [-5122, 2219, 1], count: 2, tiers: [0, 100, 0], radius: 128, group: 1,
+             overrides: {speed: 400}}
+          - {monster: 271, pos: [-4423, 1456, 1], count: 3, tiers: [100, 0, 0], radius: 256, group: 1,
+             overrides: {speed: 400}}
+          - {monster: 271, pos: [-5937, 1456, 1], count: 3, tiers: [100, 0, 0], radius: 256, group: 1,
+             overrides: {speed: 400}}
+        place_mon: {300: "Goblin King"}
+      - {op: keep_base, note: "MAW drops the Cross-Continents Antagarich completion on load"}
+  7d32:
+    world: mm7
+    events:
+      - {op: replace, id: 4, optional: true, maw: "open door 7 always (base requires QBit 547)"}
+  7d34:
+    world: mm7
+    events:
+      - {op: replace, id: 151, optional: true, maw: "toggle doors 1 and 2 always (base guards Counter(4) < 1)"}
+  7d37:
+    world: mm7
+    events:
+      - op: on_load
+        maw: "once per map (map var mawSpawn)"
+        spawns:
+          - {monster: 307, pos: [-25, 1312, -31], count: 1, tiers: [100, 0, 0], radius: 0, group: 1,
+             overrides: {hp_scale: 2.5, melee_only_attack: true, hostile: true, spell_chance: 30, spell_skill: 1,
+                         treasure_percent: 100, carried_item: "174 if bolsterLevel > 25 else 171",
+                         carried_item_charges: 66}}
+  7d12:
+    world: mm7
+    standard_fix: true
+    scene:
+      face_event_overrides: [{face: 1817, from_event: 200, to_event: 3}]   # needs: indoor face event override
+  7d37_book:
+    map: 7d37
+    world: mm7
+    standard_fix: true
+    scene:
+      face_event_overrides: [{face: 896, from_event: 200, to_event: 10}]
+  7out01:
+    world: mm7
+    events:
+      - {op: skip, note: "whole MAW file is Redone-only; keep the base no-Arcomage tavern filter"}
+  7out05:
+    world: mm7
+    events:
+      - op: register
+        id: 1000
+        kind: timer
+        interval_game_seconds: 300
+        maw: "per day: from 21:30 status 'The night is dark and full of terrors'; 22:00-04:00 10% chance per tick
+          (forced after 23:54) to start an ambush: 'In the night the deads rise', 10 rounds"
+      - op: register
+        id: 1001
+        kind: timer
+        interval_game_seconds: 300
+        maw: "while an ambush runs (22:00-04:00): one round around the party"
+        first_round:
+          - {monster: 427, at_party: [0, 0], count: 5, tiers: [50, 35, 15], radius: 4000}
+          - {monster: 427, at_party_ring: 4000, ring_points: 8, count_each: 1, tiers: [50, 35, 15], radius: 1160}
+        each_round:
+          - {monster: 427, at_party: [0, 0], count: 3, tiers: [50, 35, 15], radius: 4000}
+          - {monster: 427, at_party_ring: 4000, ring_points: 8, count_each: 1, tiers: [50, 35, 15], radius: 4160}
+        overrides: {hostile: true, speed: 350}
+      - {op: skip, id: 505, note: "Redone Erathia portal"}
+
+  out01:
+    world: mm8
+    events:
+      - op: replace
+        id: 463
+        maw: "base pirate/lizardman respawns; in Insanity stop when map var piratesSpawned > 25 (pirate groups only)"
+  out03:
+    world: mm8
+    events:
+      - op: replace
+        id: 197
+        optional: true
+        maw: "alliance step when QBit 63 and not QBit 59, without Overdune in the party; rewards as base; house 773"
+  d05: {world: mm8, events: [{op: skip, note: "multiplayer floor-trap rewrite"}]}
+  d07:
+    world: mm8
+    events:
+      - {op: replace, id: 1, optional: true, maw: "as d07_mmmerge.lua but group 8 stays invisible when hostile"}
+  d19:
+    world: mm8
+    events:
+      - {op: keep_base, note: "MAW stricter Dyson checks drop QBit 19, invisibility and transformer relaxations"}
+  d22:
+    world: mm8
+    events:
+      - op: replace
+        id: 5
+        maw: "on load: dimension-map run (map var mapAffixes) or QBit 19 -> clerics 39/40 hostile; QBit 28 or affix
+          run -> facet 5 IsSecret on (no Dyson check); QBit 230 + Counter(8) branch as base"
+      - {op: replace, id: 452, maw: "open door 1 if QBit 28 or affix run (no Dyson check)"}
+  d26:
+    world: mm8
+    standard_fix: true
+    events:
+      - {op: replace, id: 131, maw: "guard on a global flag set at pickup instead of QBit 81 (no duplicate on refill)"}
+
+shrines:                             # [3.1] MAW removes the MonthIs check; texts as in our generated event
+  common: "if QBit 1230 clear: set it; if stat QBit set: +3 else set stat QBit and +10 (all members);
+    else 'You pray at the shrine.'  QBit 1230 is cleared only by The Seer's Pilgrimage (global 1354)"
+  outb1: [{event: 261, stat: WaterResistance, qbit: 1240, base_month: 9},
+          {event: 262, stat: FireResistance, qbit: 1238, base_month: 7}]
+  outb2: [{event: 261, stat: FireResistance, qbit: 1242, base_month: 11, note: "Shrine of Magic; base EVT quirk"}]
+  outc1: [{event: 261, stat: BaseEndurance, qbit: 1234, plus3_text: false}]
+  outc2: [{event: 261, stat: BaseAccuracy, qbit: 1235, plus3_text: false}]
+  outc3: [{event: 261, stat: BaseSpeed, qbit: 1236}]
+  outd1: [{event: 261, stat: BasePersonality, qbit: 1233, plus3_text: false}]
+  outd2: [{event: 261, stat: BaseMight, qbit: 1231}]
+  outd3: [{event: 261, stat: AirResistance, qbit: 1239, plus3_text: false}]
+  oute1: [{event: 261, stat: EarthResistance, qbit: 1241, plus3_text: false}]
+  oute2: [{event: 261, stat: BaseIntellect, qbit: 1232, plus3_text: false}]
+  oute3: [{event: 261, stat: BaseLuck, qbit: 1237, plus3_text: false}]
+
+dungeon_entrances:                   # [3.4] General/zzMaw-Maps.lua addDungeonEntrance: 110 events on 36 maps
+  port: "do not rewrite entrances; add a ruleset hook before evt.MoveToMap keyed by destination file"
+  needs: "hook kind before MoveToMap (MapTransition covers map-edge travel only)"
+  prompt: "The dungeon has already been cleared, but you have the option to reset it and attempt it once more with
+    even harder monsters. Please note that no completion rewards will be given for this reset. Would you like to
+    proceed with resetting the dungeon? (yes/no)"
+  maw_regressions:
+    - {map: outa1, event: 90, note: "drops QBit 1261 lock on The Hive"}
+    - {map: out11, event: 505, note: "goes to mdr01.blv instead of mdk01.blv (Barrow VII)"}
+    - {map: out01, event: 503, note: "arrival direction 0 -> 552"}
+    - {map: out01, event: 504, note: "transition house 346 -> 345"}
+    - {map: out03, event: 502, note: "arrival direction 1024 -> 520"}
+
+map_rules:                           # [3.4]
+  no_outdoor_respawn_mapstats: [1, 2, 3, 4, 5, 6, 7, 8, 13, 62, 63, 64, 65, 66, 67, 68, 69, 70, 72, 73, 74, 99, 100,
+    140, 141, 143, 144, 145, 146, 147, 148, 149, 150, 151]
+  insanity_no_respawn: all
+  empty_barrels: "MM6 barrel events >= 20000 that raised a stat become 'Empty Barrel' (19999) per map, persistent"
+  trainer_moves: "Global/zzMAW_MoveTrainers.lua npcMovesByMap (64 moves, 19 maps), when enableAllTrainers"
+
+global_events:                       # [4.1] Global/GLOBAL.lua; override with ReplaceGlobalEvent
+  quest_reward_gold_scaling: "topic giving gold and XP: + gold*partyLevel/100 + 250*partyLevel gold"
+  needs: "topic reward hook"
+  potion_quests:
+    reagents:
+      red: [[200, 204], [1002, 1006], [1764, 1764]]
+      blue: [[205, 209], [1007, 1011], [1763, 1763]]
+      yellow: [[210, 214], [1012, 1016], [1762, 1762]]
+    quests:
+      - {event: 181, npc: 68, qbits: [113, 114], need: [4, 2, 1], maw_reward_item: 254, xp: 1000, base_item: 265}
+      - {event: 203, npc: 74, qbits: [115, 116], need: [2, 3, 3], maw_reward_item: 254, xp: 5000, base_item: 264}
+      - {event: 212, npc: 78, qbits: [121, 122], need: [2, 4, 1], maw_reward_item: 254, xp: 5000, base_item: 267}
+      - {event: 234, npc: 83, qbits: [123, 124], need: [1, 2, 4], maw_reward_item: 253, xp: 5000, base_item: 266}
+      - {event: 246, start_event: 244, npc: 77, qbits: [132, 133], need: [2, 1, 4], maw_reward_item: 252, xp: 5000,
+         base_item: 269, base_qbits: [133, 134], standard_fix: "use 132/133"}
+  rust_potions: {events: [207, 571, 572, 573, 574, 575, 576], npc: 84, qbits: [142, 149], maw_item: 249,
+                 base_item: 256}
+  circus_trades: {events: [1442, 1443, 1444, 1445, 1446, 1447], npcs: [1109, 1165, 1166], cap_per_kind: 10,
+                  state: "map vars circusLootStrong / circusLootWeak"}
+  doom_mode: {move_npcs_to_house_0: [1109, 1165, 1166]}
+  insanity_one_time_trades: {items: [643, 644, 645, 646, 647, 648, 649, 650, 651, 1494, 1495, 1496, 1497, 1498, 1499],
+                             effect: "clear the NPC's topic A after the trade", maw_typo: "1946 for 1496"}
+  teleport_globals: {ids: [1777, 1888, 2666], note: "unused duplicates of the map events; skip"}
+
+npc_topics:                          # [4.2-4.9] slots are 0=A .. 5=F; free slots per our npc.txt
+  respec:
+    npcs: {314: 3, 413: 3, 794: 3}
+    note: "413 is Judge Grey (dies in our Standard flow): host the Antagarich respec elsewhere"
+    topics: ["Skill reset info", "I want to reset"]
+    cost: "1000 gold x level of current member"
+  dimensional_maps:
+    npcs: {314: 4, 413: 4, 794: 0}
+    port_slots: {794: 3}             # slot A hides Pilgrimage (MAW bug); D/E/F are free
+    tiers: {first: 100, steps: [{below: 140, step: 20}, {below: 200, step: 15}, {below: null, step: 10}],
+            done_at: 500}
+    item: 290                        # MAW "Map"; differs from the Standard item 290
+    reward: "level*1000 gold and XP"
+  druid_circlet:
+    npc: 41
+    slot: 1
+    qbit_maw: 299
+    qbit_port: "MAW range >= 10000"
+    item: 638                        # d23 chest 3
+    reward: {gold: 3000, xp: 10000, item: "identified generated amulet, strength 5"}
+  dragon_hatchling:
+    npc: 396
+    adds: ["feeding feedback texts", "days left", "Release the dragon (slot 1, Y/N)"]
+    openyamm: "worlds/mm7/events/Global_mm7_mmmerge.lua events 789 / hook 65073"
+  saving_goobers:
+    npc: 803
+    step: SG_ActivateTheTele
+    qbit: 466
+    philosopher_stones: {base: 10, maw: 1, items: [219, 1021]}
+    standard_fix: "loop precedence"
+    openyamm: "quest not implemented"
+  endless_arena:
+    npc: 313
+    slot: 1
+    start: {map: d42.blv, pos: [3850, 5776, 1], dir: 512}
+    reward: "level*20000 gold; vars.highestArenaWave"
+    spawn_points: [[3850, 9350], [4600, 9350], [5500, 8600], [6500, 7600], [6500, 6600], [6500, 5600],
+                   [6500, 3600], [2200, 8600], [1200, 7600], [1200, 6600], [1200, 5600], [1200, 4600],
+                   [1200, 3600], [3100, 9350]]
+    wave_states: [{tiers: [80, 20, 0], count: [8, 10]}, {tiers: [65, 25, 10], count: [6, 8]},
+                  {tiers: [50, 30, 20], count: [4, 6]}, {tiers: [35, 35, 30], count: [3, 4]},
+                  {tiers: [20, 40, 40], count: [2, 4]}, {tiers: [0, 0, 100], count: [1, 1], boss: true}]
+    waves_per_level: 3
+  bounty_hunt:
+    topic: 1712
+    reward: "round(baseLevel + getPartyLevel(4)) * 100"
+    requires: "current map completed before a new hunt"
+
+place_mon_additions: {205: "Naga Empress", 211: "Cleric of Baa", 212: "Priest of Baa", 213: "Cardinal of Baa",
+                      214: "High Cardinal", 300: "Goblin King", 301: "Goblin's Lieutenant"}

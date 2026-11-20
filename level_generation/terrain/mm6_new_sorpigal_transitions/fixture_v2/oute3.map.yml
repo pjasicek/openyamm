@@ -1,0 +1,21 @@
+format_version: 1
+kind: outdoor_map_package
+package_id: mm6:terrain_fixture
+display_name: Terrain transition fixture
+map_file: oute3.odm
+scene_file: oute3.scene.yml
+geometry_metadata_file: oute3.geometry.yml
+terrain_metadata_file: oute3.terrain.yml
+script_module: Data/scripts/maps/oute3.lua
+map_stats_id: 10001
+redbook_track: 4
+environment_name: grassland
+is_top_level_area: true
+outdoor_bounds:
+  enabled: true
+  min_x: -23143
+  max_x: 23143
+  min_y: -23143
+  max_y: 23143
+source_fingerprint: 6995AEF63D9C1A62
+built_source_fingerprint: 6995AEF63D9C1A62

@@ -1,0 +1,609 @@
+# Actual controls, pickups, puzzle failure/persistence, collision walks, and the dome exit.
+id: hesper.d10.main_path
+world: hesper
+mode: faithful
+steps:
+- new_game_flow:
+    start_map: hes_d10.blv
+    party:
+      members:
+      - name: Archive tester
+        class: Knight
+        level: 1000
+        equipment: {}
+        skills: []
+- damage_actor:
+    actor_index: 0
+    amount: 1000000
+    tier: kreegan_energy
+- damage_actor:
+    actor_index: 0
+    amount: 1000000
+    tier: kreegan_energy
+- damage_actor:
+    actor_index: 1
+    amount: 1000000
+    tier: kreegan_energy
+- damage_actor:
+    actor_index: 1
+    amount: 1000000
+    tier: kreegan_energy
+- damage_actor:
+    actor_index: 2
+    amount: 1000000
+    tier: kreegan_energy
+- damage_actor:
+    actor_index: 2
+    amount: 1000000
+    tier: kreegan_energy
+- damage_actor:
+    actor_index: 3
+    amount: 1000000
+    tier: kreegan_energy
+- damage_actor:
+    actor_index: 4
+    amount: 1000000
+    tier: kreegan_energy
+- damage_actor:
+    actor_index: 5
+    amount: 1000000
+    tier: kreegan_energy
+- damage_actor:
+    actor_index: 6
+    amount: 1000000
+    tier: kreegan_energy
+- damage_actor:
+    actor_index: 7
+    amount: 1000000
+    tier: kreegan_energy
+- damage_actor:
+    actor_index: 7
+    amount: 1000000
+    tier: kreegan_energy
+- damage_actor:
+    actor_index: 8
+    amount: 1000000
+    tier: kreegan_energy
+- damage_actor:
+    actor_index: 8
+    amount: 1000000
+    tier: kreegan_energy
+- assert:
+    world_item_spawned:
+      item_id: 11372
+- assert:
+    world_item_spawned:
+      item_id: 11420
+- set_pose:
+    map: hes_d10.blv
+    x: 1200
+    y: 1500
+    z: 0
+    yaw: -1.5707963
+    pitch: -0.2
+- press_interact:
+    expect:
+      kind: event_target
+- assert:
+    map_var_changed:
+      index: 4
+      value: 1
+- press_action:
+    action: cancel_dialog
+- set_pose:
+    map: hes_d10.blv
+    x: 2180
+    y: 1200
+    z: 0
+    yaw: 0
+    pitch: 0
+- press_interact:
+    expect:
+      kind: event_target
+      triggered_event: 21
+- wait_until:
+    timeout_runtime_seconds: 3
+    assert:
+      mechanism:
+        id: 1
+        state: open
+- movement_segment:
+    input: forward
+    duration_ms: 950
+    start:
+      map: hes_d10.blv
+      x: 2180
+      y: 1200
+      z: 0
+      yaw: 0
+      pitch: 0
+    expect_stop:
+      map: hes_d10.blv
+      x: 2900
+      y: 1200
+      z: 0
+      yaw: 0
+      pitch: 0
+    tolerance_xy: 100
+    tolerance_z: 40
+    loose_tolerance: true
+    actor_collision: false
+    actor_ai: false
+    delta_game_minutes: 0
+- set_pose:
+    map: hes_d10.blv
+    x: 3420
+    y: 1450
+    z: 0
+    yaw: 1.5707963
+    pitch: 0.4
+- press_interact:
+    expect:
+      kind: event_target
+      triggered_event: 4
+- press_action:
+    action: cancel_dialog
+- set_pose:
+    map: hes_d10.blv
+    x: 3740
+    y: 1450
+    z: 0
+    yaw: 1.5707963
+    pitch: 0.4
+- press_interact:
+    expect:
+      kind: event_target
+      triggered_event: 5
+- press_action:
+    action: cancel_dialog
+- set_pose:
+    map: hes_d10.blv
+    x: 4060
+    y: 1450
+    z: 0
+    yaw: 1.5707963
+    pitch: 0.4
+- press_interact:
+    expect:
+      kind: event_target
+      triggered_event: 6
+- press_action:
+    action: cancel_dialog
+- set_pose:
+    map: hes_d10.blv
+    x: 4380
+    y: 1450
+    z: 0
+    yaw: 1.5707963
+    pitch: 0.4
+- press_interact:
+    expect:
+      kind: event_target
+      triggered_event: 7
+- press_action:
+    action: cancel_dialog
+- set_pose:
+    map: hes_d10.blv
+    x: 3900
+    y: 1270
+    z: 0
+    yaw: 1.5707963
+    pitch: -0.17
+- press_interact: {}
+- assert:
+    item_received:
+      item_id: 11372
+      source: world_item
+      destination: inventory
+- set_pose:
+    map: hes_d10.blv
+    x: 5100
+    y: 950
+    z: 0
+    yaw: -1.5707963
+    pitch: -0.3
+- press_interact:
+    expect:
+      kind: event_target
+- assert:
+    chest_opened:
+      chest_id: 0
+- press_action:
+    action: cancel_dialog
+# Across the brine pool: the party wades at 70 % (liquids.yml tank_brine wade_speed), so the walk takes longer.
+- movement_segment:
+    input: forward
+    duration_ms: 950
+    start:
+      map: hes_d10.blv
+      x: 5200
+      y: 1200
+      z: 0
+      yaw: 0
+      pitch: 0
+    expect_stop:
+      map: hes_d10.blv
+      x: 5800
+      y: 1200
+      z: 0
+      yaw: 0
+      pitch: 0
+    tolerance_xy: 100
+    tolerance_z: 40
+    loose_tolerance: true
+    actor_collision: false
+    actor_ai: false
+    delta_game_minutes: 0
+- set_pose:
+    map: hes_d10.blv
+    x: 7500
+    y: 1850
+    z: 0
+    yaw: 1.5707963
+    pitch: -0.3
+- press_interact:
+    expect:
+      kind: event_target
+- assert:
+    chest_opened:
+      chest_id: 1
+- press_action:
+    action: cancel_dialog
+- set_pose:
+    map: hes_d10.blv
+    x: 7400
+    y: 650
+    z: 0
+    yaw: -1.5707963
+    pitch: -0.45
+- press_interact:
+    expect:
+      kind: event_target
+- assert:
+    map_var_changed:
+      index: 3
+      value: 1
+- assert:
+    inventory_any_member:
+    - item_id: 11487
+- set_pose:
+    map: hes_d10.blv
+    x: 7400
+    y: 650
+    z: 0
+    yaw: -1.5707963
+    pitch: -0.45
+- press_interact:
+    expect:
+      kind: event_target
+- assert:
+    map_var_changed:
+      index: 3
+      value: 1
+- movement_segment:
+    input: forward
+    duration_ms: 2900
+    start:
+      map: hes_d10.blv
+      x: 1200
+      y: 160
+      z: 0
+      yaw: -1.5707963
+      pitch: 0
+    expect_stop:
+      map: hes_d10.blv
+      x: 1200
+      y: -2030
+      z: -512
+      yaw: -1.5707963
+      pitch: 0
+    tolerance_xy: 100
+    tolerance_z: 40
+    loose_tolerance: true
+    actor_collision: false
+    actor_ai: false
+    delta_game_minutes: 0
+- set_pose:
+    map: hes_d10.blv
+    x: 1700
+    y: -2700
+    z: -512
+    yaw: 1.5707963
+    pitch: -0.16
+- press_interact:
+    expect:
+      kind: event_target
+      triggered_event: 13
+- assert:
+    map_var_changed:
+      index: 2
+      value: 1
+- save_game:
+    name: hes_d10_partial
+- load_game:
+    name: hes_d10_partial
+- assert:
+    map_var_changed:
+      index: 2
+      value: 1
+- set_pose:
+    map: hes_d10.blv
+    x: 700
+    y: -2700
+    z: -512
+    yaw: 1.5707963
+    pitch: -0.16
+- press_interact:
+    expect:
+      kind: event_target
+      triggered_event: 12
+- assert:
+    map_var_changed:
+      index: 2
+      value: 0
+- assert:
+    party_health:
+      full: false
+- assert:
+    mechanism:
+      id: 3
+      state: closed
+- set_pose:
+    map: hes_d10.blv
+    x: 1700
+    y: -2700
+    z: -512
+    yaw: 1.5707963
+    pitch: -0.16
+- press_interact:
+    expect:
+      kind: event_target
+      triggered_event: 13
+- assert:
+    map_var_changed:
+      index: 2
+      value: 1
+- set_pose:
+    map: hes_d10.blv
+    x: 1700
+    y: -3700
+    z: -512
+    yaw: 1.5707963
+    pitch: -0.16
+- press_interact:
+    expect:
+      kind: event_target
+      triggered_event: 15
+- assert:
+    map_var_changed:
+      index: 2
+      value: 2
+- set_pose:
+    map: hes_d10.blv
+    x: 700
+    y: -2700
+    z: -512
+    yaw: 1.5707963
+    pitch: -0.16
+- press_interact:
+    expect:
+      kind: event_target
+      triggered_event: 12
+- assert:
+    map_var_changed:
+      index: 2
+      value: 3
+- set_pose:
+    map: hes_d10.blv
+    x: 700
+    y: -3700
+    z: -512
+    yaw: 1.5707963
+    pitch: -0.16
+- press_interact:
+    expect:
+      kind: event_target
+      triggered_event: 14
+- assert:
+    map_var_changed:
+      index: 2
+      value: 4
+- assert:
+    map_var_changed:
+      index: 1
+      value: 1
+- wait_until:
+    timeout_runtime_seconds: 3
+    assert:
+      mechanism:
+        id: 3
+        state: open
+- set_pose:
+    map: hes_d10.blv
+    x: 1850
+    y: -2800
+    z: -512
+    yaw: 0
+    pitch: 0
+- press_interact:
+    expect:
+      kind: event_target
+      triggered_event: 16
+- wait_until:
+    timeout_runtime_seconds: 3
+    assert:
+      mechanism:
+        id: 2
+        state: open
+- movement_segment:
+    input: forward
+    duration_ms: 730
+    start:
+      map: hes_d10.blv
+      x: 1850
+      y: -2800
+      z: -512
+      yaw: 0
+      pitch: 0
+    expect_stop:
+      map: hes_d10.blv
+      x: 2400
+      y: -2800
+      z: -512
+      yaw: 0
+      pitch: 0
+    tolerance_xy: 100
+    tolerance_z: 40
+    loose_tolerance: true
+    actor_collision: false
+    actor_ai: false
+    delta_game_minutes: 0
+- set_pose:
+    map: hes_d10.blv
+    x: 3120
+    y: -3250
+    z: -512
+    yaw: 1.5707963
+    pitch: -0.17
+- press_interact: {}
+- assert:
+    item_received:
+      item_id: 11420
+      source: world_item
+      destination: inventory
+- movement_segment:
+    input: forward
+    duration_ms: 1320
+    start:
+      map: hes_d10.blv
+      x: 550
+      y: -3000
+      z: -512
+      yaw: 3.1415927
+      pitch: 0
+    expect_stop:
+      map: hes_d10.blv
+      x: -450
+      y: -3000
+      z: -512
+      yaw: 3.1415927
+      pitch: 0
+    tolerance_xy: 100
+    tolerance_z: 40
+    loose_tolerance: true
+    actor_collision: false
+    actor_ai: false
+    delta_game_minutes: 0
+- set_pose:
+    map: hes_d10.blv
+    x: -800
+    y: -3350
+    z: -512
+    yaw: -1.5707963
+    pitch: -0.3
+- press_interact:
+    expect:
+      kind: event_target
+- assert:
+    chest_contains_quest_item:
+      chest_id: 2
+      item_id: 11481
+- assert:
+    chest_contains_quest_item:
+      chest_id: 2
+      item_id: 11332
+- assert:
+    chest_contains_quest_item:
+      chest_id: 2
+      item_id: 11331
+- assert:
+    item_received:
+      item_id: 11481
+      source: chest
+      chest_id: 2
+      destination: held
+- press_action:
+    action: cancel_dialog
+- assert:
+    qbit_set:
+    - 100103
+    qbit_clear:
+    - 100223
+- set_pose:
+    map: hes_d10.blv
+    x: -800
+    y: -2650
+    z: -512
+    yaw: 1.5707963
+    pitch: -0.2
+- press_interact:
+    expect:
+      kind: event_target
+- assert:
+    qbit_set:
+    - 100050
+- press_action:
+    action: cancel_dialog
+- save_game:
+    name: hes_d10_solved
+- load_game:
+    name: hes_d10_solved
+- assert:
+    map_var_changed:
+      index: 1
+      value: 1
+- assert:
+    map_var_changed:
+      index: 2
+      value: 4
+- wait_until:
+    timeout_runtime_seconds: 3
+    assert:
+      mechanism:
+        id: 3
+        state: open
+- movement_segment:
+    input: forward
+    duration_ms: 3000
+    start:
+      map: hes_d10.blv
+      x: 1200
+      y: -2000
+      z: -512
+      yaw: 1.5707963
+      pitch: 0
+    expect_stop:
+      map: hes_d10.blv
+      x: 1200
+      y: 180
+      z: 0
+      yaw: 1.5707963
+      pitch: 0
+    tolerance_xy: 100
+    tolerance_z: 40
+    loose_tolerance: true
+    actor_collision: false
+    actor_ai: false
+    delta_game_minutes: 0
+- set_pose:
+    map: hes_d10.blv
+    x: 1200
+    y: 2150
+    z: 0
+    yaw: 1.5707963
+    pitch: 0
+- press_interact:
+    expect:
+      kind: event_target
+      triggered_event: 2
+- select_topic:
+    kind: map_transition_confirm
+    source_id: 0
+    action_id: 0
+    secondary_id: 0
+    selection_index: 0
+    house_dialog: false
+    enabled: true
+    label: OK
+- assert:
+    map: hes_out1.odm

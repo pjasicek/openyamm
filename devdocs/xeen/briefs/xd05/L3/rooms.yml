@@ -1,0 +1,766 @@
+format: 0
+themes:
+  - id: theme:drum_hall
+    wall: {texture: gcav1wal, size: [256, 256]}
+    floor: {texture: cfb1, size: [128, 128]}
+    ceiling: {texture: gcav2wal, size: [128, 256]}
+    notes: "The drum hall (L2 drum_hall): gcav1wal rock walls, cfb1 dark trodden earth on the terraces and floor, a sooty roof lost in smoke."
+  - id: theme:dry_rock
+    wall: {texture: cwb1, size: [128, 256]}
+    floor: {texture: dirt1, size: [128, 128]}
+    ceiling: {texture: cwb1, size: [128, 256]}
+    notes: "The front (L2 dry_rock): the MM7 rough cave rock cwb1 on walls and ceilings, dirt1 pebbled earth underfoot. Mouth, outer and inner yard, the run, the upper ledge, the back gate."
+  - id: theme:firing_step
+    wall: {texture: cwb1, size: [128, 256]}
+    floor: {texture: bwoodb1, size: [256, 256]}
+    ceiling: {texture: cwb1, size: [128, 256]}
+    notes: "The firing steps and their stairs (L2 palisade_timber): bwoodb1 plank decking on cave rock; the palisade's own face is set per wall."
+  - id: theme:palisade
+    wall: {texture: bwooda1, size: [256, 256]}
+    floor: {texture: dirt1, size: [128, 128]}
+    ceiling: {texture: cwb1, size: [128, 256]}
+    door: {texture: bwooda1, size: [256, 256], fit: true}
+    notes: "The palisade's timber (L2 palisade_timber): bwooda1 upright planks for the gate passage's walls and the gate leaves, earth floor, cave rock overhead."
+  - id: theme:pool
+    wall: {texture: gcav2wal, size: [128, 256]}
+    floor: {texture: slimywtr, size: [128, 128]}
+    ceiling: {texture: gcav2wal, size: [128, 256]}
+    notes: "The snake pool's water lobe: wet rock round a floor painted as murky water (slimywtr)."
+  - id: theme:sooty_rock
+    wall: {texture: gcav1wal, size: [256, 256]}
+    floor: {texture: gcav1flr, size: [256, 256]}
+    ceiling: {texture: gcav2wal, size: [128, 256]}
+    notes: "The warren (L2 sooty_rock): MM8 cave rock gcav1wal and gcav1flr, blackened gcav2wal overhead. Cookfire cave, hollows, pit, plunder cache, shaman's den."
+  - id: theme:timber_deck
+    wall: {texture: gcav1wal, size: [256, 256]}
+    floor: {texture: bwoodb1, size: [256, 256]}
+    ceiling: {texture: gcav2wal, size: [128, 256]}
+    notes: "The drum scaffold and its gangway (L2 drum_hall): bwoodb1 decking; the scaffold's timber front is set per wall."
+  - id: theme:wet_rock
+    wall: {texture: gcav2wal, size: [128, 256]}
+    floor: {texture: gcav2flr, size: [128, 128]}
+    ceiling: {texture: gcav2wal, size: [128, 256]}
+    notes: "The deep caves (L2 wet_rock): streaked wet rock gcav2wal, dark gcav2flr floor. Bat chimney, snake pool, back tunnel."
+defaults: {theme: theme:dry_rock, ambient: 18}
+rooms:
+  - id: room:back_gate
+    name: Back gate
+    outline: [[1472, 11328], [2176, 11328], [2304, 11584], [2304, 12032], [1344, 12032], [1344, 11584]]
+    floor: 320
+    ceiling: 768
+    theme: theme:dry_rock
+    notes: "Rough guardroom about 960 by 700 at the tunnel's head; the barred gate (an exit panel, objects stage) is in the north wall, daylight under it."
+  - id: room:back_tunnel
+    name: "Back tunnel, first ramp"
+    outline: [[192, 9024], [576, 9024], [576, 9472], [192, 9472]]
+    floor: -640
+    slope: {to: -384, toward: north}
+    ceiling: 0
+    theme: theme:wet_rock
+    notes: "The back tunnel climbs 960 in about 2,900 of walking: four ramps and flights with two level bends, six rooms. This first leg rises 256 over 448 out of the floor's aisle."
+  - id: room:back_tunnel_bend1
+    name: "Back tunnel, first bend"
+    space: room:back_tunnel
+    outline: [[128, 9536], [640, 9536], [896, 9728], [896, 10112], [320, 10112], [128, 9920]]
+    floor: -384
+    ceiling: 128
+    theme: theme:wet_rock
+    notes: Level turn from north to east.
+  - id: room:back_tunnel_bend2
+    name: "Back tunnel, second bend"
+    space: room:back_tunnel
+    outline: [[1536, 9664], [1920, 9664], [2112, 9856], [2112, 10304], [1536, 10304]]
+    floor: -128
+    ceiling: 320
+    theme: theme:wet_rock
+    notes: Level turn from east to north.
+  - id: room:back_tunnel_mid
+    name: "Back tunnel, east ramp"
+    space: room:back_tunnel
+    outline: [[960, 9728], [1472, 9728], [1472, 10112], [960, 10112]]
+    floor: -384
+    slope: {to: -128, toward: east}
+    ceiling: 256
+    theme: theme:wet_rock
+    notes: "Rises 256 over 512, east."
+  - id: room:back_tunnel_steps
+    name: "Back tunnel, steps"
+    space: room:back_tunnel
+    outline: [[1600, 10368], [2048, 10368], [2048, 10752], [1600, 10752]]
+    floor: -128
+    slope: {to: 64, toward: north, steps: 6}
+    ceiling: 448
+    theme: theme:wet_rock
+    notes: "The steepest stretch: six rough steps of 32."
+  - id: room:back_tunnel_top
+    name: "Back tunnel, top ramp"
+    space: room:back_tunnel
+    outline: [[1600, 10816], [2048, 10816], [2048, 11264], [1600, 11264]]
+    floor: 64
+    slope: {to: 320, toward: north}
+    ceiling: 704
+    theme: theme:dry_rock
+    notes: "The last climb, rising 256 over 448, drying out toward daylight."
+  - id: room:bat_chimney
+    name: "Bat chimney, shaft"
+    outline: [[1600, 5824], [2112, 5824], [2304, 6016], [2304, 6464], [2112, 6656], [1408, 6656], [1408, 6016]]
+    floor: -384
+    ceiling: 1216
+    theme: theme:wet_rock
+    ambient: 24
+    notes: "The chimney's foot: a tall rounded shaft about 900 across, 1,600 clear, entered from the top terrace's east end; bats roost in the dark top. The climb is a rock gallery cut round its north, east and south sides (two landings and three ramps, six rooms) because a ledge cannot spiral inside a room: the foot landing opens wide off the shaft's north side and the top landing looks back down into it through a window in its south wall. Still not drawable: a ledge running round inside the shaft (stacked floors, R3-K7, and openings in a ramp's side walls)."
+  - id: room:cave_mouth
+    name: Cave mouth
+    outline: [[-576, 0], [576, 0], [512, 320], [256, 448], [384, 704], [-320, 704], [-512, 256]]
+    floor: 0
+    ceiling: 576
+    ambient: 8
+    notes: "A funnel 1,152 wide at the daylight (the south wall, where the X1 exit panel goes) narrowing to 704 at the palisade cave, a rock spur jutting from its east wall. The arrival stands in its middle, facing north. Still not drawable: the uneven floor and the skull poles' look (decorations)."
+  - id: room:chimney_foot
+    name: "Bat chimney, foot landing"
+    space: room:bat_chimney
+    outline: [[1408, 6720], [1856, 6720], [1856, 7040], [1408, 7040]]
+    floor: -384
+    ceiling: 128
+    theme: theme:wet_rock
+    notes: "The gallery's start, level with the shaft floor; the wet slope down to the snake pool leaves its north side."
+  - id: room:chimney_landing_ne
+    name: "Bat chimney, north-east landing"
+    space: room:bat_chimney
+    outline: [[2432, 6720], [2752, 6720], [2752, 7040], [2432, 7040]]
+    floor: -192
+    ceiling: 320
+    theme: theme:wet_rock
+    notes: Turn from east to south.
+  - id: room:chimney_landing_se
+    name: "Bat chimney, south-east landing"
+    space: room:bat_chimney
+    outline: [[2432, 5440], [2752, 5440], [2752, 5760], [2432, 5760]]
+    floor: 0
+    ceiling: 448
+    theme: theme:wet_rock
+    notes: Turn from south to west.
+  - id: room:chimney_ramp_e
+    name: "Bat chimney, east ramp"
+    space: room:bat_chimney
+    outline: [[2432, 5824], [2752, 5824], [2752, 6656], [2432, 6656]]
+    floor: -192
+    slope: {to: 0, toward: south}
+    ceiling: 384
+    theme: theme:wet_rock
+    notes: "Rises 192 over 832, south."
+  - id: room:chimney_ramp_n
+    name: "Bat chimney, north ramp"
+    space: room:bat_chimney
+    outline: [[1920, 6720], [2368, 6720], [2368, 7040], [1920, 7040]]
+    floor: -384
+    slope: {to: -192, toward: east}
+    ceiling: 192
+    theme: theme:wet_rock
+    notes: Rises 192 over 448.
+  - id: room:chimney_ramp_s
+    name: "Bat chimney, south ramp"
+    space: room:bat_chimney
+    outline: [[1920, 5440], [2368, 5440], [2368, 5760], [1920, 5760]]
+    floor: 0
+    slope: {to: 192, toward: west}
+    ceiling: 576
+    theme: theme:wet_rock
+    notes: "Rises 192 over 448, west."
+  - id: room:chimney_top
+    name: "Bat chimney, top landing"
+    space: room:bat_chimney
+    outline: [[1216, 5440], [1856, 5440], [1856, 5760], [1216, 5760]]
+    floor: 192
+    ceiling: 640
+    theme: theme:wet_rock
+    notes: "The top of the climb, level with the upper ledge, which leaves its south side; a window in its north wall looks 576 down the shaft."
+  - id: room:cookfire_cave
+    name: Cookfire cave
+    outline: [[-448, 4672], [448, 4672], [768, 4864], [1152, 4928], [1152, 5440], [768, 5568], [448, 5824], [-448, 5824], [-768, 5632], [-768, 4736]]
+    floor: -256
+    ceiling: 512
+    theme: theme:sooty_rock
+    platforms:
+      - {at: [0, 5248], size: [320, 320], rise: 40, surface: {texture: gcav2flr, size: [128, 128]}}
+      - {at: [0, 4928], size: [448, 96], rise: 24}
+      - {at: [0, 5568], size: [448, 96], rise: 24}
+      - {at: [-416, 5248], size: [96, 384], rise: 24}
+      - {at: [416, 5248], size: [96, 384], rise: 24}
+    notes: "A round cave about 1,900 by 1,150 with an east lobe under the upper ledge (a window high in its east wall). The fire pit is a stone hearth ring 40 high in the middle, four rock benches 24 high round it. Exits: the run (south), the ramp down to the drum hall (north), the shaman's steps and the hollows (both in the straight west wall). Still not drawable: the smoke hole over the fire (a shaped ceiling, R3-K5), and the hearth as a ring (a block here)."
+  - id: room:drum_gangway
+    name: Drum scaffold gangway
+    space: zone:drum_scaffold
+    outline: [[-1344, 8768], [-640, 8768], [-640, 9088], [-1344, 9088]]
+    floor: -384
+    slope: {to: -256, toward: east, steps: 4}
+    ceiling: 256
+    theme: theme:timber_deck
+    notes: "Four timber steps of 32 east from the west top terrace up to the scaffold (the L1 plan's ladder): the approach under the Drum-Master's spears."
+  - id: room:drum_hall
+    name: "Drum hall, floor"
+    outline: [[-576, 7552], [576, 7552], [576, 8960], [192, 8960], [192, 8448], [-576, 8448]]
+    floor: -640
+    ceiling: 896
+    theme: theme:drum_hall
+    walls:
+      - wall: 3
+        surface: {texture: bwooda1, size: [256, 256]}
+      - wall: 4
+        surface: {texture: bwooda1, size: [256, 256]}
+    notes: "The flat floor, 1,152 by 896, ringed by the three banks, with the scaffold's timber front 384 high along its north side (edge 4) and an aisle (edge 3 is its west side, the scaffold's flank) running north past the scaffold to the back tunnel. 1,536 clear: the roof is lost in smoke."
+  - id: room:drum_hall_e_bank
+    name: "Drum hall, east terraces"
+    space: room:drum_hall
+    outline: [[576, 7680], [1344, 7680], [1344, 8448], [576, 8448]]
+    floor: -384
+    slope: {to: -640, toward: west, steps: 8}
+    ceiling: 896
+    theme: theme:drum_hall
+    notes: "Mirror of the west terraces; its top (east end) is a rock wall with the snake cave behind it."
+  - id: room:drum_hall_entry
+    name: "Drum hall, entry ramp"
+    space: room:drum_hall
+    outline: [[-320, 5888], [320, 5888], [320, 6272], [-320, 6272]]
+    floor: -256
+    slope: {to: -384, toward: north}
+    ceiling: 384
+    theme: theme:drum_hall
+    notes: "The ramp down from the cookfire's north side onto the top terrace; at its foot the whole hall opens below."
+  - id: room:drum_hall_rim
+    name: "Drum hall, top terrace"
+    space: room:drum_hall
+    outline: [[-1344, 6336], [1344, 6336], [1344, 6656], [-1344, 6656]]
+    floor: -384
+    ceiling: 896
+    theme: theme:drum_hall
+    notes: "The top terrace along the hall's south side, 2,688 long: the entry ramp comes down onto its middle, the south terraces fall away from its north side, the bat chimney opens off its east end and the west top terrace off its west end. North of its two outer thirds stand the bowl's rock buttresses."
+  - id: room:drum_hall_s_bank
+    name: "Drum hall, south terraces"
+    space: room:drum_hall
+    outline: [[-576, 6656], [576, 6656], [576, 7552], [-576, 7552]]
+    floor: -384
+    slope: {to: -640, toward: north, steps: 8}
+    ceiling: 896
+    theme: theme:drum_hall
+    notes: "The south bank of terraces: 8 rock steps of 32 with treads of 112, 1,152 wide, down from the top terrace to the floor. A flight's side walls take no openings, so the three banks are separate flights and the bowl's south corners are solid rock buttresses (768 by 1,024)."
+  - id: room:drum_hall_shelf
+    name: "Drum hall, west top terrace"
+    space: room:drum_hall
+    outline: [[-1792, 6336], [-1408, 6336], [-1408, 9216], [-1792, 9216]]
+    floor: -384
+    ceiling: 256
+    theme: theme:drum_hall
+    notes: "A rock shelf 384 wide behind the west terraces, at the top terrace's level, running north from the south top terrace past the west bank's top to the gangway: the way up to the scaffold."
+  - id: room:drum_hall_w_bank
+    name: "Drum hall, west terraces"
+    space: room:drum_hall
+    outline: [[-1344, 7680], [-576, 7680], [-576, 8448], [-1344, 8448]]
+    floor: -384
+    slope: {to: -640, toward: east, steps: 8}
+    ceiling: 896
+    theme: theme:drum_hall
+    notes: "8 rock steps of 32 (treads of 96) down east to the floor; its top (west end) opens on the west top terrace."
+  - id: room:drum_scaffold
+    name: Drum scaffold
+    space: zone:drum_scaffold
+    outline: [[-576, 8512], [128, 8512], [128, 9216], [-576, 9216]]
+    floor: -256
+    ceiling: 896
+    theme: theme:timber_deck
+    walls:
+      - wall: south
+        surface: {texture: bwooda1, size: [256, 256]}
+    notes: "The timber stage 704 by 704 at the north end of the floor, 384 above it: its whole south side is open over a 48 rail, so it stands in the hall's smoke up to the roof. The great drum and two braziers on it. Still not drawable: a scaffold on legs standing free in the hall (a room cannot stand over another, R3-K7); here it is a timber-fronted stage in the hall's north wall."
+  - id: room:firing_step_e
+    name: "Firing step, east"
+    space: zone:firing_step
+    outline: [[384, 1536], [1024, 1536], [1024, 1792], [384, 1792]]
+    floor: 192
+    ceiling: 832
+    theme: theme:firing_step
+    walls:
+      - wall: south
+        surface: {texture: bwooda1, size: [256, 256]}
+      - wall: west
+        surface: {texture: bwooda1, size: [256, 256]}
+    notes: "Mirror of the west step; the signal drum stands at its east end, by the doorway to the upper ledge."
+  - id: room:firing_step_w
+    name: "Firing step, west"
+    space: zone:firing_step
+    outline: [[-1024, 1536], [-384, 1536], [-384, 1792], [-1024, 1792]]
+    floor: 192
+    ceiling: 832
+    theme: theme:firing_step
+    walls:
+      - wall: south
+        surface: {texture: bwooda1, size: [256, 256]}
+      - wall: east
+        surface: {texture: bwooda1, size: [256, 256]}
+    notes: "Plank walkway behind the palisade's west third, 640 by 256, 192 up. Archers shoot over the palisade (the opening to the outer yard, a 64 parapet) and down into the gate passage (a murder hole in its east wall)."
+  - id: room:loot_cache
+    name: Plunder cache
+    outline: [[-3264, 4352], [-2752, 4352], [-2752, 4864], [-3200, 4928], [-3392, 4672]]
+    floor: -224
+    ceiling: 160
+    theme: theme:sooty_rock
+    notes: "A low side cave (384 clear) behind the boulder at the hollows' west end; the boulder door goes in the 64 of rock between them."
+  - id: room:palisade_cave
+    name: "Palisade cave, outer yard"
+    outline: [[-640, 832], [704, 832], [960, 1024], [1024, 1216], [1024, 1472], [-1024, 1472], [-1024, 1216], [-896, 1024]]
+    floor: 0
+    ceiling: 832
+    walls:
+      - wall: north
+        surface: {texture: bwooda1, size: [256, 256]}
+    ambient: 12
+    notes: "The approach in front of the palisade (its north wall, timber, 64 thick). The firing steps stand behind the palisade's two outer thirds: their openings make the palisade a fence 256 high with the cave open above it, and the gate passage between them is timber to the roof. The rock ledge the archers use is 192 up; nothing on this side climbs to it."
+  - id: room:palisade_gate
+    name: Gate passage
+    space: room:palisade_yard
+    outline: [[-320, 1536], [320, 1536], [320, 2240], [-320, 2240]]
+    floor: 0
+    ceiling: 640
+    theme: theme:palisade
+    ambient: 14
+    notes: "The timber passage behind the palisade gate, 640 wide, between the two firing steps (64 of timber either side, each with a murder hole). The gate's double leaves are in its south wall."
+  - id: room:palisade_yard
+    name: "Palisade cave, inner yard"
+    outline: [[-1024, 2304], [1024, 2304], [1024, 2560], [896, 2752], [-768, 2752], [-1024, 2560]]
+    floor: 0
+    ceiling: 640
+    ambient: 14
+    notes: "The cave behind the palisade: the gate passage and both stairs open off its south wall, the run leaves its north-east."
+  - id: room:prisoner_pit
+    name: Prisoner pit
+    outline: [[-1792, 3712], [-1472, 3712], [-1280, 3904], [-1280, 4224], [-1408, 4416], [-1856, 4416], [-1984, 4224], [-1984, 3904]]
+    floor: -480
+    ceiling: 160
+    theme: theme:sooty_rock
+    notes: "A round pit about 700 across whose floor is 256 below the hollows. The opening in its north wall is the rim: its sill is the hollows' floor, a sheer 256 above Tam. The cage gate of lashed poles closes that opening; the rope ladder hangs from it (objects stage). Still not drawable here: the ladder (objects.yml has no ladders yet; a lift 256 in the pit is the stand-in)."
+  - id: room:run_bend
+    name: "Twisting run, bend"
+    space: room:twisting_run
+    outline: [[384, 3264], [960, 3264], [1216, 3520], [1216, 3968], [1024, 4096], [-128, 4096], [-128, 3840], [128, 3520]]
+    floor: -96
+    ceiling: 512
+    notes: "The S-bend's level belly, swinging east under the upper ledge and back west: about 1,300 by 830, taller than the legs (608 clear) so the ledge can look down into it through its east wall (a 288 drop plus a 64 rock lip). Still not drawable: the bend as a curve, the rock relief."
+  - id: room:run_upper
+    name: "Twisting run, upper ramp"
+    space: room:twisting_run
+    outline: [[-64, 4160], [448, 4160], [448, 4608], [-64, 4608]]
+    floor: -96
+    slope: {to: -256, toward: north}
+    ceiling: 352
+    notes: "The last leg, falling north into the cookfire cave's south side."
+  - id: room:shaman_den
+    name: Shaman's den
+    outline: [[-2048, 5184], [-1536, 5184], [-1280, 5312], [-1280, 5888], [-1536, 6080], [-2048, 6080], [-2304, 5888], [-2304, 5376]]
+    floor: -192
+    ceiling: 256
+    theme: theme:sooty_rock
+    walls:
+      - wall: west
+        surface: {texture: cws1a, size: [128, 256]}
+    platforms:
+      - {at: [-2048, 5632], size: [320, 256], rise: 32}
+    notes: "An oval den about 1,000 by 900; the west wall is rock with bones set in it (cws1a). The spirit drum stands on the skull-pile dais (a block 32 high) before that wall; the shaman's chest beside it."
+  - id: room:shaman_steps
+    name: Shaman's steps
+    space: room:shaman_den
+    outline: [[-1216, 5248], [-832, 5248], [-832, 5568], [-1216, 5568]]
+    floor: -256
+    slope: {to: -192, toward: west, steps: 2}
+    ceiling: 192
+    theme: theme:sooty_rock
+    notes: A short hide-hung passage with two steps of 32 up from the cookfire to the den (the L1 plan's 64 between them). The hide curtain is dressing.
+  - id: room:sleeping_hollows
+    name: Sleeping hollows
+    outline: [[-832, 4480], [-832, 5120], [-1344, 5120], [-1792, 5056], [-2304, 5056], [-2560, 4992], [-2688, 4800], [-2688, 4416], [-2496, 4288], [-2048, 4288], [-1920, 4480], [-1344, 4480], [-1216, 4352], [-960, 4352]]
+    floor: -224
+    ceiling: 224
+    theme: theme:sooty_rock
+    notes: "A crooked passage about 1,850 long running west from the cookfire, 32 above it, with three rounded sleeping hollows: one by the entrance (south), one in the south-west, one at the west end where the drag marks end at the boulder. The pit's rim is the straight stretch of the south wall between the first two."
+  - id: room:snake_pool
+    name: "Snake pool, shore"
+    outline: [[1408, 7616], [1856, 7616], [1984, 7808], [1984, 8448], [1792, 8640], [1536, 8640], [1408, 8448]]
+    floor: -704
+    ceiling: -128
+    theme: theme:wet_rock
+    notes: "The kidney's dry west lobe; the pool fills the east lobe. Behind its west wall (64 of rock) is the top of the east terraces."
+  - id: room:snake_pool_water
+    name: "Snake pool, water"
+    space: room:snake_pool
+    outline: [[1984, 7808], [2304, 7744], [2496, 8000], [2432, 8384], [2240, 8576], [1984, 8448]]
+    floor: -736
+    ceiling: -128
+    theme: theme:pool
+    notes: "The kidney's east lobe, one step (32) below the shore, its floor painted as murky water (slimywtr); the sunken chest lies here. Still not drawable: liquid (the water's surface and wading, and the pool sunk inside the cave's floor: a sunken region, R3-K6)."
+  - id: room:snake_slope
+    name: "Snake pool, wet slope"
+    space: room:snake_pool
+    outline: [[1408, 7104], [1856, 7104], [1856, 7552], [1408, 7552]]
+    floor: -384
+    slope: {to: -704, toward: north}
+    ceiling: 0
+    theme: theme:wet_rock
+    notes: The wet slope from the chimney's foot landing down 320 over 448 into the snake cave.
+  - id: room:stair_e
+    name: "Firing step stair, east"
+    space: room:palisade_yard
+    outline: [[576, 1856], [1024, 1856], [1024, 2240], [576, 2240]]
+    floor: 0
+    slope: {to: 192, toward: south, steps: 6}
+    ceiling: 640
+    theme: theme:firing_step
+    notes: Mirror of the west stair.
+  - id: room:stair_w
+    name: "Firing step stair, west"
+    space: room:palisade_yard
+    outline: [[-1024, 1856], [-576, 1856], [-576, 2240], [-1024, 2240]]
+    floor: 0
+    slope: {to: 192, toward: south, steps: 6}
+    ceiling: 640
+    theme: theme:firing_step
+    notes: Six timber steps of 32 up from the inner yard to the west firing step (the L1 ladder).
+  - id: room:twisting_run
+    name: "Twisting run, lower ramp"
+    outline: [[448, 2816], [896, 2816], [896, 3200], [448, 3200]]
+    floor: 0
+    slope: {to: -96, toward: north}
+    ceiling: 448
+    notes: "The run's first leg, 448 wide, falling gently north out of the inner yard. The run is three rooms (this ramp, the bend, the upper ramp) because a ramp must be straight and convex."
+  - id: room:upper_ledge
+    name: Upper ledge
+    path: [[1440, 5376], [1440, 1664], [1088, 1664]]
+    width: 320
+    floor: 192
+    ceiling: 576
+    theme: theme:dry_rock
+    notes: "A natural ledge 320 wide and about 4,000 long at 192, from the chimney's top landing south to the east firing step. Two windows in its west side with a 64 rock lip look down into the cookfire cave (448 down) and the run's bend (288 down); the party can drop through either, but not climb back. It comes onto the east firing step from the east, behind the archers."
+openings:
+  - id: open:bend1_mid
+    from: room:back_tunnel_bend1
+    to: room:back_tunnel_mid
+    width: 320
+    height: 320
+  - id: open:bend2_steps
+    from: room:back_tunnel_bend2
+    to: room:back_tunnel_steps
+    width: 384
+    height: 320
+  - id: open:bend_upper
+    from: room:run_bend
+    to: room:run_upper
+    width: 448
+    height: 320
+  - id: open:chimney_foot
+    from: room:bat_chimney
+    to: room:chimney_foot
+    width: 384
+    height: 448
+  - id: open:chimney_ledge
+    from: room:chimney_top
+    to: room:upper_ledge
+    link: link:chimney_upper_ledge
+    width: 288
+    height: 320
+  - id: open:cookfire_entry
+    from: room:cookfire_cave
+    to: room:drum_hall_entry
+    link: link:cookfire_drum_hall
+    width: 448
+    height: 384
+  - id: open:cookfire_hollows
+    from: room:cookfire_cave
+    to: room:sleeping_hollows
+    link: link:cookfire_hollows
+    width: 320
+    height: 320
+  - id: open:cookfire_shaman
+    from: room:cookfire_cave
+    to: room:shaman_steps
+    link: link:cookfire_shaman
+    width: 256
+    height: 320
+    notes: The hide curtain.
+  - id: open:e_bank_floor
+    from: room:drum_hall_e_bank
+    to: room:drum_hall
+    width: 736
+    height: 1472
+    notes: The foot of the east terraces.
+  - id: open:entry_rim
+    from: room:drum_hall_entry
+    to: room:drum_hall_rim
+    width: 576
+    height: 512
+    notes: The view over the hall opens here.
+  - id: open:foot_ramp_n
+    from: room:chimney_foot
+    to: room:chimney_ramp_n
+    width: 256
+    height: 320
+  - id: open:foot_snake_slope
+    from: room:chimney_foot
+    to: room:snake_slope
+    link: link:chimney_snake_pool
+    width: 384
+    height: 320
+  - id: open:gangway_scaffold
+    from: room:drum_gangway
+    to: room:drum_scaffold
+    width: 256
+    height: 320
+  - id: open:gate_yard
+    from: room:palisade_gate
+    to: room:palisade_yard
+    width: 448
+    height: 384
+    notes: "The gate passage's inner end, open."
+  - id: open:hall_back_tunnel
+    from: room:drum_hall
+    to: room:back_tunnel
+    link: link:drum_hall_back_tunnel
+    width: 352
+    height: 384
+    notes: The north end of the floor's aisle.
+  - id: open:hollows_loot
+    from: room:sleeping_hollows
+    to: room:loot_cache
+    link: link:hollows_loot_cache
+    width: 192
+    height: 224
+    notes: "Behind the boulder (a secret door, objects stage), 64 of rock."
+  - id: open:hollows_pit
+    from: room:sleeping_hollows
+    to: room:prisoner_pit
+    link: link:hollows_prisoner_pit
+    width: 256
+    height: 256
+    notes: "The pit's rim: the cage gate and the rope ladder (objects stage); 256 sheer below the sill on the pit side."
+  - id: open:ledge_cookfire
+    from: room:upper_ledge
+    to: room:cookfire_cave
+    link: link:ledge_cookfire_overlook
+    width: 384
+    height: 192
+    sill: 64
+    notes: "A rock lip 64 high, just under the cookfire cave's smoke; 448 down to its floor."
+  - id: open:ledge_run
+    from: room:upper_ledge
+    to: room:run_bend
+    link: link:ledge_run_overlook
+    width: 384
+    height: 192
+    sill: 64
+    notes: "A rock lip 64 high; below it 288 to the bend's floor."
+  - id: open:ledge_step_e
+    from: room:upper_ledge
+    to: room:firing_step_e
+    link: link:firing_step_upper_ledge
+    width: 224
+    height: 256
+  - id: open:mid_bend2
+    from: room:back_tunnel_mid
+    to: room:back_tunnel_bend2
+    width: 320
+    height: 320
+  - id: open:mouth_palisade
+    from: room:cave_mouth
+    to: room:palisade_cave
+    link: link:mouth_palisade
+    width: 512
+    height: 448
+    notes: "Open rock, 128 thick."
+  - id: open:ne_ramp_e
+    from: room:chimney_landing_ne
+    to: room:chimney_ramp_e
+    width: 256
+    height: 320
+  - id: open:palisade_gate
+    from: room:palisade_cave
+    to: room:palisade_gate
+    link: link:palisade_gate
+    width: 384
+    height: 320
+    notes: "The palisade gate: two timber leaves in 64 of timber (objects stage)."
+  - id: open:ramp_e_se
+    from: room:chimney_ramp_e
+    to: room:chimney_landing_se
+    width: 256
+    height: 320
+  - id: open:ramp_n_ne
+    from: room:chimney_ramp_n
+    to: room:chimney_landing_ne
+    width: 256
+    height: 320
+  - id: open:ramp_s_top
+    from: room:chimney_ramp_s
+    to: room:chimney_top
+    width: 256
+    height: 320
+  - id: open:rim_chimney
+    from: room:drum_hall_rim
+    to: room:bat_chimney
+    link: link:drum_hall_chimney
+    width: 288
+    height: 512
+    notes: From the top terrace's east end into the shaft's foot.
+  - id: open:rim_s_bank
+    from: room:drum_hall_rim
+    to: room:drum_hall_s_bank
+    width: 1120
+    height: 1280
+    notes: "The top terrace runs into the head of the south terraces along their whole width (16 of rock at each end); the rooms touch."
+  - id: open:rim_shelf
+    from: room:drum_hall_rim
+    to: room:drum_hall_shelf
+    width: 288
+    height: 448
+  - id: open:run_bend
+    from: room:twisting_run
+    to: room:run_bend
+    width: 384
+    height: 320
+  - id: open:run_cookfire
+    from: room:run_upper
+    to: room:cookfire_cave
+    link: link:run_cookfire
+    width: 448
+    height: 320
+  - id: open:s_bank_floor
+    from: room:drum_hall_s_bank
+    to: room:drum_hall
+    width: 1120
+    height: 1472
+    notes: "The foot of the south terraces; the rooms touch."
+  - id: open:scaffold_floor
+    from: room:drum_scaffold
+    to: room:drum_hall
+    link: link:scaffold_overlook
+    width: 640
+    height: 1104
+    sill: 48
+    notes: "The scaffold's open front over a 48 rail, up to the roof: 384 above the floor, which nothing climbs."
+  - id: open:se_ramp_s
+    from: room:chimney_landing_se
+    to: room:chimney_ramp_s
+    width: 256
+    height: 320
+  - id: open:shaman_steps_den
+    from: room:shaman_steps
+    to: room:shaman_den
+    width: 224
+    height: 256
+  - id: open:shelf_gangway
+    from: room:drum_hall_shelf
+    to: room:drum_gangway
+    link: link:drum_hall_scaffold
+    width: 256
+    height: 320
+  - id: open:shore_water
+    from: room:snake_pool
+    to: room:snake_pool_water
+    width: 608
+    height: 512
+    notes: "The waterline; the rooms touch."
+  - id: open:slope_shore
+    from: room:snake_slope
+    to: room:snake_pool
+    width: 384
+    height: 384
+  - id: open:stair_e_step
+    from: room:stair_e
+    to: room:firing_step_e
+    width: 320
+    height: 256
+  - id: open:stair_w_step
+    from: room:stair_w
+    to: room:firing_step_w
+    width: 320
+    height: 256
+  - id: open:step_e_gate
+    from: room:firing_step_e
+    to: room:palisade_gate
+    width: 192
+    height: 192
+    sill: 64
+    notes: Murder hole into the gate passage.
+  - id: open:step_e_yard
+    from: room:firing_step_e
+    to: room:palisade_cave
+    link: link:firing_step_overlook
+    width: 576
+    height: 576
+    sill: 64
+    notes: "The east third of the palisade, as the west."
+  - id: open:step_w_gate
+    from: room:firing_step_w
+    to: room:palisade_gate
+    width: 192
+    height: 192
+    sill: 64
+    notes: Murder hole into the gate passage.
+  - id: open:step_w_yard
+    from: room:firing_step_w
+    to: room:palisade_cave
+    link: link:firing_step_overlook
+    width: 576
+    height: 576
+    sill: 64
+    notes: "The west third of the palisade: a 64 parapet, then open to the cave roof. Archers shoot down over it; the party can drop from the step, not climb to it."
+  - id: open:steps_top
+    from: room:back_tunnel_steps
+    to: room:back_tunnel_top
+    width: 384
+    height: 320
+  - id: open:top_window
+    from: room:chimney_top
+    to: room:bat_chimney
+    width: 224
+    height: 320
+    sill: 64
+    notes: "A window over a rock lip, 576 above the shaft floor."
+  - id: open:tunnel_bend1
+    from: room:back_tunnel
+    to: room:back_tunnel_bend1
+    width: 320
+    height: 384
+  - id: open:tunnel_gate
+    from: room:back_tunnel_top
+    to: room:back_gate
+    link: link:back_tunnel_gate
+    width: 384
+    height: 384
+  - id: open:w_bank_floor
+    from: room:drum_hall_w_bank
+    to: room:drum_hall
+    width: 736
+    height: 1472
+    notes: The foot of the west terraces.
+  - id: open:w_bank_shelf
+    from: room:drum_hall_w_bank
+    to: room:drum_hall_shelf
+    width: 704
+    height: 576
+    notes: The head of the west terraces.
+  - id: open:yard_run
+    from: room:palisade_yard
+    to: room:twisting_run
+    link: link:yard_run
+    width: 384
+    height: 352
+  - id: open:yard_stair_e
+    from: room:palisade_yard
+    to: room:stair_e
+    link: link:firing_step_stairs
+    width: 320
+    height: 256
+  - id: open:yard_stair_w
+    from: room:palisade_yard
+    to: room:stair_w
+    link: link:firing_step_stairs
+    width: 320
+    height: 256
+notes: "The to-scale sketch of the Orc Caves, in whole map units: x east, y north, origin at the middle of the cave mouth's daylight edge; heights from the plan's datum, the arrival floor (0). Every corner is on a 64 grid. A plan space is one room except where a ramp or a flight must be its own straight, convex room, or where a shape needs pieces: the palisade cave (outer yard; behind the gate the inner yard space: gate passage, two stairs, yard), the firing step (two rooms), the run (3), the drum hall (8: entry ramp, top terrace, three banks of terraces, floor, west top terrace; the scaffold and its gangway are the scaffold zone), the bat chimney (8), the snake pool (3), the back tunnel (6) and the shaman's den (2); the extra rooms name their space and the openings between them carry no plan link. Rooms an opening joins are 64 apart (a rock or timber wall) except inside the drum hall's bowl and at the pool's waterline, where they touch. Every floor change on the critical path is a ramp, a flight or a level doorway, so the arrival walks to all three drums; the drops are deliberate one-way ledges (firing steps 192 over the palisade, the upper ledge 288 and 448, the scaffold 384, the pit 256). Lowest ceiling 384 clear. Still not drawable (gaps): the ladders (objects.yml has none; timber stairs replace the firing-step and scaffold ladders and a lift stands in for the rope ladder), a scaffold standing free in the hall and a ledge spiralling inside the chimney (R3-K7), the smoke hole and the roof's shape (R3-K5), curved terraces and openings without jambs (R3-K9; the banks are three straight flights between rock buttresses), the pool's liquid and sunken basin (R3-K6), rock relief, and the double gate, the sideways-rolling boulder and the drums as burnable props (objects stage)."

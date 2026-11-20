@@ -1,0 +1,519 @@
+# Written by output/studio_cal/mm8_d05/mkplay.py in round one and edited by hand since. Event and door numbers are those of ids.lock.yml.
+id: studio.calib_mm8_d05.walk
+title: 'Abandoned Temple rebuild: the critical path and every mechanism'
+world: mm8
+mode: faithful
+steps:
+- new_game_flow: {start_map: calib_mm8_d05.blv}
+- assert: {map: calib_mm8_d05.blv}
+- setup_shortcut: {kind: immortal, value: true}
+- play_lua: {source: 'wait(1.5)
+
+      '}
+- assert:
+    party_position: {x: -3008, y: -1696, radius: 120, z_min: 2456, z_max: 2476}
+- advance_runtime: {seconds: 1, present_dialogs: true}
+- press_action: {action: escape}
+- walk_to: {x: -3008, y: -1560, z: 2432, radius: 48, timeout_seconds: 90, clear_hostiles: 1500}
+- play_lua: {source: 'wait(1.5)
+
+      '}
+- assert:
+    party_position: {x: -3008, y: -1560, radius: 120, z_min: 2424, z_max: 2440}
+- walk_to: {x: -2760, y: -1380, z: 2432, radius: 48, timeout_seconds: 90, clear_hostiles: 1500}
+- walk_to: {x: -2760, y: -1110, z: 2304, radius: 48, timeout_seconds: 90, clear_hostiles: 1500}
+- play_lua: {source: 'wait(1.5)
+
+      '}
+- assert:
+    party_position: {x: -2760, y: -1110, radius: 120, z_min: 2296, z_max: 2344}
+- walk_to: {x: -3264, y: -1090, z: 2048, radius: 48, timeout_seconds: 90, clear_hostiles: 1500}
+- play_lua: {source: 'wait(1.5)
+
+      '}
+- assert:
+    party_position: {x: -3264, y: -1090, radius: 120, z_min: 2040, z_max: 2088}
+- walk_to: {x: -3264, y: -1500, z: 1920, radius: 48, timeout_seconds: 90, clear_hostiles: 1500}
+- play_lua: {source: 'wait(1.5)
+
+      '}
+- assert:
+    party_position: {x: -3264, y: -1500, radius: 120, z_min: 1912, z_max: 1960}
+- walk_to: {x: -2800, y: -1480, z: 1920, radius: 48, timeout_seconds: 90, clear_hostiles: 1500}
+- walk_to: {x: -2800, y: -420, z: 1650, radius: 48, timeout_seconds: 90, clear_hostiles: 1500}
+- play_lua: {source: 'wait(1.5)
+
+      '}
+- assert:
+    party_position: {x: -2800, y: -420, radius: 120, z_min: 1600, z_max: 1700}
+- walk_to: {x: -2800, y: -224, z: 1616, radius: 48, timeout_seconds: 90, clear_hostiles: 1500}
+- walk_to: {x: -3900, y: -224, z: 1340, radius: 48, timeout_seconds: 90, clear_hostiles: 1500}
+- walk_to: {x: -4080, y: -224, z: 1328, radius: 48, timeout_seconds: 90, clear_hostiles: 1500}
+- play_lua: {source: 'wait(1.5)
+
+      '}
+- assert:
+    party_position: {x: -4080, y: -224, radius: 120, z_min: 1320, z_max: 1336}
+- walk_to: {x: -4080, y: -1700, z: 960, radius: 48, timeout_seconds: 90, clear_hostiles: 1500}
+- walk_to: {x: -4080, y: -2000, z: 944, radius: 48, timeout_seconds: 90, clear_hostiles: 1500}
+- play_lua: {source: 'wait(1.5)
+
+      '}
+- assert:
+    party_position: {x: -4080, y: -2000, radius: 140, z_min: 940, z_max: 950}
+- walk_to: {x: -2760, y: -1344, z: 944, radius: 48, timeout_seconds: 120, clear_hostiles: 1500}
+- walk_to: {x: -1830, y: -1344, z: 560, radius: 48, timeout_seconds: 90, clear_hostiles: 1500}
+- play_lua: {source: 'wait(1.5)
+
+      '}
+- assert:
+    party_position: {x: -1830, y: -1344, radius: 120, z_min: 540, z_max: 640}
+- walk_to: {x: -1560, y: -1380, z: 528, radius: 48, timeout_seconds: 90, clear_hostiles: 1500}
+- walk_to: {x: -1340, y: -1600, z: 480, radius: 48, timeout_seconds: 90, clear_hostiles: 1500}
+- walk_to: {x: -1100, y: -1740, z: 440, radius: 48, timeout_seconds: 90, clear_hostiles: 1500}
+- walk_to: {x: -832, y: -1728, z: 384, radius: 48, timeout_seconds: 90, clear_hostiles: 1500}
+- walk_to: {x: -560, y: -1690, z: 345, radius: 48, timeout_seconds: 90, clear_hostiles: 1500}
+- walk_to: {x: -380, y: -1470, z: 345, radius: 48, timeout_seconds: 90, clear_hostiles: 1500}
+- walk_to: {x: -200, y: -1220, z: 280, radius: 48, timeout_seconds: 90, clear_hostiles: 1500}
+- walk_to: {x: 0, y: -1060, z: 225, radius: 48, timeout_seconds: 90, clear_hostiles: 1500}
+- walk_to: {x: 64, y: -860, z: 180, radius: 48, timeout_seconds: 90, clear_hostiles: 1500}
+- walk_to: {x: 64, y: -700, z: 160, radius: 48, timeout_seconds: 90, clear_hostiles: 1500}
+- walk_to: {x: 64, y: -512, z: 160, radius: 48, timeout_seconds: 90, clear_hostiles: 1500}
+- play_lua: {source: 'wait(1.5)
+
+      '}
+- assert:
+    party_position: {x: 64, y: -512, radius: 120, z_min: 152, z_max: 168}
+- play_lua: {source: 'for d = 120, 125 do if door_state(d) ~= "open" then error("stone " .. d .. " does not start up: " .. door_state(d)) end end
+
+      '}
+- walk_to: {x: 64, y: -400, z: 160, radius: 16, timeout_seconds: 60, clear_hostiles: 1500}
+- movement_segment: {input: forward, seconds: 0.3, jump: true, actor_collision: false, actor_ai: false, start: {map: calib_mm8_d05.blv, x: 64, y: -400, z: 160, yaw: 1.5708, pitch: 0}, expect_stop: {map: calib_mm8_d05.blv, x: 64, y: -160, z: 240, yaw: 1.5708, pitch: 0}, loose_tolerance: true, tolerance_xy: 200, tolerance_z: 200}
+- play_lua: {source: 'wait(7)
+
+      if door_state(120) ~= "closed" then error("stepping onto stone 94 did not sink it: " .. door_state(120)) end
+
+      '}
+- assert:
+    party_position: {x: 64, y: -128, radius: 100, z_min: 24, z_max: 48}
+- walk_to: {x: 64, y: -300, z: 0, radius: 24, timeout_seconds: 90, clear_hostiles: 1500}
+- play_lua: {source: 'wait(1.5)
+
+      '}
+- assert:
+    party_position: {x: 64, y: -300, radius: 100, z_min: -4, z_max: 8}
+- play_lua: {source: 'wait(4)
+
+      for d = 19, 22 do if door_state(d) ~= "open" then error("touching the floor did not open alcove slab " .. d .. ": " .. door_state(d)) end end
+
+      '}
+- walk_to: {x: -416, y: -300, z: 0, radius: 48, timeout_seconds: 90, clear_hostiles: 1500}
+- walk_to: {x: -416, y: -512, z: 32, radius: 48, timeout_seconds: 90, clear_hostiles: 1500}
+- walk_to: {x: 0, y: -512, z: 160, radius: 48, timeout_seconds: 90, clear_hostiles: 1500}
+- play_lua: {source: 'wait(5)
+
+      if door_state(120) ~= "open" then error("stepping on the dais did not raise stone 94: " .. door_state(120)) end
+
+      '}
+- walk_to: {x: 64, y: -512, z: 160, radius: 48, timeout_seconds: 90, clear_hostiles: 1500}
+- walk_to: {x: 64, y: -400, z: 160, radius: 16, timeout_seconds: 60, clear_hostiles: 1500}
+- movement_segment: {input: forward, seconds: 0.3, jump: true, actor_collision: false, actor_ai: false, start: {map: calib_mm8_d05.blv, x: 64, y: -400, z: 160, yaw: 1.5708, pitch: 0}, expect_stop: {map: calib_mm8_d05.blv, x: 64, y: -160, z: 240, yaw: 1.5708, pitch: 0}, loose_tolerance: true, tolerance_xy: 200, tolerance_z: 200}
+- play_lua: {source: 'wait(7)
+
+      if door_state(120) ~= "closed" then error("stone 94 did not sink again when stepped on") end
+
+      '}
+- walk_to: {x: 64, y: -250, z: 0, radius: 48, timeout_seconds: 90, clear_hostiles: 1500}
+- play_lua: {source: 'click(73); wait(2)
+
+      if door_state(3) ~= "closed" then error("step button 2 worked before button 1") end
+
+      log("button 2 first: " .. status())
+
+      '}
+- walk_to: {x: -660, y: 896, z: 0, radius: 48, timeout_seconds: 90, clear_hostiles: 1500}
+- play_lua: {source: 'click(72); wait(4)
+
+      if door_state(1) ~= "open" or door_state(2) ~= "open" then error("button 1 did not raise the first steps") end
+
+      if door_state(116) ~= "closed" then error("alcove button 1 did not go into the wall: " .. door_state(116)) end
+
+      '}
+- walk_to: {x: 0, y: 896, z: 0, radius: 48, timeout_seconds: 90, clear_hostiles: 1500}
+- walk_to: {x: 790, y: 896, z: 0, radius: 48, timeout_seconds: 90, clear_hostiles: 1500}
+- play_lua: {source: 'click(73); wait(4)
+
+      if door_state(3) ~= "open" then error("button 2 did not raise its steps") end
+
+      '}
+- walk_to: {x: 300, y: 300, z: 0, radius: 48, timeout_seconds: 90, clear_hostiles: 1500}
+- walk_to: {x: -300, y: 0, z: 0, radius: 48, timeout_seconds: 90, clear_hostiles: 1500}
+- walk_to: {x: -660, y: 0, z: 0, radius: 48, timeout_seconds: 90, clear_hostiles: 1500}
+- play_lua: {source: 'click(74); wait(4)
+
+      if door_state(5) ~= "open" then error("button 3 did not raise its steps") end
+
+      '}
+- walk_to: {x: 0, y: -250, z: 0, radius: 48, timeout_seconds: 90, clear_hostiles: 1500}
+- walk_to: {x: 790, y: 0, z: 0, radius: 48, timeout_seconds: 90, clear_hostiles: 1500}
+- play_lua: {source: 'click(75); wait(4)
+
+      if door_state(7) ~= "open" then error("button 4 did not raise its steps") end
+
+      '}
+- walk_to: {x: 560, y: 600, z: 0, radius: 48, timeout_seconds: 90, clear_hostiles: 1500}
+- walk_to: {x: 580, y: 1200, z: 0, radius: 48, timeout_seconds: 90, clear_hostiles: 1500}
+- walk_to: {x: 560, y: 1344, z: 0, radius: 60, timeout_seconds: 90, clear_hostiles: 1500}
+- walk_to: {x: 64, y: 1344, z: 160, radius: 48, timeout_seconds: 90, clear_hostiles: 1500}
+- play_lua: {source: 'wait(1.5)
+
+      '}
+- assert:
+    party_position: {x: 64, y: 1344, radius: 120, z_min: 150, z_max: 170}
+- walk_to: {x: 64, y: 1500, z: 160, radius: 48, timeout_seconds: 90, clear_hostiles: 1500}
+- walk_to: {x: 64, y: 1792, z: 160, radius: 48, timeout_seconds: 90, clear_hostiles: 1500}
+- play_lua: {source: 'click(58); wait(6)
+
+      if door_state(23) ~= "open" then error("event 58 did not open door 23: " .. door_state(23)) end
+
+      '}
+- walk_to: {x: -200, y: 1792, z: 160, radius: 70, timeout_seconds: 90, clear_hostiles: 1500}
+# The lead, 2026-11-13: the packs fill with earlier chests' random items, and whether a quest item still fitted
+# depended on what they rolled (one run in four failed at chest 19). A player drops spare things first; the
+# things the walk asserts are kept.
+- play_lua: {source: 'local keep = {[652] = true, [750] = true, [630] = true, [626] = true, [186] = true}
+
+      for id in string.gmatch(pack_items(), "(%d+)x%d+") do id = tonumber(id); if not keep[id] then while item_count(id) > 0 and discard(id) do end end end
+
+      loot_chest(43)
+
+      if not has_item(652) then error("the Prophecies of the Snake from chest 0 was not taken") end
+
+      '}
+- walk_to: {x: 64, y: 1792, z: 160, radius: 48, timeout_seconds: 90, clear_hostiles: 1500}
+- play_lua: {source: 'click(59); wait(6)
+
+      if door_state(24) ~= "open" then error("event 59 did not open door 24: " .. door_state(24)) end
+
+      '}
+- walk_to: {x: 330, y: 1792, z: 160, radius: 70, timeout_seconds: 90, clear_hostiles: 1500}
+- play_lua: {source: 'local keep = {[652] = true, [750] = true, [630] = true, [626] = true, [186] = true}
+
+      for id in string.gmatch(pack_items(), "(%d+)x%d+") do id = tonumber(id); if not keep[id] then while item_count(id) > 0 and discard(id) do end end end
+
+      loot_chest(44)
+
+      if not has_item(750) then error("the Old Scroll from chest 1 was not taken") end
+
+      '}
+- walk_to: {x: 64, y: 1792, z: 160, radius: 48, timeout_seconds: 90, clear_hostiles: 1500}
+- walk_to: {x: 64, y: 2304, z: 160, radius: 48, timeout_seconds: 90, clear_hostiles: 1500}
+- walk_to: {x: 700, y: 2304, z: -64, radius: 48, timeout_seconds: 90, clear_hostiles: 1500}
+- walk_to: {x: 1640, y: 2304, z: -352, radius: 48, timeout_seconds: 90, clear_hostiles: 1500}
+- play_lua: {source: 'wait(1.5)
+
+      '}
+- assert:
+    party_position: {x: 1640, y: 2304, radius: 120, z_min: -360, z_max: -340}
+- play_lua: {source: 'click(60); wait(6)
+
+      if door_state(25) ~= "open" then error("event 60 did not open door 25: " .. door_state(25)) end
+
+      '}
+- walk_to: {x: 2300, y: 2304, z: -352, radius: 48, timeout_seconds: 90, clear_hostiles: 1500}
+- walk_to: {x: 2500, y: 2700, z: -1056, radius: 140, timeout_seconds: 90, clear_hostiles: 1500}
+- play_lua: {source: 'wait(2)
+
+      '}
+- play_lua: {source: 'wait(1.5)
+
+      '}
+- assert:
+    party_position: {x: 2500, y: 2700, radius: 200, z_min: -1060, z_max: -1050}
+- assert:
+    pressure_plate_triggered: {event_id: 89}
+- assert:
+    state_dump_map_var: {index: 56, value: 1}
+- assert:
+    state_dump_map_var: {index: 57, value: 1}
+- walk_to: {x: 2400, y: 2304, z: -1056, radius: 48, timeout_seconds: 90, clear_hostiles: 1500}
+- walk_to: {x: 2112, y: 2304, z: -1056, radius: 48, timeout_seconds: 90, clear_hostiles: 1500}
+- walk_to: {x: 900, y: 2304, z: -1056, radius: 48, timeout_seconds: 120, clear_hostiles: 1500}
+- walk_to: {x: 500, y: 2304, z: -880, radius: 48, timeout_seconds: 90, clear_hostiles: 1500}
+- walk_to: {x: 250, y: 2304, z: -864, radius: 48, timeout_seconds: 90, clear_hostiles: 1500}
+- walk_to: {x: 250, y: 2688, z: -864, radius: 48, timeout_seconds: 90, clear_hostiles: 1500}
+- walk_to: {x: 1000, y: 2688, z: -600, radius: 48, timeout_seconds: 90, clear_hostiles: 1500}
+- walk_to: {x: 1536, y: 2688, z: -352, radius: 48, timeout_seconds: 90, clear_hostiles: 1500}
+- walk_to: {x: 1728, y: 2688, z: -352, radius: 48, timeout_seconds: 90, clear_hostiles: 1500}
+- play_lua: {source: 'wait(1.5)
+
+      '}
+- assert:
+    party_position: {x: 1728, y: 2688, radius: 120, z_min: -360, z_max: -344}
+- play_lua: {source: 'if door_state(34) ~= "closed" then error("door 6 does not start shut") end
+
+      '}
+- play_lua: {source: 'click(61); wait(6)
+
+      if door_state(34) ~= "open" then error("event 61 did not open door 34: " .. door_state(34)) end
+
+      '}
+- walk_to: {x: 1728, y: 2304, z: -352, radius: 48, timeout_seconds: 90, clear_hostiles: 1500}
+- walk_to: {x: 2300, y: 2304, z: -352, radius: 48, timeout_seconds: 90, clear_hostiles: 1500}
+- walk_to: {x: 2520, y: 2240, z: -352, radius: 50, timeout_seconds: 60, clear_hostiles: 1500}
+- walk_to: {x: 2700, y: 2000, z: -352, radius: 50, timeout_seconds: 60, clear_hostiles: 1500}
+- walk_to: {x: 2900, y: 1750, z: -352, radius: 50, timeout_seconds: 60, clear_hostiles: 1500}
+- walk_to: {x: 3100, y: 1690, z: -352, radius: 50, timeout_seconds: 60, clear_hostiles: 1500}
+- walk_to: {x: 3330, y: 1800, z: -352, radius: 50, timeout_seconds: 60, clear_hostiles: 1500}
+- walk_to: {x: 3360, y: 1960, z: -352, radius: 50, timeout_seconds: 60, clear_hostiles: 1500}
+- walk_to: {x: 3220, y: 2240, z: -352, radius: 50, timeout_seconds: 60, clear_hostiles: 1500}
+- walk_to: {x: 3120, y: 2560, z: -352, radius: 50, timeout_seconds: 60, clear_hostiles: 1500}
+- walk_to: {x: 3140, y: 2800, z: -352, radius: 50, timeout_seconds: 60, clear_hostiles: 1500}
+- walk_to: {x: 3300, y: 2900, z: -352, radius: 50, timeout_seconds: 60, clear_hostiles: 1500}
+- walk_to: {x: 3520, y: 2900, z: -352, radius: 50, timeout_seconds: 60, clear_hostiles: 1500}
+- walk_to: {x: 3700, y: 2720, z: -352, radius: 50, timeout_seconds: 60, clear_hostiles: 1500}
+- walk_to: {x: 3800, y: 2500, z: -352, radius: 50, timeout_seconds: 60, clear_hostiles: 1500}
+- walk_to: {x: 3860, y: 2300, z: -352, radius: 50, timeout_seconds: 60, clear_hostiles: 1500}
+- walk_to: {x: 3960, y: 2160, z: -352, radius: 50, timeout_seconds: 60, clear_hostiles: 1500}
+- walk_to: {x: 4100, y: 2200, z: -352, radius: 50, timeout_seconds: 60, clear_hostiles: 1500}
+- walk_to: {x: 4230, y: 2300, z: -352, radius: 50, timeout_seconds: 60, clear_hostiles: 1500}
+- play_lua: {source: 'wait(1.5)
+
+      '}
+- assert:
+    party_position: {x: 4230, y: 2300, radius: 90, z_min: -360, z_max: -344}
+- walk_to: {x: 4380, y: 2380, z: -352, radius: 60, timeout_seconds: 90, clear_hostiles: 1500}
+- walk_to: {x: 4800, y: 1920, z: -640, radius: 48, timeout_seconds: 90, clear_hostiles: 1500}
+- walk_to: {x: 5100, y: 1900, z: -640, radius: 48, timeout_seconds: 90, clear_hostiles: 1500}
+- walk_to: {x: 5860, y: 2432, z: -640, radius: 48, timeout_seconds: 90, clear_hostiles: 1500}
+- play_lua: {source: 'click(51); wait(6)
+
+      if door_state(16) ~= "open" then error("event 51 did not open door 16: " .. door_state(16)) end
+
+      '}
+- walk_to: {x: 6200, y: 2432, z: -656, radius: 48, timeout_seconds: 90, clear_hostiles: 1500}
+- play_lua: {source: 'wait(1.5)
+
+      '}
+- assert:
+    party_position: {x: 6200, y: 2432, radius: 120, z_min: -664, z_max: -648}
+- walk_to: {x: 7230, y: 2432, z: -656, radius: 48, timeout_seconds: 90, clear_hostiles: 1500}
+- play_lua: {source: 'for d = 112, 115 do if door_state(d) ~= "open" then error("plate " .. d .. " does not start out: " .. door_state(d)) end end
+
+      click(87); wait(4)
+
+      if door_state(16) ~= "closed" or door_state(17) ~= "closed" then error("the trap did not shut both doors") end
+
+      for d = 112, 115 do if door_state(d) == "open" then error("plate " .. d .. " is not drawing back") end end
+
+      '}
+# The trap lit the eight panels' lights (ids 1 to 8 of ids.lock.yml `lights`, the original's, which evt.SetLight
+# names; the assert takes the light's place in the map's list, 52 to 59); each panel put out darkens its own.
+- assert: {light: {key: 52, "on": true}}
+- assert: {light: {key: 55, "on": true}}
+- assert: {light: {key: 59, "on": true}}
+# Round seven: a panel toggles, as the original's (events 102 to 109): out, lit again, and out once more below.
+- play_lua: {source: 'click(64); wait(1)
+
+      '}
+- assert: {light: {key: 52, "on": false}}
+- play_lua: {source: 'click(64); wait(1)
+
+      '}
+- assert: {light: {key: 52, "on": true}}
+- play_lua: {source: 'click(64); wait(1); click(65); wait(1); click(66); wait(1); click(67); wait(1); click(68); wait(1); click(69); wait(1); click(70); wait(1)
+
+      if door_state(17) ~= "closed" then error("the far door opened with a panel lit") end
+
+      '}
+- assert: {light: {key: 52, "on": false}}
+- assert: {light: {key: 58, "on": false}}
+- assert: {light: {key: 59, "on": true}}
+- play_lua: {source: 'click(71); wait(12)
+
+      if door_state(17) ~= "open" or door_state(16) ~= "open" then error("the timer did not open the doors: " .. door_state(16) .. " " .. door_state(17)) end
+
+      '}
+- assert: {light: {key: 59, "on": false}}
+- play_lua: {source: 'wait(1.5)
+
+      '}
+- assert:
+    party_position: {x: 7230, y: 2432, radius: 120, z_min: -664, z_max: -648}
+- walk_to: {x: 7450, y: 2432, z: -640, radius: 48, timeout_seconds: 90, clear_hostiles: 1500}
+- walk_to: {x: 7900, y: 2850, z: -640, radius: 48, timeout_seconds: 90, clear_hostiles: 1500}
+- walk_to: {x: 8512, y: 2900, z: -640, radius: 48, timeout_seconds: 90, clear_hostiles: 1500}
+- walk_to: {x: 9300, y: 2620, z: -640, radius: 48, timeout_seconds: 90, clear_hostiles: 1500}
+- walk_to: {x: 9900, y: 2432, z: -640, radius: 48, timeout_seconds: 90, clear_hostiles: 1500}
+- walk_to: {x: 11776, y: 3072, z: -640, radius: 48, timeout_seconds: 90, clear_hostiles: 1500}
+- play_lua: {source: 'wait(4)
+
+      if door_state(69) ~= "open" then error("crossing the floor did not open the niche: " .. door_state(69)) end
+
+      '}
+- walk_to: {x: 10368, y: 3500, z: -640, radius: 48, timeout_seconds: 120, clear_hostiles: 1500}
+- play_lua: {source: 'local keep = {[652] = true, [750] = true, [630] = true, [626] = true, [186] = true}
+
+      for id in string.gmatch(pack_items(), "(%d+)x%d+") do id = tonumber(id); if not keep[id] then while item_count(id) > 0 and discard(id) do end end end
+
+      loot_chest(45)
+
+      if not has_item(630) then error("the Idol of the Snake from chest 19 was not taken") end
+
+      '}
+- walk_to: {x: 11776, y: 3448, z: -640, radius: 48, timeout_seconds: 90, clear_hostiles: 1500}
+- play_lua: {source: 'wait(2)
+
+      '}
+- assert:
+    pressure_plate_triggered: {event_id: 90}
+# The Prophecies of the Sun lying on the middle stand's top (item 626, the original's sprite object 0).
+- walk_to: {x: 11776, y: 2620, z: -640, radius: 48, timeout_seconds: 90, clear_hostiles: 1500}
+- pick_up: {item_id: 626}
+- play_lua: {source: 'if item_count(626) ~= 1 then error("the book on the stand was not taken: " .. item_count(626)) end
+
+      '}
+- walk_to: {x: 12800, y: 2944, z: -640, radius: 48, timeout_seconds: 90, clear_hostiles: 1500}
+- play_lua: {source: 'wait(2)
+
+      '}
+- assert:
+    pressure_plate_triggered: {event_id: 94}
+- walk_to: {x: 13600, y: 2432, z: -640, radius: 48, timeout_seconds: 180, clear_hostiles: 1500}
+- walk_to: {x: 14080, y: 2432, z: -640, radius: 48, timeout_seconds: 90, clear_hostiles: 1500}
+- walk_to: {x: 14080, y: 2100, z: -600, radius: 48, timeout_seconds: 90, clear_hostiles: 1500}
+- walk_to: {x: 14080, y: 1100, z: -128, radius: 48, timeout_seconds: 90, clear_hostiles: 1500}
+- walk_to: {x: 13700, y: 1000, z: -128, radius: 48, timeout_seconds: 90, clear_hostiles: 1500}
+- walk_to: {x: 13700, y: 1300, z: -64, radius: 48, timeout_seconds: 90, clear_hostiles: 1500}
+- walk_to: {x: 13700, y: 2240, z: 384, radius: 48, timeout_seconds: 90, clear_hostiles: 1500}
+- play_lua: {source: 'wait(1.5)
+
+      '}
+- assert:
+    party_position: {x: 13700, y: 2240, radius: 120, z_min: 376, z_max: 392}
+- walk_to: {x: 13120, y: 2432, z: 384, radius: 48, timeout_seconds: 90, clear_hostiles: 1500}
+- walk_to: {x: 13700, y: 2240, z: 384, radius: 48, timeout_seconds: 90, clear_hostiles: 1500}
+- walk_to: {x: 13700, y: 1100, z: -128, radius: 48, timeout_seconds: 120, clear_hostiles: 1500}
+- walk_to: {x: 14080, y: 1000, z: -128, radius: 48, timeout_seconds: 90, clear_hostiles: 1500}
+- walk_to: {x: 14080, y: 2300, z: -640, radius: 48, timeout_seconds: 120, clear_hostiles: 1500}
+- walk_to: {x: 13700, y: 2432, z: -640, radius: 48, timeout_seconds: 90, clear_hostiles: 1500}
+- walk_to: {x: 9300, y: 2620, z: -640, radius: 48, timeout_seconds: 240, clear_hostiles: 1500}
+- walk_to: {x: 8512, y: 2900, z: -640, radius: 48, timeout_seconds: 90, clear_hostiles: 1500}
+- walk_to: {x: 8512, y: 2700, z: -640, radius: 48, timeout_seconds: 90, clear_hostiles: 1500}
+- play_lua: {source: 'click(50); wait(6)
+
+      if door_state(15) ~= "open" then error("event 50 did not open door 15: " .. door_state(15)) end
+
+      '}
+- walk_to: {x: 8512, y: 1800, z: -640, radius: 48, timeout_seconds: 90, clear_hostiles: 1500}
+- walk_to: {x: 8512, y: 1640, z: -640, radius: 48, timeout_seconds: 90, clear_hostiles: 1500}
+- play_lua: {source: 'if door_state(27) ~= "closed" then error("maze door 27 does not start shut") end
+
+      '}
+- play_lua: {source: 'click(2); wait(6)
+
+      if door_state(27) ~= "open" then error("event 2 did not open door 27: " .. door_state(27)) end
+
+      if door_state(71) ~= "closed" or door_state(70) ~= "open" then error("button 11 did not go in and button 10 out: " .. door_state(71) .. " " .. door_state(70)) end
+
+      '}
+- walk_to: {x: 9408, y: 1640, z: -640, radius: 48, timeout_seconds: 90, clear_hostiles: 1500}
+- walk_to: {x: 9408, y: 1000, z: -640, radius: 48, timeout_seconds: 90, clear_hostiles: 1500}
+- walk_to: {x: 9408, y: 800, z: -640, radius: 48, timeout_seconds: 90, clear_hostiles: 1500}
+- play_lua: {source: 'if door_state(30) ~= "closed" then error("maze door 30 does not start shut") end
+
+      '}
+- play_lua: {source: 'click(5); wait(6)
+
+      if door_state(30) ~= "open" then error("event 5 did not open door 30: " .. door_state(30)) end
+
+      '}
+- walk_to: {x: 9024, y: 800, z: -640, radius: 48, timeout_seconds: 90, clear_hostiles: 1500}
+- walk_to: {x: 9024, y: -500, z: -640, radius: 48, timeout_seconds: 90, clear_hostiles: 1500}
+- walk_to: {x: 9024, y: -730, z: -640, radius: 48, timeout_seconds: 90, clear_hostiles: 1500}
+- play_lua: {source: 'if door_state(42) ~= "closed" then error("maze door 42 does not start shut") end
+
+      '}
+- play_lua: {source: 'click(16); wait(6)
+
+      if door_state(42) ~= "open" then error("event 16 did not open door 42: " .. door_state(42)) end
+
+      '}
+- walk_to: {x: 9216, y: -730, z: -640, radius: 48, timeout_seconds: 90, clear_hostiles: 1500}
+- walk_to: {x: 9216, y: -1300, z: -640, radius: 48, timeout_seconds: 90, clear_hostiles: 1500}
+- walk_to: {x: 8832, y: -1500, z: -640, radius: 48, timeout_seconds: 90, clear_hostiles: 1500}
+- play_lua: {source: 'if door_state(49) ~= "closed" then error("maze door 49 does not start shut") end
+
+      '}
+- play_lua: {source: 'click(23); wait(6)
+
+      if door_state(49) ~= "open" then error("event 23 did not open door 49: " .. door_state(49)) end
+
+      '}
+- walk_to: {x: 8640, y: -1500, z: -640, radius: 48, timeout_seconds: 90, clear_hostiles: 1500}
+- walk_to: {x: 8640, y: -2100, z: -640, radius: 48, timeout_seconds: 90, clear_hostiles: 1500}
+- walk_to: {x: 8640, y: -2260, z: -640, radius: 48, timeout_seconds: 90, clear_hostiles: 1500}
+- play_lua: {source: 'if door_state(55) ~= "closed" then error("maze door 55 does not start shut") end
+
+      '}
+- play_lua: {source: 'click(29); wait(6)
+
+      if door_state(55) ~= "open" then error("event 29 did not open door 55: " .. door_state(55)) end
+
+      '}
+- walk_to: {x: 8448, y: -2260, z: -640, radius: 48, timeout_seconds: 90, clear_hostiles: 1500}
+- walk_to: {x: 8448, y: -2880, z: -640, radius: 48, timeout_seconds: 90, clear_hostiles: 1500}
+- walk_to: {x: 9216, y: -3030, z: -640, radius: 48, timeout_seconds: 90, clear_hostiles: 1500}
+- play_lua: {source: 'if door_state(64) ~= "closed" then error("maze door 64 does not start shut") end
+
+      '}
+- play_lua: {source: 'click(38); wait(6)
+
+      if door_state(64) ~= "open" then error("event 38 did not open door 64: " .. door_state(64)) end
+
+      '}
+- walk_to: {x: 9408, y: -3030, z: -640, radius: 48, timeout_seconds: 90, clear_hostiles: 1500}
+- walk_to: {x: 9408, y: -4288, z: -640, radius: 48, timeout_seconds: 90, clear_hostiles: 1500}
+- walk_to: {x: 9800, y: -4288, z: -640, radius: 48, timeout_seconds: 90, clear_hostiles: 1500}
+- play_lua: {source: 'click(37); wait(6)
+
+      if door_state(63) ~= "open" then error("button 46 did not open closet door 88") end
+
+      if door_state(64) ~= "closed" then error("button 46 did not shut door 89") end
+
+      click(38); wait(6)
+
+      '}
+- walk_to: {x: 11000, y: -4288, z: -640, radius: 48, timeout_seconds: 120, clear_hostiles: 1500}
+- walk_to: {x: 12000, y: -4288, z: -640, radius: 48, timeout_seconds: 90, clear_hostiles: 1500}
+# The Diamond on the stand at the causeway's east end (item 186, sprite object 2).
+- pick_up: {item_id: 186}
+- walk_to: {x: 10944, y: -3700, z: -640, radius: 120, timeout_seconds: 120, clear_hostiles: 1500}
+- clear_hostiles: {radius: 1500}
+- play_lua: {source: 'click(53); wait(6)
+
+      if door_state(18) ~= "open" then error("event 53 did not open door 18: " .. door_state(18)) end
+
+      '}
+- walk_to: {x: 10944, y: -3330, z: -640, radius: 48, timeout_seconds: 90, clear_hostiles: 1500}
+- play_lua: {source: 'wait(1.5)
+
+      '}
+- assert:
+    party_position: {x: 10944, y: -3330, radius: 140, z_min: -650, z_max: -630}
+# The second Prophecies of the Sun on the niche's floor (sprite object 1).
+- pick_up: {item_id: 626}
+- play_lua: {source: 'if item_count(626) ~= 2 then error("the book in the niche was not taken: " .. item_count(626)) end
+
+      '}
+# Dropped into the pit: it lands on the unseen floor over the spikes (-1023, the original's), which kills.
+- set_pose: {x: 6656, y: 2432, z: -900, yaw: 0, pitch: 0}
+- play_lua: {source: 'wait(3)
+
+      '}
+- assert:
+    party_position: {x: 6656, y: 2432, radius: 200, z_min: -1026, z_max: -1018}
+- assert:
+    pressure_plate_triggered: {event_id: 92}
+- assert:
+    condition: {name: eradicated, present: true}

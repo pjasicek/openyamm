@@ -57,6 +57,10 @@ struct OutdoorBitmapTexture
     std::vector<uint8_t> pixels;
     // A cooked world surface texture (GPU blocks with its mip chain) replaces pixels; see loadCookedSurfaceTexture.
     std::shared_ptr<const Engine::CookedTexture> cookedTexture;
+    // Its surface material maps (devdocs/SURFACE_MATERIALS_PLAN.md), cooked beside it: the normal map (tangent-space
+    // x and y, glow) and the detail map (occlusion, roughness, metal, height). Both or neither.
+    std::shared_ptr<const Engine::CookedTexture> materialNormal;
+    std::shared_ptr<const Engine::CookedTexture> materialDetail;
     // Explicit source identity for map-local art that overrides a shared sprite name.
     std::string resourceIdentity;
 };
@@ -215,6 +219,11 @@ struct MapCompanionLoadOptions
 {
     bool allowSceneYml = true;
     bool allowLegacyCompanion = true;
+    // The active ruleset's package directory: its maps/<map>_*.scene.yml overlays apply after the world's.
+    std::string rulesetRoot;
+    // Whether face textures load their surface material maps (video.surface_materials); off, nothing of them is read
+    // or kept.
+    bool surfaceMaterials = false;
 };
 
 struct MapAssetBitmapPixelsResult
@@ -222,6 +231,8 @@ struct MapAssetBitmapPixelsResult
     int width = 0;
     int height = 0;
     std::vector<uint8_t> pixels;
+    // The tier of the file the pixels were decoded from, which sets their logical size.
+    Engine::AssetScaleTier assetScaleTier = Engine::AssetScaleTier::X1;
 };
 
 struct MapAssetInfo
@@ -241,8 +252,13 @@ struct MapAssetInfo
     std::optional<std::string> lightingDataPath;
     std::optional<size_t> lightingDataSize;
     AuthoredCompanionSource authoredCompanionSource = AuthoredCompanionSource::None;
+    // What a saved state of this map is laid out against (game/maps/MapLayoutIdentity.h), computed when it loads.
+    uint64_t layoutIdentity = 0;
     std::optional<OutdoorMapData> outdoorMapData;
     std::optional<IndoorMapData> indoorMapData;
+    // Per indoor face: the party's speed share while it wades on it (a shallow liquid's wade_speed); empty when the
+    // map has no such face.
+    std::vector<float> indoorFaceWadeSpeeds;
     std::optional<MapDeltaData> outdoorMapDeltaData;
     std::optional<MapDeltaData> indoorMapDeltaData;
     std::optional<MapItemSourceData> itemSourceData;
@@ -274,6 +290,9 @@ void clearMapRenderSourcePixels(MapAssetInfo &mapAssetInfo);
 // further lights: the decoration on a tie, since it follows the torch's state. MM7 map lights have no radius and MM8
 // places none beside its torches, so their lights are unchanged.
 void resolveDuplicateTorchLights(const IndoorMapData &indoorMapData, DecorationBillboardSet &billboardSet);
+// Whether any of a map's face textures carries surface material maps: they load only with video.surface_materials
+// on, and the renderers load the material programs only for such a map.
+bool hasSurfaceMaterialMaps(const std::vector<OutdoorBitmapTexture> &textures);
 // A world surface texture (Data/bitmaps) whose best match in the active scale tier is its cooked file
 // (tools/cook_surface_textures.py): GPU blocks with the runtime's mip chain and the source's statistics, so nothing is
 // decoded, keyed or filtered at load. Empty when the best match is a source image. Throws on a corrupt cooked file
@@ -284,11 +303,19 @@ std::optional<OutdoorBitmapTexture> loadCookedSurfaceTexture(
     Engine::DirectoryAssetPathCache &directoryAssetPathsByPath,
     Engine::AssetPathLookupCache &assetPathByKey,
     Engine::BinaryAssetCache *pBinaryFilesByPath);
+// A world surface texture (Data/bitmaps) loaded by name after the map: its cooked file when the active tier has one,
+// else its source image. Empty when neither exists. For a face whose texture an event swaps in (evt.SetTexture) and
+// no face of the map uses.
+std::optional<OutdoorBitmapTexture> loadSurfaceTexture(
+    const Engine::AssetFileSystem &assetFileSystem,
+    const std::string &textureName);
+// A summoned monster's frames, and those of the tier its model is sized from (pActorModels: scale_reference).
 bool ensureMonsterSpriteFramesLoaded(
     const Engine::AssetFileSystem &assetFileSystem,
     const MonsterTable &monsterTable,
     int16_t monsterId,
-    SpriteFrameTable &spriteFrameTable);
+    SpriteFrameTable &spriteFrameTable,
+    const ActorModelManifest *pActorModels = nullptr);
 
 enum class MapLoadPurpose
 {

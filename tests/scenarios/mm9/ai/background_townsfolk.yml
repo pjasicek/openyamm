@@ -1,0 +1,25 @@
+id: mm9.ai.background_townsfolk
+title: MM9 townsfolk out of the party's reach keep their facing
+world: mm9
+mode: faithful
+tags: [mm9, actors, ai]
+steps:
+  - note:
+      text: >-
+        Thjorgard City's tavern (MM9_MONSTER_AI_PLAN.md "Townsfolk facing the party"): Knut, Dagfinnr and Berggren
+        stand facing each other, as MM9 places them. An actor outside the thinking set ran MM8's background
+        StandOrBored, which turns it to the party every idle cycle, so entering at the city gate turned the whole
+        city toward it. Actors on MM9's loop now keep their facing there.
+  - new_game_flow:
+      start_map: thjorgardcity.blv
+  - set_pose: {map: thjorgardcity.blv, x: 9912, y: 11141, z: 0, yaw_degrees: 225}
+  - advance_runtime: {seconds: 8}
+  - set_pose: {map: thjorgardcity.blv, x: -797, y: 1221, z: 0, yaw_degrees: 166}
+  - advance_runtime: {seconds: 1}
+  # Dagfinnr (actor 5) and Knut (actor 4) face west toward Berggren, Berggren (actor 6) east toward them.
+  - assert:
+      actor_visible: {actor_index: 5, faces: {x: -1500, y: 1229, within_degrees: 3}}
+  - assert:
+      actor_visible: {actor_index: 4, faces: {x: -1500, y: 1393, within_degrees: 3}}
+  - assert:
+      actor_visible: {actor_index: 6, faces: {x: -1000, y: 1311, within_degrees: 3}}

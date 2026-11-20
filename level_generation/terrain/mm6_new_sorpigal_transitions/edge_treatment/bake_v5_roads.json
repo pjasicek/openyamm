@@ -1,0 +1,80 @@
+{
+  "version": "v5_roads",
+  "pilot": true,
+  "generated_count": 11,
+  "authoring_size": 512,
+  "runtime_size": 256,
+  "base_composites": "v4",
+  "coverage_masks": "connected_v4 unchanged",
+  "water": "excluded",
+  "boundary_band": "AI RGB edit: full through10px, fade to0 by24px; rock6..16px at65% strength",
+  "seams": "Axis/topology mean AI RGB delta;8px mirrored lock;24px smooth approach",
+  "tiles": [
+    {
+      "tile": "6drsrecap",
+      "raw_sha256": "6d96fc654cb49b3de12c6456d40cd10c8507f018b1a6a431c9cd3b83090e61df",
+      "protected_interior_unchanged": true,
+      "changed_fraction": 0.178741455078125
+    },
+    {
+      "tile": "6drsrew",
+      "raw_sha256": "350023ff38f30019efe6577af9b2930a7b5b54e10b9196cc23e8ae7c86f884ad",
+      "protected_interior_unchanged": true,
+      "changed_fraction": 0.17446136474609375
+    },
+    {
+      "tile": "6drsrew_s",
+      "raw_sha256": "248a3d235e80167321834b585985b1c2be1101f3b12b6fa40243f643ab7b0cd4",
+      "protected_interior_unchanged": true,
+      "changed_fraction": 0.178466796875
+    },
+    {
+      "tile": "6drsrn_e",
+      "raw_sha256": "e48e3e1b959ae38ae11838a054004477bbe05d56eccb1df207b3160e83a6cd50",
+      "protected_interior_unchanged": true,
+      "changed_fraction": 0.1549835205078125
+    },
+    {
+      "tile": "6drsrn_w",
+      "raw_sha256": "001016e34a81fa775aa251e17a2519e33f310a830a4b44889f8dbdb024c944bd",
+      "protected_interior_unchanged": true,
+      "changed_fraction": 0.15750503540039062
+    },
+    {
+      "tile": "6drsrns",
+      "raw_sha256": "a4ba9503186588b9c4a16a0bd3fef5c844c043f80fc40e3f8bd8f118f7da56a8",
+      "protected_interior_unchanged": true,
+      "changed_fraction": 0.17480087280273438
+    },
+    {
+      "tile": "6drsrs_e",
+      "raw_sha256": "a5c2a52980abf534144165a199befbe61a676d4fca6c3af07eabec69801cbe90",
+      "protected_interior_unchanged": true,
+      "changed_fraction": 0.14687347412109375
+    },
+    {
+      "tile": "6drsrs_w",
+      "raw_sha256": "2822a8b51731ecc55df8d78bdcf6b83975ded6dee4c2bf58c5ba73dbe3397fbc",
+      "protected_interior_unchanged": true,
+      "changed_fraction": 0.14507675170898438
+    },
+    {
+      "tile": "6drsrwcap",
+      "raw_sha256": "eae0772725612bd94e9182c031a1437ac5a16c1e37bd067ac58ddf4691d22aa4",
+      "protected_interior_unchanged": true,
+      "changed_fraction": 0.17007827758789062
+    },
+    {
+      "tile": "6grdrtn",
+      "raw_sha256": "35b028063caa661275b6ca051cbdb5071d90dbf42a2e45e41504ad0289066e27",
+      "protected_interior_unchanged": true,
+      "changed_fraction": 0.186248779296875
+    },
+    {
+      "tile": "6grdrtne",
+      "raw_sha256": "7461298f7a7be4c4d39ede1106c7a72e90639b32519aa6b4612b0fe6016e5dff",
+      "protected_interior_unchanged": true,
+      "changed_fraction": 0.3439521789550781
+    }
+  ]
+}

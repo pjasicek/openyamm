@@ -1,0 +1,27 @@
+{
+  "prompt": "Edit the provided paint_mask_guide.png precisely, using design_reference.png for decoration and icon_x8.png for color. Output a single transparent PNG 1536x2048 (3:4). Preserve the guide's exact object positions, dimensions, silhouettes and openings in a 3-column by 4-row grid of 512px cells. Do not rearrange views: the actual guide is authoritative even if view names seem unusual. Thin horizontal edge views remain thin horizontal edge views; only the middle cell of row 2 and row 4 contains a face-on pendant with a chain above. Empty right cells in rows 2 and 4 remain transparent.\nRows 1-2 PAINT: paint only existing grey pixels, with unlit base color, gold metal chain, bail and pendant, fine scrollwork following the approved reference, and a green oval gemstone in the face-on pendant. Scale the reference detail onto the existing small pendant. Preserve solid guide silhouette: do not create new holes from the design reference. Keep existing guide chain gaps transparent. Gold edge views with appropriate fine engraving. No lighting, cast shadows, ambient occlusion, hot highlights, reflections, glow, outlines or text.\nRows 3-4 MATERIAL MASK: same five silhouettes in exactly their guide positions, filled with flat pure #FF0000 for all metal, pure #000000 for gemstone. No cloth exists; no blue needed. On the face-on pendant the oval gemstone area is pure black, everything else including chain and bail pure red. Edge views are pure red except any truly visible gemstone. No shading, texture, outlines or blended colors inside masks. Every silhouette pixel gets exactly one material color. Outside objects fully transparent.\nInput roles: paint_mask_guide.png is the exact edit target and geometric authority; design_reference.png is ornament/material reference only; icon_x8.png is color reference only, magenta is background and must never appear. Do not enlarge, reposition or redesign any object.\nCORRECTION: Previous attempt had scattered red pixels outside silhouettes and an enlarged thick chain. Start fresh from the supplied GREY GUIDE, not the previous generated image. Preserve its thin single-link chain exactly. Absolutely clean transparent background with zero stray pixels. Mask silhouettes must be crisp solid flat red with black gemstone only, no speckling. Do not make any component thicker. Exact alpha silhouette of grey guide is the highest priority.",
+  "initial_prompt": "Edit the provided paint_mask_guide.png precisely, using design_reference.png for decoration and icon_x8.png for color. Output a single transparent PNG 1536x2048 (3:4). Preserve the guide's exact object positions, dimensions, silhouettes and openings in a 3-column by 4-row grid of 512px cells. Do not rearrange views: the actual guide is authoritative even if view names seem unusual. Thin horizontal edge views remain thin horizontal edge views; only the middle cell of row 2 and row 4 contains a face-on pendant with a chain above. Empty right cells in rows 2 and 4 remain transparent.\nRows 1-2 PAINT: paint only existing grey pixels, with unlit base color, gold metal chain, bail and pendant, fine scrollwork following the approved reference, and a green oval gemstone in the face-on pendant. Scale the reference detail onto the existing small pendant. Preserve solid guide silhouette: do not create new holes from the design reference. Keep existing guide chain gaps transparent. Gold edge views with appropriate fine engraving. No lighting, cast shadows, ambient occlusion, hot highlights, reflections, glow, outlines or text.\nRows 3-4 MATERIAL MASK: same five silhouettes in exactly their guide positions, filled with flat pure #FF0000 for all metal, pure #000000 for gemstone. No cloth exists; no blue needed. On the face-on pendant the oval gemstone area is pure black, everything else including chain and bail pure red. Edge views are pure red except any truly visible gemstone. No shading, texture, outlines or blended colors inside masks. Every silhouette pixel gets exactly one material color. Outside objects fully transparent.\nInput roles: paint_mask_guide.png is the exact edit target and geometric authority; design_reference.png is ornament/material reference only; icon_x8.png is color reference only, magenta is background and must never appear. Do not enlarge, reposition or redesign any object.",
+  "original_output_path": "/home/pjasicek/.codex/generated_images/01a1ad09-ca25-7e23-9710-41c16c2143ee/exec-51666310-7edd-4866-a3b9-545d9f0456ac.png",
+  "output": "level_generation/props/items_mm9_claude/codex_tex/d10214/paint_mask_raw_v1.png",
+  "tool": "built-in image_gen",
+  "corrective_regenerations": 1,
+  "inputs": [
+    {
+      "path": "level_generation/props/items_mm9_claude/codex_tex/d10214/paint_mask_guide.png",
+      "sha256": "4cddbba609f438e6f0864775f427a30b280412c76c4a54fa41f429c3c34efdd3"
+    },
+    {
+      "path": "level_generation/props/items_mm9_claude/codex_tex/d10214/design_reference.png",
+      "sha256": "fbceeb0bdb1cd6a620b143d6c8b7c4697ab1e283c134c4993a3375f6b2146c23"
+    },
+    {
+      "path": "level_generation/props/items_mm9_claude/codex_tex/d10214/icon_x8.png",
+      "sha256": "169fdc2db0ab2a5650b67070e4a4f00a0121f38651f7fc7f56c0357fd401373d"
+    }
+  ],
+  "size": [
+    1086,
+    1448
+  ],
+  "validation": "Layout retained; visible edge speckling and silhouette drift remain after the one permitted correction. Raw output copied without modification."
+}

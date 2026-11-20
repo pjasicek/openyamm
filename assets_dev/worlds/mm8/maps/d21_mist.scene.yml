@@ -1,0 +1,16 @@
+format_version: 1
+kind: "indoor_scene_overlay"
+source:
+  geometry_file: "d21.blv"
+# Vampire Crypt: a blue-grey floor mist (floors at 0) (devdocs/MIST.md).
+mist:
+  layers:
+    - color_rgb: [140, 150, 170]
+      base_height: 30
+      depth: 40
+      falloff_height: 100
+      visibility: 1280
+      max_opacity: 0.8
+      noise: 0.5
+      noise_size: 420
+      drift: [8, 4]

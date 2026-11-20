@@ -1,0 +1,185 @@
+# Written by make_scenarios.py from the built map; rerun it after convert.py.
+id: mm9r.klusoshouse_scripted
+title: Klusos House (native BLV) - the kitchen letter, the Blackheart and the guards it wakes
+world: mm9
+mode: faithful
+tags:
+- mm9
+- mm9_rework
+- draft
+steps:
+- load_map:
+    map: klusoshouse.blv
+- note:
+    text: 'Before: the seven KlusosHidden guards are hidden, the eight sleepers lie dormant.'
+- assert:
+    actor_visible:
+      actor_index: 1
+      hidden: true
+- assert:
+    actor_visible:
+      actor_index: 2
+      hidden: true
+- assert:
+    actor_visible:
+      actor_index: 3
+      hidden: true
+- assert:
+    actor_visible:
+      actor_index: 4
+      hidden: true
+- assert:
+    actor_visible:
+      actor_index: 5
+      hidden: true
+- assert:
+    actor_visible:
+      actor_index: 6
+      hidden: true
+- assert:
+    actor_visible:
+      actor_index: 7
+      hidden: true
+- note:
+    text: 'Sleeper 13 (UpperSleep1) in plain view 320 units up the corridor: it sleeps on.'
+- &id001
+  set_pose:
+    map: klusoshouse.blv
+    x: -38
+    y: 648
+    z: 452
+    yaw: -1.5708
+    pitch: 0.0
+- advance_runtime:
+    seconds: 4
+- assert:
+    actor_visible:
+      actor_index: 13
+      hidden: false
+      report_state: true
+      combat_targeting_party: false
+      near:
+        x: -38
+        y: 328
+        max_distance: 8
+- load_map:
+    map: klusoshouse.blv
+- note:
+    text: 'Prop46, the letter on the kitchen table (BookLetter.scr DoLetter 456): a click shows it.'
+- set_pose:
+    map: klusoshouse.blv
+    x: -1324
+    y: 720
+    z: 1
+    yaw: -0.0122
+    pitch: -0.5669
+- advance_runtime:
+    seconds: 0.2
+- press_interact: {}
+- assert:
+    dialog:
+      active: true
+- press_action:
+    action: cancel_dialog
+- note:
+    text: 'The Blackheart (Blackheart.scr :OnUse), a world item, picked up: item 29; key 223, the alarm; the hidden guards
+      appear and the sleepers wake (OnObjectLinkBroken).'
+- set_pose:
+    map: klusoshouse.blv
+    x: -942
+    y: -982
+    z: 1
+    yaw: -1.5708
+    pitch: -0.0798
+- advance_runtime:
+    seconds: 0.2
+- press_interact: {}
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    qbit_set:
+    - 90223
+- assert:
+    inventory_any_member:
+    - item_id: 10029
+      count: 1
+- assert:
+    actor_visible:
+      actor_index: 1
+      hidden: false
+- assert:
+    actor_visible:
+      actor_index: 2
+      hidden: false
+- assert:
+    actor_visible:
+      actor_index: 3
+      hidden: false
+- assert:
+    actor_visible:
+      actor_index: 4
+      hidden: false
+- assert:
+    actor_visible:
+      actor_index: 5
+      hidden: false
+- assert:
+    actor_visible:
+      actor_index: 6
+      hidden: false
+- assert:
+    actor_visible:
+      actor_index: 7
+      hidden: false
+- advance_runtime:
+    seconds: 1
+- assert:
+    actor_visible:
+      actor_index: 1
+      report_state: true
+- assert:
+    actor_visible:
+      actor_index: 2
+      report_state: true
+- assert:
+    actor_visible:
+      actor_index: 3
+      report_state: true
+- assert:
+    actor_visible:
+      actor_index: 4
+      report_state: true
+- assert:
+    actor_visible:
+      actor_index: 5
+      report_state: true
+- assert:
+    actor_visible:
+      actor_index: 6
+      report_state: true
+- assert:
+    actor_visible:
+      actor_index: 7
+      report_state: true
+- note:
+    text: 'Awake now: sleeper 13 sees the party from the same spot and comes for it.'
+- *id001
+- advance_runtime:
+    seconds: 2
+- assert:
+    actor_visible:
+      actor_index: 13
+      report_state: true
+      has_detected_party: true
+      far:
+        x: -38
+        y: 328
+        min_distance: 100
+- note:
+    text: Its pickup event again gives nothing more.
+- execute_event:
+    id: 75
+- assert:
+    inventory_any_member:
+    - item_id: 10029
+      count: 1

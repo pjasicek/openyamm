@@ -17,18 +17,6 @@ bool isFileComponent(const std::string &name)
     return !name.empty() && name != "." && name.find("..") == std::string::npos
         && name.find_first_not_of("abcdefghijklmnopqrstuvwxyz0123456789_.-") == std::string::npos;
 }
-
-std::optional<std::string> restoredDecorationPath(
-    const Engine::AssetFileSystem &assets, const std::string &name, int16_t paletteId)
-{
-    const std::string normalizedName = toLowerCopy(name);
-    if (!isFileComponent(normalizedName) || paletteId < 0)
-    {
-        return std::nullopt;
-    }
-    const std::string path = "engine/decorations_x2/" + normalizedName + "_p" + std::to_string(paletteId) + ".png";
-    return assets.exists(path) ? std::optional<std::string>(path) : std::nullopt;
-}
 }
 
 std::optional<std::vector<MapDecorationTexture>> parseMapDecorationTextures(
@@ -145,48 +133,5 @@ std::optional<std::vector<OutdoorBitmapTexture>> loadMapDecorationTextures(
         textures.push_back(std::move(texture));
     }
     return textures;
-}
-
-bool hasRestoredDecorationTexture(
-    const Engine::AssetFileSystem &assets, const std::string &name, int16_t paletteId)
-{
-    return restoredDecorationPath(assets, name, paletteId).has_value();
-}
-
-std::optional<OutdoorBitmapTexture> loadRestoredDecorationTexture(
-    const Engine::AssetFileSystem &assets, const std::string &name, int16_t paletteId)
-{
-    const std::optional<std::string> path = restoredDecorationPath(assets, name, paletteId);
-    if (!path)
-    {
-        return std::nullopt;
-    }
-
-    const std::string normalizedName = toLowerCopy(name);
-    const std::optional<std::vector<uint8_t>> bytes = assets.readBinaryFile(*path);
-    const std::optional<Engine::ImagePixelsBgra> image = bytes
-        ? Engine::decodeImagePixelsBgra(*bytes, *path) : std::nullopt;
-    if (!image || image->width <= 0 || image->height <= 0
-        || image->width > 8192 || image->height > 8192
-        || image->width % 2 != 0 || image->height % 2 != 0)
-    {
-        throw std::runtime_error("Invalid restored decoration PNG: " + *path);
-    }
-
-    OutdoorBitmapTexture texture;
-    texture.textureName = normalizedName;
-    texture.paletteId = paletteId;
-    texture.width = image->width / 2;
-    texture.height = image->height / 2;
-    texture.physicalWidth = image->width;
-    texture.physicalHeight = image->height;
-    texture.pixels = image->pixels;
-    for (size_t i = 3; i < texture.pixels.size(); i += 4)
-    {
-        const uint8_t alpha = texture.pixels[i];
-        texture.hasTransparentPixels |= alpha < 255;
-        texture.hasPartialAlphaPixels |= alpha > 0 && alpha < 255;
-    }
-    return texture;
 }
 }

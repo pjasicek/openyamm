@@ -1,0 +1,32 @@
+# MM8-Rel.exe SHA-256 5326d56459ca74126447bcfd07a8cc85a419663e2281500f0f043f13ffe77a0b ONLY.
+# Verify the full hash before loading. Research labels, not recovered original names or signatures.
+# Evidence and scope: BILLBOARD_OCCLUSION.md. No executable bytes are changed.
+f+ research.mm8rel.PrepareIndoorDecorationBillboard @ 0x43d6fa
+f+ research.mm8rel.TransformIndoorBillboardAnchor @ 0x434a5b
+f+ research.mm8rel.ProjectIndoorBillboardAnchor @ 0x434e6d
+f+ research.mm8rel.DispatchIndoorBillboards @ 0x43ea0c
+f+ research.mm8rel.QueueIndoorSpriteD3D @ 0x4a42b7
+f+ research.mm8rel.SubmitIndoorPolygonD3D @ 0x4a2e4f
+f+ research.mm8rel.InitializeRendererDepthStatesA @ 0x49f545
+f+ research.mm8rel.InitializeRendererDepthStatesB @ 0x49fb5a
+f+ research.mm8rel.IndoorDepthMappingConstant @ 0x4ea890
+CC "Ordinary decoration XYZ from native base anchor. No descriptor half-height or wall-normal offset." @ 0x43d880
+CC "Transform unchanged decoration anchor with camera position, yaw and pitch." @ 0x43d958
+CC "Project the transformed base anchor. Quad height is applied later in screen space." @ 0x43d99d
+CC "Pack unadjusted anchor depth high word with decoration identity low bits." @ 0x43db1f
+CC "Pass render-record depth unchanged to indoor hardware quad builder." @ 0x43eac5
+CC "Ordinary indoor software sprite branch uses shared depth-tested rasterizer." @ 0x43eb22
+CC "Read integer anchor depth from packed input at +0x28 for all four vertices." @ 0x4a42db
+CC "Top screen Y from base anchor minus original height adjusted by native crop offset." @ 0x4a4427
+CC "Indoor sprite Z = 1 - 1/(anchorDepth*K), K at 0x4ea890. Same mapping as indoor walls." @ 0x4a4438
+CC "Wall vertex uses same depth constant as ordinary indoor sprites. No separate sprite bias." @ 0x4a3307
+CC "Indoor face renderer calls shared indoor hardware polygon submission." @ 0x4b12c3
+CC "SetRenderState ZENABLE=1." @ 0x49f7ed
+CC "SetRenderState ZFUNC=2, D3DCMP_LESS." @ 0x49f815
+CC "Second initialization path sets ZENABLE=1." @ 0x49fe2f
+CC "Second initialization path sets ZFUNC=2, D3DCMP_LESS." @ 0x49fe57
+CC "Billboard queue disables Z writes, retains inherited geometry depth test." @ 0x4a16f1
+CC "Restore Z writes after the billboard queue." @ 0x4a17eb
+CC "Normal software sprite pixel accepted when packed depth/identity <= existing unsigned pixel value." @ 0x4ad458
+CC "Outdoor ordinary decoration XYZ from unchanged native base anchor." @ 0x47b85e
+CC "Outdoor decoration packs projected depth without a height-dependent correction." @ 0x47bc7d

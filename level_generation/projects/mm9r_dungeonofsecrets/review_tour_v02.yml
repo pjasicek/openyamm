@@ -1,0 +1,305 @@
+output_dir: /home/pjasicek/github/OpenYAMM/level_generation/projects/mm9r_dungeonofsecrets/review/v02
+settle_seconds: 1.5
+exit: true
+shots:
+- name: h01_arrival
+  position:
+  - 5376
+  - -1065
+  - -40
+  yaw: 3.1416
+  pitch: 0.0
+- name: h02_entrance_stairs
+  position:
+  - 7168
+  - -1065
+  - 728
+  yaw: 3.1416
+  pitch: 0.0
+- name: h03_hub_chadwick
+  position:
+  - 4736
+  - -1536
+  - -40
+  yaw: 2.5221
+  pitch: 0.0
+- name: h04_hub_south
+  position:
+  - 4608
+  - -768
+  - 83
+  yaw: -2.4669
+  pitch: 0.0
+- name: h05_entrance_gate
+  position:
+  - 4608
+  - -768
+  - 83
+  yaw: 2.2379
+  pitch: 0.0
+- name: s10_lever_corner
+  position:
+  - 4224
+  - -512
+  - -40
+  yaw: 2.5536
+  pitch: 0.0
+- name: s10_room
+  position:
+  - 3891
+  - -384
+  - -40
+  yaw: 3.1416
+  pitch: 0.0
+- name: s09_door
+  position:
+  - 3456
+  - -973
+  - -40
+  yaw: -3.1024
+  pitch: 0.0
+- name: s09_room
+  position:
+  - 2944
+  - -896
+  - -40
+  yaw: 2.8198
+  pitch: 0.0
+- name: s08_room
+  position:
+  - 2304
+  - -256
+  - -40
+  yaw: -3.1283
+  pitch: 0.0
+- name: s08_corridor
+  position:
+  - 1536
+  - -154
+  - -40
+  yaw: 1.5708
+  pitch: 0.0
+- name: p01_pool_room
+  position:
+  - 1229
+  - 768
+  - -60
+  yaw: 2.813
+  pitch: 0.0
+- name: p02_pool_corridor
+  position:
+  - 1280
+  - 1229
+  - 21
+  yaw: 3.1416
+  pitch: 0.0
+- name: p03_pool_room_north
+  position:
+  - 0
+  - 1741
+  - -60
+  yaw: -1.5708
+  pitch: 0.0
+- name: s01_corridor_west
+  position:
+  - -1434
+  - 1229
+  - 1
+  yaw: 3.1416
+  pitch: 0.0
+- name: s01_plate_room_south
+  position:
+  - -2381
+  - 2099
+  - 1
+  yaw: 1.5708
+  pitch: 0.0
+- name: s01_plate_room_mid
+  position:
+  - -2202
+  - 2304
+  - 1
+  yaw: 1.6581
+  pitch: -0.2094
+- name: s01_lever
+  position:
+  - -2176
+  - 2304
+  - 1
+  yaw: -0.4784
+  pitch: 0.0
+- name: s01_plate_room_north
+  position:
+  - -2381
+  - 4224
+  - 1
+  yaw: -1.5708
+  pitch: 0.0
+- name: s02_corridor
+  position:
+  - -2304
+  - 4813
+  - 1
+  yaw: 0.0
+  pitch: 0.0
+- name: s02_lever_corner
+  position:
+  - -512
+  - 4813
+  - 1
+  yaw: -0.0444
+  pitch: 0.0
+- name: s02_stair_foot
+  position:
+  - -742
+  - 2458
+  - 1
+  yaw: 1.5708
+  pitch: 0.0
+- name: s02_stairs
+  position:
+  - -742
+  - 2560
+  - 1
+  yaw: 1.5708
+  pitch: 0.2618
+- name: s02_bus
+  position:
+  - -461
+  - 3328
+  - 1
+  yaw: 2.0736
+  pitch: -0.1745
+- name: s03_upper_corridor
+  position:
+  - -512
+  - 4147
+  - 656
+  yaw: 0.0
+  pitch: 0.0
+- name: s03_lever_room
+  position:
+  - 1536
+  - 3840
+  - 656
+  yaw: -2.2143
+  pitch: 0.0
+- name: s03_fake_levers
+  position:
+  - 1075
+  - 3072
+  - 656
+  yaw: -2.4711
+  pitch: 0.0
+- name: s03_twin_window
+  position:
+  - 1152
+  - 3456
+  - 656
+  yaw: -0.5939
+  pitch: 0.1396
+- name: s03_door
+  position:
+  - 1536
+  - 2560
+  - 656
+  yaw: -1.5708
+  pitch: 0.0
+- name: s04_corridor
+  position:
+  - 1536
+  - 1792
+  - 656
+  yaw: -1.5708
+  pitch: 0.0
+- name: s04_lever
+  position:
+  - 1280
+  - 1254
+  - 656
+  yaw: 3.0222
+  pitch: 0.0
+- name: s04_double_axe
+  position:
+  - 1024
+  - 1254
+  - 656
+  yaw: 3.1416
+  pitch: 0.0
+- name: s04_corridor_west
+  position:
+  - -1152
+  - 1254
+  - 656
+  yaw: 0.0
+  pitch: 0.0
+- name: s04_channel
+  position:
+  - 1152
+  - 1208
+  - -60
+  yaw: 3.1416
+  pitch: 0.0
+- name: s05_octagon
+  position:
+  - -1434
+  - 1024
+  - 656
+  yaw: -1.7837
+  pitch: 0.0
+- name: s05_elevator
+  position:
+  - -1280
+  - -256
+  - 656
+  yaw: -2.6865
+  pitch: 0.0
+- name: s05_shaft_foot
+  position:
+  - -1766
+  - -1152
+  - -40
+  yaw: 1.5708
+  pitch: 0.0
+- name: s06_gauntlet_west
+  position:
+  - -1664
+  - -1741
+  - -40
+  yaw: 0.0
+  pitch: 0.0
+- name: s06_gauntlet_mid
+  position:
+  - -256
+  - -1741
+  - -81
+  yaw: 0.0
+  pitch: 0.0
+- name: s06_gauntlet_saws
+  position:
+  - 1024
+  - -1741
+  - -40
+  yaw: 0.0
+  pitch: 0.0
+- name: s06_door
+  position:
+  - 2304
+  - -1741
+  - -40
+  yaw: 0.0
+  pitch: 0.0
+- name: e01_exit_gate
+  position:
+  - 2816
+  - -1766
+  - -40
+  yaw: 0.0
+  pitch: 0.0
+- name: e02_hub_back
+  position:
+  - 3840
+  - -1664
+  - -40
+  yaw: 0.5293
+  pitch: 0.0

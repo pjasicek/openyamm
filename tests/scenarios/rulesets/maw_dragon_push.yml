@@ -1,0 +1,33 @@
+id: rulesets.maw_dragon_push
+title: Ruleset - MAW dragons' bites throw their target away from the party once Dragon Ability reaches Fangs
+world: mm6
+mode: faithful
+tags: [rulesets, maw]
+steps:
+  - new_game_flow:
+      start_map: oute3.odm
+      ruleset: {id: maw, difficulty: maw, progression: free}
+      party:
+        gold: 0
+        food: 10
+        members:
+          # A dragon-portrait Knight (race 5): it bites in melee, the Dragon class would breathe.
+          - name: Wyrm
+            class: Knight
+            race_id: 5
+            portrait_id: 71
+            level: 60
+            skills:
+              - {name: Unarmed, level: 8, mastery: 2}
+              - {name: DragonAbility, level: 30, mastery: 2}
+            equipment: {}
+  # A Mercenary Captain (level 17) 320 units east of the party at (-9728, -11319), healed after every blow.
+  - spawn_actor: {monster_id: 195, x: -9408, y: -11319, z: 200}
+  - advance_runtime: {seconds: 1}
+  - assert:
+      actor_visible: {actor_index: last, near: {x: -9728, y: -11319, max_distance: 400}}
+  # GAPS.md L6.4: Fangs 8 against level 17 throws it about 374 units per bite (mawDragonPushDistance).
+  - party_attack: {actor_index: last, count: 8, report: true}
+  - advance_runtime: {seconds: 0.5}
+  - assert:
+      actor_visible: {actor_index: last, far: {x: -9728, y: -11319, min_distance: 550}}

@@ -1,0 +1,170 @@
+# Written by make_scenarios.py from the built map; rerun it after convert.py.
+id: mm9r.thjorgardcity_thorolf
+title: Thorolf runs up and talks (NPC378.scr)
+world: mm9
+mode: faithful
+tags:
+- mm9
+- mm9_rework
+- draft
+steps:
+- load_map:
+    map: thjorgardcity.blv
+- note:
+    text: 'NPC378.scr: 106 alone (Tamur Leng met, no message yet): :Init shows him only with 83; nobody comes and no dialogue
+      opens.'
+- setup_shortcut:
+    kind: set_qbit
+    id: 90083
+    value: false
+- setup_shortcut:
+    kind: set_qbit
+    id: 90084
+    value: false
+- setup_shortcut:
+    kind: set_qbit
+    id: 90106
+    value: true
+- load_map:
+    map: thjorgardcity.blv
+- advance_runtime:
+    seconds: 1.0
+- set_pose:
+    map: thjorgardcity.blv
+    x: 1028
+    y: 573
+    z: -19
+    yaw: 3.1416
+    pitch: 0.0
+- advance_runtime:
+    seconds: 7.0
+    present_dialogs: true
+- assert:
+    dialog:
+      active: false
+- assert:
+    actor_visible:
+      actor_index: 57
+      hidden: true
+- assert:
+    actor_visible:
+      actor_index: 58
+      hidden: true
+- note:
+    text: 'NPC378.scr: 83 with 84 (the message delivered): :Init hides him; nobody comes and no dialogue opens.'
+- setup_shortcut:
+    kind: set_qbit
+    id: 90083
+    value: true
+- setup_shortcut:
+    kind: set_qbit
+    id: 90084
+    value: true
+- setup_shortcut:
+    kind: set_qbit
+    id: 90106
+    value: false
+- load_map:
+    map: thjorgardcity.blv
+- advance_runtime:
+    seconds: 1.0
+- set_pose:
+    map: thjorgardcity.blv
+    x: 1028
+    y: 573
+    z: -19
+    yaw: 3.1416
+    pitch: 0.0
+- advance_runtime:
+    seconds: 7.0
+    present_dialogs: true
+- assert:
+    dialog:
+      active: false
+- assert:
+    actor_visible:
+      actor_index: 57
+      hidden: true
+- assert:
+    actor_visible:
+      actor_index: 58
+      hidden: true
+- note:
+    text: 'NPC378.scr :Init with key 83: both copies shown; Thorolf0 sees the party, runs over (RunTo 16) and opens RUDE 378
+      himself; Thorolf1 is removed.'
+- setup_shortcut:
+    kind: set_qbit
+    id: 90083
+    value: true
+- setup_shortcut:
+    kind: set_qbit
+    id: 90084
+    value: false
+- setup_shortcut:
+    kind: set_qbit
+    id: 90106
+    value: false
+- load_map:
+    map: thjorgardcity.blv
+- advance_runtime:
+    seconds: 1.0
+- assert:
+    actor_visible:
+      actor_index: 57
+      hidden: false
+- assert:
+    actor_visible:
+      actor_index: 58
+      hidden: false
+- set_pose:
+    map: thjorgardcity.blv
+    x: 1028
+    y: 573
+    z: -19
+    yaw: 3.1416
+    pitch: 0.0
+- advance_runtime:
+    seconds: 7.0
+    present_dialogs: true
+- assert:
+    actor_dialog_started:
+      kind: mm9_rude
+      source_id: 378
+- assert:
+    dialog:
+      active: true
+      source_id: 378
+- assert:
+    actor_visible:
+      actor_index: 57
+      hidden: false
+      far:
+        x: 328
+        y: 573
+        min_distance: 200
+      near:
+        x: 1028
+        y: 573
+        max_distance: 260
+- assert:
+    actor_visible:
+      actor_index: 58
+      hidden: true
+- note:
+    text: 'NPC378.scr :OnRude: with 84 the dialogue''s close sends him away (Vanish).'
+- setup_shortcut:
+    kind: set_qbit
+    id: 90084
+    value: true
+- press_action:
+    action: cancel_dialog
+- advance_runtime:
+    seconds: 0.5
+    present_dialogs: true
+- assert:
+    dialog:
+      active: false
+- assert:
+    actor_visible:
+      actor_index: 57
+      hidden: true

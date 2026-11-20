@@ -1,0 +1,26 @@
+output_dir: /home/pjasicek/github/OpenYAMM/level_generation/props/items_claude/view_model_weapons_20261114/ingame/v6/trident_indoor
+exit: true
+steps:
+  - wait: 3
+  - console: viewmodel kit twohand w_trident.glb 0
+  - wait: 2
+  - console: viewmodel tier 3
+  - wait: 1.2
+  - capture: t3_idle
+  - console: viewmodel pose twohandattackright 0.4
+  - wait: 0.5
+  - capture: t3_swing
+  - console: viewmodel pose twohandattackright 0.3
+  - wait: 0.5
+  - capture: t3_swing2
+  - console: viewmodel pose off
+  - console: viewmodel tier 4
+  - wait: 1.2
+  - capture: t4_idle
+  - console: viewmodel pose twohandattackright 0.4
+  - wait: 0.5
+  - capture: t4_swing
+  - console: viewmodel pose twohandattackright 0.3
+  - wait: 0.5
+  - capture: t4_swing2
+  - console: viewmodel pose off

@@ -1,6 +1,5 @@
 #include "game/events/EventDialogContent.h"
-
-#include "game/localization/LocalizationCatalog.h"
+#include "engine/Localization.h"
 
 #include "game/events/ISceneEventContext.h"
 #include "game/gameplay/ArenaRuntime.h"
@@ -9,6 +8,10 @@
 #include "game/gameplay/NpcFollowerRuntime.h"
 #include "game/gameplay/MasteryTeacherDialog.h"
 #include "game/gameplay/ReputationRuntime.h"
+#include "game/mm9/Mm9MapTransition.h"
+#include "game/rules/GameRules.h"
+#include "game/rules/MonsterRules.h"
+#include "game/rules/SkillRules.h"
 #include "game/StringUtils.h"
 #include "game/tables/MergedBaseTables.h"
 
@@ -219,10 +222,10 @@ void appendNpcBtbAction(
     action.id = topicId;
     action.secondaryId = accepts ? successTextId : failTextId;
     action.argument = accepts ? "accepted" : "rejected";
-    action.label = topic && !topic->topic.empty() ? topic->topic : "Talk";
+    action.label = topic && !topic->topic.empty() ? Engine::localize(topic->topic) : Engine::tr("Talk");
     if (topicId == NpcBribeTopicId && cost != 0)
     {
-        action.label += " " + std::to_string(cost) + " Gold";
+        action.label = Engine::tr("{topic} {cost} Gold", {{"topic", action.label}, {"cost", cost}});
     }
     dialog.actions.push_back(std::move(action));
 }
@@ -332,14 +335,13 @@ std::string generatedNpcGreetingText(
     const MergedContinentSettingTable *pContinentSettingTable,
     float currentGameMinutes,
     bool npcIsHired,
-    bool seenGreeting,
-    const LocalizationCatalog *pLocalizationCatalog)
+    bool seenGreeting)
 {
     const std::optional<std::string> groupNews =
         generatedNpcGroupNewsText(runtimeState, npcDialogTable, npc.id, pCurrentMap);
     if (groupNews && !groupNews->empty())
     {
-        return *groupNews;
+        return Engine::localize(*groupNews);
     }
 
     // Use the same access decision as the conversation actions, so a refusal never offers Join.
@@ -358,8 +360,7 @@ std::string generatedNpcGreetingText(
     const int requiredReputation = personality.creed == "Dark"
         ? personality.requiredReputation : -personality.requiredReputation;
     return text ? formatNpcProfessionText(
-        *text, npc, profession, pParty, reputation, requiredReputation, currentGameMinutes,
-        pLocalizationCatalog) : std::string();
+        *text, npc, profession, pParty, reputation, requiredReputation, currentGameMinutes) : std::string();
 }
 
 std::string lowerTransitionTitle(const std::string &title)
@@ -666,16 +667,17 @@ std::string buildHouseParticipantTitle(const HouseEntry &houseEntry)
 
     if (!houseEntry.proprietorName.empty() && houseEntry.proprietorName != "Placeholder")
     {
-        title = houseEntry.proprietorName;
+        title = Engine::localize(houseEntry.proprietorName);
     }
     else
     {
-        title = houseEntry.name;
+        title = Engine::localize(houseEntry.name);
     }
 
     if (!houseEntry.proprietorTitle.empty() && houseEntry.proprietorTitle != "Placeholder")
     {
-        title += ", " + houseEntry.proprietorTitle;
+        title = Engine::tr("{name}, {title}",
+                           {{"name", title}, {"title", Engine::localize(houseEntry.proprietorTitle)}});
     }
 
     return title;
@@ -807,7 +809,7 @@ void appendHouseResidentActions(
         action.id = residentNpcId;
         action.participantPictureId = resident->pictureId;
         action.participantVisual = EventDialogParticipantVisual::Portrait;
-        action.label = resident->name;
+        action.label = Engine::localize(resident->name);
         dialog.actions.push_back(std::move(action));
     }
 }
@@ -824,9 +826,9 @@ void appendHouseExtraExitAction(EventDialogContent &dialog, const HouseEntry &ho
     action.id = houseEntry.id;
     action.participantPictureId = houseEntry.extraExit->pictureId;
     action.participantVisual = EventDialogParticipantVisual::Portrait;
-    action.label = !houseEntry.extraExit->destinationName.empty()
+    action.label = Engine::localize(!houseEntry.extraExit->destinationName.empty()
         ? houseEntry.extraExit->destinationName
-        : houseEntry.extraExit->label;
+        : houseEntry.extraExit->label);
     dialog.actions.push_back(std::move(action));
 }
 }
@@ -839,6 +841,44 @@ std::vector<uint32_t> collectSelectableResidentNpcIds(
     return collectSelectableResidentNpcIdsImpl(houseEntry, npcDialogTable, eventRuntimeState);
 }
 
+namespace
+{
+// The line every hireling's description ends with. The table holds it only joined to each profession's own first
+// line, so it is named here for the translators to have it on its own.
+constexpr std::string_view HirelingCostLine = Engine::trNoop("%01 takes %17 percent of all gold you find.");
+
+// A profession's description in the interface language. A ruleset may replace one line of the table's text (MAW's
+// hireling bonuses), and the result is then no text of any table: such a text is looked up line by line.
+std::string localizeProfessionText(const std::string &text)
+{
+    std::string whole = Engine::localizeKnown(text);
+
+    if (whole != text || text.find('\n') == std::string::npos)
+    {
+        return whole;
+    }
+
+    std::string lines;
+    size_t begin = 0;
+
+    while (begin <= text.size())
+    {
+        const size_t end = std::min(text.find('\n', begin), text.size());
+        const std::string line = text.substr(begin, end - begin);
+        lines += line == HirelingCostLine ? Engine::tr(HirelingCostLine) : Engine::localizeKnown(line);
+
+        if (end < text.size())
+        {
+            lines += '\n';
+        }
+
+        begin = end + 1;
+    }
+
+    return lines;
+}
+}
+
 std::string formatNpcProfessionText(
     std::string text,
     const NpcEntry &npc,
@@ -846,8 +886,7 @@ std::string formatNpcProfessionText(
     const Party *pParty,
     int effectiveReputation,
     std::optional<int> requiredReputation,
-    float currentGameMinutes,
-    const LocalizationCatalog *pLocalizationCatalog)
+    float currentGameMinutes)
 {
     const Character *pActiveMember = pParty != nullptr ? pParty->activeMember() : nullptr;
     if (pActiveMember == nullptr && pParty != nullptr)
@@ -855,14 +894,17 @@ std::string formatNpcProfessionText(
         pActiveMember = pParty->member(0);
     }
 
-    const std::string memberName = pActiveMember != nullptr ? pActiveMember->name : "traveler";
-    const std::string className = pActiveMember != nullptr ? pActiveMember->className : "traveler";
+    // The table's text and the values put in its codes, in the interface language; a caller that joined texts has
+    // translated them already.
+    text = localizeProfessionText(text);
+    const std::string memberName = pActiveMember != nullptr ? pActiveMember->name : Engine::tr("traveler");
+    const std::string className = pActiveMember != nullptr ? Engine::localize(pActiveMember->className, "class")
+                                                           : Engine::tr("traveler");
     const uint32_t hour = static_cast<uint32_t>(std::max(0.0f, currentGameMinutes) / 60.0f) % 24u;
-    const std::string timeOfDaySource = hour <= 8u ? "morning" : (hour <= 16u ? "afternoon" : "evening");
-    const std::string timeOfDay = pLocalizationCatalog != nullptr
-        ? pLocalizationCatalog->translate(timeOfDaySource) : timeOfDaySource;
+    const std::string timeOfDay =
+        hour <= 8u ? Engine::tr("morning") : (hour <= 16u ? Engine::tr("afternoon") : Engine::tr("evening"));
     const std::array<std::pair<std::string, std::string>, 14> replacements = {{
-        {"%01", npc.name},
+        {"%01", Engine::localize(npc.name)},
         {"%02", memberName},
         {"%04", std::to_string(profession.weeklyCost)},
         {"%05", timeOfDay},
@@ -872,7 +914,7 @@ std::string formatNpcProfessionText(
         {"%11", reputationLabel(effectiveReputation)},
         {"%12", reputationLabel(requiredReputation.value_or(effectiveReputation))},
         {"%13", memberName},
-        {"%14", profession.profession},
+        {"%14", Engine::localize(profession.profession)},
         {"%15", memberName},
         {"%16", memberName},
         {"%17", std::to_string(profession.weeklyCost / 100u)},
@@ -990,8 +1032,7 @@ EventDialogContent buildEventDialogContent(
     const MergedNewsProfessionTopicTable *pNewsProfessionTopicTable,
     const MergedNpcBtbTable *pNpcBtbTable,
     const MergedTeacherTopicTable *pTeacherTopicTable,
-    const MergedContinentSettingTable *pContinentSettingTable,
-    const LocalizationCatalog *pLocalizationCatalog
+    const MergedContinentSettingTable *pContinentSettingTable
 )
 {
     EventDialogContent dialog = {};
@@ -1062,10 +1103,12 @@ EventDialogContent buildEventDialogContent(
             messageIndex < eventRuntimeState.messages.size();
             ++messageIndex)
         {
-            const std::string message = pLocalizationCatalog != nullptr
-                ? pLocalizationCatalog->translateText(eventRuntimeState.messages[messageIndex])
-                : eventRuntimeState.messages[messageIndex];
-            const std::vector<std::string> wrappedLines = wrapDialogText(message, MaxLineWidth);
+            // Messages come from scripts (already in the interface language), from tables (English) and from the
+            // rules; a whole table text is translated here, before it is wrapped.
+            const std::vector<std::string> wrappedLines = wrapDialogText(
+                Engine::localizeKnown(eventRuntimeState.messages[messageIndex],
+                                      Engine::mapTextContext(eventRuntimeState.mapFileName)),
+                MaxLineWidth);
             eventMessageLines.insert(eventMessageLines.end(), wrappedLines.begin(), wrappedLines.end());
         }
     }
@@ -1076,7 +1119,25 @@ EventDialogContent buildEventDialogContent(
 
         if (context.titleOverride.has_value())
         {
-            dialog.title = *context.titleOverride;
+            dialog.title = Engine::localizeKnown(*context.titleOverride);
+        }
+
+        // An event's choice box: one button per answer.
+        if (eventRuntimeState.pendingInputPrompt
+            && eventRuntimeState.pendingInputPrompt->kind == EventRuntimeState::PendingInputPrompt::Kind::Choice)
+        {
+            const std::vector<std::string> &answers = eventRuntimeState.pendingInputPrompt->answers;
+
+            for (size_t answerIndex = 0; answerIndex < answers.size(); ++answerIndex)
+            {
+                EventDialogAction choiceAction = {};
+                choiceAction.kind = EventDialogActionKind::EventChoice;
+                choiceAction.id = uint32_t(answerIndex);
+                // The answer stays English in the prompt (saved, compared); its button shows the translation.
+                choiceAction.label =
+                    Engine::localize(answers[answerIndex], Engine::mapTextContext(eventRuntimeState.mapFileName));
+                dialog.actions.push_back(std::move(choiceAction));
+            }
         }
     }
     else if (context.kind == DialogueContextKind::MapTransition)
@@ -1084,9 +1145,10 @@ EventDialogContent buildEventDialogContent(
         dialog.participantVisual = EventDialogParticipantVisual::MapIcon;
         dialog.presentation = EventDialogPresentation::Transition;
         dialog.participantPictureId = 0;
-        const std::optional<MapEdgeTransition> *pTransition = context.transitionMapMove.has_value()
-            ? nullptr
-            : currentMapTransitionForContext(context, pCurrentMap);
+        const std::optional<MapEdgeTransition> *pTransition =
+            context.transitionMapMove.has_value() && !context.boundaryTravel
+                ? nullptr
+                : currentMapTransitionForContext(context, pCurrentMap);
         const std::string transitionMapName =
             context.transitionMapMove.has_value() && context.transitionMapMove->mapName.has_value()
                 ? *context.transitionMapMove->mapName
@@ -1160,55 +1222,78 @@ EventDialogContent buildEventDialogContent(
             }
         }
         dialog.videoDirectory = !dialog.videoName.empty() ? TransitionVideoDirectory : std::string();
+        // The English title found the video; from here on it is shown, in the interface language.
+        dialog.title = dialog.title == "Travel" ? Engine::tr("Travel") : Engine::localize(dialog.title);
 
-        if (pTransition != nullptr && pTransition->has_value() && (*pTransition)->travelDays > 0)
+        // MM9's region exits walk like MM6-MM8's map edges: guides shorten the road and the party leaves the region.
+        const bool mm9RegionWalkTransition = context.transitionMapMove.has_value() && !context.boundaryTravel
+            && mm9RegionWalk(context.transitionTravelDays, pMapEntries, currentMapName, transitionMapName);
+        const int edgeTravelDays = pTransition != nullptr && pTransition->has_value()
+            ? (*pTransition)->travelDays
+            : 0;
+        if (edgeTravelDays > 0 || context.transitionTravelDays > 0)
         {
-            const int travelDays = hiredNpcWalkingTravelDays((*pTransition)->travelDays, eventRuntimeState);
-            dialog.lines.push_back(
-                "It will take "
-                + std::to_string(travelDays)
-                + " day"
-                + (travelDays == 1 ? "" : "s")
-                + " to travel to "
-                + dialog.title
-                + ".");
+            const int baseDays = edgeTravelDays > 0 ? edgeTravelDays : context.transitionTravelDays;
+            const int travelDays = edgeTravelDays > 0 || mm9RegionWalkTransition
+                ? hiredNpcWalkingTravelDays(baseDays, eventRuntimeState)
+                : baseDays;
+            dialog.lines.push_back(Engine::trn("It will take {days} day to travel to {place}.",
+                                               "It will take {days} days to travel to {place}.",
+                                               uint64_t(std::max(travelDays, 0)),
+                                               {{"days", travelDays}, {"place", dialog.title}}));
         }
 
         if (pTransitionText != nullptr && !pTransitionText->description.empty())
         {
-            dialog.lines.push_back(pTransitionText->description);
+            dialog.lines.push_back(Engine::localize(pTransitionText->description));
         }
         else if (leavingCurrentDungeon)
         {
-            dialog.lines.push_back("Do you wish to leave " + dialog.title + "?");
+            dialog.lines.push_back(Engine::tr("Do you wish to leave {place}?", {{"place", dialog.title}}));
         }
-        else if (context.transitionMapMove.has_value())
+        else if (context.transitionMapMove.has_value() && !context.boundaryTravel
+            && !(mm9RegionWalkTransition && pCurrentMap != nullptr && !pCurrentMap->name.empty()))
         {
-            dialog.lines.push_back("Do you wish to enter " + dialog.title + "?");
+            dialog.lines.push_back(Engine::tr("Do you wish to enter {place}?", {{"place", dialog.title}}));
         }
         else if (pCurrentMap != nullptr && !pCurrentMap->name.empty())
         {
-            dialog.lines.push_back("Do you wish to leave " + pCurrentMap->name + "?");
+            dialog.lines.push_back(
+                Engine::tr("Do you wish to leave {place}?", {{"place", Engine::localize(pCurrentMap->name)}}));
         }
         else
         {
-            dialog.lines.push_back("Do you wish to leave this area?");
+            dialog.lines.push_back(Engine::tr("Do you wish to leave this area?"));
         }
 
         EventDialogAction confirmAction = {};
         confirmAction.kind = EventDialogActionKind::MapTransitionConfirm;
-        confirmAction.label = "OK";
+        confirmAction.label = Engine::tr("OK");
         dialog.actions.push_back(std::move(confirmAction));
+
+        // The rules may offer to reset a completed dungeon on the way in (MAW).
+        if (const std::optional<std::string> resetOffer = !leavingCurrentDungeon && !transitionMapName.empty()
+                    && context.transitionMapMove.has_value() && !context.boundaryTravel
+                ? gameRulesFor(pParty).monsters.mapResetOffer(transitionMapName)
+                : std::nullopt)
+        {
+            dialog.resetPrompt = *resetOffer;
+            EventDialogAction resetAction = {};
+            resetAction.kind = EventDialogActionKind::MapTransitionReset;
+            resetAction.label = Engine::tr("Reset");
+            dialog.actions.push_back(std::move(resetAction));
+        }
 
         EventDialogAction cancelAction = {};
         cancelAction.kind = EventDialogActionKind::MapTransitionCancel;
-        cancelAction.label = "Close";
+        cancelAction.label = Engine::tr("Close");
         dialog.actions.push_back(std::move(cancelAction));
     }
     else if (context.kind == DialogueContextKind::HouseService)
     {
         const HouseEntry *pHouseEntry = pHouseTable != nullptr ? pHouseTable->get(dialog.sourceId) : nullptr;
-        dialog.houseTitle = pHouseEntry != nullptr ? pHouseEntry->name : ("House #" + std::to_string(dialog.sourceId));
+        dialog.houseTitle = pHouseEntry != nullptr ? Engine::localize(pHouseEntry->name)
+                                                   : ("House #" + std::to_string(dialog.sourceId));
         dialog.title = dialog.houseTitle;
         dialog.participantPictureId = pHouseEntry != nullptr ? pHouseEntry->proprietorPictureId : 0;
         if (dialog.participantPictureId == 0 && pHouseEntry != nullptr && pHouseEntry->extraExit.has_value())
@@ -1316,7 +1401,7 @@ EventDialogContent buildEventDialogContent(
                 EventDialogAction action = {};
                 action.kind = EventDialogActionKind::HouseService;
                 action.id = static_cast<uint32_t>(HouseActionId::ThroneServeSentence);
-                action.label = "Serve Sentence";
+                action.label = Engine::tr("Serve Sentence");
                 dialog.actions.push_back(std::move(action));
             }
 
@@ -1383,20 +1468,22 @@ EventDialogContent buildEventDialogContent(
 
         if (context.kind == DialogueContextKind::NpcNews && dialog.sourceId == 0)
         {
-            dialog.title = "News";
+            dialog.title = Engine::tr("News");
         }
         else if (pNpc != nullptr && !pNpc->name.empty())
         {
-            dialog.title = pNpcProfessionTable != nullptr
-                ? pNpcProfessionTable->nameAndTitle(
-                    pNpc->name,
-                    pNpc->professionId,
-                    pLocalizationCatalog != nullptr ? pLocalizationCatalog->language() : "en")
-                : pNpc->name;
+            const MergedNpcProfessionEntry *pTitleProfession =
+                pNpcProfessionTable != nullptr && pNpc->professionId != 0
+                ? pNpcProfessionTable->get(pNpc->professionId)
+                : nullptr;
+            dialog.title = pTitleProfession != nullptr && !pTitleProfession->profession.empty()
+                ? Engine::tr("{name} the {profession}", {{"name", Engine::localize(pNpc->name)},
+                                                         {"profession", Engine::localize(pTitleProfession->profession)}})
+                : Engine::localize(pNpc->name);
         }
         else if (pGreeting != nullptr && !pGreeting->owner.empty())
         {
-            dialog.title = pGreeting->owner;
+            dialog.title = Engine::localize(pGreeting->owner);
         }
 
         if (context.kind == DialogueContextKind::NpcNews && context.participantPictureId != 0)
@@ -1415,7 +1502,7 @@ EventDialogContent buildEventDialogContent(
 
         if (context.titleOverride && !context.titleOverride->empty())
         {
-            dialog.title = *context.titleOverride;
+            dialog.title = Engine::localizeKnown(*context.titleOverride);
         }
 
         if (context.kind == DialogueContextKind::NpcTalk
@@ -1437,7 +1524,7 @@ EventDialogContent buildEventDialogContent(
 
                 if (!greetingText.empty())
                 {
-                    dialog.lines = wrapDialogText(greetingText, MaxLineWidth);
+                    dialog.lines = wrapDialogText(Engine::localize(greetingText), MaxLineWidth);
                     eventRuntimeState.npcGreetingDisplayCounts[dialog.sourceId] = greetingDisplayCount + 1;
                 }
             }
@@ -1453,7 +1540,7 @@ EventDialogContent buildEventDialogContent(
                         std::string greeting = generatedNpcGreetingText(
                             npcRuntimeState, *pNpc, *pNpcDialogTable, *pProfession, *pPersonality,
                             pCurrentMap, pParty, pWorldRuntime, pContinentSettingTable,
-                            currentGameMinutes, npcIsHired, greetingDisplayCount != 0, pLocalizationCatalog);
+                            currentGameMinutes, npcIsHired, greetingDisplayCount != 0);
                         if (!greeting.empty())
                         {
                             eventRuntimeState.npcGreetingDisplayCounts[pNpc->id] = greetingDisplayCount + 1;
@@ -1488,7 +1575,7 @@ EventDialogContent buildEventDialogContent(
                     EventDialogAction action = {};
                     action.kind = EventDialogActionKind::ArenaChallenge;
                     action.id = difficulty;
-                    action.label = arenaDifficultyName(ArenaDifficulty(difficulty));
+                    action.label = Engine::tr(arenaDifficultyName(ArenaDifficulty(difficulty)));
                     dialog.actions.push_back(std::move(action));
                 }
             }
@@ -1496,12 +1583,12 @@ EventDialogContent buildEventDialogContent(
             {
                 EventDialogAction acceptAction = {};
                 acceptAction.kind = EventDialogActionKind::RosterJoinAccept;
-                acceptAction.label = "Yes";
+                acceptAction.label = Engine::tr("Yes");
                 dialog.actions.push_back(std::move(acceptAction));
 
                 EventDialogAction declineAction = {};
                 declineAction.kind = EventDialogActionKind::RosterJoinDecline;
-                declineAction.label = "No";
+                declineAction.label = Engine::tr("No");
                 dialog.actions.push_back(std::move(declineAction));
             }
             else if (hasPendingMasteryTeacherOffer && pClassSkillTable != nullptr && pParty != nullptr)
@@ -1536,8 +1623,8 @@ EventDialogContent buildEventDialogContent(
 
                     const std::optional<std::string> joinText = pNpcDialogTable->getText(offer->joinTextId);
                     joinAction.label = joinText && !joinText->empty()
-                        ? *joinText
-                        : "Join guild for " + std::to_string(offer->cost) + " gold";
+                        ? Engine::localize(*joinText)
+                        : Engine::tr("Join guild for {cost} gold", {{"cost", offer->cost}});
                     dialog.actions.push_back(std::move(joinAction));
                 }
             }
@@ -1545,12 +1632,12 @@ EventDialogContent buildEventDialogContent(
             {
                 EventDialogAction acceptAction = {};
                 acceptAction.kind = EventDialogActionKind::NpcHireAccept;
-                acceptAction.label = "Yes";
+                acceptAction.label = Engine::tr("Yes");
                 dialog.actions.push_back(std::move(acceptAction));
 
                 EventDialogAction declineAction = {};
                 declineAction.kind = EventDialogActionKind::NpcHireDecline;
-                declineAction.label = "No";
+                declineAction.label = Engine::tr("No");
                 dialog.actions.push_back(std::move(declineAction));
             }
             else
@@ -1564,7 +1651,7 @@ EventDialogContent buildEventDialogContent(
                     EventDialogAction joinAction = {};
                     joinAction.kind = EventDialogActionKind::GeneratedMercenaryJoinOffer;
                     joinAction.id = dialog.sourceId;
-                    joinAction.label = "Join";
+                    joinAction.label = Engine::tr("Join");
                     dialog.actions.push_back(std::move(joinAction));
                 }
 
@@ -1624,7 +1711,7 @@ EventDialogContent buildEventDialogContent(
                     }
 
                     action.id = topic.id;
-                    action.label = topic.topic;
+                    action.label = Engine::localize(topic.topic);
                     dialog.actions.push_back(std::move(action));
                 }
 
@@ -1641,8 +1728,10 @@ EventDialogContent buildEventDialogContent(
                 {
                     const bool npcCanJoin =
                         npcCanOfferProfessionHire(*pNpc, *pProfession, allowProfessionBasedHire);
+                    // No hiring on a continent without followers, nor in a world without them (MM9).
                     const bool canUseNpcFollowers =
-                        continentAllowsNpcFollowers(pCurrentMap, pContinentSettingTable);
+                        continentAllowsNpcFollowers(pCurrentMap, pContinentSettingTable)
+                        && (pParty == nullptr || pParty->npcFollowersActive());
                     const MergedNpcBtbEntry *pBtbEntry =
                         pNpcBtbTable != nullptr ? pNpcBtbTable->get(pProfession->personality) : nullptr;
                     const bool showBtbGate =
@@ -1688,9 +1777,12 @@ EventDialogContent buildEventDialogContent(
                         EventDialogAction action = {};
                         action.kind = EventDialogActionKind::NpcHireOffer;
                         action.id = pNpc->professionId;
-                        action.label = "Join";
+                        const std::optional<FollowerHireRefusal> hireRefusal =
+                            gameRulesFor(pParty).classes.followerHireRefusal(context.hostHouseId);
+                        action.label = hireRefusal ? Engine::localize(hireRefusal->topic) : Engine::tr("Join");
                         action.enabled = npcRuntimeState.hiredNpcFollowers.size() < MaxNpcFollowerCount;
-                        action.disabledReason = action.enabled ? std::string() : "You already have enough followers.";
+                        action.disabledReason =
+                            action.enabled ? std::string() : Engine::tr("You already have enough followers.");
                         dialog.actions.push_back(std::move(action));
 
                         if (pProfession->descriptionTextId != 0)
@@ -1699,7 +1791,7 @@ EventDialogContent buildEventDialogContent(
                             infoAction.kind = EventDialogActionKind::NpcProfessionDescription;
                             infoAction.id = pNpc->professionId;
                             infoAction.secondaryId = pProfession->descriptionTextId;
-                            infoAction.label = "More Info";
+                            infoAction.label = Engine::tr("More Info");
                             dialog.actions.push_back(std::move(infoAction));
                         }
                     }
@@ -1720,19 +1812,22 @@ EventDialogContent buildEventDialogContent(
                                 action.kind = EventDialogActionKind::NpcProfessionAction;
                                 action.id = pProfession->actionTopicId;
                                 action.label = professionTopic && !professionTopic->topic.empty()
-                                    ? professionTopic->topic
-                                    : (!pProfession->profession.empty() ? pProfession->profession : "Profession");
+                                    ? Engine::localize(professionTopic->topic)
+                                    : (!pProfession->profession.empty() ? Engine::localize(pProfession->profession)
+                                                                        : Engine::tr("Profession"));
                                 dialog.actions.push_back(std::move(action));
                             }
                         }
 
-                        if (pProfession->descriptionTextId != 0)
+                        // Descriptions read as a hiring pitch with a gold share, so like MMerge only offer them to
+                        // followers; non-joining NPCs keep just their news topics.
+                        if (npcIsHired && pProfession->descriptionTextId != 0)
                         {
                             EventDialogAction action = {};
                             action.kind = EventDialogActionKind::NpcProfessionDescription;
                             action.id = pNpc->professionId;
                             action.secondaryId = pProfession->descriptionTextId;
-                            action.label = "More Info";
+                            action.label = Engine::tr("More Info");
                             dialog.actions.push_back(std::move(action));
                         }
 
@@ -1741,7 +1836,7 @@ EventDialogContent buildEventDialogContent(
                             EventDialogAction action = {};
                             action.kind = EventDialogActionKind::NpcDismiss;
                             action.id = pNpc->professionId;
-                            action.label = "Dismiss";
+                            action.label = Engine::tr("Dismiss");
                             dialog.actions.push_back(std::move(action));
                         }
                     }
@@ -1770,12 +1865,12 @@ EventDialogContent buildEventDialogContent(
                         action.id = pNpc->professionId;
                         action.secondaryId = pProfessionTopic->newsTextId;
                         action.label = newsTopic && !newsTopic->empty()
-                            ? *newsTopic
-                            : (!pProfession->profession.empty() ? pProfession->profession : "Profession");
+                            ? Engine::localize(*newsTopic)
+                            : (!pProfession->profession.empty() ? Engine::localize(pProfession->profession)
+                                                                : Engine::tr("Profession"));
                         dialog.actions.push_back(std::move(action));
                     }
                 }
-
                 const HouseEntry *pHostHouse = pHouseTable != nullptr && context.hostHouseId != 0
                     ? pHouseTable->get(context.hostHouseId)
                     : nullptr;
@@ -1784,7 +1879,7 @@ EventDialogContent buildEventDialogContent(
                     EventDialogAction action = {};
                     action.kind = EventDialogActionKind::NpcOfferLodging;
                     action.id = pHostHouse->id;
-                    action.label = "Would you like to rest?";
+                    action.label = Engine::tr("Would you like to rest?");
                     dialog.actions.push_back(std::move(action));
                 }
             }
@@ -1799,7 +1894,8 @@ EventDialogContent buildEventDialogContent(
 
             if (newsText && !newsText->empty())
             {
-                const std::vector<std::string> wrappedNews = wrapDialogText(*newsText, MaxLineWidth);
+                const std::vector<std::string> wrappedNews =
+                    wrapDialogText(Engine::localize(*newsText), MaxLineWidth);
                 dialog.lines.insert(dialog.lines.end(), wrappedNews.begin(), wrappedNews.end());
             }
         }
@@ -1817,7 +1913,27 @@ EventDialogContent buildEventDialogContent(
 
         if (teacherTopic && teacherTopic->textId != 0)
         {
-            const std::optional<std::string> text = pNpcDialogTable->getText(teacherTopic->textId);
+            std::optional<std::string> text = pNpcDialogTable->getText(teacherTopic->textId);
+
+            if (text && !text->empty())
+            {
+                text = Engine::localize(*text);
+            }
+
+            // The rules' requirement and price for the active member replace the speech's numbers (MAW), in the
+            // translated text.
+            if (text && !text->empty() && pParty != nullptr && pClassSkillTable != nullptr)
+            {
+                if (const std::optional<MasteryTeacherEvaluation> evaluation = evaluateMasteryTeacherTopic(
+                        pCurrentOffer->topicId, *pParty, *pClassSkillTable, *pNpcDialogTable, pTeacherTopicTable))
+                {
+                    const SkillRules &skillRules = pParty->rules().skills;
+                    text = skillRules.teacherSpeech(*text, canonicalSkillName(teacherTopic->skillName),
+                        teacherTopic->targetMastery,
+                        skillRules.masteryRequiredLevel(teacherTopic->skillName, teacherTopic->targetMastery),
+                        evaluation->cost);
+                }
+            }
 
             if (text && !text->empty())
             {
@@ -1838,7 +1954,7 @@ EventDialogContent buildEventDialogContent(
 
         if (inviteText && !inviteText->empty())
         {
-            eventMessageLines = wrapDialogText(*inviteText, MaxLineWidth);
+            eventMessageLines = wrapDialogText(Engine::localize(*inviteText), MaxLineWidth);
         }
     }
 
@@ -1854,7 +1970,7 @@ EventDialogContent buildEventDialogContent(
 
         if (hireText && !hireText->empty())
         {
-            eventMessageLines = wrapDialogText(*hireText, MaxLineWidth);
+            eventMessageLines = wrapDialogText(Engine::localize(*hireText), MaxLineWidth);
         }
     }
 
@@ -1909,10 +2025,25 @@ EventDialogContent buildEventDialogContent(
 
         if (!dialog.isHouseDialog && !allowEmptyNpcTalkDialog)
         {
-            dialog.lines.push_back("NPC interaction UI is not implemented yet.");
+            dialog.lines.push_back(Engine::tr("NPC interaction UI is not implemented yet."));
         }
     }
 
     return dialog;
+}
+
+bool transitionResetPopupOpen(const EventDialogContent &dialog)
+{
+    return dialog.presentation == EventDialogPresentation::Transition && !dialog.resetPrompt.empty();
+}
+
+void dismissTransitionResetPopup(EventDialogContent &dialog)
+{
+    dialog.resetPrompt.clear();
+    std::erase_if(dialog.actions,
+        [](const EventDialogAction &action)
+        {
+            return action.kind == EventDialogActionKind::MapTransitionReset;
+        });
 }
 }

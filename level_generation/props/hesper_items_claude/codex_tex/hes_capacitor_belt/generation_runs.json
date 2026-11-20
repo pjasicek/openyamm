@@ -1,0 +1,584 @@
+{
+  "tool": "built-in image_gen",
+  "requested_size": [
+    1024,
+    1024
+  ],
+  "max_corrective_regenerations_per_view": 1,
+  "runs": [
+    {
+      "view": "front",
+      "attempt": 1,
+      "prompt": "Use case: style-transfer. Asset type: orthographic albedo texture-source painting for the Hesper capacitor belt.\nInput 1 is design_reference.png, the approved authority for surface design, colour and materials only. Input 2 is the named 1024 x 1024 guide, the exact edit target and absolute authority for geometry, silhouette, camera, framing and every part's edges.\nPaint ONLY the existing object pixels of Input 2. Preserve its alpha silhouette EXACTLY, same outline, size, location and all internal part boundaries. Preserve its complete 1024 x 1024 canvas and large transparent margins. Do not enlarge, crop, recenter, bend, rotate, reposition, add, remove or reshape any part. Do not copy the perspective or silhouette of Input 1.\nThe belt consists of spare cells feeding the wearer's shield. Paint the guide's light ceramic cell casings in the reference's warm white ivory ceramic, fine wear, restrained hairline scuffs and engraved seams; use brushed muted antique gold trim and warm gold metal wherever corresponding parts exist, black-violet resin belt backing with subtle panel joins, and blue-white luminous glass in the guide's existing narrow light windows. Tints in the guide are material identifiers, not final colours. Continue unseen surfaces plausibly in the same materials. All small markings are nonlinguistic; no text, letters, numerals, logos or watermark.\nLIGHTING: flat, evenly lit albedo, shadowless frontal illumination. Remove the guide's cast shadows and light gradients. No cast shadows, contact shadows, ambient occlusion, strong specular highlights, reflections, rim light, glow bloom or spill outside the object. Gold is its base colour with only a faint sheen. Light windows are painted bright blue-white. No floor, no scene, no background; genuine transparent RGBA alpha everywhere outside the exact guide silhouette. Return one 1024 x 1024 PNG painting, not a sheet.\nVIEW: guide_front.png. Keep the thin straight horizontal belt from x=66 to x=958, y=437 to y=587 in the 1024 canvas. Preserve all seven upright visible ceramic cell forms at their exact locations, including the upright cell in the middle. Only the small gold arcs visible above and below that middle cell may be painted there: do not add a full circular buckle to this view. The belt backing is a straight horizontal black-violet band.",
+      "inputs": [
+        {
+          "path": "design_reference.png",
+          "sha256": "3e394fb906f01f302d0154eedbdceb786df8675173a78560066d4defe9dd93a3"
+        },
+        {
+          "path": "guide_front.png",
+          "sha256": "8425b9c1ea4c95e15435293d040b6e85aba9d3ca95c7b56c427635b5ccde44ec"
+        }
+      ],
+      "source": "/home/pjasicek/.codex/generated_images/01a16da8-7bc3-7ce0-87ac-f16b6153bcc0/exec-2096d954-ff00-400b-be73-27691c3482bc.png",
+      "output": "paint_front_attempt1.png",
+      "selected": false,
+      "reason": "Corrective regeneration requested: the first return changed part outlines, retained directional shading and has stray low-alpha pixels; also returned 1254 x 1254 instead of requested 1024 x 1024.",
+      "size": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "unresized": true,
+      "output_sha256": "278f06af6b84be17b9738b61a6979c0aaa3b7d89d2904fca150896486164bffd",
+      "checks": {
+        "transparent_background": true,
+        "requested_size_met": false,
+        "silhouette_identical": false,
+        "opaque_bbox": [
+          79,
+          534,
+          1175,
+          720
+        ],
+        "alpha_bbox": [
+          65,
+          31,
+          1210,
+          1150
+        ],
+        "normalized_silhouette_iou_at_alpha_128": 0.97056,
+        "normalized_comparison_note": "Read-only mask comparison in returned-image coordinates; saved PNG is byte-identical to the tool return.",
+        "pixels_alpha_1_to_15": 9850,
+        "visual_review": {
+          "materials": "Matches ivory, gold, black-violet and blue-white reference palette.",
+          "lighting": "Strong directional bevel shading and contact darkening remain.",
+          "text_or_letters": "None visible.",
+          "geometry": "Seven-cell arrangement retained but original angular casing boundaries are rounded and altered."
+        },
+        "no_text_or_letters_visible": true,
+        "materials_match_reference_palette": true,
+        "fully_flat_shadowless_albedo": false
+      }
+    },
+    {
+      "view": "front",
+      "attempt": 2,
+      "prompt": "Corrective regeneration, FRONT view, one PNG. Edit INPUT 1 (guide_front.png) as a locked pixel layout; INPUT 2 (design_reference.png) is only the material palette and fine surface detail reference. This is a precise albedo paint-over, not a new illustration.\nOutput 1024 x 1024 RGBA, keep ALL transparent pixels and the exact original alpha boundary of INPUT 1. The object occupies only x=66..958 and y=437..587. Do not enlarge it to fill the frame. Every existing corner and straight edge of the seven upright cell housings and the belt must stay in the same location. Especially retain the flat straight top and bottom of the belt and the angular chamfers of the white housings: do not round them or introduce gold projections. Keep the middle upright cell in place, with only the guide's little gold disk arcs above/below it. Do not add a face-on circular buckle.\nReplace guide material colours with detailed but FLAT base-colour painting from INPUT 2: warm ivory ceramic with fine subtle wear, muted brushed ochre gold trim INSIDE the existing part edges, deep black-violet resin strap, and bright blue-white glass in each existing thin vertical window. Use subtle engraved seams and panel joins as fine linework only. No new geometry. Exact guide part layout wins over reference design shape.\nCritical correction: remove ALL directional shading from the guide and reference. All faces of each material have the same base brightness. No shadows to the left of cell housings, no black halo at contacts, no ambient occlusion, no modeled bevel highlights, no specular shine, no reflections. Gold is matte ochre gold with a faint grain, ivory is warm white throughout. The luminous slots are bright cyan-white pigment with no bloom. This is an UNLIT DIFFUSE TEXTURE SOURCE.\nOutside the original object's alpha boundary everything is alpha zero; no stray flecks, no glow, no background or floor. No text or letters. Preserve exact orthographic camera, silhouette, placement, scale, overlaps and part boundaries.",
+      "inputs": [
+        {
+          "path": "guide_front.png",
+          "sha256": "8425b9c1ea4c95e15435293d040b6e85aba9d3ca95c7b56c427635b5ccde44ec"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "3e394fb906f01f302d0154eedbdceb786df8675173a78560066d4defe9dd93a3"
+        }
+      ],
+      "source": "/home/pjasicek/.codex/generated_images/01a16da8-7bc3-7ce0-87ac-f16b6153bcc0/exec-bb7bc40f-aa17-4911-8294-7066f0c31333.png",
+      "output": "paint_front.png",
+      "selected": true,
+      "reason": "Selected the sole corrective return for flatter lighting and more faithful angular casings. Raw image retained unresized; exact guide silhouette is not achieved.",
+      "size": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "unresized": true,
+      "output_sha256": "57142931a9f51dd5f94205f28b384ab22871a6f054821d211886c0c1749334ca",
+      "checks": {
+        "transparent_background": true,
+        "requested_size_met": false,
+        "silhouette_identical": false,
+        "opaque_bbox": [
+          79,
+          536,
+          1176,
+          718
+        ],
+        "alpha_bbox": [
+          0,
+          37,
+          1200,
+          1216
+        ],
+        "normalized_silhouette_iou_at_alpha_128": 0.979623,
+        "normalized_comparison_note": "Read-only mask comparison in returned-image coordinates; saved PNG is byte-identical to the tool return.",
+        "pixels_alpha_1_to_15": 12081,
+        "visual_review": {
+          "materials": "Ivory ceramic, muted gold, black-violet resin and blue-white windows match the design palette.",
+          "lighting": "Substantially flatter than attempt 1; subtle edge shading remains.",
+          "text_or_letters": "None visible.",
+          "geometry": "Seven cell layout and small central gold arcs preserved approximately; outline and fine part-edge drift remain."
+        },
+        "no_text_or_letters_visible": true,
+        "materials_match_reference_palette": true,
+        "fully_flat_shadowless_albedo": false
+      }
+    },
+    {
+      "view": "back",
+      "attempt": 1,
+      "prompt": "Use case: style-transfer. Asset type: orthographic albedo texture-source painting for the Hesper capacitor belt.\nInput 1 is the named 1024 x 1024 guide, the exact edit target and absolute authority for geometry, silhouette, camera, framing and every part's edges. Input 2 is design_reference.png, the approved authority for surface design, colour and materials only.\nPaint ONLY the existing object pixels of Input 1. Preserve its alpha silhouette EXACTLY, same outline, size, location and all internal part boundaries. Preserve its complete 1024 x 1024 canvas and large transparent margins. Do not enlarge, crop, recenter, bend, rotate, reposition, add, remove or reshape any part. Do not copy the perspective or silhouette of Input 2.\nThe belt consists of spare cells feeding the wearer's shield. Paint the guide's light ceramic cell casings in the reference's warm white ivory ceramic, fine wear, restrained hairline scuffs and engraved seams; use brushed muted antique gold trim and warm gold metal wherever corresponding parts exist, black-violet resin belt backing with subtle panel joins, and blue-white luminous glass in the guide's existing narrow light windows. Tints in the guide are material identifiers, not final colours. Continue unseen surfaces plausibly in the same materials. All small markings are nonlinguistic; no text, letters, numerals, logos or watermark.\nLIGHTING: flat, evenly lit albedo, shadowless frontal illumination. Remove the guide's cast shadows and light gradients. No cast shadows, contact shadows, ambient occlusion, strong specular highlights, reflections, rim light, glow bloom or spill outside the object. Gold is its base colour with only a faint sheen. Light windows are painted bright blue-white. No floor, no scene, no background; genuine transparent RGBA alpha everywhere outside the exact guide silhouette. Return one 1024 x 1024 PNG painting, not a sheet.\nVIEW: guide_back.png. Keep the thin straight horizontal belt from x=66 to x=958, y=437 to y=587 in the 1024 canvas. Preserve the three upright cells on each side and the central circular buckle exactly where the guide shows them. The round gold buckle surrounds the existing central blue-white circular insert; use the design's concentric gold details within that fixed disk boundary. Do not replace the disk with an upright cell.\nStrict unlit diffuse-map treatment: all faces of each material have the same base brightness. No modeled bevel highlights, no black shading at contacts. Gold is matte muted ochre with faint brushed grain, ceramic warm ivory with fine restrained wear, resin dark violet-charcoal. Fine engraved seams only, no bright specular lines. Preserve the guide's angular chamfers and every polygonal corner exactly. No stray flecks outside its alpha. Do not interpret the transparent margins as black background.",
+      "inputs": [
+        {
+          "path": "guide_back.png",
+          "sha256": "fdda9cb7814df6dca165f2f80f2f5dcbe1dd9547260dccafcb2d90e12057012a"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "3e394fb906f01f302d0154eedbdceb786df8675173a78560066d4defe9dd93a3"
+        }
+      ],
+      "source": "/home/pjasicek/.codex/generated_images/01a16da8-7bc3-7ce0-87ac-f16b6153bcc0/exec-7b82d935-4bea-4fbc-8763-c4dbae335182.png",
+      "output": "paint_back_attempt1.png",
+      "selected": false,
+      "reason": "Correction needed for vertical placement drift, rounded casing shapes and residual shading.",
+      "size": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "unresized": true,
+      "output_sha256": "c8547ca86447f987611cb7492482d3fb05465e87da2a4f6f64d74ea34de8033b",
+      "checks": {
+        "transparent_background": true,
+        "requested_size_met": false,
+        "silhouette_identical": false,
+        "opaque_bbox": [
+          82,
+          518,
+          1173,
+          699
+        ],
+        "alpha_bbox": [
+          78,
+          49,
+          1176,
+          927
+        ],
+        "normalized_silhouette_iou_at_alpha_128": 0.744156,
+        "normalized_comparison_note": "Read-only mask comparison in returned-image coordinates; saved PNG is byte-identical to the tool return.",
+        "pixels_alpha_1_to_15": 5950,
+        "visual_review": {
+          "materials": "Matches design palette.",
+          "lighting": "Directional bevel shading and contact darkening remain.",
+          "text_or_letters": "None visible.",
+          "geometry": "Central disk and six cells present, but belt is shifted upwards and casings softened."
+        },
+        "no_text_or_letters_visible": true,
+        "materials_match_reference_palette": true,
+        "fully_flat_shadowless_albedo": false
+      }
+    },
+    {
+      "view": "back",
+      "attempt": 2,
+      "prompt": "Corrective regeneration, BACK view, one PNG. Edit INPUT 1 (guide_back.png) as a locked pixel layout; INPUT 2 (design_reference.png) is only the material palette and fine surface detail reference. This is a precise albedo paint-over, not a new illustration.\nOutput 1024 x 1024 RGBA, keep ALL transparent pixels and the exact original alpha boundary of INPUT 1. The object occupies only x=66..958 and y=437..587. Do not enlarge it to fill the frame. Every existing corner and straight edge of the six upright cell housings and the belt must stay in the same location. Especially retain the flat straight top and bottom of the belt and the angular chamfers of the white housings: do not round them or introduce gold projections. The central circular buckle is centered exactly at (512,512), outer edge reaches y=437 and y=587. Keep that polygonal gold disk and its existing blue-white circular window exactly as in the guide, three rectangular upright cells on either side. Paint restrained concentric gold and black-violet line details into the fixed disk; do not enlarge the disk or add sticking-out ornaments. The straight band runs y=451..573; no vertical displacement.\nReplace guide material colours with detailed but FLAT base-colour painting from INPUT 2: warm ivory ceramic with fine subtle wear, muted brushed ochre gold trim INSIDE the existing part edges, deep black-violet resin strap, and bright blue-white glass in each existing thin vertical window. Use subtle engraved seams and panel joins as fine linework only. No new geometry. Exact guide part layout wins over reference design shape.\nCritical correction: remove ALL directional shading from the guide and reference. All faces of each material have the same base brightness. No shadows to the left of cell housings, no black halo at contacts, no ambient occlusion, no modeled bevel highlights, no specular shine, no reflections. Gold is matte ochre gold with a faint grain, ivory is warm white throughout. The luminous slots are bright cyan-white pigment with no bloom. This is an UNLIT DIFFUSE TEXTURE SOURCE.\nOutside the original object's alpha boundary everything is alpha zero; no stray flecks, no glow, no background or floor. No text or letters. Preserve exact orthographic camera, silhouette, placement, scale, overlaps and part boundaries.",
+      "inputs": [
+        {
+          "path": "guide_back.png",
+          "sha256": "fdda9cb7814df6dca165f2f80f2f5dcbe1dd9547260dccafcb2d90e12057012a"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "3e394fb906f01f302d0154eedbdceb786df8675173a78560066d4defe9dd93a3"
+        }
+      ],
+      "source": "/home/pjasicek/.codex/generated_images/01a16da8-7bc3-7ce0-87ac-f16b6153bcc0/exec-197f5afb-1f4a-4e4b-9a6b-52b72d590931.png",
+      "output": "paint_back.png",
+      "selected": true,
+      "reason": "Selected the sole corrective return: corrected vertical placement and flatter ceramic/light treatment. Some casing/buckle edges still differ from the guide.",
+      "size": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "unresized": true,
+      "output_sha256": "71203d4c79c5c7bb8c954794fceaabcacc6925f535032303283e679e17cd8302",
+      "checks": {
+        "transparent_background": true,
+        "requested_size_met": false,
+        "silhouette_identical": false,
+        "opaque_bbox": [
+          80,
+          538,
+          1174,
+          717
+        ],
+        "alpha_bbox": [
+          33,
+          63,
+          1232,
+          1238
+        ],
+        "normalized_silhouette_iou_at_alpha_128": 0.976495,
+        "normalized_comparison_note": "Read-only mask comparison in returned-image coordinates; saved PNG is byte-identical to the tool return.",
+        "pixels_alpha_1_to_15": 17561,
+        "visual_review": {
+          "materials": "Ivory, muted gold, violet-black and cyan-white palette matches reference.",
+          "lighting": "Flat faces improved; fine bevel shading and dark outlines remain.",
+          "text_or_letters": "None visible.",
+          "geometry": "Correct central circular buckle and six cells; extra gold casing edge details and silhouette drift remain."
+        },
+        "no_text_or_letters_visible": true,
+        "materials_match_reference_palette": true,
+        "fully_flat_shadowless_albedo": false
+      }
+    },
+    {
+      "view": "left",
+      "attempt": 1,
+      "prompt": "Use case: style-transfer. Asset type: orthographic albedo texture-source painting for the Hesper capacitor belt.\nInput 1 is the named 1024 x 1024 guide, the exact edit target and absolute authority for geometry, silhouette, camera, framing and every part's edges. Input 2 is design_reference.png, the approved authority for surface design, colour and materials only.\nPaint ONLY the existing object pixels of Input 1. Preserve its alpha silhouette EXACTLY, same outline, size, location and all internal part boundaries. Preserve its complete 1024 x 1024 canvas and large transparent margins. Do not enlarge, crop, recenter, bend, rotate, reposition, add, remove or reshape any part. Do not copy the perspective or silhouette of Input 2.\nThe belt consists of spare cells feeding the wearer's shield. Paint the guide's light ceramic cell casings in the reference's warm white ivory ceramic, fine wear, restrained hairline scuffs and engraved seams; use brushed muted antique gold trim and warm gold metal wherever corresponding parts exist, black-violet resin belt backing with subtle panel joins, and blue-white luminous glass in the guide's existing narrow light windows. Tints in the guide are material identifiers, not final colours. Continue unseen surfaces plausibly in the same materials. All small markings are nonlinguistic; no text, letters, numerals, logos or watermark.\nLIGHTING: flat, evenly lit albedo, shadowless frontal illumination. Remove the guide's cast shadows and light gradients. No cast shadows, contact shadows, ambient occlusion, strong specular highlights, reflections, rim light, glow bloom or spill outside the object. Gold is its base colour with only a faint sheen. Light windows are painted bright blue-white. No floor, no scene, no background; genuine transparent RGBA alpha everywhere outside the exact guide silhouette. Return one 1024 x 1024 PNG painting, not a sheet.\nVIEW: guide_left.png. Exact LEFT orthographic side. Preserve the horizontal strip and all visible rectangular cell housings, including their overlaps, at the original pixel positions. Overall object bounds x=161..863, y=437..587. The buckle is a thin vertical gold edge at the LEFT end, with a narrow blue-white sliver on its outer left edge. Do not rotate the buckle face towards the viewer. Do not straighten, spread or center the individual housings; preserve the guide.\nStrict unlit diffuse-map treatment: all faces of each material have the same base brightness. No modeled bevel highlights, no black shading at contacts. Gold is matte muted ochre with faint brushed grain, ceramic warm ivory with fine restrained wear, resin dark violet-charcoal. Fine engraved seams only, no bright specular lines. Preserve the guide's angular chamfers and every polygonal corner exactly. No stray flecks outside its alpha. Do not interpret the transparent margins as black background.",
+      "inputs": [
+        {
+          "path": "guide_left.png",
+          "sha256": "d56576459a2a2c5ba84cbf0df754332b3c380db6293e07cae434d77d9210d194"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "3e394fb906f01f302d0154eedbdceb786df8675173a78560066d4defe9dd93a3"
+        }
+      ],
+      "source": "/home/pjasicek/.codex/generated_images/01a16da8-7bc3-7ce0-87ac-f16b6153bcc0/exec-a272b96a-6751-4b39-a178-39478decac91.png",
+      "output": "paint_left_attempt1.png",
+      "selected": false,
+      "reason": "Correction requested: strong metallic glints, softened cell edges and retained bevel/contact shading.",
+      "size": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "unresized": true,
+      "output_sha256": "a93ea2667c5a30981f7d09dc21525a6d38e171102cb39c22d39ff807bdb838e4",
+      "checks": {
+        "transparent_background": true,
+        "requested_size_met": false,
+        "silhouette_identical": false,
+        "opaque_bbox": [
+          195,
+          536,
+          1058,
+          718
+        ],
+        "alpha_bbox": [
+          113,
+          168,
+          1224,
+          1134
+        ],
+        "normalized_silhouette_iou_at_alpha_128": 0.985467,
+        "normalized_comparison_note": "Read-only mask comparison in returned-image coordinates; saved PNG is byte-identical to the tool return.",
+        "pixels_alpha_1_to_15": 10576,
+        "visual_review": {
+          "materials": "Reference palette present.",
+          "lighting": "Visible gold highlights and shaded bevels unsuitable for strict albedo.",
+          "text_or_letters": "None visible.",
+          "geometry": "Buckle edge correctly on the left; cell corners and backing edges drift."
+        },
+        "no_text_or_letters_visible": true,
+        "materials_match_reference_palette": true,
+        "fully_flat_shadowless_albedo": false
+      }
+    },
+    {
+      "view": "left",
+      "attempt": 2,
+      "prompt": "LEFT view, precise albedo paint-over. INPUT 1 guide_left.png is the exact edit target and locked pixel layout. INPUT 2 design_reference.png supplies material colours and fine surface details only. Output one 1024 x 1024 transparent RGBA PNG. Keep the full canvas with original transparent margins.\nKeep exactly every original alpha boundary, polygon corner, part edge, cell location and overlap of INPUT 1. Overall bounds x=161..863, y=437..587. Preserve the straight belt backing and six visible upright chamfered rectangular cell casings. The vertical buckle is visible edge-on at the LEFT end, its gold thickness at x=164..202 and the tiny blue-white sliver on its leftmost side. Retain that vertical straight-edged slab and original overlap with the first casing. No face-on buckle. Do not enlarge, recenter, shift, rotate, round corners or add any parts. Use the guide geometry, not the reference silhouette.\nPaint warm ivory ceramic with fine subtle wear on the light casings, muted ochre brushed gold details inside their original boundaries, deep charcoal-violet resin band with understated panel joins, bright blue-white pigment in the existing narrow windows. Fine engraved seams are allowed inside existing parts; no text or letters.\nUNLIT DIFFUSE MAP: all faces of each material have the same base brightness. No directional shading anywhere. Do not paint bevel highlights or contact darkening. The left buckle slab must be an EVEN MATTE GOLD base colour, no bright yellow glint, no top highlight, no dark bottom. Ceramic remains evenly warm ivory, sides as bright as fronts. No cast shadows, ambient occlusion, reflections, specular highlights, rim light or glow bloom. No sculpted lighting. Detail is low-contrast surface colour and wear only.\nEvery pixel outside INPUT 1's silhouette is transparent, including empty margins. No background, floor, stray flecks, symbols or watermark. This is the sole corrective regeneration; prioritize exact guide layout and flat albedo over ornamental detail.",
+      "inputs": [
+        {
+          "path": "guide_left.png",
+          "sha256": "d56576459a2a2c5ba84cbf0df754332b3c380db6293e07cae434d77d9210d194"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "3e394fb906f01f302d0154eedbdceb786df8675173a78560066d4defe9dd93a3"
+        }
+      ],
+      "source": "/home/pjasicek/.codex/generated_images/01a16da8-7bc3-7ce0-87ac-f16b6153bcc0/exec-02aa336f-492f-437f-b7c8-e87a029df194.png",
+      "output": "paint_left.png",
+      "selected": true,
+      "reason": "Selected sole correction for matte gold buckle, flatter material faces and more angular casings. Some contour/part-edge drift and outline shading remain.",
+      "size": [
+        1262,
+        1246
+      ],
+      "mode": "RGBA",
+      "unresized": true,
+      "output_sha256": "feadfbd4637a6f58115969cced510d06342588b98c917dd341ca198d0da1ce5a",
+      "checks": {
+        "transparent_background": true,
+        "requested_size_met": false,
+        "silhouette_identical": false,
+        "opaque_bbox": [
+          196,
+          533,
+          1056,
+          715
+        ],
+        "alpha_bbox": [
+          0,
+          103,
+          1224,
+          993
+        ],
+        "normalized_silhouette_iou_at_alpha_128": 0.961731,
+        "normalized_comparison_note": "Read-only mask comparison in returned-image coordinates; saved PNG is byte-identical to the tool return.",
+        "pixels_alpha_1_to_15": 4134,
+        "visual_review": {
+          "materials": "Ivory ceramic, muted brushed gold, violet-black resin and blue-white slots present.",
+          "lighting": "Gold slab is flatter without the first return's bright glint; small bevel/contact shading remains.",
+          "text_or_letters": "None visible.",
+          "geometry": "Correct left-side buckle edge and six cells; casing edges and backing outlines not pixel-identical."
+        },
+        "no_text_or_letters_visible": true,
+        "materials_match_reference_palette": true,
+        "fully_flat_shadowless_albedo": false
+      }
+    },
+    {
+      "view": "right",
+      "attempt": 1,
+      "prompt": "RIGHT view, precise albedo paint-over. INPUT 1 guide_right.png is the exact edit target and locked pixel layout. INPUT 2 design_reference.png supplies material colours and fine surface details only. Output one 1024 x 1024 transparent RGBA PNG. Keep the full canvas with original transparent margins.\nKeep exactly every original alpha boundary, polygon corner, part edge, cell location and overlap of INPUT 1. Overall bounds x=161..863, y=437..587. Preserve the straight belt backing and six visible upright chamfered rectangular cell casings. The vertical buckle is visible edge-on at the RIGHT end, its gold thickness at x=822..860 and the tiny blue-white sliver on its rightmost side. Retain that vertical straight-edged slab and original overlap with the last casing. No face-on buckle. Do not enlarge, recenter, shift, rotate, round corners or add any parts. Use the guide geometry, not the reference silhouette.\nPaint warm ivory ceramic with fine subtle wear on the light casings, muted ochre brushed gold details inside their original boundaries, deep charcoal-violet resin band with understated panel joins, bright blue-white pigment in the existing narrow windows. Fine engraved seams are allowed inside existing parts; no text or letters.\nUNLIT DIFFUSE MAP: all faces of each material have the same base brightness. No directional shading anywhere. Do not paint bevel highlights or contact darkening. The right buckle slab must be an EVEN MATTE GOLD base colour, no bright yellow glint, no top highlight, no dark bottom. Ceramic remains evenly warm ivory, sides as bright as fronts. No cast shadows, ambient occlusion, reflections, specular highlights, rim light or glow bloom. No sculpted lighting. Detail is low-contrast surface colour and wear only.\nEvery pixel outside INPUT 1's silhouette is transparent, including empty margins. No background, floor, stray flecks, symbols or watermark. Prioritize exact guide layout and flat albedo over ornamental detail.",
+      "inputs": [
+        {
+          "path": "guide_right.png",
+          "sha256": "a57bc36889d2c792f56db8e5fb6360755761aed53ea6f36700a27b8678a85e60"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "3e394fb906f01f302d0154eedbdceb786df8675173a78560066d4defe9dd93a3"
+        }
+      ],
+      "source": "/home/pjasicek/.codex/generated_images/01a16da8-7bc3-7ce0-87ac-f16b6153bcc0/exec-53f7a90b-a302-4d4b-8426-b69ba84306d2.png",
+      "output": "paint_right.png",
+      "selected": true,
+      "reason": "Selected first return because it preserves guide placement and width better than the sole correction (normalized silhouette overlap 0.979 versus 0.834). Residual relief shading and gold-tab drift remain.",
+      "size": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "unresized": true,
+      "output_sha256": "4c923ef93636141aeb3e382e7ffc7e16a19a2ed8d0f4c88cedbfcfd3f798f642",
+      "checks": {
+        "transparent_background": true,
+        "requested_size_met": false,
+        "silhouette_identical": false,
+        "opaque_bbox": [
+          197,
+          534,
+          1057,
+          720
+        ],
+        "alpha_bbox": [
+          19,
+          28,
+          1240,
+          1226
+        ],
+        "normalized_silhouette_iou_at_alpha_128": 0.97935,
+        "normalized_comparison_note": "Read-only mask comparison in returned-image coordinates; saved PNG is byte-identical to the tool return.",
+        "pixels_alpha_1_to_15": 12492,
+        "visual_review": {
+          "materials": "Design palette matched.",
+          "lighting": "Directional relief remains on cells, resin and gold.",
+          "text_or_letters": "None visible.",
+          "geometry": "Right-end buckle and six-cell layout present; gold tabs alter internal boundaries."
+        },
+        "no_text_or_letters_visible": true,
+        "materials_match_reference_palette": true,
+        "fully_flat_shadowless_albedo": false
+      }
+    },
+    {
+      "view": "right",
+      "attempt": 2,
+      "prompt": "RIGHT view, precise albedo paint-over. INPUT 1 guide_right.png is the exact edit target and locked pixel layout. INPUT 2 design_reference.png supplies material colours and fine surface details only. Output one 1024 x 1024 transparent RGBA PNG. Keep the full canvas with original transparent margins.\nKeep exactly every original alpha boundary, polygon corner, part edge, cell location and overlap of INPUT 1. Overall bounds x=161..863, y=437..587. Preserve the straight belt backing and six visible upright chamfered rectangular cell casings. The vertical buckle is visible edge-on at the RIGHT end, its gold thickness at x=822..860 and the tiny blue-white sliver on its rightmost side. Retain that vertical straight-edged slab and original overlap with the last casing. No face-on buckle. Do not enlarge, recenter, shift, rotate, round corners or add any parts. Use the guide geometry, not the reference silhouette.\nPaint warm ivory ceramic with fine subtle wear on the light casings, muted ochre brushed gold details inside their original boundaries, deep charcoal-violet resin band with understated panel joins, bright blue-white pigment in the existing narrow windows. Fine engraved seams are allowed inside existing parts; no text or letters.\nUNLIT DIFFUSE MAP: all faces of each material have the same base brightness. No directional shading anywhere. Do not paint bevel highlights or contact darkening. The right buckle slab must be an EVEN MATTE GOLD base colour, no bright yellow glint, no top highlight, no dark bottom. Ceramic remains evenly warm ivory, sides as bright as fronts. No cast shadows, ambient occlusion, reflections, specular highlights, rim light or glow bloom. No sculpted lighting. Detail is low-contrast surface colour and wear only.\nEvery pixel outside INPUT 1's silhouette is transparent, including empty margins. No background, floor, stray flecks, symbols or watermark. Prioritize exact guide layout and flat albedo over ornamental detail.\nCORRECTIVE PASS: Repaint the guide itself with less relief. Remove invented external gold tabs, ridges and side protrusions from the cells. Their light-grey guide silhouettes must remain exactly the same angular rectangles, with no added geometry. Match the original guide's cell-face rectangles at x=191..239, 275..333, 405..469, 552..620, 687..749, 785..833 and the partial overlapping casing at the far left. Gold ornament may be a thin painted seam INSIDE each existing casing. No dark sides, black drop shadows, shiny bands, bevel gradients or highlighted edges. Keep gold on the vertical rightmost buckle, dead matte and evenly coloured. The belt is a flat dark-violet diffuse surface with faint joins, not embossed shaded panels. Use flat diffuse paint, not a lit 3D product rendering. Preserve the existing bright slot locations and sizes, with uniform pale cyan colour. Exact guide alpha, no coloured pixels outside the silhouette.",
+      "inputs": [
+        {
+          "path": "guide_right.png",
+          "sha256": "a57bc36889d2c792f56db8e5fb6360755761aed53ea6f36700a27b8678a85e60"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "3e394fb906f01f302d0154eedbdceb786df8675173a78560066d4defe9dd93a3"
+        }
+      ],
+      "source": "/home/pjasicek/.codex/generated_images/01a16da8-7bc3-7ce0-87ac-f16b6153bcc0/exec-31cf36cc-2722-479b-b629-3703dc7134d1.png",
+      "output": "paint_right_attempt2.png",
+      "selected": false,
+      "reason": "Rejected correction: flatter surfaces, but object enlarged and cell placement changed more than the first return.",
+      "size": [
+        1262,
+        1246
+      ],
+      "mode": "RGBA",
+      "unresized": true,
+      "output_sha256": "8901f73139d78a48093ac3d7967bed821da9e9e08d1f632a602bdd1c29fdc124",
+      "checks": {
+        "transparent_background": true,
+        "requested_size_met": false,
+        "silhouette_identical": false,
+        "opaque_bbox": [
+          182,
+          535,
+          1108,
+          725
+        ],
+        "alpha_bbox": [
+          66,
+          32,
+          1167,
+          1246
+        ],
+        "normalized_silhouette_iou_at_alpha_128": 0.834229,
+        "normalized_comparison_note": "Read-only mask comparison in returned-image coordinates; saved PNG is byte-identical to the tool return.",
+        "pixels_alpha_1_to_15": 6000,
+        "visual_review": {
+          "materials": "Reference material colours preserved with less gold detail.",
+          "lighting": "Flatter diffuse treatment; some bevel and contact shading remains.",
+          "text_or_letters": "None visible.",
+          "geometry": "Belt width and cell size increased; worse alignment than first attempt."
+        },
+        "no_text_or_letters_visible": true,
+        "materials_match_reference_palette": true,
+        "fully_flat_shadowless_albedo": false
+      }
+    },
+    {
+      "view": "top",
+      "attempt": 1,
+      "prompt": "Use case: style-transfer. Asset type: orthographic albedo texture-source painting for the Hesper capacitor belt.\nInput 1 is the named 1024 x 1024 guide, the exact edit target and absolute authority for geometry, silhouette, camera, framing and every part's edges. Input 2 is design_reference.png, the approved authority for surface design, colour and materials only.\nPaint ONLY the existing object pixels of Input 1. Preserve its alpha silhouette EXACTLY, same outline, size, location and all internal part boundaries. Preserve its complete 1024 x 1024 canvas and large transparent margins. Do not enlarge, crop, recenter, bend, rotate, reposition, add, remove or reshape any part. Do not copy the perspective or silhouette of Input 2.\nThe belt consists of spare cells feeding the wearer's shield. Paint the guide's light ceramic cell casings in the reference's warm white ivory ceramic, fine wear, restrained hairline scuffs and engraved seams; use brushed muted antique gold trim and warm gold metal wherever corresponding parts exist, black-violet resin belt backing with subtle panel joins, and blue-white luminous glass in the guide's existing narrow light windows. Tints in the guide are material identifiers, not final colours. Continue unseen surfaces plausibly in the same materials. All small markings are nonlinguistic; no text, letters, numerals, logos or watermark.\nLIGHTING: flat, evenly lit albedo, shadowless frontal illumination. Remove the guide's cast shadows and light gradients. No cast shadows, contact shadows, ambient occlusion, strong specular highlights, reflections, rim light, glow bloom or spill outside the object. Gold is its base colour with only a faint sheen. Light windows are painted bright blue-white. No floor, no scene, no background; genuine transparent RGBA alpha everywhere outside the exact guide silhouette. Return one 1024 x 1024 PNG painting, not a sheet.\nVIEW: guide_top.png. Exact orthographic view from DIRECTLY ABOVE. Preserve the large open horizontal elliptical ring, its narrow strap thickness, every polygonal edge and the complete transparent interior hole. Overall object bounds x=66..958, y=161..863. Preserve the eleven existing small cell blocks around the outside, their angles and positions, and the gold rectangular edge of the buckle at top center with its thin blue-white sliver. Paint only the existing visible top and edge surfaces. The belt ring is black-violet resin; cell top caps are warm white ceramic with restrained gold seams. Do not show upright front cell faces or a face-on circular buckle, do not turn this into a perspective view or fill the central hole.\nStrict unlit diffuse-map treatment: all faces of each material have the same base brightness. No modeled bevel highlights, no black shading at contacts. Gold is matte muted ochre with faint brushed grain, ceramic warm ivory with fine restrained wear, resin dark violet-charcoal. Fine engraved seams only, no bright specular lines. Preserve the guide's angular chamfers and every polygonal corner exactly. No stray flecks outside its alpha. Do not interpret the transparent margins as black background.",
+      "inputs": [
+        {
+          "path": "guide_top.png",
+          "sha256": "f50f66fcb6b1ea852d3261ab8d2d9f590ab806cc000bfd82b8c154c6005c44dc"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "3e394fb906f01f302d0154eedbdceb786df8675173a78560066d4defe9dd93a3"
+        }
+      ],
+      "source": "/home/pjasicek/.codex/generated_images/01a16da8-7bc3-7ce0-87ac-f16b6153bcc0/exec-ee7c5e11-364f-4e65-9781-bd958a31379f.png",
+      "output": "paint_top.png",
+      "selected": true,
+      "reason": "Selected first return for closer ring/cell placement (normalized silhouette overlap 0.789 versus 0.554 in the sole correction). Reflective highlights, contour drift and ring-thickness drift remain; strict albedo/silhouette requirements are not met.",
+      "size": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "unresized": true,
+      "output_sha256": "32389cc871f1706ae9ee8ef7d24af859c693c4baa69a1c3ba604b195d71f03de",
+      "checks": {
+        "transparent_background": true,
+        "requested_size_met": false,
+        "silhouette_identical": false,
+        "opaque_bbox": [
+          80,
+          196,
+          1174,
+          1056
+        ],
+        "alpha_bbox": [
+          0,
+          38,
+          1224,
+          1150
+        ],
+        "normalized_silhouette_iou_at_alpha_128": 0.788894,
+        "normalized_comparison_note": "Read-only mask comparison in returned-image coordinates; saved PNG is byte-identical to the tool return.",
+        "pixels_alpha_1_to_15": 23954,
+        "visual_review": {
+          "materials": "Reference material palette present.",
+          "lighting": "Metal highlights and bevel shading remain.",
+          "text_or_letters": "None visible.",
+          "geometry": "Correct top-down elliptical ring, transparent central hole, eleven cells and buckle at top; contour and thickness drift remain."
+        },
+        "no_text_or_letters_visible": true,
+        "materials_match_reference_palette": true,
+        "fully_flat_shadowless_albedo": false
+      }
+    },
+    {
+      "view": "top",
+      "attempt": 2,
+      "prompt": "Corrective TOP view albedo painting. INPUT 1 guide_top.png is the LOCKED EDIT TARGET. INPUT 2 design_reference.png supplies ONLY colours and fine surface texture. Return one 1024 x 1024 RGBA PNG.\nCopy the alpha coverage and geometry of INPUT 1 EXACTLY. Every edge, part width, corner, position, angle and overlap is fixed. Preserve the open elliptical black-violet resin strap with its very thin cross-section, eleven small angular ceramic cap blocks around its outside, and the horizontal gold buckle slab at 12 o'clock. Keep the full transparent central hole. Keep bounds x=66..958, y=161..863 and all original transparent margins. Never thicken the strap. Do not enlarge or recenter. Do not round the cap corners. No new connector blocks or tabs. Keep the original shallow edge-on view of every cell; no face-on front windows. Only the guide's tiny exposed blue-white slivers may glow, as flat colour without halos.\nPaint each guide part with reference materials: the narrow ring is uniform deep charcoal-violet resin with faint panel-seam lines, the existing light caps are warm white ivory ceramic with faint wear, the buckle edge is muted matte ochre gold, and the small light slivers are pale cyan-white. Small gold seams on caps only inside their existing boundaries. Preserve the guide's flat polygonal shapes.\nCritical correction: pure UNLIT ALBEDO, no light rendering at all. Same material base brightness on every face. No bright edges, bevel highlights, reflections, shiny glints, dark undersides, shadows, ambient occlusion, contact shading, bloom or rim lighting. Gold buckle is a flat matte gold pigment rectangle with faint brushed grain. Ceramic cap faces are equally light. Engraving and panel joins are subtle pigment linework, not shaded relief.\nExact guide silhouette takes priority over decoration. Outside it every pixel is alpha zero, including the entire interior hole and all margins. No background, floor, stray flecks, text, letters, logos or watermark.",
+      "inputs": [
+        {
+          "path": "guide_top.png",
+          "sha256": "f50f66fcb6b1ea852d3261ab8d2d9f590ab806cc000bfd82b8c154c6005c44dc"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "3e394fb906f01f302d0154eedbdceb786df8675173a78560066d4defe9dd93a3"
+        }
+      ],
+      "source": "/home/pjasicek/.codex/generated_images/01a16da8-7bc3-7ce0-87ac-f16b6153bcc0/exec-f93b6ffc-189e-458e-84fb-a7753423dc02.png",
+      "output": "paint_top_attempt2.png",
+      "selected": false,
+      "reason": "Rejected sole correction: flatter materials but enlarged/shifted ring, with normalized silhouette overlap reduced from 0.789 to 0.554.",
+      "size": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "unresized": true,
+      "output_sha256": "66e8e5d1a90bf199cb4017c5ceba74f150af4c47fdfffd53f0f761b161822ae7",
+      "checks": {
+        "transparent_background": true,
+        "requested_size_met": false,
+        "silhouette_identical": false,
+        "opaque_bbox": [
+          68,
+          176,
+          1186,
+          1061
+        ],
+        "alpha_bbox": [
+          17,
+          12,
+          1244,
+          1198
+        ],
+        "normalized_silhouette_iou_at_alpha_128": 0.554395,
+        "normalized_comparison_note": "Read-only mask comparison in returned-image coordinates; saved PNG is byte-identical to the tool return.",
+        "pixels_alpha_1_to_15": 22273,
+        "visual_review": {
+          "materials": "Ivory caps, matte gold slab, dark violet ring and pale cyan edge lights match palette.",
+          "lighting": "Flatter than first return; mild cap bevel shading remains.",
+          "text_or_letters": "None visible.",
+          "geometry": "Eleven caps and transparent ring hole remain; ring and cap placement drift exceeds first attempt visually."
+        },
+        "no_text_or_letters_visible": true,
+        "materials_match_reference_palette": true,
+        "fully_flat_shadowless_albedo": false
+      }
+    }
+  ],
+  "strict_silhouette_and_albedo_checks_pass": false,
+  "summary": "Five selected built-in image-generation returns saved unmodified. Returned dimensions vary and are recorded per run; every PNG was kept unresized as the brief permits. One corrective generation per view. Exact silhouettes and fully flat lighting were not achieved; faint alpha flecks remain. No pixel edits, alpha clipping, resizing, builds or runtime integration performed.",
+  "selected_output_sizes": {
+    "paint_front.png": [
+      1254,
+      1254
+    ],
+    "paint_back.png": [
+      1254,
+      1254
+    ],
+    "paint_left.png": [
+      1262,
+      1246
+    ],
+    "paint_right.png": [
+      1254,
+      1254
+    ],
+    "paint_top.png": [
+      1254,
+      1254
+    ]
+  }
+}

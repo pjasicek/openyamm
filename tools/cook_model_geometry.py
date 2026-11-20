@@ -9,7 +9,9 @@
    sleeves and necks) gets a reversed copy on duplicated vertices with negated normals, as two-sided cloth is usually
    modelled. It stays one draw in its slot. A primitive where more than MAX_BACK_COPY_SHARE of the triangles show
    their back keeps its double-sided material (cheaper than the copies). Alpha-tested and blended primitives are
-   unchanged and do not block rays; dedicated shadow meshes (`openyamm_shadow_lods`) are unchanged.
+   unchanged and do not block rays; dedicated shadow meshes (`openyamm_shadow_lods`) are unchanged. The test sees only
+   the bind pose: a model whose posed shell opens where the bind pose is closed (the first-person arms, whose fist
+   shows the palm's inside through the thumb's web) skips this pass with `back_faces: keep` in its .cook.yml.
 2. Burn order. A primitive drawn with a burn map (material extras `openyamm_burn_map`, burn deaths) gets a
    `_BURN_ORDER` vertex attribute: the map's red channel at the vertex's TEXCOORD_0, the order in which a burn reaches
    it (normalized unsigned byte, nearest texel with wrapped UVs, as the game sampled the PNG before). The game reads
@@ -388,10 +390,12 @@ def order_for_vertex_cache(document, binary, writer, cooker):
         raise RuntimeError("geometry response size mismatch")
 
 
-def cook_geometry(document, binary, cooker):
-    """Applies the passes; returns the new binary chunk and a summary for the cooked GLB's extras."""
+def cook_geometry(document, binary, cooker, cull_back_faces=True):
+    """Applies the passes; returns the new binary chunk and a summary for the cooked GLB's extras. Without
+    cull_back_faces (a model's .cook.yml `back_faces: keep`) pass 1 is skipped and double-sided materials stay so."""
     writer = Writer(document, binary)
-    checked, culled, back_copies = cull_hidden_back_faces(document, binary, writer, cooker)
+    checked, culled, back_copies = cull_hidden_back_faces(document, binary, writer, cooker) if cull_back_faces \
+        else (0, 0, 0)
     burn_order = bake_burn_order(document, binary, writer)
     order_for_vertex_cache(document, binary, writer, cooker)
     summary = {"checked_triangles": checked, "culled_triangles": culled, "back_copies": back_copies,

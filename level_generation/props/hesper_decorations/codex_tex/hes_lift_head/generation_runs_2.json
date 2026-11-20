@@ -1,0 +1,90 @@
+{
+  "brief": "CODEX_BRIEF_2.md",
+  "status": "requirements_not_fully_met",
+  "runs": [
+    {
+      "view": "back",
+      "attempt": 1,
+      "tool": "built-in image_gen",
+      "prompt": "Use case: sketch-to-render. Asset: back-view albedo texture-source painting of The Lift Head.\nOutput exactly one 1024 x 1024 PNG with genuine transparent background, unresized.\nINPUT ROLES: Image 1 guide_back.png is the EDIT TARGET and absolute pixel geometry authority. Image 2 design_reference.png is the approved design, colour and material authority only. Image 3 concept_crop.png is supporting original concept only.\nPaint directly onto Image 1. Preserve its EXACT silhouette, outline, size, position, orthographic back-view camera, every shape edge, opening and detail. Keep the original alpha coverage. Do not reinterpret, rotate, reframe, recenter, enlarge, shrink, crop or remodel the guide. Nothing outside its silhouette.\nThis is the BACK: a closed upper cylindrical tower with stepped domed cap, broad horizontal projecting ledge across the middle, rear lower wall with curved supporting side brackets and central vertical support, and the same individually shaped rubble pieces at the foot. All must follow the guide precisely. The front elevator cage is occluded in this back view: do not invent a front opening, elevator, extra windows, blue strips or other geometry on the closed back walls.\nMaterials from the approved reference: chipped ivory-white ceramic with fine natural cracks, worn gold bands and frames on the existing cap rings, ledge bands and structural trim; black glass rubble at the bottom with occasional white ceramic fragments. Where actually visible in the guide, blue light strips are cyan-blue, glass cage frames are gold and cage interior warm amber. Transfer materials only to the existing back geometry, keeping surface divisions and all existing edges in place.\nLIGHTING: strictly an ALBEDO texture source. Even flat shadowless illumination from the viewer. Uniform base colour within a material except painted cracks/chips. Remove the guide's baked shading. NO cast shadows, NO ambient occlusion darkening, NO gradients implying directional light, NO strong specular highlights or reflections, NO rim light. Metallic gold is painted matte golden base colour, black glass is painted dark charcoal base colour without shiny reflections. Emissive colours are painted at their glowing colour without light spill. NO background, floor, ground plane, text or watermark. Preserve all guide shapes, transparent pixels and exact alignment.",
+      "inputs": [
+        {
+          "path": "guide_back.png",
+          "sha256": "4785b5d6b9acf5a72f2e2190b3c55ca01c4b336250b97f031af6d47bb1a6c6ef"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "6b91a5f8cda653543ba40069ad123ffb024ba89ec04b6b2c7aa82cc48f866970"
+        },
+        {
+          "path": "concept_crop.png",
+          "sha256": "68d0e33fd177da092da969287e3ebea92af07fa11f3979a4a79e063dadb9dac2"
+        }
+      ],
+      "output": "paint_back_attempt1.png",
+      "output_sha256": "cd189abc0799bf869c2d6c6d886fa3c16e21485bfecc555d70063dbb777b6ff9",
+      "selected": false,
+      "reason": "Superseded by one permitted corrective generation.",
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "required_size": [
+          1024,
+          1024
+        ],
+        "size_pass": false,
+        "transparent_background": true,
+        "silhouette_identical": false,
+        "materials": "Ivory chipped ceramic, gold trim and dark glass rubble match the reference palette.",
+        "lighting": "Residual shading beneath trim and supports; not strictly flat albedo.",
+        "geometry": "Overall back-view arrangement follows guide, but cap and rubble details differ.",
+        "unresized_return": true,
+        "brief_pass": false
+      }
+    },
+    {
+      "view": "back",
+      "attempt": 2,
+      "tool": "built-in image_gen",
+      "prompt": "Use case: sketch-to-render. Asset: back-view albedo texture-source painting of The Lift Head.\nOutput exactly one 1024 x 1024 PNG with genuine transparent background, unresized.\nINPUT ROLES: Image 1 guide_back.png is the EDIT TARGET and absolute pixel geometry authority. Image 2 design_reference.png is the approved design, colour and material authority only. Image 3 concept_crop.png is supporting original concept only.\nPaint directly onto Image 1. Preserve its EXACT silhouette, outline, size, position, orthographic back-view camera, every shape edge, opening and detail. Keep the original alpha coverage. Do not reinterpret, rotate, reframe, recenter, enlarge, shrink, crop or remodel the guide. Nothing outside its silhouette.\nThis is the BACK: a closed upper cylindrical tower with stepped domed cap, broad horizontal projecting ledge across the middle, rear lower wall with curved supporting side brackets and central vertical support, and the same individually shaped rubble pieces at the foot. All must follow the guide precisely. The front elevator cage is occluded in this back view: do not invent a front opening, elevator, extra windows, blue strips or other geometry on the closed back walls.\nMaterials from the approved reference: chipped ivory-white ceramic with fine natural cracks, worn gold bands and frames on the existing cap rings, ledge bands and structural trim; black glass rubble at the bottom with occasional white ceramic fragments. Where actually visible in the guide, blue light strips are cyan-blue, glass cage frames are gold and cage interior warm amber. Transfer materials only to the existing back geometry, keeping surface divisions and all existing edges in place.\nLIGHTING: strictly an ALBEDO texture source. Even flat shadowless illumination from the viewer. Uniform base colour within a material except painted cracks/chips. Remove the guide's baked shading. NO cast shadows, NO ambient occlusion darkening, NO gradients implying directional light, NO strong specular highlights or reflections, NO rim light. Metallic gold is painted matte golden base colour, black glass is painted dark charcoal base colour without shiny reflections. Emissive colours are painted at their glowing colour without light spill. NO background, floor, ground plane, text or watermark. Preserve all guide shapes, transparent pixels and exact alignment.\nCORRECTIVE GENERATION (only allowed correction): The previous return failed by generating 1254 x 1254 instead of 1024 x 1024 and changing geometry. Return exactly 1024 x 1024 native pixels, the SAME CANVAS as image 1. This is a registered texture painting, so pixel alignment matters more than making the object prettier. Preserve the guide's matte/alpha pixel for pixel. At 1024 canvas the tip is near (514,66), main ledge runs from x143 to870 at y486, and the foot ends near y959. Do not add gold finials, rings, new central ribs or different rubble pieces. Paint the exact grey shapes as they exist. Match every rubble tip and edge to image 1. Do not copy the material reference's lighting: gold must be matte ochre-gold without shiny highlights, white ceramic flat ivory without shadow gradients, dark glass flat charcoal. No shaded recesses or shadows below the ledge or cap.",
+      "inputs": [
+        {
+          "path": "guide_back.png",
+          "sha256": "4785b5d6b9acf5a72f2e2190b3c55ca01c4b336250b97f031af6d47bb1a6c6ef"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "6b91a5f8cda653543ba40069ad123ffb024ba89ec04b6b2c7aa82cc48f866970"
+        },
+        {
+          "path": "concept_crop.png",
+          "sha256": "68d0e33fd177da092da969287e3ebea92af07fa11f3979a4a79e063dadb9dac2"
+        }
+      ],
+      "output": "paint_back.png",
+      "output_sha256": "96e36da17cb15fa5e648530258bf8d421d66982c294edff4ce5b559681afe8fe",
+      "selected": true,
+      "reason": "Selected as best available raw return for flatter materials, not accepted as brief-compliant. Native canvas size and exact silhouette requirements remain unmet; corrective generation limit reached.",
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "required_size": [
+          1024,
+          1024
+        ],
+        "size_pass": false,
+        "transparent_background": true,
+        "silhouette_identical": false,
+        "materials": "Ivory chipped ceramic, gold trim and dark glass rubble match the reference palette.",
+        "lighting": "Residual shading beneath trim and supports; not strictly flat albedo.",
+        "geometry": "Overall back-view arrangement follows guide, but cap and rubble details differ.",
+        "unresized_return": true,
+        "brief_pass": false
+      }
+    }
+  ]
+}

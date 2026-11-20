@@ -1,0 +1,125 @@
+# draft extracted from MAW ef23ee17
+# Crowd-control rework. Spec: ../CLASSES_SPELLS_SPEC.md section 4.
+# Sources: Scripts/General/zzMaw-Spells.lua (SP:line), Scripts/Modules/MawCore/Damage.lua (DM:line),
+# Scripts/General/zzMaw-Stats.lua (ST:line), Scripts/General/zzMAW-Skills.lua (SK:line),
+# Scripts/General/SpellsTweaks.lua (TW:line).
+#
+# Time: durations are game minutes (const.Minute). MAW prints 1 game minute = 2 real seconds
+# (MawCore/Formulas.lua:9, gameMinuteSeconds). OpenYAMM GameplayActorService keeps CC in "seconds" computed
+# with minutesToSeconds(m) = 60 m; confirm which clock those seconds are before porting.
+
+duration:
+  # applyCCDebuff, SP:1406-1427
+  formula: "base_minutes * mastery_step[m] * 1.015^ascension / (1 + resistance / 100) * (2 if solo) -> DR -> boss"
+  mastery_step: [0.5, 0.65, 0.8, 1.0]  # N/E/M/GM, m < 1 reads as N (SP:1395-1402)
+  mastery: "school mastery of the caster for cc.School (see per-spell school; two entries use the wrong school)"
+  ascension: "Learning (Ascension) skill level s of the caster, GetSkill (includes item bonus)"
+  resistance: "monster Resistances[cc.DamageKind] at cast time"
+  solo_multiplier: 2  # Party.High == 0
+  boss: {name_id_range: [220, 299], multiplier: 0.5, applies_to_groups: [2, 3]}  # inside calcDebuffDuration only
+  dragon_fear_122: "skips the Ascension and resistance terms (SP:1409-1412)"
+  stacking: "scripted/impact casts extend (max of old and new expiry); engine-path casts cap the engine's expiry at
+    the MAW value (min) (SP:1418-1425)"
+
+diminishing_returns:
+  # SP:1734-1852
+  window_game_minutes: 10   # CC_WINDOW; the comment says "30 seconds", it is 20 real seconds
+  ratio: "sum of this group's recorded CC time on this monster inside the window / window"
+  thresholds:   # ratio >= value -> duration multiplier
+    - {ratio: 0.60, mult: 0.0}   # immune: nothing applied, nothing recorded
+    - {ratio: 0.45, mult: 0.25}
+    - {ratio: 0.30, mult: 0.5}
+    - {ratio: 0.15, mult: 0.75}
+    - {ratio: 0.0, mult: 1.0}
+  groups:
+    1: {name: "slow / damage cut", debuffs: [Slow, ArmorHalved, DamageHalved, MeleeOnly, ShrinkingRay],
+        exempt: true, note: "no DR, no history, and no boss halving"}
+    2: {name: "fear / charm / control", debuffs: [Fear, Charm, Berserk, Enslave]}
+    3: {name: "stun / paralyze", debuffs: [Paralyze]}
+  history_storage: "mapvars.ccHistory[monsterIndex][group], cleared on LeaveMap"
+  recorded_duration: "after the DR multiplier and the boss halving"
+  check_only: "checkDebuffDuration: same ratio test without recording, used by the engine path pre-check"
+  unlisted_debuff_group: 1  # debuffGroups[x] or 1
+
+targeting:
+  scripted:  # castCCSpell, SP:1486-1544
+    order: "monster under the mouse if valid, else the visible valid monster whose debuff expires soonest"
+    valid: "alive, visible, ShowAsHostile and Hostile, within 4800, undead when UndeadOnly"
+    no_target: "'Spell Failed', recovery 30, no SP spent"
+    on_cast: "SP spent before the DR check; a DR-immune target shows no effect but the cast is paid"
+    after_cast: "recovery = getSpellDelay; selection moves to the next ready member"
+    quick_cast_bypass: [62, 66]  # Berserk, Enslave skip engine aim mode (SP:1546-1579)
+  engine_path:  # SP:1581-1656
+    how: "for one tick every monster's resistance and level are set to 0 (would apply) or resistance 65000
+      (DR-immune, or not undead for 48/94); after the engine applies, values are restored and the new expiry is
+      capped to the MAW duration"
+    always_lands: "yes, subject only to DR (the 30 / (30 + L/4) hit roll is computed but unused)"
+  impact:  # Shrinking Ray, SP:1658-1732
+    splash_radius: 512
+    extra_targets: "m - 1, nearest unshrunk first, then those whose shrink ends soonest"
+
+cost:
+  # ascendCCSpellCosts, SP:2182-2196; base = Spells2 cost of the spell
+  formula: "ceil(base * (1 + 0.2 s) * 1.03^s * (1 - 0.125 m) * personality_factor), cap 65000"
+  s_m: "Ascension skill level and mastery"
+  personality_factor: "0.99^(Personality / (10 + 0.06 * min(partyTotalLevel, 1000)))"
+  fixed: {122: [15, 15, 25, 30]}
+  unused_ccmap_fields: [BaseCost, ScalingCost]  # only read by commented-out code (SP:1366-1384)
+
+delay:
+  # getSpellDelay, ST:211-217
+  formula: "round(table_delay[m] * 1.015^(ascension - school_skill)); no Speed, Haste or armour terms"
+  fixed: {122: 120}
+
+spells:
+  - {id: 34, name: Stun, school: earth, base_minutes: 2, group: none, path: engine,
+     note: "not duration-scripted: MAW only rolls success; chance = 30 / (30 + L / 4),
+       L = max(round(((level / 4 + res + 30) / (1 + 0.01 s) - 30) * 4), 0), x2 L on bosses, x (1 - affix13 / 100);
+       on success the MMMerge hook paralyses 1 game min + s*m ticks (TW:50-58)",
+     source: "DM:334-357, SP:1855-1865"}
+  - {id: 35, name: Slow, school: earth, base_minutes: 6, group: 1, path: scripted, debuff: Slow, source: "SP:1339"}
+  - {id: 60, name: "Charm (Mind)", school: mind, base_minutes: 10, group: 2, path: scripted, debuff: Charm,
+     source: "SP:1340"}
+  - {id: 113, name: "Charm (Vampire)", school: dark_elf_ability, base_minutes: 10, group: 2, path: scripted,
+     debuff: Charm, bug: "school should be vampire ability (22); vampires read DarkElf skill 0 -> step 0.5",
+     source: "SP:1341"}
+  - {id: 62, name: Berserk, school: mind, base_minutes: 4.5, group: 2, path: scripted, debuff: Berserk,
+     effect_object: 6060, source: "SP:1342, 1442"}
+  - {id: 63, name: "Mass Fear", school: mind, base_minutes: 3, group: 2, path: engine, debuff: Fear, source: "SP:1343"}
+  - {id: 122, name: "Fear (dragon)", school: mind, base_minutes: 4, group: 2, path: engine, debuff: Fear,
+     bug: "school should be dragon ability (23); dragons read Mind 0 -> step 0.5, so 4 game min = 8 s, 16 s solo",
+     source: "SP:1344"}
+  - {id: 66, name: Enslave, school: mind, base_minutes: 5, group: 2, path: scripted, debuff: Enslave,
+     effect_object: 6100, source: "SP:1345, 1443"}
+  - {id: 81, name: Paralyze, school: light, base_minutes: 3, group: 3, path: scripted, debuff: Paralyze,
+     source: "SP:1346"}
+  - {id: 92, name: "Shrinking Ray", school: dark, base_minutes: 4, group: 1, path: impact, debuff: ShrinkingRay,
+     flat_duration: true, debuff_power: 2, monster_damage_mult: 0.7, targets: "m", source: "SP:1347, 1660-1666"}
+  - {id: 96, name: "Dark Grasp", school: dark, base_minutes: 6, group: 1, path: scripted,
+     debuff: [ArmorHalved, Slow, DamageHalved, MeleeOnly], monster_damage_mult: 0.7,
+     note: "Shrinking Ray and Dark Grasp damage cuts do not stack (min of the two, DM:1753-1760)",
+     source: "SP:1348, DM:1575-1578"}
+  - {id: 48, name: "Turn Undead", school: spirit, base_minutes: 5, group: 2, path: engine, debuff: Fear,
+     undead_only: true, source: "SP:1349, 1621-1623"}
+  - {id: 94, name: "Control Undead", school: dark, base_minutes: 10, group: 2, path: scripted, debuff: Enslave,
+     undead_only: true, effect_object: 9050, source: "SP:1350, 1441, 1444"}
+
+other_sources_using_dr:
+  - {source: "Mace / Staff Master+ stun (paralysis)", group: 3, minutes: "2 at GM, 1 at Master",
+     chance: "s / estimateSkill(level) * 0.15 (mace) or 0.10 (staff) * melee speed mult / min(1 + level / 150, 3)",
+     ref: "DM:266-301"}
+  - {source: "Knight Charge (solo, E key)", group: 3, minutes: "1.5 / 2 / 2.5 by class 16 / 17 / 18-19",
+     cooldown: "25 s", range: "500..3000", ref: "SK:953-1000"}
+  - {source: "Death Knight Icy Touch (spell 26) Expert+", group: 1, minutes: 1, slow_power: "floor(m/2)*2",
+     ref: "DM:795-806"}
+  - {source: "Death Knight Asphyxiate (spell 76)", group: 3, minutes: 2, ref: "DM:807-814"}
+  - {source: "Death Knight Death Grasp on-hit (spell 96)", group: 1, minutes: 1, ref: "DM:262-264, 770-781"}
+not_dr_tracked:
+  - {source: "Retaliation stun at GM", chance: "0.25 per stack", minutes: "1 (0.5 on NameId 220-300)",
+     ref: "DM:892-898"}
+
+openyamm_today:
+  # game/gameplay/GameplayActorService.cpp tryApplySharedSpellEffect (from line 303)
+  resistance_check: "canApplyMmergeStatusSpell: 100 + skill + 2.5 * mastery > resistance, never at >= 200 (line 80)"
+  durations: "per spell, skill-scaled vanilla minutes (slow 3-5 min per point, paralyze 3 min per point, ...)"
+  dr: none

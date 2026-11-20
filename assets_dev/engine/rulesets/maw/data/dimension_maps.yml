@@ -1,0 +1,93 @@
+# MAW's dimension maps (devdocs/maw/data/dimension_affixes.yml, zzMaw-Maps.lua): the maps they may open, the monster
+# families that fill them, the 33 affixes, the kill drop and the Dimensional Maps quest. An affix's value is
+# base + Power x scale; a reduction shows and applies as 100 x (1 - 1 / (1 + value / 100)); a proc chance stops at 100.
+format: 1
+# The dimension map (renamed "Dimension Map"): its target, affixes and power live in the item's ruleset fields.
+map_item: 290
+# Ours (devdocs/maw/DIMENSION_INSTANCES_PLAN.md): a map opens a rift, an instance of its map that leaves the map itself
+# as it was. The party holds this quest item while a rift is open: used outside it leads into the rift, used inside
+# back to where the party came from. It carries the map's fields, so it reads like the map.
+portal_item: 1071
+# Kill drops once the Dimensional Maps quest is done (MonsterKilled, zzMaw-Maps.lua:826-939): chance x completed share
+# of the dungeons, with bad-luck protection, x monster level / 100 / (maps dropped on the map + 1), x10 from bosses,
+# from monsters of this level.
+drop: {chance: 0.001, level_required: 100, boss_multiplier: 10}
+# Global/zzMaw_DimensionalMapsQuest.lua (MAW aef88884): the first map at this party level; the next tier adds
+# first_step, each later step one less down to last_step (80, 110, 139, 167, ... 490, 500); rewarding a tier of
+# unlock_tier or more unlocks the kill drops. %d and %s as in MAW.
+# Ours: a party that slew repeat_share of the given map's rift and cannot finish it may have the quest's giver close
+# the rift for the same map again (the "Repeat the map" topic); a rift never entered closes without that share.
+quest:
+  first_tier: 80
+  unlock_tier: 500
+  first_step: 30
+  last_step: 10
+  repeat_share: 0.8
+  text_too_low: >-
+    The rifts between worlds open only for those who have walked far enough. Return to me when one of you has reached
+    level %d.
+  text_give: >-
+    I have looked beyond the veil and found a place the other side has rewritten. Take this map: it will open %s anew,
+    filled with creatures from another dimension (Map Level %d). Clear it, then return to me.
+  text_not_cleared: The rift I showed you still stands. Clear it, then return to me.
+  text_reward: "The rift in %s is sealed. Accept this reward: %d gold."
+# Map table ids a map may open, once the party has completed them (mapDungeons).
+dungeons: [
+  1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 16, 17, 19, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 34, 36,
+  37, 38, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 51, 52, 54, 55, 56, 57, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71,
+  72, 73, 75, 76, 77, 78, 80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 90, 91, 92, 93, 94, 95, 96, 97, 101, 104, 105,
+  106, 108, 109, 110, 111, 133, 134, 135, 137, 138, 139, 140, 141, 142, 143, 144, 145, 146, 147, 148, 149, 150, 151,
+  152, 153, 154, 155, 156, 157, 158, 159, 160, 161, 162, 163, 164, 165, 166, 167, 168, 169, 170, 171, 172, 173, 174,
+  175, 176, 177, 178, 179, 180, 181, 182, 183, 184, 186]
+# Monster ids whose families fill an opened map, indoors and outdoors (possibleMonstersIn, possibleMonstersOut).
+families_indoor: [
+  7, 10, 13, 16, 31, 34, 37, 40, 52, 55, 73, 76, 79, 82, 85, 88, 91, 94, 100, 103, 106, 109, 112, 115, 118, 121,
+  124, 127, 130, 133, 139, 142, 148, 151, 154, 157, 160, 169, 172, 175, 181, 184, 187, 193, 196, 202, 205, 208, 211,
+  214, 217, 220, 226, 229, 232, 235, 238, 241, 244, 253, 256, 259, 262, 265, 268, 271, 274, 277, 280, 283, 286, 289,
+  292, 295, 298, 301, 304, 307, 310, 388, 391, 397, 400, 403, 406, 409, 412, 415, 418, 421, 424, 427, 448, 451, 454,
+  457, 475, 478, 481, 484, 487, 490, 493, 496, 499, 502, 505, 511, 517, 520, 523, 526, 529, 532, 535, 538, 541, 544,
+  547, 550, 553, 556, 559, 562, 565, 568, 571, 574, 580, 583, 586, 589, 592, 601, 604, 610, 613, 619, 622, 628, 631,
+  634, 637, 640, 643]
+families_outdoor: [
+  7, 10, 13, 16, 31, 34, 37, 40, 52, 55, 70, 73, 76, 79, 82, 85, 88, 91, 94, 100, 103, 106, 109, 112, 115, 118, 121,
+  124, 127, 130, 133, 136, 139, 142, 148, 151, 154, 157, 160, 163, 169, 172, 175, 181, 184, 187, 190, 193, 196, 202,
+  205, 208, 211, 214, 217, 220, 223, 226, 229, 232, 235, 238, 241, 244, 253, 256, 259, 262, 265, 268, 271, 274, 277,
+  280, 283, 286, 289, 292, 295, 298, 301, 304, 307, 310, 388, 391, 394, 397, 400, 403, 406, 409, 412, 415, 418, 421,
+  424, 427, 448, 451, 454, 457, 460, 475, 478, 481, 484, 487, 490, 493, 496, 499, 502, 505, 508, 511, 514, 517, 520,
+  523, 526, 529, 532, 535, 538, 541, 544, 547, 550, 553, 556, 559, 562, 565, 568, 571, 574, 580, 583, 586, 589, 592,
+  601, 604, 610, 613, 619, 622, 628, 631, 634, 637, 640, 643]
+# The inspect lines; X is base + Power x scale (reductions and procs as above).
+affixes:
+  1: {text: "Monsters deal {X}% increased damage", base: 20, scale: 0.5, kind: flat}
+  2: {text: "Monsters have {X}% critical chance", base: 10, scale: 1, kind: flat}
+  3: {text: "Monsters have {X}% chance to cast Fireball", base: 10, scale: 1, kind: proc}
+  4: {text: "Monsters have {X}% chance to cast Dragon Breath", base: 5, scale: 0.5, kind: proc}
+  5: {text: "Monsters reflect {X}% of physical damage", base: 7, scale: 0.15, kind: flat}
+  6: {text: "Monsters reflect {X}% of magic damage", base: 7, scale: 0.15, kind: flat}
+  7: {text: "Monsters regenerate {X}% HP per second", base: 1, scale: 0.1, kind: flat}
+  8: {text: "Monsters have {X}% chance to ignore status resistance", base: 5, scale: 0.25, kind: proc}
+  9: {text: "Monsters have {X}% chance to summon a monster upon death", base: 15, scale: 0.2, kind: proc}
+  10: {text: "Monsters deal {X}% of player HP as damage", base: 5, scale: 0.1, kind: flat}
+  11: {text: "Monsters have {X}% increased movement speed", base: 30, scale: 1, kind: flat}
+  12: {text: "Monster resistances are increased by {X}", base: 30, scale: 2, kind: flat}
+  13: {text: "Monsters have {X}% extra chance to resist control effects", base: 30, scale: 1, kind: reduction}
+  14: {text: "Monsters have {X}% chance to deal energy damage", base: 20, scale: 1, kind: proc}
+  15: {text: "Monsters have {X}% increased HP", base: 20, scale: 1.5, kind: flat}
+  16: {text: "Boss density increased by {X}%", base: 30, scale: 0.5, kind: flat}
+  17: {text: "Monsters have {X}% chance to be a higher tier", base: 20, scale: 0.5, kind: flat}
+  18: {text: "Bosses have {X}% increased HP and damage", base: 15, scale: 1, kind: flat}
+  19: {text: "Monsters have {X}% chance to become a boss", base: 4, scale: 0.05, kind: proc}
+  20: {text: "Players' critical chance reduced by {X}%", base: 10, scale: 0.2, kind: flat}
+  21: {text: "Players' critical damage reduced by {X}%", base: 10, scale: 0.2, kind: reduction}
+  22: {text: "Players' HP/SP regeneration reduced by {X}%", base: 20, scale: 1, kind: reduction}
+  23: {text: "Players' physical damage reduced by {X}%", base: 15, scale: 0.5, kind: reduction}
+  24: {text: "Players' magic damage reduced by {X}%", base: 15, scale: 0.5, kind: reduction}
+  25: {text: "Players' movement speed reduced by {X}%", base: 15, scale: 0.5, kind: reduction}
+  26: {text: "Players' attack speed reduced by {X}%", base: 15, scale: 0.5, kind: reduction}
+  27: {text: "Players' spell recovery increased by {X}%", base: 15, scale: 0.5, kind: reduction}
+  28: {text: "Players' armor reduced by {X}%", base: 15, scale: 0.5, kind: reduction}
+  29: {text: "Players' resistances reduced by {X}%", base: 15, scale: 0.5, kind: reduction}
+  30: {text: "Players have a {X}% chance to miss attacks", base: 15, scale: 0.5, kind: reduction}
+  31: {text: "Healing reduced by {X}%", base: 15, scale: 0.5, kind: reduction}
+  32: {text: "Leech reduced by {X}%", base: 15, scale: 0.5, kind: reduction}
+  33: {text: "Buff effects reduced by {X}%", base: 15, scale: 0.5, kind: reduction}

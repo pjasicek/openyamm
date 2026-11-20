@@ -1,0 +1,96 @@
+# Original MM8-Rel.exe; SHA-256 5326d56459ca74126447bcfd07a8cc85a419663e2281500f0f043f13ffe77a0b.
+# Verify the full hash before loading. Read-only research labels, not recovered original symbols.
+# Evidence, interpretation and limitations: CREATURE_MOVEMENT.md.
+f+ ref.mm8rel.Monsters @ 0x61c458
+f+ ref.mm8rel.MonsterCount @ 0x692ec8
+f+ ref.mm8rel.CollisionState @ 0x75e218
+f+ ref.mm8rel.NearActorCount @ 0x508968
+f+ ref.mm8rel.NearActorIds @ 0x50913c
+f+ ref.mm8rel.BuildOutdoorActiveActors @ 0x40151a
+f+ ref.mm8rel.BuildIndoorActiveActors @ 0x40172e
+f+ ref.mm8rel.ActorAiDispatch @ 0x401ad8
+f+ ref.mm8rel.ActorFlee @ 0x402ab6
+f+ ref.mm8rel.ActorPursueHeading @ 0x402c2f
+f+ ref.mm8rel.ActorWanderHomeBiased @ 0x403537
+f+ ref.mm8rel.ActorStandAwhile @ 0x404153
+f+ ref.mm8rel.ActorStand @ 0x4041a9
+f+ ref.mm8rel.ActorStandOrBored @ 0x40424b
+f+ ref.mm8rel.ActorFaceObject @ 0x404323
+f+ ref.mm8rel.GetObjectDirection @ 0x4043dc
+f+ ref.mm8rel.ActorUpdateAnimation @ 0x4584dd
+f+ ref.mm8rel.StationarySpeedSquaredThreshold @ 0x46baaa
+f+ ref.mm8rel.GetGravityStrength @ 0x46bab0
+f+ ref.mm8rel.IndoorFloor @ 0x46d0d0
+f+ ref.mm8rel.OutdoorFloor @ 0x46d6bb
+f+ ref.mm8rel.TerrainNormal @ 0x46def7
+f+ ref.mm8rel.CollideActor @ 0x46e143
+f+ ref.mm8rel.CollideIndoorDecorations @ 0x46e2dc
+f+ ref.mm8rel.CollideOutdoorDecorations @ 0x46e493
+f+ ref.mm8rel.CollideIndoorGeometry @ 0x46e663
+f+ ref.mm8rel.CollideOutdoorModels @ 0x46ead9
+f+ ref.mm8rel.IndoorFloorWithSectorRetry @ 0x46ef67
+f+ ref.mm8rel.CollideSpriteObjects @ 0x46efd6
+f+ ref.mm8rel.CollideParty @ 0x46f14e
+f+ ref.mm8rel.TraverseIndoorPortal @ 0x46f29b
+f+ ref.mm8rel.UpdateIndoorActors @ 0x46fb6d
+f+ ref.mm8rel.PrepareMovementSweep @ 0x47078b
+f+ ref.mm8rel.UpdateOutdoorActors @ 0x470945
+f+ ref.mm8rel.SweepSphereIndoorFace @ 0x475e0b
+f+ ref.mm8rel.SweepSphereOutdoorFace @ 0x475fc0
+f+ ref.mm8rel.IntersectRayIndoorFace @ 0x4768a0
+f+ ref.mm8rel.IntersectRayOutdoorFace @ 0x476a4d
+f+ ref.mm8rel.CheckTerrainWaterTransition @ 0x476c22
+f+ ref.mm8rel.IsTerrainTriangleSteep @ 0x4836bc
+f+ ref.mm8rel.TerrainHeight @ 0x483842
+f+ ref.mm8rel.RoomFromPoint @ 0x499f5f
+CC "Wandering: home delta, timed movement and random pauses; see FRIENDLY_WANDERING.md" @ 0x403537
+CC "Wandering pause branch: rand modulo 100 below 25 calls StandAwhile" @ 0x40367f
+CC "Wander duration: 32 times adjusted home distance divided by speed, not successful displacement" @ 0x4036e5
+CC "Ordinary action continuation compares elapsed timer against action duration" @ 0x402187
+CC "Outdoor geometry hit realigns heading without cancelling the walking action" @ 0x471325
+CC "Single actor contact: if both hostility bytes are zero, stop and face other actor" @ 0x471480
+CC "Outdoor near-actor list truncates to 30 after distance sort, not a 30-moving-actor cap" @ 0x4016fe
+CC "Indoor near-actor list final cap is 30" @ 0x401a7b
+CC "Indoor floor candidates limited to 50" @ 0x46d343
+CC "Indoor floor preference uses query Z plus 5, not a universal step-height limit" @ 0x46d694
+CC "Outdoor floor candidates limited to 20 including terrain" @ 0x46d980
+CC "Outdoor floor preference uses query Z plus 5" @ 0x46da69
+CC "Final outdoor support height cannot be lower than terrain candidate" @ 0x46daf8
+CC "Indoor geometry neighborhood limited to 10 sector entries including current sector" @ 0x46e76f
+CC "Outdoor front-side and toward-plane conditions before low-sphere detailed tests" @ 0x46ed40
+CC "Invalid indoor floor or floor above Z plus 50 triggers sector lookup and retry" @ 0x46ef8c
+CC "Nearest-portal distance comparison, decompiler stack-variable recovery is misleading here" @ 0x46f3df
+CC "Portal crossing changes current collision sector to the opposite face sector" @ 0x46f448
+CC "Indoor initial invalid floor retries room-from-point, unresolved actors skip movement" @ 0x46fc34
+CC "Indoor below-floor correction assigns selected floor plus 1" @ 0x46fe6b
+CC "Indoor collision spheres use actor radius and centers foot plus radius plus 1, foot plus height minus radius minus 1" @ 0x46ff5d
+CC "Indoor overlap bypass compares approximate distance with sum of body radii before actor sweep" @ 0x4700e4
+CC "Flying pursuit computes target height only without a caller-supplied direction: body radius plus 512 for missile user, else party height, if party is grounded" @ 0x402c50
+CC "Pursuit copies direction pitch to actor plus 0xa4" @ 0x402de8
+CC "Direction target for party adds supplied height offset to party Z; zero offset uses default party eye height" @ 0x4046ef
+CC "Indoor actor flying property is gated by ability to act" @ 0x46fc03
+CC "Flying walking animation derives vertical velocity from speed and pitch" @ 0x46fd9f
+CC "Active flyers bypass ordinary airborne gravity" @ 0x46febd
+CC "Portal faces are skipped by indoor solid geometry sweeps, including horizontal openings" @ 0x46e7de
+CC "Actor-cylinder collision requires positive horizontal forward projection; exactly vertical motion cannot hit" @ 0x46e26f
+CC "Indoor actor sweep supplies other actor radius override 40 after the body-radius overlap bypass" @ 0x4700f4
+CC "More than one accepted actor contact sets crowd response flag" @ 0x470133
+CC "Indoor geometry and portal inner loop cap 100" @ 0x470127
+CC "Indoor grounded walking drop guard rejects floor more than 100 below feet" @ 0x470270
+CC "Ledge turn sign uses low bit of actor X, not RNG" @ 0x470281
+CC "Indoor horizontal floor collision assigns first vertex Z plus 1 and zeros vertical speed" @ 0x47037a
+CC "Indoor nonfloor collision normal response has minimum speed divided by 8 bias" @ 0x47041c
+CC "Indoor wall push-out, slope types excluded from this positional correction" @ 0x470499
+CC "Indoor response damping 58500 divided by 65536" @ 0x4706a3
+CC "Indoor outer response iteration cap 100, not current OE five-attempt loop" @ 0x47071c
+CC "Movement uses fixed-point timer delta and subtracts already consumed movement" @ 0x4707e3
+CC "Outdoor walking speed capped at 1000" @ 0x470b24
+CC "Outdoor below-floor correction assigns floor, sets VZ zero for walkers or plus 20 for active flyers" @ 0x470bd0
+CC "Outdoor geometry radius 40 for nonflying monster types, otherwise body radius" @ 0x470e36
+CC "Outdoor floor collision assigns collided face vertex Z plus 1" @ 0x47119f
+CC "Outdoor nonfloor velocity correction minimum normal bias speed divided by 8" @ 0x471202
+CC "Outdoor positive plane overshoot pushes actor outward, with turn-based-stage exception" @ 0x4712b1
+CC "Outdoor response damping 58500 divided by 65536 and cap 100 attempts" @ 0x471495
+CC "Rejected terrain-water transition restores old XY and turns heading minus 32" @ 0x4715f4
+CC "128 here is actor action duration at offset 0xa8, not maximum step height" @ 0x471624
+CC "Terrain triangle steepness is height range greater than 512, not step height" @ 0x483835

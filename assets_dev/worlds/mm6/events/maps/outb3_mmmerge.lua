@@ -1,4 +1,4 @@
--- MMMerge map supplement: Dragonsand Dimension Door and per-character Shrine of the Gods blessings.
+-- MMMerge map supplement: per-character Shrine of the Gods blessings.
 
 RegisterMapOnLoadEvent(65020, "Migrate Shrine of the Gods blessings", function()
     -- Older saves recorded blessings by party slot instead of on the character.
@@ -48,6 +48,3 @@ ReplaceMapEvent(103, "Shrine of the Gods", function()
     evt.StatusText("+20 to all stats permanent.")
 end, "Shrine of the Gods")
 
-AppendMapEvent(105, function()
-    MM6.OpenDimensionDoor()
-end)

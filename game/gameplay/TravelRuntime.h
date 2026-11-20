@@ -5,7 +5,8 @@ namespace OpenYAMM::Game
 class IGameplayWorldRuntime;
 class Party;
 
-void applyTravelDaysSideEffects(
+// Returns whether travel time, food or rest were applied to the party.
+bool applyTravelDaysSideEffects(
     Party &party,
     IGameplayWorldRuntime *pWorldRuntime,
     int travelDays,

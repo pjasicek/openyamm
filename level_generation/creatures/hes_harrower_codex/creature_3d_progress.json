@@ -1,0 +1,432 @@
+{
+  "creature_3d_identity": "hesper:harrower",
+  "meshy": {
+    "jobs": {
+      "warglaive_harrower_st_v1": {
+        "kind": "image-to-3d",
+        "request": {
+          "image_url": "@file:warglaives/harrower/references_hd/00_three_quarter_meshy.png",
+          "ai_model": "meshy-t2",
+          "model_type": "smart-topology",
+          "target_polycount": 3000,
+          "should_texture": false,
+          "target_formats": [
+            "glb"
+          ]
+        },
+        "inputs": [
+          {
+            "path": "warglaives/harrower/references_hd/00_three_quarter_meshy.png",
+            "sha256": "38c2bc3966a5190702e189c008b659e8ee64d99822672fc52c01f16c7e192c7b"
+          }
+        ],
+        "fingerprint": "520667f40c724c6ad6cc370803fd270c70dbecc880c409f953c3e05347674d81",
+        "account": "backup",
+        "reserved_credits": 5,
+        "status": "SUCCEEDED",
+        "submitted_at": "2026-10-24T15:38:34.687449+00:00",
+        "task_id": "01a16e90-5504-7799-a19e-04653987a569",
+        "consumed_credits": 5,
+        "task": {
+          "id": "01a16e90-5504-7799-a19e-04653987a569",
+          "type": "image-to-3d",
+          "name": "",
+          "art_style": "",
+          "object_prompt": "",
+          "style_prompt": "",
+          "negative_prompt": "",
+          "texture_prompt": "",
+          "texture_image_url": "",
+          "text_style_prompt": "",
+          "image_style_url": "",
+          "status": "SUCCEEDED",
+          "created_at": 1792856316598,
+          "progress": 100,
+          "started_at": 1792856316607,
+          "finished_at": 1792856319721,
+          "expires_at": 1793115519721,
+          "task_error": null,
+          "model_url": "https://assets.meshy.ai/92acc433-0255-4138-9cef-f6c140b99a3a/tasks/01a16e90-5504-7799-a19e-04653987a569/output/model.glb?Expires=1793115519&Signature=JdHuCtau8nTn~lY0BtZtnLDLFzrC45jZZE-yjsQ~7bomOg3MHV7yuXhhjwafzEADIX3sLd~he-KJGiCJQQ6GG4mxYAMzwAigWjdEZrM7eEwc52eFKGqymQSdoYVbcwIjBXwZK-Cv40Bl9KiwwGwWuQhixPsfEud~KA7ZLWGbayp3CYoi~Yv2c0Lg~TX8nsCXBCQ~vrPg4BVtkupMoOnCXYMEm06HYgASoP5bcqvT5NwrdbBMs0hyVqyO9QwOmBAMQS8b-6WxRS~06~3t-VwoYJx6GyYlJKYb8a5RBGvqDlILoWJbDQYHxFRwvxxIzaK3nK5g5eHJeYsQsKXG1psbwg__&Key-Pair-Id=K1VGYTHIYLM9UM",
+          "model_urls": {
+            "glb": "https://assets.meshy.ai/92acc433-0255-4138-9cef-f6c140b99a3a/tasks/01a16e90-5504-7799-a19e-04653987a569/output/model.glb?Expires=1793115519&Signature=JdHuCtau8nTn~lY0BtZtnLDLFzrC45jZZE-yjsQ~7bomOg3MHV7yuXhhjwafzEADIX3sLd~he-KJGiCJQQ6GG4mxYAMzwAigWjdEZrM7eEwc52eFKGqymQSdoYVbcwIjBXwZK-Cv40Bl9KiwwGwWuQhixPsfEud~KA7ZLWGbayp3CYoi~Yv2c0Lg~TX8nsCXBCQ~vrPg4BVtkupMoOnCXYMEm06HYgASoP5bcqvT5NwrdbBMs0hyVqyO9QwOmBAMQS8b-6WxRS~06~3t-VwoYJx6GyYlJKYb8a5RBGvqDlILoWJbDQYHxFRwvxxIzaK3nK5g5eHJeYsQsKXG1psbwg__&Key-Pair-Id=K1VGYTHIYLM9UM"
+          },
+          "thumbnail_url": "https://assets.meshy.ai/92acc433-0255-4138-9cef-f6c140b99a3a/tasks/01a16e90-5504-7799-a19e-04653987a569/output/preview.png?Expires=1793115519&Signature=JRF5qWjXIjJAp6xu~b37K8bkrbqq-xHMuvBzJaNvlUZ~J4FufVct64ERmLXGMaAVqaqbQpOTO0NeqkNbtVn~R2zN5l4H7XFnP0xmG9LHZdFVuxZaYBYrzfyDAYNiyXY5MD7Eak80HLOjiRPxpyBMsf-0euuG6Tp2EBN31UL79BQXKzYWabijVPl9VgSXWysB5LuL2DBcnOPPgYXrMbqcRKVYu1f2UFrRSCbh-wVfYdrheKwHGwgO6tVA7YGnng09BUy7s8pTloEfxaseEl9oCXcdzDuvua3nrxis5SPv0JyO24DTeszKaRk4iasAXcXpi0legx6yT3y6OjPjOSjFFA__&Key-Pair-Id=K1VGYTHIYLM9UM",
+          "texture_urls": [],
+          "consumed_credits": 5
+        },
+        "downloads": {
+          "model_urls_glb": {
+            "path": "meshy/warglaive_harrower_st_v1/model_urls_glb.glb",
+            "sha256": "a2c85b27487502bcafb3b205d327faf114a551dc0c17741c35c248e8b534591b"
+          },
+          "thumbnail_url": {
+            "path": "meshy/warglaive_harrower_st_v1/thumbnail_url.png",
+            "sha256": "0acd83d579564e8ab90fb7aa89068a2dd3e425ffeff29fb6d61c3a518c73aac8"
+          }
+        }
+      },
+      "warglaive_vreth_st_v1": {
+        "kind": "image-to-3d",
+        "request": {
+          "image_url": "@file:warglaives/vreth/references_hd/00_three_quarter_meshy.png",
+          "ai_model": "meshy-t2",
+          "model_type": "smart-topology",
+          "target_polycount": 3000,
+          "should_texture": false,
+          "target_formats": [
+            "glb"
+          ]
+        },
+        "inputs": [
+          {
+            "path": "warglaives/vreth/references_hd/00_three_quarter_meshy.png",
+            "sha256": "367e2792a6812295f81e4689e4a86cb6df6070f6d3ec0e1762fb5efe6ba139d5"
+          }
+        ],
+        "fingerprint": "c2e5788d319a9b7a17aaeffecabf0f2f11cb94f7ed2ea3a84817380ba3be6564",
+        "account": "backup",
+        "reserved_credits": 5,
+        "status": "SUCCEEDED",
+        "submitted_at": "2026-10-24T15:38:38.040537+00:00",
+        "task_id": "01a16e90-62ab-735e-a178-4c11412a3973",
+        "consumed_credits": 5,
+        "task": {
+          "id": "01a16e90-62ab-735e-a178-4c11412a3973",
+          "type": "image-to-3d",
+          "name": "",
+          "art_style": "",
+          "object_prompt": "",
+          "style_prompt": "",
+          "negative_prompt": "",
+          "texture_prompt": "",
+          "texture_image_url": "",
+          "text_style_prompt": "",
+          "image_style_url": "",
+          "status": "SUCCEEDED",
+          "created_at": 1792856319983,
+          "progress": 100,
+          "started_at": 1792856319990,
+          "finished_at": 1792856322602,
+          "expires_at": 1793115522602,
+          "task_error": null,
+          "model_url": "https://assets.meshy.ai/92acc433-0255-4138-9cef-f6c140b99a3a/tasks/01a16e90-62ab-735e-a178-4c11412a3973/output/model.glb?Expires=1793115522&Signature=hxG~tLTksbT-MvKElby1Dxnd8MxRSPNMUGV-txp9tJz70wS2LZaB7HuwlKZWCUqGJndRFpaNvh0mEhsXo5ceo1OrUXAmqjOa9yGTkf6KQ6kCyBJOxH6ZnbRg2y5rx-OAqUAEKbeycF7Daz63RhM5yX2ih6Up9BEZHnA7hLlPREsvY0n-gwwaMz8DMYrg-0ojV21xyJng2KeJZJu-0t1t0EJ0Um98kT1Dfi8D-ey-YgxLtIKhANZ4oO~JSv-x3vUJD3eQvd2yM1OkivXGprYZdl98~NQ8EBBuY43fDxqZ2KbTQPCQcx7A98o9HAo61byJjADa02B6EuGHGaUOD1GDOw__&Key-Pair-Id=K1VGYTHIYLM9UM",
+          "model_urls": {
+            "glb": "https://assets.meshy.ai/92acc433-0255-4138-9cef-f6c140b99a3a/tasks/01a16e90-62ab-735e-a178-4c11412a3973/output/model.glb?Expires=1793115522&Signature=hxG~tLTksbT-MvKElby1Dxnd8MxRSPNMUGV-txp9tJz70wS2LZaB7HuwlKZWCUqGJndRFpaNvh0mEhsXo5ceo1OrUXAmqjOa9yGTkf6KQ6kCyBJOxH6ZnbRg2y5rx-OAqUAEKbeycF7Daz63RhM5yX2ih6Up9BEZHnA7hLlPREsvY0n-gwwaMz8DMYrg-0ojV21xyJng2KeJZJu-0t1t0EJ0Um98kT1Dfi8D-ey-YgxLtIKhANZ4oO~JSv-x3vUJD3eQvd2yM1OkivXGprYZdl98~NQ8EBBuY43fDxqZ2KbTQPCQcx7A98o9HAo61byJjADa02B6EuGHGaUOD1GDOw__&Key-Pair-Id=K1VGYTHIYLM9UM"
+          },
+          "thumbnail_url": "https://assets.meshy.ai/92acc433-0255-4138-9cef-f6c140b99a3a/tasks/01a16e90-62ab-735e-a178-4c11412a3973/output/preview.png?Expires=1793115522&Signature=Ap8rpfpwX1Hn81Q-6GS~DEhur~JpR3O7DitibwypJYuyjqvqIK1ICyGk54xbgrELKJR7dSL-kecLTQcf83frJT979WT7m7mZybHHxHzzT8OIdM2smtdKZkWNFvqcsC95DKsNOylMxewrgxTFOXnnSDeeensX8EYbaTLX6gvvjoib3SX56EhSZngg-4TmNtlNcK2PvKqlodVdZHKJ-Eagj7G0o4J7zqb~xaiKoMJH90t8Uv-w02nGX2qiZHzJb9Wveh9-AReEkIPQ3-xwZzu71ZgvfU-P-jCbH9BfG1e~Llnz36RaLr4NiG3ALFVV-5PBEkzb8z3pDJwSxqStO7pvSQ__&Key-Pair-Id=K1VGYTHIYLM9UM",
+          "texture_urls": [],
+          "consumed_credits": 5
+        },
+        "downloads": {
+          "model_urls_glb": {
+            "path": "meshy/warglaive_vreth_st_v1/model_urls_glb.glb",
+            "sha256": "e12632d828e77b24904e7840a8d3bafa7a70774eaab0c7e84a24680c5cf0f025"
+          },
+          "thumbnail_url": {
+            "path": "meshy/warglaive_vreth_st_v1/thumbnail_url.png",
+            "sha256": "f251e3d34500aec29b4c57a5acaef0153e2bfe06a67223a894f802679d05828c"
+          }
+        }
+      }
+    },
+    "credit_limit": 20,
+    "credits_used": 0
+  },
+  "scope": "Harrowers A-C and Huntmaster Vreth; staged, with requested D13 desktop smoke; integrator owns full visual acceptance",
+  "status": "ready_for_integrator_review",
+  "accepted_concepts": {
+    "fam_harrowers.png": {
+      "version": 3,
+      "approved_by": "user",
+      "sha256": "5d87e01712afa708d9d6c242008edcb3e984480b1bce43b4d6b4a0bc7ab9cc5f"
+    },
+    "boss_vreth.png": {
+      "version": 3,
+      "approved_by": "user",
+      "sha256": "99336dc22405d9b3b467c62427542ad36702dbf67478914bcf586dc9c2ee1cd9"
+    }
+  },
+  "shared_body": {
+    "path": "level_generation/creatures/hes_kreegan_claude/export/hes_kreegan.glb",
+    "sha256": "7057137fbabc3ff257d2d7f48f1510d9fcd20e636f6a57a04fd90ac2fabaceed",
+    "tail": "preserve Bone_015–Bone_020",
+    "harness": "preserve geometry; region G uses skin ramps"
+  },
+  "components": [
+    "shared thin skinned body",
+    "light skinned shell",
+    "Blade_L",
+    "Blade_R",
+    "crest",
+    "cloth strips",
+    "tier B trophy cord",
+    "tier C shoulder caps",
+    "Vreth mantle, trophies, scars, horn rings and enlarged blades"
+  ],
+  "review": {
+    "viewer": "ready: review/viewer/index.html",
+    "model_ids": [
+      "hhw_a",
+      "hhw_b",
+      "hhw_c",
+      "hhw_boss"
+    ],
+    "wrapper_arguments": "validated for all four tiers; browser not opened",
+    "captures": "integrator per task rule 9",
+    "visual_acceptance": "awaiting integrator review of r2 after addressing the 2026-10-23 rejection",
+    "static_material_review": "review/r2/material_{a,b,c,boss}_{front,back}.png; background Blender renders",
+    "desktop_smoke": "passed; review/r2/desktop_smoke.json"
+  },
+  "staging": {
+    "ids": [
+      10240,
+      10241,
+      10242,
+      10147
+    ],
+    "status": "restaged r2",
+    "manifest": "level_generation/projects/hesper_stage/monsters.yml",
+    "stage_log": "review/stage.log",
+    "regression": "review/regression.json",
+    "scenario_passed": 73,
+    "scenario_failed": 0,
+    "desktop_smoke": "review/r2/desktop_smoke.json"
+  },
+  "stage": "animation_and_finish",
+  "substep": "review_fixes_completed",
+  "selected_master": {
+    "path": "work/final.blend",
+    "sha256": "0e6701ef45554f1ee23ead08c914678e1efb1300d26d09237a882742a5837add"
+  },
+  "exports": {
+    "hes_harrower.glb": {
+      "sha256": "9ddd111c2e9938a6dc396cbab2d02b3f4dd78fa0a550040b4a88d816b7cab353",
+      "triangles": [
+        [
+          11244,
+          5598,
+          4460,
+          2777
+        ]
+      ],
+      "bytes": 30507784
+    },
+    "hes_harrower_blade_l.glb": {
+      "sha256": "67d55be718bc5f2dd126f41f7d5535b48dac4507b85184df1bdd113a0fc555d1",
+      "triangles": [
+        [
+          1536,
+          675,
+          612,
+          384
+        ]
+      ],
+      "bytes": 2164368
+    },
+    "hes_harrower_blade_r.glb": {
+      "sha256": "3c6cb0ce269961d69a92edd57dca775e4b1cbee4fa135c34dd308aca0bcd3a4a",
+      "triangles": [
+        [
+          1536,
+          676,
+          612,
+          384
+        ]
+      ],
+      "bytes": 2143672
+    },
+    "hes_harrower_cap_l.glb": {
+      "sha256": "b4c77e0894f00017b6f5dc6e42a81da3622f54e5ff9e4f53823d7a10a2595803",
+      "triangles": [
+        [
+          98,
+          57,
+          38,
+          26
+        ]
+      ],
+      "bytes": 817568
+    },
+    "hes_harrower_cap_r.glb": {
+      "sha256": "d6db3e04e47bcb2bf3e0c71c0b74912ee4934701bdb6793e9e8b42f93e3340b9",
+      "triangles": [
+        [
+          98,
+          50,
+          38,
+          26
+        ]
+      ],
+      "bytes": 670524
+    },
+    "hes_harrower_crest.glb": {
+      "sha256": "c5f4a1e85c9b5b974b96bce61ad5a9df26ed3ce63383061c1b007d3baa95da42",
+      "triangles": [
+        [
+          108,
+          54,
+          26,
+          12
+        ]
+      ],
+      "bytes": 324760
+    },
+    "hes_harrower_trophies.glb": {
+      "sha256": "71eca10b0a8b7a810c7ce511ea3de4a27a2148e86a32e3afd79f026d4fc63928",
+      "triangles": [
+        [
+          318,
+          198,
+          80,
+          36
+        ]
+      ],
+      "bytes": 908648
+    },
+    "hes_vreth_blade_l.glb": {
+      "sha256": "c1d3cd13621db19d3bcda0f64721a4fc3c3d6cfe6c6299f5c4787bfca2bf5593",
+      "triangles": [
+        [
+          1262,
+          587,
+          505,
+          313
+        ]
+      ],
+      "bytes": 2228280
+    },
+    "hes_vreth_blade_r.glb": {
+      "sha256": "37e1fcc6612c24ad7a50edeef83e6666f4ccc5f6832f030bc372054c77af64f4",
+      "triangles": [
+        [
+          1262,
+          589,
+          505,
+          313
+        ]
+      ],
+      "bytes": 2222904
+    },
+    "hes_vreth_crest.glb": {
+      "sha256": "f590e8e24b986c7e410efe1950bf47d2ac51720730f82fea242be5c383215b22",
+      "triangles": [
+        [
+          372,
+          186,
+          92,
+          46
+        ]
+      ],
+      "bytes": 413884
+    },
+    "hes_vreth_trophies.glb": {
+      "sha256": "f6491b72c5ae67bb5292bb0e4dd5c4c48d9c93ec82bee840621eae05029cf817",
+      "triangles": [
+        [
+          636,
+          304,
+          158,
+          74
+        ]
+      ],
+      "bytes": 951904
+    }
+  },
+  "bound_clips": [
+    "Harrower_Attack",
+    "Harrower_Attack2",
+    "Harrower_ChargeStrike",
+    "Harrower_Dead",
+    "Harrower_Death",
+    "Harrower_Fidget",
+    "Harrower_Hit",
+    "Harrower_Roar",
+    "Harrower_Running",
+    "Harrower_Spent",
+    "Harrower_Standing",
+    "Harrower_Walking"
+  ],
+  "gates": {
+    "numeric_authoring": "passed: all eleven r2 clips; the three library attacks of 2026-10-24 per review/*_cand.json (README)",
+    "runtime_export": "passed: valid LOD chains, RGBA cloth on every LOD, original source geometry/weights/frames and 18 original clip samplers retained",
+    "winding": "0 inverted closed parts in all 11 runtime GLBs",
+    "far_lod_images": "passed on all four exact actor assemblies",
+    "evidence": [
+      "review/r2/grip_gate.json",
+      "review/gates_r2.json",
+      "review/geometry_r2.json",
+      "review/armour_gate_r2.json",
+      "review/shell_leak_r2.json",
+      "review/validation.json",
+      "review/lod_audit.json",
+      "review/regression.json",
+      "review/r2/desktop_smoke.json"
+    ]
+  },
+  "next_action": {
+    "owner": "integrator",
+    "action": "Review the refreshed four-tier viewer and all eleven clips; show the revision to the user. Desktop model loading and the 73-scenario sweep pass."
+  },
+  "review_revision": "harrowers_attacks_20261024",
+  "texture_hashes": {
+    "hkr_armour_basecolor.png": "1a683462aa676ef3aabba4c482a52269c068f8096b05ff417152e5a85bc80b61",
+    "hkr_armour_material_classes.png": "18df140830452e47c0bc2409d6da55ed7df2274cecaeb573db8e4943973a456a",
+    "hkr_armour_metal_rough.png": "d3e19e3a2a408eb7a0f3efd95da48b00744d32819bb9b17b264c33b402759f54",
+    "hkr_armour_normal.png": "570850b7c6fca358b82e10bae33dc25a695c9cebbc06261b211bd4898204e792",
+    "hkr_armour_region_mask.png": "d25887b80df9797aaedae1783cbe5a02088c51bbf6485593aeaf9d495ef47a8b",
+    "hkr_body_region_mask.png": "df813aa054e485e9c47746b299a212200d515be669c39e70de088a53ca75bb85"
+  },
+  "review_fixes": {
+    "blocker": "removed the self-referencing shadow chain; renderer uses normal LOD chain; blocker-only restage preceded visual work",
+    "grips": "native-mesh spread/curl solve; actual skin and handle centre checked on every bound clip",
+    "blade_size": "family 58.1% and Vreth 62.1% of shared body height",
+    "glow": "34 mm convex strip; A/C red-orange, B gold-orange, Vreth orange-white; emissiveFactor plus strength 3.5, cloth strength 0.65; no emissive textures",
+    "armour": "three ivory forearm segments, knee/shin plates and ivory fist guards",
+    "cloth": "single-surface folded strips with torn alpha silhouettes, holes and faint cracks; Vreth ivory/black mantle; alpha retained at all LODs",
+    "skin": "darker, less saturated magenta A; darker crimson B/C/Vreth"
+  },
+  "library_attacks": {
+    "picked_by": "user, 2026-10-24",
+    "Harrower_Attack": "A1 Armed-Attack-Dual2 f0-30, impact 0.5 s",
+    "Harrower_Attack2": "B1 Armed-Attack-Dual3 f4-30, impact 0.4 s",
+    "Harrower_ChargeStrike": "C Armed-Run-Attack-Dual f0-24, script clip charge_strike",
+    "chain": "scripts/run_cands.sh",
+    "install": "scripts/run_install_attacks.sh",
+    "previous": "work/before_attacks_20261024/",
+    "gates": [
+      "review/armour_gate_cand.json",
+      "review/geometry_cand.json",
+      "review/gates_cand.json",
+      "review/cand_grip_gate.json",
+      "review/motion_cand.json",
+      "review/shell_leak_cand.json"
+    ]
+  },
+  "warglaives": {
+    "picked_by": "user, 2026-10-24 (candidate 1 of both; names: Vreth's First Cut / Last Cut)",
+    "concepts": [
+      "design/kreegan_world/concepts/monsters/warglaive_harrower.png",
+      "design/kreegan_world/concepts/monsters/warglaive_vreth.png"
+    ],
+    "references_hd": {
+      "harrower": {
+        "00_three_quarter.png": "b40b2bdeb7d3257c2e87494db22d97d89a018dd77c630bbc11604513814c2534",
+        "01_front.png": "6ce52c560c1fe4c05063a72e9fb4f20ccafd29ec83e6891c396effb0027a77f7",
+        "02_back.png": "e952c6268813230bba51ac0d8ba09e63e59670728c7f2ac5f512796079bdea8b",
+        "03_left.png": "0a71f7ef1021b0a5aafc8c6a9930f56b41b91582e243cca8f587064627629b54",
+        "04_right.png": "e71a40b4d6700cbe7f1c3b4a0237e388acbd1db60c97435cd94345722a838522"
+      },
+      "vreth": {
+        "00_three_quarter.png": "300635e53e7b451287285d0dfe3cb3c63dd1f9adee212654056dcff9b0c0e6d0",
+        "01_front.png": "5c30296325387149a499312be517be99e277d683c3eb7bf11d2ee761d2d1b9f3",
+        "02_back.png": "bd33112501cfcfb801f806e02a1409c7c3a4980db12076eccf77c88830aa51ce",
+        "03_left.png": "e3909eff7be0e26aed2b33dc6340265b089f8018d81a27b7f2e409950f8c6ef7",
+        "04_right.png": "7b5449bf7a5e73afea31cc5e96d45136f919f0ef9267f75902417b45f68db2b5"
+      }
+    },
+    "meshy_credits_used": 10,
+    "meshy_cap": 20,
+    "previous": "work/before_warglaives_20261024/",
+    "install": "scripts/run_install_warglaives.sh, then BASE=work/glaive_base.blend scripts/run_install_attacks.sh"
+  }
+}

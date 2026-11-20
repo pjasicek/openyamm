@@ -1,0 +1,25 @@
+id: rulesets.maw_madness_ledger
+title: "Ruleset - Beyond Madness: a monster's hit marks the run, and loading a save during the fight counts a death"
+world: mm6
+mode: faithful
+tags: [rulesets, maw]
+steps:
+  - new_game_flow:
+      start_map: oute3.odm
+      ruleset: {id: maw, challenge_mode: beyond_madness}
+  - assert:
+      ruleset: {id: maw, challenge_mode: beyond_madness, madness_pending: false, madness_deaths: 0}
+  - save_game: madness_quiet
+  # A Skeleton Bowman's arrow hits the party.
+  - spawn_actor: {monster_id: 172, near_party: true}
+  - fire_actor_projectile: {actor_index: last, damage: 5}
+  - advance_runtime: {seconds: 2}
+  - assert:
+      ruleset: {id: maw, madness_pending: true, madness_deaths: 0}
+  # Reloading mid-fight counts a death; a second load counts nothing more.
+  - load_game: madness_quiet
+  - assert:
+      ruleset: {id: maw, madness_pending: false, madness_deaths: 1}
+  - load_game: madness_quiet
+  - assert:
+      ruleset: {id: maw, madness_deaths: 1}

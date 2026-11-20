@@ -1,0 +1,19 @@
+{
+  "maps": {
+    "lg02.blv": 9081,
+    "lg01.odm": 9082
+  },
+  "house_base": 12000,
+  "house_count": 29,
+  "npc_base": 12000,
+  "npc_count": 21,
+  "namespace": "mm8:brackenford_greywatch",
+  "policy": "Allocated once. Reject collisions with mounted base content; do not silently renumber.",
+  "travel": {
+    "return_location": 12000,
+    "return_profiles": {
+      "452": 12000,
+      "453": 12001
+    }
+  }
+}

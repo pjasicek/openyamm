@@ -1,0 +1,1269 @@
+# MAW's spell names and spellbook texts (devdocs/maw/CLASSES_SPELLS_SPEC.md §1-5), written for OpenYAMM's MAW rules
+# after zzMaw-Spells.lua (ascension, adjustSpellTooltips) and zzClasses.lua (dkSkills, assassinSkills). Each part
+# replaces the spell table's; a mastery line set to "" is not shown. `classes:` gives a class line's own text, part by
+# part over the ruleset's.
+#
+# Placeholders, filled with the caster's numbers ({name*factor} scales, {name:1} keeps one decimal). The description
+# reads the caster's school mastery; each mastery line reads its own mastery.
+#   add, dice                 a damage spell's flat damage and dice per point after Ascension and Empower Magic
+#   mastery_add, mastery_dice the same at the line's mastery share (Fire Spike, Lifedrain)
+#   cost                      the spell points a cast costs at the line's mastery
+#   heal_base, heal_per       a heal's base and per-point healing after Ascension (Personality adds more)
+#   cc_seconds                a control spell's seconds on a monster without resistance, before diminishing returns
+#   aura_flat, aura_stat      a flat aura's strength and its stat percent at the caster's skill and level
+#   aura_percent              a percent aura's strength (Haste, Shield, Heroism, Fate, Hammerhands, Empower Magic)
+#   dop_flat, dog_stat        Day of Protection's resistances and Day of the Gods' stat percent
+#   hop_haste, hop_shield, hop_armor, hop_fate   Hour of Power's parts
+#   percent, combo            a class spell's share of a weapon blow at the line's mastery and its combo points
+#   blood_leech               a Death Knight's Blood Leech heal per hit at the line's mastery
+#   hp_share                  Mass Distortion's percent of the target's current hit points
+#   level, skill              the caster's level and school skill
+# The rules add the aura's reservation and holder, the combo points a spell needs and the cast's recovery time.
+
+spells:
+  # Fire
+  1:
+    description: >-
+      An aura: increases the radius of light surrounding your party in the dark, brighter with each mastery of Fire
+      Magic.
+    normal: ""
+    expert: ""
+    master: ""
+    grandmaster: ""
+  2:
+    description: >-
+      Launches a burst of fire at a single target. Damage is {add} + 1-{dice} points per point of skill in Fire Magic.
+      Fire Bolt is safe, effective and has a low casting cost.
+  3:
+    description: >-
+      An aura: raises your party's Fire Resistance by <good>{aura_flat}</> and Intellect by <good>{aura_stat}</> %. Grows with your
+      Fire Magic skill (counted up to 50) and with your level.
+    normal: ""
+    expert: ""
+    master: ""
+    grandmaster: ""
+  4:
+    description: >-
+      An aura: your party's weapons burn with a magical fire on top of their other enchantments. Every blow and arrow
+      adds a share of the weapon's level damage as fire, more on slow weapons, and the weapons in hand add it to every
+      damage spell (40 % of it on area spells). The minimum is doubled on two-handed weapons.
+    normal: "10 % of the weapon's level damage, at least 3"
+    expert: "15 % of the weapon's level damage, at least 6"
+    master: "20 % of the weapon's level damage, at least 12"
+    grandmaster: "25 % of the weapon's level damage, at least 24"
+  5:
+    description: >-
+      An aura: your characters recover <good>{aura_percent:1}</> % faster from attacks and spells. Grows with your Fire Magic
+      skill (counted up to 50).
+    normal: ""
+    expert: ""
+    master: ""
+    grandmaster: ""
+  6:
+    description: >-
+      Fires a ball of fire at a single target. When it hits, the ball explodes damaging all those nearby, including
+      your characters if they're too close. Fireball does 1-{dice} points of damage per point of skill in Fire Magic.
+  7:
+    description: >-
+      Drops a Fire Spike on the ground that waits for a creature to get near it before exploding. Fire Spikes last
+      until you leave the map or they are triggered.
+    expert: "Causes 1-<good>{mastery_dice}</> points of damage per point of skill, 5 spikes maximum"
+    master: "Causes 1-<good>{mastery_dice}</> points of damage per point of skill, 5 spikes maximum"
+    grandmaster: "Causes 1-<good>{mastery_dice}</> points of damage per point of skill, 5 spikes maximum"
+  8:
+    description: >-
+      An aura: surrounds your characters with a very hot fire that is only harmful to others. It deals {add} + 1-{dice}
+      points of damage per point of skill in Fire Magic to every nearby monster for as long as they remain in the area.
+    normal: ""
+    expert: ""
+    master: ""
+    grandmaster: ""
+  9:
+    description: >-
+      Summons flaming rocks from the sky which fall in a large radius surrounding your chosen target. Try not to be
+      near the victim when you use this spell. A single meteor does {add} points of damage plus {dice} per point of
+      skill in Fire Magic. This spell only works outdoors.
+  10:
+    description: >-
+      Inferno burns all monsters in sight when cast, excluding your characters. Each monster takes {add} points of
+      damage plus 1-{dice} per point of skill in Fire Magic. This spell only works indoors.
+  11:
+    description: >-
+      Among the strongest direct damage spells available, Incinerate inflicts massive damage on a single target. Damage
+      is {add} points plus 1-{dice} per point of skill in Fire Magic.
+
+  # Air
+  12:
+    description: >-
+      An aura: the minimap shows the locations of monsters and other points of interest, more of them with each
+      mastery of Air Magic.
+    normal: ""
+    expert: ""
+    master: ""
+    grandmaster: ""
+  14:
+    description: >-
+      An aura: raises your party's Air Resistance by <good>{aura_flat}</> and Speed by <good>{aura_stat}</> %. Grows with your Air Magic
+      skill (counted up to 50) and with your level.
+    normal: ""
+    expert: ""
+    master: ""
+    grandmaster: ""
+  15:
+    description: >-
+      Sparks fires small balls of lightning into the world that bounce around until they hit something or dissipate.
+      Each spark does 1-{dice} points of damage per point of skill in Air Magic.
+  17:
+    description: >-
+      An aura: magic damage your characters take is reduced by <good>{aura_percent:1}</> % (at most 30 %). Grows with your Air
+      Magic skill (counted up to 50).
+    normal: ""
+    expert: ""
+    master: ""
+    grandmaster: ""
+  18:
+    name: Chain Lightning
+    description: >-
+      Discharges electricity from the caster's hand to a single target. It always hits and does {add} points plus
+      1-{dice} points of damage per point of skill in Air Magic, then leaps to the nearest monster within reach.
+    normal: "Hits one monster"
+    expert: "Hits up to 2 monsters"
+    master: "Hits up to 3 monsters"
+    grandmaster: "Hits up to 4 monsters"
+  19:
+    master: "Duration 22.5 minutes + 1.5 minutes per point of skill"
+    grandmaster: "Duration 45 minutes + 3 minutes per point of skill"
+  20:
+    description: >-
+      Implosion destroys the air around a single target, causing a sudden inrush from the surrounding air, a
+      thunderclap, and {add} points plus 1-{dice} points of damage per point of skill in Air Magic.
+  21:
+    description: >-
+      Grants the power of flight to your characters! This spell is very expensive and only works outdoors, but it is
+      very useful. Fly will drain one spell point every five minutes it is in use (i.e. when you aren't touching the
+      ground). On Hard and harder difficulties, and in Austerity, attacking a monster ends it, except on a few maps.
+  22:
+    description: >-
+      Calls stars from the heavens to smite and burn your enemies. Twenty stars are called, and the damage for each
+      star is {add} points plus {dice} per point of skill in Air Magic. Try not to get caught in the blast! This spell
+      only works outdoors.
+
+  # Water
+  24:
+    description: >-
+      Sprays poison at monsters directly in front of your characters. Damage is low, but few monsters have resistance
+      to Water Magic, so it usually works. Each shot does {add} points of damage plus 1-{dice} per point of skill.
+  25:
+    description: >-
+      An aura: raises your party's Water Resistance by <good>{aura_flat}</> and Luck by <good>{aura_stat}</> %. Grows with your Water
+      Magic skill (counted up to 50) and with your level.
+    normal: ""
+    expert: ""
+    master: ""
+    grandmaster: ""
+  26:
+    description: >-
+      Fires a bolt of ice at a single target. The missile does {add} + 1-{dice} points of damage per point of skill in
+      Water Magic.
+  27:
+    description: >-
+      An aura: only useful outdoors, Water Walk lets your characters walk along the surface of water without sinking.
+    normal: ""
+    expert: ""
+    master: ""
+    grandmaster: ""
+  28:
+    name: Empower Magic
+    description: >-
+      An aura: your party's damage spells deal <good>{aura_percent:1}</> % more damage. Grows with your Water Magic skill
+      (counted up to 50).
+    normal: ""
+    expert: ""
+    master: ""
+    grandmaster: ""
+  29:
+    description: >-
+      Acid Burst squirts a jet of extremely caustic acid at a single victim. It always hits and does {add} points of
+      damage plus 1-{dice} per point of skill.
+  32:
+    description: >-
+      Fires a ball of ice in the direction the caster is facing. The ball shatters when it hits something, launching 7
+      shards of ice in all directions except the caster's. Each shard does {add} points of damage plus 1-{dice} per
+      point of skill in Water Magic.
+
+  # Earth
+  34:
+    description: >-
+      Slaps a monster with magical force, forcing it to recover from the stun spell before it can do anything else.
+      Stun also knocks monsters back a little. The greater your skill in Earth Magic, the more likely it takes hold of
+      strong monsters.
+  35:
+    description: >-
+      Halves the walking speed and doubles the recovery rate of a single monster. Ascension lengthens it; the
+      monster's Earth resistance shortens it.
+    normal: "Lasts <good>{cc_seconds:1}</> seconds"
+    expert: "Lasts <good>{cc_seconds:1}</> seconds"
+    master: "Lasts <good>{cc_seconds:1}</> seconds, monster slows to 1/4 speed"
+    grandmaster: "Lasts <good>{cc_seconds:1}</> seconds, monster slows to 1/8 speed"
+  36:
+    description: >-
+      An aura: raises your party's Earth Resistance by <good>{aura_flat}</> and Endurance by <good>{aura_stat}</> %. Grows with your
+      Earth Magic skill (counted up to 50) and with your level.
+    normal: ""
+    expert: ""
+    master: ""
+    grandmaster: ""
+  37:
+    description: >-
+      Summons a swarm of biting, stinging insects to bedevil a single target. The swarm does {add} points of damage
+      plus 1-{dice} per point of skill in Earth Magic.
+  38:
+    description: >-
+      An aura: raises your party's Armor Class by <good>{aura_flat}</>. Grows with your Earth Magic skill (counted up to 50)
+      and with your level.
+    normal: ""
+    expert: ""
+    master: ""
+    grandmaster: ""
+  39:
+    description: >-
+      Fires a rotating, razor-thin metal blade at a single monster. The blade does {add} + 1-{dice} points of damage
+      per point of skill in Earth Magic. Blades is the only spell that deals physical damage.
+  41:
+    description: >-
+      Releases a magical stone that explodes when it comes into contact with a creature or enough time passes. The
+      explosion causes {add} points of damage plus 1-{dice} per point of skill in Earth Magic.
+  43:
+    description: >-
+      Launches a magical stone which bursts in air, sending shards of explosive earth raining to the ground. Each shard
+      does {add} + 1-{dice} points of damage per point of skill in Earth Magic. This spell only works outdoors.
+  44:
+    description: >-
+      Increases the weight of a single target enormously for an instant, causing internal damage of <good>{hp_share:1}</> % of
+      the monster's current hit points: 15 % plus 0.5 % per point of skill in Earth Magic. Harder difficulties lessen
+      it. The bigger they are, the harder they fall.
+
+  # Spirit
+  46:
+    description: >-
+      An aura: raises your party's attack by <good>{aura_flat}</> and Accuracy by <good>{aura_stat}</> %, and their chance to hit. Grows
+      with your Spirit Magic skill (counted up to 50) and with your level.
+    normal: ""
+    expert: ""
+    master: ""
+    grandmaster: ""
+  47:
+    description: >-
+      An aura: raises your party's chance of a critical hit by <good>{aura_percent:1}</> %. Grows with your Spirit Magic skill
+      (counted up to 50).
+    normal: ""
+    expert: ""
+    master: ""
+    grandmaster: ""
+  48:
+    description: >-
+      Forces all visible undead monsters to flee. Ascension lengthens it; the monsters' Spirit resistance shortens it.
+    normal: "Lasts <good>{cc_seconds:1}</> seconds"
+    expert: "Lasts <good>{cc_seconds:1}</> seconds"
+    master: "Lasts <good>{cc_seconds:1}</> seconds"
+    grandmaster: "Lasts <good>{cc_seconds:1}</> seconds"
+  49:
+    description: >-
+      Heals a character and removes the cursed condition if you cast it in time: Expert works if cursed less than one
+      hour per point of skill, Master one day per point, Grandmaster at any time.
+    normal: ""
+    expert: "Heals <good>{heal_base}</> + <good>{heal_per}</> hit points per point of skill"
+    master: "Heals <good>{heal_base}</> + <good>{heal_per}</> hit points per point of skill"
+    grandmaster: "Heals <good>{heal_base}</> + <good>{heal_per}</> hit points per point of skill"
+  50:
+    description: >-
+      An aura: tightly binds every character's soul to the body. This delays death due to massive hit point loss, but
+      will not stop a character from going unconscious.
+    normal: ""
+    expert: ""
+    master: ""
+    grandmaster: ""
+  51:
+    description: >-
+      An aura: your characters' melee attacks deal <good>{aura_percent:1}</> % more damage. Grows with your Spirit Magic skill
+      (counted up to 50).
+    normal: ""
+    expert: ""
+    master: ""
+    grandmaster: ""
+  52:
+    description: >-
+      Weakens the link between a target's body and soul, causing {add} + 2-{dice} points of damage per point of skill
+      in Spirit Magic to all monsters near the caster.
+  53:
+    grandmaster: "Removes death and eradication with no time limit"
+  54:
+    master: "Adds <good>{heal_base}</> + <good>{heal_per}</> hit points per two points of skill to the pool"
+    grandmaster: "Adds <good>{heal_base}</> + <good>{heal_per}</> hit points per two points of skill to the pool"
+  55:
+    grandmaster: "Heals <good>{heal_base}</> + <good>{heal_per}</> hit points per point of skill"
+  56:
+    name: Meditation
+    description: >-
+      An aura: your party regains spell points over time. The rate grows with each character's mana pool, with your
+      level and with your Mind Magic skill (counted up to 50), and quickens out of combat.
+    normal: ""
+    expert: ""
+    master: ""
+    grandmaster: ""
+
+  # Mind
+  58:
+    description: >-
+      An aura: raises your party's Mind Resistance by <good>{aura_flat}</> and Personality by <good>{aura_stat}</> %. Grows with your
+      Mind Magic skill (counted up to 50) and with your level.
+    normal: ""
+    expert: ""
+    master: ""
+    grandmaster: ""
+  59:
+    description: >-
+      Fires a bolt of mental force which damages a single target's nervous system. Mind Blast does {add} points of
+      damage plus 1-{dice} per point of skill in Mind Magic.
+  60:
+    description: >-
+      Calms a single targeted creature and removes any hostile feelings it has towards your characters. If it takes
+      damage, it becomes hostile again. Ascension lengthens it; the monster's Mind resistance shortens it.
+    normal: ""
+    expert: "Lasts <good>{cc_seconds:1}</> seconds"
+    master: "Lasts <good>{cc_seconds:1}</> seconds"
+    grandmaster: "Lasts <good>{cc_seconds:1}</> seconds"
+  62:
+    description: >-
+      Causes a single monster to go mad with battle lust, attacking the nearest living creature until the spell wears
+      off. Ascension lengthens it; the monster's Mind resistance shortens it.
+    normal: ""
+    expert: "Lasts <good>{cc_seconds:1}</> seconds"
+    master: "Lasts <good>{cc_seconds:1}</> seconds"
+    grandmaster: "Lasts <good>{cc_seconds:1}</> seconds"
+  63:
+    description: >-
+      All creatures in the caster's sight fear the caster and flee. Ascension lengthens it; the monsters' Mind
+      resistance shortens it.
+    normal: ""
+    expert: ""
+    master: "Lasts <good>{cc_seconds:1}</> seconds"
+    grandmaster: "Lasts <good>{cc_seconds:1}</> seconds"
+  65:
+    description: >-
+      Targets a single creature with mind damaging magic. Psychic Shock does {add} points of damage plus 1-{dice} per
+      point of skill in Mind Magic.
+  66:
+    description: >-
+      Takes control of a target's mind; enslaved creatures fight monsters that are hostile to the caster. Ascension
+      lengthens it; the monster's Mind resistance shortens it.
+    grandmaster: "Lasts <good>{cc_seconds:1}</> seconds"
+
+  # Body
+  68:
+    description: >-
+      Heals a single character. Your Personality adds to every heal.
+    normal: "Heals <good>{heal_base}</> + <good>{heal_per}</> hit points per point of skill"
+    expert: "Heals <good>{heal_base}</> + <good>{heal_per}</> hit points per point of skill"
+    master: "Heals <good>{heal_base}</> + <good>{heal_per}</> hit points per point of skill"
+    grandmaster: "Heals <good>{heal_base}</> + <good>{heal_per}</> hit points per point of skill"
+  69:
+    description: >-
+      An aura: raises your party's Body Resistance by <good>{aura_flat}</> and Might by <good>{aura_stat}</> %. Grows with your Body
+      Magic skill (counted up to 50) and with your level.
+    normal: ""
+    expert: ""
+    master: ""
+    grandmaster: ""
+  70:
+    description: >-
+      Directly inflicts magical damage upon a single creature. Harm does {add} points of damage plus 1-{dice} per
+      point of skill in Body Magic.
+  71:
+    description: >-
+      An aura: your party regains hit points over time. The rate grows with each character's hit points, with your
+      level and with your Body Magic skill (counted up to 50), and quickens out of combat.
+    normal: ""
+    expert: ""
+    master: ""
+    grandmaster: ""
+  73:
+    description: >-
+      An aura: your characters' unarmed blows deal <good>{aura_percent:1}</> % more damage. Grows with your Body Magic skill
+      (counted up to 50).
+    normal: ""
+    expert: ""
+    master: ""
+    grandmaster: ""
+  74:
+    name: Greater Heal
+    description: >-
+      Heals a single character and cures disease if you cast it in time: Master works if diseased less than one day
+      per point of skill, Grandmaster at any time.
+    normal: ""
+    expert: ""
+    master: "Heals <good>{heal_base}</> + <good>{heal_per}</> hit points per point of skill"
+    grandmaster: "Heals <good>{heal_base}</> + <good>{heal_per}</> hit points per point of skill"
+  75:
+    description: >-
+      An aura: your whole party is immune to spells and monster abilities that cause Poison, Disease, Stone,
+      Paralysis, Weakness, Death and Eradication.
+    normal: ""
+    expert: ""
+    master: ""
+    grandmaster: ""
+  76:
+    description: >-
+      Flying Fist throws a heavy magical force at a single opponent that does {add} points of damage plus 1-{dice} per
+      point of skill in Body Magic.
+  77:
+    description: >-
+      Heals every character in your party at once. Your Personality adds to every heal.
+    grandmaster: "Heals <good>{heal_base}</> + <good>{heal_per}</> hit points per point of skill"
+
+  # Light
+  78:
+    description: >-
+      Fires a bolt of light at a single target that does {add} + 1-{dice} points of damage per point of skill in Light
+      Magic. Damage against undead is doubled.
+  79:
+    description: >-
+      Undoes the evil magic that extends the lives of the undead, inflicting {add} points of damage plus 1-{dice} per
+      point of skill in Light Magic upon a single target. This spell only works on the undead.
+  81:
+    description: >-
+      Paralyze prevents a monster from moving or attacking. Ascension lengthens it; the monster's Light resistance
+      shortens it; bosses are held half as long.
+    normal: "Lasts <good>{cc_seconds:1}</> seconds"
+    expert: "Lasts <good>{cc_seconds:1}</> seconds"
+    master: "Lasts <good>{cc_seconds:1}</> seconds"
+    grandmaster: "Lasts <good>{cc_seconds:1}</> seconds"
+  83:
+    description: >-
+      An aura: raises all seven stats of your characters by <good>{dog_stat:1}</> %. Grows with your Light Magic skill
+      (counted up to 75); the resistance auras' stat bonuses do not add to it.
+    normal: ""
+    expert: ""
+    master: ""
+    grandmaster: ""
+  84:
+    description: >-
+      Inflicts {add} points of damage plus {dice} per point of skill in Light Magic on all creatures in sight. This
+      spell can only be cast indoors.
+  85:
+    description: >-
+      An aura: raises all six of your party's resistances by <good>{dop_flat}</>. Grows with your Light Magic skill (counted up
+      to 75) and with your level; a stronger resistance aura counts instead.
+    normal: ""
+    expert: ""
+    master: ""
+    grandmaster: ""
+  86:
+    description: >-
+      An aura: gives your party Haste (<good>{hop_haste:1}</> %), Shield (<good>{hop_shield:1}</> %), Stone Skin (+<good>{hop_armor}</> Armor
+      Class) and Fate (<good>{hop_fate:1}</> %) at two thirds of your Light Magic skill (counted up to 75); a stronger aura of
+      its own counts instead.
+    normal: ""
+    expert: ""
+    master: ""
+    grandmaster: ""
+  87:
+    description: >-
+      Concentrates the light of the sun on one unfortunate creature, doing {add} points of damage plus 1-{dice} per
+      point of skill in Light Magic. Indoors it can be cast at any time; outdoors it only works during the day.
+
+  # Dark
+  90:
+    description: >-
+      A poisonous cloud of noxious gases is formed in front of the caster and moves slowly away from your characters.
+      The cloud does {add} points of damage plus 1-{dice} per point of skill in Dark Magic and lasts until something
+      runs into it.
+  91:
+    name: Vampiric Aura
+    description: >-
+      An aura: your party's attacks heal the attacker by part of the damage they deal, up to his or her normal hit
+      point maximum: 5 % of melee damage, 2.5 % of missile and spell damage.
+    normal: ""
+    expert: ""
+    master: ""
+    grandmaster: ""
+  92:
+    description: >-
+      Shrinks even the grandest of monsters down to more manageable sizes. Ascension lengthens it; the monster's Dark
+      resistance shortens it.
+    normal: "Lasts <good>{cc_seconds:1}</> seconds"
+    expert: "Lasts <good>{cc_seconds:1}</> seconds, also shrinks 1 more monster near the target"
+    master: "Lasts <good>{cc_seconds:1}</> seconds, also shrinks 2 more monsters near the target"
+    grandmaster: "Lasts <good>{cc_seconds:1}</> seconds, also shrinks 3 more monsters near the target"
+  93:
+    description: >-
+      Fires a blast of hot, jagged metal in front of the caster, striking any creature that gets in the way. Each piece
+      inflicts {add} + 1-{dice} points of damage per point of skill in Dark Magic.
+  94:
+    description: >-
+      Takes control of an undead target's mind; controlled undead fight monsters that are hostile to the caster.
+      Ascension lengthens it; the monster's Dark resistance shortens it.
+    normal: ""
+    expert: "Lasts <good>{cc_seconds:1}</> seconds"
+    master: "Lasts <good>{cc_seconds:1}</> seconds"
+    grandmaster: "Lasts <good>{cc_seconds:1}</> seconds"
+  95:
+    description: >-
+      An aura: when a monster hits a character, the monster takes damage equal to what it inflicted.
+    normal: ""
+    expert: ""
+    master: ""
+    grandmaster: ""
+  96:
+    description: >-
+      Surrounds its target with the power of raw darkness, rendering it unable to fire missile attacks or cast spells,
+      and slowing it. Ascension lengthens it; the monster's Dark resistance shortens it.
+    master: "Lasts <good>{cc_seconds:1}</> seconds"
+    grandmaster: "Lasts <good>{cc_seconds:1}</> seconds"
+  97:
+    description: >-
+      Dragon Breath empowers the caster to exhale a cloud of toxic vapors that targets a single monster and damages all
+      creatures nearby, doing {add} + 1-{dice} points of damage per point of skill in Dark Magic.
+  98:
+    description: >-
+      This spell is the town killer. Armageddon inflicts {add} points of damage plus {dice} for every point of Dark
+      skill to every creature on the map, including all your characters. It can only be cast three times per day and
+      only outdoors.
+  99:
+    description: >-
+      Sucks the life from all creatures in sight, friend or enemy, and gives it to your party in much the same fashion
+      as Shared Life. Damage and healing are {add} + 1-{dice} per point of skill.
+
+  # Racial abilities
+  103:
+    description: >-
+      Grants the Dark Elf the power to wield Darkfire, a combination of the powers of Dark and Fire. The target resists
+      with its Fire or Dark resistance, whichever is lower. Damage is {add} points plus 1-{dice} per point of skill.
+  111:
+    description: >-
+      Lifedrain damages the target and heals the vampire by a third of the damage done. It does {add} + 1-{dice}
+      points of damage per point of skill.
+    master: "Damage {mastery_add} + 1-<good>{mastery_dice}</> per point of skill"
+    grandmaster: "Damage {mastery_add} + 1-<good>{mastery_dice}</> per point of skill"
+  113:
+    description: >-
+      A vampire using this ability can charm a small group of targets in close proximity. Ascension lengthens it; the
+      monsters' resistance shortens it.
+    master: "Lasts <good>{cc_seconds:1}</> seconds"
+    grandmaster: "Lasts <good>{cc_seconds:1}</> seconds"
+  114:
+    description: >-
+      Mistform cuts the physical damage the vampire takes by 75 %. A vampire in Mistform cannot perform physical
+      attacks but can use spells and abilities.
+  122:
+    description: >-
+      Strikes fear into the dragon's opponents, which flee in panic.
+    normal: "Lasts <good>{cc_seconds:1}</> seconds"
+    expert: "Lasts <good>{cc_seconds:1}</> seconds"
+    master: "Lasts <good>{cc_seconds:1}</> seconds, affects all creatures nearby"
+    grandmaster: "Lasts <good>{cc_seconds:1}</> seconds, affects all creatures within view"
+  123:
+    description: >-
+      An upgraded version of the dragon's breath. It acts much like a fireball, striking its target and exploding out
+      to hit everything near it.
+    normal: "Deals 70 % of breath damage"
+    expert: "Deals 70 % of breath damage"
+    master: "Deals 85 % of breath damage"
+    grandmaster: "Deals the full breath damage"
+
+classes:
+  # Death Knights know their spells by school mastery (Frost, Blood and Unholy) and pay fixed costs.
+  death_knight:
+    26:
+      description: >-
+        Exclusive to Death Knights: deals <good>{percent}</> % of your weapon damage to a single target and slows it.
+      normal: "Deals <good>{percent}</> % of weapon damage"
+      expert: "Monster slows to 1/2 speed"
+      master: "Deals <good>{percent}</> % of weapon damage"
+      grandmaster: "Monster slows to 1/4 speed"
+    29:
+      description: >-
+        The strongest single-target spell of the Death Knight: deals <good>{percent}</> % of your weapon damage.
+      normal: ""
+      expert: ""
+      master: "Deals <good>{percent}</> % of weapon damage"
+      grandmaster: "Deals <good>{percent}</> % of weapon damage"
+    32:
+      description: >-
+        Throws an ice bomb that shatters on hitting something, best against big foes or groups. Each hit deals
+        <good>{percent}</> % of your weapon damage.
+      normal: ""
+      expert: ""
+      master: ""
+      grandmaster: "Each hit deals <good>{percent}</> % of weapon damage"
+    68:
+      description: >-
+        A switch: while it is on, your attacks leech life, at 6 spell points a hit.
+      normal: "Leeches <good>{blood_leech}</> hit points"
+      expert: "Leeches <good>{blood_leech}</> hit points"
+      master: "Leeches <good>{blood_leech}</> hit points"
+      grandmaster: "Leeches <good>{blood_leech}</> hit points"
+    74:
+      description: >-
+        A switch: while it is on, your attacks leech twice as much life as Blood Leech, at 12 spell points a hit.
+      normal: ""
+      expert: ""
+      master: ""
+      grandmaster: "Leeches <good>{blood_leech*2}</> hit points"
+    76:
+      description: >-
+        Asphyxiates the target, dealing <good>{percent}</> % of your weapon damage and leaving it unable to act for a moment.
+      normal: ""
+      expert: ""
+      master: "Deals <good>{percent}</> % of weapon damage"
+      grandmaster: "Deals <good>{percent}</> % of weapon damage"
+    90:
+      description: >-
+        A deadly bolt that deals <good>{percent}</> % of your weapon damage and heals you on a hit by twice your life leech.
+      normal: ""
+      expert: "Deals <good>{percent}</> % of weapon damage"
+      master: "Deals <good>{percent}</> % of weapon damage"
+      grandmaster: "Deals <good>{percent}</> % of weapon damage"
+    96:
+      description: >-
+        A switch: while it is on, your attacks weaken the monsters you hit, at 15 spell points a hit.
+      normal: ""
+      expert: ""
+      master: ""
+      grandmaster: ""
+    97:
+      description: >-
+        A lethal explosion dealing <good>{percent}</> % of your weapon damage to every monster in the area. Safe to use in close
+        combat.
+      normal: ""
+      expert: ""
+      master: ""
+      grandmaster: "Deals <good>{percent}</> % of weapon damage"
+  # Assassins spend energy and combo points; their damage spells deal a share of a melee blow.
+  assassin:
+    6:
+      description: >-
+        Fires a ball of fire at a single target. When it hits, the ball explodes damaging all those nearby. Fireball
+        deals <good>{percent}</> % of a melee blow's damage.
+      normal: ""
+      expert: ""
+      master: ""
+      grandmaster: ""
+    7:
+      description: >-
+        Drops a Fire Spike on the ground that waits for a creature to get near it before exploding. Fire Spike deals
+        <good>{percent}</> % of a melee blow's damage.
+      normal: ""
+      expert: ""
+      master: ""
+      grandmaster: ""
+    18:
+      description: >-
+        Discharges electricity from the caster's hand to a single target. It always hits and deals <good>{percent}</> % of a
+        melee blow's damage, then leaps to the nearest monster within reach.
+    24:
+      description: >-
+        Sprays poison at monsters directly in front of you. Each shot deals <good>{percent}</> % of a melee blow's damage.
+      normal: ""
+      expert: ""
+      master: ""
+      grandmaster: ""
+    29:
+      description: >-
+        Squirts a jet of extremely caustic acid at a single victim. It always hits and deals <good>{percent}</> % of a melee
+        blow's damage.
+      normal: ""
+      expert: ""
+      master: ""
+      grandmaster: ""
+    34:
+      description: >-
+        Slaps a monster with magical force, stunning it and knocking it back a little. Stun deals <good>{percent}</> % of a
+        melee blow's damage.
+      normal: ""
+      expert: ""
+      master: ""
+      grandmaster: ""
+    39:
+      description: >-
+        Fires a rotating, razor-thin metal blade at a single monster that deals <good>{percent}</> % of a melee blow's damage as
+        physical damage.
+      normal: ""
+      expert: ""
+      master: ""
+      grandmaster: ""
+    44:
+      description: >-
+        Increases the weight of a single target enormously for an instant, dealing <good>{percent}</> % of a melee blow's
+        damage.
+      normal: ""
+      expert: ""
+      master: ""
+      grandmaster: ""
+
+# Skill popups (TRAINERS_SKILLS.md §7, zzMAW-Skills.lua and SkillTooltip.lua), keyed by canonical skill name. `append`
+# adds a paragraph to the skill table's description, `description` replaces it; mastery lines replace the table's, and
+# {table} stands for the table's own line. Placeholders as for spells, plus:
+#   regen_now, regen_next     Regeneration's HP per second now and with one more point (out of combat it is faster)
+#   med_now, med_next         Meditation's SP per second now and with one more point
+#   asc_damage_base, asc_damage_scaling, asc_heal_base, asc_heal_scaling, asc_mana, asc_cc_mana, asc_cast   Ascension's
+#                             percents; asc_mana_change and asc_cc_mana_change the mana ones signed and coloured
+#   cover_chance              the chance to cover an ally now
+#   mana_efficiency           damage one spell point absorbs
+#   ladder_expert, ladder_master, ladder_grandmaster   the levels a self-taught skill gains its masteries at
+#   school_cut                the share of hits a Death Knight's Blood or Unholy (or a Shaman's Air) takes off
+#   school_damage             a class's flat melee damage from the school
+#   elemental_progress_line   an Elementalist's progress to the next spell of the school, naming it (a line)
+#   dragon_leech              a dragon's bite leech from Regeneration (its own paragraph; empty for other races)
+#   armor_items               the worn armour's Armor Class and the skill's bonuses (a paragraph; empty without it)
+#   guard_line                Staff, Sword, Spear: what the weapons of the skill in hand give now (a paragraph; empty
+#                             without one)
+skills:
+  Staff:
+    append: >-
+      Each point raises the damage of the staff by 2 % (never less than 1 per point). At Grandmaster, Unarmed adds half
+      its skill to a staff's damage. From Expert, a staff in hand also adds Armor Class, and as much to the whole
+      party's resistances: the percent below of the staff's guard (it grows with the staff's power) for each point of
+      skill, counted as if you had 10 more points. {stun_line}{guard_line}
+    normal: "Attack +1 per point"
+    expert: "Attack +2 per point; Armor Class and party resistances 2 % of the guard per point"
+    master: "Attack +3 per point; Armor Class and party resistances 3 % of the guard per point; a chance to paralyse
+      for 2 s"
+    grandmaster: "Attack +4 per point; Armor Class and party resistances 4 % of the guard per point; usable with
+      Unarmed, paralysis lasts 4 s"
+  Sword:
+    append: >-
+      Each point raises the damage of the sword, Armsmaster and special abilities by 2 % (never less than 1 per
+      point). From Master, a sword in hand also adds Armor Class: the percent below of the sword's guard (it grows
+      with the sword's power) for each point of skill, counted as if you had 10 more points.{guard_line}
+    normal: "Attack +1 per point"
+    expert: "Attack +2, speed +1 % per point"
+    master: "Attack +3, speed +1 % per point; Armor Class 1 % of the guard per point; can dual wield"
+    grandmaster: "Attack +4, speed +2 % per point; Armor Class 2 % of the guard per point"
+  Dagger:
+    append: >-
+      Each point raises the damage of the dagger, Armsmaster and special abilities by 2 % (never less than 1 per
+      point). Critical chance falls as monsters grow stronger, up to level 600.
+    normal: "Attack +1 per point"
+    expert: "Attack +2 per point; can dual wield"
+    master: "Attack +3 per point; critical chance 5 % + 1 % per point"
+    grandmaster: "Attack +4, speed +1 % per point"
+  Axe:
+    append: >-
+      Each point raises the damage of the axe, Armsmaster and special abilities by 2 % (never less than 1 per point).
+      Dwarves and Minotaurs can wield a one-handed axe in the off hand from Expert; Minotaurs hold a two-handed axe in
+      one hand, and in the off hand from Master.
+    normal: "Attack +1 per point"
+    expert: "Attack +2, speed +1 % per point"
+    master: "Attack +3, speed +1 % per point"
+    grandmaster: "Attack +4, speed +1 % per point; critical damage +1 % per point"
+  Spear:
+    append: >-
+      Each point raises the damage of the spear, Armsmaster and special abilities by 2 % (never less than 1 per
+      point). From Expert, a spear in hand also adds Armor Class: the percent below of the spear's guard (it grows
+      with the spear's power) for each point of skill, counted as if you had 10 more points.{guard_line}
+    normal: "Attack +2 per point"
+    expert: "Attack +4 per point; Armor Class 4 % of the guard per point"
+    master: "Attack +6 per point; Armor Class 6 % of the guard per point; can hold with one hand"
+    grandmaster: "Attack +8 per point; Armor Class 8 % of the guard per point; each blow makes the target take {spear_stack}% more physical damage,
+      stacking until it dies (half again with a halberd)"
+  Bow:
+    append: >-
+      Each point adds 1 to the bow's damage and raises it by 4 % (never less than 1 per point).
+    normal: "Attack +1 per point"
+    expert: "Attack +2, speed +1 % per point"
+    master: "Attack +3, speed +1 % per point; shoots 2 arrows"
+    grandmaster: "Attack +4, speed +2 % per point; shoots fire arrows, dealing the higher of fire and physical damage"
+  Mace:
+    append: >-
+      Each point raises the damage of the mace, Armsmaster and special abilities by 2 % (never less than 1 per point).
+      {stun_line}
+    normal: "Attack +1 per point"
+    expert: "Attack +2 per point"
+    master: "Attack +3 per point; a chance to paralyse for 2 s"
+    grandmaster: "Attack +4 per point; paralysis lasts 4 s"
+  Blaster:
+    append: >-
+      Each point raises the blaster's damage by 4 % (never less than 1 per point).
+    normal: "Attack +1 per point"
+    expert: "Attack +2 per point"
+    master: "Attack +3 per point"
+    grandmaster: "Attack +4 per point"
+  Unarmed:
+    append: >-
+      Unarmed blows deal 2 extra damage per point.
+    normal: "Attack +2 per point"
+    expert: "Attack +2, speed +1 % per point"
+    master: "Attack +3, speed +1 % per point"
+    grandmaster: "Attack +3, speed +2 % per point"
+  Shield:
+    append: >-
+      Shield skill raises the Armor Class and resistances your shield gives by a percent per point.{armor_items}
+    normal: "Armor Class +4 %, resistances +4 % per point"
+    expert: "Armor Class +6 %, resistances +6 % per point; no recovery penalty"
+    master: "Armor Class +8 %, resistances +8 % per point"
+    grandmaster: "Armor Class +10 %, resistances +10 % per point; 15 % less damage taken"
+  LeatherArmor:
+    append: >-
+      Wearing leather armor, the skill raises the Armor Class and resistances of all the armor you wear by a percent
+      per point.{armor_items}
+    normal: "Armor Class +3 %, resistances +2 % per point"
+    expert: "Armor Class +4 %, resistances +3 % per point; no recovery penalty"
+    master: "Armor Class +5 %, resistances +4 % per point"
+    grandmaster: "Armor Class +6 %, resistances +5 % per point"
+  ChainArmor:
+    append: >-
+      Wearing chain armor, the skill raises the Armor Class and resistances of all the armor you wear by a percent
+      per point.{armor_items}
+    normal: "Armor Class +3 %, resistances +1 % per point"
+    expert: "Armor Class +4 %, resistances +2 % per point; recovery penalty halved"
+    master: "Armor Class +5 %, resistances +3 % per point; no recovery penalty"
+    grandmaster: "Armor Class +6 %, resistances +4 % per point"
+  PlateArmor:
+    append: >-
+      Wearing plate armor, the skill raises the Armor Class and resistances of all the armor you wear by a percent per
+      point.{armor_items}
+    normal: "Armor Class +3 % per point"
+    expert: "Armor Class +4 %, resistances +1 % per point; recovery penalty halved"
+    master: "Armor Class +5 %, resistances +2 % per point"
+    grandmaster: "Armor Class +6 %, resistances +3 % per point; no recovery penalty"
+  Dodging:
+    normal: "Armor Class +4 per point"
+    expert: "Armor Class +5 per point"
+    master: "Armor Class +6 per point; usable with leather armor"
+    grandmaster: "Armor Class +6 per point; a chance to dodge a blow, growing with the skill; usable with leather armor"
+  Armsmaster:
+    description: >-
+      Armsmaster represents a warrior's tricks of the trade with every weapon but staves: faster, smoother attacks
+      and more powerful blows. Its damage grows with the weapon skill. Knights reach Supreme Armsmaster by
+      themselves at a high skill: Supreme Armsmaster comes at <value>{supreme_level}</> points with Grandmaster, and each
+      10 points of Armsmaster then raise every melee weapon skill by 1, up to double its base. Supreme Armsmaster
+      adds 2 damage per point.
+    normal: "Each point adds 1 attack"
+    expert: "Each point adds 1 damage, 1 attack"
+    master: "Each point adds 1 damage, 1 attack, 1 % speed"
+    grandmaster: "Each point adds 1.5 damage, 1 attack, 1 % speed"
+  Bodybuilding:
+    append: >-
+      Hit points also grow by 0.5 %, 1 %, 1.5 % or 2 % per point, by mastery.
+  Regeneration:
+    append: >-
+      Current regeneration: <good>{regen_now:1}</> hit points per second (<good>{regen_next:1}</> with one more
+      point).{dragon_leech}
+    normal: "Regains hit points over time"
+    expert: "Half again as much"
+    master: "Twice as much"
+    grandmaster: "Twice as much, more the more hit points are lost"
+  Meditation:
+    append: >-
+      Current meditation: <mana>{med_now:1}</> spell points per second (<mana>{med_next:1}</> with one more point); twice that 20
+      seconds after spell points last dropped, four times more again with no enemy near.
+    normal: "Regains spell points over time"
+    expert: "A quarter more"
+    master: "Half again as much"
+    grandmaster: "Twice as much"
+  Learning:
+    append: |-
+      Current bonuses:
+      Spell damage: +<good>{asc_damage_base}</> % base, +<good>{asc_damage_scaling}</> % per point of skill
+      Healing: +<good>{asc_heal_base}</> % base, +<good>{asc_heal_scaling}</> % per point of skill
+      Mana cost: {asc_mana_change}; control spells: {asc_cc_mana_change}
+      Cast time: <bad>+{asc_cast} %</>
+  Perception:
+    normal: "{table}; traps and lava hurt 10 % less"
+    expert: "{table}; traps and lava hurt 30 % less"
+    master: "{table}; traps and lava hurt 50 % less"
+    grandmaster: "{table}; traps and lava hurt 70 % less"
+  Merchant:
+    append: >-
+      The party's best merchant prices every deal: skill times mastery, plus Glamour; a Grandmaster or a total of 45
+      buys and sells at cost. Reputation does not change prices.
+  IdentifyMonster:
+    append: >-
+      The party knows a monster when its best skill times mastery reaches the monster's level less the party's
+      average level, or anyone is a Grandmaster; the best mastery decides how much it learns.
+  Alchemy:
+    append: >-
+      A Master finds random reagents on 1 % of slain monsters, a Grandmaster on 2 %.
+    # zzAlchemy.lua:708-709.
+    master: "Can mix white potions; potions you mix get 1.5 power per point of skill"
+    grandmaster: "Can mix black potions; potions you mix get 2 power per point of skill and last 6 minutes longer per
+      point. Monsters can drop Endless potions, whose power depends on your Alchemy skill"
+  Cover:
+    append: >-
+      Current cover chance: <good>{cover_chance}</> %. Mastery comes by itself at <value>{ladder_expert}</>, <value>{ladder_master}</> and
+      <value>{ladder_grandmaster}</> points. The gem beside its name on the skills page (or P) switches it:
+      {cover_state}.
+  ManaShield:
+    append: >-
+      Now each spell point absorbs <mana>{mana_efficiency:2}</> damage. The gem beside its name on the skills
+      page (or M) switches it: {mana_shield_state}.
+  Enlightenment:
+    append: >-
+      Mastery comes by itself at <value>{ladder_expert}</>, <value>{ladder_master}</> and <value>{ladder_grandmaster}</> points.
+  Retaliation:
+    append: >-
+      Mastery comes by itself at <value>{ladder_expert}</>, <value>{ladder_master}</> and <value>{ladder_grandmaster}</> points.
+      Its damage is the skill times two coefficients: Melee Power <bad>{retaliation_power}</> and Vitality
+      <bad>{retaliation_vitality}</>, now <bad>{retaliation_damage}</> damage. Balancing power and vitality gives the most.
+
+class_skills:
+  death_knight:
+    WaterMagic:
+      description: >-
+        Frost, only for Death Knights: melee damage +0.5, +0.75 or +1 per point (Novice, Expert, Master; Grandmaster
+        adds nothing more) and attack speed +1 % per point. Its mastery unlocks Icy Touch, Water Walk, Frostbite and
+        Ice Bomb.
+      normal: "Effects vary per spell"
+      expert: "Effects vary per spell"
+      master: "Effects vary per spell"
+      grandmaster: "Effects vary per spell"
+    BodyMagic:
+      description: >-
+        Blood, only for Death Knights: physical damage taken falls by <good>{school_cut:1}</> %. Its mastery unlocks Blood
+        Leech, Regeneration, Asphyxiate and Superior Blood Leech; while Blood Leech is on, your blows leech life.
+      normal: "Effects vary per spell"
+      expert: "Effects vary per spell"
+      master: "Effects vary per spell"
+      grandmaster: "Effects vary per spell"
+    DarkMagic:
+      description: >-
+        Unholy, only for Death Knights: melee damage +0.5, +0.75 or +1 per point (Novice, Expert, Master) and magic
+        damage taken falls by <good>{school_cut:1}</> %. Its mastery unlocks Vampiric Aura, Death Coil, Death Grasp and Death
+        Breath.
+      normal: "Effects vary per spell"
+      expert: "Effects vary per spell"
+      master: "Effects vary per spell"
+      grandmaster: "Effects vary per spell"
+  assassin:
+    FireMagic:
+      description: >-
+        Combat lets an Assassin endure long fights: each blow has a 10 % chance, plus 1 % per point, to restore 15
+        energy.
+      normal: "Melee attack costs 45 energy"
+      expert: "Melee attack costs 40 energy"
+      master: "Melee attack costs 35 energy"
+      grandmaster: "Melee attack costs 30 energy"
+    AirMagic:
+      description: >-
+        Subtlety: each blow that spends energy grants a stack (up to 5) raising attack speed by 0.5 % per point, and
+        kills restore energy.
+      normal: "Killing a monster restores 10 energy"
+      expert: "Killing a monster restores 15 energy"
+      master: "Killing a monster restores 20 energy"
+      grandmaster: "Killing a monster restores 25 energy"
+    WaterMagic:
+      description: >-
+        Poisons: each blow deals extra water damage of 0.1 % of the target's hit points per point, and energy
+        regenerates faster.
+      normal: "You regenerate 8 energy per second"
+      expert: "You regenerate 10 energy per second"
+      master: "You regenerate 12 energy per second"
+      grandmaster: "You regenerate 14 energy per second"
+    EarthMagic:
+      description: >-
+        Assassination: blows that spend energy, and spells, deal 2, 3, 4 or 5 more damage per point by mastery, 20 %
+        less for each other monster near the target (up to 4). Such blows grant a combo point for offensive spells;
+        arrows half as often. Higher levels also give more energy.
+      normal: "Maximum energy +10"
+      expert: "Maximum energy +20"
+      master: "Maximum energy +30"
+      grandmaster: "Maximum energy +40"
+  dragon:
+    DragonAbility:
+      description: >-
+        Dragons are powerful creatures with innate abilities. Like the racial abilities of Dark Elves and Vampires,
+        Dragon abilities are cast like spells but acquired like skills: Fear from the start, then Breath Weapon, Flight
+        and Wing Buffet at Expert, Master and Grandmaster.
+
+        Breath damage is 20 + 2 per level (up to level {dragon_level_cap}), raised by 3, 4, 5 or 6 % per point of
+        Dragon Ability at Novice, Expert, Master or Grandmaster. Each point also makes the breath 1.5 % slower and
+        1.5 % stronger. While Dragon Ability is at least as high as Fangs, bites throw monsters back.
+    Unarmed:
+      description: >-
+        Dragons use their fangs to deal atrocious damage to enemies. Damage is 30 + 2 per level (up to level
+        {dragon_level_cap}); the Fangs skill raises it by a percentage of mastery and skill level. Each point also
+        makes the bite 1.5 % slower and 1.5 % stronger, so fewer, heavier bites deal the same damage over time. While
+        Dragon Ability is at least as high as Fangs, each bite also throws the monster back.
+      normal: "Attack +2, damage +4 % per point"
+      expert: "Attack +3, damage +6 % per point"
+      master: "Attack +4, damage +8 % per point"
+      grandmaster: "Attack +5, damage +10 % per point"
+    Dodging:
+      description: >-
+        Dragon scales are hard enough to work as natural armour: 40 + 1 Armor Class per level (up to level
+        {dragon_level_cap}). The Scales skill raises that toughness, and the resistance to magic, by a percentage per
+        point. Dragons cannot dodge.
+      normal: "Armor Class +2 %, resistances +1 % per point"
+      expert: "Armor Class +3 %, resistances +1 % per point"
+      master: "Armor Class +3 %, resistances +2 % per point"
+      grandmaster: "Armor Class +4 %, resistances +3 % per point"
+  shaman:
+    FireMagic:
+      append: >-
+        Shaman: your melee blows also deal fire damage equal to <good>{school_share:1}</> % of the monster's
+        current hit points (0.1 % per point, at least 1 damage per point).
+
+        Every point in any of the seven schools also adds 0.5 % to a Shaman's spell damage and 0.25 % to
+        healing, and every 7 points across the seven schools count as 1 point of Ascension for spell damage,
+        healing and costs.
+    AirMagic:
+      append: >-
+        Shaman: all damage you take is reduced by <good>{school_cut:1}</> %.
+
+        Every point in any of the seven schools also adds 0.5 % to a Shaman's spell damage and 0.25 % to
+        healing, and every 7 points across the seven schools count as 1 point of Ascension for spell damage,
+        healing and costs.
+    WaterMagic:
+      append: >-
+        Shaman: every hit you take is reduced by a further <good>{school_flat_cut}</> damage after
+        resistances.
+
+        Every point in any of the seven schools also adds 0.5 % to a Shaman's spell damage and 0.25 % to
+        healing, and every 7 points across the seven schools count as 1 point of Ascension for spell damage,
+        healing and costs.
+    EarthMagic:
+      append: >-
+        Shaman: your melee blows deal 0.5, 1, 1.5 or 2 extra damage per point at Novice, Expert, Master or
+        Grandmaster.
+
+        Every point in any of the seven schools also adds 0.5 % to a Shaman's spell damage and 0.25 % to
+        healing, and every 7 points across the seven schools count as 1 point of Ascension for spell damage,
+        healing and costs.
+    SpiritMagic:
+      append: >-
+        Shaman: your melee damage is raised by <good>{school_percent:1}</> % (1 % per point).
+
+        Every point in any of the seven schools also adds 0.5 % to a Shaman's spell damage and 0.25 % to
+        healing, and every 7 points across the seven schools count as 1 point of Ascension for spell damage,
+        healing and costs.
+    MindMagic:
+      append: >-
+        Shaman: each of your melee blows restores <mana>{mind_sp}</> spell points.
+
+        Every point in any of the seven schools also adds 0.5 % to a Shaman's spell damage and 0.25 % to
+        healing, and every 7 points across the seven schools count as 1 point of Ascension for spell damage,
+        healing and costs.
+    BodyMagic:
+      append: >-
+        Shaman: each of your melee blows restores <good>{body_hp}</> hit points.
+
+        Every point in any of the seven schools also adds 0.5 % to a Shaman's spell damage and 0.25 % to
+        healing, and every 7 points across the seven schools count as 1 point of Ascension for spell damage,
+        healing and costs.
+  seraphim:
+    SpiritMagic:
+      append: >-
+        Seraphim: every hit you take is reduced by <good>{school_flat_cut}</> damage after resistances, which shrugs off
+        light hits and softens heavy ones.
+    MindMagic:
+      append: >-
+        Seraphim: Mind adds <good>{school_damage}</> damage to each blow, growing with Might, weapon speed and the weapon's
+        damage multiplier.
+      normal: "Damage +1 per point"
+      expert: "Damage +1.5 per point"
+      master: "Damage +2 per point"
+      grandmaster: "Damage +2 per point"
+    BodyMagic:
+      append: >-
+        Seraphim: Body heals the party member with the lowest share of hit points on each blow, growing with
+        Personality and weapon speed. Current heal: <good>{seraph_heal}</> hit points.
+      normal: "Melee blows heal"
+      expert: "Twice the healing"
+      master: "Three times the healing"
+      grandmaster: "Three times the healing"
+    LightMagic:
+      append: >-
+        Seraphim: Light quickens the Seraph's strikes and lightens the blade so a two-handed sword fits in one hand,
+        freeing the other for a shield.
+      normal: "Attack speed +0.5 % per point"
+      expert: "Attack speed +1 % per point"
+      master: "Attack speed +1.5 % per point"
+      grandmaster: "Attack speed +2 % per point"
+  elementalist:
+    FireMagic:
+      append: >-
+        Offensive spells cast from the quick or attack spell build Elemental stacks, and each cast turns that spell
+        into another known one of the same kind: single target, shotgun or area. Each stack adds 10 % spell damage
+        and 5 % casting speed, and raises the mana cost by 7.5 % (Elementalists cast half again as slowly without
+        stacks). A weapon hit spends them all, a cast from the spellbook starts again at one, and they halve once
+        you stop casting. The Rotation gem on the skills page's Magic heading (or R) turns the rotation and stacks on or off: {rotation}.
+
+        Elementalists learn spells by casting them at monsters instead of from books. {elemental_progress_line}
+    AirMagic:
+      append: >-
+        Offensive spells cast from the quick or attack spell build Elemental stacks, and each cast turns that spell
+        into another known one of the same kind: single target, shotgun or area. Each stack adds 10 % spell damage
+        and 5 % casting speed, and raises the mana cost by 7.5 % (Elementalists cast half again as slowly without
+        stacks). A weapon hit spends them all, a cast from the spellbook starts again at one, and they halve once
+        you stop casting. The Rotation gem on the skills page's Magic heading (or R) turns the rotation and stacks on or off: {rotation}.
+
+        Elementalists learn spells by casting them at monsters instead of from books. {elemental_progress_line}
+    WaterMagic:
+      append: >-
+        Offensive spells cast from the quick or attack spell build Elemental stacks, and each cast turns that spell
+        into another known one of the same kind: single target, shotgun or area. Each stack adds 10 % spell damage
+        and 5 % casting speed, and raises the mana cost by 7.5 % (Elementalists cast half again as slowly without
+        stacks). A weapon hit spends them all, a cast from the spellbook starts again at one, and they halve once
+        you stop casting. The Rotation gem on the skills page's Magic heading (or R) turns the rotation and stacks on or off: {rotation}.
+
+        Elementalists learn spells by casting them at monsters instead of from books. {elemental_progress_line}
+    EarthMagic:
+      append: >-
+        Offensive spells cast from the quick or attack spell build Elemental stacks, and each cast turns that spell
+        into another known one of the same kind: single target, shotgun or area. Each stack adds 10 % spell damage
+        and 5 % casting speed, and raises the mana cost by 7.5 % (Elementalists cast half again as slowly without
+        stacks). A weapon hit spends them all, a cast from the spellbook starts again at one, and they halve once
+        you stop casting. The Rotation gem on the skills page's Magic heading (or R) turns the rotation and stacks on or off: {rotation}.
+
+        Elementalists learn spells by casting them at monsters instead of from books. {elemental_progress_line}
+
+# Stat popups (zzMaw-Stats.lua BuildStatInformationBox), keyed by the character screen's stat names. `append` adds a
+# paragraph to the stat table's text, `description` replaces it. Numbers are measured against the party's total level
+# (<value>{reference_level}</>), as MAW's are:
+#   might_bonus, spell_bonus, spell_crit_damage, crit_damage, crit_chance   percents
+#   heal_bonus, cost_cut      Personality's healing bonus and spell cost cut, in percent
+#   endurance_bonus           the percent of maximum hit points Endurance adds; endurance_levels and
+#                             personality_levels, the levels' worth of hit points or spell points their effects add
+#   attack_haste, spell_haste the percents Speed takes off attack and spell recovery
+#   avoid_chance              the chance a physical blow misses because of Speed
+#   hit_chance                the chance a melee blow lands
+#   physical_cut, total_cut   the percent of a physical blow armour takes off, and with avoiding blows
+#   fire_cut ... body_cut     the percent each resistance takes off a hit
+#   hp_regen, sp_regen        hit points and spell points regained per second (faster out of combat)
+#   levels_mm6, levels_mm7, levels_mm8, levels_mm9, levels_total   the levels banked in each world
+stats:
+  Might:
+    append: "Melee and bow damage +<good>{might_bonus:1}</> %."
+  Intellect:
+    description: >-
+      Intellect represents a character's ability to reason and understand complex, abstract concepts. Spell damage
+      grows with Intellect or Personality, whichever is higher, and spell critical damage with Intellect.
+    append: "Spell damage +<good>{spell_bonus:1}</> %. Spell critical damage +<good>{spell_crit_damage:1}</> %."
+  Personality:
+    description: >-
+      Personality represents both a character's strength of will and personal charm. Maximum spell points, spell
+      costs and healing power are based on Personality.
+    append: >-
+      Healing +<good>{heal_bonus:1}</> %. Spell costs -<good>{cost_cut:1}</> %. Personality adds <value>{personality_levels}</> levels' worth of
+      spell points.
+  Endurance:
+    append: >-
+      Hit points +<good>{endurance_bonus:1}</> %, and Endurance adds <value>{endurance_levels}</> levels' worth of hit points.
+  Accuracy:
+    append: "Critical melee and bow damage +<good>{crit_damage:1}</> %."
+  Speed:
+    append: >-
+      Speed changes attack recovery by <good>{attack_haste:1}</> % and spell recovery by <good>{spell_haste}</> %. Physical blows of
+      level <value>{reference_level}</> monsters miss <good>{avoid_chance:1}</> % of the time. Grandmaster Dodging dodges
+      <good>{dodge_chance:1}</> % of monster attacks.
+  Luck:
+    append: "Critical chance against level <value>{reference_level}</> monsters: <good>{crit_chance:1}</> %."
+  HitPoints:
+    append: >-
+      Regenerates <good>{hp_regen:1}</> hit points per second; twice that 20 seconds after the last hit taken, four times more
+      again with no enemy near.
+  SpellPoints:
+    append: >-
+      Regenerates <mana>{sp_regen:1}</> spell points per second; twice that 20 seconds after spell points last dropped,
+      four times more again with no enemy near.
+  ArmorClass:
+    append: >-
+      Against level <value>{reference_level}</> monsters armour takes <good>{physical_cut:1}</> % off physical blows; with the blows
+      Speed avoids, <good>{total_cut:1}</> % on average.
+  Attack:
+    append: "Melee hit chance against level <value>{reference_level}</> monsters: <good>{hit_chance:1}</> %."
+  Level:
+    append: >-
+      Levels banked: <value>{levels_total:1}</> in all; <value>{levels_mm6:1}</> in Enroth, <value>{levels_mm7:1}</> in Antagarich, <value>{levels_mm8:1}</>
+      in Jadame, <value>{levels_mm9:1}</> in Chedian. Monsters grow with the levels banked in the other worlds: bolster
+      level <value>{bolster_mm6}</> in Enroth, <value>{bolster_mm7}</> in Antagarich, <value>{bolster_mm8}</> in Jadame,
+      <value>{bolster_mm9}</> in Chedian.
+  FireResistance:
+    append: "Against level <value>{reference_level}</> monsters it takes <good>{fire_cut:1}</> % off fire hits."
+  AirResistance:
+    append: "Against level <value>{reference_level}</> monsters it takes <good>{air_cut:1}</> % off air hits."
+  WaterResistance:
+    append: "Against level <value>{reference_level}</> monsters it takes <good>{water_cut:1}</> % off water hits."
+  EarthResistance:
+    append: "Against level <value>{reference_level}</> monsters it takes <good>{earth_cut:1}</> % off earth hits."
+  MindResistance:
+    append: "Against level <value>{reference_level}</> monsters it takes <good>{mind_cut:1}</> % off mind hits."
+  BodyResistance:
+    append: "Against level <value>{reference_level}</> monsters it takes <good>{body_cut:1}</> % off body hits."
+
+# Item descriptions, keyed by item id or by a kind of item (gem); they replace the item table's notes.
+# Potions (zzAlchemy.lua:429-541, Tooltip.lua:83-130), numbers at the potion's power:
+#   heal_small, mana_small, heal_large, mana_large   what Healing, Magic, Divine Restoration and Divine Mastery restore
+#   haste, heroism, shield                            the potion's copy of the aura, in percent
+#   stat, stat_light                                  the aura's stat percent (Day of the Gods' wider span)
+#   protection                                        Day of Protection's resistance at the potion's power
+#   meditation                                        the Meditation skill bonus
+#   step, skill_points, best_step, best_skill_points  Transcendence's step at this power and the best one drunk
+# Gems (Tooltip.lua:141-163): tier, max_power, skill_max, two_handed, body, helm, ring (the caps by item class),
+# drop_max_tier, tiers, combine.
+items:
+  gem: "A special Gem that raises an item's Enchant Strength: +3, +1 on a skill (choose it on the Workbench with an
+    item that has a base enchantment).\nMax Power is the highest Enchant Strength a Primordial item can roll, scaled by
+    the gem's tier.\n\n{combine} gems of a tier combine into 1 of the next on the Workbench. Gems drop only up to tier
+    {drop_max_tier}: tiers above it come only from combining.\n\nTier: <value>{tier}</>\nMax Power: <value>{max_power}</>\n
+    Skills Max Power: <value>{skill_max}</>\n\nItem Modifier:\nTwo Handed Weapons: <value>{two_handed}</>\nBody Armor:
+    <value>{body}</>\nHelm-Boots-Gloves-Bow: <value>{helm}</>\nRings: <value>{ring}</>"
+  222: "<value>Heals {heal_small} Hit Points</>"
+  223: "<value>Restores {mana_small} Spell Points</>"
+  224: "Cures and prevents Weakness and induced Sleep for 6 hours."
+  225: "Cures and prevents Disease and Poison for 6 hours."
+  226: "Cures and prevents Curse and Paralysis for 6 hours."
+  227: "Cures and prevents Fear and Insanity for 6 hours."
+  228: "Increases your Attack Speed by {haste:1}% for 6 hours."
+  229: "Increases your Melee Damage by {heroism:1}% for 6 hours."
+  230: "Increases your Attack, and your Accuracy by {stat}%, for 6 hours."
+  231: "Reduces magic damage taken by {shield:1}% and grants Preservation for 6 hours.\nRequires 20 power to work."
+  232: "Grants <mana>{meditation}</> bonus to Meditation skill for 6 hours."
+  233: "Regenerates hit points for 6 hours."
+  234: "Increases your Armor Class for 6 hours."
+  235: "Prevents drowning damage for 6 hours.\nRequires 20 power to work."
+  236: "Hardens an item so that it breaks less easily."
+  237: "Grants 5 charges of Protection from Magic, plus 1 for every 10 points of potion power, for 6 hours.\nFrom 50
+    power it also protects from death and eradication."
+  238: "Adds one enchantment to an item that has none; the potion's power decides how strong it is.\nNeeds at least 20
+    power to work."
+  239: "Cures and prevents the Stoned condition for 6 hours.\nRequires 20 power to work."
+  240: "Raises Might and Accuracy by 10 plus the potion's power for 6 hours."
+  241: "Raises Intellect and Personality by 10 plus the potion's power for 6 hours."
+  242: "Raises Endurance, Speed and Luck by 10 plus the potion's power for 6 hours."
+  243: "Adds a random tier 2 elemental damage enchant to a weapon.\nRequires 40 power to work."
+  244: "Gives a weapon with no enchantment the 'of Swiftness' property.\nNeeds 40 power to work."
+  245: "Grants Haste (+{haste:1}% Attack Speed), Heroism (+{heroism:1}% Melee Damage) and Bless (+{stat}% Accuracy)
+    for 6 hours."
+  246: "Removes and prevents all conditions, except Dead and Eradication, for 6 hours.\nRequires 40 power to work."
+  247: "<value>Heals {heal_large} Hit Points</>\nThe amount grows with the potion's power."
+  248: "<value>Restores {mana_large} Spell Points</>\nThe amount grows with the potion's power."
+  249: "Raises your Fire, Air, Water and Earth Resistance, and Intellect, Speed, Luck and Endurance by {stat}%, for 6
+    hours."
+  250: "Raises your Mind and Body Resistance, and Personality and Might by {stat}%, for 6 hours."
+  251: "Grants Shield (-{shield:1}% magic damage taken), Stone Skin and Preservation for 6 hours."
+  252: "Permanently raises Might and Accuracy by 20 for every 50 points of potion power. Only the part above the
+    strongest potion of this kind already drunk is added.\n\nAt this power: step {step}. Best step already drunk:
+    {best_step}."
+  253: "Permanently raises Intellect and Personality by 20 for every 50 points of potion power. Only the part above
+    the strongest potion of this kind already drunk is added.\n\nAt this power: step {step}. Best step already drunk:
+    {best_step}."
+  254: "Permanently raises Endurance, Speed and Luck by 20 for every 50 points of potion power. Only the part above
+    the strongest potion of this kind already drunk is added.\n\nAt this power: step {step}. Best step already drunk:
+    {best_step}."
+  255: "Permanently adds a random tier 3 elemental damage enchant to a weapon.\nRequires 50 power to work."
+  256: "Permanently gives a weapon with no enchantment the 'of Darkness' property.\nNeeds 100 power to work."
+  257: "Increases all seven of your Statistics by {stat_light}% for 6 hours."
+  258: "Fixes the character's age at 60.\nRequires 50 power to work."
+  259: "Permanently grants {skill_points} skill points (step {step}; one step for every 50 points of potion
+    power).\nOnly the part above the strongest potion of this kind already drunk is added.\n\nBest step already drunk: {best_step}
+    ({best_skill_points} skill points)"
+  260: "Fixes the character's age at 20.\nRequires 50 power to work."
+  261: "Permanently raises Fire, Air, Water and Earth Resistance by 30 for every 50 points of potion power. Only the
+    part above the strongest potion of this kind already drunk is added.\n\nAt this power: step {step}. Best step
+    already drunk: {best_step}."
+  262: "Permanently raises Mind and Body Resistance by 30 for every 50 points of potion power. Only the part above the
+    strongest potion of this kind already drunk is added.\n\nAt this power: step {step}. Best step already drunk:
+    {best_step}."
+  263: "Increases every one of your Resistances by {protection} for 6 hours."

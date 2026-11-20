@@ -1,0 +1,43 @@
+# MM9 promotion playthrough, segment 30 (block D: Mage, Scholar, Ranger; prep/D_mage_scholar_ranger.md). The Mage
+# promotion first, while the Sorcerer is still a Sorcerer (guide: side_c.yml "find-verhoffin-s-diary"; MM9 gave the
+# task to Scholars only, waived: dialogue/promotions.yml `waived_required_keys` rude 4, key 205). To Thjorgard (outdoors
+# the party is moved), the city's west gate, Johannes Bem in Bembridge University (RUDE 4): "We wish to become Mages.",
+# "We have one of those.", "You want us to get it for you?", "We will take this quest." (key 4: Verhoffin's diary).
+#   python3 tests/playthrough/mm9/promotions/run.py 30
+id: mm9.promotions.30_johannes_task
+title: "MM9 promotions 30: Johannes Bem's task (the Mage promotion): Verhoffin's diary"
+world: mm9
+mode: faithful
+tags: [mm9, playthrough, promotions]
+steps:
+  - load_game: {path: output/playthrough/mm9/promotions/checkpoints/26_slemnir_priest.oysav}
+  - setup_shortcut: {kind: immortal}
+  - assert: {qbit_clear: [90004, 90205, 90294, 90281, 90283]}
+  - play_lua:
+      source: |
+        log("CLASSES at the start of block D: " .. classes())
+        local c = {}
+        for w in classes():gmatch("%S+") do c[#c + 1] = w end
+        if c[4] ~= "Sorcerer" then error("member 3 is not a Sorcerer: " .. classes()) end
+
+  # To Thjorgard (by boat; outdoors the party is moved); the city's west gate (ExitTrigger2).
+  - travel: {map: thjorgard.blv, days: 4}
+  - set_pose: {map: thjorgard.blv, x: -9300, y: 4392, z: 1951, yaw: 0, pitch: 0}
+  - advance_runtime: {seconds: 0.5}
+  - walk_to: {x: -8790, y: 4392, z: 1951, z_tolerance: 600, plan: false, timeout_seconds: 20, expect: dialog, clear_hostiles: 2000}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.0, follow_map_move: true}
+  - assert: {map: thjorgardcity.blv}
+
+  # Johannes Bem (actor 0) in Bembridge University.
+  - set_pose: {map: thjorgardcity.blv, x: 5079, y: 12250, z: 1, yaw: 1.5708, pitch: 0}
+  - advance_runtime: {seconds: 0.5}
+  - interact_actor: {actor_index: 0}
+  - select_topic: {match_label: "We wish to become Mages."}
+  - select_topic: {match_label: "We have one of those."}
+  - select_topic: {match_label: "You want us to get it for you?"}
+  - select_topic: {match_label: "We will take this quest."}
+  - select_topic: {match_label: "Goodbye."}
+  - advance_runtime: {seconds: 0.5}
+  - assert: {map: thjorgardcity.blv, qbit_set: [90004], qbit_clear: [90281, 90290, 90294]}
+  - save_game: {name: "30 Johannes's task", path: output/playthrough/mm9/promotions/checkpoints/30_johannes_task.oysav}

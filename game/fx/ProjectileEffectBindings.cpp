@@ -41,14 +41,15 @@ bool readBinding(
     const std::string &context,
     bool variant,
     ProjectileEffectBinding &binding,
-    std::string &error)
+    std::string &error,
+    bool object = false)
 {
     for (const auto &entry : node)
     {
         const std::string key = entry.first.as<std::string>();
         const bool known = key == "flight" || key == "settled" || key == "impact" || key == "impact_follows_target" ||
-            key == "return_flight" || key == "sprite" || key == "light" ||
-            (variant ? key == "monsters" : key == "variants");
+            key == "return_flight" || key == "sprite" || key == "light" || (object && key == "impact_light") ||
+            (!object && (variant ? key == "monsters" : key == "variants"));
         if (!known)
         {
             error = context + ": unknown key " + key;
@@ -76,13 +77,17 @@ bool readBinding(
         }
         binding.nativeSprite = sprite == "native";
     }
-    if (node["light"])
+    for (const char *pKey : {"light", "impact_light"})
     {
-        const YAML::Node light = node["light"];
+        const YAML::Node light = node[pKey];
+        if (!light)
+        {
+            continue;
+        }
         if (!light.IsMap() || !light["rgb"] || !light["rgb"].IsSequence() || light["rgb"].size() != 3 ||
             !light["radius"])
         {
-            error = context + ": light needs rgb [r, g, b] and radius";
+            error = context + ": " + pKey + " needs rgb [r, g, b] and radius";
             return false;
         }
         ProjectileEffectLight value;
@@ -93,10 +98,10 @@ bool readBinding(
         value.radius = light["radius"].as<float>();
         if (!std::isfinite(value.radius) || value.radius < 0.0f)
         {
-            error = context + ": light radius must be a non-negative number";
+            error = context + ": " + pKey + " radius must be a non-negative number";
             return false;
         }
-        binding.light = value;
+        (std::string(pKey) == "light" ? binding.light : binding.impactLight) = value;
     }
     return true;
 }
@@ -104,8 +109,17 @@ bool readBinding(
 
 const ProjectileEffectBinding *ProjectileEffectBindings::find(
     FxRecipes::ProjectileRecipe recipe,
-    const std::string &monsterPicture) const
+    const std::string &monsterPicture,
+    const std::string &objectName) const
 {
+    if (!objectName.empty() && !m_objects.empty())
+    {
+        const auto object = m_objects.find(normalizeMonsterPicture(objectName));
+        if (object != m_objects.end())
+        {
+            return &object->second;
+        }
+    }
     if (!monsterPicture.empty())
     {
         const auto variants = m_variants.find(recipe);
@@ -129,7 +143,18 @@ bool ProjectileEffectBindings::contains(FxRecipes::ProjectileRecipe recipe) cons
 
 bool ProjectileEffectBindings::empty() const
 {
-    return m_recipes.empty() && m_variants.empty();
+    return m_recipes.empty() && m_variants.empty() && m_objects.empty();
+}
+
+std::vector<std::string> ProjectileEffectBindings::objectNames() const
+{
+    std::vector<std::string> names;
+    for (const auto &[name, binding] : m_objects)
+    {
+        names.push_back(name);
+    }
+    std::sort(names.begin(), names.end());
+    return names;
 }
 
 std::vector<std::string> ProjectileEffectBindings::variantMonsterPictures() const
@@ -171,6 +196,10 @@ std::vector<std::string> ProjectileEffectBindings::effectIds() const
             add(binding);
         }
     }
+    for (const auto &[name, binding] : m_objects)
+    {
+        add(binding);
+    }
     if (!m_waterSplash.empty())
     {
         ids.push_back(m_waterSplash);
@@ -183,6 +212,11 @@ std::vector<std::string> ProjectileEffectBindings::effectIds() const
 void ProjectileEffectBindings::setRecipe(FxRecipes::ProjectileRecipe recipe, ProjectileEffectBinding binding)
 {
     m_recipes[recipe] = std::move(binding);
+}
+
+void ProjectileEffectBindings::setObject(const std::string &objectName, ProjectileEffectBinding binding)
+{
+    m_objects[normalizeMonsterPicture(objectName)] = std::move(binding);
 }
 
 void ProjectileEffectBindings::setVariant(
@@ -242,6 +276,31 @@ bool parseProjectileEffectBindings(
         {
             error = path + ": expected schema openyamm.projectileEffects.v1 with a projectiles map";
             return false;
+        }
+        if (const YAML::Node objects = root["objects"])
+        {
+            if (!objects.IsMap())
+            {
+                error = path + ": objects must map object names to bindings";
+                return false;
+            }
+            for (const auto &entry : objects)
+            {
+                const std::string objectName = entry.first.as<std::string>();
+                const std::string context = path + ": object " + objectName;
+                ProjectileEffectBinding binding;
+                if (!entry.second.IsMap() || !readBinding(entry.second, library, context, false, binding, error, true))
+                {
+                    error = error.empty() ? context + ": expected a binding map" : error;
+                    return false;
+                }
+                if (binding.flight.empty() || binding.impact.empty())
+                {
+                    error = context + ": an object binding names a flight and an impact effect";
+                    return false;
+                }
+                bindings.setObject(objectName, std::move(binding));
+            }
         }
         if (root["water_splash"])
         {

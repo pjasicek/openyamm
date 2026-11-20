@@ -1,0 +1,1210 @@
+[
+  {
+    "id": "skullpile_three_quarter_v1",
+    "family": "sklplrev",
+    "role": "primary",
+    "selected": false,
+    "selected_filename": "00_three_quarter.png",
+    "prompt": "TASK CONTEXT — MM6 FANTASY-GAME ASSET RESTORATION: faithful high-definition reconstruction of the EXISTING Might and Magic VI dungeon decoration \"skull pile\" (sklplrev) from the supplied original sprite, as a 3D modelling and texturing reference. Not a new design.\nUse case: stylized-concept.\nOutput: exactly ONE 1536 x 1024 LANDSCAPE PNG with genuine transparent background, unresized native return.\nInput 1: ORIGINAL native MM6 sprite enlarged 3x with nearest neighbour. This is the ONLY native view and the design, shape, proportion and palette authority. Magenta is background, not part of the pile.\nInput 2: restored 2x frame, for surface material only (bone surface detail). It never sets the design.\n\nONE free-standing heap of human skulls, centred, generous margins, near-orthographic camera, transparent background, no floor, no ground shadow, no scenery, no text. Even soft neutral studio light (no dramatic light, no strong cast shadows) that still shows the round forms. Credible, fully three-dimensional, semi-realistic game materials, sharp fine detail (bone pores, sutures, chips, teeth).\n\nIdentity (from the native sprite): a broad rounded conical mound of about sixty to eighty human skulls heaped loosely on one another, about 1.4 times as wide as it is tall, with a rounded top and gently sloping sides that spread out at the base; the outline is lumpy, made of the skulls' round crowns. All skulls are the same adult human size (about one seventh of the pile width), crania with the upper teeth; most have no lower jaw, a few keep one. They face every way: many face outward with dark eye sockets and nasal holes, others show the back or top of the smooth domed cranium, some lie on their sides, a few tilt upside down. Deep dark gaps between the skulls.\nColour: aged bone, pale cream to warm yellowish ivory on the crowns and cheekbones, greying to dusky olive-grey and cool blue-grey in the hollows, eye sockets near black. Matte to slightly waxy bone, no blood, no flesh.\n\nCamera for this PRIMARY 00_three_quarter view: seen from the FRONT, camera raised about 25 degrees above the pile's mid-height and aimed toward its centre so the top of the heap and its full three-dimensional depth are visible. Keep the front azimuth of the native sprite; this is an elevated front view, not a 45-degree horizontal orbit. Preserve the native broad rounded conical silhouette and width-to-height proportion. This exact individual pile and fixed skull arrangement will be used for the other four camera views.\n\nDo NOT: add bones other than skulls (no ribs, no long bones, no full skeletons), candles, rocks, a base, a floor, moss, blood, glowing eyes, horns, animal or monster skulls; do not change the colour to white or brown; do not make it a tall tower or a flat spread; do not crop the pile.\nTRANSPARENCY: render only the solid skull pile; all exterior pixels alpha 0 apart from a narrow antialias edge. No painted checkerboard, opaque background, magenta spill, haze, glow, vignette or shadow. Leave at least 90 transparent pixels around the complete mound on all sides.\nChecks: one mound, about 1.4 : 1 width to height; only human skulls of one size; varied orientations; cream bone with grey-olive hollows; nothing cropped; true transparent background.",
+    "inputs": [
+      "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_dungeons_3d/bones/skullpile/references_hd/native_front_x3.png",
+      "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_dungeons_3d/bones/skullpile/references_hd/x2_surface_only.png"
+    ],
+    "reason": "Superseded: the primary camera stayed near the native low front angle, top/depth were insufficiently visible, and too many skulls retained lower jaws. Landscape size, complete silhouette and genuine alpha passed.",
+    "tool_mode": "built-in image_gen",
+    "supersedes": [],
+    "superseded_by": "skullpile_three_quarter_v2",
+    "output": "/home/pjasicek/.codex/generated_images/01a12081-6b03-7c42-8931-91a187410088/exec-4959f307-2102-4000-87e5-7eabc4e41271.png",
+    "input_records": [
+      {
+        "supplied_path": "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_dungeons_3d/bones/skullpile/references_hd/native_front_x3.png",
+        "sha256": "d83103b811c71c52b739889331f51562275265851d17b191bc7e2a8d65f9c489"
+      },
+      {
+        "supplied_path": "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_dungeons_3d/bones/skullpile/references_hd/x2_surface_only.png",
+        "sha256": "1f043d725b71195e3902ede1b9ad9e2cebfc3bb5cbcdd69fafaed2fba4c029e1"
+      }
+    ],
+    "raw_file": "level_generation/decorations/mm6_dungeons_3d/bones/skullpile/references_hd/raw/skullpile_three_quarter_v1.png",
+    "raw_sha256": "781e29546766dbc3c5d08389392c82689424a42abc3577ed14489a3eb64db717",
+    "actual_sampling_size": [
+      1536,
+      1024
+    ],
+    "export_resize_or_padding": "None; byte-identical copy of actual return.",
+    "visible_bbox_alpha_128": [
+      91,
+      58,
+      1445,
+      979
+    ],
+    "alpha_checks": {
+      "mode": "RGBA",
+      "zero_fraction": 0.4897499084472656,
+      "opaque_fraction": 0,
+      "corner_alpha": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    "superseded_runs": [],
+    "review_files": [
+      "level_generation/decorations/mm6_dungeons_3d/bones/skullpile/references_hd/raw/reviews/skullpile_three_quarter_v1_review_light.png",
+      "level_generation/decorations/mm6_dungeons_3d/bones/skullpile/references_hd/raw/reviews/skullpile_three_quarter_v1_review_dark.png"
+    ]
+  },
+  {
+    "id": "skullpile_three_quarter_v2",
+    "family": "sklplrev",
+    "role": "primary",
+    "selected": false,
+    "selected_filename": "00_three_quarter.png",
+    "prompt": "TASK CONTEXT — MM6 FANTASY-GAME ASSET RESTORATION: faithful high-definition reconstruction of the EXISTING Might and Magic VI dungeon decoration \"skull pile\" (sklplrev) from the supplied original sprite, as a 3D modelling and texturing reference. Not a new design.\nUse case: stylized-concept.\nOutput: exactly ONE 1536 x 1024 LANDSCAPE PNG with genuine transparent background, unresized native return.\nInput 1: ORIGINAL native MM6 sprite enlarged 3x with nearest neighbour. This is the ONLY native view and the design, shape, proportion and palette authority. Magenta is background, not part of the pile.\nInput 2: restored 2x frame, for surface material only (bone surface detail). It never sets the design.\n\nONE free-standing heap of human skulls, centred, generous margins, near-orthographic camera, transparent background, no floor, no ground shadow, no scenery, no text. Even soft neutral studio light (no dramatic light, no strong cast shadows) that still shows the round forms. Credible, fully three-dimensional, semi-realistic game materials, sharp fine detail (bone pores, sutures, chips, teeth).\n\nIdentity (from the native sprite): a broad rounded conical mound of about sixty to eighty human skulls heaped loosely on one another, about 1.4 times as wide as it is tall, with a rounded top and gently sloping sides that spread out at the base; the outline is lumpy, made of the skulls' round crowns. All skulls are the same adult human size (about one seventh of the pile width), crania with the upper teeth; most have no lower jaw, a few keep one. They face every way: many face outward with dark eye sockets and nasal holes, others show the back or top of the smooth domed cranium, some lie on their sides, a few tilt upside down. Deep dark gaps between the skulls.\nColour: aged bone, pale cream to warm yellowish ivory on the crowns and cheekbones, greying to dusky olive-grey and cool blue-grey in the hollows, eye sockets near black. Matte to slightly waxy bone, no blood, no flesh.\n\nCamera for this PRIMARY 00_three_quarter view: seen from the FRONT, camera raised about 25 degrees above the pile's mid-height and aimed toward its centre so the top of the heap and its full three-dimensional depth are visible. Keep the front azimuth of the native sprite; this is an elevated front view, not a 45-degree horizontal orbit. Preserve the native broad rounded conical silhouette and width-to-height proportion. This exact individual pile and fixed skull arrangement will be used for the other four camera views.\n\nDo NOT: add bones other than skulls (no ribs, no long bones, no full skeletons), candles, rocks, a base, a floor, moss, blood, glowing eyes, horns, animal or monster skulls; do not change the colour to white or brown; do not make it a tall tower or a flat spread; do not crop the pile.\nTRANSPARENCY: render only the solid skull pile; all exterior pixels alpha 0 apart from a narrow antialias edge. No painted checkerboard, opaque background, magenta spill, haze, glow, vignette or shadow. Leave at least 90 transparent pixels around the complete mound on all sides.\nChecks: one mound, about 1.4 : 1 width to height; only human skulls of one size; varied orientations; cream bone with grey-olive hollows; nothing cropped; true transparent background.\n\nCORRECTIONS TO THE PREVIOUS CANDIDATE:\nInput 3 is the previous candidate. Preserve the pile's cream/olive-grey bone material, overall broad conical mound and same adult skull size, but FIX the two observed failures:\n1. CAMERA must visibly look DOWN at the pile from an elevated FRONT position, about 25 degrees above its mid-height. Reveal the top SURFACES and a substantial rearward depth of this solid rounded heap. More rear/top skull crowns become visible behind the front skulls. Do not copy Input 3's nearly straight-on camera. The heap has a round footprint and real depth, not a flat wall of skulls.\n2. MOST skulls are JAWLESS crania with upper teeth only: roughly three quarters have NO mandible, NO chin, NO lower row of teeth. Keep only a few complete lower jaws in the entire heap. The open lower edge of each jawless maxilla is plainly visible. Keep many turned-away smooth cranium backs, sideways skulls, and a few upside-down skulls, as native Input 1 shows.\nGenerous transparent margins; zoom out to leave at least 90 pixels above and below, with full 1536 x 1024 canvas untouched. Keep the projected mound about 1.4 times wider than tall, rounded not sharply pointed. Match the native ivory crowns and dusky olive/cool grey hollows rather than uniformly brown bone.",
+    "inputs": [
+      "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_dungeons_3d/bones/skullpile/references_hd/native_front_x3.png",
+      "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_dungeons_3d/bones/skullpile/references_hd/x2_surface_only.png",
+      "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_dungeons_3d/bones/skullpile/references_hd/raw/skullpile_three_quarter_v1.png"
+    ],
+    "reason": "Superseded: correction remained too close to the low-camera first candidate; too many intact mandibles remained. Regenerate directly from the two original references for a clear elevated view.",
+    "tool_mode": "built-in image_gen",
+    "supersedes": [
+      "skullpile_three_quarter_v1"
+    ],
+    "superseded_by": "skullpile_three_quarter_v3",
+    "output": "/home/pjasicek/.codex/generated_images/01a12081-6b03-7c42-8931-91a187410088/exec-02959e36-57ea-471d-809c-78c3d5d34f76.png",
+    "input_records": [
+      {
+        "supplied_path": "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_dungeons_3d/bones/skullpile/references_hd/native_front_x3.png",
+        "sha256": "d83103b811c71c52b739889331f51562275265851d17b191bc7e2a8d65f9c489"
+      },
+      {
+        "supplied_path": "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_dungeons_3d/bones/skullpile/references_hd/x2_surface_only.png",
+        "sha256": "1f043d725b71195e3902ede1b9ad9e2cebfc3bb5cbcdd69fafaed2fba4c029e1"
+      },
+      {
+        "supplied_path": "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_dungeons_3d/bones/skullpile/references_hd/raw/skullpile_three_quarter_v1.png",
+        "sha256": "781e29546766dbc3c5d08389392c82689424a42abc3577ed14489a3eb64db717"
+      }
+    ],
+    "raw_file": "level_generation/decorations/mm6_dungeons_3d/bones/skullpile/references_hd/raw/skullpile_three_quarter_v2.png",
+    "raw_sha256": "629b44f1daa8e23978318f64d90fc6d198c0811de74227dfaa9704b477832b45",
+    "actual_sampling_size": [
+      1536,
+      1024
+    ],
+    "export_resize_or_padding": "None; byte-identical copy of actual return.",
+    "visible_bbox_alpha_128": [
+      105,
+      75,
+      1432,
+      945
+    ],
+    "alpha_checks": {
+      "mode": "RGBA",
+      "zero_fraction": 0.5243015289306641,
+      "max_alpha": 254,
+      "corner_alpha": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    "mound_width_to_height": 1.525287356321839,
+    "superseded_runs": [
+      "skullpile_three_quarter_v1"
+    ],
+    "review_files": [
+      "level_generation/decorations/mm6_dungeons_3d/bones/skullpile/references_hd/raw/reviews/skullpile_three_quarter_v2_review_light.png",
+      "level_generation/decorations/mm6_dungeons_3d/bones/skullpile/references_hd/raw/reviews/skullpile_three_quarter_v2_review_dark.png"
+    ]
+  },
+  {
+    "id": "skullpile_three_quarter_v3",
+    "family": "sklplrev",
+    "role": "primary",
+    "selected": false,
+    "selected_filename": "00_three_quarter.png",
+    "prompt": "TASK CONTEXT — MM6 FANTASY-GAME ASSET RESTORATION: faithful high-definition reconstruction of the EXISTING Might and Magic VI dungeon decoration \"skull pile\" (sklplrev) from the supplied original sprite, as a 3D modelling and texturing reference. Not a new design.\nUse case: stylized-concept.\nOutput: exactly ONE 1536 x 1024 LANDSCAPE PNG with genuine transparent background, unresized native return.\nInput 1: ORIGINAL native MM6 sprite enlarged 3x with nearest neighbour. This is the ONLY native view and the design, shape, proportion and palette authority. Magenta is background, not part of the pile.\nInput 2: restored 2x frame, for surface material only (bone surface detail). It never sets the design.\n\nONE free-standing heap of human skulls, centred, generous margins, near-orthographic camera, transparent background, no floor, no ground shadow, no scenery, no text. Even soft neutral studio light (no dramatic light, no strong cast shadows) that still shows the round forms. Credible, fully three-dimensional, semi-realistic game materials, sharp fine detail (bone pores, sutures, chips, teeth).\n\nIdentity (from the native sprite): a broad rounded conical mound of about sixty to eighty human skulls heaped loosely on one another, about 1.4 times as wide as it is tall, with a rounded top and gently sloping sides that spread out at the base; the outline is lumpy, made of the skulls' round crowns. All skulls are the same adult human size (about one seventh of the pile width), crania with the upper teeth; most have no lower jaw, a few keep one. They face every way: many face outward with dark eye sockets and nasal holes, others show the back or top of the smooth domed cranium, some lie on their sides, a few tilt upside down. Deep dark gaps between the skulls.\nColour: aged bone, pale cream to warm yellowish ivory on the crowns and cheekbones, greying to dusky olive-grey and cool blue-grey in the hollows, eye sockets near black. Matte to slightly waxy bone, no blood, no flesh.\n\nCamera for this PRIMARY 00_three_quarter view: seen from the FRONT, camera raised about 25 degrees above the pile's mid-height and aimed toward its centre so the top of the heap and its full three-dimensional depth are visible. Keep the front azimuth of the native sprite; this is an elevated front view, not a 45-degree horizontal orbit. Preserve the native broad rounded conical silhouette and width-to-height proportion. This exact individual pile and fixed skull arrangement will be used for the other four camera views.\n\nDo NOT: add bones other than skulls (no ribs, no long bones, no full skeletons), candles, rocks, a base, a floor, moss, blood, glowing eyes, horns, animal or monster skulls; do not change the colour to white or brown; do not make it a tall tower or a flat spread; do not crop the pile.\nTRANSPARENCY: render only the solid skull pile; all exterior pixels alpha 0 apart from a narrow antialias edge. No painted checkerboard, opaque background, magenta spill, haze, glow, vignette or shadow. Leave at least 90 transparent pixels around the complete mound on all sides.\nChecks: one mound, about 1.4 : 1 width to height; only human skulls of one size; varied orientations; cream bone with grey-olive hollows; nothing cropped; true transparent background.\n\nCAMERA AND CONSTRUCTION ARE THE PRIORITY: This must be a NEW reconstruction from the native design, with the camera physically elevated and pitched DOWNWARD 25 degrees toward the pile. The viewer sees the TOP of the mound and its rearward depth, as well as the front. The back half of the rounded footprint is visible in the top layers. Do not present a flat frontal wall or reproduce the reference's low camera. This is a solid conical heap with substantial three-dimensional depth and a round footprint.\n\nMANDIBLE RULE: MOST skulls have no lower jaws, exactly as the brief specifies. Render about 80 percent as jawless crania with only the UPPER teeth and maxilla: no lower teeth, no mandible, no chin below the upper teeth. Only a FEW skulls have lower jaws. Smooth domed cranium backs and tops must be frequent between the outward-facing jawless skulls. Several skulls lie sideways and a few are inverted.\nMatch the original rounded mound about 1.4 wide to 1 high, and uniform adult skull scale; do not make a steep pointed pyramid. Use only ivory crowns, grey-olive and cool blue-grey recesses, near-black sockets and gaps.",
+    "inputs": [
+      "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_dungeons_3d/bones/skullpile/references_hd/native_front_x3.png",
+      "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_dungeons_3d/bones/skullpile/references_hd/x2_surface_only.png"
+    ],
+    "reason": "Superseded: low frontal reconstruction, most visible skulls still have mandibles, and the mound leaves insufficient upper/lower margins.",
+    "tool_mode": "built-in image_gen",
+    "supersedes": [
+      "skullpile_three_quarter_v2"
+    ],
+    "superseded_by": "skullpile_three_quarter_v4",
+    "output": "/home/pjasicek/.codex/generated_images/01a12081-6b03-7c42-8931-91a187410088/exec-c6923d99-cf4e-484e-9cbb-29a02a7d1e37.png",
+    "input_records": [
+      {
+        "supplied_path": "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_dungeons_3d/bones/skullpile/references_hd/native_front_x3.png",
+        "sha256": "d83103b811c71c52b739889331f51562275265851d17b191bc7e2a8d65f9c489"
+      },
+      {
+        "supplied_path": "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_dungeons_3d/bones/skullpile/references_hd/x2_surface_only.png",
+        "sha256": "1f043d725b71195e3902ede1b9ad9e2cebfc3bb5cbcdd69fafaed2fba4c029e1"
+      }
+    ],
+    "raw_file": "level_generation/decorations/mm6_dungeons_3d/bones/skullpile/references_hd/raw/skullpile_three_quarter_v3.png",
+    "raw_sha256": "2ac8d0325a38f2bd3e1107f5349f866f01bb7f49e706bdcfe1491a7ec3d7dee9",
+    "actual_sampling_size": [
+      1536,
+      1024
+    ],
+    "export_resize_or_padding": "None; byte-identical copy of actual return.",
+    "visible_bbox_alpha_128": [
+      39,
+      28,
+      1488,
+      1006
+    ],
+    "alpha_checks": {
+      "mode": "RGBA",
+      "zero_fraction": 0.42043622334798175,
+      "max_alpha": 254,
+      "corner_alpha": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    "mound_width_to_height": 1.48159509202454,
+    "superseded_runs": [
+      "skullpile_three_quarter_v1",
+      "skullpile_three_quarter_v2"
+    ],
+    "review_files": [
+      "level_generation/decorations/mm6_dungeons_3d/bones/skullpile/references_hd/raw/reviews/skullpile_three_quarter_v3_review_light.png",
+      "level_generation/decorations/mm6_dungeons_3d/bones/skullpile/references_hd/raw/reviews/skullpile_three_quarter_v3_review_dark.png"
+    ]
+  },
+  {
+    "id": "skullpile_three_quarter_v4",
+    "family": "sklplrev",
+    "role": "primary",
+    "selected": false,
+    "selected_filename": "00_three_quarter.png",
+    "prompt": "Use case: precise-object-edit.\nGenerate ONE genuine transparent 1536 x 1024 LANDSCAPE PNG. This is the PRIMARY raised front modelling reference of the MM6 skull pile.\n\nREQUIRED EDIT TO INPUT 3: physically move the CAMERA UP so it is looking DOWN at the same heap at 25 degrees. The TOP AND REARWARD DEPTH of the solid round mound must be clearly revealed. Do not retain the straight-on view. Keep the front azimuth, while rotating the viewpoint downward toward the mound centre.\nREQUIRED SKULL CHANGE: REMOVE the lower jawbone from nearly every skull. A jawless cranium ends at its upper maxilla and single upper row of teeth. Below the upper teeth there is open empty space or the skull beneath it. NO bony U-shape, chin or lower teeth under most skulls. Leave only 3 or 4 lower jaws across the whole pile. This change must be plainly visible, especially in the top row and front-facing skulls.\n\nTASK CONTEXT — MM6 FANTASY-GAME ASSET RESTORATION: faithful high-definition reconstruction of the EXISTING Might and Magic VI dungeon decoration \"skull pile\", as a 3D modelling and texturing reference. Not a new design.\nInput 1 is the ORIGINAL native sprite (magenta background only): design, shape, proportions and palette authority.\nInput 2 is the restored 2x sprite: surface material only, NEVER the design or jaw anatomy.\nInput 3 is the previous generated candidate: edit its camera and mandibles as instructed. Preserve its cream-grey bone material and broad native mound shape.\n\nONE free-standing heap of about sixty to eighty same-sized adult HUMAN SKULLS, broad rounded cone with a round deep footprint, about 1.4 times wider than tall, rounded lumpy crown and gently sloping sides spreading at the base. Individual skull width about one seventh of the pile width. Near-orthographic lens, centred in generous margins; fit the entire mound inside at least 90 transparent pixels at each edge.\nRandom loosely heaped skulls: outward faces with near-black eye sockets and nasal holes, frequent smooth domed cranium backs and tops, sideways skulls and a few upside-down skulls. Deep dark gaps. Most skulls are JAWLESS with upper teeth only; a few keep lower jaws.\nCream to warm yellowish ivory crowns and cheekbones, dusky olive-grey and cool blue-grey recesses. Matte to slightly waxy aged bone with sharp pores, sutures, chips and teeth; credible detailed three-dimensional semi-realistic game materials.\nSoft even neutral studio illumination, no dramatic lighting or strong cast shadows. True alpha 0 outside the pile, narrow antialias edge only; preserve opaque bone.\nNO other bones, ribs, long bones, skeletons, candles, rocks, platform, base, floor, ground shadow, moss, blood, flesh, glow, horns, animal/monster skulls, scenery, text, opaque backdrop or painted checkerboard. No white or brown palette, tall tower, flat spread or cropped pile.",
+    "inputs": [
+      "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_dungeons_3d/bones/skullpile/references_hd/native_front_x3.png",
+      "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_dungeons_3d/bones/skullpile/references_hd/x2_surface_only.png",
+      "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_dungeons_3d/bones/skullpile/references_hd/raw/skullpile_three_quarter_v3.png"
+    ],
+    "reason": "Superseded only for framing: raised front camera now reveals top/depth, most skulls are jawless with only upper teeth, and native colours/shape are credible, but top and bottom margins are too tight.",
+    "tool_mode": "built-in image_gen",
+    "supersedes": [
+      "skullpile_three_quarter_v3"
+    ],
+    "superseded_by": "skullpile_three_quarter_v5",
+    "output": "/home/pjasicek/.codex/generated_images/01a12081-6b03-7c42-8931-91a187410088/exec-49091e1e-9b43-465f-9f23-54f65350e834.png",
+    "input_records": [
+      {
+        "supplied_path": "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_dungeons_3d/bones/skullpile/references_hd/native_front_x3.png",
+        "sha256": "d83103b811c71c52b739889331f51562275265851d17b191bc7e2a8d65f9c489"
+      },
+      {
+        "supplied_path": "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_dungeons_3d/bones/skullpile/references_hd/x2_surface_only.png",
+        "sha256": "1f043d725b71195e3902ede1b9ad9e2cebfc3bb5cbcdd69fafaed2fba4c029e1"
+      },
+      {
+        "supplied_path": "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_dungeons_3d/bones/skullpile/references_hd/raw/skullpile_three_quarter_v3.png",
+        "sha256": "2ac8d0325a38f2bd3e1107f5349f866f01bb7f49e706bdcfe1491a7ec3d7dee9"
+      }
+    ],
+    "raw_file": "level_generation/decorations/mm6_dungeons_3d/bones/skullpile/references_hd/raw/skullpile_three_quarter_v4.png",
+    "raw_sha256": "5da86dd92fc3da64641f811e7fbe94e5e561942270bf5e64bd36ccbc5ffefa67",
+    "actual_sampling_size": [
+      1536,
+      1024
+    ],
+    "export_resize_or_padding": "None; byte-identical copy of actual return.",
+    "visible_bbox_alpha_128": [
+      113,
+      14,
+      1431,
+      1021
+    ],
+    "alpha_checks": {
+      "mode": "RGBA",
+      "zero_fraction": 0.4539648691813151,
+      "max_alpha": 254,
+      "corner_alpha": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    "mound_width_to_height": 1.3088381330685204,
+    "superseded_runs": [
+      "skullpile_three_quarter_v1",
+      "skullpile_three_quarter_v2",
+      "skullpile_three_quarter_v3"
+    ],
+    "review_files": [
+      "level_generation/decorations/mm6_dungeons_3d/bones/skullpile/references_hd/raw/reviews/skullpile_three_quarter_v4_review_light.png",
+      "level_generation/decorations/mm6_dungeons_3d/bones/skullpile/references_hd/raw/reviews/skullpile_three_quarter_v4_review_dark.png"
+    ]
+  },
+  {
+    "id": "skullpile_three_quarter_v5",
+    "family": "sklplrev",
+    "role": "primary",
+    "selected": true,
+    "selected_filename": "00_three_quarter.png",
+    "prompt": "Use case: precise-object-edit.\nOutput ONE 1536 x 1024 LANDSCAPE PNG, true transparent background, native unresized return.\nMake ONE framing correction to INPUT 3: ZOOM THE ORTHOGRAPHIC CAMERA OUT by about 20 percent so this exact skull heap fits with generous transparent margins, at least 90 pixels on ALL four sides. Keep the entire pile centred. Its silhouette should occupy about 800 pixels of the 1024-pixel canvas height. Do not crop anything, resize the output canvas, add a floor or add a shadow.\nPRESERVE Input 3's exact skull pile, individual skull positions/orientations, roughly 60–80 same-size adult human skulls, broad rounded conical mound about 1.4 as wide as tall, mostly jawless upper-toothed crania, frequent smooth cranium backs, several sideways and a few inverted skulls, few surviving lower jaws, sharp bone pores/sutures/chips/teeth, ivory crowns and cheekbones, grey-olive/cool blue-grey recesses and near-black sockets/gaps.\nPRESERVE Input 3's elevated FRONT camera looking DOWN about 25 degrees toward the mound centre, showing both the top and the real rearward depth. Do not revert to a low front view. Preserve soft even neutral studio illumination and matte to slightly waxy bone.\nTASK CONTEXT — MM6 FANTASY-GAME ASSET RESTORATION: faithful high-definition reconstruction of the EXISTING Might and Magic VI dungeon decoration \"skull pile\" as a 3D modelling and texturing reference, not a new design.\nInput 1 is the native design, shape, proportion and palette authority; magenta is background only. Input 2 is surface-material reference only. Input 3 is the corrected primary identity and camera to preserve, changing only its framing.\nONE free-standing mound, transparent background, no floor, ground shadow, scenery or text. No extra bones, ribs, long bones, full skeletons, candles, rocks, base, moss, blood, flesh, glowing eyes, horns, animal or monster skulls; no white or brown palette, tall tower, flat spread, haze, vignette, opaque backdrop or painted checkerboard. Outside the object alpha is 0 except a narrow antialias edge.",
+    "inputs": [
+      "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_dungeons_3d/bones/skullpile/references_hd/native_front_x3.png",
+      "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_dungeons_3d/bones/skullpile/references_hd/x2_surface_only.png",
+      "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_dungeons_3d/bones/skullpile/references_hd/raw/skullpile_three_quarter_v4.png"
+    ],
+    "reason": "Selected: clearly raised front camera shows the top and rounded rearward depth; mostly jawless crania with upper teeth, smooth cranium backs, sideways and inverted skulls, few mandibles, native ivory/olive-grey palette, full lumpy conical mound and clean genuine alpha on light/dark proofs. Elevated projected width/height is 1.32, within about 1.4.",
+    "tool_mode": "built-in image_gen",
+    "supersedes": [
+      "skullpile_three_quarter_v4"
+    ],
+    "superseded_by": null,
+    "output": "/home/pjasicek/.codex/generated_images/01a12081-6b03-7c42-8931-91a187410088/exec-05c3c273-892a-495e-be3b-2d0894a128fa.png",
+    "input_records": [
+      {
+        "supplied_path": "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_dungeons_3d/bones/skullpile/references_hd/native_front_x3.png",
+        "sha256": "d83103b811c71c52b739889331f51562275265851d17b191bc7e2a8d65f9c489"
+      },
+      {
+        "supplied_path": "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_dungeons_3d/bones/skullpile/references_hd/x2_surface_only.png",
+        "sha256": "1f043d725b71195e3902ede1b9ad9e2cebfc3bb5cbcdd69fafaed2fba4c029e1"
+      },
+      {
+        "supplied_path": "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_dungeons_3d/bones/skullpile/references_hd/raw/skullpile_three_quarter_v4.png",
+        "sha256": "5da86dd92fc3da64641f811e7fbe94e5e561942270bf5e64bd36ccbc5ffefa67"
+      }
+    ],
+    "raw_file": "level_generation/decorations/mm6_dungeons_3d/bones/skullpile/references_hd/raw/skullpile_three_quarter_v5.png",
+    "raw_sha256": "be2628ef601acd714387ee9b84f294d8bbdc72aaf031de26c03e5e45298864e0",
+    "actual_sampling_size": [
+      1536,
+      1024
+    ],
+    "export_resize_or_padding": "None; byte-identical copy of actual return.",
+    "visible_bbox_alpha_128": [
+      224,
+      122,
+      1334,
+      963
+    ],
+    "alpha_checks": {
+      "mode": "RGBA",
+      "zero_fraction": 0.6178506215413412,
+      "max_alpha": 254,
+      "corner_alpha": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    "mound_width_to_height": 1.319857312722949,
+    "review": {
+      "method": "Full-size visual review against native design and surface-only input, light/dark composites, dimensions, alpha, silhouette and byte identity checks.",
+      "one_mound": true,
+      "only_same_size_human_skulls": true,
+      "varied_orientations": true,
+      "mostly_jawless": true,
+      "native_palette": true,
+      "complete_silhouette": true,
+      "genuine_alpha": true,
+      "raised_front_camera": true,
+      "matching_primary_identity_pose_proportions": true
+    },
+    "output_path": "level_generation/decorations/mm6_dungeons_3d/bones/skullpile/references_hd/00_three_quarter.png",
+    "output_sha256": "be2628ef601acd714387ee9b84f294d8bbdc72aaf031de26c03e5e45298864e0",
+    "superseded_runs": [
+      "skullpile_three_quarter_v1",
+      "skullpile_three_quarter_v2",
+      "skullpile_three_quarter_v3",
+      "skullpile_three_quarter_v4"
+    ],
+    "review_files": [
+      "level_generation/decorations/mm6_dungeons_3d/bones/skullpile/references_hd/raw/reviews/skullpile_three_quarter_v5_review_light.png",
+      "level_generation/decorations/mm6_dungeons_3d/bones/skullpile/references_hd/raw/reviews/skullpile_three_quarter_v5_review_dark.png"
+    ],
+    "contact_sheet": "level_generation/decorations/mm6_dungeons_3d/bones/skullpile/references_hd/selected_views_review.png"
+  },
+  {
+    "id": "skullpile_front_v1",
+    "family": "sklplrev",
+    "role": "front",
+    "selected": false,
+    "selected_filename": "01_front.png",
+    "prompt": "Use case: identity-preserve.\nOutput exactly ONE 1536 x 1024 LANDSCAPE PNG, genuine transparent background, native unresized return.\nCHANGE ONLY THE CAMERA around the SAME SKULL PILE established in Input 3. Do not rebuild or rearrange the skulls.\nCAMERA FOR THIS FRONT VIEW: FRONT: same azimuth as Input 3 and the native sprite, but LOWER THE CAMERA to level with one third of the pile height. A level near-orthographic front camera, rather than Input 3's elevated view. Show the front faces and broad mound as in the native sprite. Preserve the crown skull and every visible front skull's location/orientation; this is a physical camera move of the same solid heap.\nThis is a LEVEL view at one third of the pile height; no elevated/downward camera. Near-orthographic lens. Centre the complete mound and leave generous transparent margins, no crop.\n\nTASK CONTEXT — MM6 FANTASY-GAME ASSET RESTORATION: faithful high-definition reconstruction of the EXISTING Might and Magic VI dungeon decoration \"skull pile\" from the supplied original sprite, as a 3D modelling and texturing reference. Not a new design.\nInput 1: ORIGINAL native sprite, design, shape, proportion and palette authority. Magenta is background, not part of the pile; this is the only native view, not a demand to copy the front camera in a side/back view.\nInput 2: restored 2x frame, surface material only, never the design.\nInput 3: SELECTED PRIMARY raised-front reference 00_three_quarter.png. This is the exact individual three-dimensional pile, its fixed skull placement, scale, outline, proportions and materials to KEEP, while moving only the camera.\n\nONE free-standing heap of about sixty to eighty same-sized adult human skulls, broad rounded conical mound about 1.4 times wider than tall, rounded lumpy top and gently sloping sides spreading at the base, real rounded footprint and depth. Individual skull width about one seventh of the mound width. Crania with upper teeth; MOST have NO lower jaw, only a few retain a mandible. Keep this anatomy from Input 3: most skulls end at the upper teeth with no chin or lower row of teeth.\nSkulls face every way: many outward faces with dark eye sockets and nasal holes, frequent smooth domed backs and tops, some lying sideways, a few upside down. Deep dark gaps. Keep their existing individual orientations; do not turn every skull toward the new camera.\nAged bone: pale cream to warm yellowish ivory crowns and cheekbones, dusky olive-grey and cool blue-grey hollows, eye sockets near black. Matte to slightly waxy bone, no blood or flesh. Sharp fine pores, sutures, chips and teeth, credible three-dimensional semi-realistic game materials, even soft neutral studio light showing round forms without dramatic lighting or strong cast shadows.\nTransparent background, no floor, ground shadow, scenery or text. All exterior pixels alpha 0 except narrow antialias edge. No haze, glow, vignette, opaque background or painted checkerboard.\nDo NOT add other bones, ribs, long bones, skeletons, candles, rocks, base, floor, moss, blood, glowing eyes, horns, animal/monster skulls; no white or brown palette, tall tower, flat spread or cropping.\nChecks: one mound about 1.4:1 width/height, uniform-size human skulls only, varied orientations, cream bone and grey-olive hollows, nothing cropped, genuine transparency, SAME pile as primary seen from the requested side.",
+    "inputs": [
+      "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_dungeons_3d/bones/skullpile/references_hd/native_front_x3.png",
+      "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_dungeons_3d/bones/skullpile/references_hd/x2_surface_only.png",
+      "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_dungeons_3d/bones/skullpile/references_hd/00_three_quarter.png"
+    ],
+    "reason": "Superseded: flattened 1.69:1 outline, too wide relative to native/primary mound and tight lower margin.",
+    "tool_mode": "built-in image_gen",
+    "supersedes": [],
+    "superseded_by": "skullpile_front_v2",
+    "output": "/home/pjasicek/.codex/generated_images/01a12081-6b03-7c42-8931-91a187410088/exec-6eb5035d-7185-47d9-9c78-7bb549707939.png",
+    "input_records": [
+      {
+        "supplied_path": "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_dungeons_3d/bones/skullpile/references_hd/native_front_x3.png",
+        "sha256": "d83103b811c71c52b739889331f51562275265851d17b191bc7e2a8d65f9c489"
+      },
+      {
+        "supplied_path": "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_dungeons_3d/bones/skullpile/references_hd/x2_surface_only.png",
+        "sha256": "1f043d725b71195e3902ede1b9ad9e2cebfc3bb5cbcdd69fafaed2fba4c029e1"
+      },
+      {
+        "supplied_path": "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_dungeons_3d/bones/skullpile/references_hd/00_three_quarter.png",
+        "sha256": "be2628ef601acd714387ee9b84f294d8bbdc72aaf031de26c03e5e45298864e0"
+      }
+    ],
+    "raw_file": "level_generation/decorations/mm6_dungeons_3d/bones/skullpile/references_hd/raw/skullpile_front_v1.png",
+    "raw_sha256": "ee96435d363fb6de578999d6db415909e3f92f160b9f430e17e02a98cb932962",
+    "actual_sampling_size": [
+      1536,
+      1024
+    ],
+    "export_resize_or_padding": "None; byte-identical copy of actual return.",
+    "visible_bbox_alpha_128": [
+      77,
+      178,
+      1458,
+      993
+    ],
+    "alpha_checks": {
+      "mode": "RGBA",
+      "zero_fraction": 0.5393460591634115,
+      "max_alpha": 254,
+      "corner_alpha": [
+        0,
+        0,
+        1,
+        0
+      ]
+    },
+    "mound_width_to_height": 1.694478527607362,
+    "superseded_runs": [],
+    "review_files": [
+      "level_generation/decorations/mm6_dungeons_3d/bones/skullpile/references_hd/raw/reviews/skullpile_front_v1_review_light.png",
+      "level_generation/decorations/mm6_dungeons_3d/bones/skullpile/references_hd/raw/reviews/skullpile_front_v1_review_dark.png"
+    ]
+  },
+  {
+    "id": "skullpile_back_v1",
+    "family": "sklplrev",
+    "role": "back",
+    "selected": false,
+    "selected_filename": "02_back.png",
+    "prompt": "Use case: identity-preserve.\nOutput exactly ONE 1536 x 1024 LANDSCAPE PNG, genuine transparent background, native unresized return.\nCHANGE ONLY THE CAMERA around the SAME SKULL PILE established in Input 3. Do not rebuild or rearrange the skulls.\nCAMERA FOR THIS BACK VIEW: BACK: physically orbit the camera exactly 180 degrees behind this heap, level with one third of its height, the same camera height as the front view. Look at the OPPOSITE side of the fixed heap. Front-facing skulls and the front-face crown skull now show their backs; rear-facing skulls reveal their faces. Mix smooth round cranium backs, sideways profiles and some outward rear faces according to their fixed orientations. Do not repeat the native/front skull-face pattern, and do not rotate all skulls to look at the camera.\nThis is a LEVEL view at one third of the pile height; no elevated/downward camera. Near-orthographic lens. Centre the complete mound and leave generous transparent margins, no crop.\n\nTASK CONTEXT — MM6 FANTASY-GAME ASSET RESTORATION: faithful high-definition reconstruction of the EXISTING Might and Magic VI dungeon decoration \"skull pile\" from the supplied original sprite, as a 3D modelling and texturing reference. Not a new design.\nInput 1: ORIGINAL native sprite, design, shape, proportion and palette authority. Magenta is background, not part of the pile; this is the only native view, not a demand to copy the front camera in a side/back view.\nInput 2: restored 2x frame, surface material only, never the design.\nInput 3: SELECTED PRIMARY raised-front reference 00_three_quarter.png. This is the exact individual three-dimensional pile, its fixed skull placement, scale, outline, proportions and materials to KEEP, while moving only the camera.\n\nONE free-standing heap of about sixty to eighty same-sized adult human skulls, broad rounded conical mound about 1.4 times wider than tall, rounded lumpy top and gently sloping sides spreading at the base, real rounded footprint and depth. Individual skull width about one seventh of the mound width. Crania with upper teeth; MOST have NO lower jaw, only a few retain a mandible. Keep this anatomy from Input 3: most skulls end at the upper teeth with no chin or lower row of teeth.\nSkulls face every way: many outward faces with dark eye sockets and nasal holes, frequent smooth domed backs and tops, some lying sideways, a few upside down. Deep dark gaps. Keep their existing individual orientations; do not turn every skull toward the new camera.\nAged bone: pale cream to warm yellowish ivory crowns and cheekbones, dusky olive-grey and cool blue-grey hollows, eye sockets near black. Matte to slightly waxy bone, no blood or flesh. Sharp fine pores, sutures, chips and teeth, credible three-dimensional semi-realistic game materials, even soft neutral studio light showing round forms without dramatic lighting or strong cast shadows.\nTransparent background, no floor, ground shadow, scenery or text. All exterior pixels alpha 0 except narrow antialias edge. No haze, glow, vignette, opaque background or painted checkerboard.\nDo NOT add other bones, ribs, long bones, skeletons, candles, rocks, base, floor, moss, blood, glowing eyes, horns, animal/monster skulls; no white or brown palette, tall tower, flat spread or cropping.\nChecks: one mound about 1.4:1 width/height, uniform-size human skulls only, varied orientations, cream bone and grey-olive hollows, nothing cropped, genuine transparency, SAME pile as primary seen from the requested side.",
+    "inputs": [
+      "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_dungeons_3d/bones/skullpile/references_hd/native_front_x3.png",
+      "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_dungeons_3d/bones/skullpile/references_hd/x2_surface_only.png",
+      "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_dungeons_3d/bones/skullpile/references_hd/00_three_quarter.png"
+    ],
+    "reason": "Superseded: 1.57:1 outline and tight upper margin; needs native 1.4:1 proportion and generous framing.",
+    "tool_mode": "built-in image_gen",
+    "supersedes": [],
+    "superseded_by": "skullpile_back_v2",
+    "output": "/home/pjasicek/.codex/generated_images/01a12081-6b03-7c42-8931-91a187410088/exec-61ddf754-49d7-4054-819d-3ef2dd67a81e.png",
+    "input_records": [
+      {
+        "supplied_path": "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_dungeons_3d/bones/skullpile/references_hd/native_front_x3.png",
+        "sha256": "d83103b811c71c52b739889331f51562275265851d17b191bc7e2a8d65f9c489"
+      },
+      {
+        "supplied_path": "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_dungeons_3d/bones/skullpile/references_hd/x2_surface_only.png",
+        "sha256": "1f043d725b71195e3902ede1b9ad9e2cebfc3bb5cbcdd69fafaed2fba4c029e1"
+      },
+      {
+        "supplied_path": "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_dungeons_3d/bones/skullpile/references_hd/00_three_quarter.png",
+        "sha256": "be2628ef601acd714387ee9b84f294d8bbdc72aaf031de26c03e5e45298864e0"
+      }
+    ],
+    "raw_file": "level_generation/decorations/mm6_dungeons_3d/bones/skullpile/references_hd/raw/skullpile_back_v1.png",
+    "raw_sha256": "4b639b5cf56b68da351942df334a5889dfce467b2470877ab0f40ca60e08f9ff",
+    "actual_sampling_size": [
+      1536,
+      1024
+    ],
+    "export_resize_or_padding": "None; byte-identical copy of actual return.",
+    "visible_bbox_alpha_128": [
+      69,
+      30,
+      1489,
+      937
+    ],
+    "alpha_checks": {
+      "mode": "RGBA",
+      "zero_fraction": 0.47944386800130206,
+      "max_alpha": 254,
+      "corner_alpha": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    "mound_width_to_height": 1.565600882028666,
+    "superseded_runs": [],
+    "review_files": [
+      "level_generation/decorations/mm6_dungeons_3d/bones/skullpile/references_hd/raw/reviews/skullpile_back_v1_review_light.png",
+      "level_generation/decorations/mm6_dungeons_3d/bones/skullpile/references_hd/raw/reviews/skullpile_back_v1_review_dark.png"
+    ]
+  },
+  {
+    "id": "skullpile_left_v1",
+    "family": "sklplrev",
+    "role": "left",
+    "selected": true,
+    "selected_filename": "03_left.png",
+    "prompt": "Use case: identity-preserve.\nOutput exactly ONE 1536 x 1024 LANDSCAPE PNG, genuine transparent background, native unresized return.\nCHANGE ONLY THE CAMERA around the SAME SKULL PILE established in Input 3. Do not rebuild or rearrange the skulls.\nCAMERA FOR THIS LEFT VIEW: LEFT SIDE: physically orbit the camera exactly 90 degrees to the heap's LEFT side (the side at the native front image's screen-left edge), at one third of its height, same level camera height as the front view. True left profile of the exact fixed solid heap, showing its real depth. Front-pointing skulls are seen in profile pointing toward SCREEN-RIGHT; the original FRONT surface recedes along the SCREEN-RIGHT edge. Keep a varied mix of smooth cranium backs/tops, sideways profiles and outward left faces. Do not repeat the frontal skull-face arrangement or make a mirror image.\nThis is a LEVEL view at one third of the pile height; no elevated/downward camera. Near-orthographic lens. Centre the complete mound and leave generous transparent margins, no crop.\n\nTASK CONTEXT — MM6 FANTASY-GAME ASSET RESTORATION: faithful high-definition reconstruction of the EXISTING Might and Magic VI dungeon decoration \"skull pile\" from the supplied original sprite, as a 3D modelling and texturing reference. Not a new design.\nInput 1: ORIGINAL native sprite, design, shape, proportion and palette authority. Magenta is background, not part of the pile; this is the only native view, not a demand to copy the front camera in a side/back view.\nInput 2: restored 2x frame, surface material only, never the design.\nInput 3: SELECTED PRIMARY raised-front reference 00_three_quarter.png. This is the exact individual three-dimensional pile, its fixed skull placement, scale, outline, proportions and materials to KEEP, while moving only the camera.\n\nONE free-standing heap of about sixty to eighty same-sized adult human skulls, broad rounded conical mound about 1.4 times wider than tall, rounded lumpy top and gently sloping sides spreading at the base, real rounded footprint and depth. Individual skull width about one seventh of the mound width. Crania with upper teeth; MOST have NO lower jaw, only a few retain a mandible. Keep this anatomy from Input 3: most skulls end at the upper teeth with no chin or lower row of teeth.\nSkulls face every way: many outward faces with dark eye sockets and nasal holes, frequent smooth domed backs and tops, some lying sideways, a few upside down. Deep dark gaps. Keep their existing individual orientations; do not turn every skull toward the new camera.\nAged bone: pale cream to warm yellowish ivory crowns and cheekbones, dusky olive-grey and cool blue-grey hollows, eye sockets near black. Matte to slightly waxy bone, no blood or flesh. Sharp fine pores, sutures, chips and teeth, credible three-dimensional semi-realistic game materials, even soft neutral studio light showing round forms without dramatic lighting or strong cast shadows.\nTransparent background, no floor, ground shadow, scenery or text. All exterior pixels alpha 0 except narrow antialias edge. No haze, glow, vignette, opaque background or painted checkerboard.\nDo NOT add other bones, ribs, long bones, skeletons, candles, rocks, base, floor, moss, blood, glowing eyes, horns, animal/monster skulls; no white or brown palette, tall tower, flat spread or cropping.\nChecks: one mound about 1.4:1 width/height, uniform-size human skulls only, varied orientations, cream bone and grey-olive hollows, nothing cropped, genuine transparency, SAME pile as primary seen from the requested side.",
+    "inputs": [
+      "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_dungeons_3d/bones/skullpile/references_hd/native_front_x3.png",
+      "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_dungeons_3d/bones/skullpile/references_hd/x2_surface_only.png",
+      "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_dungeons_3d/bones/skullpile/references_hd/00_three_quarter.png"
+    ],
+    "reason": "Selected: distinct left-side pile view, foreground/front-pointing skull profiles toward screen-right, broad rounded conical silhouette (1.36 width/height), uniform adult skull scale, frequent cranium backs and varied orientations, mostly jawless skulls, matching native material/palette, generous margins, genuine alpha and clean light/dark proofs.",
+    "tool_mode": "built-in image_gen",
+    "supersedes": [],
+    "superseded_by": null,
+    "output": "/home/pjasicek/.codex/generated_images/01a12081-6b03-7c42-8931-91a187410088/exec-4576b603-2571-43a5-b7f1-9cc4e1bdf811.png",
+    "input_records": [
+      {
+        "supplied_path": "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_dungeons_3d/bones/skullpile/references_hd/native_front_x3.png",
+        "sha256": "d83103b811c71c52b739889331f51562275265851d17b191bc7e2a8d65f9c489"
+      },
+      {
+        "supplied_path": "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_dungeons_3d/bones/skullpile/references_hd/x2_surface_only.png",
+        "sha256": "1f043d725b71195e3902ede1b9ad9e2cebfc3bb5cbcdd69fafaed2fba4c029e1"
+      },
+      {
+        "supplied_path": "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_dungeons_3d/bones/skullpile/references_hd/00_three_quarter.png",
+        "sha256": "be2628ef601acd714387ee9b84f294d8bbdc72aaf031de26c03e5e45298864e0"
+      }
+    ],
+    "raw_file": "level_generation/decorations/mm6_dungeons_3d/bones/skullpile/references_hd/raw/skullpile_left_v1.png",
+    "raw_sha256": "57f84d013ea4972572b5abf1394c71ad8b56fbb966288f478e68a484203cfd1e",
+    "actual_sampling_size": [
+      1536,
+      1024
+    ],
+    "export_resize_or_padding": "None; byte-identical copy of actual return.",
+    "visible_bbox_alpha_128": [
+      213,
+      107,
+      1329,
+      927
+    ],
+    "alpha_checks": {
+      "mode": "RGBA",
+      "zero_fraction": 0.6387646993001302,
+      "max_alpha": 254,
+      "corner_alpha": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    "mound_width_to_height": 1.3609756097560977,
+    "output_path": "level_generation/decorations/mm6_dungeons_3d/bones/skullpile/references_hd/03_left.png",
+    "review": {
+      "method": "Native/primary comparison on light/dark contact sheet and full-size raw return, dimensions and alpha measurements.",
+      "one_mound": true,
+      "only_same_size_human_skulls": true,
+      "varied_orientations": true,
+      "mostly_jawless": true,
+      "native_palette": true,
+      "complete_silhouette": true,
+      "genuine_alpha": true,
+      "camera": "Left side at low level; forward-pointing skull profiles face screen-right.",
+      "matching_primary_identity_pose_proportions": "Coherent visual reconstruction of the same pile; unseen depth inferred from the primary."
+    },
+    "output_sha256": "57f84d013ea4972572b5abf1394c71ad8b56fbb966288f478e68a484203cfd1e",
+    "superseded_runs": [],
+    "review_files": [
+      "level_generation/decorations/mm6_dungeons_3d/bones/skullpile/references_hd/raw/reviews/skullpile_left_v1_review_light.png",
+      "level_generation/decorations/mm6_dungeons_3d/bones/skullpile/references_hd/raw/reviews/skullpile_left_v1_review_dark.png"
+    ],
+    "contact_sheet": "level_generation/decorations/mm6_dungeons_3d/bones/skullpile/references_hd/selected_views_review.png"
+  },
+  {
+    "id": "skullpile_right_v1",
+    "family": "sklplrev",
+    "role": "right",
+    "selected": false,
+    "selected_filename": "04_right.png",
+    "prompt": "Use case: identity-preserve.\nOutput exactly ONE 1536 x 1024 LANDSCAPE PNG, genuine transparent background, native unresized return.\nCHANGE ONLY THE CAMERA around the SAME SKULL PILE established in Input 3. Do not rebuild or rearrange the skulls.\nCAMERA FOR THIS RIGHT VIEW: RIGHT SIDE: physically orbit the camera exactly 90 degrees to the heap's RIGHT side (the side at the native front image's screen-right edge), at one third of its height, same level camera height as the front view. True right profile of the exact fixed solid heap, showing its real depth. Front-pointing skulls are seen in profile pointing toward SCREEN-LEFT; the original FRONT surface recedes along the SCREEN-LEFT edge. Keep a varied mix of smooth cranium backs/tops, sideways profiles and outward right faces. Preserve this side's distinct arrangement; do not repeat the frontal skull-face arrangement or mirror the left side.\nThis is a LEVEL view at one third of the pile height; no elevated/downward camera. Near-orthographic lens. Centre the complete mound and leave generous transparent margins, no crop.\n\nTASK CONTEXT — MM6 FANTASY-GAME ASSET RESTORATION: faithful high-definition reconstruction of the EXISTING Might and Magic VI dungeon decoration \"skull pile\" from the supplied original sprite, as a 3D modelling and texturing reference. Not a new design.\nInput 1: ORIGINAL native sprite, design, shape, proportion and palette authority. Magenta is background, not part of the pile; this is the only native view, not a demand to copy the front camera in a side/back view.\nInput 2: restored 2x frame, surface material only, never the design.\nInput 3: SELECTED PRIMARY raised-front reference 00_three_quarter.png. This is the exact individual three-dimensional pile, its fixed skull placement, scale, outline, proportions and materials to KEEP, while moving only the camera.\n\nONE free-standing heap of about sixty to eighty same-sized adult human skulls, broad rounded conical mound about 1.4 times wider than tall, rounded lumpy top and gently sloping sides spreading at the base, real rounded footprint and depth. Individual skull width about one seventh of the mound width. Crania with upper teeth; MOST have NO lower jaw, only a few retain a mandible. Keep this anatomy from Input 3: most skulls end at the upper teeth with no chin or lower row of teeth.\nSkulls face every way: many outward faces with dark eye sockets and nasal holes, frequent smooth domed backs and tops, some lying sideways, a few upside down. Deep dark gaps. Keep their existing individual orientations; do not turn every skull toward the new camera.\nAged bone: pale cream to warm yellowish ivory crowns and cheekbones, dusky olive-grey and cool blue-grey hollows, eye sockets near black. Matte to slightly waxy bone, no blood or flesh. Sharp fine pores, sutures, chips and teeth, credible three-dimensional semi-realistic game materials, even soft neutral studio light showing round forms without dramatic lighting or strong cast shadows.\nTransparent background, no floor, ground shadow, scenery or text. All exterior pixels alpha 0 except narrow antialias edge. No haze, glow, vignette, opaque background or painted checkerboard.\nDo NOT add other bones, ribs, long bones, skeletons, candles, rocks, base, floor, moss, blood, glowing eyes, horns, animal/monster skulls; no white or brown palette, tall tower, flat spread or cropping.\nChecks: one mound about 1.4:1 width/height, uniform-size human skulls only, varied orientations, cream bone and grey-olive hollows, nothing cropped, genuine transparency, SAME pile as primary seen from the requested side.",
+    "inputs": [
+      "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_dungeons_3d/bones/skullpile/references_hd/native_front_x3.png",
+      "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_dungeons_3d/bones/skullpile/references_hd/x2_surface_only.png",
+      "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_dungeons_3d/bones/skullpile/references_hd/00_three_quarter.png"
+    ],
+    "reason": "Superseded: repeated the left-side camera direction; forward-facing profiles pointed screen-right rather than screen-left.",
+    "tool_mode": "built-in image_gen",
+    "supersedes": [],
+    "superseded_by": "skullpile_right_v2",
+    "output": "/home/pjasicek/.codex/generated_images/01a12081-6b03-7c42-8931-91a187410088/exec-44a22862-5503-4225-b50e-5704558c608c.png",
+    "input_records": [
+      {
+        "supplied_path": "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_dungeons_3d/bones/skullpile/references_hd/native_front_x3.png",
+        "sha256": "d83103b811c71c52b739889331f51562275265851d17b191bc7e2a8d65f9c489"
+      },
+      {
+        "supplied_path": "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_dungeons_3d/bones/skullpile/references_hd/x2_surface_only.png",
+        "sha256": "1f043d725b71195e3902ede1b9ad9e2cebfc3bb5cbcdd69fafaed2fba4c029e1"
+      },
+      {
+        "supplied_path": "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_dungeons_3d/bones/skullpile/references_hd/00_three_quarter.png",
+        "sha256": "be2628ef601acd714387ee9b84f294d8bbdc72aaf031de26c03e5e45298864e0"
+      }
+    ],
+    "raw_file": "level_generation/decorations/mm6_dungeons_3d/bones/skullpile/references_hd/raw/skullpile_right_v1.png",
+    "raw_sha256": "6e1c806cb6273ee9b9e2f7d96eb053d5e2d48e8ff4bd40eda5a1a737e608c44b",
+    "actual_sampling_size": [
+      1536,
+      1024
+    ],
+    "export_resize_or_padding": "None; byte-identical copy of actual return.",
+    "visible_bbox_alpha_128": [
+      128,
+      72,
+      1394,
+      949
+    ],
+    "alpha_checks": {
+      "mode": "RGBA",
+      "zero_fraction": 0.5519981384277344,
+      "max_alpha": 254,
+      "corner_alpha": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    "mound_width_to_height": 1.443557582668187,
+    "superseded_runs": [],
+    "review_files": [
+      "level_generation/decorations/mm6_dungeons_3d/bones/skullpile/references_hd/raw/reviews/skullpile_right_v1_review_light.png",
+      "level_generation/decorations/mm6_dungeons_3d/bones/skullpile/references_hd/raw/reviews/skullpile_right_v1_review_dark.png"
+    ]
+  },
+  {
+    "id": "skullpile_front_v2",
+    "family": "sklplrev",
+    "role": "front",
+    "selected": false,
+    "selected_filename": "01_front.png",
+    "prompt": "PRIORITY CORRECTION FOR FRONT VIEW: the previous candidate became a flat wide heap (1.69:1), failing the original native proportion. Render a rounded conical mound with the native width-to-height ratio about 1.4:1, about 1120 pixels wide and 800 pixels tall within the 1536 x 1024 image, fully centred with generous margins. Do not create a flat spread. Camera is level with ONE THIRD of the pile's height, straight FRONT at the native azimuth, no elevated looking-down view. Keep the selected Input 3 pile identity, crown arrangement, uniform skull size, mostly jawless crania and cream/grey-olive bone. The physical mound must retain its native rounded conical height and gently sloping sides rather than becoming wider and flatter when the camera lowers.\n\nUse case: identity-preserve.\nOutput exactly ONE 1536 x 1024 LANDSCAPE PNG, genuine transparent background, native unresized return.\nCHANGE ONLY THE CAMERA around the SAME SKULL PILE established in Input 3. Do not rebuild or rearrange the skulls.\nCAMERA FOR THIS FRONT VIEW: FRONT: same azimuth as Input 3 and the native sprite, but LOWER THE CAMERA to level with one third of the pile height. A level near-orthographic front camera, rather than Input 3's elevated view. Show the front faces and broad mound as in the native sprite. Preserve the crown skull and every visible front skull's location/orientation; this is a physical camera move of the same solid heap.\nThis is a LEVEL view at one third of the pile height; no elevated/downward camera. Near-orthographic lens. Centre the complete mound and leave generous transparent margins, no crop.\n\nTASK CONTEXT — MM6 FANTASY-GAME ASSET RESTORATION: faithful high-definition reconstruction of the EXISTING Might and Magic VI dungeon decoration \"skull pile\" from the supplied original sprite, as a 3D modelling and texturing reference. Not a new design.\nInput 1: ORIGINAL native sprite, design, shape, proportion and palette authority. Magenta is background, not part of the pile; this is the only native view, not a demand to copy the front camera in a side/back view.\nInput 2: restored 2x frame, surface material only, never the design.\nInput 3: SELECTED PRIMARY raised-front reference 00_three_quarter.png. This is the exact individual three-dimensional pile, its fixed skull placement, scale, outline, proportions and materials to KEEP, while moving only the camera.\n\nONE free-standing heap of about sixty to eighty same-sized adult human skulls, broad rounded conical mound about 1.4 times wider than tall, rounded lumpy top and gently sloping sides spreading at the base, real rounded footprint and depth. Individual skull width about one seventh of the mound width. Crania with upper teeth; MOST have NO lower jaw, only a few retain a mandible. Keep this anatomy from Input 3: most skulls end at the upper teeth with no chin or lower row of teeth.\nSkulls face every way: many outward faces with dark eye sockets and nasal holes, frequent smooth domed backs and tops, some lying sideways, a few upside down. Deep dark gaps. Keep their existing individual orientations; do not turn every skull toward the new camera.\nAged bone: pale cream to warm yellowish ivory crowns and cheekbones, dusky olive-grey and cool blue-grey hollows, eye sockets near black. Matte to slightly waxy bone, no blood or flesh. Sharp fine pores, sutures, chips and teeth, credible three-dimensional semi-realistic game materials, even soft neutral studio light showing round forms without dramatic lighting or strong cast shadows.\nTransparent background, no floor, ground shadow, scenery or text. All exterior pixels alpha 0 except narrow antialias edge. No haze, glow, vignette, opaque background or painted checkerboard.\nDo NOT add other bones, ribs, long bones, skeletons, candles, rocks, base, floor, moss, blood, glowing eyes, horns, animal/monster skulls; no white or brown palette, tall tower, flat spread or cropping.\nChecks: one mound about 1.4:1 width/height, uniform-size human skulls only, varied orientations, cream bone and grey-olive hollows, nothing cropped, genuine transparency, SAME pile as primary seen from the requested side.",
+    "inputs": [
+      "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_dungeons_3d/bones/skullpile/references_hd/native_front_x3.png",
+      "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_dungeons_3d/bones/skullpile/references_hd/x2_surface_only.png",
+      "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_dungeons_3d/bones/skullpile/references_hd/00_three_quarter.png"
+    ],
+    "reason": "Superseded: frontal proportions improved but reverted to the surface-reference arrangement and retained lower jaws on most outward-facing skulls, failing anatomy and primary identity.",
+    "tool_mode": "built-in image_gen",
+    "supersedes": [
+      "skullpile_front_v1"
+    ],
+    "superseded_by": "skullpile_front_v3",
+    "output": "/home/pjasicek/.codex/generated_images/01a12081-6b03-7c42-8931-91a187410088/exec-3af45341-03c7-4f8b-9f65-71a0fe27bada.png",
+    "input_records": [
+      {
+        "supplied_path": "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_dungeons_3d/bones/skullpile/references_hd/native_front_x3.png",
+        "sha256": "d83103b811c71c52b739889331f51562275265851d17b191bc7e2a8d65f9c489"
+      },
+      {
+        "supplied_path": "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_dungeons_3d/bones/skullpile/references_hd/x2_surface_only.png",
+        "sha256": "1f043d725b71195e3902ede1b9ad9e2cebfc3bb5cbcdd69fafaed2fba4c029e1"
+      },
+      {
+        "supplied_path": "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_dungeons_3d/bones/skullpile/references_hd/00_three_quarter.png",
+        "sha256": "be2628ef601acd714387ee9b84f294d8bbdc72aaf031de26c03e5e45298864e0"
+      }
+    ],
+    "raw_file": "level_generation/decorations/mm6_dungeons_3d/bones/skullpile/references_hd/raw/skullpile_front_v2.png",
+    "raw_sha256": "d8d5934dae8a102aed9a5658dbbacd2a134f85074e887bde677986b58c2faae7",
+    "actual_sampling_size": [
+      1536,
+      1024
+    ],
+    "export_resize_or_padding": "None; byte-identical copy of actual return.",
+    "visible_bbox_alpha_128": [
+      167,
+      115,
+      1373,
+      935
+    ],
+    "alpha_checks": {
+      "mode": "RGBA",
+      "zero_fraction": 0.5974642435709635,
+      "max_alpha": 254,
+      "corner_alpha": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    "mound_width_to_height": 1.4707317073170731,
+    "superseded_runs": [
+      "skullpile_front_v1"
+    ],
+    "review_files": [
+      "level_generation/decorations/mm6_dungeons_3d/bones/skullpile/references_hd/raw/reviews/skullpile_front_v2_review_light.png",
+      "level_generation/decorations/mm6_dungeons_3d/bones/skullpile/references_hd/raw/reviews/skullpile_front_v2_review_dark.png"
+    ]
+  },
+  {
+    "id": "skullpile_back_v2",
+    "family": "sklplrev",
+    "role": "back",
+    "selected": true,
+    "selected_filename": "02_back.png",
+    "prompt": "PRIORITY CORRECTION FOR BACK VIEW: the previous back candidate was too wide and had tight top margins. Render the SAME selected Input 3 mound viewed from BEHIND, camera rotated 180 degrees at one third of the pile height. Native rounded conical proportions about 1.4 width to 1 height; about 1120 pixels wide and 800 pixels tall, centred with at least 90 transparent pixels at every edge. Keep the back view mixture of domed cranium backs, profiles, rear-facing faces, jawless skulls and few inverted skulls; the front-face crown skull now shows its occiput. Keep actual depth and fixed original skull orientations. Do not rebuild a wide low heap or a tall tower.\n\nUse case: identity-preserve.\nOutput exactly ONE 1536 x 1024 LANDSCAPE PNG, genuine transparent background, native unresized return.\nCHANGE ONLY THE CAMERA around the SAME SKULL PILE established in Input 3. Do not rebuild or rearrange the skulls.\nCAMERA FOR THIS BACK VIEW: BACK: physically orbit the camera exactly 180 degrees behind this heap, level with one third of its height, the same camera height as the front view. Look at the OPPOSITE side of the fixed heap. Front-facing skulls and the front-face crown skull now show their backs; rear-facing skulls reveal their faces. Mix smooth round cranium backs, sideways profiles and some outward rear faces according to their fixed orientations. Do not repeat the native/front skull-face pattern, and do not rotate all skulls to look at the camera.\nThis is a LEVEL view at one third of the pile height; no elevated/downward camera. Near-orthographic lens. Centre the complete mound and leave generous transparent margins, no crop.\n\nTASK CONTEXT — MM6 FANTASY-GAME ASSET RESTORATION: faithful high-definition reconstruction of the EXISTING Might and Magic VI dungeon decoration \"skull pile\" from the supplied original sprite, as a 3D modelling and texturing reference. Not a new design.\nInput 1: ORIGINAL native sprite, design, shape, proportion and palette authority. Magenta is background, not part of the pile; this is the only native view, not a demand to copy the front camera in a side/back view.\nInput 2: restored 2x frame, surface material only, never the design.\nInput 3: SELECTED PRIMARY raised-front reference 00_three_quarter.png. This is the exact individual three-dimensional pile, its fixed skull placement, scale, outline, proportions and materials to KEEP, while moving only the camera.\n\nONE free-standing heap of about sixty to eighty same-sized adult human skulls, broad rounded conical mound about 1.4 times wider than tall, rounded lumpy top and gently sloping sides spreading at the base, real rounded footprint and depth. Individual skull width about one seventh of the mound width. Crania with upper teeth; MOST have NO lower jaw, only a few retain a mandible. Keep this anatomy from Input 3: most skulls end at the upper teeth with no chin or lower row of teeth.\nSkulls face every way: many outward faces with dark eye sockets and nasal holes, frequent smooth domed backs and tops, some lying sideways, a few upside down. Deep dark gaps. Keep their existing individual orientations; do not turn every skull toward the new camera.\nAged bone: pale cream to warm yellowish ivory crowns and cheekbones, dusky olive-grey and cool blue-grey hollows, eye sockets near black. Matte to slightly waxy bone, no blood or flesh. Sharp fine pores, sutures, chips and teeth, credible three-dimensional semi-realistic game materials, even soft neutral studio light showing round forms without dramatic lighting or strong cast shadows.\nTransparent background, no floor, ground shadow, scenery or text. All exterior pixels alpha 0 except narrow antialias edge. No haze, glow, vignette, opaque background or painted checkerboard.\nDo NOT add other bones, ribs, long bones, skeletons, candles, rocks, base, floor, moss, blood, glowing eyes, horns, animal/monster skulls; no white or brown palette, tall tower, flat spread or cropping.\nChecks: one mound about 1.4:1 width/height, uniform-size human skulls only, varied orientations, cream bone and grey-olive hollows, nothing cropped, genuine transparency, SAME pile as primary seen from the requested side.",
+    "inputs": [
+      "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_dungeons_3d/bones/skullpile/references_hd/native_front_x3.png",
+      "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_dungeons_3d/bones/skullpile/references_hd/x2_surface_only.png",
+      "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_dungeons_3d/bones/skullpile/references_hd/00_three_quarter.png"
+    ],
+    "reason": "Selected: back of the rounded conical heap, crown frontal skull now showing its rounded occiput, mixture of cranium backs, profiles and rearward faces, mostly jawless adult skulls of uniform size, native ivory/olive-grey surface and dark gaps, complete silhouette and generous margins. Width/height 1.51 (about 1.4); genuine alpha reviewed on light/dark contact sheet.",
+    "tool_mode": "built-in image_gen",
+    "supersedes": [
+      "skullpile_back_v1"
+    ],
+    "superseded_by": null,
+    "output": "/home/pjasicek/.codex/generated_images/01a12081-6b03-7c42-8931-91a187410088/exec-ed4602fb-676b-4a35-8417-1ca11a11e949.png",
+    "input_records": [
+      {
+        "supplied_path": "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_dungeons_3d/bones/skullpile/references_hd/native_front_x3.png",
+        "sha256": "d83103b811c71c52b739889331f51562275265851d17b191bc7e2a8d65f9c489"
+      },
+      {
+        "supplied_path": "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_dungeons_3d/bones/skullpile/references_hd/x2_surface_only.png",
+        "sha256": "1f043d725b71195e3902ede1b9ad9e2cebfc3bb5cbcdd69fafaed2fba4c029e1"
+      },
+      {
+        "supplied_path": "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_dungeons_3d/bones/skullpile/references_hd/00_three_quarter.png",
+        "sha256": "be2628ef601acd714387ee9b84f294d8bbdc72aaf031de26c03e5e45298864e0"
+      }
+    ],
+    "raw_file": "level_generation/decorations/mm6_dungeons_3d/bones/skullpile/references_hd/raw/skullpile_back_v2.png",
+    "raw_sha256": "cefdd8fd94548a70747216c50c986b67fe9e8ac891d2b37b9b324f44c5273aa3",
+    "actual_sampling_size": [
+      1536,
+      1024
+    ],
+    "export_resize_or_padding": "None; byte-identical copy of actual return.",
+    "visible_bbox_alpha_128": [
+      143,
+      97,
+      1393,
+      926
+    ],
+    "alpha_checks": {
+      "mode": "RGBA",
+      "zero_fraction": 0.5865408579508463,
+      "max_alpha": 254,
+      "corner_alpha": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    "mound_width_to_height": 1.5078407720144753,
+    "review": {
+      "method": "Full-size raw return and selected light/dark contact sheet compared with native design, selected primary and opposite sides; dimension, alpha, bounds and byte identity checks.",
+      "one_mound": true,
+      "only_same_size_human_skulls": true,
+      "varied_orientations": true,
+      "mostly_jawless": true,
+      "native_palette": true,
+      "complete_silhouette": true,
+      "genuine_alpha": true,
+      "camera": "Back, 180-degree orbit from front at the same low camera height.",
+      "matching_primary_identity_pose_proportions": "Coherent visual reconstruction of the same pile; unseen side/back arrangement inferred from the sole native front view. Exact 3D correspondence is not measurable from generated 2D views."
+    },
+    "output_path": "level_generation/decorations/mm6_dungeons_3d/bones/skullpile/references_hd/02_back.png",
+    "output_sha256": "cefdd8fd94548a70747216c50c986b67fe9e8ac891d2b37b9b324f44c5273aa3",
+    "superseded_runs": [
+      "skullpile_back_v1"
+    ],
+    "review_files": [
+      "level_generation/decorations/mm6_dungeons_3d/bones/skullpile/references_hd/raw/reviews/skullpile_back_v2_review_light.png",
+      "level_generation/decorations/mm6_dungeons_3d/bones/skullpile/references_hd/raw/reviews/skullpile_back_v2_review_dark.png"
+    ],
+    "contact_sheet": "level_generation/decorations/mm6_dungeons_3d/bones/skullpile/references_hd/selected_views_review.png"
+  },
+  {
+    "id": "skullpile_right_v2",
+    "family": "sklplrev",
+    "role": "right",
+    "selected": false,
+    "selected_filename": "04_right.png",
+    "prompt": "PRIORITY CORRECTION FOR RIGHT VIEW: Input 4 is the accepted LEFT SIDE. Render the OPPOSITE RIGHT SIDE of that same fixed solid heap by physically orbiting the camera 180 degrees from Input 4, without mirroring the image or rearranging skulls. The original forward-facing skulls MUST now be seen in LEFT-POINTING PROFILE: their noses/upper teeth point toward SCREEN-LEFT, their round occiputs are to the right of those noses. The front surface is along the SCREEN-LEFT edge; back surface along screen-right. THIS OPPOSITE DIRECTION MUST BE CLEAR in the crown and exposed front-facing skulls. Do not repeat the right-pointing profiles of Input 4. The crown's front-pointing skull is in a profile pointing LEFT at the top, with the opposite adjacent cranium surfaces naturally visible. Preserve same skull scale, fixed orientations, same rounded 1.4:1 mound, same mostly jawless anatomy, same ivory/olive-grey material. Camera LEVEL at one third of the pile height, not elevated. Full centred mound with generous margins. Input 3 remains the selected PRIMARY raised-front identity reference.\n\nUse case: identity-preserve.\nOutput exactly ONE 1536 x 1024 LANDSCAPE PNG, genuine transparent background, native unresized return.\nCHANGE ONLY THE CAMERA around the SAME SKULL PILE established in Input 3. Do not rebuild or rearrange the skulls.\nCAMERA FOR THIS RIGHT VIEW: RIGHT SIDE: physically orbit the camera exactly 90 degrees to the heap's RIGHT side (the side at the native front image's screen-right edge), at one third of its height, same level camera height as the front view. True right profile of the exact fixed solid heap, showing its real depth. Front-pointing skulls are seen in profile pointing toward SCREEN-LEFT; the original FRONT surface recedes along the SCREEN-LEFT edge. Keep a varied mix of smooth cranium backs/tops, sideways profiles and outward right faces. Preserve this side's distinct arrangement; do not repeat the frontal skull-face arrangement or mirror the left side.\nThis is a LEVEL view at one third of the pile height; no elevated/downward camera. Near-orthographic lens. Centre the complete mound and leave generous transparent margins, no crop.\n\nTASK CONTEXT — MM6 FANTASY-GAME ASSET RESTORATION: faithful high-definition reconstruction of the EXISTING Might and Magic VI dungeon decoration \"skull pile\" from the supplied original sprite, as a 3D modelling and texturing reference. Not a new design.\nInput 1: ORIGINAL native sprite, design, shape, proportion and palette authority. Magenta is background, not part of the pile; this is the only native view, not a demand to copy the front camera in a side/back view.\nInput 2: restored 2x frame, surface material only, never the design.\nInput 3: SELECTED PRIMARY raised-front reference 00_three_quarter.png. This is the exact individual three-dimensional pile, its fixed skull placement, scale, outline, proportions and materials to KEEP, while moving only the camera.\n\nONE free-standing heap of about sixty to eighty same-sized adult human skulls, broad rounded conical mound about 1.4 times wider than tall, rounded lumpy top and gently sloping sides spreading at the base, real rounded footprint and depth. Individual skull width about one seventh of the mound width. Crania with upper teeth; MOST have NO lower jaw, only a few retain a mandible. Keep this anatomy from Input 3: most skulls end at the upper teeth with no chin or lower row of teeth.\nSkulls face every way: many outward faces with dark eye sockets and nasal holes, frequent smooth domed backs and tops, some lying sideways, a few upside down. Deep dark gaps. Keep their existing individual orientations; do not turn every skull toward the new camera.\nAged bone: pale cream to warm yellowish ivory crowns and cheekbones, dusky olive-grey and cool blue-grey hollows, eye sockets near black. Matte to slightly waxy bone, no blood or flesh. Sharp fine pores, sutures, chips and teeth, credible three-dimensional semi-realistic game materials, even soft neutral studio light showing round forms without dramatic lighting or strong cast shadows.\nTransparent background, no floor, ground shadow, scenery or text. All exterior pixels alpha 0 except narrow antialias edge. No haze, glow, vignette, opaque background or painted checkerboard.\nDo NOT add other bones, ribs, long bones, skeletons, candles, rocks, base, floor, moss, blood, glowing eyes, horns, animal/monster skulls; no white or brown palette, tall tower, flat spread or cropping.\nChecks: one mound about 1.4:1 width/height, uniform-size human skulls only, varied orientations, cream bone and grey-olive hollows, nothing cropped, genuine transparency, SAME pile as primary seen from the requested side.",
+    "inputs": [
+      "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_dungeons_3d/bones/skullpile/references_hd/native_front_x3.png",
+      "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_dungeons_3d/bones/skullpile/references_hd/x2_surface_only.png",
+      "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_dungeons_3d/bones/skullpile/references_hd/00_three_quarter.png",
+      "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_dungeons_3d/bones/skullpile/references_hd/03_left.png"
+    ],
+    "reason": "Superseded only for framing: opposite right-side camera and mostly jawless skulls are now correct, but top and lower margins are too tight.",
+    "tool_mode": "built-in image_gen",
+    "supersedes": [
+      "skullpile_right_v1"
+    ],
+    "superseded_by": "skullpile_right_v3",
+    "output": "/home/pjasicek/.codex/generated_images/01a12081-6b03-7c42-8931-91a187410088/exec-0dcf4e65-b29f-498a-a373-665f49db7496.png",
+    "input_records": [
+      {
+        "supplied_path": "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_dungeons_3d/bones/skullpile/references_hd/native_front_x3.png",
+        "sha256": "d83103b811c71c52b739889331f51562275265851d17b191bc7e2a8d65f9c489"
+      },
+      {
+        "supplied_path": "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_dungeons_3d/bones/skullpile/references_hd/x2_surface_only.png",
+        "sha256": "1f043d725b71195e3902ede1b9ad9e2cebfc3bb5cbcdd69fafaed2fba4c029e1"
+      },
+      {
+        "supplied_path": "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_dungeons_3d/bones/skullpile/references_hd/00_three_quarter.png",
+        "sha256": "be2628ef601acd714387ee9b84f294d8bbdc72aaf031de26c03e5e45298864e0"
+      },
+      {
+        "supplied_path": "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_dungeons_3d/bones/skullpile/references_hd/03_left.png",
+        "sha256": "57f84d013ea4972572b5abf1394c71ad8b56fbb966288f478e68a484203cfd1e"
+      }
+    ],
+    "raw_file": "level_generation/decorations/mm6_dungeons_3d/bones/skullpile/references_hd/raw/skullpile_right_v2.png",
+    "raw_sha256": "0b6b931b73d35cd57caa0aed3c2891d61682e620ad985e4a28edf5dd98d48361",
+    "actual_sampling_size": [
+      1536,
+      1024
+    ],
+    "export_resize_or_padding": "None; byte-identical copy of actual return.",
+    "visible_bbox_alpha_128": [
+      90,
+      17,
+      1477,
+      1012
+    ],
+    "alpha_checks": {
+      "mode": "RGBA",
+      "zero_fraction": 0.4644540150960286,
+      "max_alpha": 254,
+      "corner_alpha": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    "mound_width_to_height": 1.3939698492462311,
+    "superseded_runs": [
+      "skullpile_right_v1"
+    ],
+    "review_files": [
+      "level_generation/decorations/mm6_dungeons_3d/bones/skullpile/references_hd/raw/reviews/skullpile_right_v2_review_light.png",
+      "level_generation/decorations/mm6_dungeons_3d/bones/skullpile/references_hd/raw/reviews/skullpile_right_v2_review_dark.png"
+    ]
+  },
+  {
+    "id": "skullpile_front_v3",
+    "family": "sklplrev",
+    "role": "front",
+    "selected": false,
+    "selected_filename": "01_front.png",
+    "prompt": "Use case: precise-object-edit / identity-preserve.\nEdit INPUT 3 by moving ONLY its camera DOWN to a LOW LEVEL FRONT view, camera at one third of the mound height and aimed horizontally. Use the exact same individual heap and skull arrangement from Input 3. DO NOT substitute the different skull arrangement or complete-jawed anatomy from Input 2.\nThe topmost forward-facing skull stays at the crown, JAWLESS, next to the same turned-away dome and side-tilted skulls as Input 3. Preserve the identifiable broken/inverted skulls along the lower front. All individual skulls keep their position and orientation while the camera moves. Mostly jawless skulls with just the upper teeth; at most a few surviving lower jaws across the entire heap. No chin, mandible or lower teeth below most upper teeth.\nThe silhouette is the native rounded conical heap about 1.4 times wider than tall. NOT a wide low spread. Render the complete centred heap approximately 1120–1160 pixels wide and 800–820 pixels tall, with generous transparent margins within the full canvas. Near-orthographic camera, straight front azimuth; lower the viewpoint relative to Input 3 so the mound's front faces dominate and less of the top surface is visible.\n\nTASK CONTEXT — MM6 FANTASY-GAME ASSET RESTORATION: faithful high-definition reconstruction of the EXISTING Might and Magic VI dungeon decoration \"skull pile\" as a 3D modelling and texturing reference. Not a new design.\nONE 1536 x 1024 LANDSCAPE transparent PNG, native unresized return.\nInput 1 ORIGINAL native sprite: design/shape/proportion/palette authority; magenta is background only.\nInput 2 restored 2x frame: BONE SURFACE MATERIAL ONLY; NEVER anatomy, jaw count, skull placement or design.\nInput 3 selected 00_three_quarter.png: exact locked pile identity and arrangement, requiring camera change ONLY.\n\nONE free-standing broad rounded conical mound of about sixty to eighty uniform adult HUMAN skulls, each about one seventh of the pile width; rounded top, gently sloping sides spread at the base, lumpy outline of crowns, real round footprint and depth. Most crania have upper teeth only, a few have lower jaws. Many outward-facing skulls, many smooth turned-away domed cranium backs/tops, some sideways, a few upside down. Deep dark gaps.\nAgeing bone pale cream to warm yellowish ivory on crowns and cheekbones, dusky olive-grey and cool blue-grey hollows, near-black sockets. Matte to slightly waxy, sharp pores/sutures/chips/teeth. Credible three-dimensional semi-realistic game material and soft even neutral light showing forms; no dramatic lighting or strong cast shadows.\nTransparent exterior with actual alpha 0 except narrow antialias edge. No floor, ground shadow, scenery, text, painted checkerboard, backdrop, haze, glow, vignette or magenta spill.\nNo other bones, ribs, long bones, skeletons, candles, rocks, base, moss, blood, flesh, glowing eyes, horns, animal/monster skulls; do not change to white/brown, make a tower or flat spread, or crop the pile.\nChecks: same pile as Input 3; low front camera; one mound about 1.4:1; same-size human skulls; varied orientations; mostly jawless; native cream/grey-olive palette; generous full-frame margins; genuine alpha.",
+    "inputs": [
+      "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_dungeons_3d/bones/skullpile/references_hd/native_front_x3.png",
+      "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_dungeons_3d/bones/skullpile/references_hd/x2_surface_only.png",
+      "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_dungeons_3d/bones/skullpile/references_hd/00_three_quarter.png"
+    ],
+    "reason": "Superseded: primary identity and mostly jawless anatomy now match, but the front remains too wide/flat and fills the canvas with tight lower margins.",
+    "tool_mode": "built-in image_gen",
+    "supersedes": [
+      "skullpile_front_v2"
+    ],
+    "superseded_by": "skullpile_front_v4",
+    "output": "/home/pjasicek/.codex/generated_images/01a12081-6b03-7c42-8931-91a187410088/exec-97248512-1e55-458b-a62f-eb9539e1f6db.png",
+    "input_records": [
+      {
+        "supplied_path": "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_dungeons_3d/bones/skullpile/references_hd/native_front_x3.png",
+        "sha256": "d83103b811c71c52b739889331f51562275265851d17b191bc7e2a8d65f9c489"
+      },
+      {
+        "supplied_path": "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_dungeons_3d/bones/skullpile/references_hd/x2_surface_only.png",
+        "sha256": "1f043d725b71195e3902ede1b9ad9e2cebfc3bb5cbcdd69fafaed2fba4c029e1"
+      },
+      {
+        "supplied_path": "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_dungeons_3d/bones/skullpile/references_hd/00_three_quarter.png",
+        "sha256": "be2628ef601acd714387ee9b84f294d8bbdc72aaf031de26c03e5e45298864e0"
+      }
+    ],
+    "raw_file": "level_generation/decorations/mm6_dungeons_3d/bones/skullpile/references_hd/raw/skullpile_front_v3.png",
+    "raw_sha256": "3ca8670e6e2ef66bd1ce53dfc7a7fcd464c4ca959b97c6bb0ec8ecf5979461b0",
+    "actual_sampling_size": [
+      1536,
+      1024
+    ],
+    "export_resize_or_padding": "None; byte-identical copy of actual return.",
+    "visible_bbox_alpha_128": [
+      44,
+      174,
+      1489,
+      1008
+    ],
+    "alpha_checks": {
+      "mode": "RGBA",
+      "zero_fraction": 0.4933725992838542,
+      "max_alpha": 254,
+      "corner_alpha": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    "mound_width_to_height": 1.7326139088729018,
+    "superseded_runs": [
+      "skullpile_front_v1",
+      "skullpile_front_v2"
+    ],
+    "review_files": [
+      "level_generation/decorations/mm6_dungeons_3d/bones/skullpile/references_hd/raw/reviews/skullpile_front_v3_review_light.png",
+      "level_generation/decorations/mm6_dungeons_3d/bones/skullpile/references_hd/raw/reviews/skullpile_front_v3_review_dark.png"
+    ]
+  },
+  {
+    "id": "skullpile_right_v3",
+    "family": "sklplrev",
+    "role": "right",
+    "selected": true,
+    "selected_filename": "04_right.png",
+    "prompt": "Use case: precise-object-edit.\nONE FRAMING CHANGE ONLY TO INPUT 4: zoom the orthographic camera OUT by about 20 percent and centre the entire same skull pile with at least 90 transparent pixels on every side of the full 1536 x 1024 LANDSCAPE PNG. Keep the exact RIGHT-SIDE camera from Input 4, camera level with one third of the mound height, with forward-pointing skulls in profile pointing SCREEN-LEFT.\nKeep Input 4's exact skull placement/orientations, same raised crown and broad rounded conical mound about 1.4 wider than tall, same uniform adult human skull size, mostly jawless upper-toothed crania, frequent smooth domed backs/tops, sideways and a few upside-down skulls, few mandibles, same sharp aged bone and ivory/grey-olive/cool grey palette. Change NOTHING except generous camera framing. Do not mirror it or point noses screen-right.\n\nTASK CONTEXT — MM6 FANTASY-GAME ASSET RESTORATION: faithful high-definition reconstruction of the EXISTING Might and Magic VI dungeon decoration \"skull pile\" as a 3D modelling and texturing reference, not a new design.\nInput 1 ORIGINAL native sprite is design/shape/proportion/palette authority; magenta is background.\nInput 2 restored frame provides BONE SURFACE MATERIAL ONLY.\nInput 3 selected 00_three_quarter.png is the pile's primary identity.\nInput 4 is the corrected RIGHT SIDE to preserve, correcting only its tight framing.\nONE free-standing heap of about sixty to eighty same-size adult HUMAN skulls, about one seventh of the pile width; lumpy rounded top and gently sloping sides spread at the base, deep dark gaps. Most have no lower jaw; few keep one. Varied outward faces, cranium backs/tops, sideways/inverted skulls.\nMatte to slightly waxy bone, pale cream to warm yellowish ivory crowns and cheekbones, dusky olive-grey and cool blue-grey hollows, near-black sockets; sharp pores, sutures, chips and teeth. Credible three-dimensional semi-realistic game material, soft even neutral studio light without strong cast shadows.\nReturn ONE 1536 x 1024 LANDSCAPE native unresized transparent PNG; exterior alpha 0 apart from narrow antialias edge. No cropping, floor, ground shadow, scenery, text, opaque background, checkerboard, haze, glow, vignette, magenta spill.\nNo non-skull bones, ribs, long bones, skeletons, candles, rocks, base, moss, blood, flesh, glowing eyes, horns, animal/monster skulls, white/brown palette, tall tower or flat spread.",
+    "inputs": [
+      "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_dungeons_3d/bones/skullpile/references_hd/native_front_x3.png",
+      "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_dungeons_3d/bones/skullpile/references_hd/x2_surface_only.png",
+      "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_dungeons_3d/bones/skullpile/references_hd/00_three_quarter.png",
+      "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_dungeons_3d/bones/skullpile/references_hd/raw/skullpile_right_v2.png"
+    ],
+    "reason": "Selected: correct opposite right side with forward-facing skulls in profiles pointing screen-left, distinct from left view; fixed raised crown and rounded native mound (1.44 width/height), uniform adult skulls, mostly jawless with upper teeth, smooth cranium backs, side-lying/inverted skulls, native ivory/olive-grey bone, generous margins and full silhouette. Genuine alpha and clean light/dark contact sheet.",
+    "tool_mode": "built-in image_gen",
+    "supersedes": [
+      "skullpile_right_v2"
+    ],
+    "superseded_by": null,
+    "output": "/home/pjasicek/.codex/generated_images/01a12081-6b03-7c42-8931-91a187410088/exec-ab8a6c3d-67ee-4b26-89a2-a17a2d5809e8.png",
+    "input_records": [
+      {
+        "supplied_path": "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_dungeons_3d/bones/skullpile/references_hd/native_front_x3.png",
+        "sha256": "d83103b811c71c52b739889331f51562275265851d17b191bc7e2a8d65f9c489"
+      },
+      {
+        "supplied_path": "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_dungeons_3d/bones/skullpile/references_hd/x2_surface_only.png",
+        "sha256": "1f043d725b71195e3902ede1b9ad9e2cebfc3bb5cbcdd69fafaed2fba4c029e1"
+      },
+      {
+        "supplied_path": "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_dungeons_3d/bones/skullpile/references_hd/00_three_quarter.png",
+        "sha256": "be2628ef601acd714387ee9b84f294d8bbdc72aaf031de26c03e5e45298864e0"
+      },
+      {
+        "supplied_path": "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_dungeons_3d/bones/skullpile/references_hd/raw/skullpile_right_v2.png",
+        "sha256": "0b6b931b73d35cd57caa0aed3c2891d61682e620ad985e4a28edf5dd98d48361"
+      }
+    ],
+    "raw_file": "level_generation/decorations/mm6_dungeons_3d/bones/skullpile/references_hd/raw/skullpile_right_v3.png",
+    "raw_sha256": "68610e7cbbcfd2d91fdd4d50758492e2278d1c1d62a9f027ffa088225cf13ffc",
+    "actual_sampling_size": [
+      1536,
+      1024
+    ],
+    "export_resize_or_padding": "None; byte-identical copy of actual return.",
+    "visible_bbox_alpha_128": [
+      250,
+      145,
+      1330,
+      897
+    ],
+    "alpha_checks": {
+      "mode": "RGBA",
+      "zero_fraction": 0.6822408040364584,
+      "max_alpha": 254,
+      "corner_alpha": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    "mound_width_to_height": 1.4361702127659575,
+    "review": {
+      "method": "Full-size raw return and selected light/dark contact sheet compared with native design, selected primary and opposite sides; dimension, alpha, bounds and byte identity checks.",
+      "one_mound": true,
+      "only_same_size_human_skulls": true,
+      "varied_orientations": true,
+      "mostly_jawless": true,
+      "native_palette": true,
+      "complete_silhouette": true,
+      "genuine_alpha": true,
+      "camera": "Right side, 90-degree orbit from front at low camera height; forward profiles point screen-left.",
+      "matching_primary_identity_pose_proportions": "Coherent visual reconstruction of the same pile; unseen side/back arrangement inferred from the sole native front view. Exact 3D correspondence is not measurable from generated 2D views."
+    },
+    "output_path": "level_generation/decorations/mm6_dungeons_3d/bones/skullpile/references_hd/04_right.png",
+    "output_sha256": "68610e7cbbcfd2d91fdd4d50758492e2278d1c1d62a9f027ffa088225cf13ffc",
+    "superseded_runs": [
+      "skullpile_right_v1",
+      "skullpile_right_v2"
+    ],
+    "review_files": [
+      "level_generation/decorations/mm6_dungeons_3d/bones/skullpile/references_hd/raw/reviews/skullpile_right_v3_review_light.png",
+      "level_generation/decorations/mm6_dungeons_3d/bones/skullpile/references_hd/raw/reviews/skullpile_right_v3_review_dark.png"
+    ],
+    "contact_sheet": "level_generation/decorations/mm6_dungeons_3d/bones/skullpile/references_hd/selected_views_review.png"
+  },
+  {
+    "id": "skullpile_front_v4",
+    "family": "sklplrev",
+    "role": "front",
+    "selected": false,
+    "selected_filename": "01_front.png",
+    "prompt": "Use case: precise-object-edit.\nINPUT 4 IS THE FRONT VIEW TO CORRECT. Make the mound's conical silhouette match INPUT 3's compact, rounded, native proportions. The current front view is visibly too wide and flat.\nMANDATORY SHAPE/FRAMING CORRECTION: the VISIBLE SKULL MOUND should be approximately 1120 pixels WIDE and 800 pixels TALL, a WIDTH/HEIGHT ratio of 1.4:1, centred in a 1536 x 1024 LANDSCAPE PNG. Pull the sprawling outer contour inward to a gently sloping rounded cone matching the selected primary. DO NOT reproduce Input 4's very wide flat spread. Keep uniform human skull dimensions, not stretched skulls. The circular mound remains loose and lumpy, not a neat wall or pyramid. Full object with generous transparent margins on all sides. No crop, no bitmap resize, no change to canvas dimensions.\nKEEP Input 4's mostly JAWLESS crania with ONLY upper teeth, exact bone surface/palette and recognizable crown/front arrangement. Keep the topmost frontal jawless skull beside the turned-away dome, broken/inverted skulls at the bottom, frequent smooth domed cranium backs, sideways skulls and few mandibles. Do not bring back complete lower jaws. Camera stays STRAIGHT FRONT, LEVEL at one third of the pile height, near orthographic. Less looking-down view than Input 3.\n\nTASK CONTEXT — MM6 FANTASY-GAME ASSET RESTORATION: faithful high-definition reconstruction of the EXISTING Might and Magic VI dungeon decoration \"skull pile\", as a 3D modelling and texturing reference. Not a new design.\nInput 1 is original native sprite: design, shape, proportions and palette authority; magenta is background only.\nInput 2 is restored sprite: BONE SURFACE MATERIAL ONLY, never jaw anatomy or arrangement.\nInput 3 selected 00_three_quarter.png: same pile's primary identity, outline and proportions.\nInput 4 current front: edit this candidate's too-wide outline and framing as described, keeping its jawless anatomy and its front camera.\nONE free-standing broad rounded conical heap of about sixty to eighty SAME-SIZE adult HUMAN skulls, about one seventh of mound width, lumpy round crowns at top and gently sloping sides spreading at base; true depth, deep dark gaps. Most skulls are crania with upper teeth and no lower jaw, few retain one. Many outward dark sockets and nasal holes, frequent smooth cranium backs/tops, sideways skulls and a few inverted ones.\nAged bone pale cream to warm yellowish ivory crowns and cheekbones, dusky olive-grey and cool blue-grey hollows, near-black sockets, matte to slightly waxy. Sharp pores, sutures, chips and teeth, credible three-dimensional semi-realistic game material, soft even neutral studio light showing round forms, no dramatic lighting or strong cast shadows.\nONE native unresized 1536 x 1024 transparent PNG; exterior alpha 0 except narrow antialias edge. No floor, ground shadow, scenery, text, opaque background, painted checkerboard, haze, vignette, glow, magenta spill.\nNo other bones, ribs, long bones, skeletons, candles, rocks, base, moss, blood, flesh, glowing eyes, horns, animal/monster skulls; no white/brown palette, tall tower, flat spread or cropped pile.\nChecks: one rounded 1.4:1 mound matching primary; uniform adult human skull size; varied orientations; mostly jawless; cream/grey-olive palette; full generous margins; genuine transparency; low front view.",
+    "inputs": [
+      "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_dungeons_3d/bones/skullpile/references_hd/native_front_x3.png",
+      "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_dungeons_3d/bones/skullpile/references_hd/x2_surface_only.png",
+      "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_dungeons_3d/bones/skullpile/references_hd/00_three_quarter.png",
+      "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_dungeons_3d/bones/skullpile/references_hd/raw/skullpile_front_v3.png"
+    ],
+    "reason": "Superseded: correct compact rounded native proportion and margins, but restored lower jaws on most faces. Correct jaw anatomy only.",
+    "tool_mode": "built-in image_gen",
+    "supersedes": [
+      "skullpile_front_v3"
+    ],
+    "superseded_by": "skullpile_front_v5",
+    "output": "/home/pjasicek/.codex/generated_images/01a12081-6b03-7c42-8931-91a187410088/exec-bf9a650a-96c0-49cf-9be1-7fc0e5df06d6.png",
+    "input_records": [
+      {
+        "supplied_path": "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_dungeons_3d/bones/skullpile/references_hd/native_front_x3.png",
+        "sha256": "d83103b811c71c52b739889331f51562275265851d17b191bc7e2a8d65f9c489"
+      },
+      {
+        "supplied_path": "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_dungeons_3d/bones/skullpile/references_hd/x2_surface_only.png",
+        "sha256": "1f043d725b71195e3902ede1b9ad9e2cebfc3bb5cbcdd69fafaed2fba4c029e1"
+      },
+      {
+        "supplied_path": "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_dungeons_3d/bones/skullpile/references_hd/00_three_quarter.png",
+        "sha256": "be2628ef601acd714387ee9b84f294d8bbdc72aaf031de26c03e5e45298864e0"
+      },
+      {
+        "supplied_path": "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_dungeons_3d/bones/skullpile/references_hd/raw/skullpile_front_v3.png",
+        "sha256": "3ca8670e6e2ef66bd1ce53dfc7a7fcd464c4ca959b97c6bb0ec8ecf5979461b0"
+      }
+    ],
+    "raw_file": "level_generation/decorations/mm6_dungeons_3d/bones/skullpile/references_hd/raw/skullpile_front_v4.png",
+    "raw_sha256": "836529525cfa4eecb5317acfff1270074a3e09fdf2fcbe37841ef9ffd2ab73d1",
+    "actual_sampling_size": [
+      1536,
+      1024
+    ],
+    "export_resize_or_padding": "None; byte-identical copy of actual return.",
+    "visible_bbox_alpha_128": [
+      216,
+      157,
+      1344,
+      935
+    ],
+    "alpha_checks": {
+      "mode": "RGBA",
+      "zero_fraction": 0.6410967508951823,
+      "max_alpha": 254,
+      "corner_alpha": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    "mound_width_to_height": 1.4498714652956297,
+    "superseded_runs": [
+      "skullpile_front_v1",
+      "skullpile_front_v2",
+      "skullpile_front_v3"
+    ],
+    "review_files": [
+      "level_generation/decorations/mm6_dungeons_3d/bones/skullpile/references_hd/raw/reviews/skullpile_front_v4_review_light.png",
+      "level_generation/decorations/mm6_dungeons_3d/bones/skullpile/references_hd/raw/reviews/skullpile_front_v4_review_dark.png"
+    ]
+  },
+  {
+    "id": "skullpile_front_v5",
+    "family": "sklplrev",
+    "role": "front",
+    "selected": false,
+    "selected_filename": "01_front.png",
+    "prompt": "Use case: precise-object-edit.\nMake ONE anatomy edit to INPUT 4: REMOVE ALMOST ALL LOWER JAWBONES. Retain only THREE or FOUR complete mandibles in the entire pile. Every other skull MUST END at its UPPER teeth. The lower teeth, chin and curved bony mandible below the upper teeth must disappear, leaving natural open space underneath the upper maxilla.\nCorrect this plainly in the FOUR FRONT-FACING SKULLS AT THE TOP and the front-facing skulls in the bottom rows. Do not keep their U-shaped lower jaws. Preserve the upper teeth, cheekbones, eye sockets and crania. This is a pile of mostly JAWLESS CRANIA, not complete smiling skulls.\nPRESERVE EVERYTHING ELSE from INPUT 4: EXACT framing, camera, width-to-height ratio about 1.4, complete compact rounded conical outline, skull positions/orientations, uniform adult skull size, ivory/grey-olive bone colours, sharp surface detail, neutral soft light. NO CAMERA CHANGE and NO CHANGE TO THE MOUND SHAPE OR SCALE.\nOutput ONE native unresized 1536 x 1024 LANDSCAPE PNG with true transparent background and the same generous margins.\n\nTASK CONTEXT — MM6 FANTASY-GAME ASSET RESTORATION: faithful high-definition reconstruction of the EXISTING Might and Magic VI dungeon decoration \"skull pile\" as a 3D modelling and texturing reference. Not a new design.\nInput 1 ORIGINAL native sprite: design, shape, proportion and palette authority; magenta is background.\nInput 2 restored frame: bone SURFACE MATERIAL ONLY, NEVER lower jaws or skull placement.\nInput 3 selected 00_three_quarter.png: primary identity and correct mostly jawless anatomy.\nInput 4 is the current FRONT image: edit ONLY its lower jawbones as specified and keep its correct camera/framing/outline.\n\nONE free-standing broad rounded conical heap of about sixty to eighty same-size adult human skulls (one seventh of mound width), rounded lumpy top, gently sloping sides spreading at base, deep dark gaps. Camera near-orthographic, straight FRONT, LEVEL with one third of pile height. Varied outward faces with dark sockets/nasal holes, frequent smooth domed cranium backs/tops, some on their sides and a few upside down. MOST crania have upper teeth ONLY and no lower jaw; a FEW retain a mandible.\nAged bone pale cream to warm yellowish ivory crowns/cheekbones, dusky olive-grey and cool blue-grey hollows, near-black sockets. Matte to slightly waxy bone, fine pores/sutures/chips/teeth, fully three-dimensional semi-realistic game material and even soft neutral studio light, no dramatic lighting or strong shadows.\nExterior alpha 0 except narrow antialias edge. No floor, ground shadow, scenery, text, opaque backdrop, checkerboard, magenta spill, haze, glow or vignette.\nNo other bones, ribs, long bones, skeletons, candles, rocks, base, moss, blood, flesh, glowing eyes, horns, animal/monster skulls; no white/brown palette, tall tower, flat spread or cropping.\nCheck most visible faces now end at upper teeth with no chin/lower teeth, while the native rounded 1.4:1 mound and framing from Input 4 remain identical.",
+    "inputs": [
+      "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_dungeons_3d/bones/skullpile/references_hd/native_front_x3.png",
+      "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_dungeons_3d/bones/skullpile/references_hd/x2_surface_only.png",
+      "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_dungeons_3d/bones/skullpile/references_hd/00_three_quarter.png",
+      "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_dungeons_3d/bones/skullpile/references_hd/raw/skullpile_front_v4.png"
+    ],
+    "reason": "Superseded only for framing: mostly jawless upper-toothed crania, native conical proportion and low front camera now pass, but the upper margin is too tight.",
+    "tool_mode": "built-in image_gen",
+    "supersedes": [
+      "skullpile_front_v4"
+    ],
+    "superseded_by": "skullpile_front_v6",
+    "output": "/home/pjasicek/.codex/generated_images/01a12081-6b03-7c42-8931-91a187410088/exec-73fd8bdf-98f3-4b69-894e-1be899e0ee05.png",
+    "input_records": [
+      {
+        "supplied_path": "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_dungeons_3d/bones/skullpile/references_hd/native_front_x3.png",
+        "sha256": "d83103b811c71c52b739889331f51562275265851d17b191bc7e2a8d65f9c489"
+      },
+      {
+        "supplied_path": "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_dungeons_3d/bones/skullpile/references_hd/x2_surface_only.png",
+        "sha256": "1f043d725b71195e3902ede1b9ad9e2cebfc3bb5cbcdd69fafaed2fba4c029e1"
+      },
+      {
+        "supplied_path": "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_dungeons_3d/bones/skullpile/references_hd/00_three_quarter.png",
+        "sha256": "be2628ef601acd714387ee9b84f294d8bbdc72aaf031de26c03e5e45298864e0"
+      },
+      {
+        "supplied_path": "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_dungeons_3d/bones/skullpile/references_hd/raw/skullpile_front_v4.png",
+        "sha256": "836529525cfa4eecb5317acfff1270074a3e09fdf2fcbe37841ef9ffd2ab73d1"
+      }
+    ],
+    "raw_file": "level_generation/decorations/mm6_dungeons_3d/bones/skullpile/references_hd/raw/skullpile_front_v5.png",
+    "raw_sha256": "0f555d50ea23a76804f499ec4b9216d31d5059b0355c7f1743c63c97eb859afb",
+    "actual_sampling_size": [
+      1536,
+      1024
+    ],
+    "export_resize_or_padding": "None; byte-identical copy of actual return.",
+    "visible_bbox_alpha_128": [
+      83,
+      5,
+      1458,
+      943
+    ],
+    "alpha_checks": {
+      "mode": "RGBA",
+      "zero_fraction": 0.4756126403808594,
+      "max_alpha": 254,
+      "corner_alpha": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    "mound_width_to_height": 1.4658848614072495,
+    "superseded_runs": [
+      "skullpile_front_v1",
+      "skullpile_front_v2",
+      "skullpile_front_v3",
+      "skullpile_front_v4"
+    ],
+    "review_files": [
+      "level_generation/decorations/mm6_dungeons_3d/bones/skullpile/references_hd/raw/reviews/skullpile_front_v5_review_light.png",
+      "level_generation/decorations/mm6_dungeons_3d/bones/skullpile/references_hd/raw/reviews/skullpile_front_v5_review_dark.png"
+    ]
+  },
+  {
+    "id": "skullpile_front_v6",
+    "family": "sklplrev",
+    "role": "front",
+    "selected": true,
+    "selected_filename": "01_front.png",
+    "prompt": "Use case: precise-object-edit.\nONLY ZOOM THE ORTHOGRAPHIC CAMERA OUT BY 18 PERCENT ON INPUT 4, keeping the whole pile centred. Preserve its exact low FRONT view, entire mound shape, skull arrangement, mostly jawless anatomy, palette and surfaces. No other change.\nOutput ONE native unresized 1536 x 1024 LANDSCAPE transparent PNG. The same complete skull heap should be about 1100 pixels wide and 770–790 pixels tall, about 1.4:1. Leave at least 100 TRANSPARENT PIXELS ABOVE AND BELOW the skull pile, generous side margins. Keep all skulls inside the frame; don't crop the crown. The EMPTY SPACE must be truly alpha 0.\nDO NOT change jaw anatomy: MOST skulls remain jawless, ending at UPPER teeth with no lower teeth, no chin, no mandible; only a few keep one. Keep frequent smooth cranium backs/tops, side-lying and inverted skulls, and the same fixed front skull arrangement.\nTASK CONTEXT — MM6 FANTASY-GAME ASSET RESTORATION: faithful high-definition reconstruction of the EXISTING Might and Magic VI dungeon decoration \"skull pile\" as a 3D modelling and texturing reference. Not a new design.\nInput 1 ORIGINAL native sprite is design, shape, proportion and palette authority; magenta is background.\nInput 2 restored frame is for bone SURFACE MATERIAL ONLY.\nInput 3 selected primary 00_three_quarter.png is the individual pile identity.\nInput 4 is the correct mostly jawless FRONT candidate; preserve it exactly, changing ONLY camera framing.\nONE free-standing heap of about sixty to eighty uniform adult human skulls, each about one seventh of mound width, broad rounded conical mound about 1.4 as wide as tall, rounded lumpy top and gently sloping sides spread at base, deep dark gaps. Straight FRONT near-orthographic camera LEVEL with one third of pile height, no elevated camera.\nBone pale cream to warm yellowish ivory crowns/cheekbones, dusky olive-grey and cool blue-grey hollows, near-black sockets. Matte to slightly waxy, sharp pores/sutures/chips/teeth, credible detailed three-dimensional semi-realistic game materials, soft even neutral studio light, no dramatic lighting or strong cast shadows.\nNo floor, ground shadow, scenery, text, opaque backdrop, checkerboard, haze, glow, vignette or magenta spill. No other bones, ribs, long bones, skeletons, candles, rocks, base, moss, blood, flesh, glowing eyes, horns, animal/monster skulls, white/brown palette, tower, flat spread or cropping.",
+    "inputs": [
+      "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_dungeons_3d/bones/skullpile/references_hd/native_front_x3.png",
+      "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_dungeons_3d/bones/skullpile/references_hd/x2_surface_only.png",
+      "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_dungeons_3d/bones/skullpile/references_hd/00_three_quarter.png",
+      "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_dungeons_3d/bones/skullpile/references_hd/raw/skullpile_front_v5.png"
+    ],
+    "reason": "Selected: low straight front view, compact rounded conical native proportion (1.46 width/height), predominantly jawless upper-toothed human crania with few retained mandibles, uniform adult skull size, mixed faces and smooth backs, sideways/inverted skulls, native ivory/olive-grey material, full silhouette and generous margins. Clean genuine alpha on light/dark contact sheet.",
+    "tool_mode": "built-in image_gen",
+    "supersedes": [
+      "skullpile_front_v5"
+    ],
+    "superseded_by": null,
+    "output": "/home/pjasicek/.codex/generated_images/01a12081-6b03-7c42-8931-91a187410088/exec-f0485983-dff1-4623-b539-91a8277cc3f6.png",
+    "input_records": [
+      {
+        "supplied_path": "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_dungeons_3d/bones/skullpile/references_hd/native_front_x3.png",
+        "sha256": "d83103b811c71c52b739889331f51562275265851d17b191bc7e2a8d65f9c489"
+      },
+      {
+        "supplied_path": "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_dungeons_3d/bones/skullpile/references_hd/x2_surface_only.png",
+        "sha256": "1f043d725b71195e3902ede1b9ad9e2cebfc3bb5cbcdd69fafaed2fba4c029e1"
+      },
+      {
+        "supplied_path": "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_dungeons_3d/bones/skullpile/references_hd/00_three_quarter.png",
+        "sha256": "be2628ef601acd714387ee9b84f294d8bbdc72aaf031de26c03e5e45298864e0"
+      },
+      {
+        "supplied_path": "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_dungeons_3d/bones/skullpile/references_hd/raw/skullpile_front_v5.png",
+        "sha256": "0f555d50ea23a76804f499ec4b9216d31d5059b0355c7f1743c63c97eb859afb"
+      }
+    ],
+    "raw_file": "level_generation/decorations/mm6_dungeons_3d/bones/skullpile/references_hd/raw/skullpile_front_v6.png",
+    "raw_sha256": "4d7b3e14fe82d41ba0c912132c32d2ef0220ad056e62c7a17465111ef3f538cf",
+    "actual_sampling_size": [
+      1536,
+      1024
+    ],
+    "export_resize_or_padding": "None; byte-identical copy of actual return.",
+    "visible_bbox_alpha_128": [
+      265,
+      175,
+      1270,
+      865
+    ],
+    "alpha_checks": {
+      "mode": "RGBA",
+      "zero_fraction": 0.7180366516113281,
+      "max_alpha": 254,
+      "corner_alpha": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    "mound_width_to_height": 1.4565217391304348,
+    "review": {
+      "method": "Full-size raw return and selected light/dark contact sheet compared with native design, selected primary and opposite sides; dimension, alpha, bounds and byte identity checks.",
+      "one_mound": true,
+      "only_same_size_human_skulls": true,
+      "varied_orientations": true,
+      "mostly_jawless": true,
+      "native_palette": true,
+      "complete_silhouette": true,
+      "genuine_alpha": true,
+      "camera": "Low level front, one-third mound height.",
+      "matching_primary_identity_pose_proportions": "Coherent visual reconstruction of the same pile; unseen side/back arrangement inferred from the sole native front view. Exact 3D correspondence is not measurable from generated 2D views."
+    },
+    "output_path": "level_generation/decorations/mm6_dungeons_3d/bones/skullpile/references_hd/01_front.png",
+    "output_sha256": "4d7b3e14fe82d41ba0c912132c32d2ef0220ad056e62c7a17465111ef3f538cf",
+    "superseded_runs": [
+      "skullpile_front_v1",
+      "skullpile_front_v2",
+      "skullpile_front_v3",
+      "skullpile_front_v4",
+      "skullpile_front_v5"
+    ],
+    "review_files": [
+      "level_generation/decorations/mm6_dungeons_3d/bones/skullpile/references_hd/raw/reviews/skullpile_front_v6_review_light.png",
+      "level_generation/decorations/mm6_dungeons_3d/bones/skullpile/references_hd/raw/reviews/skullpile_front_v6_review_dark.png"
+    ],
+    "contact_sheet": "level_generation/decorations/mm6_dungeons_3d/bones/skullpile/references_hd/selected_views_review.png"
+  }
+]

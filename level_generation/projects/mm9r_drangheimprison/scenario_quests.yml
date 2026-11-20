@@ -1,0 +1,218 @@
+# Written by make_scenarios.py from the built map; rerun it after convert.py.
+id: mm9r.drangheimprison_quests
+title: Drangheim Prison (native BLV) - indoor clicks open the NPCs' RUDE dialogues and their OnRudeExit events run
+world: mm9
+mode: faithful
+tags:
+- mm9
+- mm9_rework
+- draft
+steps:
+- load_map:
+    map: drangheimprison.blv
+- note:
+    text: 'Guard2 (dialogue 426): the visitor''s questions; closing runs GuardRude.scr''s OnRude, which hands over the Visitor''s
+      Pass item, and the inner guards stand down.'
+- set_pose:
+    map: drangheimprison.blv
+    x: -2191
+    y: -6189
+    z: -2231
+    yaw: -1.5708
+    pitch: -0.5819
+- advance_runtime:
+    seconds: 0.2
+- press_interact: {}
+- assert:
+    actor_dialog_started:
+      kind: mm9_rude
+      source_id: 426
+- assert:
+    dialog:
+      active: true
+      source_id: 426
+- select_topic:
+    action_id: 5
+    match_label: We want to get into the prison.
+- select_topic:
+    action_id: 4
+    match_label: Alright.
+- select_topic:
+    action_id: 3
+    match_label: No.
+- select_topic:
+    action_id: 1
+    match_label: No.
+- select_topic:
+    action_id: 0
+    match_label: Uhhh, no.
+- assert:
+    qbit_set:
+    - 95007
+- press_action:
+    action: cancel_dialog
+- advance_runtime:
+    seconds: 1
+- assert:
+    inventory_any_member:
+    - item_id: 10446
+      count: 1
+- assert:
+    actor_visible:
+      actor_index: 47
+      hostile_to_party: false
+- note:
+    text: 'The cook (dialogue 419): the deal gives key 5004; closing gives 5005 and Celldoor29 opens on a click (NPC419.scr).'
+- execute_event:
+    id: 231
+- advance_runtime:
+    seconds: 1
+- assert:
+    mechanism:
+      id: 22
+      state: closed
+- setup_shortcut:
+    kind: set_qbit
+    id: 90012
+    value: true
+- set_pose:
+    map: drangheimprison.blv
+    x: 611
+    y: 566
+    z: -1840
+    yaw: -1.5708
+    pitch: -0.828
+- advance_runtime:
+    seconds: 0.2
+- press_interact: {}
+- assert:
+    actor_dialog_started:
+      kind: mm9_rude
+      source_id: 419
+- assert:
+    dialog:
+      active: true
+      source_id: 419
+- select_topic:
+    action_id: 7
+    match_label: We've got a Visitor's Pass
+- select_topic:
+    action_id: 5
+    match_label: We've come to rescue Ivsar Forktooth.
+- select_topic:
+    action_id: 4
+    match_label: Why not?
+- select_topic:
+    action_id: 3
+    match_label: Of course!  What sort of help did you need?
+- select_topic:
+    action_id: 2
+    match_label: And what will you do for us?
+- select_topic:
+    action_id: 1
+    match_label: Sounds like a deal!
+- assert:
+    qbit_set:
+    - 95004
+- press_action:
+    action: cancel_dialog
+- advance_runtime:
+    seconds: 1
+- assert:
+    qbit_set:
+    - 95005
+- execute_event:
+    id: 231
+- advance_runtime:
+    seconds: 3
+- assert:
+    mechanism:
+      id: 22
+      state: open
+- note:
+    text: 'Antoni (dialogue 427): freed, his exit gives key 370 and the 4000 experience, and he is gone (NPC427.scr).'
+- execute_event:
+    id: 203
+- advance_runtime:
+    seconds: 3
+- set_pose:
+    map: drangheimprison.blv
+    x: -1638
+    y: -270
+    z: -81
+    yaw: -1.5708
+    pitch: -0.5837
+- advance_runtime:
+    seconds: 0.2
+- press_interact: {}
+- assert:
+    actor_dialog_started:
+      kind: mm9_rude
+      source_id: 427
+- assert:
+    dialog:
+      active: true
+      source_id: 427
+- select_topic:
+    action_id: 1
+    match_label: Are you the cooks brother?
+- select_topic:
+    action_id: 3
+    match_label: We're not guards.  We're here to rescue you.
+- select_topic:
+    action_id: 0
+    match_label: No torture.  You're free to go.
+- assert:
+    qbit_set:
+    - 90369
+- press_action:
+    action: cancel_dialog
+- advance_runtime:
+    seconds: 1
+- assert:
+    qbit_set:
+    - 90370
+- note:
+    text: 'Ivsar (dialogue 90): Bjarni''s men; his exit raises the alarm and he goes ahead (NPC90.scr).'
+- execute_event:
+    id: 205
+- advance_runtime:
+    seconds: 5
+- set_pose:
+    map: drangheimprison.blv
+    x: -1147
+    y: -342
+    z: -81
+    yaw: -1.5708
+    pitch: -0.5837
+- advance_runtime:
+    seconds: 0.2
+- press_interact: {}
+- assert:
+    actor_dialog_started:
+      kind: mm9_rude
+      source_id: 90
+- assert:
+    dialog:
+      active: true
+      source_id: 90
+- select_topic:
+    action_id: 5
+    match_label: We've come to take you back to Sturmford.
+- select_topic:
+    action_id: 4
+    match_label: We've been sent by Bjarni Thorvaldssen to rescue you.
+- assert:
+    qbit_set:
+    - 90017
+- press_action:
+    action: cancel_dialog
+- advance_runtime:
+    seconds: 1
+- assert:
+    qbit_set:
+    - 95006
+- assert:
+    actor_visible:
+      actor_index: 47
+      hostile_to_party: true

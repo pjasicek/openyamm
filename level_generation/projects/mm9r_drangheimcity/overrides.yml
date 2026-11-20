@@ -1,0 +1,144 @@
+# Explicit conversion choices for MM9's Drangheim City (convert.py reads this through the shared converter
+# ../mm9r_common/dungeon and the city module ../mm9r_common/city; a rerun keeps them). Rules and keys:
+# ../mm9r_common/DUNGEON_PLAYBOOK.md and ../mm9r_common/CITY_PLAYBOOK.md.
+map:
+  stem: drangheimcity
+  display_name: Drangheim City
+  fog: lithtech                      # MM9's own fog model and night fog (CITY_PLAYBOOK "Daylight and fog")
+  bright_scale_lights: true          # BLV light colour x MM9's BrightScale, as its lightmaps (CITY_PLAYBOOK "Street lights")
+  # start index = the old map's: 0 Klusos House's window, 1 Klusos House's door, 2 Town Portal, 3 the east gate (from
+  # the Drangheim wilderness)
+  starts: [KlusoWindowExit, KlusoDoorExit, TownPortal, StartPoint0]
+  monster_classes: [CommonerHuman2MaleA, CommonerHumanMaleA, CommonerDwarfFemaleA, CommonerElfFemaleA,
+                    CommonerDwarfMaleA, CommonerElfFemaleB, ShopkeeperHuman2MaleB, ShopkeeperHuman2MaleA,
+                    CommonerHuman2MaleB, ShopkeeperElfFemaleA, ShopkeeperElfFemaleB, SigmundtheStressed, Bandit]
+  painted_minimap: true               # MM9's painted city map (catalog entry kept); no outline pass (CITY_PLAYBOOK.md)
+  offset: [0, 0, 0]                   # the old map's frame (x 5 898..22 610, y -13 107..5 898, z -778..3 727): fits int16
+  ambient: 20
+  model_lighting: false
+  split_minor_rooms: true
+  split_retry: true
+  thin_walls: true
+plan_levels:
+  street: [100, 800]
+  upper: [800, 1460]
+models:
+  SkyBox0: skip                       # DemoSkyWorldModel: MM9's sky box, drawn by the sky, not geometry
+  TOD_Sky0: skip                      # TOD_Sky: the night starfield shell
+  Tavernzone: skip                    # PortalZone (greenscreen): MM9's renderer zone that opens Tavernportal
+  HouseLadder: skip                   # Ladder volumes (Invisible): scene ladders below
+  TowerLadder: skip
+  TowerLadder1: skip
+  Terrain0: static                    # the hills, cliffs and lawns the city stands on (Lindisfarne's route: built)
+  # --- static world objects
+  WorldObject5: static                # ladder rungs (r_wood_ladder) beside the ladder volumes
+  WorldObject0: static
+  WorldObject2: static
+  Invisible rails: static             # the temple gallery's rails (invisible shells, r_wood_ladder rails)
+  Transparent Bars 2: static          # the walkway rails along the north wall (r_wood_ladder in invisible shells)
+  WorldObject6: static                # the training yard's spiked fence
+  Carpet10: static                    # the temple's carpet runner
+  WorldObject14: static               # hanging chains (ChainLink in invisible boxes): signs' and lamps' chains
+  WorldObject15: static
+  WorldObject16: static
+  WorldObject17: static
+  WorldObject18: static
+  WorldObject19: static
+  WorldObject20: static
+  WorldObject21: static
+  WorldObject53: static
+  WorldObject60: static
+  WorldObject58: static
+  WorldObject57: static
+  WorldObject62: static
+  Transparent Window Grate10: static  # window frames with a pane (thjorwindow4/2, thjorbars, window_03): glass below
+  Transparent Window Grate4: static
+  Transparent Window Grate2: static
+  Transparent Window Grate8: static
+  Transparent Window Grate13: static  # Klusos House's window (ExitTrigger1 behind it)
+  Tavernwindow: static                # the tavern's barred window
+  InvisibleBrush0: static             # Firethrough blockers along the north and west walls (keep the party in)
+  InvisibleBrush1: static
+  InvisibleBrush2: static
+  InvisibleBrush3: static
+  InvisibleBrush4: static             # the temple gallery's Firethrough rails
+  InvisibleBrush5: static
+  InvisibleBrush6: static             # an invisible wall under the temple's west side (thronheimgrass, flag invisible)
+  InvisibleBrush8: static
+  InvisibleBrush12: static
+  # --- doors: pairs share a group; a PortalName or a pair makes a doorway. Locked 1 with no key, script or trigger
+  # that unlocks them: a click says the door is locked (convert.py LOCKED_GROUPS)
+  SmithShackDoor: {group: SmithShackDoor, motion: rotate}             # locked; the smith's shack (no portal)
+  SmalHouse1Door: {group: SmalHouse1Door, motion: rotate, doorway: true}   # a single leaf: its rectangle is the portal
+  SmalHouse2Door: {group: SmalHouse2Door, motion: rotate, doorway: true}
+  TempleDoorRight: {group: TempleDoorLeft, motion: rotate, doorway: true, portal: TempleDoorPortal}
+  TempleDoorLeft: {group: TempleDoorLeft, motion: rotate, doorway: true, portal: TempleDoorPortal}
+  TempleUpperDoor: {group: TempleUpperDoor, motion: rotate, doorway: true, portal: TempleUpperDoorPortal}
+  # the town hall's doors: MM9's portal (top 416 LT) shifted to the leaves' hall side lies in the arched recess over the
+  # door (open to 502 LT): the hall leaked round it into the street. A rect portal at the narrow street side instead
+  # (rect_portals), the pair clicked by its own event (citylua.TOGGLE_GROUPS)
+  TownHallDoorRight: {group: TownHallDoorLeft, motion: rotate}
+  TownHallDoorLeft: {group: TownHallDoorLeft, motion: rotate}
+  TowerDoor: {group: TowerDoor, motion: rotate, doorway: true, portal: TowerDoorPortal}
+  MayorHouseDoor3: {group: MayorHouseDoor3, motion: rotate, doorway: true, portal: MayorDoorPortal}
+  MayorHouseDoor2: {group: MayorHouseDoor2, motion: rotate, doorway: true}
+  MayorHouseDoor: {group: MayorHouseDoor, motion: rotate, doorway: true}
+  RotatingDoor3: {group: RotatingDoor3, motion: rotate, doorway: true, portal: BDWarehouse}
+  RotatingDoor0: {group: RotatingDoor0, motion: rotate, doorway: true, portal: WarehousePortal}
+  RotatingDoor2: {group: RotatingDoor0, motion: rotate, doorway: true, portal: WarehousePortal}
+  StairDoor: {group: StairDoor, motion: rotate}                       # locked
+  StoreDoor1: {group: StoreDoor1, motion: rotate, doorway: true, portal: StoreDoorPortal}
+  StoreDoor2: {group: StoreDoor1, motion: rotate, doorway: true, portal: StoreDoorPortal}
+  SettlersDoor: {group: SettlersDoor, motion: rotate, doorway: true, portal: OldPortal2}
+  SettlersDoor0: {group: SettlersDoor0, motion: rotate, doorway: true, portal: OldPortal1}
+  InnDoorRight: {group: InnDoorLeft, motion: rotate, doorway: true, portal: InnDoorPortal}
+  InnDoorLeft: {group: InnDoorLeft, motion: rotate, doorway: true, portal: InnDoorPortal}
+  RotatingDoor1: {group: RotatingDoor1, motion: rotate}               # locked
+  NewHouseDoor1: {group: NewHouseDoor0, motion: rotate, doorway: true, portal: NewHousePortal}
+  NewHouseDoor0: {group: NewHouseDoor0, motion: rotate, doorway: true, portal: NewHousePortal}
+  TrainingDoor1: {group: TrainingDoor0, motion: rotate, doorway: true, portal: TrainingPortal}
+  TrainingDoor0: {group: TrainingDoor0, motion: rotate, doorway: true, portal: TrainingPortal}
+  AlchemistDoorRight: {group: AlchemistDoorLeft, motion: rotate}      # locked: Klusos House's door (ExitTrigger2 in front)
+  AlchemistDoorLeft: {group: AlchemistDoorLeft, motion: rotate}       # locked
+  HouseDoor1: {group: HouseDoor1, motion: rotate}                     # locked
+  HouseDoor2: {group: HouseDoor1, motion: rotate}                     # locked
+  BlacksmithDoor0: {group: BlacksmithDoor0, motion: rotate, doorway: true, portal: BlacksmithPortal}
+  BlacksmithDoor1: {group: BlacksmithDoor0, motion: rotate, doorway: true, portal: BlacksmithPortal}
+# MM9's Ladder volumes along an axis (the others are convert.py DIAGONAL_LADDERS). facing_lt: (x, z) toward the rungs;
+# surface_lt: where a climber stops along it; top_exit_lt: where the party stands after climbing off. TowerLadder climbs
+# the tower's shaft (rungs on its south wall, z -2532) to the platform at 1168.
+ladders:
+  TowerLadder: {facing_lt: [0, -1], surface_lt: -2520, top_exit_lt: [7781, 1170, -2470]}
+# Doorways behind locked doors that never open (Klusos House's door, a locked house): no portal
+skip_user_portals: [AlchemistDoorPortal, HouseDoorPortal, TownHallDoorPortal]
+# The town hall's doorway at its narrowest (x 7512..7656, y up to 390 at z -1752..-1736; the leaves' street face -1746)
+rect_portals:
+  - {name: TownHallDoorPortal, min_lt: [7500, 166, -1750], max_lt: [7668, 402, -1746]}
+textures:
+  'textures\skybox\skymarker.dtx': {alias: sky04, width: 512, height: 512}   # the sky shell: IndoorSky faces (scene override)
+  'textures\leveltextures\misc\soundonly.dtx': {alias: INVIZVJN7N, width: 32, height: 32}   # sound-only brushes: invisible collision
+# MM9's window panes (stained glass, leaded windows, bars): translucent faces, portals between rooms
+glass:
+  drangheimcityglass.dtx: {opacity: 1.0, tint: [1.0, 1.0, 1.0], two_sided: true}
+  thjorwindow2.dtx: {opacity: 1.0, tint: [1.0, 1.0, 1.0], two_sided: true}
+  thjorwindow4.dtx: {opacity: 1.0, tint: [1.0, 1.0, 1.0], two_sided: true}
+  thjorbars.dtx: {opacity: 1.0, tint: [1.0, 1.0, 1.0], two_sided: true}
+  throncitywindow.dtx: {opacity: 1.0, tint: [1.0, 1.0, 1.0], two_sided: true}
+  window_03.dtx: {opacity: 1.0, tint: [1.0, 1.0, 1.0], two_sided: true}
+# The open air (../mm9r_common/city/structure.py): the roof line under the low town's eaves (its streets 144-250, roofs
+# 468-596); the hill district west and south (ground 340-900) rises through it into the air over the roofs. The low town
+# is one plaza round its buildings: no corridor for an automatic cut. street_box_lt (Thjorgard's) does not fit: the low
+# town runs up the hill with no wall or gate between them, and with the box its streets joined the air over the roofs
+# round the box's edge (v04: 3 street rooms, 417 blind top rectangles).
+city:
+  weather: rain                    # the outdoor weather over the open sky (the user's decision 2026-11-06; city.hooks.apply_weather)
+  merged_top_portals: true          # few large convex top portals over walls and roofs (CITY_PLAYBOOK "The open air" step 3)
+  daylight: true                     # sun and sky light on the open sectors (CITY_PLAYBOOK "Daylight and fog")
+  street_top_lt: 400
+  half_steps: true                   # CITY_PLAYBOOK "Raised floors" (settled 2026-10-31)
+  sky_preset: cloudy                 # the outdoor maps' high-definition sky (was sky_texture plansky3, the old import's)
+  outdoor_view: true                 # view distance and haze as an outdoor map's, not MM9's grey fog (INDOOR_OPEN_SKY.md)
+  view_distance_scale: 0.5           # 8 096 units at the default view distance setting (16 192), the user's choice
+# Klusos House's window exit volume floats 10 LT over the north wall's walkway (y 920): reach it down to the planks
+exits:
+  ExitTrigger1: {bottom_lt: 918}

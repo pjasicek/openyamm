@@ -65,6 +65,12 @@ bool parseStateKind(const std::string &value, AwardStateKind &result)
         return true;
     }
 
+    if (value == "party_arcomage_win")
+    {
+        result = AwardStateKind::PartyArcomageWin;
+        return true;
+    }
+
     return false;
 }
 } // namespace

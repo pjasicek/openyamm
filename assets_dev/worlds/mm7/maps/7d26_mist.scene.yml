@@ -1,0 +1,16 @@
+format_version: 1
+kind: "indoor_scene_overlay"
+source:
+  geometry_file: "7d26.blv"
+# The Pit: a thin grey mist on the city floor (floors at 64) (devdocs/MIST.md).
+mist:
+  layers:
+    - color_rgb: [130, 140, 150]
+      base_height: 94
+      depth: 40
+      falloff_height: 100
+      visibility: 1950
+      max_opacity: 0.55
+      noise: 0.5
+      noise_size: 420
+      drift: [8, 4]

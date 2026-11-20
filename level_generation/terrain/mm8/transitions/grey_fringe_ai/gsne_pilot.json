@@ -1,0 +1,17 @@
+{
+  "status": "pilot_only_requires_visual_review",
+  "inputs": {
+    "references/gsne.png": "90acbcb9b04113ee97575968660ce76af71cb7aa244daa75d141af900c91dd92",
+    "references/gdtyl.png": "7142752f0c13ea5354749dfdce571bca451f6a340fcc1d2c0600fae1c0f3b33a",
+    "references/gstyl.png": "7ac6d65ecca17031b99e8094c5605637d959f023b958f7558feb18e1d7821e58",
+    "masters/v1/materials/grey_dirt.png": "13d139559af548c0f3a626e295a69ef409c060353ca63bc105ecb7e7bc3693d0",
+    "masters/v1/materials/grey_stone.png": "a7ec65bed50e2969765ddb8f8532801096c9b867e776445bb09bf6ecb397c224",
+    "transitions/grey_fringe_ai/raw/gsne.png": "0e972cfdca8b6cb219ca53877c142a0dec0c7db3b47fd3e210b010112b5379c8",
+    "transitions/grey_fringe_ai/inputs/gsne_native.png": "d47857e5fb4f3191ce92a4e01f516703f5efbc4f8eabaf57a2ed038c57401836",
+    "transitions/grey_fringe_ai/prompts/gsne.txt": "6e18c583ec2267ca2c42782f465740097a84d280b07c8700de10cb828ba2d06a",
+    "runtime_x2/worlds/mm8/terrain_x2/gsne.png": "24efd3f62ae87f59412ce0c3217ed32efbae6cba54aa7847354ff3356ab9bd07"
+  },
+  "runtime_sha256": "f162528cd085a7f35fdc131f0cae8caac463e859ade6dcc7dc9e73c7fae4bc79",
+  "protected_border_pixels": 16,
+  "flow_max": 1.146138072013855
+}

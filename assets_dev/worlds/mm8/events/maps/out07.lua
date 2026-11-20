@@ -69,6 +69,9 @@ SetMapMetadata({
     [503] = { kind = "travel", source = "opcode", targetMap = "elema.odm", targetName = "Plane of Air" },
     [504] = { kind = "enter_dungeon", source = "opcode", targetMap = "d43.blv", targetName = "Ancient Troll Home" },
     },
+    learnedEffect = {
+    [102] = { autonote = 226, effect = "Personality +2 (Permanent)" },
+    },
     textureNames = {},
     spriteNames = {"0"},
     castSpellIds = {},

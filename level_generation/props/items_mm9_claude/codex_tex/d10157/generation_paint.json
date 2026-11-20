@@ -1,0 +1,26 @@
+{
+  "prompt": "Use case: precise-object-edit. Edit paint_mask_guide.png as the exact spatial template. Output ONE transparent PNG at 1536x2048 or nearest 3:4 size. Maintain its three-column FOUR-row layout and every silhouette, size, position, opening and outline exactly. Images design_reference.png and icon_x8.png are only material/detail and colour references, respectively; magenta in icon is background. Do not replace the simple guide geometry with the reference ring geometry. Paint only the existing grey pixels. Rows 1-2: unlit base colour for Puzzle Ring, source-faithful upright hoop plane. Aged silver/steel colour from original icon, subtle metal surface detail from HD reference, facets/engravings/scrollwork/inner swirls scaled to each view where applicable, with NO lighting, cast shadows, ambient occlusion, hot highlights or reflections. Views FRONT, BACK, LEFT on row 1; RIGHT, TOP, empty on row 2. Rows 3-4: repeat exact five guide silhouettes as MATERIAL MASK, every metal part solid flat pure red #FF0000, any gemstone/crystal/glass/pearl/enamel/liquid seen through glass pure black #000000. This item is metal: all five mask silhouettes entirely pure red. No shading, texture, outlines or interior antialiased colour blends on masks. Keep every gap/hole and all outside pixels fully transparent. Third column rows 2 and 4 empty transparent. No ground, text, halos, sparkles, aura. Do not redraw, enlarge, move or redesign any guide object. Preserve guide's exact boundaries.\nCORRECTIVE GENERATION: Previous attempt failed with large cloudy grey and red pixels outside the shapes and filled holes. Strictly preserve the alpha mask of paint_mask_guide.png: absolutely all background and hoop holes must be alpha zero, without haze or scattered pixels. Ten isolated shapes only. Lower five shapes pure red without any outline. Upper five neutral aged silver base colour without bright edge lighting. Exact guide contours are mandatory.",
+  "inputs": [
+    {
+      "path": "level_generation/props/items_mm9_claude/codex_tex/d10157/paint_mask_guide.png",
+      "sha256": "5f2b0759e767ca8db05ad5826a728229ccecb212e0adf443731d02fcef4d3cde"
+    },
+    {
+      "path": "level_generation/props/items_mm9_claude/codex_tex/d10157/design_reference.png",
+      "sha256": "e3daae46a7c2ce63309f2b5675577e0cdf2f1625132f61c0579986ff7bfb0eaa"
+    },
+    {
+      "path": "level_generation/props/items_mm9_claude/codex_tex/d10157/icon_x8.png",
+      "sha256": "d2accdd224db1b6ac69abb68256cdc7a85fe5daea729da823ddbdfbdad8def38"
+    }
+  ],
+  "original_output_path": "/home/pjasicek/.codex/generated_images/01a1ad3e-7a53-7a62-af93-ac040d2834e3/exec-04552543-4e2c-48a7-bc21-b8a01b965480.png",
+  "output": "level_generation/props/items_mm9_claude/codex_tex/d10157/paint_mask_raw_v1.png",
+  "size": [
+    1086,
+    1448
+  ],
+  "tool": "built-in image_gen",
+  "corrective_regenerations": 1,
+  "validation": "Fails strict mask requirement: stray red pixels outside lower silhouettes and within openings remain. Raw tool output preserved without edits."
+}

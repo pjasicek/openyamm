@@ -1,0 +1,88 @@
+# Isle of Ashes as a BLV open to the sky: the pilot of "MM9 outdoor maps as BLVs" (README.md). Read by the shared
+# converter (../mm9r_common/dungeon) through convert.py; keys: ../mm9r_common/DUNGEON_PLAYBOOK.md, CITY_PLAYBOOK.md.
+map:
+  stem: isleofashes
+  display_name: Isle of Ashes
+  # start index = the old map's party_start_points: 0 from Verhoffin Ruins, 1 from Sturmford (the boat), 2 StartPoint1
+  starts: [VRStartPoint, StartPoint0, StartPoint1]
+  # MM9's monsters (LichKing, the boss, is left out). The sea monster and the spores swim (2026-11-04: placed by
+  # outdoor_blv.py swimmer_foot; the three far-sea spores moved into the near box)
+  # The sea is swum (MM9's BlueWater0 as water_volumes; outdoor_blv.py swimmable_sea): seabed kept, surface non-solid
+  swim: true
+  # The user's play-test (2026-11-09): the grown packs and their Skeletoids and Bone Thrashers rising again stopped
+  # the party's progress. 20% fewer grown copies (density.py scale_adds); every raisable actor keeps its rise
+  density_scale: 0.8
+  monster_classes: [DragonFlyMite, JellySpore, BoneThrasher, Skeletoid, DragonFly, FireDragonFly, SkullThrowerSmall,
+                    SeaMonsterMale]
+  painted_minimap: true               # MM9's painted map (catalog entry kept), no outline pass
+  generate_bsp: false                 # the game uses no BSP; a region's one sector makes it quadratic (outdoor_blv.py)
+  # The ODM pilot's frame (../mm9r_isleofashes/work/transform.json: x + 7 168, y + 512, the sea at 0), so both maps
+  # share positions; the land then spans x -24 944..20 930, y -29 634..24 760 native, inside int16
+  offset: [-7168, -512, -164]
+  voxel: 32                           # 32 LT: the whole island's air in 20 M voxels (16 LT would be 160 M)
+  ambient: 20
+  model_lighting: false
+  split_minor_rooms: true
+  split_retry: true
+  thin_walls: true
+  fog: false                          # WorldProperties EnableFog 0, FarZ 100 000: MM9 draws the isle unfogged
+skip_lights: []
+plan_levels:
+  shore: [-80, 200]
+  hills: [200, 1400]
+model_patterns:
+  InvisibleBrush: static              # MM9's invisible walls (firethrough): collision
+  WorldObject: static                 # the bunker's lectern box, ladders, crates
+models:
+  Terrain0: static                    # the big south island
+  Terrain1: static
+  Terrain3: {group: Terrain3, motion: dat, click: false}   # the islet the cinema sinks: MM9's Door (1000 LT down at
+                                      # 50), no click (PushOpen 0): regionlua.py opens it at OnSink
+  Terrain4: static
+  Terrain5: static
+  Terrain6: static
+  Earthquake: static                  # the shaking islet's terrain (EarthQuake): static in the pilot
+  FortWall: static                    # the bunker's breakable wall (the cinema): static in the pilot
+  FortWall0: static                   # the islet's fort wall (the cinema): static in the pilot
+  Ocean: static                       # the sea surface (y -64): a solid wading surface, drawn by the liquid shader
+  BlueWater0: skip                    # the sea's water volume: the Ocean brush is its top
+  SkyBox0: skip                       # DemoSkyWorldModel: MM9's sky box, drawn by our sky
+  TOD_Sky0: skip                      # the night starfield shell
+  BunkerDoor1: {group: BunkerDoor, motion: rotate}
+  BunkerDoor2: {group: BunkerDoor, motion: rotate}
+  RotatingDoor8: {group: RotatingDoor8, motion: rotate}     # Yrsa's hut door
+textures:
+  'textures\skybox\skymarker.dtx': {alias: sky04, width: 512, height: 512}   # sky shell faces: IndoorSky
+  'textures\leveltextures\misc\soundonly.dtx': {alias: INVIZVJN7N, width: 32, height: 32}   # invisible collision
+city:
+  daylight: true                      # sun and sky light on the open air (no StaticSunLight: the sky's sun)
+  sky_preset: cloudy                  # the outdoor maps' high-definition sky, as the cities
+  # the outdoor view (an outdoor map's view distance and haze) is outdoor_blv.py's default
+  half_steps: true
+outdoor:
+  # The ODM pilot's decorations (same frame) plus the three treasure chests (mm9_chest1, loot containers 0-2)
+  props: props.json
+  # MM9's spruces (Tree06 15x, Tree05 10x; first drawn as the MM8 pines tree30/tree29, lime and flat): an ash island's
+  # trees, MM8's gnarled windswept gorge pine (tree16) and its dead tree (tree28). MM7's tree33 read snowy, tree60 lime.
+  decoration_swaps: {tree30: tree16, tree29: tree28}
+# Ground faces drawn from blended library materials (mm9r_common/terrain_blend.py, devdocs/INDOOR_OPEN_SKY.md
+# "Terrain"): MM9 texture file stem -> material of worlds/mm9/terrain_materials/world.yml. ashfloorsea (the seabed)
+# stays textured under the water.
+terrain:
+  materials:
+    ashcliff: cliff_layered   # the tan layered cliffs
+    nwrock: cliff_layered
+    ashrock: grass            # dry olive scrub (despite its name)
+    maingrass: grass
+    ashrock2: grass_patches   # scrub with pale rock patches
+    ashdirt3: dirt            # earth with low green plants
+  slope: cliff_layered
+  # No grass tufts, flowers or bushes: the meadow does not fit the volcanic isle (the user, 2026-11-09)
+  grass: none
+
+# Ground treasure hints (dungeon/treasure.py, devdocs/mm9_rework/GROUND_TREASURE_PLAN.md section 4): DAT
+# objects whose surroundings count as secrets or bosses (bonus markers), rewarding set dressing, and places
+# to keep clear.
+treasure:
+  bonus_near: [LichSummoner]
+  themed_near: [Cookpot0]

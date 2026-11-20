@@ -1,0 +1,29 @@
+{
+  "prompt": "# Jarl's Helm: paint + material mask view atlas\n\nScope: image generation only. Write ONLY into `level_generation/props/items_mm9_claude/codex_tex/d10125/`. Do not edit any other file, do not run builds.\n\nInputs (attached):\n- `paint_mask_guide.png`: 1536x2048 transparent sheet, three columns by FOUR rows of 512x512 cells. Rows 1-2 and rows\n  3-4 hold the same five grey orthographic renders of the exact 3D model: FRONT, BACK, LEFT / RIGHT, TOP, empty.\n\nTask: use your built-in image generation tool to paint the guide sheet. Output ONE PNG with a transparent background\nand a 3:4 canvas (1536x2048 or the tool's nearest 3:4 size), the same layout, each object in exactly the same position,\nsize and outline as its grey guide. Paint the grey objects only; never redraw, enlarge, move or redesign them.\n\n- Rows 1-2 (PAINT): the unlit base colour of the item on each view: A rounded polished silver steel dome with vertical riveted ridges and a riveted brow band, two round spectacle eye guards joined by a short pointed nasal; the lower face stays open where Image 1 leaves it open..\n- Rows 3-4 (MATERIAL MASK): the same five silhouettes filled with FLAT pure colours only, no shading, no texture, no\n  outlines, no antialiased colour blends inside:\n  - pure red #FF0000: every metal part (steel, iron, chain mail, gold, silver, bronze, copper, brass)\n  - pure green #00FF00: every leather part (straps, padding, hide, suede) and fur\n  - pure blue #0000FF: every cloth part (tabards, quilting, linings, cords, ribbons) and hair\n  - pure black #000000: every gemstone, crystal, glass, pearl, enamel or liquid seen through glass\n  - pure yellow #FFFF00: every matte non-metal solid (wood, bone, horn, stone, parchment, paper, wax)\n  Every pixel of each silhouette gets exactly one of these colours; nothing outside the silhouettes.\n- `design_reference.png`: the approved HD painting or master of the item, the material and detail reference.\n- `icon_x8.png`: the original game icon (magenta is background), the colour reference.\n\nObject: A rounded polished silver steel dome with vertical riveted ridges and a riveted brow band, two round spectacle eye guards joined by a short pointed nasal; the lower face stays open where Image 1 leaves it open.\n\n- Facets, engravings, scrollwork and inner swirls follow the design reference, scaled to each view.\n- Keep every gap and opening exactly as in the guide and fully transparent.\n- Unlit base colour only: no lighting, no cast shadows, no ambient occlusion, no hot highlights or reflections, no\n  glow halo, sparkles or aura outside the silhouette, no ground, no outlines, no text.\n- The empty cells (column 3 of row 2 and row 4) stay empty and transparent.\n\nSave the generated image (copy the file the tool produced) to `level_generation/props/items_mm9_claude/codex_tex/d10125/paint_mask_raw_v1.png` and write\n`generation_paint.json` (prompt, inputs with sha256, original output path, output, size). At most one corrective\nregeneration, only if the silhouettes or layout are clearly wrong.\n\nUse case: precise-object-edit. Edit target is paint_mask_guide.png (first reference); design_reference.png (second) is material/detail reference only; icon_x8.png (third) is colour reference only. Output 1536x2048 RGBA. Preserve the exact guide projection, outline, openings, cell placement and scale. All visible parts of this helmet are metal, so the lower five silhouettes must be uniformly pure #FF0000, including rivets and rear-facing surfaces, with transparent holes and no internal lines or shading. Upper five views use subtle silver steel base-colour texture with no baked lighting, bright reflections or shadows. Do not use the perspective or silhouette of the design reference to replace the guide geometry.\nCORRECTION: The previous output had large stray red clouds outside the lower silhouettes. These are forbidden. Use the original guide alpha silhouettes exactly: zero paint or red pixels outside each object. Lower half must contain exactly five clean solid flat red cutouts, with empty transparent background and transparent openings. Upper half must be unlit neutral steel base colour, without white reflection patches. Maintain the grey guide's partially occluded eye openings, not invented full eye holes. Generate a clean production atlas.",
+  "original_output_path": "/home/pjasicek/.codex/generated_images/01a1ad29-1459-7110-8152-0cee7d59afb4/exec-73a3bd86-553d-4dfb-85cd-8206ccf58168.png",
+  "output": "/home/pjasicek/github/OpenYAMM/level_generation/props/items_mm9_claude/codex_tex/d10125/paint_mask_raw_v1.png",
+  "tool": "built-in image_gen",
+  "corrective_regenerations": 1,
+  "validation_notes": [
+    "Stray red pixels remain outside the material-mask silhouettes after the permitted corrective regeneration. Output retained unmodified as requested."
+  ],
+  "inputs": [
+    {
+      "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/items_mm9_claude/codex_tex/d10125/paint_mask_guide.png",
+      "sha256": "d5ced56c16f94ad8a1b6eb404cb066285f31ce657863c882c0d0b42c348741ca"
+    },
+    {
+      "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/items_mm9_claude/codex_tex/d10125/design_reference.png",
+      "sha256": "24feec22c91d19d4d0412cffddceaab5e99ba1c935e441232dd1e4cce85c00d5"
+    },
+    {
+      "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/items_mm9_claude/codex_tex/d10125/icon_x8.png",
+      "sha256": "f48ef8c210f40289aafaa6074a6c27edf81fa7f8b3cd195cded82a3210240cbb"
+    }
+  ],
+  "size": [
+    1086,
+    1448
+  ],
+  "mode": "RGBA"
+}

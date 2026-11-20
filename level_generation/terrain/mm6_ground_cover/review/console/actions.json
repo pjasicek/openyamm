@@ -1,0 +1,137 @@
+[
+  {
+    "screenshot": "initial_off"
+  },
+  {
+    "key": "grave"
+  },
+  {
+    "wait": 0.4
+  },
+  {
+    "click": [
+      250,
+      499
+    ]
+  },
+  {
+    "text": "config get terrain_decorations"
+  },
+  {
+    "key": "Return"
+  },
+  {
+    "wait": 1
+  },
+  {
+    "screenshot": "status_off_console"
+  },
+  {
+    "key": "grave"
+  },
+  {
+    "wait": 2
+  },
+  {
+    "screenshot": "status_off"
+  },
+  {
+    "key": "grave"
+  },
+  {
+    "wait": 0.4
+  },
+  {
+    "click": [
+      250,
+      499
+    ]
+  },
+  {
+    "text": "config toggle terrain_decorations"
+  },
+  {
+    "key": "Return"
+  },
+  {
+    "wait": 1
+  },
+  {
+    "screenshot": "enabled_console"
+  },
+  {
+    "key": "grave"
+  },
+  {
+    "wait": 2
+  },
+  {
+    "screenshot": "enabled"
+  },
+  {
+    "key": "grave"
+  },
+  {
+    "wait": 0.4
+  },
+  {
+    "click": [
+      250,
+      499
+    ]
+  },
+  {
+    "text": "config set terrain_decorations false"
+  },
+  {
+    "key": "Return"
+  },
+  {
+    "wait": 1
+  },
+  {
+    "screenshot": "disabled_console"
+  },
+  {
+    "key": "grave"
+  },
+  {
+    "wait": 2
+  },
+  {
+    "screenshot": "disabled"
+  },
+  {
+    "key": "grave"
+  },
+  {
+    "wait": 0.4
+  },
+  {
+    "click": [
+      250,
+      499
+    ]
+  },
+  {
+    "text": "config set terrain_decorations true"
+  },
+  {
+    "key": "Return"
+  },
+  {
+    "wait": 1
+  },
+  {
+    "screenshot": "reenabled_console"
+  },
+  {
+    "key": "grave"
+  },
+  {
+    "wait": 2
+  },
+  {
+    "screenshot": "reenabled"
+  }
+]

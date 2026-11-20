@@ -1,0 +1,14 @@
+# chess_capture_2 (ChessCamera.scr :ViewChessPiece; cinematics_1000t.py): stepping onto square 2, which ChessPiece2
+# attacks, hurts the party (the poll, as before) and plays the square's 2 s camera on the piece, once.
+id: mm9r.1000terrors.cinematic_chess_capture_play
+world: mm9
+mode: faithful
+steps:
+- new_game_flow: {start_map: 1000terrors.blv}
+- console: {line: cinematic list, expect_contains: chess_capture_2}
+- set_pose: {map: 1000terrors.blv, x: 8312, y: -15122, z: -2740, yaw: 3.1416, pitch: 0.0}
+- advance_runtime: {seconds: 0.6}
+- console: {line: cinematic list, expect_contains: playing chess_capture_2}
+- assert: {state_dump_named_map_var: {name: ChessHits, value: 1}}
+- advance_runtime: {seconds: 2.5}
+- assert: {state_dump_named_map_var: {name: Cinema.chess_capture_2.started, value: 1}}

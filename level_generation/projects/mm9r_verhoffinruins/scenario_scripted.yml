@@ -1,0 +1,578 @@
+# Written by make_scenarios.py from the built map; rerun it after convert.py.
+id: mm9r.verhoffinruins_scripted
+title: Verhoffin Ruins (native BLV) - pentagram, water trap, saw, paddle, pit, busts, quest objects
+world: mm9
+mode: faithful
+tags:
+- mm9
+- mm9_rework
+- draft
+steps:
+- load_map:
+    map: verhoffinruins.blv
+- note:
+    text: The torture chamber's door is locked until the pentagram is solved (PentagramPuzzle.scr).
+- set_pose:
+    map: verhoffinruins.blv
+    x: -4560
+    y: -3728
+    z: -327
+    yaw: 3.1416
+    pitch: -0.0421
+- advance_runtime:
+    seconds: 0.2
+- press_interact: {}
+- advance_runtime:
+    seconds: 2
+- assert:
+    mechanism:
+      id: 65
+      state: closed
+- assert:
+    mechanism:
+      id: 66
+      state: closed
+- note:
+    text: A point before the centre does nothing; the centre lights the five flames (PentaCenter).
+- set_pose:
+    map: verhoffinruins.blv
+    x: -3937
+    y: -3891
+    z: -327
+    yaw: 0.0
+    pitch: 0
+- advance_runtime:
+    seconds: 0.5
+- set_pose:
+    map: verhoffinruins.blv
+    x: -4137
+    y: -3891
+    z: -327
+    yaw: 0.0
+    pitch: 0
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    state_dump_named_map_var:
+      name: PuzzleProgress
+      value: 0
+- set_pose:
+    map: verhoffinruins.blv
+    x: -4182
+    y: -3728
+    z: -327
+    yaw: 0.0
+    pitch: 0
+- advance_runtime:
+    seconds: 0.5
+- set_pose:
+    map: verhoffinruins.blv
+    x: -4382
+    y: -3728
+    z: -327
+    yaw: 0.0
+    pitch: 0
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    state_dump_named_map_var:
+      name: PuzzleStarted
+      value: 1
+- note:
+    text: 'Points 1, 2 then 4 (wrong): the puzzle resets (OnFailure).'
+- set_pose:
+    map: verhoffinruins.blv
+    x: -3937
+    y: -3891
+    z: -327
+    yaw: 0.0
+    pitch: 0
+- advance_runtime:
+    seconds: 0.5
+- set_pose:
+    map: verhoffinruins.blv
+    x: -4137
+    y: -3891
+    z: -327
+    yaw: 0.0
+    pitch: 0
+- advance_runtime:
+    seconds: 0.5
+- set_pose:
+    map: verhoffinruins.blv
+    x: -4224
+    y: -3482
+    z: -327
+    yaw: 0.0
+    pitch: 0
+- advance_runtime:
+    seconds: 0.5
+- set_pose:
+    map: verhoffinruins.blv
+    x: -4424
+    y: -3482
+    z: -327
+    yaw: 0.0
+    pitch: 0
+- advance_runtime:
+    seconds: 0.5
+- set_pose:
+    map: verhoffinruins.blv
+    x: -3937
+    y: -3564
+    z: -327
+    yaw: 0.0
+    pitch: 0
+- advance_runtime:
+    seconds: 0.5
+- set_pose:
+    map: verhoffinruins.blv
+    x: -4137
+    y: -3564
+    z: -327
+    yaw: 0.0
+    pitch: 0
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    state_dump_named_map_var:
+      name: PuzzleProgress
+      value: 0
+- assert:
+    state_dump_named_map_var:
+      name: PuzzleFailures
+      value: 1
+- note:
+    text: '1, 2, 3, 4, 5 (red, yellow, blue, green, orange): solved, TortureChamberDoor1 opens.'
+- set_pose:
+    map: verhoffinruins.blv
+    x: -3937
+    y: -3891
+    z: -327
+    yaw: 0.0
+    pitch: 0
+- advance_runtime:
+    seconds: 0.5
+- set_pose:
+    map: verhoffinruins.blv
+    x: -4137
+    y: -3891
+    z: -327
+    yaw: 0.0
+    pitch: 0
+- advance_runtime:
+    seconds: 0.5
+- set_pose:
+    map: verhoffinruins.blv
+    x: -4224
+    y: -3482
+    z: -327
+    yaw: 0.0
+    pitch: 0
+- advance_runtime:
+    seconds: 0.5
+- set_pose:
+    map: verhoffinruins.blv
+    x: -4424
+    y: -3482
+    z: -327
+    yaw: 0.0
+    pitch: 0
+- advance_runtime:
+    seconds: 0.5
+- set_pose:
+    map: verhoffinruins.blv
+    x: -4224
+    y: -3973
+    z: -327
+    yaw: 0.0
+    pitch: 0
+- advance_runtime:
+    seconds: 0.5
+- set_pose:
+    map: verhoffinruins.blv
+    x: -4424
+    y: -3973
+    z: -327
+    yaw: 0.0
+    pitch: 0
+- advance_runtime:
+    seconds: 0.5
+- set_pose:
+    map: verhoffinruins.blv
+    x: -3937
+    y: -3564
+    z: -327
+    yaw: 0.0
+    pitch: 0
+- advance_runtime:
+    seconds: 0.5
+- set_pose:
+    map: verhoffinruins.blv
+    x: -4137
+    y: -3564
+    z: -327
+    yaw: 0.0
+    pitch: 0
+- advance_runtime:
+    seconds: 0.5
+- set_pose:
+    map: verhoffinruins.blv
+    x: -4428
+    y: -3728
+    z: -327
+    yaw: 0.0
+    pitch: 0
+- advance_runtime:
+    seconds: 0.5
+- set_pose:
+    map: verhoffinruins.blv
+    x: -4628
+    y: -3728
+    z: -327
+    yaw: 0.0
+    pitch: 0
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    state_dump_named_map_var:
+      name: PuzzleSolved
+      value: 1
+- advance_runtime:
+    seconds: 3
+- assert:
+    mechanism:
+      id: 65
+      state: open
+- assert:
+    mechanism:
+      id: 66
+      state: closed
+- note:
+    text: 'A click swings the pair: TortureChamberDoor0 opens and turns the shooters on, which fire at a party in the chamber.'
+- set_pose:
+    map: verhoffinruins.blv
+    x: -4560
+    y: -3728
+    z: -327
+    yaw: 3.1416
+    pitch: -0.0421
+- advance_runtime:
+    seconds: 0.2
+- press_interact: {}
+- advance_runtime:
+    seconds: 3
+- assert:
+    mechanism:
+      id: 66
+      state: open
+- assert:
+    state_dump_named_map_var:
+      name: ShootersOn
+      value: 1
+- set_pose:
+    map: verhoffinruins.blv
+    x: -5280
+    y: -3724
+    z: -327
+    yaw: 0.0
+    pitch: 0
+- advance_runtime:
+    seconds: 6
+- assert:
+    state_dump_named_map_var:
+      name: Shot
+      value: 1
+- note:
+    text: 'A click on a nozzle floods the trap room: the door shuts, the water rises.'
+- set_pose:
+    map: verhoffinruins.blv
+    x: 368
+    y: -2007
+    z: -327
+    yaw: 1.5708
+    pitch: -0.6511
+- advance_runtime:
+    seconds: 0.2
+- press_interact: {}
+- advance_runtime:
+    seconds: 1
+- assert:
+    state_dump_named_map_var:
+      name: WaterState
+      value: 1
+- assert:
+    mechanism:
+      id: 45
+      state: closed
+- advance_runtime:
+    seconds: 18
+- assert:
+    mechanism:
+      id: 75
+      state: closed
+- note:
+    text: The drain button lowers the water and frees the door and the nozzles.
+- set_pose:
+    map: verhoffinruins.blv
+    x: 369
+    y: -1686
+    z: -327
+    yaw: -1.5708
+    pitch: -0.4101
+- advance_runtime:
+    seconds: 0.2
+- press_interact: {}
+- advance_runtime:
+    seconds: 1
+- assert:
+    state_dump_named_map_var:
+      name: WaterState
+      value: 0
+- advance_runtime:
+    seconds: 18
+- assert:
+    mechanism:
+      id: 75
+      state: open
+- note:
+    text: 'SawBladeTrigger1: blade and arm slide out across the corridor and back.'
+- set_pose:
+    map: verhoffinruins.blv
+    x: -4296
+    y: -2048
+    z: -327
+    yaw: 0.0
+    pitch: 0
+- advance_runtime:
+    seconds: 0.5
+- set_pose:
+    map: verhoffinruins.blv
+    x: -4546
+    y: -2048
+    z: -327
+    yaw: 0.0
+    pitch: 0
+- advance_runtime:
+    seconds: 1.0
+- assert:
+    state_dump_named_map_var:
+      name: SawRuns
+      value: 1
+- assert:
+    state_dump_named_map_var:
+      name: SawHit
+      value: 1
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    mechanism:
+      id: 63
+      state: open
+- advance_runtime:
+    seconds: 6
+- assert:
+    mechanism:
+      id: 63
+      state: closed
+- note:
+    text: 'PaddleTrigger: the paddle sweeps over its plate toward the pit and back.'
+- damage_actor:
+    actor_index: 6
+    amount: 100000
+    skip_dead: true
+- damage_actor:
+    actor_index: 7
+    amount: 100000
+    skip_dead: true
+- damage_actor:
+    actor_index: 8
+    amount: 100000
+    skip_dead: true
+- damage_actor:
+    actor_index: 22
+    amount: 100000
+    skip_dead: true
+- damage_actor:
+    actor_index: 28
+    amount: 100000
+    skip_dead: true
+- damage_actor:
+    actor_index: 29
+    amount: 100000
+    skip_dead: true
+- damage_actor:
+    actor_index: 33
+    amount: 100000
+    skip_dead: true
+- damage_actor:
+    actor_index: 34
+    amount: 100000
+    skip_dead: true
+- damage_actor:
+    actor_index: 38
+    amount: 100000
+    skip_dead: true
+- damage_actor:
+    actor_index: 40
+    amount: 100000
+    skip_dead: true
+- set_pose:
+    map: verhoffinruins.blv
+    x: -5516
+    y: -3728
+    z: -327
+    yaw: 0.0
+    pitch: 0
+- advance_runtime:
+    seconds: 0.5
+- set_pose:
+    map: verhoffinruins.blv
+    x: -5816
+    y: -3728
+    z: -368
+    yaw: 0.0
+    pitch: 0
+- advance_runtime:
+    seconds: 1.8
+- assert:
+    state_dump_named_map_var:
+      name: PaddleRuns
+      value: 1
+- assert:
+    mechanism:
+      id: 57
+      state: open
+- advance_runtime:
+    seconds: 8
+- assert:
+    mechanism:
+      id: 57
+      state: closed
+- note:
+    text: The electrified pit (ElectricDamager1) hurts a party wading in it.
+- set_pose:
+    map: verhoffinruins.blv
+    x: -6226
+    y: -3728
+    z: -410
+    yaw: 0.0
+    pitch: 0
+- advance_runtime:
+    seconds: 2.5
+- assert:
+    state_dump_named_map_var:
+      name: PitHit
+      value: 1
+- note:
+    text: BustTrigger0 breaks BreakOut1 (KingKong.scr ForceFall); the three monsters waiting on it in the pocket above fall
+      into the corridor.
+- lua_event:
+    source: 'for _, a in ipairs({19, 20, 17}) do local _, _, z = evt.GetMapActorPosition(a) if z < 81 then error("bust actor
+      " .. a .. " is not above 81: " .. z) end end'
+- set_pose:
+    map: verhoffinruins.blv
+    x: -1916
+    y: -5406
+    z: -327
+    yaw: 0.0
+    pitch: 0
+- advance_runtime:
+    seconds: 0.5
+- set_pose:
+    map: verhoffinruins.blv
+    x: -2366
+    y: -5406
+    z: -327
+    yaw: 0.0
+    pitch: 0
+- advance_runtime:
+    seconds: 1.0
+- assert:
+    state_dump_named_map_var:
+      name: BustedBustTrigger0
+      value: 1
+- lua_event:
+    source: if not evt.IsDestructibleDestroyed(597) then error("BreakOut1 stands") end
+- advance_runtime:
+    seconds: 3.0
+- lua_event:
+    source: 'for _, a in ipairs({19, 20, 17}) do local _, _, z = evt.GetMapActorPosition(a) if z > -163 then error("bust actor
+      " .. a .. " is not below -163: " .. z) end end'
+- assert:
+    actor_visible:
+      actor_index: 19
+      hidden: false
+      hostile_to_party: true
+- note:
+    text: 'The fake book (fakebook.scr): keys 281 and 290, item 242; the book is gone.'
+- set_pose:
+    map: verhoffinruins.blv
+    x: -361
+    y: 189
+    z: -327
+    yaw: -1.5708
+    pitch: -1.0925
+- advance_runtime:
+    seconds: 0.2
+- press_interact: {}
+- assert:
+    qbit_set:
+    - 90281
+    - 90290
+- assert:
+    inventory_any_member:
+    - item_id: 10242
+      count: 1
+- note:
+    text: The headsman's block without the capstone quest does nothing; with key 98 and the Capstone of Order (item 396) it
+      places the capstone (key 99) and the writ appears; the writ gives item 392 and key 100.
+- set_pose:
+    map: verhoffinruins.blv
+    x: -6984
+    y: -3628
+    z: -204
+    yaw: -1.5708
+    pitch: -0.7338
+- advance_runtime:
+    seconds: 0.2
+- press_interact: {}
+- assert:
+    qbit_clear:
+    - 90099
+- console:
+    line: qbit set 90098
+- console:
+    line: item give 10396
+- set_pose:
+    map: verhoffinruins.blv
+    x: -6984
+    y: -3628
+    z: -204
+    yaw: -1.5708
+    pitch: -0.7338
+- advance_runtime:
+    seconds: 0.2
+- press_interact: {}
+- assert:
+    qbit_set:
+    - 90099
+- set_pose:
+    map: verhoffinruins.blv
+    x: -7429
+    y: -3648
+    z: -204
+    yaw: -1.5708
+    pitch: -0.7342
+- advance_runtime:
+    seconds: 0.2
+- press_interact: {}
+- advance_runtime:
+    seconds: 0.3
+- assert:
+    qbit_set:
+    - 90100
+- assert:
+    inventory_any_member:
+    - item_id: 10392
+      count: 1

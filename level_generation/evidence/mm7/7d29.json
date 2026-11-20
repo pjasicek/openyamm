@@ -1,0 +1,1971 @@
+{
+  "kind": "indoor",
+  "world": "mm7",
+  "map": "7d29.blv",
+  "sources": [
+    {
+      "path": "assets_dev/worlds/mm7/maps/7d29.blv",
+      "sha256": "7b4dc564a83f542a4a73f216b84765778599d1f25b000072658eba84f4335bec"
+    },
+    {
+      "path": "assets_dev/worlds/mm7/maps/7d29.scene.yml",
+      "sha256": "2c4c0adcfd12bd7b23eaca4d17e6fab192df96f96055cf512fb326b3c1829974"
+    },
+    {
+      "path": "assets_dev/worlds/mm7/events/maps/7d29.lua",
+      "sha256": "2e46552f3d54cb1ad6f8b854790fb798a4c00630f5bd4480b5d8bc79f5c5daa3"
+    },
+    {
+      "path": "assets_dev/engine/data_tables/map_stats.txt",
+      "sha256": "15c97e7fa3a23f1857be2646cf732e89c5000a06b3b3ee252f9a36a4250e5ed6"
+    },
+    {
+      "path": "reference/mmext-scripts/Decompiled_Scripts/mm7orig/txt/D29.txt",
+      "sha256": "05cff720e9290dc2161048a8e5069e45bf3a93079b883bb87ba6fb057a10df28"
+    },
+    {
+      "path": "assets_dev/worlds/mm7/events/maps/7d29_mmmerge.lua",
+      "sha256": "e05227e88b77968805e560ffaec68b5b076a4ac553390f8177d5c71067a988d6"
+    }
+  ],
+  "map_stats": {
+    "id": 103,
+    "name": "Castle Harmondale",
+    "line": 106,
+    "perception": 1,
+    "refill_days": -1,
+    "disarm": 1,
+    "trap_d20": 1,
+    "treasure": 0,
+    "encounter_chance": 0,
+    "music": "34",
+    "encounters": [
+      {
+        "name": "Rat",
+        "difficulty": "3",
+        "count": "2-5",
+        "weight": 30
+      },
+      {
+        "name": "Goblin",
+        "difficulty": "2",
+        "count": "2-5",
+        "weight": 40
+      },
+      {
+        "name": "Bat",
+        "difficulty": "1",
+        "count": "2-5",
+        "weight": 30
+      }
+    ]
+  },
+  "source_version": 8,
+  "scene_counts": {
+    "face_attribute_overrides": 0,
+    "decoration_flags": 0,
+    "actors": 63,
+    "sprite_objects": 1,
+    "chests": 20,
+    "doors": 27
+  },
+  "entities": 261,
+  "spawn_records": 67,
+  "decorations": {
+    "Party Start": 1,
+    "fire01": 1,
+    "7dec18": 4,
+    "dec19": 1,
+    "7dec21": 1,
+    "7dec32": 32,
+    "torch01": 198,
+    "7dec48": 8,
+    "7dec08": 1,
+    "7rock05": 2,
+    "7rock03": 4,
+    "7dec01": 6,
+    "7dec10": 1,
+    "7dec11": 1
+  },
+  "unique_actors": [
+    {
+      "actor_index": 0,
+      "name": "",
+      "monster_id": 0,
+      "unique_name_index": 0,
+      "carried_item_id": 1444,
+      "hp": 400,
+      "group": 57,
+      "position": {
+        "x": -5120,
+        "y": -128,
+        "z": 0
+      }
+    }
+  ],
+  "declared_event_count": 66,
+  "vertices": 6446,
+  "faces": 4847,
+  "sectors": [
+    {
+      "floors": 0,
+      "walls": 0,
+      "ceilings": 0,
+      "portals": 0,
+      "faces": 0,
+      "ambient": 22
+    },
+    {
+      "floors": 114,
+      "walls": 76,
+      "ceilings": 14,
+      "portals": 2,
+      "faces": 206,
+      "ambient": 22
+    },
+    {
+      "floors": 1,
+      "walls": 2,
+      "ceilings": 4,
+      "portals": 2,
+      "faces": 9,
+      "ambient": 22
+    },
+    {
+      "floors": 3,
+      "walls": 12,
+      "ceilings": 5,
+      "portals": 2,
+      "faces": 22,
+      "ambient": 22
+    },
+    {
+      "floors": 5,
+      "walls": 60,
+      "ceilings": 37,
+      "portals": 1,
+      "faces": 103,
+      "ambient": 22
+    },
+    {
+      "floors": 3,
+      "walls": 26,
+      "ceilings": 2,
+      "portals": 1,
+      "faces": 32,
+      "ambient": 22
+    },
+    {
+      "floors": 10,
+      "walls": 98,
+      "ceilings": 18,
+      "portals": 12,
+      "faces": 138,
+      "ambient": 22
+    },
+    {
+      "floors": 3,
+      "walls": 26,
+      "ceilings": 2,
+      "portals": 1,
+      "faces": 32,
+      "ambient": 22
+    },
+    {
+      "floors": 10,
+      "walls": 22,
+      "ceilings": 4,
+      "portals": 2,
+      "faces": 38,
+      "ambient": 22
+    },
+    {
+      "floors": 3,
+      "walls": 26,
+      "ceilings": 2,
+      "portals": 1,
+      "faces": 32,
+      "ambient": 22
+    },
+    {
+      "floors": 3,
+      "walls": 26,
+      "ceilings": 2,
+      "portals": 1,
+      "faces": 32,
+      "ambient": 22
+    },
+    {
+      "floors": 3,
+      "walls": 26,
+      "ceilings": 2,
+      "portals": 1,
+      "faces": 32,
+      "ambient": 22
+    },
+    {
+      "floors": 3,
+      "walls": 26,
+      "ceilings": 2,
+      "portals": 1,
+      "faces": 32,
+      "ambient": 22
+    },
+    {
+      "floors": 3,
+      "walls": 26,
+      "ceilings": 2,
+      "portals": 1,
+      "faces": 32,
+      "ambient": 22
+    },
+    {
+      "floors": 21,
+      "walls": 24,
+      "ceilings": 47,
+      "portals": 2,
+      "faces": 94,
+      "ambient": 22
+    },
+    {
+      "floors": 21,
+      "walls": 20,
+      "ceilings": 41,
+      "portals": 2,
+      "faces": 84,
+      "ambient": 22
+    },
+    {
+      "floors": 21,
+      "walls": 2,
+      "ceilings": 37,
+      "portals": 1,
+      "faces": 61,
+      "ambient": 22
+    },
+    {
+      "floors": 3,
+      "walls": 26,
+      "ceilings": 2,
+      "portals": 1,
+      "faces": 32,
+      "ambient": 22
+    },
+    {
+      "floors": 84,
+      "walls": 162,
+      "ceilings": 46,
+      "portals": 2,
+      "faces": 294,
+      "ambient": 22
+    },
+    {
+      "floors": 9,
+      "walls": 24,
+      "ceilings": 5,
+      "portals": 5,
+      "faces": 43,
+      "ambient": 22
+    },
+    {
+      "floors": 15,
+      "walls": 45,
+      "ceilings": 32,
+      "portals": 6,
+      "faces": 98,
+      "ambient": 22
+    },
+    {
+      "floors": 11,
+      "walls": 39,
+      "ceilings": 19,
+      "portals": 1,
+      "faces": 70,
+      "ambient": 22
+    },
+    {
+      "floors": 24,
+      "walls": 44,
+      "ceilings": 12,
+      "portals": 1,
+      "faces": 81,
+      "ambient": 22
+    },
+    {
+      "floors": 10,
+      "walls": 13,
+      "ceilings": 9,
+      "portals": 3,
+      "faces": 35,
+      "ambient": 22
+    },
+    {
+      "floors": 7,
+      "walls": 44,
+      "ceilings": 13,
+      "portals": 2,
+      "faces": 66,
+      "ambient": 22
+    },
+    {
+      "floors": 2,
+      "walls": 8,
+      "ceilings": 2,
+      "portals": 2,
+      "faces": 14,
+      "ambient": 22
+    },
+    {
+      "floors": 22,
+      "walls": 53,
+      "ceilings": 22,
+      "portals": 2,
+      "faces": 99,
+      "ambient": 22
+    },
+    {
+      "floors": 10,
+      "walls": 13,
+      "ceilings": 9,
+      "portals": 3,
+      "faces": 35,
+      "ambient": 22
+    },
+    {
+      "floors": 2,
+      "walls": 8,
+      "ceilings": 2,
+      "portals": 2,
+      "faces": 14,
+      "ambient": 22
+    },
+    {
+      "floors": 22,
+      "walls": 54,
+      "ceilings": 22,
+      "portals": 2,
+      "faces": 100,
+      "ambient": 22
+    },
+    {
+      "floors": 11,
+      "walls": 21,
+      "ceilings": 21,
+      "portals": 5,
+      "faces": 58,
+      "ambient": 22
+    },
+    {
+      "floors": 9,
+      "walls": 22,
+      "ceilings": 5,
+      "portals": 4,
+      "faces": 40,
+      "ambient": 22
+    },
+    {
+      "floors": 118,
+      "walls": 88,
+      "ceilings": 14,
+      "portals": 2,
+      "faces": 222,
+      "ambient": 22
+    },
+    {
+      "floors": 80,
+      "walls": 178,
+      "ceilings": 29,
+      "portals": 4,
+      "faces": 291,
+      "ambient": 22
+    },
+    {
+      "floors": 7,
+      "walls": 10,
+      "ceilings": 15,
+      "portals": 2,
+      "faces": 34,
+      "ambient": 22
+    },
+    {
+      "floors": 5,
+      "walls": 31,
+      "ceilings": 9,
+      "portals": 1,
+      "faces": 46,
+      "ambient": 22
+    },
+    {
+      "floors": 36,
+      "walls": 62,
+      "ceilings": 7,
+      "portals": 1,
+      "faces": 106,
+      "ambient": 22
+    },
+    {
+      "floors": 20,
+      "walls": 81,
+      "ceilings": 17,
+      "portals": 2,
+      "faces": 120,
+      "ambient": 22
+    },
+    {
+      "floors": 118,
+      "walls": 88,
+      "ceilings": 14,
+      "portals": 2,
+      "faces": 222,
+      "ambient": 22
+    },
+    {
+      "floors": 7,
+      "walls": 10,
+      "ceilings": 15,
+      "portals": 2,
+      "faces": 34,
+      "ambient": 22
+    },
+    {
+      "floors": 44,
+      "walls": 67,
+      "ceilings": 7,
+      "portals": 3,
+      "faces": 121,
+      "ambient": 22
+    },
+    {
+      "floors": 14,
+      "walls": 15,
+      "ceilings": 17,
+      "portals": 2,
+      "faces": 48,
+      "ambient": 22
+    },
+    {
+      "floors": 1,
+      "walls": 2,
+      "ceilings": 5,
+      "portals": 2,
+      "faces": 10,
+      "ambient": 22
+    },
+    {
+      "floors": 14,
+      "walls": 59,
+      "ceilings": 120,
+      "portals": 11,
+      "faces": 204,
+      "ambient": 22
+    },
+    {
+      "floors": 1,
+      "walls": 4,
+      "ceilings": 5,
+      "portals": 2,
+      "faces": 12,
+      "ambient": 22
+    },
+    {
+      "floors": 7,
+      "walls": 12,
+      "ceilings": 6,
+      "portals": 2,
+      "faces": 27,
+      "ambient": 22
+    },
+    {
+      "floors": 8,
+      "walls": 77,
+      "ceilings": 40,
+      "portals": 1,
+      "faces": 126,
+      "ambient": 22
+    },
+    {
+      "floors": 3,
+      "walls": 22,
+      "ceilings": 7,
+      "portals": 1,
+      "faces": 33,
+      "ambient": 22
+    },
+    {
+      "floors": 27,
+      "walls": 66,
+      "ceilings": 7,
+      "portals": 2,
+      "faces": 102,
+      "ambient": 22
+    },
+    {
+      "floors": 51,
+      "walls": 69,
+      "ceilings": 20,
+      "portals": 1,
+      "faces": 141,
+      "ambient": 22
+    },
+    {
+      "floors": 3,
+      "walls": 22,
+      "ceilings": 7,
+      "portals": 1,
+      "faces": 33,
+      "ambient": 22
+    },
+    {
+      "floors": 2,
+      "walls": 8,
+      "ceilings": 2,
+      "portals": 1,
+      "faces": 13,
+      "ambient": 22
+    },
+    {
+      "floors": 2,
+      "walls": 11,
+      "ceilings": 6,
+      "portals": 2,
+      "faces": 21,
+      "ambient": 22
+    },
+    {
+      "floors": 1,
+      "walls": 4,
+      "ceilings": 1,
+      "portals": 1,
+      "faces": 7,
+      "ambient": 22
+    },
+    {
+      "floors": 3,
+      "walls": 12,
+      "ceilings": 5,
+      "portals": 2,
+      "faces": 22,
+      "ambient": 22
+    },
+    {
+      "floors": 11,
+      "walls": 39,
+      "ceilings": 19,
+      "portals": 1,
+      "faces": 70,
+      "ambient": 22
+    },
+    {
+      "floors": 11,
+      "walls": 39,
+      "ceilings": 19,
+      "portals": 1,
+      "faces": 70,
+      "ambient": 22
+    },
+    {
+      "floors": 11,
+      "walls": 39,
+      "ceilings": 19,
+      "portals": 1,
+      "faces": 70,
+      "ambient": 22
+    },
+    {
+      "floors": 3,
+      "walls": 12,
+      "ceilings": 5,
+      "portals": 2,
+      "faces": 22,
+      "ambient": 22
+    },
+    {
+      "floors": 51,
+      "walls": 69,
+      "ceilings": 20,
+      "portals": 1,
+      "faces": 141,
+      "ambient": 22
+    },
+    {
+      "floors": 90,
+      "walls": 73,
+      "ceilings": 22,
+      "portals": 2,
+      "faces": 187,
+      "ambient": 22
+    },
+    {
+      "floors": 2,
+      "walls": 4,
+      "ceilings": 2,
+      "portals": 2,
+      "faces": 10,
+      "ambient": 22
+    },
+    {
+      "floors": 3,
+      "walls": 12,
+      "ceilings": 5,
+      "portals": 2,
+      "faces": 22,
+      "ambient": 22
+    },
+    {
+      "floors": 13,
+      "walls": 15,
+      "ceilings": 17,
+      "portals": 2,
+      "faces": 47,
+      "ambient": 22
+    },
+    {
+      "floors": 90,
+      "walls": 73,
+      "ceilings": 22,
+      "portals": 2,
+      "faces": 187,
+      "ambient": 22
+    },
+    {
+      "floors": 2,
+      "walls": 4,
+      "ceilings": 2,
+      "portals": 2,
+      "faces": 10,
+      "ambient": 22
+    },
+    {
+      "floors": 3,
+      "walls": 12,
+      "ceilings": 5,
+      "portals": 2,
+      "faces": 22,
+      "ambient": 22
+    },
+    {
+      "floors": 0,
+      "walls": 2,
+      "ceilings": 0,
+      "portals": 0,
+      "faces": 2,
+      "ambient": 22
+    },
+    {
+      "floors": 0,
+      "walls": 2,
+      "ceilings": 0,
+      "portals": 0,
+      "faces": 2,
+      "ambient": 22
+    },
+    {
+      "floors": 0,
+      "walls": 2,
+      "ceilings": 0,
+      "portals": 0,
+      "faces": 2,
+      "ambient": 22
+    },
+    {
+      "floors": 0,
+      "walls": 1,
+      "ceilings": 0,
+      "portals": 0,
+      "faces": 1,
+      "ambient": 22
+    },
+    {
+      "floors": 0,
+      "walls": 1,
+      "ceilings": 0,
+      "portals": 0,
+      "faces": 1,
+      "ambient": 22
+    }
+  ],
+  "occupied_sectors": 71,
+  "portal_faces": 72,
+  "outlines": 3823,
+  "bsp_nodes": 2208,
+  "lights": 19,
+  "light_radius_range": [
+    0,
+    0
+  ],
+  "facet_types": {
+    "3": 853,
+    "1": 2543,
+    "6": 742,
+    "5": 232,
+    "4": 477
+  },
+  "bounds": [
+    [
+      -12800,
+      -2944,
+      -2208
+    ],
+    [
+      3968,
+      6208,
+      2304
+    ]
+  ],
+  "doors": [
+    {
+      "door_index": 0,
+      "legacy_attributes": 3,
+      "door_id": 36,
+      "time_since_triggered_ms": 2484,
+      "move_length": 496,
+      "open_speed": 200,
+      "close_speed": 200,
+      "state": 2
+    },
+    {
+      "door_index": 1,
+      "legacy_attributes": 3,
+      "door_id": 26,
+      "time_since_triggered_ms": 1921,
+      "move_length": 480,
+      "open_speed": 250,
+      "close_speed": 250,
+      "state": 2
+    },
+    {
+      "door_index": 2,
+      "legacy_attributes": 3,
+      "door_id": 23,
+      "time_since_triggered_ms": 1921,
+      "move_length": 480,
+      "open_speed": 250,
+      "close_speed": 250,
+      "state": 2
+    },
+    {
+      "door_index": 3,
+      "legacy_attributes": 3,
+      "door_id": 3,
+      "time_since_triggered_ms": 960,
+      "move_length": 240,
+      "open_speed": 250,
+      "close_speed": 250,
+      "state": 2
+    },
+    {
+      "door_index": 4,
+      "legacy_attributes": 3,
+      "door_id": 32,
+      "time_since_triggered_ms": 1921,
+      "move_length": 480,
+      "open_speed": 250,
+      "close_speed": 250,
+      "state": 2
+    },
+    {
+      "door_index": 5,
+      "legacy_attributes": 3,
+      "door_id": 17,
+      "time_since_triggered_ms": 1921,
+      "move_length": 480,
+      "open_speed": 250,
+      "close_speed": 250,
+      "state": 2
+    },
+    {
+      "door_index": 6,
+      "legacy_attributes": 3,
+      "door_id": 4,
+      "time_since_triggered_ms": 960,
+      "move_length": 240,
+      "open_speed": 250,
+      "close_speed": 250,
+      "state": 2
+    },
+    {
+      "door_index": 7,
+      "legacy_attributes": 3,
+      "door_id": 34,
+      "time_since_triggered_ms": 898,
+      "move_length": 224,
+      "open_speed": 250,
+      "close_speed": 250,
+      "state": 2
+    },
+    {
+      "door_index": 8,
+      "legacy_attributes": 3,
+      "door_id": 2,
+      "time_since_triggered_ms": 960,
+      "move_length": 240,
+      "open_speed": 250,
+      "close_speed": 250,
+      "state": 2
+    },
+    {
+      "door_index": 9,
+      "legacy_attributes": 3,
+      "door_id": 9,
+      "time_since_triggered_ms": 960,
+      "move_length": 240,
+      "open_speed": 250,
+      "close_speed": 250,
+      "state": 2
+    },
+    {
+      "door_index": 10,
+      "legacy_attributes": 2,
+      "door_id": 10,
+      "time_since_triggered_ms": 2562,
+      "move_length": 256,
+      "open_speed": 100,
+      "close_speed": 100,
+      "state": 0
+    },
+    {
+      "door_index": 11,
+      "legacy_attributes": 3,
+      "door_id": 16,
+      "time_since_triggered_ms": 1921,
+      "move_length": 480,
+      "open_speed": 250,
+      "close_speed": 250,
+      "state": 2
+    },
+    {
+      "door_index": 12,
+      "legacy_attributes": 3,
+      "door_id": 8,
+      "time_since_triggered_ms": 960,
+      "move_length": 240,
+      "open_speed": 250,
+      "close_speed": 250,
+      "state": 2
+    },
+    {
+      "door_index": 13,
+      "legacy_attributes": 3,
+      "door_id": 25,
+      "time_since_triggered_ms": 1921,
+      "move_length": 480,
+      "open_speed": 250,
+      "close_speed": 250,
+      "state": 2
+    },
+    {
+      "door_index": 14,
+      "legacy_attributes": 3,
+      "door_id": 6,
+      "time_since_triggered_ms": 960,
+      "move_length": 240,
+      "open_speed": 250,
+      "close_speed": 250,
+      "state": 2
+    },
+    {
+      "door_index": 15,
+      "legacy_attributes": 3,
+      "door_id": 7,
+      "time_since_triggered_ms": 960,
+      "move_length": 240,
+      "open_speed": 250,
+      "close_speed": 250,
+      "state": 2
+    },
+    {
+      "door_index": 16,
+      "legacy_attributes": 3,
+      "door_id": 24,
+      "time_since_triggered_ms": 1921,
+      "move_length": 480,
+      "open_speed": 250,
+      "close_speed": 250,
+      "state": 2
+    },
+    {
+      "door_index": 17,
+      "legacy_attributes": 3,
+      "door_id": 27,
+      "time_since_triggered_ms": 1921,
+      "move_length": 480,
+      "open_speed": 250,
+      "close_speed": 250,
+      "state": 2
+    },
+    {
+      "door_index": 18,
+      "legacy_attributes": 3,
+      "door_id": 15,
+      "time_since_triggered_ms": 1921,
+      "move_length": 480,
+      "open_speed": 250,
+      "close_speed": 250,
+      "state": 2
+    },
+    {
+      "door_index": 19,
+      "legacy_attributes": 3,
+      "door_id": 35,
+      "time_since_triggered_ms": 2484,
+      "move_length": 496,
+      "open_speed": 200,
+      "close_speed": 200,
+      "state": 2
+    },
+    {
+      "door_index": 20,
+      "legacy_attributes": 3,
+      "door_id": 1,
+      "time_since_triggered_ms": 960,
+      "move_length": 240,
+      "open_speed": 250,
+      "close_speed": 250,
+      "state": 2
+    },
+    {
+      "door_index": 21,
+      "legacy_attributes": 3,
+      "door_id": 33,
+      "time_since_triggered_ms": 1171,
+      "move_length": 292,
+      "open_speed": 250,
+      "close_speed": 250,
+      "state": 2
+    },
+    {
+      "door_index": 22,
+      "legacy_attributes": 3,
+      "door_id": 28,
+      "time_since_triggered_ms": 1031,
+      "move_length": 256,
+      "open_speed": 250,
+      "close_speed": 250,
+      "state": 2
+    },
+    {
+      "door_index": 23,
+      "legacy_attributes": 3,
+      "door_id": 5,
+      "time_since_triggered_ms": 960,
+      "move_length": 240,
+      "open_speed": 250,
+      "close_speed": 250,
+      "state": 2
+    },
+    {
+      "door_index": 24,
+      "legacy_attributes": 3,
+      "door_id": 31,
+      "time_since_triggered_ms": 1171,
+      "move_length": 292,
+      "open_speed": 250,
+      "close_speed": 250,
+      "state": 2
+    },
+    {
+      "door_index": 25,
+      "legacy_attributes": 3,
+      "door_id": 30,
+      "time_since_triggered_ms": 1921,
+      "move_length": 480,
+      "open_speed": 250,
+      "close_speed": 250,
+      "state": 2
+    },
+    {
+      "door_index": 26,
+      "legacy_attributes": 3,
+      "door_id": 29,
+      "time_since_triggered_ms": 1921,
+      "move_length": 480,
+      "open_speed": 250,
+      "close_speed": 250,
+      "state": 2
+    }
+  ],
+  "face_flags": {
+    "secret": 9,
+    "invisible": 389,
+    "animated": 0,
+    "clickable": 177,
+    "pressure_plate": 0,
+    "trigger_monster": 0,
+    "trigger_object": 0
+  },
+  "textures": {
+    "CHB1": 1627,
+    "tfb09": 848,
+    "7tws1h": 706,
+    "Cwb1": 231,
+    "Cwb": 172,
+    "CHB1EL": 130,
+    "CHB1ER": 129,
+    "7t1beds": 108,
+    "7t1butts": 102,
+    "7t1books1": 88,
+    "7t1cabs": 86,
+    "7t1beds2": 60,
+    "TRIM1_16": 48,
+    "Cfb1": 46,
+    "7gt002b": 44,
+    "T5d1": 42,
+    "TFB09I-G": 25,
+    "TFB09B-G": 24,
+    "TFB09F-G": 24,
+    "T2BS": 19,
+    "pending": 17,
+    "tfb09R1i": 17,
+    "7gt002a": 16,
+    "7tfb1": 14,
+    "tfb09R1g": 14,
+    "7gt002g": 12,
+    "7gt002c": 12,
+    "TFB09C-G": 11,
+    "TFB09D-G": 11,
+    "TFB09E-G": 11,
+    "TFB09H-G": 10,
+    "TFB09A-G": 10,
+    "7wtrtyl": 8,
+    "tfb09R1h": 8,
+    "7t1books": 7,
+    "tap1": 7,
+    "Hwm2rf": 6,
+    "7gt002e": 6,
+    "tap7": 6,
+    "tap4": 5,
+    "Cfs1b": 4,
+    "Cfs1a": 4,
+    "Wordwal2": 4,
+    "7gt003b": 4,
+    "CHB1S": 4,
+    "7t1cab": 4,
+    "7t1beds1": 4,
+    "tfb09R1e": 4,
+    "tfb09R1f": 4,
+    "tfb09R1d": 4,
+    "tfb09R1c": 4,
+    "tfb09R1b": 4,
+    "tfb09R1a": 4,
+    "tap2": 3,
+    "7gt003a": 2,
+    "CHB1DR": 2,
+    "7t1books2": 2,
+    "CHB1DL": 2,
+    "tap3": 2,
+    "tap5": 2,
+    "sgTEMPL": 1,
+    "7sgalch": 1,
+    "7sgarm": 1,
+    "sgWEAPON": 1,
+    "tfb09R1j": 1,
+    "NECHUMB": 1,
+    "NECHUMA": 1,
+    "WIZH-A": 1,
+    "WIZH-B": 1,
+    "elfhumB": 1,
+    "elfhumA": 1,
+    "Ch1b1el": 1,
+    "Ch1b1re": 1
+  },
+  "bound_events": [
+    {
+      "id": 2,
+      "binding_count": 1,
+      "line": 164,
+      "calls": [
+        "CheckMonstersKilled",
+        "ForPlayer"
+      ],
+      "chests": [],
+      "houses": [],
+      "doors": [],
+      "destinations": [],
+      "position": [
+        1328.0,
+        -976.0,
+        -1256.0
+      ]
+    },
+    {
+      "id": 3,
+      "binding_count": 2,
+      "line": 172,
+      "calls": [
+        "SetDoorState"
+      ],
+      "chests": [],
+      "houses": [],
+      "doors": [
+        3
+      ],
+      "destinations": [],
+      "position": [
+        1312.0,
+        -1600.0,
+        -1256.0
+      ]
+    },
+    {
+      "id": 4,
+      "binding_count": 2,
+      "line": 176,
+      "calls": [
+        "SetDoorState"
+      ],
+      "chests": [],
+      "houses": [],
+      "doors": [
+        4
+      ],
+      "destinations": [],
+      "position": [
+        736.0,
+        -1952.0,
+        -1256.0
+      ]
+    },
+    {
+      "id": 5,
+      "binding_count": 2,
+      "line": 180,
+      "calls": [
+        "SetDoorState"
+      ],
+      "chests": [],
+      "houses": [],
+      "doors": [
+        5
+      ],
+      "destinations": [],
+      "position": [
+        112.0,
+        -1952.0,
+        -1256.0
+      ]
+    },
+    {
+      "id": 6,
+      "binding_count": 2,
+      "line": 184,
+      "calls": [
+        "SetDoorState"
+      ],
+      "chests": [],
+      "houses": [],
+      "doors": [
+        6
+      ],
+      "destinations": [],
+      "position": [
+        -480.0,
+        -1952.0,
+        -1256.0
+      ]
+    },
+    {
+      "id": 7,
+      "binding_count": 2,
+      "line": 188,
+      "calls": [
+        "SetDoorState"
+      ],
+      "chests": [],
+      "houses": [],
+      "doors": [
+        7
+      ],
+      "destinations": [],
+      "position": [
+        -1056.0,
+        -1600.0,
+        -1256.0
+      ]
+    },
+    {
+      "id": 8,
+      "binding_count": 2,
+      "line": 192,
+      "calls": [
+        "SetDoorState"
+      ],
+      "chests": [],
+      "houses": [],
+      "doors": [
+        8
+      ],
+      "destinations": [],
+      "position": [
+        -1056.0,
+        -976.0,
+        -1256.0
+      ]
+    },
+    {
+      "id": 9,
+      "binding_count": 2,
+      "line": 196,
+      "calls": [
+        "SetDoorState"
+      ],
+      "chests": [],
+      "houses": [],
+      "doors": [
+        9
+      ],
+      "destinations": [],
+      "position": [
+        -1056.0,
+        -384.0,
+        -1256.0
+      ]
+    },
+    {
+      "id": 10,
+      "binding_count": 4,
+      "line": 200,
+      "calls": [
+        "SetDoorState"
+      ],
+      "chests": [],
+      "houses": [],
+      "doors": [
+        10
+      ],
+      "destinations": [],
+      "position": [
+        1712.0,
+        -1488.0,
+        -1492.0
+      ]
+    },
+    {
+      "id": 15,
+      "binding_count": 2,
+      "line": 220,
+      "calls": [
+        "SetDoorState"
+      ],
+      "chests": [],
+      "houses": [],
+      "doors": [
+        15
+      ],
+      "destinations": [],
+      "position": [
+        -1312.0,
+        4864.0,
+        496.0
+      ]
+    },
+    {
+      "id": 16,
+      "binding_count": 2,
+      "line": 226,
+      "calls": [
+        "SetDoorState"
+      ],
+      "chests": [],
+      "houses": [],
+      "doors": [
+        16
+      ],
+      "destinations": [],
+      "position": [
+        -8928.0,
+        4864.0,
+        496.0
+      ]
+    },
+    {
+      "id": 17,
+      "binding_count": 2,
+      "line": 232,
+      "calls": [
+        "SetDoorState"
+      ],
+      "chests": [],
+      "houses": [],
+      "doors": [
+        17
+      ],
+      "destinations": [],
+      "position": [
+        -5120.0,
+        1632.0,
+        1648.0
+      ]
+    },
+    {
+      "id": 21,
+      "binding_count": 2,
+      "line": 250,
+      "calls": [
+        "SetDoorState"
+      ],
+      "chests": [],
+      "houses": [],
+      "doors": [
+        23
+      ],
+      "destinations": [],
+      "position": [
+        -4032.0,
+        2016.0,
+        1648.0
+      ]
+    },
+    {
+      "id": 22,
+      "binding_count": 2,
+      "line": 254,
+      "calls": [
+        "SetDoorState"
+      ],
+      "chests": [],
+      "houses": [],
+      "doors": [
+        24
+      ],
+      "destinations": [],
+      "position": [
+        -7552.0,
+        2592.0,
+        1648.0
+      ]
+    },
+    {
+      "id": 23,
+      "binding_count": 2,
+      "line": 258,
+      "calls": [
+        "SetDoorState"
+      ],
+      "chests": [],
+      "houses": [],
+      "doors": [
+        25
+      ],
+      "destinations": [],
+      "position": [
+        -8704.0,
+        2016.0,
+        1648.0
+      ]
+    },
+    {
+      "id": 24,
+      "binding_count": 2,
+      "line": 262,
+      "calls": [
+        "SetDoorState"
+      ],
+      "chests": [],
+      "houses": [],
+      "doors": [
+        26
+      ],
+      "destinations": [],
+      "position": [
+        -8704.0,
+        2592.0,
+        1648.0
+      ]
+    },
+    {
+      "id": 25,
+      "binding_count": 2,
+      "line": 266,
+      "calls": [
+        "SetDoorState"
+      ],
+      "chests": [],
+      "houses": [],
+      "doors": [
+        27
+      ],
+      "destinations": [],
+      "position": [
+        -2016.0,
+        2592.0,
+        1648.0
+      ]
+    },
+    {
+      "id": 26,
+      "binding_count": 2,
+      "line": 270,
+      "calls": [
+        "SetDoorState"
+      ],
+      "chests": [],
+      "houses": [],
+      "doors": [
+        28
+      ],
+      "destinations": [],
+      "position": [
+        1152.0,
+        496.0,
+        -1936.0
+      ]
+    },
+    {
+      "id": 27,
+      "binding_count": 2,
+      "line": 274,
+      "calls": [
+        "SetDoorState"
+      ],
+      "chests": [],
+      "houses": [],
+      "doors": [
+        29
+      ],
+      "destinations": [],
+      "position": [
+        896.0,
+        1792.0,
+        496.0
+      ]
+    },
+    {
+      "id": 28,
+      "binding_count": 2,
+      "line": 278,
+      "calls": [
+        "SetDoorState"
+      ],
+      "chests": [],
+      "houses": [],
+      "doors": [
+        30
+      ],
+      "destinations": [],
+      "position": [
+        896.0,
+        3840.0,
+        496.0
+      ]
+    },
+    {
+      "id": 29,
+      "binding_count": 2,
+      "line": 282,
+      "calls": [
+        "SetDoorState"
+      ],
+      "chests": [],
+      "houses": [],
+      "doors": [
+        31
+      ],
+      "destinations": [],
+      "position": [
+        448.0,
+        4544.0,
+        308.0
+      ]
+    },
+    {
+      "id": 30,
+      "binding_count": 2,
+      "line": 286,
+      "calls": [
+        "SetDoorState"
+      ],
+      "chests": [],
+      "houses": [],
+      "doors": [
+        32
+      ],
+      "destinations": [],
+      "position": [
+        -11136.0,
+        3840.0,
+        496.0
+      ]
+    },
+    {
+      "id": 31,
+      "binding_count": 2,
+      "line": 290,
+      "calls": [
+        "SetDoorState"
+      ],
+      "chests": [],
+      "houses": [],
+      "doors": [
+        33
+      ],
+      "destinations": [],
+      "position": [
+        -10688.0,
+        4544.0,
+        308.0
+      ]
+    },
+    {
+      "id": 32,
+      "binding_count": 1,
+      "line": 294,
+      "calls": [
+        "SetDoorState"
+      ],
+      "chests": [],
+      "houses": [],
+      "doors": [
+        34
+      ],
+      "destinations": [],
+      "position": [
+        -4080.0,
+        768.0,
+        1280.0
+      ]
+    },
+    {
+      "id": 33,
+      "binding_count": 1,
+      "line": 298,
+      "calls": [
+        "SetDoorState"
+      ],
+      "chests": [],
+      "houses": [],
+      "doors": [
+        1
+      ],
+      "destinations": [],
+      "position": [
+        1296.0,
+        -384.0,
+        -1256.0
+      ]
+    },
+    {
+      "id": 34,
+      "binding_count": 1,
+      "line": 302,
+      "calls": [
+        "SetDoorState"
+      ],
+      "chests": [],
+      "houses": [],
+      "doors": [
+        2
+      ],
+      "destinations": [],
+      "position": [
+        1296.0,
+        -976.0,
+        -1256.0
+      ]
+    },
+    {
+      "id": 50,
+      "binding_count": 1,
+      "calls": [],
+      "unresolved": true,
+      "position": [
+        1328.0,
+        -384.0,
+        -1256.0
+      ]
+    },
+    {
+      "id": 176,
+      "binding_count": 16,
+      "line": 306,
+      "calls": [
+        "OpenChest"
+      ],
+      "chests": [
+        1
+      ],
+      "houses": [],
+      "doors": [],
+      "destinations": [],
+      "position": [
+        -218.0,
+        2000.0,
+        61.0
+      ]
+    },
+    {
+      "id": 177,
+      "binding_count": 16,
+      "line": 310,
+      "calls": [
+        "OpenChest"
+      ],
+      "chests": [
+        2
+      ],
+      "houses": [],
+      "doors": [],
+      "destinations": [],
+      "position": [
+        -218.0,
+        1584.0,
+        61.0
+      ]
+    },
+    {
+      "id": 178,
+      "binding_count": 16,
+      "line": 314,
+      "calls": [
+        "OpenChest"
+      ],
+      "chests": [
+        3
+      ],
+      "houses": [],
+      "doors": [],
+      "destinations": [],
+      "position": [
+        -6256.0,
+        2458.0,
+        61.0
+      ]
+    },
+    {
+      "id": 179,
+      "binding_count": 16,
+      "line": 318,
+      "calls": [
+        "OpenChest"
+      ],
+      "chests": [
+        4
+      ],
+      "houses": [],
+      "doors": [],
+      "destinations": [],
+      "position": [
+        -3952.0,
+        2458.0,
+        61.0
+      ]
+    },
+    {
+      "id": 180,
+      "binding_count": 16,
+      "line": 322,
+      "calls": [
+        "OpenChest"
+      ],
+      "chests": [
+        5
+      ],
+      "houses": [],
+      "doors": [],
+      "destinations": [],
+      "position": [
+        -5456.0,
+        4474.0,
+        957.0
+      ]
+    },
+    {
+      "id": 181,
+      "binding_count": 16,
+      "line": 326,
+      "calls": [
+        "OpenChest"
+      ],
+      "chests": [
+        6
+      ],
+      "houses": [],
+      "doors": [],
+      "destinations": [],
+      "position": [
+        -5040.0,
+        4474.0,
+        957.0
+      ]
+    },
+    {
+      "id": 182,
+      "binding_count": 4,
+      "line": 330,
+      "calls": [
+        "OpenChest"
+      ],
+      "chests": [
+        7
+      ],
+      "houses": [],
+      "doors": [],
+      "destinations": [],
+      "position": [
+        -6072.0,
+        4192.0,
+        1056.0
+      ]
+    },
+    {
+      "id": 183,
+      "binding_count": 4,
+      "line": 334,
+      "calls": [
+        "OpenChest"
+      ],
+      "chests": [
+        8
+      ],
+      "houses": [],
+      "doors": [],
+      "destinations": [],
+      "position": [
+        -5824.0,
+        4472.0,
+        1056.0
+      ]
+    },
+    {
+      "id": 184,
+      "binding_count": 4,
+      "line": 338,
+      "calls": [
+        "OpenChest"
+      ],
+      "chests": [
+        9
+      ],
+      "houses": [],
+      "doors": [],
+      "destinations": [],
+      "position": [
+        -4640.0,
+        4472.0,
+        1056.0
+      ]
+    },
+    {
+      "id": 185,
+      "binding_count": 4,
+      "line": 342,
+      "calls": [
+        "OpenChest"
+      ],
+      "chests": [
+        10
+      ],
+      "houses": [],
+      "doors": [],
+      "destinations": [],
+      "position": [
+        -4168.0,
+        4160.0,
+        1056.0
+      ]
+    },
+    {
+      "id": 196,
+      "binding_count": 5,
+      "line": 386,
+      "calls": [
+        "GiveItem"
+      ],
+      "chests": [],
+      "houses": [],
+      "doors": [],
+      "destinations": [],
+      "position": [
+        -3968.0,
+        1420.8,
+        1257.813333333333
+      ]
+    },
+    {
+      "id": 197,
+      "binding_count": 1,
+      "line": 418,
+      "calls": [],
+      "chests": [],
+      "houses": [],
+      "doors": [],
+      "destinations": [],
+      "position": [
+        -4300.8,
+        768.0,
+        1254.4
+      ]
+    },
+    {
+      "id": 416,
+      "binding_count": 1,
+      "line": 501,
+      "calls": [
+        "EnterHouse"
+      ],
+      "chests": [],
+      "houses": [
+        322,
+        380,
+        381
+      ],
+      "doors": [],
+      "destinations": [],
+      "position": [
+        -3520.0,
+        1664.0,
+        128.0
+      ]
+    },
+    {
+      "id": 417,
+      "binding_count": 1,
+      "line": 516,
+      "calls": [
+        "EnterHouse"
+      ],
+      "chests": [],
+      "houses": [
+        125,
+        380,
+        381
+      ],
+      "doors": [],
+      "destinations": [],
+      "position": [
+        -3520.0,
+        704.0,
+        128.0
+      ]
+    },
+    {
+      "id": 418,
+      "binding_count": 1,
+      "line": 531,
+      "calls": [
+        "EnterHouse"
+      ],
+      "chests": [],
+      "houses": [
+        58,
+        380,
+        381
+      ],
+      "doors": [],
+      "destinations": [],
+      "position": [
+        -6720.0,
+        768.0,
+        128.0
+      ]
+    },
+    {
+      "id": 419,
+      "binding_count": 1,
+      "line": 546,
+      "calls": [
+        "EnterHouse"
+      ],
+      "chests": [],
+      "houses": [
+        18,
+        380,
+        381
+      ],
+      "doors": [],
+      "destinations": [],
+      "position": [
+        -6720.0,
+        1728.0,
+        128.0
+      ]
+    },
+    {
+      "id": 420,
+      "binding_count": 2,
+      "line": 561,
+      "calls": [
+        "EnterHouse",
+        "StatusText"
+      ],
+      "chests": [],
+      "houses": [
+        1169
+      ],
+      "doors": [],
+      "destinations": [],
+      "position": [
+        -5120.0,
+        3136.0,
+        224.0
+      ]
+    },
+    {
+      "id": 501,
+      "binding_count": 2,
+      "line": 639,
+      "calls": [
+        "MoveToMap"
+      ],
+      "chests": [],
+      "houses": [],
+      "doors": [],
+      "destinations": [
+        "7out02.odm"
+      ],
+      "position": [
+        -5120.0,
+        -2880.0,
+        128.0
+      ]
+    }
+  ],
+  "bound_chest_slots": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10
+  ],
+  "bound_door_ids": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    15,
+    16,
+    17,
+    23,
+    24,
+    25,
+    26,
+    27,
+    28,
+    29,
+    30,
+    31,
+    32,
+    33,
+    34
+  ],
+  "bound_call_counts": {
+    "CheckMonstersKilled": 1,
+    "ForPlayer": 1,
+    "SetDoorState": 25,
+    "OpenChest": 10,
+    "GiveItem": 1,
+    "EnterHouse": 5,
+    "StatusText": 1,
+    "MoveToMap": 1
+  }
+}

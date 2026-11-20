@@ -12,6 +12,7 @@
 
 #include <cstddef>
 #include <cstdint>
+#include <functional>
 #include <optional>
 #include <vector>
 
@@ -38,7 +39,6 @@ class Mm9SkillTrainerTable;
 class Mm9TransportRouteTable;
 struct HouseEntry;
 class GameplayScreenRuntime;
-class LocalizationCatalog;
 
 class GameplayDialogController
 {
@@ -74,7 +74,9 @@ public:
         const MergedTeacherAutonoteTable *pTeacherAutonoteTable = nullptr;
         bool dialogueHudActive = false;
         const SpellTable *pSpellTable = nullptr;
-        const LocalizationCatalog *pLocalizationCatalog = nullptr;
+        // Executed instead of the selected topic: an action offered by a popup over the dialogue (a trip chosen in
+        // a stable's schedule).
+        std::optional<EventDialogAction> actionOverride;
     };
 
     struct Result
@@ -116,6 +118,24 @@ public:
         Context &context,
         uint32_t rudeId,
         std::optional<uint32_t> sourceActorIndex = std::nullopt) const;
+    // What a click on an MM9 dialogue actor (MapDeltaActor::mm9RudeId > 0) knows, indoors and outdoors.
+    struct Mm9ActorDialogueActivation
+    {
+        uint32_t rudeId = 0;
+        uint32_t actorIndex = 0;
+        std::optional<uint32_t> sourceObjectIndex;
+        const std::optional<ScriptedEventProgram> *pLocalEventProgram = nullptr;
+    };
+
+    // Runs the actor's compiled SCR Use routine when the map has one (it opens the dialogue itself), else opens its
+    // RUDE dialogue, with the actor as the dialogue's source so OnRudeExit runs. presentPendingDialog(previous message
+    // count) presents what the SCR routine left pending, presentActiveDialog the opened RUDE dialogue. Sets
+    // lastActivationResult; returns whether the actor was activated.
+    bool activateMm9ActorDialogue(
+        Context &context,
+        const Mm9ActorDialogueActivation &activation,
+        const std::function<void(size_t)> &presentPendingDialog,
+        const std::function<void()> &presentActiveDialog) const;
     Result openNpcNews(
         Context &context,
         uint32_t npcId,
@@ -127,6 +147,8 @@ public:
     CloseDialogRequestResult handleDialogueCloseRequest(Context &context) const;
     bool refreshHouseBankInputDialog(Context &context, bool showCursor) const;
     Result returnToHouseBankMainDialog(Context &context) const;
+    // A message in the open dialog of the house (an Arcomage match's result in its tavern).
+    Result showHouseServiceMessage(Context &context, uint32_t houseId, const std::string &message) const;
     Result confirmHouseBankInput(Context &context) const;
     bool rejectClosedHouseInteraction(Context &context, const HouseEntry &houseEntry) const;
 };

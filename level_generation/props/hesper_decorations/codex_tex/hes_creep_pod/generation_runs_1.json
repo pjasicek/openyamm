@@ -1,0 +1,204 @@
+{
+  "brief": "CODEX_BRIEF_1.md",
+  "tool": "built-in image_gen.imagegen",
+  "status": "generated_with_failed_acceptance_checks",
+  "requested": {
+    "size": [
+      1024,
+      1024
+    ],
+    "transparent_background": true,
+    "unresized_returns": true,
+    "max_corrective_regenerations_per_view": 1
+  },
+  "postprocessing": "None. Selected PNGs copied byte-for-byte from built-in tool returns; no resizing, alpha replacement, cropping or recolouring.",
+  "runs": [
+    {
+      "view": "front",
+      "attempt": 1,
+      "prompt": "Use case: sketch-to-render.\nCreate ONE 1024 x 1024 transparent PNG texture-source painting named paint_front.png, unresized.\nINPUT ROLES: Image 1 guide_front.png is the EDIT TARGET and absolute pixel-geometry authority. Image 2 design_reference.png is ONLY the approved material, colour and design reference. Image 3 concept_crop.png is ONLY original-concept context.\nPrecisely repaint the grey surfaces of Image 1, keeping the exact orthographic FRONT view. Preserve its existing alpha silhouette pixel-for-pixel: identical outline, framing, scale, position, all spike endpoints, roots, openings, occlusions, facets and EVERY shape edge. Do not change geometry, add detail geometry or recompose to the reference's three-quarter angle. This is paint on the existing model, not redesign. Subject occupies x=66..957 y=220..803 on the unchanged 1024 square canvas. Preserve the broad low root base and its irregular underside, every slim curved blade in its existing position, and all existing rounded sac patches between them.\nMATERIALS: match approved reference's glossy black-violet resin and chitin tendrils with faint sheen, translucent glowing orange egg sacs with darker branching veins, and dark roots. Paint fine organic surface grain and vein coloration within the existing shapes. Grey ovoid sacs become amber-orange membrane with dark burgundy-violet veins and saturated orange glowing-colour regions. Outer blades, struts, roots and crown become near-black violet chitin/resin. Preserve all geometry-defined boundaries.\nLIGHTING: this is ALBEDO for texture projection, evenly and flatly illuminated from the viewer, shadowless. NO cast shadows, NO ambient-occlusion darkening, NO strong specular highlights or reflections, NO rim light. Convey resin by subtle material texture and faint sheen only. Paint luminous orange sacs/seams at their luminous colour WITHOUT light spilling onto nearby chitin or roots. No baked directional shading or bright white reflections.\nBACKGROUND: actual alpha transparency, no background, floor, ground plane or shadow. Paint only existing guide pixels. No text, labels, border or watermark. Output only this one front-view painting, 1024x1024, preserving guide alpha and exact silhouette.",
+      "inputs": [
+        {
+          "path": "level_generation/props/hesper_decorations/codex_tex/hes_creep_pod/guide_front.png",
+          "role": "edit target and exact geometry/alpha authority",
+          "sha256": "b6ea581146a9c105acf104b047dbfda21d43e0fad8e2cad546442db7862ac784"
+        },
+        {
+          "path": "level_generation/props/hesper_decorations/codex_tex/hes_creep_pod/design_reference.png",
+          "role": "approved colour and material reference",
+          "sha256": "ff1da405c654879332124a674026ac4c514162c1eb899c22cc956fc07f578153"
+        },
+        {
+          "path": "level_generation/props/hesper_decorations/codex_tex/hes_creep_pod/concept_crop.png",
+          "role": "original concept context",
+          "sha256": "eebcb6be98d542bb3463ad1fddf15c84e572841bb3af0e7697f4e7d9bae7a0d5"
+        }
+      ],
+      "output": "/home/pjasicek/.codex/generated_images/01a15646-e8ec-7230-8785-6c7c6dea123a/exec-ac1374ec-9964-4ac5-8143-24af82056c85.png",
+      "original_tool_output": "/home/pjasicek/.codex/generated_images/01a15646-e8ec-7230-8785-6c7c6dea123a/exec-ac1374ec-9964-4ac5-8143-24af82056c85.png",
+      "selected": false,
+      "accepted": false,
+      "reason": "Rejected in favour of corrective return: strong specular highlights and orange light on chitin; incorrect native dimensions and silhouette.",
+      "checks": {
+        "native_dimensions": [
+          1254,
+          1254
+        ],
+        "dimensions_match": false,
+        "silhouette_identical": false,
+        "materials_and_colours": "Broad palette matches, but excessive highlights and orange edge illumination.",
+        "flat_even_light": "Failed: strong edge/specular lighting.",
+        "transparent_background": "RGBA with transparent background, but faint nonzero alpha pixels outside visible object; does not preserve guide alpha."
+      }
+    },
+    {
+      "view": "front",
+      "attempt": 2,
+      "prompt": "Corrective generation, FRONT VIEW. Return a PNG with EXACTLY 1024 pixels width and EXACTLY 1024 pixels height, true transparent alpha. This exact output canvas size is mandatory: do not return 1254x1254 or any other dimensions.\nImage 1 guide_front.png is the edit target. Image 2 design_reference.png is the colour/material reference only. Image 3 concept_crop.png is concept context only.\nColourize Image 1 IN PLACE as a FLAT ALBEDO TEXTURE PAINTING. Retain its exact original 1024x1024 canvas, camera and alpha channel, including partial edge alpha. The object occupies x66 to957, y220 to803. Preserve ALL grey guide geometric edges, root underside, slim spike shapes, ovoid sacs, facets, spacing and openings exactly. Never reconstruct geometry from the design reference. Do not shrink, enlarge, reposition, add or remove anything.\nPaint the existing broad outer blades and roots uniformly dark black-violet organic resin/chitin with faint subtle fine grain, no gleaming edges. Paint the existing rounded ovoid surfaces orange and amber egg membranes with darker burgundy-violet branching veins. Match reference material COLOURS, but remove its studio lighting. Orange glowing regions are painted colour only.\nMANDATORY FLAT LIGHTING: even diffuse viewer-facing shadowless light. No specular streaks, white highlights, shiny reflections, bright rim edges, directional illumination, AO, baked shadows, bloom, glow spill or cast light. The chitin must remain uniformly readable dark violet, with only faint sheen. Do not generate a dramatic rendered beauty shot. Paint source texture directly on the guide.\nThe background is fully transparent, no floor or ground plane. Keep all alpha pixels of the original guide unchanged. No text or watermark. Deliver ONE exact 1024x1024 PNG.",
+      "inputs": [
+        {
+          "path": "level_generation/props/hesper_decorations/codex_tex/hes_creep_pod/guide_front.png",
+          "role": "edit target and exact geometry/alpha authority",
+          "sha256": "b6ea581146a9c105acf104b047dbfda21d43e0fad8e2cad546442db7862ac784"
+        },
+        {
+          "path": "level_generation/props/hesper_decorations/codex_tex/hes_creep_pod/design_reference.png",
+          "role": "approved colour and material reference",
+          "sha256": "ff1da405c654879332124a674026ac4c514162c1eb899c22cc956fc07f578153"
+        },
+        {
+          "path": "level_generation/props/hesper_decorations/codex_tex/hes_creep_pod/concept_crop.png",
+          "role": "original concept context",
+          "sha256": "eebcb6be98d542bb3463ad1fddf15c84e572841bb3af0e7697f4e7d9bae7a0d5"
+        }
+      ],
+      "output": "level_generation/props/hesper_decorations/codex_tex/hes_creep_pod/paint_front.png",
+      "original_tool_output": "/home/pjasicek/.codex/generated_images/01a15646-e8ec-7230-8785-6c7c6dea123a/exec-ea8ea40f-e77b-4499-bd22-26ca0de19e1f.png",
+      "selected": true,
+      "accepted": false,
+      "reason": "Best front candidate within the one-correction limit: flatter shading, darker violet chitin and closer guide underside. Selected for delivery, not approved as compliant: wrong native dimensions, non-identical silhouette/alpha and residual shading.",
+      "checks": {
+        "native_dimensions": [
+          1254,
+          1254
+        ],
+        "dimensions_match": false,
+        "silhouette_identical": false,
+        "materials_and_colours": "Broad palette matches: black-violet chitin, orange sacs, dark veins; exact material fidelity not guaranteed.",
+        "flat_even_light": "Improved; still some baked shading and edge brightness. Strict flat-light requirement not fully met.",
+        "transparent_background": "RGBA with transparent background, but faint nonzero alpha pixels outside visible object; does not preserve guide alpha."
+      }
+    },
+    {
+      "view": "top",
+      "attempt": 1,
+      "prompt": "Use case: sketch-to-render. Asset: game 3D model ALBEDO texture-source painting.\nProduce ONE exact 1024 x 1024 RGBA PNG, true transparent background, TOP VIEW, paint_top.png. Return this exact canvas resolution natively.\nINPUTS: Image 1 guide_top.png is the EDIT TARGET, fixing every pixel of the shape. Image 2 design_reference.png is the approved design/material/colour authority ONLY, not camera or geometry. Image 3 concept_crop.png is original concept context.\nPaint directly onto the grey TOP-DOWN ORTHOGRAPHIC guide while preserving its exact alpha silhouette, size, position, and all existing geometric edges. The object's outline occupies x66..957 and y66..957 on the 1024 square. Preserve the overhead roughly circular root footprint, ALL pointed radial root extensions, inward curving blades, central crown, and the visible bulbous sac patches in their exact existing locations. Preserve every occlusion, opening, facet and boundary; no extra spikes, roots, shapes or missing parts. Do not substitute a front or three-quarter view. Do not redesign the model from the reference.\nPaint all existing outer blades, roots, branches and crown as black-violet organic chitin/resin with fine subtle grain and faint sheen; all the existing rounded bulbous egg membranes become saturated amber/orange with dark burgundy-violet branching veins and glowing-colour patches. Match approved reference colour/materials but not its dramatic lighting.\nThis is FLAT ALBEDO PAINT for baking onto a model. Even shadowless diffuse light from the viewer directly overhead. NO cast shadows, AO darkening, directional gradients, strong specular highlights, bright white reflections or rim lighting. Only faint material sheen, not shiny edge streaks. Orange parts and fine seams are painted in glowing orange colour with ZERO spill or cast illumination onto surrounding chitin/roots. The material paint should be equally clear over the whole subject, no dramatic beauty-render lighting.\nBackground fully transparent with no floor or ground plane, no shadow, no text, watermark, grid or border. Keep guide alpha exactly unchanged, including all antialiased edge pixels. Native final 1024x1024 pixels.",
+      "inputs": [
+        {
+          "path": "level_generation/props/hesper_decorations/codex_tex/hes_creep_pod/guide_top.png",
+          "role": "edit target and exact geometry/alpha authority",
+          "sha256": "c371d5cb3de31c03e877d7a3113811c0a99a95ef6f70dd4b90c5bdf812fa9590"
+        },
+        {
+          "path": "level_generation/props/hesper_decorations/codex_tex/hes_creep_pod/design_reference.png",
+          "role": "approved colour and material reference",
+          "sha256": "ff1da405c654879332124a674026ac4c514162c1eb899c22cc956fc07f578153"
+        },
+        {
+          "path": "level_generation/props/hesper_decorations/codex_tex/hes_creep_pod/concept_crop.png",
+          "role": "original concept context",
+          "sha256": "eebcb6be98d542bb3463ad1fddf15c84e572841bb3af0e7697f4e7d9bae7a0d5"
+        }
+      ],
+      "output": "/home/pjasicek/.codex/generated_images/01a15646-e8ec-7230-8785-6c7c6dea123a/exec-7d747f63-8d79-4a2e-8616-6c4e125f29e1.png",
+      "original_tool_output": "/home/pjasicek/.codex/generated_images/01a15646-e8ec-7230-8785-6c7c6dea123a/exec-7d747f63-8d79-4a2e-8616-6c4e125f29e1.png",
+      "selected": false,
+      "accepted": false,
+      "reason": "Rejected in favour of corrective return: excessive bright orange edges and baked shading; incorrect native dimensions and silhouette.",
+      "checks": {
+        "native_dimensions": [
+          1254,
+          1254
+        ],
+        "dimensions_match": false,
+        "silhouette_identical": false,
+        "materials_and_colours": "Broad palette matches, but excessive highlights and orange edge illumination.",
+        "flat_even_light": "Failed: strong edge/specular lighting.",
+        "transparent_background": "RGBA with transparent background, but faint nonzero alpha pixels outside visible object; does not preserve guide alpha."
+      }
+    },
+    {
+      "view": "top",
+      "attempt": 2,
+      "prompt": "Corrective generation for paint_top.png. EXACTLY 1024x1024 pixels, native output, RGBA PNG with true transparent background. Do not return 1254x1254.\nImage 1 guide_top.png is the edit target: PRESERVE its original 1024 square canvas, exact pixel coordinates, alpha channel, every contour and geometric edge. Image 2 design_reference.png is only colour and material authority. Image 3 concept_crop.png is only concept reference.\nThis is a pixel-aligned TEXTURE SOURCE PAINTOVER, directly above, orthographic TOP VIEW. Keep all the broad angular radial root plates, pointed tendrils, curved inward blades and central crown in the guide exactly where they are. The original silhouette spans x66..957 y66..957. Preserve every hole and original silhouette edge; no growth, new features, reframing, zoom or perspective. Paint the guide, do not regenerate its geometry from the design image.\nPaint guide blades, crown, root plates and tendrils near-black violet organic chitin/resin, with fine grain and ONLY a faint sheen. Paint guide's existing rounded sacs orange amber translucent-looking membrane with dark burgundy-violet branching veins. Preserve every sac's boundary behind the blades.\nCORRECTION: eliminate bright orange chitin edges, reflections and baked lighting. No orange colour on any blade or root surface unless it is an actual thin organic seam. Orange sac colour never lights other surfaces. Chitin has consistent dark-violet albedo throughout. Flat shadowless diffuse light from directly overhead, no AO darkening, occlusion shadows, cast shadows, directional shading, white highlights, specular streaks, rim light, reflected glow or bloom. Resin texture and fine membrane vein colour only. Match the reference palette but exclude its lighting.\nReturn only the painted guide in the exact original 1024x1024 canvas, transparent alpha unchanged. No floor, background, shadow, text, labels, watermark, frame or extra objects.",
+      "inputs": [
+        {
+          "path": "level_generation/props/hesper_decorations/codex_tex/hes_creep_pod/guide_top.png",
+          "role": "edit target and exact geometry/alpha authority",
+          "sha256": "c371d5cb3de31c03e877d7a3113811c0a99a95ef6f70dd4b90c5bdf812fa9590"
+        },
+        {
+          "path": "level_generation/props/hesper_decorations/codex_tex/hes_creep_pod/design_reference.png",
+          "role": "approved colour and material reference",
+          "sha256": "ff1da405c654879332124a674026ac4c514162c1eb899c22cc956fc07f578153"
+        },
+        {
+          "path": "level_generation/props/hesper_decorations/codex_tex/hes_creep_pod/concept_crop.png",
+          "role": "original concept context",
+          "sha256": "eebcb6be98d542bb3463ad1fddf15c84e572841bb3af0e7697f4e7d9bae7a0d5"
+        }
+      ],
+      "output": "level_generation/props/hesper_decorations/codex_tex/hes_creep_pod/paint_top.png",
+      "original_tool_output": "/home/pjasicek/.codex/generated_images/01a15646-e8ec-7230-8785-6c7c6dea123a/exec-a67992b6-1650-481b-8343-b4c9f385cbfb.png",
+      "selected": true,
+      "accepted": false,
+      "reason": "Best top candidate within the one-correction limit: reduced bright edges, flatter sac colour and darker roots. Selected for delivery, not approved as compliant: wrong native dimensions, non-identical silhouette/alpha and residual shading.",
+      "checks": {
+        "native_dimensions": [
+          1254,
+          1254
+        ],
+        "dimensions_match": false,
+        "silhouette_identical": false,
+        "materials_and_colours": "Broad palette matches: black-violet chitin, orange sacs, dark veins; exact material fidelity not guaranteed.",
+        "flat_even_light": "Improved; still some baked shading and edge brightness. Strict flat-light requirement not fully met.",
+        "transparent_background": "RGBA with transparent background, but faint nonzero alpha pixels outside visible object; does not preserve guide alpha."
+      }
+    }
+  ],
+  "selected_output_metadata": {
+    "front": {
+      "path": "level_generation/props/hesper_decorations/codex_tex/hes_creep_pod/paint_front.png",
+      "sha256": "c79a6f6ba90d8837b69895255f766940567c6b2ae0a0a65cca2b5cb9654588c7",
+      "alpha_bbox": [
+        33,
+        17,
+        1218,
+        1230
+      ],
+      "visible_alpha_bbox_threshold_128": [
+        81,
+        270,
+        1173,
+        986
+      ]
+    },
+    "top": {
+      "path": "level_generation/props/hesper_decorations/codex_tex/hes_creep_pod/paint_top.png",
+      "sha256": "42eb9cb164c8a137f16c9f59a5735fc552683110b82fb3a0aa9256f198789610",
+      "alpha_bbox": [
+        29,
+        17,
+        1228,
+        1254
+      ],
+      "visible_alpha_bbox_threshold_128": [
+        79,
+        81,
+        1174,
+        1175
+      ]
+    }
+  },
+  "limitations": "All four built-in calls returned 1254x1254 despite explicit 1024x1024 prompts. Unresized-return requirement preserved. Each view used exactly one corrective regeneration. No further generation or postprocessing performed."
+}

@@ -1,110 +1,318 @@
+# Settings menu: sections (tabs), their settings in display order and the keyboard bindings.
+# Rows appear in catalog order; a new `group` value starts a new heading. After editing, regenerate the tab layouts
+# with `python3 tools/generate_settings_layouts.py`. An empty `desc` gives a compact row, used for the intensity
+# sliders that follow their own toggle; `depends` rows are indented under the setting they depend on.
+# An `action` row stores no setting: the game fills its label, description and button (update_now: the installed
+# version, the update status and Check Now). `updater_only` sections and rows exist only where the game updates itself.
+# `ruleset_desc` replaces a row's description in the pause menu of a game with a ruleset (keep it no longer than `desc`,
+# whose length the layout measures).
+# The `game` section's rows are the ruleset options of the game in progress, not settings.ini values: the menu fills
+# their choices from the ruleset and leaves out what it does not offer.
 sections:
 - id: gameplay
   name: Gameplay
-  title: Gameplay
-  subtitle: Information, feedback, and exploration
+- id: interface
+  name: Interface
 - id: video
   name: Video
-  title: Video
-  subtitle: Display and appearance
 - id: audio
   name: Audio
-  title: Audio
-  subtitle: Volume 0–9 · Zero mutes a channel
 - id: controls
-  name: Mouse & Controls
-  title: Mouse & Controls
-  subtitle: Choose how you explore
+  name: Controls
 - id: keyboard
   name: Keyboard
-  title: Keyboard
-  subtitle: Find an action. Choose a key.
+# The rules of the game in progress: only in the pause menu of a game with a ruleset. It never shows beside Updates
+# (main menu only), so both use the seventh tab.
+- id: game
+  name: Rules
+  game_only: true
+- id: updates
+  name: Updates
+  updater_only: true
+  slot: 6
 settings:
 - id: bolster_monsters
   section: gameplay
-  group: Challenge
+  group: Difficulty
   name: Monster scaling
   type: toggle
-  desc: Scale monsters with the party. Apply when entering an area.
-- id: quest_markers
+  desc: Monsters keep pace with the party's level. Takes effect on entering an area.
+  ruleset_desc: Standard games only; this game's ruleset scales its monsters itself.
+- id: melee_hit_feedback
   section: gameplay
-  group: Exploration
-  name: Quest markers
+  group: Combat
+  name: Melee impact feedback
   type: toggle
-  desc: Show quest markers where the game provides them.
-- id: combat_text
+  desc: Impact sounds by what was struck, and a brief pause of the struck creature.
+- id: melee_camera_kick
   section: gameplay
-  group: Combat feedback
-  name: Floating combat text
+  group: Combat
+  name: Camera kick
   type: toggle
-  desc: Show damage and combat messages in the world.
-- id: enemy_health_bars
+  desc: Nudge the view along the blow on critical hits and kills.
+- id: fast_attack_repeat
   section: gameplay
-  group: Combat feedback
-  name: Enemy health bars
-  type: select
+  group: Combat
+  name: Fast attack repeat
+  type: toggle
+  desc: A held Attack or Quick Cast key repeats at once; off, a short tap acts for one character, as in the originals.
+- id: formations_everywhere
+  section: gameplay
+  group: Combat
+  name: Party formation everywhere
+  type: toggle
+  desc: Might and Magic IX's formation on every continent; monsters strike the front rank more often. Off, monsters of the older games choose their victims as in the originals.
+- id: fast_mode_speed
+  section: gameplay
+  group: Fast mode
+  name: Fast mode speed
+  type: steps
   options:
-  - ['off', 'Off']
-  - [target, Target only]
-  - [combat, Combat]
-  - [nearby, Nearby]
-  desc: Show the target, recent combatants, or nearby visible enemies.
-- id: enemy_health_bar_values
+  - ['1.5', 1.5x]
+  - ['2', 2x]
+  - ['3', 3x]
+  - ['4', 4x]
+  desc: The game speed while fast mode is on. Its key (F2 unless rebound) turns fast mode on and off.
+- id: turn_based_monster_speed
   section: gameplay
-  group: Combat feedback
-  name: Enemy HP values
-  type: select
+  group: Turn-based combat
+  name: Monster turns speed
+  type: steps
   options:
-  - ['off', 'Off']
-  - [target, Target only]
-  - [all, All bars]
-  desc: Show current and maximum health above enemy bars.
-- id: enemy_health_bar_damage_trail
+  - ['1', 1x]
+  - ['1.5', 1.5x]
+  - ['2', 2x]
+  - ['3', 3x]
+  - ['4', 4x]
+  desc: Play the monsters' turns faster.
+- id: turn_based_party_speed
   section: gameplay
-  group: Combat feedback
-  name: Enemy damage trail
-  type: toggle
-  desc: Briefly show recently lost health behind the current fill.
-- id: show_hits
+  group: Turn-based combat
+  name: Party attacks speed
+  type: steps
+  options:
+  - ['1', 1x]
+  - ['1.5', 1.5x]
+  - ['2', 2x]
+  - ['3', 3x]
+  - ['4', 4x]
+  desc: Play the party's attacks and spells in flight faster. Walking in the movement phase keeps its pace.
+- id: mm9_loot_in_older_worlds
   section: gameplay
-  group: Combat feedback
-  name: Hit messages
+  group: Loot
+  name: MM9 loot in MM6-MM8
   type: toggle
-  desc: Report attacks in the status text.
-- id: context_action_popup
+  desc: Drops and chests in Enroth, Antagarich and Jadame can hold Might and Magic IX's weapons, armour and jewellery.
+- id: workbench_keep_mixed_potions
   section: gameplay
-  group: Interaction
-  name: Context action menu
+  group: Alchemy
+  name: Workbench keeps mixed potions
   type: toggle
-  desc: Offer contextual actions for the object under the pointer.
+  desc: The Workbench brews only from reagents and the basic potions. A recipe that needs a mixed potion brews a fresh one, so the ones you carry are kept. Two potions you put in the slots yourself still mix.
+- id: upkeep_auto_brew
+  section: gameplay
+  group: Alchemy
+  name: Upkeep brews its potions
+  type: toggle
+  desc: Before it drinks, the Upkeep key brews the potions the upkeep lists keep in stock, when fewer drinks are left than they keep. It brews from what the party carries, never from the stocked potions themselves. Set the stock of each potion in Battle Orders.
 - id: skip_event_cutscenes
   section: gameplay
   group: Story
   name: Skip event cutscenes
   type: toggle
   desc: Skip event movies. Leave off for a first adventure.
-- id: graphics_quality
-  section: video
-  group: Display
-  name: Graphics quality
-  type: steps
+- id: quicksave_slots
+  section: gameplay
+  group: Saving
+  name: Quicksaves kept
+  type: range
+  min: 1
+  max: 20
+  desc: Each game keeps this many quicksaves. A new one becomes the first and the oldest is removed.
+# The menu adds the installed language packs (languages/<id>/language.yml) to these options and lists qps only while it
+# is the active language (set it with --set gameplay.language=qps).
+- id: language
+  section: interface
+  group: Language
+  name: Language
+  type: select
   options:
-  - [low, Low]
-  - [medium, Medium]
-  - [high, High]
-  desc: Set the detail options below at once; changing one of them shows Custom.
+  - [en, English]
+  - [qps, Pseudo-language (testing)]
+  desc: The language of menus, messages and the games' text. Takes effect at the next start.
+- id: combat_text
+  section: interface
+  group: Combat messages
+  name: Floating combat text
+  type: toggle
+  desc: Show damage numbers and combat messages in the world.
+- id: combat_log
+  section: interface
+  group: Combat messages
+  name: Combat log
+  type: select
+  options:
+  - [auto, MAW games]
+  - ['on', Always]
+  - ['off', 'Off']
+  desc: A button under the minimap opens a log of recent hits, each with its damage steps; with MAW games, only in
+    MAW games outside the MM9 world.
+  desktop_only: true
+- id: show_hits
+  section: interface
+  group: Combat messages
+  name: Hit messages
+  type: toggle
+  desc: Describe each attack in the status bar.
+- id: enemy_health_bars
+  section: interface
+  group: Enemy health bars
+  name: Show health bars
+  type: select
+  options:
+  - ['off', 'Off']
+  - [target, Target only]
+  - [combat, Combat]
+  - [nearby, Nearby]
+  desc: Over the target, recent combatants, or all nearby visible enemies.
+- id: enemy_health_bar_values
+  section: interface
+  group: Enemy health bars
+  name: Health values
+  type: select
+  options:
+  - ['off', 'Off']
+  - [target, Target only]
+  - [all, All bars]
+  desc: Show current and maximum health above the bars.
+- id: enemy_health_bar_damage_trail
+  section: interface
+  group: Enemy health bars
+  name: Damage trail
+  type: toggle
+  desc: Briefly show recently lost health behind the current fill.
+- id: enemy_health_bar_effects
+  section: interface
+  group: Enemy health bars
+  name: Effect icons
+  type: toggle
+  desc: Show the spells on each enemy under its bar, with the time left swept clockwise.
+- id: quest_markers
+  section: interface
+  group: Exploration
+  name: Quest markers
+  type: toggle
+  desc: Mark characters with quests to offer or complete, where the world has them.
+- id: map_style
+  section: interface
+  group: Exploration
+  name: Map style
+  type: select
+  options:
+  - [painted, Painted]
+  - [lines, Lines]
+  desc: Where a world has painted maps (MM9), show them, or the line map drawn as you explore where the place has one.
+- id: indoor_minimap_arrow
+  section: interface
+  group: Exploration
+  name: Indoor map arrow
+  type: select
+  options:
+  - [white, White]
+  - [green, Green]
+  - [cyan, Cyan]
+  desc: The colour of the party's arrow on the minimap indoors, where the walls are drawn in white.
+- id: context_action_popup
+  section: interface
+  group: Exploration
+  name: Context action menu
+  type: toggle
+  desc: Offer actions for the object under the pointer.
+- id: party_frame
+  section: interface
+  group: Party
+  name: Portrait frame
+  type: toggle
+  desc: Draw the frame behind the party portraits during play. Other screens always keep it.
+- id: item_buttons
+  section: interface
+  group: Party
+  name: Potion and scroll buttons
+  type: toggle
+  desc: The buttons on the ends of the party frame. Each opens a paused list of what the party carries.
+- id: quick_item_rings
+  section: interface
+  group: Party
+  name: Quick item rings
+  type: toggle
+  desc: A button at each portrait opens its ring of six quick slots; the Potions key opens the ring, not the list.
+- id: potion_expiry_warnings
+  section: interface
+  group: Party
+  name: Potion wear-off warnings
+  type: toggle
+  desc: Name a potion's effect in the status bar ten game minutes before it ends.
+- id: rarity_glow
+  section: interface
+  group: Items
+  name: Item rarity glow
+  type: select
+  options:
+  - ['off', 'Off']
+  - [hold, Hold key]
+  - [always, Always]
+  desc: Outline items in their rarity colour (rulesets with rarities, such as MAW).
+  game_ruleset: maw
+- id: craft_preview
+  section: interface
+  group: Items
+  name: Craftable stats
+  type: select
+  options:
+  - ['off', 'Off']
+  - [hold, Hold key]
+  - [always, Always]
+  desc: An item's description shows in grey what crafting would add to it next, and its bonus power (rulesets with crafting, such as MAW).
+  game_ruleset: maw
+- id: loot_sparkle
+  section: interface
+  group: Items
+  name: Sparkle on all loot
+  type: toggle
+  desc: Every item on the ground glints faintly white, so small finds show in tall grass. Valuable items keep their colours.
+- id: shop_list_view
+  section: interface
+  group: Items
+  name: Shops as lists
+  type: toggle
+  desc: The shops of the older games sell from Might and Magic IX's list, one row per kind of item with tabs, instead of the shelves.
+- id: update_now
+  section: updates
+  group: Version
+  name: Installed version
+  type: action
+  updater_only: true
+  desc: Check Now looks for a new version on jasicek.net. Nothing downloads without asking.
+- id: check_for_updates
+  section: updates
+  group: Automatic checks
+  name: Check for updates
+  type: select
+  updater_only: true
+  options:
+  - [auto, At start]
+  - ['off', Never]
+  - [ask, Ask me]
+  desc: Look for a new version on jasicek.net when OpenYAMM starts. Nothing downloads without asking.
 - id: window_mode
   section: video
   group: Display
   name: Display mode
   type: select
   options:
-  - - windowed
-    - Windowed
-  - - windowed_fullscreen
-    - Borderless
-  - - fullscreen
-    - Fullscreen
+  - [windowed, Windowed]
+  - [windowed_fullscreen, Borderless]
+  - [fullscreen, Fullscreen]
   desc: Changes must be confirmed within 15 seconds.
 - id: resolution
   section: video
@@ -117,10 +325,20 @@ settings:
   group: Display
   name: Vertical sync
   type: toggle
-  desc: Reduce screen tearing by syncing frames to the display.
+  desc: Prevent screen tearing by matching frames to the display.
+- id: graphics_quality
+  section: video
+  group: Quality
+  name: Graphics quality
+  type: steps
+  options:
+  - [low, Low]
+  - [medium, Medium]
+  - [high, High]
+  desc: Sets most options below at once; changing one of them shows Custom.
 - id: antialiasing
   section: video
-  group: Display
+  group: Quality
   name: Anti-aliasing
   type: select
   options:
@@ -132,112 +350,142 @@ settings:
   desktop_only: true
 - id: view_distance
   section: video
-  group: World detail
+  group: Quality
   name: View distance
   type: select
   options:
-  - - default
-    - World default
-  - - '32768'
-    - Extended
-  - - unlimited
-    - Unlimited
+  - [default, World default]
+  - ['32768', Extended]
+  - [unlimited, Unlimited]
   desc: Longer distances can reduce performance outdoors.
+- id: model_lods
+  section: video
+  group: Quality
+  name: Distant creature detail
+  type: toggle
+  desc: Draw simpler creature shapes far away; nearby creatures keep full detail.
 - id: texture_filtering
   section: video
-  group: World detail
+  group: Textures
   name: Smooth textures
   type: toggle
-  desc: Filter texture pixels instead of showing sharp texel edges.
+  desc: Off keeps the sharp, pixelated texels of the original.
 - id: terrain_anisotropy
   section: video
-  group: World detail
+  group: Textures
   name: Ground texture clarity
   type: select
   options:
-  - - 'off'
-    - 'Off'
-  - - 2x
-    - 2×
-  - - 4x
-    - 4×
-  - - 8x
-    - 8×
-  - - 16x
-    - 16×
-  desc: Keep distant ground textures sharper. Uses anisotropic terrain filtering.
+  - ['off', 'Off']
+  - [2x, 2×]
+  - [4x, 4×]
+  - [8x, 8×]
+  - [16x, 16×]
+  desc: Keep distant ground textures sharp (anisotropic filtering).
   depends: texture_filtering
-- id: model_lods
-  section: video
-  group: World detail
-  name: Scale distant creature detail
-  type: toggle
-  desc: Use simpler creature shapes at a distance while retaining full detail nearby.
 - id: model_shadow_quality
   section: video
-  group: World detail
+  group: Lighting & shadows
   name: Creature shadows
   type: select
   options:
-  - - '0'
-    - Off
-  - - '1'
-    - Low
-  - - '2'
-    - Medium
-  - - '3'
-    - High
-  desc: Animated shadows on creatures and their surroundings. Higher quality improves detail and range.
-- id: terrain_decorations
-  section: video
-  group: World detail
-  name: Terrain details
-  type: toggle
-  desc: Draw extra terrain decorations where available.
-- id: weather_quality
-  section: video
-  group: World detail
-  name: Weather
-  type: select
-  options:
-  - - high
-    - High
-  - - medium
-    - Medium
-  - - low
-    - Low
-  - - 'off'
-    - 'Off'
-  desc: Density of falling rain and snow; Off hides them while the weather itself goes on.
+  - ['0', 'Off']
+  - ['1', Low]
+  - ['2', Medium]
+  - ['3', High]
+  desc: Animated shadows of creatures; higher quality adds detail and range.
 - id: light_grid
   section: video
-  group: World detail
+  group: Lighting & shadows
   name: Light detail
   type: select
   options:
-  - - high
-    - High
-  - - low
-    - Low
-  desc: How finely torches, spells and other lights are sorted across the view; Low is lighter on phones.
+  - [high, High]
+  - [low, Low]
+  desc: How finely torches, spells and other lights are sorted; Low suits phones.
+- id: colored_lights
+  section: video
+  group: Lighting & shadows
+  name: Coloured lighting
+  type: toggle
+  desc: Lights tint their surroundings with their own colour.
+- id: warm_torch_light
+  section: video
+  group: Lighting & shadows
+  name: Warm torch light
+  type: toggle
+  desc: Torch Light glows firelight orange instead of the original white.
+- id: ambient_occlusion
+  section: video
+  group: Lighting & shadows
+  name: Ambient occlusion
+  type: toggle
+  desc: Add soft shading where solid surfaces meet.
+  # Android renders without ambient occlusion (game/render/CinematicGrading.cpp).
+  desktop_only: true
+- id: ambient_occlusion_strength
+  section: video
+  group: Lighting & shadows
+  name: Intensity
+  type: range
+  min: 0
+  max: 100
+  unit: '%'
+  depends: ambient_occlusion
+  desc: ''
+  # Android renders without ambient occlusion (game/render/CinematicGrading.cpp).
+  desktop_only: true
+- id: terrain_decorations
+  section: video
+  group: Environment
+  name: Terrain details
+  type: toggle
+  desc: Draw extra ground decorations where available.
+- id: weather_quality
+  section: video
+  group: Environment
+  name: Weather
+  type: select
+  options:
+  - [high, High]
+  - [medium, Medium]
+  - [low, Low]
+  - ['off', 'Off']
+  desc: Density of falling rain and snow; Off hides them but the weather goes on.
 - id: wet_surfaces
   section: video
-  group: World detail
+  group: Environment
   name: Wet surfaces
   type: toggle
-  desc: Rain darkens the ground and buildings, which dry slowly after it stops.
+  desc: Rain darkens the ground and buildings, which dry slowly afterwards.
+- id: mist
+  section: video
+  group: Environment
+  name: Mist
+  type: toggle
+  desc: Ground mist on the maps that have it.
+- id: mist_strength
+  section: video
+  group: Environment
+  name: Density
+  type: range
+  min: 0
+  max: 200
+  unit: '%'
+  depends: mist
+  desc: ''
 - id: terrain_specular
   section: video
-  group: World detail
+  group: Environment
   name: Ground highlights
   type: toggle
-  desc: Smooth rock and rain-wet ground catch the sun and nearby lights.
+  desc: Smooth rock and wet ground catch the sun and nearby lights.
 - id: water_reflections
   section: video
   group: Water
-  name: Scenery reflections
+  name: Reflections
   type: toggle
-  desc: Reflect the sky, ground and buildings in visible water. Requires extra rendering.
+  desc: Reflect the sky, ground and buildings in water. Costs extra rendering.
 - id: water_reflection_size
   section: video
   group: Water
@@ -245,24 +493,19 @@ settings:
   type: select
   depends: water_reflections
   options:
-  - - '128'
-    - Very low
-  - - '256'
-    - Low
-  - - '512'
-    - Medium
-  - - '1024'
-    - High
-  - - '2048'
-    - Very high
-  desc: Higher detail makes scenery reflections sharper and costs more rendering time.
+  - ['128', Very low]
+  - ['256', Low]
+  - ['512', Medium]
+  - ['1024', High]
+  - ['2048', Very high]
+  desc: Higher detail gives sharper reflections at a higher cost.
 - id: water_sprite_reflections
   section: video
   group: Water
   name: Reflect nearby objects
   type: toggle
   depends: water_reflections
-  desc: Include nearby creatures, trees and decorations in water reflections.
+  desc: Include nearby creatures, trees and decorations.
 - id: water_movement_ripples
   section: video
   group: Water
@@ -275,115 +518,89 @@ settings:
   name: Rain ripples
   type: toggle
   desc: Raindrop rings on still water while it rains.
-- id: ambient_occlusion
-  section: video
-  group: Colour & effects
-  name: Ambient occlusion
-  type: toggle
-  desc: Add soft shading where solid surfaces meet.
-  # Android renders without ambient occlusion (game/render/CinematicGrading.cpp).
-  desktop_only: true
-- id: ambient_occlusion_strength
-  section: video
-  group: Colour & effects
-  name: Occlusion intensity
-  type: range
-  min: 0
-  max: 100
-  unit: '%'
-  depends: ambient_occlusion
-  desc: Adjust the strength of contact shading.
-  # Android renders without ambient occlusion (game/render/CinematicGrading.cpp).
-  desktop_only: true
 - id: bloom
   section: video
-  group: Colour & effects
+  group: Post-processing
   name: Glow
   type: toggle
   desc: Flames, glowing crystals and spell light bloom softly into their surroundings.
 - id: bloom_strength
   section: video
-  group: Colour & effects
-  name: Glow intensity
+  group: Post-processing
+  name: Intensity
   type: range
   min: 0
   max: 100
   unit: '%'
   depends: bloom
-  desc: Adjust how far and how brightly the glow spreads.
+  desc: ''
 - id: cinematic_grading
   section: video
-  group: Colour & effects
+  group: Post-processing
   name: Cinematic colour
   type: toggle
-  desc: Apply the cinematic colour treatment.
+  desc: Bring out shadow detail and soften over-saturated earth tones.
 - id: cinematic_strength
   section: video
-  group: Colour & effects
-  name: Colour intensity
+  group: Post-processing
+  name: Intensity
   type: range
   min: 0
   max: 100
   unit: '%'
   depends: cinematic_grading
-  desc: Adjust the strength of cinematic colour.
+  desc: ''
 - id: sharpening
   section: video
-  group: Colour & effects
+  group: Post-processing
   name: Sharpening
   type: range
   min: 0
   max: 100
   unit: '%'
   desc: Sharpen the 3D view; the interface is unaffected. Zero turns it off.
-- id: colored_lights
-  section: video
-  group: Colour & effects
-  name: Coloured lighting
-  type: toggle
-  desc: Use the colours of nearby light sources.
-- id: tinting
-  section: video
-  group: Colour & effects
-  name: Colour tinting
-  type: toggle
-  desc: Retain the original tinting option.
-- id: blood_splats
-  section: video
-  group: Colour & effects
-  name: Blood splats
-  type: toggle
-  desc: Show blood splat effects.
-- id: melee_hit_blood_effects
-  section: video
-  group: Colour & effects
-  name: Melee blood effects
-  type: toggle
-  desc: Add blood effects when melee attacks connect.
 - id: melee_hit_effects
   section: video
-  group: Colour & effects
+  group: Combat effects
   name: Melee hit effects
   type: toggle
   desc: Show a slash, thrust or crush where melee attacks connect.
-- id: melee_hit_feedback
-  section: video
-  group: Colour & effects
-  name: Melee impact feedback
-  type: toggle
-  desc: Play impact sounds by what was struck and briefly hold the struck creature.
 - id: melee_hit_flash
   section: video
-  group: Colour & effects
+  group: Combat effects
   name: Melee hit flash
   type: toggle
   desc: Briefly brighten a creature struck in melee.
-- id: melee_camera_kick
+- id: melee_hit_blood_effects
   section: video
-  group: Colour & effects
-  name: Melee camera kick
+  group: Combat effects
+  name: Melee blood
   type: toggle
-  desc: Nudge the view along the blow on critical hits and kills.
+  desc: Add blood effects when melee attacks connect.
+- id: blood_splats
+  section: video
+  group: Combat effects
+  name: Blood splats
+  type: toggle
+  desc: Leave a pool of blood beneath slain creatures.
+- id: surface_materials
+  section: video
+  group: Experimental
+  name: Surface materials
+  type: toggle
+  desc: Walls, floors and doors show their relief, metal, glass and glowing windows. Takes effect on the next map.
+- id: surface_parallax
+  section: video
+  group: Experimental
+  name: Surface depth
+  type: toggle
+  desc: Nearby bricks, stones and carvings show their depth. Costs a little extra rendering.
+- id: surface_reflections
+  section: video
+  group: Experimental
+  name: Surface reflections
+  type: toggle
+  desc: Marble, glass, metal and puddles reflect the buildings around them. Needs surface materials.
 - id: sound_volume
   section: audio
   group: Volume
@@ -392,7 +609,7 @@ settings:
   min: 0
   max: 9
   unit: / 9
-  desc: Weapons, spells, interface sounds, and the world.
+  desc: Weapons, spells, the interface and the world. Zero mutes.
 - id: music_volume
   section: audio
   group: Volume
@@ -401,7 +618,7 @@ settings:
   min: 0
   max: 9
   unit: / 9
-  desc: Music in menus, towns, and dungeons.
+  desc: Music in menus, towns and dungeons. Zero mutes.
 - id: voice_volume
   section: audio
   group: Volume
@@ -410,64 +627,182 @@ settings:
   min: 0
   max: 9
   unit: / 9
-  desc: Spoken character reactions and dialogue.
+  desc: Spoken character reactions and dialogue. Zero mutes.
 - id: walksound
   section: audio
-  group: World sounds
+  group: Sounds
   name: Footsteps
   type: toggle
   desc: Play walking and running sounds.
+- id: repeated_voice_lines
+  section: audio
+  group: Sounds
+  name: Repeated voice lines
+  type: steps
+  options:
+  - ['0', 'Off']
+  - ['500', 0.5 s]
+  - ['1000', 1 s]
+  - ['2000', 2 s]
+  - ['3000', 3 s]
+  - ['5000', 5 s]
+  - ['10000', 10 s]
+  desc: A character says the same line at most once in this time, such as a cry when hurt or a remark on an item.
 - id: control_scheme
   section: controls
-  group: Input style
+  group: Preset
   name: Control preset
   type: select
   options:
-  - - modern
-    - Modern
-  - - classic
-    - Classic
+  - [modern, Modern]
+  - [classic, Classic]
   desc: 'Modern: WASD, left-click attack, E to use. Classic: arrow keys, A to attack, left-click to use.'
+- id: smart_click
+  section: controls
+  group: Mouse
+  name: Smart left click
+  type: toggle
+  desc: Left-click talks, opens, picks up or uses what is under the cursor, and attacks anywhere else.
+  desktop_only: true
 - id: mouse_sensitivity
   section: controls
-  group: Look & movement
+  group: Mouse
   name: Mouse sensitivity
   type: range
   min: 0
   max: 100
   unit: '%'
-  desc: The response of mouse movement. Zero disables mouse look movement.
-- id: invert_mouse_y
-  section: controls
-  group: Look & movement
-  name: Invert mouse Y
-  type: toggle
-  desc: Move the mouse up to look down, and down to look up.
+  desc: How fast the view follows the mouse. Zero turns mouse look off.
 - id: turn_rate
   section: controls
-  group: Look & movement
+  group: Mouse
   name: Turn rate
   type: select
   options:
-  - - 16x
-    - 16×
-  - - 32x
-    - 32×
-  - - smooth
-    - Smooth
-  desc: Preserve the original turning-speed choices.
+  - [16x, 16×]
+  - [32x, 32×]
+  - [smooth, Smooth]
+  desc: Base turning speed, from the original 16× and 32× to the faster Smooth.
+- id: invert_mouse_y
+  section: controls
+  group: Mouse
+  name: Invert mouse Y
+  type: toggle
+  desc: Move the mouse up to look down, and down to look up.
 - id: always_run
   section: controls
-  group: Look & movement
+  group: Movement
   name: Always run
   type: toggle
-  desc: Use running movement by default.
-- id: flip_on_exit
+  desc: Run by default instead of walking.
+- id: bag_number_keys
   section: controls
-  group: Look & movement
-  name: Face away on exit
+  group: Inventory
+  name: Number keys
+  type: select
+  options:
+  - [member, Pick member]
+  - [bag, Open bag]
+  desc: 'Number keys on the inventory page and in shops and chests; Shift with a number does the other. A party of one opens bags.'
+  game_ruleset: maw
+- id: ruleset_name
+  section: game
+  group: Ruleset
+  name: Ruleset
+  type: select
+  desc: Chosen at the start of the adventure. The rules of each part follow below.
+- id: ruleset_difficulty
+  section: game
+  group: Ruleset
+  name: Difficulty
+  type: select
+  options:
+  - [easy, Easy]
+  - [normal, Normal]
+  - [maw, MAW]
+  - [hard, Hard]
+  - [hell, Hell]
+  - [nightmare, Nightmare]
+  desc: Monster health and damage, how many come, loot and bosses. Nightmare can never be lowered again.
+- id: ruleset_progression
+  section: game
+  group: Ruleset
+  name: Progression
+  type: select
+  options:
+  - [free, Free]
+  - [horizontal, Horizontal]
+  desc: Free lets monsters grow with the levels you gain elsewhere; Horizontal fixes each map's level.
+- id: ruleset_challenge
+  section: game
+  group: Ruleset
+  name: Challenge mode
+  type: select
+  options:
+  - [none, None]
+  - [doom, Doom]
+  - [road_to_insanity, Road to Insanity]
+  - [beyond_madness, Beyond Madness]
+  - [austerity, Austerity]
+  desc: Chosen once at the start; fixed for the whole adventure.
+- id: ruleset_randomizer
+  section: game
+  group: Ruleset
+  name: Randomizer
   type: toggle
-  desc: Turn the party away from the doorway when leaving a house.
+  desc: Chosen once at the start; fixed for the whole adventure.
+- id: ruleset_solo
+  section: game
+  group: Ruleset
+  name: Solo run
+  type: toggle
+  desc: One adventurer in first person, with an action bar and talents. A party of one can become a solo run at any
+    time; it stays one for the rest of the adventure.
+- id: ruleset_homing
+  section: game
+  group: Preferences
+  name: Homing projectiles
+  type: toggle
+  desc: Your missiles follow their target.
+- id: ruleset_friendly_fire
+  section: game
+  group: Preferences
+  name: Friendly fire
+  type: toggle
+  desc: Your attacks and spells can hurt peaceful townsfolk and guards.
+- id: ruleset_trainer_hints
+  section: game
+  group: Preferences
+  name: Trainer hints
+  type: toggle
+  desc: Skill popups name the nearest teacher of the next mastery.
+- id: ruleset_bow
+  section: game
+  group: Preferences
+  name: Bow
+  type: toggle
+  desc: 'Off: bows, crossbows and dragon breath do not shoot. A melee-only challenge.'
+- id: ruleset_loot_filter
+  section: game
+  group: Preferences
+  name: Loot filter
+  type: window
+  options:
+  - ['off', 'Off']
+  - [soft, Soft]
+  - [regular, Regular]
+  - [strict, Strict]
+  - [very_strict, Very strict]
+  - [custom, Custom]
+  desc: Drops you would rather not carry turn into gold. Opens the filter with its presets.
+# Shown only in Road to Insanity and Beyond Madness, where it happens; last, so the rows
+# above keep their places when it is hidden.
+- id: ruleset_disintegrate
+  section: game
+  group: Preferences
+  name: Disintegration
+  type: toggle
+  desc: A companion slain far past death leaves the party for the Adventurer's Inn.
 bindings:
 - id: forward
   name: Forward
@@ -484,69 +819,276 @@ bindings:
 - id: jump
   name: Jump
   group: Movement
-- id: cast_ready
-  name: Cast quick spell
-  group: Combat
-- id: attack
-  name: Attack
-  group: Combat
-- id: trigger
-  name: Interact ahead
-  group: Interaction
-- id: cast
-  name: Open spellbook
-  group: Combat
-- id: pass
-  name: Pass turn (turn-based)
-  group: Combat
-- id: char_cycle
-  name: Next character
-  group: Party & books
-- id: quest
-  name: Quest book
-  group: Party & books
-- id: quick_ref
-  name: Quick reference
-  group: Party & books
-- id: rest
-  name: Rest
-  group: Party & books
-- id: history
-  name: History
-  group: Party & books
-- id: use
-  name: Use / interact
-  group: Interaction
-- id: map_book
-  name: Map book
-  group: Party & books
 - id: always_run_toggle
   name: Toggle always run
   group: Movement
+- id: auto_walk
+  name: Auto-walk on/off (Forward or Backward stops it)
+  group: Movement
+- id: fly_up
+  name: Fly up
+  group: Movement
+- id: fly_down
+  name: Fly down
+  group: Movement
+- id: land
+  name: Land
+  group: Movement
 - id: look_up
-  name: Look Up
+  name: Look up
   group: Camera
 - id: look_down
-  name: Look Down
+  name: Look down
   group: Camera
 - id: center_view
   name: Centre view
   group: Camera
 - id: zoom_in
-  name: Zoom In
+  name: Zoom in
   group: Camera
 - id: zoom_out
-  name: Zoom Out
+  name: Zoom out
   group: Camera
-- id: fly_up
-  name: Fly Up
-  group: Movement
-- id: fly_down
-  name: Fly Down
-  group: Movement
-- id: land
-  name: Land
-  group: Movement
+- id: cursor_mode
+  name: Free cursor on/off (modern controls; the world keeps running)
+  group: Camera
+- id: attack
+  name: Attack
+  group: Combat
+- id: cast_ready
+  name: Cast quick spell
+  group: Combat
+- id: quick_spell_1
+  name: Cast quick spell 1
+  group: Combat
+- id: quick_spell_2
+  name: Cast quick spell 2
+  group: Combat
+- id: quick_spell_3
+  name: Cast quick spell 3
+  group: Combat
+- id: quick_spell_4
+  name: Cast quick spell 4
+  group: Combat
+- id: battle_orders
+  name: Battle orders
+  group: Combat
+- id: upkeep
+  name: Cast upkeep spells
+  group: Combat
+- id: next_weapon
+  name: Next weapon, melee or bow (solo run)
+  group: Combat
+- id: previous_weapon
+  name: Previous weapon, melee or bow (solo run)
+  group: Combat
+- id: cast
+  name: Open spellbook
+  group: Combat
+- id: combat
+  name: Turn-based combat on/off
+  group: Combat
+- id: pass
+  name: Pass turn (turn-based)
+  group: Combat
+- id: use
+  name: Use / interact
+  group: Interaction
+- id: yell
+  name: Yell (villagers flee)
+  group: Interaction
+- id: trigger
+  name: Interact ahead
+  group: Interaction
+- id: char_cycle
+  name: Next character
+  group: Party & books
+- id: quest
+  name: Inventory
+  group: Party & books
+- id: quest_book
+  name: Quest book
+  group: Party & books
+- id: map_book
+  name: Map book
+  group: Party & books
+- id: history
+  name: History
+  group: Party & books
+- id: quick_ref
+  name: Quick reference
+  group: Party & books
+- id: statistics
+  name: Statistics
+  group: Party & books
+- id: rest
+  name: Rest
+  group: Party & books
+- id: follower_panel
+  name: Follower panel
+  group: Party & books
+- id: follower_1
+  name: Speak with follower 1
+  group: Party & books
+- id: follower_2
+  name: Speak with follower 2
+  group: Party & books
+- id: follower_3
+  name: Speak with follower 3
+  group: Party & books
+- id: follower_4
+  name: Speak with follower 4
+  group: Party & books
+- id: party_formation
+  name: Party formation (MM9)
+  group: Party & books
 - id: double_speed
-  name: Toggle double speed
+  name: Toggle fast mode
   group: System
+- id: quick_save
+  name: Quick save
+  group: System
+- id: quick_load
+  name: Quick load
+  group: System
+# A solo run's action bar: its own context, so its keys may be the party's, the bags' and the followers' number keys.
+- id: action_bar_1
+  name: Action bar slot 1
+  group: Solo run
+  context: solo_bar
+- id: action_bar_2
+  name: Action bar slot 2
+  group: Solo run
+  context: solo_bar
+- id: action_bar_3
+  name: Action bar slot 3
+  group: Solo run
+  context: solo_bar
+- id: action_bar_4
+  name: Action bar slot 4
+  group: Solo run
+  context: solo_bar
+- id: action_bar_5
+  name: Action bar slot 5
+  group: Solo run
+  context: solo_bar
+- id: action_bar_6
+  name: Action bar slot 6
+  group: Solo run
+  context: solo_bar
+- id: action_bar_7
+  name: Action bar slot 7
+  group: Solo run
+  context: solo_bar
+- id: action_bar_8
+  name: Action bar slot 8
+  group: Solo run
+  context: solo_bar
+- id: action_bar_9
+  name: Action bar slot 9
+  group: Solo run
+  context: solo_bar
+- id: action_bar_10
+  name: Action bar slot 10
+  group: Solo run
+  context: solo_bar
+# MAW's keys (devdocs/maw/GAPS.md §11 D.18): listed only in a MAW game's pause menu. `context` is the page a key acts
+# on; keys of different contexts may share a key.
+- id: unstuck
+  name: Get unstuck
+  group: MAW
+  ruleset: maw
+- id: open_workbench
+  name: Open Workbench
+  group: MAW
+  ruleset: maw
+- id: gather_loot
+  name: Gather corpses and crafting items
+  group: MAW
+  ruleset: maw
+- id: skill_cover
+  name: Switch Cover
+  group: MAW
+  ruleset: maw
+  context: skills
+- id: skill_mana_shield
+  name: Switch Mana Shield
+  group: MAW
+  ruleset: maw
+  context: skills
+- id: skill_rotation
+  name: Switch Elementalist rotation
+  group: MAW
+  ruleset: maw
+  context: skills
+- id: knight_charge
+  name: Knight Charge (a lone Knight)
+  group: MAW
+  ruleset: maw
+- id: show_item_rarity
+  name: Show item rarity (hold)
+  group: MAW
+  ruleset: maw
+  context: inventory
+- id: show_craftable_stats
+  name: Show craftable stats (hold)
+  group: MAW
+  ruleset: maw
+  context: inventory
+- id: bag_1
+  name: Open bag 1 (with Shift as Controls' Number keys say)
+  group: MAW
+  ruleset: maw
+  context: inventory
+- id: bag_2
+  name: Open bag 2 (with Shift as Controls' Number keys say)
+  group: MAW
+  ruleset: maw
+  context: inventory
+- id: bag_3
+  name: Open bag 3 (with Shift as Controls' Number keys say)
+  group: MAW
+  ruleset: maw
+  context: inventory
+- id: bag_4
+  name: Open bag 4 (with Shift as Controls' Number keys say)
+  group: MAW
+  ruleset: maw
+  context: inventory
+- id: crafting_bag
+  name: Crafting bag (with Shift; tags or untags the open bag)
+  group: MAW
+  ruleset: maw
+  context: inventory
+- id: open_progress
+  name: Open the Journal's Progress tab
+  group: MAW
+  ruleset: maw
+- id: open_auras
+  name: Open the aura panel
+  group: MAW
+  ruleset: maw
+- id: quick_item_wheel
+  name: Potions (the potion list; the active member's ring with the quick item rings on)
+  group: Potions
+- id: scroll_popup
+  name: Scrolls (the scroll list)
+  group: Potions
+- id: quick_item_1
+  name: Quick potion (the active member's slot 1)
+  group: Potions
+- id: quick_item_2
+  name: Use potion slot 2
+  group: Potions
+- id: quick_item_3
+  name: Use potion slot 3
+  group: Potions
+- id: quick_item_4
+  name: Use potion slot 4
+  group: Potions
+- id: quick_item_5
+  name: Use potion slot 5
+  group: Potions
+- id: quick_item_6
+  name: Use potion slot 6
+  group: Potions

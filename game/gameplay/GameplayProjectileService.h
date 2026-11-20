@@ -3,13 +3,20 @@
 #include "game/gameplay/GameplayRuntimeInterfaces.h"
 
 #include <cstddef>
+#include <functional>
 #include <cstdint>
+#include <memory>
 #include <optional>
+#include <random>
 #include <string>
 #include <vector>
 
 namespace OpenYAMM::Game
 {
+class ItemTable;
+class Party;
+struct PartyMissileSource;
+class CombatRules;
 struct Character;
 class ItemTable;
 struct ObjectEntry;
@@ -26,6 +33,37 @@ public:
         Attack2,
         Spell1,
         Spell2,
+    };
+
+    // Homing of a true_aim monster's projectile (MonsterModifiers): each step it turns toward its target's current
+    // position. Runtime only, never saved: a projectile in flight at a save flies straight on after the load.
+    struct ProjectileHoming
+    {
+        enum class TargetKind : uint8_t
+        {
+            Party,
+            Actor,
+        };
+
+        TargetKind targetKind = TargetKind::Party;
+        size_t targetActorIndex = static_cast<size_t>(-1);
+        uint32_t targetActorId = 0;
+        // Where on the target actor it homes, above its feet: the height its shot aimed at (raised over a ridge,
+        // OY-463). 0: the world's usual point on the actor. Not saved: a missile in flight across a load uses that.
+        float targetAimHeight = 0.0f;
+        float turnRadiansPerSecond = 0.0f;
+        // Seconds it homes (0: its whole flight); then it flies straight on or, with expireAfter, expires.
+        float maxSeconds = 0.0f;
+        bool expireAfter = false;
+        // Its speed when it was attached (kept while it turns).
+        float speed = 0.0f;
+        float elapsedSeconds = 0.0f;
+        // The target is gone (dead or removed): it flies straight on.
+        bool lost = false;
+        // Homes only while the target's direction, seen from above, turns away from its flight slower than this
+        // many radians a second, tested again each step: a faster sidestep leaves it flying straight on until its
+        // line crosses the target again (0: no lock). MAW's monster missiles (FSPS-2-10), frame-rate independent.
+        float lockRadiansPerSecond = 0.0f;
     };
 
     struct ProjectileState
@@ -62,6 +100,9 @@ public:
         float sourceX = 0.0f;
         float sourceY = 0.0f;
         float sourceZ = 0.0f;
+        // How far the target stood from the source when it was loosed (a monster's missile at the party: a solo run's
+        // Vanguard talent).
+        float firedDistance = 0.0f;
         float x = 0.0f;
         float y = 0.0f;
         float z = 0.0f;
@@ -71,8 +112,50 @@ public:
         int damage = 0;
         int attackBonus = 0;
         CombatDamageType damageType = CombatDamageType::Physical;
+        // Set for party attacks (CharacterAttackResult::shieldTier); otherwise the tier follows from the spell and
+        // damage type (projectileShieldTier). Saved from save version 135.
+        std::optional<ShieldAttackTier> shieldTier;
+        // What the party weapon's tech skill adds to its shield hit (CharacterAttackResult::shieldModifiers); not
+        // saved.
+        ShieldHitModifiers shieldModifiers;
+        // Resisted by the lower of the monster's physical and fire resistance (MAW's fire arrows); not saved.
+        bool weakerOfPhysicalAndFire = false;
+        // The radius its damage reaches around the impact when it is not the spell's (Carnage arrows); saved.
+        float explosionRadius = 0.0f;
+        // A party shot's damage range, rolled again for each monster its blast reaches, as the original rolls the
+        // shooter's ranged damage for each (Carnage arrows); 0: the blast deals its one damage. Not saved.
+        int blastMinimumDamage = 0;
+        int blastMaximumDamage = 0;
+        // A party missile or spell whose damage was a critical hit, for the status line and combat log where it
+        // lands; not saved.
+        bool critical = false;
+        // A solo run's Chaining Arrows (chainArrow): monsters it may still leap on to after striking one, the share of
+        // its first damage each takes, how far from the struck monster the next may stand, and the ones it has struck
+        // (it never strikes one twice). Not saved.
+        uint8_t chainLeft = 0;
+        float chainShare = 0.0f;
+        float chainRadius = 0.0f;
+        int chainDamage = 0;
+        std::vector<uint32_t> chainStruckActorIds;
+        // A solo run's ordinary bow attack: true until one of its arrows hits a monster, which takes the talents'
+        // cooldown_per_hit off their cooldowns (GameplayCombatController); the attack's arrows share it, so the attack
+        // counts once. An arrow that leaps on (chainArrow) drops it: its chained hits count nothing. Not saved.
+        std::shared_ptr<bool> hitCredit;
+        // Its blast (Carnage) hurts the monsters it reaches without their hit reaction (no flinch, no knockback); the
+        // monster it strikes still flinches. A solo run's Multishot arrows, so a volley's blasts do not lock a group
+        // down (user, 2026-11-17). Not saved.
+        bool quietBlast = false;
+        // An event's missile (evt.FireMissile): it passes the party, whose damage the event deals itself, and bursts
+        // at its target when its flight time ends unless it strikes something first; saved.
+        bool eventMissile = false;
+        // An event missile that strikes the party in its path (EventMissileRequest::strikesParty); not saved.
+        bool eventMissileStrikesParty = false;
+        float targetX = 0.0f;
+        float targetY = 0.0f;
+        float targetZ = 0.0f;
         bool useActorHitChance = false;
         bool turnBasedPendingAction = false;
+        std::optional<ProjectileHoming> homing;
         uint32_t timeSinceCreatedTicks = 0;
         float lifetimeTickAccumulator = 0.0f;
         uint32_t lifetimeTicks = 0;
@@ -91,6 +174,10 @@ public:
         int sourceSpellId = 0;
         // Presentation only (per-monster impact visuals); not saved, so a loaded impact shows the recipe's own.
         int16_t sourceMonsterId = 0;
+        // Presentation only, not saved: the unit direction the projectile flew when it struck, zero when unknown.
+        float flightDirectionX = 0.0f;
+        float flightDirectionY = 0.0f;
+        float flightDirectionZ = 0.0f;
         std::string objectName;
         std::string objectSpriteName;
         std::string sourceObjectName;
@@ -139,6 +226,30 @@ public:
         int damage = 0;
         int attackBonus = 0;
         CombatDamageType damageType = CombatDamageType::Physical;
+        std::optional<ShieldAttackTier> shieldTier;
+        // What the party weapon's tech skill adds to its shield hit (CharacterAttackResult::shieldModifiers); not
+        // saved.
+        ShieldHitModifiers shieldModifiers;
+        // Resisted by the lower of the monster's physical and fire resistance (MAW's fire arrows); not saved.
+        bool weakerOfPhysicalAndFire = false;
+        // The radius its damage reaches around the impact when it is not the spell's (Carnage arrows); not saved.
+        float explosionRadius = 0.0f;
+        // ProjectileState::blastMinimumDamage and blastMaximumDamage.
+        int blastMinimumDamage = 0;
+        int blastMaximumDamage = 0;
+        // Its damage was a critical hit (ProjectileState::critical).
+        bool critical = false;
+        // ProjectileState::chainLeft, chainShare, chainRadius, hitCredit and quietBlast.
+        uint8_t chainCount = 0;
+        float chainShare = 0.0f;
+        float chainRadius = 0.0f;
+        std::shared_ptr<bool> hitCredit;
+        bool quietBlast = false;
+        // An event's missile (ProjectileState::eventMissile), reaching its target in flightSeconds (0: at the
+        // object's speed).
+        bool eventMissile = false;
+        bool eventMissileStrikesParty = false;
+        float flightSeconds = 0.0f;
         bool useActorHitChance = false;
         bool turnBasedPendingAction = false;
         uint32_t impactSoundIdOverride = 0;
@@ -295,6 +406,16 @@ public:
         bool directImpactActor = false;
     };
 
+    // A standing destructible that takes damage (devdocs/INDOOR_DESTRUCTIBLES.md), by its box: the world's id for it
+    // (an indoor scene id, an outdoor source object index). The one the missile struck takes only the direct hit.
+    struct ProjectileAreaImpactDestructibleFacts
+    {
+        uint32_t id = 0;
+        GameplayWorldPoint boundsMin = {};
+        GameplayWorldPoint boundsMax = {};
+        bool directImpact = false;
+    };
+
     struct ProjectileAreaImpactInput
     {
         float impactX = 0.0f;
@@ -317,6 +438,12 @@ public:
         int damage = 0;
     };
 
+    struct ProjectileAreaImpactDestructibleHit
+    {
+        uint32_t id = 0;
+        int damage = 0;
+    };
+
     struct ProjectileAreaImpact
     {
         bool hitParty = false;
@@ -333,6 +460,14 @@ public:
         bool halfIncomingMissileDamage = false;
         float targetDistance = 0.0f;
         int nonPartyProjectileDamage = 0;
+        // The rules a party missile's hit is rolled by (Standard when null), and what they know of the target.
+        const CombatRules *pCombatRules = nullptr;
+        ActorRulesetFacts targetFacts;
+        int partyCount = 1;
+        // The party member who fired a party missile, while in the party.
+        const Character *pShooter = nullptr;
+        // The target's monster id (a world enchantment's bonus against its monsters).
+        int targetMonsterId = 0;
     };
 
     struct ProjectileDirectActorImpact
@@ -360,12 +495,21 @@ public:
         GameplayWorldPoint point;
         std::string colliderName;
         size_t worldFaceIndex = static_cast<size_t>(-1);
+        // A destructible decoration the missile struck (an indoor entity index; kind World, no face).
+        size_t worldEntityIndex = static_cast<size_t>(-1);
         size_t actorIndex = static_cast<size_t>(-1);
         uint32_t actorId = 0;
         int targetArmorClass = 0;
         int damageMultiplier = 1;
         bool halfIncomingMissileDamage = false;
         float targetDistance = 0.0f;
+        const CombatRules *pCombatRules = nullptr;
+        ActorRulesetFacts targetFacts;
+        int partyCount = 1;
+        // The party member who fired a party missile, while in the party.
+        const Character *pShooter = nullptr;
+        // The target's monster id (ProjectileDirectActorImpactInput::targetMonsterId).
+        int targetMonsterId = 0;
         bool waterTerrainImpact = false;
         ProjectileBounceSurfaceFacts bounceSurface;
     };
@@ -438,6 +582,11 @@ public:
         float partyCollisionRadius = 0.0f;
         float partyCollisionHeight = 0.0f;
         bool canHitParty = true;
+        // Turn-based combat is on: a party shot the queue waits on vanishes once far from the party.
+        bool turnBasedActive = false;
+        // The party's hit reach (GameplayActorService::partyHitReach): a party shot vanishes once farther from the
+        // party; 0 keeps the shot's own lifetime.
+        float partyShotReach = 0.0f;
         int nonPartyProjectileDamage = 0;
 
         std::vector<ProjectileAreaImpactActorFacts> areaActors;
@@ -449,6 +598,9 @@ public:
         ProjectileMotionSegment motion;
         bool applyMotionEnd = false;
         bool expireProjectile = false;
+        // An arrow with chains left struck a monster: once the hit is applied the world leaps it on or ends it
+        // (chainArrow) in place of expireProjectile.
+        bool chainArrow = false;
         bool logCollision = false;
         bool logLifetimeExpiry = false;
 
@@ -465,11 +617,33 @@ public:
         std::optional<GameplayWorldPoint> endPoint;
     };
 
+    // How a homing projectile ended (recentHomingEnds): what it hit, where, and whether it was still homing.
+    struct HomingProjectileEnd
+    {
+        enum class Hit
+        {
+            Party,
+            Actor,
+            World,
+            Ward,
+            Expired,
+        };
+
+        uint32_t projectileId = 0;
+        int16_t sourceMonsterId = 0;
+        Hit hit = Hit::Expired;
+        bool stillHoming = false;
+        GameplayWorldPoint point;
+    };
+
     struct ProjectileActorRelationFacts
     {
         bool eventSource = false;
         bool targetHostileToParty = false;
         bool targetPartyControlled = false;
+        // The shooting actor is the party's enemy (not looked up for a summon's shot or a target the party does not
+        // control).
+        bool sourceHostileToParty = false;
         bool sourceMonsterKnown = false;
         bool sourceMonsterFriendlyToTarget = false;
     };
@@ -494,6 +668,8 @@ public:
         bool unavailableForCombat = false;
         bool hostileToParty = false;
         bool friendlyToTrapSource = false;
+        // A wall or closed door stands between the spike and the creature (indoors), so it cannot trigger it (OY-490).
+        bool blockedFromTrap = false;
     };
 
     struct FireSpikeActiveTrapFacts
@@ -531,6 +707,10 @@ public:
         float z = 0.0f;
         std::vector<FireSpikeTrapActorFacts> actors;
     };
+
+    // Whether the creature is near enough to set the spike off (buildFireSpikeTrapTrigger's reach), before the
+    // other tests: the indoor world tests the line of sight only for these.
+    static bool fireSpikeTrapReaches(const FireSpikeTrapTriggerInput &input, const FireSpikeTrapActorFacts &actor);
 
     struct FireSpikeTrapTriggerResult
     {
@@ -579,7 +759,29 @@ public:
     uint32_t allocateProjectileId();
     uint32_t allocateProjectileImpactId();
     static uint32_t ticksFromDeltaSeconds(float deltaSeconds);
+    // What the projectile is to an energy shield: its party attack tier, else a spell, else by damage type.
+    static ShieldAttackTier projectileShieldTier(const ProjectileState &projectile);
+    // What the party's projectile adds to its shield hit: its weapon's modifiers, or its caster's Lattice Resonator
+    // for a spell.
+    static ShieldHitModifiers partyShieldModifiers(const ProjectileState &projectile, const Party *pParty);
     ProjectileSpawnResult spawnProjectile(const ProjectileSpawnRequest &request);
+    // A party spell that leaps on from the monster it hit (MAW's Chain Lightning): a copy, one mastery lower, from that
+    // monster to the nearest other living hostile one within 768; nothing when the rules stop it or none is near.
+    std::optional<ProjectileSpawnRequest> buildChainSpawnRequest(
+        const ProjectileState &projectile,
+        const CombatRules &rules,
+        const IGameplayWorldRuntime &world,
+        size_t struckActorIndex) const;
+    // A solo run's Chaining Arrows, once the arrow's hit on `impact`'s monster is applied: it turns to the nearest
+    // other living hostile monster it has not struck, within chainRadius of the struck one and in clear sight of
+    // `hitPoint`, and homes on it at chainShare of its first damage; with none it ends there. A hit spends a chain, a
+    // miss on a leap's monster does not (a miss on the shot's own target ends the arrow before this). False when it
+    // ended.
+    bool chainArrow(
+        ProjectileState &projectile,
+        const IGameplayWorldRuntime &world,
+        const ProjectileDirectActorImpact &impact,
+        const GameplayWorldPoint &hitPoint);
     ProjectileSpawnEffects buildProjectileSpawnEffects(
         const ProjectileSpawnResult &result) const;
     ProjectileSpawnEffects buildProjectileSpawnEffects(
@@ -606,6 +808,9 @@ public:
     void advanceProjectileImpactLifetimes(float deltaSeconds);
     void updateProjectileImpactPresentation(float deltaSeconds);
     bool advanceProjectileLifetime(ProjectileState &projectile, float deltaSeconds) const;
+    // Whether a party shot still holds up the turn-based queue: while it flies, for at most two seconds, so a miss into
+    // the sky or a stray Spark does not keep the turn for its whole lifetime. It flies on and can still hit.
+    static bool holdsTurnBasedQueue(const ProjectileState &projectile);
     ProjectileMotionSegment advanceProjectileMotion(
         ProjectileState &projectile,
         float deltaSeconds,
@@ -613,6 +818,46 @@ public:
     ProjectileFrameResult updateProjectileFrame(
         ProjectileState &projectile,
         const ProjectileFrameFacts &facts) const;
+    // Gives every live projectile of actor sourceActorId spawned since firstProjectileId (nextProjectileId() before
+    // the spawn) this homing, at its current speed; returns how many.
+    size_t attachHoming(uint32_t firstProjectileId, uint32_t sourceActorId, const ProjectileHoming &homing);
+    // The same for the missiles party member sourcePartyMemberIndex fired since firstProjectileId.
+    size_t attachPartyHoming(
+        uint32_t firstProjectileId,
+        uint32_t sourcePartyMemberIndex,
+        const ProjectileHoming &homing);
+    // Turns the velocity toward target by at most maxTurnRadians and sets its length to speed. False when the
+    // velocity is zero or the target lies at the position.
+    static bool steerVelocityToward(
+        float &velocityX,
+        float &velocityY,
+        float &velocityZ,
+        const GameplayWorldPoint &position,
+        const GameplayWorldPoint &target,
+        float speed,
+        float maxTurnRadians);
+    // Records how a homing projectile ended by this frame result (scenario checks, debug); others are not recorded.
+    void recordHomingEnd(const ProjectileState &projectile, const ProjectileFrameResult &result);
+    // The last 32 homing ends, oldest first.
+    const std::vector<HomingProjectileEnd> &recentHomingEnds() const
+    {
+        return m_recentHomingEnds;
+    }
+    // One step of a homing projectile before its motion: steers toward pTarget, or with no target (null) stops
+    // homing and flies straight on. True when its homing time ran out and it is to expire (expireAfter).
+    static bool steerHomingProjectile(
+        ProjectileState &projectile,
+        const GameplayWorldPoint *pTarget,
+        float deltaSeconds);
+    // The party moves once a rendered frame, the projectiles in fixed steps (stepCount of them this frame). Step
+    // stepIndex (from 0) sees the party that far from its position at the previous frame to its position now, so a
+    // missile homing on it steers the same at any frame rate (a lock tested per step would otherwise see two steps'
+    // movement in one at 30 fps).
+    static GameplayWorldPoint partyPositionAtStep(
+        const GameplayWorldPoint &previousFrame,
+        const GameplayWorldPoint &currentFrame,
+        int stepIndex,
+        int stepCount);
     static std::optional<ProjectileWardBlock> findProjectileWardBlock(
         const ProjectileState &projectile,
         const ProjectileMotionSegment &motion,
@@ -696,17 +941,45 @@ public:
         float z) const;
     std::optional<ProjectileAudioRequest> buildWaterSplashAudioRequest(float x, float y, float z) const;
     int resolveProjectilePartyImpactDamage(const ProjectilePartyImpactDamageInput &input) const;
+    // A party spell the world rolls itself (Fire Spike trap, Armageddon): the rules' roll (MAW rolls the spell), else
+    // `trapRoll`, the world's own.
+    static int partyWorldSpellDamage(
+        const Party *pParty,
+        const SpellTable *pSpellTable,
+        uint32_t sourcePartyMemberIndex,
+        int spellId,
+        uint32_t skillLevel,
+        uint32_t skillMastery,
+        int trapRoll);
     int resolvePartyProjectileDamageMultiplier(
         const ProjectileState &projectile,
         const Character *pSourceMember,
         const ItemTable *pItemTable,
         const SpecialItemEnchantTable *pSpecialItemEnchantTable,
-        uint32_t targetMonsterKindFlags) const;
+        uint32_t targetMonsterKindFlags,
+        const CombatRules &rules) const;
     ProjectileAreaImpact buildProjectileAreaImpact(
         const ProjectileState &projectile,
         const ProjectileAreaImpactInput &input) const;
+    // The destructibles an area impact (a fireball's blast) reaches, each within the radius of the impact point by its
+    // box, and the damage each takes: the blast's damage, as an actor takes it. Only a party's or an event's missile
+    // breaks the map (a monster's does not), and the destructible it struck takes only its direct hit.
+    static std::vector<ProjectileAreaImpactDestructibleHit> buildProjectileAreaDestructibleHits(
+        const ProjectileState &projectile,
+        const GameplayWorldPoint &impactPoint,
+        float impactRadius,
+        int nonPartyProjectileDamage,
+        const std::vector<ProjectileAreaImpactDestructibleFacts> &destructibles);
     ProjectileDirectActorImpact buildProjectileDirectActorImpact(
         const ProjectileState &projectile,
+        const ProjectileDirectActorImpactInput &input) const;
+    // What a party missile's blast deals one monster it reaches, before the monster's resistances. A shot with a
+    // blast damage range (Carnage) rolls it again for the monster and adds what a direct hit on it would (its bonus
+    // against the monster's kind, a Shield's halving), as MM8 deals each monster in the blast the shooter's ranged
+    // damage against it; other blasts deal `blastDamage`.
+    int partyBlastDamageToActor(
+        const ProjectileState &projectile,
+        int blastDamage,
         const ProjectileDirectActorImpactInput &input) const;
     void expireProjectile(
         ProjectileState &projectile,
@@ -745,9 +1018,28 @@ public:
     std::vector<GameplayProjectileEndPresentationState> takeEndedProjectiles();
 
     static int16_t waterSplashObjectId();
+    // How far a spell's impact damage reaches (Fireball's also sets a Carnage arrow's); 0 for a single target.
+    static float spellImpactDamageRadius(uint32_t spellId);
+    // Who sent a party projectile, for the rules' damage to the monster it struck (no attacker for any other).
+    static PartyMissileSource partyMissileSource(
+        const ProjectileState &projectile,
+        const Party *pParty,
+        const ItemTable *pItemTable,
+        const MonsterTable::MonsterStatsEntry &targetStats,
+        int targetCurrentHp);
+    // A party arrow's direct hit gains its bow's elemental enchantment and artifact damage, rolled for the hit and
+    // after the slaying multiplier and shield halving, as MM8 adds it; each element resists its own part. Nothing for
+    // spells, blaster shots, an explosion's splash or rules that add it themselves.
+    static void addPartyArrowElements(
+        PartyMissileSource &source,
+        const ProjectileState &projectile,
+        const Party *pParty,
+        const ItemTable *pItemTable,
+        std::mt19937 &rng);
+    // A monster's every resistance, for the rules that pick among them.
+    static MonsterDamageResistances monsterDamageResistances(const MonsterTable::MonsterStatsEntry &stats);
 
 private:
-    static float spellImpactDamageRadius(uint32_t spellId);
     static uint32_t fireSpikeLimitForMastery(uint32_t skillMastery);
     std::optional<int> buildProjectileDirectPartyDamage(
         const ProjectileState &projectile,
@@ -755,11 +1047,17 @@ private:
     const ProjectileImpactState &addProjectileImpact(ProjectileImpactState impact);
     uint32_t allocateFireSpikeTrapId();
 
+    size_t attachHomingWhere(
+        uint32_t firstProjectileId,
+        const ProjectileHoming &homing,
+        const std::function<bool(const ProjectileState &)> &fromSource);
+
     uint32_t m_nextProjectileId = 1;
     uint32_t m_nextProjectileImpactId = 1;
     uint32_t m_nextFireSpikeTrapId = 1;
     std::vector<ProjectileState> m_projectiles;
     std::vector<ProjectileImpactState> m_projectileImpacts;
     std::vector<GameplayProjectileEndPresentationState> m_endedProjectiles;
+    std::vector<HomingProjectileEnd> m_recentHomingEnds;
 };
 }

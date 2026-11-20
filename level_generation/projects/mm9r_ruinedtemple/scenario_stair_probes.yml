@@ -1,0 +1,169 @@
+id: lmroll.ruinedtemple_stair_probes
+title: stair probes over dropped invisible bottoms
+world: mm9
+mode: faithful
+tags:
+- probe
+steps:
+- load_map:
+    map: ruinedtemple.blv
+- movement_segment:
+    input: forward
+    seconds: 4.0
+    actor_collision: false
+    actor_ai: false
+    start: &id001
+      map: ruinedtemple.blv
+      x: 174
+      y: 1741
+      z: -2293
+      yaw_degrees: 90.0
+      pitch: 0
+    expect_stop: *id001
+    loose_tolerance: true
+    tolerance_xy: 5000
+    tolerance_z: 5000
+- movement_segment:
+    input: forward
+    seconds: 4.0
+    actor_collision: false
+    actor_ai: false
+    start: &id002
+      map: ruinedtemple.blv
+      x: 174
+      y: 2068
+      z: -2221
+      yaw_degrees: 90.0
+      pitch: 0
+    expect_stop: *id002
+    loose_tolerance: true
+    tolerance_xy: 5000
+    tolerance_z: 5000
+- movement_segment:
+    input: forward
+    seconds: 2.0
+    actor_collision: false
+    actor_ai: false
+    start: &id003
+      map: ruinedtemple.blv
+      x: -2839
+      y: 3036
+      z: -2211
+      yaw_degrees: 0.0
+      pitch: 0
+    expect_stop: *id003
+    loose_tolerance: true
+    tolerance_xy: 5000
+    tolerance_z: 5000
+- movement_segment:
+    input: forward
+    seconds: 2.0
+    actor_collision: false
+    actor_ai: false
+    start: &id004
+      map: ruinedtemple.blv
+      x: -2732
+      y: 3066
+      z: -2211
+      yaw_degrees: 0.0
+      pitch: 0
+    expect_stop: *id004
+    loose_tolerance: true
+    tolerance_xy: 5000
+    tolerance_z: 5000
+- movement_segment:
+    input: forward
+    seconds: 2.0
+    actor_collision: false
+    actor_ai: false
+    start: &id005
+      map: ruinedtemple.blv
+      x: -2611
+      y: 3561
+      z: -2211
+      yaw_degrees: 0.0
+      pitch: 0
+    expect_stop: *id005
+    loose_tolerance: true
+    tolerance_xy: 5000
+    tolerance_z: 5000
+- movement_segment:
+    input: forward
+    seconds: 2.0
+    actor_collision: false
+    actor_ai: false
+    start: &id006
+      map: ruinedtemple.blv
+      x: -2550
+      y: 3359
+      z: -2211
+      yaw_degrees: 0.0
+      pitch: 0
+    expect_stop: *id006
+    loose_tolerance: true
+    tolerance_xy: 5000
+    tolerance_z: 5000
+- movement_segment:
+    input: forward
+    seconds: 2.0
+    actor_collision: false
+    actor_ai: false
+    start: &id007
+      map: ruinedtemple.blv
+      x: -2611
+      y: 3156
+      z: -2211
+      yaw_degrees: 0.0
+      pitch: 0
+    expect_stop: *id007
+    loose_tolerance: true
+    tolerance_xy: 5000
+    tolerance_z: 5000
+- movement_segment:
+    input: forward
+    seconds: 2.0
+    actor_collision: false
+    actor_ai: false
+    start: &id008
+      map: ruinedtemple.blv
+      x: -2732
+      y: 3652
+      z: -2211
+      yaw_degrees: 0.0
+      pitch: 0
+    expect_stop: *id008
+    loose_tolerance: true
+    tolerance_xy: 5000
+    tolerance_z: 5000
+- movement_segment:
+    input: forward
+    seconds: 2.0
+    actor_collision: false
+    actor_ai: false
+    start: &id009
+      map: ruinedtemple.blv
+      x: -2839
+      y: 3681
+      z: -2211
+      yaw_degrees: 0.0
+      pitch: 0
+    expect_stop: *id009
+    loose_tolerance: true
+    tolerance_xy: 5000
+    tolerance_z: 5000
+- movement_segment:
+    input: forward
+    seconds: 2.0
+    actor_collision: false
+    actor_ai: false
+    start: &id010
+      map: ruinedtemple.blv
+      x: 228
+      y: 5454
+      z: -2866
+      yaw_degrees: 0.0
+      pitch: 0
+    expect_stop: *id010
+    loose_tolerance: true
+    tolerance_xy: 5000
+    tolerance_z: 5000

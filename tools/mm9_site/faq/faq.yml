@@ -1,0 +1,46 @@
+# The guide's FAQ page (#faq), in order; `short` names an entry on the home page's card. Each answer is a list of
+# paragraphs; [text](#route) is a link inside the guide. `figures` are pictures in faq/img (faq_figures.py draws them);
+# `table` names a table app.js builds from the game data (skill-lessons: the MM6-MM8 skills MM9 teaches under another
+# skill, and where each is learnt).
+questions:
+  - id: continents
+    short: Travel between continents
+    q: How do I travel between continents?
+    answer:
+      - >-
+        Use the dimensional travel pedestal, the stone column with the glowing orb on the lawn in front of you as you
+        enter [Sturmford City](#map-sturmfordcity). Click it to open four portals: Jadame, Enroth, Antagarich and
+        Chedian.
+      - >-
+        Ravenshore, New Sorpigal and Harmondale have the same pedestal, and their Chedian portal brings you back beside
+        this one (to the Bootcamp start until you have left the Isle of Ashes). Until you finish their opening quests,
+        the Jadame and Antagarich portals land you on Dagger Wound Island and Emerald Island.
+    figures:
+      - img: sturmfordcity_pedestal.webp
+        caption: Sturmford City's entrance, the pedestal ringed.
+      - img: sturmfordcity_pedestal_near.webp
+        caption: The pedestal up close.
+
+  - id: promotions
+    short: promotions
+    q: How do promotions work?
+    answer:
+      - >-
+        Each MM9 promotion quest promotes OpenYAMM classes: finish it and every eligible party member is promoted at
+        once, along the class lines the quest lists. Who sends you, who promotes and which classes each quest covers
+        are on the [Promotions](#quests-promotion) page.
+
+  - id: skills
+    short: skills MM9 lacks
+    q: Where do I learn skills MM9 does not have, such as Fire Magic, Staff or Alchemy?
+    answer:
+      - >-
+        Chedian teaches the MM6-MM8 skills one by one. The first lesson (Learn) is sold by the shops and venues that
+        fit the skill: weapon and armour shops teach their weapons and armour, magic shops their schools, apothecaries
+        Alchemy, taverns and general stores the thief and trade skills, temples and training halls the body skills.
+      - >-
+        Expert, Master and Grandmaster come from MM9's trainers: an MM9 skill's trainer teaches each skill it covers
+        (MM9's Elemental trainer teaches Fire, Air, Water and Earth Magic separately). The table lists the skills MM9
+        teaches under another name; every lesson, with its price and the rank it needs, is on the
+        [Teachers](#teachers) page.
+    table: skill-lessons

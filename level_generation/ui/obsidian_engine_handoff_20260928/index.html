@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="en">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Obsidian · engine handoff</title>
+<style>
+@font-face{font-family:Fondamento;src:url(engine/fonts/truetype/fondamento_regular.ttf)}
+*{box-sizing:border-box}[hidden]{display:none!important}body{margin:0;background:#0d1416;color:#e5dcc7;font:15px system-ui,sans-serif}
+header,nav,.controls,.details{padding:16px 3vw}header{display:flex;justify-content:space-between;align-items:center;gap:24px;border-bottom:1px solid #8c7a4855}
+h1{margin:0;font:32px Fondamento,serif}header p{margin:6px 0 0;color:#adae9e;font-size:13px}
+a{color:#e4c793}nav{display:flex;gap:8px;flex-wrap:wrap;padding-bottom:0}
+button,select{padding:9px 16px;border:1px solid #a38e5955;background:#202923;color:#e5dcc7;border-radius:3px;font:17px Fondamento,serif;cursor:pointer}
+button[aria-pressed=true],button:hover{background:#34392b;border-color:#c6ac73;color:#fff0c0}
+.controls{display:flex;gap:16px;align-items:center;flex-wrap:wrap;font-size:13px}label{display:flex;gap:10px;align-items:center}
+#viewer{display:block;width:100%;height:calc(100vw * .5625);max-height:85vh;border:0;background:#070a0c}
+.details{font-size:13px;line-height:1.7;display:flex;gap:22px;flex-wrap:wrap;color:#acae9e}
+#gallery{display:none;padding:22px 3vw;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:15px}
+figure{margin:0;border:1px solid #84754a55;padding:12px;background:#121b1c;overflow:hidden}
+figure img{display:block;max-width:100%;height:130px;object-fit:contain;margin:auto;background:repeating-conic-gradient(#283030 0 25%,#202728 0 50%) 0 0/18px 18px}
+figcaption{padding-top:10px;overflow-wrap:anywhere;font-size:11px;color:#c9c4b4}
+#fallback{margin:20px 3vw;display:none}#fallback img{max-width:100%}
+</style>
+<header><div><h1>Obsidian</h1><p>Integration package · graphics, layouts, fonts and native implementation notes</p></div>
+<a href="obsidian-runtime-preparation.zip">Download handoff ZIP</a></header>
+<nav id="tabs">
+<button data-view="inventory" aria-pressed="true">Inventory & status</button><button data-view="dialogue">Dialogue & input</button>
+<button data-view="hud">Gameplay</button><button data-view="stats">Stats</button><button data-view="skills">Skills</button>
+<button data-view="rest">Rest</button><button data-view="quickref">Party</button><button data-view="journal">Journal</button>
+<button data-view="assets">Assets</button></nav>
+<div class="controls">
+<label id="status-control">Status / entry<select id="status"><option value="short">Short message</option><option value="long">Long message</option>
+<option value="bank">Deposit amount · editable</option><option value="withdraw">Withdraw amount · editable</option>
+<option value="password">Alamos password · editable</option><option value="off">Empty rail</option></select></label>
+<label id="party-control">Party<select id="party"><option>1</option><option>4</option><option>5</option></select></label>
+<label id="journal-control" hidden>View<select id="journal"><option value="notes">Autonotes</option><option value="quests">Quests</option>
+<option value="story">Story</option><option value="map">Map</option></select></label>
+<span id="note">Clear status rail; ornament removed. Text and input remain live.</span>
+</div>
+<iframe id="viewer" title="Obsidian interactive review"></iframe>
+<div id="gallery"></div>
+<div id="fallback">Interactive studies need the repository. <a href="previews/fullscreen-bank.png">Open saved status/input preview</a>.</div>
+<div class="details"><a href="README.md">Package guide</a><a href="INTEGRATION.md">Engine integration</a>
+<a href="manifest.json">Asset manifest</a><a href="coverage.json">Screen coverage</a><a href="validation.json">Validation</a>
+<span>Prepared, unmounted. The browser is a design review; native rendering and input work remains.</span></div>
+<script>
+const $=s=>document.querySelector(s);let view='inventory',galleryReady=false;
+const q=new URLSearchParams(location.search);if(q.has('status'))$('#status').value=q.get('status');
+if(q.has('view'))view=q.get('view');
+function render(){
+ const status=$('#status').value,party=$('#party').value;
+ document.querySelectorAll('#tabs button').forEach(b=>b.setAttribute('aria-pressed',b.dataset.view===view));
+ $('#status-control').hidden=!['inventory','dialogue','hud'].includes(view);$('#journal-control').hidden=view!=='journal';
+ $('#party-control').hidden=['journal','assets'].includes(view);
+ $('#viewer').style.display=view==='assets'?'none':'block';$('#gallery').style.display=view==='assets'?'grid':'none';
+ $('#note').textContent=view==='assets'?'Content-free runtime PNGs; checkerboard shows alpha.':view==='journal'?
+   'Justified bodies and the wider submenu gutter.':'Clear status rail; ornament removed. Text and input remain live.';
+ if(view==='assets'){loadGallery();return;}
+ let url=`../obsidian_overlays_20260928/index.html?export=1&screen=${view}&party=${party}&status=${status}`;
+ if(view==='hud')url=`../hud_concepts_20260927/index.html?export=1&concept=obsidian&party=${party}&buffs=22&buffArt=clean&status=${status==='off'?'off':'long'}`;
+ if(view==='journal')url=`../obsidian_journal_20260928/index.html?export=1&view=${$('#journal').value}&align=justify`;
+ $('#viewer').src=url;
+}
+async function loadGallery(){
+ if(galleryReady)return;
+ try{const manifest=await(await fetch('manifest.json')).json();
+  for(const a of manifest.files.filter(f=>f.path.endsWith('.png'))){
+   const f=document.createElement('figure'),im=new Image(),caption=document.createElement('figcaption');im.loading='lazy';im.src=a.path;
+   caption.textContent=a.path.split('/').pop()+' · '+a.pixels.join(' × ');f.append(im,caption);$('#gallery').append(f);
+  }galleryReady=true;
+ }catch{$('#gallery').textContent='Serve this folder over HTTP to browse the asset manifest.';}
+}
+$('#tabs').onclick=e=>{if(e.target.dataset.view){view=e.target.dataset.view;render();}};
+for(const selector of ['#status','#party','#journal'])$(selector).onchange=render;
+render();
+</script>
+</html>

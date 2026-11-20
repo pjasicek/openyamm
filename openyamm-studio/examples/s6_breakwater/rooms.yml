@@ -1,0 +1,54 @@
+format: 0
+themes:
+  - id: theme:masonry
+    wall: {texture: t1w11a, size: [128, 256]}
+    floor: {texture: oflr, size: [128, 128]}
+    ceiling: {texture: d2ceil4, size: [256, 256]}
+    reveal: {texture: t1trima, size: [32, 32], scale: 2}
+  - id: theme:open_yard
+    wall: {texture: t1w11a, size: [128, 256]}
+    floor: {texture: oflr, size: [128, 128]}
+    ceiling: {texture: d2ceil4, size: [256, 256], sky: true}
+    reveal: {texture: t1trima, size: [32, 32], scale: 2}
+defaults: {theme: theme:masonry, ambient: 14}
+rooms:
+  - id: room:yard
+    name: Yard
+    theme: theme:open_yard
+    outline: [[0, 0], [1024, 0], [1024, 1024], [0, 1024]]
+    floor: 0
+    ceiling: 512
+    levels:
+      - id: level:pool
+        outline: [[192, 512], [640, 512], [640, 896], [192, 896]]
+        floor: -192
+        edge: {texture: t1w11a, size: [128, 256]}
+        surface: {texture: oflr, size: [128, 128]}
+        notes: The pool's bed, 192 under the yard.
+    platforms:
+      - id: platform:pool_surface
+        outline: [[192, 512], [640, 512], [640, 896], [192, 896]]
+        base: 172
+        rise: 4
+        solid: false
+        top_surface: {texture: 6wtrtyl, liquid: water}
+        notes: "The water's face: drawn, not solid, so the party sinks into the volume under it (objects.yml water)."
+  - id: room:store
+    name: Store
+    outline: [[1088, 0], [1856, 0], [1856, 768], [1088, 768]]
+    floor: 0
+    ceiling: 384
+    platforms:
+      - id: platform:barricade
+        at: [1120, 384]
+        size: [64, 256]
+        rise: 256
+        surface: {texture: t1w11a, size: [128, 256]}
+        notes: Boards nailed across the doorway from the store's side.
+openings:
+  - id: open:yard_store
+    from: room:yard
+    to: room:store
+    link: link:yard_store
+    width: 192
+    height: 256

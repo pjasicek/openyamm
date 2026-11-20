@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Obsidian split arcs — native integration</title>
+<style>
+*{box-sizing:border-box}body{margin:0;background:#101819;color:#e5dcc7;font:16px/1.5 system-ui,sans-serif}
+main{max-width:1600px;margin:auto;padding:28px}h1{font-size:30px;margin:0 0 8px;color:#ecd7ad}h2{font-size:20px;margin:0 0 6px}
+p{margin:0 0 16px;color:#c8cfca}a{color:#bddbe7}nav{display:flex;gap:16px;flex-wrap:wrap;margin:22px 0}
+nav a{border:1px solid #706c58;border-radius:3px;padding:8px 12px;text-decoration:none}nav a:hover{background:#26322f}
+article{border:1px solid #43524a;background:#192324;border-radius:4px;margin:0 0 28px;padding:16px}
+article img{width:100%;height:auto;display:block;border:1px solid #3f473d}article a{display:block}
+small{color:#abae9c}.eyebrow{color:#c6ac73;letter-spacing:1.2px;font-size:12px;text-transform:uppercase}
+@media(min-width:1000px){.states{display:grid;grid-template-columns:1fr 1fr;gap:24px}.states article{margin:0}}
+</style><main>
+<p class="eyebrow">Selected A · Integrated 29 September 2026 · Real game captures</p>
+<h1>Matching split arcs across the Obsidian HUD</h1>
+<p>The frame is anchored to the screen bottom. Portraits, selection and lower indicators clear its slimmer border;
+compact ornaments retain the rough brass and obsidian finish. Portrait size stays unchanged.</p>
+<p><a href="refinement_2134/README.md">2134</a>: a 25% larger active diamond. <a href="refinement_2135/README.md">2135</a>: larger status text, closer to the basebar. Widescreen and 4:3 captures show the latest changes.</p>
+<p>Inventory and house dialogue now use the same curved meters, selection and lower indicators, fitted below the clear status/input rail. <a href="overlay_arcs/README.md">Full-screen integration notes</a>.</p>
+<p><a href="arc_smoothing/index.html">Latest: smoother portrait outlines and clearer phase/clock text — before and after</a>.</p>
+<nav><a href="#overlay-inventory">Inventory</a><a href="#overlay-dialogue">House dialogue</a><a href="#overlay-input">Text input</a><a href="#overlay-knight">4:3 and empty slots</a><a href="#five-gameplay">Widescreen</a><a href="#five-4by3">4:3</a><a href="#one-knight-no-mana">Smaller parties</a><a href="#nobody-ready">Recovery and interaction</a><a href="README.md">Implementation and checks</a><a href="../index.html">Original comparison</a></nav>
+
+<article id="overlay-inventory"><h2>Inventory · matching portrait HUD</h2><p>Same arc thickness, resource colours, selection rim and diamond. The existing overlay portrait size and inventory grid are retained.</p><a href="overlay_arcs/images/inventory.png" target="_blank"><img src="overlay_arcs/images/inventory.png" alt="Inventory · matching portrait HUD" loading="lazy"></a></article>
+<article id="overlay-dialogue"><h2>House dialogue</h2><p>The shared row fits beneath the topic text and status rail, between the existing carved edges.</p><a href="overlay_arcs/images/house-topic.png" target="_blank"><img src="overlay_arcs/images/house-topic.png" alt="House dialogue" loading="lazy"></a></article>
+<article id="overlay-input"><h2>Bank · status/input rail</h2><p>Typed amounts and the caret remain above the portraits, with room for the full command prompt.</p><a href="overlay_arcs/images/bank-input.png" target="_blank"><img src="overlay_arcs/images/bank-input.png" alt="Bank · status/input rail" loading="lazy"></a></article>
+<article id="overlay-knight"><h2>One Knight · 1280 × 960</h2><p>A character with no maximum mana has no mana gauge. Empty banners remain aligned to the fixed five-slot frame.</p><a href="overlay_arcs/images/one-knight-inventory-4by3.png" target="_blank"><img src="overlay_arcs/images/one-knight-inventory-4by3.png" alt="One Knight · 1280 × 960" loading="lazy"></a></article>
+<article id="five-gameplay"><h2>Five members · 1600 × 900</h2><p>The selected A split arcs in the real game. HP left, mana right; the inner rim and diamond mark selection.</p><a href="refinement_2135/images/status-longer-wide.png" target="_blank"><img src="refinement_2135/images/status-longer-wide.png" alt="Five members · 1600 × 900" loading="lazy"></a></article>
+<article id="five-4by3"><h2>Five members · 1280 × 960</h2><p>The same portrait scale and bottom anchor at 4:3.</p><a href="refinement_2135/images/status-longer-4by3.png" target="_blank"><img src="refinement_2135/images/status-longer-4by3.png" alt="Five members · 1280 × 960" loading="lazy"></a></article>
+<div class="states">
+<article id="one-knight-no-mana"><h2>One member · zero mana</h2><p>The shared frame contracts to the party. This Knight has no mana gauge or empty mana track.</p><a href="images/one-knight-no-mana.png" target="_blank"><img src="images/one-knight-no-mana.png" alt="One member · zero mana" loading="lazy"></a></article>
+<article id="three-gameplay"><h2>Three members</h2><p>The frame expands in consistent steps, with room around the end portraits.</p><a href="images/three-gameplay.png" target="_blank"><img src="images/three-gameplay.png" alt="Three members" loading="lazy"></a></article>
+<article id="nobody-ready"><h2>Everyone recovering</h2><p>No selected rim or top diamond. Recovery stays around the dim aggro diamond.</p><a href="images/nobody-ready.png" target="_blank"><img src="images/nobody-ready.png" alt="Everyone recovering" loading="lazy"></a></article>
+<article id="selection-returns"><h2>A character becomes ready</h2><p>Selection returns when the first recovery finishes; other characters keep their recovery arcs.</p><a href="images/selection-returns.png" target="_blank"><img src="images/selection-returns.png" alt="A character becomes ready" loading="lazy"></a></article>
+<article id="selected-fourth"><h2>Click selection</h2><p>Clicking the fourth portrait moves both selection indicators.</p><a href="refinement_2134/images/diamond-fourth.png" target="_blank"><img src="refinement_2134/images/diamond-fourth.png" alt="Click selection" loading="lazy"></a></article>
+<article id="personal-buffs"><h2>Personal buffs</h2><p>The existing lower-right buff button opens the character’s live effects.</p><a href="images/personal-buffs.png" target="_blank"><img src="images/personal-buffs.png" alt="Personal buffs" loading="lazy"></a></article>
+<article id="overlay-buffs"><h2>Inventory · personal buffs</h2><p>The medallion opens the member’s live effects without changing the selected portrait.</p><a href="overlay_arcs/images/inventory-buffs.png" target="_blank"><img src="overlay_arcs/images/inventory-buffs.png" alt="Inventory personal buff panel" loading="lazy"></a></article>
+<article id="five-small"><h2>Five members · 800 × 600</h2><p>Small-window rendering of the same geometry.</p><a href="images/five-small.png" target="_blank"><img src="images/five-small.png" alt="Five members · 800 × 600" loading="lazy"></a></article>
+</div><p><small>Native bgfx screenshots, OpenGL on the desktop GPU. Fixtures exercise live health, mana and buff states; click any image for its original resolution.</small></p></main></html>

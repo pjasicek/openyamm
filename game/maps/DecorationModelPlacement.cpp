@@ -6,20 +6,24 @@
 namespace OpenYAMM::Game
 {
 std::array<float, 3> facingCardCorner(const Engine::ModelMatrix &m, const std::array<float, 3> &p,
-    const std::array<float, 3> &viewer)
+    const std::array<float, 3> &viewer, const std::array<float, 3> &pivot)
 {
-    const std::array<float, 3> world = {m[0] * p[0] + m[4] * p[1] + m[8] * p[2] + m[12],
-        m[1] * p[0] + m[5] * p[1] + m[9] * p[2] + m[13], m[2] * p[0] + m[6] * p[1] + m[10] * p[2] + m[14]};
-    const std::array<float, 3> origin = {m[12], m[13], m[14]};
+    const auto toWorld = [&m](const std::array<float, 3> &v)
+    {
+        return std::array<float, 3>{m[0] * v[0] + m[4] * v[1] + m[8] * v[2] + m[12],
+            m[1] * v[0] + m[5] * v[1] + m[9] * v[2] + m[13], m[2] * v[0] + m[6] * v[1] + m[10] * v[2] + m[14]};
+    };
+    const std::array<float, 3> world = toWorld(p);
+    const std::array<float, 3> centre = toWorld(pivot);
     const float scale = std::max(std::sqrt(m[0] * m[0] + m[1] * m[1] + m[2] * m[2]), 0.0001f);
-    const float across = ((world[0] - origin[0]) * m[0] + (world[1] - origin[1]) * m[1]
-        + (world[2] - origin[2]) * m[2]) / scale;
-    float towardX = viewer[0] - origin[0];
-    float towardY = viewer[1] - origin[1];
+    const float across = ((world[0] - centre[0]) * m[0] + (world[1] - centre[1]) * m[1]
+        + (world[2] - centre[2]) * m[2]) / scale;
+    float towardX = viewer[0] - centre[0];
+    float towardY = viewer[1] - centre[1];
     const float length = std::max(std::sqrt(towardX * towardX + towardY * towardY), 0.01f);
     towardX /= length;
     towardY /= length;
-    return {origin[0] - towardY * across, origin[1] + towardX * across, world[2]};
+    return {centre[0] - towardY * across, centre[1] + towardX * across, world[2]};
 }
 
 float yawFacing(const std::array<float, 2> &direction)
@@ -47,5 +51,27 @@ Engine::ModelMatrix swungPlacement(const Engine::ModelMatrix &placement, const s
     swing[13] = pivot[1] - (c * pivot[1] - s * pivot[2]);
     swing[14] = pivot[2] - (s * pivot[1] + c * pivot[2]);
     return Engine::multiplyModelMatrices(placement, swing);
+}
+
+Engine::ModelMatrix turnedPlacement(const Engine::ModelMatrix &placement, const std::array<float, 3> &pivot,
+    float angleRadians)
+{
+    // pivot * rotation about z * pivot^-1, in asset space, then the placement.
+    const float c = std::cos(angleRadians);
+    const float s = std::sin(angleRadians);
+    Engine::ModelMatrix turn = {c, s, 0.0f, 0.0f, -s, c, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f};
+    turn[12] = pivot[0] - (c * pivot[0] - s * pivot[1]);
+    turn[13] = pivot[1] - (s * pivot[0] + c * pivot[1]);
+    return Engine::multiplyModelMatrices(placement, turn);
+}
+
+float turnRemaining(float turnRadians, float durationSeconds, float elapsedSeconds)
+{
+    if (durationSeconds <= 0.0f || elapsedSeconds >= durationSeconds)
+    {
+        return 0.0f;
+    }
+    const float t = std::max(elapsedSeconds, 0.0f) / durationSeconds;
+    return -turnRadians * (1.0f - t * t * (3.0f - 2.0f * t));
 }
 }

@@ -67,6 +67,12 @@ SetMapMetadata({
     [212] = { kind = "obelisk", source = "title" },
     [261] = { kind = "shrine", source = "title" },
     },
+    learnedEffect = {
+    [109] = { autonote = 401, effect = "+10 Spell points restored" },
+    [110] = { autonote = 403, effect = "+10 Intellect and Personality temporary" },
+    [111] = { autonote = 404, effect = "+5 Elemental resistance temporary" },
+    [112] = { autonote = 402, effect = "+20 Luck temporary" },
+    },
     textureNames = {},
     spriteNames = {"6tree06"},
     castSpellIds = {6},

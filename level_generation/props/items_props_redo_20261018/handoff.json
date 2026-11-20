@@ -1,0 +1,71 @@
+{
+  "icons": [
+    "7item150",
+    "7item159",
+    "7item363",
+    "7item364",
+    "ankh",
+    "item263",
+    "item295",
+    "item327",
+    "keyring",
+    "keys2",
+    "shovel"
+  ],
+  "installed": [
+    "7item150",
+    "7item159",
+    "7item363",
+    "7item364",
+    "ankh",
+    "item263",
+    "item295",
+    "item327",
+    "keyring",
+    "keys2",
+    "shovel"
+  ],
+  "exports": {
+    "7item150": "work/7item150_export.glb",
+    "7item159": "work/7item159_export.glb",
+    "7item363": "work/7item363_export.glb",
+    "7item364": "work/7item364_export.glb",
+    "ankh": "work/ankh_export.glb",
+    "item263": "work/item263_export.glb",
+    "item295": "work/item295_export.glb",
+    "item327": "work/item327_export.glb",
+    "keyring": "work/keyring_export.glb",
+    "keys2": "work/keys2_export.glb",
+    "shovel": "work/shovel_export.glb"
+  },
+  "triangles": {
+    "7item150": 2554,
+    "7item159": 888,
+    "7item363": 828,
+    "7item364": 828,
+    "ankh": 976,
+    "item263": 2778,
+    "item295": 2640,
+    "item327": 3070,
+    "keyring": 3192,
+    "keys2": 1284,
+    "shovel": 636
+  },
+  "export_sha256": {
+    "7item150": "10abb1557a183069c3be4f267683f9a61a0fce03073027f482c985097fc51288",
+    "7item159": "31eec339d208a155e3642bb3544635a869a5344cc3779de741f9e2691ed27b3d",
+    "7item363": "b5fa4f99cce453f7bc352840264e3de796118d28a646903c2afcf39b142e25e9",
+    "7item364": "4c73f37cca4e324a5f83a37b52e3deb92b281279f502cdfc51ffd70ba035558d",
+    "ankh": "9b1e334f1844c8a813e3c7c66689ad5f73f13d42b5fca68a453a1e25d78e4cee",
+    "item263": "863e2f59343c18d3828739d9b24996dbfb67f45c83035d12d76aaa130be59f49",
+    "item295": "a5529e13d117a627b507a0dd056a2109ed0132ce6fed9ab1ed8a1f382284e612",
+    "item327": "c8c96eabcf741120539b156682baf4eccb3707d94ab14a8a9a675fd06f49bf43",
+    "keyring": "fce014fe5f60d254f86e8b049743182765dc78e1e7452a222bd149e2d8a33957",
+    "keys2": "507b45bc7f13af1a277391fde38f44bff0ea016db0a19305863252b765d45b68",
+    "shovel": "d9be137f3e6bb21e0ce7d798d137876dd665f6b53c57a224addf45edbfbd6ab3"
+  },
+  "length_changes": {},
+  "items_yml_edited": false,
+  "bounds": "run tools/item_model_shapes.py",
+  "meshy_credits": 0
+}

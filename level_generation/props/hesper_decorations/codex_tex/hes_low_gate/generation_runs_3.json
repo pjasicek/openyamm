@@ -1,0 +1,196 @@
+{
+  "tool": "built-in image_gen",
+  "status": "incomplete: saved best available unresized returns; exact resolution, silhouette and flat lighting requirements not met",
+  "runs": [
+    {
+      "view": "left",
+      "prompt": "Use case: precise-object-edit. Paint a texture-source albedo over the supplied guide_left.png (image 2), using design_reference.png (image 1) ONLY as the colour and material authority. Output one 1024 x 1024 PNG with genuine transparent background, at the guide's original canvas size. The guide is the EXACT model seen orthographically from the LEFT, not a three-quarter view. Keep its silhouette, size, position, every shape edge, opening and detail EXACTLY unchanged. The object occupies only about x391\u2013634, y276\u2013747 on the 1024 canvas: keep all the generous empty transparent margins. Do not enlarge or reframe. Paint existing surfaces: chipped white ceramic plates with gold edges, rust-brown and grey riveted steel, warm lantern colour only where a lantern is actually visible in the guide. Preserve the narrow end-on tower, central tall thin upright, circular top opening, buttresses and partly visible side gate exactly as shown by the guide. Do not add the full arch, extra towers, ornaments, windows, lanterns or protrusions from the design reference. LIGHTING: texture source (albedo), even flat shadowless light from the viewer; no cast shadows, no ambient-occlusion darkening, no strong specular highlights or reflections, no rim light, no background, no floor. Glowing parts are painted at their glowing colour with no light cast on surroundings. Change surface colours/materials only; retain guide geometry and transparency exactly. No text.",
+      "source": "/home/pjasicek/.codex/generated_images/01a15d8e-bcb8-7911-ba97-6c0d7d0c6001/exec-40398547-11ee-4747-9d49-01f686b0a5c8.png",
+      "output": null,
+      "selected": false,
+      "reason": "Rejected: returned 1254 x 1254 instead of 1024 x 1024, enlarged subject and altered silhouette; shaded cavities and highlights remain.",
+      "inputs": [
+        {
+          "path": "design_reference.png",
+          "sha256": "3df079c4d57a8ba801a66725238ba502010c98a5155b3d853ec0d2ec6ae43ebb"
+        },
+        {
+          "path": "guide_left.png",
+          "sha256": "80b4d8ba4da57197c2ec493e90100aadcc566d9e47bf91c71abcd090b24d6367"
+        }
+      ],
+      "checks": {
+        "dimensions": [
+          1254,
+          1254
+        ],
+        "required_dimensions": [
+          1024,
+          1024
+        ],
+        "dimensions_pass": false,
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "transparent_background": true,
+        "alpha_bbox": [
+          49,
+          25,
+          1232,
+          1232
+        ],
+        "opaque_bbox_threshold_127": [
+          434,
+          265,
+          833,
+          1004
+        ],
+        "guide_alpha_bbox": [
+          390,
+          276,
+          634,
+          748
+        ],
+        "silhouette_identical": false,
+        "materials_and_colours": "White ceramic, gold edges, grey and rusty brown steel visually match reference palette.",
+        "flat_even_light": "Fail: cavity darkening and edge highlights remain.",
+        "brief_compliant": false
+      },
+      "output_sha256": "fb58307def97f68546c49dc5ca706fa2eae624b27bac3700affcb98286b24190"
+    },
+    {
+      "view": "right",
+      "prompt": "Edit image 1 (guide_right.png) IN PLACE. Image 2 (design_reference.png) is only a MATERIAL AND COLOUR reference. Deliver exactly a 1024 x 1024 transparent PNG. Do not change canvas size. Keep the geometry of image 1 pixel registered: the object alpha bounding box is x390 to 633 and y276 to 747 inclusive; it is a SMALL object centered in a large empty square. Never enlarge it to fill the image. This is the RIGHT orthographic side of a gate's existing 3D model, seen end on. Paint only its existing gray surfaces with chipped white ceramic plates with gold edges, rust-brown and grey riveted steel using image 2. A warm lantern is painted only if already visible in the geometry; do not invent one. Keep every silhouette, position, scale, shape edge, opening and detail of image 1. Central narrow upright and existing buttresses must stay the same width and location; the partially visible door remains on the right. Do not add design features or copy the perspective of image 2. Texture source albedo: flat, even, shadowless viewer lighting, NO cast shadows or ambient occlusion, no strong specular highlights/reflections, no rim light. No background or floor. Any glowing colour stays on its surface without light spill. Genuine alpha transparency, no checkerboard. Preserve all original transparent margins and holes. Output only the painted image.",
+      "source": "/home/pjasicek/.codex/generated_images/01a15d8e-bcb8-7911-ba97-6c0d7d0c6001/exec-95944c74-3e53-48d4-b11d-b289bb1b20b9.png",
+      "output": "paint_right.png",
+      "selected": true,
+      "reason": "Only returned right candidate; saved unmodified as best available, NOT brief-compliant: wrong resolution, silhouette deviations and residual shading.",
+      "inputs": [
+        {
+          "path": "guide_right.png",
+          "sha256": "939055ca242debbaca75f40d6288000e7a0a34700eab9e5717aceae955a9fb0c"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "3df079c4d57a8ba801a66725238ba502010c98a5155b3d853ec0d2ec6ae43ebb"
+        }
+      ],
+      "checks": {
+        "dimensions": [
+          1254,
+          1254
+        ],
+        "required_dimensions": [
+          1024,
+          1024
+        ],
+        "dimensions_pass": false,
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "transparent_background": true,
+        "alpha_bbox": [
+          41,
+          19,
+          1224,
+          1234
+        ],
+        "opaque_bbox_threshold_127": [
+          478,
+          341,
+          776,
+          916
+        ],
+        "guide_alpha_bbox": [
+          390,
+          276,
+          634,
+          748
+        ],
+        "silhouette_identical": false,
+        "materials_and_colours": "White ceramic, gold edges, grey and rusty brown steel visually match reference palette.",
+        "flat_even_light": "Fail: cavity darkening and edge highlights remain.",
+        "brief_compliant": false
+      },
+      "output_sha256": "2679bbbbc442467eddd43486b5fc5553e24f1ee559872459cb7dcff1a7c8002c"
+    },
+    {
+      "view": "left",
+      "prompt": "Edit image 1 (guide_left.png) IN PLACE. Image 2 (design_reference.png) is only a MATERIAL AND COLOUR reference. Deliver exactly a 1024 x 1024 transparent PNG. Do not change canvas size. Keep the geometry of image 1 pixel registered: the object alpha bounding box is x390 to 633 and y276 to 747 inclusive; it is a SMALL object centered in a large empty square. Never enlarge it to fill the image. This is the LEFT orthographic side of a gate's existing 3D model, seen end on. Paint only its existing gray surfaces with chipped white ceramic plates with gold edges, rust-brown and grey riveted steel using image 2. A warm lantern is painted only if already visible in the geometry; do not invent one. Keep every silhouette, position, scale, shape edge, opening and detail of image 1. Central narrow upright and existing buttresses must stay the same width and location; the partially visible door remains on the left. Do not add design features or copy the perspective of image 2. Texture source albedo: flat, even, shadowless viewer lighting, NO cast shadows or ambient occlusion, no strong specular highlights/reflections, no rim light. No background or floor. Any glowing colour stays on its surface without light spill. Genuine alpha transparency, no checkerboard. Preserve all original transparent margins and holes. Output only the painted image. Corrective attempt: the previous result wrongly enlarged the object and returned a 1254 x 1254 canvas. Required output resolution is 1024 x 1024, UNRESIZED. Copy image 1's original alpha mask exactly and paint only inside it. The model must be precisely 244 pixels wide by 472 pixels tall, in bounding box [390,276,634,748) on the 1024 x 1024 canvas. The top, base and every aperture must match image 1. Flatten material lighting: no dark cavity shading or bright gold highlights.",
+      "source": "/home/pjasicek/.codex/generated_images/01a15d8e-bcb8-7911-ba97-6c0d7d0c6001/exec-c1ecb69c-6850-4e41-a0b6-2bef71e2cb7e.png",
+      "output": "paint_left.png",
+      "selected": true,
+      "reason": "Corrective candidate improves framing over initial left return; saved unmodified as best available, NOT brief-compliant: wrong resolution, silhouette deviations and residual shading.",
+      "inputs": [
+        {
+          "path": "guide_left.png",
+          "sha256": "80b4d8ba4da57197c2ec493e90100aadcc566d9e47bf91c71abcd090b24d6367"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "3df079c4d57a8ba801a66725238ba502010c98a5155b3d853ec0d2ec6ae43ebb"
+        }
+      ],
+      "checks": {
+        "dimensions": [
+          1254,
+          1254
+        ],
+        "required_dimensions": [
+          1024,
+          1024
+        ],
+        "dimensions_pass": false,
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "transparent_background": true,
+        "alpha_bbox": [
+          97,
+          44,
+          1230,
+          1230
+        ],
+        "opaque_bbox_threshold_127": [
+          451,
+          307,
+          804,
+          973
+        ],
+        "guide_alpha_bbox": [
+          390,
+          276,
+          634,
+          748
+        ],
+        "silhouette_identical": false,
+        "materials_and_colours": "White ceramic, gold edges, grey and rusty brown steel visually match reference palette.",
+        "flat_even_light": "Fail: cavity darkening and edge highlights remain.",
+        "brief_compliant": false
+      },
+      "output_sha256": "619bf2f935b1f202bf10653eaa780751d6126469061175410ff1220871ff3808"
+    },
+    {
+      "view": "right",
+      "prompt": "Edit image 1 (guide_right.png) IN PLACE. Image 2 (design_reference.png) is only a MATERIAL AND COLOUR reference. Deliver exactly a 1024 x 1024 transparent PNG. Do not change canvas size. Keep the geometry of image 1 pixel registered: the object alpha bounding box is x390 to 633 and y276 to 747 inclusive; it is a SMALL object centered in a large empty square. Never enlarge it to fill the image. This is the RIGHT orthographic side of a gate's existing 3D model, seen end on. Paint only its existing gray surfaces with chipped white ceramic plates with gold edges, rust-brown and grey riveted steel using image 2. A warm lantern is painted only if already visible in the geometry; do not invent one. Keep every silhouette, position, scale, shape edge, opening and detail of image 1. Central narrow upright and existing buttresses must stay the same width and location; the partially visible door remains on the right. Do not add design features or copy the perspective of image 2. Texture source albedo: flat, even, shadowless viewer lighting, NO cast shadows or ambient occlusion, no strong specular highlights/reflections, no rim light. No background or floor. Any glowing colour stays on its surface without light spill. Genuine alpha transparency, no checkerboard. Preserve all original transparent margins and holes. Output only the painted image. CORRECTION: prior output was 1254 x 1254 and not pixel aligned. Output MUST be 1024 x 1024 pixels, not 1254. This is a strict recolouring of input image 1; preserve its alpha mask without changes and all underlying geometry. Subject must stay x390..633, y276..747 inclusive. Do not draw a new interpretation. Use matte base colours with absolutely no occlusion shading or gold highlights.",
+      "source": null,
+      "output": null,
+      "selected": false,
+      "reason": "Corrective generation failed: tool safety system rejected generated output with violence category (HTTP 400 moderation_blocked). No image returned.",
+      "error_request_id": "388f3c49-9cb7-4050-8e6c-262c57fd3d0e",
+      "inputs": [
+        {
+          "path": "guide_right.png",
+          "sha256": "939055ca242debbaca75f40d6288000e7a0a34700eab9e5717aceae955a9fb0c"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "3df079c4d57a8ba801a66725238ba502010c98a5155b3d853ec0d2ec6ae43ebb"
+        }
+      ]
+    }
+  ]
+}

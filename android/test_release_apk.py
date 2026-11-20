@@ -28,6 +28,10 @@ def main():
     parser.add_argument("--world", default="mm8")
     parser.add_argument("--map", default="out13.odm")
     parser.add_argument("--timeout", type=int, default=180)
+    parser.add_argument("--update-url", help="Update channel of the game and its content download "
+                        "(release APKs download their content on the first start)")
+    parser.add_argument("--content-timeout", type=int, default=1800,
+                        help="Seconds the first start may spend downloading the content")
     parser.add_argument("--resume-cycles", type=int, default=3,
                         help="Test Home, task switching and screen off/on without restarting the game")
     args = parser.parse_args()
@@ -42,6 +46,9 @@ def main():
             [args.adb, "-s", args.serial, *command], stdout=subprocess.PIPE,
             stderr=subprocess.PIPE, timeout=240, check=False,
         )
+        # A device that went away fails at once instead of when a wait times out.
+        if b"not found" in result.stderr and b"device" in result.stderr:
+            raise RuntimeError("The emulator " + args.serial + " disappeared.")
         if check and result.returncode:
             raise RuntimeError(result.stderr.decode(errors="replace") + result.stdout.decode(errors="replace"))
         return result.stdout
@@ -53,9 +60,17 @@ def main():
     def launch():
         adb("shell", "am", "start", "-n", package + "/.OpenYammActivity")
 
+    def install(apk):
+        adb("install", "-r", str(apk.resolve()))
+        # Android finishes replacing the package after adb returns; an activity started before that is destroyed and
+        # recreated, which the game does not survive.
+        time.sleep(8)
+
     def capture_rendered_screen(name):
-        screenshot = adb("exec-out", "screencap", "-p")
-        (args.output / (name + ".png")).write_bytes(screenshot)
+        # The emulator's own capture: screencap returns black when the emulator renders on the host GPU.
+        path = (args.output / (name + ".png")).resolve()
+        adb("emu", "screenrecord", "screenshot", str(path))
+        screenshot = path.read_bytes()
         with Image.open(io.BytesIO(screenshot)) as image:
             width, height = image.size
             # Exclude Android status/navigation bars and game letterboxing.
@@ -64,21 +79,28 @@ def main():
         return sum(histogram[24:]) > sum(histogram) * 0.10
 
     with zipfile.ZipFile(args.apk) as apk:
-        config = configparser.ConfigParser()
-        config.read_string(apk.read("assets/settings.ini").decode())
         shaders = {
             name[len("assets/"):]: apk.read(name) for name in apk.namelist()
             if name.startswith("assets/runtime/shaders/essl/") and name.endswith(".bin")
         }
     if not shaders:
         raise RuntimeError("APK contains no Android shaders.")
+    with zipfile.ZipFile(args.apk) as apk:
+        downloads_content = "assets/index.json" not in apk.namelist()
+    if downloads_content and not args.update_url:
+        raise RuntimeError("This APK downloads its content; pass --update-url.")
 
     if args.baseline_apk:
         print("Installing baseline APK", flush=True)
-        adb("install", "-r", str(args.baseline_apk.resolve()))
+        install(args.baseline_apk)
         launch()
         time.sleep(10)
         adb("shell", "am", "force-stop", package)
+    else:
+        # A new player: no content or settings from an earlier run of this emulator. Files an earlier install left in
+        # external storage belong to its user id, which the new install cannot write to.
+        adb("uninstall", package, check=False)
+        adb("shell", "rm", "-rf", "/sdcard/Android/data/" + package, check=False)
 
     # No uninstall, clear-data, save conversion or manual shader installation.
     if args.baseline_apk:
@@ -86,6 +108,13 @@ def main():
         if args.save:
             adb("push", str(args.save.resolve()), storage + "/saves/upgrade-test.oysav")
 
+    # The APK ships no settings: the game's defaults apply, and a player's file holds only their choices. A file
+    # without a current profile would be migrated as an old one.
+    config = configparser.ConfigParser()
+    config.read_dict({"profile": {"name": "android", "version": "5"}, "startup": {}, "debug": {}, "logging": {},
+                      "video": {}, "updates": {"check_for_updates": "off"}})
+    if args.update_url:
+        config["updates"]["url"] = args.update_url
     config["startup"]["start_in_main_menu"] = "false"
     config["startup"]["save_file"] = "saves/upgrade-test.oysav" if args.save else ""
     config["debug"]["start_world"] = args.world
@@ -106,8 +135,15 @@ def main():
     if args.baseline_apk:
         adb("push", str(settings.resolve()), storage + "/settings.ini")
     print("Installing candidate APK with adb install -r", flush=True)
-    adb("install", "-r", str(args.apk.resolve()))
+    install(args.apk)
     if not args.baseline_apk:
+        # The app must create its storage folder itself: one adb creates before the first start belongs to the
+        # shell, and the game cannot write below it.
+        launch()
+        deadline = time.monotonic() + 30
+        while time.monotonic() < deadline and adb("shell", "ls", "-d", storage, check=False).strip() != storage.encode():
+            time.sleep(1)
+        adb("shell", "am", "force-stop", package)
         adb("shell", "mkdir", "-p", storage + "/saves", storage + "/logs")
         adb("push", str(settings.resolve()), storage + "/settings.ini")
         if args.save:
@@ -124,6 +160,18 @@ def main():
     launch()
     marker = ('load_game_applied ' if args.save else 'map_loaded ') + 'map="' + args.map + '"'
     ready_since = None
+    if downloads_content:
+        # The update screen downloads the content on Wi-Fi by itself, then starts the game.
+        def game_started():
+            return b"Starting shared OpenYAMM game entry" in adb("logcat", "-d", "-v", "brief", "-s", "OpenYAMM")
+
+        deadline = time.monotonic() + args.content_timeout
+        while time.monotonic() < deadline and not game_started():
+            time.sleep(5)
+        if not game_started():
+            adb("emu", "screenrecord", "screenshot", str((args.output / "download-screen.png").resolve()), check=False)
+            raise RuntimeError("The first start did not download the content and start the game")
+        print("Content downloaded; the game started", flush=True)
     deadline = time.monotonic() + args.timeout
     try:
         while time.monotonic() < deadline:
@@ -199,7 +247,7 @@ def main():
         (args.output / "logcat.txt").write_bytes(adb("logcat", "-d", "-v", "threadtime"))
         (args.output / "gameplay.log").write_bytes(
             adb("exec-out", "cat", storage + "/logs/android-release-test.log", check=False))
-        (args.output / "screen.png").write_bytes(adb("exec-out", "screencap", "-p", check=False))
+        adb("emu", "screenrecord", "screenshot", str((args.output / "screen.png").resolve()), check=False)
         adb("shell", "am", "force-stop", package)
 
 

@@ -1,0 +1,273 @@
+status: Integration contract, not UiLayoutManager input
+initial_values: Read GameSettings and KeyboardBindings; never copy browser review defaults.
+transaction: One shared draft across all five tabs. Apply persists; Revert restores committed values.
+display_changes:
+  confirmation_seconds: 15
+  timeout_action: Restore previous display configuration
+defaults: Use engine default constructors/presets; reset only the current section after confirmation.
+settings:
+- id: bolster_monsters
+  section: gameplay
+  group: Challenge
+  name: Monster scaling
+  type: toggle
+  ini: features.bolster_monsters
+  desc: Scale monsters with the party. Apply when entering an area.
+  apply_timing: Next area entry; deferred application is a new controller requirement.
+- id: quest_markers
+  section: gameplay
+  group: Exploration
+  name: Quest markers
+  type: toggle
+  ini: gameplay.quest_markers
+  desc: Show quest markers where the game provides them.
+- id: combat_text
+  section: gameplay
+  group: Combat feedback
+  name: Floating combat text
+  type: toggle
+  ini: gameplay.combat_text
+  desc: Show damage and combat messages in the world.
+- id: combat_actor_hp_bars
+  section: gameplay
+  group: Combat feedback
+  name: Enemy health bars
+  type: toggle
+  ini: gameplay.combat_actor_hp_bars
+  desc: Show health bars on combat actors.
+- id: combat_target_panel
+  section: gameplay
+  group: Combat feedback
+  name: Target information
+  type: toggle
+  ini: gameplay.combat_target_panel
+  desc: Show the combat target panel.
+- id: show_hits
+  section: gameplay
+  group: Combat feedback
+  name: Hit messages
+  type: toggle
+  ini: controls.show_hits
+  desc: Report attacks in the status text.
+- id: context_action_popup
+  section: gameplay
+  group: Interaction
+  name: Context action menu
+  type: toggle
+  ini: gameplay.context_action_popup
+  desc: Offer contextual actions for the object under the pointer.
+- id: skip_event_cutscenes
+  section: gameplay
+  group: Story
+  name: Skip event cutscenes
+  type: toggle
+  ini: video.skip_event_cutscenes
+  desc: Skip event movies. Leave off for a first adventure.
+- id: window_mode
+  section: video
+  group: Display
+  name: Display mode
+  type: select
+  ini: video.window_mode
+  desc: Changes must be confirmed within 15 seconds.
+  choices:
+  - - windowed
+    - Windowed
+  - - windowed_fullscreen
+    - Borderless
+  - - fullscreen
+    - Fullscreen
+- id: resolution
+  section: video
+  group: Display
+  name: Resolution
+  type: select
+  ini: video.resolution
+  desc: Borderless uses your desktop resolution.
+  choices_source: Enumerate supported monitor modes; examples in browser are not a device capability list.
+  disabled_when: window_mode == windowed_fullscreen
+- id: vsync
+  section: video
+  group: Display
+  name: Vertical sync
+  type: toggle
+  ini: video.vsync
+  desc: Reduce screen tearing by syncing frames to the display.
+- id: view_distance
+  section: video
+  group: World detail
+  name: View distance
+  type: select
+  ini: video.view_distance
+  desc: Longer distances can reduce performance outdoors.
+  choices:
+  - - default
+    - World default
+  - - '32768'
+    - Extended
+  - - unlimited
+    - Unlimited
+- id: texture_filtering
+  section: video
+  group: World detail
+  name: Smooth textures
+  type: toggle
+  ini: video.texture_filtering
+  desc: Filter texture pixels instead of showing sharp texel edges.
+- id: terrain_anisotropy
+  section: video
+  group: World detail
+  name: Ground texture clarity
+  type: select
+  ini: video.terrain_anisotropy
+  desc: Keep distant ground textures sharper. Uses anisotropic terrain filtering.
+  choices:
+  - - 2x
+    - 2×
+  - - 4x
+    - 4×
+  - - 8x
+    - 8×
+  - - 16x
+    - 16×
+  paired_write: video.terrain_filtering = anisotropic, plus the selected terrain_anisotropy value
+- id: terrain_decorations
+  section: video
+  group: World detail
+  name: Terrain details
+  type: toggle
+  ini: video.terrain_decorations
+  desc: Draw extra terrain decorations where available.
+- id: cinematic_grading
+  section: video
+  group: Colour & effects
+  name: Cinematic colour
+  type: toggle
+  ini: video.cinematic_grading
+  desc: Apply the cinematic colour treatment.
+- id: cinematic_strength
+  section: video
+  group: Colour & effects
+  name: Colour intensity
+  type: range
+  min: 0
+  max: 100
+  ini: video.cinematic_strength
+  unit: '%'
+  depends: cinematic_grading
+  desc: Adjust the strength of cinematic colour.
+- id: colored_lights
+  section: video
+  group: Colour & effects
+  name: Coloured lighting
+  type: toggle
+  ini: video.colored_lights
+  desc: Use the colours of nearby light sources.
+- id: tinting
+  section: video
+  group: Colour & effects
+  name: Colour tinting
+  type: toggle
+  ini: video.tinting
+  desc: Retain the original tinting option.
+- id: blood_splats
+  section: video
+  group: Colour & effects
+  name: Blood splats
+  type: toggle
+  ini: video.blood_splats
+  desc: Show blood splat effects.
+- id: melee_hit_blood_effects
+  section: video
+  group: Colour & effects
+  name: Melee blood effects
+  type: toggle
+  ini: gameplay.melee_hit_blood_effects
+  desc: Add blood effects when melee attacks connect.
+- id: sound_volume
+  section: audio
+  group: Volume
+  name: Sound effects
+  type: range
+  min: 0
+  max: 9
+  ini: audio.sound_volume
+  unit: / 9
+  desc: Weapons, spells, interface sounds, and the world.
+- id: music_volume
+  section: audio
+  group: Volume
+  name: Music
+  type: range
+  min: 0
+  max: 9
+  ini: audio.music_volume
+  unit: / 9
+  desc: Music in menus, towns, and dungeons.
+- id: voice_volume
+  section: audio
+  group: Volume
+  name: Voices
+  type: range
+  min: 0
+  max: 9
+  ini: audio.voice_volume
+  unit: / 9
+  desc: Spoken character reactions and dialogue.
+- id: walksound
+  section: audio
+  group: World sounds
+  name: Footsteps
+  type: toggle
+  ini: controls.walksound
+  desc: Play walking and running sounds.
+- id: control_scheme
+  section: controls
+  group: Input style
+  name: Control preset
+  type: select
+  ini: controls.control_scheme
+  desc: 'Modern: WASD, left-click attack, E to use. Classic: arrow keys, A to attack, left-click to use.'
+  choices:
+  - - modern
+    - Modern
+  - - classic
+    - Classic
+- id: mouse_sensitivity
+  section: controls
+  group: Look & movement
+  name: Mouse sensitivity
+  type: range
+  min: 0
+  max: 100
+  ini: controls.mouse_sensitivity
+  unit: '%'
+  desc: The response of mouse movement. Zero disables mouse look movement.
+- id: turn_rate
+  section: controls
+  group: Look & movement
+  name: Turn rate
+  type: select
+  ini: controls.turn_rate
+  desc: Preserve the original turning-speed choices.
+  choices:
+  - - 16x
+    - 16×
+  - - 32x
+    - 32×
+  - - smooth
+    - Smooth
+- id: always_run
+  section: controls
+  group: Look & movement
+  name: Always run
+  type: toggle
+  ini: controls.always_run
+  desc: Use running movement by default.
+- id: flip_on_exit
+  section: controls
+  group: Look & movement
+  name: Face away on exit
+  type: toggle
+  ini: controls.flip_on_exit
+  desc: Turn the party away from the doorway when leaving a house.

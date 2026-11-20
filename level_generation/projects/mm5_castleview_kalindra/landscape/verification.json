@@ -1,0 +1,221 @@
+{
+  "passed": true,
+  "heightSamples": 16384,
+  "quantization": 32,
+  "flatPads": 37,
+  "roads": [
+    {
+      "id": "trade_road",
+      "maximumLongitudinalGrade": 0.25
+    },
+    {
+      "id": "castle_approach",
+      "maximumLongitudinalGrade": 0.0
+    },
+    {
+      "id": "gate_approach",
+      "maximumLongitudinalGrade": 0.25
+    },
+    {
+      "id": "main_street",
+      "maximumLongitudinalGrade": 0.4373
+    },
+    {
+      "id": "west_loop",
+      "maximumLongitudinalGrade": 0.0625
+    },
+    {
+      "id": "human_quarter",
+      "maximumLongitudinalGrade": 0.2071
+    },
+    {
+      "id": "temple_lane",
+      "maximumLongitudinalGrade": 0.1673
+    },
+    {
+      "id": "store_lane",
+      "maximumLongitudinalGrade": 0.2445
+    },
+    {
+      "id": "store_court",
+      "maximumLongitudinalGrade": 0.0625
+    },
+    {
+      "id": "keeper_lane",
+      "maximumLongitudinalGrade": 0.2993
+    },
+    {
+      "id": "hiring_court",
+      "maximumLongitudinalGrade": 0.0
+    },
+    {
+      "id": "west_gate_lane",
+      "maximumLongitudinalGrade": 0.125
+    }
+  ],
+  "maximumRoadGrade": 0.4373,
+  "primaryFrontages": [
+    {
+      "owner": "guild",
+      "maximumGrade": 0.0
+    },
+    {
+      "owner": "forge",
+      "maximumGrade": 0.0
+    },
+    {
+      "owner": "training",
+      "maximumGrade": 0.125
+    },
+    {
+      "owner": "jail",
+      "maximumGrade": 0.0
+    },
+    {
+      "owner": "monks_n",
+      "maximumGrade": 0.0059
+    },
+    {
+      "owner": "monks_s",
+      "maximumGrade": 0.125
+    },
+    {
+      "owner": "bank",
+      "maximumGrade": 0.1874
+    },
+    {
+      "owner": "tavern",
+      "maximumGrade": 0.0564
+    },
+    {
+      "owner": "lodging",
+      "maximumGrade": 0.0
+    },
+    {
+      "owner": "maps",
+      "maximumGrade": 0.0
+    },
+    {
+      "owner": "mayor",
+      "maximumGrade": 0.0
+    },
+    {
+      "owner": "workyard",
+      "maximumGrade": 0.0
+    },
+    {
+      "owner": "joe",
+      "maximumGrade": 0.0
+    },
+    {
+      "owner": "ranger",
+      "maximumGrade": 0.0
+    },
+    {
+      "owner": "herbalist",
+      "maximumGrade": 0.0
+    },
+    {
+      "owner": "nadia",
+      "maximumGrade": 0.073
+    },
+    {
+      "owner": "diviners",
+      "maximumGrade": 0.4361
+    },
+    {
+      "owner": "king",
+      "maximumGrade": 0.125
+    },
+    {
+      "owner": "tower",
+      "maximumGrade": 0.0
+    },
+    {
+      "owner": "temple",
+      "maximumGrade": 0.0
+    },
+    {
+      "owner": "crafts",
+      "maximumGrade": 0.0
+    },
+    {
+      "owner": "workers",
+      "maximumGrade": 0.0
+    },
+    {
+      "owner": "keeper",
+      "maximumGrade": 0.0
+    },
+    {
+      "owner": "puzzle",
+      "maximumGrade": 0.0
+    }
+  ],
+  "sourceOrchardTrees": 55,
+  "counts": {
+    "interactive": 8,
+    "props": 15,
+    "trees": 216,
+    "plants": 161,
+    "rocks": 67
+  },
+  "groupShortfalls": [
+    {
+      "id": "temple_trees",
+      "requested": 5,
+      "placed": 1
+    },
+    {
+      "id": "town_edge",
+      "requested": 14,
+      "placed": 5
+    },
+    {
+      "id": "infill_2",
+      "requested": 8,
+      "placed": 6
+    }
+  ],
+  "bridges": [
+    {
+      "id": "river_crossing",
+      "minimum": 256.0,
+      "maximum": 320.0,
+      "deckTop": 384,
+      "status": "Full reserved deck footprint checked; final bank ramps and mesh still to author."
+    },
+    {
+      "id": "reger_crossing",
+      "minimum": 256.0,
+      "maximum": 476.0,
+      "deckTop": 544,
+      "status": "Full reserved deck footprint checked; final bank ramps and mesh still to author."
+    }
+  ],
+  "buffer": {
+    "renderedQuads": 16129,
+    "playableQuads": 9216,
+    "bufferQuads": 6913,
+    "sampledNeighbourMaps": [
+      2,
+      6,
+      10,
+      11,
+      12
+    ],
+    "sceneryCounts": {
+      "rocks": 135,
+      "trees": 96
+    },
+    "northConnectedPondCells": 9,
+    "eastConnectedRiverCells": 3,
+    "flatFluidQuads": {
+      "Acid Pond": 189,
+      "river water": 513
+    },
+    "requiredDecorationsOutsidePlayableBounds": 0,
+    "neighbourNativeHeightSeams": "Pending neighbouring terrain generation; original horizontal source continuity checked."
+  },
+  "scope": "Native triangle grounding, full supporting pad vertices, road centerline grade and placement clearances. Native game/AI, tile transitions and new prop geometry remain untested."
+}

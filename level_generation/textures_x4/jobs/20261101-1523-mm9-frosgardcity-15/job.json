@@ -1,0 +1,459 @@
+{
+ "id": "20261101-1523-mm9-frosgardcity-15",
+ "world": "mm9",
+ "maps": [
+  "frosgardcity.blv",
+  "thjorgardcity.blv"
+ ],
+ "created": "2026-11-01T14:23:56+00:00",
+ "textures": [
+  "mm9/fross7nst0",
+  "mm9/frosnt4z9g",
+  "mm9/thjoaqnxo7",
+  "mm9/fros0ihgha",
+  "mm9/frosc34ezo",
+  "mm9/fros3k7y3n",
+  "mm9/frosaip3ye",
+  "mm9/refiznw02o",
+  "mm9/thjo9gz6qg",
+  "mm9/thjoi5nxm0",
+  "mm9/thjophayqa",
+  "mm9/thjoppwwuj",
+  "mm9/fanc4bkxq5",
+  "mm9/thjock7rpv",
+  "mm9/thjoa5l7me",
+  "mm9/thjo23ybhe",
+  "mm9/thjonmcjfo",
+  "mm9/thjonvsnzi",
+  "mm9/thjov1t87k",
+  "mm9/sturw5q29d",
+  "mm9/thjo9ugeps",
+  "mm9/stur07vwbo",
+  "mm9/thjo37exiw",
+  "mm9/thjoi521ed"
+ ],
+ "requests": {
+  "mm9/fross7nst0": {
+   "name": "fross7nst0",
+   "versions": [
+    1
+   ],
+   "material": "a pair of brown plank door leaves in dark timber frames, each with two black iron strap bands at top and bottom and a round brass pull ring in an iron plate by the centre seam, snow at the foot",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/frosnt4z9g": {
+   "name": "frosnt4z9g",
+   "versions": [
+    1
+   ],
+   "material": "two door leaves side by side: at left a dark mossy plank door with horizontal studded wooden rails and an iron latch plate, at right a brown framed plank door with an X brace and an ornate brass handle",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/thjoaqnxo7": {
+   "name": "thjoaqnxo7",
+   "versions": [
+    1
+   ],
+   "material": "a window of four dark navy-blue panes divided by a cross of weathered grey wooden mullions, inside a wide grey wooden frame with mitred corners",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/fros0ihgha": {
+   "name": "fros0ihgha",
+   "versions": [
+    1
+   ],
+   "material": "a grid of rough brown log rails and posts, three horizontal logs with snow on them and three vertical posts, framing rectangular dark navy-blue panels",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/frosc34ezo": {
+   "name": "frosc34ezo",
+   "versions": [
+    1
+   ],
+   "material": "two door leaves side by side: at left a dark brown vertical plank door with three horizontal rails and a brass ring handle, at right a lighter brown plank door with a diagonal brace, a small brass knob and snow along the bottom",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/fros3k7y3n": {
+   "name": "fros3k7y3n",
+   "versions": [
+    1
+   ],
+   "material": "a grey weathered wooden window frame with dark iron bars forming a grid of six openings in two rows, square iron plates with rivets at every bar crossing and edge, grey vertical planks above and below",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/frosaip3ye": {
+   "name": "frosaip3ye",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "an octagonal stained-glass window in a gold and brown frame studded with pearl-like beads, blue, purple and red floral panes above and below, sweeping horizontal blue and red bands across the middle",
+   "notes": {
+    "2": "lighter and brighter as in the native: pale sky-blue glass with darker blue and green leafwork, the dark blue oval cartouches at top and bottom, little red, and a light gold frame with white beads"
+   },
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {},
+    "2": {}
+   }
+  },
+  "mm9/refiznw02o": {
+   "name": "refiznw02o",
+   "versions": [
+    1
+   ],
+   "material": "red, brown and mossy green brick wall with pale mortar, large patches of crumbled plaster showing grey rubble in the centre, a wooden beam along the top with iron pegs and a dark band beneath it",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm9/refiakxl46"
+     ],
+     "fraction": 0.764
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/thjo9gz6qg": {
+   "name": "thjo9gz6qg",
+   "versions": [
+    1
+   ],
+   "material": "brick wall of pale grey-beige bricks set against darker red-brown bricks in a staggered pattern, with dark mortar joints",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm9/thjookpqku"
+     ],
+     "fraction": 0.424
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/thjoi5nxm0": {
+   "name": "thjoi5nxm0",
+   "versions": [
+    1
+   ],
+   "material": "brown brick block wall with a tall narrow arched window at the centre-left, its dark blue-black glass divided by thin grey-blue leading bars, in a brick surround with a keystone at the top",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm9/thjok78y9i"
+     ],
+     "fraction": 0.196
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/thjophayqa": {
+   "name": "thjophayqa",
+   "versions": [
+    1
+   ],
+   "material": "grey-blue irregular flagstones of rounded uneven shapes separated by dark cracked joints",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/thjoppwwuj": {
+   "name": "thjoppwwuj",
+   "versions": [
+    1
+   ],
+   "material": "beige stone wall with a cornice band of small dentils across the upper part above a row of carved grey stone arches resting on corbels, dark brown stone blocks inside the arches, a pale stone band along the bottom",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/fanc4bkxq5": {
+   "name": "fanc4bkxq5",
+   "versions": [
+    1
+   ],
+   "material": "overlapping rows of dark brown and olive wooden shingles with rough woven texture, staggered roof tiles with squared lower edges",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/thjock7rpv": {
+   "name": "thjock7rpv",
+   "versions": [
+    1
+   ],
+   "material": "pale beige limestone wall of large rectangular dressed blocks with thin joints, a carved horizontal band of twisted rope moulding with a row of small beads beneath it in the upper part",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/thjoa5l7me": {
+   "name": "thjoa5l7me",
+   "versions": [
+    1
+   ],
+   "material": "mossy olive-brown stone block wall with a dark weathered wooden post down the centre, joining a horizontal beam along the top with curved wooden brace arches on each side",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/thjo23ybhe": {
+   "name": "thjo23ybhe",
+   "versions": [
+    1
+   ],
+   "material": "brown stone block wall with a decorative frieze of tan and dark brown zigzag triangle ornament along the top, green ivy leaves climbing over the lower half",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/thjonmcjfo": {
+   "name": "thjonmcjfo",
+   "versions": [
+    1
+   ],
+   "material": "dark mauve-brown stone floor divided into square panels by olive-tan strips in a grid, each panel with diagonal corner bevels and a thin inner border",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/thjonvsnzi": {
+   "name": "thjonvsnzi",
+   "versions": [
+    1
+   ],
+   "material": "tan and brown brick wall in small staggered courses with a vertical band of larger pale weathered stone quoin blocks left of centre and a horizontal course of larger blocks across the middle",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/thjov1t87k": {
+   "name": "thjov1t87k",
+   "versions": [
+    1
+   ],
+   "material": "red and brown brick wall with pale mortar, a dark weathered wooden post down the centre joining a horizontal beam along the top with curved wooden braces on each side",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/sturw5q29d": {
+   "name": "sturw5q29d",
+   "versions": [
+    1
+   ],
+   "material": "pale grey-green stone wall of vertical fluted panels below a moulded cornice with a trapezoid keystone at the top centre and small scrolled brackets at the upper corners",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/thjo9ugeps": {
+   "name": "thjo9ugeps",
+   "versions": [
+    1
+   ],
+   "material": "mottled speckled stone or carpet surface in dusty pink, mauve, brown and grey flecks with a faint lighter blotch near the centre",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/stur07vwbo": {
+   "name": "stur07vwbo",
+   "versions": [
+    1
+   ],
+   "material": "pale grey-white stone facade with a heavy moulded cornice at the top, two carved scroll brackets and a keystone beneath it, a tall narrow window with four dark panes at the centre and horizontal rusticated bands on the sides",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/thjo37exiw": {
+   "name": "thjo37exiw",
+   "versions": [
+    1
+   ],
+   "material": "grey-brown brick wall with a large recessed square panel of red-brown bricks at the centre, framed by a raised border of pale bricks with a dark shadow edge",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/thjoi521ed": {
+   "name": "thjoi521ed",
+   "versions": [
+    1
+   ],
+   "material": "dull brown mottled plaster or earthen wall with faint darker scratches, stains and streaks",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  }
+ }
+}

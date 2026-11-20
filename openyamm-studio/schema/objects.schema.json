@@ -1,0 +1,4004 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "objects.yml: what stands in the map (start, doors, lights, switches, chests, spawns, decorations, exits), schema v0",
+  "description": "Objects are placed by relation where possible: in a room (its centre unless `at` or `offset` says otherwise), on a wall of a room (`wall` and `along`), or in an opening. What stands on a floor (the start, chests, lights, spawns, floor decorations) stands on the highest floor at its place: on the platform, level or step there, not on the room's floor under it; `floor_height` names another where floors lie one above the other.",
+  "type": "object",
+  "required": [
+    "format"
+  ],
+  "properties": {
+    "format": {
+      "description": "Version of the objects file's format: 1 has keys on the movers' parts (the core writes 1 whenever it writes the file); 0, the same without keys, is read as before.",
+      "enum": [
+        0,
+        1
+      ]
+    },
+    "start": {
+      "description": "Where the party enters the map. Not a list: set it with {op: set_value, file: objects.yml, path: start, value: {room: room:x, at: [x, y], facing: n}}.",
+      "type": "object",
+      "required": [
+        "room"
+      ],
+      "properties": {
+        "room": {
+          "$ref": "common.schema.json#/$defs/id",
+          "x-id-kinds": [
+            "room"
+          ]
+        },
+        "at": {
+          "$ref": "common.schema.json#/$defs/point2",
+          "x-geom": {
+            "shape": "point",
+            "space": "map"
+          }
+        },
+        "offset": {
+          "$ref": "common.schema.json#/$defs/point2",
+          "x-geom": {
+            "shape": "point",
+            "space": "room"
+          }
+        },
+        "floor_height": {
+          "description": "The height (absolute z) of the floor to stand on, where several lie one above the other at this place (the room's floor under a hanging platform, a level under a platform). Default: the highest.",
+          "type": "number",
+          "x-unit": "map"
+        },
+        "facing": {
+          "$ref": "#/$defs/facing"
+        },
+        "notes": {
+          "$ref": "common.schema.json#/$defs/notes"
+        }
+      },
+      "additionalProperties": false
+    },
+    "doors": {
+      "type": "array",
+      "x-sort": "id",
+      "items": {
+        "type": "object",
+        "required": [
+          "id",
+          "opening"
+        ],
+        "properties": {
+          "id": {
+            "$ref": "common.schema.json#/$defs/id",
+            "x-id-kinds": [
+              "door"
+            ],
+            "x-kinds": "all"
+          },
+          "opening": {
+            "description": "The rooms.yml opening the door closes. Its wall must be at least as thick as the door.",
+            "$ref": "common.schema.json#/$defs/id",
+            "x-id-kinds": [
+              "opening"
+            ],
+            "x-kinds": "all"
+          },
+          "kind": {
+            "description": "How the leaf moves: slide_up (into the wall above), slide_down (into the floor), slide_left or slide_right (sideways into the wall beside the doorway; left and right as seen from the opening's `from` room), or hinged (it swings on a vertical hinge at one side of the doorway, away from whoever opens it). The open leaf must stand clear of every other opening and room: a slide_up leaf under a doorway stacked above it is refused, and so is a sideways leaf where the wall beside the doorway ends in another room. Example: {id: door:hatch, opening: open:bay, kind: slide_left}.",
+            "enum": [
+              "slide_up",
+              "slide_down",
+              "slide_left",
+              "slide_right",
+              "hinged"
+            ],
+            "x-kinds": "all"
+          },
+          "leaves": {
+            "description": "2: the door is two half leaves that part in the middle and close again together: sideways for slide_left and slide_right, up and down for slide_up and slide_down. Each half moves half as far, so it needs half the room in the wall. Events and clicks move both halves; the build numbers the second leaf `<id>.leaf2` in ids.lock.yml. Not for hinged doors. Default 1. Example: {id: door:bay, opening: open:bay, kind: slide_left, leaves: 2}.",
+            "enum": [
+              1,
+              2
+            ],
+            "x-kinds": [
+              "slide_up",
+              "slide_down",
+              "slide_left",
+              "slide_right"
+            ]
+          },
+          "split": {
+            "description": "With `leaves: 2`, how the doorway is cut into its two halves. `along` (the default): across the way they slide, so the halves part in the middle (side by side for slide_left and slide_right, one above the other for slide_up and slide_down). `across`: the other way, and the halves pass each other: for slide_left and slide_right a lower and an upper half, the lower sliding the way `kind` says and the upper the opposite way; for slide_up and slide_down a left and a right half (seen from the opening's `from` room), the left going the way `kind` says. Each such half moves the doorway's whole width (or height) unless `travel` says less. Example: {id: door:furnace, opening: open:furnace, kind: slide_left, leaves: 2, split: across, fold: true}.",
+            "enum": [
+              "along",
+              "across"
+            ],
+            "x-kinds": [
+              "slide_up",
+              "slide_down",
+              "slide_left",
+              "slide_right"
+            ]
+          },
+          "fold": {
+            "description": "true: a sliding leaf does not travel into the wall: its free edge moves to the jamb it slides toward and the leaf shrinks against that jamb, as the shipped maps' sliding doors do (for slide_up and slide_down: against the lintel or the sill). It needs no room in the wall beside the doorway, so a doorway may be as wide as its wall and may have a room right beside it. The picture rides with the moving edge and disappears at the jamb. Open, a stub of the leaf stays out of the jamb: the leaf moves its width less 4 unless `travel` says otherwise (at most its width less 1). A folding leaf's pictures lie at their own size, one texel to the unit (the game draws a face that changes shape no other way): they repeat over a leaf larger than the texture and are never stretched; `scale` other than 1 and `mirror` are refused, and so is a line between two pictures that lies across the way the leaf folds (pictures side by side on a leaf folding sideways). Not for hinged doors. Default false. Example: {id: door:porch, opening: open:porch, kind: slide_left, leaves: 2, fold: true}.",
+            "type": "boolean",
+            "x-kinds": [
+              "slide_up",
+              "slide_down",
+              "slide_left",
+              "slide_right"
+            ]
+          },
+          "travel": {
+            "description": "How far each sliding leaf moves when it opens, in units; default its whole width for slide_left and slide_right, its height for slide_up and slide_down (with `fold: true`: that less 4). Less than that and part of the leaf stays in the doorway (a door that opens part of the way: the way through is then only `travel` wide); a leaf that does not fold needs only this much room in the wall. Refused when more than the leaf's width or height (with `fold`: that less 1). Not for hinged doors. Example: {id: door:record8, opening: open:store, kind: slide_right, fold: true, travel: 255}.",
+            "type": "number",
+            "exclusiveMinimum": 0,
+            "x-unit": "map",
+            "x-kinds": [
+              "slide_up",
+              "slide_down",
+              "slide_left",
+              "slide_right"
+            ]
+          },
+          "hinge": {
+            "description": "hinged: the side of the doorway the hinge is on, seen from the opening's `from` room. Default left.",
+            "enum": [
+              "left",
+              "right"
+            ],
+            "x-kinds": [
+              "hinged"
+            ]
+          },
+          "swing": {
+            "description": "hinged: how far the leaf opens, in degrees. Default 90.",
+            "type": "number",
+            "exclusiveMinimum": 0,
+            "maximum": 180,
+            "x-unit": "deg",
+            "x-kinds": [
+              "hinged"
+            ]
+          },
+          "auto_close_seconds": {
+            "description": "hinged: the leaf closes by itself this long after opening. Default: it stays open.",
+            "type": "number",
+            "minimum": 0,
+            "x-unit": "seconds",
+            "x-kinds": [
+              "hinged"
+            ]
+          },
+          "state": {
+            "description": "State when the map is first entered.",
+            "enum": [
+              "closed",
+              "open"
+            ],
+            "x-kinds": "all"
+          },
+          "thickness": {
+            "type": "number",
+            "exclusiveMinimum": 0,
+            "x-unit": "map",
+            "x-kinds": "all"
+          },
+          "speed": {
+            "description": "Opening and closing speed, units per second. For a hinged leaf: degrees per second (default 60).",
+            "type": "number",
+            "exclusiveMinimum": 0,
+            "x-unit": {
+              "hinged": "deg_per_second",
+              "*": "units_per_second"
+            },
+            "x-kinds": "all"
+          },
+          "surface": {
+            "description": "The leaf's surface, stretched over it. Default: the theme's `door`.",
+            "$ref": "rooms.schema.json#/$defs/surface",
+            "x-kinds": "all"
+          },
+          "secret": {
+            "description": "true: a secret door. Its faces carry the engine's secret flag: the game makes them pulse for a party whose Perception finds secrets, and counts them among the map's secrets; to everyone else the leaf is what its `surface` shows (give it the wall's own surface and it is found by clicking the wall, or by the skill). The door opens by its event like any door. `oymap metrics` counts such faces as `secret_faces`. Default false. Example: {id: door:stash, opening: open:office_stash, secret: true, surface: {texture: t1w11a, size: [128, 256]}}.",
+            "type": "boolean",
+            "x-kinds": "all"
+          },
+          "back_surface": {
+            "description": "The surface of the leaf's other side, the one seen from the opening's `to` room (a door that shows wood to the hall and wall stone to the guard room). Default: `surface`. Example: {id: door:cell, opening: open:cell, surface: {texture: t1door, size: [128, 128]}, back_surface: {texture: hvwl5a, size: [128, 128]}}.",
+            "$ref": "rooms.schema.json#/$defs/surface",
+            "x-kinds": "all"
+          },
+          "edge_surface": {
+            "description": "The surface of the leaf's upright ends, the faces as thick as the leaf: the free edge a sliding or folding leaf shows in the doorway and at the jamb when open, both ends of a leaf that slides whole into the wall or swings. The shipped maps put a beam or trim picture there (Castle Darkmoor's doors 1, 4, 5: BemSV32c, BemV32c, BemVdk; Control Center's swr4dk). Laid at its texel size across the leaf's thickness from its front face and down from its top, so a picture as wide as the leaf is thick shows once. Default: the opening's `reveal` (the doorway's sides). Drawn only by leaves that show an end: sliding sideways, two halves that part or pass, folding, several pictures, `tile`, `travel` or hinged; on a single leaf that only rises or sinks it is refused. Example: {id: door:hall, opening: open:hall, fold: true, kind: slide_left, edge_surface: {texture: BemSV32c, size: [32, 128]}}.",
+            "$ref": "rooms.schema.json#/$defs/surface",
+            "x-kinds": "all"
+          },
+          "top_surface": {
+            "description": "The surface of the leaf's top where it shows: a leaf that sinks into the floor, the lower of two halves that pass each other, a hinged leaf. Laid at its texel size along the leaf from its low end and across it from its front face. Default: `edge_surface`. Example: the Hive's sinking gate with SWhz3 on top: {id: door:gate, opening: open:gate, kind: slide_down, travel: 252, top_surface: {texture: SWhz3, size: [128, 128]}}.",
+            "$ref": "rooms.schema.json#/$defs/surface",
+            "x-kinds": "all"
+          },
+          "bottom_surface": {
+            "description": "The surface of the leaf's underside where it shows: a leaf that rises or folds up (the stub under the lintel), the upper of two halves that pass or part. Laid as `top_surface`. Default: `edge_surface`. Example: Control Center's gate slab, swceilf under it: {id: door:gate, opening: open:gate, kind: slide_up, fold: true, bottom_surface: {texture: swceilf, size: [128, 128]}}.",
+            "$ref": "rooms.schema.json#/$defs/surface",
+            "x-kinds": [
+              "slide_up",
+              "slide_down",
+              "slide_left",
+              "slide_right"
+            ]
+          },
+          "pictures": {
+            "description": "Several pictures on the door's front (the side seen from the opening's `from` room) in place of the one `surface`: rows from the top down, each row a list of pictures from left to right as seen from that room. The rows share the doorway's height evenly and the pictures of a row share its width evenly, whatever the leaves: with `leaves: 2` two pictures in a row are one whole picture on each leaf, one picture in a row lies across both leaves, and two rows of two are the four quarters of a seal. Each picture is stretched over its part of the doorway; with `tile: true` (and always with `fold: true`) it lies at its own size instead. For sliding doors. Examples: one picture on each leaf: pictures: [[{texture: hvdord, size: [256, 256]}, {texture: hvdord, size: [256, 256]}]]; two textures side by side on one leaf: pictures: [[{texture: t65a05bl, size: [128, 256]}, {texture: t65a05br, size: [128, 256]}]]; the right leaf showing the left one's picture mirrored: pictures: [[{texture: swaled, size: [128, 256]}, {texture: swaled, size: [128, 256], mirror: true}]].",
+            "type": "array",
+            "minItems": 1,
+            "maxItems": 4,
+            "items": {
+              "type": "array",
+              "x-flow": true,
+              "minItems": 1,
+              "maxItems": 8,
+              "items": {
+                "$ref": "#/$defs/door_picture"
+              }
+            },
+            "x-kinds": [
+              "slide_up",
+              "slide_down",
+              "slide_left",
+              "slide_right"
+            ]
+          },
+          "back_pictures": {
+            "description": "The same for the door's other side: rows from the top down, each from left to right as seen from the opening's `to` room. Default: `back_surface` when that is given; else `pictures` read the same way from that side (a seal reads the same from both rooms); else `surface`.",
+            "type": "array",
+            "minItems": 1,
+            "maxItems": 4,
+            "items": {
+              "type": "array",
+              "x-flow": true,
+              "minItems": 1,
+              "maxItems": 8,
+              "items": {
+                "$ref": "#/$defs/door_picture"
+              }
+            },
+            "x-kinds": [
+              "slide_up",
+              "slide_down",
+              "slide_left",
+              "slide_right"
+            ]
+          },
+          "tile": {
+            "description": "true: the door's pictures (`surface`, `back_surface`, `pictures`, `back_pictures`) are not stretched: each lies at its own size, one texel to `scale` units, and repeats over a part larger than itself (a rock face 128 wide on a plug 256 wide shows twice, as on the walls). Where a picture starts: in a row of several pictures at the side toward the doorway's middle (the left ones end at their right edge, the right ones begin at their left edge), and of several rows the upper ones stand on their lower edge and the lower ones hang from their upper edge, so that the four quarters of a seal meet in the middle of the doorway whatever their size; a single picture begins at the top and at the left as seen from its side. Default false (stretched); always true with `fold: true`. For sliding doors.",
+            "type": "boolean",
+            "x-kinds": [
+              "slide_up",
+              "slide_down",
+              "slide_left",
+              "slide_right"
+            ]
+          },
+          "notes": {
+            "$ref": "common.schema.json#/$defs/notes",
+            "x-kinds": "all"
+          }
+        },
+        "additionalProperties": false,
+        "x-discriminator": {
+          "property": "kind",
+          "default": "slide_up"
+        },
+        "x-groups": [
+          [
+            "Door",
+            [
+              "id",
+              "opening",
+              "kind",
+              "state",
+              "notes"
+            ]
+          ],
+          [
+            "Leaf",
+            [
+              "thickness",
+              "leaves",
+              "split",
+              "fold",
+              "travel",
+              "speed",
+              "secret"
+            ]
+          ],
+          [
+            "Hinged",
+            [
+              "hinge",
+              "swing",
+              "auto_close_seconds"
+            ]
+          ],
+          [
+            "Surfaces",
+            [
+              "surface",
+              "back_surface",
+              "edge_surface",
+              "top_surface",
+              "bottom_surface"
+            ]
+          ],
+          [
+            "Pictures",
+            [
+              "pictures",
+              "back_pictures",
+              "tile"
+            ]
+          ]
+        ]
+      },
+      "x-key": "id"
+    },
+    "lifts": {
+      "description": "Blocks of floor that rise and sink: a lift between two levels. A lift is drawn down, level with the floor; raised it stands `travel` higher. Events move it like a door (a switch preset's opens raises it, closes lowers it, toggles does either), and an event whose `source` is the lift is clicked on the lift itself.",
+      "type": "array",
+      "x-sort": "id",
+      "items": {
+        "type": "object",
+        "required": [
+          "id",
+          "room",
+          "size"
+        ],
+        "properties": {
+          "id": {
+            "$ref": "common.schema.json#/$defs/id",
+            "x-id-kinds": [
+              "lift"
+            ]
+          },
+          "room": {
+            "$ref": "common.schema.json#/$defs/id",
+            "x-id-kinds": [
+              "room"
+            ]
+          },
+          "at": {
+            "$ref": "common.schema.json#/$defs/point2",
+            "x-geom": {
+              "shape": "point",
+              "space": "map"
+            }
+          },
+          "offset": {
+            "$ref": "common.schema.json#/$defs/point2",
+            "x-geom": {
+              "shape": "point",
+              "space": "room"
+            }
+          },
+          "size": {
+            "description": "Width (x) and depth (y).",
+            "type": "array",
+            "items": {
+              "type": "number",
+              "exclusiveMinimum": 0
+            },
+            "minItems": 2,
+            "maxItems": 2,
+            "x-geom": {
+              "shape": "size",
+              "space": "map"
+            }
+          },
+          "travel": {
+            "description": "How far it rises. Default 256. The ceiling must be at least 200 above its raised top; a lift that lies wholly under a hole in the floor above (an opening `in: floor`) rises through the hole, and the ceiling is then that of the room above.",
+            "type": "number",
+            "exclusiveMinimum": 0,
+            "x-unit": "map"
+          },
+          "thickness": {
+            "description": "The lift is a floor this thick instead of a solid block: raised, the shaft is open under it and can be walked through. Default: a solid block as tall as the travel. Example: {id: lift:pod, room: room:shaft, size: [256, 256], travel: 448, thickness: 16}.",
+            "type": "number",
+            "exclusiveMinimum": 0,
+            "x-unit": "map"
+          },
+          "speed": {
+            "description": "Units per second. Default 96.",
+            "type": "number",
+            "exclusiveMinimum": 0,
+            "x-unit": "units_per_second"
+          },
+          "state": {
+            "description": "Where it stands when the map is first entered. Default down.",
+            "enum": [
+              "down",
+              "up"
+            ]
+          },
+          "surface": {
+            "$ref": "rooms.schema.json#/$defs/surface"
+          },
+          "notes": {
+            "$ref": "common.schema.json#/$defs/notes"
+          }
+        },
+        "additionalProperties": false,
+        "x-groups": [
+          [
+            "Lift",
+            [
+              "id",
+              "notes"
+            ]
+          ],
+          [
+            "Place",
+            [
+              "room",
+              "at",
+              "offset",
+              "size"
+            ]
+          ],
+          [
+            "Movement",
+            [
+              "travel",
+              "thickness",
+              "speed",
+              "state"
+            ]
+          ],
+          [
+            "Surfaces",
+            [
+              "surface"
+            ]
+          ]
+        ]
+      },
+      "x-key": "id"
+    },
+    "movers": {
+      "description": "Blocks that travel along a straight line inside one room: a gate block rising out of the floor, a bridge or a wall section sliding sideways, a barrier, a floor panel, a plate that sinks, a bridge that grows (`stretch`). A mover is drawn at its start and stands `travel` away at its end. Events move it like a door: a switch preset's `opens` sends it to its end, `closes` back to its start, `toggles` does either, and a switch preset whose `source` is the mover is clicked on the mover itself. It blocks where it stands and its top is walked on. The party standing on it is carried when the travel has a vertical part (then along the whole travel, sideways too); a mover whose travel is level slides away under the party's feet (the engine carries only on movers that rise or sink). Example: {id: mover:gate_block, room: room:hall, at: [512, 256], size: [128, 64], bottom: -258, height: 256, travel: [0, 0, 256]} is hidden in the floor and rises to bar the way.",
+      "type": "array",
+      "x-sort": "id",
+      "items": {
+        "type": "object",
+        "required": [
+          "id",
+          "room",
+          "height",
+          "travel"
+        ],
+        "properties": {
+          "id": {
+            "$ref": "common.schema.json#/$defs/id",
+            "x-id-kinds": [
+              "mover"
+            ]
+          },
+          "room": {
+            "description": "The room it moves in. At one end of its way at least (its start or its end) the whole mover lies inside this room's outline and under its ceiling; at the other it may pass into a wall or the ceiling, where it is hidden (a gate's upper half that rises into the ceiling, a button pushed into its wall, a block that comes down out of the ceiling), as it may sink into the floor. It must not come out in another room. A block that stretches stays in the room at both ends.",
+            "$ref": "common.schema.json#/$defs/id",
+            "x-id-kinds": [
+              "room"
+            ]
+          },
+          "at": {
+            "description": "The block's middle (with `size`); `offset` from the room's middle instead; the room's middle without either. Its sides stand at the middle plus and minus half the size, on whole units: for an odd size give the middle on the half unit (at: [512.5, 512.5] with size: [205, 25] stands from 410 to 615 and from 500 to 525), as for a platform.",
+            "$ref": "common.schema.json#/$defs/point2",
+            "x-geom": {
+              "shape": "point",
+              "space": "map"
+            }
+          },
+          "offset": {
+            "$ref": "common.schema.json#/$defs/point2",
+            "x-geom": {
+              "shape": "point",
+              "space": "room"
+            }
+          },
+          "size": {
+            "description": "Width (x) and depth (y) of a block with its sides along x and y.",
+            "type": "array",
+            "items": {
+              "type": "number",
+              "exclusiveMinimum": 0
+            },
+            "minItems": 2,
+            "maxItems": 2,
+            "x-geom": {
+              "shape": "size",
+              "space": "map"
+            }
+          },
+          "outline": {
+            "description": "Instead of `at` and `size`: the block's own shape, points counter-clockwise (a ring wall's segment, a slanted gate). No `kerbs`, `end_surface` or `stretch` with it.",
+            "type": "array",
+            "items": {
+              "$ref": "common.schema.json#/$defs/point2"
+            },
+            "minItems": 3,
+            "x-geom": {
+              "shape": "polygon",
+              "space": "map"
+            }
+          },
+          "bottom": {
+            "description": "Its underside at the start, measured from the floor at its middle; negative when it starts sunk in the floor. Default 0 (it stands on the floor). Where floors lie one above the other at its middle (a level, a platform, also a platform that hangs over the mover) the highest is meant unless `floor_height` names another; the build warns until it does.",
+            "type": "number",
+            "x-unit": "map"
+          },
+          "floor_height": {
+            "description": "The height (absolute z) of the floor `bottom` is measured from, where several lie one above the other at the mover's middle: the room's own floor, or the top of a level or platform there. Default: the highest.",
+            "type": "number",
+            "x-unit": "map"
+          },
+          "height": {
+            "description": "How tall the block is: 8 for a plate or panel, the room's height for a wall section. Its top must not lie in the floor's plane at either end (2 below hides it, 2 above shows it).",
+            "type": "number",
+            "exclusiveMinimum": 0,
+            "x-unit": "map"
+          },
+          "travel": {
+            "description": "How far it moves from its start to its end: [x, y, z] in whole units. [0, 0, 256] rises 256, [0, 0, -10] sinks 10, [1280, 0, 0] slides 1280 toward +x. Not [0, 0, 0]: a block that is clicked and does not move is a platform of rooms.yml with an `id` (a piece of wall: a wall panel with an `id`), named as the `source` of the event.",
+            "type": "array",
+            "items": {
+              "type": "number"
+            },
+            "minItems": 3,
+            "maxItems": 3,
+            "x-geom": false,
+            "x-unit": "map"
+          },
+          "speed": {
+            "description": "Units per second. Default 96.",
+            "type": "number",
+            "exclusiveMinimum": 0,
+            "x-unit": "units_per_second"
+          },
+          "state": {
+            "description": "Where it stands when the map is first entered. Default start.",
+            "enum": [
+              "start",
+              "end"
+            ]
+          },
+          "auto_return_seconds": {
+            "description": "It returns to its start by itself this long after it was sent to its end. Default: it stays.",
+            "type": "number",
+            "minimum": 0,
+            "x-unit": "seconds"
+          },
+          "stretch": {
+            "description": "true: only the end face in the direction of `travel` moves, so the block grows by the travel and shrinks back (a bridge that extends across a pit from a stub). `travel` then has one number other than 0. Example: {id: mover:bridge, room: room:pit, at: [96, 512], size: [192, 256], bottom: 96, height: 32, travel: [960, 0, 0], stretch: true}.",
+            "type": "boolean"
+          },
+          "surface": {
+            "description": "Its sides and underside. Default: the room's wall.",
+            "$ref": "rooms.schema.json#/$defs/surface"
+          },
+          "top_surface": {
+            "description": "Its top. Default: the room's floor.",
+            "$ref": "rooms.schema.json#/$defs/surface"
+          },
+          "end_surface": {
+            "description": "The two short sides of a block given by `size`. Default: `surface`.",
+            "$ref": "rooms.schema.json#/$defs/surface"
+          },
+          "kerbs": {
+            "description": "Low walls standing on its top along its two long sides (for a stretching block: along its travel), moving with it: a bridge's kerbs. Example: kerbs: {height: 24, width: 16}.",
+            "type": "object",
+            "properties": {
+              "height": {
+                "description": "Default 16.",
+                "type": "number",
+                "exclusiveMinimum": 0,
+                "x-unit": "map"
+              },
+              "width": {
+                "description": "Default 16.",
+                "type": "number",
+                "exclusiveMinimum": 0,
+                "x-unit": "map"
+              },
+              "surface": {
+                "description": "Default: the mover's `surface`.",
+                "$ref": "rooms.schema.json#/$defs/surface"
+              }
+            },
+            "additionalProperties": false
+          },
+          "parts": {
+            "description": "More blocks of the same mover, which move with it as one: posts or rails of any shape on a bridge, the hangers of a crane, a frame round a gate. Each is given as it stands at the mover's start and is closed on every side; together with the mover's own block they are one moving part (one door record, one event). Not with `stretch`. A chest rides a mover by its own `rides`, a switch sits on one by its `block`. Example: parts: [{at: [-3392, 80], size: [16, 16], height: 64}, {outline: [[0, 0], [32, 0], [16, 24]], bottom: 96, height: 32}].",
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": [
+                "height"
+              ],
+              "x-flow": true,
+              "properties": {
+                "key": {
+                  "$ref": "common.schema.json#/$defs/key"
+                },
+                "at": {
+                  "description": "The part's middle on the plan [x, y], with `size` (absolute, like the mover's own `at`).",
+                  "$ref": "common.schema.json#/$defs/point2",
+                  "x-geom": {
+                    "shape": "point",
+                    "space": "map"
+                  }
+                },
+                "size": {
+                  "description": "Width (x) and depth (y) of a part with its sides along x and y.",
+                  "type": "array",
+                  "items": {
+                    "type": "number",
+                    "exclusiveMinimum": 0
+                  },
+                  "minItems": 2,
+                  "maxItems": 2,
+                  "x-geom": {
+                    "shape": "size",
+                    "space": "map"
+                  }
+                },
+                "outline": {
+                  "description": "Instead of `at` and `size`: the part's own shape, points counter-clockwise.",
+                  "type": "array",
+                  "items": {
+                    "$ref": "common.schema.json#/$defs/point2"
+                  },
+                  "minItems": 3,
+                  "x-geom": {
+                    "shape": "polygon",
+                    "space": "map"
+                  }
+                },
+                "bottom": {
+                  "description": "The part's underside at the start, measured as the mover's own `bottom` is (from the floor under the mover's middle). Default: the mover's top, so the part stands on it. Lower values make a part beside or under the mover's block (a hanger, a skirt).",
+                  "type": "number",
+                  "x-unit": "map"
+                },
+                "height": {
+                  "description": "How tall the part is.",
+                  "type": "number",
+                  "exclusiveMinimum": 0,
+                  "x-unit": "map"
+                },
+                "surface": {
+                  "description": "Its sides and underside. Default: the mover's `surface`.",
+                  "$ref": "rooms.schema.json#/$defs/surface"
+                },
+                "top_surface": {
+                  "description": "Its top. Default: the part's `surface`.",
+                  "$ref": "rooms.schema.json#/$defs/surface"
+                },
+                "notes": {
+                  "$ref": "common.schema.json#/$defs/notes"
+                }
+              },
+              "additionalProperties": false
+            },
+            "x-key": "key",
+            "x-key-prefix": "part"
+          },
+          "notes": {
+            "$ref": "common.schema.json#/$defs/notes"
+          }
+        },
+        "additionalProperties": false,
+        "x-groups": [
+          [
+            "Mover",
+            [
+              "id",
+              "notes"
+            ]
+          ],
+          [
+            "Place",
+            [
+              "room",
+              "at",
+              "offset",
+              "size",
+              "outline"
+            ]
+          ],
+          [
+            "Heights",
+            [
+              "floor_height",
+              "bottom",
+              "height"
+            ]
+          ],
+          [
+            "Movement",
+            [
+              "travel",
+              "speed",
+              "state",
+              "auto_return_seconds",
+              "stretch"
+            ]
+          ],
+          [
+            "Surfaces",
+            [
+              "surface",
+              "top_surface",
+              "end_surface"
+            ]
+          ],
+          [
+            "Parts",
+            [
+              "kerbs",
+              "parts"
+            ]
+          ]
+        ]
+      },
+      "x-key": "id"
+    },
+    "plates": {
+      "description": "Floor plates: a piece of a room's floor cut out as faces of its own, so that a wiring event with `trigger: step` and the plate as its `source` runs when the party walks onto it (each time it comes onto the plate from the floor round it; once with the event's `once: true`). A plate is walked over like floor. Give `at` (or `offset` from the room's middle) and `size`, or an `outline`. It lies in a room with a level floor, every corner at least 16 from the room's walls (exactly 16 is enough), off the room's levels, flights, pillars and the platforms that stand on the floor (under a platform that hangs, one with a `base`, a plate may lie), and apart from other plates. In a `path` room that climbs and in a tunnel (a `path` room with a `section`) a plate is the floor's whole width between two lines square across the way, within one stretch of the path (between two of its points, 16 clear of both; at a bend the floor's corners stand on the mitre, so the build says from where to where a stretch takes one): its `size` or `outline` says how much of the way it covers, its width across is the floor's, it takes no `rise`, and a tunnel's stretch with a doorway in its side takes none. Example: {id: plate:trap, room: room:hall, at: [300, 700], size: [128, 128], rise: 4, surface: {texture: d2floor3, size: [128, 128]}}.",
+      "type": "array",
+      "x-sort": "id",
+      "items": {
+        "type": "object",
+        "required": [
+          "id",
+          "room"
+        ],
+        "properties": {
+          "id": {
+            "$ref": "common.schema.json#/$defs/id",
+            "x-id-kinds": [
+              "plate"
+            ]
+          },
+          "room": {
+            "$ref": "common.schema.json#/$defs/id",
+            "x-id-kinds": [
+              "room"
+            ]
+          },
+          "at": {
+            "$ref": "common.schema.json#/$defs/point2",
+            "x-geom": {
+              "shape": "point",
+              "space": "map"
+            }
+          },
+          "offset": {
+            "$ref": "common.schema.json#/$defs/point2",
+            "x-geom": {
+              "shape": "point",
+              "space": "room"
+            }
+          },
+          "size": {
+            "description": "Width (x) and depth (y), each at least 16.",
+            "type": "array",
+            "items": {
+              "type": "number",
+              "minimum": 16
+            },
+            "minItems": 2,
+            "maxItems": 2,
+            "x-geom": {
+              "shape": "size",
+              "space": "map"
+            }
+          },
+          "outline": {
+            "description": "The plate's shape instead of `at` and `size`: corner points [x, y], counter-clockwise.",
+            "type": "array",
+            "minItems": 3,
+            "maxItems": 24,
+            "items": {
+              "$ref": "common.schema.json#/$defs/point2"
+            },
+            "x-flow": true,
+            "x-geom": {
+              "shape": "polygon",
+              "space": "map"
+            }
+          },
+          "rise": {
+            "description": "How far the plate stands above the floor, 0 to 8 (a step the party does not notice). Default 0: level with the floor, told apart only by its surface.",
+            "type": "number",
+            "minimum": 0,
+            "maximum": 8,
+            "x-unit": "map"
+          },
+          "surface": {
+            "description": "The plate's surface. Default: the room's floor surface (a plate that cannot be seen).",
+            "$ref": "rooms.schema.json#/$defs/surface"
+          },
+          "secret": {
+            "description": "true: the plate's faces carry the engine's secret flag, so the game makes them pulse for a party whose Perception finds secrets (the map card's perception difficulty): the Abandoned Temple's floor plates round its heads and its fire stand. A plate needs no event for this (three of the Temple's secret plates have none). An effect sets or clears the flag later (wiring `secret`, `clear_secret`, by the plate's id). Default false.",
+            "type": "boolean"
+          },
+          "notes": {
+            "$ref": "common.schema.json#/$defs/notes"
+          }
+        },
+        "additionalProperties": false,
+        "x-groups": [
+          [
+            "Plate",
+            [
+              "id",
+              "notes"
+            ]
+          ],
+          [
+            "Place",
+            [
+              "room",
+              "at",
+              "offset",
+              "size",
+              "outline",
+              "rise"
+            ]
+          ],
+          [
+            "Look",
+            [
+              "surface",
+              "secret"
+            ]
+          ]
+        ]
+      },
+      "x-key": "id"
+    },
+    "floors": {
+      "description": "What a floor is besides floor; `of` names the floor: a room (its own floor: not its levels, platforms, flights or plates, so a walkway built as a level over a lava room is safe), a level or platform that has an `id` in rooms.yml, or a plate. What each kind sets on the faces: `lava` sets the engine's lava flag (burning floor): the party standing on it takes fire damage every second (Levitate protects), and the renderer adds its lava glow. `water` and `liquid` set the engine's fluid bit (and nothing else): the party walks on it as on any floor and does not wade, drown or burn. Neither flag chooses the picture: the game draws a face as a liquid by its texture (engine/liquids/liquids.yml: `6wtrtyl` and `orwtrtyl` are water, `lavatyl` lava, `oymap assets` lists them), so give that floor such a texture as its `surface` too. `liquid` is the word for any fluid that does not burn, lava's look included: a `lavatyl` floor marked `liquid` looks like lava and hurts nobody (the shipped maps' lava faces without the lava flag, which hurt only by a timer event); `water` says the same for water. A floor has one kind. Examples: {id: floor:forge_lava, of: room:forge, kind: lava}, {id: floor:pool, of: level:pool, kind: water}, {id: floor:cold_lava, of: level:channel, kind: liquid}.",
+      "type": "array",
+      "x-sort": "id",
+      "items": {
+        "type": "object",
+        "required": [
+          "id",
+          "of",
+          "kind"
+        ],
+        "x-flow": true,
+        "properties": {
+          "id": {
+            "$ref": "common.schema.json#/$defs/id",
+            "x-id-kinds": [
+              "floor"
+            ]
+          },
+          "of": {
+            "$ref": "common.schema.json#/$defs/id",
+            "x-id-kinds": [
+              "room",
+              "level",
+              "platform",
+              "plate"
+            ]
+          },
+          "kind": {
+            "description": "`lava`: the lava flag (burns). `water`, `liquid`: the fluid bit only (no burning); the texture gives the picture (water, or lava that does not burn).",
+            "enum": [
+              "lava",
+              "liquid",
+              "water"
+            ]
+          },
+          "notes": {
+            "$ref": "common.schema.json#/$defs/notes"
+          }
+        },
+        "additionalProperties": false
+      },
+      "x-key": "id"
+    },
+    "ladders": {
+      "description": "Ladders: a strip the party climbs, from the floor it stands on up to a floor above (a loft, a gallery, the rim of a pit). The game climbs it by itself: walking toward the ladder takes hold of it, forward climbs and back descends, and at the top the party is set down on `exit`; walking back toward a ladder from its top takes it down again (`grab_at_top`). Monsters do not climb. The ladder is no part of the map's walls: its rails and rungs are drawn and not solid, and `oymap solve` and `audit --reach` do not climb it (what only a ladder reaches counts as not reached on foot). A ladder may lean (`top_at`). Example, a loft 256 over a hall, its edge along y 768: {id: ladder:loft, room: room:hall, at: [512, 760], facing: n, height: 256}.",
+      "type": "array",
+      "x-sort": "id",
+      "items": {
+        "type": "object",
+        "required": [
+          "id",
+          "room",
+          "at",
+          "facing",
+          "height"
+        ],
+        "x-flow": true,
+        "properties": {
+          "id": {
+            "$ref": "common.schema.json#/$defs/id",
+            "x-id-kinds": [
+              "ladder"
+            ]
+          },
+          "room": {
+            "description": "The room the climber stands in at the ladder's foot.",
+            "$ref": "common.schema.json#/$defs/id",
+            "x-id-kinds": [
+              "room"
+            ]
+          },
+          "at": {
+            "description": "The middle of the ladder's foot, against what it climbs (a wall, the side of a platform or level).",
+            "$ref": "common.schema.json#/$defs/point2",
+            "x-geom": {
+              "shape": "point",
+              "space": "map"
+            }
+          },
+          "top_at": {
+            "description": "A leaning ladder: where its top stands on the plan, when not straight above `at` (the game climbs it along the line from the foot to the top, as MM9's tower ladder in Drangheim). At most as far from `at` as the ladder climbs (45 degrees). Default: straight above `at`. `exit` defaults to 64 beyond this point.",
+            "$ref": "common.schema.json#/$defs/point2",
+            "x-geom": {
+              "shape": "point",
+              "space": "map"
+            }
+          },
+          "facing": {
+            "description": "The way the climber looks, toward the ladder: a compass side (n, e, s, w, ne ...) or degrees (0 east, 90 north).",
+            "type": [
+              "string",
+              "number"
+            ],
+            "x-unit": "deg",
+            "x-labels": [
+              "compass direction",
+              "degrees"
+            ]
+          },
+          "height": {
+            "description": "How far the ladder climbs above the floor at its foot: the rise to the floor above (within 16).",
+            "type": "number",
+            "minimum": 32,
+            "x-unit": "map"
+          },
+          "floor_height": {
+            "description": "The height (absolute z) of the floor at the ladder's foot, where several lie one above the other there. Default: the highest in front of the ladder.",
+            "type": "number",
+            "x-unit": "map"
+          },
+          "width": {
+            "description": "The strip's width. Default 96.",
+            "type": "number",
+            "minimum": 32,
+            "x-unit": "map"
+          },
+          "reach": {
+            "description": "How far in front of the strip the party may stand and take hold. Default 48.",
+            "type": "number",
+            "minimum": 16,
+            "x-unit": "map"
+          },
+          "exit": {
+            "description": "Where the party stands after climbing off at the top: a point on the floor above. Default: 64 beyond the ladder, the way the climber looks. The build refuses a ladder whose exit has no floor at the ladder's top.",
+            "$ref": "common.schema.json#/$defs/point2",
+            "x-geom": {
+              "shape": "point",
+              "space": "map"
+            }
+          },
+          "grab_at_top": {
+            "description": "Whether the party, walking from `exit` back toward the ladder, takes it at the top and climbs down. Default true; false: from above the ladder is a drop.",
+            "type": "boolean"
+          },
+          "rungs": {
+            "description": "Whether rails and rungs are built (two rails 8 thick and a rung every 32, drawn and not solid). Default true; false where a wall panel or a decoration shows the ladder.",
+            "type": "boolean"
+          },
+          "surface": {
+            "description": "The surface of the rails and rungs. Default: the room's wall.",
+            "$ref": "rooms.schema.json#/$defs/surface"
+          },
+          "notes": {
+            "$ref": "common.schema.json#/$defs/notes"
+          },
+          "grab_in_air": {
+            "description": "A body in the air takes hold too, falling or jumping past it (MM9's climbing poles and ropes). Default false: only from the ground.",
+            "type": "boolean"
+          }
+        },
+        "additionalProperties": false,
+        "x-groups": [
+          [
+            "Ladder",
+            [
+              "id",
+              "notes"
+            ]
+          ],
+          [
+            "Place",
+            [
+              "room",
+              "at",
+              "top_at",
+              "facing",
+              "floor_height"
+            ]
+          ],
+          [
+            "Size",
+            [
+              "height",
+              "width",
+              "reach"
+            ]
+          ],
+          [
+            "Use",
+            [
+              "exit",
+              "grab_at_top",
+              "grab_in_air"
+            ]
+          ],
+          [
+            "Look",
+            [
+              "rungs",
+              "surface"
+            ]
+          ]
+        ]
+      },
+      "x-key": "id"
+    },
+    "sounds": {
+      "description": "Sounds placed in the map (the scene's ambient sounds): dripping water, a fire's crackle, a hum, wind in a shaft. Each is heard within `radius` of its place, at full volume within `inner_radius`, and is no object of the map's faces. `sound` is a file of the world's sounds (worlds/<world>/audio: `waterdrip.wav`; with an asset root the build refuses a name that is not there). Each sound gets a number in ids.lock.yml `sounds`; a script switches a sound by the map variable `AmbientSound<number>` (1 on, 2 off). Example: {id: sound:drip, room: room:cistern, at: [300, 420], sound: waterdrip.wav, radius: 900, wait: [2, 6]}.",
+      "type": "array",
+      "x-sort": "id",
+      "items": {
+        "type": "object",
+        "required": [
+          "id",
+          "room",
+          "sound",
+          "radius"
+        ],
+        "x-flow": true,
+        "properties": {
+          "id": {
+            "$ref": "common.schema.json#/$defs/id",
+            "x-id-kinds": [
+              "sound"
+            ]
+          },
+          "room": {
+            "$ref": "common.schema.json#/$defs/id",
+            "x-id-kinds": [
+              "room"
+            ]
+          },
+          "at": {
+            "$ref": "common.schema.json#/$defs/point2",
+            "x-geom": {
+              "shape": "point",
+              "space": "map"
+            }
+          },
+          "offset": {
+            "$ref": "common.schema.json#/$defs/point2",
+            "x-geom": {
+              "shape": "point",
+              "space": "room"
+            }
+          },
+          "floor_height": {
+            "description": "The height (absolute z) of the floor the sound is measured from, where several lie one above the other. Default: the highest.",
+            "type": "number",
+            "x-unit": "map"
+          },
+          "height": {
+            "description": "Above the floor at its place. Default 64.",
+            "type": "number",
+            "x-unit": "map"
+          },
+          "sound": {
+            "description": "The sound file's name among the world's sounds (worlds/<world>/audio), with or without `.wav`.",
+            "type": "string",
+            "minLength": 1
+          },
+          "radius": {
+            "description": "How far the sound is heard.",
+            "type": "number",
+            "exclusiveMinimum": 0,
+            "x-unit": "map"
+          },
+          "inner_radius": {
+            "description": "Within this distance the sound has its full volume. Default: a quarter of `radius`.",
+            "type": "number",
+            "minimum": 0,
+            "x-unit": "map"
+          },
+          "volume": {
+            "description": "0 to 1. Default 1.",
+            "type": "number",
+            "minimum": 0,
+            "maximum": 1,
+            "x-unit": "ratio"
+          },
+          "loop": {
+            "description": "Default true. false: played once each time the party comes within reach.",
+            "type": "boolean"
+          },
+          "wait": {
+            "description": "[shortest, longest] seconds: the sound plays once, then waits a random time between the two before it plays again (drips, creaks).",
+            "type": "array",
+            "items": {
+              "type": "number",
+              "minimum": 0
+            },
+            "minItems": 2,
+            "maxItems": 2,
+            "x-flow": true,
+            "x-unit": "seconds",
+            "x-geom": false
+          },
+          "on": {
+            "description": "false: silent until a script switches it on, by setting the map variable named `AmbientSound<number>` (the sound's number in ids.lock.yml `sounds`) to 1 from a handler's `lua`; 2 switches it off. Default true.",
+            "type": "boolean"
+          },
+          "notes": {
+            "$ref": "common.schema.json#/$defs/notes"
+          },
+          "day_only": {
+            "description": "Heard only in the world's day hours (birds).",
+            "type": "boolean"
+          },
+          "night_only": {
+            "description": "Heard only outside the world's day hours (crickets, owls).",
+            "type": "boolean"
+          }
+        },
+        "additionalProperties": false,
+        "x-groups": [
+          [
+            "Sound",
+            [
+              "id",
+              "sound",
+              "notes"
+            ]
+          ],
+          [
+            "Place",
+            [
+              "room",
+              "at",
+              "offset",
+              "floor_height",
+              "height"
+            ]
+          ],
+          [
+            "Hearing",
+            [
+              "radius",
+              "inner_radius",
+              "volume"
+            ]
+          ],
+          [
+            "Playing",
+            [
+              "loop",
+              "wait",
+              "on",
+              "day_only",
+              "night_only"
+            ]
+          ]
+        ]
+      },
+      "x-key": "id"
+    },
+    "lights": {
+      "type": "array",
+      "x-sort": "id",
+      "items": {
+        "type": "object",
+        "required": [
+          "id",
+          "room"
+        ],
+        "properties": {
+          "id": {
+            "$ref": "common.schema.json#/$defs/id",
+            "x-id-kinds": [
+              "light"
+            ]
+          },
+          "room": {
+            "$ref": "common.schema.json#/$defs/id",
+            "x-id-kinds": [
+              "room"
+            ]
+          },
+          "at": {
+            "$ref": "common.schema.json#/$defs/point2",
+            "x-geom": {
+              "shape": "point",
+              "space": "map"
+            }
+          },
+          "offset": {
+            "$ref": "common.schema.json#/$defs/point2",
+            "x-geom": {
+              "shape": "point",
+              "space": "room"
+            }
+          },
+          "floor_height": {
+            "description": "The height (absolute z) of the floor to stand on, where several lie one above the other at this place (the room's floor under a hanging platform, a level under a platform). Default: the highest.",
+            "type": "number",
+            "x-unit": "map"
+          },
+          "height": {
+            "description": "Above the floor the light stands over (the highest at its place, or `floor_height`). Default: three quarters of the room's height.",
+            "type": "number",
+            "x-unit": "map"
+          },
+          "radius": {
+            "type": "number",
+            "exclusiveMinimum": 0,
+            "x-unit": "map"
+          },
+          "color": {
+            "type": "array",
+            "items": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 255
+            },
+            "minItems": 3,
+            "maxItems": 3,
+            "x-unit": "none",
+            "x-geom": false
+          },
+          "brightness": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 31,
+            "x-unit": "none"
+          },
+          "pulse": {
+            "description": "The light pulses: its brightness and its reach each swing between two values, as a sine (a glowing pool, a failing lamp, a forge's fire). `intensity: [lowest, highest]` are shares of full brightness (default [0.3, 1]); `radius: [smallest, largest]` (default: the light's `radius` both, a steady reach); `frequency` is swings per second (default 1), `radius_frequency` the reach's own (default: `frequency`), `phase` (0 to 1) shifts the swing so that neighbouring lights do not pulse together. Such a light is a light of the scene and not a light record of the map: it shines on faces, models and sprites as a spell's light does, `oymap metrics` does not count it among `lights`, `brightness` does not apply, and `on: false`, `lights_on` and `lights_off` switch it like any light. Example: {id: light:pool, room: room:cistern, at: [512, 512], height: 32, radius: 512, color: [80, 255, 120], pulse: {intensity: [0.4, 1], radius: [384, 512], frequency: 0.5}}.",
+            "type": "object",
+            "x-flow": true,
+            "properties": {
+              "intensity": {
+                "type": "array",
+                "items": {
+                  "type": "number",
+                  "minimum": 0
+                },
+                "minItems": 2,
+                "maxItems": 2,
+                "x-unit": "ratio",
+                "x-geom": false
+              },
+              "radius": {
+                "type": "array",
+                "items": {
+                  "type": "number",
+                  "minimum": 0
+                },
+                "minItems": 2,
+                "maxItems": 2,
+                "x-unit": "map",
+                "x-geom": false
+              },
+              "frequency": {
+                "type": "number",
+                "exclusiveMinimum": 0,
+                "x-unit": "per_second"
+              },
+              "radius_frequency": {
+                "type": "number",
+                "exclusiveMinimum": 0,
+                "x-unit": "per_second"
+              },
+              "phase": {
+                "type": "number",
+                "x-unit": "ratio"
+              }
+            },
+            "additionalProperties": false
+          },
+          "on": {
+            "description": "`false`: the light starts dark, until a wiring event's `lights_on` effect names it (the map holds it switched off; `lights_off` darkens it again). Default true. A light that an event switches, or that starts dark, gets a number in ids.lock.yml `lights`, which the game's `evt.SetLight` names it by. Example: {id: light:tube_3, room: room:tube, at: [512, 64], height: 200, radius: 600, on: false}, lit by {id: evt:tube_3, preset: script, trigger: step, source: plate:tube_3, effects: [{lights_on: light:tube_3}, {lights_off: [light:tube_2]}]}.",
+            "type": "boolean"
+          },
+          "notes": {
+            "$ref": "common.schema.json#/$defs/notes"
+          }
+        },
+        "additionalProperties": false,
+        "x-groups": [
+          [
+            "Light",
+            [
+              "id",
+              "notes"
+            ]
+          ],
+          [
+            "Place",
+            [
+              "room",
+              "at",
+              "offset",
+              "floor_height",
+              "height"
+            ]
+          ],
+          [
+            "Light",
+            [
+              "radius",
+              "color",
+              "brightness",
+              "pulse",
+              "on"
+            ]
+          ]
+        ]
+      },
+      "x-key": "id"
+    },
+    "switches": {
+      "description": "Levers and buttons on a wall, or on a side of a block (`block`, `side`): a lever on a post, a button on a mover. What they do is in wiring.yml.",
+      "type": "array",
+      "x-sort": "id",
+      "items": {
+        "type": "object",
+        "required": [
+          "id",
+          "room"
+        ],
+        "properties": {
+          "id": {
+            "$ref": "common.schema.json#/$defs/id",
+            "x-id-kinds": [
+              "switch"
+            ],
+            "x-kinds": "all"
+          },
+          "room": {
+            "$ref": "common.schema.json#/$defs/id",
+            "x-id-kinds": [
+              "room"
+            ],
+            "x-kinds": "all"
+          },
+          "kind": {
+            "description": "What the switch is. `plate` (the default): a flat picture on the wall (`off`, 16 by 16 t1swdd by default) that an event turns to its `on` picture: MM6's wall buttons (t1swdd/t1swdu in Kriegspire's dungeons, t3s1off/t3s1on). `lever`: the shipped maps' lever, a small 3D handle that is itself a door record and moves when used (measured on Gharik's Forge, where 26 of the 53 door records are lever arms, and Castle Darkmoor): a post on the wall 8 wide, 8 deep and 32 high (`size`) with an arm 8 wide and 4 thick standing out of it to `reach` (40) from the wall, 4 to 8 below the post's top; used, the arm sinks 16 (speed 50). `button`: MM7's and MM8's push button (the Temple of the Moon, the Abandoned Temple): a block `size` [32, 32] standing `depth` (16) out of the wall that is pushed in to 1 short of the wall's face. The switch's own event moves a lever's arm or a button as a door: to its end where the event opens or closes things, back and forth where it `toggles` (as the shipped levers do), and by the branch where the event has a `condition` and `else_effects` (down where the condition holds, back up where it does not). A lever or a button on a `block` stands on a platform; on a mover it cannot (it is a moving part of its own). Example: {id: switch:gate_lever, room: room:hall, wall: e, kind: lever}.",
+            "enum": [
+              "plate",
+              "lever",
+              "button"
+            ],
+            "x-kinds": "all"
+          },
+          "reach": {
+            "description": "A lever: how far its arm stands out of the wall, at least 16 (default 40, the Forge's).",
+            "type": "number",
+            "x-unit": "map",
+            "x-kinds": [
+              "lever"
+            ]
+          },
+          "depth": {
+            "description": "A button: how far it stands out of the wall, at least 2 (default 16, MM7's); it is pushed in to 1 short of the wall's face.",
+            "type": "number",
+            "x-unit": "map",
+            "x-kinds": [
+              "button"
+            ]
+          },
+          "base": {
+            "description": "A lever: the post's surface. Default: the arm's (`off`).",
+            "$ref": "rooms.schema.json#/$defs/surface",
+            "x-kinds": [
+              "lever"
+            ]
+          },
+          "sides": {
+            "description": "A button: the surface of its four sides. Default 7t1butts (32 by 32); its face is `off` (default 7t1butt).",
+            "$ref": "rooms.schema.json#/$defs/surface",
+            "x-kinds": [
+              "button"
+            ]
+          },
+          "wall": {
+            "$ref": "#/$defs/wall",
+            "x-kinds": "all"
+          },
+          "block": {
+            "description": "In place of a wall: the block the switch is on. A platform of rooms.yml that has an `id` (a post, a console, a pedestal: upright sides; a level top, or a top sloping in one plane for a plate with `side: top`), or a mover of objects.yml, with which the switch then rides (its plate is moved by the mover's door record). With `side`; `along` runs along that side and `height` is the plate's middle above the block's foot (default 96, or the middle of a block lower than that). Not a lift (it lies in the floor) and not a mover that stretches. Example: {id: switch:lever, room: room:hall, block: platform:post, side: s}.",
+            "$ref": "common.schema.json#/$defs/id",
+            "x-id-kinds": [
+              "platform",
+              "mover"
+            ],
+            "x-kinds": "all"
+          },
+          "side": {
+            "description": "With `block`: which side of the block, by the way it faces (n, e, s, w, ne, ...), or the number of an edge of the block's outline (0 is the edge from its first point to its second). `top` (a plate only): on the block's top, level or sloping in one plane (a platform with `top_slope`: a console with switches on its raking top, as Goblinwatch's sixteen on a 45-degree top). On the top the plate is placed by `at` (its middle on the plan) and `size` (its extent on the plan: across the fall, along the level lines, then along the fall; default [32, 32]); it lies in the top's plane about 2 off it, its picture stretched over it with its top toward the high side (north on a level top). Not with `along` or `height`. Example: {id: switch:a, room: room:hall, block: platform:console, side: top, at: [2200, 4888], size: [16, 16], off: {texture: T1swDd, size: [16, 16]}, on: T1swDu}.",
+            "type": [
+              "string",
+              "integer"
+            ],
+            "x-geom": {
+              "shape": "wall",
+              "space": "part"
+            },
+            "x-labels": [
+              "compass side or top",
+              "outline edge"
+            ],
+            "x-kinds": "all"
+          },
+          "at": {
+            "description": "In place of `wall` and `along`: a point [x, y] on or near the wall. With `block` and `side: top`: the plate's middle on the plan. The object goes on the wall nearest to the point, at the place nearest to it (moved along until it is whole on the wall). Unlike an edge number, it stays where it is when the room's outline is redrawn.",
+            "$ref": "common.schema.json#/$defs/point2",
+            "x-geom": {
+              "shape": "point",
+              "space": "map"
+            },
+            "x-kinds": "all"
+          },
+          "along": {
+            "description": "Position along the wall, 0 to 1 (counter-clockwise). Default 0.5.",
+            "type": "number",
+            "minimum": 0,
+            "maximum": 1,
+            "x-unit": "ratio",
+            "x-kinds": "all"
+          },
+          "floor_height": {
+            "description": "The height (absolute z) of the floor the object's height is measured from, where a level or a platform reaches the wall in front of it: the room's own floor, or the top of that level or platform. Default: the highest; the build warns until the floor is named.",
+            "type": "number",
+            "x-unit": "map",
+            "x-kinds": "all"
+          },
+          "height": {
+            "description": "Centre height above the floor in front of the switch (a lever: the middle of its arm, default 122, the post standing from 26 below it to 6 above it). Default 96. The floor is the room's own (on a sloped floor: the floor under the switch); where a level or a platform reaches the wall under the switch, it is the highest floor there, the one the party stands on to pull it (so since 2026-11-12; before, always the room's own). `floor_height` names another.",
+            "type": "number",
+            "x-unit": "map",
+            "x-kinds": "all"
+          },
+          "size": {
+            "description": "[width, height] of the plate (default [32, 32]), of a lever's post (default [8, 32]) or of a button (default [32, 32]).",
+            "$ref": "common.schema.json#/$defs/range",
+            "x-unit": "map",
+            "x-geom": false,
+            "x-kinds": "all"
+          },
+          "off": {
+            "description": "The switch's face before it is used: {texture, size}. A plate: default the plain lever plate (t1swdd, 16 by 16), which turns to t1swdu when used; it turns back where its event toggles (by a map variable of its own, `toggle.<name>` in ids.lock.yml) or takes the branch of its `condition` that does not hold where the event has `else_effects`. A lever: its arm (default BemH16a, 256 by 16, the Forge's beam). A button: its face (default 7t1butt, 32 by 32).",
+            "$ref": "rooms.schema.json#/$defs/surface",
+            "x-kinds": "all"
+          },
+          "on": {
+            "description": "A plate: the texture shown after use (same size as `off`). Not with a lever or a button, which show that they were used by moving.",
+            "type": "string",
+            "pattern": "^[A-Za-z0-9_-]{1,10}$",
+            "x-kinds": [
+              "plate"
+            ]
+          },
+          "notes": {
+            "$ref": "common.schema.json#/$defs/notes",
+            "x-kinds": "all"
+          }
+        },
+        "additionalProperties": false,
+        "x-discriminator": {
+          "property": "kind",
+          "default": "plate"
+        },
+        "x-groups": [
+          [
+            "Switch",
+            [
+              "id",
+              "kind",
+              "notes"
+            ]
+          ],
+          [
+            "Place",
+            [
+              "room",
+              "wall",
+              "block",
+              "side",
+              "at",
+              "along",
+              "floor_height",
+              "height"
+            ]
+          ],
+          [
+            "Size",
+            [
+              "size",
+              "reach",
+              "depth"
+            ]
+          ],
+          [
+            "Surfaces",
+            [
+              "off",
+              "on",
+              "base",
+              "sides"
+            ]
+          ]
+        ]
+      },
+      "x-key": "id"
+    },
+    "chests": {
+      "type": "array",
+      "x-sort": "id",
+      "items": {
+        "type": "object",
+        "required": [
+          "id"
+        ],
+        "properties": {
+          "id": {
+            "$ref": "common.schema.json#/$defs/id",
+            "x-id-kinds": [
+              "chest"
+            ]
+          },
+          "room": {
+            "$ref": "common.schema.json#/$defs/id",
+            "x-id-kinds": [
+              "room"
+            ]
+          },
+          "at": {
+            "$ref": "common.schema.json#/$defs/point2",
+            "x-geom": {
+              "shape": "point",
+              "space": "map"
+            }
+          },
+          "offset": {
+            "$ref": "common.schema.json#/$defs/point2",
+            "x-geom": {
+              "shape": "point",
+              "space": "room"
+            }
+          },
+          "floor_height": {
+            "description": "The height (absolute z) of the floor to stand on, where several lie one above the other at this place (the room's floor under a hanging platform, a level under a platform). Default: the highest.",
+            "type": "number",
+            "x-unit": "map"
+          },
+          "rides": {
+            "description": "A lift or a mover of objects.yml (in the same room) that the chest stands on and rides with: it stands on the moving part's top as that is drawn (a lift: down; a mover: at its start), wholly on it, and its faces are moved by the same door record. Not together with `floor_height`. A chest on a platform or a level needs no `rides`: it stands there by its place. A chest over a lift or a mover without `rides` is refused (it would stand on the part's top at the start and not move with it). Everything else placed over a lift or a mover (the start, spawns, items, monsters) stands on its top as it stands at the map's start (`state: up`, `state: end`), unless `floor_height` names a floor under it with room there; a decoration there is refused (it never moves). Example: {id: chest:cargo, room: room:bay, rides: mover:deck, at: [640, 640]}.",
+            "$ref": "common.schema.json#/$defs/id",
+            "x-id-kinds": [
+              "lift",
+              "mover"
+            ]
+          },
+          "kind": {
+            "description": "The shipped chests' families of textures, laid as the originals are (measured on 2026-11-13 in Gharik's Forge and Castle Darkmoor, the Temple of the Moon, Celeste and the Tularean caves, the Abandoned Temple and MM8's caves): the two long sides each a left end 16 wide, a middle (repeated every 64 on a wider chest) and a right end 16 wide, as seen from in front of that side; the top the same across its width; the two short ends one picture. `ch1` to `ch5` are MM6's (a box 96 by 64 and 64 high with a flat lid: ch3frLE, ch3frntB, ch3frRE on the sides, ch3topLE, ch3topB, ch3topRE on the top, ch3side on the ends). `7gt002` (MM7), `gt002` (MM8) and `ch001` to `ch006` have a lid 16 high whose front and back slope up to a top 32 deep (a box 96 by 64 and 80 high; the ends are the first and last 16 columns of the b texture, ch00N one letter on). A kind gives the chest its size unless `size` says otherwise. Default: without a `surface` the world's plain chest (mm6 ch1, mm7 7gt002, mm8 gt002); with a `surface` none, that surface over every side as before (the build warns when it is a kind's middle, ch3frntB). `surface`, `end_surface` and `top_surface` still take the place of the kind's long sides, ends and top. The front (the side the lid slopes down to first) is the long side counter-clockwise from `facing` (facing n: the front looks west). Example: {id: chest:c1, room: room:vault, at: [100, 200], facing: e, kind: ch3}.",
+            "type": "string"
+          },
+          "lid": {
+            "description": "`v`: MM6's other lid pictures for the kinds ch1 to ch4, laid in place of the plain ones: ch1tplev, ch1tpbv, ch1tprev (ch2 and ch3 alike; ch4 ch4tplev, ch4topv, ch4tprev), the carved middle of the Forge's chest at (-1631, 6698) (`ch3tpbv`) and the Hive's chest 4. Refused on other kinds. Example: {id: chest:carved, room: room:hall, kind: ch3, lid: v}.",
+            "enum": [
+              "v"
+            ]
+          },
+          "facing": {
+            "$ref": "#/$defs/facing"
+          },
+          "size": {
+            "description": "[width, depth, height]. Default: the kind's (96 by 64 and 64 high, 80 for a sloping lid); [72, 48, 44] for a chest with a `surface` and no kind. The width runs along the chest's `facing` (east without one: along x; `facing: n` turns the width north-south), the depth across it. The whole footprint must stand inside the chest's room.",
+            "$ref": "common.schema.json#/$defs/point3",
+            "x-unit": "map",
+            "x-geom": false
+          },
+          "surface": {
+            "description": "The chest's faces: {texture, size}. Default: the plain wooden chest (ch1frntb, 64 by 64).",
+            "$ref": "rooms.schema.json#/$defs/surface"
+          },
+          "end_surface": {
+            "description": "Surface of the box's two short ends, stretched to fit. Default: `surface`.",
+            "$ref": "rooms.schema.json#/$defs/surface"
+          },
+          "top_surface": {
+            "description": "The surface of the chest's top where it differs from its sides (a desk's top, a crate's lid, a sarcophagus slab), laid out as a floor is, at its texel size. Default: the sides' surface, stretched over the top. Example: {id: chest:desk, room: room:office, at: [300, 200], size: [128, 64, 72], surface: {texture: bwoodb1, size: [256, 256]}, top_surface: {texture: d2ceil4, size: [256, 256]}}.",
+            "$ref": "rooms.schema.json#/$defs/surface"
+          },
+          "treasure_level": {
+            "description": "Level of the `random_items` rolls (1 to 6).",
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 6,
+            "x-unit": "none"
+          },
+          "random_items": {
+            "description": "Number of random item rolls. Default 3 (0 when `random_levels` is given). 0: no random items, only the listed `items` and `gold`.",
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 20,
+            "x-unit": "count"
+          },
+          "random_levels": {
+            "description": "More things the game puts in on the first opening, each of its own treasure level, as the shipped maps' chests hold them: [5, 3, 2, 1] is one roll of level 5, one of 3, one of 2 and one of 1 (levels 1 to 7). They come after `items` and the `random_items` of `treasure_level`. Such a chest is written into the scene as the game's own chest record (the item list a shipped map's scene has), which holds no amount of gold: `gold` is refused with it (the rolls themselves may come out as gold). Example: {id: chest:c1, room: room:vault, at: [100, 200], random_levels: [5, 3, 2, 1]}.",
+            "type": "array",
+            "x-flow": true,
+            "minItems": 1,
+            "maxItems": 100,
+            "items": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 7
+            },
+            "x-unit": "none"
+          },
+          "box_of": {
+            "description": "In place of `room` and `at`: this chest has no box of its own. It is a second set of contents for the box of the chest named here, which an event opens with the effect `open_chest` (one chest of two, chosen by a condition: the Forge's chest holds the hourglass for one party and plain treasure for a party that already took it). Only the contents' fields go with it (`treasure_level`, `random_items`, `random_levels`, `gold`, `items`, `trap_level`). Example: objects.yml {id: chest:spent, box_of: chest:hoard, random_levels: [6, 5, 3, 1]}; wiring.yml {id: evt:hoard, preset: chest, source: chest:hoard, condition: {not: {qbit: hourglass_taken}}, else_effects: [{open_chest: chest:spent}], effects: [{qbit: hourglass_taken}]}.",
+            "$ref": "common.schema.json#/$defs/id",
+            "x-id-kinds": [
+              "chest"
+            ]
+          },
+          "gold": {
+            "type": "integer",
+            "minimum": 0,
+            "x-unit": "gold"
+          },
+          "items": {
+            "description": "Fixed items: item ids (from 1) or names declared in project.yml items. A shipped chest record's numbers below zero are random rolls of that treasure level: say them with `random_levels` (a 0 or a number below zero here is refused).",
+            "type": "array",
+            "items": {
+              "type": [
+                "integer",
+                "string"
+              ],
+              "x-unit": "index",
+              "x-labels": [
+                "item number",
+                "item name"
+              ]
+            }
+          },
+          "trap_level": {
+            "type": "integer",
+            "minimum": 0,
+            "x-unit": "none"
+          },
+          "notes": {
+            "$ref": "common.schema.json#/$defs/notes"
+          }
+        },
+        "additionalProperties": false,
+        "x-groups": [
+          [
+            "Chest",
+            [
+              "id",
+              "notes"
+            ]
+          ],
+          [
+            "Place",
+            [
+              "room",
+              "at",
+              "offset",
+              "floor_height",
+              "rides",
+              "facing",
+              "box_of"
+            ]
+          ],
+          [
+            "Box",
+            [
+              "kind",
+              "lid",
+              "size",
+              "surface",
+              "end_surface",
+              "top_surface"
+            ]
+          ],
+          [
+            "Contents",
+            [
+              "treasure_level",
+              "random_items",
+              "random_levels",
+              "gold",
+              "items",
+              "trap_level"
+            ]
+          ]
+        ]
+      },
+      "description": "A chest is any box the party opens for loot: with `size` and its surfaces it is a bookcase, a cabinet or a crate to search (`surface` on the long sides, `end_surface` on the two short ends).",
+      "x-key": "id"
+    },
+    "spawns": {
+      "description": "Spawn points, as the shipped maps have them: places where the game puts something when the map is first entered (and again when the map respawns). `kind: monster` (the default) draws on the map card's encounter slots; `kind: item` rolls one random thing of a treasure level and lays it on the floor. As against `monsters` and `items`, which place one fixed monster or item.",
+      "type": "array",
+      "x-sort": "id",
+      "items": {
+        "type": "object",
+        "required": [
+          "id",
+          "room"
+        ],
+        "properties": {
+          "id": {
+            "$ref": "common.schema.json#/$defs/id",
+            "x-id-kinds": [
+              "spawn"
+            ],
+            "x-kinds": "all"
+          },
+          "room": {
+            "$ref": "common.schema.json#/$defs/id",
+            "x-id-kinds": [
+              "room"
+            ],
+            "x-kinds": "all"
+          },
+          "at": {
+            "$ref": "common.schema.json#/$defs/point2",
+            "x-geom": {
+              "shape": "point",
+              "space": "map"
+            },
+            "x-kinds": "all"
+          },
+          "offset": {
+            "$ref": "common.schema.json#/$defs/point2",
+            "x-geom": {
+              "shape": "point",
+              "space": "room"
+            },
+            "x-kinds": "all"
+          },
+          "floor_height": {
+            "description": "The height (absolute z) of the floor to stand on, where several lie one above the other at this place (the room's floor under a hanging platform, a level under a platform). Default: the highest.",
+            "type": "number",
+            "x-unit": "map",
+            "x-kinds": "all"
+          },
+          "kind": {
+            "description": "What appears here. `monster` (the default): monsters of the encounter `slot`, as many as the map card's slot says. `item`: one roll of `treasure_level` when the map is first entered: by the game's rule nothing (one time in five), a heap of gold (two in five) or one random item of that level (two in five), lying on the floor; the map card's own treasure_level shifts the level as it does for chests. Example: {id: spawn:shelf, room: room:store, at: [120, 300], kind: item, treasure_level: 4}.",
+            "enum": [
+              "monster",
+              "item"
+            ],
+            "x-kinds": "all"
+          },
+          "slot": {
+            "description": "kind monster (needed there): encounter slot 1 to 3 of project.yml map_stats.monsters.",
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 3,
+            "x-unit": "index",
+            "x-kinds": [
+              "monster"
+            ]
+          },
+          "tier": {
+            "description": "kind monster: the monster's variant: a, b or c (the weakest to the strongest of the slot's three). Without it the game rolls the variant by the slot's difficulty on the map card, as most spawn points of the shipped maps do; the shipped maps' spawn numbers 4 to 12 are a slot with a fixed tier (4 to 6: a of slots 1 to 3, 7 to 9: b, 10 to 12: c). Example: {id: spawn:captain, room: room:hall, slot: 1, tier: c}.",
+            "enum": [
+              "a",
+              "b",
+              "c"
+            ],
+            "x-kinds": [
+              "monster"
+            ]
+          },
+          "treasure_level": {
+            "description": "kind item (needed there): the treasure level of the roll, 1 to 7, as the shipped map's spawn record has it (a roll that the map card leaves at 7 is a rare item, an artifact or relic, and never gold or nothing).",
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 7,
+            "x-unit": "none",
+            "x-kinds": [
+              "item"
+            ]
+          },
+          "radius": {
+            "description": "kind monster: how far from the point the monsters are spread. Default 128. (An item lies at the point.)",
+            "type": "number",
+            "minimum": 0,
+            "x-unit": "map",
+            "x-kinds": [
+              "monster",
+              "item"
+            ]
+          },
+          "group": {
+            "description": "The actor group the monsters spawned here belong to, as the shipped spawn records hold it (MM7's maps put every spawn point in group 51, or 56; MM6's and MM8's in 0). Monsters of one group other than 0 do not fight each other, wake together when one is hit, are shown, hidden or made peaceful together by events that name the group (wiring `show_actors`, `hide_actors`, a map's `evt.SetMonGroupBit`), and a map's monster relations may name the group. 0 (the default): no group. An item spawn point keeps the number too, as the shipped records do; it does nothing there. A monster spawn point in the group of placed monsters with `hostile: false` is made peaceful with them (the build warns). Example: {id: spawn:bay, room: room:bay, slot: 1, group: 51}.",
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 65535,
+            "x-unit": "none",
+            "x-kinds": [
+              "monster",
+              "item"
+            ]
+          },
+          "notes": {
+            "$ref": "common.schema.json#/$defs/notes",
+            "x-kinds": "all"
+          }
+        },
+        "additionalProperties": false,
+        "x-discriminator": {
+          "property": "kind",
+          "default": "monster"
+        },
+        "x-groups": [
+          [
+            "Spawn",
+            [
+              "id",
+              "kind",
+              "notes"
+            ]
+          ],
+          [
+            "Place",
+            [
+              "room",
+              "at",
+              "offset",
+              "floor_height",
+              "radius"
+            ]
+          ],
+          [
+            "Monsters",
+            [
+              "slot",
+              "tier",
+              "group"
+            ]
+          ],
+          [
+            "Item",
+            [
+              "treasure_level"
+            ]
+          ]
+        ]
+      },
+      "x-key": "id"
+    },
+    "monsters": {
+      "description": "Monsters that stand in the map from the start, each at its own place (a guard at a door, a boss in its hall), as against `spawns`, which draw on the map card's encounter slots. Each becomes one actor of the scene's starting state; its hit points, speed and size come from the monster tables. The build needs --assets for them.",
+      "type": "array",
+      "x-sort": "id",
+      "items": {
+        "type": "object",
+        "required": [
+          "id",
+          "room",
+          "monster"
+        ],
+        "properties": {
+          "id": {
+            "$ref": "common.schema.json#/$defs/id",
+            "x-id-kinds": [
+              "monster"
+            ]
+          },
+          "room": {
+            "$ref": "common.schema.json#/$defs/id",
+            "x-id-kinds": [
+              "room"
+            ]
+          },
+          "monster": {
+            "description": "Which monster: its number in engine/data_tables/monster_data.txt, or its name there. The Name column is tried first (`Swordsman`); where several rows share a name (the games reuse names) the build lists them and wants the number or the Picture column's name (`Swordsman A`), which is unique.",
+            "type": [
+              "integer",
+              "string"
+            ],
+            "x-unit": "index",
+            "x-labels": [
+              "monster number",
+              "monster name"
+            ]
+          },
+          "at": {
+            "description": "Where it stands, [x, y]. Default: the room's middle.",
+            "$ref": "common.schema.json#/$defs/point2",
+            "x-geom": {
+              "shape": "point",
+              "space": "map"
+            }
+          },
+          "offset": {
+            "description": "In place of `at`: [x, y] from the room's middle.",
+            "$ref": "common.schema.json#/$defs/point2",
+            "x-geom": {
+              "shape": "point",
+              "space": "room"
+            }
+          },
+          "floor_height": {
+            "description": "The height (absolute z) of the floor to stand on, where several lie one above the other at this place (the room's floor under a hanging platform, a level under a platform). Default: the highest. The ceiling over that floor must be at least the monster's height above it.",
+            "type": "number",
+            "x-unit": "map"
+          },
+          "facing": {
+            "description": "The way it looks at the start. Default east.",
+            "$ref": "#/$defs/facing"
+          },
+          "hostile": {
+            "description": "Left out: hostile or peaceful as the game's tables have its kind. true: hostile to the party whatever the tables say (the actor's Aggressor bit). false: peaceful until an event or an attack turns it; this needs a `group`, because the scene cannot hold a peaceful monster of a hostile kind: the build writes an event of its own that clears the group's Hostile bit each time the map is entered (to turn the group later, a wiring effect `lua: evt.SetMonGroupBit(<group>, MonsterBits.Hostile, 1)`).",
+            "type": "boolean"
+          },
+          "group": {
+            "description": "The monster's group number, by which scripts address monsters together (evt.SetMonGroupBit, evt.CheckMonstersKilled). Default 0: no group. All monsters of one group that say `hostile` must say the same.",
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 255,
+            "x-unit": "none"
+          },
+          "hp": {
+            "description": "Hit points of its own, in place of its kind's (a boss three times as tough as its fellows). The game draws its health against its kind's hit points, so a monster with more shows as unhurt until it is below them. The scene's actor record holds no level, attack, armour or resistance of its own: those stay its kind's row of monster_data.txt (choose a stronger kind for them), and neither does it hold a script of its own.",
+            "type": "integer",
+            "minimum": 1,
+            "x-unit": "count"
+          },
+          "name": {
+            "description": "A name of its own (\"Mr Wobbles\"). The game shows a living monster's name from its kind, or from the engine's table of placed monsters' names (engine/data_tables/english/place_mon.txt: Blackwell Cooper, Jeric Whistlebone ...) when the scene's actor record points at a row of it: a name that table has is shown in full, and the build says so; any other name is written into the record, shows on the monster's corpse only, and the build warns that it needs a row in that table (a change outside the project). An event for its death: a wiring event with `trigger: timer`, `once: true` and `condition: {kills: {monster: <this id>}}`, or `{kills: {group: n}}` for several.",
+            "type": "string",
+            "minLength": 1
+          },
+          "immobile": {
+            "description": "true: the monster keeps its place: it neither wanders while it has nothing to fight nor walks after the party, and fights from where it stands (a guard at his post). Default false: it moves as its kind does.",
+            "type": "boolean"
+          },
+          "hidden": {
+            "description": "true: the monster starts invisible (the actor record's Invisible bit, as the Lincoln's droids): it is neither drawn nor acts until a wiring effect shows its group ({show_actors: <group>}; {hide_actors: <group>} hides it again). Needs `group`; the build warns when no event shows the group. Default false.",
+            "type": "boolean"
+          },
+          "carries": {
+            "description": "An item the monster carries (an item id or a name of items.txt or of project.yml items): the game leaves it in the corpse, or drops it where the monster dies when its kind leaves no corpse (the Temple of the Moon's captain and his longbow: carries: 845). The actor record's carried item, as the shipped maps have it.",
+            "type": [
+              "integer",
+              "string"
+            ],
+            "x-unit": "index",
+            "x-labels": [
+              "item number",
+              "item name"
+            ]
+          },
+          "inside": {
+            "description": "The id of the thing (a decoration, a chest, a platform) the monster is meant to stand inside (a prisoner in a cage). Without it the build warns of monsters that stand inside decorations, chests or blocks.",
+            "$ref": "common.schema.json#/$defs/id",
+            "x-id-kinds": [
+              "decoration",
+              "chest",
+              "platform"
+            ]
+          },
+          "notes": {
+            "$ref": "common.schema.json#/$defs/notes"
+          }
+        },
+        "additionalProperties": false,
+        "x-groups": [
+          [
+            "Monster",
+            [
+              "id",
+              "monster",
+              "name",
+              "notes"
+            ]
+          ],
+          [
+            "Place",
+            [
+              "room",
+              "at",
+              "offset",
+              "floor_height",
+              "facing",
+              "inside"
+            ]
+          ],
+          [
+            "Behaviour",
+            [
+              "hostile",
+              "group",
+              "immobile",
+              "hidden"
+            ]
+          ],
+          [
+            "Strength and loot",
+            [
+              "hp",
+              "carries"
+            ]
+          ]
+        ]
+      },
+      "x-key": "id"
+    },
+    "items": {
+      "description": "Items that lie on the floor from the start, for the party to pick up (a quest item on an altar, a key in a corner). Each becomes one sprite object of the scene's starting state. For items in a box use a chest's `items`. The build needs --assets for the item tables.",
+      "type": "array",
+      "x-sort": "id",
+      "items": {
+        "type": "object",
+        "required": [
+          "id",
+          "room",
+          "item"
+        ],
+        "properties": {
+          "id": {
+            "$ref": "common.schema.json#/$defs/id",
+            "x-id-kinds": [
+              "item"
+            ]
+          },
+          "room": {
+            "$ref": "common.schema.json#/$defs/id",
+            "x-id-kinds": [
+              "room"
+            ]
+          },
+          "item": {
+            "description": "Which item: its number in engine/data_tables/items.txt, a name declared in project.yml `items`, or its name in the table's Name column where only one row has that name (else the build lists the rows and wants the number).",
+            "type": [
+              "integer",
+              "string"
+            ],
+            "x-unit": "index",
+            "x-labels": [
+              "item number",
+              "item name"
+            ]
+          },
+          "at": {
+            "description": "Where it lies, [x, y]. Default: the room's middle.",
+            "$ref": "common.schema.json#/$defs/point2",
+            "x-geom": {
+              "shape": "point",
+              "space": "map"
+            }
+          },
+          "offset": {
+            "description": "In place of `at`: [x, y] from the room's middle.",
+            "$ref": "common.schema.json#/$defs/point2",
+            "x-geom": {
+              "shape": "point",
+              "space": "room"
+            }
+          },
+          "floor_height": {
+            "description": "The height (absolute z) of the floor it lies on, where several lie one above the other at this place (the room's floor under a hanging platform, a platform's top). Default: the highest.",
+            "type": "number",
+            "x-unit": "map"
+          },
+          "gold": {
+            "description": "For a heap of gold (an item whose items.txt Equip Stat is Gold: 187 to 189, 197 to 199 and the like): the amount the party picks up, 1 or more (the build warns of a heap without it: it gives 0 gold); refused on any other item. Example: {id: item:coins, room: room:vault, item: 197, at: [100, 200], gold: 250}.",
+            "type": "integer",
+            "minimum": 1,
+            "x-unit": "gold"
+          },
+          "notes": {
+            "$ref": "common.schema.json#/$defs/notes"
+          }
+        },
+        "additionalProperties": false
+      },
+      "x-key": "id"
+    },
+    "decorations": {
+      "type": "array",
+      "x-sort": "id",
+      "items": {
+        "type": "object",
+        "required": [
+          "id",
+          "room",
+          "decoration"
+        ],
+        "properties": {
+          "id": {
+            "$ref": "common.schema.json#/$defs/id",
+            "x-id-kinds": [
+              "decoration"
+            ]
+          },
+          "room": {
+            "$ref": "common.schema.json#/$defs/id",
+            "x-id-kinds": [
+              "room"
+            ]
+          },
+          "decoration": {
+            "description": "The decoration's internal name in decoration_data.txt.",
+            "type": "string"
+          },
+          "at": {
+            "$ref": "common.schema.json#/$defs/point2",
+            "x-geom": {
+              "shape": "point",
+              "space": "map"
+            }
+          },
+          "offset": {
+            "$ref": "common.schema.json#/$defs/point2",
+            "x-geom": {
+              "shape": "point",
+              "space": "room"
+            }
+          },
+          "floor_height": {
+            "description": "The height (absolute z) of the floor to stand on, where several lie one above the other at this place (the room's floor under a hanging platform, a level under a platform). Default: the highest.",
+            "type": "number",
+            "x-unit": "map"
+          },
+          "wall": {
+            "description": "For wall-mounted decorations: the wall it hangs on (with `along` and `height`).",
+            "$ref": "#/$defs/wall"
+          },
+          "along": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 1,
+            "x-unit": "ratio"
+          },
+          "height": {
+            "description": "Above the floor. Default 0. A decoration raised off the floor (more than 2) must stand on the top of a block, a chest or a platform there (the build warns of one that floats), unless it hangs on a wall (`wall`), hangs by its kind (a chandelier, lantern, sconce, torch, cage, flag: decoration_data.txt's hint says) or says `hangs: true`.",
+            "type": "number",
+            "x-unit": "map"
+          },
+          "hangs": {
+            "description": "true: the decoration hangs (from a chain, a hook, a rope) and needs nothing under it, though its kind does not say so (a bucket on a rope). Default false. A decoration that hangs from the roof by its kind (a cage or a chandelier whose dungeon model swings, or whose hint says hanging cage, chandelier, noose, stalactite; a standing cage such as `bonecage` stands) is hung by the build with its top (its model's height) 2 into the ceiling when it has no `height`; with one, its top must come within 8 of the ceiling or of a block's underside over it (the build warns of one that hangs from nothing).",
+            "type": "boolean"
+          },
+          "inside": {
+            "description": "The id of the thing (a decoration, a monster, a chest, a platform) this one is meant to stand inside (bones in a cage, a candle in a niche block). Without it the build warns of decorations, monsters, chests and blocks that stand inside each other.",
+            "$ref": "common.schema.json#/$defs/id",
+            "x-id-kinds": [
+              "decoration",
+              "monster",
+              "chest",
+              "platform"
+            ]
+          },
+          "facing": {
+            "$ref": "#/$defs/facing"
+          },
+          "notes": {
+            "$ref": "common.schema.json#/$defs/notes"
+          }
+        },
+        "additionalProperties": false,
+        "x-groups": [
+          [
+            "Decoration",
+            [
+              "id",
+              "decoration",
+              "notes"
+            ]
+          ],
+          [
+            "Place",
+            [
+              "room",
+              "at",
+              "offset",
+              "floor_height",
+              "facing",
+              "inside"
+            ]
+          ],
+          [
+            "On a wall",
+            [
+              "wall",
+              "along",
+              "height",
+              "hangs"
+            ]
+          ]
+        ]
+      },
+      "x-key": "id"
+    },
+    "placeholders": {
+      "description": "Things the map needs that no asset exists for yet: a statue to be modelled, a prop to be found. A placeholder holds the place and the request; the build does not put it in the map and lists it as a warning, so the request cannot be lost. When the asset exists, replace it with a decoration.",
+      "type": "array",
+      "x-sort": "id",
+      "items": {
+        "type": "object",
+        "required": [
+          "id",
+          "room",
+          "stands_for"
+        ],
+        "properties": {
+          "id": {
+            "$ref": "common.schema.json#/$defs/id",
+            "x-id-kinds": [
+              "placeholder"
+            ]
+          },
+          "room": {
+            "$ref": "common.schema.json#/$defs/id",
+            "x-id-kinds": [
+              "room"
+            ]
+          },
+          "stands_for": {
+            "description": "What should stand here, in words an artist or an asset search can use.",
+            "type": "string"
+          },
+          "at": {
+            "$ref": "common.schema.json#/$defs/point2",
+            "x-geom": {
+              "shape": "point",
+              "space": "map"
+            }
+          },
+          "offset": {
+            "$ref": "common.schema.json#/$defs/point2",
+            "x-geom": {
+              "shape": "point",
+              "space": "room"
+            }
+          },
+          "size": {
+            "description": "Width, depth and height it should have, in world units.",
+            "type": "array",
+            "items": {
+              "type": "number",
+              "exclusiveMinimum": 0
+            },
+            "minItems": 3,
+            "maxItems": 3,
+            "x-geom": false,
+            "x-unit": "map"
+          },
+          "facing": {
+            "$ref": "#/$defs/facing"
+          },
+          "notes": {
+            "$ref": "common.schema.json#/$defs/notes"
+          }
+        },
+        "additionalProperties": false
+      },
+      "x-key": "id"
+    },
+    "exits": {
+      "description": "Clickable ways out of the map, on a wall. Each leads to a project.yml neighbour.",
+      "type": "array",
+      "x-sort": "id",
+      "items": {
+        "type": "object",
+        "required": [
+          "id",
+          "room",
+          "to"
+        ],
+        "properties": {
+          "id": {
+            "$ref": "common.schema.json#/$defs/id",
+            "x-id-kinds": [
+              "exit"
+            ]
+          },
+          "room": {
+            "$ref": "common.schema.json#/$defs/id",
+            "x-id-kinds": [
+              "room"
+            ]
+          },
+          "wall": {
+            "$ref": "#/$defs/wall"
+          },
+          "at": {
+            "description": "In place of `wall` and `along`: a point [x, y] on or near the wall. The object goes on the wall nearest to the point, at the place nearest to it (moved along until it is whole on the wall). Unlike an edge number, it stays where it is when the room's outline is redrawn.",
+            "$ref": "common.schema.json#/$defs/point2",
+            "x-geom": {
+              "shape": "point",
+              "space": "map"
+            }
+          },
+          "along": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 1,
+            "x-unit": "ratio"
+          },
+          "floor_height": {
+            "description": "The height (absolute z) of the floor the object's height is measured from, where a level or a platform reaches the wall in front of it: the room's own floor, or the top of that level or platform. Default: the highest; the build warns until the floor is named.",
+            "type": "number",
+            "x-unit": "map"
+          },
+          "size": {
+            "description": "[width, height] of the door face. Default [192, 256]. It may be as wide as its wall. It stands on the floor in front of it (see `floor_height`).",
+            "$ref": "common.schema.json#/$defs/range",
+            "x-unit": "map",
+            "x-geom": false
+          },
+          "surface": {
+            "$ref": "rooms.schema.json#/$defs/surface"
+          },
+          "to": {
+            "description": "The project.yml neighbour.",
+            "$ref": "common.schema.json#/$defs/id",
+            "x-id-kinds": [
+              "neighbour"
+            ]
+          },
+          "notes": {
+            "$ref": "common.schema.json#/$defs/notes"
+          }
+        },
+        "additionalProperties": false,
+        "x-groups": [
+          [
+            "Exit",
+            [
+              "id",
+              "to",
+              "notes"
+            ]
+          ],
+          [
+            "Place",
+            [
+              "room",
+              "wall",
+              "at",
+              "along",
+              "floor_height"
+            ]
+          ],
+          [
+            "Look",
+            [
+              "size",
+              "surface"
+            ]
+          ]
+        ]
+      },
+      "x-key": "id"
+    },
+    "relations": {
+      "$ref": "common.schema.json#/$defs/relations"
+    },
+    "destructibles": {
+      "description": "Things that break (the scene's destructibles, devdocs/INDOOR_DESTRUCTIBLES.md): blows and the party's missiles take their `hp`, and at 0 their faces vanish (a board across a doorway, a cracked wall) or their decoration is hidden (a barrel, an urn), with a sound and an effect of their material, and `on_destroyed` runs. Wiring: effects {destroy: id}, {damage_destructible: {of: id, amount: n}}, {breakable: id}, {unbreakable: id}; condition {destroyed: id}. Each gets a number in ids.lock.yml `destructibles` (the id `evt.DestroyDestructible` takes). A broken wall leaves a hole that the game's sight and monsters still treat as a wall unless an opening joins the rooms: put a breakable wall in an opening (a platform or panel there), not between rooms that have none. Example: {id: destructible:boards, of: panel:boards, hp: 20, material: wood}.",
+      "type": "array",
+      "x-sort": "id",
+      "items": {
+        "type": "object",
+        "required": [
+          "id",
+          "of",
+          "hp"
+        ],
+        "x-flow": true,
+        "properties": {
+          "id": {
+            "$ref": "common.schema.json#/$defs/id",
+            "x-id-kinds": [
+              "destructible"
+            ]
+          },
+          "of": {
+            "description": "What breaks: a platform, raised level, wall panel, plate or floor or ceiling region of rooms.yml with an `id`, a door or plate of this file (their faces vanish), or a decoration of this file (it is hidden). The build gives the faces or the decoration a number of their own (ids.lock.yml `cogs`).",
+            "$ref": "common.schema.json#/$defs/id",
+            "x-id-kinds": [
+              "platform",
+              "level",
+              "panel",
+              "plate",
+              "region",
+              "door",
+              "decoration"
+            ]
+          },
+          "hp": {
+            "description": "Hit points; a blow or missile takes them off, 0 breaks it.",
+            "type": "integer",
+            "minimum": 1,
+            "x-unit": "count"
+          },
+          "damage": {
+            "description": "false: blows and missiles do not hurt it until a script allows them (`evt.SetDestructibleDamage`). Default true.",
+            "type": "boolean"
+          },
+          "trigger_only": {
+            "description": "Only a script breaks it (`evt.DestroyDestructible`). Default false.",
+            "type": "boolean"
+          },
+          "material": {
+            "description": "What it is made of: the effect of its breaking and, without `sound`, its sound (stone: dust and rubble, wood: splinters, glass: shards, metal: sparks). Default stone.",
+            "enum": [
+              "stone",
+              "wood",
+              "glass",
+              "metal"
+            ]
+          },
+          "sound": {
+            "description": "The sound it breaks with, a sound of the world's audio folder by its path (`Events/shatterwood02.wav`). Default by `material` (MM9's: Events/stonecrumble.wav, shatterwood02.wav, glass_smash.wav, metalbreak03.wav; give one in another world).",
+            "type": "string",
+            "minLength": 1
+          },
+          "effect_scale": {
+            "description": "The breaking effect's size against a piece about 200 across. Default 1.",
+            "type": "number",
+            "exclusiveMinimum": 0,
+            "maximum": 8,
+            "x-unit": "ratio"
+          },
+          "on_destroyed": {
+            "description": "A wiring event run when it breaks (its id; the event needs no source).",
+            "$ref": "common.schema.json#/$defs/id",
+            "x-id-kinds": [
+              "event"
+            ]
+          },
+          "on_damaged": {
+            "description": "A wiring event run on every hit that hurts it.",
+            "$ref": "common.schema.json#/$defs/id",
+            "x-id-kinds": [
+              "event"
+            ]
+          },
+          "notes": {
+            "$ref": "common.schema.json#/$defs/notes"
+          }
+        },
+        "additionalProperties": false,
+        "x-groups": [
+          [
+            "Destructible",
+            [
+              "id",
+              "of",
+              "notes"
+            ]
+          ],
+          [
+            "Breaking",
+            [
+              "hp",
+              "damage",
+              "trigger_only",
+              "material",
+              "sound",
+              "effect_scale"
+            ]
+          ],
+          [
+            "Events",
+            [
+              "on_destroyed",
+              "on_damaged"
+            ]
+          ]
+        ]
+      },
+      "x-key": "id"
+    },
+    "water": {
+      "description": "Water to swim in (the scene's water volumes, devdocs/mm9_rework/MM9_WATER_SWIMMING_DESIGN.md): the party inside one swims, holds its breath under the surface and drowns when it runs out; a volume does not collide (the pool's walls and bed are the rooms'). Example: {id: water:pool, of: level:pool, top: -16}.",
+      "type": "array",
+      "x-sort": "id",
+      "items": {
+        "type": "object",
+        "required": [
+          "id",
+          "top"
+        ],
+        "x-flow": true,
+        "properties": {
+          "id": {
+            "$ref": "common.schema.json#/$defs/id",
+            "x-id-kinds": [
+              "water"
+            ]
+          },
+          "of": {
+            "description": "The room or raised or sunken level (rooms.yml, with an `id`) whose outline the water fills. Or give `outline`.",
+            "$ref": "common.schema.json#/$defs/id",
+            "x-id-kinds": [
+              "room",
+              "level"
+            ]
+          },
+          "outline": {
+            "description": "The water's outline on the plan, [[x, y], ...] (instead of `of`).",
+            "type": "array",
+            "items": {
+              "$ref": "common.schema.json#/$defs/point2"
+            },
+            "minItems": 3,
+            "x-geom": {
+              "shape": "polygon",
+              "space": "map"
+            }
+          },
+          "top": {
+            "description": "The water's surface (absolute z). The face the party sees there is the project's: a platform with `solid: false` and a liquid texture over the volume, so the party sinks in and swims.",
+            "type": "number",
+            "x-unit": "map"
+          },
+          "bottom": {
+            "description": "The lowest the water reaches (absolute z). Default: the floor of `of`.",
+            "type": "number",
+            "x-unit": "map"
+          },
+          "liquid": {
+            "description": "water (the default) or lava.",
+            "enum": [
+              "water",
+              "lava"
+            ]
+          },
+          "tint": {
+            "description": "The colour the view takes under water, [red, green, blue] from 0 to 1. Default by the liquid.",
+            "type": "array",
+            "items": {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 1
+            },
+            "minItems": 3,
+            "maxItems": 3,
+            "x-flow": true,
+            "x-unit": "ratio",
+            "x-geom": false
+          },
+          "current": {
+            "description": "Added to what swims in it, [x, y, z] in map units per second.",
+            "type": "array",
+            "items": {
+              "type": "number"
+            },
+            "minItems": 3,
+            "maxItems": 3,
+            "x-flow": true,
+            "x-unit": "none",
+            "x-geom": false
+          },
+          "notes": {
+            "$ref": "common.schema.json#/$defs/notes"
+          }
+        },
+        "additionalProperties": false,
+        "x-groups": [
+          [
+            "Water",
+            [
+              "id",
+              "of",
+              "outline",
+              "notes"
+            ]
+          ],
+          [
+            "Depth",
+            [
+              "top",
+              "bottom"
+            ]
+          ],
+          [
+            "Feel",
+            [
+              "liquid",
+              "tint",
+              "current"
+            ]
+          ]
+        ]
+      },
+      "x-key": "id"
+    },
+    "scene": {
+      "description": "Overlay projects only (project.yml `base`): what this project changes in the base map's scene. The build writes the scene overlay `<stem>_<project id>.scene.yml` beside the base map: each list the project touches (the scene's pulsing lights, ambient sounds, spawns, destructibles, water volumes, ladders) as the base map has it with these changes, removals and additions (the game replaces a list of the base scene with an overlay's), checked by the game's own overlay reader against the base scene. The base map's own things are named by their ids in ids.lock.yml, which `oymap import` writes (`light:k40123`, `sound:a527`, `destructible:k7`, `water:bluewater0`, `spawn:s3`); new things stand at an absolute `position` and get their numbers in ids.lock.yml (lights from 49001, sounds and destructibles from 60001). Monsters and floor items are added after the base map's own (`authored_content.actors`, `authored_content.sprite_objects`), whose numbers stay. An overlay's cinematics (wiring.yml `cinematics`) are written as `<stem>_<project id>.cinematics.yml`, merged by the game by name after the map's own: one named as a shipped cinematic (ids.lock.yml `cinematics`) replaces it, another is added. Example: {lights: [{id: light:beacon, position: [9800, 10200, 1300], color: [255, 160, 60], intensity: [0.4, 1], radius: [400, 900], frequency: 0.5}], changes: [{of: destructible:k7, hp: 40}], removals: [spawn:s3]}.",
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "lights": {
+          "description": "New pulsing lights (the scene's `pulsing_lights`): dynamic lights that may swing in brightness and reach.",
+          "type": "array",
+          "x-sort": "id",
+          "items": {
+            "type": "object",
+            "required": [
+              "id",
+              "position"
+            ],
+            "x-flow": true,
+            "properties": {
+              "id": {
+                "$ref": "common.schema.json#/$defs/id",
+                "x-id-kinds": [
+                  "light"
+                ]
+              },
+              "position": {
+                "description": "Where the light is, [x, y, z] (absolute).",
+                "$ref": "common.schema.json#/$defs/point3",
+                "x-geom": {
+                  "shape": "point3",
+                  "space": "map"
+                }
+              },
+              "color": {
+                "description": "[red, green, blue], 0 to 255. Default [255, 255, 255].",
+                "type": "array",
+                "items": {
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 255
+                },
+                "minItems": 3,
+                "maxItems": 3,
+                "x-flow": true,
+                "x-unit": "none",
+                "x-geom": false
+              },
+              "intensity": {
+                "description": "[lowest, highest] shares of full brightness the light swings between. Default [1, 1]: steady.",
+                "type": "array",
+                "items": {
+                  "type": "number",
+                  "minimum": 0
+                },
+                "minItems": 2,
+                "maxItems": 2,
+                "x-flow": true,
+                "x-unit": "ratio",
+                "x-geom": false
+              },
+              "radius": {
+                "description": "[smallest, largest] reach the light swings between. Default [512, 512].",
+                "type": "array",
+                "items": {
+                  "type": "number",
+                  "minimum": 0
+                },
+                "minItems": 2,
+                "maxItems": 2,
+                "x-flow": true,
+                "x-unit": "map",
+                "x-geom": false
+              },
+              "frequency": {
+                "description": "Swings of the brightness per second. Default 1 (a steady light ignores it).",
+                "type": "number",
+                "minimum": 0,
+                "x-unit": "per_second"
+              },
+              "radius_frequency": {
+                "description": "Swings of the reach per second. Default: `frequency`.",
+                "type": "number",
+                "minimum": 0,
+                "x-unit": "per_second"
+              },
+              "phase": {
+                "description": "0 to 1: where in its swing the light starts, so that neighbouring lights do not pulse together. Default 0.",
+                "type": "number",
+                "minimum": 0,
+                "maximum": 1,
+                "x-unit": "ratio"
+              },
+              "on": {
+                "description": "false: dark until `evt.SetLight(<key>, true)` (the key is the light's number in ids.lock.yml `lights`). Default true.",
+                "type": "boolean"
+              },
+              "notes": {
+                "$ref": "common.schema.json#/$defs/notes"
+              }
+            },
+            "additionalProperties": false,
+            "x-groups": [
+              [
+                "Light",
+                [
+                  "id",
+                  "position",
+                  "color",
+                  "on",
+                  "notes"
+                ]
+              ],
+              [
+                "Pulse",
+                [
+                  "intensity",
+                  "radius",
+                  "frequency",
+                  "radius_frequency",
+                  "phase"
+                ]
+              ]
+            ]
+          },
+          "x-key": "id"
+        },
+        "sounds": {
+          "description": "New placed sounds (the scene's `ambient_sounds`).",
+          "type": "array",
+          "x-sort": "id",
+          "items": {
+            "type": "object",
+            "required": [
+              "id",
+              "position",
+              "sound",
+              "radius"
+            ],
+            "x-flow": true,
+            "properties": {
+              "id": {
+                "$ref": "common.schema.json#/$defs/id",
+                "x-id-kinds": [
+                  "sound"
+                ]
+              },
+              "position": {
+                "description": "Where the sound is, [x, y, z] (absolute).",
+                "$ref": "common.schema.json#/$defs/point3",
+                "x-geom": {
+                  "shape": "point3",
+                  "space": "map"
+                }
+              },
+              "sound": {
+                "description": "A world sound by its path under worlds/<world>/audio (`ambient/water/waves02.wav`), as the scene's ambient sounds name them.",
+                "type": "string",
+                "minLength": 1
+              },
+              "radius": {
+                "description": "How far the sound is heard (the scene's outer radius).",
+                "type": "number",
+                "exclusiveMinimum": 0,
+                "x-unit": "map"
+              },
+              "inner_radius": {
+                "description": "Within this distance the sound has its full volume. Default: a quarter of `radius`.",
+                "type": "number",
+                "minimum": 0,
+                "x-unit": "map"
+              },
+              "volume": {
+                "description": "0 to 1. Default 1.",
+                "type": "number",
+                "minimum": 0,
+                "maximum": 1,
+                "x-unit": "ratio"
+              },
+              "loop": {
+                "description": "Default true. false: played once each time the party comes within reach.",
+                "type": "boolean"
+              },
+              "wait": {
+                "description": "[shortest, longest] seconds between plays of a looping sound.",
+                "type": "array",
+                "items": {
+                  "type": "number",
+                  "minimum": 0
+                },
+                "minItems": 2,
+                "maxItems": 2,
+                "x-flow": true,
+                "x-unit": "seconds",
+                "x-geom": false
+              },
+              "on": {
+                "description": "false: silent until a script sets the map variable `AmbientSound<key>` to 1 (the key is the sound's number in ids.lock.yml `sounds`). Default true.",
+                "type": "boolean"
+              },
+              "day_only": {
+                "description": "Heard only in the world's day hours.",
+                "type": "boolean"
+              },
+              "night_only": {
+                "description": "Heard only outside the world's day hours.",
+                "type": "boolean"
+              },
+              "notes": {
+                "$ref": "common.schema.json#/$defs/notes"
+              }
+            },
+            "additionalProperties": false,
+            "x-groups": [
+              [
+                "Sound",
+                [
+                  "id",
+                  "position",
+                  "sound",
+                  "notes"
+                ]
+              ],
+              [
+                "Hearing",
+                [
+                  "radius",
+                  "inner_radius",
+                  "volume"
+                ]
+              ],
+              [
+                "Playing",
+                [
+                  "loop",
+                  "wait",
+                  "on",
+                  "day_only",
+                  "night_only"
+                ]
+              ]
+            ]
+          },
+          "x-key": "id"
+        },
+        "spawns": {
+          "description": "New spawn points (the overlay's `authored_content.spawns`): monsters of an encounter slot of the base map's map_stats row, or an item roll.",
+          "type": "array",
+          "x-sort": "id",
+          "items": {
+            "type": "object",
+            "required": [
+              "id",
+              "position"
+            ],
+            "x-flow": true,
+            "properties": {
+              "id": {
+                "$ref": "common.schema.json#/$defs/id",
+                "x-id-kinds": [
+                  "spawn"
+                ]
+              },
+              "position": {
+                "description": "The spawn point, [x, y, z] (absolute).",
+                "$ref": "common.schema.json#/$defs/point3",
+                "x-geom": {
+                  "shape": "point3",
+                  "space": "map"
+                }
+              },
+              "kind": {
+                "description": "monster (the default) or item.",
+                "enum": [
+                  "monster",
+                  "item"
+                ]
+              },
+              "slot": {
+                "description": "kind monster: encounter slot 1 to 3 of the base map's map_stats row. Default 1.",
+                "type": "integer",
+                "minimum": 1,
+                "maximum": 3,
+                "x-unit": "index"
+              },
+              "tier": {
+                "description": "kind monster: the variant a, b or c; without it the game rolls it.",
+                "enum": [
+                  "a",
+                  "b",
+                  "c"
+                ]
+              },
+              "treasure_level": {
+                "description": "kind item: the treasure level of the roll, 1 to 7.",
+                "type": "integer",
+                "minimum": 1,
+                "maximum": 7,
+                "x-unit": "none"
+              },
+              "radius": {
+                "description": "How far from the point monsters are spread. Default 128.",
+                "type": "number",
+                "minimum": 0,
+                "x-unit": "map"
+              },
+              "group": {
+                "description": "The actor group of what spawns here. Default 0.",
+                "type": "integer",
+                "minimum": 0,
+                "x-unit": "index"
+              },
+              "notes": {
+                "$ref": "common.schema.json#/$defs/notes"
+              }
+            },
+            "additionalProperties": false,
+            "x-groups": [
+              [
+                "Spawn",
+                [
+                  "id",
+                  "position",
+                  "kind",
+                  "notes"
+                ]
+              ],
+              [
+                "What",
+                [
+                  "slot",
+                  "tier",
+                  "treasure_level",
+                  "radius",
+                  "group"
+                ]
+              ]
+            ]
+          },
+          "x-key": "id"
+        },
+        "destructibles": {
+          "description": "New destructibles (the scene's `destructibles`) made of the base map's faces or decorations.",
+          "type": "array",
+          "x-sort": "id",
+          "items": {
+            "type": "object",
+            "required": [
+              "id",
+              "hp"
+            ],
+            "x-flow": true,
+            "properties": {
+              "id": {
+                "$ref": "common.schema.json#/$defs/id",
+                "x-id-kinds": [
+                  "destructible"
+                ]
+              },
+              "cog": {
+                "description": "The base map's faces it is made of, by their cog number (the number the base map's scripts name them by in `evt.SetFacetBit`). One of `cog` and `decoration_cog` is needed.",
+                "type": "integer",
+                "minimum": 1,
+                "x-unit": "index"
+              },
+              "decoration_cog": {
+                "description": "The base map's decorations it is, by their sprite key (the number `evt.SetSprite` names them by).",
+                "type": "integer",
+                "minimum": 1,
+                "x-unit": "index"
+              },
+              "center": {
+                "description": "Where its sound and effect play. Default: the middle of its faces (with an asset root).",
+                "$ref": "common.schema.json#/$defs/point3",
+                "x-geom": {
+                  "shape": "point3",
+                  "space": "map"
+                }
+              },
+              "hp": {
+                "description": "Hit points; a blow or missile takes them off, 0 breaks it.",
+                "type": "integer",
+                "minimum": 1,
+                "x-unit": "count"
+              },
+              "damage": {
+                "description": "false: blows and missiles do not hurt it until a script allows them (`evt.SetDestructibleDamage`). Default true.",
+                "type": "boolean"
+              },
+              "trigger_only": {
+                "description": "Only a script breaks it (`evt.DestroyDestructible`). Default false.",
+                "type": "boolean"
+              },
+              "material": {
+                "description": "What it is made of: the effect of its breaking and, without `sound`, its sound (stone: dust and rubble, wood: splinters, glass: shards, metal: sparks). Default stone.",
+                "enum": [
+                  "stone",
+                  "wood",
+                  "glass",
+                  "metal"
+                ]
+              },
+              "sound": {
+                "description": "The sound it breaks with, a world sound by path (`Events/shatterwood02.wav`).",
+                "type": "string",
+                "minLength": 1
+              },
+              "effect_scale": {
+                "description": "The breaking effect's size against a piece about 200 across. Default 1.",
+                "type": "number",
+                "exclusiveMinimum": 0,
+                "maximum": 8,
+                "x-unit": "ratio"
+              },
+              "destroyed_event": {
+                "description": "A map event run when it breaks: one of the base map's (evt:e<number>).",
+                "$ref": "common.schema.json#/$defs/id",
+                "x-id-kinds": [
+                  "event"
+                ]
+              },
+              "damaged_event": {
+                "description": "A map event run on every hit that hurts it: one of the base map's.",
+                "$ref": "common.schema.json#/$defs/id",
+                "x-id-kinds": [
+                  "event"
+                ]
+              },
+              "notes": {
+                "$ref": "common.schema.json#/$defs/notes"
+              }
+            },
+            "additionalProperties": false,
+            "x-groups": [
+              [
+                "Destructible",
+                [
+                  "id",
+                  "cog",
+                  "decoration_cog",
+                  "center",
+                  "notes"
+                ]
+              ],
+              [
+                "Breaking",
+                [
+                  "hp",
+                  "damage",
+                  "trigger_only",
+                  "material",
+                  "sound",
+                  "effect_scale"
+                ]
+              ],
+              [
+                "Events",
+                [
+                  "destroyed_event",
+                  "damaged_event"
+                ]
+              ]
+            ]
+          },
+          "x-key": "id"
+        },
+        "water": {
+          "description": "New water volumes (the scene's `water_volumes`): where the party swims. The surface the player sees is the base map's faces; a volume does not collide.",
+          "type": "array",
+          "x-sort": "id",
+          "items": {
+            "type": "object",
+            "required": [
+              "id",
+              "pieces"
+            ],
+            "x-flow": true,
+            "properties": {
+              "id": {
+                "$ref": "common.schema.json#/$defs/id",
+                "x-id-kinds": [
+                  "water"
+                ]
+              },
+              "liquid": {
+                "description": "water (the default) or lava.",
+                "enum": [
+                  "water",
+                  "lava"
+                ]
+              },
+              "pieces": {
+                "description": "Upright prisms the volume is made of: a polygon on the plan with the bottom and the top (the surface) of the water over it.",
+                "type": "array",
+                "minItems": 1,
+                "items": {
+                  "type": "object",
+                  "required": [
+                    "polygon",
+                    "bottom",
+                    "top"
+                  ],
+                  "x-flow": true,
+                  "properties": {
+                    "polygon": {
+                      "description": "[[x, y], ...] in map units, at least three points.",
+                      "type": "array",
+                      "items": {
+                        "$ref": "common.schema.json#/$defs/point2"
+                      },
+                      "minItems": 3,
+                      "x-geom": {
+                        "shape": "polygon",
+                        "space": "map"
+                      }
+                    },
+                    "bottom": {
+                      "description": "The lowest the water reaches (absolute z).",
+                      "type": "number",
+                      "x-unit": "map"
+                    },
+                    "top": {
+                      "description": "The water's surface (absolute z), above `bottom`.",
+                      "type": "number",
+                      "x-unit": "map"
+                    }
+                  },
+                  "additionalProperties": false
+                },
+                "x-key": "#"
+              },
+              "tint": {
+                "description": "The colour the view takes under water, [red, green, blue] from 0 to 1. Default by the liquid.",
+                "type": "array",
+                "items": {
+                  "type": "number",
+                  "minimum": 0,
+                  "maximum": 1
+                },
+                "minItems": 3,
+                "maxItems": 3,
+                "x-flow": true,
+                "x-unit": "ratio",
+                "x-geom": false
+              },
+              "current": {
+                "description": "Added to what swims in it, [x, y, z] in map units per second.",
+                "type": "array",
+                "items": {
+                  "type": "number"
+                },
+                "minItems": 3,
+                "maxItems": 3,
+                "x-flow": true,
+                "x-unit": "none",
+                "x-geom": false
+              },
+              "notes": {
+                "$ref": "common.schema.json#/$defs/notes"
+              }
+            },
+            "additionalProperties": false,
+            "x-groups": [
+              [
+                "Water",
+                [
+                  "id",
+                  "liquid",
+                  "pieces",
+                  "notes"
+                ]
+              ],
+              [
+                "Feel",
+                [
+                  "tint",
+                  "current"
+                ]
+              ]
+            ]
+          },
+          "x-key": "id"
+        },
+        "ladders": {
+          "description": "New ladders (the scene's `ladders`; the game climbs them as a new map's, objects.yml `ladders`). An overlay adds no faces: the ladder is a climbable strip only, so stand it where the base map shows something to climb (a ladder, a pole, a rope, a wall's rungs). The scene's list is written whole (the base map's ladders with the changes and removals, then these). Example: {id: ladder:tower, position: [1200, 3400, 96], facing: n, height: 384}.",
+          "type": "array",
+          "x-sort": "id",
+          "items": {
+            "type": "object",
+            "required": [
+              "id",
+              "position",
+              "facing",
+              "height"
+            ],
+            "x-flow": true,
+            "properties": {
+              "id": {
+                "$ref": "common.schema.json#/$defs/id",
+                "x-id-kinds": [
+                  "ladder"
+                ]
+              },
+              "position": {
+                "description": "The middle of the ladder's foot [x, y, z] (absolute; z the floor the climber stands on), against what it climbs.",
+                "$ref": "common.schema.json#/$defs/point3",
+                "x-geom": {
+                  "shape": "point3",
+                  "space": "map"
+                }
+              },
+              "facing": {
+                "description": "The way the climber looks, toward the ladder: a compass side (n, e, s, w, ne ...) or degrees (0 east, 90 north).",
+                "type": [
+                  "string",
+                  "number"
+                ],
+                "x-unit": "deg",
+                "x-labels": [
+                  "compass direction",
+                  "degrees"
+                ]
+              },
+              "height": {
+                "description": "How far the ladder climbs above `position`: its top and `exit` lie that much higher.",
+                "type": "number",
+                "minimum": 32,
+                "x-unit": "map"
+              },
+              "top_at": {
+                "description": "A leaning ladder: where its top stands on the plan, when not straight above `position` (at most as far from it as the ladder climbs: 45 degrees). Default: straight above. `exit` defaults to 64 beyond this point.",
+                "$ref": "common.schema.json#/$defs/point2",
+                "x-geom": {
+                  "shape": "point",
+                  "space": "map"
+                }
+              },
+              "width": {
+                "description": "The strip's width. Default 96.",
+                "type": "number",
+                "minimum": 32,
+                "x-unit": "map"
+              },
+              "reach": {
+                "description": "How far in front of the strip the party may stand and take hold. Default 48.",
+                "type": "number",
+                "minimum": 16,
+                "x-unit": "map"
+              },
+              "exit": {
+                "description": "Where the party stands after climbing off at the top, [x, y], at the top's height. Default: 64 beyond the ladder's top, the way the climber looks.",
+                "$ref": "common.schema.json#/$defs/point2",
+                "x-geom": {
+                  "shape": "point",
+                  "space": "map"
+                }
+              },
+              "grab_at_top": {
+                "description": "Whether the party, walking from `exit` back toward the ladder, takes it at the top and climbs down. Default true; false: from above the ladder is a drop.",
+                "type": "boolean"
+              },
+              "grab_in_air": {
+                "description": "A body in the air takes hold too, falling or jumping past it (MM9's climbing poles and ropes). Default false: only from the ground.",
+                "type": "boolean"
+              },
+              "notes": {
+                "$ref": "common.schema.json#/$defs/notes"
+              }
+            },
+            "additionalProperties": false,
+            "x-groups": [
+              [
+                "Ladder",
+                [
+                  "id",
+                  "notes"
+                ]
+              ],
+              [
+                "Place",
+                [
+                  "position",
+                  "top_at",
+                  "facing"
+                ]
+              ],
+              [
+                "Size",
+                [
+                  "height",
+                  "width",
+                  "reach"
+                ]
+              ],
+              [
+                "Use",
+                [
+                  "exit",
+                  "grab_at_top",
+                  "grab_in_air"
+                ]
+              ]
+            ]
+          },
+          "x-key": "id"
+        },
+        "monsters": {
+          "description": "New monsters that stand in the base map from the start (the overlay's `authored_content.actors`, appended after the base map's actors and those of the overlays applied before this one: their numbers stay, so the base map's scripts still name the same actors; these follow). Each is one actor as a new map's objects.yml `monsters` makes it, from the monster tables; the build needs --assets. Example: {id: monster:guard, position: [1400, 4700, 96], monster: 'Swordsman A', facing: s, group: 90}.",
+          "type": "array",
+          "x-sort": "id",
+          "items": {
+            "type": "object",
+            "required": [
+              "id",
+              "position",
+              "monster"
+            ],
+            "properties": {
+              "id": {
+                "$ref": "common.schema.json#/$defs/id",
+                "x-id-kinds": [
+                  "monster"
+                ]
+              },
+              "position": {
+                "description": "Where it stands, [x, y, z] (absolute; z the floor under it).",
+                "$ref": "common.schema.json#/$defs/point3",
+                "x-geom": {
+                  "shape": "point3",
+                  "space": "map"
+                }
+              },
+              "monster": {
+                "description": "Which monster: its number in engine/data_tables/monster_data.txt, or its name there. The Name column is tried first (`Swordsman`); where several rows share a name (the games reuse names) the build lists them and wants the number or the Picture column's name (`Swordsman A`), which is unique.",
+                "type": [
+                  "integer",
+                  "string"
+                ],
+                "x-unit": "index",
+                "x-labels": [
+                  "monster number",
+                  "monster name"
+                ]
+              },
+              "facing": {
+                "description": "The way it looks at the start. Default east.",
+                "$ref": "#/$defs/facing"
+              },
+              "hostile": {
+                "description": "true: hostile to the party whatever the tables say of its kind (the actor's Aggressor bit). Left out: as the tables have its kind. An overlay cannot make a monster of a hostile kind peaceful (that needs an event on entering the map, which an overlay does not add).",
+                "type": "boolean"
+              },
+              "group": {
+                "description": "The monster's group number, by which scripts address monsters together (evt.SetMonGroupBit, evt.CheckMonstersKilled); it may be a group of the base map's actors. Default 0: no group.",
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 255,
+                "x-unit": "none"
+              },
+              "hp": {
+                "description": "Hit points of its own, in place of its kind's (a boss three times as tough as its fellows). The game draws its health against its kind's hit points, so a monster with more shows as unhurt until it is below them. The scene's actor record holds no level, attack, armour or resistance of its own: those stay its kind's row of monster_data.txt (choose a stronger kind for them), and neither does it hold a script of its own.",
+                "type": "integer",
+                "minimum": 1,
+                "x-unit": "count"
+              },
+              "name": {
+                "description": "A name of its own (\"Mr Wobbles\"). The game shows a living monster's name from its kind, or from the engine's table of placed monsters' names (engine/data_tables/english/place_mon.txt: Blackwell Cooper, Jeric Whistlebone ...) when the scene's actor record points at a row of it: a name that table has is shown in full, and the build says so; any other name is written into the record, shows on the monster's corpse only, and the build warns that it needs a row in that table (a change outside the project). An event for its death: a wiring event with `trigger: timer`, `once: true` and `condition: {kills: {monster: <this id>}}`, or `{kills: {group: n}}` for several.",
+                "type": "string",
+                "minLength": 1
+              },
+              "immobile": {
+                "description": "true: the monster keeps its place: it neither wanders while it has nothing to fight nor walks after the party, and fights from where it stands (a guard at his post). Default false: it moves as its kind does.",
+                "type": "boolean"
+              },
+              "hidden": {
+                "description": "true: the monster starts invisible (the actor record's Invisible bit, as the Lincoln's droids): it is neither drawn nor acts until a wiring effect shows its group ({show_actors: <group>}; {hide_actors: <group>} hides it again). Needs `group`; the build warns when no event shows the group. Default false.",
+                "type": "boolean"
+              },
+              "carries": {
+                "description": "An item the monster carries (an item id or a name of items.txt or of project.yml items): the game leaves it in the corpse, or drops it where the monster dies when its kind leaves no corpse (the Temple of the Moon's captain and his longbow: carries: 845). The actor record's carried item, as the shipped maps have it.",
+                "type": [
+                  "integer",
+                  "string"
+                ],
+                "x-unit": "index",
+                "x-labels": [
+                  "item number",
+                  "item name"
+                ]
+              },
+              "notes": {
+                "$ref": "common.schema.json#/$defs/notes"
+              }
+            },
+            "additionalProperties": false,
+            "x-groups": [
+              [
+                "Monster",
+                [
+                  "id",
+                  "monster",
+                  "name",
+                  "notes"
+                ]
+              ],
+              [
+                "Place",
+                [
+                  "position",
+                  "facing"
+                ]
+              ],
+              [
+                "Behaviour",
+                [
+                  "hostile",
+                  "group",
+                  "immobile",
+                  "hidden"
+                ]
+              ],
+              [
+                "Own",
+                [
+                  "hp",
+                  "carries"
+                ]
+              ]
+            ]
+          },
+          "x-key": "id"
+        },
+        "items": {
+          "description": "New items that lie on the base map's floor from the start (the overlay's `authored_content.sprite_objects`, after the base map's floor items). Each is one sprite object as a new map's objects.yml `items` makes it; the build needs --assets. Example: {id: item:key, position: [1500, 4800, 96], item: 1}.",
+          "type": "array",
+          "x-sort": "id",
+          "items": {
+            "type": "object",
+            "required": [
+              "id",
+              "position",
+              "item"
+            ],
+            "properties": {
+              "id": {
+                "$ref": "common.schema.json#/$defs/id",
+                "x-id-kinds": [
+                  "item"
+                ]
+              },
+              "position": {
+                "description": "Where it lies, [x, y, z] (absolute; z the floor under it).",
+                "$ref": "common.schema.json#/$defs/point3",
+                "x-geom": {
+                  "shape": "point3",
+                  "space": "map"
+                }
+              },
+              "item": {
+                "description": "Which item: its number in engine/data_tables/items.txt, a name declared in project.yml `items`, or its name in the table's Name column where only one row has that name (else the build lists the rows and wants the number).",
+                "type": [
+                  "integer",
+                  "string"
+                ],
+                "x-unit": "index",
+                "x-labels": [
+                  "item number",
+                  "item name"
+                ]
+              },
+              "gold": {
+                "description": "For a heap of gold (an item whose items.txt Equip Stat is Gold: 187 to 189, 197 to 199 and the like): the amount the party picks up, 1 or more (the build warns of a heap without it: it gives 0 gold); refused on any other item. Example: {id: item:coins, room: room:vault, item: 197, at: [100, 200], gold: 250}.",
+                "type": "integer",
+                "minimum": 1,
+                "x-unit": "gold"
+              },
+              "notes": {
+                "$ref": "common.schema.json#/$defs/notes"
+              }
+            },
+            "additionalProperties": false
+          },
+          "x-key": "id"
+        },
+        "changes": {
+          "description": "Changes to the base map's own pulsing lights, ambient sounds, destructibles and water volumes, each naming one by its id in ids.lock.yml (`of`) with the words that change (only those of its kind: a light's color, intensity, radius, frequency, phase, on; a sound's sound, radius, inner_radius, volume, loop, wait, on; a destructible's hp, damage, trigger_only, sound, destroyed_event, damaged_event; a water volume's tint, current; a ladder's offset, facing, width, reach, exit, grab_at_top, grab_in_air).",
+          "type": "array",
+          "x-sort": "of",
+          "items": {
+            "type": "object",
+            "required": [
+              "of"
+            ],
+            "x-flow": true,
+            "properties": {
+              "of": {
+                "description": "The base map's thing changed: its id in ids.lock.yml (`light:k<key>`, `sound:a<key>`, `destructible:k<id>`, `water:<name>`, `ladder:<name>`).",
+                "$ref": "common.schema.json#/$defs/id",
+                "x-id-kinds": [
+                  "light",
+                  "sound",
+                  "destructible",
+                  "water",
+                  "ladder"
+                ]
+              },
+              "color": {
+                "description": "[red, green, blue], 0 to 255. Default [255, 255, 255].",
+                "type": "array",
+                "items": {
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 255
+                },
+                "minItems": 3,
+                "maxItems": 3,
+                "x-flow": true,
+                "x-unit": "none",
+                "x-geom": false
+              },
+              "intensity": {
+                "description": "[lowest, highest] shares of full brightness the light swings between. Default [1, 1]: steady.",
+                "type": "array",
+                "items": {
+                  "type": "number",
+                  "minimum": 0
+                },
+                "minItems": 2,
+                "maxItems": 2,
+                "x-flow": true,
+                "x-unit": "ratio",
+                "x-geom": false
+              },
+              "radius": {
+                "description": "[smallest, largest] reach the light swings between. Default [512, 512].",
+                "type": "array",
+                "items": {
+                  "type": "number",
+                  "minimum": 0
+                },
+                "minItems": 2,
+                "maxItems": 2,
+                "x-flow": true,
+                "x-unit": "map",
+                "x-geom": false
+              },
+              "frequency": {
+                "description": "Swings of the brightness per second. Default 1 (a steady light ignores it).",
+                "type": "number",
+                "minimum": 0,
+                "x-unit": "per_second"
+              },
+              "radius_frequency": {
+                "description": "Swings of the reach per second. Default: `frequency`.",
+                "type": "number",
+                "minimum": 0,
+                "x-unit": "per_second"
+              },
+              "phase": {
+                "description": "0 to 1: where in its swing the light starts, so that neighbouring lights do not pulse together. Default 0.",
+                "type": "number",
+                "minimum": 0,
+                "maximum": 1,
+                "x-unit": "ratio"
+              },
+              "on": {
+                "description": "A light's or a sound's state when the map starts.",
+                "type": "boolean"
+              },
+              "sound": {
+                "description": "A sound's new file, or a destructible's new breaking sound.",
+                "type": "string",
+                "minLength": 1
+              },
+              "inner_radius": {
+                "description": "Within this distance the sound has its full volume. Default: a quarter of `radius`.",
+                "type": "number",
+                "minimum": 0,
+                "x-unit": "map"
+              },
+              "volume": {
+                "description": "0 to 1. Default 1.",
+                "type": "number",
+                "minimum": 0,
+                "maximum": 1,
+                "x-unit": "ratio"
+              },
+              "loop": {
+                "description": "Default true. false: played once each time the party comes within reach.",
+                "type": "boolean"
+              },
+              "wait": {
+                "description": "[shortest, longest] seconds between plays of a looping sound.",
+                "type": "array",
+                "items": {
+                  "type": "number",
+                  "minimum": 0
+                },
+                "minItems": 2,
+                "maxItems": 2,
+                "x-flow": true,
+                "x-unit": "seconds",
+                "x-geom": false
+              },
+              "hp": {
+                "description": "Hit points; a blow or missile takes them off, 0 breaks it.",
+                "type": "integer",
+                "minimum": 1,
+                "x-unit": "count"
+              },
+              "damage": {
+                "description": "false: blows and missiles do not hurt it until a script allows them (`evt.SetDestructibleDamage`). Default true.",
+                "type": "boolean"
+              },
+              "trigger_only": {
+                "description": "Only a script breaks it (`evt.DestroyDestructible`). Default false.",
+                "type": "boolean"
+              },
+              "destroyed_event": {
+                "description": "A map event run when it breaks: one of the base map's (evt:e<number>).",
+                "$ref": "common.schema.json#/$defs/id",
+                "x-id-kinds": [
+                  "event"
+                ]
+              },
+              "damaged_event": {
+                "description": "A map event run on every hit that hurts it: one of the base map's.",
+                "$ref": "common.schema.json#/$defs/id",
+                "x-id-kinds": [
+                  "event"
+                ]
+              },
+              "tint": {
+                "description": "The colour the view takes under water, [red, green, blue] from 0 to 1. Default by the liquid.",
+                "type": "array",
+                "items": {
+                  "type": "number",
+                  "minimum": 0,
+                  "maximum": 1
+                },
+                "minItems": 3,
+                "maxItems": 3,
+                "x-flow": true,
+                "x-unit": "ratio",
+                "x-geom": false
+              },
+              "current": {
+                "description": "Added to what swims in it, [x, y, z] in map units per second.",
+                "type": "array",
+                "items": {
+                  "type": "number"
+                },
+                "minItems": 3,
+                "maxItems": 3,
+                "x-flow": true,
+                "x-unit": "none",
+                "x-geom": false
+              },
+              "notes": {
+                "$ref": "common.schema.json#/$defs/notes"
+              },
+              "sound_radius": {
+                "description": "A sound's new hearing distance (its `radius`).",
+                "type": "number",
+                "exclusiveMinimum": 0,
+                "x-unit": "map"
+              },
+              "offset": {
+                "description": "A ladder: moved by [dx, dy, dz] as a whole (its foot, top and exit).",
+                "$ref": "common.schema.json#/$defs/point3",
+                "x-geom": false
+              },
+              "facing": {
+                "description": "A ladder: the way the climber looks, toward it (a compass side or degrees, 0 east, 90 north).",
+                "$ref": "#/$defs/facing"
+              },
+              "width": {
+                "description": "A ladder: the strip's width.",
+                "type": "number",
+                "minimum": 32,
+                "x-unit": "map"
+              },
+              "reach": {
+                "description": "A ladder: how far in front of the strip the party may stand and take hold.",
+                "type": "number",
+                "minimum": 16,
+                "x-unit": "map"
+              },
+              "exit": {
+                "description": "A ladder: where the party stands after climbing off, [x, y] at the top's height (after `offset`).",
+                "$ref": "common.schema.json#/$defs/point2",
+                "x-geom": {
+                  "shape": "point",
+                  "space": "map"
+                }
+              },
+              "grab_at_top": {
+                "description": "A ladder: whether the party takes it at the top to climb down.",
+                "type": "boolean"
+              },
+              "grab_in_air": {
+                "description": "A ladder: whether a body in the air takes hold too.",
+                "type": "boolean"
+              }
+            },
+            "additionalProperties": false,
+            "x-groups": [
+              [
+                "Changed",
+                [
+                  "of",
+                  "notes"
+                ]
+              ],
+              [
+                "Light",
+                [
+                  "color",
+                  "intensity",
+                  "radius",
+                  "frequency",
+                  "radius_frequency",
+                  "phase",
+                  "on"
+                ]
+              ],
+              [
+                "Sound",
+                [
+                  "sound",
+                  "sound_radius",
+                  "inner_radius",
+                  "volume",
+                  "loop",
+                  "wait"
+                ]
+              ],
+              [
+                "Destructible",
+                [
+                  "hp",
+                  "damage",
+                  "trigger_only",
+                  "destroyed_event",
+                  "damaged_event"
+                ]
+              ],
+              [
+                "Water",
+                [
+                  "tint",
+                  "current"
+                ]
+              ],
+              [
+                "Ladder",
+                [
+                  "offset",
+                  "facing",
+                  "width",
+                  "reach",
+                  "exit",
+                  "grab_at_top",
+                  "grab_in_air"
+                ]
+              ]
+            ]
+          },
+          "x-key": "#"
+        },
+        "removals": {
+          "description": "The base map's things the overlay takes out, by their ids in ids.lock.yml: spawn points (`spawn:s<index>`), pulsing lights, ambient sounds, destructibles, water volumes, ladders (`ladder:<name>`).",
+          "type": "array",
+          "items": {
+            "$ref": "common.schema.json#/$defs/id",
+            "x-id-kinds": [
+              "spawn",
+              "light",
+              "sound",
+              "destructible",
+              "water",
+              "ladder"
+            ]
+          },
+          "x-flow": true
+        }
+      },
+      "x-groups": [
+        [
+          "Lights and sounds",
+          [
+            "lights",
+            "sounds"
+          ]
+        ],
+        [
+          "Things",
+          [
+            "spawns",
+            "monsters",
+            "items",
+            "ladders"
+          ]
+        ],
+        [
+          "Parts",
+          [
+            "destructibles",
+            "water"
+          ]
+        ],
+        [
+          "The base map's",
+          [
+            "changes",
+            "removals"
+          ]
+        ]
+      ]
+    },
+    "notes": {
+      "$ref": "common.schema.json#/$defs/notes"
+    }
+  },
+  "additionalProperties": false,
+  "$defs": {
+    "door_picture": {
+      "description": "One picture of a door's `pictures` or `back_pictures`: a surface, which may be mirrored.",
+      "type": "object",
+      "x-flow": true,
+      "required": [
+        "texture",
+        "size"
+      ],
+      "properties": {
+        "texture": {
+          "description": "Texture name, at most 10 characters: letters, digits, `_` and `-`.",
+          "type": "string",
+          "pattern": "^[A-Za-z0-9_-]{1,10}$"
+        },
+        "size": {
+          "description": "The texture's [width, height] in texels.",
+          "type": "array",
+          "items": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "minItems": 2,
+          "maxItems": 2,
+          "x-unit": "texel",
+          "x-geom": false
+        },
+        "scale": {
+          "description": "With `tile: true`: map units covered by one texel. Default 1 (and only 1 on a door with `fold: true`).",
+          "type": "number",
+          "exclusiveMinimum": 0,
+          "x-unit": "ratio"
+        },
+        "mirror": {
+          "description": "true: the picture is shown mirrored, left to right (the right leaf of a gate that shows the left leaf's picture turned over). Only for a stretched picture: refused with `tile: true` and with `fold: true`. Default false.",
+          "type": "boolean"
+        }
+      },
+      "additionalProperties": false
+    },
+    "facing": {
+      "description": "Compass direction or degrees (0 east, 90 north).",
+      "type": [
+        "string",
+        "number"
+      ],
+      "x-unit": "deg",
+      "x-labels": [
+        "compass direction",
+        "degrees"
+      ]
+    },
+    "wall": {
+      "description": "A wall of the room: a compass side (the wall whose outward direction is closest), or the index of the outline edge (0 is the edge from the first to the second point). An index follows the order of the outline's points: when the room's outline is redrawn, the same number names another wall and the object moves with it without a message. A compass side, or `at: [x, y]` in place of `wall`, stays where it is.",
+      "type": [
+        "string",
+        "integer"
+      ],
+      "x-geom": {
+        "shape": "wall",
+        "space": "room"
+      },
+      "x-labels": [
+        "compass side",
+        "outline edge"
+      ]
+    }
+  },
+  "x-groups": [
+    [
+      "File",
+      [
+        "format",
+        "notes"
+      ]
+    ],
+    [
+      "Start",
+      [
+        "start"
+      ]
+    ],
+    [
+      "Moving parts",
+      [
+        "doors",
+        "lifts",
+        "movers",
+        "ladders"
+      ]
+    ],
+    [
+      "Floors",
+      [
+        "plates",
+        "floors",
+        "water"
+      ]
+    ],
+    [
+      "Things",
+      [
+        "switches",
+        "chests",
+        "items",
+        "decorations",
+        "placeholders",
+        "exits",
+        "destructibles"
+      ]
+    ],
+    [
+      "Monsters",
+      [
+        "spawns",
+        "monsters",
+        "relations"
+      ]
+    ],
+    [
+      "Light and sound",
+      [
+        "lights",
+        "sounds"
+      ]
+    ],
+    [
+      "Overlay",
+      [
+        "scene"
+      ]
+    ]
+  ]
+}

@@ -688,3 +688,513 @@ effects:
     emission_interval_seconds: 0.05
     wind_direction: [0, 0, 0]
     wind_amount: 1
+# Ground item sparkles, looped by WorldFxSystem over an item near the party (WorldItemSparkle): green from 1000 gold,
+# purple from 2500, gold with rising motes for artifacts, relics and named uniques, red for quest items, warm white for
+# coin heaps.
+- id: openyamm:fx/item_sparkle/valuable
+  display_name: Item sparkle, valuable
+  duration_seconds: 8
+  compatibility_profile: predictable
+  components:
+  - id: 1
+    type: sprite_system
+    start_seconds: 0
+    end_seconds: 8
+    sprite_resource: openyamm:effect-sprite/glint
+    particle_space: world
+    blend: additive
+    sprites_per_emission: 1
+    emission_interval_seconds: 0.16
+    particle_lifetime_seconds: 0.5
+    emission_shape: plane
+    radius: 3
+    plane_direction: [0, 0, 1]
+    velocity: 4
+    random_roll: true
+    spin_speed: 1.5
+    scale_keys:
+    - {time: 0, value: 0.044}
+    - {time: 0.3, value: 0.22}
+    - {time: 1, value: 0.033}
+    color_keys:
+    - {time: 0, rgb: [190, 255, 190], transparency: 255}
+    - {time: 0.3, rgb: [90, 235, 110], transparency: 25}
+    - {time: 1, rgb: [40, 190, 70], transparency: 255}
+    motion_keys: []
+- id: openyamm:fx/item_sparkle/precious
+  display_name: Item sparkle, precious
+  duration_seconds: 8
+  compatibility_profile: predictable
+  components:
+  - id: 1
+    type: sprite_system
+    start_seconds: 0
+    end_seconds: 8
+    sprite_resource: openyamm:effect-sprite/glint
+    particle_space: world
+    blend: additive
+    sprites_per_emission: 1
+    emission_interval_seconds: 0.12
+    particle_lifetime_seconds: 0.5
+    emission_shape: plane
+    radius: 3
+    plane_direction: [0, 0, 1]
+    velocity: 4
+    random_roll: true
+    spin_speed: 1.5
+    scale_keys:
+    - {time: 0, value: 0.050}
+    - {time: 0.3, value: 0.25}
+    - {time: 1, value: 0.037}
+    color_keys:
+    - {time: 0, rgb: [230, 190, 255], transparency: 255}
+    - {time: 0.3, rgb: [185, 110, 255], transparency: 25}
+    - {time: 1, rgb: [130, 60, 230], transparency: 255}
+    motion_keys: []
+- id: openyamm:fx/item_sparkle/artifact
+  display_name: Item sparkle, artifact
+  duration_seconds: 8
+  compatibility_profile: predictable
+  components:
+  - id: 1
+    type: sprite_system
+    start_seconds: 0
+    end_seconds: 8
+    sprite_resource: openyamm:effect-sprite/glint
+    particle_space: world
+    blend: additive
+    sprites_per_emission: 1
+    emission_interval_seconds: 0.08
+    particle_lifetime_seconds: 0.5
+    emission_shape: plane
+    radius: 3
+    plane_direction: [0, 0, 1]
+    velocity: 4
+    random_roll: true
+    spin_speed: 1.5
+    scale_keys:
+    - {time: 0, value: 0.056}
+    - {time: 0.3, value: 0.28}
+    - {time: 1, value: 0.042}
+    color_keys:
+    - {time: 0, rgb: [255, 235, 170], transparency: 255}
+    - {time: 0.3, rgb: [255, 205, 110], transparency: 25}
+    - {time: 1, rgb: [255, 170, 60], transparency: 255}
+    motion_keys: []
+  - id: 2
+    type: sprite_system
+    start_seconds: 0
+    end_seconds: 8
+    sprite_resource: openyamm:effect-sprite/glint
+    particle_space: world
+    blend: additive
+    sprites_per_emission: 1
+    emission_interval_seconds: 0.3
+    particle_lifetime_seconds: 1.4
+    emission_shape: plane
+    radius: 20
+    plane_direction: [0, 0, 1]
+    velocity: 2
+    wind_direction: [0, 0, 1]
+    wind_amount: 16
+    scale_keys:
+    - {time: 0, value: 0.01}
+    - {time: 0.2, value: 0.04}
+    - {time: 1, value: 0.01}
+    color_keys:
+    - {time: 0, rgb: [255, 220, 140], transparency: 255}
+    - {time: 0.2, rgb: [255, 210, 120], transparency: 70}
+    - {time: 1, rgb: [255, 180, 80], transparency: 255}
+    motion_keys: []
+- id: openyamm:fx/item_sparkle/quest
+  display_name: Item sparkle, quest item
+  duration_seconds: 8
+  compatibility_profile: predictable
+  components:
+  - id: 1
+    type: sprite_system
+    start_seconds: 0
+    end_seconds: 8
+    sprite_resource: openyamm:effect-sprite/glint
+    particle_space: world
+    blend: additive
+    sprites_per_emission: 1
+    emission_interval_seconds: 0.08
+    particle_lifetime_seconds: 0.5
+    emission_shape: plane
+    radius: 3
+    plane_direction: [0, 0, 1]
+    velocity: 4
+    random_roll: true
+    spin_speed: 1.5
+    scale_keys:
+    - {time: 0, value: 0.050}
+    - {time: 0.3, value: 0.28}
+    - {time: 1, value: 0.037}
+    color_keys:
+    - {time: 0, rgb: [255, 215, 200], transparency: 255}
+    - {time: 0.3, rgb: [255, 125, 105], transparency: 10}
+    - {time: 1, rgb: [230, 45, 35], transparency: 255}
+    motion_keys: []
+  - id: 2
+    type: sprite_system
+    start_seconds: 0
+    end_seconds: 8
+    sprite_resource: openyamm:effect-sprite/glint
+    particle_space: world
+    blend: additive
+    sprites_per_emission: 1
+    emission_interval_seconds: 0.3
+    particle_lifetime_seconds: 1.4
+    emission_shape: plane
+    radius: 20
+    plane_direction: [0, 0, 1]
+    velocity: 2
+    wind_direction: [0, 0, 1]
+    wind_amount: 16
+    scale_keys:
+    - {time: 0, value: 0.01}
+    - {time: 0.2, value: 0.04}
+    - {time: 1, value: 0.01}
+    color_keys:
+    - {time: 0, rgb: [255, 170, 150], transparency: 255}
+    - {time: 0.2, rgb: [255, 90, 70], transparency: 70}
+    - {time: 1, rgb: [190, 30, 25], transparency: 255}
+    motion_keys: []
+- id: openyamm:fx/item_sparkle/coins
+  display_name: Item sparkle, coins
+  duration_seconds: 8
+  compatibility_profile: predictable
+  components:
+  - id: 1
+    type: sprite_system
+    start_seconds: 0
+    end_seconds: 8
+    sprite_resource: openyamm:effect-sprite/glint
+    particle_space: world
+    blend: additive
+    sprites_per_emission: 1
+    emission_interval_seconds: 0.22
+    particle_lifetime_seconds: 0.5
+    emission_shape: plane
+    radius: 3
+    plane_direction: [0, 0, 1]
+    velocity: 4
+    random_roll: true
+    spin_speed: 1.5
+    scale_keys:
+    - {time: 0, value: 0.044}
+    - {time: 0.3, value: 0.18}
+    - {time: 1, value: 0.033}
+    color_keys:
+    - {time: 0, rgb: [255, 255, 245], transparency: 255}
+    - {time: 0.3, rgb: [255, 245, 215], transparency: 25}
+    - {time: 1, rgb: [240, 220, 170], transparency: 255}
+    motion_keys: []
+- id: openyamm:fx/item_sparkle/plain
+  display_name: Item sparkle, plain loot
+  # Any item worth nothing special (OY-618, the loot_sparkle setting): a faint white glint now and then that drifts up
+  # and is brightest about half a grass height over the item, so small loot lying in tall grass can be spotted;
+  # sparser than the coins.
+  duration_seconds: 8
+  compatibility_profile: predictable
+  components:
+  - id: 1
+    type: sprite_system
+    start_seconds: 0
+    end_seconds: 8
+    sprite_resource: openyamm:effect-sprite/glint
+    particle_space: world
+    blend: additive
+    sprites_per_emission: 1
+    emission_interval_seconds: 0.35
+    particle_lifetime_seconds: 1.4
+    emission_shape: plane
+    radius: 3
+    plane_direction: [0, 0, 1]
+    velocity: 4
+    wind_direction: [0, 0, 1]
+    wind_amount: 55
+    random_roll: true
+    spin_speed: 1.5
+    scale_keys:
+    - {time: 0, value: 0.03}
+    - {time: 0.5, value: 0.21}
+    - {time: 1, value: 0.04}
+    color_keys:
+    - {time: 0, rgb: [255, 255, 255], transparency: 255}
+    - {time: 0.5, rgb: [240, 244, 255], transparency: 80}
+    - {time: 1, rgb: [200, 210, 230], transparency: 255}
+    motion_keys: []
+- id: openyamm:fx/energy_beam
+  display_name: Energy beam
+  # A beam (scripted: evt.Beam / evt.BeamToParty): a steady energy line from the effect to its beam target, until it is
+  # stopped or its time runs out.
+  duration_seconds: 600
+  compatibility_profile: predictable
+  components:
+  - id: 1
+    type: ribbon
+    start_seconds: 0
+    end_seconds: 600
+    sprite_resource: openyamm:effect-sprite/trail_noise
+    blend: additive
+    beam: true
+    lifetime_seconds: 1
+    width: 14
+    sample_distance: 32
+    texture_length: 160
+    scroll_speed: 3
+    fill: 0.6
+    core: 0.8
+    width_keys:
+    - {time: 0, value: 1}
+    color_keys:
+    - {time: 0, rgb: [255, 120, 200], transparency: 40}
+- id: openyamm:fx/arc_beam
+  display_name: Arc beam
+  # A beam of crackling lightning (scripted: evt.Beam): an arc from the effect to its beam target.
+  duration_seconds: 600
+  compatibility_profile: predictable
+  components:
+  - id: 1
+    type: ribbon
+    start_seconds: 0
+    end_seconds: 600
+    sprite_resource: openyamm:effect-sprite/trail_electric
+    blend: additive
+    beam: true
+    lifetime_seconds: 1
+    width: 24
+    sample_distance: 24
+    texture_length: 90
+    scroll_speed: 6
+    fill: 0
+    jitter: 9
+    jitter_rate: 24
+    width_keys:
+    - {time: 0, value: 1}
+    color_keys:
+    - {time: 0, rgb: [200, 225, 255], transparency: 20}
+# Destructibles (devdocs/INDOOR_DESTRUCTIBLES.md): a wall, window or prop breaking, at its centre, sized for a piece
+# about 200 units across (the scene's effect_scale fits it). Stone: a settling dust cloud and falling rubble.
+- id: openyamm:fx/destructible/stone
+  display_name: Destructible breaking (stone)
+  duration_seconds: 3
+  compatibility_profile: predictable
+  components:
+  - id: 1
+    type: sprite_system
+    start_seconds: 0.0
+    end_seconds: 0.03
+    sprite_resource: openyamm:effect-sprite/dust_cloud
+    particle_space: world
+    blend: alpha
+    random_roll: true
+    spin_speed: 0.3
+    sprites_per_emission: 14
+    emission_interval_seconds: 1.0
+    particle_lifetime_seconds: 2.8
+    emission_shape: sphere
+    radius: 60
+    velocity: 40
+    wind_direction: [0, 0, -1]
+    wind_amount: 12
+    scale_keys:
+    - {time: 0.0, value: 0.3}
+    - {time: 1.0, value: 0.75}
+    color_keys:
+    - {time: 0, rgb: [150, 132, 110], transparency: 40}
+    - {time: 0.5, rgb: [140, 125, 105], transparency: 140}
+    - {time: 1, rgb: [130, 118, 100], transparency: 255}
+    motion_keys: []
+  - id: 2
+    type: sprite_system
+    start_seconds: 0.0
+    end_seconds: 0.03
+    sprite_resource: openyamm:effect-sprite/debris
+    particle_space: world
+    blend: alpha
+    random_roll: true
+    spin_speed: 5
+    sprites_per_emission: 14
+    emission_interval_seconds: 1.0
+    particle_lifetime_seconds: 1.6
+    emission_shape: sphere
+    radius: 60
+    velocity: 130
+    wind_direction: [0, 0, -1]
+    wind_amount: 420
+    scale_keys:
+    - {time: 0.0, value: 0.85}
+    - {time: 1.0, value: 0.7}
+    color_keys:
+    - {time: 0, rgb: [150, 138, 120], transparency: 0}
+    - {time: 0.8, rgb: [150, 138, 120], transparency: 40}
+    - {time: 1, rgb: [150, 138, 120], transparency: 255}
+    motion_keys: []
+# Wood: splinters and a little dust.
+- id: openyamm:fx/destructible/wood
+  display_name: Destructible breaking (wood)
+  duration_seconds: 2.5
+  compatibility_profile: predictable
+  components:
+  - id: 1
+    type: sprite_system
+    start_seconds: 0.0
+    end_seconds: 0.03
+    sprite_resource: openyamm:effect-sprite/dust_cloud
+    particle_space: world
+    blend: alpha
+    random_roll: true
+    spin_speed: 0.4
+    sprites_per_emission: 6
+    emission_interval_seconds: 1.0
+    particle_lifetime_seconds: 1.6
+    emission_shape: sphere
+    radius: 50
+    velocity: 50
+    wind_direction: [0, 0, -1]
+    wind_amount: 10
+    scale_keys:
+    - {time: 0.0, value: 0.25}
+    - {time: 1.0, value: 0.55}
+    color_keys:
+    - {time: 0, rgb: [160, 130, 95], transparency: 110}
+    - {time: 1, rgb: [150, 125, 95], transparency: 255}
+    motion_keys: []
+  - id: 2
+    type: sprite_system
+    start_seconds: 0.0
+    end_seconds: 0.03
+    sprite_resource: openyamm:effect-sprite/debris
+    particle_space: world
+    blend: alpha
+    random_roll: true
+    spin_speed: 8
+    sprites_per_emission: 12
+    emission_interval_seconds: 1.0
+    particle_lifetime_seconds: 1.5
+    emission_shape: sphere
+    radius: 50
+    velocity: 150
+    wind_direction: [0, 0, -1]
+    wind_amount: 420
+    scale_keys:
+    - {time: 0.0, value: 0.8}
+    - {time: 1.0, value: 0.65}
+    color_keys:
+    - {time: 0, rgb: [176, 124, 70], transparency: 0}
+    - {time: 0.8, rgb: [176, 124, 70], transparency: 40}
+    - {time: 1, rgb: [176, 124, 70], transparency: 255}
+    motion_keys: []
+# Glass: glinting shards falling.
+- id: openyamm:fx/destructible/glass
+  display_name: Destructible breaking (glass)
+  duration_seconds: 2
+  compatibility_profile: predictable
+  components:
+  - id: 1
+    type: sprite_system
+    start_seconds: 0.0
+    end_seconds: 0.03
+    sprite_resource: openyamm:effect-sprite/glint
+    particle_space: world
+    blend: additive
+    random_roll: true
+    spin_speed: 6
+    sprites_per_emission: 18
+    emission_interval_seconds: 1.0
+    particle_lifetime_seconds: 0.9
+    emission_shape: sphere
+    radius: 50
+    velocity: 180
+    wind_direction: [0, 0, -1]
+    wind_amount: 640
+    scale_keys:
+    - {time: 0.0, value: 0.16}
+    - {time: 1.0, value: 0.1}
+    color_keys:
+    - {time: 0, rgb: [210, 235, 255], transparency: 30}
+    - {time: 1, rgb: [170, 210, 240], transparency: 255}
+    motion_keys: []
+  - id: 2
+    type: sprite_system
+    start_seconds: 0.0
+    end_seconds: 0.03
+    sprite_resource: openyamm:effect-sprite/melee_chip
+    particle_space: world
+    blend: alpha
+    random_roll: true
+    spin_speed: 9
+    sprites_per_emission: 12
+    emission_interval_seconds: 1.0
+    particle_lifetime_seconds: 1.1
+    emission_shape: sphere
+    radius: 50
+    velocity: 160
+    wind_direction: [0, 0, -1]
+    wind_amount: 700
+    scale_keys:
+    - {time: 0.0, value: 0.5}
+    - {time: 1.0, value: 0.4}
+    color_keys:
+    - {time: 0, rgb: [190, 220, 235], transparency: 70}
+    - {time: 0.8, rgb: [190, 220, 235], transparency: 110}
+    - {time: 1, rgb: [190, 220, 235], transparency: 255}
+    motion_keys: []
+# Metal: sparks and grey fragments.
+- id: openyamm:fx/destructible/metal
+  display_name: Destructible breaking (metal)
+  duration_seconds: 2
+  compatibility_profile: predictable
+  components:
+  - id: 1
+    type: sprite_system
+    start_seconds: 0.0
+    end_seconds: 0.03
+    sprite_resource: openyamm:effect-sprite/spark
+    particle_space: world
+    blend: additive
+    random_roll: true
+    spin_speed: 2
+    sprites_per_emission: 20
+    emission_interval_seconds: 1.0
+    particle_lifetime_seconds: 0.6
+    emission_shape: sphere
+    radius: 30
+    velocity: 260
+    wind_direction: [0, 0, -1]
+    wind_amount: 500
+    scale_keys:
+    - {time: 0.0, value: 0.14}
+    - {time: 1.0, value: 0.06}
+    color_keys:
+    - {time: 0, rgb: [255, 200, 120], transparency: 0}
+    - {time: 1, rgb: [255, 120, 40], transparency: 255}
+    motion_keys: []
+  - id: 2
+    type: sprite_system
+    start_seconds: 0.0
+    end_seconds: 0.03
+    sprite_resource: openyamm:effect-sprite/debris
+    particle_space: world
+    blend: alpha
+    random_roll: true
+    spin_speed: 7
+    sprites_per_emission: 10
+    emission_interval_seconds: 1.0
+    particle_lifetime_seconds: 1.1
+    emission_shape: sphere
+    radius: 40
+    velocity: 200
+    wind_direction: [0, 0, -1]
+    wind_amount: 680
+    scale_keys:
+    - {time: 0.0, value: 0.6}
+    - {time: 1.0, value: 0.5}
+    color_keys:
+    - {time: 0, rgb: [140, 140, 148], transparency: 0}
+    - {time: 0.8, rgb: [140, 140, 148], transparency: 40}
+    - {time: 1, rgb: [140, 140, 148], transparency: 255}
+    motion_keys: []

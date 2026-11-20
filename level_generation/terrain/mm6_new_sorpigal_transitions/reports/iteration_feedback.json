@@ -1,0 +1,38 @@
+[
+  {
+    "case": "6drsrew",
+    "failure": "AI mask interpreted internal grout as dirt gaps",
+    "repair": "Targeted imagegen solid road coverage including grout",
+    "result": "Used raw/6drsrew_v2.png in every subsequent composite"
+  },
+  {
+    "case": "6grdrtxne",
+    "failure": "Shared profile repair and then local paste caused an artificial notch/rectangle",
+    "repair": "Targeted imagegen repair; use complete repaired mask instead of a rectangular ROI",
+    "result": "Connected v3/v4 keep v2 edges and remove paste rectangle"
+  },
+  {
+    "case": "master repeats",
+    "failure": "Original accepted material boundaries cut clods/stones",
+    "repair": "Imagegen offset-seam edits for dirt/volcano/cobbles; narrow insertion plus shared sampling strips",
+    "result": "Preserved 448px interiors; exact opposite runtime edges. Old dirt subsequently superseded"
+  },
+  {
+    "case": "source layout",
+    "failure": "Eight conflicting directed land joins",
+    "repair": "Seven explicit tile-selection corrections; all other native map bytes unchanged",
+    "result": "Corrected-map land RGB checks pass"
+  },
+  {
+    "case": "flat grass hole and coastal map cameras",
+    "failure": "Outdoor position clamp redirected intended camera",
+    "repair": "Relocate grass pads inland; observe coastal corrections looking west from inland",
+    "result": "Superseded early captures; v4 uses corrected poses"
+  },
+  {
+    "case": "test_img/1263.png",
+    "failure": "User rejected bright orange dirt v4 and conspicuous repeated clump bands",
+    "repair": "Imagegen new evenly distributed dirt v5; darker subdued brown v6; rebuild all dirt-containing composites",
+    "result": "Dirt v6 in connected v4; older versions preserved for comparison"
+  }
+]

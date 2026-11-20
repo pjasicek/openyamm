@@ -1,0 +1,58 @@
+id: mm9.ai.necromancer
+title: MM9's resurrection chain - an Evil Apprentice raises a slain Skeleton Warrior; a lone Skeleton Master raises itself
+world: mm9
+mode: faithful
+tags: [mm9, actors, ai, arena]
+steps:
+  - note:
+      text: >-
+        Needs the MM9 review root (README.md). The warrior dies at 1.5 s; when its death clip ends it asks the
+        resurrecters within 1 000 LT from the end of the actor list: the apprentice (holding the party, the warrior's
+        death target) answers, starts 3-6 s later (once its attack clip has ended: 8.8 s) and casts ResurrectSpell; at the clip's DoResurrection key the
+        warrior rises (full health, its Resurrect clip) and takes the party again. The apprentice dies at 17.5 s and
+        the master at 18.5 s: its first ask finds no one, the second (5 s later) neither, and a resurrecter raises
+        itself 2-10 s after that.
+  # A party for the monsters to strike (the arena keeps it invulnerable): without one no blow or spell lands.
+  - new_game_flow:
+      start_map: thearena.blv
+  - ai_arena: {path: necromancer.arena.yml}
+  - advance_runtime: {seconds: 1.5}
+  - damage_actor: {actor_index: last, amount: 1000}
+  - advance_runtime: {seconds: 16}
+  - damage_actor: {actor_index: last-1, amount: 1000}
+  - advance_runtime: {seconds: 1}
+  - damage_actor: {actor_index: last-2, amount: 1000}
+  - advance_runtime: {seconds: 25}
+  - ai_trace_dump: {decisions_only: true}
+  # The warrior's corpse asks, the apprentice answers and casts, the warrior rises and fights again.
+  - assert:
+      ai_trace: {arena_monster: 2, event: died, before: 1.6, min_count: 1}
+  - assert:
+      ai_trace: {arena_monster: 2, decision: resurrect_ask, detail: asked, target: party, before: 3, min_count: 1}
+  - assert:
+      ai_trace: {arena_monster: 1, decision: resurrect_accept, target: actor:7, before: 3, min_count: 1, max_count: 1}
+  - assert:
+      ai_trace: {arena_monster: 1, decision: resurrect, detail: cast, target: actor:7, after: 5, before: 9,
+                 min_count: 1}
+  - assert:
+      ai_trace: {arena_monster: 0, decision: resurrect_accept, max_count: 0}
+  - assert:
+      ai_trace: {arena_monster: 2, decision: raised, detail: rise, before: 10.5, min_count: 1}
+  - assert:
+      ai_trace: {arena_monster: 2, event: revived, before: 10.5, min_count: 1}
+  - assert:
+      ai_trace: {arena_monster: 2, decision: raised, detail: attack, target: party, before: 13, min_count: 1}
+  - assert:
+      ai_trace: {arena_monster: 2, decision: attack_melee, after: 10, min_count: 1}
+  # The master, alone: none, then its own raise.
+  - assert:
+      ai_trace: {arena_monster: 0, decision: resurrect_ask, detail: none, after: 18.5, before: 20, min_count: 1}
+  - assert:
+      ai_trace: {arena_monster: 0, decision: resurrect_ask, detail: self, after: 23, before: 25, min_count: 1}
+  - assert:
+      ai_trace: {arena_monster: 0, decision: raised, detail: self, after: 25, before: 35, min_count: 1}
+  - assert:
+      ai_trace: {arena_monster: 0, event: revived, after: 25, min_count: 1}
+  # The apprentice has no Resurrect clip: it stays dead.
+  - assert:
+      ai_trace: {arena_monster: 1, event: revived, max_count: 0}

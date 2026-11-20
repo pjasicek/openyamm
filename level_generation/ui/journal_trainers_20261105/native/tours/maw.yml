@@ -1,0 +1,15 @@
+# MAW: the finder lists the skills MAW masters by level alone. Run as finder.yml with --ruleset maw.
+output_dir: ../images
+exit: true
+steps:
+- wait: 3
+- action: map_book
+- wait: 0.5
+- click: [1313, 560]
+- wait: 0.3
+- click: [1173, 746]
+- wait: 0.3
+- click: [640, 241]
+- text: shield
+- wait: 0.3
+- capture: 30-maw-finder-ladders

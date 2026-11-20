@@ -182,6 +182,22 @@ size_t PotionMixingTable::combinationCount() const
     return m_potionCombinations.size();
 }
 
+std::vector<std::pair<uint32_t, uint32_t>> PotionMixingTable::brewingPairs() const
+{
+    std::vector<std::pair<uint32_t, uint32_t>> pairs;
+
+    for (const auto &[pairKey, combination] : m_potionCombinations)
+    {
+        if (!combination.noMix && combination.resultItemId != 0 && combination.failureDamageLevel == 0)
+        {
+            pairs.push_back({uint32_t(pairKey >> 32), uint32_t(pairKey & 0xffffffffu)});
+        }
+    }
+
+    std::sort(pairs.begin(), pairs.end());
+    return pairs;
+}
+
 std::optional<PotionMixingTable::PotionCombination> PotionMixingTable::potionCombination(
     uint32_t heldItemId,
     uint32_t targetItemId) const

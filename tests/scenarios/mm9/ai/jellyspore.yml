@@ -1,0 +1,44 @@
+id: mm9.ai.jellyspore
+title: An MM9 Jellyspore fights a party in the water and runs from it once it is on land
+world: mm9
+mode: faithful
+tags: [mm9, actors, ai, arena]
+steps:
+  - note:
+      text: >-
+        Needs Isle of Ashes' root: --asset-root output/mm9_rework/isleofashes_blv_root (README.md). The party falls into
+        the sea; the Jellyspore (a swimmer in water targets only what is in water) notices it once it is in, chases and
+        strikes. The party steps onto the beach (-2450, 900): the spore runs (BaseSwim.inc's land rule, no 30 s hold),
+        drops the party when the flight ends and never notices it on land again.
+  # A party for the monsters to strike (the arena keeps it invulnerable): without one no blow or spell lands.
+  - new_game_flow:
+      start_map: isleofashes.blv
+  - ai_arena: {path: jellyspore.arena.yml}
+  - advance_runtime: {seconds: 8}
+  - assert: {water: {state: bed}}
+  - set_pose: {map: isleofashes.blv, x: -2450, y: 900, z: 200, yaw_degrees: 225}
+  - advance_runtime: {seconds: 20}
+  - assert: {water: {state: dry}}
+  - ai_trace_dump: {decisions_only: true}
+  # Not while the party is still falling in above the water. A notice is a detect or, at MM9's Aware chance, a
+  # taunt_detect (its Aware clip); which one depends on the spore's rolls, which follow its actor index (the map's actor
+  # count, which pack growth changes).
+  - assert:
+      ai_trace: {arena_monster: 0, decision: [detect, taunt_detect], before: 0.3, max_count: 0}
+  - assert:
+      ai_trace: {arena_monster: 0, decision: [detect, taunt_detect], before: 8, min_count: 1}
+  - assert:
+      ai_trace: {arena_monster: 0, decision: attack_melee, before: 8, min_count: 2}
+  - assert:
+      ai_trace: {arena_monster: 0, decision: flee_decision, detail: land, after: 8, before: 8.1, min_count: 1}
+  - assert:
+      ai_trace: {arena_monster: 0, decision: flee, after: 8, min_count: 1}
+  - assert:
+      ai_trace: {arena_monster: 0, decision: give_up, detail: fled, after: 8, min_count: 1}
+  # On land the party is never noticed again.
+  - assert:
+      ai_trace: {arena_monster: 0, decision: detect, after: 8, max_count: 0}
+  - assert:
+      ai_trace: {arena_monster: 0, decision: taunt_detect, after: 8, max_count: 0}
+  - assert:
+      ai_trace: {arena_monster: 0, decision: attack_melee, after: 8, max_count: 0}

@@ -1,0 +1,21 @@
+# Bootcamp's museum fight (BC_Manager.scr "fight", Switch0's event 110): the Evil Grand Sorcerer and the Oculus,
+# friends by MM9's table, are made enemies by the map's evt.SetMonsterRelation rows. Their bolts must hit each other:
+# projectile friendliness reads those rows as targeting does (the bolts passed through and hit the arena's invisible
+# wall while it read only the table).
+# Run: ./build/game/openyamm --headless-run-scenario tests/scenarios/mm9/bootcamp_museum_fight.yml --scenario-no-color
+id: mm9.bootcamp_museum_fight
+title: "MM9 Bootcamp museum: the sorcerer's and the Oculus's bolts hit each other"
+world: mm9
+mode: faithful
+tags: [mm9, mm9_rework, actors, ai]
+steps:
+  - new_game_flow:
+      start_map: bootcamp.blv
+  - ai_arena: {path: bootcamp_museum_fight.arena.yml}
+  - execute_event: {id: 110}
+  # The sorcerer's first bolt leaves at about 1.2 s, the Oculus's at about 2.8 s; each lands within a second.
+  - advance_runtime: {seconds: 4.5}
+  - assert:
+      ai_trace: {actor_index: 25, event: damaged, min_count: 1}
+  - assert:
+      ai_trace: {actor_index: 24, event: damaged, min_count: 1}

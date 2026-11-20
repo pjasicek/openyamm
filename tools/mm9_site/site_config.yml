@@ -1,0 +1,140 @@
+# Hand-kept presentation data for the MM9 guide (tools/mm9_site/build_site.py). Everything else comes from the world.
+
+# Regions of Chedian and their maps. `pos` places the region on the schematic world map of the Travel section (grid
+# cells, x to the east, y to the south); `hub` is the outdoor map that stands for the region there.
+regions:
+  - {id: ravensford, name: Ravensford, hub: bootcamp, pos: [0, 4.3], maps: [bootcamp]}
+  - {id: isleofashes, name: Isle of Ashes, hub: isleofashes, pos: [0.2, 3.2], maps: [isleofashes, verhoffinruins]}
+  - {id: sturmford, name: Sturmford, hub: sturmford, pos: [1.4, 3], maps: [sturmford, sturmfordcity, anskramkeep, beethoven]}
+  - {id: drangheim, name: Drangheim, hub: drangheim, pos: [0.6, 2], maps: [drangheim, drangheimcity, drangheimprison, chasmofthedead, klusoshouse]}
+  - {id: guberland, name: Guberland, hub: guberland, pos: [2.6, 3], maps: [guberland, guberlandcity, dookscastle, templeofhonk, darkpassageway]}
+  - {id: thjorgard, name: Thjorgard, hub: thjorgard, pos: [1.6, 1.4], maps: [thjorgard, thjorgardcity, thjoradmine, traininghall, thearena]}
+  - {id: frosgard, name: Frosgard, hub: frosgard, pos: [0.8, 0.4], maps: [frosgard, frosgardcity, yanmirsfort, ruinedtemple, dungeonofsecrets]}
+  - {id: mountainpass, name: Mountain Pass, hub: mountainpass, pos: [2.6, 1.2], maps: [mountainpass]}
+  - {id: thronheim, name: Thronheim, hub: thronheim, pos: [2.6, 0.2], maps: [thronheim, thronheimcity, inventastorca]}
+  # A passage, not a region: the only way between Thronheim and Yorwick. The world map draws it as a labelled link.
+  - {id: connectingtunnels, name: Connecting Tunnels, hub: connectingtunnels, passage: true, pos: [3.2, 0.1], maps: [connectingtunnels]}
+  - {id: yorwick, name: Yorwick, hub: yorwick, pos: [3.8, 0], maps: [yorwick, lichlab, wizardslab]}
+  - {id: lindisfarne, name: Lindisfarne, hub: lindisfarne, pos: [3.8, 2.2], maps: [lindisfarne, lindisfarnemonastery, tasaracademy, dragonstadium]}
+  - {id: arslegard, name: Arslegard, hub: arslegardcity, pos: [3.8, 3.4], maps: [arslegardcity, bathhouse, 1000terrors, hallofthegods, afterworld]}
+
+# city | outdoor | dungeon (the default)
+map_kinds:
+  bootcamp: outdoor
+  isleofashes: outdoor
+  sturmford: outdoor
+  drangheim: outdoor
+  guberland: outdoor
+  thjorgard: outdoor
+  frosgard: outdoor
+  mountainpass: outdoor
+  thronheim: outdoor
+  yorwick: outdoor
+  lindisfarne: outdoor
+  wizardslab: outdoor
+  afterworld: outdoor
+  sturmfordcity: city
+  drangheimcity: city
+  guberlandcity: city
+  thjorgardcity: city
+  frosgardcity: city
+  thronheimcity: city
+  arslegardcity: city
+
+# Quest notes 90001 up to this bit are the story; later notes are side quests unless listed below.
+main_story_below_qbit: 90320
+
+# The chronicle's chapters (journal/JOURNAL.txt) by the first note bit of a story quest.
+chapters:
+  - {id: 0, name: "Prologue: The Isle of Ashes", from: 90001, to: 90019}
+  - {id: 1, name: "I: The Six Clans of the Chedian", from: 90020, to: 90199}
+  - {id: 2, name: "II: The Battlefield", from: 90200, to: 90239}
+  - {id: 3, name: "III: Hallenhalt", from: 90240, to: 90259}
+  - {id: 4, name: "IV: The Six Fires of Penance", from: 90260, to: 90289}
+  - {id: 5, name: "V: Njam the Meddler", from: 90290, to: 90319}
+
+# Promotions, from the promoters' scripts (events/maps/*.lua, MM9.promoteParty) and RUDE rows: the promoting NPC by
+# RUDE id (none: a map object), the classes, and the quest notes (by headline slug) that make up the task.
+promotions:
+  - {to: Mercenary, from: Fighter, rude: 186, quests: [speak-to-atli-sigmundssen, guard-atli-sigmundssen-s-boat],
+     note: "Thorfinn Skullsplitter (Thronheim) sends you; Atli Sigmundssen in Guberland promotes."}
+  - {to: Crusader, from: Fighter, rude: 89, quests: [defeat-the-yobboes, return-the-plow, return-the-dolly, return-the-herbs]}
+  - {to: Gladiator, from: Mercenary, rude: 61, quests: [kill-a-basilisk, get-kira-s-shield, win-in-the-arena],
+     note: "The clerk's labours."}
+  - {to: Assassin, from: Mercenary, rude: 88, quests: [steal-the-knife, kill-guaire-a-velsi]}
+  - {to: Ranger, from: Crusader, rude: 181, quests: [find-everstrike, pass-through-dungeon-of-secrets],
+     note: "The Ranger's Trial: two tasks."}
+  - {to: Paladin, from: Crusader, rude: 282, quests: [stop-jarl-sven-s-assassination, find-harris-willington, arrest-the-thief,
+     help-the-oor-ds-help-themselves, find-itlor-a-job], note: "The Three Crusades, given by Grehgknak the Right: save Jarl Sven, find Harris Willington, and the Oord family (damn or save it)."}
+  - {to: Scholar, from: Initiate, rude: 161, quests: [study-a-magreeb]}
+  - {to: Mage, from: Scholar, rude: 4, quests: [find-verhoffin-s-diary]}
+  - {to: Healer, from: Initiate, rude: 128, quests: [heal-nutty-nurtigan]}
+  - {to: Priest, from: Healer, rude: 129, quests: [find-a-new-priest-for-the-new-temple, find-a-new-tree-of-life,
+     learn-the-ritual-of-consecration]}
+  - {to: Druid, from: Healer, rude: 221, quests: [find-the-green-man, fix-the-maypole-in-the-center-of-town,
+     get-a-promise-from-frosgard, get-tryygva-to-erect-a-runestone],
+     note: "Menja Ketildotir in Frosgard City sends you to the Green Man; his three tasks are the maypole, the pledges and the runestone."}
+  - {to: Lich, from: Scholar, map: lichlab, quests: [become-a-lich],
+     note: "Instructions are in the Chasm of the Dead; the promotion happens in the Lich Lab."}
+
+# Quests whose category the quest-note bit cut gets wrong: Slay the Dragon is no clan task (the six Jarls' pledges
+# need only their two tasks each; story/BRIEF.md).
+quest_categories:
+  slay-the-dragon: side
+
+# Headlines that differ only in wording.
+quest_merge:
+  steal-knife: steal-the-knife
+
+# Point-of-interest types: legend order, colour, glyph, and whether a map shows them before the reader asks.
+poi_types:
+  teacher: {name: Teacher, color: "#3b82f6", glyph: T, shown: true}
+  promoter: {name: Promotion, color: "#a855f7", glyph: P, shown: true}
+  quest: {name: Quest NPC, color: "#eab308", glyph: "!", shown: true}
+  vendor: {name: Shop, color: "#22c55e", glyph: $, shown: true}
+  service: {name: Temple / tavern / bank, color: "#14b8a6", glyph: S, shown: true}
+  transport: {name: Boat / coach, color: "#06b6d4", glyph: B, shown: true}
+  hireling: {name: Hireling, color: "#f97316", glyph: H, shown: true}
+  npc: {name: Other NPC, color: "#94a3b8", glyph: n, shown: false}
+  objective: {name: Quest objective, color: "#facc15", glyph: Q, shown: true}
+  exit: {name: Exit, color: "#f43f5e", glyph: E, shown: true}
+  chest: {name: Chest, color: "#f59e0b", glyph: C, shown: true}
+  loot: {name: Bag / pile, color: "#d6a35c", glyph: c, shown: true}
+  bonus: {name: Well / barrel / bonus, color: "#ec4899", glyph: W, shown: true}
+  lever: {name: Lever / mechanism, color: "#84cc16", glyph: L, shown: true}
+  secret: {name: Hidden, color: "#c084fc", glyph: "?", shown: true}
+  hint: {name: Perception hint, color: "#e879f9", glyph: "*", shown: true}
+  teleporter: {name: Teleporter, color: "#818cf8", glyph: "@", shown: true}
+  breakable: {name: Breakable, color: "#a8a29e", glyph: x, shown: false}
+  trap: {name: Trap, color: "#ef4444", glyph: "^", shown: false}
+  ladder: {name: Ladder, color: "#78716c", glyph: "#", shown: false}
+  door: {name: Door, color: "#64748b", glyph: d, shown: false}
+  monster: {name: Monster, color: "#dc2626", glyph: m, shown: false}
+
+# In-game captures (capture_shots.py) reviewed as missing their subject: a wall, open ground, the NPC out of frame.
+shot_exclude: [drangheimcity-arrival, drangheimcity-a20, drangheimcity-a21, drangheimcity-a22, mountainpass-arrival,
+  dragonstadium-arrival, frosgardcity-a2, frosgardcity-a3, frosgardcity-a4, thjorgardcity-arrival, thjorgardcity-a58]
+
+# Bestiary portraits (capture_monsters.py) that show only the empty pit: monsters that start burrowed or hidden.
+monster_portrait_exclude: [9097, 9098, 9147, 9148, 9149]
+
+# Names of NPCs that are scripted props rather than actors in the rebuilt maps, by RUDE id.
+npc_names:
+  45: Jarl Bjarni Thorvaldssen
+
+# Where a quest's fighting is, when its walkthrough maps show only towns or approaches (recommended level); an empty
+# list means no level: the quest is talk and travel.
+quest_level_maps:
+  disable-anskram-keep-s-defenses: [anskramkeep]
+  find-the-mountain-pass: [mountainpass]
+  defeat-yanmir-the-frost-giant: [yanmirsfort]
+  win-a-prize-at-the-thing-for-yrsa-s-daughter: [thjorgard]
+  meet-army-in-yorwick: [connectingtunnels, yorwick]
+  take-the-capstone-of-order-to-the-verhoffin-ruins: [verhoffinruins]
+  find-a-new-tree-of-life: [ruinedtemple]
+  get-the-orbs-of-linking: [inventastorca]
+  get-the-book-of-rules-from-the-ta-sar-academy: [tasaracademy]
+  unite-the-clans: []
+  go-to-thronheim-for-the-war-council: []
+  search-for-anyone-living-on-this-island: []
+  find-yrsa-the-troll: []

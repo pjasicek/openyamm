@@ -143,7 +143,6 @@ end, "Switch")
 
 RegisterEvent(35, "Cauldron", function()
     evt.ForPlayer(Players.Current)
-    SetValue(Asleep, 0)
     if not IsAtLeast(Asleep, 0) then
         SetValue(Eradicated, 0)
         return

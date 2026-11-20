@@ -1,0 +1,31 @@
+{
+  "prompt": "Paint the supplied paint_mask_guide.png exactly per this production brief. Image 1 is the guide/edit target, image 2 the design/material reference, image 3 original icon/color reference (magenta is background). Output ONE transparent PNG, 1536x2048 or nearest 3:4 size. Preserve EXACT guide layout, silhouette positions, dimensions, outlines and gaps. This is a texture projection atlas, NOT a presentation of a shield. The very thin curved and straight edge views MUST remain thin strips exactly as guide, not become broad shield faces. Three columns by FOUR rows of square cells. Rows 1-2: FRONT, BACK, LEFT / RIGHT, TOP, empty. Rows 3-4 repeat those exact silhouettes as material masks.\nRows 1-2 PAINT: paint ONLY grey pixels with unlit base color of the reference pavise: tall rectangular shield with quartered red-white field, dark metal rim, blue CASTLE TOWER emblem (crenellated chess-rook-like tower with doorway, NOT a fist). Respect how the design is visible on each exact model view; do not alter geometry or enlarge edge views to show art. Reference weathering, engravings and detail scaled to each view. No lighting, shadows, AO, hot highlights, reflections, glow, aura, ground, outlines or text.\nRows 3-4 MATERIAL MASK: same five silhouettes, filled only FLAT pure colors by visible material: #FF0000 metal; #00FF00 leather/padding/hide/fur; #FFFF00 matte nonmetal solid including wood, bone, stone; #000000 gemstone/crystal/glass/pearl/enamel/liquid through glass. Every silhouette pixel exactly one of these colors, no shading, texture, outlines or antialiased color blends inside. Nothing outside silhouettes. Keep all gaps transparent. Column 3 of rows 2 and 4 entirely transparent. Preserve all guide silhouettes rigorously.",
+  "original_output_path": "/home/pjasicek/.codex/generated_images/01a1ace1-6ead-7431-b4d9-7318ace94e5a/exec-d60cfdcb-dc51-40c7-b070-357fb599e714.png",
+  "corrective_attempt": {
+    "prompt": "Paint the supplied paint_mask_guide.png exactly per this production brief. Image 1 is the guide/edit target, image 2 the design/material reference, image 3 original icon/color reference (magenta is background). Output ONE transparent PNG, 1536x2048 or nearest 3:4 size. Preserve EXACT guide layout, silhouette positions, dimensions, outlines and gaps. This is a texture projection atlas, NOT a presentation of a shield. The very thin curved and straight edge views MUST remain thin strips exactly as guide, not become broad shield faces. Three columns by FOUR rows of square cells. Rows 1-2: FRONT, BACK, LEFT / RIGHT, TOP, empty. Rows 3-4 repeat those exact silhouettes as material masks.\nRows 1-2 PAINT: paint ONLY grey pixels with unlit base color of the reference pavise: tall rectangular shield with quartered red-white field, dark metal rim, blue CASTLE TOWER emblem (crenellated chess-rook-like tower with doorway, NOT a fist). Respect how the design is visible on each exact model view; do not alter geometry or enlarge edge views to show art. Reference weathering, engravings and detail scaled to each view. No lighting, shadows, AO, hot highlights, reflections, glow, aura, ground, outlines or text.\nRows 3-4 MATERIAL MASK: same five silhouettes, filled only FLAT pure colors by visible material: #FF0000 metal; #00FF00 leather/padding/hide/fur; #FFFF00 matte nonmetal solid including wood, bone, stone; #000000 gemstone/crystal/glass/pearl/enamel/liquid through glass. Every silhouette pixel exactly one of these colors, no shading, texture, outlines or antialiased color blends inside. Nothing outside silhouettes. Keep all gaps transparent. Column 3 of rows 2 and 4 entirely transparent. Preserve all guide silhouettes rigorously.\nCORRECTIVE PASS: Previous output had stray opaque pixels outside the guide silhouettes and bulges along thin strips. Match the original guide alpha silhouettes EXACTLY with clean edges, no stray pixels, no protrusions. Material-mask lower rows must have solid flat color regions without drawn emblem outlines or quarter dividing lines when adjacent materials are identical. Preserve positions and proportions from the guide.",
+    "original_output_path": "/home/pjasicek/.codex/generated_images/01a1ace1-6ead-7431-b4d9-7318ace94e5a/exec-dbe4549e-b251-48ad-a9d0-73c1bf9e99f2.png",
+    "selected": false
+  },
+  "tool": "built-in image_gen",
+  "validation_notes": "Selected first result: corrective generation worsened mask flatness and edge artifacts. Raw output retains stray silhouette pixels, non-palette mask pixels and baked highlights; not fully compliant. No post-processing performed.",
+  "output": "level_generation/props/items_mm9_claude/codex_tex/d10146/paint_mask_raw_v1.png",
+  "inputs": [
+    {
+      "path": "level_generation/props/items_mm9_claude/codex_tex/d10146/paint_mask_guide.png",
+      "sha256": "ffbe29f3b3988b40879395f83d0aaea18166836ea0f2f1084464272f0132ce35"
+    },
+    {
+      "path": "level_generation/props/items_mm9_claude/codex_tex/d10146/design_reference.png",
+      "sha256": "cbfb63c9d6c92adf865fcd7f08608a0e80986f4bd2601bc337aa39d2475fd07d"
+    },
+    {
+      "path": "level_generation/props/items_mm9_claude/codex_tex/d10146/icon_x8.png",
+      "sha256": "b3527802bb625dd57285ced240d4ef9cfb67f166235d229512306328ff430f72"
+    }
+  ],
+  "size": [
+    1086,
+    1448
+  ],
+  "mode": "RGBA"
+}

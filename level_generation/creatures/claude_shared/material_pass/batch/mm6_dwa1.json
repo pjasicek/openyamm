@@ -1,0 +1,186 @@
+{
+ "source": "/home/pjasicek/github/OpenYAMM/level_generation/creatures/claude_shared/material_pass/backup_pre_material_pass/mm6_dwa1.glb",
+ "output": "/home/pjasicek/github/OpenYAMM/level_generation/creatures/claude_shared/material_pass/batch/mm6_dwa1.glb",
+ "assignments": [
+  {
+   "match": "=Dwarf_A",
+   "body": "/home/pjasicek/github/OpenYAMM/level_generation/creatures/mm6_dwa1_codex/textures/dwa1_material_classes_1k.png",
+   "head": "/home/pjasicek/github/OpenYAMM/level_generation/creatures/mm6_dwa1_codex/textures/dwa1_head_material_classes_1k.png"
+  }
+ ],
+ "kept_classes": [],
+ "textures": [
+  {
+   "image": "dwa1_metal_rough_1k_head_atlas",
+   "size": [
+    2080,
+    1024
+   ],
+   "materials": [
+    "Dwarf_A",
+    "Dwarf_B",
+    "Dwarf_C"
+   ],
+   "layout": [
+    {
+     "part": "body",
+     "box": [
+      0,
+      0,
+      1024,
+      1024
+     ]
+    },
+    {
+     "part": "head",
+     "box": [
+      1056,
+      0,
+      2080,
+      1024
+     ]
+    }
+   ],
+   "old_factors": {
+    "metallicFactor": 0,
+    "roughnessFactor": 1.0,
+    "openyamm_specular": 1,
+    "openyamm_specular_mask": true
+   },
+   "old_r_channel": "specular_mask",
+   "stretched_uv_triangles": 292,
+   "fit_ok": true,
+   "parts": {
+    "body": {
+     "uv_covered_texels": 412653,
+     "uv_covered_without_class": 0.0212,
+     "uv_covered_without_class_far": 0.0017,
+     "class_texels_outside_uv": 0.0785,
+     "class_map": "/home/pjasicek/github/OpenYAMM/level_generation/creatures/mm6_dwa1_codex/textures/dwa1_material_classes_1k.png",
+     "class_share_in_uv": {
+      "skin": 0.2234,
+      "cloth": 0.7585,
+      "metal": 0.018
+     }
+    },
+    "head": {
+     "uv_covered_texels": 413398,
+     "uv_covered_without_class": 0.0048,
+     "uv_covered_without_class_far": 0.0,
+     "class_texels_outside_uv": 0.3791,
+     "class_map": "/home/pjasicek/github/OpenYAMM/level_generation/creatures/mm6_dwa1_codex/textures/dwa1_head_material_classes_1k.png",
+     "class_share_in_uv": {
+      "skin": 0.2139,
+      "fur": 0.5708,
+      "eye": 0.0086,
+      "metal": 0.2067
+     }
+    }
+   },
+   "class_share_total": {
+    "skin": 0.2187,
+    "fur": 0.2857,
+    "eye": 0.0043,
+    "cloth": 0.3789,
+    "metal": 0.1124
+   },
+   "kept_classes": [],
+   "kept_texels": 0,
+   "old_specular_mean_by_class": {
+    "skin": 0.023,
+    "fur": 0.023,
+    "eye": 0.069,
+    "cloth": 0.023,
+    "metal": 0.542
+   },
+   "new_specular_mean_by_class": {
+    "skin": 0.25,
+    "fur": 0.0,
+    "eye": 1.0,
+    "cloth": 0.3,
+    "metal": 1.0
+   },
+   "new_roughness_mean_by_class": {
+    "skin": 0.801,
+    "fur": 0.903,
+    "eye": 0.153,
+    "cloth": 0.75,
+    "metal": 0.381
+   },
+   "new_factors": {
+    "metallicFactor": 1.0,
+    "roughnessFactor": 1.0,
+    "openyamm_specular": 1.0,
+    "openyamm_specular_mask": true
+   },
+   "metal_base_colour": {
+    "Dwarf_A": {
+     "median_srgb": [
+      78,
+      69,
+      63
+     ],
+     "luminance_srgb_p10_p50_p90": [
+      58,
+      71,
+      131
+     ],
+     "share_below_srgb_30": 0.0003,
+     "share_below_srgb_90": 0.8299,
+     "flag": null,
+     "verdict": "very dark (engine phase 2 diffuse floor needed)"
+    },
+    "Dwarf_B": {
+     "median_srgb": [
+      78,
+      69,
+      63
+     ],
+     "luminance_srgb_p10_p50_p90": [
+      58,
+      71,
+      131
+     ],
+     "share_below_srgb_30": 0.0003,
+     "share_below_srgb_90": 0.8299,
+     "flag": null,
+     "verdict": "very dark (engine phase 2 diffuse floor needed)"
+    },
+    "Dwarf_C": {
+     "median_srgb": [
+      78,
+      69,
+      63
+     ],
+     "luminance_srgb_p10_p50_p90": [
+      58,
+      71,
+      131
+     ],
+     "share_below_srgb_30": 0.0003,
+     "share_below_srgb_90": 0.8299,
+     "flag": null,
+     "verdict": "very dark (engine phase 2 diffuse floor needed)"
+    }
+   },
+   "new_channels": {
+    "R": {
+     "min": 0,
+     "max": 255,
+     "mean": 79.2
+    },
+    "G": {
+     "min": 26,
+     "max": 255,
+     "mean": 190.2
+    },
+    "B": {
+     "min": 0,
+     "max": 255,
+     "mean": 34.0
+    }
+   }
+  }
+ ],
+ "unchanged": []
+}

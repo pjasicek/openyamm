@@ -74,7 +74,12 @@ has not updated a timestamp. Do not steal a live project; continue independent w
 Use `tools/run_creature_meshy.sh` for production submission, status and downloads. It invokes only the fixed
 `creature_meshy.py` helper, preserving ownership, budget limits and durable receipts. Credentials come from `MESHY_API_KEY`
 or the configured global `meshy` MCP environment. Never write them into prompts, request JSON, receipts or logs.
-The official MCP is useful for read-only balance/task inspection and uncertain-task reconciliation.
+An optional backup account (`MESHY_API_KEY_BACKUP`, same places) takes a new job when the primary has fewer credits
+than the job's estimate. Each receipt records its `account`, and status, downloads and follow-up jobs that reference
+an earlier task (`rig_task_id`, `input_task_id`) stay on that task's account. `balance` lists every account.
+If a follow-up is rejected because its account ran out, rebuild that step from the project file (for example rig
+again from `@file:` instead of the old task id) under a new job name; it then goes to an account with credits.
+The official MCP uses the primary key only, so it cannot inspect or reconcile backup-account tasks.
 
 ### Reusable execution approval
 

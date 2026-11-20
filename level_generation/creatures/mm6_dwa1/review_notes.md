@@ -1,0 +1,11 @@
+# Dwarf visual acceptance — 2026-09-11
+
+Accepted for offline staging. All 59 unique native images are restored, including the unused `dwa1fib0`; that image is not added to the native fidget timeline. All eight native action bindings, repeated entries, timing, five stored walk/standing views and mirrored aliases are retained.
+
+Reviewed all generated sheets against native pose references, all-image alignment/base contacts, enlarged hem coordinates, two-material overlays, three native/restored standing palettes, and the worst-edge light/dark contact. Native-ordered action contacts and viewer captures check the mirrored blue walk and red kneeling death pose. These are frame/sequence and metadata checks, not a claim that continuous gameplay playback was tested.
+
+Corrections: initial blue standing draft was corrected to native green before generating actions; one fixed 0.90 RGB gain reduces bright leather/metal; tunic and trousers have separate native-index palette fits (blue tunic/purple trousers cannot share one vector). Masks follow enhanced cloth pixels with reviewed hem coordinates and a soft curved boundary. Small isolated green mask contamination on equipment is rejected. The corpse has no visible trouser region. No magenta-spill candidates above 16 remain in cleaned, exported or atlas-extracted frames; thin helmet spike and axe features remain intact in contacts.
+
+All quick export validations pass: native/provenance hashes, no clipped cells, exact crop reconstruction and atlas extraction, alpha preservation, protected zero-mask pixels, exact base bypass and per-palette native sequences. The offline viewer renders both examined poses and palettes correctly at native anchoring.
+
+Limitations: subtle generated face, boot and metal-detail interpretation differs from the original; the enhanced boots and helmet have stronger local highlights. Two cloth masks occupy RGBA8 pages with two unused channels; runtime shader/loader integration is separate scope. Alpha is estimated from the magenta matte. Generated sheets are 1454×1082; 2× export includes some resampling and is not a claim of uniformly 2× newly generated detail. No gameplay installation or GPU performance test was performed.

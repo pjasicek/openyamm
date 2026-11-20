@@ -1,11 +1,14 @@
 #include "game/gameplay/GameplayAlchemyBenchInputController.h"
+#include "engine/Localization.h"
 
+#include "engine/Utf8Text.h"
+#include "game/gameplay/GameplayCraftingBenchInputController.h"
 #include "game/gameplay/GameplayInputFrame.h"
 #include "game/gameplay/GameplayItemService.h"
 #include "game/gameplay/GameplayScreenRuntime.h"
 #include "game/ui/GameplayAlchemyBenchView.h"
+#include "game/ui/GameplayCraftingBenchView.h"
 #include "game/ui/GameplayUiSkin.h"
-#include "engine/Utf8.h"
 
 #include <SDL3/SDL.h>
 
@@ -32,6 +35,52 @@ GameplayAlchemyBenchPointerTarget findTarget(
                 ? area
                 : std::nullopt;
         };
+
+    const GameplayUiController::AlchemyBenchState &state = context.characterScreenReadOnly().alchemyBench;
+    const auto slotRect =
+        [&context, &input](uint8_t slot)
+        {
+            return context.resolveHudLayoutElement(GameplayAlchemyBenchView::powerListSlotLayoutId(slot),
+                input.screenWidth, input.screenHeight, 0, 0);
+        };
+
+    // An open power list lies over the buttons below the slots and takes the pointer first.
+    if (model.powerListSlot != 0)
+    {
+        const GameplayAlchemyBenchSlotPowers &powers =
+            GameplayAlchemyBenchView::slotPowers(model, model.powerListSlot);
+
+        if (const std::optional<GameplayResolvedHudLayoutElement> slot = slotRect(model.powerListSlot))
+        {
+            for (const GameplayAlchemyBenchPowerRowRect &row
+                : GameplayAlchemyBenchView::powerListRows(powers, *slot, state.powerListScroll))
+            {
+                if (context.isPointerInsideResolvedElement(row.rect, input.pointerX, input.pointerY))
+                {
+                    return {TargetType::PowerOption, 0, row.rowIndex};
+                }
+            }
+
+            if (context.isPointerInsideResolvedElement(
+                    GameplayAlchemyBenchView::powerList(powers, *slot), input.pointerX, input.pointerY))
+            {
+                return {};
+            }
+        }
+    }
+
+    for (uint8_t slotNumber = 1; slotNumber <= GameplayAlchemyBenchView::PowerListSlotCount; ++slotNumber)
+    {
+        const std::optional<GameplayResolvedHudLayoutElement> slot = slotRect(slotNumber);
+
+        if (slot
+            && GameplayAlchemyBenchView::powerButtonShown(GameplayAlchemyBenchView::slotPowers(model, slotNumber))
+            && context.isPointerInsideResolvedElement(
+                GameplayAlchemyBenchView::powerButton(*slot), input.pointerX, input.pointerY))
+        {
+            return {TargetType::PowerButton, 0, slotNumber};
+        }
+    }
 
     struct ButtonTarget
     {
@@ -61,7 +110,10 @@ GameplayAlchemyBenchPointerTarget findTarget(
         }
     }
 
-    const GameplayUiController::AlchemyBenchState &state = context.characterScreenReadOnly().alchemyBench;
+    if (GameplayCraftingBenchView::available(context) && inside("WorkbenchTabCrafting"))
+    {
+        return {TargetType::CraftingTab, 0};
+    }
 
     if (inside("AlchemyBenchTargetSlot"))
     {
@@ -110,21 +162,25 @@ GameplayAlchemyBenchPointerTarget findTarget(
 void placeInSlot(
     GameplayScreenRuntime &context,
     const GameplayAlchemyBenchModel &model,
-    uint32_t &slotItemId,
-    uint32_t otherSlotItemId,
+    bool heldSlot,
     uint32_t itemId)
 {
+    GameplayUiController::AlchemyBenchState &state = context.characterScreen().alchemyBench;
     const AlchemyIngredient *pIngredient = AlchemyBenchRuntime::findIngredient(model.ingredients, itemId);
 
-    if (itemId == otherSlotItemId && (pIngredient == nullptr || pIngredient->count < 2))
+    if (itemId == (heldSlot ? state.targetItemId : state.heldItemId)
+        && (pIngredient == nullptr || pIngredient->count < 2))
     {
-        context.setStatusBarEvent("The party carries only one of those.");
+        context.setStatusBarEvent(Engine::tr("The party carries only one of those."));
         return;
     }
 
-    slotItemId = itemId;
-    context.characterScreen().alchemyBench.selectedResultItemId = 0;
-    context.characterScreen().alchemyBench.clearBrewResult();
+    // A newly placed ingredient starts with the copy the bench picks.
+    (heldSlot ? state.heldItemId : state.targetItemId) = itemId;
+    (heldSlot ? state.heldPower : state.targetPower).reset();
+    state.chainPower.reset();
+    state.selectedResultItemId = 0;
+    state.clearBrewResult();
 }
 
 // A clicked ingredient fills the target slot first, then the held slot.
@@ -135,14 +191,7 @@ void placeIngredient(
 {
     GameplayUiController::AlchemyBenchState &state = context.characterScreen().alchemyBench;
 
-    if (state.targetItemId == 0)
-    {
-        placeInSlot(context, model, state.targetItemId, state.heldItemId, itemId);
-    }
-    else
-    {
-        placeInSlot(context, model, state.heldItemId, state.targetItemId, itemId);
-    }
+    placeInSlot(context, model, state.targetItemId != 0, itemId);
 }
 
 // Ingredients drop into the slot under the pointer. A slot item dropped on the other slot swaps them, and dropped
@@ -156,16 +205,13 @@ void drop(
     GameplayUiController::AlchemyBenchState &state = context.characterScreen().alchemyBench;
     const bool onTarget = destination.type == TargetType::TargetSlot;
     const bool onHeld = destination.type == TargetType::HeldSlot;
+    state.powerListSlot = 0;
 
     if (source.type == TargetType::Ingredient)
     {
-        if (onTarget)
+        if (onTarget || onHeld)
         {
-            placeInSlot(context, model, state.targetItemId, state.heldItemId, source.itemId);
-        }
-        else if (onHeld)
-        {
-            placeInSlot(context, model, state.heldItemId, state.targetItemId, source.itemId);
+            placeInSlot(context, model, onHeld, source.itemId);
         }
 
         return;
@@ -176,12 +222,15 @@ void drop(
     if ((fromTarget && onHeld) || (!fromTarget && onTarget))
     {
         std::swap(state.targetItemId, state.heldItemId);
+        std::swap(state.targetPower, state.heldPower);
     }
     else if (!onTarget && !onHeld)
     {
         (fromTarget ? state.targetItemId : state.heldItemId) = 0;
+        (fromTarget ? state.targetPower : state.heldPower).reset();
     }
 
+    state.chainPower.reset();
     state.selectedResultItemId = 0;
     state.clearBrewResult();
 }
@@ -193,11 +242,49 @@ void activate(
 {
     GameplayUiController::AlchemyBenchState &state = context.characterScreen().alchemyBench;
     state.recipeSearchActive = target.type == TargetType::RecipeSearch;
+    // Any click closes an open power list; its own button toggles it.
+    const uint8_t openPowerList = model.powerListSlot;
+    state.powerListSlot = 0;
+    state.powerListScroll = 0;
 
     switch (target.type)
     {
         case TargetType::RecipeSearch:
             break;
+        case TargetType::PowerButton:
+            state.powerListSlot = openPowerList == target.index ? 0 : uint8_t(target.index);
+            break;
+        case TargetType::PowerOption:
+        {
+            const GameplayAlchemyBenchSlotPowers &powers = GameplayAlchemyBenchView::slotPowers(model, openPowerList);
+
+            if (openPowerList == 0 || target.index > powers.options.size())
+            {
+                break;
+            }
+
+            std::optional<uint16_t> &chosen = openPowerList == 3 ? state.chainPower
+                : openPowerList == 2 ? state.heldPower : state.targetPower;
+            chosen = target.index == 0
+                ? std::nullopt
+                : std::optional<uint16_t>(powers.options[target.index - 1].power);
+            state.clearBrewResult();
+
+            if (openPowerList == 3)
+            {
+                // The slots show the pair the chain finally mixes at that power.
+                const AlchemyChainPlan chain = GameplayAlchemyBenchView::planChain(
+                    context, model, state.selectedResultItemId, 1, state.chainPower);
+
+                if (chain.brewCount > 0)
+                {
+                    state.targetItemId = chain.finalRecipe.targetItemId;
+                    state.heldItemId = chain.finalRecipe.heldItemId;
+                }
+            }
+
+            break;
+        }
         case TargetType::CloseButton:
             state.active = false;
             break;
@@ -225,16 +312,21 @@ void activate(
             state.clearBrewResult();
             state.targetItemId = 0;
             state.heldItemId = 0;
+            state.clearPowerChoices();
             state.selectedResultItemId = 0;
             break;
         case TargetType::TargetSlot:
             state.clearBrewResult();
             state.targetItemId = 0;
+            state.targetPower.reset();
+            state.chainPower.reset();
             state.selectedResultItemId = 0;
             break;
         case TargetType::HeldSlot:
             state.clearBrewResult();
             state.heldItemId = 0;
+            state.heldPower.reset();
+            state.chainPower.reset();
             state.selectedResultItemId = 0;
             break;
         case TargetType::RecipeFilterBrewable:
@@ -262,10 +354,13 @@ void activate(
                     continue;
                 }
 
-                // Carried ingredients first; otherwise the slots show the pair a chain would finally mix.
-                std::optional<AlchemyRecipe> recipe = AlchemyBenchRuntime::pickRecipe(entry, model.ingredients);
+                // Carried ingredients first; otherwise the slots show the pair a chain would finally mix. Keeping
+                // mixed potions, the carried ones do not count.
+                std::optional<AlchemyRecipe> recipe = AlchemyBenchRuntime::pickRecipe(entry, model.mixingIngredients);
 
-                if (recipe && AlchemyBenchRuntime::brewableCount(*recipe, model.ingredients) == 0)
+                if (recipe
+                    && (AlchemyBenchRuntime::brewableCount(*recipe, model.mixingIngredients) == 0
+                        || (model.keepMixedPotions && model.book.usesMixedPotion(*recipe))))
                 {
                     const AlchemyChainPlan chain =
                         GameplayAlchemyBenchView::planChain(context, model, entry.resultItemId, 1);
@@ -282,6 +377,8 @@ void activate(
                     state.heldItemId = recipe->heldItemId;
                 }
 
+                state.clearPowerChoices();
+
                 state.selectedResultItemId = entry.resultItemId;
                 state.clearBrewResult();
                 break;
@@ -290,7 +387,10 @@ void activate(
         case TargetType::Ingredient:
             placeIngredient(context, model, target.itemId);
             break;
-        case TargetType::None:
+        case TargetType::CraftingTab:
+            state.craftingTab = true;
+            break;
+        default:
             break;
     }
 }
@@ -455,19 +555,13 @@ void editRecipeSearch(
     constexpr size_t MaxSearchLength = 24;
     const std::string before = state.recipeSearch;
 
-    for (const Engine::Utf8CodePoint &point : Engine::decodeUtf8(input.textInput))
-    {
-        if (point.value >= 32 && Engine::utf8Length(state.recipeSearch) < MaxSearchLength)
-        {
-            state.recipeSearch.append(input.textInput, point.byteOffset, point.byteLength);
-        }
-    }
+    Engine::Utf8::appendPrintable(state.recipeSearch, input.textInput, MaxSearchLength);
 
     for (uint16_t count = input.scancodePressCount(SDL_SCANCODE_BACKSPACE); count > 0; --count)
     {
         if (!state.recipeSearch.empty())
         {
-            Engine::eraseLastUtf8CodePoint(state.recipeSearch);
+            Engine::Utf8::popBack(state.recipeSearch);
         }
     }
 
@@ -494,12 +588,19 @@ void GameplayAlchemyBenchInputController::handleInput(GameplayScreenRuntime &con
                 || (input.isScancodeHeld(scancode) && context.previousKeyboardState()[scancode] == 0);
         };
 
+    const bool crafting = state.craftingTab && GameplayCraftingBenchView::available(context);
+    bool &searchActive = crafting ? state.crafting.searchActive : state.recipeSearchActive;
+
     if (newlyPressed(SDL_SCANCODE_ESCAPE))
     {
-        // Escape first leaves the search field, then closes the bench.
-        if (state.recipeSearchActive)
+        // Escape first leaves the search field or an open power list, then closes the bench.
+        if (searchActive)
         {
-            state.recipeSearchActive = false;
+            searchActive = false;
+        }
+        else if (!crafting && state.powerListSlot != 0)
+        {
+            state.powerListSlot = 0;
         }
         else
         {
@@ -511,21 +612,47 @@ void GameplayAlchemyBenchInputController::handleInput(GameplayScreenRuntime &con
         return;
     }
 
+    // Tab switches the Workbench's tabs (CRAFTING_BENCH_DESIGN.md §7). Toggles and steps count key presses, which
+    // come once per press.
+    if (!searchActive && input.scancodePressCount(SDL_SCANCODE_TAB) > 0
+        && GameplayCraftingBenchView::available(context))
+    {
+        state.craftingTab = !crafting;
+        return;
+    }
+
+    if (crafting)
+    {
+        GameplayCraftingBenchInputController::handleInput(context, input);
+        return;
+    }
+
     if (state.brewedScrollPending)
     {
         scrollBrewedIntoView(context, input);
     }
 
+    const bool enterPressed = newlyPressed(SDL_SCANCODE_RETURN) || newlyPressed(SDL_SCANCODE_KP_ENTER);
+
     if (state.recipeSearchActive)
     {
-        editRecipeSearch(state, input, newlyPressed(SDL_SCANCODE_RETURN) || newlyPressed(SDL_SCANCODE_KP_ENTER));
+        editRecipeSearch(state, input, enterPressed);
     }
-    else if (newlyPressed(SDL_SCANCODE_E))
+    else if (input.scancodePressCount(SDL_SCANCODE_RETURN) > 0 || input.scancodePressCount(SDL_SCANCODE_KP_ENTER) > 0
+        || input.scancodePressCount(SDL_SCANCODE_DELETE) > 0)
     {
-        // The inventory key closes the whole character screen, as it does without the bench.
-        context.closeCharacterScreen();
-        interaction.menuToggleLatch = true;
-        interaction.closeOverlayLatch = true;
+        // Enter mixes, Shift+Enter mixes all, Delete clears the slots.
+        const std::optional<GameplayAlchemyBenchModel> model = GameplayAlchemyBenchView::buildModel(context);
+        const bool shiftHeld = input.isScancodeHeld(SDL_SCANCODE_LSHIFT) || input.isScancodeHeld(SDL_SCANCODE_RSHIFT);
+
+        const bool mix = input.scancodePressCount(SDL_SCANCODE_DELETE) == 0;
+
+        if (model)
+        {
+            activate(context, *model,
+                {!mix ? TargetType::ClearButton : shiftHeld ? TargetType::MixAllButton : TargetType::MixButton});
+        }
+
         return;
     }
 
@@ -579,7 +706,17 @@ void GameplayAlchemyBenchInputController::handleInput(GameplayScreenRuntime &con
         const std::optional<GameplayResolvedHudLayoutElement> grid =
             context.resolveHudLayoutElement("AlchemyBenchIngredientGrid", input.screenWidth, input.screenHeight, 0, 0);
 
-        if (list && context.isPointerInsideResolvedElement(*list, input.pointerX, input.pointerY))
+        if (model->powerListSlot != 0)
+        {
+            // The wheel belongs to an open power list, wherever the pointer is.
+            const size_t maximumRow = GameplayAlchemyBenchView::maximumPowerListScroll(
+                GameplayAlchemyBenchView::slotPowers(*model, model->powerListSlot));
+            const size_t row = std::min(state.powerListScroll, maximumRow);
+            state.powerListScroll = input.mouseWheelDelta > 0
+                ? (row > 0 ? row - 1 : 0)
+                : std::min(row + 1, maximumRow);
+        }
+        else if (list && context.isPointerInsideResolvedElement(*list, input.pointerX, input.pointerY))
         {
             state.recipeScrollOffset = std::clamp(
                 state.recipeScrollOffset - input.mouseWheelDelta * GameplayAlchemyBenchView::RecipeRowHeight * 3,

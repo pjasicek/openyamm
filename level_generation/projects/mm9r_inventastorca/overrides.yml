@@ -1,0 +1,166 @@
+# Explicit conversion choices for MM9's Inventa Storca (convert.py reads this through the shared converter
+# ../mm9r_common/dungeon; a rerun keeps them). Rules and keys: ../mm9r_common/DUNGEON_PLAYBOOK.md.
+map:
+  stem: inventastorca
+  display_name: Inventa Storca
+  starts: [StartPoint0]                # the entrance from Thronheim (InventaStorcaExit)
+  monster_classes: [AirBorneIcky, Lich, Basilisk, Bandit, Skeleton, WealthyTownGuard1, WealthyTownGuard2, LichKing,
+                    Cutpurse]
+  offset: [0, 0, 0]                    # the old map's frame: x -11837..1352, y -7905..1393, z -2191..1577 fit int16
+  ambient: 31                          # sector minimum light 31 (none): the frame ambient the engine subtracts from a
+                                       # decoration's baked room light is then 0, not 0.35 (README, "Black tables")
+  split_minor_rooms: true
+  split_retry: true
+  thin_walls: true                     # dresser and bookcase partitions (playbook: thin walls)
+  extra_seed_classes: [TreasureBag, Prop]   # the bags in the wall niches behind SecretPanel/SecretPanel0, the orbs
+plan_levels:
+  pits: [-1000, -700]                  # the flooded pits under the lower library
+  lower: [-700, -450]                  # the lower library (floor -640) and its stair halls
+  upper: [-450, -200]                  # the main halls (floor -336/-320)
+  high: [-200, 640]                    # the chamber over the Lich King's ceiling, the entrance shaft
+models:
+  # --- MM9 double doors: one rotating mover per leaf (MM9's swing, open away, auto-close 7 s), a click opens the pair
+  DoubleDoorL1: {group: DoubleDoor1, motion: rotate, doorway: true, portal: DoubleDoorPortal1}
+  DoubleDoorR1: {group: DoubleDoor1, motion: rotate, doorway: true, portal: DoubleDoorPortal1}
+  DoubleDoorL2: {group: DoubleDoor2, motion: rotate, doorway: true, portal: DoubleDoorPortal2}
+  DoubleDoorR2: {group: DoubleDoor2, motion: rotate, doorway: true, portal: DoubleDoorPortal2}
+  DoubleDoorL3: {group: DoubleDoor3, motion: rotate, doorway: true, portal: DoubleDoorPortal3}
+  DoubleDoorR3: {group: DoubleDoor3, motion: rotate, doorway: true, portal: DoubleDoorPortal3}
+  DoubleDoorL4: {group: DoubleDoor4, motion: rotate, doorway: true, portal: DoubleDoorPortal4}
+  DoubleDoorR4: {group: DoubleDoor4, motion: rotate, doorway: true, portal: DoubleDoorPortal4}
+  DoubleDoorL5: {group: DoubleDoor5, motion: rotate, doorway: true, portal: DoubleDoorPortal5}
+  DoubleDoorR5: {group: DoubleDoor5, motion: rotate, doorway: true, portal: DoubleDoorPortal5}
+  DoubleDoorL6: {group: DoubleDoor6, motion: rotate, doorway: true}   # no UserPortal: the leaves' rectangle
+  DoubleDoorR6: {group: DoubleDoor6, motion: rotate, doorway: true}
+  DoubleDoorL7: {group: DoubleDoor7, motion: rotate, doorway: true, portal: DoubleDoorPortal7}
+  DoubleDoorR7: {group: DoubleDoor7, motion: rotate, doorway: true, portal: DoubleDoorPortal7}
+  DoubleDoorL8: {group: DoubleDoor8, motion: rotate, doorway: true, portal: DoubleDoorPortal8}
+  DoubleDoorR8: {group: DoubleDoor8, motion: rotate, doorway: true, portal: DoubleDoorPortal8}
+  DoubleDoorL9: {group: DoubleDoor9, motion: rotate, doorway: true, portal: DoubleDoorPortal9}
+  DoubleDoorR9: {group: DoubleDoor9, motion: rotate, doorway: true, portal: DoubleDoorPortal9}
+  DoubleDoorL10: {group: DoubleDoor10, motion: rotate, doorway: true, portal: DoubleDoorPortal10}
+  DoubleDoorR10: {group: DoubleDoor10, motion: rotate, doorway: true, portal: DoubleDoorPortal10}
+  DoubleDoorL11: {group: DoubleDoor11, motion: rotate, doorway: true, portal: DoubleDoorPortal11}
+  DoubleDoorR11: {group: DoubleDoor11, motion: rotate, doorway: true, portal: DoubleDoorPortal11}
+  DoubleDoorL12: {group: DoubleDoor12, motion: rotate, doorway: true, portal: DoubleDoorPortal12}
+  DoubleDoorR12: {group: DoubleDoor12, motion: rotate, doorway: true, portal: DoubleDoorPortal12}
+  DoubleDoorL13: {group: DoubleDoor13, motion: rotate, doorway: true, portal: DoubleDoorPortal13}
+  DoubleDoorR13: {group: DoubleDoor13, motion: rotate, doorway: true, portal: DoubleDoorPortal13}
+  DoubleDoorL14: {group: DoubleDoor14, motion: rotate, doorway: true}   # no UserPortal: the leaves' rectangle
+  DoubleDoorR14: {group: DoubleDoor14, motion: rotate, doorway: true}
+  # --- the dressers along the long halls: two small leaves each and two drawers (furniture; convert.py's click events)
+  DresserDoorL1: {group: Dresser1, motion: rotate}
+  DresserDoorR1: {group: Dresser1, motion: rotate}
+  DresserDoorL2: {group: Dresser2, motion: rotate}
+  DresserDoorR2: {group: Dresser2, motion: rotate}
+  DresserDoorL3: {group: Dresser3, motion: rotate}
+  DresserDoorR3: {group: Dresser3, motion: rotate}
+  DresserDoorL4: {group: Dresser4, motion: rotate}
+  DresserDoorR4: {group: Dresser4, motion: rotate}
+  DresserDoorL5: {group: Dresser5, motion: rotate}
+  DresserDoorR5: {group: Dresser5, motion: rotate}
+  DresserDoorL6: {group: Dresser6, motion: rotate}
+  DresserDoorR6: {group: Dresser6, motion: rotate}
+  DresserDoorL7: {group: Dresser7, motion: rotate}
+  DresserDoorR7: {group: Dresser7, motion: rotate}
+  DresserDoorL8: {group: Dresser8, motion: rotate}
+  DresserDoorR8: {group: Dresser8, motion: rotate}
+  Drawer1: {group: Drawer1, motion: dat}
+  Drawer2: {group: Drawer2, motion: dat}
+  Drawer3: {group: Drawer3, motion: dat}
+  Drawer4: {group: Drawer4, motion: dat}
+  Drawer5: {group: Drawer5, motion: dat}
+  Drawer6: {group: Drawer6, motion: dat}
+  Drawer7: {group: Drawer7, motion: dat}
+  Drawer8: {group: Drawer8, motion: dat}
+  Drawer9: {group: Drawer9, motion: dat}
+  Drawer10: {group: Drawer10, motion: dat}
+  Drawer11: {group: Drawer11, motion: dat}
+  Drawer12: {group: Drawer12, motion: dat}
+  Drawer13: {group: Drawer13, motion: dat}
+  Drawer14: {group: Drawer14, motion: dat}
+  Drawer15: {group: Drawer15, motion: dat}
+  Drawer16: {group: Drawer16, motion: dat}
+  DeskDrawer: {group: DeskDrawer, motion: dat}       # PerceptionBrush8 marks it (its Open/CloseTriggers)
+  DeskDrawer0: {group: DeskDrawer0, motion: dat}     # PerceptionBrush7
+  # --- the trapdoor over Ladder5 (slides 96 LT; PerceptionBrush9 marks it)
+  LadderDoor: {group: LadderDoor, motion: dat}
+  # --- the domino of falling bookcases in the lower library (FallingBookcaseSwitch -> FBR1..5 relays -> bookcases):
+  # each bookcase is one rotating mover with its relay's swing added (convert.py), its book switches ride along
+  FallingBookcase1: {group: FallingBookcase1, motion: rotate}
+  FallingBookcase2: {group: FallingBookcase2, motion: rotate}
+  FallingBookcase3: {group: FallingBookcase3, motion: rotate}
+  FallingBookcase4: {group: FallingBookcase4, motion: rotate}
+  FallingBookcase5: {group: FallingBookcase5, motion: rotate}
+  FallingBookcase6: {group: FallingBookcase6, motion: rotate}
+  FalseSwitch1: {group: FalseSwitch1, motion: rotate}       # rides FallingBookcase1
+  FalseSwitch2: {group: FalseSwitch2, motion: rotate}       # rides FallingBookcase2
+  FalseSwitch3: {group: FalseSwitch3, motion: rotate}       # rides FallingBookcase3
+  FalseSwitch5: {group: FalseSwitch5, motion: rotate}       # rides FallingBookcase5
+  FalseSwitch6: {group: FalseSwitch6, motion: rotate}       # rides FallingBookcase6
+  FallingBookcaseSwitch: {group: FallingBookcaseSwitch, motion: rotate}   # rides FallingBookcase1
+  SecretSwitch1: {group: SecretSwitch1, motion: rotate}   # rides FallingBookcase4; opens SecretPanel1
+  FalseSwitch4: {group: FalseSwitch4, motion: dat}         # a book on the wall: pushes in, does nothing
+  FBR1: skip                         # invisible relay (5 polygons): its swing is folded into FallingBookcase1
+  FBR2: skip                         # invisible relay (5 polygons): its swing is folded into FallingBookcase2
+  FBR3: skip                         # invisible relay (5 polygons): its swing is folded into FallingBookcase3
+  FBR4: skip                         # invisible relay (5 polygons): its swing is folded into FallingBookcase4
+  FBR5: skip                         # invisible relay (5 polygons): its swing is folded into FallingBookcase5
+  # --- secret panels and their switches
+  SecretPanel: {group: SecretPanel, motion: rotate}     # wall niche with TreasureBag1 (SecretSwitch)
+  SecretPanel0: {group: SecretPanel0, motion: rotate}   # wall niche with TreasureBag0 (SecretSwitch0)
+  SecretPanel1: {group: SecretPanel1, motion: dat}      # floor panel over Chest1/Chest2 (SecretSwitch1)
+  SecretSwitch: {group: SecretSwitch, motion: dat}
+  SecretSwitch0: {group: SecretSwitch0, motion: dat}
+  # --- breakable walls (DestructableBrush): scene destructibles (dungeon/destructibles.py `break`, 2026-11-06): MM9's
+  #     party smashes them with weapons; a click still breaks 0-3 (a killing blow)
+  DestructableBrush0: {group: DestructableBrush0, motion: break, doorway: true}   # PerceptionBrush0
+  DestructableBrush1: {group: DestructableBrush1, motion: break}   # PerceptionBrush1; its opening is wider than the brush: the portal is the cut DB1_opening
+  DestructableBrush2: {group: DestructableBrush2, motion: break, doorway: true}   # PerceptionBrush3, Tom Needed A Trigger1
+  DestructableBrush3: {group: DestructableBrush3, motion: break, doorway: true}   # PerceptionBrush2
+  DestructableBrush4: {group: DestructableBrush4, motion: break, doorway: true, click: false}   # BustOutLich0's cage (KingKong.scr ForceBreak)
+  DestructableBrush5: {group: DestructableBrush5, motion: break, click: false}   # the ceiling slab BustOutLichKing0 falls through (KingKong.scr ForceFall)
+  # --- static world objects
+  WorldObject4: static                 # Ladder5's rungs (the climbing is the `ladders` section)
+  # --- not built
+  BlueWater0: skip                     # water volumes: their surfaces are faces of convert.py's
+  BlueWater1: skip
+  BlueWater2: skip
+  SkyBox0: skip
+  TOD_Sky0: skip
+model_patterns:
+  InvisibleBrush: static               # invisible collision (Firethrough.dtx)
+ladders:
+  Ladder5: {facing_lt: [0, -1], surface_lt: -2726, top_exit_lt: [-720, -336, -2790]}   # the climber steps off forward, over the shaft wall
+# Seeds outside the built air: lights MM9 parks in the rock (they lit its lightmaps through it), and BustOutTrigger1,
+# whose centre lies in the pocket under DeskDrawer0's desk (a sealed air pocket would become a room of its own).
+seed_exclude: [Light61, Light62, Light63, Light66, Light67, Light70, Light71, Light72, BustOutTrigger1]
+# Lights that light nothing built: in the rock (61-63), under the cavern's floor (66, 67), in the flooded channel
+# under the water surface (70-72). MM9 baked them through its geometry.
+skip_lights: [Light61, Light62, Light63, Light66, Light67, Light70, Light71, Light72]
+# Archway portals: a voxel slice perpendicular to `axis` through `point` (LT) seals the opening it stands in. Chosen on
+# work/rooms_<level>.png, tried on the voxels; each joins two rooms.
+portals:
+  - {name: DB1_opening, axis: z, point: [-172, -580, -520], span: 160}      # the rock behind DestructableBrush1
+  - {name: hall8_north, axis: z, point: [-3328, -300, -96], span: 300}        # long hall | north hall
+  - {name: hall8_mid, axis: z, point: [-3328, -300, -1800], span: 300}        # long hall, between the pillar rows
+  - {name: hall8_east1, axis: x, point: [-2960, -300, -1360], span: 160}      # long hall | corridor to room 4
+  - {name: hall8_east2, axis: x, point: [-2960, -300, -2680], span: 200}      # long hall | corridor to room 1
+  - {name: hall7_mid, axis: z, point: [-4200, -300, -1150], span: 640}        # west hall, between the pillar rows
+  - {name: hall7_south, axis: z, point: [-4200, -300, -2456], span: 640}
+  - {name: hall7_midsouth, axis: z, point: [-4200, -300, -1704], span: 640}
+  - {name: hall7_north, axis: z, point: [-4200, -300, -712], span: 640}
+  - {name: lower5_leg, axis: z, point: [-900, -600, -1650], span: 420}        # lower L hall: north arm | west leg
+# The ladder shaft's hole in the upper floor under LadderDoor.
+rect_portals:
+  - {name: LadderHole, min_lt: [-784, -342, -2736], max_lt: [-656, -342, -2608]}
+# The water volumes' surface sprite (MM9 Sprites\Water\Ocean3.spr; its alias is in other MM9 maps' tables).
+textures:
+  "Sprites\\Water\\Ocean3.spr": {alias: OCEA8LH6KA, width: 128, height: 128}
+
+# Ground treasure hints (dungeon/treasure.py, devdocs/mm9_rework/GROUND_TREASURE_PLAN.md section 4): DAT
+# objects whose surroundings count as secrets or bosses (bonus markers), rewarding set dressing, and places
+# to keep clear.
+treasure:
+  bonus_near: [LichKing0, LichKing1, BustOutLichKing0]
+  themed_near: [BonePile0, BonePile1, BonePile2]

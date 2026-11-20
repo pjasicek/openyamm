@@ -1,0 +1,27 @@
+{
+  "prompt": "Use case: precise-object-edit. Paint the provided paint_mask_guide.png, the edit target. design_reference.png is the approved material/detail reference; icon_x8.png is the original colour reference (magenta is background, never paint magenta).\nOutput ONE transparent PNG, 1536x2048 3:4 canvas. Preserve the exact guide layout: 3 columns x FOUR rows of 512-square cells. Rows 1-2 and 3-4 repeat the SAME five orthographic renders: FRONT, BACK, LEFT / RIGHT, TOP, empty. Match the actual visible guide projections exactly, even where the view names seem unusual. Every object retains EXACT position, size, silhouette, gaps, openings, pose and orientation of the grey guide. Paint only existing grey model pixels; do not redraw, move, enlarge or redesign. Empty column 3 in rows 2 and 4 remains transparent.\nRows 1-2 PAINT: source-faithful doll with golden blond hair, blue cloth dress, ivory cloth sleeves and collar, pale warm wooden face, arms and legs, small dark eyes. Follow approved design reference scaled to each projection. Detailed unlit base colour only: no lighting, no shadows, no AO, no highlights, reflections or glows. Keep visible interior dress lining blue cloth. Preserve native geometry.\nRows 3-4 MATERIAL MASK: corresponding five identical silhouettes filled with FLAT pure colours ONLY; no shading, textures, outlines or antialiased colour blends inside:\n#FF0000 every metal (steel iron chain mail gold silver bronze copper brass);\n#00FF00 every leather (straps padding hide suede) and fur;\n#0000FF every cloth (tabards quilting linings cords ribbons) AND HAIR;\n#FFFF00 every matte non-metal solid (wood bone horn stone parchment paper wax);\n#000000 every gemstone crystal glass pearl enamel or liquid through glass.\nFor this doll, hair/dress/sleeves/collar/lining are pure blue, wooden face/arms/legs are pure yellow, enamel eyes pure black. No metallic yellow hair: hair is BLUE in the mask. Every silhouette pixel must receive its material's exact colour. Nothing outside silhouettes.\nBackground and all gaps/openings genuinely alpha transparent; no ground, no text, labels, outlines, grids, aura, sparkles. Output only the sheet.\nCRITICAL CORRECTION: Keep silhouettes absolutely clean and identical to the original grey guide. No scattered pixels, coloured halos, colour fragments or noisy brush marks around any object. All outside pixels must be completely transparent. Preserve the original openings, including the opening seen into the skirt. Treat original guide alpha as an immutable stencil. Paint top half only in natural base colours, bottom half only in flat material ID colours.",
+  "original_output_path": "/home/pjasicek/.codex/generated_images/01a1ad11-03e7-7972-9692-e39f48d9812a/exec-f99d7e75-5dac-4c41-afca-b24c3b6531a1.png",
+  "output": "/home/pjasicek/github/OpenYAMM/level_generation/props/items_mm9_claude/codex_tex/d10370/paint_mask_raw_v1.png",
+  "tool": "built-in image_gen",
+  "generations": 2,
+  "validation_notes": "Corrective generation still shows stray colour around silhouettes and painted shading; raw output retained unchanged as requested.",
+  "inputs": [
+    {
+      "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/items_mm9_claude/codex_tex/d10370/paint_mask_guide.png",
+      "sha256": "fc84f3cfbd416d1770dc42cbb17586267f229c87c8ed28592d9c597c40f65ddf"
+    },
+    {
+      "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/items_mm9_claude/codex_tex/d10370/design_reference.png",
+      "sha256": "9faabf601f4b4ffc072598a77d1d36559ef84632150d58ab0050dd749c02c730"
+    },
+    {
+      "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/items_mm9_claude/codex_tex/d10370/icon_x8.png",
+      "sha256": "efcc94ca8a113626066d0b75c2f926d31ada0d9499cce1d1fb2583578e677640"
+    }
+  ],
+  "size": [
+    1086,
+    1448
+  ],
+  "mode": "RGBA"
+}

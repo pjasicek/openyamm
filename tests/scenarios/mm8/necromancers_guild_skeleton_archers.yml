@@ -1,0 +1,38 @@
+id: mm8.necromancers_guild_skeleton_archers
+title: "Necromancers' Guild: the Skeleton Archers are peaceful until the guild turns hostile"
+world: mm8
+mode: faithful
+tags: [mm8, indoor, actors, regression]
+steps:
+  - note:
+      text: >-
+        d19_mmmerge.lua sets the Skeletons Archer faction (58) peaceful toward the party on this map. The archers all
+        spawn in actor group 10, so the guild's hostility events still reach them: the transformer room door (event
+        27, before the beam is locked) and, on load, QBit 20 (allied with the Temple of the Sun).
+  - new_game_flow: {start_map: out01.odm}
+  - load_map: {map: d19.blv}
+  - advance_runtime: {seconds: 1}
+  - assert:
+      actor_count: {monster_id: 172, hostile: false, min: 1}
+  - assert:
+      actor_count: {monster_id: 172, hostile: true, max: 0}
+  - assert:
+      actor_count: {monster_id: 173, hostile: true, max: 0}
+  - assert:
+      actor_count: {monster_id: 174, hostile: true, max: 0}
+  - execute_event: {id: 27}
+  - advance_runtime: {seconds: 1}
+  - assert:
+      actor_count: {monster_id: 172, hostile: false, max: 0}
+  - assert:
+      actor_count: {monster_id: 172, hostile: true, min: 1}
+  - assert:
+      actor_count: {monster_id: 55, hostile: true, min: 1}
+  - new_game_flow: {start_map: out01.odm}
+  - setup_shortcut: {kind: set_qbit, id: 20, value: true}
+  - load_map: {map: d19.blv}
+  - advance_runtime: {seconds: 1}
+  - assert:
+      actor_count: {monster_id: 172, hostile: false, max: 0}
+  - assert:
+      actor_count: {monster_id: 172, hostile: true, min: 1}

@@ -1,0 +1,981 @@
+# draft extracted from MAW ef23ee17
+#
+# MAW special enchants ("Bonus2", SPCITEMS.TXT) as data: the table changes MAW ships in Data/zMaw.T.lod, the new
+# rows 74-80, and every in-code override of their behaviour, text and scaling. Paths are relative to the MAW Scripts/
+# folder. Row/cell diffs of the table itself, as a patch onto OpenYAMM's special_item_enchants.txt, are in
+# ../ITEMS_DATA.md section 3.
+#
+# Ids: 1-based SPCITEMS row index. MAW stores it in Item.Bonus2; MMExtension's Game.SpcItemsTxt is 0-based, so the
+# code's SpcItemsTxt[k] is special k+1 (for example the text override SpcItemsTxt[24] is special 25 "of Power").
+# OpenYAMM's SpecialItemEnchantTable is 1-based by position and identical to base MMMerge for 1-73.
+
+rules:
+  rolled_on: "rarity >= Epic and EquipStat < 12 (General/zzMaw-Items.lua:1206-1223)"
+  pool:
+    power: "clamp(grade, 3, 6 if boss else 5); grade = t.Strength (treasure level 1-6), NOT the loot tier (:1209)"
+    lvl_groups_by_power: {3: [A, B], 4: [A, B, C], 5: [B, C, D], 6: [D]}   # enchants[], :436-440
+    weight: "ChanceForSlot[EquipStat] of each special in the allowed Lvl groups; one uniform integer roll (:1210-1221)"
+    totals_source: "totBonus2 / itemStrength computed at GameInitialized2 (:405-441)"
+    weight_totals_by_power:                       # computed from MAW SPCITEMS.TXT; slot order as weights below
+      columns: [W1, W2, Miss, Arm, Shld, Helm, Belt, Cape, Gaunt, Boot, Ring, Amul]
+      3: [135, 135, 135, 65, 40, 50, 70, 80, 60, 50, 95, 90]
+      4: [275, 275, 275, 220, 185, 200, 225, 270, 195, 165, 250, 245]
+      5: [329, 329, 339, 322, 292, 287, 257, 312, 222, 187, 367, 357]
+      6: [154, 154, 164, 122, 127, 107, 67, 87, 67, 67, 157, 157]
+    probability: "weight / total for the slot and power"
+    eye_of_void: "the Eye crafting item uses power 6 (pool D only) with the same tables (see CRAFTING.md)"
+    potions: "Lesser/Greater Element, Swiftness and Darkness potions set specials directly (see CRAFTING.md)"
+  melee_caster_swap:                              # :1267-1295, after both base enchants are final
+    applies_to: [39, 40, 41, 46]
+    count: "melee += 1 per base enchant of type 1 (Might) or 5 (Accuracy); caster += 1 per type 2 or 3 (Int, Pers)"
+    melee_wins: "39 -> 46, 40 -> 41"
+    caster_wins: "46 -> 39, 41 -> 40"
+    tie: "unchanged"
+  legendary_19_swap: "40 -> 39 and 41 -> 46 on items rolled with legendary affix 19 (:1242-1249)"
+  scaling:                                        # Modules/MawCore/Formulas.lua:266-299
+    item_power: "MaxCharges (item level / 5)"
+    stat_mult: "chargesStatMult(c) = min(1 + c/25, 5)  (x5 reached at power 100)"
+    school_skill: "chargesSchoolSkill(c) = floor(c/4) + 5"
+    meditation_skill: "chargesMeditationSkill(c) = floor(c*3/20) + 3"
+    stat_application: >-
+      collectEquipEffects (General/zzMaw-Items.lua:2757-2794): for bonusRange entries every stat in the range gets
+      statModifier*mult (unrounded); for bonusValues entries tab[stat] = round(tab[stat] + statModifier*mult)
+      (48 uses a per-stat modifier pair 15/5). Tooltip numbers are floor(statModifier*mult) (checktext).
+    stat_table: "bonusEffects, General/zzMaw-Items.lua:1772-1799; vanilla reference bonusEffectsBase :1742-1769"
+  damage_specials:
+    ids: [4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 39, 46]
+    table: "enchantbonusdamage, General/zzMaw-Items.lua:2047-2061 ({min, max, Type, Coeff})"
+    range: >-
+      enchantDamageRange (:2067-2082): avg = levelDamage * Coeff * ENCHANT_DAMAGE_MULT (1); mean = (min+max)/2;
+      lo = max(avg*min/mean, min*floor); hi = max(avg*max/mean, max*floor); floor = 0.5, x2 on two-handed weapons
+      (ENCHANT_FLOOR_SHARE). levelDamage = getWeaponLevelDamage(item level, two-handed, weapon flat): the item-level
+      share of the weapon model plus an expected Armsmaster and stat term, times expected weapon-skill and Might
+      multipliers (Modules/MawCore/Estimates.lua:145-158)
+    roll: "uniform integer between round(lo) and round(hi) (calcEnchantDamage :2125-2155)"
+    multipliers: >-
+      x1.5 legendary 19; x critMult with legendary 26; x GetPlayerBaseRecovery/100 (bow: that bow's recovery;
+      melee: average base recovery of the held weapons, 100 if none) (:2106-2122); resisted as
+      damage / 2^((res % 1000)/100) with the monster resistance of the damage kind (Type 0 Fire, 1 Air, 2 Water,
+      8 Body; damageKindMap zzMaw-Stats.lua:922-933)
+    where_applied:
+      melee: "both hands, every melee hit (Modules/MawCore/Damage.lua:983-1001)"
+      bow_blaster: "the bow slot item on arrow (133) or blaster (135) hits (Damage.lua:1003-1016)"
+      spells: >-
+        all three weapon slots on every damaging spell: (enchant + fire aura) x 1.015^ascension, /2.5 for AoE
+        spells; 39 applies only to spells, 46 never to spells (zzMaw-Spells.lua:2022-2036, zzMaw-Items.lua:2127)
+      class_hits: "Death Knight and Assassin attacks also add it (Damage.lua:723, :848)"
+    engine_item_damage: "events.ItemAdditionalDamage sets Result 0 (Global/zzMaw_Legendaries.lua:6-20)"
+    tooltip_floor: "the tooltip prints floor(lo)-floor(hi) x legendary 19 (checktext :1818-1834)"
+  leech_specials:                                 # addWeaponACRes, General/zzMaw-Items.lua:3213-3276
+    physical_flag: "16 or 41 on any of the three weapon slots: melee 0.10, ranged 0.05 (flags, no stacking)"
+    spell_flag: "16 or 40: spells 0.10"
+    engine_vampiric: "disabled for 16/41 and vampiric artifacts (events.ItemAdditionalDamage :2462-2491)"
+    measure: "fraction of the damage relative to a reference monster HP for the level (see COMBAT.md, leech)"
+  immunity_specials:                              # protectionMessages, General/zzMaw-Items.lua:1458-1476
+    mechanism: "events.DoBadThingToPlayer: Allow = false and 'Enchantment protects <name> from <thing>'"
+    codes: "DoBadThingToPlayer Thing ids as listed per special"
+    pairs:
+      18: {9: disease, 10: disease, 11: disease, 1: curse}
+      19: {5: insanity, 22: spell drain}
+      20: {12: paralysis, 23: fear}
+      21: {6: poison, 7: poison, 8: poison, 2: weakness}
+      22: {3: sleep, 13: unconscious}
+      23: {15: stone, 21: premature ageing}
+      25: {14: death, 16: eradication}
+  engine_stat_bonuses_removed: >-
+    events.CalcStatBonusByItems sets Result = 0 for every stat and returns MAW's own item sums
+    (General/zzMaw-Items.lua:2566-2584), and events.GetSkill rebuilds item skill bonuses (:2587-2612). Any vanilla
+    special effect that the engine delivered as a stat or skill bonus is therefore gone unless MAW re-adds it
+    (bonusEffects, school and meditation maps, the explicit 62 fix). Affected: 25 (+5 Level), 60, 61, 67-70.
+  value: >-
+    getItemValue (:1948-1964): v = SPCITEMS Value; v x MaxCharges/20 when the special has a bonusEffects entry;
+    v < 11 is a multiplier on basePriceBonus (x2.5 more when v == 10, i.e. Antique), otherwise it is added.
+    Only when 0 < Bonus2 <= SpcItemsTxt.high (see notes)
+  tooltip:
+    name: >-
+      the special's Name Add is a prefix when it starts with an upper-case letter ("Vampiric Longsword"), else a
+      suffix ("Longsword of Ice"); the special wins over the base-enchant suffix (Tooltip.lua:351-363)
+    description: >-
+      yellow (255,255,153) line before the description: checktext(MaxCharges, id) when the id is in bonusEffects or
+      enchantList (:2158-2190), else the (overridden) SPCITEMS Bonus Stat text (Tooltip.lua:426-433)
+    alt_preview: >-
+      ALT on an item with base enchant 1 and no special: grey (100,100,100) text of the special the Eye of Void
+      would add, seeded with Number*10000 + MaxCharges*1000 + Bonus*100 + BonusStrength*10 + Charges
+      (Tooltip.lua:434-464)
+    text_overrides_at_init: "General/zzMaw-Items.lua:1477-1491, :1508-1510 (listed per special as tooltip)"
+    checktext_placeholders: >-
+      m = chargesStatMult(MaxCharges); <school> = floor(MaxCharges/4) + 5; <med> = floor(MaxCharges*3/20) + 3;
+      <lo-hi> = damage range as above
+  notes:
+    - "Value: Bonus2 <= SpcItemsTxt.high compares a 1-based id with the 0-based highest index; with 80 rows
+      (high = 79) the last row, 80 Divines', never adds its special value (General/zzMaw-Items.lua:1950)."
+    - "checktext[40] exists but 40 is in neither bonusEffects nor enchantList, so it is never shown; the BonusStat
+      override is shown instead."
+    - "Special 3: the text says half damage, the code multiplies Carnage arrow hits by 0.25."
+    - "The SPCITEMS sums row is stale in MAW (unchanged although weights changed); nothing reads it."
+    - "MAW's table texts for 74-80 are copies of 47-55 texts; the real effects are in bonusEffects 74-80."
+    - "36 Shielding lost its Ring/Amulet weight (5 -> 0) and moved to pool D; its effect is now x0.85 physical."
+
+table_changes:
+  # base MMMerge -> MAW, rows 1-73 (cells), full detail per special below and in ITEMS_DATA.md section 3
+  changed_rows: [1, 20, 23, 36, 39, 40, 42, 44, 47, 53, 54, 55, 63, 64, 67, 68, 69, 70]
+  new_rows: [74, 75, 76, 77, 78, 79, 80]
+  lvl_changes: {1: B->D, 20: D->C, 23: D->C, 36: B->D, 39: A->D, 40: A->D, 42: B->C, 44: D->C, 47: D->C,
+                54: C->D, 55: C->D}
+  zeroed_weights: {63: weapons, 64: weapons, 67: weapons, 68: weapons, 69: armour/shield/helm,
+                   70: armour/shield/helm, 36: ring/amulet}
+  renamed: {39: "Ogre Slaying -> of Ascension", 40: "Dragon Slaying -> Lichs'"}
+  value_changes: {40: "X 2 -> X 3", 42: "750 -> 2000", 44: "2000 -> 1500", 53: "1000 -> 1500"}
+
+specials:
+  # id = 1-based SPCITEMS row = MAW Bonus2 = OpenYAMM special_item_enchants id (rows 1-73).
+  # weights: W1 W2 Miss Arm Shld Helm Belt Cape Gaunt Boot Ring Amul (ChanceForSlot by EquipStat 0..11)
+  1:
+    name: "of Protection"
+    lvl: D
+    weights: [5, 5, 5, 10, 10, 10, 10, 10, 10, 10, 10, 10]
+    value: "1000"
+    table_text: "+10 to all Resistances."
+    base_mmerge: "lvl B; weights [0, 0, 0, 10, 10, 10, 0, 10, 0, 0, 10, 10]"
+    tooltip: "\" +<floor(10*m)> to all Resistances.\"  [checktext]"
+    maw_effect: "stat special: resistances 11-16 +10 x chargesStatMult (vanilla table value 10)"
+    source: ["General/zzMaw-Items.lua:1772-1799", "General/zzMaw-Items.lua:2758-2785"]
+  2:
+    name: "of The Gods"
+    lvl: D
+    weights: [5, 5, 5, 10, 10, 10, 10, 10, 10, 10, 10, 10]
+    value: "3000"
+    table_text: "+10 to all Seven Statistics."
+    tooltip: "\" +<floor(8*m)> to all Seven Statistics.\"  [checktext]"
+    maw_effect: "stat special: Might..Luck (1-7) +8 x chargesStatMult (vanilla table value 10)"
+    source: ["General/zzMaw-Items.lua:1772-1799", "General/zzMaw-Items.lua:2758-2785"]
+  3:
+    name: "of Carnage"
+    lvl: D
+    weights: [0, 0, 10, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+    value: "5000"
+    table_text: "Explosive Impact!"
+    tooltip: "Explosive Impact! (half damage)  [BonusStat override :1479, :1509]"
+    maw_effect: "bow arrows explode (engine Carnage); MAW multiplies every Carnage arrow hit by 0.25 (text says half)"
+    source: ["Modules/MawCore/Damage.lua:444-499"]
+  4:
+    name: "of Cold"
+    lvl: A
+    weights: [20, 20, 20, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+    value: "500"
+    table_text: "Adds 3-4 points of Cold damage."
+    tooltip: "Adds <lo-hi> points of Cold damage.  [checktext]"
+    maw_effect: >-
+      damage special: Cold (Water), roll shape {3,4}, average = 0.2 x item-level weapon damage (see damage_specials)
+    source: ["General/zzMaw-Items.lua:2047-2082"]
+  5:
+    name: "of Frost"
+    lvl: C
+    weights: [20, 20, 20, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+    value: "1000"
+    table_text: "Adds 6-8 points of Cold damage."
+    tooltip: "Adds <lo-hi> points of Cold damage.  [checktext]"
+    maw_effect: >-
+      damage special: Cold (Water), roll shape {9,12}, average = 0.3 x item-level weapon damage (see damage_specials)
+    source: ["General/zzMaw-Items.lua:2047-2082"]
+  6:
+    name: "of Ice"
+    lvl: D
+    weights: [20, 20, 20, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+    value: "2000"
+    table_text: "Adds 9-12 points of Cold damage."
+    tooltip: "Adds <lo-hi> points of Cold damage.  [checktext]"
+    maw_effect: >-
+      damage special: Cold (Water), roll shape {18,24}, average = 0.4 x item-level weapon damage (see damage_specials)
+    source: ["General/zzMaw-Items.lua:2047-2082"]
+  7:
+    name: "of Sparks"
+    lvl: A
+    weights: [20, 20, 20, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+    value: "500"
+    table_text: "Adds 2-5 points of Electrical damage."
+    tooltip: "Adds <lo-hi> points of Electrical damage.  [checktext]"
+    maw_effect: >-
+      damage special: Electrical (Air), roll shape {2,5}, average = 0.2 x item-level weapon damage (see
+      damage_specials)
+    source: ["General/zzMaw-Items.lua:2047-2082"]
+  8:
+    name: "of Lightning"
+    lvl: C
+    weights: [20, 20, 20, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+    value: "1000"
+    table_text: "Adds 4-10 points of Electrical damage."
+    tooltip: "Adds <lo-hi> points of Electrical damage.  [checktext]"
+    maw_effect: >-
+      damage special: Electrical (Air), roll shape {6,15}, average = 0.3 x item-level weapon damage (see
+      damage_specials)
+    source: ["General/zzMaw-Items.lua:2047-2082"]
+  9:
+    name: "of Thunderbolts"
+    lvl: D
+    weights: [20, 20, 20, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+    value: "2000"
+    table_text: "Adds 6-15 points of Electrical damage."
+    tooltip: "Adds <lo-hi> points of Electrical damage.  [checktext]"
+    maw_effect: >-
+      damage special: Electrical (Air), roll shape {12,30}, average = 0.4 x item-level weapon damage (see
+      damage_specials)
+    source: ["General/zzMaw-Items.lua:2047-2082"]
+  10:
+    name: "of Fire"
+    lvl: A
+    weights: [20, 20, 20, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+    value: "500"
+    table_text: "Adds 1-6 points of Fire damage."
+    tooltip: "Adds <lo-hi> points of Fire damage.  [checktext]"
+    maw_effect: "damage special: Fire, roll shape {1,6}, average = 0.2 x item-level weapon damage (see damage_specials)"
+    source: ["General/zzMaw-Items.lua:2047-2082"]
+  11:
+    name: "of Flame"
+    lvl: C
+    weights: [20, 20, 20, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+    value: "1000"
+    table_text: "Adds 2-12 points of Fire damage."
+    tooltip: "Adds <lo-hi> points of Fire damage.  [checktext]"
+    maw_effect: >-
+      damage special: Fire, roll shape {3,18}, average = 0.3 x item-level weapon damage (see damage_specials)
+    source: ["General/zzMaw-Items.lua:2047-2082"]
+  12:
+    name: "of Infernos"
+    lvl: D
+    weights: [20, 20, 20, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+    value: "2000"
+    table_text: "Adds 3-18 points of Fire damage."
+    tooltip: "Adds <lo-hi> points of Fire damage.  [checktext]"
+    maw_effect: >-
+      damage special: Fire, roll shape {6,36}, average = 0.4 x item-level weapon damage (see damage_specials)
+    source: ["General/zzMaw-Items.lua:2047-2082"]
+  13:
+    name: "of Poison"
+    lvl: A
+    weights: [20, 20, 20, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+    value: "500"
+    table_text: "Adds 5 points of Body damage."
+    tooltip: "Adds <lo-hi> points of Body damage.  [checktext]"
+    maw_effect: >-
+      damage special: Poison (Body), roll shape {5,5}, average = 0.25 x item-level weapon damage (see damage_specials)
+    source: ["General/zzMaw-Items.lua:2047-2082"]
+  14:
+    name: "of Venom"
+    lvl: C
+    weights: [20, 20, 20, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+    value: "1000"
+    table_text: "Adds 8 points of Body damage."
+    tooltip: "Adds <lo-hi> points of Body damage.  [checktext]"
+    maw_effect: >-
+      damage special: Poison (Body), roll shape {12,12}, average = 0.35 x item-level weapon damage (see
+      damage_specials)
+    source: ["General/zzMaw-Items.lua:2047-2082"]
+  15:
+    name: "of Acid"
+    lvl: D
+    weights: [20, 20, 20, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+    value: "2000"
+    table_text: "Adds 12 points of Body damage."
+    tooltip: "Adds <lo-hi> points of Body damage.  [checktext]"
+    maw_effect: >-
+      damage special: Poison (Body), roll shape {24,24}, average = 0.45 x item-level weapon damage (see
+      damage_specials)
+    source: ["General/zzMaw-Items.lua:2047-2082"]
+  16:
+    name: "Vampiric"
+    lvl: D
+    weights: [5, 5, 5, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+    value: "X 2"
+    table_text: "Drain Hit Points from target."
+    tooltip: "Leech 10% of physical and magical damage  [override :1488]"
+    maw_effect: >-
+      leech flag: melee 10 %, ranged 5 %, spells 10 % of damage dealt as a share of the reference monster HP (does not
+      stack with 40/41 or another 16); engine Vampiric disabled
+    source: ["General/zzMaw-Items.lua:3213-3276", "General/zzMaw-Items.lua:2460-2491"]
+  17:
+    name: "of Recovery"
+    lvl: B
+    weights: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+    value: "200"
+    table_text: "Increases rate of Recovery."
+    maw_effect: "vanilla (recovery from being hit); weight 0 in every slot, never rolls"
+  18:
+    name: "of Immunity"
+    lvl: C
+    weights: [0, 0, 0, 10, 10, 10, 10, 10, 0, 0, 10, 10]
+    value: "1000"
+    table_text: "Wearer resistant to Diseases."
+    tooltip: "Disease and Curse Immunity  [override :1480]"
+    maw_effect: "immunity to disease (9, 10, 11) and curse (1)"
+    source: ["General/zzMaw-Items.lua:1458-1476"]
+  19:
+    name: "of Sanity"
+    lvl: C
+    weights: [0, 0, 0, 5, 5, 5, 5, 5, 0, 0, 5, 5]
+    value: "1000"
+    table_text: "Wearer resistant to Insanity."
+    tooltip: "Insanity and SP drain Immunity  [override :1481]"
+    maw_effect: "immunity to insanity (5) and spell-point drain (22)"
+    source: ["General/zzMaw-Items.lua:1458-1476"]
+  20:
+    name: "of Freedom"
+    lvl: C
+    weights: [0, 0, 0, 10, 10, 10, 10, 10, 0, 0, 10, 10]
+    value: "2000"
+    table_text: "Wearer resistant to Paralysis."
+    base_mmerge: "lvl D"
+    tooltip: "Paralysis and fear Immunity  [override :1482]"
+    maw_effect: "immunity to paralysis (12) and fear (23)"
+    source: ["General/zzMaw-Items.lua:1458-1476"]
+  21:
+    name: "of Antidotes"
+    lvl: C
+    weights: [0, 0, 0, 10, 10, 10, 10, 10, 0, 0, 10, 10]
+    value: "1000"
+    table_text: "Wearer resistant to Poison."
+    tooltip: "Poison and weakness Immunity  [override :1483]"
+    maw_effect: "immunity to poison (6, 7, 8) and weakness (2)"
+    source: ["General/zzMaw-Items.lua:1458-1476"]
+  22:
+    name: "of Alarms"
+    lvl: B
+    weights: [0, 0, 0, 10, 10, 10, 10, 10, 0, 0, 10, 10]
+    value: "500"
+    table_text: "Wearer resistant to Sleep."
+    tooltip: "Sleep and Unconscious Immunity  [override :1484]"
+    maw_effect: "immunity to sleep (3) and unconsciousness (13)"
+    source: ["General/zzMaw-Items.lua:1458-1476"]
+  23:
+    name: "of The Medusa"
+    lvl: C
+    weights: [0, 0, 0, 5, 5, 5, 5, 5, 0, 0, 5, 5]
+    value: "2000"
+    table_text: "Wearer resistant to Stone."
+    base_mmerge: "lvl D"
+    tooltip: "Stone and premature ageing Immunity  [override :1485]"
+    maw_effect: "immunity to stone (15) and premature ageing (21)"
+    source: ["General/zzMaw-Items.lua:1458-1476"]
+  24:
+    name: "of Force"
+    lvl: A
+    weights: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+    value: "500"
+    table_text: "Increased Knockback."
+    maw_effect: "vanilla knockback; weight 0 in every slot, never rolls"
+  25:
+    name: "of Power"
+    lvl: D
+    weights: [2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2]
+    value: "2500"
+    table_text: "+5 Level."
+    tooltip: "Death and Eradication Immunity  [override :1486]"
+    maw_effect: >-
+      immunity to death (14) and eradication (16); the vanilla +5 Level is lost because MAW zeroes all engine item
+      stat bonuses (events.CalcStatBonusByItems sets Result 0)
+    source: ["General/zzMaw-Items.lua:1458-1476", "General/zzMaw-Items.lua:2566-2584"]
+  26:
+    name: "of Air Magic"
+    lvl: D
+    weights: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 10, 10]
+    value: "2000"
+    table_text: "Increases effect of all Air spells."
+    tooltip: "Air Magic Skill +<school>  [checktext]"
+    maw_effect: >-
+      Air Magic skill + floor(MaxCharges/4) + 5 (replaces the vanilla +50% spell effect); total item skill bonus
+      capped at 2x base skill
+    source:
+      - "General/zzMaw-Items.lua:2786-2789"
+      - "General/zzMaw-Items.lua:3447-3457"
+      - "General/zzMaw-Items.lua:2605-2611"
+  27:
+    name: "of Body Magic"
+    lvl: D
+    weights: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 10, 10]
+    value: "2000"
+    table_text: "Increases effect of all Body spells."
+    tooltip: "Body Magic Skill +<school>  [checktext]"
+    maw_effect: >-
+      Body Magic skill + floor(MaxCharges/4) + 5 (replaces the vanilla +50% spell effect); total item skill bonus
+      capped at 2x base skill
+    source:
+      - "General/zzMaw-Items.lua:2786-2789"
+      - "General/zzMaw-Items.lua:3447-3457"
+      - "General/zzMaw-Items.lua:2605-2611"
+  28:
+    name: "of Dark Magic"
+    lvl: D
+    weights: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 10, 10]
+    value: "2000"
+    table_text: "Increases effect of all Dark spells."
+    tooltip: "Dark Magic Skill +<school>  [checktext]"
+    maw_effect: >-
+      Dark Magic skill + floor(MaxCharges/4) + 5 (replaces the vanilla +50% spell effect); total item skill bonus
+      capped at 2x base skill
+    source:
+      - "General/zzMaw-Items.lua:2786-2789"
+      - "General/zzMaw-Items.lua:3447-3457"
+      - "General/zzMaw-Items.lua:2605-2611"
+  29:
+    name: "of Earth Magic"
+    lvl: D
+    weights: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 10, 10]
+    value: "2000"
+    table_text: "Increases effect of all Earth spells."
+    tooltip: "Earth Magic Skill +<school>  [checktext]"
+    maw_effect: >-
+      Earth Magic skill + floor(MaxCharges/4) + 5 (replaces the vanilla +50% spell effect); total item skill bonus
+      capped at 2x base skill
+    source:
+      - "General/zzMaw-Items.lua:2786-2789"
+      - "General/zzMaw-Items.lua:3447-3457"
+      - "General/zzMaw-Items.lua:2605-2611"
+  30:
+    name: "of Fire Magic"
+    lvl: D
+    weights: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 10, 10]
+    value: "2000"
+    table_text: "Increases effect of all Fire spells."
+    tooltip: "Fire Magic Skill +<school>  [checktext]"
+    maw_effect: >-
+      Fire Magic skill + floor(MaxCharges/4) + 5 (replaces the vanilla +50% spell effect); total item skill bonus
+      capped at 2x base skill
+    source:
+      - "General/zzMaw-Items.lua:2786-2789"
+      - "General/zzMaw-Items.lua:3447-3457"
+      - "General/zzMaw-Items.lua:2605-2611"
+  31:
+    name: "of Light Magic"
+    lvl: D
+    weights: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 10, 10]
+    value: "2000"
+    table_text: "Increases effect of all Light spells."
+    tooltip: "Light Magic Skill +<school>  [checktext]"
+    maw_effect: >-
+      Light Magic skill + floor(MaxCharges/4) + 5 (replaces the vanilla +50% spell effect); total item skill bonus
+      capped at 2x base skill
+    source:
+      - "General/zzMaw-Items.lua:2786-2789"
+      - "General/zzMaw-Items.lua:3447-3457"
+      - "General/zzMaw-Items.lua:2605-2611"
+  32:
+    name: "of Mind Magic"
+    lvl: D
+    weights: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 10, 10]
+    value: "2000"
+    table_text: "Increases effect of all Mind spells."
+    tooltip: "Mind Magic Skill +<school>  [checktext]"
+    maw_effect: >-
+      Mind Magic skill + floor(MaxCharges/4) + 5 (replaces the vanilla +50% spell effect); total item skill bonus
+      capped at 2x base skill
+    source:
+      - "General/zzMaw-Items.lua:2786-2789"
+      - "General/zzMaw-Items.lua:3447-3457"
+      - "General/zzMaw-Items.lua:2605-2611"
+  33:
+    name: "of Spirit Magic"
+    lvl: D
+    weights: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 10, 10]
+    value: "2000"
+    table_text: "Increases effect of all Spirit spells."
+    tooltip: "Spirit Magic Skill +<school>  [checktext]"
+    maw_effect: >-
+      Spirit Magic skill + floor(MaxCharges/4) + 5 (replaces the vanilla +50% spell effect); total item skill bonus
+      capped at 2x base skill
+    source:
+      - "General/zzMaw-Items.lua:2786-2789"
+      - "General/zzMaw-Items.lua:3447-3457"
+      - "General/zzMaw-Items.lua:2605-2611"
+  34:
+    name: "of Water Magic"
+    lvl: D
+    weights: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 10, 10]
+    value: "2000"
+    table_text: "Increases effect of all Water spells."
+    tooltip: "Water Magic Skill +<school>  [checktext]"
+    maw_effect: >-
+      Water Magic skill + floor(MaxCharges/4) + 5 (replaces the vanilla +50% spell effect); total item skill bonus
+      capped at 2x base skill
+    source:
+      - "General/zzMaw-Items.lua:2786-2789"
+      - "General/zzMaw-Items.lua:3447-3457"
+      - "General/zzMaw-Items.lua:2605-2611"
+  35:
+    name: "of Thievery"
+    lvl: B
+    weights: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+    value: "2000"
+    table_text: "Increases chance of Disarming."
+    maw_effect: "vanilla (lockpick/steal); weight 0, never rolls"
+  36:
+    name: "of Shielding"
+    lvl: D
+    weights: [0, 0, 0, 25, 30, 0, 0, 20, 0, 0, 0, 0]
+    value: "1000"
+    table_text: "Half damage from all missile attacks."
+    base_mmerge: "lvl B; weights [0, 0, 0, 25, 30, 0, 0, 20, 0, 0, 5, 5]"
+    tooltip: "Reduces Physical damage taken by 15%  [override :1487]"
+    maw_effect: "physical damage taken x0.85 once (flag, any number of items); replaces \"half damage from missiles\""
+    source: ["General/zzMaw-Items.lua:3412-3418", "General/zzMaw-Stats.lua:1064-1067"]
+  37:
+    name: "of Regeneration"
+    lvl: B
+    weights: [0, 0, 0, 10, 0, 0, 10, 10, 0, 0, 10, 10]
+    value: "1000"
+    table_text: "Regenerate Hit points over time."
+    maw_effect: >-
+      HP regen: +2 % of max HP per second per item (0.2 % per 0.1 s tick) plus max(1 % max HP - 1, 0) per engine
+      regeneration tick
+    source: ["General/zzMAW-Skills.lua:1358-1361", "General/zzMaw-Stats.lua:670-679"]
+  38:
+    name: "of Mana"
+    lvl: B
+    weights: [0, 0, 0, 10, 0, 10, 10, 10, 10, 0, 10, 10]
+    value: "1000"
+    table_text: "Regenerate Spell points over time."
+    tooltip: "Meditation Skill +<med>  [checktext]"
+    maw_effect: >-
+      Meditation skill + floor(MaxCharges*3/20) + 3; plus max(1 % max SP - 1, 0) per engine regeneration tick
+    source: ["General/zzMaw-Items.lua:2790-2793", "General/zzMaw-Items.lua:3465", "General/zzMaw-Stats.lua:681-686"]
+  39:
+    name: "of Ascension"
+    lvl: D
+    weights: [10, 10, 10, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+    value: "X 2"
+    table_text: "Spell damage+int/pers"
+    base_mmerge: >-
+      name Ogre Slaying; lvl A; weights [20, 20, 20, 0, 0, 0, 0, 0, 0, 0, 0, 0]; text Double Damage vs. Ogres
+    tooltip: "Adds <lo-hi> to spell damage and +<floor(25*m)> Intellect and personality.  [checktext]"
+    maw_effect: >-
+      spells only: adds damage {20,40} x coeff 0.5 x item-level damage (see damage_specials) to every spell, from any
+      of the three weapon slots; plus Intellect and Personality +25 x chargesStatMult. Repurposed from Ogre Slaying.
+    source:
+      - "General/zzMaw-Items.lua:2060"
+      - "General/zzMaw-Items.lua:2125-2128"
+      - "General/zzMaw-Items.lua:1772-1799"
+      - "General/zzMaw-Spells.lua:2022-2036"
+  40:
+    name: "Lichs'"
+    lvl: D
+    weights: [5, 5, 5, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+    value: "X 3"
+    table_text: "Spells Drain Hit points from target and Increased Spell speed."
+    base_mmerge: >-
+      name Dragon Slaying; lvl A; weights [20, 20, 20, 0, 0, 0, 0, 0, 0, 0, 0, 0]; value X 2; text Double damage vs
+      Dragons
+    tooltip: "Leech 10% of magical damage, increases cast speed (does not stack)  [override :1490]"
+    maw_effect: >-
+      spell leech 10 % (flag) and spell delay /1.1 from any weapon slot, one instance only. Repurposed from Dragon
+      Slaying.
+    source:
+      - "General/zzMaw-Items.lua:2084-2095"
+      - "General/zzMaw-Items.lua:3254-3256"
+      - "General/zzMaw-Stats.lua:172-175"
+  41:
+    name: "of Darkness"
+    lvl: D
+    weights: [5, 5, 5, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+    value: "X 3"
+    table_text: "Drain Hit Points from target and Increased Weapon speed."
+    tooltip: "Leech 10% of physical damage, increases attack speed  [override :1489]"
+    maw_effect: "physical leech flag (melee 10 %, ranged 5 %) and swiftness +0.3 (2H, bow) / +0.15 (1H)"
+    source:
+      - "General/zzMaw-Items.lua:3248-3253"
+      - "General/zzMAW-Skills.lua:463-465"
+      - "General/zzMAW-Skills.lua:492-498"
+  42:
+    name: "of Doom"
+    lvl: C
+    weights: [10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10]
+    value: "2000"
+    table_text: " +1 to Seven Stats, HP, SP, Armor, Resistances."
+    base_mmerge: "lvl B; value 750"
+    tooltip: "\" +<floor(3*m)> to Seven Stats, HP, SP, Armor, Resistances.\"  [checktext]"
+    maw_effect: "stat special: stats 1-16 (stats, HP, SP, AC, resistances) +3 x chargesStatMult (vanilla table value 1)"
+    source: ["General/zzMaw-Items.lua:1772-1799", "General/zzMaw-Items.lua:2758-2785"]
+  43:
+    name: "of Earth"
+    lvl: D
+    weights: [10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10]
+    value: "2000"
+    table_text: " +10 to Endurance, Armor, Hit points."
+    tooltip: "\" +<floor(10*m)> to Endurance, Armor, Hit points.\"  [checktext]"
+    maw_effect: "stat special: Endurance, HP, AC (4, 8, 10) +10 x chargesStatMult (vanilla table value 10)"
+    source: ["General/zzMaw-Items.lua:1772-1799", "General/zzMaw-Items.lua:2758-2785"]
+  44:
+    name: "of Life"
+    lvl: C
+    weights: [0, 0, 0, 10, 10, 10, 10, 10, 10, 10, 10, 10]
+    value: "1500"
+    table_text: "+10 Hit points and Regenerate Hit points over time."
+    base_mmerge: "lvl D; value 2000"
+    tooltip: "\" +<floor(10*m)> Hit points and Regenerate Hit points over time.\"  [checktext]"
+    maw_effect: "stat special: HP (8) +10 x chargesStatMult (vanilla table value 10)"
+    source: ["General/zzMaw-Items.lua:1772-1799", "General/zzMaw-Items.lua:2758-2785"]
+  45:
+    name: "Rogues'"
+    lvl: A
+    weights: [10, 10, 10, 5, 5, 5, 10, 20, 20, 20, 10, 10]
+    value: "500"
+    table_text: "+5 Speed and Accuracy."
+    tooltip: "\" +<floor(10*m)> Speed and Accuracy.\"  [checktext]"
+    maw_effect: "stat special: Accuracy, Speed (5, 6) +10 x chargesStatMult (vanilla table value 5)"
+    source: ["General/zzMaw-Items.lua:1772-1799", "General/zzMaw-Items.lua:2758-2785"]
+  46:
+    name: "of The Dragon"
+    lvl: D
+    weights: [10, 10, 10, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+    value: "3000"
+    table_text: "Adds 10-20 points of Fire damage and +25 Might."
+    tooltip: "Adds <lo-hi> points of Fire damage to <Melee|Bow> attacks and +<floor(25*m)> Might.  [checktext]"
+    maw_effect: >-
+      melee and bow only: Fire damage {20,40} x coeff 0.5 x item-level damage; plus Might +25 x chargesStatMult
+    source: ["General/zzMaw-Items.lua:2061", "General/zzMaw-Items.lua:2125-2128", "General/zzMaw-Items.lua:1772-1799"]
+  47:
+    name: "of The Eclipse"
+    lvl: C
+    weights: [0, 0, 0, 0, 0, 0, 10, 10, 5, 10, 10, 10]
+    value: "2000"
+    table_text: "+10 Spell points and Regenerate Spell points over time."
+    base_mmerge: "lvl D"
+    tooltip: "\" +<floor(10*m)> Spell points and Meditation Skill +<med>\"  [checktext]"
+    maw_effect: "stat special: SP (9) +10 x chargesStatMult (vanilla table value 10)"
+    source: ["General/zzMaw-Items.lua:1772-1799", "General/zzMaw-Items.lua:2758-2785"]
+  48:
+    name: "of The Golem"
+    lvl: C
+    weights: [5, 5, 5, 20, 20, 10, 10, 10, 10, 10, 10, 10]
+    value: "1500"
+    table_text: "+15 Endurance and +5 Armor."
+    tooltip: "\" +<floor(15*m)> Endurance and +<floor(5*m)> Armor.\"  [checktext]"
+    maw_effect: "stat special: Endurance (4) +15, AC (10) +5 +15/5 x chargesStatMult (vanilla table value 15/5)"
+    source: ["General/zzMaw-Items.lua:1772-1799", "General/zzMaw-Items.lua:2758-2785"]
+  49:
+    name: "of The Moon"
+    lvl: C
+    weights: [5, 5, 5, 10, 10, 20, 10, 10, 10, 10, 10, 10]
+    value: "1000"
+    table_text: "+10 Intellect and Luck."
+    tooltip: "\" +<floor(10*m)> Intellect and Luck.\"  [checktext]"
+    maw_effect: "stat special: Intellect, Luck (2, 7) +10 x chargesStatMult (vanilla table value 10)"
+    source: ["General/zzMaw-Items.lua:1772-1799", "General/zzMaw-Items.lua:2758-2785"]
+  50:
+    name: "of The Phoenix"
+    lvl: D
+    weights: [0, 0, 0, 20, 20, 20, 0, 0, 0, 0, 0, 0]
+    value: "3000"
+    table_text: "+30 Fire Resistance and Regenerate Hit points over time."
+    tooltip: "\" +<floor(30*m)> Fire Resistance and Regenerate Hit points over time.\"  [checktext]"
+    maw_effect: "stat special: Fire resistance (11) +30 x chargesStatMult (vanilla table value 30)"
+    source: ["General/zzMaw-Items.lua:1772-1799", "General/zzMaw-Items.lua:2758-2785"]
+  51:
+    name: "of The Sky"
+    lvl: D
+    weights: [5, 5, 5, 10, 10, 20, 10, 10, 10, 10, 10, 10]
+    value: "2500"
+    table_text: " +10 Spell points, Speed, Intellect."
+    tooltip: "\" +<floor(10*m)> Spell points, Speed, Intellect.\"  [checktext]"
+    maw_effect: "stat special: Intellect, Speed, SP (2, 6, 9) +10 x chargesStatMult (vanilla table value 10)"
+    source: ["General/zzMaw-Items.lua:1772-1799", "General/zzMaw-Items.lua:2758-2785"]
+  52:
+    name: "of The Stars"
+    lvl: C
+    weights: [5, 5, 5, 10, 10, 10, 10, 20, 20, 10, 10, 10]
+    value: "1000"
+    table_text: "+10 Endurance and Accuracy."
+    tooltip: "\" +<floor(10*m)> Endurance and Accuracy.\"  [checktext]"
+    maw_effect: "stat special: Endurance, Accuracy (4, 5) +10 x chargesStatMult (vanilla table value 10)"
+    source: ["General/zzMaw-Items.lua:1772-1799", "General/zzMaw-Items.lua:2758-2785"]
+  53:
+    name: "of The Sun"
+    lvl: C
+    weights: [5, 5, 5, 10, 10, 10, 10, 20, 20, 10, 10, 10]
+    value: "1500"
+    table_text: "+10 Might and Personality."
+    base_mmerge: "value 1000"
+    tooltip: "\" +<floor(20*m)> Might and Personality.\"  [checktext]"
+    maw_effect: "stat special: Might, Personality (1, 3) +20 x chargesStatMult (vanilla table value 10)"
+    source: ["General/zzMaw-Items.lua:1772-1799", "General/zzMaw-Items.lua:2758-2785"]
+  54:
+    name: "of The Troll"
+    lvl: D
+    weights: [5, 5, 5, 20, 20, 10, 10, 10, 10, 10, 10, 10]
+    value: "1500"
+    table_text: "+15 Endurance and Regenerate Hit points over time."
+    base_mmerge: "lvl C"
+    tooltip: "\" +<floor(15*m)> Endurance and Regenerate Hit points over time.\"  [checktext]"
+    maw_effect: "stat special: Endurance (4) +15 x chargesStatMult (vanilla table value 15)"
+    source: ["General/zzMaw-Items.lua:1772-1799", "General/zzMaw-Items.lua:2758-2785"]
+  55:
+    name: "of The Unicorn"
+    lvl: D
+    weights: [5, 5, 5, 10, 10, 20, 10, 10, 10, 10, 10, 10]
+    value: "1500"
+    table_text: "+15 Luck and Regenerate Spell points over time."
+    base_mmerge: "lvl C"
+    tooltip: "\" +<floor(15*m)> Luck and Meditation Skill +<med>\"  [checktext]"
+    maw_effect: "stat special: Luck (7) +15 x chargesStatMult (vanilla table value 15)"
+    source: ["General/zzMaw-Items.lua:1772-1799", "General/zzMaw-Items.lua:2758-2785"]
+  56:
+    name: "Warriors'"
+    lvl: A
+    weights: [5, 5, 5, 10, 10, 10, 10, 10, 10, 10, 10, 10]
+    value: "500"
+    table_text: "+5 Might and Endurance."
+    tooltip: "\" +<floor(10*m)> Might and Endurance.\"  [checktext]"
+    maw_effect: "stat special: Might, Endurance (1, 4) +10 x chargesStatMult (vanilla table value 5)"
+    source: ["General/zzMaw-Items.lua:1772-1799", "General/zzMaw-Items.lua:2758-2785"]
+  57:
+    name: "Wizards'"
+    lvl: A
+    weights: [5, 5, 5, 5, 5, 5, 10, 10, 10, 10, 10, 10]
+    value: "500"
+    table_text: "+5 Intellect and Personality."
+    tooltip: "\" +<floor(15*m)> Intellect and Personality.\"  [checktext]"
+    maw_effect: "stat special: Intellect, Personality (2, 3) +15 x chargesStatMult (vanilla table value 5)"
+    source: ["General/zzMaw-Items.lua:1772-1799", "General/zzMaw-Items.lua:2758-2785"]
+  58:
+    name: "Antique"
+    lvl: B
+    weights: [10, 10, 10, 10, 10, 10, 0, 0, 10, 0, 10, 10]
+    value: "X 10"
+    table_text: "Increased Value."
+    maw_effect: "value: SPCITEMS Value X 10 (multiplier < 11) and x2.5 more in getItemValue"
+    source: ["General/zzMaw-Items.lua:1956-1960"]
+  59:
+    name: "Swift"
+    lvl: B
+    weights: [25, 25, 25, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+    value: "X 2"
+    table_text: "Increased Weapon speed."
+    maw_effect: "swiftness +0.3 (2H, bow) / +0.15 (1H)"
+    source: ["General/zzMAW-Skills.lua:463-465", "General/zzMAW-Skills.lua:492-498"]
+  60:
+    name: "Monks'"
+    lvl: C
+    weights: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+    value: "1500"
+    table_text: "+3 Unarmed and Dodging skills."
+    maw_effect: >-
+      vanilla +3 Unarmed and Dodging; weight 0 in every slot; the skill bonus is lost under MAW (engine item skill
+      bonuses are zeroed, only 62 is re-added)
+    source: ["General/zzMaw-Items.lua:2566-2584", "General/zzMaw-Items.lua:2587-2612"]
+  61:
+    name: "Thieves'"
+    lvl: B
+    weights: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+    value: "1500"
+    table_text: "+3 Stealing and Disarm skills."
+    maw_effect: "vanilla +3 Stealing and Disarm; weight 0; skill bonus lost under MAW as for 60"
+    source: ["General/zzMaw-Items.lua:2566-2584"]
+  62:
+    name: "of Identifying"
+    lvl: A
+    weights: [0, 0, 0, 0, 0, 0, 5, 5, 0, 5, 10, 15]
+    value: "1500"
+    table_text: "+3 ID Item and ID Monster skills."
+    maw_effect: "+3 ID Item and +3 ID Monster, fixed (not scaled) (explicit fix for the zeroed engine bonus)"
+    source: ["General/zzMaw-Items.lua:2759-2763"]
+  63:
+    name: "Elemental Slaying"
+    lvl: A
+    weights: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+    value: "x2"
+    table_text: "Double Damage vs. Elementals."
+    base_mmerge: "weights [20, 20, 20, 0, 0, 0, 0, 0, 0, 0, 0, 0]"
+    maw_effect: "vanilla x2 vs elementals; weight 0 in MAW, never rolls"
+  64:
+    name: "Undead Slaying"
+    lvl: B
+    weights: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+    value: "x2"
+    table_text: "Double Damage vs. Undead."
+    base_mmerge: "weights [20, 20, 20, 0, 0, 0, 0, 0, 0, 0, 0, 0]"
+    maw_effect: "vanilla x2 vs undead; weight 0 in MAW, never rolls"
+  65:
+    name: "Of David"
+    lvl: A
+    weights: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+    value: "x2"
+    table_text: "Double Damage vs. Titans."
+    maw_effect: "vanilla x2 vs titans (unused); weight 0"
+  66:
+    name: "of Plenty"
+    lvl: C
+    weights: [0, 0, 0, 10, 0, 5, 10, 10, 5, 0, 10, 10]
+    value: "2500"
+    table_text: "Regenerate Spell points and Hit points over time."
+    tooltip: "Regenerates Hit Points and Meditation Skill +<med>  [checktext]"
+    maw_effect: >-
+      HP regen like 37 (+2 % max HP per second) and Meditation skill + floor(MaxCharges*3/20) + 3; not in the
+      engine-tick regen lists
+    source: ["General/zzMAW-Skills.lua:1358-1361", "General/zzMaw-Items.lua:3465"]
+  67:
+    name: "Assassins'"
+    lvl: B
+    weights: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+    value: "1000"
+    table_text: "Adds 5 points of Body damage and +2 Disarm skill."
+    base_mmerge: "weights [20, 20, 20, 0, 0, 0, 0, 0, 0, 0, 0, 0]"
+    maw_effect: >-
+      vanilla 5 Body damage + 2 Disarm; weight 0; neither part works under MAW (no enchantbonusdamage entry, engine
+      item damage and skill bonuses zeroed)
+    source: ["General/zzMaw-Items.lua:2047-2061", "Global/zzMaw_Legendaries.lua:6-20"]
+  68:
+    name: "Barbarians'"
+    lvl: C
+    weights: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+    value: "1500"
+    table_text: "Adds 6-8 points of Cold damage and +5 Armor Class."
+    base_mmerge: "weights [20, 20, 20, 0, 0, 0, 0, 0, 0, 0, 0, 0]"
+    maw_effect: "vanilla 6-8 Cold + 5 AC; weight 0; lost under MAW like 67"
+  69:
+    name: "of the Storm"
+    lvl: C
+    weights: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+    value: "1500"
+    table_text: "+20 Air Resistance and Shielding."
+    base_mmerge: "weights [0, 0, 0, 20, 20, 20, 0, 0, 0, 0, 0, 0]"
+    maw_effect: "vanilla +20 Air res + Shielding; weight 0; stat part lost under MAW"
+  70:
+    name: "of the Ocean"
+    lvl: B
+    weights: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+    value: "1000"
+    table_text: "+10 Water Resistance and +2 Alchemy skill."
+    base_mmerge: "weights [0, 0, 0, 20, 20, 20, 0, 0, 0, 0, 0, 0]"
+    maw_effect: "vanilla +10 Water res + 2 Alchemy; weight 0; stat part lost under MAW"
+  71:
+    name: "of Water Walking"
+    lvl: C
+    weights: [0, 0, 0, 5, 5, 5, 5, 5, 0, 15, 5, 5]
+    value: "1500"
+    table_text: "Prevents damage from drowning."
+    maw_effect: "vanilla no drowning damage (engine)"
+  72:
+    name: "of Feather Falling"
+    lvl: B
+    weights: [0, 0, 0, 5, 0, 0, 5, 5, 0, 5, 15, 5]
+    value: "1000"
+    table_text: "Prevents damage from falling."
+    maw_effect: "vanilla no falling damage (engine)"
+  73:
+    name: "of Sparking"
+    lvl: B
+    weights: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+    value: "x2"
+    table_text: "Throws sparks into enemy."
+    maw_effect: "vanilla sparks (engine); weight 0"
+  74:
+    name: "Paladins'"
+    lvl: C
+    weights: [5, 5, 5, 5, 5, 5, 5, 10, 10, 5, 5, 5]
+    value: "1500"
+    table_text: "+10 Spell points and Regenerate Spell points over time."
+    base_mmerge: "new in MAW"
+    tooltip: "\" +<floor(20*m)> Personality and Accuracy.\"  [checktext]"
+    maw_effect: "stat special: Personality, Accuracy (3, 5) +20 x chargesStatMult (vanilla table value 0)"
+    source: ["General/zzMaw-Items.lua:1772-1799", "General/zzMaw-Items.lua:2758-2785"]
+  75:
+    name: "WarriorMage'"
+    lvl: C
+    weights: [5, 5, 5, 5, 5, 5, 5, 10, 10, 5, 5, 5]
+    value: "1500"
+    table_text: "+15 Endurance and +5 Armor."
+    base_mmerge: "new in MAW"
+    tooltip: "\" +<floor(20*m)> Intellect and Might.\"  [checktext]"
+    maw_effect: "stat special: Might, Intellect (1, 2) +20 x chargesStatMult (vanilla table value 0)"
+    source: ["General/zzMaw-Items.lua:1772-1799", "General/zzMaw-Items.lua:2758-2785"]
+  76:
+    name: "Shadows'"
+    lvl: C
+    weights: [5, 5, 5, 5, 5, 5, 5, 10, 10, 5, 5, 5]
+    value: "1500"
+    table_text: "+10 Intellect and Luck."
+    base_mmerge: "new in MAW"
+    tooltip: "\" +<floor(20*m)> Intellect and Accuracy.\"  [checktext]"
+    maw_effect: "stat special: Intellect, Accuracy (2, 5) +20 x chargesStatMult (vanilla table value 0)"
+    source: ["General/zzMaw-Items.lua:1772-1799", "General/zzMaw-Items.lua:2758-2785"]
+  77:
+    name: "Rangers'"
+    lvl: C
+    weights: [5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5]
+    value: "2000"
+    table_text: "+30 Fire Resistance and Regenerate Hit points over time."
+    base_mmerge: "new in MAW"
+    tooltip: "\" +<floor(15*m)> Might, Intellect and Personality.\"  [checktext]"
+    maw_effect: "stat special: Might, Intellect, Personality (1, 2, 3) +15 x chargesStatMult (vanilla table value 0)"
+    source: ["General/zzMaw-Items.lua:1772-1799", "General/zzMaw-Items.lua:2758-2785"]
+  78:
+    name: "Elementals'"
+    lvl: C
+    weights: [5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5]
+    value: "3000"
+    table_text: " +10 Spell points, Speed, Intellect."
+    base_mmerge: "new in MAW"
+    tooltip: "\" +<floor(20*m)> Elemental Resistances.\"  [checktext]"
+    maw_effect: "stat special: Fire, Air, Water, Earth resistance (11-14) +20 x chargesStatMult (vanilla table value 0)"
+    source: ["General/zzMaw-Items.lua:1772-1799", "General/zzMaw-Items.lua:2758-2785"]
+  79:
+    name: "Selfs'"
+    lvl: C
+    weights: [5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5]
+    value: "3000"
+    table_text: "+10 Endurance and Accuracy."
+    base_mmerge: "new in MAW"
+    tooltip: "\" +<floor(20*m)> Body and mind Resistances.\"  [checktext]"
+    maw_effect: "stat special: Mind, Body resistance (15, 16) +20 x chargesStatMult (vanilla table value 0)"
+    source: ["General/zzMaw-Items.lua:1772-1799", "General/zzMaw-Items.lua:2758-2785"]
+  80:
+    name: "Divines'"
+    lvl: D
+    weights: [2, 2, 2, 5, 5, 5, 5, 5, 5, 5, 5, 5]
+    value: "5000"
+    table_text: "+10 Endurance and Accuracy."
+    base_mmerge: "new in MAW"
+    tooltip: "\" +<floor(5*m)> to Seven Stats, HP, SP, Armor, Resistances.\"  [checktext]"
+    maw_effect: "stat special: stats 1-16 +5 x chargesStatMult (vanilla table value 0)"
+    source: ["General/zzMaw-Items.lua:1772-1799", "General/zzMaw-Items.lua:2758-2785"]
+
+
+damage_specials_by_item_power:
+  # enchantDamageRange(it, id) lo-hi (floored as the tooltip prints them) for the top-rung 1H sword (id 5) and
+  # 2H sword (id 10) at item power P (item level 5P), at difficulty 3 (MAW). Before legendary 19, crit, the
+  # weapon base-recovery factor (x recovery/100) and resistance. levelDamage = getWeaponLevelDamage, the
+  # balance-model damage of an expected character at that item level (Estimates.lua:145-158); it depends on
+  # difficulty through the estimate model. Computed with the real functions (zzMaw-Items.lua:2047-2082,
+  # Estimates.lua) under Lua 5.4.
+  one_handed:
+    columns: [P0(L0), P10(L50), P20(L100), P40(L200), P60(L300), P80(L400), P100(L500)]
+    levelDamage: ["2.0", "39.8", "88.2", "236.2", "468.2", "804.8", "1205.7"]
+    "4 Cold A": ["1-2", "6-9", "15-20", "40-53", "80-107", "137-183", "206-275"]
+    "5 Frost C": ["4-6", "10-13", "22-30", "60-80", "120-160", "206-275", "310-413"]
+    "6 Ice D": ["9-12", "13-18", "30-40", "80-107", "160-214", "275-367", "413-551"]
+    "7 Sparks A": ["1-2", "4-11", "10-25", "26-67", "53-133", "91-229", "137-344"]
+    "8 Lightning C": ["3-7", "6-17", "15-37", "40-101", "80-200", "137-344", "206-516"]
+    "9 Thunderbolts D": ["6-15", "9-22", "20-50", "53-134", "107-267", "183-459", "275-688"]
+    "10 Fire A": ["0-3", "2-13", "5-30", "13-80", "26-160", "45-275", "68-413"]
+    "11 Flame C": ["1-9", "3-20", "7-45", "20-121", "40-240", "68-413", "103-620"]
+    "12 Infernos D": ["3-18", "4-27", "10-60", "26-161", "53-321", "91-551", "137-826"]
+    "13 Poison A": ["2-2", "9-9", "22-22", "59-59", "117-117", "201-201", "301-301"]
+    "14 Venom C": ["6-6", "13-13", "30-30", "82-82", "163-163", "281-281", "421-421"]
+    "15 Acid D": ["12-12", "17-17", "39-39", "106-106", "210-210", "362-362", "542-542"]
+    "39 Ascension": ["10-20", "13-26", "29-58", "78-157", "156-312", "268-536", "401-803"]
+    "46 Dragon": ["10-20", "13-26", "29-58", "78-157", "156-312", "268-536", "401-803"]
+  two_handed:
+    columns: [P0(L0), P10(L50), P20(L100), P40(L200), P60(L300), P80(L400), P100(L500)]
+    levelDamage: ["4.1", "79.7", "176.3", "472.4", "936.4", "1609.5", "2411.4"]
+    "4 Cold A": ["3-4", "13-18", "30-40", "80-107", "160-214", "275-367", "413-551"]
+    "5 Frost C": ["9-12", "20-27", "45-60", "121-161", "240-321", "413-551", "620-826"]
+    "6 Ice D": ["18-24", "27-36", "60-80", "161-215", "321-428", "551-735", "826-1102"]
+    "7 Sparks A": ["2-5", "9-22", "20-50", "53-134", "107-267", "183-459", "275-688"]
+    "8 Lightning C": ["6-15", "13-34", "30-75", "80-202", "160-401", "275-689", "413-1033"]
+    "9 Thunderbolts D": ["12-30", "18-45", "40-100", "107-269", "214-535", "367-919", "551-1377"]
+    "10 Fire A": ["1-6", "4-27", "10-60", "26-161", "53-321", "91-551", "137-826"]
+    "11 Flame C": ["3-18", "6-40", "15-90", "40-242", "80-481", "137-827", "206-1240"]
+    "12 Infernos D": ["6-36", "9-54", "20-120", "53-323", "107-642", "183-1103", "275-1653"]
+    "13 Poison A": ["5-5", "19-19", "44-44", "118-118", "234-234", "402-402", "602-602"]
+    "14 Venom C": ["12-12", "27-27", "61-61", "165-165", "327-327", "563-563", "843-843"]
+    "15 Acid D": ["24-24", "35-35", "79-79", "212-212", "421-421", "724-724", "1085-1085"]
+    "39 Ascension": ["20-40", "26-53", "58-117", "157-314", "312-624", "536-1073", "803-1607"]
+    "46 Dragon": ["20-40", "26-53", "58-117", "157-314", "312-624", "536-1073", "803-1607"]

@@ -1,0 +1,174 @@
+# draft extracted from MAW ef23ee17
+# Buff rework ("Buff Rework ON", the only working mode): every buff spell is a toggled, party-wide aura that
+# reserves part of the caster's mana pool. Spec: ../CLASSES_SPELLS_SPEC.md section 3.
+# Sources: Scripts/General/zzMaw-Spells.lua (SP:line), zzMaw-Items.lua (IT:line), zzMaw-Stats.lua (ST:line),
+# zzMAW-Skills.lua (SK:line), Scripts/Modules/MawCore/Formulas.lua (FO:line), zzMaw-Timers.lua (TI:line).
+#
+# Units: percentages are whole percent unless named *_fraction. s = holder's school skill (base skill only:
+# player.Skills[school], no item bonus, SP:3098-3099) capped at skill_caps; m = holder's school mastery 1..4;
+# level = holder LevelBase. A buff with no live source reads s = m = level = 0.
+
+reservation:
+  # SP:2761-2785 (cast check, tooltip) and SP:3010-3063 (buffManaLock, the real deduction)
+  percent_of_max_pool: "cost / (class_sp_factor + enlightenment_mastery / 2)"
+  class_sp_factor: "Game.Classes.SPFactor snapshot at GameInitialized2 (Class HP SP.txt column SPFactor)"
+  # SP:2586-2598
+  class_sp_factor_overrides: {56: 3, 57: 6, 58: 9, 59: 1, 60: 1.5, 61: 2, 34: 7.5, 35: 7.5, 36: 7.5, 37: 7.5}
+  enlightenment_skill_id: 52  # Skillz extended skill; mastery 0..4
+  pool: "GetFullSP() at the time of buffManaLock; SP is clamped to pool - sum(reserved) (SP:3060, SK:1478-1481)"
+  utility_flat_cost: "round(cost * (1 - enlightenment_mastery / 10)) (SP:3048-3049); the cast check uses round(cost)"
+  legendary_32: "reserves HP instead (divisor = class HPFactor + m/2, pool = full HP) (SP:2768-2779, 3035-3042)"
+  exempt_classes: "Death Knight 56-58 and Thief line 34-37: pool reset to full, nothing reserved (SP:3055-3058)"
+  cast_check: "currentManaPool (max - already reserved) >= cost, skipped inside a house (SP:2823-2831)"
+  meditation_pool_shrink: "SP regen pool = ceil(fullSP * (1 - reservedShare)^0.5) (FO:208-219)"
+  example_percent_table: "see CLASSES_SPELLS_SPEC.md 3.2 (Lua run)"
+
+lifecycle:
+  toggle_on: "cast by a member who does not hold it: holder := that member (ownership moves),
+    recovery = getSpellDelay (SP:2788-2850)"
+  toggle_off: "cast again by the holder: off, status 'Buff Disabled', remote re-apply ignored for
+    1.5 game min (SP:2851-2860)"
+  remove_all: "R key on the spellbook screen clears every aura, including temple/scroll ones (SP:22-27)"
+  duration: "ExpireTime := now + 1 week on every apply (SP:2900)"
+  reapply_interval_seconds: 0.5  # MawAddTimer("mawBuffApply", 0.5), TI:95; also on LoadMap, cast, multiplayer sync
+  unconscious_holder: "not applied while the holder is not conscious, reservation stays, resumes on recovery
+    (SP:2902-2903, 3096-3108)"
+  holder_left_party: "no reservation and no effect (holder index not found)"
+  dispel: "monster Dispel clears ExpireTime, the 0.5 s re-apply restores it: auras are effectively undispellable"
+  temple_scroll_pedestal:
+    caster: {skill: 7, mastery: 3, level: 40}  # getSpecialBuffSkill, SP:3079-3081
+    scroll_or_pedestal: "holder := Map.Name; dropped on entering a different OUTDOOR map (SP:2702-2712, 2748-2753)"
+    temple_donation: "cast while a house is open -> holder := 'Temple'; dropped on the next map load
+      (SP:2713-2722, 2842-2844)"
+  reset_each_apply:
+    # SP:2647; Power/Skill are kept for 16, 19, 11, 18, 10
+    party_buffs: [6, 0, 17, 4, 12, 1, 8, 10, 14, 15, 9, 13, 2, 16, 19, 18]
+    member_buffs: [1, 4, 11, 12, 6, 10]  # SP:2649
+  solo_free: "Party.High == 0: Wizard Eye (power 10, skill 2) and Torch (power 3) always on (SP:2968-2975)"
+  npc_profession_38: "Wizard Eye always on (SP:2977-2983)"
+  vampire_race: "Preservation 5 min refreshed at 21:00-05:00 or indoors, except 7d25 (SP:2957-2967)"
+  shadow_boss: "Shadow/Omnipotent boss alive within 2000: Wizard Eye removed (SP:2992-3005)"
+  pre_rework_handlers: "the old per-spell code in PlayerCastSpell (DoG, DoP, protection spells, Hour of Power)
+    still runs on cast but its Power/expiry is overwritten within 0.5 s (SP:546-653)"
+
+skill_caps:  # SK:169-172
+  buff: 50
+  day_buff: 75  # Day of the Gods 83, Day of Protection 85, Hour of Power 86
+
+formulas:
+  multiplier: "Base[m] / 100 + Scaling[m] * s / 1000   (GetBuffMultiplier, SP:2655-2661)"
+  flat: "(Base[m] + level / 4) * (1 + Scaling[m] / 100 * s)   (IT:2953-2956, 3035-3058, 3078-3081)"
+  stat_percent: "min(10 + s / 5, 20) percent of the total stat; Light (Day of the Gods): s / 7 (SP:2665-2668)"
+  potion_comparison_strength: "Base[m] + Scaling[m] * s / 10 (+ level / 4 for flat buffs) (SP:3192-3202)"
+
+potion_competition:  # SP:3111-3215; potion effects themselves are in potion_effects.yml
+  rule: "per buff, the drinker uses the stronger of the party aura (holder s, m, level) and their own potion"
+  potion_mastery: 3
+  potion_fraction: "f = 0.75 + 0.75 * min(power, 200) / 200"
+  potion_skill: "50 * (f - 1)  (70 * (f - 1) for 83 and 85); negative below power 66.7"
+  potion_level: "0.5 * power * f"
+  hour_of_power: "Haste, Shield, Stone Skin and Fate also compare against Hour of Power at s / 1.5
+    (bestBuffSource, SP:3170-3180; Fate ST:113-121)"
+  never_stack: "aura and potion never add; per-drinker potions vs party-wide auras"
+  potion_checked_for: [3, 14, 25, 36, 58, 69, 5, 17, 38, 46, 51, 83, 85]
+  potion_ignored_for: [47, 56, 71, 73]  # getBuffSkill called without the player
+
+auras:
+  - {spell: 3, name: "Fire Resistance", reserve: 60, engine_buff: {party: 6},
+     effect: {kind: flat_resistance, resistance: fire, base: 10, scaling: 2},
+     stat_percent: intellect, also_from: [85], source: "IT:3017-3058"}
+  - {spell: 14, name: "Air Resistance", reserve: 60, engine_buff: {party: 0},
+     effect: {kind: flat_resistance, resistance: air, base: 10, scaling: 2},
+     stat_percent: speed, also_from: [85], source: "IT:3017-3058"}
+  - {spell: 25, name: "Water Resistance", reserve: 60, engine_buff: {party: 17},
+     effect: {kind: flat_resistance, resistance: water, base: 10, scaling: 2},
+     stat_percent: luck, also_from: [85], source: "IT:3017-3058"}
+  - {spell: 36, name: "Earth Resistance", reserve: 60, engine_buff: {party: 4},
+     effect: {kind: flat_resistance, resistance: earth, base: 10, scaling: 2},
+     stat_percent: endurance, also_from: [85], source: "IT:3017-3058"}
+  - {spell: 58, name: "Mind Resistance", reserve: 60, engine_buff: {party: 12},
+     effect: {kind: flat_resistance, resistance: mind, base: 10, scaling: 2},
+     stat_percent: personality, also_from: [85], source: "IT:3017-3058"}
+  - {spell: 69, name: "Body Resistance", reserve: 60, engine_buff: {party: 1},
+     effect: {kind: flat_resistance, resistance: body, base: 10, scaling: 2},
+     stat_percent: might, also_from: [85], source: "IT:3017-3058"}
+  - {spell: 4, name: "Fire Aura", reserve: 90, engine_buff: none,
+     effect: {kind: weapon_fire_damage, share_of_item_level_damage_by_mastery: [10, 15, 20, 25],
+              floor_by_mastery: [3, 6, 12, 24], two_handed_floor_mult: 2,
+              also_on_spells: "x 1.015^ascension, / 2.5 on AoE spells"},
+     source: "IT:4280-4300, SP:2021-2037"}
+  - {spell: 5, name: "Haste", reserve: 120, engine_buff: {party: 8},
+     effect: {kind: recovery_divisor, base: 10, scaling: 2, max_at_cap: 20},
+     applies_to: [attack_recovery, spell_recovery], hour_of_power: true,
+     source: "SK:590-597, ST:220-227"}
+  - {spell: 8, name: "Immolation", reserve: 40, engine_buff: {party: 10},
+     effect: {kind: damage_aura, damage: "10 + 1d30 per point, Ascension-scaled",
+              caster: "Party.SpellBuffs[10].Caster = holder + 1"},
+     source: "SP:1897, 2946-2952"}
+  - {spell: 17, name: "Shield", reserve: 75, engine_buff: {party: 14},
+     effect: {kind: magic_damage_taken_cut, base: 15, scaling: 3, floor_multiplier: 0.7},
+     hour_of_power: true, source: "ST:1075-1080"}
+  - {spell: 28, name: "Empower Magic", reserve: 150, engine_buff: none,
+     effect: {kind: spell_damage_mult, applied_to: "dice min/max and flat add before Ascension",
+              coded_rows: "Haste (10 + 0.2/pt, max 20 %) -- bug, tooltip and buffPower[28] say 15 + 0.3/pt"},
+     source: "SP:2043-2053, 2680"}
+  - {spell: 38, name: "Stone Skin", reserve: 75, engine_buff: {party: 15},
+     effect: {kind: flat_armor_class, base: 20, scaling: 2}, hour_of_power: true,
+     tooltip_says: "1 per 2 caster levels (code: level / 4)", source: "IT:3077-3081, SP:3293"}
+  - {spell: 46, name: "Bless", reserve: 75, engine_buff: {member: 1},
+     effect: {kind: flat_attack, base: 20, scaling: 2, rows: [melee, ranged]},
+     stat_percent: accuracy, hit_chance_bonus: "5 % + 5 % * min(s, 50) / 50 (FO:89-110)",
+     tooltip_says: "1 per 2 caster levels (code: level / 4)", source: "IT:2950-2959, 3069-3074"}
+  - {spell: 47, name: "Fate", reserve: 75, engine_buff: {member: 4},
+     effect: {kind: crit_chance, base: 5, scaling: 1, max_at_cap: 10},
+     hour_of_power: "s = max(s, HoP s / 1.5), m = max",
+     source: "ST:113-121"}
+  - {spell: 50, name: "Preservation", reserve: 120, engine_buff: {member: 11}, effect: {kind: engine_preservation}}
+  - {spell: 51, name: "Heroism", reserve: 120, engine_buff: {party: 9},
+     effect: {kind: melee_damage_mult, base: 15, scaling: 3, max_at_cap: 30, applied: "(damage + might effect) x mult"},
+     source: "IT:3320-3345, IT:2905-2910 (Assassin)"}
+  - {spell: 56, name: "Meditation", replaces: "Telepathy", reserve: 120, engine_buff: none,
+     effect: {kind: party_sp_regen,
+              per_second: "(0.01 * fullSP^0.35 * E^1.4 + 1) * (1 + 0.02 * s) * regen_mult",
+              E: "estimateSkill(holder level)", regen_mult: "x2 after 20 s without SP loss, x4 with no enemy detector",
+              excluded_classes: [10, 11, 34, 35, 36, 37, 56, 57, 58]},
+     source: "SK:1466-1470, Estimates.lua:93-95"}
+  - {spell: 71, name: "Regeneration", reserve: 120, engine_buff: {member: 12},
+     effect: {kind: party_hp_regen,
+              per_second: "sqrt(fullHP) * (level^0.65 * (1 + 0.05 * s))^1.25 * 0.005 * regen_mult",
+              note: "uses buffPower[71].Base (5) twice; Scaling (2) is unused",
+              vs_potion: "max with the Regeneration potion buff sqrt(fullHP) * S^1.25 * (M + 1) / 1000"},
+     source: "SK:1363-1374"}
+  - {spell: 73, name: "Hammerhands", reserve: 75, engine_buff: {member: 6},
+     effect: {kind: unarmed_damage_mult, base: 15, scaling: 3, max_at_cap: 30,
+              applies: "unarmed, or GM staff + unarmed"},
+     source: "IT:3333-3336"}
+  - {spell: 75, name: "Protection from Magic", reserve: 180, engine_buff: {party: 13},
+     effect: {kind: condition_immunity, power: 50, skill: 4, extra: "immune to Unconscious (SP:676-685)",
+              charges: "re-set every 0.5 s, effectively unlimited"},
+     source: "SP:2904-2907"}
+  - {spell: 83, name: "Day of the Gods", reserve: 200, engine_buff: {party: 2},
+     effect: {kind: stat_percent_all, stats: 7, formula: "min(10 + s / 7, 20) percent, s cap 75",
+              combine: "max with each resistance aura's own stat percent (not added)"},
+     source: "IT:3039-3074"}
+  - {spell: 85, name: "Day of Protection", reserve: 150, engine_buff: {party_multi: [6, 0, 17, 4, 12, 1]},
+     effect: {kind: flat_resistance_all, base: 10, scaling: 2, skill_divisor: 1.4,
+              formula: "(10 + level / 4) * (1 + 2 / 100 * s / 1.4), s cap 75",
+              combine: "max with each single resistance aura (not added); no stat part"},
+     source: "IT:3035-3058"}
+  - {spell: 86, name: "Hour of Power", reserve: 300, engine_buff: {party_multi: [8, 14, 15], member: 4},
+     effect: {kind: bundle, buffs: [5, 17, 38, 47], skill: "s / 1.5 (HOUR_OF_POWER_DIVISOR), cap 75",
+              combine: "per buff, the stronger of the own aura and HoP"},
+     source: "SP:3156-3180"}
+  - {spell: 91, name: "Vampiric Aura", replaces: "Vampiric Weapon", reserve: 150, engine_buff: none,
+     effect: {kind: life_leech, melee: 0.05, ranged: 0.025, spell: 0.025}, source: "IT:3272-3276"}
+  - {spell: 95, name: "Pain Reflection", reserve: 10, engine_buff: {member: 10}, effect: {kind: engine_pain_reflection}}
+
+utility_auras:  # SP:2635-2642
+  - {spell: 1, name: "Torch Light", flat_reserve: 5, engine_buff: {party: 16}, power: "holder mastery + 1"}
+  - {spell: 12, name: "Wizard Eye", flat_reserve: 5, engine_buff: {party: 19}}
+  - {spell: 27, name: "Water Walk", flat_reserve: 20, engine_buff: {party: 18}}
+  # Invisibility (19) and Fly (21, 124) are commented out: normal timed spells.
+
+# Feather Fall, Invisibility, Fly, Detect Life, Glamour, Travelers' Boon, Levitate, Mistform, Flight keep vanilla timing
+not_auras: [13, 19, 21, 45, 100, 101, 112, 114, 124]

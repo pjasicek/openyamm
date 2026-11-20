@@ -1,0 +1,16 @@
+format_version: 1
+kind: "indoor_scene_overlay"
+source:
+  geometry_file: "7d17.blv"
+# The Tidewater Caverns: a grey-blue mist in the lowest caves (floors at 128) (devdocs/MIST.md).
+mist:
+  layers:
+    - color_rgb: [150, 164, 176]
+      base_height: 158
+      depth: 40
+      falloff_height: 100
+      visibility: 1200
+      max_opacity: 0.75
+      noise: 0.5
+      noise_size: 420
+      drift: [8, 4]

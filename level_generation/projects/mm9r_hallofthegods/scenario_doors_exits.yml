@@ -1,0 +1,92 @@
+# Written by make_scenarios.py from the built map; rerun it after convert.py.
+id: mm9r.hallofthegods_doors_exits
+title: Hall of the Gods (native BLV) - from the start into the hall and up to the throne; the gate's shimmer to Arslegard
+  City
+world: mm9
+mode: faithful
+tags:
+- mm9
+- mm9_rework
+- draft
+steps:
+- load_map:
+    map: hallofthegods.blv
+- note:
+    text: From inside the gate (LT x -2700) east along LT z 1400 (the pool's basin stands on the axis) to the foot of the
+      stair (LT x -800).
+- movement_segment:
+    input: forward
+    seconds: 6.33
+    actor_collision: false
+    actor_ai: false
+    start:
+      map: hallofthegods.blv
+      x: -6912
+      y: 3584
+      z: 1
+      yaw_degrees: 0
+      pitch: 0
+    expect_stop:
+      map: hallofthegods.blv
+      x: -2048
+      y: 3584
+      z: 1
+      yaw_degrees: 0
+      pitch: 0
+    loose_tolerance: true
+    tolerance_xy: 300
+    tolerance_z: 20
+- note:
+    text: Up the stair, over its top landing (LT 256) and the landing's last 8 LT riser into the throne hall (LT x 900), as
+      on the desktop (work/walkdbg/collision_trace.txt). Headless the walk used to stop at that riser; since 2026-11-07 it
+      walks on.
+- movement_segment:
+    input: forward
+    seconds: 5.67
+    actor_collision: false
+    actor_ai: false
+    start:
+      map: hallofthegods.blv
+      x: -2048
+      y: 3584
+      z: 1
+      yaw_degrees: 0
+      pitch: 0
+    expect_stop:
+      map: hallofthegods.blv
+      x: 2304
+      y: 3584
+      z: 676
+      yaw_degrees: 0
+      pitch: 0
+    loose_tolerance: true
+    tolerance_xy: 120
+    tolerance_z: 20
+- note:
+    text: 'ExitTriggerHall: the shimmer in the gate west of the start (to Arslegard City, HallOfTheGodsExit).'
+- movement_segment:
+    input: forward
+    seconds: 1.0
+    actor_collision: false
+    actor_ai: false
+    start:
+      map: hallofthegods.blv
+      x: -7281
+      y: 2952
+      z: 1
+      yaw_degrees: 180
+      pitch: 0
+    expect_stop:
+      map: hallofthegods.blv
+      x: -7619
+      y: 2952
+      z: 1
+      yaw_degrees: 180
+      pitch: 0
+    loose_tolerance: true
+    tolerance_xy: 400
+    tolerance_z: 40
+- assert:
+    map_transition_requested:
+      source_kind: mm9_exit_trigger
+      source_id: 142

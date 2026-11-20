@@ -1,0 +1,66 @@
+# MM9 promotion playthrough 82, block E: the Druid promotion (guide: side_c.yml find-the-green-man, its last step).
+# Out of Frosgard City by its gate; the Green Man (actor 36, RUDE 221): "We have completed your tasks." (needs keys
+# 268, 277, 278; gives 279). The talk's close (frosgard.lua 50103) gives the done key 280, 37 500 experience to each
+# member, 5 000 gold and the Green Man amulet (item 10213), and promotes every Great Druid to Arch Druid and Dark Elf
+# to Patriarch (this party has none). Checked: the gains against the values before the talk, every member's class
+# unchanged, and his first page then keeps "Promote our eligible characters." (nobody to promote here). The
+# checkpoint stays beside him for segment 84's class table. Research: prep/E_paladin_druid.md.
+#   python3 tests/playthrough/mm9/promotions/run.py 82
+id: mm9.promotions.82_frosgard_green_man_done
+title: "MM9 promotions 82: the Green Man's tasks reported: the Druid rewards, nobody promoted"
+world: mm9
+mode: faithful
+tags: [mm9, playthrough, promotions]
+steps:
+  - load_game: {path: output/playthrough/mm9/promotions/checkpoints/80_frosgard_city_tasks.oysav}
+  - setup_shortcut: {kind: immortal}
+  - assert: {map: frosgardcity.blv, qbit_set: [90268, 90277, 90278], qbit_clear: [90279, 90280]}
+
+  # Out of the city by its gate.
+  - set_pose: {map: frosgardcity.blv, x: 11983, y: 7600, z: 1, yaw: 1.5708, pitch: 0}
+  - advance_runtime: {seconds: 0.5}
+  - walk_to: {x: 11983, y: 8146, z: 1, z_tolerance: 600, plan: false, timeout_seconds: 20, expect: dialog}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.0, follow_map_move: true}
+  - assert: {map: frosgard.blv}
+
+  # The Green Man at his tree.
+  - set_pose: {map: frosgard.blv, x: -18078, y: 22132, z: 1773, yaw: 1.5708, pitch: 0}
+  - advance_runtime: {seconds: 0.5}
+  - play_lua:
+      source: |
+        local c = classes()
+        local n = 0 for _ in c:gmatch("%S+") do n = n + 1 end
+        remember("gold", gold()) remember("classes", c) remember("members", n)
+        for i = 0, n - 1 do remember("xp" .. i, experience(i)) end
+        remember("amulets", item_count(10213))
+        log("CLASSES before: " .. c .. "; gold " .. gold())
+  - interact_actor: {actor_index: 36}
+  - assert: {dialog: {active: true, source_id: 221, action_label_absent: "Promote our eligible characters."}}
+  - select_topic: {match_label: "We have completed your tasks."}
+  - select_topic: {match_label: "Thank you."}
+  - advance_runtime: {seconds: 0.5}
+  - assert: {qbit_set: [90279, 90280]}
+  - play_lua:
+      source: |
+        local GOLD, XP = 5000, 37500
+        local c = classes()
+        log("CLASSES after: " .. c .. "; gold " .. gold())
+        if gold() - recall("gold") ~= GOLD then error("gold rose by " .. (gold() - recall("gold")) .. ", not " .. GOLD) end
+        for i = 0, recall("members") - 1 do
+          local xp = experience(i) - recall("xp" .. i)
+          if xp ~= XP then error("member " .. i .. "'s experience rose by " .. xp .. ", not " .. XP) end
+        end
+        if c ~= recall("classes") then error("classes changed: " .. recall("classes") .. " -> " .. c) end
+        if item_count(10213) ~= recall("amulets") + 1 and held() ~= 10213 then error("no Green Man amulet") end
+        log("the Green Man paid 5 000 gold, 37 500 experience to each member and his amulet; nobody promoted")
+
+  # Done: his first page keeps "Promote our eligible characters.", and it has nobody to promote here.
+  - interact_actor: {actor_index: 36}
+  - assert: {dialog: {active: true, source_id: 221, action_label_present: "Promote our eligible characters."}}
+  - select_topic: {match_label: "Promote our eligible characters."}
+  - assert: {dialog: {active: true, text_contains: "No one among you can take this promotion now."}}
+  - press_action: {action: cancel_dialog}
+  - advance_runtime: {seconds: 0.3}
+  - play_lua: {source: 'local c = classes() log("CLASSES after the promotion topic: " .. c) if c ~= recall("classes") then error("classes changed") end'}
+  - save_game: {name: "P82 Druid quest done", path: output/playthrough/mm9/promotions/checkpoints/82_frosgard_green_man_done.oysav}

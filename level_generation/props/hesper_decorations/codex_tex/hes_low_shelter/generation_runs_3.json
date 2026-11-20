@@ -1,0 +1,202 @@
+{
+  "tool": "built-in image_gen",
+  "status": "Generation complete; strict brief checks failed. Returns preserved unresized.",
+  "runs": [
+    {
+      "view": "left",
+      "prompt": "Use case: sketch-to-render. Paint the left orthographic view of the Lowfolk shelter as a texture projection source.\nInput 1 guide_left.png is the EDIT TARGET and absolute geometry authority. Input 2 design_reference.png is the approved colour/material authority only. Input 3 concept_crop.png is supporting original concept only.\nReturn a single 1024 x 1024 RGBA PNG, transparent background. Paint directly over the guide without moving or changing any geometry: EXACTLY preserve its alpha silhouette, original pixel position, scale, orthographic camera, every shape edge, opening, pole, cord, hanging bag, rubble piece and prop. Do not rotate toward the three-quarter reference. Do not enlarge or recenter. Nothing added outside the silhouette; nothing removed or cropped. Preserve all transparent gaps.\nReplace the grey surfaces with detailed reference-matching albedo: pale stained beige canvas tarp; chipped off-white ceramic architectural slab with the gold stripe only on its corresponding visible face; dark black glass rubble; weathered wood and dull steel poles; natural tan ropes and netting; reference-matching bedding, containers and warm candle where these shapes exist in the guide. Paint only existing shapes, do not add reference props absent from the guide. Preserve the slab's thin side-on silhouette and all tarp edges.\nLIGHTING: this is ALBEDO, NOT a beauty render. Even flat shadowless illumination from the viewer. No cast shadows, no ambient occlusion darkening under the tarp or in creases, no dramatic lighting, no strong specular highlights or reflections, no rim light, no background and no floor beyond existing guide geometry. Retain surface material colours in recesses. Glowing parts are painted their glowing colour without casting light on surrounding surfaces. No text or labels.",
+      "inputs": [
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_decorations/codex_tex/hes_low_shelter/guide_left.png",
+          "sha256": "3e375973446351da2aaebd42dfe842d34946870ba635885bcfc2aaf81a8f24ed"
+        },
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_decorations/codex_tex/hes_low_shelter/design_reference.png",
+          "sha256": "a9c5b9700725f4d4839dcc7befc6609454bd1629029fa53345b281369a87d254"
+        },
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_decorations/codex_tex/hes_low_shelter/concept_crop.png",
+          "sha256": "eb12436ba5b7f25eec23bc1b320655568d836ec754a261111a167843ced66eae"
+        }
+      ],
+      "attempt": 1,
+      "source": "/home/pjasicek/.codex/generated_images/01a15d98-4b3b-7242-8ccd-b7f5d7e42cc5/exec-9cc53ed1-15f2-4235-98fe-d8f7bf129944.png",
+      "output": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_decorations/codex_tex/hes_low_shelter/paint_left_attempt_1.png",
+      "selected": false,
+      "reason": "Rejected: output enlarged/reframed the guide, changed shape details and retained lighting.",
+      "checks": {
+        "dimensions": [
+          1254,
+          1254
+        ],
+        "required_dimensions": [
+          1024,
+          1024
+        ],
+        "dimensions_pass": false,
+        "mode": "RGBA",
+        "has_transparency": true,
+        "alpha_bbox": [
+          0,
+          19,
+          1230,
+          1254
+        ],
+        "silhouette_identical": false,
+        "silhouette_reason": "Visual comparison shows changed proportions, framing and internal edges; pixel identity also fails due to differing canvas dimensions.",
+        "materials": "Broad canvas, ceramic, gold, wood and dark rubble palette follows references; surface details are approximate.",
+        "flat_even_light": false,
+        "lighting_reason": "Residual directional shading and darkening under canopy remain.",
+        "unresized": true,
+        "output_sha256": "a69c3584960c556b8fdb382b93d1c59d3aefd7ccb6cf68d792aae95fb142d994"
+      }
+    },
+    {
+      "view": "left",
+      "prompt": "Use case: sketch-to-render. Paint the left orthographic view of the Lowfolk shelter as a texture projection source.\nInput 1 guide_left.png is the EDIT TARGET and absolute geometry authority. Input 2 design_reference.png is the approved colour/material authority only. Input 3 concept_crop.png is supporting original concept only.\nReturn a single 1024 x 1024 RGBA PNG, transparent background. Paint directly over the guide without moving or changing any geometry: EXACTLY preserve its alpha silhouette, original pixel position, scale, orthographic camera, every shape edge, opening, pole, cord, hanging bag, rubble piece and prop. Do not rotate toward the three-quarter reference. Do not enlarge or recenter. Nothing added outside the silhouette; nothing removed or cropped. Preserve all transparent gaps.\nReplace the grey surfaces with detailed reference-matching albedo: pale stained beige canvas tarp; chipped off-white ceramic architectural slab with the gold stripe only on its corresponding visible face; dark black glass rubble; weathered wood and dull steel poles; natural tan ropes and netting; reference-matching bedding, containers and warm candle where these shapes exist in the guide. Paint only existing shapes, do not add reference props absent from the guide. Preserve the slab's thin side-on silhouette and all tarp edges.\nLIGHTING: this is ALBEDO, NOT a beauty render. Even flat shadowless illumination from the viewer. No cast shadows, no ambient occlusion darkening under the tarp or in creases, no dramatic lighting, no strong specular highlights or reflections, no rim light, no background and no floor beyond existing guide geometry. Retain surface material colours in recesses. Glowing parts are painted their glowing colour without casting light on surrounding surfaces. No text or labels.\nCORRECTIVE GENERATION (last allowed): The previous attempt enlarged/reframed the object and returned 1254x1254, which is wrong. Output MUST be exactly 1024x1024 natively, without resizing afterward. Use the first input as a locked pixel template, not inspiration. Its object bounding box is x=138..885, y=246..777 on the 1024 square canvas; preserve the LARGE empty transparent top margin of 246 pixels and bottom margin of 246 pixels. Preserve the guide's exact side view and pale evenly lit visibility of all surfaces. Do not widen the slab into a front face or add decorative shapes. Keep the original silhouettes of all objects and original openings. No dark shading underneath canopy. Return the guide painted in place at its ORIGINAL size.",
+      "inputs": [
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_decorations/codex_tex/hes_low_shelter/guide_left.png",
+          "sha256": "3e375973446351da2aaebd42dfe842d34946870ba635885bcfc2aaf81a8f24ed"
+        },
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_decorations/codex_tex/hes_low_shelter/design_reference.png",
+          "sha256": "a9c5b9700725f4d4839dcc7befc6609454bd1629029fa53345b281369a87d254"
+        },
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_decorations/codex_tex/hes_low_shelter/concept_crop.png",
+          "sha256": "eb12436ba5b7f25eec23bc1b320655568d836ec754a261111a167843ced66eae"
+        }
+      ],
+      "attempt": 2,
+      "source": "/home/pjasicek/.codex/generated_images/01a15d98-4b3b-7242-8ccd-b7f5d7e42cc5/exec-24912cdf-0b27-4b3b-9801-768b3eda2957.png",
+      "output": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_decorations/codex_tex/hes_low_shelter/paint_left.png",
+      "selected": true,
+      "reason": "Selected as final retained attempt after the one permitted correction; closer to flat material painting, but fails exact canvas/geometry requirements. Not approved as a compliant texture source.",
+      "checks": {
+        "dimensions": [
+          1254,
+          1254
+        ],
+        "required_dimensions": [
+          1024,
+          1024
+        ],
+        "dimensions_pass": false,
+        "mode": "RGBA",
+        "has_transparency": true,
+        "alpha_bbox": [
+          0,
+          21,
+          1216,
+          1235
+        ],
+        "silhouette_identical": false,
+        "silhouette_reason": "Visual comparison shows changed proportions, framing and internal edges; pixel identity also fails due to differing canvas dimensions.",
+        "materials": "Broad canvas, ceramic, gold, wood and dark rubble palette follows references; surface details are approximate.",
+        "flat_even_light": false,
+        "lighting_reason": "Residual directional shading and darkening under canopy remain.",
+        "unresized": true,
+        "output_sha256": "0f41da41fa80173ca8d956ec8f7caba392ca1fa617d0a00b30fc560af5529492"
+      }
+    },
+    {
+      "view": "right",
+      "prompt": "Use case: sketch-to-render. Paint the right orthographic view of the Lowfolk shelter as a texture projection source.\nInput 1 guide_right.png is the EDIT TARGET and absolute geometry authority. Input 2 design_reference.png is the approved colour/material authority only. Input 3 concept_crop.png is supporting original concept only.\nReturn a single 1024 x 1024 RGBA PNG, transparent background. Paint directly over the guide without moving or changing any geometry: EXACTLY preserve its alpha silhouette, original pixel position, scale, orthographic camera, every shape edge, opening, pole, cord, hanging bag, rubble piece and prop. Do not rotate toward the three-quarter reference. Do not enlarge or recenter. Nothing added outside the silhouette; nothing removed or cropped. Preserve all transparent gaps.\nReplace the grey surfaces with detailed reference-matching albedo: pale stained beige canvas tarp; chipped off-white ceramic architectural slab with the gold stripe only on its corresponding visible face; dark black glass rubble; weathered wood and dull steel poles; natural tan ropes and netting; reference-matching bedding, containers and warm candle where these shapes exist in the guide. Paint only existing shapes, do not add reference props absent from the guide. Preserve the slab's thin side-on silhouette and all tarp edges.\nLIGHTING: this is ALBEDO, NOT a beauty render. Even flat shadowless illumination from the viewer. No cast shadows, no ambient occlusion darkening under the tarp or in creases, no dramatic lighting, no strong specular highlights or reflections, no rim light, no background and no floor beyond existing guide geometry. Retain surface material colours in recesses. Glowing parts are painted their glowing colour without casting light on surrounding surfaces. No text or labels.\nSTRICT CANVAS: 1024x1024 native pixels. The guide object occupies x=138..885, y=246..777; leave those exact transparent margins. The slab is on the RIGHT, poles and hanging bag on the LEFT. Paint the input guide in place. Geometry and pixel alignment take priority over detail. Do not reframe the object to fill the image.",
+      "inputs": [
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_decorations/codex_tex/hes_low_shelter/guide_right.png",
+          "sha256": "dfb1debcd3ef3b802ec137ded64436d2fcd118a78421514fabb2142035ac0c93"
+        },
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_decorations/codex_tex/hes_low_shelter/design_reference.png",
+          "sha256": "a9c5b9700725f4d4839dcc7befc6609454bd1629029fa53345b281369a87d254"
+        },
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_decorations/codex_tex/hes_low_shelter/concept_crop.png",
+          "sha256": "eb12436ba5b7f25eec23bc1b320655568d836ec754a261111a167843ced66eae"
+        }
+      ],
+      "attempt": 1,
+      "source": "/home/pjasicek/.codex/generated_images/01a15d98-4b3b-7242-8ccd-b7f5d7e42cc5/exec-bd77a67d-7d95-4f04-89eb-878e1340436b.png",
+      "output": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_decorations/codex_tex/hes_low_shelter/paint_right_attempt_1.png",
+      "selected": false,
+      "reason": "Rejected: output enlarged/reframed the guide, changed shape details and retained lighting.",
+      "checks": {
+        "dimensions": [
+          1254,
+          1254
+        ],
+        "required_dimensions": [
+          1024,
+          1024
+        ],
+        "dimensions_pass": false,
+        "mode": "RGBA",
+        "has_transparency": true,
+        "alpha_bbox": [
+          0,
+          35,
+          1186,
+          1204
+        ],
+        "silhouette_identical": false,
+        "silhouette_reason": "Visual comparison shows changed proportions, framing and internal edges; pixel identity also fails due to differing canvas dimensions.",
+        "materials": "Broad canvas, ceramic, gold, wood and dark rubble palette follows references; surface details are approximate.",
+        "flat_even_light": false,
+        "lighting_reason": "Residual directional shading and darkening under canopy remain.",
+        "unresized": true,
+        "output_sha256": "7e9bd7f98d2f7b35c290e49e228f199fea6bfd39b85c3b09390c2ba1e396d9cb"
+      }
+    },
+    {
+      "view": "right",
+      "prompt": "Use case: sketch-to-render. Paint the right orthographic view of the Lowfolk shelter as a texture projection source.\nInput 1 guide_right.png is the EDIT TARGET and absolute geometry authority. Input 2 design_reference.png is the approved colour/material authority only. Input 3 concept_crop.png is supporting original concept only.\nReturn a single 1024 x 1024 RGBA PNG, transparent background. Paint directly over the guide without moving or changing any geometry: EXACTLY preserve its alpha silhouette, original pixel position, scale, orthographic camera, every shape edge, opening, pole, cord, hanging bag, rubble piece and prop. Do not rotate toward the three-quarter reference. Do not enlarge or recenter. Nothing added outside the silhouette; nothing removed or cropped. Preserve all transparent gaps.\nReplace the grey surfaces with detailed reference-matching albedo: pale stained beige canvas tarp; chipped off-white ceramic architectural slab with the gold stripe only on its corresponding visible face; dark black glass rubble; weathered wood and dull steel poles; natural tan ropes and netting; reference-matching bedding, containers and warm candle where these shapes exist in the guide. Paint only existing shapes, do not add reference props absent from the guide. Preserve the slab's thin side-on silhouette and all tarp edges.\nLIGHTING: this is ALBEDO, NOT a beauty render. Even flat shadowless illumination from the viewer. No cast shadows, no ambient occlusion darkening under the tarp or in creases, no dramatic lighting, no strong specular highlights or reflections, no rim light, no background and no floor beyond existing guide geometry. Retain surface material colours in recesses. Glowing parts are painted their glowing colour without casting light on surrounding surfaces. No text or labels.\nSTRICT CANVAS: 1024x1024 native pixels. The guide object occupies x=138..885, y=246..777; leave those exact transparent margins. The slab is on the RIGHT, poles and hanging bag on the LEFT. Paint the input guide in place. Geometry and pixel alignment take priority over detail. Do not reframe the object to fill the image.\nCORRECTION, last permitted attempt: Treat this as literal pixel-aligned colouring of input 1, NOT reconstruction. Keep the 1024x1024 input canvas unchanged. Keep all original alpha and object positions unchanged, including the 246 pixel top and bottom empty margins. Do not scale up, zoom, move, redraw or rotate the model. Surface colours ONLY. Match each polygon, pole, bag, bowl and rock edge to input 1. The last attempt invented tarp holes and enlarged everything: do not do that. Illumination must be shadowless and flat including below tarp; steel dull grey, black glass dark charcoal without shiny glints. Native output size 1024x1024 is mandatory.",
+      "inputs": [
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_decorations/codex_tex/hes_low_shelter/guide_right.png",
+          "sha256": "dfb1debcd3ef3b802ec137ded64436d2fcd118a78421514fabb2142035ac0c93"
+        },
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_decorations/codex_tex/hes_low_shelter/design_reference.png",
+          "sha256": "a9c5b9700725f4d4839dcc7befc6609454bd1629029fa53345b281369a87d254"
+        },
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_decorations/codex_tex/hes_low_shelter/concept_crop.png",
+          "sha256": "eb12436ba5b7f25eec23bc1b320655568d836ec754a261111a167843ced66eae"
+        }
+      ],
+      "attempt": 2,
+      "source": "/home/pjasicek/.codex/generated_images/01a15d98-4b3b-7242-8ccd-b7f5d7e42cc5/exec-c50cb45a-d32d-4c2c-8f0d-295ffcd52614.png",
+      "output": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_decorations/codex_tex/hes_low_shelter/paint_right.png",
+      "selected": true,
+      "reason": "Selected as final retained attempt after the one permitted correction; closer to flat material painting, but fails exact canvas/geometry requirements. Not approved as a compliant texture source.",
+      "checks": {
+        "dimensions": [
+          1254,
+          1254
+        ],
+        "required_dimensions": [
+          1024,
+          1024
+        ],
+        "dimensions_pass": false,
+        "mode": "RGBA",
+        "has_transparency": true,
+        "alpha_bbox": [
+          33,
+          29,
+          1238,
+          1236
+        ],
+        "silhouette_identical": false,
+        "silhouette_reason": "Visual comparison shows changed proportions, framing and internal edges; pixel identity also fails due to differing canvas dimensions.",
+        "materials": "Broad canvas, ceramic, gold, wood and dark rubble palette follows references; surface details are approximate.",
+        "flat_even_light": false,
+        "lighting_reason": "Residual directional shading and darkening under canopy remain.",
+        "unresized": true,
+        "output_sha256": "a7c96cb883e551d211ed2ff804a170d4ebdc81d5b5f9795bc1e9e6ac9388e308"
+      }
+    }
+  ]
+}

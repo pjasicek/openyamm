@@ -1,0 +1,3 @@
+Saved all five `a_*.png` paints in [references_head](/home/pjasicek/github/OpenYAMM/level_generation/creatures/mm9_trellborg_claude/references_head), using built-in image generation. All are unresized 1254 × 1254 RGBA files. Raw attempts, prompts and validation are preserved in `raw/` and `generation_runs_paint.json`.
+
+No builds or Meshy runs. **Pixel-exact geometry was not achieved**, despite one correction per view; these are not ready for exact projection.

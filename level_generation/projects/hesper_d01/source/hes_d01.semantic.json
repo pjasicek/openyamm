@@ -1,0 +1,397 @@
+{
+  "pickups": [
+    [
+      "customs",
+      701,
+      7750,
+      4840,
+      0,
+      270
+    ],
+    [
+      "customs",
+      702,
+      7900,
+      4840,
+      0,
+      270
+    ],
+    [
+      "customs",
+      703,
+      8050,
+      4840,
+      0,
+      270
+    ],
+    [
+      "customs",
+      704,
+      8200,
+      4840,
+      0,
+      270
+    ],
+    [
+      "customs",
+      705,
+      8350,
+      4840,
+      0,
+      270
+    ],
+    [
+      "concourse_w",
+      706,
+      1850,
+      4720,
+      0,
+      270
+    ],
+    [
+      "concourse_w",
+      707,
+      2050,
+      4720,
+      0,
+      270
+    ],
+    [
+      "concourse_w",
+      708,
+      2250,
+      4720,
+      0,
+      270
+    ],
+    [
+      "concourse_e",
+      709,
+      5550,
+      4720,
+      0,
+      270
+    ],
+    [
+      "concourse_e",
+      710,
+      5750,
+      4720,
+      0,
+      270
+    ],
+    [
+      "concourse_w",
+      751,
+      1450,
+      3400,
+      0,
+      25
+    ],
+    [
+      "concourse_w",
+      752,
+      1450,
+      4920,
+      0,
+      200
+    ],
+    [
+      "concourse_e",
+      753,
+      6500,
+      3250,
+      0,
+      110
+    ],
+    [
+      "concourse_c",
+      754,
+      4700,
+      4950,
+      0,
+      250
+    ],
+    [
+      "customs",
+      755,
+      8200,
+      3550,
+      0,
+      45
+    ],
+    [
+      "security",
+      756,
+      8800,
+      4580,
+      0,
+      120
+    ],
+    [
+      "claim",
+      757,
+      2150,
+      2800,
+      0,
+      60
+    ],
+    [
+      "claim",
+      758,
+      4200,
+      1650,
+      0,
+      140
+    ],
+    [
+      "lost",
+      759,
+      1100,
+      1650,
+      0,
+      15
+    ],
+    [
+      "maintenance",
+      760,
+      2100,
+      5300,
+      0,
+      110
+    ],
+    [
+      "maintenance",
+      761,
+      3200,
+      5700,
+      0,
+      230
+    ],
+    [
+      "tower",
+      762,
+      3500,
+      8200,
+      768,
+      15
+    ],
+    [
+      "sorting",
+      763,
+      5850,
+      1200,
+      0,
+      45
+    ],
+    [
+      "sorting",
+      764,
+      7550,
+      2050,
+      0,
+      160
+    ],
+    [
+      "plant_s",
+      765,
+      3100,
+      450,
+      -768,
+      25
+    ]
+  ],
+  "arrivals": {
+    "apron_doors": {
+      "position": [
+        300,
+        4100,
+        0
+      ],
+      "direction_degrees": 0
+    }
+  },
+  "monster_packs": [
+    {
+      "label": "Seeker Drones A \u00d73",
+      "floor": "Ground floor (z 0)",
+      "position": [
+        2600,
+        4100
+      ],
+      "count": 3
+    },
+    {
+      "label": "Seeker Drones A \u00d73",
+      "floor": "Ground floor (z 0)",
+      "position": [
+        5300,
+        4100
+      ],
+      "count": 3
+    },
+    {
+      "label": "Starport Turrets \u00d72",
+      "floor": "Ground floor (z 0)",
+      "position": [
+        7700,
+        4500
+      ],
+      "count": 2
+    },
+    {
+      "label": "Seeker Drones A \u00d73",
+      "floor": "Ground floor (z 0)",
+      "position": [
+        7300,
+        3700
+      ],
+      "count": 3
+    },
+    {
+      "label": "Acid Crawlers A \u00d75 (got in through the vents)",
+      "floor": "Ground floor (z 0)",
+      "position": [
+        3200,
+        2100
+      ],
+      "count": 5
+    },
+    {
+      "label": "Drone nest: Seeker Drones A \u00d76",
+      "floor": "Ground floor (z 0)",
+      "position": [
+        6664,
+        2036
+      ],
+      "count": 6
+    },
+    {
+      "label": "Starport Turrets \u00d72",
+      "floor": "Basement (z -768)",
+      "position": [
+        4100,
+        3000
+      ],
+      "count": 2
+    },
+    {
+      "label": "Seeker Drones A \u00d74",
+      "floor": "Basement (z -768)",
+      "position": [
+        4300,
+        550
+      ],
+      "count": 4
+    },
+    {
+      "label": "Acid Crawlers A \u00d73",
+      "floor": "Basement (z -768)",
+      "position": [
+        6800,
+        1950
+      ],
+      "count": 3
+    },
+    {
+      "label": "Seeker Drones A \u00d73",
+      "floor": "Control Tower (z +768)",
+      "position": [
+        4000,
+        8236
+      ],
+      "count": 3
+    },
+    {
+      "label": "Power on: work gang, 4 Drudges A + 3 Seeker Drones A",
+      "floor": "Ground floor (z 0)",
+      "position": [
+        4000,
+        4500
+      ],
+      "count": 7
+    },
+    {
+      "label": "The Custodian",
+      "floor": "Basement (z -768)",
+      "position": [
+        1700,
+        3000
+      ],
+      "count": 1
+    }
+  ],
+  "door_ids": {
+    "security": 1,
+    "shutter": 2,
+    "sorting": 3,
+    "lost": 4,
+    "seal": 5,
+    "maintenance": 6,
+    "lift": 7
+  },
+  "chest_events": {
+    "7": 0,
+    "8": 1,
+    "9": 2,
+    "10": 3,
+    "11": 4,
+    "12": 5,
+    "15": 6
+  },
+  "map": "hes_d01.blv",
+  "events": {
+    "31": "security",
+    "30": "sorting",
+    "13": "lost",
+    "29": "maintenance",
+    "2": "exit_doors",
+    "5": "departure_board",
+    "4": "shutter_lever",
+    "6": "customs_console",
+    "20": "arcing_plate",
+    "21": "lift_controls_top",
+    "14": "breaker_placard",
+    "25": "tower_console",
+    "16": "breaker_1",
+    "26": "terminal_1",
+    "17": "breaker_2",
+    "27": "terminal_2",
+    "18": "breaker_3",
+    "28": "terminal_3",
+    "23": "drone_console"
+  },
+  "decorations": 110,
+  "sectors": [
+    "room_vestibule",
+    "room_customs",
+    "room_security",
+    "room_claim",
+    "room_belts",
+    "room_lost",
+    "room_sorting",
+    "room_freight",
+    "room_maintenance",
+    "room_stairhall",
+    "room_service",
+    "room_concourse_w",
+    "room_concourse_c",
+    "room_concourse_e",
+    "room_plant_s",
+    "room_plant_n",
+    "room_plant_e",
+    "room_plant_pit",
+    "room_dc_s",
+    "room_dc_n",
+    "room_tower"
+  ],
+  "doors": {
+    "security": 1,
+    "shutter": 2,
+    "sorting": 3,
+    "lost": 4,
+    "seal": 5,
+    "maintenance": 6,
+    "lift": 7
+  }
+}

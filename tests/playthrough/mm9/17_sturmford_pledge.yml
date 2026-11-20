@@ -1,0 +1,108 @@
+# MM9 playthrough, segment 17: Anskram Keep's defences and Sturmford's pledge (guide: Chapter I, Drangheim, "Disable
+# Anskram Keep's defenses"; Sturmford, the reports). The road back from Drangheim to Sturmford; into the keep by the
+# broken sea wall and up its SE tower to the walls, round to the gatehouse's roof deck; the Trap Key's trapdoor drops
+# the party into the chamber over the gate: the lever (portcullis up), the two drawbridge chains struck from the
+# chamber floor (the drawbridge falls; key 47); out by the chamber's ladder (the `climb` step) and back
+# down the tower. In Sturmford City Ivsar comes along from the tavern ("Come on, General.": key 196) and Jarl Bjarni
+# hears both reports and joins the coalition (keys 41, 21, 38). Research: prep/01_19_prologue_sturmford_drangheim.md.
+#   python3 tests/playthrough/mm9/run.py 17
+id: mm9.playthrough.17_sturmford_pledge
+title: "MM9 playthrough 17: Anskram Keep's defences down, Ivsar home, Bjarni's pledge"
+world: mm9
+mode: faithful
+tags: [mm9, playthrough]
+steps:
+  - load_game: {path: output/playthrough/mm9/checkpoints/15_chasm_of_the_dead.oysav}
+  - setup_shortcut: {kind: immortal}
+  - assert: {map: drangheim.blv, qbit_set: [90039, 90044, 90048, 90242], qbit_clear: [90047, 90041, 90021]}
+  - play_lua: {source: 'if not has_item(10596) then error("no Trap Key") end'}
+
+  # The road back to Sturmford (Drangheim's ExitTrigger1, west of the arrival point; two days).
+  - set_pose: {map: drangheim.blv, x: -15739, y: -21244, z: 2682, yaw: 0, pitch: 0}
+  - advance_runtime: {seconds: 0.5}
+  - walk_to: {x: -14661, y: -21275, z: 2939, timeout_seconds: 30, expect: dialog, clear_hostiles: 2000}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.0, follow_map_move: true}
+  - assert: {map: sturmford.blv}
+
+  # Anskram Keep: in by the broken sea wall, up the SE tower's spiral, west along the south wall walk, north on the
+  # west wall walk and east over the bridge to the gatehouse's roof deck.
+  - set_pose: {map: sturmford.blv, x: 20300, y: 14905, z: 1188, yaw: 3.1416, pitch: 0}
+  - advance_runtime: {seconds: 0.5}
+  - clear_hostiles: {radius: 3000}
+  - walk_to: {x: 19700, y: 14905, z: 1182, plan: false, timeout_seconds: 30, clear_hostiles: 2500}
+  - walk_to: {x: 19250, y: 14850, z: 1149, timeout_seconds: 40}
+  - walk_to: {via: [[19250, 14720, 1178], [19450, 14650, 1219], [19650, 14650, 1300], [19820, 14660, 1382], [19820, 14850, 1423], [19750, 15000, 1484], [19650, 15150, 1546], [19550, 15250, 1587], [19400, 15270, 1628], [19250, 15050, 1628], [19250, 14850, 1628], [19250, 14720, 1669], [19450, 14650, 1710], [19650, 14650, 1791], [19820, 14660, 1873], [19820, 14850, 1914], [19750, 15000, 1975], [19650, 15150, 2037], [19550, 15250, 2078], [19400, 15270, 2119], [19250, 15050, 2119], [19250, 14850, 2119]], x: 19400, y: 15300, z: 2120, radius: 60, plan: false, timeout_seconds: 90}
+  - walk_to: {via: [[19300, 14900, 2120], [15000, 14900, 2120], [14650, 15000, 2120], [14650, 16200, 2120], [15000, 16200, 2202]], x: 15718, y: 16100, z: 2120, radius: 30, plan: false, timeout_seconds: 90, clear_hostiles: 2500}
+  # The trapdoor opens for the Trap Key's carrier (doorlock.scr); the party drops into the chamber over the gate.
+  - play_lua: {source: 'click(101); wait(2.5)'}
+  - walk_to: {x: 15718, y: 15817, z: 1628, z_tolerance: 100, radius: 30, plan: false, timeout_seconds: 20}
+  - advance_runtime: {seconds: 1}
+  - walk_to: {x: 15700, y: 16676, z: 1628, z_tolerance: 60, timeout_seconds: 30}
+  # The lever raises the portcullis.
+  - play_lua: {source: 'click(103); wait(2)'}
+  # The two chains run through the chamber under its ceiling: the Knight walks under each and strikes up at it
+  # (selected by the 1 key; the chains' hit boxes grown for blows, mm9r_sturmford_blv README Deviations, 2026-11-08).
+  # Both broken: the drawbridge falls; with the portcullis up the defences are down (key 47, Sigmund's task taken;
+  # 10000 xp).
+  - walk_to: {x: 15700, y: 16350, z: 1628, z_tolerance: 60, timeout_seconds: 30}
+  - set_pose: {map: sturmford.blv, x: 15700, y: 16350, z: 1628, yaw: -1.5708, pitch_degrees: 52}
+  - press_action: {action: select_member, member_index: 0}
+  - press_action: {action: attack}
+  - advance_runtime: {seconds: 1.5}
+  - console: {line: destructible 316 state, expect_contains: broken}
+  - walk_to: {x: 15700, y: 17000, z: 1628, z_tolerance: 60, timeout_seconds: 30}
+  - set_pose: {map: sturmford.blv, x: 15700, y: 17000, z: 1628, yaw: 1.5708, pitch_degrees: 55}
+  - press_action: {action: select_member, member_index: 0}
+  - press_action: {action: attack}
+  - advance_runtime: {seconds: 1.5}
+  - console: {line: destructible 315 state, expect_contains: broken}
+  - assert: {qbit_set: [90047]}
+
+  # Out of the chamber by its ladder (Ladder0, under the trapdoor), back
+  # along the walls and down the tower to the breach. From the top exit straight north first: heading for the hole's
+  # edge (the old diagonal to x 15718) takes the ladder again at its top (grab_at_top) and climbs back down.
+  - walk_to: {x: 15718, y: 15820, z: 1628, z_tolerance: 60, radius: 20, timeout_seconds: 30}
+  - climb: {ladder: Ladder0}
+  - walk_to: {via: [[15831, 16000, 2120], [15718, 16150, 2120], [15000, 16200, 2202], [14650, 16200, 2120], [14650, 15000, 2120], [15000, 14900, 2120], [19300, 14900, 2120]], x: 19400, y: 15300, z: 2120, radius: 60, plan: false, timeout_seconds: 90, clear_hostiles: 2500}
+  - walk_to: {via: [[19250, 14850, 2119], [19250, 15050, 2119], [19400, 15270, 2119], [19550, 15250, 2078], [19650, 15150, 2037], [19750, 15000, 1975], [19820, 14850, 1914], [19820, 14660, 1873], [19650, 14650, 1791], [19450, 14650, 1710], [19250, 14720, 1669], [19250, 14850, 1628], [19250, 15050, 1628], [19400, 15270, 1628], [19550, 15250, 1587], [19650, 15150, 1546], [19750, 15000, 1484], [19820, 14850, 1423], [19820, 14660, 1382], [19650, 14650, 1300], [19450, 14650, 1219], [19250, 14720, 1178]], x: 19250, y: 14850, z: 1149, radius: 60, plan: false, timeout_seconds: 90}
+  - walk_to: {x: 19700, y: 14905, z: 1182, timeout_seconds: 40}
+  - walk_to: {x: 20300, y: 14905, z: 1188, plan: false, timeout_seconds: 30}
+
+  # Sturmford City by its north gate; the tavern by the docks: Ivsar, home (key 196 when the talk ends).
+  - set_pose: {map: sturmford.blv, x: 8090, y: -3312, z: 252, yaw: 3.1416, pitch: 0}
+  - advance_runtime: {seconds: 0.5}
+  - walk_to: {x: 7608, y: -3312, z: 543, timeout_seconds: 30, expect: dialog, clear_hostiles: 2000}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.0, follow_map_move: true}
+  - assert: {map: sturmfordcity.blv}
+  - set_pose: {map: sturmfordcity.blv, x: -400, y: 655, z: 19756, yaw: 3.1416, pitch: 0}
+  - advance_runtime: {seconds: 0.5}
+  - interact_actor: {actor_index: 27}
+  - select_topic: {match_label: "Come on, General."}
+  - advance_runtime: {seconds: 0.5}
+  - assert: {qbit_set: [90196]}
+
+  # Bjarni: Anskram Keep is clear (key 41: 10500 xp, 3000 gold); Ivsar is rescued (key 21: 16500 xp, 3500 gold);
+  # will he join the coalition? (key 38, Sturmford's pledge).
+  - set_pose: {map: sturmfordcity.blv, x: 7000, y: 8192, z: 19743, yaw: 0, pitch: 0}
+  - advance_runtime: {seconds: 0.5}
+  - interact_actor: {actor_index: 56}
+  - select_topic: {match_label: "Anskram Keep is clear."}
+  - select_topic: {match_label: "Goodbye."}
+  - advance_runtime: {seconds: 0.5}
+  - assert: {qbit_set: [90041, 90149]}
+  - interact_actor: {actor_index: 56}
+  - select_topic: {match_label: "We've rescued Ivsar."}
+  - select_topic: {match_label: "He is here."}
+  - select_topic: {match_label: "Thank you."}
+  - select_topic: {match_label: "Sorry to bother you."}
+  - advance_runtime: {seconds: 0.5}
+  - assert: {qbit_set: [90021, 90117]}
+  - interact_actor: {actor_index: 56}
+  - select_topic: {match_label: "We've done as you've asked.  Will you join the coalition?"}
+  - select_topic: {match_label: "We have much work to do, yet."}
+  - advance_runtime: {seconds: 0.5}
+  - assert: {qbit_set: [90038]}
+  - save_game: {name: "17 Sturmford pledged", path: output/playthrough/mm9/checkpoints/17_sturmford_pledge.oysav}
+

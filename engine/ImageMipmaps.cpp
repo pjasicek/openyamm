@@ -4,6 +4,7 @@
 #include <array>
 #include <cmath>
 #include <cstddef>
+#include <utility>
 
 namespace OpenYAMM::Engine
 {
@@ -77,6 +78,107 @@ void preserveBgraCutoutCoverage(
     }
 }
 
+namespace
+{
+// Display-space 2x2 box average, as existing world and UI consumers expect; the last row or column repeats when a
+// side is odd. Integer sums round half up exactly like the float average they replace.
+void downsampleLinearBgra(const BgraMipLevel &source, BgraMipLevel &target)
+{
+    const size_t stride = size_t(source.width) * 4;
+    for (uint16_t y = 0; y < target.height; ++y)
+    {
+        const uint8_t *pRow0 = source.pixels.data() + std::min<size_t>(size_t(y) * 2, source.height - 1) * stride;
+        const uint8_t *pRow1 = source.pixels.data() + std::min<size_t>(size_t(y) * 2 + 1, source.height - 1) * stride;
+        uint8_t *pTarget = target.pixels.data() + size_t(y) * target.width * 4;
+        for (uint16_t x = 0; x < target.width; ++x)
+        {
+            const size_t left = std::min<size_t>(size_t(x) * 2, source.width - 1) * 4;
+            const size_t right = std::min<size_t>(size_t(x) * 2 + 1, source.width - 1) * 4;
+            for (size_t channel = 0; channel < 4; ++channel)
+            {
+                const uint32_t sum = uint32_t(pRow0[left + channel]) + pRow0[right + channel]
+                    + pRow1[left + channel] + pRow1[right + channel];
+                pTarget[size_t(x) * 4 + channel] = uint8_t((sum + 2) / 4);
+            }
+        }
+    }
+}
+
+// Material mips: linear-light colour or renormalized normals, averaged over every texel of non-power-of-two images.
+void downsampleMaterialBgra(const BgraMipLevel &source, BgraMipLevel &target, ImageMipSemantic semantic,
+    const std::array<float, 256> &srgbValues)
+{
+    for (uint16_t y = 0; y < target.height; ++y)
+    {
+        for (uint16_t x = 0; x < target.width; ++x)
+        {
+            const uint16_t beginX = uint32_t(x) * source.width / target.width;
+            const uint16_t beginY = uint32_t(y) * source.height / target.height;
+            const uint16_t endX = uint32_t(x + 1) * source.width / target.width;
+            const uint16_t endY = uint32_t(y + 1) * source.height / target.height;
+            std::array<float, 4> sum = {};
+            uint32_t count = 0;
+            for (uint16_t sy = beginY; sy < endY; ++sy)
+            {
+                for (uint16_t sx = beginX; sx < endX; ++sx)
+                {
+                    const size_t offset = (size_t(sy) * source.width + sx) * 4;
+                    for (size_t channel = 0; channel < 4; ++channel)
+                    {
+                        float value = source.pixels[offset + channel] / 255.0f;
+                        if (channel < 3 && semantic == ImageMipSemantic::Srgb)
+                        {
+                            value = srgbValues[source.pixels[offset + channel]];
+                        }
+                        else if (channel < 3 && semantic == ImageMipSemantic::Normal)
+                        {
+                            value = value * 2.0f - 1.0f;
+                        }
+                        sum[channel] += value;
+                    }
+                    ++count;
+                }
+            }
+            for (float &value : sum)
+            {
+                value /= count;
+            }
+            if (semantic == ImageMipSemantic::Normal)
+            {
+                const float length = std::sqrt(sum[0] * sum[0] + sum[1] * sum[1] + sum[2] * sum[2]);
+                if (length < 1.0e-6f)
+                {
+                    sum[0] = 1.0f;
+                    sum[1] = sum[2] = 0.0f;
+                }
+                else
+                {
+                    for (size_t channel = 0; channel < 3; ++channel)
+                    {
+                        sum[channel] /= length;
+                    }
+                }
+            }
+            const size_t offset = (size_t(y) * target.width + x) * 4;
+            for (size_t channel = 0; channel < 4; ++channel)
+            {
+                float value = sum[channel];
+                if (channel < 3 && semantic == ImageMipSemantic::Srgb)
+                {
+                    value = linearToSrgb(value);
+                }
+                else if (channel < 3 && semantic == ImageMipSemantic::Normal)
+                {
+                    value = value * 0.5f + 0.5f;
+                }
+                target.pixels[offset + channel] =
+                    uint8_t(std::clamp(std::lround(value * 255.0f), 0L, 255L));
+            }
+        }
+    }
+}
+}
+
 std::vector<BgraMipLevel> prepareBgraMipChain(
     uint16_t width, uint16_t height, std::span<const uint8_t> pixels, uint8_t alphaCutoff,
     ImageMipSemantic semantic)
@@ -86,6 +188,20 @@ std::vector<BgraMipLevel> prepareBgraMipChain(
     {
         return {};
     }
+    return prepareBgraMipChain(width, height, std::vector<uint8_t>(pixels.begin(), pixels.begin() + bytes),
+        alphaCutoff, semantic);
+}
+
+std::vector<BgraMipLevel> prepareBgraMipChain(
+    uint16_t width, uint16_t height, std::vector<uint8_t> &&pixels, uint8_t alphaCutoff,
+    ImageMipSemantic semantic)
+{
+    const size_t bytes = size_t(width) * height * 4;
+    if (width == 0 || height == 0 || pixels.size() < bytes)
+    {
+        return {};
+    }
+    pixels.resize(bytes);
     const std::array<float, 256> srgbValues = [semantic]()
     {
         std::array<float, 256> values = {};
@@ -99,7 +215,7 @@ std::vector<BgraMipLevel> prepareBgraMipChain(
         return values;
     }();
     std::vector<BgraMipLevel> levels;
-    levels.push_back({width, height, {pixels.begin(), pixels.begin() + bytes}});
+    levels.push_back({width, height, std::move(pixels)});
     while (levels.back().width > 1 || levels.back().height > 1)
     {
         const BgraMipLevel &source = levels.back();
@@ -107,81 +223,17 @@ std::vector<BgraMipLevel> prepareBgraMipChain(
         target.width = std::max<uint16_t>(1, source.width / 2);
         target.height = std::max<uint16_t>(1, source.height / 2);
         target.pixels.resize(size_t(target.width) * target.height * 4);
-        for (uint16_t y = 0; y < target.height; ++y)
+        if (semantic == ImageMipSemantic::Linear)
         {
-            for (uint16_t x = 0; x < target.width; ++x)
-            {
-                // Preserve legacy display-space averaging for existing world/UI consumers.
-                // Material mips include every texel of non-power-of-two images.
-                const bool legacy = semantic == ImageMipSemantic::Linear;
-                const uint16_t beginX = legacy ? x * 2 : uint32_t(x) * source.width / target.width;
-                const uint16_t beginY = legacy ? y * 2 : uint32_t(y) * source.height / target.height;
-                const uint16_t endX = legacy ? beginX + 2 : uint32_t(x + 1) * source.width / target.width;
-                const uint16_t endY = legacy ? beginY + 2 : uint32_t(y + 1) * source.height / target.height;
-                std::array<float, 4> sum = {};
-                uint32_t count = 0;
-                for (uint16_t sy = beginY; sy < endY; ++sy)
-                {
-                    for (uint16_t sx = beginX; sx < endX; ++sx)
-                    {
-                        const size_t offset = (size_t(std::min<uint16_t>(sy, source.height - 1)) * source.width
-                            + std::min<uint16_t>(sx, source.width - 1)) * 4;
-                        for (size_t channel = 0; channel < 4; ++channel)
-                        {
-                            float value = source.pixels[offset + channel] / (legacy ? 1.0f : 255.0f);
-                            if (channel < 3 && semantic == ImageMipSemantic::Srgb)
-                            {
-                                value = srgbValues[source.pixels[offset + channel]];
-                            }
-                            else if (channel < 3 && semantic == ImageMipSemantic::Normal)
-                            {
-                                value = value * 2.0f - 1.0f;
-                            }
-                            sum[channel] += value;
-                        }
-                        ++count;
-                    }
-                }
-                for (float &value : sum)
-                {
-                    value /= count;
-                }
-                if (semantic == ImageMipSemantic::Normal)
-                {
-                    const float length = std::sqrt(sum[0] * sum[0] + sum[1] * sum[1] + sum[2] * sum[2]);
-                    if (length < 1.0e-6f)
-                    {
-                        sum[0] = 1.0f;
-                        sum[1] = sum[2] = 0.0f;
-                    }
-                    else
-                    {
-                        for (size_t channel = 0; channel < 3; ++channel)
-                        {
-                            sum[channel] /= length;
-                        }
-                    }
-                }
-                const size_t offset = (size_t(y) * target.width + x) * 4;
-                for (size_t channel = 0; channel < 4; ++channel)
-                {
-                    float value = sum[channel];
-                    if (channel < 3 && semantic == ImageMipSemantic::Srgb)
-                    {
-                        value = linearToSrgb(value);
-                    }
-                    else if (channel < 3 && semantic == ImageMipSemantic::Normal)
-                    {
-                        value = value * 0.5f + 0.5f;
-                    }
-                    target.pixels[offset + channel] =
-                        uint8_t(std::clamp(std::lround(value * (legacy ? 1.0f : 255.0f)), 0L, 255L));
-                }
-            }
+            downsampleLinearBgra(source, target);
+        }
+        else
+        {
+            downsampleMaterialBgra(source, target, semantic, srgbValues);
         }
         if (alphaCutoff > 0)
         {
-            preserveBgraCutoutCoverage(target.pixels, pixels.first(bytes), alphaCutoff);
+            preserveBgraCutoutCoverage(target.pixels, levels.front().pixels, alphaCutoff);
         }
         levels.push_back(std::move(target));
     }

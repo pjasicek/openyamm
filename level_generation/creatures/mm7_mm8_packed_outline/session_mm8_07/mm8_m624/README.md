@@ -1,0 +1,11 @@
+# Naga A — restoration with temporary F3 completion
+
+The **current staged package covers 160/160 native frame names**: 156 accepted packed-outline imagegen poses plus four user-authorized temporary Real-ESRGAN AnimeVideo v3 x3 upscales. All 82 native playback source names remain complete. No gameplay installation.
+
+Use the [combined manifest](provisional_f3_video_x3/manifest.json), [temporary acceptance record](provisional_f3_video_x3/review/acceptance.json) and [model/input provenance](provisional_f3_video_x3/upscale.json). The four native F3 frames are `m624fa3`, `m624fb3`, `m624fc3` and `m624fd3`. Their retained [3× neural masters](provisional_f3_video_x3/masters_3x/) feed checked 2× physical masters and one additional matching base/mask atlas pair. Existing accepted atlas pages and masters are referenced in place.
+
+Native alpha, pose coordinates, timing, aliases, mirrors and fractional anchors are preserved. The four unused F3 poses are excluded from playback. All four poses, independent hair/waist/coil features, three palette/mask appearances, original-resolution material detail and clean/final atlas alpha edges were inspected statically. Recolouring is confined to FA3's small visible green costume; the costume is hidden in the other three poses. Skin, hair, jewelry, blades and tan scales remain protected. All three native palette files are copied byte-exactly.
+
+AnimeVideo strengthens some native outlines and scale patterns and simplifies grain. These four sprites are temporary native neural upscales, with 1× native source information and a 3× model output, rather than matching the detailed imagegen restoration. The model returned one complete 1590 × 1752 RGB sheet from 530 × 584 input; native alpha was restored separately. The recorded backend was NCNN Vulkan on llvmpipe.
+
+The preserved [imagegen package](redo_2x/manifest.json) and [its acceptance](redo_2x/review/acceptance.json) remain at **156/160 poses and 36/37 whole sheets**. Its minimum actual generated sampling remains 1.6643×. Full latest imagegen-method coverage is still false. All 771 frozen baseline artifacts were verified unchanged, and the prior blocked F3 attempts and native originals remain available. The temporary combined package has its own frozen acceptance. Timed playback was not viewed.

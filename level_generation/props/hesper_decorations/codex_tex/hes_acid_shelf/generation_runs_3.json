@@ -1,0 +1,238 @@
+{
+  "brief": "CODEX_BRIEF_3.md",
+  "tool": "built-in image_gen.imagegen",
+  "status": "nonconforming_returns_saved_for_review",
+  "requested_size": [
+    1024,
+    1024
+  ],
+  "selection_meaning": "Selected means best available unchanged tool return saved under the requested filename; it does not mean compliant or approved. No attempt passed all brief checks.",
+  "correction_limit_per_view": 1,
+  "postprocessing": "None. Original PNG bytes copied without resizing, cropping, alpha replacement or colour edits.",
+  "runs": [
+    {
+      "view": "left",
+      "attempt": 1,
+      "prompt": "Use case: precise-object-edit.\nAsset type: orthographic albedo texture source for an existing 3D acid crust shelf decoration.\nEdit target: input image 1, guide_left.png. This is the EXACT left view to paint. Input image 2, design_reference.png, is the approved colour and material authority ONLY. Input image 3, concept_crop.png, is the original design reference ONLY.\nProduce ONE 1024 x 1024 RGBA PNG with a genuinely transparent background. Preserve the guide canvas and alpha silhouette EXACTLY, pixel for pixel. Do not crop, resize, recenter, zoom, rotate, mirror, change the camera, or redesign any geometry. The object is a thin wide horizontal band occupying x=68..955 and y=389..634 on the 1024 square canvas, with large transparent margins above and below. Preserve this precise size and placement. All outline edges, openings, angular facets, roots, thin hanging drips and scattered base pieces must stay exactly where the grey guide has them. Keep every transparent hole transparent. Nothing may be added outside the guide silhouette. Treat this as painting existing pixels, not producing a new depiction.\nPaint the grey surfaces with the approved reference materials: pale yellow crystalline acid crust on the upper shelf crust and its broken edges; glowing translucent bile-green / sulphur-yellow-green acid on the existing thin drips and acid-coated surfaces; dark violet roots and rocky root structures beneath the crust. Keep the reference's material identities and colours consistently separated. Match every guide shape edge; do not add bubbles, rocks, extra drips or other geometry absent from the guide. Do not borrow the reference's three-quarter perspective.\nLIGHTING: albedo texture source, flat even shadowless light from the viewer. No cast shadows, no ambient-occlusion darkening, no directional lighting, no strong specular highlights, no reflections, no rim light. Paint luminous acid at its glowing colour only, with no light cast on surrounding surfaces and no glow outside the silhouette. Preserve material detail using pigment and crystalline surface patterns, not lighting. No background, no floor, no text, no labels, no watermark.\nDeliver only the painted left view at the exact guide framing, native 1024 x 1024, transparent.",
+      "inputs": [
+        {
+          "path": "guide_left.png",
+          "sha256": "168e6687f665b13c85e0a5d7212b7d88c38df17ec4e1deef55e4e9639fb71fe2"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "867306152fea2949668eaec22f5aa7f9f1e5520e3f4d34812bac1cb033fc3e76"
+        },
+        {
+          "path": "concept_crop.png",
+          "sha256": "00ad734fe694f60884060532ac761771d7a8e9d93b192b3a1ef90a815ae10777"
+        }
+      ],
+      "output": "paint_left_attempt1.png",
+      "retained_raw_return": "paint_left_attempt1.png",
+      "source": "/home/pjasicek/.codex/generated_images/01a168b7-257b-7261-9399-8585f3b0f079/exec-4ac72feb-11d4-4e07-af58-fb3c56c7930f.png",
+      "selected": false,
+      "approved": false,
+      "reason": "Not selected: more specular highlights than left attempt 2. Native dimensions and exact silhouette checks fail.",
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "mode": "RGBA",
+        "sha256": "8fafc832c71c184b5c592abfd46ad31578b4f923015a845eefaa3a640b8e6469",
+        "alpha_bbox": [
+          0,
+          21,
+          1253,
+          1230
+        ],
+        "alpha_bbox_at_128": [
+          84,
+          476,
+          1172,
+          776
+        ],
+        "transparent_pixels": 1269987,
+        "opaque_pixels": 1035,
+        "partial_alpha_pixels": 301494,
+        "native_1024x1024": false,
+        "alpha_identical_to_guide": false,
+        "unresized": true,
+        "byte_identical_to_tool_return": true,
+        "transparent_background_present": true,
+        "background_matches_guide": false,
+        "material_and_colour_review": "Pale/sulphur yellow crust, bright yellow-green acid and dark violet roots are present; acid remains more yellow and surfaces more reflective/shaded than requested.",
+        "flat_even_albedo_lighting": false
+      }
+    },
+    {
+      "view": "right",
+      "attempt": 1,
+      "prompt": "Use case: precise-object-edit.\nAsset type: orthographic albedo texture source for an existing 3D acid crust shelf decoration.\nEdit target: input image 1, guide_right.png. This is the EXACT right view to paint. Input image 2, design_reference.png, is the approved colour and material authority ONLY. Input image 3, concept_crop.png, is the original design reference ONLY.\nProduce ONE 1024 x 1024 RGBA PNG with a genuinely transparent background. Preserve the guide canvas and alpha silhouette EXACTLY, pixel for pixel. Do not crop, resize, recenter, zoom, rotate, mirror, change the camera, or redesign any geometry. The object is a thin wide horizontal band occupying x=68..955 and y=389..634 on the 1024 square canvas, with large transparent margins above and below. Preserve this precise size and placement. All outline edges, openings, angular facets, roots, thin hanging drips and scattered base pieces must stay exactly where the grey guide has them. Keep every transparent hole transparent. Nothing may be added outside the guide silhouette. Treat this as painting existing pixels, not producing a new depiction.\nPaint the grey surfaces with the approved reference materials: pale yellow crystalline acid crust on the upper shelf crust and its broken edges; glowing translucent bile-green / sulphur-yellow-green acid on the existing thin drips and acid-coated surfaces; dark violet roots and rocky root structures beneath the crust. Keep the reference's material identities and colours consistently separated. Match every guide shape edge; do not add bubbles, rocks, extra drips or other geometry absent from the guide. Do not borrow the reference's three-quarter perspective.\nLIGHTING: albedo texture source, flat even shadowless light from the viewer. No cast shadows, no ambient-occlusion darkening, no directional lighting, no strong specular highlights, no reflections, no rim light. Paint luminous acid at its glowing colour only, with no light cast on surrounding surfaces and no glow outside the silhouette. Preserve material detail using pigment and crystalline surface patterns, not lighting. No background, no floor, no text, no labels, no watermark.\nDeliver only the painted right view at the exact guide framing, native 1024 x 1024, transparent.",
+      "inputs": [
+        {
+          "path": "guide_right.png",
+          "sha256": "d21f9a7e72b9608332289842f02a7fb0fa5de396aaa81df07e37f4776a6fd3d7"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "867306152fea2949668eaec22f5aa7f9f1e5520e3f4d34812bac1cb033fc3e76"
+        },
+        {
+          "path": "concept_crop.png",
+          "sha256": "00ad734fe694f60884060532ac761771d7a8e9d93b192b3a1ef90a815ae10777"
+        }
+      ],
+      "output": "paint_right.png",
+      "retained_raw_return": "paint_right_attempt1.png",
+      "source": "/home/pjasicek/.codex/generated_images/01a168b7-257b-7261-9399-8585f3b0f079/exec-7e6841dc-a5ee-422c-90c0-71f43dc66f76.png",
+      "selected": true,
+      "approved": false,
+      "reason": "Selected only as the closest available raw review candidate: closer framing to the guide than attempt 2. Still NONCONFORMING: 1254x1254 instead of 1024x1024, altered alpha silhouette, stray partial-alpha pixels, and excessive highlights/shading. Not approved for texture baking.",
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "mode": "RGBA",
+        "sha256": "7872f7de981842cc4f77b9efc43db2f19b824ccfefa8e377af26f6e7ebb02d53",
+        "alpha_bbox": [
+          0,
+          9,
+          1174,
+          1182
+        ],
+        "alpha_bbox_at_128": [
+          84,
+          477,
+          1170,
+          776
+        ],
+        "transparent_pixels": 1275247,
+        "opaque_pixels": 1078,
+        "partial_alpha_pixels": 296191,
+        "native_1024x1024": false,
+        "alpha_identical_to_guide": false,
+        "unresized": true,
+        "byte_identical_to_tool_return": true,
+        "transparent_background_present": true,
+        "background_matches_guide": false,
+        "material_and_colour_review": "Pale/sulphur yellow crust, bright yellow-green acid and dark violet roots are present; acid remains more yellow and surfaces more reflective/shaded than requested.",
+        "flat_even_albedo_lighting": false
+      }
+    },
+    {
+      "view": "left",
+      "attempt": 2,
+      "prompt": "CORRECTIVE GENERATION — left view, exact mask-preserving recolour.\nOutput must be a native 1024 by 1024 pixel RGBA PNG, the SAME dimensions as image 1. Do not return 1254 by 1254 or any larger resolution. This is an existing technical image to recolour in place, not a new composition.\n\nINPUT ROLES:\n1. guide_left.png: the edit target; immutable geometry, immutable 1024x1024 canvas, immutable alpha channel.\n2. design_reference.png: colour/material reference only.\n3. concept_crop.png: original colour/material reference only.\n\nReplace ONLY the grey RGB surface colour of image 1 with matte albedo colour and material detail. COPY image 1's alpha without any changes, including the thin drips, openings, every shape edge and the exact outer outline. Leave every transparent background pixel transparent. Do not paint scattered or semitransparent pixels into the empty space. Keep the entire geometry at its original coordinates: x=68 through 955, y=389 through 634. The large empty margins are deliberate. Do not scale, crop, rotate, center or change any edge.\n\nSURFACES: pale yellow crystalline acid crust along the upper shelf; bile-green / sulphur-yellow-green translucent acid on the guide's existing drips and coatings; dark violet roots on the angular root forms. Use the reference's material colours, with light pale yellow rather than metallic gold. Do not add any new drips, bubbles, rocks, details that change geometry, or shapes. Paint fine pigment texture inside the fixed shapes.\n\nFLAT ALBEDO: uniform shadowless frontal illumination. Pure diffuse material colours. No specular glints, no glossy white highlights, no reflection, no cast shadow, no ambient occlusion, no rim light, no strong dark-to-light shading. Luminous acid is simply its bright local colour, not illuminated surroundings. There is NO glow halo. No environment, background, floor, text or watermark.\nDeliver just the left painting in the exact guide silhouette, on a 1024x1024 transparent canvas.",
+      "inputs": [
+        {
+          "path": "guide_left.png",
+          "sha256": "168e6687f665b13c85e0a5d7212b7d88c38df17ec4e1deef55e4e9639fb71fe2"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "867306152fea2949668eaec22f5aa7f9f1e5520e3f4d34812bac1cb033fc3e76"
+        },
+        {
+          "path": "concept_crop.png",
+          "sha256": "00ad734fe694f60884060532ac761771d7a8e9d93b192b3a1ef90a815ae10777"
+        }
+      ],
+      "output": "paint_left.png",
+      "retained_raw_return": "paint_left_attempt2.png",
+      "source": "/home/pjasicek/.codex/generated_images/01a168b7-257b-7261-9399-8585f3b0f079/exec-cb4beb19-4ca2-494a-977b-264969621c07.png",
+      "selected": true,
+      "approved": false,
+      "reason": "Selected only as the closest available raw review candidate: reduced highlights versus attempt 1 and similar framing. Still NONCONFORMING: 1254x1254 instead of 1024x1024, altered alpha silhouette, stray partial-alpha pixels, and some baked shading. Not approved for texture baking.",
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "mode": "RGBA",
+        "sha256": "024d0a602d135f09ef1c3ee6d16e5606424690f6090abf319a1231ebb9144e1f",
+        "alpha_bbox": [
+          0,
+          17,
+          1234,
+          1230
+        ],
+        "alpha_bbox_at_128": [
+          85,
+          477,
+          1171,
+          776
+        ],
+        "transparent_pixels": 1273905,
+        "opaque_pixels": 940,
+        "partial_alpha_pixels": 297671,
+        "native_1024x1024": false,
+        "alpha_identical_to_guide": false,
+        "unresized": true,
+        "byte_identical_to_tool_return": true,
+        "transparent_background_present": true,
+        "background_matches_guide": false,
+        "material_and_colour_review": "Pale/sulphur yellow crust, bright yellow-green acid and dark violet roots are present; acid remains more yellow and surfaces more reflective/shaded than requested.",
+        "flat_even_albedo_lighting": false
+      }
+    },
+    {
+      "view": "right",
+      "attempt": 2,
+      "prompt": "CORRECTIVE GENERATION — right view, exact mask-preserving recolour.\nOutput must be a native 1024 by 1024 pixel RGBA PNG, the SAME dimensions as image 1. Do not return 1254 by 1254 or any larger resolution. This is an existing technical image to recolour in place, not a new composition.\n\nINPUT ROLES:\n1. guide_right.png: the edit target; immutable geometry, immutable 1024x1024 canvas, immutable alpha channel.\n2. design_reference.png: colour/material reference only.\n3. concept_crop.png: original colour/material reference only.\n\nReplace ONLY the grey RGB surface colour of image 1 with matte albedo colour and material detail. COPY image 1's alpha without any changes, including the thin drips, openings, every shape edge and the exact outer outline. Leave every transparent background pixel transparent. Do not paint scattered or semitransparent pixels into the empty space. Keep the entire geometry at its original coordinates: x=68 through 955, y=389 through 634. The large empty margins are deliberate. Do not scale, crop, rotate, center or change any edge.\n\nSURFACES: pale yellow crystalline acid crust along the upper shelf; bile-green / sulphur-yellow-green translucent acid on the guide's existing drips and coatings; dark violet roots on the angular root forms. Use the reference's material colours, with light pale yellow rather than metallic gold. Do not add any new drips, bubbles, rocks, details that change geometry, or shapes. Paint fine pigment texture inside the fixed shapes.\n\nFLAT ALBEDO: uniform shadowless frontal illumination. Pure diffuse material colours. No specular glints, no glossy white highlights, no reflection, no cast shadow, no ambient occlusion, no rim light, no strong dark-to-light shading. Luminous acid is simply its bright local colour, not illuminated surroundings. There is NO glow halo. No environment, background, floor, text or watermark.\nDeliver just the right painting in the exact guide silhouette, on a 1024x1024 transparent canvas.",
+      "inputs": [
+        {
+          "path": "guide_right.png",
+          "sha256": "d21f9a7e72b9608332289842f02a7fb0fa5de396aaa81df07e37f4776a6fd3d7"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "867306152fea2949668eaec22f5aa7f9f1e5520e3f4d34812bac1cb033fc3e76"
+        },
+        {
+          "path": "concept_crop.png",
+          "sha256": "00ad734fe694f60884060532ac761771d7a8e9d93b192b3a1ef90a815ae10777"
+        }
+      ],
+      "output": "paint_right_attempt2.png",
+      "retained_raw_return": "paint_right_attempt2.png",
+      "source": "/home/pjasicek/.codex/generated_images/01a168b7-257b-7261-9399-8585f3b0f079/exec-588cda60-9afb-48ab-adb1-8bcae521dbfb.png",
+      "selected": false,
+      "approved": false,
+      "reason": "Not selected: material highlights reduced but object moved upward versus the guide and attempt 1. Native dimensions and exact silhouette checks fail; shading and fine speckling remain.",
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "mode": "RGBA",
+        "sha256": "ebdece7f63b6ea7978b347f08c89d35b64446a4bd05d8cd3dcb4a40a68987cfd",
+        "alpha_bbox": [
+          49,
+          39,
+          1188,
+          1230
+        ],
+        "alpha_bbox_at_128": [
+          82,
+          453,
+          1175,
+          758
+        ],
+        "transparent_pixels": 1259993,
+        "opaque_pixels": 471,
+        "partial_alpha_pixels": 312052,
+        "native_1024x1024": false,
+        "alpha_identical_to_guide": false,
+        "unresized": true,
+        "byte_identical_to_tool_return": true,
+        "transparent_background_present": true,
+        "background_matches_guide": false,
+        "material_and_colour_review": "Pale/sulphur yellow crust, bright yellow-green acid and dark violet roots are present; acid remains more yellow and surfaces more reflective/shaded than requested.",
+        "flat_even_albedo_lighting": false
+      }
+    }
+  ]
+}

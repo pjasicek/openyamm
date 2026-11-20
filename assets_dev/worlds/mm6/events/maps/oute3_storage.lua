@@ -3,8 +3,8 @@
 local containers = {
     [76] = {0, "Chest"},
     [77] = {19, "Chest"},
-    [501] = {2, "Хранилище"},
-    [502] = {3, "Хранилище"},
+    [501] = {2, "Storage"},
+    [502] = {3, "Storage"},
 }
 
 for eventId, container in pairs(containers) do
@@ -18,4 +18,4 @@ for eventId, container in pairs(containers) do
     }
 end
 
-RegisterEvent(503, "Хранилище", nil, "Хранилище")
+RegisterEvent(503, "Storage", nil, "Storage")

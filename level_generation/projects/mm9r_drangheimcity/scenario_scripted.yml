@@ -1,0 +1,168 @@
+# Written by make_scenarios.py from the built map; rerun it after convert.py.
+id: mm9r.drangheimcity_scripted
+title: Drangheim City (native BLV) - the location key, shop hours, Sigmund's reward, a letter, the altar, Atli's promotion,
+  Guaire A'Velsi, Hrolf
+world: mm9
+mode: faithful
+tags:
+- mm9
+- mm9_rework
+- draft
+steps:
+- load_map:
+    map: drangheimcity.blv
+- note:
+    text: 'ForadWorld.scr: the location key 1027 on load; shops close (5017) from 20:00 to 06:00.'
+- advance_runtime:
+    seconds: 1.5
+- assert:
+    qbit_set:
+    - 91027
+- advance_game_time:
+    hours: 12
+- advance_runtime:
+    seconds: 2.5
+- assert:
+    qbit_set:
+    - 95017
+- advance_game_time:
+    hours: 12
+- advance_runtime:
+    seconds: 2.5
+- assert:
+    qbit_clear:
+    - 95017
+- note:
+    text: 'NPC87.scr: with the gossip told (key 55), closing Sigmund''s dialogue pays 5 000 experience and gold (key 300).'
+- setup_shortcut:
+    kind: set_qbit
+    id: 90055
+    value: true
+- set_pose:
+    map: drangheimcity.blv
+    x: 19005
+    y: -5390
+    z: 1476
+    yaw: -1.5708
+    pitch: -0.6134
+- advance_runtime:
+    seconds: 0.2
+- press_interact: {}
+- advance_runtime:
+    seconds: 0.3
+- assert:
+    dialog:
+      active: true
+      source_id: 87
+- press_action:
+    action: cancel_dialog
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    qbit_set:
+    - 90300
+- note:
+    text: 'BookLetter.scr: Prop17 shows its text.'
+- execute_event:
+    id: 332
+- assert:
+    dialog:
+      active: true
+- press_action:
+    action: cancel_dialog
+- note:
+    text: 'NPC88.scr: the Assassin''s trial done (key 226): closing Atli''s dialogue gives key 227.'
+- setup_shortcut:
+    kind: set_qbit
+    id: 90226
+    value: true
+- interact_actor:
+    actor_index: 33
+- advance_runtime:
+    seconds: 0.3
+- assert:
+    dialog:
+      active: true
+      source_id: 88
+- press_action:
+    action: cancel_dialog
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    qbit_set:
+    - 90227
+- note:
+    text: 'NPC95.scr: Guaire A''Velsi is hidden until Atli gives his task (key 222); his death gives key 225.'
+- assert:
+    actor_visible:
+      actor_index: 38
+      hidden: true
+- setup_shortcut:
+    kind: set_qbit
+    id: 90222
+    value: true
+- advance_runtime:
+    seconds: 1.5
+- assert:
+    actor_visible:
+      actor_index: 38
+      hidden: false
+- damage_actor:
+    actor_index: 38
+    amount: 100000
+- advance_runtime:
+    seconds: 1
+- assert:
+    qbit_set:
+    - 90225
+- note:
+    text: 'NPC110.scr: Hrolf perceives the party: the quarrel (cinematic dwarves_and_humans) starts with key 5010.'
+- assert:
+    qbit_clear:
+    - 95010
+- set_pose:
+    map: drangheimcity.blv
+    x: 16784
+    y: -3789
+    z: 431
+    yaw: 3.1416
+    pitch: 0.0
+- advance_runtime:
+    seconds: 2
+- assert:
+    qbit_set:
+    - 95010
+- note:
+    text: 'TownPortal.scr: TownPortal0 stands dirty (490 shown, its clean twin 491 hidden); the click cleanses it: key 5013,
+      the dirty altar hides, the clean one shows.'
+- assert:
+    qbit_clear:
+    - 95013
+    sprite_shown:
+    - 490
+    sprite_hidden:
+    - 491
+- execute_event:
+    id: 330
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    qbit_set:
+    - 95013
+    sprite_hidden:
+    - 490
+    sprite_shown:
+    - 491
+- note:
+    text: 'TownPortal.scr :Init (FixCheck): the map loaded again with key 5013 shows the clean altar.'
+- load_map:
+    map: drangheimcity.blv
+- advance_runtime:
+    seconds: 1.0
+- assert:
+    qbit_set:
+    - 95013
+    sprite_hidden:
+    - 490
+    sprite_shown:
+    - 491

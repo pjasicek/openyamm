@@ -1,0 +1,20 @@
+id: rulesets.maw_deyja_night
+title: "Ruleset - MAW Deyja nights: one warning a night, the night counted from noon (audit CNT-9)"
+world: mm7
+mode: faithful
+tags: [rulesets, maw]
+steps:
+  - new_game_flow:
+      start_map: 7out05.odm
+      ruleset: {id: maw, difficulty: maw, progression: free}
+  - advance_runtime: {seconds: 1}
+  # From 9:00 to 21:45: the warning of the first night.
+  - advance_game_time: {minutes: 765}
+  - advance_runtime: {seconds: 1}
+  - assert:
+      state_dump_named_map_var: {name: MawWarnDay, value: 1}
+  # 22:05 is the same night: no second warning.
+  - advance_game_time: {minutes: 20}
+  - advance_runtime: {seconds: 1}
+  - assert:
+      state_dump_named_map_var: {name: MawWarnDay, value: 1}

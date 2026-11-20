@@ -123,6 +123,11 @@ def sound_name_key(value: str) -> str:
     return value.strip().lower()
 
 
+# MMerge numbers MM6/MM7 house sounds 30000 + 10 * group, which reuses ids of MM8's own house sounds.
+# Later duplicates of a house sound id move up by this offset instead of being dropped.
+RELOCATED_HOUSE_SOUND_OFFSET = 15000
+
+
 def mmerge_house_sound_names_by_group(expanded_sounds_path: Path) -> dict[int, str]:
     sound_names_by_group: dict[int, str] = {}
 
@@ -146,6 +151,7 @@ def mmerge_house_sound_names_by_group(expanded_sounds_path: Path) -> dict[int, s
 
 def house_sound_base_ids_by_name(sound_catalog_path: Path) -> dict[str, int]:
     base_ids_by_name: dict[str, int] = {}
+    seen_sound_ids: set[int] = set()
 
     for row in read_tab_rows(sound_catalog_path):
         if not is_sound_row(row):
@@ -155,6 +161,11 @@ def house_sound_base_ids_by_name(sound_catalog_path: Path) -> dict[str, int]:
 
         if sound_id < 30000:
             continue
+
+        if sound_id in seen_sound_ids:
+            sound_id += RELOCATED_HOUSE_SOUND_OFFSET
+        else:
+            seen_sound_ids.add(sound_id)
 
         sound_type = sound_id % 100
 
@@ -354,7 +365,15 @@ def export_world_sounds(source_path: Path, output_path: Path) -> None:
         sound_id = row[1].strip()
 
         if sound_id in seen_sound_ids:
-            continue
+            if int(sound_id) < 30000:
+                continue
+
+            sound_id = str(int(sound_id) + RELOCATED_HOUSE_SOUND_OFFSET)
+
+            if sound_id in seen_sound_ids:
+                continue
+
+            row = [row[0], sound_id, *row[2:]]
 
         seen_sound_ids.add(sound_id)
         output_rows.append(row)

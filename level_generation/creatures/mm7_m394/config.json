@@ -1,0 +1,290 @@
+{
+  "label": "Sea Monster A",
+  "creature": "shark sea monster",
+  "base_palette": 395,
+  "connected_pose_calibration": true,
+  "per_batch_window": true,
+  "true_alpha": true,
+  "preserve_delivered_rgb": true,
+  "material_edge_hue_repair": true,
+  "neutralize_green_contours": false,
+  "protect_warm_contours": true,
+  "sampling_target": 2.3,
+  "review_mass_region": "silhouette_mass",
+  "batch_mode": "per_action_view",
+  "actions": [
+    "w",
+    "a",
+    "n"
+  ],
+  "identity_frames": [
+    "m394sa0",
+    "m394sa1",
+    "m394sa2",
+    "m394sa3",
+    "m394sa4"
+  ],
+  "identity_view": "front, front-right oblique, right profile, rear-right oblique, back in row-major order",
+  "description": "The exact native shark-like sea monster: thick spindle-shaped streamlined body, blunt broad flattened snout, tiny dark lateral eyes under pale brow highlights, broad low mouth with a thin red interior and small ivory pointed teeth. Smooth dark desaturated blue-cyan gray upper skin with mottled pale icy blue highlights, pale gray-white underside, deep near-black shadows. Short vertical gill slits behind the head. One large triangular dorsal fin, a small second dorsal fin, two broad swept pectoral fins, and the exact small pelvic/anal fins visible in each native pose. Long narrow caudal peduncle and a tall forked crescent tail, its upper lobe longer than the lower. Preserve the native fin count, fin overlaps, exact tail curves, head/body proportions and source perspective in each cell. No legs, arms, horns, whiskers, armor, clothing, added scales, glowing eyes, water splashes, bubbles or environment. The shark is suspended horizontally, without floor contact or shadow. The native camera views are authoritative even when a rear-oblique view exposes the side of the head. Keep the restrained dark tonal weight and pale underside; blue skin recolors offline to violet-gray and rusty red while belly, teeth, eyes and mouth keep their native colors.",
+  "clear_alpha1_border_batches": [
+    "standing",
+    "w_0",
+    "w_1_0",
+    "w_1_1",
+    "w_2_0",
+    "w_2_1",
+    "w_3_0",
+    "w_3_1",
+    "w_4",
+    "a_0_0",
+    "a_0_1",
+    "a_1_0",
+    "a_1_1",
+    "a_1_2",
+    "a_2_2",
+    "a_2_4",
+    "a_3_0",
+    "a_3_1",
+    "a_4_0",
+    "n_0_0",
+    "n_0_1",
+    "n_1_0",
+    "n_1_1",
+    "n_2_0",
+    "n_2_1",
+    "n_3_0",
+    "n_3_1",
+    "n_4_0",
+    "fidget",
+    "death_corpse"
+  ],
+  "materials": {
+    "regions": [
+      {
+        "name": "blue_skin",
+        "selector": "cyan",
+        "thresholds": [
+          0.04,
+          0.2
+        ],
+        "palette_indices": [
+          80,
+          81,
+          82,
+          83,
+          84,
+          85,
+          86,
+          87,
+          88,
+          89,
+          90,
+          91,
+          92,
+          93,
+          94,
+          95,
+          96,
+          97,
+          98,
+          99,
+          100,
+          101,
+          102,
+          103,
+          104,
+          105,
+          106,
+          107,
+          108,
+          109,
+          110,
+          111,
+          112,
+          113,
+          114,
+          115,
+          116,
+          117,
+          118,
+          119,
+          120,
+          121,
+          122,
+          123,
+          124,
+          125,
+          126,
+          127,
+          128,
+          129,
+          130,
+          131,
+          132,
+          133,
+          134,
+          135,
+          136,
+          137,
+          138,
+          139,
+          140,
+          141,
+          142,
+          143,
+          144,
+          145,
+          146,
+          147,
+          148,
+          149,
+          150,
+          151,
+          152,
+          153,
+          154,
+          155,
+          156,
+          157,
+          158,
+          159,
+          160,
+          161,
+          162,
+          163,
+          164,
+          165,
+          166,
+          167,
+          168,
+          169,
+          170,
+          171,
+          172,
+          173,
+          174,
+          175,
+          176,
+          177
+        ],
+        "fit": "luminance",
+        "mask_sigma": 0.5
+      }
+    ],
+    "limitation": "Enhanced cyan skin coverage preserves near-neutral belly and teeth; subdued gray-blue highlights only partly recolor."
+  },
+  "reviewed_placement_translation_px": {
+    "m394aa0": [
+      -32,
+      0
+    ],
+    "m394ab0": [
+      -28,
+      0
+    ],
+    "m394ac0": [
+      -32,
+      0
+    ],
+    "m394ad0": [
+      -32,
+      0
+    ],
+    "m394ae0": [
+      -26,
+      0
+    ],
+    "m394af0": [
+      -28,
+      0
+    ],
+    "m394ah0": [
+      -26,
+      0
+    ],
+    "m394ai0": [
+      -30,
+      0
+    ],
+    "m394aj0": [
+      -32,
+      0
+    ],
+    "m394ac1": [
+      -32,
+      0
+    ],
+    "m394ad1": [
+      -40,
+      0
+    ],
+    "m394ae1": [
+      -16,
+      0
+    ],
+    "m394af1": [
+      24,
+      0
+    ],
+    "m394ag1": [
+      24,
+      0
+    ],
+    "m394ac2": [
+      -32,
+      0
+    ],
+    "m394ad2": [
+      -80,
+      0
+    ],
+    "m394ag2": [
+      30,
+      0
+    ],
+    "m394ai3": [
+      56,
+      0
+    ],
+    "m394aj3": [
+      52,
+      0
+    ],
+    "m394ng0": [
+      -20,
+      0
+    ],
+    "m394nb1": [
+      -24,
+      0
+    ],
+    "m394nd1": [
+      -16,
+      0
+    ],
+    "m394na2": [
+      -24,
+      0
+    ],
+    "m394nb2": [
+      -60,
+      0
+    ],
+    "m394nc2": [
+      -24,
+      0
+    ],
+    "m394nd2": [
+      -64,
+      0
+    ],
+    "m394nf4": [
+      -20,
+      0
+    ],
+    "m394ng4": [
+      -16,
+      0
+    ]
+  }
+}

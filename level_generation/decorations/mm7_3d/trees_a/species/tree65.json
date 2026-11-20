@@ -1,0 +1,155 @@
+{
+ "sprite": "tree65",
+ "output": "mm7_deco_tree65.glb",
+ "height_m": 6.5,
+ "note": "Weeping broadleaf: thick mottled grey trunk, broad rounded crown from 28 % of the height, curtains of small leaves hanging from its sides and lower edge, light yellow-green.",
+ "sapling": {
+  "scale": 4.6,
+  "baseSplits": 0,
+  "baseSize": 0.4,
+  "splitHeight": 0.4,
+  "attractUp": [
+   0,
+   0.35,
+   -0.3,
+   0
+  ],
+  "downAngle": [
+   90,
+   55,
+   45,
+   45
+  ],
+  "seed": 651,
+  "ratio": 0.11,
+  "segSplits": [
+   0,
+   0.25,
+   0.3,
+   0
+  ],
+  "branches": [
+   0,
+   55,
+   15,
+   8
+  ],
+  "rootFlare": 1.3
+ },
+ "crown": {
+  "canopy_low": 0.34,
+  "centre": 0.65,
+  "clumps": 110,
+  "inner_clumps": 18,
+  "card": [
+   0.34,
+   0.44
+  ],
+  "outer_radius": [
+   0.36,
+   0.56
+  ],
+  "inner_radius": [
+   0.32,
+   0.46
+  ],
+  "moss": {
+   "kind": "leafy",
+   "strands": 230,
+   "length": [
+    0.6,
+    1.5
+   ],
+   "width": 0.32,
+   "seed": 653,
+   "twigs": 4,
+   "leaf_px": [
+    26,
+    36
+   ],
+   "leaf_step": 4,
+   "side_power": 4,
+   "drape": [
+    -0.15,
+    0.55
+   ],
+   "band": [
+    0.36,
+    0.72
+   ]
+  }
+ },
+ "bark": {
+  "target_srgb": [
+   86,
+   70,
+   56
+  ],
+  "clip_below_crown": true,
+  "roots": 0,
+  "trunk": {
+   "top": 0.62,
+   "taper": 0.6
+  },
+  "mottle": {
+   "srgb": [
+    190,
+    178,
+    152
+   ],
+   "cover": 0.32,
+   "scale": 36,
+   "seed": 65
+  }
+ },
+ "leaves": {
+  "target_srgb": [
+   160,
+   190,
+   112
+  ],
+  "seeds": [
+   651,
+   659,
+   661,
+   673
+  ],
+  "value": [
+   0.75,
+   1.6
+  ],
+  "jitter_red": [
+   0.85,
+   1.2
+  ],
+  "jitter_blue": [
+   0.8,
+   1.15
+  ]
+ },
+ "occlusion": {
+  "floor": 0.45,
+  "range": 0.55,
+  "power": 1.2
+ },
+ "lod": {
+  "triangles": [
+   7000,
+   2800,
+   1000
+  ],
+  "tone": [
+   1.0,
+   0.92,
+   1.11
+  ],
+  "lod2_card_scale": 1.08,
+  "thin0": 0.12
+ },
+ "transparent_bounces": 64,
+ "impostor_tone": [
+  0.88,
+  0.87,
+  0.92
+ ]
+}

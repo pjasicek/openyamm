@@ -39,7 +39,8 @@ void GameplayScreenState::WorldInteractionInputState::clear()
 
 void GameplayScreenState::GameplayMouseLookState::clear()
 {
-    *this = {};
+    mouseLookActive = false;
+    cursorModeActive = false;
 }
 
 void GameplayScreenState::clear()
@@ -48,8 +49,9 @@ void GameplayScreenState::clear()
     m_pendingSpellTarget.clear();
     m_quickSpellState.clear();
     m_attackActionState.clear();
+    m_upkeepActionState = {};
     m_worldInteractionInputState.clear();
-    m_gameplayMouseLookState.clear();
+    m_gameplayMouseLookState = {};
     m_pendingOpenNewGameScreen = false;
     m_pendingOpenLoadGameScreen = false;
 }
@@ -242,6 +244,11 @@ GameplayScreenState::AttackActionState &GameplayScreenState::attackActionState()
 const GameplayScreenState::AttackActionState &GameplayScreenState::attackActionState() const
 {
     return m_attackActionState;
+}
+
+GameplayScreenState::UpkeepActionState &GameplayScreenState::upkeepActionState()
+{
+    return m_upkeepActionState;
 }
 
 GameplayScreenState::WorldInteractionInputState &GameplayScreenState::worldInteractionInputState()

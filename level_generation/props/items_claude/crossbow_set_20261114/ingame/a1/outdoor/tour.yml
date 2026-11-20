@@ -1,0 +1,32 @@
+output_dir: /home/pjasicek/github/OpenYAMM/level_generation/props/items_claude/crossbow_set_20261114/ingame/a1/outdoor
+exit: true
+steps:
+  - wait: 3
+  - console: viewmodel equip 0 0 63
+  - wait: 2
+  - console: viewmodel tier 2
+  - wait: 2
+  - capture: t2_idle
+  - console: viewmodel pose crossbowattack 0.2
+  - wait: 0.6
+  - capture: t2_raise
+  - console: viewmodel pose crossbowattack 0.45
+  - wait: 0.6
+  - capture: t2_aim
+  - console: viewmodel pose crossbowattack 0.56
+  - wait: 0.6
+  - capture: t2_swing
+  - console: viewmodel pose crossbowattack 1.2
+  - wait: 0.6
+  - capture: t2_reload
+  - console: viewmodel pose off
+  - console: viewmodel tier auto
+  - console: viewmodel weapons ours
+  - wait: 2
+  - capture: ours_idle
+  - console: viewmodel pose crossbowattack 0.56
+  - wait: 0.6
+  - capture: ours_swing
+  - console: viewmodel pose crossbowattack 1.2
+  - wait: 0.6
+  - capture: ours_reload

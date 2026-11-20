@@ -1,0 +1,3 @@
+Saved all four images in [references_head/](/home/pjasicek/github/OpenYAMM/level_generation/creatures/mm7_m230_claude/references_head), using the built-in image generator.
+
+Verified unresized 1254 × 1254 RGBA outputs with true transparency. Raw returns, prompts, hashes and selections are recorded. Remaining profile-angle, detail and alpha-edge imperfections are documented in `generation_runs.json`.

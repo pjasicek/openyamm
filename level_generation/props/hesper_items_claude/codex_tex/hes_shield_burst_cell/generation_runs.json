@@ -1,0 +1,466 @@
+{
+  "item": "hes_shield_burst_cell",
+  "tool": "built-in image_gen",
+  "scope": "Five unresized, unedited texture-source paintings only.",
+  "runs": [
+    {
+      "view": "front",
+      "attempt": 1,
+      "prompt": "Use case: style-transfer / precise-object-edit.\nAsset: one orthographic albedo texture-source painting for the Hesper shield burst cell. Produce exactly one 1024 x 1024 PNG with a genuinely transparent background.\nINPUT ROLES: Image 1 (guide_front.png) is the EDIT TARGET and the absolute authority for ALL geometry, silhouette, every part boundary, occlusion, scale, framing and pixel placement. Image 2 (design_reference.png) is MATERIAL AND COLOUR REFERENCE ONLY. Paint Image 1; never replace its geometry with Image 2's geometry or camera.\nVIEW: FRONT. Preserve the guide's overlapping cylinders, horizontal bands and all four visible vertical gold rails exactly, including their asymmetric spacing. The top square crosspiece is viewed edge-on, with the small gold plug rising above it. Keep the source guide's exact overlap pattern.\nLOCK THE GUIDE: Preserve its entire alpha silhouette exactly pixel for pixel. Keep the exact outline, every bevel, every edge, existing proportions and spacing, object size and position. Preserve each part's boundary and all transparent pixels. Nothing outside that silhouette, nothing cropped. No zoom, recentering, warping, added parts or altered construction. Guide shadows and guide material tints are not albedo and must be replaced.\nSURFACE PAINT: Transfer the approved reference's warm white/ivory ceramic with fine subtle wear and hairline surface marks; restrained brushed antique yellow gold with fine grain; charcoal black-violet resin only in fine decorative insets/seams as appropriate to the reference; luminous cyan/blue-white energy behind glass in the guide's pale blue panels. Paint the blue panels with fine blue-white plasma filaments as in the reference, bright light colour contained entirely inside their original guide boundaries. Gold rails and bands must remain gold, ceramic endcaps/crosspiece must remain ceramic. Use fine engraved nonalphabetic lines, seams, panel joins and small geometric details as surface painting, without changing geometry. Unseen faces plausibly continue these same materials. Do not add unrelated orange, leather, cloth or paper.\nLIGHTING: This is FLAT BASE COLOUR / ALBEDO for projection onto a 3D model. Even, flat, shadowless illumination from the viewer. No cast shadows, no ambient occlusion or darkening between parts, no directional shading gradients, no strong specular highlights, reflected scenery, reflection streaks, rim light or baked bloom. Metal is its base gold colour with only a very faint sheen; ceramic is evenly white/ivory; glowing panels are their bright cyan-blue-white light colour. Remove the gray cast shadows visible in the guide. Fine dark seams are material markings, not wide shading.\nOUTPUT: Only the painted guide on true transparent alpha, no floor, background, border, labels, letters, text, numerals or watermark. Preserve the guide's exact silhouette and part placement above all.",
+      "inputs": [
+        {
+          "file": "guide_front.png",
+          "sha256": "01dd7cf412319c14d2f023d08ab5324ccae446d011369aa7db7e2d9b728e37d8"
+        },
+        {
+          "file": "design_reference.png",
+          "sha256": "5ef638f00c9fb30d4c23cc8d97f26c6c702aa2bfac8b7b142ec0b7c976a412a3"
+        }
+      ],
+      "output": "paint_front_attempt1.png",
+      "selected": false,
+      "reason": "Corrective regeneration required: silhouette/placement drift and remaining shading/highlights.",
+      "status": "generated",
+      "requested_size": [
+        1024,
+        1024
+      ],
+      "transparent_background": true,
+      "source_output": "/home/pjasicek/.codex/generated_images/01a16dfb-cfd5-79d1-aa05-ce16275d41e0/exec-fc9779c8-1aca-4023-a373-20f8dd3dfd5f.png",
+      "returned_size": [
+        1254,
+        1254
+      ],
+      "output_sha256": "ce36fe63aa43a5ad644035176629fefd120337faa6b24c81d93029f3dbc775a5",
+      "unresized": true,
+      "checks": {
+        "size_matches_request": false,
+        "has_transparency": true,
+        "silhouette_pixel_identical": false,
+        "normalized_silhouette_iou": 0.9600227589191783,
+        "materials_match_reference": true,
+        "flat_even_light": "partial: painted bevel shading and gold highlights remain",
+        "no_text_or_letters": true,
+        "visual_review": "Blue plasma panels and gold/ivory materials match; geometry drifts slightly."
+      }
+    },
+    {
+      "view": "back",
+      "attempt": 1,
+      "prompt": "Use case: style-transfer / precise-object-edit.\nAsset: one orthographic albedo texture-source painting for the Hesper shield burst cell. Produce exactly one 1024 x 1024 PNG with a genuinely transparent background.\nINPUT ROLES: Image 1 (guide_back.png) is the EDIT TARGET and the absolute authority for ALL geometry, silhouette, every part boundary, occlusion, scale, framing and pixel placement. Image 2 (design_reference.png) is MATERIAL AND COLOUR REFERENCE ONLY. Paint Image 1; never replace its geometry with Image 2's geometry or camera.\nVIEW: BACK. Preserve the guide's two broad cylindrical faces and their exact central meeting line, horizontal bands, visible gold rails and their asymmetric spacing. Continue the reference materials plausibly on these rear surfaces. The square crosspiece and small top plug remain exactly where the guide puts them.\nLOCK THE GUIDE: Preserve its entire alpha silhouette exactly pixel for pixel. Keep the exact outline, every bevel, every edge, existing proportions and spacing, object size and position. Preserve each part's boundary and all transparent pixels. Nothing outside that silhouette, nothing cropped. No zoom, recentering, warping, added parts or altered construction. Guide shadows and guide material tints are not albedo and must be replaced.\nSURFACE PAINT: Transfer the approved reference's warm white/ivory ceramic with fine subtle wear and hairline surface marks; restrained brushed antique yellow gold with fine grain; charcoal black-violet resin only in fine decorative insets/seams as appropriate to the reference; luminous cyan/blue-white energy behind glass in the guide's pale blue panels. Paint the blue panels with fine blue-white plasma filaments as in the reference, bright light colour contained entirely inside their original guide boundaries. Gold rails and bands must remain gold, ceramic endcaps/crosspiece must remain ceramic. Use fine engraved nonalphabetic lines, seams, panel joins and small geometric details as surface painting, without changing geometry. Unseen faces plausibly continue these same materials. Do not add unrelated orange, leather, cloth or paper.\nLIGHTING: This is FLAT BASE COLOUR / ALBEDO for projection onto a 3D model. Even, flat, shadowless illumination from the viewer. No cast shadows, no ambient occlusion or darkening between parts, no directional shading gradients, no strong specular highlights, reflected scenery, reflection streaks, rim light or baked bloom. Metal is its base gold colour with only a very faint sheen; ceramic is evenly white/ivory; glowing panels are their bright cyan-blue-white light colour. Remove the gray cast shadows visible in the guide. Fine dark seams are material markings, not wide shading.\nOUTPUT: Only the painted guide on true transparent alpha, no floor, background, border, labels, letters, text, numerals or watermark. Preserve the guide's exact silhouette and part placement above all.",
+      "inputs": [
+        {
+          "file": "guide_back.png",
+          "sha256": "c08d5d4331ab8696743919a8cc33483b1ec58538e5e63598f7a3dc25aa2075f1"
+        },
+        {
+          "file": "design_reference.png",
+          "sha256": "5ef638f00c9fb30d4c23cc8d97f26c6c702aa2bfac8b7b142ec0b7c976a412a3"
+        }
+      ],
+      "output": "paint_back_attempt1.png",
+      "selected": false,
+      "reason": "Corrective regeneration required: silhouette/placement drift and remaining shading/highlights.",
+      "status": "generated",
+      "requested_size": [
+        1024,
+        1024
+      ],
+      "transparent_background": true,
+      "source_output": "/home/pjasicek/.codex/generated_images/01a16dfb-cfd5-79d1-aa05-ce16275d41e0/exec-b08cd1e4-d0fc-4241-b2b4-da5320a10572.png",
+      "returned_size": [
+        1254,
+        1254
+      ],
+      "output_sha256": "d5197658def0eaccea092f11e4d844e4ac87e6ed666718448a029fa9b8b0efac",
+      "unresized": true,
+      "checks": {
+        "size_matches_request": false,
+        "has_transparency": true,
+        "silhouette_pixel_identical": false,
+        "normalized_silhouette_iou": 0.9424771626844208,
+        "materials_match_reference": true,
+        "flat_even_light": "partial: painted bevel shading and gold highlights remain",
+        "no_text_or_letters": true,
+        "visual_review": "Blue plasma panels and gold/ivory materials match; geometry drifts slightly."
+      }
+    },
+    {
+      "view": "left",
+      "attempt": 1,
+      "prompt": "Use case: style-transfer / precise-object-edit.\nAsset: one orthographic albedo texture-source painting for the Hesper shield burst cell. Produce exactly one 1024 x 1024 PNG with a genuinely transparent background.\nINPUT ROLES: Image 1 (guide_left.png) is the EDIT TARGET and the absolute authority for ALL geometry, silhouette, every part boundary, occlusion, scale, framing and pixel placement. Image 2 (design_reference.png) is MATERIAL AND COLOUR REFERENCE ONLY. Paint Image 1; never replace its geometry with Image 2's geometry or camera.\nVIEW: LEFT. Preserve the two broad cylinder faces, their meeting line slightly right of center, and the three vertical gold rails at the guide's exact positions. Preserve the asymmetric exposed top crosspiece and its central gold plug. Continue the reference surface materials on this side.\nLOCK THE GUIDE: Preserve its entire alpha silhouette exactly pixel for pixel. Keep the exact outline, every bevel, every edge, existing proportions and spacing, object size and position. Preserve each part's boundary and all transparent pixels. Nothing outside that silhouette, nothing cropped. No zoom, recentering, warping, added parts or altered construction. Guide shadows and guide material tints are not albedo and must be replaced.\nSURFACE PAINT: Transfer the approved reference's warm white/ivory ceramic with fine subtle wear and hairline surface marks; restrained brushed antique yellow gold with fine grain; charcoal black-violet resin only in fine decorative insets/seams as appropriate to the reference; luminous cyan/blue-white energy behind glass in the guide's pale blue panels. Paint the blue panels with fine blue-white plasma filaments as in the reference, bright light colour contained entirely inside their original guide boundaries. Gold rails and bands must remain gold, ceramic endcaps/crosspiece must remain ceramic. Use fine engraved nonalphabetic lines, seams, panel joins and small geometric details as surface painting, without changing geometry. Unseen faces plausibly continue these same materials. Do not add unrelated orange, leather, cloth or paper.\nLIGHTING: This is FLAT BASE COLOUR / ALBEDO for projection onto a 3D model. Even, flat, shadowless illumination from the viewer. No cast shadows, no ambient occlusion or darkening between parts, no directional shading gradients, no strong specular highlights, reflected scenery, reflection streaks, rim light or baked bloom. Metal is its base gold colour with only a very faint sheen; ceramic is evenly white/ivory; glowing panels are their bright cyan-blue-white light colour. Remove the gray cast shadows visible in the guide. Fine dark seams are material markings, not wide shading.\nOUTPUT: Only the painted guide on true transparent alpha, no floor, background, border, labels, letters, text, numerals or watermark. Preserve the guide's exact silhouette and part placement above all.",
+      "inputs": [
+        {
+          "file": "guide_left.png",
+          "sha256": "6b27b0a483acd86cfa01f0e1e1618820b0e0ca10ce1eaa1c83230c44a106f48b"
+        },
+        {
+          "file": "design_reference.png",
+          "sha256": "5ef638f00c9fb30d4c23cc8d97f26c6c702aa2bfac8b7b142ec0b7c976a412a3"
+        }
+      ],
+      "output": "paint_left_attempt1.png",
+      "selected": false,
+      "reason": "Corrective regeneration required: silhouette/placement drift and remaining shading/highlights.",
+      "status": "generated",
+      "requested_size": [
+        1024,
+        1024
+      ],
+      "transparent_background": true,
+      "source_output": "/home/pjasicek/.codex/generated_images/01a16dfb-cfd5-79d1-aa05-ce16275d41e0/exec-6012e87e-03fc-411b-931a-89ffd2839a33.png",
+      "returned_size": [
+        1254,
+        1254
+      ],
+      "output_sha256": "f23ed27aaa33bbb25080195e973b10eae271e58cdd169196639718c96560897f",
+      "unresized": true,
+      "checks": {
+        "size_matches_request": false,
+        "has_transparency": true,
+        "silhouette_pixel_identical": false,
+        "normalized_silhouette_iou": 0.9564122471198208,
+        "materials_match_reference": true,
+        "flat_even_light": "partial: painted bevel shading and gold highlights remain",
+        "no_text_or_letters": true,
+        "visual_review": "Blue plasma panels and gold/ivory materials match; geometry drifts slightly."
+      }
+    },
+    {
+      "view": "right",
+      "attempt": 1,
+      "prompt": "Use case: style-transfer / precise-object-edit.\nAsset: one orthographic albedo texture-source painting for the Hesper shield burst cell. Produce exactly one 1024 x 1024 PNG with a genuinely transparent background.\nINPUT ROLES: Image 1 (guide_right.png) is the EDIT TARGET and the absolute authority for ALL geometry, silhouette, every part boundary, occlusion, scale, framing and pixel placement. Image 2 (design_reference.png) is MATERIAL AND COLOUR REFERENCE ONLY. Paint Image 1; never replace its geometry with Image 2's geometry or camera.\nVIEW: RIGHT. Preserve the two broad cylinder faces, their meeting line left of center, all visible gold rails with the guide's asymmetric spacing, and the exposed top crosspiece with its gold plug. This is the right orthographic view, not a mirrored or rotated left view.\nLOCK THE GUIDE: Preserve its entire alpha silhouette exactly pixel for pixel. Keep the exact outline, every bevel, every edge, existing proportions and spacing, object size and position. Preserve each part's boundary and all transparent pixels. Nothing outside that silhouette, nothing cropped. No zoom, recentering, warping, added parts or altered construction. Guide shadows and guide material tints are not albedo and must be replaced.\nSURFACE PAINT: Transfer the approved reference's warm white/ivory ceramic with fine subtle wear and hairline surface marks; restrained brushed antique yellow gold with fine grain; charcoal black-violet resin only in fine decorative insets/seams as appropriate to the reference; luminous cyan/blue-white energy behind glass in the guide's pale blue panels. Paint the blue panels with fine blue-white plasma filaments as in the reference, bright light colour contained entirely inside their original guide boundaries. Gold rails and bands must remain gold, ceramic endcaps/crosspiece must remain ceramic. Use fine engraved nonalphabetic lines, seams, panel joins and small geometric details as surface painting, without changing geometry. Unseen faces plausibly continue these same materials. Do not add unrelated orange, leather, cloth or paper.\nLIGHTING: This is FLAT BASE COLOUR / ALBEDO for projection onto a 3D model. Even, flat, shadowless illumination from the viewer. No cast shadows, no ambient occlusion or darkening between parts, no directional shading gradients, no strong specular highlights, reflected scenery, reflection streaks, rim light or baked bloom. Metal is its base gold colour with only a very faint sheen; ceramic is evenly white/ivory; glowing panels are their bright cyan-blue-white light colour. Remove the gray cast shadows visible in the guide. Fine dark seams are material markings, not wide shading.\nOUTPUT: Only the painted guide on true transparent alpha, no floor, background, border, labels, letters, text, numerals or watermark. Preserve the guide's exact silhouette and part placement above all.",
+      "inputs": [
+        {
+          "file": "guide_right.png",
+          "sha256": "315951873db9f3b8e3dee43d30388bc4b5901113c9aa7fadefd553cae3d0accc"
+        },
+        {
+          "file": "design_reference.png",
+          "sha256": "5ef638f00c9fb30d4c23cc8d97f26c6c702aa2bfac8b7b142ec0b7c976a412a3"
+        }
+      ],
+      "output": "paint_right_attempt1.png",
+      "selected": false,
+      "reason": "Corrective regeneration required: silhouette/placement drift and remaining shading/highlights.",
+      "status": "generated",
+      "requested_size": [
+        1024,
+        1024
+      ],
+      "transparent_background": true,
+      "source_output": "/home/pjasicek/.codex/generated_images/01a16dfb-cfd5-79d1-aa05-ce16275d41e0/exec-ec35837a-13e1-4632-82c5-ab2e1fbe4a3b.png",
+      "returned_size": [
+        1254,
+        1254
+      ],
+      "output_sha256": "27b864597728f4dc80c8fc54bcac1989649a5c34dc2f859ac68d37ac4580459d",
+      "unresized": true,
+      "checks": {
+        "size_matches_request": false,
+        "has_transparency": true,
+        "silhouette_pixel_identical": false,
+        "normalized_silhouette_iou": 0.9600493862763829,
+        "materials_match_reference": true,
+        "flat_even_light": "partial: painted bevel shading and gold highlights remain",
+        "no_text_or_letters": true,
+        "visual_review": "Blue plasma panels and gold/ivory materials match; geometry drifts slightly."
+      }
+    },
+    {
+      "view": "top",
+      "attempt": 1,
+      "prompt": "Use case: style-transfer / precise-object-edit.\nAsset: one orthographic albedo texture-source painting for the Hesper shield burst cell. Produce exactly one 1024 x 1024 PNG with a genuinely transparent background.\nINPUT ROLES: Image 1 (guide_top.png) is the EDIT TARGET and the absolute authority for ALL geometry, silhouette, every part boundary, occlusion, scale, framing and pixel placement. Image 2 (design_reference.png) is MATERIAL AND COLOUR REFERENCE ONLY. Paint Image 1; never replace its geometry with Image 2's geometry or camera.\nVIEW: TOP, straight vertically downward, with no perspective. Preserve exactly the three-lobed outline and the large beveled SQUARE ceramic connector plate overlaying the three circular cylinder caps. KEEP THE SQUARE PLATE SQUARE at its exact guide position; do not replace it with the design reference's round hub. Its polygonal gold plug stays at the same pixel position and size. Paint reference-style fine panel seams, restrained gold trim and ceramic texture onto the EXISTING surfaces only. No cylinder side walls or blue windows are visible from this view; do not invent them.\nLOCK THE GUIDE: Preserve its entire alpha silhouette exactly pixel for pixel. Keep the exact outline, every bevel, every edge, existing proportions and spacing, object size and position. Preserve each part's boundary and all transparent pixels. Nothing outside that silhouette, nothing cropped. No zoom, recentering, warping, added parts or altered construction. Guide shadows and guide material tints are not albedo and must be replaced.\nSURFACE PAINT: Transfer the approved reference's warm white/ivory ceramic with fine subtle wear and hairline surface marks; restrained brushed antique yellow gold with fine grain; charcoal black-violet resin only in fine decorative insets/seams as appropriate to the reference; luminous cyan/blue-white energy behind glass in the guide's pale blue panels. Paint the blue panels with fine blue-white plasma filaments as in the reference, bright light colour contained entirely inside their original guide boundaries. Gold rails and bands must remain gold, ceramic endcaps/crosspiece must remain ceramic. Use fine engraved nonalphabetic lines, seams, panel joins and small geometric details as surface painting, without changing geometry. Unseen faces plausibly continue these same materials. Do not add unrelated orange, leather, cloth or paper.\nLIGHTING: This is FLAT BASE COLOUR / ALBEDO for projection onto a 3D model. Even, flat, shadowless illumination from the viewer. No cast shadows, no ambient occlusion or darkening between parts, no directional shading gradients, no strong specular highlights, reflected scenery, reflection streaks, rim light or baked bloom. Metal is its base gold colour with only a very faint sheen; ceramic is evenly white/ivory; glowing panels are their bright cyan-blue-white light colour. Remove the gray cast shadows visible in the guide. Fine dark seams are material markings, not wide shading.\nOUTPUT: Only the painted guide on true transparent alpha, no floor, background, border, labels, letters, text, numerals or watermark. Preserve the guide's exact silhouette and part placement above all.",
+      "inputs": [
+        {
+          "file": "guide_top.png",
+          "sha256": "0ab13a54a25f24a774084cb6b6a569cac7883f4e9163082a254f03d2bbde9724"
+        },
+        {
+          "file": "design_reference.png",
+          "sha256": "5ef638f00c9fb30d4c23cc8d97f26c6c702aa2bfac8b7b142ec0b7c976a412a3"
+        }
+      ],
+      "output": "paint_top_attempt1.png",
+      "selected": false,
+      "reason": "Corrective regeneration required: silhouette/placement drift and invented blue energy areas on ceramic cap surfaces; lighting still includes highlights.",
+      "status": "generated",
+      "requested_size": [
+        1024,
+        1024
+      ],
+      "transparent_background": true,
+      "source_output": "/home/pjasicek/.codex/generated_images/01a16dfb-cfd5-79d1-aa05-ce16275d41e0/exec-a6f14b7e-1198-4d20-9529-2392e782449e.png",
+      "returned_size": [
+        1254,
+        1254
+      ],
+      "output_sha256": "522b0176401f1964841b07f748ccc52707d1c3925bb73594787fb51d07e10383",
+      "unresized": true,
+      "checks": {
+        "size_matches_request": false,
+        "has_transparency": true,
+        "silhouette_pixel_identical": false,
+        "normalized_silhouette_iou": 0.8626848262900276,
+        "materials_match_reference": false,
+        "flat_even_light": "partial: painted bevel shading and gold highlights remain",
+        "no_text_or_letters": true,
+        "visual_review": "Top cap ceramic incorrectly painted with broad blue plasma bands; geometry also drifts."
+      }
+    },
+    {
+      "view": "front",
+      "attempt": 2,
+      "prompt": "Paint the provided orthographic 3D guide in place, as a FLAT ALBEDO TEXTURE. This is the one corrective regeneration for the FRONT view.\nINPUT 1 design_reference.png: material palette and fine surface character only.\nINPUT 2 guide_front.png: THE ACTUAL IMAGE TO EDIT, 1024x1024. Preserve this image's canvas, exact silhouette, scale, position, all part edges, all overlaps and transparent background pixel for pixel. Do not redesign or re-render it. Apply surface colours to the existing geometry.\nThe previous attempt drifted from guide geometry and baked in too much light/shadow. Correct these issues: trace the supplied guide exactly and eliminate illumination effects. Guide bounds [129,66) to [895,958). Plug spans x438..570 at y66..124. Crosspiece upper edge y123, side-cylinder shoulders y189. Upper gold band y337..368. All blue panels occupy y382..765, lower gold band y782..810, ceramic bases extend to y958. Preserve four gold rails near x209..257,386..434,679..716,854..895 exactly. These pixel coordinates describe the existing guide and must not be printed.\nWhite/light gray guide parts become warm white ceramic with subtle fine wear and hairline engraved panel seams. Pale gold guide parts become subdued brushed gold base colour, uniform in brightness, with a fine brushed texture and only a faint sheen. Pale cyan guide panels become luminous cyan-blue with delicate blue-white plasma filaments, as coloured surface detail. Keep the panel areas at exactly their original guide boundaries. Do not extend them into ceramic endcaps.\nUse only tiny charcoal resin accents and fine seams where plausible from the design reference. No new projecting parts, borders, rims or changed geometry. Copy material colour and texture detail from the design reference, never its perspective or construction.\nLighting is completely flat, shadowless frontal fill, as an unlit base-colour texture pass. Gold has NO bright yellow/white reflection stripes. Ceramic has NO gray shaded bevels or shaded lower halves. Remove ALL guide cast shadows and contact shadows. No ambient occlusion, shadow gradients, dark gutters, shiny glints, rim lighting, reflections, bloom or ground shadow. Fine material seams remain thin.\nOutput exactly one 1024 x 1024 transparent RGBA PNG of the painted SECOND input guide. Background entirely transparent, object opaque. Keep the guide's precise silhouette/edge antialiasing and every part's placement. No text, letters, numbers, logos, watermark, floor, added ornaments or three-quarter perspective. Return at the guide's 1024x1024 resolution, not at the design reference's resolution.",
+      "inputs": [
+        {
+          "file": "design_reference.png",
+          "sha256": "5ef638f00c9fb30d4c23cc8d97f26c6c702aa2bfac8b7b142ec0b7c976a412a3"
+        },
+        {
+          "file": "guide_front.png",
+          "sha256": "01dd7cf412319c14d2f023d08ab5324ccae446d011369aa7db7e2d9b728e37d8"
+        }
+      ],
+      "output": "paint_front.png",
+      "selected": true,
+      "reason": "Selected after the single allowed corrective pass: improved silhouette alignment and simpler surface details. Remaining silhouette and lighting deviations are recorded; selection is not a strict compliance pass.",
+      "status": "selected_with_deviations",
+      "requested_size": [
+        1024,
+        1024
+      ],
+      "transparent_background": true,
+      "source_output": "/home/pjasicek/.codex/generated_images/01a16dfb-cfd5-79d1-aa05-ce16275d41e0/exec-d0544d61-6213-4cc6-abd8-419c886c4ef0.png",
+      "returned_size": [
+        1254,
+        1254
+      ],
+      "output_sha256": "9778a58814b6052bdd40dd62852ab070bfd7715e6d0c0c1147568aa9ce9cc6d6",
+      "unresized": true,
+      "checks": {
+        "size_matches_request": false,
+        "has_transparency": true,
+        "silhouette_pixel_identical": false,
+        "normalized_silhouette_iou": 0.9785143464537329,
+        "foreground_bbox_alpha_128": [
+          157,
+          75,
+          1099,
+          1182
+        ],
+        "foreground_not_cropped": true,
+        "part_boundaries_identical": false,
+        "materials_match_reference": true,
+        "flat_even_light": false,
+        "no_text_or_letters": true,
+        "visual_review": "Gold, ivory ceramic and cyan-blue plasma palette preserved. Residual gold highlights, ceramic bevel shading and small part-boundary deviations remain."
+      }
+    },
+    {
+      "view": "back",
+      "attempt": 2,
+      "prompt": "Paint the provided orthographic 3D guide in place, as a FLAT ALBEDO TEXTURE. This is the one corrective regeneration for the BACK view.\nINPUT 1 design_reference.png: material palette and fine surface character only.\nINPUT 2 guide_back.png: THE ACTUAL IMAGE TO EDIT, 1024x1024. Preserve this image's canvas, exact silhouette, scale, position, all part edges, all overlaps and transparent background pixel for pixel. Do not redesign or re-render it. Apply surface colours to the existing geometry.\nThe previous attempt drifted from guide geometry and baked in too much light/shadow. Correct these issues: trace the supplied guide exactly and eliminate illumination effects. Guide bounds [129,66) to [895,958). Plug x453..585 at y66..124. Upper gold band y337..368. Blue panels occupy y382..765; lower gold band y782..810. Central cylinder meeting line x519. Gold rails at the guide's far left edge, around x418..461 and around x775..816. Ceramic bases extend to y958. These pixel coordinates describe the existing guide and must not be printed.\nWhite/light gray guide parts become warm white ceramic with subtle fine wear and hairline engraved panel seams. Pale gold guide parts become subdued brushed gold base colour, uniform in brightness, with a fine brushed texture and only a faint sheen. Pale cyan guide panels become luminous cyan-blue with delicate blue-white plasma filaments, as coloured surface detail. Keep the panel areas at exactly their original guide boundaries. Do not extend them into ceramic endcaps.\nUse only tiny charcoal resin accents and fine seams where plausible from the design reference. No new projecting parts, borders, rims or changed geometry. Copy material colour and texture detail from the design reference, never its perspective or construction.\nLighting is completely flat, shadowless frontal fill, as an unlit base-colour texture pass. Gold has NO bright yellow/white reflection stripes. Ceramic has NO gray shaded bevels or shaded lower halves. Remove ALL guide cast shadows and contact shadows. No ambient occlusion, shadow gradients, dark gutters, shiny glints, rim lighting, reflections, bloom or ground shadow. Fine material seams remain thin.\nOutput exactly one 1024 x 1024 transparent RGBA PNG of the painted SECOND input guide. Background entirely transparent, object opaque. Keep the guide's precise silhouette/edge antialiasing and every part's placement. No text, letters, numbers, logos, watermark, floor, added ornaments or three-quarter perspective. Return at the guide's 1024x1024 resolution, not at the design reference's resolution.",
+      "inputs": [
+        {
+          "file": "design_reference.png",
+          "sha256": "5ef638f00c9fb30d4c23cc8d97f26c6c702aa2bfac8b7b142ec0b7c976a412a3"
+        },
+        {
+          "file": "guide_back.png",
+          "sha256": "c08d5d4331ab8696743919a8cc33483b1ec58538e5e63598f7a3dc25aa2075f1"
+        }
+      ],
+      "output": "paint_back.png",
+      "selected": true,
+      "reason": "Selected after the single allowed corrective pass: improved silhouette alignment and simpler surface details. Remaining silhouette and lighting deviations are recorded; selection is not a strict compliance pass.",
+      "status": "selected_with_deviations",
+      "requested_size": [
+        1024,
+        1024
+      ],
+      "transparent_background": true,
+      "source_output": "/home/pjasicek/.codex/generated_images/01a16dfb-cfd5-79d1-aa05-ce16275d41e0/exec-673af815-56b5-4ce9-b7ef-21887d978b8d.png",
+      "returned_size": [
+        1254,
+        1254
+      ],
+      "output_sha256": "8096153d2b7724fc32caa375d0b64e2a0b3890043102f0e7c331532717ee51f9",
+      "unresized": true,
+      "checks": {
+        "size_matches_request": false,
+        "has_transparency": true,
+        "silhouette_pixel_identical": false,
+        "normalized_silhouette_iou": 0.9599869059252308,
+        "foreground_bbox_alpha_128": [
+          163,
+          57,
+          1084,
+          1172
+        ],
+        "foreground_not_cropped": true,
+        "part_boundaries_identical": false,
+        "materials_match_reference": true,
+        "flat_even_light": false,
+        "no_text_or_letters": true,
+        "visual_review": "Gold, ivory ceramic and cyan-blue plasma palette preserved. Residual gold highlights, ceramic bevel shading and small part-boundary deviations remain."
+      }
+    },
+    {
+      "view": "left",
+      "attempt": 2,
+      "prompt": "Paint the provided orthographic 3D guide in place, as a FLAT ALBEDO TEXTURE. This is the one corrective regeneration for the LEFT view.\nINPUT 1 design_reference.png: material palette and fine surface character only.\nINPUT 2 guide_left.png: THE ACTUAL IMAGE TO EDIT, 1024x1024. Preserve this image's canvas, exact silhouette, scale, position, all part edges, all overlaps and transparent background pixel for pixel. Do not redesign or re-render it. Apply surface colours to the existing geometry.\nThe previous attempt drifted from guide geometry and baked in too much light/shadow. Correct these issues: trace the supplied guide exactly and eliminate illumination effects. Guide bounds [174,66) to [850,958). Plug x424..556 at y66..124. Upper gold band y337..368; blue panels y382..765; lower gold band y782..810. Central cylinder meeting line x555. Gold rails at x180..231,539..562,793..843. Preserve the top crosspiece's original overlap and endcap shapes. These pixel coordinates describe the existing guide and must not be printed.\nWhite/light gray guide parts become warm white ceramic with subtle fine wear and hairline engraved panel seams. Pale gold guide parts become subdued brushed gold base colour, uniform in brightness, with a fine brushed texture and only a faint sheen. Pale cyan guide panels become luminous cyan-blue with delicate blue-white plasma filaments, as coloured surface detail. Keep the panel areas at exactly their original guide boundaries. Do not extend them into ceramic endcaps.\nUse only tiny charcoal resin accents and fine seams where plausible from the design reference. No new projecting parts, borders, rims or changed geometry. Copy material colour and texture detail from the design reference, never its perspective or construction.\nLighting is completely flat, shadowless frontal fill, as an unlit base-colour texture pass. Gold has NO bright yellow/white reflection stripes. Ceramic has NO gray shaded bevels or shaded lower halves. Remove ALL guide cast shadows and contact shadows. No ambient occlusion, shadow gradients, dark gutters, shiny glints, rim lighting, reflections, bloom or ground shadow. Fine material seams remain thin.\nOutput exactly one 1024 x 1024 transparent RGBA PNG of the painted SECOND input guide. Background entirely transparent, object opaque. Keep the guide's precise silhouette/edge antialiasing and every part's placement. No text, letters, numbers, logos, watermark, floor, added ornaments or three-quarter perspective. Return at the guide's 1024x1024 resolution, not at the design reference's resolution.",
+      "inputs": [
+        {
+          "file": "design_reference.png",
+          "sha256": "5ef638f00c9fb30d4c23cc8d97f26c6c702aa2bfac8b7b142ec0b7c976a412a3"
+        },
+        {
+          "file": "guide_left.png",
+          "sha256": "6b27b0a483acd86cfa01f0e1e1618820b0e0ca10ce1eaa1c83230c44a106f48b"
+        }
+      ],
+      "output": "paint_left.png",
+      "selected": true,
+      "reason": "Selected after the single allowed corrective pass: improved silhouette alignment and simpler surface details. Remaining silhouette and lighting deviations are recorded; selection is not a strict compliance pass.",
+      "status": "selected_with_deviations",
+      "requested_size": [
+        1024,
+        1024
+      ],
+      "transparent_background": true,
+      "source_output": "/home/pjasicek/.codex/generated_images/01a16dfb-cfd5-79d1-aa05-ce16275d41e0/exec-5b5f0074-dd4a-424e-b3f0-73eb2afbef14.png",
+      "returned_size": [
+        1254,
+        1254
+      ],
+      "output_sha256": "0f9003cea8856615f7f8816d1983830b94a26ed733a79ae9dfe70e8f4369c8ef",
+      "unresized": true,
+      "checks": {
+        "size_matches_request": false,
+        "has_transparency": true,
+        "silhouette_pixel_identical": false,
+        "normalized_silhouette_iou": 0.9847596265851695,
+        "foreground_bbox_alpha_128": [
+          208,
+          79,
+          1047,
+          1175
+        ],
+        "foreground_not_cropped": true,
+        "part_boundaries_identical": false,
+        "materials_match_reference": true,
+        "flat_even_light": false,
+        "no_text_or_letters": true,
+        "visual_review": "Gold, ivory ceramic and cyan-blue plasma palette preserved. Residual gold highlights, ceramic bevel shading and small part-boundary deviations remain."
+      }
+    },
+    {
+      "view": "right",
+      "attempt": 2,
+      "prompt": "Paint the provided orthographic 3D guide in place, as a FLAT ALBEDO TEXTURE. This is the one corrective regeneration for the RIGHT view.\nINPUT 1 design_reference.png: material palette and fine surface character only.\nINPUT 2 guide_right.png: THE ACTUAL IMAGE TO EDIT, 1024x1024. Preserve this image's canvas, exact silhouette, scale, position, all part edges, all overlaps and transparent background pixel for pixel. Do not redesign or re-render it. Apply surface colours to the existing geometry.\nThe previous attempt drifted from guide geometry and baked in too much light/shadow. Correct these issues: trace the supplied guide exactly and eliminate illumination effects. Guide bounds [174,66) to [850,958). Plug x468..600 at y66..124. Upper gold band y337..368; blue panels y382..765; lower gold band y782..810. Cylinder meeting line x457. Interior gold rails x345..391 and x632..670. Preserve the crosspiece's original overlap and endcap shapes. These pixel coordinates describe the existing guide and must not be printed.\nWhite/light gray guide parts become warm white ceramic with subtle fine wear and hairline engraved panel seams. Pale gold guide parts become subdued brushed gold base colour, uniform in brightness, with a fine brushed texture and only a faint sheen. Pale cyan guide panels become luminous cyan-blue with delicate blue-white plasma filaments, as coloured surface detail. Keep the panel areas at exactly their original guide boundaries. Do not extend them into ceramic endcaps.\nUse only tiny charcoal resin accents and fine seams where plausible from the design reference. No new projecting parts, borders, rims or changed geometry. Copy material colour and texture detail from the design reference, never its perspective or construction.\nLighting is completely flat, shadowless frontal fill, as an unlit base-colour texture pass. Gold has NO bright yellow/white reflection stripes. Ceramic has NO gray shaded bevels or shaded lower halves. Remove ALL guide cast shadows and contact shadows. No ambient occlusion, shadow gradients, dark gutters, shiny glints, rim lighting, reflections, bloom or ground shadow. Fine material seams remain thin.\nOutput exactly one 1024 x 1024 transparent RGBA PNG of the painted SECOND input guide. Background entirely transparent, object opaque. Keep the guide's precise silhouette/edge antialiasing and every part's placement. No text, letters, numbers, logos, watermark, floor, added ornaments or three-quarter perspective. Return at the guide's 1024x1024 resolution, not at the design reference's resolution.",
+      "inputs": [
+        {
+          "file": "design_reference.png",
+          "sha256": "5ef638f00c9fb30d4c23cc8d97f26c6c702aa2bfac8b7b142ec0b7c976a412a3"
+        },
+        {
+          "file": "guide_right.png",
+          "sha256": "315951873db9f3b8e3dee43d30388bc4b5901113c9aa7fadefd553cae3d0accc"
+        }
+      ],
+      "output": "paint_right.png",
+      "selected": true,
+      "reason": "Selected after the single allowed corrective pass: improved silhouette alignment and simpler surface details. Remaining silhouette and lighting deviations are recorded; selection is not a strict compliance pass.",
+      "status": "selected_with_deviations",
+      "requested_size": [
+        1024,
+        1024
+      ],
+      "transparent_background": true,
+      "source_output": "/home/pjasicek/.codex/generated_images/01a16dfb-cfd5-79d1-aa05-ce16275d41e0/exec-2118a3d8-573b-4fa5-88f4-3b9997159fef.png",
+      "returned_size": [
+        1254,
+        1254
+      ],
+      "output_sha256": "ff4f144b1c3982e4abbf86beef6d922f559d8eb71201bd59d58822b9efe7a259",
+      "unresized": true,
+      "checks": {
+        "size_matches_request": false,
+        "has_transparency": true,
+        "silhouette_pixel_identical": false,
+        "normalized_silhouette_iou": 0.9910622735029447,
+        "foreground_bbox_alpha_128": [
+          214,
+          77,
+          1040,
+          1172
+        ],
+        "foreground_not_cropped": true,
+        "part_boundaries_identical": false,
+        "materials_match_reference": true,
+        "flat_even_light": false,
+        "no_text_or_letters": true,
+        "visual_review": "Gold, ivory ceramic and cyan-blue plasma palette preserved. Residual gold highlights, ceramic bevel shading and small part-boundary deviations remain."
+      }
+    },
+    {
+      "view": "top",
+      "attempt": 2,
+      "prompt": "Paint the provided orthographic 3D guide in place, as a FLAT ALBEDO TEXTURE. This is the one corrective regeneration for the TOP view.\nINPUT 1 design_reference.png: material palette and fine surface character only.\nINPUT 2 guide_top.png: THE ACTUAL IMAGE TO EDIT, 1024x1024. Preserve this image's canvas, exact silhouette, scale, position, all part edges, all overlaps and transparent background pixel for pixel. Do not redesign or re-render it. Apply surface colours to the existing geometry.\nThe previous attempt drifted from guide geometry and baked in too much light/shadow. Correct these issues: trace the supplied guide exactly and eliminate illumination effects. Guide bounds [129,173) to [895,851). Three ceramic circular cap surfaces surround the existing square plate, which spans approximately x238..772 and y268..712. Gold polygonal plug centered near (504,490), radius about65. The cap surfaces MUST ALL BE IVORY CERAMIC, not blue energy. There are ZERO blue areas in this top guide. Preserve the scalloped/circular outer contour and the exact rectangular plate, plug and tiny gold tabs. These pixel coordinates describe the existing guide and must not be printed.\nWhite/light gray guide parts become warm white ceramic with subtle fine wear and hairline engraved panel seams. Pale gold guide parts become subdued brushed gold base colour, uniform in brightness, with a fine brushed texture and only a faint sheen. All exposed circular caps and the square connecting plate stay white ceramic with restrained thin gold linework; the plug and outer rim/tabs are gold. NO BLUE GLOW OR NEW WINDOWS in this top view.\nUse only tiny charcoal resin accents and fine seams where plausible from the design reference. No new projecting parts, borders, rims or changed geometry. Copy material colour and texture detail from the design reference, never its perspective or construction.\nLighting is completely flat, shadowless frontal fill, as an unlit base-colour texture pass. Gold has NO bright yellow/white reflection stripes. Ceramic has NO gray shaded bevels or shaded lower halves. Remove ALL guide cast shadows and contact shadows. No ambient occlusion, shadow gradients, dark gutters, shiny glints, rim lighting, reflections, bloom or ground shadow. Fine material seams remain thin.\nOutput exactly one 1024 x 1024 transparent RGBA PNG of the painted SECOND input guide. Background entirely transparent, object opaque. Keep the guide's precise silhouette/edge antialiasing and every part's placement. No text, letters, numbers, logos, watermark, floor, added ornaments or three-quarter perspective. Return at the guide's 1024x1024 resolution, not at the design reference's resolution.",
+      "inputs": [
+        {
+          "file": "design_reference.png",
+          "sha256": "5ef638f00c9fb30d4c23cc8d97f26c6c702aa2bfac8b7b142ec0b7c976a412a3"
+        },
+        {
+          "file": "guide_top.png",
+          "sha256": "0ab13a54a25f24a774084cb6b6a569cac7883f4e9163082a254f03d2bbde9724"
+        }
+      ],
+      "output": "paint_top.png",
+      "selected": true,
+      "reason": "Selected after the single allowed corrective pass: restored ceramic top caps and removed the first attempt's invented blue windows. Remaining silhouette/scale and bevel-shading deviations are recorded.",
+      "status": "selected_with_deviations",
+      "requested_size": [
+        1024,
+        1024
+      ],
+      "transparent_background": true,
+      "source_output": "/home/pjasicek/.codex/generated_images/01a16dfb-cfd5-79d1-aa05-ce16275d41e0/exec-49acebce-320d-43c8-b1e1-8f1910264ce6.png",
+      "returned_size": [
+        1254,
+        1254
+      ],
+      "output_sha256": "fd77019c5fdb24fbb41d26811188a26653298f12a6c2820c1d10b51f962f496b",
+      "unresized": true,
+      "checks": {
+        "size_matches_request": false,
+        "has_transparency": true,
+        "silhouette_pixel_identical": false,
+        "normalized_silhouette_iou": 0.8256296612168611,
+        "foreground_bbox_alpha_128": [
+          113,
+          147,
+          1162,
+          1064
+        ],
+        "foreground_not_cropped": true,
+        "part_boundaries_identical": false,
+        "materials_match_reference": true,
+        "flat_even_light": false,
+        "no_text_or_letters": true,
+        "visual_review": "Ivory ceramic top caps and square plate with gold plug/rims preserved, no invented blue windows. Outer silhouette/scale and internal placement differ from guide; some bevel shading remains."
+      }
+    }
+  ],
+  "verification_method": "PNG metadata and alpha-mask measurements plus visual inspection. Normalized silhouette IoU is measured through coordinate sampling for comparison only; output pixels/files are never resized or edited.",
+  "status": "Five selected paintings saved; strict silhouette and flat-lighting requirements remain unmet after the permitted correction limit.",
+  "limitations": [
+    "All tool returns are 1254x1254 instead of requested 1024x1024; retained unresized as required.",
+    "Generated silhouette and part boundaries do not match guides exactly.",
+    "Some baked shading and gold highlights remain; these are not completely flat albedo.",
+    "Exactly one corrective regeneration was used per view; no further attempts or postprocessing.",
+    "No builds, texture projection, engine integration or runtime checks were performed."
+  ]
+}

@@ -1,0 +1,3 @@
+Saved run 2’s four views, eight raw returns, prompts/input hashes in `generation_runs.json`, and the [review sheet]( /home/pjasicek/github/OpenYAMM/level_generation/creatures/mm9_peasantm1d_claude/references_hd/selected_views_review.png), using built-in image generation.
+
+No resizing or cleanup applied. Remaining faults: stray alpha pixels, tight margins, and minor pose/profile deviations after the permitted corrections.

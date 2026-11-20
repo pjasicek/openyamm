@@ -1,0 +1,28 @@
+{
+  "prompt": "Edit the attached paint_mask_guide.png strictly according to this production brief. Input roles: image 1 design_reference.png is appearance reference only; image 2 icon_x8.png is original colour reference (magenta is background); image 3 paint_mask_guide.png is the exact edit target and immutable layout/silhouette guide.\nOutput ONE transparent PNG, 1536x2048 or nearest 3:4 size. Three columns by FOUR rows of equal cells. Rows 1-2 and rows 3-4 contain identical five orthographic model silhouettes: FRONT, BACK, LEFT / RIGHT, TOP, empty. Preserve precisely the guide's objects, positions, scales, outlines, gaps and chain openings. These views are deliberately mostly thin horizontal edge views; do NOT turn those into face-on pendants. Only the middle cell of rows 2 and 4 shows the broad pendant with chain above it. Do not move, enlarge, redesign or redraw geometry.\nRows 1-2: paint unlit base colour of source-faithful upright pendant, using design reference details and icon colours. Gold metal pendant and chain, central amber pentagonal gemstone and alternating red and blue small gemstones as reference, wherever visible in the given views. Facets, engravings, scrollwork and inner swirls follow design reference scaled to each view. No lighting, cast shadows, ambient occlusion, hot highlights, reflections, glow, sparkles, aura, ground, outlines or text.\nRows 3-4: MATERIAL MASK of those same views, FLAT pure colours only: #FF0000 all metal including gold and chain; #000000 all gemstones/crystal/glass/enamel; #0000FF cloth/cord/hair if present. Every silhouette pixel gets exactly one classification, no shading, texture, outlines or antialiased colour blends inside. Gold areas must be pure red in bottom half; amber, red and blue gemstones must all be pure black in bottom half.\nBackground truly transparent, every opening and gap fully transparent. Column 3 rows 2 and 4 completely empty transparent. Paint only existing grey objects.\nCORRECTIVE GENERATION: The previous attempt had scattered red/gold pixels outside the silhouettes, filled chain openings, and enlarged the chain. These are unacceptable. Use the original grey guide alpha silhouette exactly, including the thin chain links and transparent holes. No stray pixels anywhere. Do not add raised gemstone bumps outside edge-view outlines. Bottom masks must be solid exact red or black, with no pale lines or shading. Preserve all original thin silhouettes and exact positioning.",
+  "initial_prompt": "Edit the attached paint_mask_guide.png strictly according to this production brief. Input roles: image 1 design_reference.png is appearance reference only; image 2 icon_x8.png is original colour reference (magenta is background); image 3 paint_mask_guide.png is the exact edit target and immutable layout/silhouette guide.\nOutput ONE transparent PNG, 1536x2048 or nearest 3:4 size. Three columns by FOUR rows of equal cells. Rows 1-2 and rows 3-4 contain identical five orthographic model silhouettes: FRONT, BACK, LEFT / RIGHT, TOP, empty. Preserve precisely the guide's objects, positions, scales, outlines, gaps and chain openings. These views are deliberately mostly thin horizontal edge views; do NOT turn those into face-on pendants. Only the middle cell of rows 2 and 4 shows the broad pendant with chain above it. Do not move, enlarge, redesign or redraw geometry.\nRows 1-2: paint unlit base colour of source-faithful upright pendant, using design reference details and icon colours. Gold metal pendant and chain, central amber pentagonal gemstone and alternating red and blue small gemstones as reference, wherever visible in the given views. Facets, engravings, scrollwork and inner swirls follow design reference scaled to each view. No lighting, cast shadows, ambient occlusion, hot highlights, reflections, glow, sparkles, aura, ground, outlines or text.\nRows 3-4: MATERIAL MASK of those same views, FLAT pure colours only: #FF0000 all metal including gold and chain; #000000 all gemstones/crystal/glass/enamel; #0000FF cloth/cord/hair if present. Every silhouette pixel gets exactly one classification, no shading, texture, outlines or antialiased colour blends inside. Gold areas must be pure red in bottom half; amber, red and blue gemstones must all be pure black in bottom half.\nBackground truly transparent, every opening and gap fully transparent. Column 3 rows 2 and 4 completely empty transparent. Paint only existing grey objects.",
+  "original_output_path": "/home/pjasicek/.codex/generated_images/01a1ad00-a21b-7e61-b09e-4927907be561/exec-92ba14cf-d555-41f5-9b55-14f10a1c9692.png",
+  "inputs": [
+    {
+      "path": "level_generation/props/items_mm9_claude/codex_tex/d10162/design_reference.png",
+      "sha256": "635cb5e6d64e1e1b5ad2405f68702dd6cf7ac98c633623b7776174c8458458ae"
+    },
+    {
+      "path": "level_generation/props/items_mm9_claude/codex_tex/d10162/icon_x8.png",
+      "sha256": "f45d3dce632fb84477afa1da83529976defd856402ddb54eb0826b2584cc2c30"
+    },
+    {
+      "path": "level_generation/props/items_mm9_claude/codex_tex/d10162/paint_mask_guide.png",
+      "sha256": "558f83f86533b1a9af5dfb53e62e2003a63bdbd8d7c344ff6a7471d7e3b92a8c"
+    }
+  ],
+  "output": "level_generation/props/items_mm9_claude/codex_tex/d10162/paint_mask_raw_v1.png",
+  "size": [
+    1086,
+    1448
+  ],
+  "mode": "RGBA",
+  "tool": "built-in image_gen",
+  "corrective_regenerations": 1,
+  "validation_notes": "Layout retained; visible stray edge pixels and chain silhouette deviations remain after the permitted correction. Raw tool output copied unchanged."
+}

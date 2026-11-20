@@ -1,0 +1,47 @@
+id: turn_based.item_regeneration
+title: Turn-based - an item's spell point regeneration (of Mana) keeps working turn by turn, as buffs already do
+world: mm8
+mode: faithful
+tags: [turn_based, regression]
+steps:
+  - note:
+      text: >-
+        TB-2 in devdocs/TURN_BASED_COMBAT_AUDIT.md. A completed turn advances the clock 213/256 game minutes, and
+        GameplayController::advanceTurnBasedGameMinutes runs the party's timed states for it (buffs, Meditation) and,
+        since the fix, the per-second regeneration (Party::updateRegeneration: of Mana, of Regeneration, Plenty, ...),
+        as OpenEnroth does once per turn (NextTurn -> _494035_timed_effects -> RegeneratePartyHealthMana). Before, it
+        ran only on the frame's world time, zero in turn-based play unless the party walked. Real time gives 1 SP per
+        real second, 30 game seconds; a turn is 50 game seconds, so 12 turns are worth about 20 SP. The check asks
+        for at least 10.
+  - new_game_flow:
+      start_map: out01.odm
+      party:
+        gold: 0
+        food: 10
+        members:
+          - name: A
+            class: Cleric
+            level: 20
+            skills:
+              - {name: SpiritMagic, level: 4, mastery: 1}
+              - {name: Mace, level: 5, mastery: 1}
+            spells: [46]
+            equipment: {}
+          - {name: B, class: Knight, level: 10, skills: [{name: Sword, level: 5, mastery: 1}], equipment: {}}
+  - grant_item: {item_id: 145, member_index: 0, special: 38, equip: ring1}
+  # Control in real time: the ring gives about 1 SP a second.
+  - setup_shortcut: {kind: set_member_points, member_index: 0, spell_points: 0}
+  - advance_runtime: {seconds: 5}
+  - assert: {member_points: {member_index: 0, spell_points_min: 3}}
+  - cast_spell: {member_index: 0, spell_id: 46, skill: 10, mastery: 4, target_member: 0}
+  - assert: {buff: {spell_id: 46, present: true, remaining_min: 1}}
+  - setup_shortcut: {kind: set_member_points, member_index: 0, spell_points: 0}
+  - press_action: combat
+  # Room for a nearby monster that rolled initiative 1 to finish its action (3 s at most).
+  - advance_runtime: {seconds: 4}
+  - assert: {turn_based: {active: true, stage: attack, report: true}}
+  - turn_based_turns: {count: 12}
+  - assert: {turn_based: {active: true, stage: movement}}
+  # Control: the twelve turns ran the party's timed states, 50 game seconds each (Bless had 39600).
+  - assert: {buff: {spell_id: 46, present: true, remaining_min: 38900, remaining_max: 39050}}
+  - assert: {member_points: {member_index: 0, spell_points_min: 10}}

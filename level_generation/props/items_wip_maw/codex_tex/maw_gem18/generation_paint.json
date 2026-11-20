@@ -1,0 +1,23 @@
+{
+  "prompt": "Edit paint_mask_guide.png as precise-object-edit. Output ONE transparent PNG, 1536x2048 or nearest 3:4 size. Use the guide as exact immutable geometry/layout: three columns FOUR rows of square cells. Rows 1-2 show five views FRONT, BACK, LEFT / RIGHT, TOP, empty; rows 3-4 repeat those same five views. Paint grey objects only, preserving exact positions, sizes, outlines, facets, modeled scrollwork, every gap/opening and empty cells. Do not redraw, enlarge, move or redesign objects. design_reference.png is material/detail reference; icon_x8.png is color reference, magenta is background only. Object: Ascended Erudite Crystal, elongated hexagonal crystal prism with pointed faceted terminations at both ends, clear turquoise-cyan, held in low open polished warm yellow gold cradle with curling scrollwork and small prongs wrapping lower half/rim, upper crystal free. Rows 1-2 PAINT: unlit base color, clear turquoise-cyan crystal with pale aqua edges and inner swirls; polished warm yellow gold filigree with darker gold recesses. Facets, engraving, scrollwork, inner swirls follow design reference scaled to exact guide views. No lighting, cast shadows, ambient occlusion, hot highlights/reflections, glow, sparkles, aura, ground, outlines or text. Rows 3-4 MATERIAL MASK: identical five silhouettes filled FLAT pure colors ONLY, no shading/texture/outlines/antialiased color blends inside. EVERY metal part pure red #FF0000. EVERY crystal/gem/glass part pure black #000000, opaque black (not transparent). Every silhouette pixel exactly one of these colors. Outside silhouettes and every actual gap/opening fully transparent. Column 3 rows 2 and 4 empty transparent. Preserve exact guide geometry and all ten view placements. Return only the painted atlas.",
+  "inputs": [
+    {
+      "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/items_wip_maw/codex_tex/maw_gem18/paint_mask_guide.png",
+      "sha256": "22e905625445ba9c605e32ade57996cdc61d6351c758a795446c9ab7897b53d5"
+    },
+    {
+      "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/items_wip_maw/codex_tex/maw_gem18/design_reference.png",
+      "sha256": "d69ac29c7fe6ed50584ba368455f09df6dcac4e322b9e690f96c28c019d002d3"
+    },
+    {
+      "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/items_wip_maw/codex_tex/maw_gem18/icon_x8.png",
+      "sha256": "c452e540539f9e9892dfc1bb28660e82e881c81042fb63cf4d184ab13dc2c3f3"
+    }
+  ],
+  "original_output_path": "/home/pjasicek/.codex/generated_images/01a16ce7-fc0d-7050-a227-012a7d51dbc2/exec-fd1b87c3-07b7-4a93-8012-45ad9eb5708e.png",
+  "output": "/home/pjasicek/github/OpenYAMM/level_generation/props/items_wip_maw/codex_tex/maw_gem18/paint_mask_raw_v1.png",
+  "size": [
+    1086,
+    1448
+  ]
+}

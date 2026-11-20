@@ -1,0 +1,340 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Reserved Mana Study</title>
+<!--
+  Browser study for MAW's aura reservation on the split-arc portrait gauges (devdocs/maw/HANDOFF.md §0.5): four ways
+  to show the share of mana (or, with Legendary 32, hit points) that held auras lock away. Drawn over a native
+  1600x900 capture; the arcs use the engine's geometry (gameplay.yml ObsidianPcNHealth/Mana) and colours
+  (GameplayUiSkin::renderArc). Nothing here is wired into the game.
+-->
+<style>
+@font-face { font-family: Fondamento; src: url(../../../assets_dev/engine/fonts/truetype/fondamento_regular.ttf); }
+@font-face { font-family: Lucida; size-adjust: 120%; src: url(../../../assets_dev/engine/fonts/truetype/openyamm_lucida_faithful.ttf); }
+@font-face { font-family: Alegreya; font-weight: 400 900; src: url(../../../assets_dev/engine/fonts/truetype/alegreya_variable.ttf); }
+:root {
+  --ivory: #efe0bc; --label: #e6d1a8; --body: #c8c7a7; --muted: #9fa594; --gold: #e3c185; --brass: #8c815f;
+  --good: #8fe08a; --mana: #8fc3ff;
+  color-scheme: dark;
+}
+* { box-sizing: border-box; }
+body { margin: 0; background: #05090a; color: var(--ivory); font: 14px Lucida, sans-serif; }
+.review { display: flex; gap: 10px; align-items: center; padding: 10px 18px; border-bottom: 1px solid #333a33;
+  flex-wrap: wrap; }
+.review button { background: #1b2524; color: #d6c6a2; border: 1px solid #556052; padding: 6px 10px; font: inherit;
+  cursor: pointer; }
+.review button[aria-pressed="true"] { border-color: #d6bb80; color: #ffe7b0; }
+.review label { color: #c8c7a7; display: inline-flex; gap: 6px; align-items: center; }
+.review input[type=range] { width: 140px; }
+.review output { color: var(--gold); min-width: 34px; }
+#stage { display: block; width: 100%; height: auto; }
+section { padding: 14px 18px 4px; }
+h2 { font: 24px Fondamento, serif; color: var(--label); margin: 4px 0 10px; font-weight: normal; }
+.grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 14px; }
+.card { background: #0b1212; border: 1px solid #3c4436; padding: 10px; }
+.card.on { border-color: #d6bb80; }
+.card h3 { margin: 0 0 2px; font: 20px Fondamento, serif; color: var(--label); font-weight: normal; }
+.card .from { font: 12px Lucida, sans-serif; color: var(--muted); margin-bottom: 8px; }
+.card .pair { display: flex; gap: 6px; }
+.card .pair figure { margin: 0; flex: 1; }
+.card .pair svg { width: 100%; height: auto; display: block; background: #000; }
+.card figcaption { font: 12px Lucida, sans-serif; color: var(--muted); text-align: center; margin-top: 3px; }
+.card p { font: 14px/1.4 Alegreya, serif; font-weight: 600; color: var(--body); margin: 8px 0 0; }
+.tip { width: 100%; height: 100%; padding: 9px 12px; background: #0b1212f2; border: 1px solid var(--brass);
+  font: 13px/1.45 Lucida, sans-serif; color: var(--body); box-shadow: 0 4px 12px #000c; }
+.tip h4 { margin: 0 0 4px; font: 19px Fondamento, serif; color: var(--label); font-weight: normal; }
+.tip .row { display: flex; justify-content: space-between; }
+.tip .mana { color: var(--mana); } .tip .good { color: var(--good); } .tip .gold { color: var(--gold); }
+.tip .muted { color: var(--muted); }
+.tip hr { border: 0; border-top: 1px solid #3c4436; margin: 5px 0; }
+body.export .review, body.export section { display: none; }
+body.export-closeups .review, body.export-closeups #stage { display: none; }
+</style>
+</head>
+<body>
+<div class="review">
+  <span>Option</span>
+  <button data-option="A">A · Locked cap</button>
+  <button data-option="B">B · Dimmed cap</button>
+  <button data-option="C">C · Outer rim</button>
+  <button data-option="D">D · Shorter gauge</button>
+  <label>Reserved <input id="reserved" type="range" min="0" max="80" value="35"><output id="reservedOut"></output></label>
+  <label>Current <input id="current" type="range" min="0" max="100" value="70"><output id="currentOut"></output></label>
+  <label><input id="health" type="checkbox"> Auras reserve HP (Legendary 32)</label>
+  <label><input id="hover" type="checkbox" checked> Hover popup</label>
+</div>
+
+<svg id="stage" viewBox="0 0 1600 900" xmlns="http://www.w3.org/2000/svg"></svg>
+
+<section>
+  <h2>The four options, Zoltan close up (half mana · mana at the cap)</h2>
+  <div class="grid" id="closeups"></div>
+</section>
+
+<script>
+'use strict';
+
+// Engine arc geometry at 1600x900 (HUD scale 1.875): ObsidianPcN Health/Mana are 60.4 x 76.8 logical units around
+// the face's centre with a 4.6-unit stroke; HP sweeps 100 -> 260 degrees, mana 80 -> -80 (both fill upward).
+const Scale = 1.875;
+const Rx = 30.2 * Scale, Ry = 38.4 * Scale, Stroke = 4.6 * Scale;
+const centre = i => [498.5 + 150 * i, 802];
+const HealthArc = [100, 160], ManaArc = [80, -160];
+
+// GameplayUiSkin::renderArc colours: light, middle, dark across the stroke.
+const Colours = {
+  hpHigh: ['#acd69b', '#80ad77', '#315834'], hpMid: ['#ead28c', '#c7a557', '#766031'],
+  hpLow: ['#e99682', '#c9685e', '#76362d'], mana: ['#abcfd8', '#73a4b7', '#2d596a'],
+  trackEdge: '#938666', track: '#0a1312',
+  dim: ['#6f8590', '#4d6470', '#263840'], dimHp: ['#8a9a82', '#647560', '#2f3b2c'],
+};
+
+// The party: hp and mana as fractions of the maximum; reserved is the share auras hold; Zoltan (5) follows the
+// sliders.
+const Party = [
+  { name: 'Fredrick', hp: 0.92, mana: 0.40, reserved: 0.10 },
+  { name: 'Alexis', hp: 0.80, mana: 0.55, reserved: 0.00 },
+  { name: 'Serena', hp: 0.46, mana: 0.30, reserved: 0.20 },
+  { name: 'Lys', hp: 0.60, mana: 0.48, reserved: 0.15 },
+  { name: 'Zoltan', hp: 0.88, mana: 0.45, reserved: 0.35 },
+];
+
+const state = { option: 'A', reserved: 0.35, current: 0.70, health: false, hover: true };
+
+function point(c, arc, t, offset = 0)
+{
+  const a = (arc[0] + arc[1] * t) * Math.PI / 180;
+  return [c[0] + (Rx + offset) * Math.cos(a), c[1] + (Ry + offset) * Math.sin(a)];
+}
+
+function path(c, arc, from, to, offset = 0)
+{
+  if (to <= from) return '';
+  const steps = Math.max(2, Math.ceil((to - from) * 64));
+  let d = '';
+  for (let s = 0; s <= steps; ++s)
+  {
+    const p = point(c, arc, from + (to - from) * s / steps, offset);
+    d += (s ? 'L' : 'M') + p[0].toFixed(2) + ' ' + p[1].toFixed(2);
+  }
+  return d;
+}
+
+const stroke = (d, colour, width, extra = '') => d
+  ? `<path d="${d}" fill="none" stroke="${colour}" stroke-width="${width}" ${extra}/>` : '';
+
+// A shaded segment as the engine draws it: the middle colour with a light outer and a dark inner edge.
+function shaded(c, arc, from, to, colours, extra = '')
+{
+  return stroke(path(c, arc, from, to), colours[1], Stroke, extra)
+    + stroke(path(c, arc, from, to, Stroke * 0.32), colours[0], Stroke * 0.3, extra)
+    + stroke(path(c, arc, from, to, -Stroke * 0.34), colours[2], Stroke * 0.28, extra);
+}
+
+// A short mark across the stroke at t, for the boundary between free and reserved.
+function tick(c, arc, t, colour, width, reach)
+{
+  const a = point(c, arc, t, reach), b = point(c, arc, t, -reach);
+  return `<line x1="${a[0]}" y1="${a[1]}" x2="${b[0]}" y2="${b[1]}" stroke="${colour}" stroke-width="${width}"
+    stroke-linecap="round"/>`;
+}
+
+function diamond(p, size, colour)
+{
+  return `<path d="M${p[0]} ${p[1] - size}L${p[0] + size} ${p[1]}L${p[0]} ${p[1] + size}L${p[0] - size} ${p[1]}Z"
+    fill="${colour}" stroke="#000" stroke-width="0.8"/>`;
+}
+
+function track(c, arc, from = 0, to = 1)
+{
+  return stroke(path(c, arc, from, to), Colours.trackEdge, Stroke + 1.7 * Scale)
+    + stroke(path(c, arc, from, to), Colours.track, Stroke + 0.5 * Scale);
+}
+
+// One gauge: amount and reserved are fractions of the maximum; the fill never passes 1 - reserved.
+function gauge(c, arc, amount, reserved, colours, option, isHealth)
+{
+  const cap = 1 - reserved;
+  const fill = Math.min(amount, cap);
+  let svg = '';
+  if (reserved <= 0)
+  {
+    return track(c, arc) + (fill > 0 ? shaded(c, arc, 0, fill, colours) : '');
+  }
+  if (option === 'D')
+  {
+    // The gauge is shorter: no track past the cap, a brass end cap and a faint dotted ghost of the locked span.
+    svg += stroke(path(c, arc, cap, 1), '#938666', 1.4, 'stroke-dasharray="1.5 4" opacity="0.65"');
+    svg += track(c, arc, 0, cap);
+    svg += fill > 0 ? shaded(c, arc, 0, fill, colours) : '';
+    svg += tick(c, arc, cap, '#e3c185', 2.6, Stroke * 0.95);
+    return svg;
+  }
+  svg += track(c, arc);
+  if (option === 'A')
+  {
+    // Locked: a dark slate band with diagonal hatching and a gold mark at the cap (Path of Exile's reserved orb).
+    svg += stroke(path(c, arc, cap, 1), isHealth ? '#25301f' : '#1b2a36', Stroke);
+    svg += stroke(path(c, arc, cap, 1), `url(#hatch${isHealth ? 'Hp' : ''})`, Stroke);
+    svg += fill > 0 ? shaded(c, arc, 0, fill, colours) : '';
+    svg += tick(c, arc, cap, '#e3c185', 2.2, Stroke * 0.8);
+  }
+  else if (option === 'B')
+  {
+    // Dimmed: the reserved span in a greyed, darker shade of the gauge colour (Grim Dawn, Last Epoch).
+    svg += shaded(c, arc, cap, 1, isHealth ? Colours.dimHp : Colours.dim, 'opacity="0.9"');
+    svg += fill > 0 ? shaded(c, arc, 0, fill, colours) : '';
+    svg += tick(c, arc, cap, '#efe0bc', 1.6, Stroke * 0.65);
+  }
+  else if (option === 'C')
+  {
+    // A thin gold rim outside the gauge along the reserved span, as the personal shield rim; the gauge itself is
+    // unchanged and simply cannot fill that far.
+    svg += fill > 0 ? shaded(c, arc, 0, fill, colours) : '';
+    const offset = Stroke * 0.5 + 2.6 * Scale;
+    svg += stroke(path(c, arc, cap, 1, offset), '#000', 3.6);
+    svg += stroke(path(c, arc, cap, 1, offset), '#e3c185', 2.2);
+    svg += diamond(point(c, arc, cap, offset), 3.4, '#e3c185');
+  }
+  return svg;
+}
+
+function healthColours(fraction)
+{
+  return fraction >= 0.66 ? Colours.hpHigh : fraction > 0.33 ? Colours.hpMid : Colours.hpLow;
+}
+
+function member(i)
+{
+  const m = Party[i];
+  if (i !== 4) return m;
+  const reserved = state.reserved;
+  const free = (1 - reserved) * state.current;
+  return state.health
+    ? { ...m, hp: free, hpReserved: reserved, mana: 0.62, manaReserved: 0 }
+    : { ...m, mana: free, manaReserved: reserved };
+}
+
+function party(option)
+{
+  let svg = '';
+  for (let i = 0; i < Party.length; ++i)
+  {
+    const c = centre(i);
+    const m = member(i);
+    const hpReserved = m.hpReserved ?? 0;
+    const manaReserved = m.manaReserved ?? m.reserved;
+    svg += gauge(c, HealthArc, m.hp, hpReserved, healthColours(m.hp / (1 - hpReserved)), option, true);
+    svg += gauge(c, ManaArc, m.mana, manaReserved, Colours.mana, option, false);
+  }
+  return svg;
+}
+
+const Defs = `<defs>
+  <pattern id="hatch" width="5" height="5" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
+    <rect width="2" height="5" fill="#5f88a0" opacity="0.85"/></pattern>
+  <pattern id="hatchHp" width="5" height="5" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
+    <rect width="2" height="5" fill="#7f9a6c" opacity="0.85"/></pattern>
+</defs>`;
+const Backdrop = '<image href="../maw_potion_radial_20261025/gameplay_backdrop.jpg" width="1600" height="900"/>';
+
+function tooltip()
+{
+  const maximum = state.health ? 820 : 400;
+  const reserved = Math.round(maximum * state.reserved);
+  const free = maximum - reserved;
+  const current = Math.round(free * state.current);
+  const share = (part) => Math.round(reserved * part);
+  const kind = state.health ? 'Hit points' : 'Spell points';
+  const cls = state.health ? 'good' : 'mana';
+  const auras = reserved > 0 ? `<hr>
+    <div class="row"><span>Hour of Power</span><span class="gold">${share(100 / 140)}</span></div>
+    <div class="row"><span>Stone Skin</span><span class="gold">${share(30 / 140)}</span></div>
+    <div class="row"><span>Torch Light</span><span class="gold">${reserved - share(100 / 140) - share(30 / 140)}</span></div>`
+    : '';
+  return `<foreignObject x="938" y="512" width="320" height="${reserved > 0 ? 196 : 112}">
+    <div xmlns="http://www.w3.org/1999/xhtml" class="tip">
+      <h4>Zoltan · ${kind}</h4>
+      <div class="row"><span>${kind}</span><span class="${cls}">${current} / ${free}</span></div>
+      <div class="row"><span>Held by auras</span><span class="gold">${reserved} (${Math.round(state.reserved * 100)} %)</span></div>
+      <div class="row muted"><span>Left free</span><span>${state.health ? 'HP' : 'Mana'} ${100 - Math.round(state.reserved * 100)} %</span></div>
+      ${auras}
+    </div></foreignObject>`;
+}
+
+function render()
+{
+  document.getElementById('stage').innerHTML = Defs + Backdrop + party(state.option) + (state.hover ? tooltip() : '');
+  document.getElementById('reservedOut').textContent = Math.round(state.reserved * 100) + ' %';
+  document.getElementById('currentOut').textContent = Math.round(state.current * 100) + ' %';
+  for (const b of document.querySelectorAll('[data-option]'))
+  {
+    b.setAttribute('aria-pressed', b.dataset.option === state.option);
+  }
+  renderCloseups();
+}
+
+const Options = [
+  { id: 'A', title: 'A · Locked cap', from: 'As in Path of Exile and Diablo IV', text: 'The reserved end of the arc is a dark '
+    + 'hatched band with a gold mark where the free pool ends. Reads at once as "locked", in any colour band.' },
+  { id: 'B', title: 'B · Dimmed cap', from: 'As in Grim Dawn and Last Epoch', text: 'The reserved end in a greyed, darker '
+    + 'shade of the gauge colour. The quietest option; at low reservations the dim band and the empty track look alike.' },
+  { id: 'C', title: 'C · Outer rim', from: 'Like our personal energy shield rim', text: 'The arc is unchanged; a thin gold rim '
+    + 'outside it spans the reserved share. Matches the HUD\'s existing language, but the arc then looks merely not full.' },
+  { id: 'D', title: 'D · Shorter gauge', from: 'As in Torchlight and many MMOs', text: 'The gauge ends at the cap with a gold '
+    + 'end mark; a faint dotted line traces what the auras hold. Cleanest, but the arcs of the party get different lengths.' },
+];
+
+function renderCloseups()
+{
+  const saved = { ...state };
+  let html = '';
+  for (const option of Options)
+  {
+    html += `<div class="card ${option.id === state.option ? 'on' : ''}" data-card="${option.id}">
+      <h3>${option.title}</h3><div class="from">${option.from}</div><div class="pair">`;
+    for (const [current, caption] of [[0.5, 'half'], [1.0, 'at the cap']])
+    {
+      state.current = current;
+      state.hover = false;
+      html += `<figure><svg viewBox="1028 718 142 168" xmlns="http://www.w3.org/2000/svg">${Defs}${Backdrop}`
+        + `${party(option.id)}</svg><figcaption>${caption}</figcaption></figure>`;
+    }
+    Object.assign(state, saved);
+    html += `</div><p>${option.text}</p></div>`;
+  }
+  const closeups = document.getElementById('closeups');
+  closeups.innerHTML = html;
+  for (const card of closeups.querySelectorAll('[data-card]'))
+  {
+    card.onclick = () => { state.option = card.dataset.card; render(); };
+  }
+}
+
+const params = new URLSearchParams(location.search);
+state.option = params.get('option') ?? state.option;
+if (params.has('reserved')) state.reserved = Number(params.get('reserved')) / 100;
+if (params.has('current')) state.current = Number(params.get('current')) / 100;
+state.health = params.get('health') === '1';
+state.hover = params.get('hover') !== '0';
+if (params.get('export') === 'stage') document.body.classList.add('export');
+if (params.get('export') === 'closeups') document.body.classList.add('export-closeups');
+document.getElementById('reserved').value = Math.round(state.reserved * 100);
+document.getElementById('current').value = Math.round(state.current * 100);
+document.getElementById('health').checked = state.health;
+document.getElementById('hover').checked = state.hover;
+
+for (const b of document.querySelectorAll('[data-option]'))
+{
+  b.onclick = () => { state.option = b.dataset.option; render(); };
+}
+document.getElementById('reserved').oninput = e => { state.reserved = e.target.value / 100; render(); };
+document.getElementById('current').oninput = e => { state.current = e.target.value / 100; render(); };
+document.getElementById('health').onchange = e => { state.health = e.target.checked; render(); };
+document.getElementById('hover').onchange = e => { state.hover = e.target.checked; render(); };
+render();
+</script>
+</body>
+</html>

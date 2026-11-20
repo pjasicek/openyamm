@@ -2,6 +2,7 @@
 #include "engine/AssetScaleTier.h"
 #include "game/content/ContentManifest.h"
 #include "game/content/ContentTableComposer.h"
+#include "game/gameplay/GameplayActorService.h"
 
 #include <doctest/doctest.h>
 
@@ -53,6 +54,8 @@ TEST_CASE("content manifests default when package files are absent")
         CHECK_EQ(world.start.mapFileName, "out01.odm");
         CHECK_FALSE(world.partyMovement.declared);
         CHECK_FALSE(world.actorAwareness.declared);
+        // MM6-MM8 keep MMerge's street NPCs (group news, generated peasants) unless world.yml turns them off.
+        CHECK(world.streetNpcs);
     }
 
     std::filesystem::remove_all(temporaryRoot);
@@ -79,6 +82,18 @@ TEST_CASE("content manifests parse mounted world definition")
         "  maxStepHeight: 40.96\n"
         "actorAwareness:\n"
         "  partyEngagementRange: 4096\n"
+        "  mm9Sight: {allRound: true, scale: 1.5}\n"
+        "  mm9Provoke: {range: 4096, radius: 256}\n"
+        "actorCombat:\n"
+        "  meleeVerticalReach: 0.5\n"
+        "tavernHirelings: false\n"
+        "streetNpcs: false\n"
+        "music:\n"
+        "  repeatGapSeconds: 10\n"
+        "  battleTrack: 90003\n"
+        "ambientSounds:\n"
+        "  dayHours: [5, 17]\n"
+        "  pan: false\n"
         "start:\n"
         "  map: custom01.odm\n"
         "  introMovie: custom_intro\n");
@@ -110,9 +125,104 @@ TEST_CASE("content manifests parse mounted world definition")
         CHECK_EQ(world.partyMovement.maxStepHeight, doctest::Approx(40.96f));
         REQUIRE(world.actorAwareness.declared);
         CHECK_EQ(world.actorAwareness.partyEngagementRange, 4096.0f);
+        CHECK(world.actorAwareness.mm9SightAllRound);
+        CHECK_EQ(world.actorAwareness.mm9SightScale, 1.5f);
+        CHECK_EQ(world.actorAwareness.mm9ProvokeRange, 4096.0f);
+        CHECK_EQ(world.actorAwareness.mm9ProvokeRadius, 256.0f);
+        CHECK_EQ(world.actorCombat.meleeVerticalReach, 0.5f);
+        CHECK_FALSE(world.tavernHirelings);
+        CHECK_FALSE(world.streetNpcs);
+        CHECK_EQ(world.music.repeatGapSeconds, 10.0f);
+        CHECK_EQ(world.music.battleTrack, 90003);
+        CHECK_EQ(world.music.battleFadeSeconds, 2.5f);
+        CHECK_EQ(world.ambientSounds.dayStartHour, 5.0f);
+        CHECK_EQ(world.ambientSounds.dayEndHour, 17.0f);
+        CHECK_FALSE(world.ambientSounds.pan);
     }
 
     std::filesystem::remove_all(temporaryRoot);
+}
+
+TEST_CASE("only MM9 turns MMerge's street NPCs off: its dogs and townsfolk without DoRude get no generated dialogue")
+{
+    // The 2026-11-07 playtest bug: Sturmford City's dogs (group 3, no NPC, no RUDE id) answered with npc_group.txt
+    // group 3's MM8 news and a stand-in portrait. MM9's groups are its scripts'; MM6-MM8 keep their street NPCs.
+    const std::filesystem::path sourceRoot = OPENYAMM_SOURCE_DIR;
+
+    for (const char *pWorldId : {"mm6", "mm7", "mm8", "mm9"})
+    {
+        if (!std::filesystem::exists(sourceRoot / "assets_dev" / "worlds" / pWorldId / "world.yml"))
+        {
+            continue;
+        }
+
+        OpenYAMM::Engine::AssetFileSystem assetFileSystem;
+        REQUIRE(assetFileSystem.initialize(
+            sourceRoot,
+            sourceRoot / "assets_dev",
+            OpenYAMM::Engine::AssetScaleTier::X1,
+            pWorldId));
+        std::string error;
+        const OpenYAMM::Game::WorldManifest world =
+            OpenYAMM::Game::loadActiveWorldManifestOrDefault(assetFileSystem, pWorldId, error);
+        CAPTURE(pWorldId);
+        CHECK(error.empty());
+        CHECK_EQ(world.streetNpcs, std::string(pWorldId) != "mm9");
+    }
+}
+
+TEST_CASE("only MM9's friendly actors block the party: MM6-MM8 parties walk through townsfolk")
+{
+    // The user, 2026-11-07: MM9's NPCs, townsfolk and animals are solid; MM6-MM8 keep the walk-through rule.
+    const std::filesystem::path sourceRoot = OPENYAMM_SOURCE_DIR;
+
+    for (const char *pWorldId : {"mm6", "mm7", "mm8", "mm9"})
+    {
+        if (!std::filesystem::exists(sourceRoot / "assets_dev" / "worlds" / pWorldId / "world.yml"))
+        {
+            continue;
+        }
+
+        OpenYAMM::Engine::AssetFileSystem assetFileSystem;
+        REQUIRE(assetFileSystem.initialize(
+            sourceRoot,
+            sourceRoot / "assets_dev",
+            OpenYAMM::Engine::AssetScaleTier::X1,
+            pWorldId));
+        std::string error;
+        const OpenYAMM::Game::WorldManifest world =
+            OpenYAMM::Game::loadActiveWorldManifestOrDefault(assetFileSystem, pWorldId, error);
+        CAPTURE(pWorldId);
+        CHECK(error.empty());
+        CHECK_EQ(world.friendlyActorsBlockParty, std::string(pWorldId) == "mm9");
+    }
+
+    CHECK_FALSE(OpenYAMM::Game::WorldManifest{}.friendlyActorsBlockParty);
+
+    using OpenYAMM::Game::GameplayActorControlMode;
+    OpenYAMM::Game::GameplayActorService actorService;
+    // MM6-MM8 (the default): only hostile actors block.
+    CHECK(actorService.actorBlocksPartyMovement(true, GameplayActorControlMode::None));
+    CHECK_FALSE(actorService.actorBlocksPartyMovement(false, GameplayActorControlMode::None));
+    // MM9: friendly actors block too, except the party's own charmed, enslaved or raised monsters.
+    actorService.setFriendlyActorsBlockParty(true);
+    CHECK(actorService.actorBlocksPartyMovement(true, GameplayActorControlMode::None));
+    CHECK(actorService.actorBlocksPartyMovement(false, GameplayActorControlMode::None));
+    CHECK(actorService.actorBlocksPartyMovement(false, GameplayActorControlMode::Berserk));
+    CHECK_FALSE(actorService.actorBlocksPartyMovement(false, GameplayActorControlMode::Charm));
+    CHECK_FALSE(actorService.actorBlocksPartyMovement(false, GameplayActorControlMode::Enslaved));
+    CHECK_FALSE(actorService.actorBlocksPartyMovement(false, GameplayActorControlMode::ControlUndead));
+    CHECK_FALSE(actorService.actorBlocksPartyMovement(false, GameplayActorControlMode::Reanimated));
+}
+
+TEST_CASE("worlds without music or ambient sound rules keep the MM6-MM8 defaults")
+{
+    const OpenYAMM::Game::WorldManifest world = {};
+    CHECK_EQ(world.music.repeatGapSeconds, 0.0f);
+    CHECK_EQ(world.music.battleTrack, 0);
+    CHECK_EQ(world.ambientSounds.dayStartHour, 6.0f);
+    CHECK_EQ(world.ambientSounds.dayEndHour, 20.0f);
+    CHECK(world.ambientSounds.pan);
 }
 
 TEST_CASE("content manifests reject incomplete party movement profiles")
@@ -173,6 +283,87 @@ TEST_CASE("content manifests reject invalid actor awareness profiles")
             "invalid",
             error).has_value());
         CHECK(error.find("partyEngagementRange") != std::string::npos);
+    }
+
+    std::filesystem::remove_all(temporaryRoot);
+}
+
+TEST_CASE("content manifests reject invalid actor combat profiles; without one melee ignores height")
+{
+    const std::filesystem::path temporaryRoot = makeTemporaryRoot();
+    const std::filesystem::path assetRoot = temporaryRoot / "assets_dev";
+
+    writeTextFile(
+        assetRoot / "worlds" / "invalid" / "world.yml", "id: invalid\nactorCombat:\n  meleeVerticalReach: -1\n");
+    writeTextFile(assetRoot / "worlds" / "missing" / "world.yml", "id: missing\nactorCombat: {}\n");
+    writeTextFile(assetRoot / "worlds" / "plain" / "world.yml", "id: plain\n");
+
+    {
+        OpenYAMM::Engine::AssetFileSystem assetFileSystem;
+        REQUIRE(assetFileSystem.initialize(
+            temporaryRoot,
+            assetRoot,
+            OpenYAMM::Engine::AssetScaleTier::X1,
+            "mm8"));
+
+        std::string error;
+        CHECK_FALSE(OpenYAMM::Game::loadWorldManifest(assetFileSystem, "worlds/invalid/world.yml", "invalid", error)
+            .has_value());
+        CHECK(error.find("meleeVerticalReach must be a number in 0-4") != std::string::npos);
+        CHECK_FALSE(OpenYAMM::Game::loadWorldManifest(assetFileSystem, "worlds/missing/world.yml", "missing", error)
+            .has_value());
+        CHECK(error.find("actorCombat must declare meleeVerticalReach") != std::string::npos);
+        const std::optional<OpenYAMM::Game::WorldManifest> plain =
+            OpenYAMM::Game::loadWorldManifest(assetFileSystem, "worlds/plain/world.yml", "plain", error);
+        REQUIRE(plain.has_value());
+        CHECK_EQ(plain->actorCombat.meleeVerticalReach, 0.0f);
+    }
+
+    std::filesystem::remove_all(temporaryRoot);
+}
+
+TEST_CASE("content manifests parse the actor level radius limit; without one a body meets the level at its radius")
+{
+    const std::filesystem::path temporaryRoot = makeTemporaryRoot();
+    const std::filesystem::path assetRoot = temporaryRoot / "assets_dev";
+
+    writeTextFile(
+        assetRoot / "worlds" / "limited" / "world.yml", "id: limited\nactorMovement:\n  levelRadiusLimit: 60\n");
+    writeTextFile(
+        assetRoot / "worlds" / "invalid" / "world.yml", "id: invalid\nactorMovement:\n  levelRadiusLimit: -1\n");
+    writeTextFile(assetRoot / "worlds" / "missing" / "world.yml", "id: missing\nactorMovement: {}\n");
+    writeTextFile(assetRoot / "worlds" / "plain" / "world.yml", "id: plain\n");
+
+    {
+        OpenYAMM::Engine::AssetFileSystem assetFileSystem;
+        REQUIRE(assetFileSystem.initialize(
+            temporaryRoot,
+            assetRoot,
+            OpenYAMM::Engine::AssetScaleTier::X1,
+            "mm8"));
+
+        std::string error;
+        const std::optional<OpenYAMM::Game::WorldManifest> limited =
+            OpenYAMM::Game::loadWorldManifest(assetFileSystem, "worlds/limited/world.yml", "limited", error);
+        REQUIRE(limited.has_value());
+        CHECK_EQ(limited->actorMovement.levelRadiusLimit, 60.0f);
+        CHECK_FALSE(OpenYAMM::Game::loadWorldManifest(assetFileSystem, "worlds/invalid/world.yml", "invalid", error)
+            .has_value());
+        CHECK(error.find("levelRadiusLimit must be a finite number, 0 or more") != std::string::npos);
+        CHECK_FALSE(OpenYAMM::Game::loadWorldManifest(assetFileSystem, "worlds/missing/world.yml", "missing", error)
+            .has_value());
+        CHECK(error.find("actorMovement must declare levelRadiusLimit") != std::string::npos);
+        const std::optional<OpenYAMM::Game::WorldManifest> plain =
+            OpenYAMM::Game::loadWorldManifest(assetFileSystem, "worlds/plain/world.yml", "plain", error);
+        REQUIRE(plain.has_value());
+        CHECK_EQ(plain->actorMovement.levelRadiusLimit, 0.0f);
+
+        // A Queen Cobra (radius 72) meets the level at the limit; a narrower body keeps its own radius.
+        OpenYAMM::Game::GameplayActorService actorService;
+        CHECK_EQ(actorService.levelCollisionRadius(72.0f), 72.0f);
+        actorService.setLevelRadiusLimit(limited->actorMovement.levelRadiusLimit);
+        CHECK_EQ(actorService.levelCollisionRadius(72.0f), 60.0f);
+        CHECK_EQ(actorService.levelCollisionRadius(40.0f), 40.0f);
     }
 
     std::filesystem::remove_all(temporaryRoot);

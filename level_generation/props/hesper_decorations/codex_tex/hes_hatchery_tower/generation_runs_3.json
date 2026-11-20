@@ -1,0 +1,308 @@
+{
+  "brief": "CODEX_BRIEF_3.md",
+  "tool": "built-in image_gen",
+  "status": "incomplete_requirements_not_met",
+  "selection_policy": "Keep the best unmodified native return from at most one initial generation plus one corrective regeneration per view. Selection does not mean acceptance as brief-compliant.",
+  "corrective_regenerations": {
+    "left": 1,
+    "right": 1
+  },
+  "limitations": [
+    "All four tool returns are 1254x1254 despite requesting 1024x1024. They are preserved unresized.",
+    "Exact guide silhouette, internal shape edges and flat albedo lighting were not achieved.",
+    "Real transparency exists, but faint alpha fringe and near-opaque rather than fully opaque interior pixels remain.",
+    "The permitted corrective regeneration per view has been used; no additional generations were made."
+  ],
+  "postprocessing": "None. Selected outputs are byte-identical copies of built-in tool returns. No resize, crop, masking, recolouring or alpha repair.",
+  "runs": [
+    {
+      "view": "left",
+      "attempt": 1,
+      "prompt": "Use case: style-transfer.\nAsset type: orthographic texture-source/albedo painting for an EXISTING 3D model.\nEdit image 1 directly. Its geometry and alpha are immutable. Image 2, design_reference.png, is ONLY the approved colour and material authority. Image 3, concept_crop.png, is supporting original concept reference.\nOutput exactly ONE 1024 x 1024 RGBA PNG with genuine transparent background, at the same original canvas size, unresized.\nThis is a surface recolouring/texturing of image 1, not a new tower design. Keep the guide's silhouette EXACTLY: every contour, angular shape edge, spike, opening, rib, faceted panel, overlap, notch, size, camera and pixel position must remain where the guide has it. Preserve the exact transparent holes and surrounding alpha mask. The guide occupies x=128..895, y=66..957, with centreline x=512. Do not crop, zoom, translate, rotate, flip, smooth out the mesh, or borrow the three-quarter camera or silhouette from the design reference.\nPaint the design reference's glossy black-violet resin lattice and chitin onto the existing ribs and shell; paint existing recessed arched panels and sacs rich glowing amber-orange; ivory bone for the existing upper spike and horns. Preserve the dark aubergine/black-violet, orange and ivory material identities and fine organic surface markings from the approved design. Represent glossy material identity through its surface colour/texture, WITHOUT baked specular lighting. Follow the grey model shapes exactly, even where they are simpler than the reference. Add surface pigmentation only, never additional geometry, new openings, protrusions or outer detail.\nLIGHTING: albedo texture source under perfectly even, flat, shadowless viewer light. NO cast shadows, NO ambient-occlusion darkening, NO strong specular highlights, NO reflections, NO rim light, NO directional shading or shaded side. Orange sacs and seams are painted their glowing colour only; no light spill on adjacent surfaces, no bloom, no halo. No background, floor, sky, atmosphere, scene, lettering, labels, checkerboard pixels or watermark. Keep ALL original transparent pixels transparent.\nView: LEFT, using guide_left.png as the exact edit target. Preserve this left side's distinctive broad low lateral panels and long central downward spine, with every guide edge in place. Paint only the visible surfaces of this supplied left orthographic view.",
+      "inputs": [
+        {
+          "path": "guide_left.png",
+          "role": "exact geometry and alpha edit target",
+          "sha256": "ae9f545060f57a928d5483961f66a16f44c7eded102a922c8b62ff1dc16495ce"
+        },
+        {
+          "path": "design_reference.png",
+          "role": "approved material and colour authority",
+          "sha256": "e75d732c6a6e3df00722e8a65c038cf46263673fcef0523771ceef11b890d39d"
+        },
+        {
+          "path": "concept_crop.png",
+          "role": "supporting original concept",
+          "sha256": "a34f07d3e9387f257e099d165073a8d5c289bfaa38f573bb1e43c233a99aeb9a"
+        }
+      ],
+      "source": "/home/pjasicek/.codex/generated_images/01a1689c-a3ef-7110-9cf9-89c04e705b60/exec-23003583-cf49-48a3-9d61-b6d6ad1f2d66.png",
+      "output": "paint_left.png",
+      "selected": true,
+      "reason": "Selected as the closer overall framing and material assignment of the two left returns; the correction enlarges/shifts the form and makes the long central resin rib ivory. This selection is preservation only, not acceptance: native resolution, exact guide edges and flat-light requirements fail.",
+      "meets_all_brief_requirements": false,
+      "output_sha256": "d22f43673b9f5064e7d49549a203284846bbaebb913b9a89426a4cc4e15394b1",
+      "checks": {
+        "native_dimensions": [
+          1254,
+          1254
+        ],
+        "required_dimensions": [
+          1024,
+          1024
+        ],
+        "dimensions_match": false,
+        "mode": "RGBA",
+        "transparent_background": true,
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "alpha_bounds": [
+          21,
+          19,
+          1246,
+          1254
+        ],
+        "bounds_alpha_at_least_128": [
+          156,
+          76,
+          1098,
+          1176
+        ],
+        "transparent_pixels": 1176183,
+        "opaque_pixels": 417,
+        "guide_alpha_bounds": [
+          128,
+          66,
+          896,
+          958
+        ],
+        "silhouette_identical": false,
+        "materials_and_colours": "Black-violet resin, orange sacs and ivory bone are present, but some material boundaries and surface details differ from the references and guide.",
+        "flat_even_light": false,
+        "lighting_notes": "Reflective edge highlights and shaded cavities remain; not flat albedo.",
+        "silhouette_notes": "Native resolution differs from the guide and the model changes outlines, openings and internal edges.",
+        "unresized_return": true,
+        "byte_identical_to_tool_return": true
+      }
+    },
+    {
+      "view": "left",
+      "attempt": 2,
+      "prompt": "Use case: precise-object-edit. Corrective colour-only edit of image 1, guide_left.png.\nDELIVER EXACTLY 1024 pixels wide by 1024 pixels high, RGBA PNG, true transparent background. Keep image 1's original 1024x1024 canvas and original alpha mask unchanged.\nImage 1 is the LEFT orthographic model and the immutable edit target. Image 2 design_reference.png supplies material pigment only. Image 3 concept_crop.png is supporting material reference.\nThe earlier attempt was wrongly 1254x1254 with shifted edges, new small holes and specular lights. Correct that by treating image 1 as a locked stencil: replace its grey surface RGB with colour, leaving every contour and alpha pixel exactly where it is. No geometry redesign or extra ornament. Retain all straight/faceted edges, openings, angular ribs, existing spikes, broad left/right basal oval panels, long central downward spine and overlaps. Do not smooth or reshape them. Preserve tip at (512,66), widest points x128 and x895, lowest tips y957. Keep holes transparent. Do not copy the reference's shape, perspective or lighting.\nPaint existing ribs and chitin black-violet resin, recessed sacs/arched panels warm saturated amber-orange, existing top spire and horn surfaces ivory bone. Fine organic pigment texture should come from the design reference, confined to the guide shapes. Keep solid plates solid; do not draw extra holes or raised lattice. The resin is a glossy substance, but only its BASE COLOUR is wanted here.\nTEXTURE SOURCE / UNLIT ALBEDO: every surface evenly, flatly lit from the viewer. No cast shadows, ambient occlusion, cavity shadowing, white specular marks, highlights, reflections, rim light or lighting gradients. Orange is the sacs' own vivid colour, without glow spill, halo, bloom or cast light on other materials. Keep ivory an even ivory colour, resin even dark violet with material markings, orange richly coloured but without white-hot cores.\nTransparent background, fully opaque object interiors, no floor, scene, labels, text or checkerboard. Output the original full 1024x1024 canvas directly; never upscale, rescale, crop or move any pixel boundary.",
+      "inputs": [
+        {
+          "path": "guide_left.png",
+          "role": "exact geometry and alpha edit target",
+          "sha256": "ae9f545060f57a928d5483961f66a16f44c7eded102a922c8b62ff1dc16495ce"
+        },
+        {
+          "path": "design_reference.png",
+          "role": "approved material and colour authority",
+          "sha256": "e75d732c6a6e3df00722e8a65c038cf46263673fcef0523771ceef11b890d39d"
+        },
+        {
+          "path": "concept_crop.png",
+          "role": "supporting original concept",
+          "sha256": "a34f07d3e9387f257e099d165073a8d5c289bfaa38f573bb1e43c233a99aeb9a"
+        }
+      ],
+      "source": "/home/pjasicek/.codex/generated_images/01a1689c-a3ef-7110-9cf9-89c04e705b60/exec-aac78b86-1e9f-4f90-a956-be1b26f31671.png",
+      "output": "/home/pjasicek/.codex/generated_images/01a1689c-a3ef-7110-9cf9-89c04e705b60/exec-aac78b86-1e9f-4f90-a956-be1b26f31671.png",
+      "selected": false,
+      "reason": "Not selected: somewhat simpler surface detail and less intense orange, but wider/taller framing, displaced tip, changed central material assignment, altered edges and baked highlights remain. Native output is not 1024x1024.",
+      "meets_all_brief_requirements": false,
+      "output_sha256": "15ae15d813aa1b0a4bea272dac6661e4ef2379ea175f3fa15c221a27edf5281b",
+      "checks": {
+        "native_dimensions": [
+          1254,
+          1254
+        ],
+        "required_dimensions": [
+          1024,
+          1024
+        ],
+        "dimensions_match": false,
+        "mode": "RGBA",
+        "transparent_background": true,
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "alpha_bounds": [
+          0,
+          21,
+          1240,
+          1254
+        ],
+        "bounds_alpha_at_least_128": [
+          140,
+          46,
+          1115,
+          1175
+        ],
+        "transparent_pixels": 1154843,
+        "opaque_pixels": 491,
+        "guide_alpha_bounds": [
+          128,
+          66,
+          896,
+          958
+        ],
+        "silhouette_identical": false,
+        "materials_and_colours": "Black-violet resin, orange sacs and ivory bone are present, but some material boundaries and surface details differ from the references and guide.",
+        "flat_even_light": false,
+        "lighting_notes": "Reflective edge highlights and shaded cavities remain; not flat albedo.",
+        "silhouette_notes": "Native resolution differs from the guide and the model changes outlines, openings and internal edges.",
+        "unresized_return": true,
+        "byte_identical_to_tool_return": true
+      }
+    },
+    {
+      "view": "right",
+      "attempt": 1,
+      "prompt": "Use case: precise-object-edit.\nAsset: RIGHT orthographic albedo texture-source painting for an existing 3D model.\nOutput ONE PNG, exactly 1024x1024 pixels, RGBA with genuine transparent background. Keep the original resolution and frame of image 1.\nImage 1 guide_right.png is the EDIT TARGET and absolute authority for every shape edge and alpha pixel. Image 2 design_reference.png supplies the approved material and colour palette only. Image 3 concept_crop.png is supporting original material reference.\nPaint over image 1's grey surfaces, preserving its EXACT outline, size, position, angular geometry, shape edges, openings, fine spikes and details. The centreline is x512; the tip starts y66; full guide bounds are x128..895 and y66..957. Preserve those coordinates and all transparent holes. Do not rotate, mirror, rescale, crop, round off facets, add new lattice, invent openings or change the camera. Keep the right view's central overlapping shield-like plates and oblique lower side ribs in their exact locations. Do not adopt the three-quarter shape from the design reference.\nMaterials: existing ribs, shell and chitin are glossy black-violet resin by material identity, existing recessed arched openings and sacs have rich glowing amber-orange colour, existing upper spike and horns are ivory bone. Transfer the reference's fine organic surface pigmentation into these existing shapes. Retain solid shell plates as solid shell plates. This is a colour-only material painting of the grey model.\nLIGHTING: unlit ALBEDO / base-colour pass. Even, flat, shadowless illumination from the viewer. No cast shadows, ambient-occlusion darkening, strong specular highlights, reflections, rim light or directional shading. Gloss belongs to the physical material, not to bright reflected lighting baked into this painting. Orange sacs and seams are painted at their glowing colour with no bloom, halo or light cast on adjacent material.\nNo background, floor, environment, text, labels or checkerboard. Object interiors opaque; the guide's transparent pixels remain transparent. Return at 1024x1024 unresized, with exactly the guide's silhouette and shape edges.",
+      "inputs": [
+        {
+          "path": "guide_right.png",
+          "role": "exact geometry and alpha edit target",
+          "sha256": "831a1be277858f4bb7723fd324f426f79c155086919772de02907463f7341cd9"
+        },
+        {
+          "path": "design_reference.png",
+          "role": "approved material and colour authority",
+          "sha256": "e75d732c6a6e3df00722e8a65c038cf46263673fcef0523771ceef11b890d39d"
+        },
+        {
+          "path": "concept_crop.png",
+          "role": "supporting original concept",
+          "sha256": "a34f07d3e9387f257e099d165073a8d5c289bfaa38f573bb1e43c233a99aeb9a"
+        }
+      ],
+      "source": "/home/pjasicek/.codex/generated_images/01a1689c-a3ef-7110-9cf9-89c04e705b60/exec-cbe18d74-f080-4776-b3de-a693f6827c30.png",
+      "output": "/home/pjasicek/.codex/generated_images/01a1689c-a3ef-7110-9cf9-89c04e705b60/exec-cbe18d74-f080-4776-b3de-a693f6827c30.png",
+      "selected": false,
+      "reason": "Not selected: bright reflective edges, dark crevices and extra internal material detail; superseded by the flatter corrective return. Native output and geometry do not exactly match the guide.",
+      "meets_all_brief_requirements": false,
+      "output_sha256": "8db97e3803874fbb1d7ca67f36223247ce06782595705ef032e881197a6091b7",
+      "checks": {
+        "native_dimensions": [
+          1254,
+          1254
+        ],
+        "required_dimensions": [
+          1024,
+          1024
+        ],
+        "dimensions_match": false,
+        "mode": "RGBA",
+        "transparent_background": true,
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "alpha_bounds": [
+          0,
+          20,
+          1234,
+          1230
+        ],
+        "bounds_alpha_at_least_128": [
+          151,
+          77,
+          1103,
+          1177
+        ],
+        "transparent_pixels": 1179502,
+        "opaque_pixels": 521,
+        "guide_alpha_bounds": [
+          128,
+          66,
+          896,
+          958
+        ],
+        "silhouette_identical": false,
+        "materials_and_colours": "Black-violet resin, orange sacs and ivory bone are present, but some material boundaries and surface details differ from the references and guide.",
+        "flat_even_light": false,
+        "lighting_notes": "Reflective edge highlights and shaded cavities remain; not flat albedo.",
+        "silhouette_notes": "Native resolution differs from the guide and the model changes outlines, openings and internal edges.",
+        "unresized_return": true,
+        "byte_identical_to_tool_return": true
+      }
+    },
+    {
+      "view": "right",
+      "attempt": 2,
+      "prompt": "Corrective edit: recolour the EXACT pixels of the first input, guide_right.png. The required native output is 1024x1024 RGBA PNG. Do not enlarge to 1254x1254. Preserve the first input's original canvas and every alpha pixel.\nUse case: precise-object-edit, RIGHT orthographic texture-source/albedo.\nImage 1: immutable grey geometry edit target. Image 2 design_reference.png: colour/material reference ONLY. Image 3 concept_crop.png: original colour/material reference ONLY.\nKeep the grey model's exact silhouette and all faceted edges, central overlapping pointed plates, side ribs, arched panels, thin spikes, holes and every detail at its original coordinate. Keep its tip at (512,66), leftmost x128, rightmost x895 and bottom y957. Do not smooth, round, reshape, mirror, rotate, rescale or reinterpret the mesh. No added lattice, pores, arches, horns or new holes; no new geometry. Only paint the existing surfaces.\nReplace grey with the design's black-violet resin/chitin on existing shells and ribs, saturated orange/amber on existing recessed arched sacs, and warm ivory bone on the existing upper spike and horns. Keep broad solid surfaces broad and solid. Transfer organic material pigmentation at restrained scale within the existing surface boundaries.\nThe previous attempt added bright reflective edge lights and dark cavities. Correct this into an UNLIT BASE-COLOUR PASS: completely flat, even, shadowless viewer illumination. No highlights or white specks, no specular reflections, no rim lighting, no ambient-occlusion or shaded crevices, no directional lighting gradient. Resin remains black-violet without bright painted edge glints. Ivory stays evenly ivory. Orange is its own vivid glowing colour, without illuminating adjacent surfaces, without white-hot cores, bloom, halo or spill.\nThe supplied design reference depicts glossy materials; paint their pigment here WITHOUT their reflected lighting. This is for projection onto a 3D model whose lighting will be applied later.\nGenuine transparent background with alpha=0 exactly outside the original guide and inside its transparent openings. Object interiors opaque. No scene, floor, text, labels or checkerboard. Produce the full original 1024x1024 canvas unresized.",
+      "inputs": [
+        {
+          "path": "guide_right.png",
+          "role": "exact geometry and alpha edit target",
+          "sha256": "831a1be277858f4bb7723fd324f426f79c155086919772de02907463f7341cd9"
+        },
+        {
+          "path": "design_reference.png",
+          "role": "approved material and colour authority",
+          "sha256": "e75d732c6a6e3df00722e8a65c038cf46263673fcef0523771ceef11b890d39d"
+        },
+        {
+          "path": "concept_crop.png",
+          "role": "supporting original concept",
+          "sha256": "a34f07d3e9387f257e099d165073a8d5c289bfaa38f573bb1e43c233a99aeb9a"
+        }
+      ],
+      "source": "/home/pjasicek/.codex/generated_images/01a1689c-a3ef-7110-9cf9-89c04e705b60/exec-ccbef689-1087-4ec1-b555-8361fb2ec321.png",
+      "output": "paint_right.png",
+      "selected": true,
+      "reason": "Selected for simpler painted structures, reduced highlights and closer angular form. This selection is preservation only, not acceptance: the tool still returns the wrong native dimensions, altered guide edges and some baked shading.",
+      "meets_all_brief_requirements": false,
+      "output_sha256": "96b93c7e88c9f3194a0edb2f0e64840c9f856a5156756179147c8b637d774070",
+      "checks": {
+        "native_dimensions": [
+          1254,
+          1254
+        ],
+        "required_dimensions": [
+          1024,
+          1024
+        ],
+        "dimensions_match": false,
+        "mode": "RGBA",
+        "transparent_background": true,
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "alpha_bounds": [
+          33,
+          18,
+          1240,
+          1230
+        ],
+        "bounds_alpha_at_least_128": [
+          156,
+          78,
+          1099,
+          1176
+        ],
+        "transparent_pixels": 1182941,
+        "opaque_pixels": 344,
+        "guide_alpha_bounds": [
+          128,
+          66,
+          896,
+          958
+        ],
+        "silhouette_identical": false,
+        "materials_and_colours": "Black-violet resin, orange sacs and ivory bone are present, but some material boundaries and surface details differ from the references and guide.",
+        "flat_even_light": false,
+        "lighting_notes": "Reduced reflective glints in the right correction; baked edge highlights and recess shading remain.",
+        "silhouette_notes": "Native resolution differs from the guide and the model changes outlines, openings and internal edges.",
+        "unresized_return": true,
+        "byte_identical_to_tool_return": true
+      }
+    }
+  ],
+  "brief_sha256": "3232d78bc70b8f9429b3c61d13d842eb881590d2da47571221ce900f4eb58fa5"
+}

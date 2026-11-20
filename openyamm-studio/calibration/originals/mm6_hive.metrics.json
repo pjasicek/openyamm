@@ -1,0 +1,138 @@
+{
+  "map": "hive.blv",
+  "world": "mm6",
+  "kind": "indoor",
+  "structure": {
+    "sectors": 80,
+    "links": 84,
+    "components": 2,
+    "loops": 6
+  },
+  "scale": {
+    "floor_area_millions": 98.12,
+    "sector_floor_area": {
+      "count": 79,
+      "min": 53248,
+      "q1": 261056,
+      "median": 425984,
+      "q3": 671204,
+      "max": 37321664
+    },
+    "sector_height": {
+      "count": 79,
+      "min": 262,
+      "q1": 272,
+      "median": 400,
+      "q3": 679,
+      "max": 2144
+    },
+    "doorway_width": {
+      "count": 62,
+      "min": 1,
+      "q1": 249,
+      "median": 256,
+      "q3": 256,
+      "max": 1561
+    },
+    "doorway_height": {
+      "count": 62,
+      "min": 240,
+      "q1": 256,
+      "median": 256,
+      "q3": 259,
+      "max": 768
+    },
+    "floor_level": {
+      "count": 642,
+      "min": -2314,
+      "q1": -1559,
+      "median": -1444,
+      "q3": -977,
+      "max": 16
+    }
+  },
+  "mechanisms": {
+    "doors": 32,
+    "bound_events": 41,
+    "door_events": 24,
+    "trap_events": 0,
+    "local_teleports": 1,
+    "exits": 1,
+    "summon_events": 0,
+    "chest_events": 5,
+    "text_events": 6,
+    "secret_faces": 0,
+    "pressure_plates": 182,
+    "clickable_faces": 112
+  },
+  "density": {
+    "spawn_points": 44,
+    "fixed_actors": 2,
+    "unique_actors": 0,
+    "lights": 28,
+    "decorations": 3,
+    "spawn_points_per_area": 0.45,
+    "lights_per_area": 0.29,
+    "decorations_per_area": 0.03
+  },
+  "palette": {
+    "textures": 77,
+    "by_area": [{
+        "name": "hvwl1a",
+        "share": 0.194
+      },
+      {
+        "name": "hvflorb",
+        "share": 0.151
+      },
+      {
+        "name": "hvflora",
+        "share": 0.14
+      },
+      {
+        "name": "hvwl3a",
+        "share": 0.121
+      },
+      {
+        "name": "hvceilb",
+        "share": 0.069
+      },
+      {
+        "name": "hvwl4a",
+        "share": 0.066
+      },
+      {
+        "name": "hvwl5a",
+        "share": 0.063
+      },
+      {
+        "name": "hvflori",
+        "share": 0.049
+      },
+      {
+        "name": "hvwl6",
+        "share": 0.025
+      },
+      {
+        "name": "hvwl2a",
+        "share": 0.019
+      },
+      {
+        "name": "hvdorf",
+        "share": 0.018
+      },
+      {
+        "name": "hvflore",
+        "share": 0.012
+      }
+    ]
+  },
+  "play": {
+    "walked": true,
+    "sectors_with_floor": 79,
+    "reached_at_start": 1,
+    "reached_doors_clear": 78,
+    "walkable_area_millions": 88.22,
+    "unreached_spawn_points": 0
+  }
+}

@@ -1,0 +1,133 @@
+{
+  "tool": "image_gen.imagegen",
+  "brief": "CODEX_BRIEF_2.md",
+  "runs": [
+    {
+      "view": "back",
+      "attempt": 1,
+      "prompt": "Use case: style-transfer.\nAsset type: orthographic back-view albedo texture source for the existing Hive mound 3D model.\nEdit ONLY Image 1 (guide_back.png), painting its grey surfaces while preserving the exact 1024 x 1024 canvas, original alpha silhouette, framing, geometry and all internal shape edges. Deliver one native, unresized 1024 x 1024 RGBA PNG with a genuinely transparent background.\nInputs: Image 1 guide_back.png is the edit target and absolute geometry authority. Image 2 design_reference.png is the approved authority for design, colours and materials ONLY, not its three-quarter camera, shape or lighting. Image 3 concept_crop.png is the original concept and secondary appearance reference.\nComposition invariants: exactly the BACK of the mound as in Image 1. Retain every angular lattice edge, existing opening, sac surface, horn and low root skirt in exactly the same location. Keep the guide's polygonal forms and silhouette, including its thin spike tips and uneven base. Its occupied bounding rectangle is x=66..957, y=212..811 in the 1024 canvas; preserve those margins exactly. Do not enlarge, recenter, rotate or redesign it. No new holes, spikes, eggs, rocks, tendrils or other geometry. No frontal foreground eggs copied from the reference. Every existing surface must be painted, no grey clay remains.\nMaterials: paint the existing lattice glossy black-violet resin with the reference's plum-purple colour and fine organic resin grain; express the material in base colour, without specular lighting. Existing sacs visible within the lattice receive translucent amber/orange egg material, with dark organic veining as in the reference; existing vent interiors glow orange. Existing bone spikes are ivory with subtle warm bone mottling. Paint glowing areas at their glowing colour only, without casting orange light onto surrounding resin.\nLIGHTING: this is an ALBEDO TEXTURE SOURCE. Even, flat, shadowless light from the viewer across the entire object. No cast shadows, no ambient-occlusion darkening, no directional shading, no strong specular highlights or reflections, no rim light, no bloom. Do not copy the reference's dramatic studio lighting, highlights, vignette or background. Do not preserve the clay render's shadows or AO.\nBackground: fully transparent alpha, including all originally transparent pixels and holes. No black backdrop, checkerboard drawn into the image, floor, ground plane, cast shadow, text, watermark or border.\nPriority: the guide's EXACT pixel-positioned silhouette, scale, shape boundaries and back-view geometry must remain unchanged. Change surface colours/materials only.",
+      "source_output": "/home/pjasicek/.codex/generated_images/01a16883-fb01-77a3-9ada-be89b61212a4/exec-d93949ba-ba7d-4c1c-ac42-0a3c7bdc9b99.png",
+      "output": "paint_back_attempt_1.png",
+      "selected": false,
+      "reason": "Rejected: native return is 1254x1254 rather than 1024x1024; alpha has faint stray pixels outside the guide silhouette, and lattice/egg shading is stronger than the requested flat albedo. Retained unchanged for provenance.",
+      "inputs": [
+        {
+          "path": "guide_back.png",
+          "sha256": "9623c60a4acba49c634a23f791927c8a8cb58999dba9b41814c904c8fb18ee25"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "52bbc29de0f77a7a071fc9b25d1c03ef971fe55ecd8c19420ff52c4cc6271a1f"
+        },
+        {
+          "path": "concept_crop.png",
+          "sha256": "8b5cea285a5e17c30736a1cb78bc34475fd9676565de837bab464098c4cf5d60"
+        }
+      ],
+      "output_sha256": "f304ca7ad048b7eed9553b42ab249df1fa60c9000cb2a94921d63538852acfd4",
+      "transparent_background_requested": true,
+      "unresized_return": true,
+      "postprocessing": "None; byte-identical copy of built-in image generation return.",
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "required_size": [
+          1024,
+          1024
+        ],
+        "size_pass": false,
+        "mode": "RGBA",
+        "transparent_background": true,
+        "alpha_range": [
+          0,
+          255
+        ],
+        "alpha_bbox": [
+          0,
+          19,
+          1250,
+          1254
+        ],
+        "guide_alpha_bbox": [
+          66,
+          212,
+          958,
+          812
+        ],
+        "silhouette_identical": false,
+        "materials_colours": "Violet/plum resin, orange/amber sacs and ivory bone palette visually matches the approved reference.",
+        "flat_even_light_pass": false,
+        "lighting_review": "Fails strict flat-albedo requirement: pronounced edge highlights and shading around lattice/vents.",
+        "all_brief_checks_passed": false
+      }
+    },
+    {
+      "view": "back",
+      "attempt": 2,
+      "prompt": "CORRECTIVE REGENERATION \u2014 final permitted attempt. Output exactly 1024 x 1024 pixels, the SAME raster dimensions as Image 1, with genuine transparent RGBA. Do not return 1254 x 1254, enlarge the canvas, rescale the subject, crop, or change margins.\n\nUse case: style-transfer. This is a texture-source albedo paintover, not a lit beauty render.\nImage 1 guide_back.png: EDIT TARGET; preserve its exact back-view geometry and alpha silhouette pixel for pixel.\nImage 2 design_reference.png: approved material and colour reference only, never its camera or lighting.\nImage 3 concept_crop.png: secondary original appearance reference.\n\nPaint only the grey pixels/surfaces in Image 1. Lock its silhouette, positions, scale and all internal geometry edges. At 1024 x 1024 the shape occupies x=66 through 957 and y=212 through 811. Keep every spike tip, angular ridge, opening, sac and base edge exactly as in the guide. This is the back; never introduce the front reference's big freestanding eggs or stones. Do not add or remove any lattice ribs, openings, spikes, roots or other geometry.\n\nMaterial mapping: existing lattice and root skirt = black-violet resin with restrained plum-purple organic grain; existing rounded sac surfaces = translucent rich amber with orange glowing colour and dark organic veins; existing vent interiors = orange glowing colour; existing bone spikes = ivory with subtle warm bone grain. Match the approved design's material palette. Paint all grey surfaces.\n\nCORRECTION PRIORITY: remove baked lighting. Use FLAT, EVEN, SHADOWLESS ALBEDO colours across the whole surface. The resin is physically glossy but this albedo pass must have NO glossy white edge highlights, no specular glints or reflections, no shaded lower sides, no contact shadows or black AO strips at ribs, no glow lighting on the surroundings. Sacs are their glowing orange base colour without bloom. No directional light, rim light, cast shadow, ambient occlusion or vignette. Convey materials through their colour and fine texture only.\n\nALPHA CORRECTION: preserve the guide's actual alpha mask exactly. Outside that silhouette alpha must be zero, with no faint speckles, ghost pixels, fringe or background residue. Interiors of surfaces stay opaque; only the original silhouette edges receive antialiasing. No black background, painted checkerboard, floor, ground plane, text or watermark.\n\nDeliver a single unresized native 1024 x 1024 transparent PNG. Exact guide registration and flat albedo are mandatory.",
+      "source_output": "/home/pjasicek/.codex/generated_images/01a16883-fb01-77a3-9ada-be89b61212a4/exec-366856bc-cfd5-4b08-a07a-b8282a1ad05f.png",
+      "output": "paint_back.png",
+      "selected": true,
+      "reason": "Selected as the better of the two permitted raw returns: flatter amber coloration and less specular lighting. NOT accepted as fully compliant: native size remains 1254x1254, the alpha/silhouette is not identical to the guide, faint stray alpha remains outside the visible subject, and some edge highlights/contact-like darkening remain. Preserved unresized and unedited as required; the sole permitted corrective regeneration has been used.",
+      "inputs": [
+        {
+          "path": "guide_back.png",
+          "sha256": "9623c60a4acba49c634a23f791927c8a8cb58999dba9b41814c904c8fb18ee25"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "52bbc29de0f77a7a071fc9b25d1c03ef971fe55ecd8c19420ff52c4cc6271a1f"
+        },
+        {
+          "path": "concept_crop.png",
+          "sha256": "8b5cea285a5e17c30736a1cb78bc34475fd9676565de837bab464098c4cf5d60"
+        }
+      ],
+      "output_sha256": "730da2eeaabab494b64fa2f329411a5d9d7692806fe28d593f6dcdef572effa6",
+      "transparent_background_requested": true,
+      "unresized_return": true,
+      "postprocessing": "None; byte-identical copy of built-in image generation return.",
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "required_size": [
+          1024,
+          1024
+        ],
+        "size_pass": false,
+        "mode": "RGBA",
+        "transparent_background": true,
+        "alpha_range": [
+          0,
+          255
+        ],
+        "alpha_bbox": [
+          0,
+          26,
+          1236,
+          1254
+        ],
+        "guide_alpha_bbox": [
+          66,
+          212,
+          958,
+          812
+        ],
+        "silhouette_identical": false,
+        "materials_colours": "Violet/plum resin, orange/amber sacs and ivory bone palette visually matches the approved reference.",
+        "flat_even_light_pass": false,
+        "lighting_review": "Improved flatness, but residual edge highlights and dark strips near lattice intersections still fail the strict shadowless-albedo requirement.",
+        "all_brief_checks_passed": false
+      }
+    }
+  ],
+  "status": "Saved best available unresized return; exact size, silhouette and strict flat-albedo requirements remain unmet.",
+  "corrective_regenerations_used": 1,
+  "corrective_regeneration_limit": 1,
+  "selected_output": "paint_back.png",
+  "fully_compliant": false
+}

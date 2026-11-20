@@ -1,0 +1,768 @@
+id: hesper.d15.main_path
+world: hesper
+mode: faithful
+steps:
+- new_game_flow:
+    start_map: hes_d15.blv
+    party:
+      members:
+      - name: Undercroft tester
+        class: Knight
+        level: 1000
+        equipment: {}
+        skills:
+        - name: Hacking
+          level: 12
+          mastery: 4
+# The Drudge Hulk (actor 55, group 6, no kill hook) chases the party and could stand on chest 5's spot at the vault,
+# where the interaction would pick it (or its corpse) instead of the chest: it dies at its post before the run.
+- damage_actor:
+    actor_index: 55
+    amount: 1000000
+    tier: kreegan_energy
+- save_game:
+    name: hes_d15_dark
+- advance_runtime:
+    seconds: 0.01
+- assert:
+    map: hes_d15.blv
+    map_var_changed:
+      index: 1
+      value: 0
+- set_pose:
+    map: hes_d15.blv
+    x: 1000
+    y: 600
+    z: 512
+    yaw: 0
+    pitch: 0
+- press_interact: {}
+- wait_until:
+    timeout_runtime_seconds: 2
+    assert:
+      mechanism:
+        id: 1
+        state: open
+- movement_segment:
+    input: forward
+    duration_ms: 2090
+    start:
+      map: hes_d15.blv
+      x: 1000
+      y: 600
+      z: 512
+      yaw: 0
+      pitch: 0
+    expect_stop:
+      map: hes_d15.blv
+      x: 2600
+      y: 600
+      z: 0
+      yaw: 0
+      pitch: 0
+    loose_tolerance: true
+    tolerance_xy: 110
+    tolerance_z: 40
+    actor_collision: false
+    actor_ai: false
+- set_pose:
+    map: hes_d15.blv
+    x: 2500
+    y: 600
+    z: 0
+    yaw: 0
+    pitch: 0
+- press_interact: {}
+- wait_until:
+    timeout_runtime_seconds: 2
+    assert:
+      mechanism:
+        id: 2
+        state: open
+- movement_segment:
+    input: forward
+    duration_ms: 680
+    start:
+      map: hes_d15.blv
+      x: 2500
+      y: 600
+      z: 0
+      yaw: 0
+      pitch: 0
+    expect_stop:
+      map: hes_d15.blv
+      x: 3020
+      y: 600
+      z: 0
+      yaw: 0
+      pitch: 0
+    loose_tolerance: true
+    tolerance_xy: 110
+    tolerance_z: 40
+    actor_collision: false
+    actor_ai: false
+- movement_segment:
+    input: forward
+    duration_ms: 530
+    start:
+      map: hes_d15.blv
+      x: 3020
+      y: 700
+      z: 0
+      yaw: 1.5707963267948966
+      pitch: 0
+    expect_stop:
+      map: hes_d15.blv
+      x: 3020
+      y: 1100
+      z: 0
+      yaw: 1.5707963267948966
+      pitch: 0
+    loose_tolerance: true
+    tolerance_xy: 110
+    tolerance_z: 40
+    actor_collision: false
+    actor_ai: false
+- movement_segment:
+    input: forward
+    duration_ms: 5550
+    start:
+      map: hes_d15.blv
+      x: 3020
+      y: 1100
+      z: 0
+      yaw: 0
+      pitch: 0
+    expect_stop:
+      map: hes_d15.blv
+      x: 7270
+      y: 1100
+      z: 0
+      yaw: 0
+      pitch: 0
+    loose_tolerance: true
+    tolerance_xy: 110
+    tolerance_z: 40
+    actor_collision: false
+    actor_ai: false
+- movement_segment:
+    input: forward
+    duration_ms: 920
+    start:
+      map: hes_d15.blv
+      x: 7350
+      y: 1100
+      z: 0
+      yaw: -1.5707963267948966
+      pitch: 0
+    expect_stop:
+      map: hes_d15.blv
+      x: 7350
+      y: 400
+      z: -24
+      yaw: -1.5707963267948966
+      pitch: 0
+    loose_tolerance: true
+    tolerance_xy: 110
+    tolerance_z: 40
+    actor_collision: false
+    actor_ai: false
+- wait_until:
+    timeout_runtime_seconds: 2
+    assert:
+      mechanism:
+        id: 4
+        state: open
+- movement_segment:
+    input: forward
+    duration_ms: 850
+    start:
+      map: hes_d15.blv
+      x: 7350
+      y: 400
+      z: -24
+      yaw: 0
+      pitch: 0
+    expect_stop:
+      map: hes_d15.blv
+      x: 8000
+      y: 400
+      z: 0
+      yaw: 0
+      pitch: 0
+    loose_tolerance: true
+    tolerance_xy: 110
+    tolerance_z: 40
+    actor_collision: false
+    actor_ai: false
+- movement_segment:
+    input: forward
+    duration_ms: 1180
+    start:
+      map: hes_d15.blv
+      x: 8000
+      y: 500
+      z: 0
+      yaw: 1.5707963267948966
+      pitch: 0
+    expect_stop:
+      map: hes_d15.blv
+      x: 8000
+      y: 1400
+      z: 0
+      yaw: 1.5707963267948966
+      pitch: 0
+    loose_tolerance: true
+    tolerance_xy: 110
+    tolerance_z: 40
+    actor_collision: false
+    actor_ai: false
+- movement_segment:
+    input: forward
+    duration_ms: 1690
+    start:
+      map: hes_d15.blv
+      x: 8000
+      y: 1400
+      z: 0
+      yaw: 0
+      pitch: 0
+    expect_stop:
+      map: hes_d15.blv
+      x: 9292
+      y: 1400
+      z: 0
+      yaw: 0
+      pitch: 0
+    loose_tolerance: true
+    tolerance_xy: 110
+    tolerance_z: 40
+    actor_collision: false
+    actor_ai: false
+- set_pose:
+    map: hes_d15.blv
+    x: 9292
+    y: 1600
+    z: 0
+    yaw: 1.5707963267948966
+    pitch: 0
+- press_interact: {}
+- wait_until:
+    timeout_runtime_seconds: 2
+    assert:
+      mechanism:
+        id: 5
+        state: open
+- movement_segment:
+    input: forward
+    duration_ms: 530
+    start:
+      map: hes_d15.blv
+      x: 9292
+      y: 1600
+      z: 0
+      yaw: 1.5707963267948966
+      pitch: 0
+    expect_stop:
+      map: hes_d15.blv
+      x: 9292
+      y: 2000
+      z: 0
+      yaw: 1.5707963267948966
+      pitch: 0
+    loose_tolerance: true
+    tolerance_xy: 110
+    tolerance_z: 40
+    actor_collision: false
+    actor_ai: false
+- set_pose:
+    map: hes_d15.blv
+    x: 9292
+    y: 2880
+    z: 0
+    yaw: 1.5707963267948966
+    pitch: -0.15
+- press_interact: {}
+- assert:
+    map_var_changed:
+      index: 1
+      value: 1
+- wait_until:
+    timeout_runtime_seconds: 2
+    assert:
+      mechanism:
+        id: 7
+        state: open
+- save_game:
+    name: hes_d15_power
+- load_game:
+    name: hes_d15_power
+- assert:
+    map_var_changed:
+      index: 1
+      value: 1
+- set_pose:
+    map: hes_d15.blv
+    x: 9092
+    y: 1350
+    z: 0
+    yaw: 1.5707963267948966
+    pitch: 0
+- press_interact: {}
+- press_action:
+    action: cancel_dialog
+- movement_segment:
+    input: forward
+    duration_ms: 850
+    start:
+      map: hes_d15.blv
+      x: 9092
+      y: 550
+      z: 0
+      yaw: -1.5707963267948966
+      pitch: 0
+    expect_stop:
+      map: hes_d15.blv
+      x: 9092
+      y: -100
+      z: -64
+      yaw: -1.5707963267948966
+      pitch: 0
+    loose_tolerance: true
+    tolerance_xy: 110
+    tolerance_z: 40
+    actor_collision: false
+    actor_ai: false
+- set_pose:
+    map: hes_d15.blv
+    x: 8100
+    y: -80
+    z: -64
+    yaw: -1.5707963267948966
+    pitch: 0
+- press_interact: {}
+- answer_input:
+    text: 'Yes'
+- assert:
+    map: hes_d15.blv
+- wait_until:
+    timeout_runtime_seconds: 2
+    assert:
+      mechanism:
+        id: 8
+        state: open
+- set_pose:
+    map: hes_d15.blv
+    x: 13100
+    y: -80
+    z: -64
+    yaw: -1.5707963267948966
+    pitch: 0
+- press_interact: {}
+- answer_input:
+    text: 'Yes'
+- assert:
+    map: hes_d15.blv
+- wait_until:
+    timeout_runtime_seconds: 2
+    assert:
+      mechanism:
+        id: 7
+        state: open
+- set_pose:
+    map: hes_d15.blv
+    x: 8100
+    y: -80
+    z: -64
+    yaw: -1.5707963267948966
+    pitch: 0
+- press_interact: {}
+- answer_input:
+    text: 'Yes'
+- assert:
+    map: hes_d15.blv
+- wait_until:
+    timeout_runtime_seconds: 2
+    assert:
+      mechanism:
+        id: 8
+        state: open
+- movement_segment:
+    input: forward
+    duration_ms: 980
+    start:
+      map: hes_d15.blv
+      x: 14092
+      y: -100
+      z: -64
+      yaw: 1.5707963267948966
+      pitch: 0
+    expect_stop:
+      map: hes_d15.blv
+      x: 14092
+      y: 650
+      z: 0
+      yaw: 1.5707963267948966
+      pitch: 0
+    loose_tolerance: true
+    tolerance_xy: 110
+    tolerance_z: 40
+    actor_collision: false
+    actor_ai: false
+- movement_segment:
+    input: forward
+    duration_ms: 840
+    start:
+      map: hes_d15.blv
+      x: 14292
+      y: 1000
+      z: 0
+      yaw: 1.5707963267948966
+      pitch: 0
+    expect_stop:
+      map: hes_d15.blv
+      x: 14292
+      y: 1640
+      z: 0
+      yaw: 1.5707963267948966
+      pitch: 0
+    loose_tolerance: true
+    tolerance_xy: 110
+    tolerance_z: 40
+    actor_collision: false
+    actor_ai: false
+- wait_until:
+    timeout_runtime_seconds: 2
+    assert:
+      mechanism:
+        id: 6
+        state: open
+- movement_segment:
+    input: forward
+    duration_ms: 2430
+    start:
+      map: hes_d15.blv
+      x: 14292
+      y: 1640
+      z: 0
+      yaw: 1.5707963267948966
+      pitch: 0
+    expect_stop:
+      map: hes_d15.blv
+      x: 14292
+      y: 3500
+      z: -512
+      yaw: 1.5707963267948966
+      pitch: 0
+    loose_tolerance: true
+    tolerance_xy: 110
+    tolerance_z: 40
+    actor_collision: false
+    actor_ai: false
+- movement_segment:
+    input: forward
+    duration_ms: 4570
+    start:
+      map: hes_d15.blv
+      x: 14292
+      y: 3600
+      z: -512
+      yaw: 1.5707963267948966
+      pitch: 0
+    expect_stop:
+      map: hes_d15.blv
+      x: 14292
+      y: 7100
+      z: -512
+      yaw: 1.5707963267948966
+      pitch: 0
+    loose_tolerance: true
+    tolerance_xy: 110
+    tolerance_z: 40
+    actor_collision: false
+    actor_ai: false
+- set_pose:
+    map: hes_d15.blv
+    x: 14292
+    y: 7520
+    z: -512
+    yaw: 1.5707963267948966
+    pitch: 0
+- press_interact: {}
+- wait_until:
+    timeout_runtime_seconds: 2
+    assert:
+      mechanism:
+        id: 10
+        state: open
+- movement_segment:
+    input: forward
+    duration_ms: 2120
+    start:
+      map: hes_d15.blv
+      x: 14292
+      y: 7520
+      z: -512
+      yaw: 1.5707963267948966
+      pitch: 0
+    expect_stop:
+      map: hes_d15.blv
+      x: 14292
+      y: 9050
+      z: 0
+      yaw: 1.5707963267948966
+      pitch: 0
+    loose_tolerance: true
+    tolerance_xy: 110
+    tolerance_z: 40
+    actor_collision: false
+    actor_ai: false
+- wait_until:
+    timeout_runtime_seconds: 2
+    assert:
+      mechanism:
+        id: 11
+        state: open
+- movement_segment:
+    input: forward
+    duration_ms: 980
+    start:
+      map: hes_d15.blv
+      x: 14292
+      y: 9050
+      z: 0
+      yaw: 1.5707963267948966
+      pitch: 0
+    expect_stop:
+      map: hes_d15.blv
+      x: 14292
+      y: 9800
+      z: 0
+      yaw: 1.5707963267948966
+      pitch: 0
+    loose_tolerance: true
+    tolerance_xy: 110
+    tolerance_z: 40
+    actor_collision: false
+    actor_ai: false
+- set_pose:
+    map: hes_d15.blv
+    x: 14292
+    y: 12250
+    z: 0
+    yaw: 1.5707963267948966
+    pitch: 0
+- press_interact: {}
+- wait_until:
+    timeout_runtime_seconds: 2
+    assert:
+      mechanism:
+        id: 13
+        state: open
+- movement_segment:
+    input: forward
+    duration_ms: 720
+    start:
+      map: hes_d15.blv
+      x: 14292
+      y: 12250
+      z: 0
+      yaw: 1.5707963267948966
+      pitch: 0
+    expect_stop:
+      map: hes_d15.blv
+      x: 14292
+      y: 12800
+      z: 0
+      yaw: 1.5707963267948966
+      pitch: 0
+    loose_tolerance: true
+    tolerance_xy: 110
+    tolerance_z: 40
+    actor_collision: false
+    actor_ai: false
+- set_pose:
+    map: hes_d15.blv
+    x: 14292
+    y: 13480
+    z: 0
+    yaw: 1.5707963267948966
+    pitch: 0
+- press_interact: {}
+- assert:
+    map_var_changed:
+      index: 3
+      value: 1
+- assert:
+    mechanism:
+      id: 14
+      state: closed
+- advance_runtime:
+    seconds: 10
+- assert:
+    runtime_event_variable:
+      id: 127
+      min: 10
+      max: 11
+- save_game:
+    name: hes_d15_lock
+- load_game:
+    name: hes_d15_lock
+- assert:
+    map_var_changed:
+      index: 3
+      value: 1
+- advance_runtime:
+    seconds: 18
+- assert:
+    mechanism:
+      id: 14
+      state: closed
+- advance_runtime:
+    seconds: 5
+- assert:
+    map_var_changed:
+      index: 5
+      value: 1
+- wait_until:
+    timeout_runtime_seconds: 2
+    assert:
+      mechanism:
+        id: 14
+        state: open
+- assert:
+    actor_visible:
+      actor_index: 67
+      monster_id: 10022
+      hostile_to_party: true
+      near:
+        x: 14292
+        y: 13700
+        max_distance: 1400
+- &id001
+  damage_actor:
+    actor_index: 67
+    amount: 1000000
+    tier: kreegan_energy
+- *id001
+- &id002
+  damage_actor:
+    actor_index: 68
+    amount: 1000000
+    tier: kreegan_energy
+- *id002
+- &id003
+  damage_actor:
+    actor_index: 69
+    amount: 1000000
+    tier: kreegan_energy
+- *id003
+- set_pose:
+    map: hes_d15.blv
+    x: 14450
+    y: 12800
+    z: 0
+    yaw: 0
+    pitch: -0.3
+- press_interact: {}
+- assert:
+    chest_contains_quest_item:
+      chest_id: 5
+      item_id: 11332
+- assert:
+    item_received:
+      item_id: 11332
+      source: chest
+      destination: held
+      chest_id: 5
+- press_action:
+    action: cancel_dialog
+- movement_segment:
+    input: forward
+    duration_ms: 1050
+    start:
+      map: hes_d15.blv
+      x: 14292
+      y: 13800
+      z: 0
+      yaw: 1.5707963267948966
+      pitch: 0
+    expect_stop:
+      map: hes_d15.blv
+      x: 14292
+      y: 14600
+      z: 0
+      yaw: 1.5707963267948966
+      pitch: 0
+    loose_tolerance: true
+    tolerance_xy: 110
+    tolerance_z: 40
+    actor_collision: false
+    actor_ai: false
+- set_pose:
+    map: hes_d15.blv
+    x: 14292
+    y: 14950
+    z: 0
+    yaw: 1.5707963267948966
+    pitch: 0
+- press_interact: {}
+- assert:
+    map: hes_d12.blv
+- set_pose:
+    map: hes_d12.blv
+    x: 9064.0
+    y: 2580.0
+    z: -1536
+    yaw: 1.5707963267948966
+    pitch: 0
+- press_interact: {}
+- assert:
+    map: hes_d15.blv
+- assert:
+    map_var_changed:
+      index: 5
+      value: 1
+- set_pose:
+    map: hes_d15.blv
+    x: 200
+    y: 600
+    z: 512
+    yaw: 3.141592653589793
+    pitch: 0
+- press_interact: {}
+- assert:
+    map: hes_undervault.blv
+- new_game_flow:
+    start_map: hes_undervault.blv
+    party:
+      food: 10
+      members:
+      - name: Root Locksmith
+        class: Knight
+        level: 20
+        skills:
+        - name: Hacking
+          level: 10
+          mastery: 4
+        equipment: {}
+- set_pose:
+    map: hes_undervault.blv
+    x: 480
+    y: -2048
+    z: -1024
+    yaw: 3.141592653589793
+    pitch: 0
+- press_interact: {}
+- assert:
+    map: hes_d15.blv
+- set_pose:
+    map: hes_d15.blv
+    x: 200
+    y: 600
+    z: 512
+    yaw: 3.141592653589793
+    pitch: 0
+- press_interact: {}
+- assert:
+    map: hes_undervault.blv

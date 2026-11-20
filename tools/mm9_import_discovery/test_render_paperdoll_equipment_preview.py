@@ -12,7 +12,7 @@ import render_paperdoll_equipment_preview as preview
 class PaperdollEquipmentPreviewTest(unittest.TestCase):
     @classmethod
     def setUpClass(cls) -> None:
-        cls.assets = preview.AssetIndex([preview.MM9_ICON_ROOT, preview.ENGINE_ICON_ROOT])
+        cls.assets = preview.AssetIndex(preview.declared_icon_roots())
         cls.items = preview.read_items(preview.ENGINE_TABLE_ROOT / "items.txt", "engine")
         cls.items.update(preview.read_items(preview.MM9_TABLE_ROOT / "items.txt", "mm9"))
         cls.dolls = preview.representative_dolls(
@@ -62,6 +62,12 @@ class PaperdollEquipmentPreviewTest(unittest.TestCase):
         self.assertTrue(self.doll_types[2].can_equip["Armor"])
         self.assertTrue(self.doll_types[2].can_equip["Belt"])
 
+    def test_cloak_hangs_behind_body_and_reuses_human_variant(self) -> None:
+        item = next(item for item in self.items.values() if item.icon_name.casefold() == "item124")
+        self.assertEqual(preview.runtime_suffixes(item, 3, False), ["v1a"])
+        self.assertEqual(preview.expected_suffixes(item, 4, True), ["v5a"])
+        self.assertLess(preview.ITEM_Z_INDEX["Cloak"], preview.BODY_Z_INDEX)
+
     def test_portrait_specific_adjustment_table_is_loaded(self) -> None:
         adjustments = preview.read_portrait_picture_adjustments(
             preview.ENGINE_TABLE_ROOT / "complex_item_picture_offsets.txt"
@@ -80,7 +86,10 @@ class PaperdollEquipmentPreviewTest(unittest.TestCase):
             "complete",
             self.assets,
         )
-        self.assertEqual(image.size, (preview.PAPERDOLL_WIDTH, preview.PAPERDOLL_HEIGHT))
+        self.assertEqual(
+            image.size,
+            (preview.PAPERDOLL_WIDTH * preview.PHYSICAL_SCALE, preview.PAPERDOLL_HEIGHT * preview.PHYSICAL_SCALE),
+        )
         self.assertEqual(diagnostic.selected_asset, "mm9_item_10086v1a")
         self.assertEqual(diagnostic.complex_picture_offset, (47, 78))
         self.assertEqual(diagnostic.issues, ())
@@ -106,16 +115,18 @@ class PaperdollEquipmentPreviewTest(unittest.TestCase):
         hand_path = self.assets.find(doll.right_hand_open_asset)
         self.assertIsNotNone(armor_path)
         self.assertIsNotNone(hand_path)
-        armor = preview.load_layer(armor_path, color_key=True)
-        hand = preview.load_layer(hand_path, color_key=True)
+        armor = preview.load_layer(armor_path, color_key=True, tier=self.assets.tier(armor_path))
+        hand = preview.load_layer(hand_path, color_key=True, tier=self.assets.tier(hand_path))
+        hand_origin = preview.physical(doll_type.right_hand_open)
+        armor_origin = preview.physical(item_point)
         overlap_pixel = None
 
         for hand_y in range(hand.height):
             for hand_x in range(hand.width):
-                canvas_x = doll_type.right_hand_open[0] + hand_x
-                canvas_y = doll_type.right_hand_open[1] + hand_y
-                armor_x = canvas_x - item_point[0]
-                armor_y = canvas_y - item_point[1]
+                canvas_x = hand_origin[0] + hand_x
+                canvas_y = hand_origin[1] + hand_y
+                armor_x = canvas_x - armor_origin[0]
+                armor_y = canvas_y - armor_origin[1]
 
                 if not (0 <= armor_x < armor.width and 0 <= armor_y < armor.height):
                     continue

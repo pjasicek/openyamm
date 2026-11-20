@@ -1,0 +1,158 @@
+{
+  "views": [
+    {
+      "view": {
+        "name": "town",
+        "target": [
+          12500,
+          12000,
+          300
+        ],
+        "span": 17000
+      },
+      "image": "level_generation/evidence/mm8/out03_decor_town.png",
+      "camera_position": [
+        20197.18359375,
+        -3394.365234375,
+        19115.3359375
+      ],
+      "highlighted": [
+        {
+          "index": 723,
+          "name": "dec23",
+          "position": [
+            15040,
+            12648,
+            128
+          ]
+        },
+        {
+          "index": 725,
+          "name": "dec23",
+          "position": [
+            14216,
+            9672,
+            128
+          ]
+        },
+        {
+          "index": 720,
+          "name": "dec23",
+          "position": [
+            17384,
+            13736,
+            128
+          ]
+        }
+      ]
+    },
+    {
+      "view": {
+        "name": "murmurwoods_pass",
+        "target": [
+          -20000,
+          -5500,
+          700
+        ],
+        "span": 17000,
+        "direction": [
+          0.6,
+          -1,
+          1.1
+        ]
+      },
+      "image": "level_generation/evidence/mm8/out03_decor_murmurwoods_pass.png",
+      "camera_position": [
+        -10456.1220703125,
+        -21406.462890625,
+        18197.109375
+      ],
+      "highlighted": [
+        {
+          "index": 507,
+          "name": "tree11",
+          "position": [
+            -19776,
+            -6656,
+            192
+          ]
+        },
+        {
+          "index": 714,
+          "name": "dec23",
+          "position": [
+            -19144,
+            984,
+            1024
+          ]
+        }
+      ]
+    },
+    {
+      "view": {
+        "name": "terrain_enclosure",
+        "target": [
+          0,
+          0,
+          1500
+        ],
+        "span": 85000
+      },
+      "image": "level_generation/evidence/mm8/out03_decor_terrain_enclosure.png",
+      "camera_position": [
+        38485.9140625,
+        -76971.828125,
+        95576.6875
+      ],
+      "highlighted": [
+        {
+          "index": 492,
+          "name": "tree10",
+          "position": [
+            160,
+            -160,
+            448
+          ]
+        },
+        {
+          "index": 655,
+          "name": "plant09",
+          "position": [
+            -7360,
+            11704,
+            448
+          ]
+        },
+        {
+          "index": 766,
+          "name": "rock28",
+          "position": [
+            6400,
+            15776,
+            288
+          ]
+        },
+        {
+          "index": 715,
+          "name": "dec26",
+          "position": [
+            -6952,
+            -14104,
+            178
+          ]
+        },
+        {
+          "index": 710,
+          "name": "dec23",
+          "position": [
+            -19080,
+            1344,
+            1024
+          ]
+        }
+      ]
+    }
+  ],
+  "missing_sprites": [],
+  "limitations": "Native static geometry/initial decoration first frames, decoded palette and alpha; neutral study lighting, no actors, scripted changes, emitter particles or dynamic light validation. Labels mark source anchors; they may identify a sprite partly occluded by geometry. Not a gameplay screenshot."
+}
