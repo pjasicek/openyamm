@@ -32,7 +32,8 @@ npcs:
   5453:              # The Dragon Pharaoh (DD-15 L4)
     topics:
       - n: 2
-        label: Chosen Ones
+        role: quest
+        stays: "its after-text points to Olympus's Soul Storage (M31 and M32, which the hand-in opens)"
         show: {qbit: m29.done}
         states:
           - when: {qbit: done}

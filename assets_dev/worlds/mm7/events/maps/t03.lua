@@ -249,6 +249,6 @@ RegisterEvent(451, nil, function()
 end)
 
 RegisterEvent(501, "Leave the Grand Temple of the Sun", function()
-    evt.MoveToMap(-7166, 11033, 185, 1536, 0, 0, 0, 0, "out09.odm") -- Evenmorn Island
+    evt.MoveToMap(-7166, 11033, 185, 1536, 0, 0, 0, 9, "out09.odm") -- Evenmorn Island
 end, "Leave the Grand Temple of the Sun")
 

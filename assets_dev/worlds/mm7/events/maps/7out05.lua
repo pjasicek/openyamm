@@ -527,11 +527,11 @@ RegisterEvent(500, nil, function()
 end)
 
 RegisterEvent(501, "Enter the Hall of the Pit", function()
-    evt.MoveToMap(512, -3156, 1, 545, 0, 0, 140, 1, "t04.blv") -- The Hall of the Pit
+    evt.MoveToMap(512, -3156, 1, 545, 0, 0, 396, 2, "t04.blv") -- The Hall of the Pit
 end, "Enter the Hall of the Pit")
 
 RegisterEvent(502, "Enter Watchtower 6", function()
-    evt.MoveToMap(-416, -1033, 1, 512, 0, 0, 397, 1, "7d15.blv") -- Watchtower 6
+    evt.MoveToMap(-416, -1033, 1, 512, 0, 0, 397, 9, "7d15.blv") -- Watchtower 6
 end, "Enter Watchtower 6")
 
 RegisterEvent(503, nil, function()
@@ -539,16 +539,16 @@ RegisterEvent(503, nil, function()
         evt.SpeakNPC(357) -- William Setag
         return
     end
-    evt.MoveToMap(442, -1112, 1, 512, 0, 0, 0, 0, "mdt10.blv") -- William Setag's Tower
+    evt.MoveToMap(442, -1112, 1, 512, 0, 0, 0, 9, "mdt10.blv") -- William Setag's Tower
 end)
 
 RegisterEvent(504, "Enter Watchtower 6", function()
     if not IsQBitSet(QBit(708)) then -- Find second entrance to Watchtower6
         SetQBit(QBit(708)) -- Find second entrance to Watchtower6
-        evt.MoveToMap(190, 4946, -511, 1024, 0, 0, 397, 1, "7d15.blv") -- Watchtower 6
+        evt.MoveToMap(190, 4946, -511, 1024, 0, 0, 397, 9, "7d15.blv") -- Watchtower 6
         return
     end
-    evt.MoveToMap(190, 4946, -511, 1024, 0, 0, 397, 1, "7d15.blv") -- Watchtower 6
+    evt.MoveToMap(190, 4946, -511, 1024, 0, 0, 397, 9, "7d15.blv") -- Watchtower 6
 end, "Enter Watchtower 6")
 
 RegisterEvent(65535, "", function()

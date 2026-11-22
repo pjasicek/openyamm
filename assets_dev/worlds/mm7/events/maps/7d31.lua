@@ -370,10 +370,10 @@ RegisterEvent(455, nil, function()
 end)
 
 RegisterEvent(501, "Leave Fort Riverstride", function()
-    evt.MoveToMap(11270, -2144, 1601, 1536, 0, 0, 0, 0, "7out03.odm") -- Erathia
+    evt.MoveToMap(11270, -2144, 1601, 1536, 0, 0, 0, 8, "7out03.odm") -- Erathia
 end, "Leave Fort Riverstride")
 
 RegisterEvent(502, "Leave Fort Riverstride", function()
-    evt.MoveToMap(10531, -1536, 513, 0, 0, 0, 0, 0, "7out03.odm") -- Erathia
+    evt.MoveToMap(10531, -1536, 513, 0, 0, 0, 0, 8, "7out03.odm") -- Erathia
 end, "Leave Fort Riverstride")
 

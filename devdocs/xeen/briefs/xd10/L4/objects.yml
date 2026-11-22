@@ -249,7 +249,6 @@ chests:
   - id: chest:cache
     room: room:mirage_cache
     at: [-1280, 9744]
-    facing: s
     treasure_level: 3
     random_items: 2
     gold: 400
@@ -257,7 +256,6 @@ chests:
   - id: chest:gems
     room: room:echo_cave
     at: [-576, 3696]
-    facing: n
     treasure_level: 3
     random_items: 0
     items: [177, 178, 179, 180, 181, 182, 183, 184, 185, 186, 177, 178, 179, 180, 181]
@@ -265,7 +263,6 @@ chests:
   - id: chest:hoard
     room: room:phantom_vault
     at: [6784, 5008]
-    facing: s
     treasure_level: 5
     random_items: 4
     gold: 2000
@@ -274,7 +271,6 @@ chests:
   - id: chest:post
     room: room:guard_post
     at: [-576, 6288]
-    facing: s
     treasure_level: 3
     random_items: 3
     gold: 600
@@ -282,7 +278,6 @@ chests:
   - id: chest:wreck
     room: room:wreck
     at: [2048, 1136]
-    facing: n
     treasure_level: 3
     random_items: 3
     gold: 500

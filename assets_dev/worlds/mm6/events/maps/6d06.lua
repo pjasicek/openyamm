@@ -310,7 +310,7 @@ RegisterEvent(46, "Door", function()
 end, "Door")
 
 RegisterEvent(50, "Exit", function()
-    evt.MoveToMap(16495, -14570, 96, 1536, 0, 0, 0, 0, "outd3.odm") -- Castle Ironfist
+    evt.MoveToMap(16495, -14570, 96, 1536, 0, 0, 0, 6, "outd3.odm") -- Castle Ironfist
 end, "Exit")
 
 RegisterEvent(51, nil, function()

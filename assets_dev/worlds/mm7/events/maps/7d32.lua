@@ -515,10 +515,10 @@ RegisterEvent(454, nil, function()
 end)
 
 RegisterEvent(501, "Leave Castle Navan", function()
-    evt.MoveToMap(-18532, -10251, 1537, 0, 0, 0, 0, 0, "7out04.odm") -- The Tularean Forest
+    evt.MoveToMap(-18532, -10251, 1537, 0, 0, 0, 0, 8, "7out04.odm") -- The Tularean Forest
 end, "Leave Castle Navan")
 
 RegisterEvent(502, "Leave Castle Navan", function()
-    evt.MoveToMap(-3257, -12544, 833, 0, 0, 0, 0, 0, "7d08.blv") -- The Tularean Caves
+    evt.MoveToMap(-3257, -12544, 833, 0, 0, 0, 0, 3, "7d08.blv") -- The Tularean Caves
 end, "Leave Castle Navan")
 

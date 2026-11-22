@@ -572,7 +572,7 @@ RegisterEvent(69, "Storage Container", function()
 end, "Storage Container")
 
 RegisterEvent(70, "Exit", function()
-    evt.MoveToMap(-1433, 2204, -495, 1536, 0, 0, 0, 0, "oracle.blv") -- Oracle of Enroth
+    evt.MoveToMap(-1433, 2204, -495, 1536, 0, 0, 0, 6, "oracle.blv") -- Oracle of Enroth
 end, "Exit")
 
 RegisterEvent(71, nil, function()

@@ -527,7 +527,7 @@ RegisterEvent(59, "Forcefield", function()
 end, "Forcefield")
 
 RegisterEvent(60, nil, function()
-    evt.MoveToMap(-17281, 17465, 2081, 0, 0, 0, 0, 0, "outc3.odm") -- Mire of the Damned
+    evt.MoveToMap(-17281, 17465, 2081, 0, 0, 0, 0, 6, "outc3.odm") -- Mire of the Damned
 end)
 
 RegisterEvent(61, "Sarcophagus", function(continueStep)

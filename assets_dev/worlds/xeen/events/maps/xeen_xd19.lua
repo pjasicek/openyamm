@@ -389,7 +389,7 @@ RegisterEvent(50, nil, function()
     if IsAtLeast(MapVar(5), 1) then
         return
     end
-    if not (evt.CheckMonstersKilled(ActorKillCheck.ActorIdOe, 25, 0, false)) then
+    if not (evt.CheckMonstersKilled(ActorKillCheck.ActorIdOe, 37, 0, false)) then
         return
     end
     evt.SetDoorState(15, DoorAction.Open)
@@ -510,7 +510,7 @@ RegisterEvent(62, nil, function()
     if IsAtLeast(MapVar(8), 1) then
         return
     end
-    if not (evt.CheckMonstersKilled(ActorKillCheck.ActorIdOe, 30, 0, false)) then
+    if not (evt.CheckMonstersKilled(ActorKillCheck.ActorIdOe, 43, 0, false)) then
         return
     end
     SetValue(MapVar(8), 1)
@@ -565,7 +565,7 @@ RegisterEvent(69, nil, function()
         return
     end
     AddValue(MapVar(11), 1)
-    if IsAtLeast(MapVar(11), 5) then SetValue(MapVar(12), 1) evt.SetActorImmobile(25, false) evt.SetActorImmobile(44, false) evt.SetActorImmobile(45, false) evt.SetActorTarget(25, "party") evt.SetActorTarget(44, "party") evt.SetActorTarget(45, "party") end
+    if IsAtLeast(MapVar(11), 5) then SetValue(MapVar(12), 1) evt.SetActorImmobile(37, false) evt.SetActorImmobile(59, false) evt.SetActorImmobile(60, false) evt.SetActorImmobile(61, false) evt.SetActorImmobile(62, false) evt.SetActorImmobile(63, false) evt.SetActorImmobile(64, false) evt.SetActorTarget(37, "party") evt.SetActorTarget(59, "party") evt.SetActorTarget(60, "party") evt.SetActorTarget(61, "party") evt.SetActorTarget(62, "party") evt.SetActorTarget(63, "party") evt.SetActorTarget(64, "party") end
 end, nil)
 
 -- evt:throne
@@ -600,7 +600,7 @@ end, "War table")
 
 -- evt:lord_damage
 RegisterMonsterDamageHook(73, nil, function(hook)
-    local actors = {[25] = true}
+    local actors = {[37] = true}
     if not actors[hook.actorIndex] then return end
     if not (hook.attack == 'melee' and hook.weaponItemId == 12500) then
         evt.SetHookDamage(0)

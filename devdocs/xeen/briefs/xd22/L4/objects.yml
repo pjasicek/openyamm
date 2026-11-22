@@ -231,7 +231,6 @@ chests:
   - id: chest:armoury
     room: room:armoury
     at: [100, -872]
-    facing: n
     treasure_level: 3
     random_items: 2
     gold: 300
@@ -239,7 +238,6 @@ chests:
   - id: chest:cellar
     room: room:cellar
     at: [-680, -2400]
-    facing: e
     treasure_level: 3
     random_items: 2
     gold: 400

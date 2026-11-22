@@ -31,9 +31,11 @@ npcs:
   4922:              # Nadia
     topics:
       - n: 1
-        label: Necklace
+        role: quest
+        afterword: {n: 2, label: Necklace}
         states:
           - when: {qbit: key}
+            afterword: true
             text: "I wear it every day now, and I don't go near the drains."
           - when: {item: onyx_necklace}
             text: "My necklace! It still smells of sewer, but it's mine. Here, for your trouble. And Ellinger owes me a favour. Tell him Nadia sent you."

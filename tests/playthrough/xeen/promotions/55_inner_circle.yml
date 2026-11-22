@@ -100,8 +100,8 @@ steps:
   # The Master Thief (actor 29): nobody of his trade, his refusal.
   - interact_actor: {actor_index: 29}
   - advance_runtime: {seconds: 0.6, present_dialogs: true}
-  - assert: {dialog: {active: true, source_id: 5109, action_label_present: "Inner circle", action_label_absent: "New members"}}
-  - select_topic: {match_label: "Inner circle"}
+  - assert: {dialog: {active: true, source_id: 5109, action_label_present: "Promotion"}}
+  - select_topic: {action_id: 44952, match_label: "Promotion"}
   - assert: {dialog: {active: true, text_contains: "Nobody in your party has the hands for my trade."}}
   - press_action: {action: cancel_dialog}
   - play_lua: {source: "for _ = 1, 3 do if not close() then break end end; if qbit(113385) then error('inner_circle set with nobody promoted') end"}
@@ -117,12 +117,11 @@ steps:
   - interact_actor: {actor_index: 29}
   - advance_runtime: {seconds: 0.6, present_dialogs: true}
   - assert: {dialog: {active: true, source_id: 5109}}
-  - select_topic: {match_label: "Inner circle"}
+  - select_topic: {action_id: 44952, match_label: "Promotion"}
   - assert: {dialog: {active: true, text_contains: "Join the inner circle. No paperwork. Well, a ledger."}}
   - play_lua: {source: "if classes() ~= 'Assassin Crusader Wizard RangerLord' then error('Q-D19 inner circle: ' .. classes()) end; if experience(0) ~= tonumber(recall('xp')) or gold() ~= tonumber(recall('gold')) then error('the inner circle paid') end; log('Q-D19 inner circle: ' .. classes())"}
   - assert: {qbit_set: [113385]}
-  - assert: {dialog: {active: true, action_label_absent: "Inner circle"}}
-  - assert: {dialog: {active: true, action_label_absent: "New members"}}
+  - assert: {dialog: {active: true, action_label_absent: "Promotion"}}
   - press_action: {action: cancel_dialog}
   - play_lua: {source: "for _ = 1, 3 do if not close() then break end end"}
   # The party's own classes back.

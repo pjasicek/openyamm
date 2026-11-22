@@ -63,11 +63,14 @@ npcs:
   5101:              # Sharla
     topics:
       - n: 1
-        label: Sheewana
+        role: quest
+        afterword: {n: 10, label: Sheewana}
         states:
           - when: {qbit: robbery}
+            afterword: true
             text: "You came into our forest with your hands on your purses and ours. We pay nothing to robbers."
           - when: {qbit: done}
+            afterword: true
             text: "We are always pleased to see heroes such as yourselves. You are welcome in our forest."
           - when: {all: [{qbit: sheewana_freed}, {qbit: polite}]}
             text: "Thank you! It is good to see her back. Here is your reward. And those of you who hunt: the forest has taught you all it can. Walk it now as its lords."

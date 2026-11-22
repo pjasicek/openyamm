@@ -302,7 +302,6 @@ chests:
     room: room:west_lappet
     at: [-384, -2752]
     kind: ch1
-    facing: e
     treasure_level: 4
     random_items: 2
     gold: 900
@@ -311,7 +310,6 @@ chests:
     room: room:library
     at: [960, 10560]
     kind: ch1
-    facing: s
     treasure_level: 4
     random_items: 2
     gold: 1000
@@ -328,9 +326,8 @@ chests:
     notes: "The great sarcophagus in the middle of the west gallery: it opens only for a member of Might 40 (D-39 Q4)."
   - id: chest:vault
     room: room:haunch_vault
-    at: [0, 6040]
+    at: [384, 6104]
     kind: 7gt002
-    facing: s
     treasure_level: 4
     random_items: 3
     gold: 1200

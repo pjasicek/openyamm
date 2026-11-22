@@ -488,7 +488,7 @@ RegisterEvent(454, nil, function()
 end)
 
 RegisterEvent(501, "Leave Castle Gryphonheart", function()
-    evt.MoveToMap(-486, 9984, 2401, 1024, 0, 0, 0, 0, "7out03.odm") -- Erathia
+    evt.MoveToMap(-486, 9984, 2401, 1024, 0, 0, 0, 8, "7out03.odm") -- Erathia
 end, "Leave Castle Gryphonheart")
 
 RegisterEvent(502, "Leave Castle Gryphonheart", function()
@@ -497,6 +497,6 @@ RegisterEvent(502, "Leave Castle Gryphonheart", function()
         evt.FaceAnimation(FaceAnimation.DoorLocked)
         return
     end
-    evt.MoveToMap(1050, 9991, 2913, 1024, 0, 0, 0, 0, "7out03.odm") -- Erathia
+    evt.MoveToMap(1050, 9991, 2913, 1024, 0, 0, 0, 8, "7out03.odm") -- Erathia
 end, "Leave Castle Gryphonheart")
 

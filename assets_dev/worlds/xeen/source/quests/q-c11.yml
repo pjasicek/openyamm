@@ -24,9 +24,11 @@ npcs:
   4304:              # Falagar
     topics:
       - n: 1
-        label: Crystals
+        role: quest
+        afterword: {n: 2, label: Crystals}
         states:
           - when: {qbit: done}
+            afterword: true
             text: "Carlawna is my sister, by the way. She never tells anyone. I tell everyone."
           - when: {item: piezo_crystals}
             text: "Thank the Gods! You've recovered the crystals. You are truly great adventurers. As a reward, take this. A wizard's house is full of things a wizard has stopped using."

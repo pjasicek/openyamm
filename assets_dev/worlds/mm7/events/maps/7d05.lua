@@ -182,6 +182,6 @@ RegisterEvent(457, nil, function()
 end)
 
 RegisterEvent(501, "Leave the Arena", function()
-    evt.MoveToMap(-5692, 11137, 1, 1024, 0, 0, 0, 0, "7out02.odm") -- Harmondale
+    evt.MoveToMap(-5692, 11137, 1, 1024, 0, 0, 0, 8, "7out02.odm") -- Harmondale
 end, "Leave the Arena")
 

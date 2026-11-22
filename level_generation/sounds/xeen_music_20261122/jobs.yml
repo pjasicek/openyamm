@@ -1,0 +1,112 @@
+# Xeen's own music, batch 1 (lane AU, devdocs/xeen/lanes/AU.md; the install proposal is devdocs/xeen/MUSIC.md
+# "Proposal: Xeen's own themes"). Run with tools/run_elevenlabs.sh (tools/audio/README.md).
+#
+# The user approved 2026-11-22 (through the fourth orchestrator, "plan B"): eight themes, ONE take each, a hard cap of
+# 18 000 credits. A retake or any further job needs the user's approval. The settings are Hesper's music jobs
+# (design/kreegan_world/audio/jobs.yml, hes_music_*): Eleven Music music_v2_5, instrumental, 150 s, PCM 48 kHz kept
+# as FLAC, the last 5 s folded into the opening (equal-power crossfade; a download that fades out is cut where the
+# fade starts), levelled to -17 dBFS RMS, the pick encoded as a 320 kbit/s MP3 (the engine plays Music/<N>.mp3).
+# The tool ledgers music at the pricing page's 900 credits per minute (2 250 per 150 s take; the account's own
+# quota message gave 825 per minute on 2026-10-23), so 8 x 2 250 = 18 000 is the most this batch can be charged.
+# prompt_influence is not sent for music (request_body); none is set.
+# Prompts describe the music; they never name a composer, game or work (the music terms forbid it).
+schema: openyamm.elevenlabs.jobs.v1
+budget: 20250                     # the user's cap of 18 000 (2026-11-22) plus the one dungeon retake the user asked for
+                                  # ("regenerate the dungeon", 2026-11-22): 2 250
+kind_budgets: {music: 20250}
+music: true                       # the user's decision of 2026-11-22 for these eight themes (one take each)
+defaults:
+  kind: music
+  group: Music
+  model: music_v2_5
+  duration: 150
+  variants: 1
+  loop: true
+  channels: 2
+  crossfade: 5
+  loop_rms_db: -17
+  formats: [pcm_48000]
+jobs:
+  - id: xeen_music_cloudside
+    title: Cloudside overworld
+    use: the bright face's open maps (X1-X8)
+    prompt: >-
+      Instrumental orchestral fantasy role-playing game soundtrack for exploring a green, sunlit land under wide open
+      skies. Bright, adventurous and warm, with a hint of wonder: a singing melody on French horn and flute over
+      flowing strings, light harp arpeggios, a folk fiddle answering the melody, soft timpani and gentle hand
+      percussion at a walking pace around 96 BPM. Real acoustic orchestra and folk instruments, recorded warmly, in a
+      late-1990s fantasy adventure style. Melodic themes that return, steady and even throughout, no build-ups, no
+      climax, no vocals. Seamless loop: no intro and no ending, it ends as it began.
+  - id: xeen_music_darkside
+    title: Darkside overworld
+    use: the shadowed face's open maps (D2-D6)
+    prompt: >-
+      Instrumental orchestral fantasy role-playing game soundtrack for crossing a shadowed land under a dim amber sun,
+      a far glow on the horizon. Melancholy grandeur and mystery with a strong heroic undertone: a noble minor-key
+      melody on low French horns and cellos, answered by a lonely solo oboe, warm sustained strings, a slow harp
+      ostinato and soft low timpani rolls at a measured pace around 76 BPM. Real acoustic orchestra, recorded warmly,
+      in a late-1990s fantasy adventure style. Brooding but hopeful, steady and even throughout, no build-ups, no
+      climax, no vocals. Seamless loop: no intro and no ending, it ends as it began.
+  - id: xeen_music_cloudside_town
+    title: Cloudside towns
+    use: the bright face's towns and villages
+    prompt: >-
+      Instrumental medieval folk game soundtrack for a cosy, busy market town on a sunny day. Cheerful and homely, a
+      little playful: a dancing melody on lute and recorder, a plucked mandolin and a light folk fiddle, soft
+      pizzicato strings underneath, tambourine, frame drum and light hand percussion in a lilting dance rhythm around
+      108 BPM. Real acoustic folk instruments with a small warm string section, in a late-1990s fantasy role-playing
+      game style. Melodic and friendly, steady and even throughout, no build-ups, no climax, no vocals. Seamless loop:
+      no intro and no ending, it ends as it began.
+  - id: xeen_music_darkside_town
+    title: Darkside towns
+    use: the shadowed face's towns (old stone towns)
+    prompt: >-
+      Instrumental medieval folk game soundtrack for an old, sturdy stone town under a dim sky, a little wary but
+      still welcoming. A gentle minor-key melody on lute and wooden flute, a low hurdy-gurdy drone, warm viola and
+      cello underneath, a plucked harp and a soft frame drum with light hand percussion at a calm walking pace around
+      88 BPM; now and then the melody turns warmly to major. Real acoustic folk instruments and a small string
+      section, in a late-1990s fantasy role-playing game style. Steady and even throughout, no build-ups, no climax,
+      no vocals. Seamless loop: no intro and no ending, it ends as it began.
+  - id: xeen_music_castle
+    title: Castles
+    use: royal castles and their halls
+    prompt: >-
+      Instrumental orchestral fantasy game soundtrack for the halls of a royal castle. Regal, stately and calm,
+      ceremonial without pomp: a dignified processional melody on French horns and trumpets, answered by warm strings,
+      a harpsichord or harp ornamenting the line, soft timpani and a quiet snare at a slow stately pace around 72 BPM.
+      Real acoustic orchestra, recorded warmly, in a late-1990s fantasy role-playing game style. Noble and composed,
+      steady and even throughout, no fanfare bursts, no build-ups, no climax, no vocals. Seamless loop: no intro and no
+      ending, it ends as it began.
+  # Take 2 (2026-11-22, the user: "regenerate the dungeon"): take 1 was sparse for 30 s and 5 dB louder over its
+  # last 45 s, so its wrap dropped 10-15 dB; the evenness sentence is new. Take 1 kept as out/xeen_music_dungeon/take1.*
+  - id: xeen_music_dungeon
+    title: Dungeons and caves
+    use: dungeons, caves, mines, sewers and crypts
+    prompt: >-
+      Instrumental dark orchestral fantasy game soundtrack for exploring a deep dungeon and dripping caves. Tense and
+      shadowy, menacing but not horror: low sustained strings and double basses, a slow brooding cello motif, sparse
+      deep drum hits and a soft low tom pulse, isolated drips of harp and celesta notes, faint low brass swells, at a
+      slow creeping pace around 66 BPM. Real acoustic orchestra, in a late-1990s fantasy role-playing game style.
+      Restrained and even throughout, no jump scares, no build-ups, no climax, no vocals. Even level from the first
+      second to the last: the same density and loudness at the end as at the start, no quiet opening, no louder final
+      section, no fade-in and no fade-out. Seamless loop: no intro and no ending, it ends as it began.
+  - id: xeen_music_ancients
+    title: The Ancients' places
+    use: the Ancients' machine interiors hidden in the fantasy world (pyramids, pods, the Sphinx's core)
+    prompt: >-
+      Instrumental game soundtrack for the vast interior of an ancient spacefaring race's machine, hidden inside a
+      fantasy world. Cold and awe-filled, a sense of scale and old mystery: slow shimmering synth pads, a soft steady
+      synth pulse around 70 BPM, glassy bell tones, blended with a sparse orchestra of high sustained strings, a low
+      French horn line and quiet harp. Mysterious and reverent rather than threatening, a slow melodic motif that
+      returns, steady and even throughout, no heavy drums, no build-ups, no climax, no vocals. Seamless loop: no intro
+      and no ending, it ends as it began.
+  - id: xeen_music_finale
+    title: The finale
+    use: the last confrontation and the world's unification
+    prompt: >-
+      Instrumental epic orchestral fantasy game soundtrack for the final confrontation that unites a divided world.
+      Heroic and climactic: a soaring noble melody on French horns and trumpets over driving strings, full orchestra,
+      wordless choir-like pads, deep timpani and steady martial percussion at around 100 BPM. Real acoustic orchestra,
+      recorded warmly, in a late-1990s fantasy role-playing game style. Sustained intensity at one level from start to
+      finish, no quiet intro, no final cadence, no breakdowns, no vocals with words. Seamless loop: no intro and no
+      ending, it ends as it began.

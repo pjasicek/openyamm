@@ -237,11 +237,11 @@ RegisterEvent(456, nil, function()
 end)
 
 RegisterEvent(501, "Leave the Cave", function()
-    evt.MoveToMap(-4324, 1811, 3905, 172, 0, 0, 48, 0, "7d07.blv") -- Thunderfist Mountain
+    evt.MoveToMap(-4324, 1811, 3905, 172, 0, 0, 48, 3, "7d07.blv") -- Thunderfist Mountain
 end, "Leave the Cave")
 
 RegisterEvent(502, "Leave the Cave", function()
-    evt.MoveToMap(-7766, 7703, -1535, 1792, 0, 0, 0, 0, "7d24.blv") -- Stone City
+    evt.MoveToMap(-7766, 7703, -1535, 1792, 0, 0, 0, 3, "7d24.blv") -- Stone City
 end, "Leave the Cave")
 
 RegisterEvent(65535, "", function()

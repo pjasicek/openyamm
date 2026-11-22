@@ -60,9 +60,11 @@ npcs:
   5401:              # Bosco
     topics:
       - n: 1
-        label: Chalice
+        role: quest
+        afterword: {n: 3, label: Chalice}
         states:
           - when: {qbit: done}
+            afterword: true
             text: "I drink from it every morning. Water, mostly. I'm still alive, so it works."
           - when: {qbit: oath}
             text: "You gave it back to those mumbling knights? I'll die of thirst before I die of poison. Get out."

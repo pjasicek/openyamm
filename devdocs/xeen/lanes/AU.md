@@ -100,3 +100,27 @@ house `enter_sound` once A1 has the field.
   `xeen_amb_plane_fire`: frame counts as expected). `install.py --check` 0. Analysis tools that read installed WAVs
   with scipy must read the picks in `out/` instead (none does today). PCM copies of the 264 before the change:
   `output/xeen_p/wav/pcm_before/` (lane P scratch, deleted when P closes).
+- 2026-11-22 session 6 (fourth orchestrator), **music batch 1** on the user's approval (plan B: eight themes, one
+  take each, hard cap 18 000; retakes need the user): `level_generation/sounds/xeen_music_20261122/` (own `jobs.yml`
+  with `music: true`, budget and `kind_budgets` 18 000; own `ledger.json`, `picks.yml`). Hesper's music settings
+  (music_v2_5, 150 s, PCM 48 kHz kept as FLAC, 5 s fold, -17 dBFS RMS, 320 kbit/s MP3). Eight requests, all taken;
+  **18 000 ledgered** (900/min estimate; the key lacks `user_read`, music has no cost header; the account's 825/min
+  quota rate would make it about 16 500). Loops 2:18-2:25; four downloads faded out (3-7 s cut before the fold), the
+  castle starts with 2 s of silence (covered by the fold), the dungeon take ends in a louder 45 s plateau so its wrap
+  drops audibly (measured, `listening` in picks.yml). Review page with a loop-seam clip per theme
+  (`review_page.py`, `review/`): https://claude.ai/artifact/Tca95rfncnb6hzGFk7r97K. Install proposal (tracks
+  92001-92008, maps.yml changes, world.yml `musicAreas` for the towns) in [MUSIC.md](../MUSIC.md) "Proposal: Xeen's own
+  themes"; nothing installed, `music: false` stays in the sound job file.
+  Then the user: "regenerate the dungeon": one retake (cap raised to 20 250 for exactly it), the prompt gained Hesper
+  Lattice's even-level sentence; take 2 is 2:22, swells spread through the track, the wrap steps down about 3 dB
+  (take 1: 10-15 dB), spread 7.2 dB (9.5). Take 1 kept as `out/xeen_music_dungeon/take1.*` and on the review page.
+  **20 250 ledgered in all** (9 requests; about 18 560 at the 825/min rate).
+- 2026-11-22 session 6, **music installed (U-10)**: the user, through the orchestrator: "OK this is fine, you can
+  reinstall the music". `assets_dev/worlds/xeen/music/92001-92008.mp3` (the picks' 320 kbit/s MP3s, 92006 = dungeon
+  take 2; 44 MB); `source/maps.yml` music on 21 maps and its header comment; `world.yml` `musicAreas` (Vertigo,
+  Rivercity, Burlock's village, Castleview, Sandcaster, the Crossroads, Lakeside); `build_world.py` rewrote
+  `map_stats.txt` (21 Redbook cells, nothing else). Backups: `output/xeen_music_install/*.pre_music`. Packaging needs
+  no entry: the world default `music: {buckets: 2}` gives `xeen.music.0/.1` (43.5 MiB). Game runs (build-xeen,
+  audio trace, tours in `output/xeen_music_install/runs/`): X1 92001 -> 92003 walking into Vertigo (close the opening
+  message first: click [1252, 820]), D3 92002 -> 92004 into the Crossroads, P5 92008. `build_world.py --check` 0 differ,
+  `stale_bakes.py --check` 0. MUSIC.md's proposal is now its current table; DECISIONS U-10, ROADMAP Q9 updated.

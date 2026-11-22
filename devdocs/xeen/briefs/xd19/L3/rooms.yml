@@ -1,8 +1,8 @@
 format: 0
 themes:
 - id: theme:castle
-  wall: &id001 {texture: gnecwal1, size: [256, 256]}
-  floor: &id016 {texture: gnecflr, size: [128, 128]}
+  wall: &id001 {texture: gnecwal1, size: &id011 [256, 256]}
+  floor: &id017 {texture: gnecflr, size: [128, 128]}
   ceiling: &id002 {texture: gnecclg2, size: &id005 [128, 256]}
   reveal: *id001
   door: &id003 {texture: gnecdr2, size: [128, 256]}
@@ -403,8 +403,13 @@ rooms:
   floor: 640
   ceiling: 1408
   theme: theme:sky
+  walls:
+  - {wall: west, surface: {texture: gnecwal1, size: *id011, sky: true}, bands: false}
+  parapets:
+  - {path: [[-5088, -2688], [-5088, 288]], height: 160, thickness: 32, surface: *id001, notes: 'The outer parapet: the cloud
+      sea and X9''s sky beyond it (D-97).'}
   ambient: 28
-  notes: The west wall walk under open sky (X9's cloud sea), from the tower to the turret.
+  notes: 'The west wall walk under open sky, from the tower to the turret: the outer parapet over X9''s cloud sea.'
 - id: room:turret_w
   name: West turret
   outline: [[-5120, 480], [-4320, 480], [-4320, 1440], [-5120, 1440]]
@@ -429,16 +434,26 @@ rooms:
   floor: 640
   ceiling: 1408
   theme: theme:sky
+  walls:
+  - {wall: west, surface: {texture: gnecwal1, size: *id011, sky: true}, bands: false}
+  parapets:
+  - {path: [[-5088, 1632], [-5088, 4448]], height: 160, thickness: 32, surface: *id001, notes: 'The outer parapet: the cloud
+      sea and X9''s sky beyond it (D-97).'}
   ambient: 28
-  notes: The west wall walk's north stretch, to the keep's west door.
+  notes: The west wall walk's north stretch, to the keep's west door; open sky over the outer parapet.
 - id: room:wall_es
   name: East wall walk
   outline: [[4320, -2720], [5120, -2720], [5120, 320], [4320, 320]]
   floor: 640
   ceiling: 1408
   theme: theme:sky
+  walls:
+  - {wall: east, surface: {texture: gnecwal1, size: *id011, sky: true}, bands: false}
+  parapets:
+  - {path: [[5088, -2688], [5088, 288]], height: 160, thickness: 32, surface: *id001, notes: 'The outer parapet: the cloud
+      sea and X9''s sky beyond it (D-97).'}
   ambient: 28
-  notes: The east wall walk under open sky.
+  notes: The east wall walk under open sky, the outer parapet over X9's cloud sea.
 - id: room:turret_e
   name: East turret
   outline: [[4320, 480], [5120, 480], [5120, 1440], [4320, 1440]]
@@ -463,8 +478,13 @@ rooms:
   floor: 640
   ceiling: 1408
   theme: theme:sky
+  walls:
+  - {wall: east, surface: {texture: gnecwal1, size: *id011, sky: true}, bands: false}
+  parapets:
+  - {path: [[5088, 1632], [5088, 4448]], height: 160, thickness: 32, surface: *id001, notes: 'The outer parapet: the cloud
+      sea and X9''s sky beyond it (D-97).'}
   ambient: 28
-  notes: The east wall walk's north stretch, to the keep's east door.
+  notes: The east wall walk's north stretch, to the keep's east door; open sky over the outer parapet.
 - id: room:grand_landing
   name: Grand landing
   outline: [[-1280, 2080], [1280, 2080], [1280, 2720], [-1280, 2720]]
@@ -520,8 +540,8 @@ rooms:
     surface: *id006
   - wall: west
     surface: *id006
-  platforms: [{id: 'platform:machine_w', at: [-3952, 3360], size: [320, 704], rise: 512, surface: &id011 {texture: swll5dk,
-        size: [128, 256]}, end_surface: &id012 {texture: swtrpnl, size: [128, 256], fit: true}, top_surface: *id008, notes: 'A
+  platforms: [{id: 'platform:machine_w', at: [-3952, 3360], size: [320, 704], rise: 512, surface: &id012 {texture: swll5dk,
+        size: [128, 256]}, end_surface: &id013 {texture: swtrpnl, size: [128, 256], fit: true}, top_surface: *id008, notes: 'A
         guard-making machine: Ancient panels round a press that stamps out Xeen''s Guards (the destructible: ''Guard Making
         Machine.  Destroy?'', aaze0075:0).'}, {at: [-3712, 3552], size: [160, 192], rise: 96, surface: *id008, top_surface: *id008,
       notes: 'The machine''s output chute: a low plate where the finished guards step off.'}]
@@ -544,7 +564,7 @@ rooms:
     surface: *id006
   - wall: west
     surface: *id006
-  platforms: [{id: 'platform:machine_e', at: [3952, 3360], size: [320, 704], rise: 512, surface: *id011, end_surface: *id012,
+  platforms: [{id: 'platform:machine_e', at: [3952, 3360], size: [320, 704], rise: 512, surface: *id012, end_surface: *id013,
       top_surface: *id008, notes: 'A guard-making machine: Ancient panels round a press that stamps out Xeen''s Guards (the
         destructible: ''Guard Making Machine.  Destroy?'', aaze0075:0).'}, {at: [3712, 3552], size: [160, 192], rise: 96,
       surface: *id008, top_surface: *id008, notes: 'The machine''s output chute: a low plate where the finished guards step
@@ -715,8 +735,8 @@ rooms:
     surface: *id006
   - wall: west
     surface: *id006
-  platforms: [{id: 'platform:war_table', at: [-2640, 320], size: [448, 320], rise: 80, surface: &id013 {texture: 7trimd, size: [
-          128, 256]}, top_surface: *id013, notes: 'The war table: a map of both faces of Xeen, armies marked in Lord Xeen''s
+  platforms: [{id: 'platform:war_table', at: [-2640, 320], size: [448, 320], rise: 80, surface: &id014 {texture: 7trimd, size: [
+          128, 256]}, top_surface: *id014, notes: 'The war table: a map of both faces of Xeen, armies marked in Lord Xeen''s
         hand.'}]
   ambient: 18
   notes: 'A dead end with a chest: the war table, Lord Xeen''s orders.'
@@ -736,10 +756,10 @@ rooms:
     surface: *id006
   - wall: west
     surface: *id006
-  platforms: [{id: 'platform:bed_1', at: [4040, -2400], size: [192, 384], rise: 48, surface: *id013, top_surface: &id014 {
+  platforms: [{id: 'platform:bed_1', at: [4040, -2400], size: [192, 384], rise: 48, surface: *id014, top_surface: &id015 {
         texture: t2bedsht, size: [128, 256]}, notes: An iron bed (for a demon).}, {id: 'platform:bed_2', at: [4040, -1920],
-      size: [192, 384], rise: 48, surface: *id013, top_surface: *id014, notes: An iron bed (for a demon).}, {id: 'platform:bed_3',
-      at: [4040, -1440], size: [192, 384], rise: 48, surface: *id013, top_surface: *id014, notes: An iron bed (for a demon).}]
+      size: [192, 384], rise: 48, surface: *id014, top_surface: *id015, notes: An iron bed (for a demon).}, {id: 'platform:bed_3',
+      at: [4040, -1440], size: [192, 384], rise: 48, surface: *id014, top_surface: *id015, notes: An iron bed (for a demon).}]
   ambient: 18
   notes: 'A dead end with a chest: iron beds, braziers.'
 - id: room:barrier
@@ -758,13 +778,13 @@ rooms:
     surface: *id006
   - wall: west
     surface: *id006
-  platforms: [{id: 'platform:pylon_fire', at: [-896, -2320], size: [128, 128], rise: 448, surface: &id015 {texture: xaenergy,
+  platforms: [{id: 'platform:pylon_fire', at: [-896, -2320], size: [128, 128], rise: 448, surface: &id016 {texture: xaenergy,
         size: [128, 256]}, top_surface: *id008, notes: 'The fire pylon: its conduit runs to the south-west tower (dark when
-        its generator falls).'}, {id: 'platform:pylon_air', at: [896, -2320], size: [128, 128], rise: 448, surface: *id015,
+        its generator falls).'}, {id: 'platform:pylon_air', at: [896, -2320], size: [128, 128], rise: 448, surface: *id016,
       top_surface: *id008, notes: 'The air pylon: its conduit runs to the south-east tower (dark when its generator falls).'},
-    {id: 'platform:pylon_water', at: [-896, -1200], size: [128, 128], rise: 448, surface: *id015, top_surface: *id008, notes: 'The
+    {id: 'platform:pylon_water', at: [-896, -1200], size: [128, 128], rise: 448, surface: *id016, top_surface: *id008, notes: 'The
         water pylon: its conduit runs to the cold vault (dark when its generator falls).'}, {id: 'platform:pylon_earth', at: [
-        896, -1200], size: [128, 128], rise: 448, surface: *id015, top_surface: *id008, notes: 'The earth pylon: its conduit
+        896, -1200], size: [128, 128], rise: 448, surface: *id016, top_surface: *id008, notes: 'The earth pylon: its conduit
         runs to the gravel vault (dark when its generator falls).'}]
   ambient: 18
   notes: 'The barrier hall: four pylons along its south wall feed the field across the crown stair; two Greater Elementals
@@ -997,7 +1017,7 @@ rooms:
   platforms: [{id: 'platform:throne', at: [0, 3872], size: [256, 192], rise: 192, surface: {texture: gnecstpv, size: [64,
           128]}, top_surface: {texture: gnecstpf, size: [128, 32]}, notes: Lord Xeen's throne of black stone; the Scepter
         of Temporal Distortion across its arms.}]
-  levels: [{id: 'level:dais', outline: [[-1152, 3616], [1152, 3616], [1152, 4000], [-1152, 4000]], floor: 1984, surface: *id016,
+  levels: [{id: 'level:dais', outline: [[-1152, 3616], [1152, 3616], [1152, 4000], [-1152, 4000]], floor: 1984, surface: *id017,
       notes: The black dais (two steps up).}]
   flights: [{from: [0, 3520], to: [0, 3616], width: 768, steps: 2, notes: Two broad steps up the dais.}]
   ambient: 14

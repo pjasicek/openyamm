@@ -182,7 +182,6 @@ chests:
   - id: chest:hoard
     room: room:treasury
     at: [-512, 6820]
-    facing: s
     treasure_level: 5
     random_items: 4
     gold: 5000
@@ -190,7 +189,6 @@ chests:
   - id: chest:larder
     room: room:larder
     at: [-1700, 1560]
-    facing: e
     treasure_level: 5
     random_items: 2
     gold: 2000

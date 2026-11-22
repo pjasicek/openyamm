@@ -40,7 +40,7 @@ steps:
   - advance_runtime: {seconds: 0.5}
   - assert:
       dialog: {active: true, source_id: 5512}
-  - select_topic: {match_label: "Who sent you?"}
+  - select_topic: {action_id: 41252, match_label: "Quest"}
   - assert:
       dialog: {text_contains: "Natasha in Sandcaster could do it"}
   - press_action: {action: cancel_dialog}
@@ -83,7 +83,7 @@ steps:
   - press_interact: {expect: {kind: event_target}}
   - assert:
       dialog: {active: true, source_id: 5218}
-  - select_topic: {match_label: "The bridle"}
+  - select_topic: {action_id: 41251, match_label: "Quest"}
   - assert:
       dialog: {text_contains: "It hums when a griffin is near"}
   - press_action: {action: cancel_dialog}
@@ -134,7 +134,7 @@ steps:
   - advance_runtime: {seconds: 0.5}
   - assert:
       dialog: {active: true, source_id: 5512}
-  - select_topic: {match_label: "The griffin"}
+  - select_topic: {action_id: 41253, match_label: "Quest"}
   - assert:
       dialog: {text_contains: "calm as a cart horse"}
   - play_lua:
@@ -226,7 +226,7 @@ steps:
   - interact_actor: {actor_index: 49}
   - advance_runtime: {seconds: 1, present_dialogs: true}
   - assert: {dialog: {active: true, source_id: 5001}}
-  - select_topic: {match_label: "The crown"}
+  - select_topic: {action_id: 41351, match_label: "Quest"}
   - advance_runtime: {seconds: 1, present_dialogs: true}
   - assert: {dialog: {active: true, text_contains: "three, thirty-one, sixty-two"}}
   - play_lua: {source: "close(); wait(0.5); close(); if not qbit(111543) then error('queen_found not set') end"}

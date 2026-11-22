@@ -369,6 +369,6 @@ end)
 RegisterEvent(501, "Leave the Grand Temple of the Moon", function()
     evt.ForPlayer(Players.All)
     RemoveItem(1143) -- Telekinesis
-    evt.MoveToMap(8472, -3176, 32, 1408, 0, 0, 0, 0, "out09.odm") -- Evenmorn Island
+    evt.MoveToMap(8472, -3176, 32, 1408, 0, 0, 0, 8, "out09.odm") -- Evenmorn Island
 end, "Leave the Grand Temple of the Moon")
 

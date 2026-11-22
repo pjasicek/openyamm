@@ -31,9 +31,11 @@ npcs:
   4949:              # Vespar
     topics:
       - n: 1
-        label: Emerald handle
+        role: quest
+        afterword: {n: 2, label: Emerald handle}
         states:
           - when: {qbit: done}
+            afterword: true
             text: "Retirement suits me. I sit, I read, I do not look for handles."
           - when: {item: vespars_handle}
             text: "Oh, thank you! You've found the emerald handle. Here's something for your trouble: the staff. I fixed it, cast one spell to prove I still could, and retired. Take it."

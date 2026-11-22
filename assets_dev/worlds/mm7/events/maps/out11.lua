@@ -414,23 +414,23 @@ RegisterEvent(453, "Obelisk", function()
 end, "Obelisk")
 
 RegisterEvent(501, "Enter Stone City", function()
-    evt.MoveToMap(245, -5362, 34, 512, 0, 0, 152, 1, "7d24.blv") -- Stone City
+    evt.MoveToMap(245, -5362, 34, 512, 0, 0, 408, 2, "7d24.blv") -- Stone City
 end, "Enter Stone City")
 
 RegisterEvent(502, "Enter Mansion", function()
-    evt.MoveToMap(2, -1096, -31, 512, 0, 0, 0, 0, "7d37.blv") -- The Haunted Mansion
+    evt.MoveToMap(2, -1096, -31, 512, 0, 0, 0, 9, "7d37.blv") -- The Haunted Mansion
 end, "Enter Mansion")
 
 RegisterEvent(503, "Enter Dwarven Barrow", function()
-    evt.MoveToMap(382, 324, -15, 1280, 0, 0, 61, 4, "mdt01.blv") -- Barrow IX
+    evt.MoveToMap(382, 324, -15, 1280, 0, 0, 1085, 2, "mdt01.blv") -- Barrow IX
 end, "Enter Dwarven Barrow")
 
 RegisterEvent(504, "Enter Dwarven Barrow", function()
-    evt.MoveToMap(106, -666, 49, 256, 0, 0, 61, 4, "mdr01.blv") -- Barrow X
+    evt.MoveToMap(106, -666, 49, 256, 0, 0, 1085, 2, "mdr01.blv") -- Barrow X
 end, "Enter Dwarven Barrow")
 
 RegisterEvent(505, "Enter Dwarven Barrow", function()
-    evt.MoveToMap(-384, -983, 1, 256, 0, 0, 61, 4, "mdk01.blv") -- Barrow VII
+    evt.MoveToMap(-384, -983, 1, 256, 0, 0, 1085, 2, "mdk01.blv") -- Barrow VII
 end, "Enter Dwarven Barrow")
 
 RegisterEvent(65535, "", function()

@@ -1,0 +1,1001 @@
+function_or_variable_kind,world,uses
+ForPlayer selector 6,mm6,4
+ForPlayer selector All,global,351
+ForPlayer selector All,maw,46
+ForPlayer selector All,mm6,111
+ForPlayer selector All,mm7,94
+ForPlayer selector All,mm8,63
+ForPlayer selector All,mm9,5
+ForPlayer selector All,xeen,180
+ForPlayer selector Current,global,62
+ForPlayer selector Current,maw,1
+ForPlayer selector Current,mm6,8
+ForPlayer selector Current,mm7,2
+ForPlayer selector Current,mm8,16
+ForPlayer selector Current,mm9,11
+ForPlayer selector Current,xeen,9
+ForPlayer selector Member0,global,44
+ForPlayer selector Member0,maw,2
+ForPlayer selector Member0,mm8,1
+ForPlayer selector Member1,global,1
+ForPlayer selector Member2,global,1
+ForPlayer selector Member3,global,1
+ForPlayer selector Member4,global,1
+ForPlayer selector expr,global,92
+ForPlayer selector expr,maw,2
+ForPlayer selector expr,mm6,16
+ForPlayer selector expr,mm7,3
+ForPlayer selector expr,mm8,1
+ForPlayer selector expr,mm9,1
+ForPlayer selector expr,xeen,1
+MM6.AddQuestFollower,mm6,5
+MM6.ApplyDragonTowerState,mm6,8
+MM6.ApplyFrozenHighlandsWinterState,mm6,2
+MM6.CheckLorettaPrices,mm6,1
+MM6.EnsureChestItem,mm6,2
+MM6.EnterIronfistThroneRoom,mm6,4
+MM6.KidnapNicolai,mm6,5
+MM6.NormalizeNicolaiState,mm6,3
+MM6.PrayAtShrine,mm6,2
+MM6.RecoverLostItem,mm6,2
+MM6.RecoverNicolaiAtCircus,mm6,2
+MM6.RegisterDragonTowerTimer,mm6,7
+MM6.RegisterNicolaiKidnapTimer,mm6,2
+MM6.RegisterNicolaiStateOnLoad,mm6,2
+MM6.RemoveQuestFollower,mm6,4
+MM6.RemoveQuestFollowerUnless,mm6,5
+MM6.RepairStoneTemple,mm6,2
+MM6.ReplaceShrineEvent,mm6,13
+MM6.ReturnNicolai,mm6,2
+MM6.RevealSilvertongue,mm6,3
+MM6.RunNewSorpigalVolcanoSequence,mm6,2
+MM6.SellCollectorItem,mm6,11
+MM6.SetNicolaiKidnapDeadline,mm6,3
+MM6.ShowNicolaiKidnapDenied,mm6,3
+MM6.StartNicolaiQuest,mm6,2
+MM6.TryDisableDragonTower,mm6,7
+MM7.ActivateCastleHarmondaleMercenaries,mm7,2
+MM7.AddLorenFollowerIfActive,mm7,1
+MM7.AddPartyGold,mm7,3
+MM7.AddPartyReputation,mm7,2
+MM7.AllPartyMembersHaveWetsuit,mm7,3
+MM7.AnyQBit,mm7,13
+MM7.ApplyShoalsPartyPortraits,mm7,2
+MM7.BlockShoalsTravelWithoutWetsuits,mm7,2
+MM7.BlockShoalsUnderwaterAction,mm7,2
+MM7.CheckPromotionSide,mm7,8
+MM7.ClearQBits,mm7,1
+MM7.CompletePromotion,mm7,29
+MM7.CrossVar,mm7,3
+MM7.DistanceToPartySquared,mm7,2
+MM7.EnterCastleGloamingThroneRoom,mm7,2
+MM7.EnterCastleHarmondaleOutdoor,mm7,2
+MM7.EnterCastleLambentThroneRoom,mm7,2
+MM7.EnterClankersLaboratory,mm7,2
+MM7.FilterTavernTopicsWithoutArcomage,mm7,2
+MM7.GetCrossVar,maw,6
+MM7.GetCrossVar,mm7,6
+MM7.GivePartyItem,mm7,3
+MM7.GiveScavengerAdvertisementIfNear,mm7,3
+MM7.HasPartyItem,mm7,9
+MM7.HideCastleHarmondaleGoblinsIfRebuilt,mm7,2
+MM7.HideCastleHarmondaleMercenaries,mm7,2
+MM7.IsEnemyDetectorActive,mm7,3
+MM7.KillUnsuitedShoalsPartyMembers,mm7,2
+MM7.LeaveShoalsIfAboveWater,mm7,2
+MM7.MakeCastleHarmondaleRestFreeIfRebuilt,mm7,2
+MM7.MarkAntagarichEndgameComplete,mm7,3
+MM7.MarkCastleHarmondaleMercenariesKilledIfClear,mm7,2
+MM7.PartyMemberSuitedForShoals,mm7,3
+MM7.PromotionMessage,mm7,48
+MM7.RecoverLostItem,mm7,2
+MM7.RemoveGolemFollowerIfConstructed,mm7,2
+MM7.RemoveJudgeFollowers,mm7,2
+MM7.RemoveLorenFollowersIfResolved,mm7,5
+MM7.RemoveRescuedDwarfFollowers,mm7,3
+MM7.RestoreShoalsPartyPortraits,mm7,3
+MM7.SetCrossVar,maw,5
+MM7.SetCrossVar,mm7,5
+MM7.SetQBits,mm7,2
+MM7.SummonDeyjaAmbushIfNeeded,mm7,2
+MM7.SummonMalwickAmbush,mm7,3
+MM7.SummonTulareanArtifactBattle,mm7,2
+MM7.TakePartyItem,mm7,8
+MM7.UpdateCastleHarmondaleMercenariesOnLoad,mm7,2
+MM7.UpdateDeyjaOutdoorState,mm7,2
+MM7.UpdateEvenmornObeliskTreasure,mm7,3
+MM7.UpdateHarmondaleInvasion,mm7,2
+MM7.UpdateJudgeGreyDeath,mm7,2
+MM7.UpdateTulareanArtifactBattle,mm7,2
+MM8.GetMapFlag,mm8,7
+MM8.GetMapVar,mm8,3
+MM8.HasCurrentPlayerSpell,mm8,1
+MM8.RecoverLostItem,mm8,2
+MM8.SetMapFlag,mm8,7
+MM8.SetMapVar,mm8,3
+MM8.TryExchangeGem,mm8,2
+MM8.UnstoneStatue,mm8,3
+MM9.actorAlive,mm9,41
+MM9.actorFx,mm9,5
+MM9.addHireling,mm9,2
+MM9.canPromote,mm9,1
+MM9.clearCondition,mm9,2
+MM9.clientFx,mm9,20
+MM9.disableFoundPlayer,mm9,3
+MM9.excludedActorOperation,mm9,1
+MM9.foundPlayerEnabled,mm9,2
+MM9.giveExperience,mm9,83
+MM9.giveGold,mm9,41
+MM9.giveItem,mm9,45
+MM9.giveKey,mm9,254
+MM9.givePromotion,mm9,1
+MM9.hasGold,mm9,8
+MM9.hasItem,mm9,52
+MM9.hasKey,maw,1
+MM9.hasKey,mm9,181
+MM9.launchSound,mm9,17
+MM9.openRude,mm9,273
+MM9.playSound,mm9,279
+MM9.promoteParty,mm9,11
+MM9.promotionTarget,mm9,4
+MM9.random,mm9,13
+MM9.receives,mm9,89
+MM9.removeActor,mm9,115
+MM9.removeHireling,mm9,2
+MM9.scrValue,mm9,5
+MM9.setActorPosition,mm9,1
+MM9.setCanDamage,mm9,2
+MM9.setScrValue,mm9,5
+MM9.stopActorFx,mm9,1
+MM9.takeGold,mm9,8
+MM9.takeItem,mm9,55
+MM9.takeKey,mm9,76
+MM9.useCauldron,mm9,12
+MM9.useClover,mm9,16
+MM9.useCookpot,mm9,8
+MM9.useWell,mm9,10
+Xeen.applyDarksideSky,xeen,3
+Xeen.canPromote,xeen,23
+Xeen.gemCount,xeen,19
+Xeen.hour,xeen,3
+Xeen.isHour,xeen,1
+Xeen.isNight,xeen,4
+Xeen.isSet,xeen,26
+Xeen.itemCount,xeen,21
+Xeen.mirrorDestinations,xeen,2
+Xeen.mirrorOpen,xeen,3
+Xeen.payGems,xeen,21
+Xeen.promote,xeen,39
+Xeen.promotionTarget,xeen,3
+Xeen.qbit,xeen,2
+Xeen.renewAges,xeen,3
+Xeen.skyFall,xeen,7
+Xeen.stageOf,xeen,9
+Xeen.touchMirror,xeen,2
+Xeen.travelPyramid,xeen,3
+Xeen.useMirror,xeen,11
+XeenQuests.can,xeen,13
+XeenQuests.hook,xeen,358
+evt.ActorSeesParty,mm9,16
+evt.Add,xeen,1
+evt.AddMm9Hireling,mm9,1
+evt.AdvanceGameMinutes,mm9,1
+evt.AimDecoration,mm9,3
+evt.ApplyLichTransformation,mm9,1
+evt.ApplyPartyPrimaryStatBuff,mm9,11
+evt.ArenaMonster,maw,1
+evt.AskQuestion,global,3
+evt.AskQuestion,mm6,27
+evt.AskQuestion,xeen,55
+evt.AttachActorItem,mm9,3
+evt.Beam,mm9,15
+evt.CameraShake,mm9,4
+evt.CameraShake,xeen,21
+evt.CastSpell,global,24
+evt.CastSpell,maw,1
+evt.CastSpell,mm6,137
+evt.CastSpell,mm7,131
+evt.CastSpell,mm8,167
+evt.CastSpell,xeen,4
+evt.ChangeEvent,global,86
+evt.ChangeEvent,mm6,1
+evt.ChangeGroupAlly,mm9,2
+evt.CheckItemsCount,global,18
+evt.CheckItemsCount,mm8,2
+evt.CheckMonstersKilled,global,3
+evt.CheckMonstersKilled,maw,4
+evt.CheckMonstersKilled,mm7,25
+evt.CheckMonstersKilled,mm8,67
+evt.CheckMonstersKilled,mm9,19
+evt.CheckMonstersKilled,xeen,36
+evt.CheckSeason,mm7,130
+evt.CheckSkill,mm6,22
+evt.CheckSkill,mm7,3
+evt.CheckSkill,mm9,34
+evt.ClearActorPresentation,mm9,19
+evt.ClearFog,mm9,1
+evt.ClearHeldItem,mm7,1
+evt.ClearQuestBit,mm9,1
+evt.Cmp,mm9,3
+evt.CountItems,maw,4
+evt.CurrentGameMinutes,mm9,41
+evt.DamageDestructible,mm9,64
+evt.DamageDestructible,xeen,33
+evt.DamagePlayer,mm6,121
+evt.DamagePlayer,mm7,21
+evt.DamagePlayer,mm9,20
+evt.DamagePlayer,xeen,17
+evt.Debug,mm9,2
+evt.DestroyDestructible,mm9,26
+evt.DestroyDestructible,xeen,96
+evt.DetachActorItem,mm9,3
+evt.EnsureChestItem,mm6,1
+evt.EnterHouse,maw,1
+evt.EnterHouse,mm6,1111
+evt.EnterHouse,mm7,391
+evt.EnterHouse,mm8,398
+evt.EnterHouse,xeen,298
+evt.FaceActorTo,mm9,32
+evt.FaceAnimation,global,2
+evt.FaceAnimation,mm6,2
+evt.FaceAnimation,mm7,55
+evt.FaceAnimation,mm8,106
+evt.FaceExpression,mm6,51
+evt.FireMissile,mm9,16
+evt.ForPlayer,global,553
+evt.ForPlayer,maw,51
+evt.ForPlayer,mm6,139
+evt.ForPlayer,mm7,99
+evt.ForPlayer,mm8,81
+evt.ForPlayer,mm9,17
+evt.ForPlayer,xeen,190
+evt.GetCurrentPlayerIndex,mm6,3
+evt.GetCurrentPlayerIndex,mm9,10
+evt.GetCurrentScreen,mm7,2
+evt.GetEnemyDetectorState,mm7,2
+evt.GetGlobalVar,maw,5
+evt.GetGlobalVar,mm6,1
+evt.GetGlobalVar,mm7,2
+evt.GetGlobalVar,mm8,2
+evt.GetGlobalVar,mm9,1
+evt.GetHeldItemId,mm7,1
+evt.GetHeldItemId,xeen,1
+evt.GetHookContext,mm9,2
+evt.GetMapActorPosition,maw,1
+evt.GetMapActorPosition,mm9,35
+evt.GetMapVar,maw,21
+evt.GetMapVar,mm6,4
+evt.GetMapVar,mm7,4
+evt.GetMapVar,mm8,3
+evt.GetMapVar,mm9,121
+evt.GetMapVar,xeen,30
+evt.GetNPCTopic,maw,1
+evt.GetPartyMemberCount,global,1
+evt.GetPartyMemberCount,mm6,3
+evt.GetPartyMemberCount,mm7,4
+evt.GetPartyMemberCount,mm9,2
+evt.GetPartyPosition,maw,7
+evt.GetPartyPosition,mm7,5
+evt.GetPartyPosition,mm9,70
+evt.GetPartyPosition,xeen,2
+evt.GetPlayerClassName,mm9,1
+evt.GiveItem,global,76
+evt.GiveItem,maw,2
+evt.GiveItem,mm6,45
+evt.GiveItem,mm7,22
+evt.GiveItem,mm8,76
+evt.GiveItem,xeen,27
+evt.GivePartyMemberItem,mm9,9
+evt.HasQuestBit,mm9,1
+evt.IsActorMoving,mm9,3
+evt.IsDestructibleDestroyed,mm9,8
+evt.IsHouseOpen,mm6,1
+evt.IsMapActorDead,maw,1
+evt.IsMapActorDead,mm9,1
+evt.IsMapActorDead,xeen,1
+evt.IsMapActorHostile,mm9,2
+evt.IsMapActorHostile,xeen,1
+evt.IsMapActorWithinPartyDistance,mm9,4
+evt.IsTotalBountyInRange,global,3
+evt.KillMapActor,mm9,2
+evt.MoveActorTo,mm9,31
+evt.MoveDecoration,mm9,3
+evt.MoveNPC,global,58
+evt.MoveNPC,maw,4
+evt.MoveNPC,mm6,19
+evt.MoveNPC,mm7,44
+evt.MoveNPC,mm8,39
+evt.MoveNPC,xeen,11
+evt.MoveToMap,global,3
+evt.MoveToMap,maw,4
+evt.MoveToMap,mm6,219
+evt.MoveToMap,mm7,291
+evt.MoveToMap,mm8,156
+evt.MoveToMap,mm9,11
+evt.MoveToMap,xeen,97
+evt.MoveToSavedLocation,mm7,1
+evt.OpenChest,mm6,384
+evt.OpenChest,mm7,1614
+evt.OpenChest,mm8,1201
+evt.OpenChest,mm9,167
+evt.OpenChest,xeen,215
+evt.OpenDimensionDoor,mm6,2
+evt.OpenDimensionDoor,mm7,2
+evt.OpenDimensionDoor,mm8,2
+evt.OpenDimensionDoor,mm9,1
+evt.OpenMm9Rude,mm9,1
+evt.PartyMemberCanWearArmor,mm7,1
+evt.PartyMemberHasEquippedItem,mm7,1
+evt.PartyMemberHasItem,mm9,1
+evt.PartyMemberItemCount,mm7,1
+evt.PlayActorClip,mm9,68
+evt.PlayCinematic,mm9,44
+evt.PlayDecorationClip,mm9,28
+evt.PlaySound,mm6,11
+evt.PlaySound,mm7,13
+evt.PlaySound,mm8,98
+evt.PlaySound,xeen,10
+evt.PlaySoundName,mm9,222
+evt.PlaySoundOnce,mm9,1
+evt.PushParty,mm9,1
+evt.QuestCompleteFeedback,mm8,1
+evt.RandomBetween,global,1
+evt.RandomBetween,mm9,17
+evt.RandomBetween,xeen,5
+evt.RemoveItems,global,18
+evt.RemoveItems,maw,1
+evt.RemoveItems,mm8,2
+evt.RemoveMm9Hireling,mm9,1
+evt.RemovePartyMemberItem,mm9,1
+evt.ResetSkills,maw,1
+evt.ReturnToMainMenu,mm6,1
+evt.RulesTopic,maw,3
+evt.RulesetInfo,maw,12
+evt.SearchLootProp,mm9,77
+evt.SetActorImmobile,mm9,20
+evt.SetActorRoutine,mm9,5
+evt.SetActorTarget,mm9,6
+evt.SetChestBit,mm7,9
+evt.SetDoorState,maw,4
+evt.SetDoorState,mm6,1139
+evt.SetDoorState,mm7,1067
+evt.SetDoorState,mm8,3474
+evt.SetDoorState,mm9,1150
+evt.SetDoorState,xeen,623
+evt.SetFacetBit,maw,1
+evt.SetFacetBit,mm6,43
+evt.SetFacetBit,mm7,92
+evt.SetFacetBit,mm8,245
+evt.SetFacetBit,mm9,57
+evt.SetFacetBit,xeen,458
+evt.SetFog,mm9,1
+evt.SetGlobalVar,maw,20
+evt.SetGlobalVar,mm6,1
+evt.SetGlobalVar,mm7,2
+evt.SetGlobalVar,mm8,2
+evt.SetGlobalVar,mm9,2
+evt.SetHeldItem,mm7,2
+evt.SetHeldItem,xeen,3
+evt.SetHookBlocked,mm7,4
+evt.SetHookDamage,mm6,1
+evt.SetHookDamage,mm9,3
+evt.SetHookHouseTopics,mm7,1
+evt.SetHookRestFoodCost,mm7,1
+evt.SetLight,mm6,316
+evt.SetLight,mm7,8
+evt.SetLight,mm8,146
+evt.SetLight,mm9,23
+evt.SetLight,xeen,179
+evt.SetMapActorHp,mm9,1
+evt.SetMapActorPosition,maw,1
+evt.SetMapActorPosition,mm9,34
+evt.SetMapActorPosition,xeen,1
+evt.SetMapVar,maw,20
+evt.SetMapVar,mm6,4
+evt.SetMapVar,mm7,6
+evt.SetMapVar,mm8,2
+evt.SetMapVar,mm9,118
+evt.SetMapVar,xeen,56
+evt.SetMessage,global,2001
+evt.SetMessage,maw,53
+evt.SetMessage,mm6,107
+evt.SetMessage,mm8,13
+evt.SetMessage,xeen,708
+evt.SetMist,xeen,3
+evt.SetMm9ActorCanReceiveDamage,mm9,1
+evt.SetMonGroupBit,global,4
+evt.SetMonGroupBit,maw,6
+evt.SetMonGroupBit,mm6,8
+evt.SetMonGroupBit,mm7,457
+evt.SetMonGroupBit,mm8,165
+evt.SetMonGroupBit,mm9,49
+evt.SetMonGroupBit,xeen,86
+evt.SetMonsterBit,mm8,1
+evt.SetMonsterBit,mm9,39
+evt.SetMonsterItem,mm7,6
+evt.SetMonsterItem,mm9,1
+evt.SetMonsterRelation,mm7,2
+evt.SetMonsterRelation,mm9,48
+evt.SetMonsterRelation,xeen,209
+evt.SetNPCGreeting,global,78
+evt.SetNPCGreeting,maw,1
+evt.SetNPCGreeting,mm7,37
+evt.SetNPCGreeting,mm8,24
+evt.SetNPCGroupNews,global,48
+evt.SetNPCGroupNews,mm8,93
+evt.SetNPCItem,global,5
+evt.SetNPCName,maw,1
+evt.SetNPCName,mm7,1
+evt.SetNPCTopic,global,622
+evt.SetNPCTopic,maw,14
+evt.SetNPCTopic,mm6,25
+evt.SetNPCTopic,mm7,68
+evt.SetNPCTopic,mm8,74
+evt.SetOutdoorFog,mm6,1
+evt.SetOutdoorModelFacetTexture,mm6,2
+evt.SetOutdoorSky,mm6,1
+evt.SetOutdoorSky,xeen,2
+evt.SetPartyMemberPortraitId,mm7,1
+evt.SetQuestBit,mm9,1
+evt.SetRain,mm6,1
+evt.SetRestAlarm,mm9,1
+evt.SetSnow,mm6,4
+evt.SetSprite,mm6,136
+evt.SetSprite,mm7,272
+evt.SetSprite,mm8,11
+evt.SetSprite,mm9,81
+evt.SetSprite,xeen,18
+evt.SetTexture,mm6,249
+evt.SetTexture,mm7,112
+evt.SetTexture,mm8,178
+evt.SetTexture,xeen,164
+evt.SetTransportRouteOverride,mm7,2
+evt.SetUnscaledExperience,maw,2
+evt.ShowMovie,global,6
+evt.ShowMovie,maw,1
+evt.ShowMovie,mm6,10
+evt.ShowMovie,mm7,11
+evt.ShowMovie,mm8,10
+evt.ShowMovie,mm9,2
+evt.SimpleMessage,maw,10
+evt.SimpleMessage,mm6,20
+evt.SimpleMessage,mm7,7
+evt.SimpleMessage,mm9,79
+evt.SimpleMessage,xeen,734
+evt.SkillResetCost,maw,1
+evt.SkipCinematic,mm9,10
+evt.SpawnActorEffect,mm9,1
+evt.SpawnLootContainer,mm9,22
+evt.SpawnWorldEffect,mm9,32
+evt.SpawnWorldModel,mm9,1
+evt.SpeakNPC,mm6,23
+evt.SpeakNPC,mm7,76
+evt.SpeakNPC,mm8,27
+evt.SpeakNPC,xeen,17
+evt.SpinMover,mm9,9
+evt.StartTimer,mm9,162
+evt.StatusText,global,254
+evt.StatusText,maw,49
+evt.StatusText,mm6,755
+evt.StatusText,mm7,289
+evt.StatusText,mm8,166
+evt.StatusText,mm9,162
+evt.StatusText,xeen,1026
+evt.StopActorEffect,mm9,1
+evt.StopActorMove,mm9,22
+evt.StopDoor,mm8,4
+evt.StopDoor,mm9,1
+evt.StopTimer,mm9,71
+evt.SummonItem,global,5
+evt.SummonItem,mm8,38
+evt.SummonMonsters,maw,1
+evt.SummonMonsters,mm6,295
+evt.SummonMonsters,mm7,31
+evt.SummonMonsters,mm8,96
+evt.SummonMonsters,xeen,3
+evt.SummonMonstersById,mm9,33
+evt.SummonObject,mm6,45
+evt.SummonRandomItem,mm8,16
+evt.TriggerActor,mm9,2
+evt.WakeActor,mm9,14
+evt.WakeGroup,mm9,4
+evt._BeginCanShowTopic,global,157
+evt._IsNpcInParty,mm8,7
+evt._PressAnyKey,global,1
+evt._PressAnyKey,mm6,78
+evt._SpecialJump,mm8,8
+helper AddFollowerNpc,maw,2
+helper AddFollowerNpc,mm6,10
+helper AddFollowerNpc,mm7,14
+helper AddValue,global,890
+helper AddValue,maw,57
+helper AddValue,mm6,564
+helper AddValue,mm7,512
+helper AddValue,mm8,204
+helper AddValue,mm9,14
+helper AddValue,xeen,482
+helper AdvanceGameMinutes,mm7,1
+helper ApplyLichTransformation,mm7,1
+helper ApplyPlayerRewards,mm7,2
+helper AskChoiceWithAnswerSteps,xeen,8
+helper AskQuestionWithAnswerSteps,maw,1
+helper AskQuestionWithAnswerSteps,mm6,2
+helper CanPlayerLearnSkill,mm7,1
+helper ClearAutonote,global,17
+helper ClearPlayerBit,mm7,16
+helper ClearPlayerBit,xeen,4
+helper ClearQBit,global,363
+helper ClearQBit,maw,5
+helper ClearQBit,mm6,48
+helper ClearQBit,mm7,95
+helper ClearQBit,mm8,54
+helper ClearQBit,xeen,35
+helper CurrentContinent,mm8,1
+helper CurrentEventSpellId,mm8,1
+helper CurrentGameMinutes,maw,8
+helper CurrentGameMinutes,mm6,4
+helper CurrentGameMinutes,mm7,7
+helper CurrentGameMinutes,mm8,3
+helper CurrentGameMinutes,xeen,1
+helper ForgetPlayerSpell,mm6,1
+helper GetClassName,mm6,1
+helper GetPartyVariable,mm6,3
+helper GetPlayerClass,mm6,3
+helper GetPlayerClass,mm7,1
+helper GetPlayerClassName,mm9,1
+helper GetPlayerClassName,xeen,1
+helper GetPlayerSkill,mm6,2
+helper GiveItem,global,1
+helper GiveItem,mm7,1
+helper GiveItem,mm9,1
+helper GiveItem,xeen,34
+helper GivePlayerItem,mm6,1
+helper HasAward,global,84
+helper HasAward,mm6,16
+helper HasAward,mm7,5
+helper HasAward,mm8,2
+helper HasAward,xeen,8
+helper HasEverOwnedItem,mm6,2
+helper HasFollowerNpc,maw,3
+helper HasFollowerNpc,mm6,4
+helper HasFollowerNpc,mm7,1
+helper HasFollowerProfession,mm6,2
+helper HasItem,global,269
+helper HasItem,maw,8
+helper HasItem,mm6,97
+helper HasItem,mm7,31
+helper HasItem,mm8,70
+helper HasItem,xeen,103
+helper HasItemAnywhere,mm6,1
+helper HasItemAnywhere,mm7,5
+helper HasItemAnywhere,mm9,1
+helper HasPlayer,global,2
+helper HasPlayer,mm8,10
+helper IsAtLeast,global,365
+helper IsAtLeast,maw,9
+helper IsAtLeast,mm6,1321
+helper IsAtLeast,mm7,710
+helper IsAtLeast,mm8,308
+helper IsAtLeast,mm9,2
+helper IsAtLeast,xeen,510
+helper IsAutonoteSet,global,3
+helper IsAutonoteSet,mm7,24
+helper IsAutonoteSet,mm8,1
+helper IsFlying,mm7,1
+helper IsInvisible,mm8,1
+helper IsPlayerBitSet,global,56
+helper IsPlayerBitSet,mm6,12
+helper IsPlayerBitSet,mm7,30
+helper IsPlayerBitSet,xeen,55
+helper IsQBitSet,global,676
+helper IsQBitSet,maw,79
+helper IsQBitSet,mm6,325
+helper IsQBitSet,mm7,533
+helper IsQBitSet,mm8,316
+helper IsQBitSet,xeen,838
+helper NPCText,global,2
+helper NPCText,xeen,1272
+helper PartyMembers,global,64
+helper PartyMembers,maw,2
+helper PartyMembers,mm6,12
+helper PartyMembers,mm7,2
+helper PartyMembers,mm8,2
+helper PartyMembers,mm9,2
+helper PartyMembers,xeen,6
+helper PickRandomOption,global,55
+helper PickRandomOption,maw,4
+helper PickRandomOption,mm6,49
+helper PickRandomOption,mm7,155
+helper PickRandomOption,mm8,65
+helper PlayerClassMatches,mm6,2
+helper PlayerClassMatches,mm7,2
+helper PlayerClassMatches,mm8,2
+helper PlayerHasItem,global,1
+helper PlayerHasItem,mm7,2
+helper PlayerHasItem,mm8,1
+helper PlayerItemCount,xeen,3
+helper PlayerKnowsSpell,mm8,1
+helper PromotePlayers,mm7,1
+helper RegisterGameplayActionHook,mm7,1
+helper RegisterGlobalHouseTopicClickHook,mm7,1
+helper RegisterGlobalNpcEnterHook,maw,1
+helper RegisterGlobalNpcEnterHook,mm6,3
+helper RegisterGlobalNpcEnterHook,mm7,3
+helper RegisterGlobalOnLoadEvent,maw,2
+helper RegisterGlobalOnLoadEvent,mm6,2
+helper RegisterHouseTopicFilter,mm7,1
+helper RegisterMapOnLeaveEvent,maw,1
+helper RegisterMapOnLeaveEvent,mm6,1
+helper RegisterMapOnLeaveEvent,mm7,2
+helper RegisterMapOnLeaveEvent,mm9,3
+helper RegisterMapOnLoadEvent,maw,7
+helper RegisterMapOnLoadEvent,mm6,12
+helper RegisterMapOnLoadEvent,mm7,17
+helper RegisterMapOnLoadEvent,mm8,8
+helper RegisterMapRefillHook,mm7,1
+helper RegisterMapRefillHook,mm8,1
+helper RegisterMapTimerEvent,maw,12
+helper RegisterMapTimerEvent,mm6,2
+helper RegisterMapTimerEvent,mm7,4
+helper RegisterMapTimerEvent,mm8,4
+helper RegisterMapTimerEvent,mm9,250
+helper RegisterMapTransitionHook,mm7,1
+helper RegisterMonsterDamageHook,mm6,1
+helper RegisterMonsterDamageHook,mm9,12
+helper RegisterMonsterKilledHook,mm6,1
+helper RegisterMonsterKilledHook,mm8,2
+helper RegisterMonsterKilledHook,mm9,27
+helper RegisterNpcExitHook,mm7,2
+helper RegisterRestFoodCostHook,mm7,1
+helper RemoveFollowerNpc,maw,1
+helper RemoveFollowerNpc,mm6,4
+helper RemoveFollowerNpc,mm7,11
+helper RemoveFollowerProfession,mm6,2
+helper RemoveItem,global,223
+helper RemoveItem,maw,8
+helper RemoveItem,mm6,76
+helper RemoveItem,mm7,15
+helper RemoveItem,mm8,40
+helper RemoveItem,mm9,1
+helper RemoveItem,xeen,109
+helper RemovePlayerItem,global,1
+helper RemovePlayerItem,mm7,1
+helper RemovePlayerItem,mm8,1
+helper RemovePlayerItem,xeen,1
+helper RestAndHealParty,mm7,1
+helper SetAutonote,global,296
+helper SetAutonote,maw,2
+helper SetAutonote,mm6,79
+helper SetAutonote,mm7,46
+helper SetAutonote,mm8,35
+helper SetAutonote,xeen,89
+helper SetAward,global,94
+helper SetAward,maw,1
+helper SetAward,mm6,4
+helper SetAward,mm8,4
+helper SetAward,xeen,29
+helper SetLocalFactionRelations,mm6,4
+helper SetLocalFactionRelations,mm7,1
+helper SetLocalFactionRelations,mm8,1
+helper SetPartyVariable,mm6,5
+helper SetPlayerBit,global,56
+helper SetPlayerBit,mm6,14
+helper SetPlayerBit,mm7,32
+helper SetPlayerBit,xeen,55
+helper SetPlayerClass,mm6,1
+helper SetPlayerClass,mm9,2
+helper SetPlayerClass,xeen,1
+helper SetPlayerSkill,mm6,2
+helper SetQBit,global,582
+helper SetQBit,maw,47
+helper SetQBit,mm6,253
+helper SetQBit,mm7,224
+helper SetQBit,mm8,165
+helper SetQBit,xeen,511
+helper SetValue,global,134
+helper SetValue,maw,1
+helper SetValue,mm6,605
+helper SetValue,mm7,504
+helper SetValue,mm8,191
+helper SetValue,mm9,4
+helper SetValue,xeen,405
+helper SubtractValue,global,80
+helper SubtractValue,maw,3
+helper SubtractValue,mm6,62
+helper SubtractValue,mm7,30
+helper SubtractValue,mm8,15
+helper SubtractValue,mm9,7
+helper SubtractValue,xeen,19
+variable Add Age,mm6,9
+variable Add Age,xeen,1
+variable Add ArmorClassBonus,mm7,1
+variable Add ArmorClassBonus,xeen,1
+variable Add AutoNote,global,296
+variable Add AutoNote,maw,2
+variable Add AutoNote,mm6,79
+variable Add AutoNote,mm7,46
+variable Add AutoNote,mm8,35
+variable Add AutoNote,xeen,89
+variable Add Awards,global,94
+variable Add Awards,maw,1
+variable Add Awards,mm6,4
+variable Add Awards,mm8,4
+variable Add Awards,xeen,29
+variable Add BaseResistance,global,13
+variable Add BaseResistance,maw,10
+variable Add BaseResistance,mm6,42
+variable Add BaseResistance,mm7,8
+variable Add BaseResistance,mm8,4
+variable Add BaseResistance,xeen,21
+variable Add BaseStat,global,21
+variable Add BaseStat,maw,14
+variable Add BaseStat,mm6,59
+variable Add BaseStat,mm7,14
+variable Add BaseStat,mm8,8
+variable Add BaseStat,mm9,5
+variable Add BaseStat,xeen,58
+variable Add Condition,mm6,12
+variable Add CurrentHealth,mm6,13
+variable Add CurrentHealth,mm7,3
+variable Add CurrentHealth,mm8,2
+variable Add CurrentHealth,mm9,2
+variable Add CurrentHealth,xeen,6
+variable Add CurrentSpellPoints,mm6,7
+variable Add CurrentSpellPoints,mm7,2
+variable Add CurrentSpellPoints,mm8,2
+variable Add CurrentSpellPoints,mm9,1
+variable Add CurrentSpellPoints,xeen,4
+variable Add Experience,global,251
+variable Add Experience,maw,16
+variable Add Experience,mm6,23
+variable Add Experience,mm7,1
+variable Add Experience,mm8,15
+variable Add Experience,mm9,1
+variable Add Experience,xeen,157
+variable Add Food,global,15
+variable Add Food,mm6,30
+variable Add Food,xeen,7
+variable Add Gold,global,206
+variable Add Gold,maw,4
+variable Add Gold,mm6,107
+variable Add Gold,mm7,16
+variable Add Gold,mm8,11
+variable Add Gold,mm9,1
+variable Add Gold,xeen,50
+variable Add GoldInBank,global,8
+variable Add History,global,31
+variable Add History,maw,1
+variable Add History,mm7,19
+variable Add History,mm8,6
+variable Add Hour,mm6,1
+variable Add Inventory,global,253
+variable Add Inventory,maw,9
+variable Add Inventory,mm6,110
+variable Add Inventory,mm7,284
+variable Add Inventory,mm8,55
+variable Add Inventory,xeen,120
+variable Add MapVar,maw,3
+variable Add MapVar,mm6,137
+variable Add MapVar,mm7,115
+variable Add MapVar,mm8,94
+variable Add MapVar,xeen,23
+variable Add MaxHealth,mm6,3
+variable Add MaxSpellPoints,mm6,3
+variable Add PlayerBits,global,56
+variable Add PlayerBits,mm6,14
+variable Add PlayerBits,mm7,32
+variable Add PlayerBits,xeen,55
+variable Add QBits,global,582
+variable Add QBits,maw,47
+variable Add QBits,mm6,253
+variable Add QBits,mm7,224
+variable Add QBits,mm8,165
+variable Add QBits,xeen,511
+variable Add Reputation,global,6
+variable Add Reputation,mm6,3
+variable Add Reputation,mm7,1
+variable Add ResistanceBonus,mm7,22
+variable Add ResistanceBonus,mm8,1
+variable Add ResistanceBonus,xeen,7
+variable Add SkillPoints,global,56
+variable Add SkillPoints,mm6,1
+variable Add SkillPoints,mm7,2
+variable Add SkillPoints,mm8,3
+variable Add StatBonus,mm7,24
+variable Add StatBonus,mm8,3
+variable Add StatBonus,mm9,1
+variable Add StatBonus,xeen,26
+variable Add raw selector 131307 (tag 0xEB),global,13
+variable Add raw selector 131307 (tag 0xEB),mm6,1
+variable Add raw selector 327915 (tag 0xEB),global,11
+variable Add raw selector 327915 (tag 0xEB),mm6,1
+variable Add raw selector 655595 (tag 0xEB),global,6
+variable Add raw selector 655595 (tag 0xEB),mm6,1
+variable Add selector built at run time,mm6,1
+variable Add selector built at run time,mm9,3
+variable Add selector built at run time,xeen,2
+variable Cmp ActualStat,global,86
+variable Cmp ActualStat,mm6,12
+variable Cmp ActualStat,mm9,2
+variable Cmp ActualStat,xeen,7
+variable Cmp ArenaWins,global,1
+variable Cmp ArenaWins,mm7,1
+variable Cmp ArmorClassBonus,mm6,2
+variable Cmp ArmorClassBonus,xeen,1
+variable Cmp AutoNote,global,3
+variable Cmp AutoNote,mm7,24
+variable Cmp AutoNote,mm8,1
+variable Cmp Awards,global,84
+variable Cmp Awards,mm6,16
+variable Cmp Awards,mm7,5
+variable Cmp Awards,mm8,2
+variable Cmp Awards,xeen,8
+variable Cmp BaseLevel,global,1
+variable Cmp BaseLevel,maw,1
+variable Cmp BaseLevel,mm6,1
+variable Cmp BaseLevel,mm9,1
+variable Cmp BaseResistance,mm7,3
+variable Cmp BaseResistance,mm8,4
+variable Cmp BaseStat,mm6,8
+variable Cmp BaseStat,mm7,3
+variable Cmp BaseStat,mm8,12
+variable Cmp BaseStat,xeen,6
+variable Cmp CircusPrises,global,2
+variable Cmp ClassId,global,75
+variable Cmp ClassId,mm6,2
+variable Cmp Condition,mm6,3
+variable Cmp Condition,mm7,15
+variable Cmp Counter,global,16
+variable Cmp Counter,maw,1
+variable Cmp Counter,mm7,16
+variable Cmp Counter,mm8,6
+variable Cmp CurrentHealth,xeen,2
+variable Cmp DayOfWeek,global,84
+variable Cmp DayOfYear,mm6,592
+variable Cmp Food,maw,1
+variable Cmp Food,mm7,1
+variable Cmp Food,xeen,1
+variable Cmp Gold,global,44
+variable Cmp Gold,maw,1
+variable Cmp Gold,mm6,35
+variable Cmp Gold,mm7,15
+variable Cmp Gold,mm8,7
+variable Cmp Gold,mm9,1
+variable Cmp Gold,xeen,14
+variable Cmp GoldInBank,mm7,6
+variable Cmp GoldInBank,mm8,7
+variable Cmp History,mm7,2
+variable Cmp Hour,mm6,6
+variable Cmp Hour,mm7,1
+variable Cmp Inventory,global,269
+variable Cmp Inventory,maw,8
+variable Cmp Inventory,mm6,97
+variable Cmp Inventory,mm7,31
+variable Cmp Inventory,mm8,70
+variable Cmp Inventory,xeen,103
+variable Cmp Invisible,mm7,15
+variable Cmp Invisible,mm8,7
+variable Cmp IsFlying,mm6,6
+variable Cmp LevelBonus,mm6,3
+variable Cmp MapVar,global,12
+variable Cmp MapVar,maw,5
+variable Cmp MapVar,mm6,617
+variable Cmp MapVar,mm7,621
+variable Cmp MapVar,mm8,246
+variable Cmp MapVar,xeen,475
+variable Cmp MaxHealth,mm7,2
+variable Cmp MaxHealth,mm8,2
+variable Cmp MaxSpellPoints,mm6,1
+variable Cmp MaxSpellPoints,mm7,1
+variable Cmp MaxSpellPoints,mm8,2
+variable Cmp MonthIs,mm6,13
+variable Cmp NumBounties,global,1
+variable Cmp NumBounties,mm7,1
+variable Cmp PlayerBits,global,56
+variable Cmp PlayerBits,mm6,12
+variable Cmp PlayerBits,mm7,30
+variable Cmp PlayerBits,xeen,55
+variable Cmp Players(roster),global,2
+variable Cmp Players(roster),mm8,10
+variable Cmp QBits,global,676
+variable Cmp QBits,maw,79
+variable Cmp QBits,mm6,325
+variable Cmp QBits,mm7,533
+variable Cmp QBits,mm8,316
+variable Cmp QBits,xeen,838
+variable Cmp ResistanceBonus,mm6,4
+variable Cmp ResistanceBonus,mm7,3
+variable Cmp ResistanceBonus,mm8,1
+variable Cmp Skill,global,42
+variable Cmp Skill,mm6,2
+variable Cmp Skill,mm7,1
+variable Cmp Skill,mm8,11
+variable Cmp Skill,xeen,4
+variable Cmp StatBonus,global,1
+variable Cmp StatBonus,mm6,14
+variable Cmp StatBonus,mm7,1
+variable Cmp StatBonus,mm8,3
+variable Cmp Unknown1,mm7,2
+variable Cmp selector built at run time,mm9,1
+variable Set Age,mm6,1
+variable Set Age,mm7,1
+variable Set Age,xeen,1
+variable Set ArmorClassBonus,mm6,2
+variable Set ArmorClassBonus,xeen,2
+variable Set ClassId,global,70
+variable Set ClassId,mm6,1
+variable Set ClassId,mm8,1
+variable Set Condition,global,37
+variable Set Condition,mm6,19
+variable Set Condition,mm7,22
+variable Set Condition,mm8,4
+variable Set Condition,mm9,3
+variable Set Condition,xeen,16
+variable Set Counter,global,7
+variable Set Counter,mm7,8
+variable Set Counter,mm8,11
+variable Set CurrentHealth,mm7,1
+variable Set Food,global,1
+variable Set Food,xeen,1
+variable Set Gold,mm7,1
+variable Set GoldInBank,mm7,9
+variable Set GoldInBank,mm8,1
+variable Set LevelBonus,mm6,3
+variable Set MajorCondition,mm6,5
+variable Set MajorCondition,mm7,1
+variable Set MapVar,global,18
+variable Set MapVar,maw,1
+variable Set MapVar,mm6,542
+variable Set MapVar,mm7,459
+variable Set MapVar,mm8,174
+variable Set MapVar,xeen,382
+variable Set ResistanceBonus,mm6,11
+variable Set ResistanceBonus,mm7,1
+variable Set Skill,mm6,1
+variable Set Skill,mm7,1
+variable Set StatBonus,global,1
+variable Set StatBonus,mm6,20
+variable Set StatBonus,xeen,3
+variable Set selector built at run time,mm9,1
+variable Subtract ArmorClassBonus,mm7,1
+variable Subtract AutoNote,global,17
+variable Subtract Condition,mm6,1
+variable Subtract Condition,mm9,6
+variable Subtract Condition,xeen,4
+variable Subtract CurrentHealth,mm6,10
+variable Subtract CurrentHealth,xeen,1
+variable Subtract Food,maw,1
+variable Subtract Food,mm6,3
+variable Subtract Food,mm7,1
+variable Subtract Gold,global,25
+variable Subtract Gold,maw,1
+variable Subtract Gold,mm6,20
+variable Subtract Gold,mm7,5
+variable Subtract Gold,mm9,1
+variable Subtract Gold,xeen,14
+variable Subtract Inventory,global,223
+variable Subtract Inventory,maw,8
+variable Subtract Inventory,mm6,76
+variable Subtract Inventory,mm7,15
+variable Subtract Inventory,mm8,40
+variable Subtract Inventory,mm9,1
+variable Subtract Inventory,xeen,109
+variable Subtract MapVar,maw,1
+variable Subtract MapVar,mm6,22
+variable Subtract MapVar,mm7,23
+variable Subtract MapVar,mm8,15
+variable Subtract PlayerBits,mm7,16
+variable Subtract PlayerBits,xeen,4
+variable Subtract QBits,global,363
+variable Subtract QBits,maw,5
+variable Subtract QBits,mm6,48
+variable Subtract QBits,mm7,95
+variable Subtract QBits,mm8,54
+variable Subtract QBits,xeen,35
+variable Subtract Reputation,global,50
+variable Subtract StatBonus,mm6,1
+variable Subtract raw selector 131307 (tag 0xEB),global,1
+variable Subtract raw selector 1638635 (tag 0xEB),mm6,2
+variable Subtract raw selector 3277035 (tag 0xEB),global,1
+variable Subtract raw selector 655595 (tag 0xEB),global,3
+variable Subtract raw selector 655595 (tag 0xEB),mm6,3

@@ -1,0 +1,21 @@
+output_dir: captures
+exit: true
+steps:
+  - wait: 1
+  - console: coop host
+  - wait: 27
+  - console: coop net
+  - console: coop show
+  - console: coop say Welcome to my world
+  - console: coop ping 3560 8000 545
+  - wait: 0.7
+  - capture: host-sees-guest-standing
+  - wait: 4.6
+  - capture: host-sees-guest-walking-1
+  - wait: 1.3
+  - capture: host-sees-guest-walking-2
+  - wait: 1.3
+  - capture: host-sees-guest-walking-3
+  - console: coop net
+  - wait: 20
+  - console: coop net

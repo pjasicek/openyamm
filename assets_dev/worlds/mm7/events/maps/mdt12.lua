@@ -148,10 +148,10 @@ RegisterEvent(195, "Chest", function()
 end, "Chest")
 
 RegisterEvent(501, "Leave the Cave", function()
-    evt.MoveToMap(-7747, 15880, 6977, 0, 0, 0, 0, 0, "out12.odm") -- The Land of the Giants
+    evt.MoveToMap(-7747, 15880, 6977, 0, 0, 0, 0, 4, "out12.odm") -- The Land of the Giants
 end, "Leave the Cave")
 
 RegisterEvent(502, "Leave the Cave", function()
-    evt.MoveToMap(-13812, 16974, 6656, 1536, 0, 0, 0, 0, "out12.odm") -- The Land of the Giants
+    evt.MoveToMap(-13812, 16974, 6656, 1536, 0, 0, 0, 4, "out12.odm") -- The Land of the Giants
 end, "Leave the Cave")
 

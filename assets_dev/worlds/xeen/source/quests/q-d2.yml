@@ -29,9 +29,11 @@ npcs:
   4919:              # Jethro
     topics:
       - n: 1
-        label: Jasper
+        role: quest
+        afterword: {n: 4, label: Jasper}
         states:
           - when: {qbit: done}
+            afterword: true
             text: "Good to see you again, friends! Remember, if you ever want to know anything about maps, just come to me."
           - when: {qbit: jasper_freed}
             text: "Thank you for freeing my brother! Here's a little money for your trouble. If you ever want to know anything about maps, just come to me."

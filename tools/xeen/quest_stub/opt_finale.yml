@@ -15,9 +15,9 @@ steps:
   - give: dragon_tower_key
   - hook: q-f1.tower_door
   - expect: {item: dragon_tower_key}
-  - talk: [5705, Dragon egg]
+  - talk: [5705, q-f1]
   - expect: {qbit: q-f1.started}
-  - talk: [5705, Dragon egg]
+  - talk: [5705, q-f1]
   - expect: {last: "REAL courage"}
   - hook: q-f1.note_fraud
   - hook: q-f1.note_forever
@@ -33,7 +33,7 @@ steps:
   - hook: q-f1.tome
   - hook: q-f1.tome
   - expect: {player_bit: 11361, xp: 4000, last: "nothing new"}
-  - talk: [5705, Dragon egg]
+  - talk: [5705, q-f1]
   - expect: {qbit: q-f1.alister_gone, no_item: dragon_egg, xp: 9000, last: "drink this egg potion"}
   # X9: the books (no Linguist, then a Linguist), a ball (too weak a mind, then strong), the Eye, the well, a crystal
   - hook: [q-f1.runes_in, false]

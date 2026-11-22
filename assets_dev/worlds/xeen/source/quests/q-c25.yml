@@ -48,9 +48,11 @@ npcs:
   5702:              # Scaldrith
     topics:
       - n: 1
-        label: The tax
+        role: quest
+        afterword: {n: 3, label: The tax}
         states:
           - when: {qbit: tax_paid}
+            afterword: true
             text: "Paid in full. Keep the receipt. The dragons inside don't ask for it, but they do eat people who argue."
           - when: {all: [{gold: 2000}, {lua: "Xeen.gemCount() >= 20"}]}
             text: "Dragon tax! 2,000 gold pieces and 20 gems fly from your packs and into the urn on the counter. Peering inside the urn, you see that your money has vanished. Scaldrith stamps a receipt. \"Proceed. Mind the dragons; they are exempt from manners.\""
@@ -58,7 +60,7 @@ npcs:
           - text: "Everyone who wants an audience with the Dragon King pays the dragon tax: two thousand gold and twenty gems. No gems, no audience. No exceptions. I was an exception once. Never again."
             do: [{set: asked}]
       - n: 2
-        label: Great Wyrm
+        role: promotion
         show: {all: [{qbit: tax_paid}, {qbit: volume1}]}
         states:
           - when: {all: [{promotable: dragon}, {not: {qbit: wyrm}}]}

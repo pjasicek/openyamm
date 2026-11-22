@@ -79,7 +79,7 @@ steps:
   - walk_to: {x: 3872, y: 4150, z: 0, radius: 64, timeout_seconds: 40, close_dialogs: true}
   - play_lua: {source: "remember('xp', experience(0)); remember('gold', gold()); click(1); wait(1)"}
   - assert: {dialog: {source_id: 4402}}
-  - select_topic: {match_label: "Lord Xeen"}
+  - select_topic: {action_id: 41101, match_label: "Quest"}
   - assert: {dialog: {text_contains: "an Excavation Permit for Newcastle's dungeon"}}
   - press_action: {action: cancel_dialog}
   - play_lua:
@@ -95,7 +95,7 @@ steps:
   - walk_to: {x: 3936, y: 3780, z: 0, radius: 64, timeout_seconds: 40, close_dialogs: true}
   - play_lua: {source: "remember('xp', experience(0)); remember('mega', item_count(12192)); click(6); wait(1)"}
   - assert: {dialog: {source_id: 4403}}
-  - select_topic: {match_label: "Dungeon"}
+  - select_topic: {action_id: 41102, match_label: "Quest"}
   - assert: {dialog: {text_contains: "A permit, signed and sealed, and five Megacredits."}}
   - press_action: {action: cancel_dialog}
   - play_lua:

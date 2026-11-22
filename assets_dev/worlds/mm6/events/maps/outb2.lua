@@ -737,11 +737,11 @@ RegisterEvent(73, "Chest", function()
 end, "Chest")
 
 RegisterEvent(90, nil, function()
-    evt.MoveToMap(-4158, 1792, 1233, 0, 0, 0, 437, 1, "6t8.blv") -- Temple of the Snake
+    evt.MoveToMap(-4158, 1792, 1233, 0, 0, 0, 437, 5, "6t8.blv") -- Temple of the Snake
 end)
 
 RegisterEvent(91, nil, function()
-    evt.MoveToMap(-9600, 22127, 1, 512, 0, 0, 446, 1, "6d17.blv") -- Lair of the Wolf
+    evt.MoveToMap(-9600, 22127, 1, 512, 0, 0, 446, 5, "6d17.blv") -- Lair of the Wolf
 end)
 
 RegisterEvent(92, "Temple Baa", function()

@@ -22,10 +22,12 @@ npcs:
   4954:              # Ellinger
     topics:
       - n: 1
-        label: Energy discs
+        role: quest
+        afterword: {n: 2, label: Energy discs}
         show: {qbit: m19.stage2}
         states:
           - when: {qbit: stage4}
+            afterword: true
             text: "It is good to see you again, my friends, but I cannot spend much time talking. I must see to my magical duties, and you must see to yours. The world is depending on us."
           - when: {all: [{qbit: stage3}, {items: [energy_disk, 5]}]}
             text: "Congratulations! We've done it! The castle is free! I can't thank you enough. You must now find the key to the pyramid in the castle and return the orb to the Pharaoh. I must attend to certain magical duties from now till the completion of the prophecy. Go with my blessing."

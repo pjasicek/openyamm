@@ -28,9 +28,11 @@ npcs:
   4303:              # Carlawna
     topics:
       - n: 1
-        label: Scarab
+        role: quest
+        afterword: {n: 2, label: Scarab}
         states:
           - when: {qbit: done}
+            afterword: true
             text: "The spell is finished. The gargoyles haven't been back. I like to think they heard what happened to the last ones."
           - when: {item: scarab_of_imaging}
             text: "Oh, thank you so much for recovering my Scarab. Now I can complete my spell. Take this; I was keeping it for whoever was brave enough. And the healers and druids among you: kneel. You have earned more than a trinket. Druids rise as Great Druids, Clerics as Priests."

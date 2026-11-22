@@ -34,7 +34,7 @@ RegisterEvent(76, "Chest", function()
 end, "Chest")
 
 RegisterEvent(90, nil, function()
-    evt.MoveToMap(-2048, 3453, 2049, 1536, 0, 0, 433, 1, "6t6.blv") -- Supreme Temple of Baa
+    evt.MoveToMap(-2048, 3453, 2049, 1536, 0, 0, 433, 5, "6t6.blv") -- Supreme Temple of Baa
 end)
 
 RegisterEvent(100, "Drink from Fountain", function()

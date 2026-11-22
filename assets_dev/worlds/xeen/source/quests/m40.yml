@@ -160,9 +160,11 @@ npcs:
   5704:              # Picard the Aged (FD-02, a talking actor in the Home of the Aged)
     topics:
       - n: 1
-        label: Chime of Opening
+        role: quest
+        afterword: {n: 2, label: Chime of Opening}
         states:
           - when: {qbit: done}
+            afterword: true
             text: "Nice to see you again, adventurers! The widget that you brought to me is fascinating! I turn it over every morning. It still does nothing. Marvellous."
           - when: {item: widget}
             text: "Really? You have one? A widget! Then the Chime of Opening is yours. Make it so!"

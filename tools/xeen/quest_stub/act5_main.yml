@@ -25,7 +25,7 @@ steps:
   - expect: {qbit: m33.refused_once, not_qbit: m33.inside}
   # M32: Corak
   - talk: [5513, Sheltem]
-  - talk: [5513, Soul Box]
+  - talk: [5513, m32]
   - expect: {qbit: m32.done, item: soul_box_corak, no_item: soul_box, xp: 12000}
   - hidden: [5513, Sheltem]
   # M33: Castle Alamar
@@ -109,12 +109,12 @@ steps:
   - hook: [m35.scepter, false]
   - hook: [m35.scepter_ask, false]
   - hook: m35.lord_xeen
-  - hidden: [4401, Lord Xeen]
+  - hidden: [4401, m35]
   - hook: m35.scepter_ask
   - hook: m35.scepter
   - expect: {qbit: m35.done, item: xeens_scepter, award: m35.lord_xeen, xp: 92000,
              journal: m35.done, no_journal: [m35.started, m5.audience]}   # A3 s38: "Tell King Burlock."
-  - talk: [4401, Lord Xeen]
+  - talk: [4401, m35]
   - expect: {qbit: m35.king_told, no_journal: m35.done}
-  - talk: [4401, Sixth Mirror]
+  - talk: [4401, m5]
   - talk: [5453, Lord Xeen]

@@ -172,7 +172,7 @@ end)
 
 RegisterEvent(31, "Cylinder", function()
     SetQBit(QBit(1200)) -- NPC
-    evt.MoveToMap(-9110, -5381, 17, 1536, 0, 0, 0, 0, "sewer.blv") -- Free Haven Sewer
+    evt.MoveToMap(-9110, -5381, 17, 1536, 0, 0, 0, 5, "sewer.blv") -- Free Haven Sewer
 end, "Cylinder")
 
 RegisterEvent(32, "Oracle Memory Crystal", function()
@@ -195,7 +195,7 @@ RegisterEvent(34, nil, function()
 end)
 
 RegisterEvent(35, "Exit", function()
-    evt.MoveToMap(-19914, -18118, 65, 1536, 0, 0, 0, 0, "outa3.odm") -- Hermit's Isle
+    evt.MoveToMap(-19914, -18118, 65, 1536, 0, 0, 0, 6, "outa3.odm") -- Hermit's Isle
 end, "Exit")
 
 RegisterEvent(36, nil, function()

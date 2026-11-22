@@ -43,19 +43,19 @@ steps:
   - play_lua: {source: "for _ = 1, 3 do if not close() then break end end"}
   - play_lua: {source: 'local c = classes() log("CLASSES pendant round 2 kept: " .. c) if c ~= "Wizard WarriorMage Peasant Knight" then error("expected Wizard WarriorMage Peasant Knight, got " .. c) end'}
 
-  # elf: DarkElf -> Patriarch. Danulf the Faery King (Q-C17): "Patriarch".
+  # elf: DarkElf -> Patriarch. Danulf the Faery King (Q-C17): "Promotion".
   # Round 1: DarkElf Patriarch Peasant Knight -> Patriarch Patriarch Peasant Knight.
   - lua_event: {source: "if not SetPlayerClass(0, 'DarkElf') then error('SetPlayerClass(0, DarkElf)') end if not SetPlayerClass(1, 'Patriarch') then error('SetPlayerClass(1, Patriarch)') end if not SetPlayerClass(2, 'Peasant') then error('SetPlayerClass(2, Peasant)') end if not SetPlayerClass(3, 'Knight') then error('SetPlayerClass(3, Knight)') end"}
   - play_lua: {source: 'local c = classes() log("CLASSES elf round 1 set: " .. c) if c ~= "DarkElf Patriarch Peasant Knight" then error("expected DarkElf Patriarch Peasant Knight, got " .. c) end'}
   - set_pose: {map: xeen_x2.odm, x: -3277, y: -8909, z: 1044, yaw: -2.16, pitch: 0.0}
   - clear_hostiles: {radius: 3000}
   - interact_actor: {actor_index: 51}
-  - assert: {dialog: {active: true, source_id: 4154, action_label_present: "Patriarch"}}
-  - select_topic: {match_label: "Patriarch"}
+  - assert: {dialog: {active: true, source_id: 4154, action_label_present: "Promotion"}}
+  - select_topic: {match_label: "Promotion"}
   - assert: {dialog: {active: true, text_contains: "Rise, Patriarch."}}
   - play_lua: {source: 'local c = classes() log("CLASSES elf round 1 promoted: " .. c) if c ~= "Patriarch Patriarch Peasant Knight" then error("expected Patriarch Patriarch Peasant Knight, got " .. c) end'}
   # Nobody left: the promote is no longer offered.
-  - assert: {dialog: {active: true, action_label_absent: "Patriarch"}}
+  - assert: {dialog: {active: true, action_label_absent: "Promotion"}}
   - press_action: {action: cancel_dialog}
   - play_lua: {source: "for _ = 1, 3 do if not close() then break end end"}
   # Round 2: Patriarch Peasant Knight Sorcerer, none of them eligible: the promote is not offered.
@@ -64,7 +64,7 @@ steps:
   - set_pose: {map: xeen_x2.odm, x: -3277, y: -8909, z: 1044, yaw: -2.16, pitch: 0.0}
   - clear_hostiles: {radius: 3000}
   - interact_actor: {actor_index: 51}
-  - assert: {dialog: {active: true, source_id: 4154, action_label_absent: "Patriarch"}}
+  - assert: {dialog: {active: true, source_id: 4154, action_label_absent: "Promotion"}}
   - press_action: {action: cancel_dialog}
   - play_lua: {source: "for _ = 1, 3 do if not close() then break end end"}
   - play_lua: {source: 'local c = classes() log("CLASSES elf round 2 kept: " .. c) if c ~= "Patriarch Peasant Knight Sorcerer" then error("expected Patriarch Peasant Knight Sorcerer, got " .. c) end'}

@@ -37,9 +37,11 @@ npcs:
   4952:              # Luna
     topics:
       - n: 1
-        label: Statuettes
+        role: quest
+        afterword: {n: 3, label: Statuettes}
         states:
           - when: {qbit: done}
+            afterword: true
             text: "I'm pleased to see you again, friends. Please come by more often!"
           - when: {item: golden_pegasus}
             text: "The Pegasus! You are truly great adventurers to have found this statuette. It goes back on the altar, and this is for you."
@@ -50,17 +52,13 @@ npcs:
           - when: {item: golden_griffin}
             text: "The Griffin! You are truly great adventurers to have found this statuette. It goes back on the altar, and this is for you."
             do: [{take: golden_griffin}, {set: griffin_returned}, {xp: 3000}, {treasure: 5}]
-          - when: {all: [{qbit: pegasus_returned}, {qbit: dragon_returned}, {qbit: griffin_returned}]}
-            text: "All three are on the altar. Look at the altar, please, not at me."
+          - when: {all: [{qbit: pegasus_returned}, {qbit: dragon_returned}, {qbit: griffin_returned}]}   # the hand-in (was the topic The altar: one Quest topic, session 39)
+            text: "You have found all of my statuettes! Now I can restore the altar's magical aura and regain my powers of healing. For you, great adventurers, shall share my powers. Those of you who fight with bow and spell alike, rise as Master Archers."
+            do: [{set: done}, {promote: statuettes}]
           - when: {qbit: started}
             text: "I see you haven't found all of the statuettes yet. The thieves sold them, I am sure of it. Thieves write down who buys."
           - text: "Somehow the three golden statuettes that give my altar its magical aura have been stolen. Without it, I have no powers of healing. Start with the thieves of the Great Southern Tower; the keeper of the fountain near Venom Pond has a key."
             do: [{set: started}, {autonote: thief}]
-      - n: 2
-        label: The altar
-        show: {all: [{qbit: pegasus_returned}, {qbit: dragon_returned}, {qbit: griffin_returned}, {not: {qbit: done}}]}
-        text: "You have found all of my statuettes! Now I can restore the altar's magical aura and regain my powers of healing. For you, great adventurers, shall share my powers. Those of you who fight with bow and spell alike, rise as Master Archers."
-        do: [{set: done}, {promote: statuettes}]
 
 hooks:
   pegasus:

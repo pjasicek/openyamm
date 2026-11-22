@@ -27,8 +27,8 @@ npcs:
   4003:              # Mayor Gunther
     topics:
       - n: 1
-        label: Pests
-        show: {not: {qbit: m2.done}}
+        role: quest
+        show: {all: [{not: {qbit: m2.done}}, {not: {item: joes_invoice}}]}   # one Quest at a time: m2's hand-in shows with the invoice
         states:
           - when: {qbit: m2.started}
             text: "Joe swears he has the situation under control. He has sworn it for two years."

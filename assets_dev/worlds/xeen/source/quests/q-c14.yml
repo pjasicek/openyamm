@@ -28,9 +28,11 @@ npcs:
   4526:              # Halon the Efficient
     topics:
       - n: 1
-        label: Water clock
+        role: quest
+        afterword: {n: 2, label: Water clock}
         states:
           - when: {qbit: done}
+            afterword: true
             text: "It is wonderful to see my clock work year round. But still, one can never have enough time."
           - when: {item: lava_rock}
             text: "Lava! Great! You can't imagine how much time you have saved me. Take this widget as payment."

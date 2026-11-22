@@ -16,7 +16,7 @@ npcs:
   4404:
     topics:
       - n: 1
-        label: Rogues
+        role: promotion
         show: {all: [{qbit: q-c3.done}, {promotable: tiara}]}
         text: "Another thief in your company? How useful. Rise, Rogue. Don't touch anything on the way out."
         do: [{promote: tiara}]

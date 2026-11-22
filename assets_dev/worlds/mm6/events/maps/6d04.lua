@@ -325,7 +325,7 @@ RegisterEvent(50, nil, function()
 end)
 
 RegisterEvent(51, "Exit", function()
-    evt.MoveToMap(16387, -20005, 225, 512, 0, 0, 0, 0, "outd2.odm") -- Bootleg Bay
+    evt.MoveToMap(16387, -20005, 225, 512, 0, 0, 0, 6, "outd2.odm") -- Bootleg Bay
 end, "Exit")
 
 RegisterEvent(52, "Lord of Fire", function()

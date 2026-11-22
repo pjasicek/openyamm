@@ -28,6 +28,16 @@ are a Cavalier, a Hero, an ArchMage and a Ranger Lord.
 
 ## State
 
+**2026-11-22 (A3 session 41, MP46): the whole chain passes again, normal (52/52, 16:36-16:44) and `--reload` (52/52,
+16:47-17:22; 4,401 reloads), on the maps after D-98 (Castle Xeen's extra monsters and throne guards; Lord Xeen is
+actor 37), D-99 (chests turned and moved) and D-100 (every Xeen BLV rebaked).** Promotions `--start` 41/41, side
+quests 71/71 normal and 71/71 `--reload`. Details: devdocs/xeen/lanes/A3.md (session 41).
+
+**2026-11-22 (A3 session 40, MP45): the whole chain passes, normal (52/52, 13:33) and `--reload` (52/52, 14:11; 4,401
+reloads), on the maps after D-93 (X1's rain barrel and X5's torn pack give their finds onto the cursor), X1's water
+end piece and the villagers with their race palettes (X1-X6, D1-D4); quest topics read "Quest" (session 39).**
+Promotions `--start` 41/41, side quests 71/71 (normal). Details: devdocs/xeen/lanes/A3.md (session 40).
+
 **2026-11-21 (A3 session 33, merge point 37): the whole chain passes from a new game to the ending, normal and
 `--reload`, with D-82's party check, on the maps rebuilt since session 32 (X1, X2, X4, X5, X6, D1, D2, D3, D6, D7, P1,
 XD-12, DD-10C, XD-19).** Normal: 52 segments, 7,238 steps, 537 s (checkpoints written 20:08-20:39). `--reload`:

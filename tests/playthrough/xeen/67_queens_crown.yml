@@ -65,7 +65,7 @@ steps:
         if item_count(12334) < 5 then error("only " .. item_count(12334) .. " Energy Disks for Ellinger") end
         click(15); wait(0.5)
   - advance_runtime: {seconds: 1, present_dialogs: true}
-  - select_topic: {match_label: "Energy discs"}
+  - select_topic: {action_id: 41301, match_label: "Quest"}
   - assert:
       dialog: {text_contains: "Congratulations! We've done it! The castle is free!"}
   - advance_runtime: {seconds: 1, present_dialogs: true}
@@ -248,7 +248,7 @@ steps:
   - interact_actor: {actor_index: 49}
   - advance_runtime: {seconds: 1, present_dialogs: true}
   - assert: {dialog: {active: true, source_id: 5001}}
-  - select_topic: {match_label: "The crown"}
+  - select_topic: {action_id: 41351, match_label: "Quest"}
   - advance_runtime: {seconds: 1.5, follow_map_move: true}
   - assert: {map: xeen_d1.odm}
   - assert: {party_position: {x: -9728, y: -3072, radius: 160}}

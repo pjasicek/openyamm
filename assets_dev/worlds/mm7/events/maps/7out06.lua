@@ -618,16 +618,16 @@ RegisterEvent(500, nil, function()
 end)
 
 RegisterEvent(501, "Enter the School of Sorcery", function()
-    evt.MoveToMap(2, -1341, -159, 512, 0, 0, 142, 1, "7d14.blv") -- The School of Sorcery
+    evt.MoveToMap(2, -1341, -159, 512, 0, 0, 398, 9, "7d14.blv") -- The School of Sorcery
 end, "Enter the School of Sorcery")
 
 RegisterEvent(502, "Enter the Red Dwarf Mines", function()
-    evt.MoveToMap(26, 6, 1, 512, 0, 0, 143, 1, "7d34.blv") -- The Red Dwarf Mines
+    evt.MoveToMap(26, 6, 1, 512, 0, 0, 399, 3, "7d34.blv") -- The Red Dwarf Mines
 end, "Enter the Red Dwarf Mines")
 
 RegisterEvent(503, nil, function()
     if IsQBitSet(QBit(611)) or IsQBitSet(QBit(612)) then -- Chose the path of Light
-        evt.MoveToMap(-6790, 1095, 33, 0, 0, 0, 0, 0, "7d25.blv") -- Celeste
+        evt.MoveToMap(-6790, 1095, 33, 0, 0, 0, 0, 8, "7d25.blv") -- Celeste
     end
 end)
 

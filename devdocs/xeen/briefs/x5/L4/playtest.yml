@@ -1073,7 +1073,7 @@ steps:
     radius: 192
     timeout_seconds: 90
     clear_hostiles: 3000
-- note: The Holy Book of Elvenkind on the snow beside a torn pack (a ground item; from the south)
+- note: The Holy Book of Elvenkind in a torn pack on the snow (onto the cursor; from the south)
 - walk_to:
     x: 2483
     y: -14720
@@ -1083,13 +1083,7 @@ steps:
     timeout_seconds: 90
     clear_hostiles: 3000
 - play_lua:
-    source: if ground_items(12524) ~= 1 then error("the Holy Book is not on the ground") end
-- pick_up:
-    item_id: 12524
-    reach: 700
-- play_lua:
-    source: close(); if held() ~= 0 then stow() end; if not has_item(12524) then error("no Holy Book from the ground by the
-      torn pack") end
+    source: 'close(); click(108); wait(0.5); if held() ~= 12524 then error("the torn pack put no book on the cursor") end; stow(); if not has_item(12524) then error("no Holy Book from the torn pack") end'
 - note: The Troll Warren mouth (XD-23 live)
 - walk_to:
     x: 768

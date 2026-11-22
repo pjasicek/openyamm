@@ -128,7 +128,7 @@ steps:
   - walk_to: {x: -1024, y: 17100, z: 1363, z_tolerance: 200, radius: 128, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
   # The town hall: Gunther's Dwarves (M3 done, the badge).
   - execute_event: {id: 9}
-  - select_topic: {match_label: Dwarves}
+  - select_topic: {action_id: 40151, match_label: "Quest"}
   - assert:
       dialog: {text_contains: "Red Dwarf Badge of Courage"}
   - press_action: {action: cancel_dialog}

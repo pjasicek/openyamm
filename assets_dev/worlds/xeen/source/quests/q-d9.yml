@@ -30,7 +30,7 @@ npcs:
   5106:              # Nibbler
     topics:
       - n: 1
-        label: Monga melons
+        role: quest
         states:
           - when: {all: [{qbit: done}, {item: monga_melon}]}
             text: "Hi! Glad to see you again. I saved the seeds from the Monga Melons you gave me, and now I'm growing my own! (He eats yours anyway.) (sigh) I love Monga Melons."

@@ -358,7 +358,6 @@ chests:
   - id: chest:gaol
     room: room:gaol
     at: [2496, 1792]
-    facing: s
     treasure_level: 4
     random_items: 2
     gold: 400
@@ -366,7 +365,6 @@ chests:
   - id: chest:pump
     room: room:pump_room
     at: [5888, -1856]
-    facing: n
     treasure_level: 4
     random_items: 2
     gold: 500

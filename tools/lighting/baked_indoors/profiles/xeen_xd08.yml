@@ -11,5 +11,6 @@
   "bounce_scale": 5.0,
   "ambient_scale": 0.9,
   "blur_radius": 2,
-  "max_lighting": 1.5
+  "max_lighting": 1.5,
+  "rendered_limit": {"mean": 90, "ceiling": 0.85}
 }

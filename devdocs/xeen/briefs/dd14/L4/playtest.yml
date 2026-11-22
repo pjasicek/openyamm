@@ -235,7 +235,7 @@ steps:
   - interact_actor: {actor_index: 49}
   - advance_runtime: {seconds: 0.6, present_dialogs: true}
   - assert: {dialog: {active: true}}
-  - select_topic: {match_label: "The crown"}
+  - select_topic: {action_id: 41351, match_label: "Quest"}
   - advance_runtime: {seconds: 1, present_dialogs: true}
   - assert: {dialog: {active: true, text_contains: "three, thirty-one, sixty-two"}}
   - play_lua: {source: "close(); wait(0.5); close(); if not qbit(111543) then error('queen_found not set') end; if qbit(111542) then error('done set without the crown') end"}
@@ -304,7 +304,7 @@ steps:
   - interact_actor: {actor_index: 49}
   - advance_runtime: {seconds: 0.6, present_dialogs: true}
   - assert: {dialog: {active: true}}
-  - select_topic: {match_label: "The crown"}
+  - select_topic: {action_id: 41351, match_label: "Quest"}
   - advance_runtime: {seconds: 2, follow_map_move: true}
   - play_lua: {source: "close(); wait(0.5); close(); if not qbit(111542) then error('done not set') end"}
   - advance_runtime: {seconds: 2, follow_map_move: true}

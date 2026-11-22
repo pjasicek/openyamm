@@ -960,32 +960,72 @@ rooms:
     floor: 640
     ceiling: 1408
     theme: theme:sky
+    walls:
+      - wall: east
+        surface: {texture: gnecwal1, size: [256, 256], sky: true}
+        bands: false
+    parapets:
+      - path: [[5088, 1632], [5088, 4448]]
+        height: 160
+        thickness: 32
+        surface: {texture: gnecwal1, size: [256, 256]}
+        notes: "The outer parapet: the cloud sea and X9's sky beyond it (D-97)."
     ambient: 28
-    notes: "The east wall walk's north stretch, to the keep's east door."
+    notes: "The east wall walk's north stretch, to the keep's east door; open sky over the outer parapet."
   - id: room:wall_es
     name: East wall walk
     outline: [[4320, -2720], [5120, -2720], [5120, 320], [4320, 320]]
     floor: 640
     ceiling: 1408
     theme: theme:sky
+    walls:
+      - wall: east
+        surface: {texture: gnecwal1, size: [256, 256], sky: true}
+        bands: false
+    parapets:
+      - path: [[5088, -2688], [5088, 288]]
+        height: 160
+        thickness: 32
+        surface: {texture: gnecwal1, size: [256, 256]}
+        notes: "The outer parapet: the cloud sea and X9's sky beyond it (D-97)."
     ambient: 28
-    notes: The east wall walk under open sky.
+    notes: "The east wall walk under open sky, the outer parapet over X9's cloud sea."
   - id: room:wall_wn
     name: "West wall walk, north"
     outline: [[-5120, 1600], [-4320, 1600], [-4320, 4480], [-5120, 4480]]
     floor: 640
     ceiling: 1408
     theme: theme:sky
+    walls:
+      - wall: west
+        surface: {texture: gnecwal1, size: [256, 256], sky: true}
+        bands: false
+    parapets:
+      - path: [[-5088, 1632], [-5088, 4448]]
+        height: 160
+        thickness: 32
+        surface: {texture: gnecwal1, size: [256, 256]}
+        notes: "The outer parapet: the cloud sea and X9's sky beyond it (D-97)."
     ambient: 28
-    notes: "The west wall walk's north stretch, to the keep's west door."
+    notes: "The west wall walk's north stretch, to the keep's west door; open sky over the outer parapet."
   - id: room:wall_ws
     name: West wall walk
     outline: [[-5120, -2720], [-4320, -2720], [-4320, 320], [-5120, 320]]
     floor: 640
     ceiling: 1408
     theme: theme:sky
+    walls:
+      - wall: west
+        surface: {texture: gnecwal1, size: [256, 256], sky: true}
+        bands: false
+    parapets:
+      - path: [[-5088, -2688], [-5088, 288]]
+        height: 160
+        thickness: 32
+        surface: {texture: gnecwal1, size: [256, 256]}
+        notes: "The outer parapet: the cloud sea and X9's sky beyond it (D-97)."
     ambient: 28
-    notes: "The west wall walk under open sky (X9's cloud sea), from the tower to the turret."
+    notes: "The west wall walk under open sky, from the tower to the turret: the outer parapet over X9's cloud sea."
   - id: room:war_room
     name: War room
     outline: [[-3200, -640], [-2080, -640], [-2080, 960], [-3200, 960]]

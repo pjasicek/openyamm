@@ -90,7 +90,7 @@ The orchestrator puts these to the user in one batch at its first start. Until a
 | Q6 | NPC portraits and monster references from Xeen's own sprites | Xeen sprites are references only; portraits are generated new in the MM7 portrait style | Medium: re-run portrait batches |
 | Q7 | Gems as a second currency | Yes (Lua, E13) | Medium: vendor scripts |
 | Q8 | Xeen's Barbarian class and Gnome race | Left out | Low |
-| Q9 | Music | MM6–MM8 tracks by area, by number (E10); new music later if wanted | Low |
+| Q9 | Music | MM6–MM8 tracks by area, by number (E10); since U-10 (2026-11-22) also Xeen's own eight themes, tracks 92001–92008 (MUSIC.md) | Low |
 | Q10 | One world with two faces | Yes (D1) | Very high |
 | Q11 | Indoor and outdoor disagree on whether a peaceful group or a relation row wins (ACT2_BUILD, end) | The relation row wins on both, as outdoors | Low |
 | Q12 | HANDOFF §0 "not reconciled" (L dungeon size, outdoor density bands) | The adopted table (L 70–80 plus bosses; outdoor 90–135) | Medium: XP budget re-run |
@@ -356,7 +356,7 @@ tables, `Engine::tr()` keys for any C++ text; language packs at the end (phase 7
 | --- | --- | --- |
 | New-game card, start, party creation | A1 (code), A4 (art) | E2; continent card art by Codex |
 | Loading screens per face | A4 | Codex, as MM9's |
-| Music by area | O decides per map in `maps.yml` | MM6–MM8 track numbers (Q9) |
+| Music by area | O decides per map in `maps.yml`; town districts in `world.yml` `musicAreas` | MM6–MM8 track numbers and Xeen's 92001–92008 (Q9, U-10) |
 | Ambient sounds | map lanes | Placed sounds (studio), ODM emitters after E9 |
 | Sky presets | A6 | Cloudside presets from the shipped set; `xeen_darkside_day`, `_fading`, `_failing`; the sky maps' cloud sea (`level_generation/lighting/SKY_RENDERING.md`) |
 | Weather | outdoor lanes | `weather.yml` per map (rain, snow on X5, ash on X7 and D6) |

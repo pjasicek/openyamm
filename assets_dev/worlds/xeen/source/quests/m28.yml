@@ -58,7 +58,8 @@ npcs:
   5453:              # The Dragon Pharaoh (DD-15 L4)
     topics:
       - n: 1
-        label: The orb
+        role: quest
+        stays: "its after-text sends the party to the second meteor (M29, which the hand-in starts)"
         states:
           - when: {qbit: done}
             text: "The lava round the second meteor is cool now. What fell from the sky there is not a meteor. Go and see, and be polite to whoever wakes."

@@ -43,6 +43,7 @@ npcs:
           - text: "That is not all. That is not anything. Give gold, give one, or fight."
       - n: 2
         label: Sacrifice one
+        named: "Hobstadt's choice: the answer that sits a member on the throne"
         show: {not: {qbit: hostile}}
         states:
           - when: {all: [{qbit: trial}, {promotable: troll}]}

@@ -299,7 +299,7 @@ RegisterEvent(383, nil, function()
 end)
 
 RegisterEvent(501, "Leave the Red Dwarf Mines", function()
-    evt.MoveToMap(20980, 14802, 1, 1536, 0, 0, 0, 0, "7out06.odm") -- The Bracada Desert
+    evt.MoveToMap(20980, 14802, 1, 1536, 0, 0, 0, 4, "7out06.odm") -- The Bracada Desert
 end, "Leave the Red Dwarf Mines")
 
 RegisterEvent(65535, "", function()

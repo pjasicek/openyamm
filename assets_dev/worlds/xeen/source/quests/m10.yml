@@ -50,7 +50,7 @@ npcs:
   4403:              # Emerson
     topics:
       - n: 1
-        label: Megacredits
+        role: quest
         states:
           - when: {qbit: started}
             text: "Three places. The Temple of Yak in Rivercity's south woods. The Tomb of a Thousand Terrors in the lagoon. The Golem Dungeon in the tundra, by the lagoon. Evil people hoard Megacredits. Don't ask me why."

@@ -28,7 +28,7 @@ npcs:
   4403:              # Emerson
     topics:
       - n: 1
-        label: Keep
+        role: quest
         show: {qbit: m9.walls}
         states:
           - when: {qbit: keep}

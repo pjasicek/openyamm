@@ -202,7 +202,7 @@ end, "Chest")
 
 RegisterEvent(376, "Hostel", function()
     if IsQBitSet(QBit(621)) then -- Assassinate Tolberti in his house in the Pit and return his control cube to Robert the Wise in Celeste.
-        evt.MoveToMap(-15360, 3808, 129, 270, 0, 0, 0, 0, "mdt15.blv") -- The Small House
+        evt.MoveToMap(-15360, 3808, 129, 270, 0, 0, 0, 9, "mdt15.blv") -- The Small House
     elseif IsQBitSet(QBit(622)) then -- Finished Necro Proving Grounds
         if IsQBitSet(QBit(623)) then -- Finished Necro Task 2 - Temple of Light
             if IsQBitSet(QBit(624)) then -- Finished Necro Task 3 - Soul Jars
@@ -380,7 +380,7 @@ RegisterEvent(457, nil, function()
 end)
 
 RegisterEvent(501, "Leave the Pit", function()
-    evt.MoveToMap(498, 16198, 161, 1536, 0, 0, 0, 0, "t04.blv") -- The Hall of the Pit
+    evt.MoveToMap(498, 16198, 161, 1536, 0, 0, 0, 1, "t04.blv") -- The Hall of the Pit
 end, "Leave the Pit")
 
 RegisterEvent(502, "Temple of Dark", function()
@@ -388,14 +388,14 @@ RegisterEvent(502, "Temple of Dark", function()
 end, "Temple of Dark")
 
 RegisterEvent(503, "Enter the Breeding Zone", function()
-    evt.MoveToMap(-320, -1216, 1, 0, 0, 0, 146, 1, "7d10.blv") -- The Breeding Zone
+    evt.MoveToMap(-320, -1216, 1, 0, 0, 0, 402, 2, "7d10.blv") -- The Breeding Zone
 end, "Enter the Breeding Zone")
 
 RegisterEvent(504, "Enter Castle Gloaming", function()
-    evt.MoveToMap(96, 3424, 1, 1088, 0, 0, 129, 1, "d03.blv") -- Castle Gloaming
+    evt.MoveToMap(96, 3424, 1, 1088, 0, 0, 385, 9, "d03.blv") -- Castle Gloaming
 end, "Enter Castle Gloaming")
 
 RegisterEvent(505, "Enter Castle Gloaming", function()
-    evt.MoveToMap(874, -261, -377, 1024, 0, 0, 129, 1, "d03.blv") -- Castle Gloaming
+    evt.MoveToMap(874, -261, -377, 1024, 0, 0, 385, 9, "d03.blv") -- Castle Gloaming
 end, "Enter Castle Gloaming")
 

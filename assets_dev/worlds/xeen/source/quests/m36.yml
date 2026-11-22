@@ -28,7 +28,7 @@ npcs:
   5453:              # The Dragon Pharaoh
     topics:
       - n: 1
-        label: The destiny of Xeen
+        role: quest
         show: {all: [{qbit: m33.done}, {qbit: m35.done}]}
         states:
           - when: {qbit: m42.done}

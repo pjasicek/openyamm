@@ -45,8 +45,8 @@ steps:
   # Shinobu: nobody of the clan's way.
   - interact_actor: {actor_index: 24}
   - advance_runtime: {seconds: 0.6, present_dialogs: true}
-  - assert: {dialog: {active: true, action_label_present: "The clan"}}
-  - select_topic: {match_label: "The clan"}
+  - assert: {dialog: {active: true, action_label_present: "Quest"}}
+  - select_topic: {action_id: 46051, match_label: "Quest"}
   - assert: {dialog: {active: true, text_contains: "My father's killers"}}
   - play_lua: {source: "for _ = 1, 3 do if not close() then break end end"}
   # The party's own classes, kept for the end; member 0 an Initiate (a logged test setup: the party has no Monk).
@@ -59,7 +59,7 @@ steps:
   # Before the Queen's castle rises: not yet.
   - interact_actor: {actor_index: 24}
   - advance_runtime: {seconds: 0.6, present_dialogs: true}
-  - select_topic: {match_label: "The clan"}
+  - select_topic: {action_id: 46051, match_label: "Quest"}
   - assert: {dialog: {active: true, text_contains: "Strong, yes. Ready, no."}}
   - play_lua: {source: "for _ = 1, 3 do if not close() then break end end; if classes() ~= recall('classes') then error('promoted before m20: ' .. classes()) end; if qbit(114540) then error('done before m20') end"}
   # The Queen's castle rising (main 57, Darkside).
@@ -68,7 +68,7 @@ steps:
   # The clan: the Initiate rises a Ninja; 3,000 each.
   - interact_actor: {actor_index: 24}
   - advance_runtime: {seconds: 0.6, present_dialogs: true}
-  - select_topic: {match_label: "The clan"}
+  - select_topic: {action_id: 46051, match_label: "Quest"}
   - assert: {dialog: {active: true, text_contains: "Kneel, Initiates, and rise in the shadows."}}
   - play_lua:
       source: |
@@ -82,7 +82,7 @@ steps:
   - assert: {qbit_set: [114540]}
   # Asked again: nobody left, the old monk's line, nothing paid.
   - play_lua: {source: "remember('xp', experience(0))"}
-  - select_topic: {match_label: "The clan"}
+  - select_topic: {action_id: 46051, match_label: "Quest"}
   - assert: {dialog: {active: true, text_contains: "The old monk sweeps upstairs."}}
   - play_lua: {source: "for _ = 1, 3 do if not close() then break end end; if experience(0) ~= tonumber(recall('xp')) then error('paid twice') end"}
   # The party's own classes back.

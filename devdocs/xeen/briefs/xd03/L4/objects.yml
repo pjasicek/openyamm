@@ -548,7 +548,6 @@ chests:
     at: [6100, 4650]
     kind: ch3
     lid: v
-    facing: n
     treasure_level: 1
     random_items: 2
     gold: 60
@@ -559,7 +558,6 @@ chests:
     at: [2960, 7200]
     kind: ch3
     lid: v
-    facing: n
     treasure_level: 2
     random_items: 3
     gold: 450
@@ -571,7 +569,6 @@ chests:
     at: [3300, 7200]
     kind: ch3
     lid: v
-    facing: n
     treasure_level: 1
     random_items: 4
     gold: 350
@@ -591,7 +588,6 @@ chests:
     room: room:red_dwarf_vault
     at: [-536, 120]
     kind: 7gt002
-    facing: n
     treasure_level: 1
     random_items: 2
     gold: 150

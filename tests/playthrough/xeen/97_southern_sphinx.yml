@@ -117,7 +117,7 @@ steps:
   - {play_lua: {source: 'remember(''xp'', experience(0)); remember(''xp3'', experience(3))'}}
   - {interact_actor: {actor_index: 16}}
   - {advance_runtime: {present_dialogs: true, seconds: 0.5}}
-  - {select_topic: {match_label: Chime of Opening}}
+  - {select_topic: {action_id: 42001, match_label: "Quest"}}
   - {assert: {dialog: {active: true, text_contains: 'Really?'}}}
   - {play_lua: {source: close(); close(); wait(0.5); close(); if not qbit(111801) then error('m40.done 111801 not set') end; if not has_item(12373) then error('no Chime of Opening') end; if has_item(12315) then error('the widget is still here') end}}
   - {play_lua: {source: 'local xp, xp3 = experience(0) - recall(''xp''), experience(3) - recall(''xp3''); if xp ~= 20000 or xp3 ~= 20000 then error(''Picard paid '' .. xp .. '' / '' .. xp3) end'}}

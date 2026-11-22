@@ -166,7 +166,6 @@ chests:
   - id: chest:hoard
     room: room:hearth
     at: [1840, -6560]
-    facing: w
     treasure_level: 4
     random_items: 2
     gold: 1200
@@ -175,7 +174,6 @@ chests:
   - id: chest:hunter
     room: room:rock_pile
     at: [1720, -4500]
-    facing: w
     treasure_level: 3
     random_items: 2
     gold: 350

@@ -22,7 +22,7 @@ npcs:
   4042:              # Myra
     topics:
       - n: 1
-        label: Phirna root
+        role: quest
         states:
           - when: {all: [{item: phirna_root}, {not: {qbit: done}}]}
             text: "Thanks for the ingredients. I'll make a batch right away."

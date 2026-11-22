@@ -19,6 +19,7 @@ qbits:
   joe_pair_slain: {id: 110011, map: XD-01, note: "the Wobbles, the mated pair, dead (bonus)"}
   culvert_grate_open: {id: 110012, map: XD-01, note: "set inside XD-01; opens X1's riverbank grate"}
   done: {id: 111041}
+  key_found: {id: 111042, map: X1, note: "the rain barrel searched (the hook's once bit; conditions about the key read {found: warehouse_key}, D-90 5)"}
 
 autonotes:
   invoice: {id: 4002, text: "Joe's invoice: Breeder Slimes, 1 mated pair, 287 gold. 5 Doom Bugs at 145 each, 725 gold. Total: 1012 gold. Mayor Gunther will want to see it."}
@@ -35,7 +36,7 @@ npcs:
   4003:              # Mayor Gunther
     topics:
       - n: 1
-        label: Joe's invoice
+        role: quest
         show: {all: [{item: joes_invoice}, {not: {qbit: done}}]}
         states:
           - text: "Thank you for cleaning up Vertigo and discovering Joe's treachery. Now it makes sense why the extermination of the pests was taking so long. I present you with the outstanding citizenship award and this treasure. Congratulations. Oh, one more thing. I have received a message from the dwarves who reside in the Red Dwarf Range. They have urgently requested help and promise great reward to whoever is brave enough to come. Apparently, their mines have been invaded by the Mad Dwarf Clan, preventing them from mining. Help them and report back."
@@ -44,9 +45,11 @@ npcs:
   4030:              # Dudley, the drunk in Lady Geraldine's Tavern
     topics:
       - n: 2
-        label: Joe
+        role: quest
+        afterword: {n: 6, label: Joe}
         states:
           - when: {qbit: done}
+            afterword: true
             text: "Joe's gone. (hic) Good riddance. (hicup) Who's buying?"
           - text: "He...he (hic) breeeds (hicup) Breeeeeds them in the (hic) warehouse (hicup)"
             do: [{set: started}]
@@ -68,13 +71,17 @@ npcs:
 hooks:
   rain_barrel:
     map: X1
-    where: "the warehouse key at the foot of the rain barrel in Joe's yard, south bank: a ground item since D-90 (c) (A5, X1 2026-11-22), picked up like any item; no event calls this hook (it records that the map gives the key)"
-    map_gives: {warehouse_key: 1}
+    where: "the rain barrel in Joe's yard, south bank (thing:rain_barrel's click): D-93, a find hidden in a prop goes onto the cursor, as MM6-MM8's evt.GiveItem; the find line on the status line"
+    sets: [key_found]
+    gives: [warehouse_key]
+    once: true
+    text: "Under the rain barrel, wrapped in oilcloth: a key."
+    else_text: "Only wet stones under the barrel now."
   warehouse_door:
     map: X1
     where: "XD-01's loading door in Joe's yard"
     entrance: XD-01
-    sealed: "Joe's locked warehouse; the key lies by the rain barrel in sight of the door (D-89, as MM6's Goblinwatch key)"
+    sealed: "Joe's locked warehouse; the key is in the rain barrel by the door, which the fail text names (D-89; D-93: a click on the barrel puts it on the cursor)"
     needs: [warehouse_key]
     fail_text: "The warehouse door is locked. KEEP OUT. THIS MEANS YOU, GUNTHER. A rain barrel stands by the door. Joe is the kind of man who hides keys in rain barrels."
   invoice_crate:

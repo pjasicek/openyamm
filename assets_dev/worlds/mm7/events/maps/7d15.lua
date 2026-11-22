@@ -259,10 +259,10 @@ RegisterEvent(455, nil, function()
 end)
 
 RegisterEvent(501, "Leave Watchtower 6", function()
-    evt.MoveToMap(-16449, -18181, 6401, 1664, 0, 0, 0, 0, "7out05.odm") -- Deyja
+    evt.MoveToMap(-16449, -18181, 6401, 1664, 0, 0, 0, 8, "7out05.odm") -- Deyja
 end, "Leave Watchtower 6")
 
 RegisterEvent(502, "Leave Watchtower 6", function()
-    evt.MoveToMap(-20388, -17503, 4193, 1828, 0, 0, 0, 0, "7out05.odm") -- Deyja
+    evt.MoveToMap(-20388, -17503, 4193, 1828, 0, 0, 0, 8, "7out05.odm") -- Deyja
 end, "Leave Watchtower 6")
 

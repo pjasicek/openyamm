@@ -59,7 +59,7 @@ Profile keys (JSON in `tools/lighting/baked_indoors/profiles/`, defaults in brac
 `units_per_texel` (16), `page_size` (2048), `padding` (2), `samples` (128), `bounces` (3), `light_size` (24 units),
 `direct_scale` (1), `bounce_scale` (1), `ambient_scale` (0.5), `blur_radius` (2), `emitters` (none), `sky_scale`
 (1), `sky_bounce_scale` (`bounce_scale`), `outward_distance` (4096), `glass` (none), `max_lighting` (4),
-`ambient_colour` ([1, 1, 1]), `shadowless_faces` (none); read by
+`ambient_colour` ([1, 1, 1]), `shadowless_faces` (none), `rendered_limit` (none); read by
 `dungeon/lighting.py`: `dirlights` (false), `texture_lights` (one per brush).
 
 **Shadowless faces (`shadowless_faces`, 2026-10-31).** BLV face indices whose bake material is transparent to shadow
@@ -72,6 +72,32 @@ each build (face indices change with the BLV). Empty by default: every other pro
 with no baked surface), default white. MM9's WorldInfo `AmbientLight` is coloured and its lightmaps show it wherever
 no light reaches: Connecting Tunnels' 15/25/35 gives its unlit tunnels a blue cast (B/R 1.3-1.7), which a grey floor
 cannot match; normalise the colour to luminance 1 and keep `ambient_scale` for the level.
+
+**Rendered limit (`rendered_limit`, 2026-11-22).** `{mean, clip, ceiling}`: `ceiling` first caps each texel's light,
+per channel, so its texture's mean colour times it stays at or under the ceiling (a lamp pool on a bright texture
+stops short of white; dark textures keep `max_lighting`). Then, after composing, the bake is measured as the
+indoor shader draws it with no torch (each chart's texture mean sRGB colour times its lighting, clamped at 1; every lit
+texel is the same area): the mean Rec. 709 luma (0-255) and the share (%) of texels with a channel at 1. When either is
+over the limit, all of the bake's light (direct, bounce, sky, ambient floor, the actors' ambient) is scaled by the
+largest factor at most 1 that meets it (`exposure_scale` in report.json and the `RENDERED` log line; emitter faces and
+glass floors keep their levels). A map under the limit bakes exactly as without it. Why: `bounce_scale` was calibrated
+on dark textures (MM9's average about 0.15 albedo), and Cycles' bounce grows with albedo as about rho / (1 - rho) over
+three bounces; on the Xeen Sphinx's sandstone (texture luma 146 of 255) the bounce came out at 3.2 times the direct
+light, nearly every texel sat at `max_lighting` 1.5, and the map drew at a mean of 202 with 69 % clipped before the
+Torch Light added its 0.76 x texture (the user's F23). The brightest MM6-MM8 interiors measure about 110 in screenshots
+(MM7's Grand Temple of the Sun) and their dungeons 30-45, so every Xeen profile carries `{"mean": 90}` (decision D-100
+of the Xeen world) and `"ceiling": 0.85`: about the brightest original interior in screenshots, no texel drawn white
+before the torch. `clip` is better left out: the scale is uniform, so a few hot texels by a lamp would darken the whole
+map (the ceiling handles them). The Torch Light still adds its 0.76 x texture on top (the same as in MM6-MM8): on
+the Sphinx's sandstone the torch views measure about what MM7's Grand Temple of the Sun measures under the torch.
+
+**Brightness check.** `python3 tools/lighting/indoor_bake_brightness.py [--world xeen] [stem ...] [--textures N]
+[--check]` measures installed bakes the same way without Blender (mean, 90th percentile, clipped share, mean lighting,
+mean texture luma; `--textures` the brightest materials by area) and with `--check` fails on a map over a mean of 95
+(the profiles' 90 and a sampling margin). It reads the BLV, the sidecar and the textures only, in seconds for a world;
+on The Sphinx it measured 201 against 202 in game screenshots (room views run about 20 over the area mean once the
+lighting has contrast). Its clipped share, per channel on the texture's mean colour, overcounts under warm lamps
+(21 % where screenshots show none) and is a hint, not a limit.
 
 **Ceiling (`max_lighting`, 2026-10-30).** MM9's lightmaps clip at 255, ×1 on the texture, while the bake reaches ×4 near
 overlapping lights. A profile's `max_lighting` applies that ceiling, so a bright room does not force the scales down for

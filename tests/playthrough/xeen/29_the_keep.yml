@@ -51,7 +51,7 @@ steps:
   - play_lua: {source: "remember('xp', experience(0)); click(6); wait(1)"}
   - assert:
       dialog: {source_id: 4403}
-  - select_topic: {match_label: "Keep"}
+  - select_topic: {action_id: 40551, match_label: "Quest"}
   - assert:
       dialog: {text_contains: "Thanks! We'll have the work done by the time you get back to the site."}
   - press_action: {action: cancel_dialog}
@@ -90,7 +90,7 @@ steps:
   - assert:
       dialog: {active: true, house_dialog: true, source_id: 4101}
   - select_topic: {match_label: "Ebenezer, Taxman"}
-  - select_topic: {match_label: "Workers"}
+  - select_topic: {action_id: 40452, match_label: "Quest"}
   - assert:
       dialog: {text_contains: "The Golem Dungeon, by the lagoon, is stuffed with Megacredits"}
   - press_action: {action: cancel_dialog}

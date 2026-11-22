@@ -869,7 +869,7 @@ chests:
     room: room:guard_hall
     at: [-2048, -2048]
     kind: 7gt002
-    facing: s
+    facing: n
     treasure_level: 4
     random_items: 2
     gold: 600
@@ -895,14 +895,13 @@ chests:
     room: room:quarters
     at: [-1984, -2880]
     kind: 7gt002
-    facing: s
+    facing: n
     treasure_level: 4
     random_items: 2
   - id: chest:smelter
     room: room:smelter
     at: [2944, 2048]
     kind: 7gt002
-    facing: w
     treasure_level: 4
     random_items: 2
   - id: chest:storeroom

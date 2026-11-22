@@ -35,7 +35,7 @@ npcs:
             text: "Draco is gone. The town breathes. Well, the town does. I never took it up."
           - text: "Draco? A boor. He sleeps in the square in a box with his name on it, and he bites the customers. If the dials were set right and his lid came off at night, I would not stand in your way. I would not stand anywhere near it."
       - n: 2
-        label: Nosferatu
+        role: promotion
         show: {all: [{qbit: done}, {promotable: vampire}]}
         text: "With Draco gone, someone must be the elder of this town's night. You'll do. Rise, Nosferatu."
         do: [{promote: vampire}]

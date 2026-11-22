@@ -338,6 +338,6 @@ RegisterEvent(453, nil, function()
 end)
 
 RegisterEvent(501, "Leave Lord Markham's Manor", function()
-    evt.MoveToMap(11012, -14936, 384, 512, 0, 0, 0, 0, "7out13.odm") -- Tatalia
+    evt.MoveToMap(11012, -14936, 384, 512, 0, 0, 0, 8, "7out13.odm") -- Tatalia
 end, "Leave Lord Markham's Manor")
 

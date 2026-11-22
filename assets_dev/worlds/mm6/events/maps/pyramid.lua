@@ -244,11 +244,11 @@ RegisterEvent(16, "Picture Door", function()
 end, "Picture Door")
 
 RegisterEvent(17, "Exit", function()
-    evt.MoveToMap(-6647, 13018, 1761, 1536, 0, 0, 0, 0, "outb3.odm") -- Dragonsand
+    evt.MoveToMap(-6647, 13018, 1761, 1536, 0, 0, 0, 6, "outb3.odm") -- Dragonsand
 end, "Exit")
 
 RegisterEvent(18, "Exit", function()
-    evt.MoveToMap(-6611, 11408, 480, 1536, 0, 0, 0, 0, "outb3.odm") -- Dragonsand
+    evt.MoveToMap(-6611, 11408, 480, 1536, 0, 0, 0, 6, "outb3.odm") -- Dragonsand
 end, "Exit")
 
 RegisterEvent(19, "Picture", nil, "Picture")

@@ -667,11 +667,11 @@ RegisterEvent(79, "Crate", function()
 end, "Crate")
 
 RegisterEvent(90, nil, function()
-    evt.MoveToMap(-3714, 1250, 1, 0, 0, 0, 438, 1, "6d09.blv") -- Snergle's Iron Mines
+    evt.MoveToMap(-3714, 1250, 1, 0, 0, 0, 438, 5, "6d09.blv") -- Snergle's Iron Mines
 end)
 
 RegisterEvent(91, nil, function()
-    evt.MoveToMap(21169, 1920, -689, 1024, 0, 0, 424, 1, "cd2.blv") -- Castle Darkmoor
+    evt.MoveToMap(21169, 1920, -689, 1024, 0, 0, 424, 5, "cd2.blv") -- Castle Darkmoor
 end)
 
 RegisterEvent(92, "Temple Baa", function()
@@ -679,7 +679,7 @@ RegisterEvent(92, "Temple Baa", function()
 end, "Temple Baa")
 
 RegisterEvent(93, "Dragon's Lair", function()
-    evt.MoveToMap(-622, 239, 1, 128, 0, 0, 0, 0, "zddb01.blv") -- Dragon's Lair
+    evt.MoveToMap(-622, 239, 1, 128, 0, 0, 0, 5, "zddb01.blv") -- Dragon's Lair
 end, "Dragon's Lair")
 
 RegisterEvent(100, "Drink from Fountain", function()

@@ -1,0 +1,95 @@
+# Player stand-in bodies: which weapon model a body holds (plan of 2026-11-20). Read README.md section 7 first.
+#
+# Nothing here is a new rule. The first-person arms of the solo run already decide the model, the tier skin and the
+# placement of every held item, and the body reuses that:
+#   game/render/FirstPersonViewModelKit.cpp   kitFor, kitForHands, kitForBow, kitForHeldKind (skill group -> template, set)
+#   game/render/HeldWeapons.h / .cpp           heldWeaponMatrix, heldSkinTier, heldSkinFile
+#   assets_dev/engine/world_items/held.yml       one row per inventory icon: kind, grip, length (334 rows, measured)
+#   assets_dev/engine/world_items/held_tiers.yml which kinds draw a template, the kinds' own templates, the tier rule
+#   devdocs/solo_action/WEAPONS.md               the record of those decisions
+# If this file and those sources disagree, those sources are right.
+schema: openyamm.playerBodyWeapons.plan.v1
+status: planned
+
+model_folder: assets_dev/engine/view_model       # templates w_<name>.glb, tier skins w_<name>_t1.glb ... _t4.glb
+ground_models: assets_dev/engine/world_items/items.yml   # 941 item models by icon; the console switch draws these instead
+units: "templates are in Oblivion units (about 1.43 cm); the body's mount nodes carry that scale"
+
+# How an item's kind is known.
+kind_from:
+  base: "items.txt columns Equip Stat and Skill Group (engine: assets_dev/engine/data_tables/items.txt; MM9: assets_dev/worlds/mm9/data_tables/items.txt)"
+  refined_by: "held.yml kind of the item's Pic File (icon)"
+  hands: "ItemRules::wield (twoHanded) and what is in the off hand, never the table type alone"
+
+# Tier skin of a held model. Copied here for reading; the authority is held_tiers.yml (approved 2026-11-14).
+tier_rule:
+  authority: assets_dev/engine/world_items/held_tiers.yml
+  function: heldSkinTier (game/render/HeldWeapons.cpp)
+  tiers: {1: low, 2: mid, 3: high, 4: legendary}
+  value_bands: [150, 600, 5000]              # items.txt Value times the equip stat's scale; below the first band: tier 1
+  value_scale: {Weapon2: 0.5}                # two-handed weapons count half
+  unique_tier: 4                             # material column Artifact, Relic or Special
+  enchanted_bonus: 1
+  enchanted_max_tier: 3
+  loot_rarity_tiers: [1, 2, 2, 3, 4, 4, 4, 4]   # MAW: Common ... Celestial, a floor
+  file: "w_<name>_t<tier>.glb when it exists, else w_<name>.glb"
+  computed_by: "the owning player's game; the tier number is sent with the item id (README section 10)"
+
+# The body's weapon sets (clip sets). Follows FirstPersonViewModel::WeaponSet, plus Shield, which first person does not draw.
+sets:
+  Unarmed: "nothing in the main hand and no bow in the hands"
+  Onehand: "a one-handed main weapon, the off hand free"
+  Shield: "a one-handed main weapon (or a one-handed spear from Spear Master on) and a shield"
+  Dual: "a weapon in each hand (FirstPersonViewModel::dualWieldable for both)"
+  Twohand: "wield().twoHanded with a sword, axe or mace"
+  Pole: "held kind spear, trident, polearm or poleaxe in two hands"
+  Staff: "skill group Staff"
+  Bow: "the bow in the hands: the player selected it, or there is no usable melee weapon"
+  Crossbow: "as Bow, with held kind crossbow"
+
+# One row per kind. engine_items / mm9_items are item counts measured on 2026-11-20.
+# held_kinds are the held.yml kinds measured for that row's engine items.
+kinds:
+  - {equip_stat: Weapon, skill_group: Sword, held_kind: sword, template: w_longsword.glb, set: Onehand, hand: main, mount: Weapon, engine_items: 37, mm9_items: 14, also_off_hand: true}
+  - {equip_stat: Weapon, skill_group: Sword, held_kind: shortsword, template: w_shortsword.glb, set: Onehand, hand: main, mount: Weapon, engine_items: 14, note: "cutlass, scimitar, sabre, falchion", also_off_hand: true}
+  - {equip_stat: Weapon2, skill_group: Sword, held_kind: greatsword, template: w_claymore.glb, set: Twohand, hand: both, mount: Weapon, engine_items: 17, mm9_items: 3}
+  - {equip_stat: Weapon, skill_group: Axe, held_kind: axe, template: w_waraxe.glb, set: Onehand, hand: main, mount: Weapon, engine_items: 21, mm9_items: 5, also_off_hand: true}
+  - {equip_stat: Weapon2, skill_group: Axe, held_kind: greataxe, template: w_battleaxe.glb, set: Twohand, hand: both, mount: Weapon, engine_items: 11, mm9_items: 1}
+  - {equip_stat: Weapon2, skill_group: Axe, held_kind: poleaxe, template: w_halberd.glb, set: Pole, hand: both, mount: Weapon, engine_items: 6}
+  - {equip_stat: Weapon, skill_group: Mace, held_kind: mace, template: w_mace.glb, set: Onehand, hand: main, mount: Weapon, engine_items: 21, mm9_items: 22, also_off_hand: true}
+  - {equip_stat: Weapon, skill_group: Mace, held_kind: hammer, template: "w_mace.glb one-handed, w_warhammer.glb two-handed", set: "Onehand or Twohand by wield", hand: main, mount: Weapon, engine_items: 14}
+  - {equip_stat: Weapon2, skill_group: Mace, held_kind: none, template: w_warhammer.glb, set: Twohand, hand: both, mount: Weapon, mm9_items: 1, note: "MM9's Thjorad; by skill group, no held.yml row"}
+  - {equip_stat: Weapon, skill_group: Club, held_kind: club, template: w_club.glb, set: Onehand, hand: main, mount: Weapon, engine_items: 8, max_tier: 2, also_off_hand: true}
+  - {equip_stat: Weapon, skill_group: Dagger, held_kind: dagger, template: w_dagger.glb, set: Onehand, hand: main, mount: Weapon, engine_items: 31, mm9_items: 6, also_off_hand: true}
+  - {equip_stat: Weapon2, skill_group: Staff, held_kind: staff, template: w_staff.glb, set: Staff, hand: both, mount: Weapon, engine_items: 15, mm9_items: 6, note: "first person swings it with w_staff_grip.glb in the two-handed set; the body carries it upright, so w_staff.glb"}
+  - {equip_stat: Weapon1or2, skill_group: Spear, held_kind: spear, template: w_spear.glb, set: "Pole; Shield when held one-handed with a shield", hand: "both below Spear Master", mount: Weapon, engine_items: 20}
+  - {equip_stat: Weapon1or2, skill_group: Spear, held_kind: trident, template: w_trident.glb, set: "Pole; Shield when held one-handed with a shield", hand: "both below Spear Master", mount: Weapon, engine_items: 14}
+  - {equip_stat: Weapon1or2, skill_group: Spear, held_kind: polearm, template: w_halberd.glb, set: "Pole; Shield when held one-handed with a shield", hand: "both below Spear Master", mount: Weapon, engine_items: 11}
+  - {equip_stat: Weapon, skill_group: Blaster, held_kind: blaster, template: w_blaster.glb, set: Onehand, hand: main, mount: Weapon, engine_items: 5, note: "no aim or recoil clip yet (open in WEAPONS.md too)"}
+  - {equip_stat: WeaponW, skill_group: Misc, held_kind: wand, template: w_wand.glb, set: Onehand, hand: main, mount: Weapon, engine_items: 75, note: "a wand's shot plays Cast"}
+  - {equip_stat: Missile, skill_group: Bow, held_kind: bow, template: w_bow.glb, set: Bow, hand: "left, both to draw", mount: "Torch in use, BackWeapon stowed", engine_items: 24, mm9_items: 10}
+  - {equip_stat: Missile, skill_group: Bow, held_kind: crossbow, template: w_crossbow.glb, set: Crossbow, hand: both, mount: "Weapon in use (the stock in the right fist), BackWeapon stowed", engine_items: 12}
+  - {equip_stat: Shield, skill_group: Shield, held_kind: shield, template: s_steelshield.glb, set: Shield, hand: off, mount: Shield, engine_items: 39, mm9_items: 11, note: "38 of the 39 engine shield items have a held.yml row"}
+
+off_hand_weapon:
+  rule: "the same kind row as a main-hand weapon, mounted on OffHandWeapon, when FirstPersonViewModel::dualWieldable holds for both hands (Sword, Dagger, Axe, Mace, Club)"
+  set: Dual
+
+fists:
+  rule: "no main-hand weapon and no bow in the hands"
+  set: Unarmed
+  model: none
+
+# Kinds that have no model or no row yet. The same gaps exist in first person today.
+missing:
+  - {what: "MM9 throwing weapons", equip_stat: Missile, skill_group: Throwing, mm9_items: 4, shown_as: "nothing in the hand; the throw plays OnehandAttack", needs: "a held kind and template, or the item's own ground model"}
+  - {what: "MM9 weapons, bows and shields have no held.yml rows", mm9_items: 93, shown_as: "their skill group's template (kitFor)", needs: "held rows for MM9 icons (worlds/mm9/world_items)"}
+  - {what: "MM9 spears and halberds", equip_stat: "Weapon1or2 and Weapon2", skill_group: Spear, mm9_items: 14, shown_as: "a staff template in the two-handed set (kitFor: a spear without a held kind is held as a staff)", needs: "held rows with kind spear or polearm"}
+  - {what: "one engine shield item without a held.yml row", shown_as: "s_steelshield.glb at the default grip", needs: "a held row"}
+  - {what: "worn helms", equip_stat: Helm, engine_items: 40, mm9_items: 16, shown_as: "not shown until a placement table exists", needs: "worn.yml: one row per helm icon (up axis, front axis, scale to the head), generated like held.yml and checked by eye"}
+
+# What is never shown as a model on the body.
+not_shown:
+  - {equip_stat: Cloak, why: "needs simulated cloth (playbook: Cloaks)"}
+  - {equip_stat: [Boots, Gauntlets, Belt], why: "part of the armour look's paint"}
+  - {equip_stat: [Ring, Amulet], why: "too small to see"}

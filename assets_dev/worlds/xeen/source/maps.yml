@@ -3,7 +3,8 @@
 # tools/xeen/build_world.py writes map_stats, outdoor_travels and bolster_maps rows from this file.
 # party: arrive-leave levels on a full clear; levels: monster levels A-C, bosses after the comma;
 # treasure: map_stats treasure level; monsters: target count (a group total where MAPS gives one).
-# music: MM6-MM8 track number, chosen by the orchestrator per map (null: not chosen yet).
+# music: track number, chosen by the orchestrator per map (null: not chosen yet): MM6-MM8 2-51, or Xeen's own
+# 92001-92008 (worlds/xeen/music/, U-10; devdocs/xeen/MUSIC.md). Town districts: world.yml musicAreas.
 maps:
   - key: X1
     name: "Vertigo Meadows"
@@ -22,7 +23,7 @@ maps:
     edge_spans:
       north:
         - {from: -32768, to: 32768, map: "X7", at: [2560, -22016, 1856], facing: 512}
-    music: 19
+    music: 92001
     lane: A5
     phase: 0
     built_as_mm7_stand_in: true
@@ -39,7 +40,7 @@ maps:
     treasure: "1"
     monsters: "135"
     neighbours: {east: "X1", west: "X3", north: "X4"}
-    music: 32
+    music: 92001
     lane: A5
     phase: 1
     built_as_mm7_stand_in: true
@@ -89,7 +90,7 @@ maps:
     arrivals:
       X3: {at: [-14336, -22016, 992], facing: 512}
       X2: {at: [16384, -22016, 992], facing: 512}
-    music: 29
+    music: 92001
     lane: A5
     phase: 2
     built_as_mm7_stand_in: false
@@ -207,7 +208,7 @@ maps:
     treasure: "2"
     monsters: "135"
     neighbours: {east: "D2", north: "D6"}
-    music: 37
+    music: 92002
     lane: A6
     phase: 3
     built_as_mm7_stand_in: false
@@ -228,7 +229,7 @@ maps:
     edge_spans:
       east:
         - {from: -32768, to: 32768, map: "D3", at: [-22528, 10240, 1312], facing: 0}
-    music: 33
+    music: 92002
     lane: A6
     phase: 3
     built_as_mm7_stand_in: false
@@ -249,7 +250,7 @@ maps:
     edge_spans:
       west:
         - {from: -32768, to: 32768, map: "D2", at: [21504, 10240, 1312], facing: 1024}
-    music: 39
+    music: 92002
     lane: A5
     phase: 3
     built_as_mm7_stand_in: false
@@ -266,7 +267,7 @@ maps:
     treasure: "4"
     monsters: "120"
     neighbours: {south: "D3", west: "D5"}
-    music: 41
+    music: 92002
     lane: A6
     phase: 4
     built_as_mm7_stand_in: false
@@ -396,7 +397,7 @@ maps:
     levels: "none or a last guardian"
     treasure: "6"
     monsters: "0"
-    music: 15
+    music: 92008
     lane: A5
     phase: 6
     built_as_mm7_stand_in: false
@@ -464,7 +465,7 @@ maps:
     levels: "2-6, Wobbles 4"
     treasure: "1"
     monsters: "28"
-    music: 18
+    music: 92006
     lane: A7
     phase: 0
     built_as_mm7_stand_in: true
@@ -532,7 +533,7 @@ maps:
     levels: "4-10, Drum-Master 12"
     treasure: "1"
     monsters: "40"
-    music: 18
+    music: 92006
     lane: A7
     phase: 0
     built_as_mm7_stand_in: true
@@ -566,7 +567,7 @@ maps:
     levels: "10-24 (caged fire dragon optional)"
     treasure: "2"
     monsters: "50"
-    music: 29
+    music: 92005
     lane: A7
     phase: 2
     built_as_mm7_stand_in: false
@@ -668,7 +669,7 @@ maps:
     levels: "16-24 (wood golems)"
     treasure: "2"
     monsters: "28"
-    music: 49
+    music: 92005
     lane: A7
     phase: 2
     built_as_mm7_stand_in: false
@@ -685,7 +686,7 @@ maps:
     levels: "22-45"
     treasure: "4"
     monsters: "group XD-14+15: 90"
-    music: 42
+    music: 92006
     lane: A7
     phase: 4
     built_as_mm7_stand_in: false
@@ -702,7 +703,7 @@ maps:
     levels: "28-45"
     treasure: "4"
     monsters: "group XD-14+15: 90"
-    music: 46
+    music: 92007
     lane: A7
     phase: 4
     built_as_mm7_stand_in: false
@@ -770,7 +771,7 @@ maps:
     levels: "10-18"
     treasure: "2"
     monsters: "26 (A8 rebase design, 2026-11-20)"
-    music: 18
+    music: 92006
     lane: A8
     phase: 0
     built_as_mm7_stand_in: true
@@ -872,7 +873,7 @@ maps:
     levels: "12-20"
     treasure: "2"
     monsters: "22 (A8 rebase design: 28 would be +27 % kill XP)"
-    music: 18
+    music: 92006
     lane: A8
     phase: 0
     built_as_mm7_stand_in: true
@@ -923,7 +924,7 @@ maps:
     levels: "28-48 (Scraps 70, optional)"
     treasure: "4"
     monsters: "55"
-    music: 29
+    music: 92005
     lane: A8
     phase: 3
     built_as_mm7_stand_in: false
@@ -1196,7 +1197,7 @@ maps:
     levels: "42-65"
     treasure: "5"
     monsters: "70"
-    music: 46
+    music: 92007
     lane: A8
     phase: 5
     built_as_mm7_stand_in: false
@@ -1213,7 +1214,7 @@ maps:
     levels: "40-58 (few)"
     treasure: "5"
     monsters: "group DD-16+24: 45"
-    music: 46
+    music: 92007
     lane: A7
     phase: 5
     built_as_mm7_stand_in: false
@@ -1315,7 +1316,7 @@ maps:
     levels: "48-65"
     treasure: "6"
     monsters: "20 (group DD-22+26: 40, D-62)"
-    music: 46
+    music: 92007
     lane: A8
     phase: 6
     built_as_mm7_stand_in: false
@@ -1400,7 +1401,7 @@ maps:
     levels: "55-75"
     treasure: "6"
     monsters: "group FD-01+02: 60"
-    music: 46
+    music: 92007
     lane: A7
     phase: 6
     built_as_mm7_stand_in: false

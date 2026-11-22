@@ -1,7 +1,7 @@
 format: 0
 level: L3
 pitch: "Lord Xeen's castle on the clouds: black stone and gold with the Ancients' machines set into it. Four elemental generators, two in the lower vaults and two at the tower tops, feed one field before the crown stair; in the keep the guard-making machines keep stamping out Xeen's Guards. Above the field, the aviary under open sky where Xeen's Pet roosts, then the throne room: Lord Xeen on his dais and the Sixth Mirror behind him."
-purpose: "M35 Castle Xeen: m35.gen_* (four generators), m35.barrier, m35.pet, m35.lord_xeen_sight, m35.lord_xeen, m35.scepter_ask/m35.scepter and the mirror's cinematic. 70 monsters at 42-70 plus Xeen's Pet 75 and Lord Xeen 85; treasure 5 and the hoard 6."
+purpose: "M35 Castle Xeen: m35.gen_* (four generators), m35.barrier, m35.pet, m35.lord_xeen_sight, m35.lord_xeen, m35.scepter_ask/m35.scepter and the mirror's cinematic. 96 monsters at 42-70 (D-98) plus Xeen's Pet 75 and Lord Xeen 85; treasure 5 and the hoard 6."
 mood: "Black stone under gold friezes, cold green-blue machine light, the crackle of the field, open sky over the battlements and the aviary."
 datum: arrival
 spaces:
@@ -12,7 +12,8 @@ spaces:
     extent: [640, 1920]
     floor: 0
     purpose: The great hall's east aisle.
-    empty: true
+    population:
+      - {actor: 11630, groups: 1, levels: [42, 42], notes: 2 placed Demon.}
   - id: room:aisle_w
     name: "Hall of Xeendom, west aisle"
     kind: corridor
@@ -20,7 +21,8 @@ spaces:
     extent: [640, 1920]
     floor: 0
     purpose: The great hall's west aisle.
-    empty: true
+    population:
+      - {actor: 11630, groups: 1, levels: [42, 42], notes: 2 placed Demon.}
   - id: room:apse
     name: Lord Xeen's dais
     kind: room
@@ -86,7 +88,8 @@ spaces:
     extent: [640, 1920]
     floor: 1280
     purpose: The barrier hall's east bay.
-    empty: true
+    population:
+      - {actor: 11631, groups: 1, levels: [50, 50], notes: 1 placed Devil.}
   - id: room:barrier_w
     name: "Barrier hall, west bay"
     kind: room
@@ -94,7 +97,8 @@ spaces:
     extent: [640, 1920]
     floor: 1280
     purpose: The barrier hall's west bay.
-    empty: true
+    population:
+      - {actor: 11631, groups: 1, levels: [50, 50], notes: 1 placed Devil.}
   - id: room:bays
     name: Guard bays
     kind: room
@@ -110,7 +114,8 @@ spaces:
     extent: [1120, 1920]
     floor: 1920
     purpose: "Quiet; the low arch into the aviary, the keeper's walk."
-    empty: true
+    population:
+      - {actor: 11603, groups: 1, levels: [60, 60], notes: 2 placed Xeen's Guard.}
   - id: room:crown_stair
     name: Crown stair
     kind: room
@@ -118,7 +123,9 @@ spaces:
     extent: [1280, 1920]
     floor: 1280
     purpose: "Behind the field: the stair to the crown."
-    empty: true
+    population:
+      - {actor: 11632, groups: 1, levels: [58, 58], notes: 1 placed Screamer.}
+      - {actor: 11631, groups: 1, levels: [50, 50], notes: 1 placed Devil.}
   - id: room:foundry
     name: Guard foundry
     kind: room
@@ -208,7 +215,8 @@ spaces:
     extent: [1120, 2560]
     floor: 640
     purpose: The keep stair from the foundry to the keep stair top.
-    empty: true
+    population:
+      - {actor: 11630, groups: 1, levels: [42, 42], notes: 2 placed Demon.}
   - id: room:loft
     name: Keeper's loft
     kind: room
@@ -230,7 +238,7 @@ spaces:
     purpose: "Black pillared hall under gold friezes; two-leaf doors north to the stair hall."
     population:
       - {actor: 11630, groups: 1, levels: [42, 42], notes: 3 placed Demon.}
-      - {actor: 11631, groups: 1, levels: [50, 50], notes: 1 placed Devil.}
+      - {actor: 11631, groups: 1, levels: [50, 50], notes: 2 placed Devil.}
   - id: room:quarters
     name: Demons' quarters
     kind: room
@@ -253,6 +261,8 @@ spaces:
     population:
       - {actor: 11630, groups: 1, levels: [42, 42], notes: 2 placed Demon.}
       - {actor: 11632, groups: 1, levels: [58, 58], notes: 1 placed Screamer.}
+      - {actor: 11603, groups: 1, levels: [60, 60], notes: 1 placed Xeen's Guard.}
+      - {actor: 11631, groups: 1, levels: [50, 50], notes: 1 placed Devil.}
   - id: room:store
     name: Parts store
     kind: room
@@ -280,7 +290,7 @@ spaces:
     floor: 1920
     purpose: "The throne room; the sight plate inside the doors (m35.lord_xeen_sight)."
     population:
-      - {actor: 11603, groups: 1, levels: [60, 60], notes: 2 placed Xeen's Guard.}
+      - {actor: 11603, groups: 1, levels: [60, 60], notes: 6 placed Xeen's Guard.}
   - id: room:tower0_e
     name: South-east tower
     kind: room
@@ -356,7 +366,8 @@ spaces:
     extent: [3840, 1280]
     floor: 1280
     purpose: The keep stair arrives here.
-    empty: true
+    population:
+      - {actor: 11630, groups: 1, levels: [42, 42], notes: 2 placed Demon.}
   - id: room:upper_w
     name: Upper west gallery
     kind: corridor
@@ -394,6 +405,7 @@ spaces:
     purpose: "The way round the Pet, to the throne doors."
     population:
       - {actor: 11632, groups: 1, levels: [58, 58], notes: 1 placed Screamer.}
+      - {actor: 11631, groups: 1, levels: [50, 50], notes: 1 placed Devil.}
   - id: room:walk_s
     name: Keeper's walk
     kind: corridor
@@ -410,7 +422,9 @@ spaces:
     extent: [800, 2880]
     floor: 640
     purpose: The keep's east door.
-    empty: true
+    population:
+      - {actor: 11630, groups: 1, levels: [42, 42], notes: 1 placed Demon.}
+      - {actor: 11631, groups: 1, levels: [50, 50], notes: 1 placed Devil.}
   - id: room:wall_es
     name: East wall walk
     kind: corridor
@@ -428,7 +442,9 @@ spaces:
     extent: [800, 2880]
     floor: 640
     purpose: "The wall walk's north stretch; the keep's west door."
-    empty: true
+    population:
+      - {actor: 11630, groups: 1, levels: [42, 42], notes: 1 placed Demon.}
+      - {actor: 11631, groups: 1, levels: [50, 50], notes: 1 placed Devil.}
   - id: room:wall_ws
     name: West wall walk
     kind: corridor
@@ -803,7 +819,7 @@ totals:
   fixed_actors: 0
   floor_area_munits2: 140.8
   loops: 6
-  monsters_about: 72
+  monsters_about: 98
   rooms: 51
   sectors: 51
 notes: "Class L (ROADMAP §5.1: 50-75 sectors, 120-200 M units², four set pieces, doors up to 25). From the MU-6 graph devdocs/xeen/mockups/act5_graphs/xd19.graph.yml with D-47 (the guard pool at the chutes, the generators' questions, one field and four pylons, the new elemental tiers, Lord Xeen and E11, the scepter's question and its fallback). The graph's great hall, foundry, barrier hall, aviary and throne room are split into rooms of their own (nave and aisles, machine bays, bays of the barrier hall, the roost, the dais); its gatehall's 'two leaves' are the castle gate's."

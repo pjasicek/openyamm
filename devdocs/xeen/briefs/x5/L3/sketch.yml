@@ -235,14 +235,14 @@ districts:
       - {building: building:winterkill_houses, index: 1, at: [38.5, 36], facing: s, parts: [{id: body, at: [64, 64], size: [384, 544], porches: [{wall: s, depth: 128, height: 224, posts: 24, floor: 16}], textures: {base: cnb, roof: hhm2rf}, roof: gable, roof_pitch: 48, ridge_along: ns}], house: 4257, title: Ottilie's House, kit: plaster, door: {part: body, wall: s}, condition: {qbit: winterkill_liberated}, else_effects: [{lua: "evt.SimpleMessage(\"Snow drifted to the latch. A ghost walks through the wall to look at you, then walks back.\")"}]}
       - {building: building:winterkill_armour, at: [40, 36], facing: s, parts: [{id: body, at: [96, 80], size: [576, 576], signs: [{wall: s, bay: 0, texture: 7sgarm, size: [64, 64], bottom: 120, out: 48, hang: true}], textures: {base: cnb, roof: hhm2rf}, roof: none}, {id: upper, at: [48, 48], size: [672, 656], bottom: 256, textures: {base: cnb, roof: hhm2rf}, wall_height: 256, roof: gable, roof_pitch: 50, ridge_along: ew}], house: 4255, title: Furs and Fittings, kit: plaster, door: {part: body, wall: s}, condition: {qbit: winterkill_liberated}, else_effects: [{lua: "evt.SimpleMessage(\"Closed. Empty coats hang in the window and turn to watch you.\")"}]}
       - {building: building:winterkill_houses, index: 9, at: [41.5, 39], facing: s, parts: [{id: body, at: [64, 64], size: [384, 384], textures: {base: cnb, roof: hhm3rf}, roof: hip, roof_pitch: 38}], house: 4265, title: The Chandlery, kit: grey, door: {part: body, wall: s}, condition: {qbit: winterkill_liberated}, else_effects: [{lua: "evt.SimpleMessage(\"Snow drifted to the latch. A ghost walks through the wall to look at you, then walks back.\")"}]}
-      - {building: building:mindmeld_guild, at: [31.5, 38.5], facing: e, parts: [{id: tower, shape: round, at: [396, 512], radius: 348, sides: 10, textures: {base: cnb, roof: xtslate}, wall_height: 512, windows: alternate, roof: cone, roof_pitch: 62}, {id: body, at: [546, 225], size: [430, 573], textures: {base: cnb, roof: xtslate}, roof: gable, roof_pitch: 48, ridge_along: ew}], house: 4251, title: The Mindmeld Guild, kit: stone, door: {part: body, wall: e}}
+      - {building: building:mindmeld_guild, at: [31.5, 38.5], facing: e, parts: [{id: tower, shape: round, at: [396, 512], radius: 348, sides: 10, textures: {base: cnb, roof: xtslate}, wall_height: 512, windows: alternate, roof: cone, roof_pitch: 62}, {id: body, at: [546, 225], size: [430, 573], signs: [{wall: e, bay: 0, texture: sgmind, size: [64, 64], bottom: 120, out: 48, hang: true}], textures: {base: cnb, roof: xtslate}, roof: gable, roof_pitch: 48, ridge_along: ew}], house: 4251, title: The Mindmeld Guild, kit: stone, door: {part: body, wall: e}}
       - {building: building:winterkill_houses, index: 2, at: [32.5, 42.5], facing: e, parts: [{id: body, at: [64, 64], size: [384, 640], textures: {base: cnb, roof: hhm2rf}, roof: hip, roof_pitch: 38}], house: 4258, title: Grimwald's Lodge, kit: plaster, door: {part: body, wall: e}, condition: {qbit: winterkill_liberated}, else_effects: [{lua: "evt.SimpleMessage(\"Snow drifted to the latch. A ghost walks through the wall to look at you, then walks back.\")"}]}
       - {building: building:winterkill_houses, index: 3, at: [32, 44], facing: e, parts: [{id: body, at: [64, 64], size: [544, 640], porches: [{wall: e, depth: 128, height: 224, posts: 24, floor: 16}], textures: {base: cnb, roof: hhm1rf}, roof: gable, roof_pitch: 48, ridge_along: ew}], house: 4259, title: Sven's House, kit: timber, door: {part: body, wall: e}, condition: {qbit: winterkill_liberated}, else_effects: [{lua: "evt.SimpleMessage(\"Snow drifted to the latch. A ghost walks through the wall to look at you, then walks back.\")"}]}
       - {building: building:winterkill_houses, index: 5, at: [34, 45.5], facing: n, parts: [{id: body, at: [64, 64], size: [384, 384], textures: {base: cnb, roof: hhm3rf}, roof: hip, roof_pitch: 38}], house: 4261, title: Frost House, kit: grey, door: {part: body, wall: n}, condition: {qbit: winterkill_liberated}, else_effects: [{lua: "evt.SimpleMessage(\"Snow drifted to the latch. A ghost walks through the wall to look at you, then walks back.\")"}]}
       - {building: building:winterkill_houses, index: 6, at: [35, 45.5], facing: n, parts: [{id: body, at: [64, 64], size: [384, 384], textures: {base: cnb, roof: hhp2rf}, roof: hip, roof_pitch: 38}], house: 4262, title: Agna's Kitchen, kit: poor, door: {part: body, wall: n}, condition: {qbit: winterkill_liberated}, else_effects: [{lua: "evt.SimpleMessage(\"Snow drifted to the latch. A ghost walks through the wall to look at you, then walks back.\")"}]}
       - {building: building:winterkill_houses, index: 7, at: [38, 45.5], facing: n, parts: [{id: body, at: [48, 48], size: [672, 384], textures: {base: cnb, roof: hhm2rf}, roof: gable, roof_pitch: 45, ridge_along: ew}, {id: wing, at: [384, 352], size: [272, 352], textures: {base: cnb, roof: hhm2rf}, roof: gable, roof_pitch: 45, ridge_along: ns}], house: 4263, title: Knut's Shack, kit: plaster, door: {part: body, wall: n}, condition: {qbit: winterkill_liberated}, else_effects: [{lua: "evt.SimpleMessage(\"Snow drifted to the latch. A ghost walks through the wall to look at you, then walks back.\")"}]}
       - {building: building:winterkill_houses, index: 8, at: [39.5, 45.5], facing: n, parts: [{id: body, at: [64, 64], size: [384, 384], textures: {base: cnb, roof: hhp2rf}, roof: hip, roof_pitch: 38}], house: 4264, title: Ragnhild's Farm, kit: poor, door: {part: body, wall: n}, condition: {qbit: winterkill_liberated}, else_effects: [{lua: "evt.SimpleMessage(\"Snow drifted to the latch. A ghost walks through the wall to look at you, then walks back.\")"}]}
-      - {building: building:winterkill_guild_dark, at: [40.5, 42.5], facing: w, parts: [{id: body, at: [48, 48], size: [512, 928], textures: {base: cnb, roof: xtslate}, roof: gable, roof_pitch: 45, ridge_along: ns}, {id: wing, at: [480, 512], size: [480, 400], textures: {base: cnb, roof: xtslate}, roof: gable, roof_pitch: 45, ridge_along: ew}], house: 4254, title: The Guild of Shadows, kit: stone, door: {part: body, wall: w}, condition: {qbit: winterkill_liberated}, else_effects: [{lua: "evt.SimpleMessage(\"Locked. The shadows under the door move when you do.\")"}]}
+      - {building: building:winterkill_guild_dark, at: [40.5, 42.5], facing: w, parts: [{id: body, at: [48, 48], size: [512, 928], signs: [{wall: w, bay: 0, texture: sgdark, size: [64, 64], bottom: 120, out: 48, hang: true}], textures: {base: cnb, roof: xtslate}, roof: gable, roof_pitch: 45, ridge_along: ns}, {id: wing, at: [480, 512], size: [480, 400], textures: {base: cnb, roof: xtslate}, roof: gable, roof_pitch: 45, ridge_along: ew}], house: 4254, title: The Guild of Shadows, kit: stone, door: {part: body, wall: w}, condition: {qbit: winterkill_liberated}, else_effects: [{lua: "evt.SimpleMessage(\"Locked. The shadows under the door move when you do.\")"}]}
       - {building: building:winterkill_houses, index: 4, at: [29.5, 44], facing: e, parts: [{id: body, at: [64, 64], size: [384, 384], textures: {base: cnb, roof: hhp2rf}, roof: hip, roof_pitch: 38}], house: 4260, title: Hulda's House, kit: poor, door: {part: body, wall: e}, condition: {qbit: winterkill_liberated}, else_effects: [{lua: "evt.SimpleMessage(\"Snow drifted to the latch. A ghost walks through the wall to look at you, then walks back.\")"}]}
       - {building: building:winterkill_houses, index: 10, at: [43, 45], facing: s, parts: [{id: body, at: [64, 64], size: [384, 544], porches: [{wall: s, depth: 128, height: 224, posts: 24, floor: 16}], textures: {base: cnb, roof: hhp2rf}, roof: gable, roof_pitch: 48, ridge_along: ns}], house: 4266, title: Sigrun's House, kit: poor, door: {part: body, wall: s}, condition: {qbit: winterkill_liberated}, else_effects: [{lua: "evt.SimpleMessage(\"Snow drifted to the latch. A ghost walks through the wall to look at you, then walks back.\")"}]}
       - {building: building:winterkill_houses, index: 11, at: [45.5, 36], facing: s, parts: [{id: body, at: [48, 244], size: [672, 476], textures: {base: cnb, roof: hhm1rf}, roof: gable, roof_pitch: 40, ridge_along: ew}, {id: shed, at: [96, 33], size: [512, 227], textures: {base: cnb, roof: hhm1rf}, wall_height: 192, windows: none, roof: lean_to}], house: 4267, title: Woodcutter's Cottage, kit: timber, door: {part: body, wall: s}, condition: {qbit: winterkill_liberated}, else_effects: [{lua: "evt.SimpleMessage(\"Snow drifted to the latch. A ghost walks through the wall to look at you, then walks back.\")"}]}
@@ -1459,6 +1459,8 @@ structures:
     at: [68.6, 92.4]
     decoration: 7dec41
     title: A torn pack
+    effects:
+      - lua: "XeenQuests.hook(\"q-c18.book\")"
   - id: thing:warren
     kind: cave_mouth
     at: [65.5, 94.5]
@@ -1787,10 +1789,23 @@ actors:
   - {monster: "377", at: [82.8, 45], spread: 0, group: 52, npc: 4527}
   - {monster: "451", at: [73.6, 69.6], spread: 0, group: 52, npc: 4528}
   - {monster: "11928", at: [30.4, 61.6], spread: 0, group: 52, npc: 4529}
-  - {monster: "583", at: [67, 32], spread: 0, group: 51, hostile: false}
-  - {monster: "583", at: [71.6, 33.4], spread: 0, group: 51, hostile: false}
-items:
-  - {id: item:holy_book, item: 12524, at: [68.85, 92.4]}
+  - {monster: "598", at: [40.62, 41.69], spread: 0, group: 47, hostile: false, notes: D-96 villager of Winterkill (villagers.yml)}
+  - {monster: "607", at: [27.88, 42.94], spread: 0, group: 47, hostile: false, notes: D-96 villager of Winterkill (villagers.yml)}
+  - {monster: "382", at: [48.88, 36.19], spread: 0, group: 47, hostile: false, notes: D-96 villager of Winterkill (villagers.yml)}
+  - {monster: "166", at: [36.38, 48.44], spread: 0, group: 47, hostile: false, notes: D-96 villager of Winterkill (villagers.yml)}
+  - {monster: "598", at: [33.38, 40.94], spread: 0, group: 47, hostile: false, notes: D-96 villager of Winterkill (villagers.yml)}
+  - {monster: "607", at: [45.62, 40.19], spread: 0, group: 47, hostile: false, notes: D-96 villager of Winterkill (villagers.yml)}
+  - {monster: "382", at: [37.38, 45.44], spread: 0, group: 47, hostile: false, notes: D-96 villager of Winterkill (villagers.yml)}
+  - {monster: "166", at: [45.12, 47.19], spread: 0, group: 47, hostile: false, notes: D-96 villager of Winterkill (villagers.yml)}
+  - {monster: "598", at: [43.12, 40.94], spread: 0, group: 47, hostile: false, notes: D-96 villager of Winterkill (villagers.yml)}
+  - {monster: "607", at: [47.88, 38.69], spread: 0, group: 47, hostile: false, notes: D-96 villager of Winterkill (villagers.yml)}
+  - {monster: "382", at: [30.88, 42.69], spread: 0, group: 47, hostile: false, notes: D-96 villager of Winterkill (villagers.yml)}
+  - {monster: "166", at: [38.38, 35.44], spread: 0, group: 47, hostile: false, notes: D-96 villager of Winterkill (villagers.yml)}
+  - {monster: "583", at: [68.5, 30.38], spread: 0, group: 48, hostile: false, notes: D-96 villager of Kai Wu's monastery (villagers.yml)}
+  - {monster: "304", at: [65, 33.38], spread: 0, group: 48, hostile: false, notes: D-96 villager of Kai Wu's monastery (villagers.yml)}
+  - {monster: "217", at: [72.25, 32.12], spread: 0, group: 48, hostile: false, notes: D-96 villager of Kai Wu's monastery (villagers.yml)}
+  - {monster: "352", at: [67.75, 33.12], spread: 0, group: 48, hostile: false, notes: D-96 villager of Kai Wu's monastery (villagers.yml)}
+items: []
 sounds:
   - {id: sound:bed_pocket_1, at: [96, 27], sound: xeen_amb_meadow, radius: 10000, inner_radius: 4000, volume: 0.25, day_only: true, pan: false}
   - {id: sound:bed_pocket_2, at: [107, 46], sound: xeen_amb_meadow, radius: 10000, inner_radius: 4000, volume: 0.25, day_only: true, pan: false}
@@ -1816,6 +1831,7 @@ relations:
   - {of: [451, 452, 453], toward: party, relation: friendly}
   - {of: [517, 518, 519], toward: party, relation: friendly}
   - {of: [583, 584, 585], toward: party, relation: friendly}
+  - {of: [166, 217, 304, 352, 382, 583, 598, 607], toward: party, relation: friendly}
 events:
   - id: evt:wave1_laid
     trigger: timer

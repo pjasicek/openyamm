@@ -629,6 +629,11 @@ def extract_lua_file(template, path, domain):
     named_text = r"\b(?:targetName|title|hint|destinationName|completionText|effect)\s*=\s*(?=[\"'])"
     for match in re.finditer(named_text, text):
         shown.update(index for index, (start, _, _) in enumerate(literals) if start == match.end())
+    # A rules topic's key inside a shown call (`evt.SetMessage(evt.RulesTopic("key"))`) names its text, which the
+    # ruleset's YAML holds and extract takes from there.
+    for match in re.finditer(r"\bevt\.RulesTopic\s*\(", text):
+        end = _call_end(text, match.end() - 1)
+        shown.difference_update(index for index, (start, _, _) in enumerate(literals) if match.end() <= start < end)
 
     # Literals joined only with each other ("A long " .. "sentence") are one text: the game receives it whole.
     chains, done = [], set()

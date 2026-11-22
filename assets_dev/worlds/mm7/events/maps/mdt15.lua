@@ -159,10 +159,10 @@ RegisterEvent(195, "Door", function()
 end, "Door")
 
 RegisterEvent(501, nil, function()
-    evt.MoveToMap(5648, 12374, 33, 0, 0, 0, 0, 0, "7d25.blv") -- Celeste
+    evt.MoveToMap(5648, 12374, 33, 0, 0, 0, 0, 8, "7d25.blv") -- Celeste
 end)
 
 RegisterEvent(502, nil, function()
-    evt.MoveToMap(-7745, -6673, 65, 1024, 0, 0, 0, 0, "7d26.blv") -- The Pit
+    evt.MoveToMap(-7745, -6673, 65, 1024, 0, 0, 0, 8, "7d26.blv") -- The Pit
 end)
 

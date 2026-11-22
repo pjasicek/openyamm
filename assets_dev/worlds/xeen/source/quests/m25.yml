@@ -36,10 +36,12 @@ npcs:
   5218:              # Natasha the Enchantress (Sandcaster, house 4619)
     topics:
       - n: 1
-        label: The bridle
+        role: quest
+        afterword: {n: 5, label: The bridle}
         show: {any: [{item: bridle}, {qbit: enchanted}]}
         states:
           - when: {qbit: enchanted}
+            afterword: true
             text: "If the griffin bites, that is the griffin's business, not the bridle's. No refunds."
           - when: {gold: 5000}
             text: "A griffin's bridle. Double fee, as the sign says: five thousand. ... There. It hums when a griffin is near, and the griffin hums back. Mostly."
@@ -49,15 +51,17 @@ npcs:
   5512:              # Ambrose, the Queen's Knight (Griffin Pass, D6)
     topics:
       - n: 2
-        label: Who sent you?
+        role: quest
         show: {all: [{qbit: started}, {not: {qbit: bridle_given}}]}
         text: "Dimitri? Then the old bear is awake again. Good. I caught a griffin to fly into Blackfang, and the beast will not take a bridle. An enchanted one, it might. Natasha in Sandcaster could do it. Here is the bridle."
         do: [{give: bridle}, {set: bridle_given}]
       - n: 3
-        label: The griffin
+        role: quest
+        afterword: {n: 6, label: The griffin}
         show: {all: [{qbit: bridle_given}, {not: {lua: "Xeen.onMap(\"Castle Blackfang\")"}}]}   # D6; DD-14 has m27's topic
         states:
           - when: {qbit: done}
+            afterword: true
             text: "The griffin is fed and grumpy. Say the word, and we fly to Blackfang."
           - when: {item: enchanted_bridle}
             text: "It took it! Look at him, calm as a cart horse. Blackfang has no gate that opens to the living, but it has walls, and walls have tops. When you are ready, we fly. And take this, from the Queen's own purse; she would want it spent on her rescue."

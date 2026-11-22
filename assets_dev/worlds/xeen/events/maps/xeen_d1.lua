@@ -549,12 +549,6 @@ end, "Falista's hut")
 -- evt:name:thing:shipwreck
 RegisterEvent(129, "A castaway's wreck", nil, "A castaway's wreck")
 
--- evt:thing:wall_north_w
-RegisterEvent(130, "Castleview's walls", nil, "Castleview's walls")
-
--- evt:thing:wall_north_e
-RegisterEvent(131, "Castleview's walls", nil, "Castleview's walls")
-
 -- evt:thing:wall_ne
 RegisterEvent(132, "Castleview's walls", nil, "Castleview's walls")
 
@@ -889,6 +883,7 @@ RegisterEvent(216, nil, function()
         return
     end
     evt.SetMapVar("studio_peaceful_groups", 1)
+    evt.SetMonGroupBit(47, MonsterBits.Hostile, 0)
     evt.SetMonGroupBit(60, MonsterBits.Hostile, 0)
 end)
 
@@ -897,6 +892,12 @@ RegisterEvent(217, nil, function()
     evt.SetMonsterRelation(517, 0, 0)
     evt.SetMonsterRelation(518, 0, 0)
     evt.SetMonsterRelation(519, 0, 0)
+    evt.SetMonsterRelation(304, 0, 0)
+    evt.SetMonsterRelation(352, 0, 0)
+    evt.SetMonsterRelation(353, 0, 0)
+    evt.SetMonsterRelation(358, 0, 0)
+    evt.SetMonsterRelation(359, 0, 0)
+    evt.SetMonsterRelation(382, 0, 0)
 end)
 
 -- evt:thing:castaway_camp

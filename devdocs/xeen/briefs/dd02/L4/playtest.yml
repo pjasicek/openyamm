@@ -247,7 +247,7 @@ steps:
   - walk_to: {x: -704, y: 3050, z: 1920, radius: 64, timeout_seconds: 20, close_dialogs: true}
   - play_lua: {source: "click(15); wait(0.5)"}
   - advance_runtime: {seconds: 1, present_dialogs: true}
-  - select_topic: {match_label: "Alamar"}
+  - select_topic: {action_id: 40851, match_label: "Quest"}
   - advance_runtime: {seconds: 1, present_dialogs: true}
   - assert: {dialog: {active: true, text_contains: "Dragon Pharaoh's orb"}}
   - play_lua: {source: "close(); wait(0.5); close(); if not qbit(111342) then error('m17.done not set') end"}

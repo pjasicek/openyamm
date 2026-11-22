@@ -259,19 +259,19 @@ RegisterEvent(500, nil, function()
 end)
 
 RegisterEvent(501, "Enter Colony Zod", function()
-    evt.MoveToMap(2648, -1372, 1, 1024, 0, 0, 153, 1, "7d27.blv") -- Colony Zod
+    evt.MoveToMap(2648, -1372, 1, 1024, 0, 0, 409, 3, "7d27.blv") -- Colony Zod
 end, "Enter Colony Zod")
 
 RegisterEvent(502, "Enter the Cave", function()
-    evt.MoveToMap(9165, 15139, -583, 24, 0, 0, 48, 0, "7d36.blv") -- Tunnels to Eeofol
+    evt.MoveToMap(9165, 15139, -583, 24, 0, 0, 48, 3, "7d36.blv") -- Tunnels to Eeofol
 end, "Enter the Cave")
 
 RegisterEvent(503, "Enter the Cave", function()
-    evt.MoveToMap(-54, 3470, 1, 1536, 0, 0, 0, 0, "mdt12.blv") -- The Dragon Caves
+    evt.MoveToMap(-54, 3470, 1, 1536, 0, 0, 0, 3, "mdt12.blv") -- The Dragon Caves
 end, "Enter the Cave")
 
 RegisterEvent(504, "Enter the Cave", function()
-    evt.MoveToMap(19341, 21323, 1, 256, 0, 0, 0, 0, "mdt12.blv") -- The Dragon Caves
+    evt.MoveToMap(19341, 21323, 1, 256, 0, 0, 0, 3, "mdt12.blv") -- The Dragon Caves
 end, "Enter the Cave")
 
 RegisterEvent(65535, "", function()

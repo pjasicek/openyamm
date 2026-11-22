@@ -5,7 +5,8 @@ handlers, each citing its .scr (README.md, "Scripted objects"; the behaviour spe
 Hooks: an actor's RUDE exit is event 50000 + its DAT object index, a click that runs before its dialogue 53000 + index
 (game/mm9/Mm9RudeDialogue.h). The council RUDEProps (the six Jarls) are posed decorations: a click opens their dialogue.
 The Argument (ARGUMENT.scr, a camera scene on a stage under the city) is the in-engine cinematic council_argument
-(council.py, filmed in Kira's hall): opening Kira's council door with both signatures (keys 90, 91) starts it; its
+(council.py, filmed in Kira's hall): opening Kira's council door with both signatures (keys 90, 91) starts it, and so
+does standing in the hall with them (the doors may stand open from an earlier visit); its
 steps give the reward ("War"), swap the live Markel for the dead one and let Yrsa appear; Knut's rant is council.py's
 too. The breakout of the Desert Terror (Thronheimcity_BadAss.scr) runs on the 1-second poll when the
 party walks across one of MM9's two trigger planes by the prison: the Terror walks to the cell's back wall and breaks
@@ -47,6 +48,11 @@ PROP_COGS = COUNCIL + ("MarkeProp0",)
 LOCKED_GROUPS = ["Door1", "Door2", "Door3", "Door4", "RotatingDoor3", "RotatingDoor13", "InnDoor1", "Prisondoor0",
                  "Prisondoor1", "vaultdoor"]
 MOVER_EVENTS = {**{group: (EV_LOCKED, "click") for group in LOCKED_GROUPS}, "KiraDoor1": (EV_KIRA_DOOR, "click")}
+# Kira's council hall (room r60): its walls in the native frame, x -12165..-10363, y 15503 (the KiraDoor1/2 wall)
+# ..17572, floor 3277. The party standing in it with both signatures starts the council too (council_hall, the poll):
+# the doors stay open from an earlier visit, so a party that walks in through them never clicks them (Discord report,
+# 2026-11-22). The box keeps 64 off the side walls and starts 128 inside the door line.
+COUNCIL_HALL_BOX = ((-12101, 15631, 3200), (-10427, 17508, 3900))
 MARKERS = ("BadAssWander1", "HonkyMarker", "BenMarker", "GuardSpawn0")
 THOROLF0_TARGET_LT = (-2806, 1240, 5040)      # NPC378.scr's Thronheim fix: with key 83 Thorolf0 waits here
 # BadAssTrigger / BadAssTrigger0: thin player planes across the two streets by the prison (DAT Pos, Dims)
@@ -218,6 +224,17 @@ def map_script(hooks, build) -> str:
         f"handlers[{EV_KIRA_DOOR}] = function()   -- KiraDoor1/2",
         f"    {calls}",
         f"    if has(90) and has(91) and not has(40) then MM9Cinematic.start(\"{council.CINEMA_ID}\") end",
+        "end",
+        "-- The doors may stand open from an earlier visit: the party inside Kira's hall with both signatures starts the",
+        "-- council as well (on the poll; MM9Cinematic plays it once).",
+        "local function councilHall()",
+        "    if not (has(90) and has(91)) or has(40) then return end",
+        "    local x, y, z = evt.GetPartyPosition()",
+        "    if x >= %d and x <= %d and y >= %d and y <= %d and z >= %d and z <= %d then"
+        % (COUNCIL_HALL_BOX[0][0], COUNCIL_HALL_BOX[1][0], COUNCIL_HALL_BOX[0][1], COUNCIL_HALL_BOX[1][1],
+           COUNCIL_HALL_BOX[0][2], COUNCIL_HALL_BOX[1][2]),
+        f"        MM9Cinematic.start(\"{council.CINEMA_ID}\")",
+        "    end",
         "end",
         "",
         "-- ARG_Yrsa.scr (Yrsa the Troll, RUDE 1): she appears after the council; talking gives key 93 (her errand: the",
@@ -567,7 +584,9 @@ def map_script(hooks, build) -> str:
         "    breakoutClock()",
         f"    evt.StartTimer({T_POLL}, seconds(1))",
         "end",
-        f"handlers[{T_POLL}] = poll",
+        "-- councilHall only on the timer: during the map load the party still stands where it last was on this map",
+        "-- (it is moved to its arrival point after the load event)",
+        f"handlers[{T_POLL}] = function() poll(); councilHall() end",
         f"handlers[{EV_LOAD}] = function()   -- map load",
         "    for k = 1024, 1033 do if k ~= 1030 and has(k) then MM9.takeKey(k) end end",
         "    MM9.giveKey(1030)",

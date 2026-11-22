@@ -365,7 +365,6 @@ chests:
   - id: chest:cistern
     room: room:l3_cistern
     at: [1990, -400]
-    facing: w
     treasure_level: 6
     random_items: 3
     gold: 4000
@@ -373,7 +372,6 @@ chests:
   - id: chest:forge
     room: room:l1_forge
     at: [1980, -320]
-    facing: w
     treasure_level: 6
     random_items: 3
     gold: 4000
@@ -381,7 +379,6 @@ chests:
   - id: chest:library
     room: room:l2_library
     at: [-1980, 0]
-    facing: e
     treasure_level: 6
     random_items: 3
     gold: 4000
@@ -389,7 +386,6 @@ chests:
   - id: chest:vault
     room: room:vault
     at: [-1050, 820]
-    facing: e
     treasure_level: 6
     random_items: 4
     gold: 6000

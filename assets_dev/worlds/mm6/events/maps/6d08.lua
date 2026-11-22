@@ -386,7 +386,7 @@ RegisterEvent(46, nil, function()
 end)
 
 RegisterEvent(53, "Exit", function()
-    evt.MoveToMap(15218, -14862, 161, 0, 0, 0, 0, 0, "outc1.odm") -- Frozen Highlands
+    evt.MoveToMap(15218, -14862, 161, 0, 0, 0, 0, 6, "outc1.odm") -- Frozen Highlands
 end, "Exit")
 
 RegisterEvent(54, "Bag", function()

@@ -372,6 +372,6 @@ RegisterEvent(452, "Bookcase", function()
 end, "Bookcase")
 
 RegisterEvent(501, "Leave the Mercenary Guild", function()
-    evt.MoveToMap(17920, 16803, 3072, 1536, 0, 0, 0, 0, "7out13.odm") -- Tatalia
+    evt.MoveToMap(17920, 16803, 3072, 1536, 0, 0, 0, 8, "7out13.odm") -- Tatalia
 end, "Leave the Mercenary Guild")
 

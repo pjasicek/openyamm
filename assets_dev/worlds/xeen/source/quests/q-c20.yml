@@ -27,9 +27,11 @@ npcs:
   4047:              # Orothin
     topics:
       - n: 1
-        label: Whistle
+        role: quest
+        afterword: {n: 2, label: Whistle}
         states:
           - when: {qbit: done}
+            afterword: true
             text: "The statues are awake. Each holds a book for the first caster who comes."
           - when: {item: bone_whistle}
             text: "The Whistle! Thank you. I'll activate the statues now. Bye."

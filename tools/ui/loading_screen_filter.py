@@ -1,7 +1,8 @@
 #!/usr/bin/env python3
 """Give AI-generated loading screens the hand-made late-90s feel of MM6-MM8's own loading screens.
 
-The Xeen loading screens (worlds/xeen/icons_x2/xeenload{c,d}{1,2}.png) were generated images: too-clean gradients,
+(Unused since 2026-11-22: the user removed Xeen's own loading screens; Xeen shows OpenYAMM's pages. The images are
+kept outside the world in output/xeen_o4/loading_removed/.) The Xeen loading screens (worlds/xeen/icons_x2/xeenload{c,d}{1,2}.png) were generated images: too-clean gradients,
 plastic micro-detail, uniform sharpness and bright, saturated colour. MM6-MM8's screens (engine/icons_x2/7load*.png,
 loading*.png) are pre-rendered or painted art shown in 16-bit colour: firm outlines, flat painted planes, deep
 shadows, warm and slightly muted colour, and the faint texture of 16-bit dithering.

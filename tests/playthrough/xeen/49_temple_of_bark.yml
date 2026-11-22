@@ -42,7 +42,7 @@ steps:
   - press_interact: {expect: {kind: event_target}}
   - assert:
       dialog: {active: true, source_id: 5101}
-  - select_topic: {match_label: "Sheewana"}
+  - select_topic: {action_id: 44501, match_label: "Quest"}
   - assert:
       dialog: {text_contains: "The Orcs have kidnapped one of our sisters"}
   - select_topic: {match_label: "Certainly"}
@@ -255,7 +255,7 @@ steps:
   - assert:
       dialog: {active: true, house_dialog: true}
   - select_topic: {action_id: 5101, match_label: "Sharla"}
-  - select_topic: {match_label: "Sheewana"}
+  - select_topic: {action_id: 44501, match_label: "Quest"}
   - assert:
       dialog: {text_contains: "Walk it now as its lords"}
   - press_action: {action: cancel_dialog}

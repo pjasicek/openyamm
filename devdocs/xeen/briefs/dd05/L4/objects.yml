@@ -260,7 +260,6 @@ chests:
   - id: chest:dorm3
     room: room:dorm3
     at: [544, 1600]
-    facing: s
     treasure_level: 4
     random_items: 2
     gold: 1200
@@ -268,7 +267,6 @@ chests:
   - id: chest:guardians
     room: room:guardians
     at: [1648, -1648]
-    facing: w
     treasure_level: 4
     random_items: 2
     gold: 1500
@@ -276,7 +274,6 @@ chests:
   - id: chest:kitchen
     room: room:kitchen2
     at: [1648, -1520]
-    facing: w
     treasure_level: 4
     random_items: 2
     gold: 800
@@ -284,7 +281,6 @@ chests:
   - id: chest:vestry
     room: room:vestry
     at: [-1088, -560]
-    facing: n
     treasure_level: 5
     random_items: 3
     gold: 2500

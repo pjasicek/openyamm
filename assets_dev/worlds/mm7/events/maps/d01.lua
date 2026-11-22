@@ -320,14 +320,14 @@ RegisterEvent(459, nil, function()
 end)
 
 RegisterEvent(501, "Leave the Erathian Sewer", function()
-    evt.MoveToMap(2727, -9254, 164, 1536, 0, 0, 0, 0, "7out03.odm") -- Erathia
+    evt.MoveToMap(2727, -9254, 164, 1536, 0, 0, 0, 8, "7out03.odm") -- Erathia
 end, "Leave the Erathian Sewer")
 
 RegisterEvent(502, "Leave the Erathian Sewer", function()
-    evt.MoveToMap(-2184, 14886, 25, 512, 0, 0, 0, 0, "7out03.odm") -- Erathia
+    evt.MoveToMap(-2184, 14886, 25, 512, 0, 0, 0, 8, "7out03.odm") -- Erathia
 end, "Leave the Erathian Sewer")
 
 RegisterEvent(503, "Leave the Erathian Sewer", function()
-    evt.MoveToMap(-18356, 15481, 158, 1, 0, 0, 0, 0, "7out03.odm") -- Erathia
+    evt.MoveToMap(-18356, 15481, 158, 1, 0, 0, 0, 8, "7out03.odm") -- Erathia
 end, "Leave the Erathian Sewer")
 

@@ -34,14 +34,14 @@ steps:
   - expect: {qbit: q-d16.throne_searched, count: [energy_disk, 2], xp: 22000, last: "they gave you in friendship"}
   # Q-D17: the light route
   - hook: q-d17.tower_door   # D-89: the tower is open
-  - talk: [5401, Chalice]
+  - talk: [5401, q-d17]
   - expect: {qbit: [q-d17.started, q-d17.key]}
   - hook: q-d17.tower_door
   - hook: [q-d17.chalice, false]
   - hook: q-d17.voice
   - hook: q-d17.chalice
   - expect: {item: chalice_of_protection}
-  - talk: [5401, Chalice]
+  - talk: [5401, q-d17]
   - expect: {qbit: q-d17.done, no_item: chalice_of_protection, count: [energy_disk, 4], award: q-d17.taster, xp: 36000}
   - hook: [q-d17.oath, false]
   # Q-D23: the dark route

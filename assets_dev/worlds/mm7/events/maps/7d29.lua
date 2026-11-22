@@ -637,6 +637,6 @@ RegisterEvent(451, nil, function()
 end)
 
 RegisterEvent(501, "Leave Castle Harmondale", function()
-    evt.MoveToMap(-18325, 12564, 480, 0, 0, 0, 0, 0, "7out02.odm") -- Harmondale
+    evt.MoveToMap(-18325, 12564, 480, 0, 0, 0, 0, 8, "7out02.odm") -- Harmondale
 end, "Leave Castle Harmondale")
 

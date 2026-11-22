@@ -36,7 +36,7 @@ steps:
   - press_interact: {expect: {kind: event_target}}
   - assert:
       dialog: {active: true, source_id: 4945}
-  - select_topic: {match_label: "Ruby work"}
+  - select_topic: {action_id: 44351, match_label: "Quest"}
   - assert:
       dialog: {text_contains: "you don't have enough Ruby rocks"}
   - press_action: {action: cancel_dialog}
@@ -220,7 +220,7 @@ steps:
   - press_interact: {expect: {kind: event_target}}
   - assert:
       dialog: {active: true, source_id: 4945}
-  - select_topic: {match_label: "Ruby work"}
+  - select_topic: {action_id: 44351, match_label: "Quest"}
   - assert:
       dialog: {text_contains: "Five ruby rocks and two gems"}
   - press_action: {action: cancel_dialog}

@@ -24,7 +24,7 @@ npcs:
   5004:              # Dimitri
     topics:
       - n: 3
-        label: The dungeon
+        role: quest
         show: {all: [{qbit: m24.done}, {qbit: m26.stage3}]}
         states:
           - when: {all: [{qbit: done}, {promotable: dimitri}]}

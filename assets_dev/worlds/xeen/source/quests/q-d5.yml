@@ -29,9 +29,11 @@ npcs:
   4957:              # Valio the Simple (DD-01; monster 11193 if angered)
     topics:
       - n: 1
-        label: Rats
+        role: quest
+        afterword: {n: 2, label: Rats}
         states:
           - when: {qbit: done}
+            afterword: true
             text: "It's good to see you again."
           - when: {qbit: rooka_slain}
             text: "You've killed the Queen Rat! Here is your reward: my chest. Go on, open it. It's yours. Thanks."

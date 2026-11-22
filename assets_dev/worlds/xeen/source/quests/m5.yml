@@ -21,7 +21,7 @@ npcs:
   4401:              # King Burlock
     topics:
       - n: 1
-        label: Sixth Mirror
+        role: quest
         states:
           - when: {qbit: m35.done}
             text: "The Sixth Mirror. In pieces. It is a pity about the mirror, though."

@@ -351,7 +351,7 @@ RegisterEvent(56, nil, function()
 end)
 
 RegisterEvent(58, "Exit", function()
-    evt.MoveToMap(-13100, 2028, 161, 640, 0, 0, 0, 0, "outb2.odm") -- Blackshire
+    evt.MoveToMap(-13100, 2028, 161, 640, 0, 0, 0, 6, "outb2.odm") -- Blackshire
 end, "Exit")
 
 RegisterEvent(59, nil, function()

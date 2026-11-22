@@ -37,9 +37,11 @@ npcs:
   4502:              # Mayor Randon
     topics:
       - n: 1
-        label: Ghosts
+        role: quest
+        afterword: {n: 2, label: Ghosts}
         states:
           - when: {qbit: done}
+            afterword: true
             text: "Always a pleasure to see you, Ghostslayers."
           - when: {all: [{qbit: wave3_laid}, {qbit: rung}]}
             text: "Congratulations! You have finally rid Winterkill of all the spirits. As a reward, I dub thee Ghostslayers Extraordinaire."

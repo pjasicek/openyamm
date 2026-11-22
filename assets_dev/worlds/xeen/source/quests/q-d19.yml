@@ -37,9 +37,11 @@ npcs:
   5246:              # Thaddeus
     topics:
       - n: 1
-        label: Southern Tower
+        role: quest
+        afterword: {n: 3, label: Southern Tower}
         states:
           - when: {qbit: done}
+            afterword: true
             text: "Thieves who keep accounts. The world is full of surprises, most of them bad."
           - when: {qbit: ledger_read}
             text: "Sold to the mages of the Eastern Tower? Then that is where my jewel is. And where Luna's statuettes went, she should hear. Thank you. Take this for the trouble."
@@ -51,7 +53,7 @@ npcs:
   5109:              # The Master Thief (DD-06, the counting room)
     topics:
       - n: 2
-        label: Inner circle
+        role: promotion
         show: {all: [{not: {qbit: inner_circle}}, {not: {qbit: master_slain}}]}
         states:
           - when: {promotable: southern}

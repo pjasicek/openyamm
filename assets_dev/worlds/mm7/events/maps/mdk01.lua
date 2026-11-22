@@ -206,7 +206,7 @@ RegisterEvent(451, "Lever", function()
 end, "Lever")
 
 RegisterEvent(501, "Leave the Dwarven Barrow", function()
-    evt.MoveToMap(10155, -18616, 1601, 1024, 0, 0, 0, 0, "out11.odm") -- The Barrow Downs
+    evt.MoveToMap(10155, -18616, 1601, 1024, 0, 0, 0, 8, "out11.odm") -- The Barrow Downs
 end, "Leave the Dwarven Barrow")
 
 RegisterEvent(502, "Leave the Dwarven Barrow", function()

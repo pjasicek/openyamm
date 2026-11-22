@@ -80,7 +80,7 @@ RegisterEvent(11, nil, function()
 end)
 
 RegisterEvent(50, "Exit", function()
-    evt.MoveToMap(-21001, -4653, 257, 1536, 0, 0, 0, 0, "outd2.odm") -- Bootleg Bay
+    evt.MoveToMap(-21001, -4653, 257, 1536, 0, 0, 0, 6, "outd2.odm") -- Bootleg Bay
 end, "Exit")
 
 RegisterEvent(55, nil, function()

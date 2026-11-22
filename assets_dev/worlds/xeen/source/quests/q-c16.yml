@@ -23,9 +23,11 @@ npcs:
   4524:              # Glom the Gnome King
     topics:
       - n: 1
-        label: Cyclopes
+        role: quest
+        afterword: {n: 2, label: Cyclopes}
         states:
           - when: {qbit: done}
+            afterword: true
             text: "Friends, you are always welcome here."
           - when: {qbit: outpost_burnt}
             text: "We saw the Cyclops' outpost burning in the distance. You have our eternal thanks. Songs will be sung in your honor for generations to come. Here, take these treasures. We know it isn't much, but it is all we have to give."

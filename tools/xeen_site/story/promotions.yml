@@ -8,14 +8,14 @@ quests:
     summary: "Old Valia dubs the party Crusaders when you bring back the Alacorn of Falista, and promotes its knights, paladins and rangers."
     requires: "The Alacorn of Falista handed in. Promotes Knight to Cavalier, Paladin to Crusader and Ranger to Hunter. Tier 1: there is no Light or Dark choice yet."
     steps:
-      - "Old Valia's cottage stands on its own in Toad Meadow, east of Vertigo. Her topic 'Falista' starts the Alacorn of Falista; the Witch Tower's door is not locked."
+      - "Old Valia's cottage stands on its own in Toad Meadow, east of Vertigo. Her 'Quest' topic starts the Alacorn of Falista; the Witch Tower's door is not locked."
       - "Kill the Head Witch in the Witch Tower, on its rise south-east of Toad Meadow, and take the Alacorn from its pedestal on the bridge over the shaft (the Act I walkthrough has the tower in full)."
-      - "Click Valia with the Alacorn in your packs and pick 'Falista'. She takes the Alacorn and dubs you all Crusaders. Every Knight, Paladin and Ranger in the party is promoted then and there."
-      - "A Knight, Paladin or Ranger who joins later, or who was still in another class then, can be promoted at any time: talk to Valia and pick 'Crusaders'. The topic shows only while someone in the party can be promoted, and it pays nothing."
+      - "Click Valia with the Alacorn in your packs and pick 'Quest'. She takes the Alacorn and dubs you all Crusaders. Every Knight, Paladin and Ranger in the party is promoted then and there."
+      - "A Knight, Paladin or Ranger who joins later, or who was still in another class then, can be promoted at any time: talk to Valia and pick 'Promotion'. The topic shows only while someone in the party can be promoted, and it pays nothing."
     tips:
       - "The Crusader title also opens the ward on the Witch Tower's roof stair and the gate of Castle Burlock ('Crusaders only past the gate')."
       - "Tier 2 later, on the Darkside: a Cavalier becomes a Champion (Light, Dimitri's Test) or a Black Knight (Dark, the Voweless Knights of the Chalice of Protection); a Crusader becomes a Hero (Light, the Heretics of Mok) or a Villain (Dark, the Voweless Knights); a Hunter becomes a Ranger Lord (Light, Princess Sheewana, the polite route) or a Bounty Hunter (Dark, Graalg's Ogres, burning the forts)."
-    reward: "At the Alacorn hand-in: the Crusaders title, 8,000 XP for each member and the promotion. The later 'Crusaders' topic promotes only."
+    reward: "At the Alacorn hand-in: the Crusaders title, 8,000 XP for each member and the promotion. The later 'Promotion' topic promotes only."
     points:
       - {map: xeen_x1, name: "Witch Tower"}
     maps:
@@ -27,9 +27,9 @@ quests:
     summary: "Barok the Sorcerer promotes the party's spellcasters when you return the pendant the sorceresses of Rivercity stole from him."
     requires: "Barok's Pendant, open from the start. Promotes Sorcerer to Wizard and Archer to Warrior Mage. Tier 1: no Light or Dark choice."
     steps:
-      - "Barok's hut is on the west edge of Rivercity. Pick 'Pendant': the sorceresses keep their loot in a strongbox on the south quay, outside their house."
+      - "Barok's hut is on the west edge of Rivercity. Pick 'Quest': the sorceresses keep their loot in a strongbox on the south quay, outside their house."
       - "Open the strongbox on the quay, south-east of the town fountain, and take Barok's Pendant."
-      - "Go back to Barok and pick 'Pendant' again. He takes it, gives you his reward and unplugs the town fountain, and every Sorcerer and Archer in the party is promoted."
+      - "Go back to Barok and pick 'Quest' again. He takes it, gives you his reward and unplugs the town fountain, and every Sorcerer and Archer in the party is promoted."
       - "A Sorcerer or Archer recruited later: talk to Barok and pick 'Promotion'. It shows only while someone can be promoted, and pays nothing."
     tips:
       - "Tier 2 later: a Wizard becomes an Archmage (Light, the Jewel of Ages, with Ellinger's letter to Nasir) or a Lich (Dark, Sandro's Heart, his ritual); a Warrior Mage becomes a Master Archer (Light, Luna's Statuettes) or a Sniper (Dark, the inner circle of the Southern Tower)."
@@ -46,10 +46,10 @@ quests:
     summary: "Carlawna the Cleric ordains the party's healers when you bring back the Scarab of Imaging from the Gargoyle Eyrie."
     requires: "The Scarab of Imaging, open from the start. Promotes Druid to Great Druid and Cleric to Priest. Tier 1: no Light or Dark choice."
     steps:
-      - "Carlawna's hut is on Burlock Savannah, west of Castle Burlock below the Gargoyle range (a waystone on the path reads 'Down: Carlawna's hut. Up: the Gargoyle Eyrie'). Pick 'Scarab'."
+      - "Carlawna's hut is on Burlock Savannah, west of Castle Burlock below the Gargoyle range (a waystone on the path reads 'Down: Carlawna's hut. Up: the Gargoyle Eyrie'). Pick 'Quest'."
       - "Climb to the Gargoyle Eyrie's entrance, up the path north-east of her hut, and take the scarab from the gargoyles' nest of shiny things at the top of the eyrie (see the Scarab of Imaging walkthrough for the climb)."
-      - "Bring it to Carlawna and pick 'Scarab'. She takes it and pays you, and every Druid and Cleric in the party is promoted."
-      - "A Druid or Cleric recruited later has two promoters, both unpaid and shown only while someone can be promoted: Carlawna ('Ordination'), or the Autumn Druid in her grove on the south-west of the savannah ('The turning year')."
+      - "Bring it to Carlawna and pick 'Quest'. She takes it and pays you, and every Druid and Cleric in the party is promoted."
+      - "A Druid or Cleric recruited later has two promoters, both unpaid and shown only while someone can be promoted: Carlawna ('Promotion'), or the Autumn Druid in her grove on the south-west of the savannah ('Promotion')."
     tips:
       - "Tier 2 later: a Priest becomes a Priest of Light (Light, the Heretics of Mok) or a Priest of Dark (Dark, Sandro's Heart, his ritual); a Great Druid becomes an Arch Druid (Light, Leafpoint's Grove) or a Warlock (Dark, joining the Coven)."
     reward: "At the hand-in: 9,000 XP for each member (6,000 of it the promotion's share), a random item (treasure level 3) and the promotion. The later topics promote only."
@@ -65,14 +65,14 @@ quests:
     summary: "Princess Roxanne names the party's thieves Rogues when you bring back her tiara from the Rivercity robbers."
     requires: "The Tiara. Castle Burlock lets in only Crusaders, so the Alacorn of Falista comes first. Promotes Thief to Rogue. Tier 1: no Light or Dark choice."
     steps:
-      - "Roxanne's parlour is in the east tower of Castle Burlock. Pick 'Tiara': the robber boss of Rivercity holds it."
+      - "Roxanne's parlour is in the east tower of Castle Burlock. Pick 'Quest': the robber boss of Rivercity holds it."
       - "The Robbers' Den is entered under the bridge in Rivercity. Kill the boss, open the vault door with his ring of keys and take the tiara from the vault chest (see the Tiara walkthrough)."
-      - "Return to Roxanne and pick 'Tiara'. She takes it, gives you its twin, and every Thief in the party is promoted."
-      - "A Thief recruited later: walk back up to her parlour and pick 'Rogues'. It shows only while someone can be promoted, and pays nothing."
+      - "Return to Roxanne and pick 'Quest'. She takes it, gives you its twin, and every Thief in the party is promoted."
+      - "A Thief recruited later: walk back up to her parlour and pick 'Promotion'. It shows only while someone can be promoted, and pays nothing."
     tips:
       - "Her chest in the royal bedroom of the east tower opens once she has the tiara back."
       - "Tier 2 later: a Rogue becomes a Spy (Light, the Wizard Quarter) or an Assassin (Dark, the inner circle of the Southern Tower)."
-    reward: "At the hand-in: Roxanne's Tiara (the copy), 8,000 XP for each member (5,000 of it the promotion's share) and the promotion. The later 'Rogues' topic promotes only."
+    reward: "At the hand-in: Roxanne's Tiara (the copy), 8,000 XP for each member (5,000 of it the promotion's share) and the promotion. The later 'Promotion' topic promotes only."
     points:
       - {map: xeen_x2, name: "Robbers' Den"}
       - {map: xeen_xd07, name: "Roxanne's chest in the royal bedroom"}
@@ -87,12 +87,12 @@ quests:
     requires: "The Songbird of Serenity done and Castle Kalindra at its third stage (fifteen Energy Disks given to Ellinger, which brings the dungeon back). Light: promotes Cavalier to Champion. The Dark path for a Cavalier is the Voweless Knights' oath in the Northern Tower (the Chalice of Protection, Black Knight). A member promoted on one path cannot take the other."
     steps:
       - "Enter Castle Kalindra by its gate on the rise south-west of Castleview. Go east from the entrance hall to the throne room door, north into the North Wing and west to the Cloud Stairs at its far end. Climb to the second floor and follow the corridor east to the Captain's Quarters."
-      - "Talk to Dimitri and pick 'The dungeon'. He asks you to clear the cells."
+      - "Talk to Dimitri and pick 'Quest'. He asks you to clear the cells."
       - "Go back down and east across the throne room, past the coat closet, and through the armory door. Beyond the armory the dungeon stair goes down at the castle's east side."
       - "At the foot of the stair the prisoner ledger on the guard's desk lists the prisoners: five liches and three bone dragons."
       - "Open the cell block door, just west of the desk, and kill all five liches (level 35, about 230 HP each) in the row of cells. The status line says when the last one falls: 'The last lich comes apart like a dropped bundle of kindling. The cells are quiet, for the first time since the castle came back.'"
-      - "Climb back to the Captain's Quarters and pick 'The dungeon' again. Dimitri pays you and every Cavalier in the party rises a Champion."
-      - "A Cavalier who joins later: talk to Dimitri and pick 'The dungeon'. He promotes without paying again."
+      - "Climb back to the Captain's Quarters and pick 'Quest' again. Dimitri pays you and every Cavalier in the party rises a Champion."
+      - "A Cavalier who joins later: talk to Dimitri and pick 'Quest'. He promotes without paying again."
     tips:
       - "Dimitri pays when the liches are dead even if you have no Cavalier, so the quest is worth doing for any party."
       - "Liches cast hard spells. Fight them one cell at a time from the doorway."
@@ -115,12 +115,12 @@ quests:
     steps:
       - "After The Ninja Pagoda, go back to the Ninja Pagoda on Winterkill Tundra, due south of Kai Wu's monastery, and enter by its north door."
       - "Walk south through the entry hall into the shrine hall. The mat at its south end now lifts on an open trapdoor; climb down the ladder into the cellar."
-      - "Shinobu stands among the clan's survivors just south-west of the ladder. Talk to her and pick 'The clan'."
+      - "Shinobu stands among the clan's survivors just south-west of the ladder. Talk to her and pick 'Quest'."
       - "Without an Initiate in the party she only greets her father's killers. With one, but before Megan has asked you for the Songbird, she says 'Strong, yes. Ready, no.': come back later."
-      - "Once The Songbird of Serenity has started, pick 'The clan' with an Initiate in the party. Every Initiate rises a Ninja and the party is paid."
-      - "An Initiate who joins later: pick 'The clan' again; she promotes without paying."
+      - "Once The Songbird of Serenity has started, pick 'Quest' with an Initiate in the party. Every Initiate rises a Ninja and the party is paid."
+      - "An Initiate who joins later: pick 'Quest' again; she promotes without paying."
     tips:
-      - "Kai Wu promotes Monks to Initiates ('Initiation') after The Ninja Pagoda; do that first for a Monk."
+      - "Kai Wu promotes Monks to Initiates ('Promotion') after The Ninja Pagoda; do that first for a Monk."
       - "If you want an Initiate to become a Master (Light) instead, finish the Drawkcab Way before you come here: a hand-in promotes every eligible member at once."
     reward: "3,000 XP for each member and the Ninja promotion, once, on the first promotion. The later topic promotes only."
     points:
@@ -139,9 +139,9 @@ quests:
     steps:
       - "Burn the troll lair for Thickbark the Civilized on Winterkill Tundra (Troll Problem) first. Before that, Leafpoint only says 'A tree does not talk to strangers who might be carrying axes.'"
       - "Leafpoint grows in a grove in the Forest of Peril, north-west of Lakeside. Witches roam the woods between the town and the grove."
-      - "Click the tree and pick 'Civilized ones'. With a Great Druid in the party, every Great Druid becomes an Arch Druid and the party is paid."
+      - "Click the tree and pick 'Promotion'. With a Great Druid in the party, every Great Druid becomes an Arch Druid and the party is paid."
       - "Without a Great Druid, Leafpoint only says to come back: nothing is paid until the first promotion, so you lose nothing by asking early."
-      - "A Great Druid who joins later: pick 'Civilized ones' again; it promotes without paying."
+      - "A Great Druid who joins later: pick 'Promotion' again; it promotes without paying."
     tips:
       - "If you want a Great Druid to become a Warlock instead, drink from the Coven's initiation cauldron before you come here: a hand-in promotes every eligible member at once."
     reward: "3,000 XP for each member and the Arch Druid promotion, once, on the first promotion. The later topic promotes only."
@@ -153,19 +153,19 @@ quests:
   - quest: t2-later
     from: {map: xeen_d1, npc: "Dreyfus"}
     summary: "Every tier-2 promoter keeps a topic that promotes members who join later or reach the right class later, without paying again."
-    requires: "The promoter's own quest done, on the route that keeps him (below). A Light promoter and a Dark promoter of the same line each promote only members of the tier-1 class, so nobody crosses from one path to the other. These topics show only while someone in the party can be promoted."
+    requires: "The promoter's own quest done, on the route that keeps him (below). A Light promoter and a Dark promoter of the same line each promote only members of the tier-1 class, so nobody crosses from one path to the other. These topics, each labelled 'Promotion', show only while someone in the party can be promoted."
     steps:
-      - "Dreyfus, High Priest in the Temple of Mok in Castleview: 'Mok's blessing', after the Heretics of Mok. Crusader to Hero, Priest to Priest of Light (Light)."
-      - "Sharla, Queen of the Sprites, in her treehouse in the Sprite Forest's treehouse village: 'Forest lords', only after Princess Sheewana's polite route. Hunter to Ranger Lord (Light). The mercenary route closes it."
-      - "Luna the Druid, on the west side of Castleview Vale: 'The altar's light', after Luna's Statuettes. Warrior Mage to Master Archer (Light)."
-      - "Astra the Good Sorceress, in her house in Sandcaster: 'The guilds' word', after the Wizard Quarter. Rogue to Spy (Light)."
-      - "Nasir, master of the Sandcaster Guild of Light, next door to Astra: 'Archmage's robes', once he has read Ellinger's letter from the Eastern Tower (the Jewel of Ages). Wizard to Archmage (Light)."
-      - "Brother Reger, in his cell south of Castleview: 'Masters', after the Drawkcab Way. Initiate to Master (Light)."
-      - "Kramer, at Kramer's Caravans in Castleview: 'Guild title', after his bounty for burning both ogre forts (Graalg's Ogres). Hunter to Bounty Hunter (Dark)."
-      - "The Master Thief, in his counting room in the Southern Tower: 'New members', after you joined his inner circle and only while he lives. Warrior Mage to Sniper, Rogue to Assassin (Dark)."
+      - "Dreyfus, High Priest in the Temple of Mok in Castleview: 'Promotion', after the Heretics of Mok. Crusader to Hero, Priest to Priest of Light (Light)."
+      - "Sharla, Queen of the Sprites, in her treehouse in the Sprite Forest's treehouse village: 'Promotion', only after Princess Sheewana's polite route. Hunter to Ranger Lord (Light). The mercenary route closes it."
+      - "Luna the Druid, on the west side of Castleview Vale: 'Promotion', after Luna's Statuettes. Warrior Mage to Master Archer (Light)."
+      - "Astra the Good Sorceress, in her house in Sandcaster: 'Promotion', after the Wizard Quarter. Rogue to Spy (Light)."
+      - "Nasir, master of the Sandcaster Guild of Light, next door to Astra: 'Promotion', once he has read Ellinger's letter from the Eastern Tower (the Jewel of Ages). Wizard to Archmage (Light)."
+      - "Brother Reger, in his cell south of Castleview: 'Promotion', after the Drawkcab Way. Initiate to Master (Light)."
+      - "Kramer, at Kramer's Caravans in Castleview: 'Promotion', after his bounty for burning both ogre forts (Graalg's Ogres). Hunter to Bounty Hunter (Dark)."
+      - "The Master Thief, in his counting room in the Southern Tower: 'Promotion', after you joined his inner circle and only while he lives. Warrior Mage to Sniper, Rogue to Assassin (Dark)."
     tips:
       - "The other later paths are not topics. The Voweless Knights' plaque in the Northern Tower promotes a later Cavalier or Crusader (Black Knight, Villain) when you click it again after the oath. The Coven's initiation cauldron in its hall makes a later Great Druid a Warlock while the Head Witch lives ('Drink?'). Master Morbius in the Necromancers' House of Necropolis promotes later Priests, Wizards and Necromancers (Priest of Dark, Lich) with 'Sandro', once Sandro is released. Shinobu, Dimitri and Leafpoint keep their own topics (see their entries)."
-      - "Racial: Hobstadt's 'Sacrifice one' in the Troll Holes promotes a later Troll after the sacrifice; if you killed him, a Troll sits on his vacant throne. The horned throne of the Dungeon of Lost Souls promotes a later Minotaur. Count Du Monay ('Nosferatu'), Danulf ('Patriarch') and Scaldrith ('Great Wyrm') keep their topics."
+      - "Racial: Hobstadt's 'Sacrifice one' in the Troll Holes promotes a later Troll after the sacrifice; if you killed him, a Troll sits on his vacant throne. The horned throne of the Dungeon of Lost Souls promotes a later Minotaur. Count Du Monay, Danulf and Scaldrith keep their 'Promotion' topics."
       - "Closed routes stay closed: Sharla paid on the mercenary route, the Chalice given to Bosco, the Master Thief slain, or the Coven broken."
     reward: "None: these topics only promote."
     points:

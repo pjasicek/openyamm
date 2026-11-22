@@ -17,7 +17,7 @@ steps:
   - assert: {qbit_clear: [115000, 110052, 110102]}
   # Oslo's hut (event 1, house of Oslo 4039): Tam.
   - execute_event: {id: 1}
-  - select_topic: {match_label: Tam}
+  - select_topic: {action_id: 47001, match_label: "Quest"}
   - assert:
       dialog: {text_contains: "The orcs took my boy Tam"}
   - press_action: {action: cancel_dialog}
@@ -129,7 +129,7 @@ steps:
   - walk_to: {x: 9216, y: 16200, z: 1284, z_tolerance: 200, radius: 128, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
   # Oslo: Tam is home (X1-TAM done); the Drums topic.
   - execute_event: {id: 1}
-  - select_topic: {match_label: Tam}
+  - select_topic: {action_id: 47001, match_label: "Quest"}
   - assert:
       dialog: {text_contains: "He walked in the door an hour ago"}
   - select_topic: {match_label: Drums}

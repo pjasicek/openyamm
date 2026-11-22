@@ -37,7 +37,7 @@ steps:
   - press_interact: {expect: {kind: event_target}}
   - assert:
       dialog: {active: true, house_dialog: false, source_id: 4113}
-  - select_topic: {match_label: Ogres}
+  - select_topic: {action_id: 43651, match_label: "Quest"}
   - assert:
       dialog: {text_contains: "Those Ogres are ruining me!"}
   - press_action: {action: cancel_dialog}
@@ -191,7 +191,7 @@ steps:
   - press_interact: {expect: {kind: event_target}}
   - assert:
       dialog: {active: true, house_dialog: false, source_id: 4113}
-  - select_topic: {match_label: Ogres}
+  - select_topic: {action_id: 43651, match_label: "Quest"}
   - assert:
       dialog: {text_contains: "Thank you for getting rid of the Ogres"}
   - press_action: {action: cancel_dialog}

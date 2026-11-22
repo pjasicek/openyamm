@@ -303,7 +303,7 @@ RegisterEvent(479, nil, function()
 end)
 
 RegisterEvent(501, "Enter the Balthazar Lair", function()
-    evt.MoveToMap(1, -100, -85, 1540, 0, 0, 344, 1, "d24.blv") -- Balthazar Lair
+    evt.MoveToMap(1, -100, -85, 1540, 0, 0, 366, 1, "d24.blv") -- Balthazar Lair
 end, "Enter the Balthazar Lair")
 
 RegisterEvent(502, "Enter the Barbarian Fortress", function()

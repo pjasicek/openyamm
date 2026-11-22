@@ -254,7 +254,7 @@ RegisterEvent(416, nil, function()
 end)
 
 RegisterEvent(501, "Leave the Tidewater Caverns", function()
-    evt.MoveToMap(-19112, 2248, 49, 896, 0, 0, 0, 0, "7out13.odm") -- Tatalia
+    evt.MoveToMap(-19112, 2248, 49, 896, 0, 0, 0, 8, "7out13.odm") -- Tatalia
 end, "Leave the Tidewater Caverns")
 
 RegisterEvent(65535, "", function()

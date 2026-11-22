@@ -30,9 +30,11 @@ npcs:
   5513:              # Corak
     topics:
       - n: 1
-        label: Soul Box
+        role: quest
+        afterword: {n: 3, label: Soul Box}
         states:
           - when: {qbit: done}
+            afterword: true
             text: "(The box is quiet. Something inside it is being very patient.)"
           - when: {item: soul_box}
             locked: true     # voiced (D-38): the voice reads the first two sentences; the rest is shown only

@@ -36,10 +36,12 @@ npcs:
   4003:              # Mayor Gunther
     topics:
       - n: 1
-        label: Dwarves
+        role: quest
+        afterword: {n: 2, label: Dwarves}
         show: {any: [{qbit: started}, {qbit: done}]}
         states:
           - when: {qbit: done}
+            afterword: true
             text: "The dwarves are digging again. You can hear their picks from the town wall, which is more than I asked for."
           - when: {qbit: clan_king_slain}
             text: "The local dwarves have informed me of your great deed and have authorized me to present to you a rare honor: The Red Dwarf Badge of Courage. Congratulations."

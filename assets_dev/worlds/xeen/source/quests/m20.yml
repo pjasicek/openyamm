@@ -25,7 +25,7 @@ npcs:
   5005:              # Megan
     topics:
       - n: 1
-        label: Father
+        role: quest
         states:
           - when: {qbit: started}
             text: "The Songbird is on the isle in the lake, past Lakeside. The dungeon there is all doors that ask you to cheer up. Father would never get through them."

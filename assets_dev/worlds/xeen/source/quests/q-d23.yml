@@ -54,6 +54,7 @@ npcs:
     topics:
       - n: 1
         label: Sandro
+        named: "Sandro's own talk after his release; promotion is one of its answers"
         states:          # the later path after the release, unpaid (D-74 items 5, 6)
           - when: {all: [{qbit: released}, {promotable: sandro}]}
             text: "Sandro is at rest, and he left the House his notes: everything but the heart. A Priest, a Wizard or a Necromancer who wants to walk where he walked: sit. This takes an evening."

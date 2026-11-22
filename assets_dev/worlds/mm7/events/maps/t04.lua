@@ -171,12 +171,12 @@ RegisterEvent(453, nil, function()
 end)
 
 RegisterEvent(501, "Leave the Hall of the Pit", function()
-    evt.MoveToMap(18294, 6145, 1825, 1152, 0, 0, 0, 0, "7out05.odm") -- Deyja
+    evt.MoveToMap(18294, 6145, 1825, 1152, 0, 0, 0, 8, "7out05.odm") -- Deyja
 end, "Leave the Hall of the Pit")
 
 RegisterEvent(502, "Enter the Pit", function()
     if IsQBitSet(QBit(611)) or IsQBitSet(QBit(612)) then -- Chose the path of Light
-        evt.MoveToMap(-256, 1024, 65, 1536, 0, 0, 0, 0, "7d26.blv") -- The Pit
+        evt.MoveToMap(-256, 1024, 65, 1536, 0, 0, 0, 8, "7d26.blv") -- The Pit
     end
 end, "Enter the Pit")
 

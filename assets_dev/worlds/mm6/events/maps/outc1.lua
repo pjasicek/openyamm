@@ -194,12 +194,12 @@ end, "White Cap Transport Co.")
 RegisterEvent(32, "White Cap Transport Co.", nil, "White Cap Transport Co.")
 
 RegisterEvent(33, "Throne Room", function()
-    evt.MoveToMap(0, 0, 0, 0, 0, 0, 82, 1)
+    evt.MoveToMap(0, 0, 0, 0, 0, 0, 338, 2)
     evt.EnterHouse(225) -- Throne Room
 end, "Throne Room")
 
 RegisterEvent(34, "Throne Room", function()
-    evt.MoveToMap(0, 0, 0, 0, 0, 0, 84, 1)
+    evt.MoveToMap(0, 0, 0, 0, 0, 0, 340, 2)
     evt.EnterHouse(227) -- Throne Room
 end, "Throne Room")
 
@@ -364,11 +364,11 @@ RegisterEvent(86, nil, function()
 end)
 
 RegisterEvent(90, nil, function()
-    evt.MoveToMap(1408, -1664, 1, 1024, 0, 0, 436, 1, "6d08.blv") -- Shadow Guild
+    evt.MoveToMap(1408, -1664, 1, 1024, 0, 0, 436, 5, "6d08.blv") -- Shadow Guild
 end)
 
 RegisterEvent(91, nil, function()
-    evt.MoveToMap(-495, -219, 1, 512, 0, 0, 444, 1, "6d15.blv") -- Icewind Keep
+    evt.MoveToMap(-495, -219, 1, 512, 0, 0, 444, 5, "6d15.blv") -- Icewind Keep
 end)
 
 RegisterEvent(100, "Drink from Well.", function()

@@ -224,7 +224,6 @@ chests:
   - id: chest:nest
     room: room:mantis_nest
     at: [4608, -9088]
-    facing: n
     treasure_level: 3
     random_items: 3
     gold: 900
@@ -232,7 +231,6 @@ chests:
   - id: chest:pack
     room: room:desert_gate
     at: [-7936, -6144]
-    facing: n
     treasure_level: 3
     random_items: 2
     gold: 500

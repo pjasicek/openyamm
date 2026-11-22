@@ -25,11 +25,14 @@ npcs:
   4046:              # Derek
     topics:
       - n: 1
-        label: Celia
+        role: quest
+        afterword: {n: 4, label: Celia}
         states:
           - when: {qbit: moved}
+            afterword: true
             text: "No zombies down here. Gremlins, cobras, the odd hornet. Celia says it's an improvement."
           - when: {qbit: done}
+            afterword: true
             text: "We are to be married. Somewhere with fewer zombies."
           - when: {qbit: celia_freed}
             text: "You have rescued my Celia! I am so grateful to you for reuniting us. As payment for your services, please accept this treasure."

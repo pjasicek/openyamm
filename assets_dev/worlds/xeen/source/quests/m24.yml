@@ -48,10 +48,12 @@ npcs:
   5004:              # Dimitri
     topics:
       - n: 1
-        label: The Songbird
+        role: quest
+        afterword: {n: 3, label: The Songbird}
         show: {any: [{item: songbird_of_serenity}, {qbit: done}]}
         states:
           - when: {qbit: done}
+            afterword: true
             text: "Ambrose is at Griffin Pass, on the south edge of the Forbidden Zone. He asks everyone who sent them. Tell him Dimitri did, and he'll listen."
           - text: "That song... I have been sitting in the dark like a fool. Listen. When Alamar took the castle, he gave the Queen to Count Blackfang, and the Count made her a vampire. Only her own crown can undo it, and it is in her bedroom safe, upstairs, in the part of the castle that isn't back yet. The disk safes on this floor open to 64, 52, 31. And go to Ambrose, the Queen's Knight, at Griffin Pass. He has been trying to reach Blackfang for a year. Keep the bird. I'll hear it when you pass."
             do: [{set: done}, {set: m25.started}, {autonote: combination}, {award: cheered}, {xp: 7000}, {treasure: 5}]

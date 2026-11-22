@@ -14,6 +14,7 @@ source: "QUESTS Q-C18; xeen/aaze0011:5-7"
 qbits:
   started: {id: 112360, journal: "Tito the Elf Priest dropped the Holy Book of Elvenkind in the Troll Forest when he was ambushed.",
             until: [done]}
+  book_found: {id: 112362, map: X5, note: "the torn pack searched (the hook's once bit; conditions about the book read the item)"}
   done: {id: 112361, note: "Tito teaches Spirit Master (D-21; A4: towns/x2.yml opens: q-c18.done)"}
 
 items:
@@ -23,9 +24,11 @@ npcs:
   4153:              # Tito
     topics:
       - n: 1
-        label: Holy Book
+        role: quest
+        afterword: {n: 2, label: Holy Book}
         states:
           - when: {qbit: done}
+            afterword: true
             text: "The Book is home. Whenever you are ready, I will teach you the Spirit as a Master knows it. I owe you that much."
           - when: {item: holy_book}
             text: "You have recovered the Holy Book of Elvenkind! The entire Elf kingdom thanks you. Please accept this gold as a reward. And ask me about the Spirit: I can teach it to the rank of Master."
@@ -38,8 +41,12 @@ npcs:
 hooks:
   book:
     map: X5
-    where: "the Troll Forest by the troll warren: the book in the snow beside a fallen pack, a ground item since D-90 (c) (A6, X5 2026-11-22; event 108 unused), picked up like any item; no event calls this hook (it records that the map gives the book)"
-    map_gives: {holy_book: 1}
+    where: "the Troll Forest by the troll warren: the torn pack in the snow (thing:holy_book's click, A6's X5): D-93, a find hidden in a prop goes onto the cursor; the find line on the status line"
+    sets: [book_found]
+    gives: [holy_book]
+    once: true
+    text: "In the torn pack, under the snow: a book bound in white leather. Tito's Holy Book."
+    else_text: "The torn pack is empty now."
 
 rewards: {xp: 5000, gold: 1500}   # and Tito teaches Spirit Master (D-21)
 playthrough: "Tito (Holy Book); X5's Troll Forest; Tito (Holy Book)."

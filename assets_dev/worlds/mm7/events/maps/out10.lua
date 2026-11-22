@@ -414,23 +414,23 @@ RegisterEvent(500, nil, function()
 end)
 
 RegisterEvent(501, "Enter Thunderfist Mountain", function()
-    evt.MoveToMap(-1024, 768, 4097, 1792, 0, 0, 150, 1, "7d07.blv") -- Thunderfist Mountain
+    evt.MoveToMap(-1024, 768, 4097, 1792, 0, 0, 406, 9, "7d07.blv") -- Thunderfist Mountain
 end, "Enter Thunderfist Mountain")
 
 RegisterEvent(502, "Enter The Maze", function()
-    evt.MoveToMap(1536, -8614, 1, 512, 0, 0, 151, 1, "d02.blv") -- The Maze
+    evt.MoveToMap(1536, -8614, 1, 512, 0, 0, 407, 2, "d02.blv") -- The Maze
 end, "Enter The Maze")
 
 RegisterEvent(503, "Enter Thunderfist Mountain", function()
-    evt.MoveToMap(9960, 1443, 390, 1936, 0, 0, 150, 1, "7d07.blv") -- Thunderfist Mountain
+    evt.MoveToMap(9960, 1443, 390, 1936, 0, 0, 406, 9, "7d07.blv") -- Thunderfist Mountain
 end, "Enter Thunderfist Mountain")
 
 RegisterEvent(504, "Enter Thunderfist Mountain", function()
-    evt.MoveToMap(-11058, 4858, 3969, 148, 0, 0, 150, 1, "7d07.blv") -- Thunderfist Mountain
+    evt.MoveToMap(-11058, 4858, 3969, 148, 0, 0, 406, 9, "7d07.blv") -- Thunderfist Mountain
 end, "Enter Thunderfist Mountain")
 
 RegisterEvent(505, "Enter Thunderfist Mountain", function()
-    evt.MoveToMap(11471, -3498, 2814, 414, 0, 0, 150, 1, "7d07.blv") -- Thunderfist Mountain
+    evt.MoveToMap(11471, -3498, 2814, 414, 0, 0, 406, 9, "7d07.blv") -- Thunderfist Mountain
 end, "Enter Thunderfist Mountain")
 
 RegisterEvent(65535, "", function()

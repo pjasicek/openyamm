@@ -28,11 +28,13 @@ npcs:
     topics:
       - n: 1
         label: We come in peace
+        named: "the Barbarian chief's choice: the peaceful answer"
         show: {all: [{not: {qbit: friends}}, {not: {qbit: hostile}}]}
         text: "I am Yog, chief of the Sardaj tribe. You do not come for battle? Then you are welcome among us."
         do: [{set: started}, {set: friends}, {set: done}, {xp: 1000}]
       - n: 2
         label: Battle!
+        named: "the Barbarian chief's choice: the answer that fights"
         show: {all: [{not: {qbit: friends}}, {not: {qbit: hostile}}]}
         text: "Then you shall not leave these lands alive!"
         do: [{set: started}, {set: hostile}, {set: done}]

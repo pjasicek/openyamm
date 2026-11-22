@@ -17,6 +17,6 @@ SetMapMetadata({
 })
 
 RegisterEvent(1, "Exit", function()
-    evt.MoveToMap(-17420, -959, 161, 1920, 0, 0, 0, 0, "outb1.odm") -- Kriegspire
+    evt.MoveToMap(-17420, -959, 161, 1920, 0, 0, 0, 6, "outb1.odm") -- Kriegspire
 end, "Exit")
 

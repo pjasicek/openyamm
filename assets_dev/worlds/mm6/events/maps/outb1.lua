@@ -203,23 +203,23 @@ RegisterEvent(90, nil, function()
         evt.StatusText("You are not a follower of Baa.  Begone!")
         return
     end
-    evt.MoveToMap(2094, -19, 177, 337, 0, 0, 435, 1, "6t7.blv") -- Superior Temple of Baa
+    evt.MoveToMap(2094, -19, 177, 337, 0, 0, 435, 5, "6t7.blv") -- Superior Temple of Baa
 end)
 
 RegisterEvent(91, nil, function()
-    evt.MoveToMap(2702, -2926, 1, 1024, 0, 0, 448, 1, "6d19.blv") -- Agar's Laboratory
+    evt.MoveToMap(2702, -2926, 1, 1024, 0, 0, 448, 5, "6d19.blv") -- Agar's Laboratory
 end)
 
 RegisterEvent(92, nil, function()
-    evt.MoveToMap(-49, -42, -2, 512, 0, 0, 449, 1, "6d20.blv") -- Caves of the Dragon Riders
+    evt.MoveToMap(-49, -42, -2, 512, 0, 0, 449, 5, "6d20.blv") -- Caves of the Dragon Riders
 end)
 
 RegisterEvent(93, nil, function()
-    evt.MoveToMap(5861, 2720, 169, 0, 0, 0, 427, 1, "cd3.blv") -- Castle Kriegspire
+    evt.MoveToMap(5861, 2720, 169, 0, 0, 0, 427, 5, "cd3.blv") -- Castle Kriegspire
 end)
 
 RegisterEvent(94, "Demon Lair", function()
-    evt.MoveToMap(1893, 122, 1, 1024, 0, 0, 0, 0, "zdwj02.blv") -- Devil Outpost
+    evt.MoveToMap(1893, 122, 1, 1024, 0, 0, 0, 5, "zdwj02.blv") -- Devil Outpost
 end, "Demon Lair")
 
 RegisterEvent(100, "Drink from Well.", function()

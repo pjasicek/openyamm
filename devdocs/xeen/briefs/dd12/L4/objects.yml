@@ -578,7 +578,6 @@ chests:
   - id: chest:cell3
     room: room:cell3
     at: [1728, -2992]
-    facing: n
     treasure_level: 4
     random_items: 2
     gold: 900
@@ -586,23 +585,20 @@ chests:
   - id: chest:dead
     room: room:maze_dead
     at: [4944, 1344]
-    facing: w
     treasure_level: 4
     random_items: 2
     gold: 1000
     notes: The lost adventurer's chest.
   - id: chest:negative
     room: room:negative3
-    at: [1200, -2560]
-    facing: w
+    at: [1240, -2752]
     treasure_level: 4
     random_items: 2
     gold: 1200
     notes: By the black waters.
   - id: chest:reserve
     room: room:reserve4
-    at: [5504, -2976]
-    facing: s
+    at: [5824, -2888]
     treasure_level: 5
     random_items: 3
     gold: 3000
@@ -610,7 +606,6 @@ chests:
   - id: chest:vault
     room: room:vault1
     at: [-384, 1488]
-    facing: s
     treasure_level: 4
     random_items: 2
     gold: 1500

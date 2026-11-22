@@ -165,7 +165,7 @@ RegisterEvent(19, nil, function()
 end)
 
 RegisterEvent(20, "Exit", function()
-    evt.MoveToMap(8266, -16632, 480, 1024, 0, 0, 0, 0, "oute2.odm") -- Misty Islands
+    evt.MoveToMap(8266, -16632, 480, 1024, 0, 0, 0, 6, "oute2.odm") -- Misty Islands
 end, "Exit")
 
 RegisterEvent(21, "Switch", function()

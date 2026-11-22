@@ -25,7 +25,7 @@ npcs:
   4530:              # Shinobu
     topics:
       - n: 1
-        label: The clan
+        role: quest
         show: {qbit: q-c4.done}
         states:
           - when: {all: [{qbit: done}, {promotable: clan}]}

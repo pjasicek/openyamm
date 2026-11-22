@@ -45,6 +45,7 @@ npcs:
         do: [{give: energy_disk, count: 2}, {set: friends}, {xp: 12000}]
       - n: 3
         label: Your hall
+        named: "the giants' choice: the answer that declares war"
         show: {not: {any: [{qbit: friends}, {qbit: war}, {qbit: hall_attacked}]}}
         text: "My hall? Then come and take it, little ones, if you can. The People will be waiting on the stair."
         do: [{set: war}]

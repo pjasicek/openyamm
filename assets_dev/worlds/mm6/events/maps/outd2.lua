@@ -637,19 +637,19 @@ RegisterEvent(64, "Chest", function()
 end, "Chest")
 
 RegisterEvent(90, nil, function()
-    evt.MoveToMap(-1792, -19, 1, 0, 0, 0, 428, 1, "6d04.blv") -- Hall of the Fire Lord
+    evt.MoveToMap(-1792, -19, 1, 0, 0, 0, 428, 5, "6d04.blv") -- Hall of the Fire Lord
 end)
 
 RegisterEvent(91, "Temple of the Fist", function()
-    evt.MoveToMap(0, -2231, 513, 512, 0, 0, 423, 1, "6t2.blv") -- Temple of the Fist
+    evt.MoveToMap(0, -2231, 513, 512, 0, 0, 423, 5, "6t2.blv") -- Temple of the Fist
 end, "Temple of the Fist")
 
 RegisterEvent(92, "Temple of the Sun", function()
-    evt.MoveToMap(-3258, 483, 49, 0, 0, 0, 429, 1, "6t4.blv") -- Temple of the Sun
+    evt.MoveToMap(-3258, 483, 49, 0, 0, 0, 429, 5, "6t4.blv") -- Temple of the Sun
 end, "Temple of the Sun")
 
 RegisterEvent(93, "Temple of Tsantsa", function()
-    evt.MoveToMap(2817, -4748, -639, 512, 0, 0, 426, 1, "6t3.blv") -- Temple of Tsantsa
+    evt.MoveToMap(2817, -4748, -639, 512, 0, 0, 426, 5, "6t3.blv") -- Temple of Tsantsa
 end, "Temple of Tsantsa")
 
 RegisterEvent(94, "Temple Baa", function()

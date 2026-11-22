@@ -16,7 +16,7 @@ chapters:
               - "The way: from the first gate the hall of storage leads east to the stair down at its east end. The second floor runs west from the stair's foot, where a statue tells you to think positive, to its gate; the third floor runs east to its gate and the stair down to the fourth; the fourth floor's gate is at its far east end, with the stair to the fifth beyond it."
               - "The fifth floor is the Soul Maze, a corridor shaped like the letters of a name that you walk from the M at its east end to the S at its west end. The gate stands past the S. Behind it is the aviary: the Songbird of Serenity's cage is in its south-west corner. Click it: Megan's key opens it, and the status line says the bird hops onto your hand (you keep it)."
               - "With the Songbird freed, the cage lift beside the aviary (Lift: up) carries you straight up to the first floor; leave by the double doors to the Isle. Tern's Isle Ferry at the Isle's jetty takes you back to Lakeside (1 day, 250 gold)."
-              - "Return to Castle Kalindra (its gate is on the rise south-west of Castleview). Take the Cloud Stairs at the west end of the north wing up to the second floor; Dimitri is in the Captain's Quarters on the corridor. With the Songbird in your packs he has a new topic, 'The Songbird': he tells you the Queen's story, gives the disk safes' combination 64-52-31 and sends you to Ambrose (The Griffin)."
+              - "Return to Castle Kalindra (its gate is on the rise south-west of Castleview). Take the Cloud Stairs at the west end of the north wing up to the second floor; Dimitri is in the Captain's Quarters on the corridor. With the Songbird in your packs he has a new topic, 'Quest': he tells you the Queen's story, gives the disk safes' combination 64-52-31 and sends you to Ambrose (The Griffin). Afterwards his 'The Songbird' topic repeats where Ambrose is."
               - "Megan, in her room further east on the same corridor, now has 'Thanks' and gives you a gift. Then go south from the corridor through the Sleeping Chambers to the Vaults and click the safe at the east end: answer 64-52-31 (or 645231). It holds four Energy Disks."
             tips:
               - "Optional riches on the way down: on the first floor, turn over all four hour glasses in the hall of storage and a panel opens on a chest; on the second floor, three levers along the cell row open the cells (bones with gold, a chest in the third cell). On the third floor the statue's plinth says 'Turn all dials up, pull lever & drink the souls of adventurers past!': click each of the four dials until it reads 4, pull the lever beside them, and each member who drinks the Soul Waters gets 1,000 experience once. Avoid the Negative Soul Waters (they cost HP and SP)."
@@ -41,12 +41,12 @@ chapters:
         giver: {map: xeen_d6, npc: "Ambrose"}
         quests:
           - quest: m25
-            requires: "Dimitri's 'The Songbird' talk (The Songbird of Serenity)."
+            requires: "Dimitri's 'Quest' talk with the Songbird (The Songbird of Serenity)."
             steps:
-              - "Talk to Ambrose: 'Who sent you?'. The answer is Dimitri, and he gives you a plain bridle: the griffin will not take it until it is enchanted, and Natasha in Sandcaster can do that."
+              - "Talk to Ambrose and choose 'Quest': once Dimitri has sent you, he gives you a plain bridle: the griffin will not take it until it is enchanted, and Natasha in Sandcaster can do that."
               - "Go back down the mountain road to Castleview Vale and east through Sprite Forest to Sandcaster. Natasha the Enchantress lives in the city between Aladdin's Lamps and Omar's remedy shop (Vulture Repellant and Other Remedies)."
-              - "Ask Natasha 'The bridle' with 5,000 gold in your packs. She takes the gold and the bridle and gives you the enchanted bridle. With less gold she only quotes the price."
-              - "Return to Ambrose at Griffin Pass: 'The griffin'. He takes the enchanted bridle and pays you from the Queen's purse."
+              - "Ask Natasha 'Quest' with 5,000 gold in your packs. She takes the gold and the bridle and gives you the enchanted bridle. With less gold she only quotes the price."
+              - "Return to Ambrose at Griffin Pass and choose 'Quest' again. He takes the enchanted bridle and pays you from the Queen's purse."
               - "When you are ready for Castle Blackfang, ask him 'Fly to Blackfang'. The griffin sets you down on the castle's battlements (The Queen of the Darkside)."
             tips:
               - "Castle Blackfang's gate on Lakeside's north shore never opens on foot, and flying over its crag does not work: bats beat you out of the sky. The griffin is the only way in."
@@ -69,7 +69,7 @@ chapters:
           - quest: m26
             requires: "Castle Kalindra's second floor (10 disks). Where the disks are: The Energy Disks in Act III."
             steps:
-              - "Bring five Energy Disks to Ellinger and ask 'Energy discs'. He takes exactly five: with one to four he takes none and tells you how many he needs."
+              - "Bring five Energy Disks to Ellinger and ask 'Quest'. He takes exactly five: with one to four he takes none and tells you how many he needs."
               - "Fifteen disks (stage 3): Castle Kalindra's dungeon returns. Its stair at the east end of the ground floor's south wing now leads down to the cell block: Guido the convict, the prisoner ledger and the imprisoned liches of Dimitri's Champion promotion, and Scraps, the castle's pet dragon (level 70), behind the kennel portcullis in Maximum Security. The notes by its lever say 'Don't let Scraps out!'."
               - "Twenty disks (stage 4): the castle is whole. The upper stair, north off the second floor's corridor near the top of the Cloud Stairs, climbs to the third floor: the Chapel of the Queen (Mother Seraphine), The Queen's Forge (Haldor), Sir Roderic of the Queen's Guard, The Queen's Proving Hall (Lady Brienne, training up to level 200), The Royal Treasury, and the Royal Bed Chamber with the Queen's safe (The Queen of the Darkside). The shimmering wall on the ground floor fades and opens the yard with the Kalindra Stables and the Mirror of Castle Kalindra; Gem and Errol in the throne room now teach Grandmaster."
               - "The Darkside's mirrors wake with the twentieth disk: from now on every Darkside mirror you have touched can carry you to the others. Near the Queen's mirror in the Royal Bed Chamber a Button asks 'Activate Mirror Portals?': answering Yes only confirms it."
@@ -96,10 +96,10 @@ chapters:
             steps:
               - "Ambrose's griffin lands you on the battlements in the south of the castle. Go west into the south-west tower and down its stair to the upper floor; walk north through the sleeping hall full of coffins and past the Countess's rooms to the grand stair at the north end, and take it down to the ground floor."
               - "The double doors north of the stair's foot open on the Count's hall. At its west end a black iron bar blocks the stair to the dungeon: a force pushes you back while the Count lives. Count Blackfang (level 70, 2,100 HP) waits in the hall with three Royal Vampires. When he dies every coffin lid slams shut and the bar lifts."
-              - "Take the dungeon stair (west of the hall) down, then follow the cells south to the last cell in the south of the dungeon. Queen Kalindra sits there, a vampire. Talk to her ('The crown'): her crown can cure her, and it is in the safe in her bedroom at Castle Kalindra, combination 3-31-62."
+              - "Take the dungeon stair (west of the hall) down, then follow the cells south to the last cell in the south of the dungeon. Queen Kalindra sits there, a vampire. Talk to her ('Quest'): her crown can cure her, and it is in the safe in her bedroom at Castle Kalindra, combination 3-31-62."
               - "To leave, draw the bolt in the shaft just south-west of her cell: the trapdoor at the top of the ladder opens into the cellar. Go up through the kitchen to the courtyard, lift the bar on its gate and climb the stair to the battlements. Ambrose, beside his griffin, flies you down to Lakeside's north shore ('Fly us out')."
               - "When Castle Kalindra is whole (20 disks), go up to its third floor and into the Royal Bed Chamber. The safe is behind the Queen's mirror: answer 3-31-62 (or 33162) and take the crown."
-              - "Back at Castle Blackfang's gate on Lakeside's north shore, Ambrose offers to fly you inside: say Yes. Walk the same way to the Queen's cell (the bar stays lifted) and give her the crown ('The crown'). She gives you the key to the Great Pyramid, and Ambrose's griffin flies everyone home to Castle Kalindra's gate. From now on she sits on her throne in Castle Kalindra."
+              - "Back at Castle Blackfang's gate on Lakeside's north shore, Ambrose offers to fly you inside: say Yes. Walk the same way to the Queen's cell (the bar stays lifted) and give her the crown ('Quest'). She gives you the key to the Great Pyramid, and Ambrose's griffin flies everyone home to Castle Kalindra's gate. From now on she sits on her throne in Castle Kalindra."
             tips:
               - "The safe stays shut until the Queen has told you the combination."
               - "Coffins hold gold, and some hold a vampire that rises when you open it. The Count's crypt, north of his hall, holds the castle's best chest. A bones' diary in the south-west tower warns that the Queen cannot be brought out into daylight: the griffin carries her home after nightfall."
@@ -150,8 +150,8 @@ chapters:
           - quest: m22
             requires: "Crodo freed (Darzog's Tower) and Newcastle's keep (The Keep of Newcastle). You need five King's Megacredits (16 exist in the three places of King's Megacredits; the walls and the keep took ten)."
             steps:
-              - "Talk to Artemus in the Royal Advisor's Study: 'Lord Xeen'. He believes Crodo and quietly gives you an Excavation Permit for Newcastle's dungeon."
-              - "Next door, in the Master Builder's Office, ask Emerson 'Dungeon' with the permit and five Megacredits in your packs. He takes both and digs out the caved-in dungeon under Newcastle Keep. Without the permit he refuses; without five Megacredits he waits."
+              - "Talk to Artemus in the Royal Advisor's Study and choose his fourth 'Quest' topic, the new one below the other three. He believes Crodo and quietly gives you an Excavation Permit for Newcastle's dungeon."
+              - "Next door, in the Master Builder's Office, ask Emerson about his fourth 'Quest' topic (the dungeon) with the permit and five Megacredits in your packs. He takes both and digs out the caved-in dungeon under Newcastle Keep. Without the permit he refuses; without five Megacredits he waits."
               - "Newcastle's stage 3 is ready at once: in the keep (the stair into the foundations on the Newcastle site, in the north-east of Lifeforce Lagoon), the Chapel of Newcastle (Father Cuthbert) and the Newcastle Counting Room (Lyle Ledger) open in the statue court's north wall, YOUR well in the court gives Armour class +20 until you rest, and the old dungeon stair beyond the court leads down to the sword vault (The Xeen Slayer Sword)."
             reward: "1,000 experience from Artemus and 2,000 from Emerson."
             maps:

@@ -1,0 +1,70 @@
+{
+  "_about": "What tools/coop_local/run.py can start: a world and map, a ruleset (as run_game's --ruleset, empty for Standard) and each player's party from parties.json. The first player hosts.",
+  "standard_2_parties_full": {
+    "world": "mm8",
+    "map": "out01.odm",
+    "ruleset": "",
+    "players": [
+      "five",
+      "five"
+    ]
+  },
+  "maw_2_parties_full": {
+    "world": "mm8",
+    "map": "out01.odm",
+    "ruleset": "maw",
+    "players": [
+      "five",
+      "five"
+    ]
+  },
+  "standard_3_parties": {
+    "world": "mm8",
+    "map": "out01.odm",
+    "ruleset": "",
+    "players": [
+      "five",
+      "three",
+      "god_lich"
+    ]
+  },
+  "2_parties_solo_play_standard": {
+    "world": "mm8",
+    "map": "out01.odm",
+    "ruleset": "standard:solo",
+    "players": [
+      "god_knight",
+      "god_cleric"
+    ]
+  },
+  "2_parties_maw_solo_play": {
+    "world": "mm8",
+    "map": "out01.odm",
+    "ruleset": "maw:solo",
+    "players": [
+      "god_knight",
+      "god_cleric"
+    ]
+  },
+  "standard_3_gear": {
+    "world": "mm8",
+    "map": "out01.odm",
+    "ruleset": "",
+    "players": [
+      "gear_fine_knight",
+      "gear_rich_sorceress",
+      "gear_relic_lich"
+    ]
+  },
+  "standard_4_sizes": {
+    "world": "mm8",
+    "map": "out01.odm",
+    "ruleset": "",
+    "players": [
+      "gear_fine_knight",
+      "size_dwarf",
+      "size_minotaur",
+      "size_dragon"
+    ]
+  }
+}

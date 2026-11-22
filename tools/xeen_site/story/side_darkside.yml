@@ -7,12 +7,12 @@ quests:
     summary: "Gremlins are sabotaging Castleview. Stop them at their king Gettlewaithe's court in the burrow under the town wall, by talk or by force."
     requires: "Nothing. You can start it outside the walls, without a pass: this is one of the two ways into Castleview (the other is a pass)."
     steps:
-      - "Read the Mayor's notice nailed beside Castleview's north gate, outside, next to the gatewarden's hatch. That starts the quest. Inside the walls, Mayor Snarfblad in the Town Hall gives the same job under 'Gremlins'."
+      - "Read the Mayor's notice nailed beside Castleview's north gate, outside, next to the gatewarden's hatch. That starts the quest. Inside the walls, Mayor Snarfblad in the Town Hall gives the same job under 'Quest'."
       - "Walk east along the outside of the wall to a burrow under it, The Gremlin Court. Click it and choose OK in the entrance window to crawl in."
       - "Walk north through the hall of pranks and the waiting room (open its door), then through the court's door. Gettlewaithe sits on his throne of chairs at the north end with three Gremlin Guards before him. The gremlins of the burrow, the hall of pranks, the waiting room and the court leave you alone unless you attack them; those in the wall's old cellar, the larder and the army below are hostile anyway."
       - "Peace route: click the throne to talk to him. Say 'We come in peace' first, then 'The Mayor's demand'. He refuses and calls his guards, and the court turns on you. Kill the three guards (Gettlewaithe stays on his dais and does not fight unless struck). When the last guard falls he 'has gone a much paler shade of green'. Click the throne again and say 'Submit or die': he submits and the court is won."
       - "Fight route: kill Gettlewaithe himself (level 24) and his guards. 'He topples off his throne of chairs' and the court is won. Then open the treasury chest beside the throne: it holds 3 Energy Disks and his gold. While he lives, the chest is 'occupied'."
-      - "Leave by the tiny door at the south end of the burrow ('OK'). The north gate now opens for you. Go to the Town Hall, north of the bank, and ask Mayor Snarfblad 'Gremlins' to be paid."
+      - "Leave by the tiny door at the south end of the burrow ('OK'). The north gate now opens for you. Go to the Town Hall, north of the bank, and ask Mayor Snarfblad about 'Quest' to be paid."
       - "Peace route only: Snarfblad then has a second topic, 'Gettlewaithe's gift': three Energy Disks the gremlins sent as an apology."
     tips:
       - "Order matters on the peace route. 'Submit or die' before 'We come in peace' or before the guards are dead makes him order your heads off and the court attacks, but you can still finish by the fight route."
@@ -34,13 +34,13 @@ quests:
     to: {map: xeen_d1, npc: "Jethro"}
     summary: "Jethro's brother Jasper sits in Castleview Jail, framed by Joe the map seller. Get him out."
     steps:
-      - "Jethro's Maps is in the west of Castleview. Ask Jethro 'Jasper' to start."
+      - "Jethro's Maps is in the west of Castleview. Ask Jethro about 'Quest' to start. While you carry Joe's map he shows a second 'Quest' topic above this one: that one takes the map (Joe's Second Business)."
       - "Castleview Jail is just inside the north gate. Warden Krupp says Jasper stole a map from Joe and asks for proof. Jasper himself, under 'Joe', says Joe sells fake maps and that the back window's bars are old."
       - "Proof route: buy one of Joe's maps from his stall outside the north gate (Joe's Second Business, 1,000 gold) and ask Warden Krupp 'Jasper' with it in your packs. He reads it, sets Jasper free and hands the map back."
       - "Force route: click the barred window in the alley behind the jail. With the quest started you wrench the bars out and Jasper runs for his brother's house. Before you have talked to Jethro the bars do not move."
-      - "Return to Jethro's Maps (Jasper now lives there too) and ask Jethro 'Jasper'."
+      - "Return to Jethro's Maps (Jasper now lives there too) and choose Jethro's 'Quest' topic for Jasper (the lower one if he shows two)."
     tips:
-      - "Show Krupp the map before you give it to Jethro under 'Joe's map': Jethro keeps it."
+      - "Show Krupp the map before you give it to Jethro (his 'Quest' topic for Joe's map): Jethro keeps it."
     reward: "4,000 XP for each member and 1,000 gold."
     points:
       - {map: xeen_d1, name: "Warden Krupp and Jasper"}
@@ -56,14 +56,14 @@ quests:
     requires: "The lessons and the word any time. Reger promotes only once Megan, on Castle Kalindra's second floor, has asked you for the Songbird of Serenity (The Songbird of Serenity, after the second stage of disks). Promotes Initiates to Masters: the Light path. The Dark path for an Initiate is the Ninja clan (The Clan's Return, at the Ninja Pagoda). The choice is per character: a member promoted on one path cannot take the other."
     steps:
       - "The four monks live in a row of cells in the west of Castleview, under a sign that reads 'The Drawkcab Monks study the Palindrome.' From west to east: Brother Otto, Sister Hannah, Brother Bob, Sister Ada."
-      - "Ask each 'Lesson' in that order: Otto, Hannah, Bob, Ada. A monk asked out of turn says 'Order wrong the. Otto first, Brother. Lesson one.'"
+      - "Take their lessons in that order: ask Brother Otto about 'Quest', then Hannah, Bob and Ada about 'Lesson'. After his lesson Otto's 'Quest' topic becomes 'Lesson' too. A monk asked out of turn says 'Order wrong the. Otto first, Brother. Lesson one.'"
       - "Sister Ada makes the party members of the Drawkcab and names the word: palindrome."
       - "Brother Reger's cell stands alone far south of Castleview, outside the walls. Click its door. It asks 'What's the word?': type palindrome. The door opens ('Ni emoc')."
-      - "Inside, ask Reger 'The word'. If the Queen's castle is not far enough along yet, he says Masters are 'ready not yet' and you come back after Megan's request. Then he promotes your Initiates."
+      - "Inside, ask Reger about 'Quest'. If the Queen's castle is not far enough along yet, he says Masters are 'ready not yet' and you come back after Megan's request. Then he promotes your Initiates."
     tips:
       - "Without the Drawkcab award the door only says 'Wrong. Go visit the monks...'. A wrong word gets 'WRONG!!!' and you can try again."
       - "Otto teaches Dodging and Hannah Unarmed (Master) in the same cells."
-      - "Initiates who join later or are promoted later: Reger's topic 'Masters' promotes them, unpaid."
+      - "Initiates who join later or are promoted later: Reger's topic 'Promotion' promotes them, unpaid."
     reward: "Sister Ada: 2,000 XP for each member and the award 'A member of the Drawkcab'. Reger: 9,000 XP for each member and the Master promotion for every Initiate."
     points:
       - {map: xeen_d1, name: "Sign"}
@@ -79,11 +79,11 @@ quests:
     to: {map: xeen_d1, npc: "Dyson"}
     summary: "Close all eighteen chests in Castleview's Public Storage yards, each row in the right order."
     steps:
-      - "Dyson the puzzlemaster is at Public Storage in the middle of Castleview. Ask him 'The chests': close the numbered chests from 1 to 9, and the lettered ones so they spell PITCHFORK."
+      - "Dyson the puzzlemaster is at Public Storage in the middle of Castleview. Ask him about 'Quest': close the numbered chests from 1 to 9, and the lettered ones so they spell PITCHFORK."
       - "Two rows of nine chests stand in the yard south of his door, the numbered row to the west and the lettered row to the east. Use a chest to work its lid."
       - "Numbered row. The lids, west to east, read 3 7 1 9 5 2 8 4 6. Close them 1, 2, 3 ... 9: that is the 3rd, 6th, 1st, 8th, 5th, 9th, 2nd, 7th and 4th chest from the west. A chest out of turn 'will not shut' and all nine spring open again. The ninth lid drops 'with a satisfying clunk'."
       - "Lettered row. Using a chest shows its letter ('A letter on the lid reads: ...'). West to east they are F T K P O C R I H. Close them P, I, T, C, H, F, O, R, K: the 4th, 8th, 2nd, 6th, 9th, 1st, 5th, 7th and 3rd from the west. The last lid ends with 'A pitchfork, spelled in chests.'"
-      - "Return to Dyson and ask 'The chests' again. With only one row done he pays nothing."
+      - "Return to Dyson and ask about 'Quest' again. With only one row done he pays nothing."
     tips:
       - "The lettered row says nothing when a lid shuts in turn, and a wrong letter silently starts the row over. If the finishing line does not come, start again from P."
       - "Dyson also teaches Disarm Trap (Master)."
@@ -100,11 +100,11 @@ quests:
     summary: "Valio the Simple, who lives in a bed in the Castleview Sewer, wants Rooka the Queen Rat dead."
     steps:
       - "Climb down the iron hatch in Castleview's square, just south-west of the Castleview Strongroom (the bank)."
-      - "Go west through the door at the drain cross and follow the west drain to Valio's niche. Click his bed and ask 'Rats'."
+      - "Go west through the door at the drain cross and follow the west drain to Valio's niche. Click his bed and ask about 'Quest'."
       - "Rooka's nest is in the east of the sewer, beyond the flooded culvert in the deep cistern (down the overflow stair beside Valio's bed). The culvert is 'flooded to its roof' while the sluice runs."
       - "To drain it, go back up and north to the sluice lever in the north-west of the sewer and pull it. 'The gate drops shut', and after a few seconds the culvert drains."
       - "Go back down the overflow stair, through the drained culvert and up the nest ramp. Kill Rooka the Rat Queen (level 24) and her wererats. 'Down the tunnel, someone in a bed cheers.'"
-      - "Return to Valio and ask 'Rats': the chest beside his bed is yours. Open it then."
+      - "Return to Valio and ask about 'Quest': the chest beside his bed is yours. Open it then."
     tips:
       - "Do not open Valio's chest before he has paid. He yells that it is his, and Valio, a level-45 graduate of the School of Evil Wizardry, gets out of bed to fight."
       - "Leave by the ladder under the hatch ('OK')."
@@ -123,17 +123,17 @@ quests:
     summary: "Heretics have thrown Dreyfus, High Priest of Mok, out of the Western Tower. Climb in from the top, kill their Cult Leader and open the ground door with his key."
     requires: "Promotes Crusaders to Heroes and Priests to Priests of Light: the Light path. The Dark path for a Crusader is the Voweless Knights (The Chalice of Protection, Villain), for a Priest Sandro the Lich (Sandro's Heart, Priest of Dark). The choice is per character: a member promoted on one path cannot take the other. The tower is built for a party of about level 35."
     steps:
-      - "Dreyfus is in the Temple of Mok in the east of Castleview. Ask him 'Heretics'."
+      - "Dreyfus is in the Temple of Mok in the east of Castleview. Ask him about 'Quest'."
       - "The Western Tower of Mok stands in the north-west of the vale, south of the gemsmiths' row. Its ground door is warded and locked. Walk round to the north wall, where a rope hangs from a window near the top. Click it and choose OK in the entrance window to climb: you arrive on the tower's top floor."
       - "Top floor: open the door out of the hoist room, cross the bone gallery and go through the chapel's double doors. Kill the Cult Leader (level 45). The Key to the Western Tower lies on the altar at the chapel's west end: pick it up like any item."
       - "Take the altar stair down. On the third floor Pious the Cleric begs for his life, and on the second floor Humble the Cleric does the same: 'Slay him anyway?'. Answer 'No' to spare them (they leave), 'Yes' to kill them. Sparing them costs nothing."
       - "Go down the east stair to the ground floor. The disc alcoves hold 2 Energy Disks. Unlock the front door at the south end from inside with the key ('a small, sulky pop') and leave by it."
-      - "Report to Dreyfus: 'Heretics'. If you spared either cleric, he also has 'The clerics'."
+      - "Report to Dreyfus: 'Quest'. If you spared either cleric, he also has 'The clerics'."
     tips:
       - "With the key you can also open the ground door from outside."
       - "Each of the four fountains on the second and third floors gives every member who drinks +5 to one resistance (Fire, Air, Water, Body), once per character."
       - "The Golden Pegasus Statuette for Luna's Statuettes lies in the north alcove of the ground floor's hall of alcoves."
-      - "Crusaders or Priests who join later or are promoted later: Dreyfus's topic 'Mok's blessing' promotes them, unpaid."
+      - "Crusaders or Priests who join later or are promoted later: Dreyfus's topic 'Promotion' promotes them, unpaid."
     reward: "9,000 XP for each member, 3,000 gold, the award 'Helped Dreyfus, High Priest of Mok', and the promotions: Crusader to Hero, Priest to Priest of Light. Plus the 2 Energy Disks from the alcoves."
     points:
       - {map: xeen_d1, name: "Western Tower of Mok"}
@@ -152,11 +152,11 @@ quests:
     summary: "Four gemsmiths outside Castleview each make a piece of gem gear from five rocks of their gem and a few gems. Repeatable."
     requires: "Rocks from the Gemstone Mines. Diamonds come only from the north pocket, reached from the Forbidden Zone (Act V)."
     steps:
-      - "The gemsmiths' row is in the north-west of the vale, west to east: Linus (ruby, 2 gems), Simon (emerald, 4 gems), Toby (sapphire, 6 gems), Hector (diamond, 10 gems). Ask any of them about his work to start the note."
+      - "The gemsmiths' row is in the north-west of the vale, west to east: Linus (ruby, 2 gems), Simon (emerald, 4 gems), Toby (sapphire, 6 gems), Hector (diamond, 10 gems). Ask any of them about 'Quest' to start."
       - "Rubies and emeralds: the timbered adit just east of Hector's leads into the Gemstone Mines' west pocket. Five ruby veins and five emerald veins give one rock each; click a vein to work it."
       - "Sapphires: the east pocket's adit is on the Sprite Forest map (D2), in the hills of its north-west. Go through the adit's door and follow the upper drift north, then east into the sapphire hall: its five sapphire veins are in the walls (a sixth glint is no vein)."
       - "Diamonds: the north pocket's adit is in the Forbidden Zone (D6). It has five diamond veins."
-      - "Bring five rocks of one kind to its smith and ask about his work again. Any gem items count as the fee; the cheapest are taken first."
+      - "Bring five rocks of one kind to its smith and ask him about 'Quest' again. Any gem items count as the fee; the cheapest are taken first."
       - "To refill the veins, pay the God of Minerals at the bottom of the east pocket 10,000 gold. He takes it only after you have dug something ('The mountains are full. Empty them first.'). Each pocket refills the next time you enter it; leave and come back in."
     tips:
       - "A spent vein says 'You've got all this vein has to offer.'"
@@ -182,10 +182,10 @@ quests:
     summary: "Find the emerald handle that fell off Vespar's staff on the road from Sandcaster. In return he gives you the mended staff."
     requires: "Nothing."
     steps:
-      - "Vespar's House stands alone in the north-east of Castleview Vale, well outside Castleview's walls. Click the door and pick 'Emerald handle'. He asks you to find it."
+      - "Vespar's House stands alone in the north-east of Castleview Vale, well outside Castleview's walls. Click the door and pick 'Quest'. He asks you to find it."
       - "Go to Sandcaster and the Aging Forest. Kramer's Caravans in Castleview run there on Tuesdays and Fridays (3 days), or walk east through Sprite Forest."
       - "The handle lies in a roadside ruin south-east of Sandcaster's walls, on the way to the Crossroads stalls. Click the Rubble: 'You found an emerald handle.'"
-      - "Go back to Vespar and pick 'Emerald handle' again. He takes the handle and gives you his staff."
+      - "Go back to Vespar and pick 'Quest' again. He takes the handle and gives you his staff."
     tips:
       - "The rubble gives the handle only once. If you click it again it says 'Rubble, and nothing green in it.'"
     reward: "5,000 XP for each member and Vespar's Staff (an artifact)."
@@ -204,11 +204,11 @@ quests:
     summary: "Bring Nibbler the monkeydog three Monga melons for something shiny."
     requires: "Nothing."
     steps:
-      - "Nibbler's Hollow is in the west of Sprite Forest, beside the great tree with a door in its trunk. Click it and pick 'Monga melons'. He wants three."
+      - "Nibbler's Hollow is in the west of Sprite Forest, beside the great tree with a door in its trunk. Click it and pick 'Quest'. He wants three."
       - "Walk off Sprite Forest's west edge to Castleview Vale."
       - "The wild melon patch is in the vale's southern meadows, south-east of Castleview, among centipede nests. Click the Melon vines to pick three Monga Melons. Something with many legs objects, so be ready for centipedes."
       - "One more melon grows at the edge of Pip Melonby's field, just outside Castleview's south wall. Click it if you want a spare."
-      - "Go back east to Nibbler and pick 'Monga melons'. He takes three and gives you something shiny he found in the Temple of Bark, a random item."
+      - "Go back east to Nibbler and pick 'Quest'. He takes three and gives you something shiny he found in the Temple of Bark, a random item."
       - "The door in the great tree's trunk next to his hollow is the Temple of Bark, where Princess Sheewana is held (Princess Sheewana). Nobody locks it."
     tips:
       - "If you bring Nibbler a melon after the quest is done, he eats it."
@@ -228,20 +228,20 @@ quests:
     summary: "Free Princess Sheewana of the Sprites from Shaalth's Orcs in the Temple of Bark."
     requires: "Nothing. The temple's door is not locked. The polite route is the Light tier-2 promotion for Hunters: each Hunter becomes a Ranger Lord. Light and Dark are chosen per character. A Hunter promoted here can no longer become a Bounty Hunter (Kramer's bounty, Graalg's Ogres), and the reverse is also true."
     steps:
-      - "Sharla's Treehouse is in the sprites' treehouse village in the south-west of Sprite Forest. Pick 'Sheewana'. She asks for help, then you choose how to answer."
+      - "Sharla's Treehouse is in the sprites' treehouse village in the south-west of Sprite Forest. Pick 'Quest'. She asks for help, then you choose how to answer."
       - "Choose one answer. 'Certainly' is the polite route: 2 Energy Disks, 1,000 gold and the Ranger Lord promotion. 'What's in it for us?' is the mercenary route: 2 Energy Disks and 3,000 gold, but no promotion. 'This is a stick up!' is the robbery route: the village sprites turn hostile for good."
       - "Enter the temple through the door in the great tree's trunk, next to Nibbler's Hollow (OK in the entrance window). Past the entrance a voice booms: 'Feed the roots and the tree shall bear fruit! Feed the limbs and suffer the wrath of BARKMAN!'"
       - "Take the root stair west down to the root cellar. Each of the two root alcoves there asks 'Feed me! Give gem?'. Pay one gem at each and get an Energy Disk from each. Feed only the roots. A gem in a limb alcove higher up wakes Barkman, an optional level-60 fight."
       - "Optional: in the pens south-west of the root cellar, pull the lever to open the cages. Talk to Nathan and Sky ('Thanks'). Then go back up to the entrance hall, north and then east through the guardroom door, and up the back stair to the cell row, and talk to Snog and Alicia the Just. Each prisoner gives 500 XP for each member."
       - "Shaalth's hall is south of the cell row. Click the cage: it is locked, and Shaalth carries the key. Kill Shaalth the Orc King (level 30) and his shamans and captains. Then click the cage again: 'Shaalth's key turns in the cage lock.'"
       - "Talk to Princess Sheewana ('Home'). That frees her and gives the quest's experience. She goes home to Sharla's treehouse."
-      - "Leave by the trunk door and go back to Sharla: pick 'Sheewana' and she pays according to the answer you gave."
+      - "Leave by the trunk door and go back to Sharla: pick 'Quest' and she pays according to the answer you gave."
     tips:
       - "Optional, east of Shaalth's hall: the Book of Ascension in the Disciples' chapel gives the dial order. Set the West dial to 1, the North dial to 2 and the East dial to 3. Each dial starts at 1, and every 'Turn? Yes' adds one. Then pull the lever and drink the Crystal Water: the whole party becomes Disciples of Bark, and the Disciples' door to a treasure vault opens."
       - "Don't drink the Dark Water or the Orc Shaman's tea. Both poison you."
       - "Robbery route: kill every sprite in the treehouse village to open the chest in Sharla's tree, which holds 2 Energy Disks. The village is hostile afterwards. Robbers get the chest's 2 disks and nothing from Sharla."
       - "The four fountains in the south-east corner of the temple give +5 to a resistance, once per character."
-      - "A Hunter who joins later can still be promoted on the polite route: Sharla then has a 'Forest lords' topic."
+      - "A Hunter who joins later can still be promoted on the polite route: Sharla then has a 'Promotion' topic."
     reward: "Sheewana freed: 6,000 XP for each member. Sharla: 2 Energy Disks, plus 1,000 gold and Hunter to Ranger Lord on the polite route, or 3,000 gold on the mercenary route; nothing on the robbery route. The two root alcoves give 2 more Energy Disks."
     figures:
       - img: bark_dials.webp
@@ -266,16 +266,16 @@ quests:
     summary: "Stop Graalg's Ogres robbing Kramer's caravans in Ogre Pass, either by making peace with Graalg or by burning both ogre forts."
     requires: "Nothing. Burning both forts is the Dark tier-2 promotion for Hunters: each Hunter becomes a Bounty Hunter. Light and Dark are chosen per character. A Hunter promoted here can no longer become a Ranger Lord (Princess Sheewana's polite route), and the reverse is also true."
     steps:
-      - "Kramer's Caravans is on the east side of Castleview. Pick 'Ogres'. He pays to be rid of the ogres, and adds a bounty if both their forts burn."
+      - "Kramer's Caravans is on the east side of Castleview. Pick 'Quest'. He pays to be rid of the ogres, and adds a bounty if both their forts burn."
       - "Walk off Castleview Vale's east edge to Sprite Forest. Ogre Pass is in the north-east, with Graalg's west and east forts. Graalg stands between them and talks while you are at peace."
       - "Peace route: talk to Graalg and pick 'Bow low, slave!'. It makes him laugh and calls you friends. 'Gifts' does the same but costs 1,000 gold. Then pick 'Energy disks': he gives you two and lets the caravans pass. Do not pick 'Pharaoh's oath', which starts a fight at once."
       - "War route: enter each fort through its gate. In the west fort, go through the blockhouse's double door to the fire pit at the north end of the hall. In the east fort, the pit is at the south end. At each pit the game asks 'You've found an Ogre fort, but the Ogres are out hunting. Burn?'. Answer Yes."
       - "On the war route, also open Graalg's strongbox in the east fort. It holds 2 Energy Disks, but only if you have not made peace."
-      - "Go back to Kramer and pick 'Ogres'. If both forts burned, he also offers 'Bounty'. Pick it for the bounty and the promotion."
+      - "Go back to Kramer and pick 'Quest'. If both forts burned, he also offers 'Promotion'. Pick it for the bounty and the promotion."
     tips:
       - "You can still burn the forts after making peace. Graalg and the pass ogres then turn hostile, and you keep the disks he gave you. This lets a peaceful party's Hunters become Bounty Hunters."
       - "Burning a fort turns Graalg and every ogre in the pass hostile."
-      - "A Hunter who joins later can still be promoted: Kramer's 'Guild title' topic promotes him after the bounty."
+      - "A Hunter who joins later can still be promoted: after the bounty, Kramer's 'Promotion' topic promotes him."
     reward: "Kramer: 4,000 XP for each member and 1,500 gold. The bounty adds 1,000 XP for each member, 1,000 gold and Hunter to Bounty Hunter. Either route also gives 2 Energy Disks, from Graalg or from his strongbox."
     points:
       - {map: xeen_d2, name: "Graalg"}
@@ -339,18 +339,18 @@ quests:
     summary: "Kill Xenoc the Wizard and Morgana the Sorceress, who seized Sandcaster's guilds from behind the guild gate."
     requires: "Nothing. This is the Light tier-2 promotion for Rogues: each Rogue becomes a Spy. Light and Dark are chosen per character. The Dark choice for Rogues is Assassin, in The Southern Tower, and a Rogue promoted on one path cannot take the other."
     steps:
-      - "Astra's House is in the north of Sandcaster, next to the guild gate. Pick 'Xenoc and Morgana', then 'We will help'. ('Not our affair' only makes her ask again later.)"
+      - "Astra's House is in the north of Sandcaster, next to the guild gate. Pick 'Quest', then 'We will help'. ('Not our affair' only makes her ask again later.)"
       - "Click the guild gate a few steps away and choose OK in the entrance window. This takes you into the Wizard Quarter, a court with iron golems."
       - "Xenoc: go through the Mirage Guild's double doors west of the court, through the foyer and the hall of illusions, and up the Mirage stair to the gallery. At the gallery's west end, click the mirror: 'In the mirror, the blank wall behind you has a door in it.' Walk east through that blank wall into the Hall of Mirages and kill Xenoc (level 60)."
       - "Draw the bolt on the wall beside the bridge door, north-east of Xenoc's hall. The door opens. Cross the covered bridge east to the scrying room, on the upper floor of the Sorceress HQ's side."
       - "A ward of light seals Morgana's door and draws on two lamps, one above and one below. Snuff the lamp in the scrying room ('Snuff it? Yes'). Then go down the HQ stair, through the Robing room door, and snuff the second lamp. 'The ward flickers and goes out.'"
       - "Go back up the stair into Morgana's sanctum in the north-east and kill Morgana (level 60) and her Grand Sorceresses."
-      - "Leave by the guild gate, south of the court, and pick 'Xenoc and Morgana' at Astra's."
+      - "Leave by the guild gate, south of the court, and pick 'Quest' at Astra's."
     tips:
       - "In the Guild Common, Blastem's 'Boots licked' gives the mirror hint. 'The lesson' turns him into a hostile Sorcerer."
       - "The Orange and Purple Potions in two alcoves at the foot of the Mirage stair give each member +2 Intellect and +2 Speed, once per character."
       - "The Font gives 2,000 spell points."
-      - "A Rogue who joins later can still be promoted: Astra then has 'The guilds' word'."
+      - "A Rogue who joins later can still be promoted: Astra then has 'Promotion'."
     reward: "10,000 XP for each member and Rogue to Spy. The quarter's houses open: the Guild of Night, Esoterica, and the Mindwright's, Appraiser's and Alembic towers (Grandmaster teachers of Mind Magic, Identify Item and Alchemy)."
     points:
       - {map: xeen_d3, name: "Wizard Quarter"}
@@ -370,12 +370,12 @@ quests:
     to: {map: xeen_d3, npc: "Caleb"}
     summary: "Recover Caleb the Inventor's magnifying glass from the gargoyles' lair on Magic Mountain, and destroy the lair."
     steps:
-      - "Caleb's Workshop is a stall at the Crossroads, east of Sandcaster's walls. Pick 'Magnifying glass'."
+      - "Caleb's Workshop is a stall at the Crossroads, east of Sandcaster's walls. Pick 'Quest'."
       - "Go north to Lakeside and Blackfang: walk off the north edge (7 days), or take the caravan from inside Sandcaster to Lakeside on Sundays (3 days). The lair is a cave in the crags of Magic Mountain, north-west of Lakeside, under the gargoyles' perches. Click it and choose OK in the entrance window."
       - "Inside, go north up the guano slope into the perch hall. Climb the rock ramp behind its west wall to the upper perches and follow the ledge north to the roost, or go east through the still gallery and up the rock steps north to the roost."
       - "Click a roosting rock: 'Do you wish to destroy the Gargoyle Lair?' Answer Yes to pound the rocks to powder."
       - "The gargoyles' nest of shiny things is just north of the roost. Click the Nest to take the glass, with 'CALEB' scratched on the handle."
-      - "Go back down the rock steps to the cave mouth, return to Caleb and pick 'Magnifying glass'."
+      - "Go back down the rock steps to the cave mouth, return to Caleb and pick 'Quest'."
     tips:
       - "The nest gives up the glass only after the roost is destroyed: before that, every gargoyle on the rocks turns its head as you reach for it."
       - "Mountain gargoyles, sentinels and overlords (levels 30-45) circle the crags outside the cave."
@@ -422,13 +422,13 @@ quests:
     summary: "Fetch the Chalice of Protection from the Voweless Knights' Northern Tower for Bosco the Dwarf King, or swear the knights' oath and give it back to them."
     requires: "Nothing gates it (Act V, level about 50). The two routes exclude each other: the Chalice goes to Bosco or to the knights. The oath route is the Dark tier-2 promotion for a Cavalier (to Black Knight) and a Crusader (to Villain). The Light choices for those lines are Dimitri's Test in Castle Kalindra (Cavalier to Champion) and The Heretics of Mok (Crusader to Hero). The choice is per character: a member promoted on one path cannot take the other path's promotion."
     steps:
-      - "Bosco's Hall opens north of the Great Pyramid in the Desert of Doom, south-west of the Northern Tower. Bosco is in the King's Hall at the far west end, beyond the gate hall, the great hall and the throne hall. Ask 'Chalice'. He tells you the knights' door stands open and how to answer their voice: without vowels, 'Chlc'."
+      - "Bosco's Hall opens north of the Great Pyramid in the Desert of Doom, south-west of the Northern Tower. Bosco is in the King's Hall at the far west end, beyond the gate hall, the great hall and the throne hall. Ask him about 'Quest'. He tells you the knights' door stands open and how to answer their voice: without vowels, 'Chlc'."
       - "Optional: in Castleview, Librarian Ormond (Castleview Library) sells 'The Voweless Knights' answers' for 500 gold. The autonote spells out the seven proverbs of the tower's books and the voice's answer."
       - "The Northern Tower stands north-east of Bosco's Hall. Its door is not locked. The Dark Knights inside are hostile until you swear the oath."
       - "Climb the tower: the great stair from the Hall of Arms to the second floor, through the west armoury's door, the west wall stair to the drill floor, then the Stair of Silence to the top floor. Go through the chapter hall's double door."
       - "In the antechamber north of the chapter hall, click the mask. It asks 'Wht d y sk?'. Type Chlc ('aie', the missing vowels, also works). 'Chalice' with its vowels sends you away; nothing is lost, so ask again. The iron door beside the mask opens."
       - "In the chalice room behind the iron door, click the stand to take the Chalice of Protection."
-      - "Light route: go back down, leave by the gate, and give the Chalice to Bosco ('Chalice'). He makes you his Royal Taste Testers. Nobody is promoted."
+      - "Light route: go back down, leave by the gate, and give the Chalice to Bosco ('Quest'). He makes you his Royal Taste Testers. Nobody is promoted."
       - "Dark route: instead, click the plaque 'In honor of the Grand Order of Voweless Knights' in the chapter hall while you carry the Chalice, and answer Yes to 'Swear the Voweless oath?'. The knights take the Chalice back, give you two Energy Disks and become friendly. Every Cavalier becomes a Black Knight and every Crusader a Villain. Bosco then turns you away."
     tips:
       - "The tower's seven books each show a proverb without vowels and want it back. Type the whole proverb, or just its vowels in order, for a permanent +1 to one statistic for every member present (once per character). The answers are: Let sleeping dogs lie (Endurance). He who laughs last, laughs best (Personality). The needs of the many outweigh the needs of the few (Might). Love of money is the root of all evil (Luck). Don't look a gift horse in the mouth (Accuracy). A fool and his money are soon parted (Intellect). If wishes were horses, beggars would ride (Speed). A wrong answer only slams the book; try again. The 'Cliff Notes' under the dormitory pillows give the vowels."
@@ -454,18 +454,18 @@ quests:
     summary: "Recover the Jewel of Ages from the mages of the Great Eastern Tower so that Thaddeus can restore the Fountain of Youth."
     requires: "The Southern Tower started first. Its thieves' ledger says where the jewel went, and Thaddeus names the place once you have read it. The Great Eastern Tower itself is not locked. Ellinger's letter on the tower's top floor is the Light tier-2 promotion for a Wizard (to Archmage). The Dark choice for Wizards is Sandro's Heart (Lich). The choice is per character."
     steps:
-      - "Thaddeus lives in the Fountain Keeper's Hut by Venom Pond, south-east of the middle of the Sandcaster map. Ask 'Jewel of Ages'. Until you have read the ledger, he only points you to the Great Southern Tower. Once you have read it, he names the Eastern Tower."
+      - "Thaddeus lives in the Fountain Keeper's Hut by Venom Pond, south-east of the middle of the Sandcaster map. Ask him about 'Quest'. If he shows two 'Quest' topics, this quest's is the one above 'Hornets' (the one below is The Southern Tower). Until you have read the ledger, he only points you to the Great Southern Tower. Once you have read it, he names the Eastern Tower."
       - "The Great Eastern Tower stands on a knoll near the eastern rim of the map, north-east of Thaddeus's hut. Its door is not locked: click it and choose OK in the entrance window."
       - "Inside, take the first stair up to the second floor and the second stair to the third. The vault is shut by a door of light fed by two beams: shatter the west pylon in the conjury, then go through the wall passage and shatter the east pylon in the scrying room. The door fades."
       - "In the vault, the Jewel of Ages lies on its stand: pick it up like any item. Click the disc in the alcoves beyond it to take two Energy Disks."
       - "Take the third stair to the top floor. In the study, open the writing box on the desk, a chest: it holds Ellinger's Sealed Letter, addressed 'To the Guildmaster of Sandcaster'."
-      - "Leave the tower (on the top floor, the floating disc in the well takes you back down to the ground floor; the exit is the west door). Show Thaddeus the jewel ('Jewel of Ages'). He dips it in the fountain, and you keep the jewel."
-      - "For the promotion, take the letter to Nasir in the Sandcaster Guild of Light in the north-west of the map. Choose Nasir, then 'Ellinger's letter': every Wizard becomes an Archmage."
+      - "Leave the tower (on the top floor, the floating disc in the well takes you back down to the ground floor; the exit is the west door). Show Thaddeus the jewel (his 'Quest' topic above 'Hornets'). He dips it in the fountain, and you keep the jewel."
+      - "For the promotion, take the letter to Nasir in the Sandcaster Guild of Light in the north-west of the map. Choose Nasir, then 'Promotion' (it shows while you carry the letter): every Wizard becomes an Archmage."
     tips:
       - "On the second floor, the Golden Griffin Statuette for Luna's Statuettes is in the chest in the mages' curio cabinet at the east end of the gallery."
       - "Top floor, once per character: the Book of Fantastic Knowledge in the study gives +2 Intellect, and the Fountain of Minimal Abilities in the laboratory gives +1 to every statistic. Each member must click them himself. The Book of Great Power refuses everyone, always. The Fountain of Life heals."
       - "Afterwards the Fountain of Youth beside Thaddeus's hut removes magical aging, for example the years the hornets of the Aging Forest take. Before that, its water is venom."
-      - "A Wizard who joins later can still ask Nasir: the 'Archmage's robes' topic promotes him (no pay)."
+      - "A Wizard who joins later can still ask Nasir: his 'Promotion' topic promotes him (no pay)."
     reward: "8,000 XP for each member (Thaddeus), the Jewel of Ages (kept), 2 Energy Disks, and Wizard to Archmage from Nasir."
     points:
       - {map: xeen_d3, name: "Eastern Tower"}
@@ -485,19 +485,19 @@ quests:
     summary: "Search the thieves' Great Southern Tower and find out who bought the stolen Jewel of Ages and Luna's statuettes."
     requires: "Nothing. The Master Thief at the top is the Dark tier-2 promotion for a Warrior Mage (to Sniper) and a Rogue (to Assassin). The Light choices are Luna's Statuettes (Warrior Mage to Master Archer) and The Wizard Quarter (Rogue to Spy). The choice is per character."
     steps:
-      - "Ask Thaddeus 'Southern Tower' in the Fountain Keeper's Hut by Venom Pond (Sandcaster map). A fleeing thief bragged of the Great Southern Tower, and Thaddeus sends you there."
+      - "Ask Thaddeus about 'Quest' in the Fountain Keeper's Hut by Venom Pond (Sandcaster map). If he shows two 'Quest' topics, this quest's is the one below 'Hornets' (the one above is The Jewel of Ages). A fleeing thief bragged of the Great Southern Tower, and Thaddeus sends you there."
       - "The tower is in the south-east of Sprite Forest, in the woods south of Ogre Pass. Its door says NO THIEVES, but it is not locked: click it and choose OK in the entrance window."
       - "Ground floor: go through the tapestry hall and the kennel gate to the west room. A memo by the first gong gives both secrets: ring each gong three times, and the Ali Baba chest's word is 'open sesame'. Click the gong and answer 3. The stair door beside it opens."
       - "Second floor (the den): in the fence's room, the lockbox holds the Strongroom Key. In the treasury in the south-east corner, click the Ali Baba chest and answer open sesame. Among the thieves' takings is a receipt: 'One jewel. Delivered to the Eastern Tower.' Ring the second gong (east side) three times."
       - "Third floor (the practice floor): the pressure plates on the trap walk are disarmed. The Strongroom Key opens the strongroom's iron door, and its chest holds two Energy Disks. Ring the third gong (west side) three times."
-      - "Top floor: the Master Thief waits in the counting room. For the promotion, ask 'Inner circle': every Rogue becomes an Assassin and every Warrior Mage a Sniper. Without such members he lets you go, and the topic stays for later. Do not attack him: once he is dead, the Dark promotion is gone."
+      - "Top floor: the Master Thief waits in the counting room. For the promotion, choose 'Promotion': every Rogue becomes an Assassin and every Warrior Mage a Sniper. Without such members he lets you go, and the topic stays for later. Do not attack him: once he is dead, the Dark promotion is gone."
       - "Read the ledger on the counting-room desk. The Jewel of Ages and the Griffin went to the mages of the Eastern Tower, the Dragon to the Head Witch of Lakeside, the Pegasus to the head heretical cleric of the Western Tower."
-      - "Take the getaway hatch beside the counting room: a chute drops you into the straw by the front door. Tell Thaddeus ('Southern Tower')."
+      - "Take the getaway hatch beside the counting room: a chute drops you into the straw by the front door. Tell Thaddeus (his 'Quest' topic below 'Hornets')."
     tips:
       - "The answer '3' works on each gong. A wrong count only makes the gong boom, so try again."
       - "In the library, the Manual of Master Thievery gives each member who reads it 1,500 XP, once. The Prince Book gives +2 Luck to a member who sat on the Prince of Thieves' throne in the Sphinx (The Sphinx)."
       - "A button behind the tapestry on the ground floor opens an illusory wall."
-      - "Members who become Rogues or Warrior Mages later can ask the Master Thief 'New members' (no pay), as long as he lives."
+      - "Members who become Rogues or Warrior Mages later can choose the Master Thief's 'Promotion' (no pay), as long as he lives."
       - "The disks go to Ellinger (The Four Stages)."
     reward: "5,000 XP for each member and 1,500 gold from Thaddeus, 2 Energy Disks, and Rogue to Assassin and Warrior Mage to Sniper from the Master Thief."
     points:
@@ -517,16 +517,16 @@ quests:
     summary: "Bring Luna the Druid the three golden statuettes stolen from her altar: the Pegasus, the Dragon and the Griffin."
     requires: "Each statuette lies in another quest's dungeon. For the Pegasus, the Western Tower of Mok (The Heretics of Mok). For the Dragon, the Lakeside sewer (The Coven). For the Griffin, the Great Eastern Tower (The Jewel of Ages). The altar is the Light tier-2 promotion for a Warrior Mage (to Master Archer). The Dark choice is the Master Thief's inner circle in The Southern Tower (Sniper). The choice is per character."
     steps:
-      - "Luna stands in her grove in the west of Castleview Vale, south of the Western Tower of Mok. Ask 'Statuettes'. She sends you to the thieves of the Great Southern Tower, whose ledger says who bought each statuette."
+      - "Luna stands in her grove in the west of Castleview Vale, south of the Western Tower of Mok. Ask her about 'Quest'. She sends you to the thieves of the Great Southern Tower, whose ledger says who bought each statuette."
       - "Pegasus: in the Western Tower of Mok, the Golden Pegasus Statuette lies in the north alcove of the ground floor's hall of alcoves (the west and east alcoves hold the disks). Pick it up like any item. The front door opens once you have unlocked it from inside with the Cult Leader's key (The Heretics of Mok). Until then, the only way in is the heretics' rope on the north wall, which takes you to the top floor."
       - "Dragon: in Lakeside, give a wrong answer at the Guild's door (for example 'broom'). The floor drops you into the sewer's sump. Follow the main drain east past the cross, where you are ambushed, then the east drain and the outfall north to a niche near the map's east edge. A dead man's journal lies two steps short of it. The Golden Dragon Statuette lies at the foot of the niche: pick it up like any item."
       - "Dragon, continued: go back along the ledge to the outfall and south into the jetty shaft. Its ladder climbs to the grate by Lakeside's jetty."
       - "Griffin: in the Great Eastern Tower near Sandcaster, take the first stair up and follow the second floor's gallery east to the mages' curio cabinet. Open the chest in it and take the Golden Griffin Statuette."
-      - "Give each statuette to Luna ('Statuettes'). Each one pays on its own."
-      - "With all three on the altar, choose 'The altar'. Every Warrior Mage becomes a Master Archer."
+      - "Give each statuette to Luna ('Quest'). Each one pays on its own; choose 'Quest' once for each statuette you carry."
+      - "With all three on the altar, choose 'Quest' once more. Every Warrior Mage becomes a Master Archer."
     tips:
       - "Rhett, freed from the coven's cells (The Coven), also says the dragon statuette is in the sewer below them."
-      - "A Warrior Mage who joins later can ask Luna 'The altar's light' (no pay)."
+      - "A Warrior Mage who joins later can choose Luna's 'Promotion' (no pay)."
     reward: "For each statuette, 3,000 XP for each member and a random item (treasure level 5): 9,000 XP each in all. The altar: Warrior Mage to Master Archer."
     points:
       - {map: xeen_d1, name: "Western Tower of Mok"}
@@ -544,10 +544,10 @@ quests:
     to: {map: xeen_d4, npc: "Ector"}
     summary: "Find the ring Ector the Woodsman lost in a woodpile on Magic Mountain."
     steps:
-      - "Ector stands by his cabin in the Forest of Peril, in the west of the Lakeside map. Ask 'The ring'."
+      - "Ector stands by his cabin in the Forest of Peril, in the west of the Lakeside map. Ask him about 'Quest'."
       - "The woodpile is north-east of him, on the lower slopes of Magic Mountain. Mountain Gargoyles (levels 30 to 45) roost on the crags above it."
       - "Click the woodpile: 'Under the third log you find a heavy iron ring.' Before Ector has asked you, the pile is only firewood."
-      - "Show Ector the ring ('The ring'). He lets you keep it."
+      - "Show Ector the ring ('Quest'). He lets you keep it."
     tips:
       - "Ector's Ring: +10 Might, +10 Endurance and regeneration."
     reward: "Ector's Ring, 3,000 XP for each member and a random item (treasure level 5)."
@@ -563,13 +563,13 @@ quests:
     summary: "Free the four prisoners in the coven's cells under the Lakeside Guild and kill the Head Witch to liberate Lakeside, or join the coven."
     requires: "Nothing. Joining is the Dark tier-2 promotion for a Great Druid (to Warlock). The Light choice is Leafpoint's Grove (Arch Druid), which needs Thickbark's trolls cleared on Cloudside (Troll Problem). The choice is per character. A party that has joined can still break the coven later."
     steps:
-      - "Naomi is in the stocks on Lakeside's square, by the Guild, in the south-middle of the Lakeside map. Ask 'The coven', then 'Necropolis pass'. She gives you the riddle's answer, 'witch', and says the Head Witch's chest is in her room in the coven's north-west corner."
+      - "Naomi is in the stocks on Lakeside's square, by the Guild, in the south-middle of the Lakeside map. Ask her about 'Quest', then 'Necropolis pass'. She gives you the riddle's answer, 'witch', and says the Head Witch's chest is in her room in the coven's north-west corner."
       - "Click the Lakeside Guild's door. It reads a riddle and asks 'What am I?'. Answer witch (the first letters of the riddle's clues spell it). You get free membership, and from now on the door opens. Go down by the Guild's back stair, the cellar door round the back, into the coven hall."
       - "A wrong answer drops you through the porch into the sewer's sump ('Wrong! Begone fools!'). This bars nothing: from the sewer you can walk up the drain stair past the cells to the coven, or go east past the drain cross to the jetty shaft, climb its ladder to Lakeside and try the door again."
       - "To join (optional, before the Head Witch dies): click the initiation cauldron at the foot of the Guild's stair and answer Yes to 'Drink?'. Every Great Druid becomes a Warlock, and the witches turn friendly. Members may open the Head Witch's chest."
       - "The cells are east of the hall, through the gaol and down the cell stair. Click each of the four cages: Camilla, Aretha, Isabella and Rhett walk out."
       - "Through the double doors north of the hall (the Moon seal), the Head Witch is in her room in the north-west corner. Kill her: Naomi's stocks fall open, and the coven turns hostile. Her chest holds the Pass to Necropolis."
-      - "With the Head Witch dead and all four prisoners free, go back up the back stair and talk to Naomi ('The coven'). Lakeside is liberated, and its tavern and other houses open."
+      - "With the Head Witch dead and all four prisoners free, go back up the back stair and talk to Naomi ('Quest'). Lakeside is liberated, and its tavern and other houses open."
     tips:
       - "The cauldron promotes later Great Druids too, but only while the Head Witch lives. Once she is dead, no more Warlocks can be made."
       - "In the coven's brewery, each of the three cauldrons gives the member who tastes it a permanent bonus once: +2 Personality, +2 Endurance, +2 Speed."

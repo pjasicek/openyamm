@@ -1,0 +1,69 @@
+output_dir: captures
+exit: true
+steps:
+  - wait: 1
+  - console: coop join 127.0.0.1
+  - wait: 5
+  - console: coop net
+  - console: tp 3560 8200 600 -1.5708 0
+  - wait: 2
+  - capture: guest-sees-host
+  - console: coop say Hello from the guest
+  - wait: 3
+  - action: attack
+  - wait: 1
+  - action: attack
+  - wait: 1
+  - action: attack
+  - wait: 1
+  - action_down: left
+  - wait: 0.6
+  - action_up: left
+  - action_down: right
+  - wait: 0.6
+  - action_up: right
+  - action_down: left
+  - wait: 0.6
+  - action_up: left
+  - action_down: right
+  - wait: 0.6
+  - action_up: right
+  - action_down: left
+  - wait: 0.6
+  - action_up: left
+  - action_down: right
+  - wait: 0.6
+  - action_up: right
+  - action_down: left
+  - wait: 0.6
+  - action_up: left
+  - action_down: right
+  - wait: 0.6
+  - action_up: right
+  - action_down: left
+  - wait: 0.6
+  - action_up: left
+  - action_down: right
+  - wait: 0.6
+  - action_up: right
+  - action_down: left
+  - wait: 0.6
+  - action_up: left
+  - action_down: right
+  - wait: 0.6
+  - action_up: right
+  - action_down: left
+  - wait: 0.6
+  - action_up: left
+  - action_down: right
+  - wait: 0.6
+  - action_up: right
+  - action_down: left
+  - wait: 0.6
+  - action_up: left
+  - action_down: right
+  - wait: 0.6
+  - action_up: right
+  - console: coop net
+  - console: loc
+  - wait: 2

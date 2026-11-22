@@ -114,7 +114,7 @@ steps:
   - interact_actor: {actor_index: 49}
   - advance_runtime: {seconds: 0.6, present_dialogs: true}
   - assert: {dialog: {active: true, source_id: 5453}}
-  - select_topic: {match_label: "The destiny of Xeen"}
+  - select_topic: {action_id: 41801, match_label: "Quest"}
   - advance_runtime: {seconds: 0.5, present_dialogs: true}
   - assert: {dialog: {active: true, text_contains: "Turn on the four machines in the corners of the other side of the world"}}
   - assert: {dialog: {text_contains: "rescued Prince Roland from the bottom of Sheltem's dungeon"}}
@@ -127,7 +127,7 @@ steps:
   - assert: {dialog: {active: true, text_contains: "Fire in the north-west, Air in the north-east, Earth in the south-east, Water in the south-west"}}
   - assert: {autonote: {id: 4137, present: true}}
   # Asked again, the checklist is only repeated (no second payment).
-  - select_topic: {match_label: "The destiny of Xeen"}
+  - select_topic: {action_id: 41801, match_label: "Quest"}
   - advance_runtime: {seconds: 0.5, present_dialogs: true}
   - assert: {dialog: {active: true, text_contains: "Then the Cube and the Scepter, together, at my shrine."}}
   - play_lua:

@@ -201,7 +201,6 @@ chests:
     room: room:bone_den
     at: [-2752, 2880]
     kind: gt002
-    facing: e
     treasure_level: 2
     random_items: 2
     gold: 150
@@ -210,7 +209,6 @@ chests:
     room: room:larder
     at: [-3968, 4128]
     kind: gt002
-    facing: e
     treasure_level: 2
     random_items: 2
     gold: 300
@@ -219,7 +217,6 @@ chests:
     room: room:chief_den
     at: [-2336, 4288]
     kind: gt002
-    facing: s
     treasure_level: 2
     random_items: 3
     notes: The Chieftain's own chest by the north wall.
@@ -227,7 +224,6 @@ chests:
     room: room:larder
     at: [-3808, 3696]
     kind: gt002
-    facing: n
     treasure_level: 3
     random_items: 3
     gold: 800

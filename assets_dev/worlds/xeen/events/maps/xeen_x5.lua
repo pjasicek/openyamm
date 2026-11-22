@@ -513,7 +513,9 @@ end, "Old Knut's fishing hole")
 RegisterEvent(107, "The Winter Druid's stones", nil, "The Winter Druid's stones")
 
 -- evt:thing:holy_book
-RegisterEvent(108, "A torn pack", nil, "A torn pack")
+RegisterEvent(108, "A torn pack", function()
+    XeenQuests.hook("q-c18.book")
+end, "A torn pack")
 
 -- evt:thing:warren
 RegisterEvent(109, "Troll Warren", function()
@@ -717,6 +719,14 @@ RegisterEvent(146, nil, function()
     evt.SetMonsterRelation(583, 0, 0)
     evt.SetMonsterRelation(584, 0, 0)
     evt.SetMonsterRelation(585, 0, 0)
+    evt.SetMonsterRelation(166, 0, 0)
+    evt.SetMonsterRelation(217, 0, 0)
+    evt.SetMonsterRelation(304, 0, 0)
+    evt.SetMonsterRelation(352, 0, 0)
+    evt.SetMonsterRelation(382, 0, 0)
+    evt.SetMonsterRelation(583, 0, 0)
+    evt.SetMonsterRelation(598, 0, 0)
+    evt.SetMonsterRelation(607, 0, 0)
 end)
 
 -- evt:thing:north_gong_1
@@ -760,7 +770,8 @@ RegisterEvent(151, nil, function()
         return
     end
     evt.SetMapVar("studio_peaceful_groups", 1)
-    evt.SetMonGroupBit(51, MonsterBits.Hostile, 0)
+    evt.SetMonGroupBit(47, MonsterBits.Hostile, 0)
+    evt.SetMonGroupBit(48, MonsterBits.Hostile, 0)
 end)
 
 -- evt:outpost_burnt

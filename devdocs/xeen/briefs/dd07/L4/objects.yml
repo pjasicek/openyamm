@@ -503,7 +503,6 @@ chests:
     room: room:dormitory
     at: [1920, -1600]
     kind: ch1
-    facing: w
     treasure_level: 4
     random_items: 2
     gold: 1400
@@ -512,7 +511,6 @@ chests:
     room: room:store
     at: [1600, -256]
     kind: ch1
-    facing: w
     treasure_level: 4
     random_items: 3
     gold: 1200
@@ -521,7 +519,6 @@ chests:
     room: room:study
     at: [-2688, 576]
     kind: 7gt002
-    facing: e
     treasure_level: 4
     random_items: 3
     gold: 2400

@@ -328,7 +328,6 @@ chests:
   - id: chest:niche_e
     room: room:niche_e
     at: [2720, 1728]
-    facing: w
     treasure_level: 5
     random_items: 3
     gold: 1200
@@ -336,7 +335,6 @@ chests:
   - id: chest:niche_w
     room: room:niche_w
     at: [-2720, 1728]
-    facing: e
     treasure_level: 5
     random_items: 3
     gold: 1200
@@ -344,7 +342,6 @@ chests:
   - id: chest:quartermaster
     room: room:quartermaster
     at: [1536, -672]
-    facing: n
     treasure_level: 5
     random_items: 3
     gold: 1500
@@ -352,7 +349,6 @@ chests:
   - id: chest:west_dorm
     room: room:west_dorm
     at: [-2560, 1040]
-    facing: s
     treasure_level: 5
     random_items: 3
     gold: 2000

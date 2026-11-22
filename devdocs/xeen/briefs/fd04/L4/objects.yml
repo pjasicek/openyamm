@@ -767,7 +767,6 @@ chests:
   - id: chest:climber
     room: room:last_climber
     at: [-620, 1440]
-    facing: s
     treasure_level: 6
     random_items: 3
     gold: 4000
@@ -775,7 +774,6 @@ chests:
   - id: chest:crypt
     room: room:crypt
     at: [-1300, 4500]
-    facing: n
     treasure_level: 6
     random_items: 4
     gold: 5000
@@ -783,7 +781,6 @@ chests:
   - id: chest:dorm
     room: room:dormitory
     at: [-1250, -440]
-    facing: n
     treasure_level: 6
     random_items: 3
     gold: 4000
@@ -791,7 +788,6 @@ chests:
   - id: chest:gongs
     room: room:gong_hall
     at: [600, 9850]
-    facing: s
     treasure_level: 6
     random_items: 4
     gold: 6000

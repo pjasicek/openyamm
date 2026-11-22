@@ -464,6 +464,6 @@ RegisterEvent(454, nil, function()
 end)
 
 RegisterEvent(501, "Leave the Temple of Light", function()
-    evt.MoveToMap(-5779, 15131, 225, 1536, 0, 0, 0, 0, "7d25.blv") -- Celeste
+    evt.MoveToMap(-5779, 15131, 225, 1536, 0, 0, 0, 8, "7d25.blv") -- Celeste
 end, "Leave the Temple of Light")
 

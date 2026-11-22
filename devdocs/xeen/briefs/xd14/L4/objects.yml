@@ -452,10 +452,9 @@ chests:
     notes: "The Cult Leader's writing box on his desk, its front to the room (south): the Scroll of Insight is its item (D-90, 2026-11-22: a find in a container is a chest item; A3's q-c8.scroll sets scroll_found)."
   - id: chest:dormitory
     room: room:dormitory
-    at: [-120, -1000]
+    at: [-216, -576]
     floor_height: 640
     kind: ch1
-    facing: e
     treasure_level: 4
     random_items: 2
     gold: 1500

@@ -395,11 +395,11 @@ RegisterEvent(453, nil, function()
 end)
 
 RegisterEvent(501, "Leave Stone City", function()
-    evt.MoveToMap(-2384, 3064, 2091, 0, 0, 0, 0, 0, "out11.odm") -- The Barrow Downs
+    evt.MoveToMap(-2384, 3064, 2091, 0, 0, 0, 0, 8, "out11.odm") -- The Barrow Downs
 end, "Leave Stone City")
 
 RegisterEvent(502, "Leave Stone City", function()
-    evt.MoveToMap(522, -808, 1, 1024, 0, 0, 0, 0, "7d35.blv") -- Nighon Tunnels
+    evt.MoveToMap(522, -808, 1, 1024, 0, 0, 0, 3, "7d35.blv") -- Nighon Tunnels
 end, "Leave Stone City")
 
 RegisterEvent(65535, "", function()

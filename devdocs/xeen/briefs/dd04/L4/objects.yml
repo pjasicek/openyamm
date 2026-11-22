@@ -141,7 +141,6 @@ chests:
     room: room:barracks
     at: [2960, 1536]
     kind: gt002
-    facing: w
     treasure_level: 2
     random_items: 2
     gold: 400
@@ -150,7 +149,6 @@ chests:
     room: room:plunder
     at: [-568, 2992]
     kind: gt002
-    facing: e
     treasure_level: 2
     random_items: 2
     gold: 250
@@ -160,7 +158,6 @@ chests:
     at: [208, 5648]
     floor_height: 32
     kind: gt002
-    facing: s
     treasure_level: 3
     random_items: 2
     gold: 600

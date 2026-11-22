@@ -248,11 +248,11 @@ RegisterEvent(100, nil, function()
 end)
 
 RegisterEvent(101, "Enter The Temple of the Moon", function()
-    evt.MoveToMap(-1208, -4225, 366, 320, 0, 0, 131, 1, "7d06.blv") -- The Temple of the Moon
+    evt.MoveToMap(-1208, -4225, 366, 320, 0, 0, 387, 3, "7d06.blv") -- The Temple of the Moon
 end, "Enter The Temple of the Moon")
 
 RegisterEvent(102, "Enter the Dragon's Cave", function()
-    evt.MoveToMap(752, 2229, 1, 1012, 0, 0, 133, 1, "7d28.blv") -- The Dragon's Lair
+    evt.MoveToMap(752, 2229, 1, 1012, 0, 0, 389, 3, "7d28.blv") -- The Dragon's Lair
 end, "Enter the Dragon's Cave")
 
 RegisterEvent(109, "Well", nil, "Well")

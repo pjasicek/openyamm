@@ -582,7 +582,6 @@ chests:
     room: room:herb_loft
     at: [900, 2100]
     kind: 7gt002
-    facing: s
     treasure_level: 1
     random_items: 2
     items: [226, 224, 178, coven_key]
@@ -591,7 +590,6 @@ chests:
     room: room:warden_lodge
     at: [-1760, -1760]
     kind: 7gt002
-    facing: w
     treasure_level: 1
     random_items: 2
     gold: 120

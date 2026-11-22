@@ -40,10 +40,12 @@ npcs:
   5001:              # Queen Kalindra
     topics:
       - n: 1
-        label: The crown
+        role: quest
+        afterword: {n: 3, label: The crown}
         show: {not: {lua: "Xeen.onMap(\"Clouds of the Ancients\")"}}   # the wedded Queen on P5 has m42's line
         states:
           - when: {qbit: done}
+            afterword: true
             text: "My crown, my castle, my thanks. The Pharaoh will want his orb back, and he does not like to wait. Neither, I find, do I."
           - when: {item: kalindra_crown}
             text: "My crown. Put it on my head, quickly, before the hunger comes back. ... There. I am myself. Ambrose will fly me home after dark; the sun and I are not friends yet. Take this: the key to the Great Pyramid. Alamar wanted it so badly he took a castle to hide it."

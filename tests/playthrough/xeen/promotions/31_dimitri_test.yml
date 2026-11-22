@@ -48,8 +48,8 @@ steps:
   - walk_to: {x: 832, y: 3200, z: 640, radius: 64, timeout_seconds: 20, clear_hostiles: 2000, close_dialogs: true}
   # The Captain's Quarters (house 4502, event 21): The dungeon (T2-A started).
   - play_lua: {source: "click(21); wait(0.8)"}
-  - assert: {dialog: {active: true, source_id: 5004, action_label_present: "The dungeon"}}
-  - select_topic: {match_label: "The dungeon"}
+  - assert: {dialog: {active: true, source_id: 5004, action_label_present: "Quest"}}
+  - select_topic: {action_id: 46003, match_label: "Quest"}
   - assert: {dialog: {active: true, text_contains: "Clear the cells, and I have a title for the knights among you"}}
   - press_action: {action: cancel_dialog}
   - play_lua: {source: "for _ = 1, 3 do if not close() then break end end"}
@@ -111,7 +111,7 @@ steps:
   # Dimitri (The dungeon): done, 6,000 experience each, the Cavalier rises a Champion.
   - play_lua: {source: "for i = 0, 3 do remember('xp' .. i, experience(i)) end; click(21); wait(0.8)"}
   - assert: {dialog: {active: true, source_id: 5004}}
-  - select_topic: {match_label: "The dungeon"}
+  - select_topic: {action_id: 46003, match_label: "Quest"}
   - assert: {dialog: {active: true, text_contains: "Rise, Champions of the Darkside"}}
   - play_lua:
       source: |
@@ -124,7 +124,7 @@ steps:
   - assert: {qbit_set: [114522]}
   # Asked again: nobody left to promote, the quiet cells' line, nothing paid.
   - play_lua: {source: "remember('xp', experience(0))"}
-  - select_topic: {match_label: "The dungeon"}
+  - select_topic: {action_id: 46003, match_label: "Quest"}
   - assert: {dialog: {active: true, text_contains: "The cells are quiet. The guard can sleep"}}
   - press_action: {action: cancel_dialog}
   - play_lua: {source: "for _ = 1, 3 do if not close() then break end end; if experience(0) ~= tonumber(recall('xp')) then error('paid twice') end; if classes() ~= 'Champion Crusader Wizard RangerLord' then error(classes()) end"}

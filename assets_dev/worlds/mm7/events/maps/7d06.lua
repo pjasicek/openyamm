@@ -188,6 +188,6 @@ RegisterEvent(51, nil, function()
 end)
 
 RegisterEvent(100, "Leave the Temple of the Moon", function()
-    evt.MoveToMap(15816, 12161, 1133, 1024, 0, 0, 0, 0, "7out01.odm") -- Emerald Island
+    evt.MoveToMap(15816, 12161, 1133, 1024, 0, 0, 0, 4, "7out01.odm") -- Emerald Island
 end, "Leave the Temple of the Moon")
 

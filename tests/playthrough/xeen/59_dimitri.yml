@@ -72,7 +72,7 @@ steps:
   - play_lua: {source: "remember('xp', experience(0)); click(21); wait(0.8)"}
   - assert:
       dialog: {active: true, source_id: 5004}
-  - select_topic: {match_label: "The Songbird"}
+  - select_topic: {action_id: 41201, match_label: "Quest"}
   - assert:
       dialog: {text_contains: "The disk safes on this floor open to 64, 52, 31"}
   - press_action: {action: cancel_dialog}
@@ -170,7 +170,7 @@ steps:
         if item_count(12334) < 5 then error("only " .. item_count(12334) .. " Energy Disks for Ellinger") end
         click(15); wait(0.5)
   - advance_runtime: {seconds: 1, present_dialogs: true}
-  - select_topic: {match_label: "Energy discs"}
+  - select_topic: {action_id: 41301, match_label: "Quest"}
   - assert:
       dialog: {text_contains: "The dungeon returns now"}
   - advance_runtime: {seconds: 1, present_dialogs: true}

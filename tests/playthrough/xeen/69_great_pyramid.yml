@@ -209,7 +209,7 @@ steps:
   - interact_actor: {actor_index: 49}
   - advance_runtime: {seconds: 0.6, present_dialogs: true}
   - assert: {dialog: {active: true, source_id: 5453}}
-  - select_topic: {match_label: "The orb"}
+  - select_topic: {action_id: 41401, match_label: "Quest"}
   - advance_runtime: {seconds: 0.5, present_dialogs: true}
   - assert: {dialog: {active: true, text_contains: "Alamar is not a king. He is Sheltem"}}
   - play_lua:

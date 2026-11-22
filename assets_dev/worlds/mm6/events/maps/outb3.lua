@@ -120,7 +120,7 @@ RegisterEvent(79, "Chest", function()
 end, "Chest")
 
 RegisterEvent(90, nil, function()
-    evt.MoveToMap(-9734, -19201, 772, 512, 0, 0, 420, 1, "pyramid.blv") -- Tomb of VARN
+    evt.MoveToMap(-9734, -19201, 772, 512, 0, 0, 420, 5, "pyramid.blv") -- Tomb of VARN
 end)
 
 RegisterEvent(91, nil, function()

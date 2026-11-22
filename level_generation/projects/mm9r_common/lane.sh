@@ -5,6 +5,9 @@
 #                                      at once, and at most SLOTS heavy jobs together (memory)
 #   lane.sh job <command...>           a heavy job for no map (a game run, a scenario), in the same slots
 # Locks live in level_generation/projects/mm9r_common/locks/ (lane_map_<stem>.lock, lane_slot_<n>.lock).
+# Memory (2026-11-22: three conversions and two builds at once filled 120 GB and swap, and the PC locked up):
+# every job runs through tools/heavy.sh, which starts it only when its cap plus a reserve is free and kills it alone
+# if it goes over the cap (LANE_CAP_GB, default 48: one conversion's four voxel workers take up to ~45 GB).
 set -euo pipefail
 here="$(cd "$(dirname "$0")" && pwd)"
 repo="$(cd "$here/../../.." && pwd)"
@@ -17,7 +20,7 @@ with_slot() {
             exec {fd}>"$locks/lane_slot_$n.lock"
             if flock -n "$fd"; then
                 set +e
-                "$@"
+                "$repo/tools/heavy.sh" "${LANE_CAP_GB:-48}" "$@"
                 status=$?
                 set -e
                 flock -u "$fd"
@@ -33,7 +36,7 @@ with_slot() {
 case "${1:-}" in
     build)
         cd "$repo"
-        flock -x "$locks/cmake_build.lock" cmake --build build --target openyamm -j25
+        flock -x "$locks/cmake_build.lock" "$repo/tools/heavy.sh" 24 cmake --build build --target openyamm -j16
         ;;
     map)
         stem="$2"

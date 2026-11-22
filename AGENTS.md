@@ -61,6 +61,12 @@ These rules apply to all AI-generated contributions in this repository.
 - Start searches in relevant source directories; include `reference/`, `mm9/`, generated assets, and build trees only
   when needed.
 - Development compile command: `cmake --build build --target openyamm -j25`.
+- **Heavy jobs and memory.** Several sessions and their agents share this PC (121 GB RAM, 8 GB swap). On 2026-11-22
+  three MM9 conversions, two C++ builds and game runs overlapped, filled RAM and swap, and the PC locked up until a
+  power cycle. Run every heavy job through `tools/heavy.sh <cap GB> <command...>`: it waits until the cap plus a
+  24 GB reserve is free and kills the job alone if it goes over its cap. Caps: a C++ build 24 (with `-j16`), a MM9
+  map conversion 48 (`mm9r_common/lane.sh` does this), a Blender bake 16, an oymap map build 8, a game run or
+  playthrough 6. An orchestrator runs at most three agents that start heavy jobs at once.
 - Do not run Vulkan builds or rebuilds (including `build-vulkan/`) unless the user explicitly requests them for
   the current task. Previous Vulkan build authorization does not carry forward to later tasks.
 - Prefer doctest/unit coverage for pure logic. Build with `cmake --build build --target openyamm_unit_tests -j25`,
@@ -117,6 +123,19 @@ These rules apply to all AI-generated contributions in this repository.
 - For turn-based combat (the turn queue, initiative, recovery in turns, actions that must spend a turn, fairness
   bugs and their `tests/scenarios/turn_based/` scenarios), start with
   [Turn-based combat audit](devdocs/TURN_BASED_COMBAT_AUDIT.md).
+- For co-op multiplayer (a listen server: one character per player on a host's world; `game/coop/`, `engine/net/`,
+  the `coop` console command, `tests/scenarios/coop/`), start with
+  [the architecture](devdocs/plans/MULTIPLAYER_LISTEN_SERVER_ARCHITECTURE.md). Every known gap is a row in
+  [the open items](devdocs/plans/MULTIPLAYER_OPEN_ITEMS.md): look there before starting, and close or add rows
+  when done.
+- A second PC for two-machine checks (co-op over a real network) is reachable as `ssh oyamm-nb2`; how it is set up
+  and used is in [Two machines](tools/coop_two_machines/README.md).
+- A co-op session of two or three games on this PC, joined and ready with prepared strong parties (for the user's
+  play tests and agents' checks: `run.py <session> --hidden --seconds N`): [Co-op on one PC](tools/coop_local/README.md).
+- The co-op lobby service (the program games register with and find each other through; the built-in one is
+  `oylobby.jasicek.net`): how to build, run, sandbox and check one is in
+  [Running your own lobby server](tools/lobby_server/README.md). It must be rebuilt and redeployed whenever
+  `engine/net/Rendezvous*` changes.
 - For battle orders (what each member's Attack does: ordered spells and weapons with conditions, the weapon or hold
   fallback, the Battle Orders window over the spellbook, the spellbook's spell menu and the quick keys) and the upkeep
   list (the buffs, heals and cures the Upkeep key casts when they are due, and the buff potions it drinks, with their

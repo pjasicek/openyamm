@@ -259,7 +259,7 @@ RegisterEvent(35, "Gate", function()
 end, "Gate")
 
 RegisterEvent(50, "Exit", function()
-    evt.MoveToMap(-18638, -5133, 64, 0, 0, 0, 0, 0, "outc1.odm") -- Frozen Highlands
+    evt.MoveToMap(-18638, -5133, 64, 0, 0, 0, 0, 6, "outc1.odm") -- Frozen Highlands
 end, "Exit")
 
 RegisterEvent(51, nil, function()

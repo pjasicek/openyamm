@@ -880,7 +880,6 @@ chests:
   - id: chest:screen
     room: room:gazer_watch
     at: [-1456, 2960]
-    facing: e
     treasure_level: 5
     random_items: 2
     gold: 3000
@@ -896,7 +895,6 @@ chests:
   - id: chest:watch
     room: room:watch_se
     at: [4704, -4736]
-    facing: w
     treasure_level: 5
     random_items: 2
     gold: 2500

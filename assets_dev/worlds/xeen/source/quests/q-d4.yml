@@ -28,9 +28,11 @@ npcs:
   4920:              # Dyson
     topics:
       - n: 1
-        label: The chests
+        role: quest
+        afterword: {n: 2, label: The chests}
         states:
           - when: {qbit: done}
+            afterword: true
             text: "To close all of the chests is quite an accomplishment, but to open them requires intellect most uncommon. Don't try. I just got them shut."
           - when: {all: [{qbit: numbers_closed}, {qbit: letters_closed}]}
             text: "Every lid down, in order. Quite an accomplishment. Here: a few things people stored and never came back for."

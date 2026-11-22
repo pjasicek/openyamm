@@ -4,8 +4,10 @@ Investigated 2026-09-27 against the current working tree and the local MMMerge r
 This document records findings and proposed architecture. It does not authorize implementation or establish
 new repository-wide rules. No networking, gameplay, asset, or save-format implementation accompanies it.
 
-The follow-up [listen-server architecture](MULTIPLAYER_LISTEN_SERVER_ARCHITECTURE.md) develops this investigation into
-a concrete implementation proposal and recommended gameplay rules, including rest, training and shared time.
+The follow-up [co-op design](MULTIPLAYER_LISTEN_SERVER_ARCHITECTURE.md) is the current proposal. Since its revision 2
+(2026-11-19, the user's decision) it is one character per player on a host's world, with player-owned characters. The
+shared roster of groups, the gathering rules and the proposed defaults below are superseded by it; the comparison of
+hosting models, the MMMerge findings and the source audit remain as a record.
 
 **Recommendation:** build small-group cooperative campaigns around one authoritative simulation, initially hosted
 inside a player's game. Preserve a path to running that same simulation as a dedicated server. OpenYAMM has useful

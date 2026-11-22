@@ -41,9 +41,11 @@ npcs:
   4044:              # Old Valia
     topics:
       - n: 1
-        label: Falista
+        role: quest
+        afterword: {n: 3, label: Falista}
         states:
           - when: {qbit: done}
+            afterword: true
             text: "Falista grazes behind my cottage again, Crusaders. She eats the roses. I let her."
           - when: {all: [{item: alacorn}, {qbit: head_witch_slain}]}
             text: "You have destroyed the witches and for that I am grateful. For your gallant deeds, I dub thee all Crusaders! Now I must take the Alacorn, for if I can find Falista, I believe the healing power of the Alacorn is strong enough to resurrect her."

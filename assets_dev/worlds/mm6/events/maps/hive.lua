@@ -224,7 +224,7 @@ RegisterEvent(45, "Chest", function()
 end, "Chest")
 
 RegisterEvent(48, "Exit", function()
-    evt.MoveToMap(-14355, 15010, 3841, 1408, 0, 0, 0, 0, "outa1.odm") -- Sweet Water
+    evt.MoveToMap(-14355, 15010, 3841, 1408, 0, 0, 0, 6, "outa1.odm") -- Sweet Water
 end, "Exit")
 
 RegisterEvent(50, "Switch", function()

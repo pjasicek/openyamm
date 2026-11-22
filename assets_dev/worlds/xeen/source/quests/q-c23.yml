@@ -25,9 +25,11 @@ npcs:
   4113:              # Captain Nystor
     topics:
       - n: 1
-        label: Ogres
+        role: quest
+        afterword: {n: 2, label: Ogres}
         states:
           - when: {qbit: done}
+            afterword: true
             text: "Not a boulder in a month! The boats run upriver again, and my crews have stopped flinching at loud noises. Mostly."
           - when: {qbit: ogre_lair_destroyed}
             text: "Thank you for getting rid of the Ogres. Here is your reward. The upriver run opens tomorrow."

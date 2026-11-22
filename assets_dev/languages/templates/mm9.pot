@@ -1668,6 +1668,13 @@ msgid ""
 "Hanndl lost his spear, called Gungnir.  Find it and return it to him."
 msgstr ""
 
+#: assets_dev/worlds/mm9/data_tables/english/quests_overlay.txt:431
+msgid ""
+"Find Verhoffin's Diary.\n"
+"\n"
+"The book from the Verhoffin Ruins was the wrong one.  It says the real diary is locked in a building in Drangheim Village, underneath a floor.  Johannes Bem gave you a Book Key that should unlock the right door.  Drangheim Village is the hamlet on the hill north-west of the Drangheim City gate.  Return to Johannes Bem in Thjorgard when you have the real book."
+msgstr ""
+
 #: assets_dev/worlds/mm9/data_tables/english/quests_overlay.txt:44
 msgid ""
 "Rescue Ivsar Forktooth.\n"
@@ -26541,7 +26548,7 @@ msgid ""
 "Tryygva agreed to erect a runestone.  Return to the Green Man when you've finished his other tasks."
 msgstr ""
 
-#: assets_dev/worlds/mm9/dialogue/rude/NPC997.rude:121
+#: assets_dev/worlds/mm9/dialogue/rude/NPC997.rude:121 assets_dev/worlds/mm9/dialogue/rude/NPC997.rude:144
 msgid "Find Verhoffin's Diary."
 msgstr ""
 
@@ -26733,6 +26740,11 @@ msgstr ""
 
 #: assets_dev/worlds/mm9/dialogue/rude/NPC997.rude:143
 msgid "Hanndl lost his spear, called Gungnir.  Find it and return it to him."
+msgstr ""
+
+#: assets_dev/worlds/mm9/dialogue/rude/NPC997.rude:144
+msgid ""
+"The book from the Verhoffin Ruins was the wrong one.  It says the real diary is locked in a building in Drangheim Village, underneath a floor.  Johannes Bem gave you a Book Key that should unlock the right door.  Drangheim Village is the hamlet on the hill north-west of the Drangheim City gate.  Return to Johannes Bem in Thjorgard when you have the real book."
 msgstr ""
 
 #: assets_dev/worlds/mm9/dialogue/rude/NPC997.rude:15
@@ -30124,14 +30136,14 @@ msgstr ""
 #: assets_dev/worlds/mm9/events/maps/arslegardcity.lua:211 assets_dev/worlds/mm9/events/maps/bathhouse.lua:283 assets_dev/worlds/mm9/events/maps/beethoven.lua:244
 #: assets_dev/worlds/mm9/events/maps/bootcamp.lua:270 assets_dev/worlds/mm9/events/maps/chasmofthedead.lua:679 assets_dev/worlds/mm9/events/maps/darkpassageway.lua:537
 #: assets_dev/worlds/mm9/events/maps/dookscastle.lua:217 assets_dev/worlds/mm9/events/maps/dragonstadium.lua:198 assets_dev/worlds/mm9/events/maps/drangheim.lua:163
-#: assets_dev/worlds/mm9/events/maps/drangheimcity.lua:303 assets_dev/worlds/mm9/events/maps/drangheimprison.lua:517 assets_dev/worlds/mm9/events/maps/dungeonofsecrets.lua:812
-#: assets_dev/worlds/mm9/events/maps/frosgard.lua:114 assets_dev/worlds/mm9/events/maps/frosgardcity.lua:505 assets_dev/worlds/mm9/events/maps/guberland.lua:709
+#: assets_dev/worlds/mm9/events/maps/drangheimcity.lua:306 assets_dev/worlds/mm9/events/maps/drangheimprison.lua:517 assets_dev/worlds/mm9/events/maps/dungeonofsecrets.lua:815
+#: assets_dev/worlds/mm9/events/maps/frosgard.lua:114 assets_dev/worlds/mm9/events/maps/frosgardcity.lua:510 assets_dev/worlds/mm9/events/maps/guberland.lua:710
 #: assets_dev/worlds/mm9/events/maps/guberlandcity.lua:715 assets_dev/worlds/mm9/events/maps/hallofthegods.lua:109 assets_dev/worlds/mm9/events/maps/inventastorca.lua:402
 #: assets_dev/worlds/mm9/events/maps/isleofashes.lua:521 assets_dev/worlds/mm9/events/maps/lichlab.lua:680 assets_dev/worlds/mm9/events/maps/lindisfarne.lua:133
 #: assets_dev/worlds/mm9/events/maps/lindisfarnemonastery.lua:421 assets_dev/worlds/mm9/events/maps/mountainpass.lua:141 assets_dev/worlds/mm9/events/maps/ruinedtemple.lua:397
 #: assets_dev/worlds/mm9/events/maps/sturmford.lua:157 assets_dev/worlds/mm9/events/maps/sturmfordcity.lua:486 assets_dev/worlds/mm9/events/maps/tasaracademy.lua:367
-#: assets_dev/worlds/mm9/events/maps/thearena.lua:385 assets_dev/worlds/mm9/events/maps/thjoradmine.lua:1047 assets_dev/worlds/mm9/events/maps/thjorgard.lua:709
-#: assets_dev/worlds/mm9/events/maps/thjorgardcity.lua:412 assets_dev/worlds/mm9/events/maps/thronheim.lua:90 assets_dev/worlds/mm9/events/maps/thronheimcity.lua:567
+#: assets_dev/worlds/mm9/events/maps/thearena.lua:385 assets_dev/worlds/mm9/events/maps/thjoradmine.lua:1047 assets_dev/worlds/mm9/events/maps/thjorgard.lua:732
+#: assets_dev/worlds/mm9/events/maps/thjorgardcity.lua:412 assets_dev/worlds/mm9/events/maps/thronheim.lua:90 assets_dev/worlds/mm9/events/maps/thronheimcity.lua:578
 #: assets_dev/worlds/mm9/events/maps/traininghall.lua:424 assets_dev/worlds/mm9/events/maps/verhoffinruins.lua:496 assets_dev/worlds/mm9/events/maps/wizardslab.lua:586
 #: assets_dev/worlds/mm9/events/maps/yanmirsfort.lua:497 assets_dev/worlds/mm9/events/maps/yorwick.lua:244
 msgid "Map load"
@@ -30146,8 +30158,7 @@ msgstr ""
 #: assets_dev/worlds/mm9/events/maps/drangheimprison.lua:493 assets_dev/worlds/mm9/events/maps/drangheimprison.lua:494 assets_dev/worlds/mm9/events/maps/drangheimprison.lua:495
 #: assets_dev/worlds/mm9/events/maps/drangheimprison.lua:496 assets_dev/worlds/mm9/events/maps/drangheimprison.lua:497 assets_dev/worlds/mm9/events/maps/drangheimprison.lua:498
 #: assets_dev/worlds/mm9/events/maps/drangheimprison.lua:499 assets_dev/worlds/mm9/events/maps/drangheimprison.lua:500 assets_dev/worlds/mm9/events/maps/drangheimprison.lua:501
-#: assets_dev/worlds/mm9/events/maps/drangheimprison.lua:502 assets_dev/worlds/mm9/events/maps/drangheimprison.lua:503 assets_dev/worlds/mm9/events/maps/dungeonofsecrets.lua:779
-#: assets_dev/worlds/mm9/events/maps/dungeonofsecrets.lua:780 assets_dev/worlds/mm9/events/maps/dungeonofsecrets.lua:781 assets_dev/worlds/mm9/events/maps/dungeonofsecrets.lua:782
+#: assets_dev/worlds/mm9/events/maps/drangheimprison.lua:502 assets_dev/worlds/mm9/events/maps/drangheimprison.lua:503 assets_dev/worlds/mm9/events/maps/dungeonofsecrets.lua:782
 #: assets_dev/worlds/mm9/events/maps/dungeonofsecrets.lua:783 assets_dev/worlds/mm9/events/maps/dungeonofsecrets.lua:784 assets_dev/worlds/mm9/events/maps/dungeonofsecrets.lua:785
 #: assets_dev/worlds/mm9/events/maps/dungeonofsecrets.lua:786 assets_dev/worlds/mm9/events/maps/dungeonofsecrets.lua:787 assets_dev/worlds/mm9/events/maps/dungeonofsecrets.lua:788
 #: assets_dev/worlds/mm9/events/maps/dungeonofsecrets.lua:789 assets_dev/worlds/mm9/events/maps/dungeonofsecrets.lua:790 assets_dev/worlds/mm9/events/maps/dungeonofsecrets.lua:791
@@ -30157,7 +30168,8 @@ msgstr ""
 #: assets_dev/worlds/mm9/events/maps/dungeonofsecrets.lua:801 assets_dev/worlds/mm9/events/maps/dungeonofsecrets.lua:802 assets_dev/worlds/mm9/events/maps/dungeonofsecrets.lua:803
 #: assets_dev/worlds/mm9/events/maps/dungeonofsecrets.lua:804 assets_dev/worlds/mm9/events/maps/dungeonofsecrets.lua:805 assets_dev/worlds/mm9/events/maps/dungeonofsecrets.lua:806
 #: assets_dev/worlds/mm9/events/maps/dungeonofsecrets.lua:807 assets_dev/worlds/mm9/events/maps/dungeonofsecrets.lua:808 assets_dev/worlds/mm9/events/maps/dungeonofsecrets.lua:809
-#: assets_dev/worlds/mm9/events/maps/dungeonofsecrets.lua:810 assets_dev/worlds/mm9/events/maps/lichlab.lua:643 assets_dev/worlds/mm9/events/maps/thjoradmine.lua:946
+#: assets_dev/worlds/mm9/events/maps/dungeonofsecrets.lua:810 assets_dev/worlds/mm9/events/maps/dungeonofsecrets.lua:811 assets_dev/worlds/mm9/events/maps/dungeonofsecrets.lua:812
+#: assets_dev/worlds/mm9/events/maps/dungeonofsecrets.lua:813 assets_dev/worlds/mm9/events/maps/lichlab.lua:643 assets_dev/worlds/mm9/events/maps/thjoradmine.lua:946
 #: assets_dev/worlds/mm9/events/maps/thjoradmine.lua:947 assets_dev/worlds/mm9/events/maps/traininghall.lua:385 assets_dev/worlds/mm9/events/maps/traininghall.lua:386
 #: assets_dev/worlds/mm9/events/maps/traininghall.lua:387 assets_dev/worlds/mm9/events/maps/traininghall.lua:388 assets_dev/worlds/mm9/events/maps/traininghall.lua:389
 #: assets_dev/worlds/mm9/events/maps/traininghall.lua:390 assets_dev/worlds/mm9/events/maps/wizardslab.lua:526 assets_dev/worlds/mm9/events/maps/wizardslab.lua:527
@@ -30179,7 +30191,7 @@ msgstr ""
 #: assets_dev/worlds/mm9/events/maps/1000terrors.lua:924 assets_dev/worlds/mm9/events/maps/anskramkeep.lua:536 assets_dev/worlds/mm9/events/maps/anskramkeep.lua:537
 #: assets_dev/worlds/mm9/events/maps/bathhouse.lua:273 assets_dev/worlds/mm9/events/maps/darkpassageway.lua:516 assets_dev/worlds/mm9/events/maps/lichlab.lua:651
 #: assets_dev/worlds/mm9/events/maps/lichlab.lua:652 assets_dev/worlds/mm9/events/maps/lichlab.lua:658 assets_dev/worlds/mm9/events/maps/lichlab.lua:659
-#: assets_dev/worlds/mm9/events/maps/tasaracademy.lua:348 assets_dev/worlds/mm9/events/maps/tasaracademy.lua:349 assets_dev/worlds/mm9/events/maps/thjorgard.lua:692
+#: assets_dev/worlds/mm9/events/maps/tasaracademy.lua:348 assets_dev/worlds/mm9/events/maps/tasaracademy.lua:349 assets_dev/worlds/mm9/events/maps/thjorgard.lua:714
 msgid "Switch"
 msgstr ""
 
@@ -30192,12 +30204,12 @@ msgid "Taunt"
 msgstr ""
 
 #: assets_dev/worlds/mm9/events/maps/1000terrors.lua:929 assets_dev/worlds/mm9/events/maps/bootcamp.lua:280 assets_dev/worlds/mm9/events/maps/chasmofthedead.lua:681
-#: assets_dev/worlds/mm9/events/maps/darkpassageway.lua:540 assets_dev/worlds/mm9/events/maps/drangheim.lua:174 assets_dev/worlds/mm9/events/maps/drangheimcity.lua:323
-#: assets_dev/worlds/mm9/events/maps/dungeonofsecrets.lua:818 assets_dev/worlds/mm9/events/maps/frosgard.lua:122 assets_dev/worlds/mm9/events/maps/frosgardcity.lua:538
-#: assets_dev/worlds/mm9/events/maps/guberland.lua:718 assets_dev/worlds/mm9/events/maps/guberlandcity.lua:734 assets_dev/worlds/mm9/events/maps/isleofashes.lua:525
+#: assets_dev/worlds/mm9/events/maps/darkpassageway.lua:540 assets_dev/worlds/mm9/events/maps/drangheim.lua:174 assets_dev/worlds/mm9/events/maps/drangheimcity.lua:326
+#: assets_dev/worlds/mm9/events/maps/dungeonofsecrets.lua:821 assets_dev/worlds/mm9/events/maps/frosgard.lua:122 assets_dev/worlds/mm9/events/maps/frosgardcity.lua:543
+#: assets_dev/worlds/mm9/events/maps/guberland.lua:719 assets_dev/worlds/mm9/events/maps/guberlandcity.lua:734 assets_dev/worlds/mm9/events/maps/isleofashes.lua:525
 #: assets_dev/worlds/mm9/events/maps/lindisfarne.lua:147 assets_dev/worlds/mm9/events/maps/sturmford.lua:170 assets_dev/worlds/mm9/events/maps/sturmfordcity.lua:503
-#: assets_dev/worlds/mm9/events/maps/templeofhonk.lua:263 assets_dev/worlds/mm9/events/maps/thjoradmine.lua:1088 assets_dev/worlds/mm9/events/maps/thjorgard.lua:719
-#: assets_dev/worlds/mm9/events/maps/thjorgardcity.lua:437 assets_dev/worlds/mm9/events/maps/thronheim.lua:95 assets_dev/worlds/mm9/events/maps/thronheimcity.lua:587
+#: assets_dev/worlds/mm9/events/maps/templeofhonk.lua:263 assets_dev/worlds/mm9/events/maps/thjoradmine.lua:1088 assets_dev/worlds/mm9/events/maps/thjorgard.lua:742
+#: assets_dev/worlds/mm9/events/maps/thjorgardcity.lua:437 assets_dev/worlds/mm9/events/maps/thronheim.lua:95 assets_dev/worlds/mm9/events/maps/thronheimcity.lua:598
 #: assets_dev/worlds/mm9/events/maps/traininghall.lua:434 assets_dev/worlds/mm9/events/maps/verhoffinruins.lua:500 assets_dev/worlds/mm9/events/maps/wizardslab.lua:595
 #: assets_dev/worlds/mm9/events/maps/yorwick.lua:252
 msgid "Shared objects"
@@ -30330,11 +30342,11 @@ msgid ""
 msgstr ""
 
 #: assets_dev/worlds/mm9/events/maps/arslegardcity.lua:192 assets_dev/worlds/mm9/events/maps/drangheim.lua:150 assets_dev/worlds/mm9/events/maps/drangheim.lua:151
-#: assets_dev/worlds/mm9/events/maps/drangheimcity.lua:283 assets_dev/worlds/mm9/events/maps/frosgardcity.lua:463 assets_dev/worlds/mm9/events/maps/guberlandcity.lua:678
+#: assets_dev/worlds/mm9/events/maps/drangheimcity.lua:286 assets_dev/worlds/mm9/events/maps/frosgardcity.lua:468 assets_dev/worlds/mm9/events/maps/guberlandcity.lua:678
 #: assets_dev/worlds/mm9/events/maps/lindisfarne.lua:127 assets_dev/worlds/mm9/events/maps/lindisfarne.lua:128 assets_dev/worlds/mm9/events/maps/lindisfarne.lua:129
 #: assets_dev/worlds/mm9/events/maps/sturmford.lua:150 assets_dev/worlds/mm9/events/maps/sturmford.lua:151 assets_dev/worlds/mm9/events/maps/sturmford.lua:152
-#: assets_dev/worlds/mm9/events/maps/sturmfordcity.lua:443 assets_dev/worlds/mm9/events/maps/thjoradmine.lua:944 assets_dev/worlds/mm9/events/maps/thjorgard.lua:641
-#: assets_dev/worlds/mm9/events/maps/thjorgardcity.lua:387 assets_dev/worlds/mm9/events/maps/thronheimcity.lua:533 assets_dev/worlds/mm9/events/maps/wizardslab.lua:523
+#: assets_dev/worlds/mm9/events/maps/sturmfordcity.lua:443 assets_dev/worlds/mm9/events/maps/thjoradmine.lua:944 assets_dev/worlds/mm9/events/maps/thjorgard.lua:663
+#: assets_dev/worlds/mm9/events/maps/thjorgardcity.lua:387 assets_dev/worlds/mm9/events/maps/thronheimcity.lua:544 assets_dev/worlds/mm9/events/maps/wizardslab.lua:523
 msgid "Locked door"
 msgstr ""
 
@@ -30537,7 +30549,7 @@ msgstr ""
 msgid "Old Man"
 msgstr ""
 
-#: assets_dev/worlds/mm9/dialogue/rude/NPCNAME.rude:101 assets_dev/worlds/mm9/events/maps/bootcamp.lua:272 assets_dev/worlds/mm9/events/maps/drangheimcity.lua:315
+#: assets_dev/worlds/mm9/dialogue/rude/NPCNAME.rude:101 assets_dev/worlds/mm9/events/maps/bootcamp.lua:272 assets_dev/worlds/mm9/events/maps/drangheimcity.lua:318
 msgid "Thorkatla the Indiscreet"
 msgstr ""
 
@@ -30681,7 +30693,7 @@ msgid "Tyock A'Norta a'leipshi"
 msgstr ""
 
 #: assets_dev/worlds/mm9/events/maps/drangheimcity.lua:156 assets_dev/worlds/mm9/events/maps/frosgardcity.lua:304 assets_dev/worlds/mm9/events/maps/guberlandcity.lua:216
-#: assets_dev/worlds/mm9/events/maps/sturmfordcity.lua:271 assets_dev/worlds/mm9/events/maps/thjorgardcity.lua:231 assets_dev/worlds/mm9/events/maps/thronheimcity.lua:395
+#: assets_dev/worlds/mm9/events/maps/sturmfordcity.lua:271 assets_dev/worlds/mm9/events/maps/thjorgardcity.lua:231 assets_dev/worlds/mm9/events/maps/thronheimcity.lua:404
 msgid "The altar is cleansed."
 msgstr ""
 
@@ -30728,100 +30740,100 @@ msgid ""
 "Join at the House of Thrylgrin"
 msgstr ""
 
-#: assets_dev/worlds/mm9/events/maps/drangheimcity.lua:285
+#: assets_dev/worlds/mm9/events/maps/drangheimcity.lua:288
 msgid "Ingimar's bank"
 msgstr ""
 
-#: assets_dev/worlds/mm9/data_tables/decoration_data.txt:545 assets_dev/worlds/mm9/events/maps/drangheimcity.lua:287 assets_dev/worlds/mm9/events/maps/drangheimcity.lua:288
+#: assets_dev/worlds/mm9/data_tables/decoration_data.txt:545 assets_dev/worlds/mm9/events/maps/drangheimcity.lua:290 assets_dev/worlds/mm9/events/maps/drangheimcity.lua:291
 msgid "Sigmund"
 msgstr ""
 
-#: assets_dev/worlds/mm9/events/maps/drangheimcity.lua:289
+#: assets_dev/worlds/mm9/events/maps/drangheimcity.lua:292
 msgid "Atli"
 msgstr ""
 
-#: assets_dev/worlds/mm9/dialogue/rude/NPCNAME.rude:89 assets_dev/worlds/mm9/events/maps/drangheimcity.lua:290 assets_dev/worlds/mm9/events/maps/drangheimcity.lua:305
+#: assets_dev/worlds/mm9/dialogue/rude/NPCNAME.rude:89 assets_dev/worlds/mm9/events/maps/drangheimcity.lua:293 assets_dev/worlds/mm9/events/maps/drangheimcity.lua:308
 msgid "Keith Bloodaxe"
 msgstr ""
 
-#: assets_dev/worlds/mm9/events/maps/drangheimcity.lua:291
+#: assets_dev/worlds/mm9/events/maps/drangheimcity.lua:294
 msgid "Hrolf"
 msgstr ""
 
-#: assets_dev/worlds/mm9/events/maps/drangheimcity.lua:292 assets_dev/worlds/mm9/events/maps/drangheimcity.lua:293 assets_dev/worlds/mm9/events/maps/drangheimcity.lua:294
-#: assets_dev/worlds/mm9/events/maps/drangheimcity.lua:295 assets_dev/worlds/mm9/events/maps/frosgardcity.lua:491 assets_dev/worlds/mm9/events/maps/frosgardcity.lua:492
-#: assets_dev/worlds/mm9/events/maps/frosgardcity.lua:493 assets_dev/worlds/mm9/events/maps/frosgardcity.lua:494 assets_dev/worlds/mm9/events/maps/frosgardcity.lua:495
-#: assets_dev/worlds/mm9/events/maps/frosgardcity.lua:496 assets_dev/worlds/mm9/events/maps/guberlandcity.lua:693 assets_dev/worlds/mm9/events/maps/guberlandcity.lua:694
+#: assets_dev/worlds/mm9/events/maps/drangheimcity.lua:295 assets_dev/worlds/mm9/events/maps/drangheimcity.lua:296 assets_dev/worlds/mm9/events/maps/drangheimcity.lua:297
+#: assets_dev/worlds/mm9/events/maps/drangheimcity.lua:298 assets_dev/worlds/mm9/events/maps/frosgardcity.lua:496 assets_dev/worlds/mm9/events/maps/frosgardcity.lua:497
+#: assets_dev/worlds/mm9/events/maps/frosgardcity.lua:498 assets_dev/worlds/mm9/events/maps/frosgardcity.lua:499 assets_dev/worlds/mm9/events/maps/frosgardcity.lua:500
+#: assets_dev/worlds/mm9/events/maps/frosgardcity.lua:501 assets_dev/worlds/mm9/events/maps/guberlandcity.lua:693 assets_dev/worlds/mm9/events/maps/guberlandcity.lua:694
 #: assets_dev/worlds/mm9/events/maps/guberlandcity.lua:695 assets_dev/worlds/mm9/events/maps/guberlandcity.lua:696 assets_dev/worlds/mm9/events/maps/sturmfordcity.lua:461
 #: assets_dev/worlds/mm9/events/maps/sturmfordcity.lua:462 assets_dev/worlds/mm9/events/maps/sturmfordcity.lua:463 assets_dev/worlds/mm9/events/maps/sturmfordcity.lua:464
 #: assets_dev/worlds/mm9/events/maps/thjorgardcity.lua:397 assets_dev/worlds/mm9/events/maps/thjorgardcity.lua:398 assets_dev/worlds/mm9/events/maps/thjorgardcity.lua:399
-#: assets_dev/worlds/mm9/events/maps/thjorgardcity.lua:400 assets_dev/worlds/mm9/events/maps/thronheimcity.lua:552 assets_dev/worlds/mm9/events/maps/thronheimcity.lua:553
-#: assets_dev/worlds/mm9/events/maps/thronheimcity.lua:554 assets_dev/worlds/mm9/events/maps/thronheimcity.lua:555
+#: assets_dev/worlds/mm9/events/maps/thjorgardcity.lua:400 assets_dev/worlds/mm9/events/maps/thronheimcity.lua:563 assets_dev/worlds/mm9/events/maps/thronheimcity.lua:564
+#: assets_dev/worlds/mm9/events/maps/thronheimcity.lua:565 assets_dev/worlds/mm9/events/maps/thronheimcity.lua:566
 msgid "Thorolf"
 msgstr ""
 
-#: assets_dev/worlds/mm9/dialogue/rude/NPCNAME.rude:99 assets_dev/worlds/mm9/events/maps/drangheimcity.lua:306
+#: assets_dev/worlds/mm9/dialogue/rude/NPCNAME.rude:99 assets_dev/worlds/mm9/events/maps/drangheimcity.lua:309
 msgid "Daonai A'Norta a'meich"
 msgstr ""
 
-#: assets_dev/worlds/mm9/dialogue/rude/NPCNAME.rude:105 assets_dev/worlds/mm9/events/maps/drangheimcity.lua:307
+#: assets_dev/worlds/mm9/dialogue/rude/NPCNAME.rude:105 assets_dev/worlds/mm9/events/maps/drangheimcity.lua:310
 msgid "Skuli Thorsteinssen"
 msgstr ""
 
-#: assets_dev/worlds/mm9/dialogue/rude/NPCNAME.rude:104 assets_dev/worlds/mm9/events/maps/drangheimcity.lua:308
+#: assets_dev/worlds/mm9/dialogue/rude/NPCNAME.rude:104 assets_dev/worlds/mm9/events/maps/drangheimcity.lua:311
 msgid "Sigtrygg Silkbeard"
 msgstr ""
 
-#: assets_dev/worlds/mm9/data_tables/hirelings.txt:8 assets_dev/worlds/mm9/dialogue/rude/NPCNAME.rude:126 assets_dev/worlds/mm9/events/maps/drangheimcity.lua:309
+#: assets_dev/worlds/mm9/data_tables/hirelings.txt:8 assets_dev/worlds/mm9/dialogue/rude/NPCNAME.rude:126 assets_dev/worlds/mm9/events/maps/drangheimcity.lua:312
 msgid "Edina A'Mor"
 msgstr ""
 
-#: assets_dev/worlds/mm9/data_tables/hirelings.txt:7 assets_dev/worlds/mm9/dialogue/rude/NPCNAME.rude:125 assets_dev/worlds/mm9/events/maps/drangheimcity.lua:310
+#: assets_dev/worlds/mm9/data_tables/hirelings.txt:7 assets_dev/worlds/mm9/dialogue/rude/NPCNAME.rude:125 assets_dev/worlds/mm9/events/maps/drangheimcity.lua:313
 msgid "Beagan A'Ghrie"
 msgstr ""
 
-#: assets_dev/worlds/mm9/dialogue/rude/NPCNAME.rude:96 assets_dev/worlds/mm9/events/maps/drangheimcity.lua:311
+#: assets_dev/worlds/mm9/dialogue/rude/NPCNAME.rude:96 assets_dev/worlds/mm9/events/maps/drangheimcity.lua:314
 msgid "Greudach A'Dorad"
 msgstr ""
 
-#: assets_dev/worlds/mm9/dialogue/rude/NPCNAME.rude:98 assets_dev/worlds/mm9/events/maps/drangheimcity.lua:312
+#: assets_dev/worlds/mm9/dialogue/rude/NPCNAME.rude:98 assets_dev/worlds/mm9/events/maps/drangheimcity.lua:315
 msgid "Rannveig Olafsdotir"
 msgstr ""
 
-#: assets_dev/worlds/mm9/dialogue/rude/NPCNAME.rude:88 assets_dev/worlds/mm9/events/maps/drangheimcity.lua:314
+#: assets_dev/worlds/mm9/dialogue/rude/NPCNAME.rude:88 assets_dev/worlds/mm9/events/maps/drangheimcity.lua:317
 msgid "Atli the Quick"
 msgstr ""
 
-#: assets_dev/worlds/mm9/dialogue/rude/NPCNAME.rude:102 assets_dev/worlds/mm9/events/maps/drangheimcity.lua:316
+#: assets_dev/worlds/mm9/dialogue/rude/NPCNAME.rude:102 assets_dev/worlds/mm9/events/maps/drangheimcity.lua:319
 msgid "Louhi Fresdotir"
 msgstr ""
 
-#: assets_dev/worlds/mm9/dialogue/rude/NPCNAME.rude:97 assets_dev/worlds/mm9/events/maps/drangheimcity.lua:317
+#: assets_dev/worlds/mm9/dialogue/rude/NPCNAME.rude:97 assets_dev/worlds/mm9/events/maps/drangheimcity.lua:320
 msgid "Fintan A'Dlinn"
 msgstr ""
 
-#: assets_dev/worlds/mm9/dialogue/rude/NPCNAME.rude:95 assets_dev/worlds/mm9/events/maps/drangheimcity.lua:318
+#: assets_dev/worlds/mm9/dialogue/rude/NPCNAME.rude:95 assets_dev/worlds/mm9/events/maps/drangheimcity.lua:321
 msgid "Guaire A'Velsi"
 msgstr ""
 
-#: assets_dev/worlds/mm9/data_tables/items.txt:382 assets_dev/worlds/mm9/events/maps/drangheimcity.lua:320 assets_dev/worlds/mm9/events/maps/drangheimcity.lua:321
-#: assets_dev/worlds/mm9/events/maps/frosgardcity.lua:533 assets_dev/worlds/mm9/events/maps/frosgardcity.lua:534 assets_dev/worlds/mm9/events/maps/guberlandcity.lua:730
+#: assets_dev/worlds/mm9/data_tables/items.txt:382 assets_dev/worlds/mm9/events/maps/drangheimcity.lua:323 assets_dev/worlds/mm9/events/maps/drangheimcity.lua:324
+#: assets_dev/worlds/mm9/events/maps/frosgardcity.lua:538 assets_dev/worlds/mm9/events/maps/frosgardcity.lua:539 assets_dev/worlds/mm9/events/maps/guberlandcity.lua:730
 #: assets_dev/worlds/mm9/events/maps/guberlandcity.lua:731 assets_dev/worlds/mm9/events/maps/lindisfarne.lua:143 assets_dev/worlds/mm9/events/maps/lindisfarne.lua:144
 #: assets_dev/worlds/mm9/events/maps/lindisfarne.lua:145 assets_dev/worlds/mm9/events/maps/sturmfordcity.lua:500 assets_dev/worlds/mm9/events/maps/sturmfordcity.lua:501
-#: assets_dev/worlds/mm9/events/maps/thjorgardcity.lua:434 assets_dev/worlds/mm9/events/maps/thjorgardcity.lua:435 assets_dev/worlds/mm9/events/maps/thronheimcity.lua:584
-#: assets_dev/worlds/mm9/events/maps/thronheimcity.lua:585
+#: assets_dev/worlds/mm9/events/maps/thjorgardcity.lua:434 assets_dev/worlds/mm9/events/maps/thjorgardcity.lua:435 assets_dev/worlds/mm9/events/maps/thronheimcity.lua:595
+#: assets_dev/worlds/mm9/events/maps/thronheimcity.lua:596
 msgid "Clover"
 msgstr ""
 
-#: assets_dev/worlds/mm9/events/maps/drangheimcity.lua:367
+#: assets_dev/worlds/mm9/events/maps/drangheimcity.lua:370
 msgid "Cinema dwarves_and_humans: key"
 msgstr ""
 
-#: assets_dev/worlds/mm9/events/maps/drangheimcity.lua:368
+#: assets_dev/worlds/mm9/events/maps/drangheimcity.lua:371
 msgid "Cinema dwarves_and_humans: fight"
 msgstr ""
 
-#: assets_dev/worlds/mm9/events/maps/drangheimcity.lua:369
+#: assets_dev/worlds/mm9/events/maps/drangheimcity.lua:372
 msgid "Cinema dwarves_and_humans: done"
 msgstr ""
 
@@ -30857,16 +30869,16 @@ msgstr ""
 msgid "Prisoner arrives"
 msgstr ""
 
-#: assets_dev/worlds/mm9/events/maps/dungeonofsecrets.lua:814
+#: assets_dev/worlds/mm9/events/maps/dungeonofsecrets.lua:817
 msgid "Chadwick"
 msgstr ""
 
-#: assets_dev/worlds/mm9/dialogue/rude/NPCNAME.rude:420 assets_dev/worlds/mm9/events/maps/dungeonofsecrets.lua:816
+#: assets_dev/worlds/mm9/dialogue/rude/NPCNAME.rude:420 assets_dev/worlds/mm9/events/maps/dungeonofsecrets.lua:819
 msgid "Chadwick Boorsley"
 msgstr ""
 
-#: assets_dev/worlds/mm9/events/maps/frosgard.lua:112 assets_dev/worlds/mm9/events/maps/guberland.lua:642 assets_dev/worlds/mm9/events/maps/isleofashes.lua:504
-#: assets_dev/worlds/mm9/events/maps/lindisfarne.lua:131 assets_dev/worlds/mm9/events/maps/sturmford.lua:156 assets_dev/worlds/mm9/events/maps/thjorgard.lua:643
+#: assets_dev/worlds/mm9/events/maps/frosgard.lua:112 assets_dev/worlds/mm9/events/maps/guberland.lua:643 assets_dev/worlds/mm9/events/maps/isleofashes.lua:504
+#: assets_dev/worlds/mm9/events/maps/lindisfarne.lua:131 assets_dev/worlds/mm9/events/maps/sturmford.lua:156 assets_dev/worlds/mm9/events/maps/thjorgard.lua:665
 #: assets_dev/worlds/mm9/events/maps/thronheim.lua:88 assets_dev/worlds/mm9/events/maps/yorwick.lua:236
 msgid "Stat stone"
 msgstr ""
@@ -30939,241 +30951,241 @@ msgid ""
 "Walteir"
 msgstr ""
 
-#: assets_dev/worlds/mm9/events/maps/frosgardcity.lua:468
+#: assets_dev/worlds/mm9/events/maps/frosgardcity.lua:473
 msgid "Powder barrel"
 msgstr ""
 
-#: assets_dev/worlds/mm9/events/maps/frosgardcity.lua:469
+#: assets_dev/worlds/mm9/events/maps/frosgardcity.lua:474
 msgid "Powder seller"
 msgstr ""
 
-#: assets_dev/worlds/mm9/events/maps/frosgardcity.lua:470
+#: assets_dev/worlds/mm9/events/maps/frosgardcity.lua:475
 msgid "Dockmaster"
 msgstr ""
 
-#: assets_dev/worlds/mm9/data_tables/decoration_data.txt:551 assets_dev/worlds/mm9/events/maps/frosgardcity.lua:472 assets_dev/worlds/mm9/events/maps/frosgardcity.lua:473
+#: assets_dev/worlds/mm9/data_tables/decoration_data.txt:551 assets_dev/worlds/mm9/events/maps/frosgardcity.lua:477 assets_dev/worlds/mm9/events/maps/frosgardcity.lua:478
 msgid "Tryggva"
 msgstr ""
 
-#: assets_dev/worlds/mm9/events/maps/frosgardcity.lua:480
+#: assets_dev/worlds/mm9/events/maps/frosgardcity.lua:485
 msgid "Pledge 191"
 msgstr ""
 
-#: assets_dev/worlds/mm9/events/maps/frosgardcity.lua:481
+#: assets_dev/worlds/mm9/events/maps/frosgardcity.lua:486
 msgid "Pledge 193"
 msgstr ""
 
-#: assets_dev/worlds/mm9/events/maps/frosgardcity.lua:482
+#: assets_dev/worlds/mm9/events/maps/frosgardcity.lua:487
 msgid "Pledge 195"
 msgstr ""
 
-#: assets_dev/worlds/mm9/events/maps/frosgardcity.lua:483
+#: assets_dev/worlds/mm9/events/maps/frosgardcity.lua:488
 msgid "Pledge 196"
 msgstr ""
 
-#: assets_dev/worlds/mm9/events/maps/frosgardcity.lua:484
+#: assets_dev/worlds/mm9/events/maps/frosgardcity.lua:489
 msgid "Pledge 197"
 msgstr ""
 
-#: assets_dev/worlds/mm9/events/maps/frosgardcity.lua:485
+#: assets_dev/worlds/mm9/events/maps/frosgardcity.lua:490
 msgid "Pledge 199"
 msgstr ""
 
-#: assets_dev/worlds/mm9/events/maps/frosgardcity.lua:486
+#: assets_dev/worlds/mm9/events/maps/frosgardcity.lua:491
 msgid "Pledge 217"
 msgstr ""
 
-#: assets_dev/worlds/mm9/events/maps/frosgardcity.lua:487
+#: assets_dev/worlds/mm9/events/maps/frosgardcity.lua:492
 msgid "Pledge 218"
 msgstr ""
 
 #: assets_dev/worlds/mm9/data_tables/hirelings.txt:16 assets_dev/worlds/mm9/data_tables/monster_data.txt:246 assets_dev/worlds/mm9/dialogue/rude/NPCNAME.rude:309
-#: assets_dev/worlds/mm9/events/maps/frosgardcity.lua:488 assets_dev/worlds/mm9/events/maps/frosgardcity.lua:507
+#: assets_dev/worlds/mm9/events/maps/frosgardcity.lua:493 assets_dev/worlds/mm9/events/maps/frosgardcity.lua:512
 msgid "Tamur Leng"
 msgstr ""
 
 #: assets_dev/worlds/mm9/data_tables/hirelings.txt:15 assets_dev/worlds/mm9/data_tables/monster_data.txt:220 assets_dev/worlds/mm9/dialogue/rude/NPCNAME.rude:3
-#: assets_dev/worlds/mm9/events/maps/frosgardcity.lua:489 assets_dev/worlds/mm9/events/maps/isleofashes.lua:518
+#: assets_dev/worlds/mm9/events/maps/frosgardcity.lua:494 assets_dev/worlds/mm9/events/maps/isleofashes.lua:518
 msgid "Forad Darre"
 msgstr ""
 
-#: assets_dev/worlds/mm9/data_tables/decoration_data.txt:524 assets_dev/worlds/mm9/events/maps/frosgardcity.lua:490
+#: assets_dev/worlds/mm9/data_tables/decoration_data.txt:524 assets_dev/worlds/mm9/events/maps/frosgardcity.lua:495
 msgid "Forad"
 msgstr ""
 
-#: assets_dev/worlds/mm9/dialogue/rude/NPCNAME.rude:207 assets_dev/worlds/mm9/events/maps/frosgardcity.lua:508
+#: assets_dev/worlds/mm9/dialogue/rude/NPCNAME.rude:207 assets_dev/worlds/mm9/events/maps/frosgardcity.lua:513
 msgid "Gotthorm Stonecaster"
 msgstr ""
 
-#: assets_dev/worlds/mm9/dialogue/rude/NPCNAME.rude:209 assets_dev/worlds/mm9/events/maps/frosgardcity.lua:509
+#: assets_dev/worlds/mm9/dialogue/rude/NPCNAME.rude:209 assets_dev/worlds/mm9/events/maps/frosgardcity.lua:514
 msgid "Jozka Atlia"
 msgstr ""
 
-#: assets_dev/worlds/mm9/dialogue/rude/NPCNAME.rude:212 assets_dev/worlds/mm9/events/maps/frosgardcity.lua:510
+#: assets_dev/worlds/mm9/dialogue/rude/NPCNAME.rude:212 assets_dev/worlds/mm9/events/maps/frosgardcity.lua:515
 msgid "Vel Dra'dna"
 msgstr ""
 
-#: assets_dev/worlds/mm9/dialogue/rude/NPCNAME.rude:208 assets_dev/worlds/mm9/events/maps/frosgardcity.lua:511
+#: assets_dev/worlds/mm9/dialogue/rude/NPCNAME.rude:208 assets_dev/worlds/mm9/events/maps/frosgardcity.lua:516
 msgid "Leif the Lucky"
 msgstr ""
 
-#: assets_dev/worlds/mm9/dialogue/rude/NPCNAME.rude:211 assets_dev/worlds/mm9/events/maps/frosgardcity.lua:512
+#: assets_dev/worlds/mm9/dialogue/rude/NPCNAME.rude:211 assets_dev/worlds/mm9/events/maps/frosgardcity.lua:517
 msgid "Halfdan the Rude"
 msgstr ""
 
-#: assets_dev/worlds/mm9/dialogue/rude/NPCNAME.rude:185 assets_dev/worlds/mm9/events/maps/frosgardcity.lua:513
+#: assets_dev/worlds/mm9/dialogue/rude/NPCNAME.rude:185 assets_dev/worlds/mm9/events/maps/frosgardcity.lua:518
 msgid "Ronan A'Dlinn"
 msgstr ""
 
-#: assets_dev/worlds/mm9/dialogue/rude/NPCNAME.rude:183 assets_dev/worlds/mm9/events/maps/frosgardcity.lua:514
+#: assets_dev/worlds/mm9/dialogue/rude/NPCNAME.rude:183 assets_dev/worlds/mm9/events/maps/frosgardcity.lua:519
 msgid "Skulkil the Dark"
 msgstr ""
 
-#: assets_dev/worlds/mm9/dialogue/rude/NPCNAME.rude:184 assets_dev/worlds/mm9/events/maps/frosgardcity.lua:515
+#: assets_dev/worlds/mm9/dialogue/rude/NPCNAME.rude:184 assets_dev/worlds/mm9/events/maps/frosgardcity.lua:520
 msgid "Brewmaster Smith"
 msgstr ""
 
-#: assets_dev/worlds/mm9/dialogue/rude/NPCNAME.rude:188 assets_dev/worlds/mm9/events/maps/frosgardcity.lua:516
+#: assets_dev/worlds/mm9/dialogue/rude/NPCNAME.rude:188 assets_dev/worlds/mm9/events/maps/frosgardcity.lua:521
 msgid "Nath'i A'Mor"
 msgstr ""
 
-#: assets_dev/worlds/mm9/dialogue/rude/NPCNAME.rude:190 assets_dev/worlds/mm9/events/maps/frosgardcity.lua:517
+#: assets_dev/worlds/mm9/dialogue/rude/NPCNAME.rude:190 assets_dev/worlds/mm9/events/maps/frosgardcity.lua:522
 msgid "Soxolf Tryygvassen"
 msgstr ""
 
-#: assets_dev/worlds/mm9/dialogue/rude/NPCNAME.rude:191 assets_dev/worlds/mm9/events/maps/frosgardcity.lua:518
+#: assets_dev/worlds/mm9/dialogue/rude/NPCNAME.rude:191 assets_dev/worlds/mm9/events/maps/frosgardcity.lua:523
 msgid "Gudrun Fyridotir"
 msgstr ""
 
-#: assets_dev/worlds/mm9/dialogue/rude/NPCNAME.rude:192 assets_dev/worlds/mm9/events/maps/frosgardcity.lua:519
+#: assets_dev/worlds/mm9/dialogue/rude/NPCNAME.rude:192 assets_dev/worlds/mm9/events/maps/frosgardcity.lua:524
 msgid "Goti Egilssen"
 msgstr ""
 
-#: assets_dev/worlds/mm9/dialogue/rude/NPCNAME.rude:193 assets_dev/worlds/mm9/events/maps/frosgardcity.lua:520
+#: assets_dev/worlds/mm9/dialogue/rude/NPCNAME.rude:193 assets_dev/worlds/mm9/events/maps/frosgardcity.lua:525
 msgid "Tuathal A'Ghrie"
 msgstr ""
 
-#: assets_dev/worlds/mm9/dialogue/rude/NPCNAME.rude:194 assets_dev/worlds/mm9/events/maps/frosgardcity.lua:521
+#: assets_dev/worlds/mm9/dialogue/rude/NPCNAME.rude:194 assets_dev/worlds/mm9/events/maps/frosgardcity.lua:526
 msgid "Hjalnek the Orc-faced"
 msgstr ""
 
-#: assets_dev/worlds/mm9/dialogue/rude/NPCNAME.rude:197 assets_dev/worlds/mm9/events/maps/frosgardcity.lua:522
+#: assets_dev/worlds/mm9/dialogue/rude/NPCNAME.rude:197 assets_dev/worlds/mm9/events/maps/frosgardcity.lua:527
 msgid "Rannveig the Elvish"
 msgstr ""
 
-#: assets_dev/worlds/mm9/dialogue/rude/NPCNAME.rude:198 assets_dev/worlds/mm9/events/maps/frosgardcity.lua:523
+#: assets_dev/worlds/mm9/dialogue/rude/NPCNAME.rude:198 assets_dev/worlds/mm9/events/maps/frosgardcity.lua:528
 msgid "Fyri the Black-heart"
 msgstr ""
 
-#: assets_dev/worlds/mm9/dialogue/rude/NPCNAME.rude:199 assets_dev/worlds/mm9/events/maps/frosgardcity.lua:524
+#: assets_dev/worlds/mm9/dialogue/rude/NPCNAME.rude:199 assets_dev/worlds/mm9/events/maps/frosgardcity.lua:529
 msgid "Erik the Fish-head"
 msgstr ""
 
-#: assets_dev/worlds/mm9/dialogue/rude/NPCNAME.rude:201 assets_dev/worlds/mm9/events/maps/frosgardcity.lua:525
+#: assets_dev/worlds/mm9/dialogue/rude/NPCNAME.rude:201 assets_dev/worlds/mm9/events/maps/frosgardcity.lua:530
 msgid "Tryygva Ironhands"
 msgstr ""
 
-#: assets_dev/worlds/mm9/data_tables/hirelings.txt:12 assets_dev/worlds/mm9/dialogue/rude/NPCNAME.rude:238 assets_dev/worlds/mm9/events/maps/frosgardcity.lua:526
+#: assets_dev/worlds/mm9/data_tables/hirelings.txt:12 assets_dev/worlds/mm9/dialogue/rude/NPCNAME.rude:238 assets_dev/worlds/mm9/events/maps/frosgardcity.lua:531
 msgid "Sowelu Axeldotir"
 msgstr ""
 
-#: assets_dev/worlds/mm9/dialogue/rude/NPCNAME.rude:195 assets_dev/worlds/mm9/events/maps/frosgardcity.lua:527
+#: assets_dev/worlds/mm9/dialogue/rude/NPCNAME.rude:195 assets_dev/worlds/mm9/events/maps/frosgardcity.lua:532
 msgid "Tjorvi the Bold"
 msgstr ""
 
-#: assets_dev/worlds/mm9/dialogue/rude/NPCNAME.rude:196 assets_dev/worlds/mm9/events/maps/frosgardcity.lua:528
+#: assets_dev/worlds/mm9/dialogue/rude/NPCNAME.rude:196 assets_dev/worlds/mm9/events/maps/frosgardcity.lua:533
 msgid "Jozka Dorcan"
 msgstr ""
 
-#: assets_dev/worlds/mm9/dialogue/rude/NPCNAME.rude:203 assets_dev/worlds/mm9/events/maps/frosgardcity.lua:529
+#: assets_dev/worlds/mm9/dialogue/rude/NPCNAME.rude:203 assets_dev/worlds/mm9/events/maps/frosgardcity.lua:534
 msgid "Thora the Skull-toucher"
 msgstr ""
 
-#: assets_dev/worlds/mm9/dialogue/rude/NPCNAME.rude:200 assets_dev/worlds/mm9/events/maps/frosgardcity.lua:530
+#: assets_dev/worlds/mm9/dialogue/rude/NPCNAME.rude:200 assets_dev/worlds/mm9/events/maps/frosgardcity.lua:535
 msgid "Egil Skallagrimsson"
 msgstr ""
 
-#: assets_dev/worlds/mm9/dialogue/rude/NPCNAME.rude:182 assets_dev/worlds/mm9/events/maps/frosgardcity.lua:531
+#: assets_dev/worlds/mm9/dialogue/rude/NPCNAME.rude:182 assets_dev/worlds/mm9/events/maps/frosgardcity.lua:536
 msgid "Menja Ketildotir"
 msgstr ""
 
-#: assets_dev/worlds/mm9/dialogue/rude/NPCNAME.rude:210 assets_dev/worlds/mm9/events/maps/frosgardcity.lua:532
+#: assets_dev/worlds/mm9/dialogue/rude/NPCNAME.rude:210 assets_dev/worlds/mm9/events/maps/frosgardcity.lua:537
 msgid "Trota Atlia"
 msgstr ""
 
-#: assets_dev/worlds/mm9/events/maps/frosgardcity.lua:539 assets_dev/worlds/mm9/events/maps/guberlandcity.lua:735 assets_dev/worlds/mm9/events/maps/thronheimcity.lua:588
+#: assets_dev/worlds/mm9/events/maps/frosgardcity.lua:544 assets_dev/worlds/mm9/events/maps/guberlandcity.lua:735 assets_dev/worlds/mm9/events/maps/thronheimcity.lua:599
 msgid "Script poses"
 msgstr ""
 
-#: assets_dev/worlds/mm9/events/maps/frosgardcity.lua:619
+#: assets_dev/worlds/mm9/events/maps/frosgardcity.lua:624
 msgid "Cinema break_ice: shooter1"
 msgstr ""
 
-#: assets_dev/worlds/mm9/events/maps/frosgardcity.lua:620
+#: assets_dev/worlds/mm9/events/maps/frosgardcity.lua:625
 msgid "Cinema break_ice: floe27"
 msgstr ""
 
-#: assets_dev/worlds/mm9/events/maps/frosgardcity.lua:621
+#: assets_dev/worlds/mm9/events/maps/frosgardcity.lua:626
 msgid "Cinema break_ice: shooter2"
 msgstr ""
 
-#: assets_dev/worlds/mm9/events/maps/frosgardcity.lua:622
+#: assets_dev/worlds/mm9/events/maps/frosgardcity.lua:627
 msgid "Cinema break_ice: floe17"
 msgstr ""
 
-#: assets_dev/worlds/mm9/events/maps/frosgardcity.lua:623
+#: assets_dev/worlds/mm9/events/maps/frosgardcity.lua:628
 msgid "Cinema break_ice: shooter3"
 msgstr ""
 
-#: assets_dev/worlds/mm9/events/maps/frosgardcity.lua:624
+#: assets_dev/worlds/mm9/events/maps/frosgardcity.lua:629
 msgid "Cinema break_ice: floe18"
 msgstr ""
 
-#: assets_dev/worlds/mm9/events/maps/frosgardcity.lua:625
+#: assets_dev/worlds/mm9/events/maps/frosgardcity.lua:630
 msgid "Cinema break_ice: shooter4"
 msgstr ""
 
-#: assets_dev/worlds/mm9/events/maps/frosgardcity.lua:626
+#: assets_dev/worlds/mm9/events/maps/frosgardcity.lua:631
 msgid "Cinema break_ice: floe6"
 msgstr ""
 
-#: assets_dev/worlds/mm9/events/maps/frosgardcity.lua:627
+#: assets_dev/worlds/mm9/events/maps/frosgardcity.lua:632
 msgid "Cinema break_ice: floe15"
 msgstr ""
 
-#: assets_dev/worlds/mm9/events/maps/frosgardcity.lua:628
+#: assets_dev/worlds/mm9/events/maps/frosgardcity.lua:633
 msgid "Cinema break_ice: floe26"
 msgstr ""
 
-#: assets_dev/worlds/mm9/events/maps/frosgardcity.lua:629
+#: assets_dev/worlds/mm9/events/maps/frosgardcity.lua:634
 msgid "Cinema break_ice: floe25"
 msgstr ""
 
-#: assets_dev/worlds/mm9/events/maps/frosgardcity.lua:630
+#: assets_dev/worlds/mm9/events/maps/frosgardcity.lua:635
 msgid "Cinema break_ice: group1"
 msgstr ""
 
-#: assets_dev/worlds/mm9/events/maps/frosgardcity.lua:631
+#: assets_dev/worlds/mm9/events/maps/frosgardcity.lua:636
 msgid "Cinema break_ice: group2"
 msgstr ""
 
-#: assets_dev/worlds/mm9/events/maps/frosgardcity.lua:632
+#: assets_dev/worlds/mm9/events/maps/frosgardcity.lua:637
 msgid "Cinema break_ice: group3"
 msgstr ""
 
-#: assets_dev/worlds/mm9/events/maps/frosgardcity.lua:633
+#: assets_dev/worlds/mm9/events/maps/frosgardcity.lua:638
 msgid "Cinema break_ice: points"
 msgstr ""
 
-#: assets_dev/worlds/mm9/events/maps/frosgardcity.lua:634
+#: assets_dev/worlds/mm9/events/maps/frosgardcity.lua:639
 msgid "Cinema break_ice: done"
 msgstr ""
 
-#: assets_dev/worlds/mm9/events/maps/frosgardcity.lua:650
+#: assets_dev/worlds/mm9/events/maps/frosgardcity.lua:655
 msgid "Cinema bob_and_doug: key"
 msgstr ""
 
-#: assets_dev/worlds/mm9/events/maps/frosgardcity.lua:651
+#: assets_dev/worlds/mm9/events/maps/frosgardcity.lua:656
 msgid "Cinema bob_and_doug: done"
 msgstr ""
 
@@ -31206,7 +31218,7 @@ msgid "You bought ten game tickets."
 msgstr ""
 
 #: assets_dev/worlds/mm9/events/maps/guberland.lua:261 assets_dev/worlds/mm9/events/maps/guberland.lua:291 assets_dev/worlds/mm9/events/maps/guberland.lua:383
-#: assets_dev/worlds/mm9/events/maps/guberland.lua:536
+#: assets_dev/worlds/mm9/events/maps/guberland.lua:537
 msgid "You lose."
 msgstr ""
 
@@ -31272,125 +31284,125 @@ msgstr ""
 msgid "White wins!!!"
 msgstr ""
 
-#: assets_dev/worlds/mm9/dialogue/rude/NPCNAME.rude:133 assets_dev/worlds/mm9/events/maps/guberland.lua:643 assets_dev/worlds/mm9/events/maps/guberland.lua:644
+#: assets_dev/worlds/mm9/dialogue/rude/NPCNAME.rude:133 assets_dev/worlds/mm9/events/maps/guberland.lua:644 assets_dev/worlds/mm9/events/maps/guberland.lua:645
 msgid "Thorir Mouth"
 msgstr ""
 
-#: assets_dev/worlds/mm9/dialogue/rude/NPC130.rude:29 assets_dev/worlds/mm9/dialogue/rude/NPCNAME.rude:130 assets_dev/worlds/mm9/events/maps/guberland.lua:645
-#: assets_dev/worlds/mm9/events/maps/guberland.lua:711
+#: assets_dev/worlds/mm9/dialogue/rude/NPC130.rude:29 assets_dev/worlds/mm9/dialogue/rude/NPCNAME.rude:130 assets_dev/worlds/mm9/events/maps/guberland.lua:646
+#: assets_dev/worlds/mm9/events/maps/guberland.lua:712
 msgid "Ivan the Smart"
 msgstr ""
 
-#: assets_dev/worlds/mm9/dialogue/rude/NPCNAME.rude:186 assets_dev/worlds/mm9/events/maps/guberland.lua:647 assets_dev/worlds/mm9/events/maps/guberland.lua:713
+#: assets_dev/worlds/mm9/dialogue/rude/NPCNAME.rude:186 assets_dev/worlds/mm9/events/maps/guberland.lua:648 assets_dev/worlds/mm9/events/maps/guberland.lua:714
 msgid "Atli Sigmundssen"
 msgstr ""
 
-#: assets_dev/worlds/mm9/events/maps/guberland.lua:648
+#: assets_dev/worlds/mm9/events/maps/guberland.lua:649
 msgid "Ticket master"
 msgstr ""
 
-#: assets_dev/worlds/mm9/dialogue/rude/NPCNAME.rude:148 assets_dev/worlds/mm9/events/maps/guberland.lua:649
+#: assets_dev/worlds/mm9/dialogue/rude/NPCNAME.rude:148 assets_dev/worlds/mm9/events/maps/guberland.lua:650
 msgid "Mata Abyomi"
 msgstr ""
 
-#: assets_dev/worlds/mm9/events/maps/guberland.lua:652 assets_dev/worlds/mm9/events/maps/guberland.lua:653 assets_dev/worlds/mm9/events/maps/guberland.lua:654
-#: assets_dev/worlds/mm9/events/maps/guberland.lua:655 assets_dev/worlds/mm9/events/maps/guberland.lua:656
+#: assets_dev/worlds/mm9/events/maps/guberland.lua:653 assets_dev/worlds/mm9/events/maps/guberland.lua:654 assets_dev/worlds/mm9/events/maps/guberland.lua:655
+#: assets_dev/worlds/mm9/events/maps/guberland.lua:656 assets_dev/worlds/mm9/events/maps/guberland.lua:657
 msgid "Rune"
 msgstr ""
 
-#: assets_dev/worlds/mm9/events/maps/guberland.lua:657 assets_dev/worlds/mm9/events/maps/guberland.lua:658 assets_dev/worlds/mm9/events/maps/guberland.lua:659
-#: assets_dev/worlds/mm9/events/maps/guberland.lua:660 assets_dev/worlds/mm9/events/maps/thjorgard.lua:683 assets_dev/worlds/mm9/events/maps/thjorgard.lua:684
-#: assets_dev/worlds/mm9/events/maps/thjorgard.lua:685 assets_dev/worlds/mm9/events/maps/thjorgard.lua:686 assets_dev/worlds/mm9/events/maps/thjorgard.lua:687
-#: assets_dev/worlds/mm9/events/maps/thjorgard.lua:688 assets_dev/worlds/mm9/events/maps/thjorgard.lua:689 assets_dev/worlds/mm9/events/maps/thjorgard.lua:690
-#: assets_dev/worlds/mm9/events/maps/thjorgard.lua:691
+#: assets_dev/worlds/mm9/events/maps/guberland.lua:658 assets_dev/worlds/mm9/events/maps/guberland.lua:659 assets_dev/worlds/mm9/events/maps/guberland.lua:660
+#: assets_dev/worlds/mm9/events/maps/guberland.lua:661 assets_dev/worlds/mm9/events/maps/thjorgard.lua:705 assets_dev/worlds/mm9/events/maps/thjorgard.lua:706
+#: assets_dev/worlds/mm9/events/maps/thjorgard.lua:707 assets_dev/worlds/mm9/events/maps/thjorgard.lua:708 assets_dev/worlds/mm9/events/maps/thjorgard.lua:709
+#: assets_dev/worlds/mm9/events/maps/thjorgard.lua:710 assets_dev/worlds/mm9/events/maps/thjorgard.lua:711 assets_dev/worlds/mm9/events/maps/thjorgard.lua:712
+#: assets_dev/worlds/mm9/events/maps/thjorgard.lua:713
 msgid "Rune stone"
 msgstr ""
 
-#: assets_dev/worlds/mm9/data_tables/monster_data.txt:247 assets_dev/worlds/mm9/events/maps/guberland.lua:698 assets_dev/worlds/mm9/events/maps/guberland.lua:699
-#: assets_dev/worlds/mm9/events/maps/guberland.lua:700 assets_dev/worlds/mm9/events/maps/guberland.lua:701 assets_dev/worlds/mm9/events/maps/thjorgard.lua:699
-#: assets_dev/worlds/mm9/events/maps/thjorgard.lua:700 assets_dev/worlds/mm9/events/maps/thjorgard.lua:701 assets_dev/worlds/mm9/events/maps/thjorgard.lua:702
+#: assets_dev/worlds/mm9/data_tables/monster_data.txt:247 assets_dev/worlds/mm9/events/maps/guberland.lua:699 assets_dev/worlds/mm9/events/maps/guberland.lua:700
+#: assets_dev/worlds/mm9/events/maps/guberland.lua:701 assets_dev/worlds/mm9/events/maps/guberland.lua:702 assets_dev/worlds/mm9/events/maps/thjorgard.lua:722
+#: assets_dev/worlds/mm9/events/maps/thjorgard.lua:723 assets_dev/worlds/mm9/events/maps/thjorgard.lua:724 assets_dev/worlds/mm9/events/maps/thjorgard.lua:725
 msgid "Goose"
 msgstr ""
 
-#: assets_dev/worlds/mm9/events/maps/guberland.lua:702 assets_dev/worlds/mm9/events/maps/thjorgard.lua:703
+#: assets_dev/worlds/mm9/events/maps/guberland.lua:703 assets_dev/worlds/mm9/events/maps/thjorgard.lua:726
 msgid "Whack-a-honky lever"
 msgstr ""
 
-#: assets_dev/worlds/mm9/events/maps/guberland.lua:705 assets_dev/worlds/mm9/events/maps/guberland.lua:706 assets_dev/worlds/mm9/events/maps/thjorgard.lua:681
-#: assets_dev/worlds/mm9/events/maps/thjorgard.lua:682
+#: assets_dev/worlds/mm9/events/maps/guberland.lua:706 assets_dev/worlds/mm9/events/maps/guberland.lua:707 assets_dev/worlds/mm9/events/maps/thjorgard.lua:703
+#: assets_dev/worlds/mm9/events/maps/thjorgard.lua:704
 msgid "Stones player"
 msgstr ""
 
-#: assets_dev/worlds/mm9/data_tables/hirelings.txt:10 assets_dev/worlds/mm9/dialogue/rude/NPCNAME.rude:178 assets_dev/worlds/mm9/events/maps/guberland.lua:707
-#: assets_dev/worlds/mm9/events/maps/guberland.lua:716
+#: assets_dev/worlds/mm9/data_tables/hirelings.txt:10 assets_dev/worlds/mm9/dialogue/rude/NPCNAME.rude:178 assets_dev/worlds/mm9/events/maps/guberland.lua:708
+#: assets_dev/worlds/mm9/events/maps/guberland.lua:717
 msgid "Alvar the Clumsy"
 msgstr ""
 
-#: assets_dev/worlds/mm9/events/maps/guberland.lua:708
+#: assets_dev/worlds/mm9/events/maps/guberland.lua:709
 msgid "Scandlan"
 msgstr ""
 
-#: assets_dev/worlds/mm9/dialogue/rude/NPCNAME.rude:132 assets_dev/worlds/mm9/events/maps/guberland.lua:710
+#: assets_dev/worlds/mm9/dialogue/rude/NPCNAME.rude:132 assets_dev/worlds/mm9/events/maps/guberland.lua:711
 msgid "Hjordisa the Hag"
 msgstr ""
 
-#: assets_dev/worlds/mm9/dialogue/rude/NPCNAME.rude:144 assets_dev/worlds/mm9/events/maps/guberland.lua:712
+#: assets_dev/worlds/mm9/dialogue/rude/NPCNAME.rude:144 assets_dev/worlds/mm9/events/maps/guberland.lua:713
 msgid "Olaf Ullson"
 msgstr ""
 
-#: assets_dev/worlds/mm9/dialogue/rude/NPCNAME.rude:187 assets_dev/worlds/mm9/events/maps/guberland.lua:714
+#: assets_dev/worlds/mm9/dialogue/rude/NPCNAME.rude:187 assets_dev/worlds/mm9/events/maps/guberland.lua:715
 msgid "Hungerda Atlidotir"
 msgstr ""
 
-#: assets_dev/worlds/mm9/events/maps/guberland.lua:821
+#: assets_dev/worlds/mm9/events/maps/guberland.lua:822
 msgid "Cinema newgame_talk: key"
 msgstr ""
 
-#: assets_dev/worlds/mm9/events/maps/guberland.lua:822
+#: assets_dev/worlds/mm9/events/maps/guberland.lua:823
 msgid "Cinema newgame_talk: hears02"
 msgstr ""
 
-#: assets_dev/worlds/mm9/events/maps/guberland.lua:823
+#: assets_dev/worlds/mm9/events/maps/guberland.lua:824
 msgid "Cinema newgame_talk: hears03"
 msgstr ""
 
-#: assets_dev/worlds/mm9/events/maps/guberland.lua:824
+#: assets_dev/worlds/mm9/events/maps/guberland.lua:825
 msgid "Cinema newgame_talk: hears04"
 msgstr ""
 
-#: assets_dev/worlds/mm9/events/maps/guberland.lua:825
+#: assets_dev/worlds/mm9/events/maps/guberland.lua:826
 msgid "Cinema newgame_talk: hears05"
 msgstr ""
 
-#: assets_dev/worlds/mm9/events/maps/guberland.lua:826
+#: assets_dev/worlds/mm9/events/maps/guberland.lua:827
 msgid "Cinema newgame_talk: hears06"
 msgstr ""
 
-#: assets_dev/worlds/mm9/events/maps/guberland.lua:827
+#: assets_dev/worlds/mm9/events/maps/guberland.lua:828
 msgid "Cinema newgame_talk: hears07"
 msgstr ""
 
-#: assets_dev/worlds/mm9/events/maps/guberland.lua:828
+#: assets_dev/worlds/mm9/events/maps/guberland.lua:829
 msgid "Cinema newgame_talk: hears08"
 msgstr ""
 
-#: assets_dev/worlds/mm9/events/maps/guberland.lua:829
+#: assets_dev/worlds/mm9/events/maps/guberland.lua:830
 msgid "Cinema newgame_talk: hears09"
 msgstr ""
 
-#: assets_dev/worlds/mm9/events/maps/guberland.lua:830
+#: assets_dev/worlds/mm9/events/maps/guberland.lua:831
 msgid "Cinema newgame_talk: hears10"
 msgstr ""
 
-#: assets_dev/worlds/mm9/events/maps/guberland.lua:831
+#: assets_dev/worlds/mm9/events/maps/guberland.lua:832
 msgid "Cinema newgame_talk: hears11"
 msgstr ""
 
-#: assets_dev/worlds/mm9/events/maps/guberland.lua:832
+#: assets_dev/worlds/mm9/events/maps/guberland.lua:833
 msgid "Cinema newgame_talk: walk_away"
 msgstr ""
 
-#: assets_dev/worlds/mm9/events/maps/guberland.lua:833
+#: assets_dev/worlds/mm9/events/maps/guberland.lua:834
 msgid "Cinema newgame_talk: done"
 msgstr ""
 
@@ -31691,7 +31703,7 @@ msgstr ""
 msgid "Lectern"
 msgstr ""
 
-#: assets_dev/worlds/mm9/events/maps/isleofashes.lua:516 assets_dev/worlds/mm9/events/maps/thronheimcity.lua:535 assets_dev/worlds/mm9/events/maps/thronheimcity.lua:536
+#: assets_dev/worlds/mm9/events/maps/isleofashes.lua:516 assets_dev/worlds/mm9/events/maps/thronheimcity.lua:546 assets_dev/worlds/mm9/events/maps/thronheimcity.lua:547
 msgid "Yrsa"
 msgstr ""
 
@@ -32497,16 +32509,12 @@ msgstr ""
 msgid "Flames burn by stone {stones} (from the left)."
 msgstr ""
 
-#: assets_dev/worlds/mm9/events/maps/thjorgard.lua:281
+#: assets_dev/worlds/mm9/events/maps/thjorgard.lua:292
 msgid "Five..."
 msgstr ""
 
-#: assets_dev/worlds/mm9/events/maps/thjorgard.lua:286
+#: assets_dev/worlds/mm9/events/maps/thjorgard.lua:299
 msgid "Your boat: {pushes} of 10 lengths."
-msgstr ""
-
-#: assets_dev/worlds/mm9/events/maps/thjorgard.lua:317
-msgid "Your boat: {pushes} of 10 lengths; the leading rival: {rival}."
 msgstr ""
 
 #: assets_dev/worlds/mm9/events/maps/thjorgard.lua:60
@@ -32517,52 +32525,52 @@ msgstr ""
 msgid "You used a ticket."
 msgstr ""
 
-#: assets_dev/worlds/mm9/events/maps/thjorgard.lua:644
-msgid "The Huckster"
-msgstr ""
-
 #: assets_dev/worlds/mm9/events/maps/thjorgard.lua:65
 msgid "You Win!"
 msgstr ""
 
-#: assets_dev/worlds/mm9/events/maps/thjorgard.lua:693
-msgid "Boat judge"
-msgstr ""
-
-#: assets_dev/worlds/mm9/events/maps/thjorgard.lua:694
-msgid "Boat race"
-msgstr ""
-
-#: assets_dev/worlds/mm9/events/maps/thjorgard.lua:695
-msgid "Toy boat"
-msgstr ""
-
-#: assets_dev/worlds/mm9/events/maps/thjorgard.lua:696
-msgid "Bell strike plate"
-msgstr ""
-
-#: assets_dev/worlds/mm9/events/maps/thjorgard.lua:698
-msgid "Bell weight"
+#: assets_dev/worlds/mm9/events/maps/thjorgard.lua:666
+msgid "The Huckster"
 msgstr ""
 
 #: assets_dev/worlds/mm9/events/maps/thjorgard.lua:70
 msgid "You received the Stuffed Dragon for completing all the games!"
 msgstr ""
 
-#: assets_dev/worlds/mm9/events/maps/thjorgard.lua:706
-msgid "Arm wrestler"
+#: assets_dev/worlds/mm9/events/maps/thjorgard.lua:715
+msgid "Boat judge"
 msgstr ""
 
-#: assets_dev/worlds/mm9/events/maps/thjorgard.lua:708
-msgid "Training hall wall broken"
+#: assets_dev/worlds/mm9/events/maps/thjorgard.lua:716
+msgid "Boat race"
 msgstr ""
 
-#: assets_dev/worlds/mm9/dialogue/rude/NPCNAME.rude:18 assets_dev/worlds/mm9/events/maps/thjorgard.lua:710
-msgid "Trollfin the Sailcutter"
+#: assets_dev/worlds/mm9/events/maps/thjorgard.lua:717
+msgid "Toy boat"
+msgstr ""
+
+#: assets_dev/worlds/mm9/events/maps/thjorgard.lua:719
+msgid "Bell strike plate"
 msgstr ""
 
 #: assets_dev/worlds/mm9/events/maps/thjorgard.lua:263 assets_dev/worlds/mm9/events/maps/thjorgard.lua:72
 msgid "You Lost."
+msgstr ""
+
+#: assets_dev/worlds/mm9/events/maps/thjorgard.lua:721
+msgid "Bell weight"
+msgstr ""
+
+#: assets_dev/worlds/mm9/events/maps/thjorgard.lua:729
+msgid "Arm wrestler"
+msgstr ""
+
+#: assets_dev/worlds/mm9/events/maps/thjorgard.lua:731
+msgid "Training hall wall broken"
+msgstr ""
+
+#: assets_dev/worlds/mm9/dialogue/rude/NPCNAME.rude:18 assets_dev/worlds/mm9/events/maps/thjorgard.lua:733
+msgid "Trollfin the Sailcutter"
 msgstr ""
 
 #: assets_dev/worlds/mm9/events/maps/thjorgard.lua:87
@@ -32722,7 +32730,7 @@ msgstr ""
 msgid "Bikki Yrsadotir"
 msgstr ""
 
-#: assets_dev/worlds/mm9/events/maps/thronheimcity.lua:399
+#: assets_dev/worlds/mm9/events/maps/thronheimcity.lua:408
 msgid ""
 "Letter to Lariee\n"
 "\n"
@@ -32733,7 +32741,7 @@ msgid ""
 "Jerhildr"
 msgstr ""
 
-#: assets_dev/worlds/mm9/events/maps/thronheimcity.lua:400
+#: assets_dev/worlds/mm9/events/maps/thronheimcity.lua:409
 msgid ""
 "Letter to Henree\n"
 "\n"
@@ -32743,7 +32751,7 @@ msgid ""
 "Jofridr"
 msgstr ""
 
-#: assets_dev/worlds/mm9/events/maps/thronheimcity.lua:401
+#: assets_dev/worlds/mm9/events/maps/thronheimcity.lua:410
 msgid ""
 "Invoice\n"
 "\n"
@@ -32755,7 +32763,7 @@ msgid ""
 "Money due upon receipt."
 msgstr ""
 
-#: assets_dev/worlds/mm9/events/maps/thronheimcity.lua:402
+#: assets_dev/worlds/mm9/events/maps/thronheimcity.lua:411
 msgid ""
 "Letter to Wahng\n"
 "\n"
@@ -32765,113 +32773,113 @@ msgid ""
 "Jack"
 msgstr ""
 
-#: assets_dev/worlds/mm9/events/maps/thronheimcity.lua:537 assets_dev/worlds/mm9/events/maps/thronheimcity.lua:538
+#: assets_dev/worlds/mm9/events/maps/thronheimcity.lua:548 assets_dev/worlds/mm9/events/maps/thronheimcity.lua:549
 msgid "Kira"
 msgstr ""
 
-#: assets_dev/worlds/mm9/data_tables/monster_data.txt:178 assets_dev/worlds/mm9/data_tables/monster_data.txt:198 assets_dev/worlds/mm9/events/maps/thronheimcity.lua:541
-#: assets_dev/worlds/mm9/events/maps/thronheimcity.lua:542 assets_dev/worlds/mm9/events/maps/thronheimcity.lua:543 assets_dev/worlds/mm9/events/maps/thronheimcity.lua:544
-#: assets_dev/worlds/mm9/events/maps/thronheimcity.lua:545 assets_dev/worlds/mm9/events/maps/thronheimcity.lua:546
+#: assets_dev/worlds/mm9/data_tables/monster_data.txt:178 assets_dev/worlds/mm9/data_tables/monster_data.txt:198 assets_dev/worlds/mm9/events/maps/thronheimcity.lua:552
+#: assets_dev/worlds/mm9/events/maps/thronheimcity.lua:553 assets_dev/worlds/mm9/events/maps/thronheimcity.lua:554 assets_dev/worlds/mm9/events/maps/thronheimcity.lua:555
+#: assets_dev/worlds/mm9/events/maps/thronheimcity.lua:556 assets_dev/worlds/mm9/events/maps/thronheimcity.lua:557
 msgid "Honk"
 msgstr ""
 
-#: assets_dev/worlds/mm9/events/maps/thronheimcity.lua:549
+#: assets_dev/worlds/mm9/events/maps/thronheimcity.lua:560
 msgid "Ealusaid"
 msgstr ""
 
-#: assets_dev/worlds/mm9/events/maps/thronheimcity.lua:550
+#: assets_dev/worlds/mm9/events/maps/thronheimcity.lua:561
 msgid "Dagfari"
 msgstr ""
 
-#: assets_dev/worlds/mm9/events/maps/thronheimcity.lua:551
+#: assets_dev/worlds/mm9/events/maps/thronheimcity.lua:562
 msgid "Erlend"
 msgstr ""
 
-#: assets_dev/worlds/mm9/events/maps/thronheimcity.lua:557 assets_dev/worlds/mm9/events/maps/thronheimcity.lua:558
+#: assets_dev/worlds/mm9/events/maps/thronheimcity.lua:568 assets_dev/worlds/mm9/events/maps/thronheimcity.lua:569
 msgid "Breakout"
 msgstr ""
 
-#: assets_dev/worlds/mm9/data_tables/service_venues.txt:22 assets_dev/worlds/mm9/dialogue/rude/NPCNAME.rude:241 assets_dev/worlds/mm9/events/maps/thronheimcity.lua:569
+#: assets_dev/worlds/mm9/data_tables/service_venues.txt:22 assets_dev/worlds/mm9/dialogue/rude/NPCNAME.rude:241 assets_dev/worlds/mm9/events/maps/thronheimcity.lua:580
 msgid "Ealusaid A'Norta a'thrakan"
 msgstr ""
 
-#: assets_dev/worlds/mm9/dialogue/rude/NPCNAME.rude:242 assets_dev/worlds/mm9/events/maps/thronheimcity.lua:570
+#: assets_dev/worlds/mm9/dialogue/rude/NPCNAME.rude:242 assets_dev/worlds/mm9/events/maps/thronheimcity.lua:581
 msgid "Dagfari the Peevish"
 msgstr ""
 
-#: assets_dev/worlds/mm9/dialogue/rude/NPCNAME.rude:240 assets_dev/worlds/mm9/events/maps/thronheimcity.lua:571
+#: assets_dev/worlds/mm9/dialogue/rude/NPCNAME.rude:240 assets_dev/worlds/mm9/events/maps/thronheimcity.lua:582
 msgid "Thorfinn Skullsplitter"
 msgstr ""
 
-#: assets_dev/worlds/mm9/dialogue/rude/NPCNAME.rude:246 assets_dev/worlds/mm9/events/maps/thronheimcity.lua:572
+#: assets_dev/worlds/mm9/dialogue/rude/NPCNAME.rude:246 assets_dev/worlds/mm9/events/maps/thronheimcity.lua:583
 msgid "Erlend the Nay-sayer"
 msgstr ""
 
-#: assets_dev/worlds/mm9/data_tables/hirelings.txt:13 assets_dev/worlds/mm9/dialogue/rude/NPCNAME.rude:281 assets_dev/worlds/mm9/events/maps/thronheimcity.lua:573
+#: assets_dev/worlds/mm9/data_tables/hirelings.txt:13 assets_dev/worlds/mm9/dialogue/rude/NPCNAME.rude:281 assets_dev/worlds/mm9/events/maps/thronheimcity.lua:584
 msgid "Cleirach A'Lyrae"
 msgstr ""
 
-#: assets_dev/worlds/mm9/dialogue/rude/NPCNAME.rude:247 assets_dev/worlds/mm9/events/maps/thronheimcity.lua:574
+#: assets_dev/worlds/mm9/dialogue/rude/NPCNAME.rude:247 assets_dev/worlds/mm9/events/maps/thronheimcity.lua:585
 msgid "William the Framish"
 msgstr ""
 
-#: assets_dev/worlds/mm9/dialogue/rude/NPCNAME.rude:248 assets_dev/worlds/mm9/events/maps/thronheimcity.lua:575
+#: assets_dev/worlds/mm9/dialogue/rude/NPCNAME.rude:248 assets_dev/worlds/mm9/events/maps/thronheimcity.lua:586
 msgid "Rustavius"
 msgstr ""
 
-#: assets_dev/worlds/mm9/dialogue/rude/NPCNAME.rude:249 assets_dev/worlds/mm9/events/maps/thronheimcity.lua:576
+#: assets_dev/worlds/mm9/dialogue/rude/NPCNAME.rude:249 assets_dev/worlds/mm9/events/maps/thronheimcity.lua:587
 msgid "Bones the Pale"
 msgstr ""
 
-#: assets_dev/worlds/mm9/dialogue/rude/NPCNAME.rude:254 assets_dev/worlds/mm9/events/maps/thronheimcity.lua:577
+#: assets_dev/worlds/mm9/dialogue/rude/NPCNAME.rude:254 assets_dev/worlds/mm9/events/maps/thronheimcity.lua:588
 msgid "Jofridr The Swillbowl"
 msgstr ""
 
-#: assets_dev/worlds/mm9/dialogue/rude/NPCNAME.rude:255 assets_dev/worlds/mm9/events/maps/thronheimcity.lua:578
+#: assets_dev/worlds/mm9/dialogue/rude/NPCNAME.rude:255 assets_dev/worlds/mm9/events/maps/thronheimcity.lua:589
 msgid "Thakkrad Kjarssen"
 msgstr ""
 
-#: assets_dev/worlds/mm9/dialogue/rude/NPCNAME.rude:256 assets_dev/worlds/mm9/events/maps/thronheimcity.lua:579
+#: assets_dev/worlds/mm9/dialogue/rude/NPCNAME.rude:256 assets_dev/worlds/mm9/events/maps/thronheimcity.lua:590
 msgid "Robert Bloodstopper"
 msgstr ""
 
-#: assets_dev/worlds/mm9/dialogue/rude/NPCNAME.rude:258 assets_dev/worlds/mm9/events/maps/thronheimcity.lua:580
+#: assets_dev/worlds/mm9/dialogue/rude/NPCNAME.rude:258 assets_dev/worlds/mm9/events/maps/thronheimcity.lua:591
 msgid "Erpr the Ankle-heavy"
 msgstr ""
 
-#: assets_dev/worlds/mm9/dialogue/rude/NPCNAME.rude:259 assets_dev/worlds/mm9/events/maps/thronheimcity.lua:581
+#: assets_dev/worlds/mm9/dialogue/rude/NPCNAME.rude:259 assets_dev/worlds/mm9/events/maps/thronheimcity.lua:592
 msgid "Jormunrek Jonakrssen"
 msgstr ""
 
-#: assets_dev/worlds/mm9/dialogue/rude/NPCNAME.rude:260 assets_dev/worlds/mm9/events/maps/thronheimcity.lua:582
+#: assets_dev/worlds/mm9/dialogue/rude/NPCNAME.rude:260 assets_dev/worlds/mm9/events/maps/thronheimcity.lua:593
 msgid "Magnus ver Magnussen"
 msgstr ""
 
-#: assets_dev/worlds/mm9/events/maps/thronheimcity.lua:662
+#: assets_dev/worlds/mm9/events/maps/thronheimcity.lua:673
 msgid "Cinema council_argument: stage"
 msgstr ""
 
-#: assets_dev/worlds/mm9/events/maps/thronheimcity.lua:663
+#: assets_dev/worlds/mm9/events/maps/thronheimcity.lua:674
 msgid "Cinema council_argument: forad"
 msgstr ""
 
-#: assets_dev/worlds/mm9/events/maps/thronheimcity.lua:664
+#: assets_dev/worlds/mm9/events/maps/thronheimcity.lua:675
 msgid "Cinema council_argument: war"
 msgstr ""
 
-#: assets_dev/worlds/mm9/events/maps/thronheimcity.lua:665
+#: assets_dev/worlds/mm9/events/maps/thronheimcity.lua:676
 msgid "Cinema council_argument: kira_sheath"
 msgstr ""
 
-#: assets_dev/worlds/mm9/events/maps/thronheimcity.lua:666
+#: assets_dev/worlds/mm9/events/maps/thronheimcity.lua:677
 msgid "Cinema council_argument: kira_draw"
 msgstr ""
 
-#: assets_dev/worlds/mm9/events/maps/thronheimcity.lua:667
+#: assets_dev/worlds/mm9/events/maps/thronheimcity.lua:678
 msgid "Cinema council_argument: end"
 msgstr ""
 
-#: assets_dev/worlds/mm9/events/maps/thronheimcity.lua:668
+#: assets_dev/worlds/mm9/events/maps/thronheimcity.lua:679
 msgid "Cinema council_argument: done"
 msgstr ""
 

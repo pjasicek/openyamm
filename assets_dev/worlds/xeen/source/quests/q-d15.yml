@@ -30,9 +30,11 @@ npcs:
   5245:              # Caleb
     topics:
       - n: 1
-        label: Magnifying glass
+        role: quest
+        afterword: {n: 2, label: Magnifying glass}
         states:
           - when: {qbit: done}
+            afterword: true
             text: "Always nice to see you! Come and look at this. No? It's very small."
           - when: {item: calebs_glass}
             text: "How wonderful! You have located my magnifying glass. Can't thank you enough. Take this gold, and this: I made it, and now I can finally see what it is."

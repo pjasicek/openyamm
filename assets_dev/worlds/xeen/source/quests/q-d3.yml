@@ -38,9 +38,11 @@ npcs:
   4923:              # Brother Otto
     topics:
       - n: 1
-        label: Lesson
+        role: quest
+        afterword: {n: 6, label: Lesson}
         states:
           - when: {qbit: lesson1}
+            afterword: true
             text: "Learned you have. Hannah Sister to go, now."
           - text: "Ah, listeners! Allow me to enlighten you: No word, no bond, row on. Now do I repay a period won. Go, now, and visit Sister Hannah for more enlightenment."
             do: [{set: started}, {set: lesson1}, {autonote: lessons}]
@@ -80,9 +82,11 @@ npcs:
   4950:              # Brother Reger
     topics:
       - n: 5
-        label: The word
+        role: quest
+        afterword: {n: 7, label: The word}
         states:
           - when: {qbit: done}
+            afterword: true
             text: "Pleased to see you, fellow Drawkcabs."
           - when: {all: [{qbit: word_said}, {qbit: m20.started}]}
             text: "Correct. You are truly a Drawkcab! Those of you who walk the inner way walk it now as Masters. Backwards, naturally."

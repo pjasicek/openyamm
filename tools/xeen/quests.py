@@ -21,6 +21,7 @@ A4's town files count as writers and readers too: mirror houses (Xeen.useMirror)
 from __future__ import annotations
 
 import argparse
+import math
 import re
 import sys
 from pathlib import Path
@@ -29,6 +30,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 
 import gen_quests  # noqa: E402
 import xeenlib  # noqa: E402
+import yaml  # noqa: E402
 
 BRIEFS = xeenlib.ROOT / 'devdocs' / 'xeen' / 'briefs'
 COMMON_LUA = xeenlib.WORLD / 'events' / 'common' / 'xeen_common.lua'
@@ -59,7 +61,7 @@ F13_MAP_SITES_OPEN = {
 # when it is listed here and says `sealed: "<reason>"` and a `fail_text` that names where the way in comes from. A new
 # seal needs a decider (DECISIONS.md); add it here only with the decision's id.
 SEALED = {
-    'm2.warehouse_door': 'XD-01: Joe\'s locked warehouse; the key lies on the rain barrel\'s lid in sight (MM6 Goblinwatch)',
+    'm2.warehouse_door': 'XD-01: Joe\'s locked warehouse; the key is in the rain barrel by the door, a click puts it on the cursor (D-93)',
     'm5.crusaders_gate': 'XD-07: the Act I to II beat, the Crusader title (the source\'s line)',
     'm13.darzog_door': 'XD-12: the Act IV hinge; the Skeleton Key is loot in XD-11',
     'q-c7.coffin': 'XD-24: the sundial puzzle at the door, answered on the square',
@@ -250,7 +252,7 @@ class Audit:
             xp: list[int] = []
             for npc_id, entry in (data.get('npcs') or {}).items():
                 for topic in gen_quests.topic_list(entry):
-                    where = f"{stem} npc {npc_id} {topic.get('label')!r}"
+                    where = f"{stem} npc {npc_id} {topic.get('label') or topic.get('role')!r} (n {topic.get('n')})"
                     self._conditions(topic.get('show'), stem, where)
                     for state in gen_quests.topic_states(topic):
                         self._conditions(state.get('when'), stem, where)
@@ -747,8 +749,33 @@ class Audit:
 
     # -- report ------------------------------------------------------------------------------------------------------
 
+    # D-93: a find hidden in a prop (a barrel, a pack, a crate, a sack, a nest...) goes onto the cursor from the prop's
+    # click (a hook with `gives:`), as MM6-MM8's evt.GiveItem; only an item lying in the open is a ground item. A
+    # sketch's ground item this close to a decoration (grid units, 512 game units each) reads as hidden in it.
+    PROP_FIND_DISTANCE = 0.6
+
+    def check_prop_finds(self):
+        for path in sorted(BRIEFS.glob('*/L4/sketch.yml')):
+            try:
+                sketch = yaml.safe_load(path.read_text()) or {}
+            except yaml.YAMLError:
+                continue
+            props = [thing for thing in sketch.get('structures') or []
+                     if isinstance(thing, dict) and thing.get('kind') == 'decoration' and thing.get('at')]
+            for item in sketch.get('items') or []:
+                if not isinstance(item, dict) or not item.get('at') or item.get('in_the_open'):
+                    continue
+                near = [thing['id'] for thing in props
+                        if math.dist(item['at'][:2], thing['at'][:2]) <= self.PROP_FIND_DISTANCE]
+                if near:
+                    self.errors.append(
+                        f"{path.relative_to(xeenlib.ROOT)}: {item.get('id')} lies at {near[0]}: a find in a prop is given "
+                        "onto the cursor by the prop's click (a hook with `gives:`, D-93), not placed as a ground item "
+                        "(`in_the_open: \"<why>\"` for an item that only lies beside it in plain sight)")
+
     def run(self, show_open: bool) -> int:
         self.walk()
+        self.check_prop_finds()
         self.check_numbers()
         self.check_built_maps()
         self.check_towns()

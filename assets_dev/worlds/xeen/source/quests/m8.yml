@@ -29,7 +29,7 @@ npcs:
             text: "If you want to make some improvements here you should see the King's engineers. Emerson, at Castle Burlock. I am sure he will be able to help you."
           - text: "Wanna buy the land this lovely castle rests upon? Only twelve thousand gold! The rubble is included. So are the wood golems in the foundations."
       - n: 2
-        label: Buy the deed
+        role: quest
         show: {not: {qbit: deed}}
         states:
           - when: {gold: 12000}

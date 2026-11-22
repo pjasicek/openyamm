@@ -161,6 +161,6 @@ RegisterEvent(195, "Chest", function()
 end, "Chest")
 
 RegisterEvent(501, nil, function()
-    evt.MoveToMap(18005, 7107, 2913, 1728, 0, 0, 0, 0, "7out03.odm") -- Erathia
+    evt.MoveToMap(18005, 7107, 2913, 1728, 0, 0, 0, 4, "7out03.odm") -- Erathia
 end)
 

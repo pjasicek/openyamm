@@ -182,6 +182,6 @@ RegisterEvent(25, "Cage", function()
 end, "Cage")
 
 RegisterEvent(50, "Exit", function()
-    evt.MoveToMap(9230, 7102, 64, 512, 0, 0, 0, 0, "outb2.odm") -- Blackshire
+    evt.MoveToMap(9230, 7102, 64, 512, 0, 0, 0, 6, "outb2.odm") -- Blackshire
 end, "Exit")
 

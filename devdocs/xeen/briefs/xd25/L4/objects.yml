@@ -231,7 +231,6 @@ chests:
   - id: chest:cache
     room: room:hidden_cache
     at: [-1800, 1300]
-    facing: e
     treasure_level: 2
     random_items: 1
     gold: 400
@@ -239,7 +238,6 @@ chests:
   - id: chest:keeper
     room: room:keeper
     at: [3240, -3200]
-    facing: w
     treasure_level: 3
     random_items: 2
     gold: 700

@@ -290,10 +290,10 @@ districts:
   - space: town:necropolis
     polygon: [[82, 74], [100, 74], [100, 90], [82, 90]]
     plots:
-      - {building: building:np_guild, at: [84, 76], facing: e, parts: [{id: body, at: [64, 64], size: [1408, 1408], textures: {band: t09b11b}, wall_height: 544, walls: {e: [[post_left, 128], [window, 128], [wall, 128], [window, 128], [wall, 64], [door, 256], [wall, 64], [window, 128], [wall, 128], [window, 128], [post_right, 128]]}, band: 32, upper_walls: {e: [[post_left, 128], [window, 128], [wall, 128], [window, 128], [wall, 64], [wall, 64], [window, 128], [wall, 64], [wall, 64], [window, 128], [wall, 128], [window, 128], [post_right, 128]]}, roof: hip, roof_pitch: 40, eaves: 48, door_height: 288}], floor: 1664, textures: {door: t09a03a, gable: t09a01, post_left: t09a06, post_right: t09a07, ridge: t06a10, roof: xlslate, trim: t09b11b, wall: t09a01, window: t09a04b}, house: 4751, title: Necropolis Guild, kit: grey, door: {arch: round, leaves: 2, part: body, wall: e}}
-      - {building: building:np_market, at: [96, 76], facing: w, parts: [{id: body, at: [64, 64], size: [896, 1408], walls: {w: [[post_left, 128], [window, 128], [wall, 128], [window, 128], [wall, 64], [door, 256], [wall, 64], [window, 128], [wall, 128], [window, 128], [post_right, 128]]}, upper_walls: {w: [[post_left, 128], [window, 128], [wall, 128], [window, 128], [wall, 64], [wall, 64], [window, 128], [wall, 64], [wall, 64], [window, 128], [wall, 128], [window, 128], [post_right, 128]]}, roof: hip, roof_pitch: 38}], floor: 1664, textures: {door: t09a03a, gable: t09a01, post_left: t09a06, post_right: t09a07, ridge: t06a10, roof: xlslate, trim: t09b11b, wall: t09a01, window: t09a04b}, house: 4753, title: The Grave Market, kit: grey, door: {leaves: 2, part: body, wall: w}}
-      - {building: building:np_embalmer, at: [96, 80], facing: w, parts: [{id: body, at: [64, 64], size: [896, 896], walls: {w: [[post_left, 128], [window, 128], [wall, 64], [door, 256], [wall, 64], [window, 128], [post_right, 128]]}, upper_walls: {w: [[post_left, 128], [window, 128], [wall, 64], [wall, 64], [window, 128], [wall, 64], [wall, 64], [window, 128], [post_right, 128]]}, roof: hip, roof_pitch: 38}], floor: 1664, textures: {door: t09a03a, gable: t09a01, post_left: t09a06, post_right: t09a07, ridge: t06a10, roof: xlslate, trim: t09b11b, wall: t09a01, window: t09a04b}, house: 4754, title: The Embalmer, kit: grey, door: {leaves: 2, part: body, wall: w}}
-      - {building: building:np_tavern, at: [84, 80], facing: e, parts: [{id: body, at: [64, 64], size: [1408, 1408], walls: {e: [[post_left, 128], [window, 128], [wall, 128], [window, 128], [wall, 64], [door, 256], [wall, 64], [window, 128], [wall, 128], [window, 128], [post_right, 128]]}, upper_walls: {e: [[post_left, 128], [window, 128], [wall, 128], [window, 128], [wall, 64], [wall, 64], [window, 128], [wall, 64], [wall, 64], [window, 128], [wall, 128], [window, 128], [post_right, 128]]}, roof: hip, roof_pitch: 38}], floor: 1664, textures: {door: t09a03a, gable: t09a01, post_left: t09a06, post_right: t09a07, ridge: t06a10, roof: xlslate, trim: t09b11b, wall: t09a01, window: t09a04b}, house: 4755, title: The Warm Barrel, kit: grey, door: {leaves: 2, part: body, wall: e}}
+      - {building: building:np_guild, at: [84, 76], facing: e, parts: [{id: body, at: [64, 64], size: [1408, 1408], signs: [{wall: e, bay: 0, texture: sgdark, size: [64, 64], bottom: 192, out: 48, hang: true}], textures: {band: t09b11b}, wall_height: 544, walls: {e: [[post_left, 128], [window, 128], [wall, 128], [window, 128], [wall, 64], [door, 256], [wall, 64], [window, 128], [wall, 128], [window, 128], [post_right, 128]]}, band: 32, upper_walls: {e: [[post_left, 128], [window, 128], [wall, 128], [window, 128], [wall, 64], [wall, 64], [window, 128], [wall, 64], [wall, 64], [window, 128], [wall, 128], [window, 128], [post_right, 128]]}, roof: hip, roof_pitch: 40, eaves: 48, door_height: 288}], floor: 1664, textures: {door: t09a03a, gable: t09a01, post_left: t09a06, post_right: t09a07, ridge: t06a10, roof: xlslate, trim: t09b11b, wall: t09a01, window: t09a04b}, house: 4751, title: Necropolis Guild, kit: grey, door: {arch: round, leaves: 2, part: body, wall: e}}
+      - {building: building:np_market, at: [96, 76], facing: w, parts: [{id: body, at: [64, 64], size: [896, 1408], signs: [{wall: w, bay: 0, texture: sgmagic, size: [64, 64], bottom: 120, out: 48, hang: true}], walls: {w: [[post_left, 128], [window, 128], [wall, 128], [window, 128], [wall, 64], [door, 256], [wall, 64], [window, 128], [wall, 128], [window, 128], [post_right, 128]]}, upper_walls: {w: [[post_left, 128], [window, 128], [wall, 128], [window, 128], [wall, 64], [wall, 64], [window, 128], [wall, 64], [wall, 64], [window, 128], [wall, 128], [window, 128], [post_right, 128]]}, roof: hip, roof_pitch: 38}], floor: 1664, textures: {door: t09a03a, gable: t09a01, post_left: t09a06, post_right: t09a07, ridge: t06a10, roof: xlslate, trim: t09b11b, wall: t09a01, window: t09a04b}, house: 4753, title: The Grave Market, kit: grey, door: {leaves: 2, part: body, wall: w}}
+      - {building: building:np_embalmer, at: [96, 80], facing: w, parts: [{id: body, at: [64, 64], size: [896, 896], signs: [{wall: w, bay: 0, texture: sgalch, size: [64, 64], bottom: 120, out: 48, hang: true}], walls: {w: [[post_left, 128], [window, 128], [wall, 64], [door, 256], [wall, 64], [window, 128], [post_right, 128]]}, upper_walls: {w: [[post_left, 128], [window, 128], [wall, 64], [wall, 64], [window, 128], [wall, 64], [wall, 64], [window, 128], [post_right, 128]]}, roof: hip, roof_pitch: 38}], floor: 1664, textures: {door: t09a03a, gable: t09a01, post_left: t09a06, post_right: t09a07, ridge: t06a10, roof: xlslate, trim: t09b11b, wall: t09a01, window: t09a04b}, house: 4754, title: The Embalmer, kit: grey, door: {leaves: 2, part: body, wall: w}}
+      - {building: building:np_tavern, at: [84, 80], facing: e, parts: [{id: body, at: [64, 64], size: [1408, 1408], signs: [{wall: e, bay: 0, texture: sgtvrn, size: [64, 64], bottom: 120, out: 48, hang: true}], walls: {e: [[post_left, 128], [window, 128], [wall, 128], [window, 128], [wall, 64], [door, 256], [wall, 64], [window, 128], [wall, 128], [window, 128], [post_right, 128]]}, upper_walls: {e: [[post_left, 128], [window, 128], [wall, 128], [window, 128], [wall, 64], [wall, 64], [window, 128], [wall, 64], [wall, 64], [window, 128], [wall, 128], [window, 128], [post_right, 128]]}, roof: hip, roof_pitch: 38}], floor: 1664, textures: {door: t09a03a, gable: t09a01, post_left: t09a06, post_right: t09a07, ridge: t06a10, roof: xlslate, trim: t09b11b, wall: t09a01, window: t09a04b}, house: 4755, title: The Warm Barrel, kit: grey, door: {leaves: 2, part: body, wall: e}}
       - {building: building:np_temple, at: [89, 82], facing: n, parts: [{id: body, at: [64, 64], size: [1920, 1408], textures: {band: t09b11b}, wall_height: 544, walls: {n: [[post_left, 128], [window, 128], [wall, 128], [window, 128], [wall, 128], [window, 128], [wall, 64], [door, 256], [wall, 64], [window, 128], [wall, 128], [window, 128], [wall, 128], [window, 128], [post_right, 128]]}, band: 32, upper_walls: {n: [[post_left, 128], [window, 128], [wall, 128], [window, 128], [wall, 128], [window, 128], [wall, 64], [wall, 64], [window, 128], [wall, 64], [wall, 64], [window, 128], [wall, 128], [window, 128], [wall, 128], [window, 128], [post_right, 128]]}, roof: hip, roof_pitch: 40, eaves: 48, door_height: 288}], floor: 1664, textures: {door: t09a03a, gable: t09a01, post_left: t09a06, post_right: t09a07, ridge: t06a10, roof: xlslate, trim: t09b11b, wall: t09a01, window: t09a04b}, house: 4752, title: Temple of the Dead, kit: grey, door: {arch: round, leaves: 2, part: body, wall: n}}
       - {building: building:np_houses, index: 1, at: [94, 83], facing: w, parts: [{id: body, at: [96, 96], size: [1344, 1344], wall_height: 384, windows: none, roof: flat}, {id: cap, at: [160, 160], size: [1216, 1216], bottom: 384, wall_height: 96, windows: none, roof: flat}], floor: 1664, textures: {door: t09a03c, gable: twb2, post_left: twb2, post_right: twb2, ridge: twb1, roof: twb1, trim: twb1, wall: twb2, window: twb2}, house: 4757, title: The Necromancers' House, kit: grey, door: {part: body, wall: w}}
       - {building: building:np_houses, index: 2, at: [90, 87], facing: n, parts: [{id: body, at: [96, 96], size: [1344, 832], wall_height: 384, windows: none, roof: flat}, {id: cap, at: [160, 160], size: [1216, 704], bottom: 384, wall_height: 96, windows: none, roof: flat}], floor: 1664, textures: {door: t09a03c, gable: twb2, post_left: twb2, post_right: twb2, ridge: twb1, roof: twb1, trim: twb1, wall: twb2, window: twb2}, house: 4758, title: Count Velkor's Crypt, kit: grey, door: {part: body, wall: n}}
@@ -741,14 +741,14 @@ ground:
 structures:
   - id: thing:alamar_wall_ring
     kind: wall
-    line: [[49.5, 51.5], [45.5, 51.5], [45.5, 40.5], [56.5, 40.5], [56.5, 51.5], [52.5, 51.5]]
+    line: [[49.75, 51.5], [45.5, 51.5], [45.5, 40.5], [56.5, 40.5], [56.5, 51.5], [52.25, 51.5]]
     height: 768
     thickness: 128
     textures: {top: gn_mtl03, wall: swll4dk}
     title: Castle Alamar
   - id: thing:alamar_ruin_wall_ring
     kind: wall
-    line: [[49.5, 51.5], [45.5, 51.5], [45.5, 40.5], [56.5, 40.5], [56.5, 51.5], [52.5, 51.5]]
+    line: [[49.75, 51.5], [45.5, 51.5], [45.5, 40.5], [56.5, 40.5], [56.5, 51.5], [52.25, 51.5]]
     height: 384
     thickness: 128
     textures: {top: xahullbn, wall: xahullbn}
@@ -1025,14 +1025,14 @@ structures:
     title: An energy pylon
   - id: thing:alamar_field_w
     kind: wall
-    line: [[49.4, 56.6], [49.4, 59.4]]
+    line: [[49.4, 56.5], [49.4, 59.5]]
     height: 256
     thickness: 32
     textures: {top: xafield, wall: xafield}
     title: An energy field
   - id: thing:alamar_field_e
     kind: wall
-    line: [[52.6, 56.6], [52.6, 59.4]]
+    line: [[52.6, 56.5], [52.6, 59.5]]
     height: 256
     thickness: 32
     textures: {top: xafield, wall: xafield}
@@ -1703,6 +1703,14 @@ actors:
   - {monster: "11610", at: [55, 55.5], count: 2, spread: 0.6, group: 19, hostile: true}
   - {monster: "11917", at: [61, 95], spread: 0, group: 6, hostile: false, npc: 5512}
   - {monster: "11913", at: [62.2, 95.9], count: 1, spread: 0, group: 6, hostile: false}
+  - {monster: "214", at: [88.5, 81.94], spread: 0, group: 47, hostile: false, notes: D-96 villager of Necropolis (villagers.yml)}
+  - {monster: "49", at: [96.25, 75.44], spread: 0, group: 47, hostile: false, notes: D-96 villager of Necropolis (villagers.yml)}
+  - {monster: "166", at: [85.25, 75.19], spread: 0, group: 47, hostile: false, notes: D-96 villager of Necropolis (villagers.yml)}
+  - {monster: "373", at: [95, 81.94], spread: 0, group: 47, hostile: false, notes: D-96 villager of Necropolis (villagers.yml)}
+  - {monster: "215", at: [84.5, 79.44], spread: 0, group: 47, hostile: false, notes: D-96 villager of Necropolis (villagers.yml)}
+  - {monster: "214", at: [82.75, 87.19], spread: 0, group: 47, hostile: false, notes: D-96 villager of Necropolis (villagers.yml)}
+  - {monster: "49", at: [87.5, 78.94], spread: 0, group: 47, hostile: false, notes: D-96 villager of Necropolis (villagers.yml)}
+  - {monster: "166", at: [87.5, 76.44], spread: 0, group: 47, hostile: false, notes: D-96 villager of Necropolis (villagers.yml)}
 sounds:
   - {id: sound:alamar_hum, at: [50.8, 58], sound: humming, radius: 2500, inner_radius: 600, volume: 0.35}
   - {id: sound:bed_ash_1, at: [31, 27], sound: xeen_amb_desert, radius: 12000, inner_radius: 4800, volume: 0.3, pan: false}
@@ -1736,6 +1744,8 @@ sounds:
   - {id: sound:lava_slag_run, at: [31, 50], sound: lava loop, radius: 3000, inner_radius: 800, volume: 0.35}
   - {id: sound:lavafall_north, at: [44, 25], sound: xeen_lavafall_loop, radius: 4500, inner_radius: 1500, volume: 0.6}
   - {id: sound:lavafall_west, at: [25, 51], sound: xeen_lavafall_loop, radius: 4500, inner_radius: 1500, volume: 0.6}
+relations:
+  - {of: [49, 166, 214, 215, 373], toward: party, relation: friendly}
 events:
   - id: evt:sky
     trigger: load

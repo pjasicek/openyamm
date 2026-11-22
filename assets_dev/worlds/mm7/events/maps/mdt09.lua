@@ -160,6 +160,6 @@ RegisterEvent(376, nil, function()
 end)
 
 RegisterEvent(501, "Leave the Cave", function()
-    evt.MoveToMap(-1037, 21058, 2656, 1536, 0, 0, 0, 0, "7out13.odm") -- Tatalia
+    evt.MoveToMap(-1037, 21058, 2656, 1536, 0, 0, 0, 4, "7out13.odm") -- Tatalia
 end, "Leave the Cave")
 

@@ -382,7 +382,7 @@ RegisterEvent(50, "Chest", function()
 end, "Chest")
 
 RegisterEvent(51, "Exit Door", function()
-    evt.MoveToMap(-18400, -14982, 1600, 512, 0, 0, 0, 0, "oute3.odm") -- New Sorpigal
+    evt.MoveToMap(-18400, -14982, 1600, 512, 0, 0, 0, 8, "oute3.odm") -- New Sorpigal
 end, "Exit Door")
 
 RegisterEvent(55, nil, function()

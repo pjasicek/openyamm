@@ -684,7 +684,8 @@ def build(ctx):
     """The module of tools/xeen/build_world.py: adds the town tables' rows to ctx (A3's topics from
     ctx.shared['npc_topics'], so gen_quests runs first)."""
     import xeenlib
-    sources = ['towns/' + path.name for path in sorted(TOWNS.glob('*.yml'))]
+    # villagers.yml and its spots (D-96) feed the map generators, not these tables
+    sources = ['towns/' + path.name for path in sorted(TOWNS.glob('*.yml')) if not path.name.startswith('villagers')]
     try:
         tables = Generator(load_towns(), ctx.shared.get('npc_topics')).generate()
     except TownError as error:

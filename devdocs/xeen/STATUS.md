@@ -259,6 +259,26 @@ wired; travel linked; presentation (music, ambience, bake, minimap); playtest; p
 
 ## Engine (A1)
 
+**Merge point 47 (2026-11-22; oymap only, released 15:17:14; game stays merge point 46's):** the user's chest reports
+(Darkstone Tower: "wrong rotation of the chests ... based on the position to the doors"; the Sphinx: "chest in front of
+stairs/entrance to another room"). **D-99**: a chest stands with its back to the wall it stands by (in a niche facing out,
+free toward its room's entrance) and keeps a party's width and a margin (128) clear of doorways and 64 off the walking
+lines. The studio turns every indoor chest without `facing` by it and warns `chest.facing` / `chest.placement`; `oymap
+audit` fails built maps' chests by the same numbers (`chest.facing`, `chest.placement`), so **lanes drop `facing` on
+chests** unless the audit needs one. 120 chests on 50 maps fixed at the source (L4 and generators; 6 moved, 3 given an
+audited `facing`) and rebuilt with bakes, MAW reserves and playtests; audit 0 chest faults on all 82 maps; stale bakes 0,
+build_world 0 differ. Studio 512/512. Details: A1.md Log (42nd), `reviews/USER_FEEDBACK_20261121.md` "F22 chest facing".
+
+**Merge point 46 (2026-11-22; game only, released 14:34:12; oymap unchanged; `build/` rebuilt for the user):** the user's
+request: **Xeen's new-game card reads "Xeen (alpha)", caption "Begin in Vertigo"** (Standard and MAW). New optional card
+field **`short_title`** (default: the title): the card shows `title`; the journal's Quests/Notes/Trainers/Arcomage tabs,
+the Ledger of Teachers ("ask for it in any tavern on Xeen"), MAW's trainer hints and the portrait filter use
+`short_title`, which must equal the Owner of the world's quests and notes. Xeen's card sources (`source/towns/continents.yml`,
+regenerated; MAW's file through `tools/maw/xeen_balance.py`) say `short_title: Xeen`. Save/load summaries keep the
+continent `name` ("World of Xeen"). The journal runtime test now fails when a tab names no owner. TABLES.md documents
+the field. Shots `output/a1_s41/newgame/01-standard.png`, `02-maw.png`, `output/a1_s41/journal/shots_xeen/1_quests.png`.
+Regressions 48 pass + the stale Hesper unit case (`output/a1_s41/regressions.txt`).
+
 **Merge point 45 (2026-11-22; game only, released 09:10:08; oymap unchanged; `build/` rebuilt for the user):** four user
 requests. **(1) Dimension Door order = the new-game cards** (U-8): a door's `place` is now its rank, its continent's
 `card.order` (engine Enroth 2, Antagarich 3, Jadame 4, Chedian 5; Xeen 1), not a slot; the doors take the screen's places

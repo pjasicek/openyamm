@@ -552,6 +552,7 @@ RegisterEvent(111, nil, function()
     evt.SetMonGroupBit(9, MonsterBits.Hostile, 0)
     evt.SetMonGroupBit(10, MonsterBits.Hostile, 0)
     evt.SetMonGroupBit(11, MonsterBits.Hostile, 0)
+    evt.SetMonGroupBit(47, MonsterBits.Hostile, 0)
 end)
 
 -- evt:studio_relations
@@ -561,6 +562,10 @@ RegisterEvent(112, nil, function()
     evt.SetMonsterRelation(453, 0, 0)
     evt.SetMonsterRelation(610, 0, 0)
     evt.SetMonsterRelation(611, 0, 0)
+    evt.SetMonsterRelation(349, 0, 0)
+    evt.SetMonsterRelation(364, 0, 0)
+    evt.SetMonsterRelation(517, 0, 0)
+    evt.SetMonsterRelation(598, 0, 0)
 end)
 
 -- evt:sky

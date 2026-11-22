@@ -196,7 +196,7 @@ RegisterEvent(198, nil, function()
 end)
 
 RegisterEvent(501, "Leave the White Cliff Caves", function()
-    evt.MoveToMap(9686, -17990, 702, 1024, 0, 0, 0, 0, "7out02.odm") -- Harmondale
+    evt.MoveToMap(9686, -17990, 702, 1024, 0, 0, 0, 4, "7out02.odm") -- Harmondale
 end, "Leave the White Cliff Caves")
 
 RegisterEvent(65535, "", function()

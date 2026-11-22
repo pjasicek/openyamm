@@ -220,7 +220,7 @@ RegisterEvent(33, "Circus", function()
 end, "Circus")
 
 RegisterEvent(34, "Throne Room", function()
-    evt.MoveToMap(0, 0, 0, 0, 0, 0, 83, 1)
+    evt.MoveToMap(0, 0, 0, 0, 0, 0, 339, 2)
     evt.EnterHouse(226) -- Throne Room
 end, "Throne Room")
 
@@ -429,15 +429,15 @@ RegisterEvent(102, "Chest", function()
 end, "Chest")
 
 RegisterEvent(150, nil, function()
-    evt.MoveToMap(-127, 4190, 1, 1536, 0, 0, 441, 1, "6d12.blv") -- Silver Helm Stronghold
+    evt.MoveToMap(-127, 4190, 1, 1536, 0, 0, 441, 5, "6d12.blv") -- Silver Helm Stronghold
 end)
 
 RegisterEvent(151, nil, function()
-    evt.MoveToMap(-128, -3968, 1, 512, 0, 0, 442, 1, "6d13.blv") -- The Monolith
+    evt.MoveToMap(-128, -3968, 1, 512, 0, 0, 442, 5, "6d13.blv") -- The Monolith
 end)
 
 RegisterEvent(152, nil, function()
-    evt.MoveToMap(-4724, 1494, 127, 1920, 0, 0, 445, 1, "6d16.blv") -- Warlord's Fortress
+    evt.MoveToMap(-4724, 1494, 127, 1920, 0, 0, 445, 5, "6d16.blv") -- Warlord's Fortress
 end)
 
 RegisterEvent(161, "Drink from Well.", function()

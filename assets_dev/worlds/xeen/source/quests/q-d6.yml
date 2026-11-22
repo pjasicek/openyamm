@@ -54,9 +54,11 @@ npcs:
   4905:              # Dreyfus
     topics:
       - n: 1
-        label: Heretics
+        role: quest
+        afterword: {n: 3, label: Heretics}
         states:
           - when: {qbit: done}
+            afterword: true
             text: "It is always pleasing to be honored with your presence, my friends."
           - when: {all: [{qbit: tower_opened}, {qbit: leader_slain}]}
             text: "Thank you for your help in the battle against the heretics. Ours is the true religion, and Mok has sided with the righteous. Those of you who serve the light, Mok raises up; the rest of you get gold."

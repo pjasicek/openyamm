@@ -62,7 +62,7 @@ steps:
   - interact_actor: {actor_index: 49}
   - advance_runtime: {seconds: 0.6, present_dialogs: true}
   - assert: {dialog: {active: true, source_id: 5453}}
-  - select_topic: {match_label: "Chosen Ones"}
+  - select_topic: {action_id: 41502, match_label: "Quest"}
   - advance_runtime: {seconds: 0.5, present_dialogs: true}
   - assert: {dialog: {active: true, text_contains: "You are the Chosen Ones"}}
   - play_lua:

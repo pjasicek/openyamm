@@ -1,0 +1,142 @@
+# Player stand-in bodies: armour looks, the rule that picks one, and what each body needs for it
+# (plan of 2026-11-20). Read README.md sections 8 and 9 first. Nothing here exists as a texture yet.
+# Values marked "proposal" or "estimate" are judgement, not measurement.
+schema: openyamm.playerBodyArmourLooks.plan.v1
+status: planned
+
+# ---------------------------------------------------------------------------------------------------------------------
+# The looks. One mesh per body; a look is a texture set painted on that mesh and selected as a material variant
+# (KHR_materials_variants, the mechanism creature tiers use; ModelInstanceSystem::setMaterialVariant per instance).
+# Precedent: the MM9 guard carries quilted leather, chain and plate as three paints on one mesh (mm9_guard_claude).
+looks:
+  - id: cloth
+    variant: cloth
+    when: "no item in the body armour slot"
+    painted: "tunic, trousers, boots, belt; bare hands and forearms"
+    livery_region: "the tunic"
+    trim_region: "belt buckle, hems, boot cuffs"
+    skin_region: "hands, forearms, neck"
+    reference_art: "the paperdoll body without armour (<bod> bitmaps) and the MM6-MM8 townsfolk"
+  - id: leather
+    variant: leather
+    when: "body armour with Skill Group Leather"
+    painted: "leather jerkin over a shirt, bracers, leather boots"
+    livery_region: "shirt sleeves and a sash"
+    trim_region: "studs, buckles, stitching, shoulder edging"
+    skin_region: "hands, neck"
+    reference_art: "worn art of item084-item088, 7item066-7item070, 6leather1-6leather5 for the body's doll type"
+  - id: chain
+    variant: chain
+    when: "body armour with Skill Group Chain"
+    painted: "mail shirt over a gambeson, surcoat, leather gloves"
+    livery_region: "the surcoat"
+    trim_region: "the mail, collar, belt fittings"
+    skin_region: "neck (hands are gloved)"
+    reference_art: "worn art of item089-item093, 7item071-7item075, 6chain1-6chain5"
+  - id: plate
+    variant: plate
+    when: "body armour with Skill Group Plate"
+    painted: "breastplate, plated arms and legs, gauntlets, a tabard"
+    livery_region: "the tabard"
+    trim_region: "every plate, rivets, edges"
+    skin_region: "neck"
+    reference_art: "worn art of item094-item098, 7item076-7item078, 6plate1-6plate3"
+
+# Worn art file names: <armour icon>v<doll type + 1> and the arm piece <...>a, in
+# assets_legacy/icons_20260926/engine/icons/ (native) and assets_dev/engine/icons_x2/ (restored x2).
+# Doll types (doll_types.txt): 0 male v1, 1 female v2, 2 minotaur v3, 3 troll v4, 4 dwarf v5.
+
+# ---------------------------------------------------------------------------------------------------------------------
+# The rule that picks the look and the tier from what a character wears.
+rule:
+  look:
+    slot: "body armour (items.txt Equip Stat Armor)"
+    column: "Skill Group"                        # measured: engine table Leather 19, Chain 20, Plate 15; MM9 table 13, 12, 10
+    map: {Leather: leather, Chain: chain, Plate: plate}
+    empty_slot: cloth
+    broken_item: "still shown (a broken armour is still worn)"
+    wetsuit: "item 7item299 has Skill Group Leather; shown as leather unless the owner wants cloth"
+  tier:
+    meaning: {1: low, 2: mid, 3: high, 4: legendary}
+    function: "the weapons' heldSkinTier (game/render/HeldWeapons.cpp) with the bands below"
+    from_item: "the body armour item; for the cloth look, the most valuable worn item among helm, cloak, boots, gauntlets and belt"
+    # Proposal, from the base values in the engine item table (leather 100-1,300, chain 300-2,100, plate 750-3,800):
+    # below the first band tier 1, below the second tier 2, else tier 3.
+    value_bands:
+      leather: [300, 800]
+      chain: [500, 1300]
+      plate: [1300, 2500]
+      cloth: [100, 500]            # estimate; accessory values were not tabulated
+    unique_tier: 4                 # material column Artifact, Relic or Special
+    enchanted_bonus: 1
+    enchanted_max_tier: 3
+    loot_rarity_tiers: [1, 2, 2, 3, 4, 4, 4, 4]   # MAW, as held_tiers.yml
+    mm9: "MM9 armour values were not read; check the bands against worlds/mm9/data_tables/items.txt before use"
+  computed_by: "the owning player's game; look (0-3) and tier (1-4) are sent as two bytes"
+  why_type_for_the_look:
+    - "the type is a column of the item table, so the look always agrees with the inventory"
+    - "it is what other players read first: caster in cloth, archer in leather, knight in plate"
+    - "a tier is a scale, which colour and glow show well; four tier looks would make a mage in a legendary robe look like a knight"
+    - "body and weapon then share one tier rule, already approved for the weapons on 2026-11-14"
+
+# ---------------------------------------------------------------------------------------------------------------------
+# Colours. One region mask per look and one per head, all with the same channel meaning. The engine contract is in
+# level_generation/creatures/CLAUDE_CREATURE_TEXTURES.md, "Region mask and ramps": a 16-stop ramp per channel.
+regions:
+  R: {name: skin, chosen_by: "race and form (lich, zombie)", ramps: [human, elf, dark_elf, vampire, goblin, halforc, dwarf, minotaur, troll, lich_bone, zombie]}
+  G: {name: livery, chosen_by: "the player's colour", ramps: [crimson, royal_blue, forest_green, gold, purple, teal, orange, ivory]}
+  B: {name: trim_and_metal, chosen_by: "gear tier", ramps: [tier1_dull_iron, tier2_clean_steel, tier3_gilded, tier4_dark_exotic]}
+  A: {name: hair, chosen_by: "race default; later the portrait", on: "heads only; unused on bodies"}
+tier_trim:
+  1: "rough cloth, dull iron, no shine"
+  2: "clean steel, plain dye"
+  3: "polished metal, gilded trim"
+  4: "dark exotic metal with a glowing inlay: an emission mask on the look, switched on per instance (setEmissionMultiplier)"
+player_colour:
+  default: "by the player's slot in the session (0-3 today; MaxGuests = 3)"
+  palette_size: 8
+  engine_need: "region ramps per drawn instance (README section 10, change 7); without it every body shows the default livery"
+
+# ---------------------------------------------------------------------------------------------------------------------
+# What each body needs for each look. Sizes follow CLAUDE_CREATURE_TEXTURES.md ("Texture set per model", "Sharp textures"):
+# Meshy paint at 4K, downsampled once. Paint cost: 10 credits per look and body.
+per_look_assets:
+  textures:
+    - {map: base_colour, size: "2K (1K if memory decides)", one_per: look}
+    - {map: normal, size: 1K, one_per: look}
+    - {map: metal_roughness_ao, size: 1K, one_per: look}
+    - {map: region_mask, size: 1K, one_per: look, channels: "R skin, G livery, B trim"}
+    - {map: emission_mask, size: 1K, one_per: look, note: "grey mask of the tier 4 inlay; black elsewhere"}
+    - {map: material_classes, size: 1K, one_per: look, note: "kept in the project, not in the model file"}
+  far_lod_maps: "LOD2 and LOD3 colour, normal, metal-roughness and mask per look (level_generation/creatures/LOD_PLAYBOOK.md section 4)"
+  hd_masters: "front, left, back, right of the look on the body's own A-pose (the cloth look also has the three-quarter view for the mesh)"
+  meshes: "none per look: all four share the body's mesh, rig, weights, UVs and clips"
+  base_garment: "the mesh is modelled from a neutral fitted garment (arming doublet, boots, gloves, belt), so it reads as cloth or as armour by its paint"
+
+bodies:
+  - {body: pb_male, looks: [cloth, leather, chain, plate], worn_art_suffix: v1, paints: 4, credits_estimate: 40}
+  - {body: pb_female, looks: [cloth, leather, chain, plate], worn_art_suffix: v2, paints: 4, credits_estimate: 40}
+  - {body: pb_minotaur, looks: [cloth, leather, chain, plate], worn_art_suffix: v3, paints: 4, credits_estimate: 40, note: "no helm, no boots: hooves stay bare in every look"}
+  - {body: pb_troll, looks: [cloth, leather, chain, plate], worn_art_suffix: v4, paints: 4, credits_estimate: 40}
+  - {body: pb_dwarf_male, looks: [cloth, leather, chain, plate], worn_art_suffix: v5, paints: 4, credits_estimate: 40}
+  - {body: pb_dwarf_female, looks: [cloth, leather, chain, plate], worn_art_suffix: v5, paints: 4, credits_estimate: 40, optional: true}
+  - {body: dragon, looks: [], note: "keeps its monster model; doll type 5 wears nothing"}
+
+heads:
+  textures: "one 1K set per head (base colour, normal, metal-roughness, region mask R skin and A hair); no looks"
+  under_a_helm: "the head's second copy without the hair volume (<head>_cap.glb)"
+
+# ---------------------------------------------------------------------------------------------------------------------
+# Other worn items.
+other_slots:
+  helm: {shown: true, how: "the item's own ground model on the Helm node (40 engine helm models exist)", needs: "worn.yml placement table", bodies_without: [pb_minotaur]}
+  shield: {shown: true, how: "weapons_manifest.yml, mount Shield"}
+  cloak: {shown: false, why: "needs simulated cloth"}
+  boots_gauntlets_belt: {shown: false, why: "part of each look's paint"}
+  rings_amulets: {shown: false, why: "too small to see"}
+
+# Later, only if the painted looks are not enough (not part of the plan's cost):
+optional_extras:
+  - "rigid shoulder pieces for the plate look, as attachments on the upper arms"
+  - "a robe mesh variant of the cloth look for casters (skirt geometry and bones; see mm6_pfem_claude)"
+  - "upload only the textures of the looks in use (today all four upload with the body)"

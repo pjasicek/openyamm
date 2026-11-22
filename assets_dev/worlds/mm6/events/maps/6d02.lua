@@ -193,6 +193,6 @@ RegisterEvent(35, nil, function()
 end)
 
 RegisterEvent(50, "Exit", function()
-    evt.MoveToMap(-21468, -263, 193, 1536, 0, 0, 0, 0, "oute3.odm") -- New Sorpigal
+    evt.MoveToMap(-21468, -263, 193, 1536, 0, 0, 0, 6, "oute3.odm") -- New Sorpigal
 end, "Exit")
 

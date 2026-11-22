@@ -357,6 +357,6 @@ RegisterEvent(452, nil, function()
 end)
 
 RegisterEvent(501, "Exit Clanker's Lab", function()
-    evt.MoveToMap(14670, 12831, 193, 1024, 0, 0, 0, 0, "7out04.odm") -- The Tularean Forest
+    evt.MoveToMap(14670, 12831, 193, 1024, 0, 0, 0, 8, "7out04.odm") -- The Tularean Forest
 end, "Exit Clanker's Lab")
 

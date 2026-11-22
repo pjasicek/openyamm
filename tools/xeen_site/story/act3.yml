@@ -39,8 +39,8 @@ chapters:
           - quest: m15
             requires: "Inside Castleview (The Land Below)."
             steps:
-              - "Zelda's Herbs and Remedies is in the west of the town, south of the Amber Lamp magic shop. Pick Zelda in the shop and ask 'The orb': she found it in a crater by the river and gives it away. You get the Dragon Pharaoh's Orb."
-              - "Madame Oorla's is just north of the Amber Lamp. Ask her 'The orb' (the topic shows only while you carry it). She reads it: it belongs to the Dragon Pharaoh, but first it must see Ellinger, the Queen's wizard."
+              - "Zelda's Herbs and Remedies is in the west of the town, south of the Amber Lamp magic shop. Pick Zelda in the shop and ask 'Quest': she found it in a crater by the river and gives it away. You get the Dragon Pharaoh's Orb."
+              - "Madame Oorla's is just north of the Amber Lamp. Ask her 'Quest' (the topic shows only while you carry it). She reads it: it belongs to the Dragon Pharaoh, but first it must see Ellinger, the Queen's wizard."
               - "Her reading also gives you the password of Ellinger's tower: at the top the tower asks whom you seek, and the answer is his name, 'Ellinger'. The journal and an autonote keep it."
             tips:
               - "Keep the orb until Act V: the Dragon Pharaoh himself takes it in the Great Pyramid."
@@ -57,14 +57,14 @@ chapters:
           - quest: m16
             requires: "Madame Oorla's reading of the orb."
             steps:
-              - "Nadia's House is in the west quarter, west of Zelda's shop. Ask her 'Necklace': the sewer rats took her onyx necklace, and she will make it worth your while."
+              - "Nadia's House is in the west quarter, west of Zelda's shop. Ask her 'Quest': the sewer rats took her onyx necklace, and she will make it worth your while."
               - "The way down is the iron hatch in the paving of the square between the bank and the Temple of Mok. The ladder ends at a cross of drains; doors lead east and west."
               - "Take the west drain to its end and then south. Felix the Tinker sits at his bench at the far end of that tunnel: the gremlins wedged the town sluice open, and shutting it drains the old culvert. Valio the Simple lies in the bed nearby and asks you to kill the Queen Rat (side quest)."
               - "East of Valio's bed a door opens on the overflow stair down to the deep cistern. Follow the cistern east to the old culvert: while the sluice runs it is flooded to its roof, and you cannot get through."
               - "Go back up and north: from the west drain take the north passage to the sluice at the north end of the sewer. Pull the Sluice lever: the gremlins' wedge spits out, the gate drops shut and the culvert below drains."
               - "Go down to the cistern again and through the drained culvert, then north and up the nest ramp to the east. Rooka the Queen Rat and her rats hold the nest; kill her."
               - "Click the Heap of shiny things just south-east of the nest: Nadia's onyx necklace lies among the bottle caps and buttons. A chest with 800 gold stands north of the heap."
-              - "Back in Castleview, give Nadia the necklace ('Necklace'). She pays you 1,500 gold and tells you Ellinger owes her a favour."
+              - "Back in Castleview, give Nadia the necklace ('Quest'). She pays you 1,500 gold and tells you Ellinger owes her a favour."
             tips:
               - "To leave, either walk back to the ladder under the square, or go on east from the nest down the bone slide and through the drowned cellar: draw the bolt by the grate at the cellar's north end and climb the ladder into the east drain, which leads back to the cross."
               - "The iron bar by the outfall grate in the far south-east lifts out from inside and opens a second way in, from the burnt mill's gorge east of the town."
@@ -99,7 +99,7 @@ chapters:
               - "Take the back stair up to the library floor. The Books of Fire and Electricity give each reader +5 to that resistance, once. The Book of Sorcerer's Knowledge in the middle gives +2 Intellect to a reader with 20 Intellect or more and hurts anyone below that. The reading room north of the library has a chest."
               - "Take the main stair, on the west side, up to the tapestry floor. Fight through the tapestry rooms to the door at the north-east, into the beholder loft, and on round the outer wall: east, then south, then west along the south wall. Fire bolts leap from the walls along this walk."
               - "At the walk's west end, climb the last stair to the top. The door before the study asks 'Who do you seek?': answer 'Ellinger' (Madame Oorla's word). Any other answer is turned away."
-              - "Ellinger stands in his study beyond. Ask him 'Alamar' while you carry the orb. The Pharaoh's pyramid key is in Castle Kalindra, which Alamar moved out of phase; twenty Energy Disks bring it back, and Ellinger takes them here."
+              - "Ellinger stands in his study beyond. Ask him 'Quest' while you carry the orb. The Pharaoh's pyramid key is in Castle Kalindra, which Alamar moved out of phase; twenty Energy Disks bring it back, and Ellinger takes them here. Afterwards his 'Alamar' topic repeats what the disks do."
               - "Ride the lift down: walk back south from the study to the lift, click 'Call the lift' to bring the cage up, step in and click 'Lift: down'. Outside, the chest on little brass feet in the south-west corner of Castleview, near the Queen's Gate, now stands still and holds Ellinger's gift."
             tips:
               - "Ellinger asks you to come back if you arrive without the orb, so bring it the first time."
@@ -123,14 +123,14 @@ chapters:
                 caption: "The tower door is inside the north-east of the town; the runaway chest is in the south-west corner."
 
       - title: "Ellinger: the Energy Disks and Castle Kalindra"
-        intro: "Ellinger takes the disks in his study, five at a time ('Energy discs'); each five restores a quarter of Castle Kalindra. This act covers the first two quarters, ten disks. Twenty-five disks exist in all, and every faction gives its disks on either the peaceful or the violent route."
+        intro: "Ellinger takes the disks in his study, five at a time (his 'Quest' topic); each five restores a quarter of Castle Kalindra. This act covers the first two quarters, ten disks. Twenty-five disks exist in all, and every faction gives its disks on either the peaceful or the violent route."
         giver: {map: xeen_dd02, npc: "Ellinger"}
         quests:
           - quest: m18
             requires: "Ellinger's Tower done."
             steps:
               - "The Gremlin Court (3 disks, side quest The Gremlin Court): the burrow under the wall east of Castleview's north gate. Win the court by talk and Mayor Snarfblad in the Town Hall hands you Gettlewaithe's gift of three disks. If you kill Gettlewaithe instead, the disks are in the chest under his throne."
-              - "Graalg's ogres (2 disks, Graalg's Ogres): Graalg sits at his parley fire on Ogre Pass, in the north of Sprite Forest (east of Castleview Vale). Make peace ('Bow low before us, slave' makes him laugh; a gift of gold also works) and ask 'Energy disks'. If you burn his two forts instead, the same two disks are in Graalg's strongbox, a chest in the east fort."
+              - "Graalg's ogres (2 disks, Graalg's Ogres): Graalg sits at his parley fire on Ogre Pass, in the north of Sprite Forest (east of Castleview Vale). Make peace ('Bow low, slave!' makes him laugh; 'Gifts', 1,000 gold, also works) and ask 'Energy disks'. If you burn his two forts instead, the same two disks are in Graalg's strongbox, a chest in the east fort."
               - "Sharla's sprites and the Temple of Bark (2 + 2, Princess Sheewana): Sharla in the treehouse village of south-west Sprite Forest pays two disks once Sheewana is freed from the Temple of Bark. If you rob the sprites instead, the two disks are in her treehouse chest. Inside the temple, the west and east root alcoves at the foot of the trunk each give one disk for one gem ('Feed me! Give gem?')."
               - "The Southern Tower (2 disks, The Southern Tower): Thaddeus in the Fountain Keeper's Hut in Sandcaster names the thieves' tower in the woods south of Ogre Pass. Its door is not locked. The fence's lockbox on the second floor holds the Strongroom Key, and the strongroom behind the iron door on the third floor holds a chest with two disks."
               - "Castle Kalindra's throne room (2 disks): the first of its two safes you open, once the castle's first stage is back (next quest)."
@@ -162,11 +162,11 @@ chapters:
           - quest: m19
             requires: "Ellinger's Tower done; five Energy Disks for each stage."
             steps:
-              - "With five disks, go back into Ellinger's Tower and ride 'Lift: up' from the cage north of the entrance hall to his study. Ask 'Energy discs': he takes five, and the castle's first stage returns (4,000 XP). With fewer than five he only counts them, so keep them until you have five."
+              - "With five disks, go back into Ellinger's Tower and ride 'Lift: up' from the cage north of the entrance hall to his study. Ask 'Quest': he takes five, and the castle's first stage returns (4,000 XP). With fewer than five he only counts them, so keep them until you have five."
               - "Castle Kalindra's gate is on its rise in the vale, west-south-west of Castleview's Queen's Gate. Before the first stage, your hand passes through it. Now clicking the gate opens the entrance window; OK takes you in."
               - "Stage 1 restores the gate, the entrance hall and the throne room, east through the Throne Room door. Undead guards walk the halls. Gem (Perception) and Errol (Armsmaster) teach at the empty throne at the throne room's east end."
               - "Two safes stand against the throne room's north wall. The first one you open holds two Energy Disks; after that both open as ordinary chests (600 gold, treasure level 4 each)."
-              - "With five more disks, ask Ellinger 'Energy discs' again: the second stage returns (4,000 XP). The Cloud Stairs at the west end of the North Wing (north of the entrance hall) now lead to the second floor."
+              - "With five more disks, ask Ellinger 'Quest' again: the second stage returns (4,000 XP). The Cloud Stairs at the west end of the North Wing (north of the entrance hall) now lead to the second floor."
               - "Stage 2 restores the second floor: Dimitri, captain of the guard, and his daughter Megan (next section), Astronomer Tycho at the telescope (Identify Item), and the Vaults' disk safe, which wants a combination you get later from Dimitri."
             tips:
               - "Still out of phase after stage 2: the upper stair to the third floor ('Your foot passes through the stairs as though they were mist'), the dungeon stair ('ends in shimmering nothing') and the stables behind the shimmering wall. Stages 3 and 4 (15 and 20 disks) come in Act IV (Kalindra Restored)."
@@ -196,7 +196,7 @@ chapters:
             requires: "Castle Kalindra's second stage (ten disks)."
             steps:
               - "Climb the Cloud Stairs and walk east along the second-floor corridor. Dimitri sits in the Captain's Quarters. His only topic, 'The Queen', is grief, and he cannot help yet."
-              - "Megan's Room is the next door east. Ask her 'Father': only the Songbird of Serenity can lift her father's despair, and it is caged in the Dungeon of Lost Souls on the lake isle past Lakeside. She gives you the key to the Songbird's cage."
+              - "Megan's Room is the next door east. Ask her 'Quest': only the Songbird of Serenity can lift her father's despair, and it is caged in the Dungeon of Lost Souls on the lake isle past Lakeside. She gives you the key to the Songbird's cage."
               - "The dungeon is Act IV's (The Songbird of Serenity): from Sandcaster north to Lakeside, then Lakeside Yachts sails to the Isle of Lost Souls every day between 6 AM and 6 PM (250 gold), and the ruined tower's door is not locked."
             tips:
               - "Megan warns you that the dungeon is 'all doors that ask you to cheer up'."

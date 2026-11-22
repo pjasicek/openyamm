@@ -54,10 +54,10 @@ steps:
   - press_interact: {expect: {kind: event_target}}
   - assert:
       dialog: {active: true, house_dialog: false, source_id: 4905}
-  - select_topic: {match_label: "Heretics"}
+  - select_topic: {action_id: 44301, match_label: "Quest"}
   - assert:
       dialog: {text_contains: "they still haul their bread up a rope on the north wall"}
-  - select_topic: {match_label: "Heretics"}
+  - select_topic: {action_id: 44301, match_label: "Quest"}
   - assert:
       dialog: {text_contains: "Your failure to breach the tower is not your fault"}
   - press_action: {action: cancel_dialog}
@@ -210,7 +210,7 @@ steps:
   - press_interact: {expect: {kind: event_target}}
   - assert:
       dialog: {active: true, house_dialog: false, source_id: 4905}
-  - select_topic: {match_label: "Heretics"}
+  - select_topic: {action_id: 44301, match_label: "Quest"}
   - assert:
       dialog: {text_contains: "Those of you who serve the light, Mok raises up"}
   - select_topic: {match_label: "The clerics"}

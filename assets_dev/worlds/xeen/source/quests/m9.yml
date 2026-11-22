@@ -30,7 +30,7 @@ npcs:
   4403:              # Emerson
     topics:
       - n: 1
-        label: Walls
+        role: quest
         states:
           - when: {qbit: walls}
             text: "We want to make sure you approve of the work we have already done. Please go and take a look at your castle."
@@ -46,7 +46,7 @@ npcs:
   4201:              # Ebenezer, at the site
     topics:
       - n: 2
-        label: Workers
+        role: quest
         show: {qbit: walls}
         states:
           - when: {all: [{qbit: m11.keep}, {not: {qbit: m11.stone_given}}]}

@@ -210,11 +210,11 @@ RegisterEvent(452, nil, function()
 end)
 
 RegisterEvent(501, "Leave the Cave", function()
-    evt.MoveToMap(20890, -3119, 1, 896, 0, 0, 0, 0, "out12.odm") -- The Land of the Giants
+    evt.MoveToMap(20890, -3119, 1, 896, 0, 0, 0, 3, "out12.odm") -- The Land of the Giants
 end, "Leave the Cave")
 
 RegisterEvent(502, "Leave the Cave", function()
-    evt.MoveToMap(2324, 7371, 1644, 1428, 0, 0, 0, 0, "7d07.blv") -- Thunderfist Mountain
+    evt.MoveToMap(2324, 7371, 1644, 1428, 0, 0, 0, 3, "7d07.blv") -- Thunderfist Mountain
 end, "Leave the Cave")
 
 RegisterEvent(65535, "", function()

@@ -20,7 +20,7 @@ npcs:
   4044:              # Old Valia
     topics:
       - n: 1
-        label: Crusaders
+        role: promotion
         show: {all: [{qbit: m4.done}, {promotable: crusade}]}
         text: "Falista says to tell you: \"I, Falista, grant all great adventurers the title of Crusader.\" Kneel, then. Knights rise as Cavaliers, Paladins as Crusaders, Rangers as Hunters."
         do: [{promote: crusade}]

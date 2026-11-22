@@ -96,6 +96,17 @@ idRanges:
 # Decider D-32: big monsters are kept in by low openings (their height), not narrow ones.
 actorMovement:
   levelRadiusLimit: 60
+# U-10 (2026-11-22): Xeen's own town themes on the town districts of the outdoor maps (music/92003 Cloudside towns,
+# 92004 Darkside towns; devdocs/xeen/MUSIC.md). Rectangles from the L4 sketches' town: districts, 512 per cell.
+musicAreas:
+  xeen_x1.odm: [{track: 92003, rect: [-16896, 1024, 3584, 13824]}]      # Vertigo
+  xeen_x2.odm: [{track: 92003, rect: [-7168, -2560, 10240, 14848]}]     # Rivercity
+  xeen_x4.odm: [{track: 92003, rect: [-4608, 1024, 2560, 10752]}]       # Burlock's village and castle grounds
+  xeen_d1.odm: [{track: 92004, rect: [-7168, 0, 6144, 10240]}]          # Castleview
+  xeen_d3.odm:
+    - {track: 92004, rect: [-18944, 12800, -8704, 22528]}               # Sandcaster
+    - {track: 92004, rect: [-4608, 7680, 512, 12800]}                   # the Crossroads market
+  xeen_d4.odm: [{track: 92004, rect: [-2048, -16896, 11264, -9216]}]    # Lakeside
 tableContributions:
   - {table: items, idDomain: items, mode: append, path: data_tables/items.txt, sourceIdColumn: 19, canonicalIdColumn: 18}
   - {table: readable_scrolls, idDomain: items, mode: append, path: data_tables/readable_items.txt}

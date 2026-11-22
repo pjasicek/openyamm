@@ -111,8 +111,8 @@ steps:
   - play_lua: {source: "local shown, down = {}, {}; for i = 0, 3 do local c = conditions(i); shown[#shown + 1] = '[' .. c .. ']'; for _, n in ipairs({'Dead', 'Eradicated', 'Petrified', 'Paralyzed', 'Unconscious'}) do if (' ' .. c .. ' '):find(' ' .. n .. ' ', 1, true) then down[#down + 1] = 'member ' .. i .. ' ' .. c; break end end end; log('PARTY 47 before Kramer\\'s bounty: ' .. table.concat(shown, ' ')); if #down > 0 then error('PARTY DOWN before Kramer\\'s bounty (D-82 5): ' .. table.concat(down, ' | ')) end"}
   - play_lua: {source: "remember('gold', gold()); for i = 0, 3 do remember('xp' .. i, experience(i)) end"}
   - press_interact: {expect: {kind: event_target}}
-  - assert: {dialog: {active: true, action_label_present: "Bounty", action_label_absent: "Guild title"}}
-  - select_topic: {match_label: "Bounty"}
+  - assert: {dialog: {active: true, action_label_present: "Promotion"}}
+  - select_topic: {action_id: 44552, match_label: "Promotion"}
   - assert: {dialog: {active: true, text_contains: "the caravan guild has a title for hunters like you"}}
   - play_lua:
       source: |
@@ -124,8 +124,7 @@ steps:
         if classes() ~= "Cavalier Crusader Wizard BountyHunter" then error("Q-D11 bounty: " .. classes()) end
         log("Q-D11 bounty paid: " .. classes())
   - assert: {qbit_set: [113228]}
-  - assert: {dialog: {active: true, action_label_absent: "Bounty"}}
-  - assert: {dialog: {active: true, action_label_absent: "Guild title"}}
+  - assert: {dialog: {active: true, action_label_absent: "Promotion"}}
   - select_topic: {match_label: "Ogres"}
   - assert: {dialog: {active: true, text_contains: "The caravans run through Ogre Pass on time."}}
   - press_action: {action: cancel_dialog}

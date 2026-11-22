@@ -45,9 +45,11 @@ npcs:
   4916:              # Mayor Snarfblad
     topics:
       - n: 1
-        label: Gremlins
+        role: quest
+        afterword: {n: 6, label: Gremlins}
         states:
           - when: {qbit: done}
+            afterword: true
             text: "Castleview likes you! Visit anytime!"
           - when: {qbit: court_won}
             text: "You have saved Castleview from the wicked Gremlins! Oh, frabjous day! Here is your gold, and a pass, so the gate stops arguing with you."

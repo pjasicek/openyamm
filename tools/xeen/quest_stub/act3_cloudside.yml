@@ -7,7 +7,7 @@ steps:
   # Q-C1: the relay, Summer -> Autumn -> Winter -> Spring
   - talk: [4321, Autumn]
   - expect: {not_qbit: q-c1.autumn}
-  - talk: [4601, Summer]
+  - talk: [4601, q-c1]
   - expect: {qbit: [q-c1.started, q-c1.summer], item: last_flower_of_summer}
   - talk: [4529, Winter]
   - expect: {not_qbit: q-c1.winter}
@@ -15,65 +15,65 @@ steps:
   - expect: {qbit: q-c1.autumn, item: leaf_of_autumn, no_item: last_flower_of_summer}
   - talk: [4529, Winter]
   - expect: {qbit: q-c1.winter, item: snowflake_of_winter, no_item: leaf_of_autumn}
-  - talk: [4048, Spring]
+  - talk: [4048, q-c1]
   - expect: {qbit: q-c1.done, item: raindrop_of_spring, no_item: snowflake_of_winter, stat: [Age, 0], xp: 8000}
   - expect: {class: [1, Cleric]}
   # Q-C4 and T1-D
-  - talk: [4521, The Pagoda]
+  - talk: [4521, q-c4]
   - expect: {qbit: q-c4.started}
-  - hidden: [4521, Initiation]
+  - hidden: [4521, Promotion]
   - hook: q-c4.clan_master
-  - talk: [4521, The Pagoda]
+  - talk: [4521, q-c4]
   - expect: {qbit: q-c4.done, class: [0, Initiate], stat: [Food, 20], xp: 24000}
   - class: [3, Monk]
-  - talk: [4521, Initiation]
+  - talk: [4521, Promotion]
   - expect: {class: [3, Initiate], xp: 24000}
   - class: [3, Sorcerer]
   # Q-C6: three waves, the gong, the mayor
-  - talk: [4502, Ghosts]
+  - talk: [4502, q-c6]
   - expect: {qbit: q-c6.started}
   - hook: q-c6.gong
   - expect: {not_qbit: q-c6.rung}
   - set: q-c6.wave1_laid
   - hook: q-c6.gong
   - expect: {qbit: q-c6.rung}
-  - talk: [4502, Ghosts]
+  - talk: [4502, q-c6]
   - expect: {qbit: q-c6.reported1, not_qbit: q-c6.rung, xp: 26000}
   - hook: q-c6.gong
-  - talk: [4502, Ghosts]
+  - talk: [4502, q-c6]
   - expect: {not_qbit: q-c6.reported2, xp: 26000}
   - set: q-c6.wave2_laid
   - hook: q-c6.gong
-  - talk: [4502, Ghosts]
+  - talk: [4502, q-c6]
   - expect: {qbit: q-c6.reported2, xp: 28000}
   - set: q-c6.wave3_laid
   - hook: q-c6.gong
-  - talk: [4502, Ghosts]
+  - talk: [4502, q-c6]
   - expect: {qbit: q-c6.done, award: q-c6.ghostslayers, xp: 32000, gold: 2000}
   # Q-C7: the rhyme, the dials, the coffin at night, Draco, Nosferatu
   - hook: q-c7.rhyme
   - expect: {qbit: q-c7.started}
-  - hidden: [4205, Nosferatu]
+  - hidden: [4205, Promotion]
   - hook: [q-c7.coffin, false]
   - set: q-c7.dials_set
   - hook: q-c7.coffin   # D-89: the dials alone open it, at any hour
   - hook: q-c7.draco
   - expect: {qbit: q-c7.done, xp: 42000}
-  - talk: [4205, Nosferatu]
+  - talk: [4205, Promotion]
   - expect: {class: [2, Nosferatu], xp: 42000}
   # Q-C15 and Q-C16
-  - talk: [4528, Trolls]
+  - talk: [4528, q-c15]
   - hook: q-c15.lair
-  - talk: [4528, Trolls]
+  - talk: [4528, q-c15]
   - expect: {qbit: q-c15.done, xp: 47000}
-  - talk: [4524, Cyclopes]
+  - talk: [4524, q-c16]
   - hook: q-c16.outpost
-  - talk: [4524, Cyclopes]
+  - talk: [4524, q-c16]
   - expect: {qbit: q-c16.done, xp: 53000, gold: 3500}
   # Q-C14 (Act V): Halon's lava
-  - talk: [4526, Water clock]
-  - talk: [4526, Water clock]
+  - talk: [4526, q-c14]
+  - talk: [4526, q-c14]
   - expect: {not_qbit: q-c14.done}
   - give: lava_rock   # D-90 (c): a ground item (q-c14.lava_rock is a map_gives record)
-  - talk: [4526, Water clock]
+  - talk: [4526, q-c14]
   - expect: {qbit: q-c14.done, item: widget, no_item: lava_rock, xp: 65000}

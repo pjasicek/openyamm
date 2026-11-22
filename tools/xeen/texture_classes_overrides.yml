@@ -104,6 +104,28 @@ textures:
   # A6 (2026-11-20, after merge point 17): MM7's shop signs (the tool measured them tile: their edges are plain
   # wood) are pictures meant once; Xeen's cage bars and portcullis band repeat across only.
   7sg*: {class: feature}
+  # D-92 (c), 2026-11-22 (A4): MM6/MM8's shop and guild boards are pictures meant once too (the tool measured most
+  # of them tile: plain wooden edges); every service house hangs one (D-92 (a)).
+  sginn: {class: feature}
+  sgtempl: {class: feature}
+  sgdock: {class: feature}
+  sgair: {class: feature}
+  sgarm: {class: feature}
+  sgbank: {class: feature}
+  sgbody: {class: feature}
+  sgdark: {class: feature}
+  sgearth: {class: feature}
+  sgfire: {class: feature}
+  sglight: {class: feature}
+  sgmagi: {class: feature}
+  sgmagic: {class: feature}
+  sgmind: {class: feature}
+  sgspirit: {class: feature}
+  sgtrain: {class: feature}
+  sgtvrn: {class: feature}
+  sgwater: {class: feature}
+  sgweap: {class: feature}
+  sgweapon: {class: feature}
   xkportc: {class: trim_u}
   xfgrid: {class: tile}      # A7 (FD-04): the crossword cells are meant to repeat (s32)
   # A6's storey_stack review (2026-11-20, session 10; sheet output/studio_cal/a6/tf/storey_kin.png): MM7's Nighon

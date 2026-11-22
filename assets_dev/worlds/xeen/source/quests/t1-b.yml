@@ -16,7 +16,7 @@ npcs:
   4151:
     topics:
       - n: 1
-        label: Promotion
+        role: promotion
         show: {all: [{qbit: q-c2.done}, {promotable: pendant}]}
         text: "Another spellcaster without a proper title? Stand there. Sorcerers rise as Wizards, Archers as Warrior Mages. Mind the fountain on your way out."
         do: [{promote: pendant}]

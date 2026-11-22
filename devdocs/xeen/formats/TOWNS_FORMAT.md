@@ -166,7 +166,7 @@ columns of `devdocs/xeen/lanes/TABLES.md` (the engine's), the world's rows only:
 | `transport_locations.txt` | one per open route |
 | `roster.txt` | `roster.yml` |
 | `continent_settings.txt` | `continents.yml`: one row per face (6 Cloudside, 7 Darkside): death map 1 = the face's start, death map 2 = its home temple (arrivals; each with a `before` place written while its map is unbuilt), followers, saturation, skies clear to storm, loading pages |
-| `new_game_continents.yml` | `continents.yml` `new_game`: the new-game entry (one, "World of Xeen", continent 6) with its `card:` (order 5, title, subtitle, caption, picture; TABLES.md), the engine `character_selection.yml` shape |
+| `new_game_continents.yml` | `continents.yml` `new_game`: the new-game entry (one, "World of Xeen", continent 6) with its `card:` (order 1, title "Xeen (alpha)", `short_title: Xeen` (the journal tabs and sentences; must equal the quests' owner), subtitle, caption, picture; TABLES.md), the engine `character_selection.yml` shape |
 | `town_portal_switch.txt` | `town_portal.yml`: groups `TPCloudside`, `TPDarkside` (continents 6 and 7), the destinations whose arrival exists; a plain file until A1's W4 reads it |
 | `mirrors.yml` | per face: mirror id, town, qbit, map, arrival (for the world's mirror Lua) |
 
@@ -200,7 +200,25 @@ entrance on the outdoor map whose event moves the party into the dungeon holding
   its own): the L4 sketch's `parts[].signs[].texture` of each building with a `house:` against the kind's boards,
   MM6-MM8's convention measured on the shipped outdoor maps plus Xeen's own boards of that kind. The Adventurer's Inn
   (`inn`) hangs only the key and heart `sginn` (Ravenshore, Dagger Wound, Tatalia, MM6), never a tavern's mug;
-  a tavern `7sgtvrn`/`sgtvrn`; a guild its school's sign or MM8's `sgspell`; a temple `sgtempl` (MM8's temples hang
-  none); a dock `sgdock`; a town hall none. A wrong sign is an error; a service of a signed kind with no sign a
-  `WARN` (the 2026-11-22 kit fix: a `cottage` hangs the sign it is given; a `round_hut` refuses one);
+  a tavern `7sgtvrn`/`sgtvrn`; a guild its school's sign on both faces, never MM8's `sgspell` (D-92 (b)); a temple
+  `sgtempl` (MM8's temples hang none); a dock `sgdock`; a town hall none. A wrong sign is an error, and so is a
+  service of a signed kind with no sign (D-92 (a)), unless `house_signs.py` `NO_WALL` names the house and why it has
+  no wall to hang one on (the 2026-11-22 kit fix: a `cottage` hangs the sign it is given; a `round_hut` refuses one;
+  a treehouse hangs its board on the trunk's foot, a stepped tower on its lowest tier);
+- every settlement's street villagers (D-96, `tools/xeen/villagers.py`): see section 6;
 - the generator runs without error.
+
+## 6. Street villagers (`villagers.yml`, D-96)
+
+`source/towns/villagers.yml` lists every settlement of the town files (by `map` and `town` name): its palette of 3-5
+townsfolk kinds (monster rows; a kind is a picture family, its tiers are one kind; each with an installed 3D model),
+its `count` (about 0.7 per house door, hamlets 2 per door) and its monster `group`; or an `exempt:` reason (a lone
+house in the wild, a castle interior, a shop in a dungeon). `villagers.py --place <map>` writes the start spots of a
+map's settlements into the generated `villagers_spots.yml` from the built map (streets first, at least 640 from every
+house door and 900 from every talking NPC, never inside a model or a decoration); the map's generator adds
+`villagers.sketch_actors(<map>)` (peaceful, wandering, kinds in turn) and `villagers.relations(<map>)`. After a map's
+houses move, run `--place` again before its rebuild. `villagers.py` (and `towns.py`) fail a built settlement with no
+villagers, fewer than its floor (0.45 per door, at least 3; hamlets 2) or one kind, a palette outside 3-5 kinds or
+with a row that is not townsfolk or has no model, neighbours (`neighbours:`) sharing two kinds, and a villager
+starting hostile or by a door or giver. An indoor town whose lane has not placed its villagers yet (`placed_by:`) is a
+warning.

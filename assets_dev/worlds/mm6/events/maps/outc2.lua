@@ -682,19 +682,19 @@ RegisterEvent(139, "Castle Stone", function()
 end, "Castle Stone")
 
 RegisterEvent(150, nil, function()
-    evt.MoveToMap(-2, -128, 1, 512, 0, 0, 439, 1, "6d10.blv") -- Dragoons' Keep
+    evt.MoveToMap(-2, -128, 1, 512, 0, 0, 439, 5, "6d10.blv") -- Dragoons' Keep
 end)
 
 RegisterEvent(151, nil, function()
-    evt.MoveToMap(-118, -1640, 1, 512, 0, 0, 443, 1, "6d14.blv") -- Tomb of Ethric the Mad
+    evt.MoveToMap(-118, -1640, 1, 512, 0, 0, 443, 5, "6d14.blv") -- Tomb of Ethric the Mad
 end)
 
 RegisterEvent(152, nil, function()
-    evt.MoveToMap(0, -2135, 125, 512, 0, 0, 431, 1, "6t5.blv") -- Temple of the Moon
+    evt.MoveToMap(0, -2135, 125, 512, 0, 0, 431, 5, "6t5.blv") -- Temple of the Moon
 end)
 
 RegisterEvent(153, nil, function()
-    evt.MoveToMap(7059, -6153, 1, 128, 0, 0, 195, 1, "oracle.blv") -- Oracle of Enroth
+    evt.MoveToMap(7059, -6153, 1, 128, 0, 0, 451, 5, "oracle.blv") -- Oracle of Enroth
 end)
 
 RegisterEvent(161, "Drink from Well.", function()
@@ -765,7 +765,7 @@ RegisterEvent(210, nil, function()
 end)
 
 RegisterEvent(211, "Throne Room", function()
-    evt.MoveToMap(0, 0, 0, 0, 0, 0, 81, 1)
+    evt.MoveToMap(0, 0, 0, 0, 0, 0, 337, 2)
     evt.EnterHouse(224) -- Throne Room
 end, "Throne Room")
 

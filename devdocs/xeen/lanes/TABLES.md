@@ -78,14 +78,20 @@ left to right by `order`, shrinking them alike when five or more do not fit:
 ```yaml
   card:
     order: 1                     # first (the user, 2026-11-21): Xeen 1, Enroth 2, Antagarich 3, Jadame 4, Chedian 5
-    title: Xeen                  # the card's name (English; translated where shown)
+    title: Xeen (alpha)          # the card's name (English; translated where shown)
+    short_title: Xeen            # optional: the name everywhere but the card (default: the title)
     subtitle: Might and Magic IV and V
-    caption: "Experimental: begin in Vertigo"
+    caption: Begin in Vertigo
     picture: worlds/xeen/ui/hud_x2/menus/omenu_continent_xeen.png   # a package path, as here
 ```
 
 The card can be chosen when `continent_settings` has the continent's row with its start map (death map 1) and that map
-is installed. The party creation's portrait filter names a world after the title of the card whose start map is in it.
+is installed. The card itself shows `title`; everything else names the continent by `short_title` (the title when it is
+not given; merge point 46, the user, 2026-11-22: "Xeen (alpha)" on the card): the journal's Quests, Notes, Trainers
+and Arcomage tabs, the Ledger of Teachers ("ask for it in any tavern on Xeen"), MAW's trainer hints and the party
+creation's portrait filter, which names a world after the card whose start map is in it. A tab shows the quests and
+notes whose `Owner` equals it, so `short_title` must be the Owner of the world's `quests`/`autonote` rows (a runtime
+test fails when a tab has no owner or an owner no tab). Save and load summaries name the continent by its `name`.
 
 **Dimension Door** (merge point 3): `engine/data_tables/dimension_doors.yml` (its header says the format): one door per
 continent, left to right, each with its landings (the first whose QBit the party has, the last without one), and one

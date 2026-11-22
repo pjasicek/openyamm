@@ -159,11 +159,11 @@ districts:
   - space: town:nightshadow
     polygon: [[92, 60], [100, 57], [108, 57], [109, 62], [109, 82], [103, 87], [94, 86], [90, 79], [91, 69], [89, 63]]
     plots:
-      - {building: building:moon_guild, at: [95, 65.5], facing: e, parts: [{id: tower, shape: round, at: [396, 512], radius: 348, sides: 10, textures: {roof: hwm2rf}, wall_height: 512, windows: alternate, roof: cone, roof_pitch: 62}, {id: body, at: [546, 225], size: [430, 573], textures: {roof: hwm2rf}, roof: gable, roof_pitch: 48, ridge_along: ew}], house: 4103, title: The Moon Guild, kit: stone, door: {part: body, wall: e}, condition: {not: {qbit: nightshadow_liberated}}, else_effects: [{lua: evt.EnterHouse(4104)}]}
+      - {building: building:moon_guild, at: [95, 65.5], facing: e, parts: [{id: tower, shape: round, at: [396, 512], radius: 348, sides: 10, textures: {roof: hwm2rf}, wall_height: 512, windows: alternate, roof: cone, roof_pitch: 62}, {id: body, at: [546, 225], size: [430, 573], signs: [{wall: e, bay: 0, texture: sgdark, size: [64, 64], bottom: 120, out: 48, hang: true}], textures: {roof: hwm2rf}, roof: gable, roof_pitch: 48, ridge_along: ew}], house: 4103, title: The Moon Guild, kit: stone, door: {part: body, wall: e}, condition: {not: {qbit: nightshadow_liberated}}, else_effects: [{lua: evt.EnterHouse(4104)}]}
       - {building: building:du_monay_manor, at: [102, 66.5], facing: w, parts: [{id: body, at: [48, 48], size: [640, 1184], textures: {roof: hwm2rf}, wall_height: 512, roof: gable, roof_pitch: 45, ridge_along: ns}, {id: wing, at: [608, 640], size: [608, 528], textures: {roof: hwm2rf}, wall_height: 512, roof: gable, roof_pitch: 45, ridge_along: ew}], house: 4105, title: Du Monay Manor, kit: stone, door: {part: body, wall: w}}
       - {building: building:nightshadow_temple, at: [94, 70.5], facing: e, parts: [{id: body, at: [448, 160], size: [768, 960], porches: [{wall: e, depth: 160, height: 288, posts: 32, floor: 16}], textures: {roof: hwm2rf}, wall_height: 448, roof: gable, roof_pitch: 52, ridge_along: ew}, {id: tower, at: [80, 480], size: [320, 320], textures: {roof: hwm2rf}, wall_height: 1024, windows: none, roof: hip, roof_pitch: 64}], house: 4106, title: Temple of the Dawn, kit: stone, door: {part: body, wall: e}, condition: {qbit: nightshadow_liberated}, else_effects: [{lua: "evt.SimpleMessage(\"Boarded up. Someone has written DAWN on the boards, and someone else has crossed it out.\")"}]}
       - {building: building:nightshadow_tavern, at: [101, 61.5], facing: w, parts: [{id: body, at: [112, 96], size: [576, 832], signs: [{wall: w, bay: 0, texture: 7sgtvrn, size: [64, 64], bottom: 120, out: 48, hang: true}], textures: {roof: hhm1rf}, roof: none}, {id: upper, at: [64, 48], size: [656, 928], bottom: 256, textures: {roof: hhm1rf}, wall_height: 256, roof: gable, roof_pitch: 50, ridge_along: ns}], house: 4107, title: The Coffin and Candle, kit: timber, door: {part: body, wall: w}, condition: {qbit: nightshadow_liberated}, else_effects: [{lua: "evt.SimpleMessage(\"Locked. Through the window: chairs on the tables and a lot of red wine.\")"}]}
-      - {building: building:treasure_trove, at: [102.5, 70.5], facing: w, parts: [{id: body, at: [160, 64], size: [544, 640], porches: [{wall: w, depth: 128, height: 224, posts: 24, floor: 16}], textures: {roof: hhm3rf}, roof: gable, roof_pitch: 48, ridge_along: ew}], house: 4108, title: Treasure Trove, kit: grey, door: {part: body, wall: w}, condition: {qbit: nightshadow_liberated}, else_effects: [{lua: "evt.SimpleMessage(\"Closed. A sign: Open after dark. Well, after the dark.\")"}]}
+      - {building: building:treasure_trove, at: [102.5, 70.5], facing: w, parts: [{id: body, at: [160, 64], size: [544, 640], porches: [{wall: w, depth: 128, height: 224, posts: 24, floor: 16}], signs: [{wall: w, bay: 0, texture: sgmagi, size: [64, 64], bottom: 120, out: 48, hang: true}], textures: {roof: hhm3rf}, roof: gable, roof_pitch: 48, ridge_along: ew}], house: 4108, title: Treasure Trove, kit: grey, door: {part: body, wall: w}, condition: {qbit: nightshadow_liberated}, else_effects: [{lua: "evt.SimpleMessage(\"Closed. A sign: Open after dark. Well, after the dark.\")"}]}
       - {building: building:nightshadow_alchemist, at: [102.5, 72.5], facing: w, parts: [{id: body, at: [160, 64], size: [544, 640], porches: [{wall: w, depth: 128, height: 224, posts: 24, floor: 16}], signs: [{wall: w, bay: 0, texture: 7sgalch, size: [64, 64], bottom: 120, out: 48, hang: true}], textures: {roof: hhm1rf}, roof: gable, roof_pitch: 48, ridge_along: ew}], house: 4109, title: Garlic and Grave Goods, kit: timber, door: {part: body, wall: w}, condition: {qbit: nightshadow_liberated}, else_effects: [{lua: "evt.SimpleMessage(\"The door is bolted and hung with garlic. A great deal of garlic.\")"}]}
       - {building: building:gnome_home, at: [95.5, 63], facing: e, parts: [{id: body, at: [64, 64], size: [640, 640], textures: {roof: hhp2rf}, roof: hip, roof_pitch: 38}], house: 4111, title: Gnome Home, kit: poor, door: {part: body, wall: e}, condition: {qbit: nightshadow_liberated}, else_effects: [{lua: "evt.SimpleMessage(\"A very small voice: Go away, we have no blood.\")"}]}
       - {building: building:nightshadow_houses, index: 1, at: [96, 61], facing: e, parts: [{id: body, at: [64, 64], size: [544, 384], porches: [{wall: e, depth: 128, height: 224, posts: 24, floor: 16}], textures: {roof: hhp2rf}, roof: gable, roof_pitch: 48, ridge_along: ew}], house: 4112, title: Agatha's House, kit: poor, door: {part: body, wall: e}, condition: {qbit: nightshadow_liberated}, else_effects: [{lua: "evt.SimpleMessage(\"Nobody opens. The curtains are drawn, the doorstep is dusty.\")"}]}
@@ -1662,6 +1662,22 @@ actors:
   - {monster: "359", at: [81, 34.6], spread: 0, group: 51, notes: Ebenezer's workmen at the ruin.}
   - {monster: "362", at: [83.7, 31.9], spread: 0, group: 51, notes: Ebenezer's workmen at the ruin.}
   - {monster: "368", at: [79.9, 32.4], spread: 0, group: 51, notes: Ebenezer's workmen at the ruin.}
+  - {monster: "166", at: [100.25, 69.5], spread: 0, group: 47, hostile: false, notes: D-96 villager of Nightshadow (villagers.yml)}
+  - {monster: "355", at: [91.5, 78.5], spread: 0, group: 47, hostile: false, notes: D-96 villager of Nightshadow (villagers.yml)}
+  - {monster: "364", at: [103.5, 81.5], spread: 0, group: 47, hostile: false, notes: D-96 villager of Nightshadow (villagers.yml)}
+  - {monster: "214", at: [98, 58.75], spread: 0, group: 47, hostile: false, notes: D-96 villager of Nightshadow (villagers.yml)}
+  - {monster: "167", at: [98.25, 77.5], spread: 0, group: 47, hostile: false, notes: D-96 villager of Nightshadow (villagers.yml)}
+  - {monster: "166", at: [99.75, 64], spread: 0, group: 47, hostile: false, notes: D-96 villager of Nightshadow (villagers.yml)}
+  - {monster: "355", at: [103.25, 74.5], spread: 0, group: 47, hostile: false, notes: D-96 villager of Nightshadow (villagers.yml)}
+  - {monster: "364", at: [101.5, 78.75], spread: 0, group: 47, hostile: false, notes: D-96 villager of Nightshadow (villagers.yml)}
+  - {monster: "214", at: [94.75, 77.25], spread: 0, group: 47, hostile: false, notes: D-96 villager of Nightshadow (villagers.yml)}
+  - {monster: "167", at: [101, 66.75], spread: 0, group: 47, hostile: false, notes: D-96 villager of Nightshadow (villagers.yml)}
+  - {monster: "166", at: [100, 61], spread: 0, group: 47, hostile: false, notes: D-96 villager of Nightshadow (villagers.yml)}
+  - {monster: "355", at: [101, 76], spread: 0, group: 47, hostile: false, notes: D-96 villager of Nightshadow (villagers.yml)}
+  - {monster: "358", at: [88.3, 43.81], spread: 0, group: 48, hostile: false, notes: D-96 villager of Ebenezer's camp (villagers.yml)}
+  - {monster: "373", at: [84.55, 41.31], spread: 0, group: 48, hostile: false, notes: D-96 villager of Ebenezer's camp (villagers.yml)}
+  - {monster: "361", at: [91.8, 43.81], spread: 0, group: 48, hostile: false, notes: D-96 villager of Ebenezer's camp (villagers.yml)}
+  - {monster: "358", at: [85.8, 43.56], spread: 0, group: 48, hostile: false, notes: D-96 villager of Ebenezer's camp (villagers.yml)}
 sounds:
   - {id: sound:bed_lagoon_1, at: [25, 23], sound: xeen_amb_lagoon, radius: 14000, inner_radius: 5500, volume: 0.7, pan: false}
   - {id: sound:bed_lagoon_2, at: [38, 45.5], sound: xeen_amb_lagoon, radius: 14000, inner_radius: 5500, volume: 0.7, pan: false}
@@ -1673,6 +1689,7 @@ sounds:
   - {id: sound:bed_lagoon_8, at: [90, 90.5], sound: xeen_amb_lagoon, radius: 14000, inner_radius: 5500, volume: 0.7, pan: false}
 relations:
   - {of: [350, 359, 362, 368], toward: party, relation: friendly}
+  - {of: [166, 167, 214, 355, 358, 361, 364, 373], toward: party, relation: friendly}
 events:
   - id: evt:mirabeth
     trigger: load

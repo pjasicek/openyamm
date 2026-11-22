@@ -91,7 +91,8 @@ race_class_availability:
     classes: []
 
 # card: the new-game screen's card (gameplay/continent_selection.yml places one per card, left to right by order);
-# a continent without one is not offered there.
+# a continent without one is not offered there. Optional short_title names the continent everywhere but the card
+# (journal tabs, Ledger of Teachers, trainer hints; it must equal its quests' Owner); default the title.
 new_game_continents:
   - id: 1
     key: jadame

@@ -33,9 +33,11 @@ npcs:
   4601:              # the Summer Druid (X6)
     topics:
       - n: 1
-        label: Summer
+        role: quest
+        afterword: {n: 5, label: Summer}
         states:
           - when: {qbit: summer}
+            afterword: true
             text: "Take the Last Flower of Summer to the Autumn Druid on the savannah, so that summer can end."
           - text: "I am the Summer Druid. Summer will not end until someone carries its last flower away. Take it to the Autumn Druid, on Burlock's savannah. The year is a relay, and I have held it long enough."
             do: [{give: last_flower_of_summer}, {set: summer}, {set: started}]
@@ -64,9 +66,11 @@ npcs:
   4048:              # the Spring Druid (X1)
     topics:
       - n: 4
-        label: Spring
+        role: quest
+        afterword: {n: 6, label: Spring}
         states:
           - when: {qbit: done}
+            afterword: true
             text: "Spring comes to those who wait. You did not wait; you walked. That works too."
           - when: {item: snowflake_of_winter}
             text: "The last snowflake of Winter. Here is the Last Raindrop of Spring, and your reward. As I renew the year, so will I renew you."

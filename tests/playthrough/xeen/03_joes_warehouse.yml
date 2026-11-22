@@ -105,7 +105,7 @@ steps:
   - walk_to: {x: -2560, y: 4608, z: 640, z_tolerance: 200, radius: 128, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
   # The town hall (event 9, house 4003): Gunther takes the invoice (M2 done, M3 started).
   - execute_event: {id: 9}
-  - select_topic: {match_label: "Joe's invoice"}
+  - select_topic: {action_id: 40101, match_label: "Quest"}
   - assert:
       dialog: {text_contains: "outstanding citizenship award"}
   - press_action: {action: cancel_dialog}

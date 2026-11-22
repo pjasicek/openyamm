@@ -583,6 +583,6 @@ RegisterEvent(454, nil, function()
 end)
 
 RegisterEvent(501, nil, function()
-    evt.MoveToMap(-177331, 12547, 465, 0, 0, 0, 0, 0, "7out02.odm") -- Harmondale
+    evt.MoveToMap(-177331, 12547, 465, 0, 0, 0, 0, 8, "7out02.odm") -- Harmondale
 end)
 

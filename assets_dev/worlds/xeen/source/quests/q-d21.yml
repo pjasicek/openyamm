@@ -38,9 +38,11 @@ npcs:
   5320:              # Ector
     topics:
       - n: 1
-        label: The ring
+        role: quest
+        afterword: {n: 2, label: The ring}
         states:
           - when: {qbit: done}
+            afterword: true
             text: "Wear it in good health. It makes sure you have plenty."
           - when: {item: ectors_ring}
             text: "That's it. I took it off to split wood and the mountain kept it. You know, it never did fit me after I got it back the last time. Keep it. And take this for the climb."

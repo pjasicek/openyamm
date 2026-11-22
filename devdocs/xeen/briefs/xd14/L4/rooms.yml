@@ -50,8 +50,18 @@ rooms:
     floor: 640
     ceiling: 1088
     theme: theme:sky
+    walls:
+      - wall: south
+        surface: {texture: ctwl5, size: [256, 256], sky: true}
+        bands: false
+    parapets:
+      - path: [[-1376, -2272], [1376, -2272]]
+        height: 160
+        thickness: 32
+        surface: {texture: ctwl5, size: [256, 256]}
+        notes: "The south parapet, X6's sky beyond it (D-97)."
     ambient: 30
-    notes: "The walk over the gate between the two towers, open to X6's sky; werewolves on watch."
+    notes: "The walk over the gate between the two towers, open to X6's sky over its south parapet; werewolves on watch."
   - id: room:bone_pit
     name: Bone pit
     outline: [[7040, 512], [7808, 512], [7808, 1280], [7040, 1280]]
@@ -258,6 +268,15 @@ rooms:
           - {id: panel:moon_rack_4, offset: 552, length: 96, bottom: 112, height: 128, surface: {texture: scroll, size: [64, 64], fit: true}, notes: "Scroll of Confusion pinned to the rack (clicked: A3's q-c8.scroll_confusion)."}
           - {id: panel:moon_rack_5, offset: 728, length: 96, bottom: 112, height: 128, surface: {texture: scroll, size: [64, 64], fit: true}, notes: "Scroll of Death pinned to the rack (clicked: A3's q-c8.scroll_death)."}
           - {id: panel:moon_rack_6, offset: 904, length: 96, bottom: 112, height: 128, surface: {texture: scroll, size: [64, 64], fit: true}, notes: "Scroll of Insanity pinned to the rack (clicked: A3's q-c8.scroll_insanity)."}
+      - wall: south
+        surface: {texture: ctwl5, size: [256, 256], sky: true}
+        bands: false
+    parapets:
+      - path: [[2336, 672], [3168, 672]]
+        height: 160
+        thickness: 32
+        surface: {texture: ctwl5, size: [256, 256]}
+        notes: "The south parapet, X6's sky beyond it (D-97)."
     ambient: 30
     notes: "The tower top where the cult calls the moon, open to the sky: the rack of six scrolls on the east wall, a brazier on the floor by the south parapet."
   - id: room:roof_walk
@@ -266,8 +285,18 @@ rooms:
     floor: 1280
     ceiling: 1728
     theme: theme:sky
+    walls:
+      - wall: north
+        surface: {texture: ctwl5, size: [256, 256], sky: true}
+        bands: false
+    parapets:
+      - path: [[544, 2144], [2784, 2144]]
+        height: 160
+        thickness: 32
+        surface: {texture: ctwl5, size: [256, 256]}
+        notes: "The north parapet, X6's sky beyond it (D-97)."
     ambient: 30
-    notes: A walk on the keep's leads under open sky from the study's back door to the moon tower.
+    notes: "A walk on the keep's leads under open sky from the study's back door to the moon tower, a parapet on its north side."
   - id: room:scriptorium
     name: Lower scriptorium
     outline: [[-2944, 512], [-1536, 512], [-1536, 1536], [-2944, 1536]]

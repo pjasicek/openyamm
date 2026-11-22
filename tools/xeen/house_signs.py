@@ -7,13 +7,15 @@ MM6-MM8 give each kind of service one picture board, the same in every town (mea
 2026-11-22): the Adventurer's Inn the key and heart (`sginn`: MM8 Ravenshore and Dagger Wound, MM7 Tatalia, MM6),
 a tavern the mug (`7sgtvrn` MM7, `sgtvrn` MM8), the bank the coins, training the target, stables the horse, the
 weaponsmith the crossed blades, the armourer the helm or gauntlet, the magic shop the wizard's hat or staves, the
-alchemist the flask, a guild its school's sign (MM7) or the spell sign (`sgspell`, MM8's sign for every guild), a
-temple the caduceus (MM7; MM8's temples have none), a dock the anchor board. A town hall has none.
+alchemist the flask, a guild its school's sign (MM7; MM8 hangs the spell sign `sgspell` on every guild, but Xeen's
+guilds hang their school's on both faces: decision D-92 (b)), a temple the caduceus (MM7; MM8's temples have none), a
+dock the anchor board. A town hall has none.
 
 Xeen's own boards (Sandcaster's lettered signs, the Crossroads stalls, Castleview's jail and Public Storage) count
 for their kind. The town generators of the map lanes pass these names to their kits; this table is what they must
 match. `towns.py` runs the check below on every built town map: a house whose sign is not of its kind is an error,
-a service of a signed kind hanging none is a warning.
+and so is a service of a signed kind hanging none (D-92 (a): every service house hangs a sign, as in MM7 and MM8),
+unless NO_WALL names the house and why it has no wall to hang one on.
 """
 
 import sys
@@ -41,14 +43,16 @@ SIGNS = {
     'stables': {'7sgstabl', 'sgstabl', 'xscaravan'},
     'boats': {'sgdock'},
     'temple': {'sgtempl', 'xstemple'},
-    **{f'{school}_guild': {sign, 'sgspell'} for school, sign in GUILD_SIGNS.items()},
+    **{f'{school}_guild': {sign} for school, sign in GUILD_SIGNS.items()},     # D-92 (b): never sgspell
     # no sign in MM6-MM8; a residence only a named board of its own (Caleb's stall, the jail, Public Storage)
     'town_hall': set(),
     'throne': set(),
     'residence': {'xscaleb', 'xljail', 'xlstorage'},
 }
-# kinds whose missing sign is only a note: MM8's temples hang none
+# kinds that may hang no sign: MM8's temples hang none; town halls, thrones, homes and mirrors are not shops
 UNSIGNED_OK = {'temple', 'town_hall', 'throne', 'residence', 'mirror'}
+# service houses with no wall to hang a sign on (D-92 (a)): house id -> why. Empty: every service hangs one.
+NO_WALL = {}
 
 
 def sketch_houses(sketch):
@@ -91,8 +95,12 @@ def sign_problems(key, sketch, houses):
                 errors.append(f'{key}: house {house_id} {house["name"]} ({door}, {kind}) hangs {sign}; '
                               f'its kind hangs {want}')
         if not signs and allowed and kind not in UNSIGNED_OK:
-            warnings.append(f'{key}: house {house_id} {house["name"]} ({door}, {kind}) hangs no sign '
-                            f'({", ".join(sorted(allowed))})')
+            if house_id in NO_WALL:
+                warnings.append(f'{key}: house {house_id} {house["name"]} ({door}, {kind}) hangs no sign: '
+                                f'{NO_WALL[house_id]} (NO_WALL)')
+            else:
+                errors.append(f'{key}: house {house_id} {house["name"]} ({door}, {kind}) hangs no sign; its kind '
+                              f'hangs {", ".join(sorted(allowed))} (D-92: every service house hangs one)')
     return errors, warnings
 
 

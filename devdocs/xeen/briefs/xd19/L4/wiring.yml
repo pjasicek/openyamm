@@ -546,13 +546,13 @@ events:
     trigger: timer
     every: 1
     condition: {all: [{map_var: sight}, {not: {map_var: freed}}]}
-    lua: "if IsAtLeast(MapVar(sight), 5) then SetValue(MapVar(freed), 1) evt.SetActorImmobile(ActorIndex(\"monster:lord_xeen\"), false) evt.SetActorImmobile(ActorIndex(\"monster:throne_1\"), false) evt.SetActorImmobile(ActorIndex(\"monster:throne_2\"), false) evt.SetActorTarget(ActorIndex(\"monster:lord_xeen\"), \"party\") evt.SetActorTarget(ActorIndex(\"monster:throne_1\"), \"party\") evt.SetActorTarget(ActorIndex(\"monster:throne_2\"), \"party\") end"
+    lua: "if IsAtLeast(MapVar(sight), 5) then SetValue(MapVar(freed), 1) evt.SetActorImmobile(ActorIndex(\"monster:lord_xeen\"), false) evt.SetActorImmobile(ActorIndex(\"monster:throne_1\"), false) evt.SetActorImmobile(ActorIndex(\"monster:throne_2\"), false) evt.SetActorImmobile(ActorIndex(\"monster:throne_3\"), false) evt.SetActorImmobile(ActorIndex(\"monster:throne_4\"), false) evt.SetActorImmobile(ActorIndex(\"monster:throne_5\"), false) evt.SetActorImmobile(ActorIndex(\"monster:throne_6\"), false) evt.SetActorTarget(ActorIndex(\"monster:lord_xeen\"), \"party\") evt.SetActorTarget(ActorIndex(\"monster:throne_1\"), \"party\") evt.SetActorTarget(ActorIndex(\"monster:throne_2\"), \"party\") evt.SetActorTarget(ActorIndex(\"monster:throne_3\"), \"party\") evt.SetActorTarget(ActorIndex(\"monster:throne_4\"), \"party\") evt.SetActorTarget(ActorIndex(\"monster:throne_5\"), \"party\") evt.SetActorTarget(ActorIndex(\"monster:throne_6\"), \"party\") end"
     effects:
       - add:
           var:
             map_var: sight
           value: 1
-    notes: "4 s after the line, Lord Xeen and his two guards (monster:throne_1, monster:throne_2; ActorIndex, merge point 22) leave their places and go for the party (evt.SetActorImmobile, evt.SetActorTarget)."
+    notes: "4 s after the line, Lord Xeen and his six guards (monster:throne_1 to throne_6, D-98; ActorIndex, merge point 22) leave their places and go for the party (evt.SetActorImmobile, evt.SetActorTarget)."
   - id: evt:throne
     preset: script
     source: platform:throne

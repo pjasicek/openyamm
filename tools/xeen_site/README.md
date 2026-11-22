@@ -66,7 +66,8 @@ were compared before and after (2026-11-21).
   The dragons' models (`CLOSER`) stand at 0.72 to 0.85 of that distance: their bounds hold the bind pose's outspread wings.
   The Warzone (XD-20) cannot host it: a map that forbids saving cannot start an isolated run.
 - `capture_shots.py`: one boot per map: the arrival view and the people placed outdoors that give story quests or
-  promote. XD-20 forbids saving and gets no shots (an isolated run cannot start there).
+  promote (`FAR_NPCS` sets a farther camera for people too big for the close-up: Leafpoint the Elder Tree). XD-20
+  forbids saving and gets no shots (an isolated run cannot start there).
 - `deploy.sh`: rsync to the server's `~/xeen-guide-upload`, then `sudo -n rsync` into
   `/var/www/html/openyamm/xeen-guide/` (beside `mm9-guide/` and `maw-guide/`, which it does not touch).
 

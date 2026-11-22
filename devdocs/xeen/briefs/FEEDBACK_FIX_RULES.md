@@ -51,3 +51,8 @@ files you touch (`lanes/<lane>.md`, State and tools), [DECISIONS.md](../DECISION
 Append your family's result under "Results" in `reviews/USER_FEEDBACK_20261121.md` (a short section: cause, the fix at
 the source, sites found and fixed, the check added, before/after capture paths). Final message:
 DONE / STATE / SITES (count found, fixed, left with reason) / REQUESTS / DECIDE / USER / NEXT.
+
+## Memory
+
+Every heavy job (build, bake, map build, game run, playthrough) through `tools/heavy.sh <cap GB> ...` — see
+[lanes/README.md](../lanes/README.md) "Memory". The PC locked up on 2026-11-22 from overlapping jobs.

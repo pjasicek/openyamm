@@ -214,7 +214,7 @@ RegisterEvent(451, "Take a Drink", function()
 end, "Take a Drink")
 
 RegisterEvent(501, "Leave the Maze", function()
-    evt.MoveToMap(-11822, 21398, 3201, 1664, 0, 0, 0, 0, "out10.odm") -- Mount Nighon
+    evt.MoveToMap(-11822, 21398, 3201, 1664, 0, 0, 0, 8, "out10.odm") -- Mount Nighon
 end, "Leave the Maze")
 
 RegisterEvent(65535, "", function()

@@ -345,6 +345,6 @@ RegisterEvent(377, "Door", function()
 end, "Door")
 
 RegisterEvent(501, "Leave the Hive", function()
-    evt.MoveToMap(-18246, -11910, 3201, 128, 0, 0, 0, 0, "out12.odm") -- The Land of the Giants
+    evt.MoveToMap(-18246, -11910, 3201, 128, 0, 0, 0, 8, "out12.odm") -- The Land of the Giants
 end, "Leave the Hive")
 

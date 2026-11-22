@@ -495,3 +495,122 @@ door with a trans row), D-91. world.yml has the trans contribution since 00:15 (
 - A3 38th done: journal lines for M37 (4 reflectors), M38 (4 sleepers), T2-CLAN, Q-C25 task; every line now ends
   (19 got endings, 13 finished-quest records dropped; quests.py refuses a line without `until` unless
   `journal_stays`); quest_stub 19/19, quests_smoke, run 59 85 pass on MP45. Waiting on A4 signs, then commit.
+- A4 signs done: Adventurer's Inns hang `sginn` (X1, D1), taverns the mug; kits stopped dropping cottage/temple signs
+  (10 signs restored); `tools/xeen/house_signs.py` via towns.py; X1, D1, X2, X4 rebuilt; main 52/52 from 01, 37 side
+  files pass. Android incremental cook 0 to cook, verifies 0 problems.
+- **COMMITTED (user's request):** 335c92e11e "Game code" (468 files, co-op + Xeen), 1afa1b3f2c "Assets and docs"
+  (8,235 files: Xeen world un-ignored and shipped), fb149b6313 "Android cook" (1,367). Shared index synced; co-op's
+  scenarios/tools/lobby/plans/AGENTS.md stay staged for openyamm-1c (told). Not committed: assets_source submodule
+  changes (MM7 decos, ice terrain sources), `.github/workflows/studio.yml`, settings.ini.
+- D-92 (orchestrator, on A4's DECIDE): every service signed (ERROR), guilds their school's sign on both faces,
+  sginn/sgtempl/sgdock `feature`. Started A4 signs2 for the 13 unsigned houses (X3, D3, X5, D2, D4, D6) + D1/D3
+  guilds — uncommitted follow-up.
+- User: quest-granting topics should read "Quest" as in MM6–MM8. Started A3 39th: measure the MM6–MM8 convention,
+  generator labels quest topics by role + check, update test steps, regenerate after A4 signs2 lands, full reruns.
+- User batch (shots `output/xeen_o4/feedback_20261122/27–31.png`): town walls leave gaps / end on walkable banks;
+  culvert/wall joints with slits; rain barrel key should go to the cursor. Decisions: F19 rules (closed circuits
+  anchored in water/cliff/edge, flush joints, enclosure flood-fill check); D-93 hidden finds → cursor (GiveItem),
+  visible items stay ground items, chests stay chests. Started A4 walls (`output/xeen_walls/`, after signs2, ends
+  with "WALLS DONE" in A4.md); D-93 relayed to A3 39th, which now waits for WALLS DONE before regenerating/reruns.
+- A3 39th (prepared, stopped at ~364k by the orchestrator before the reruns): rule measured (MM6–MM8 "Quest", second
+  Quest topic tracks/hand-in, promotions named); Xeen `role: quest` → "Quest", `role: promotion` → "Promotion",
+  `named:` for 9 choice answers, afterwords after hand-in; 108 topics renamed (`output/a3_s39/renamed.txt`); checks
+  in generator/quests.py/quest_stub; D-93 hooks (rain barrel, X5 book) give to cursor; 420 test steps converted.
+  Orchestrator on DECIDE: plain "Promotion" stays; several Quest topics on hub NPCs stay (MM7 convention).
+  Remaining steps 1–4 (A3.md Session 39 / its report) go to a fresh A3 40th after "WALLS DONE".
+- **10:19 the PC locked up (OOM: RAM + swap full, power cycle).** Per the user's report: three MM9 convert.py runs
+  (4 voxel workers each, ~57 GB), two lane.sh C++ builds (~19 GB), game runs, /tmp files. Not started by Xeen lanes
+  except game/tour runs. Guard added: `tools/heavy.sh <cap GB> cmd` (waits for cap+24 GB free, systemd scope
+  MemoryMax, no swap; tested: over-cap job killed alone); `mm9r_common/lane.sh` jobs (cap 48) and builds (24, -j16)
+  through it; AGENTS.md "Heavy jobs and memory"; lanes/README.md "Memory"; ≤3 heavy agents. After reboot: no
+  half-written Xeen installs (last 09:58), walls queue never ran; build_world 5 differ = A3 39th's prepared, not
+  regenerated; stale bake = MM9 guberland (not Xeen). Resumed signs2 (shots, block) and walls (queue via heavy.sh).
+  Next: fresh A3 40th after WALLS DONE (A3 39th's steps 1–4).
+- A4 signs2 done: every service signed (house_signs 0/0, NO_WALL empty), guild school signs on both faces, 20 sign
+  boards `feature`, kits size signs to their picture (D4/X2 1.5× boards fixed), D4 gen.py retired hook line removed;
+  contact sheet `output/xeen_a4_signs2/shots/contact_sheet.jpg`. Open: DD-25 `sgearth` feature_border warn (A8),
+  texture_classes full rerun drift (A1/A6). Walls running.
+- A4 walls done (F19): `tools/xeen/wall_check.py` + `town_walls.yml` via towns.py --strict (60 errors → 0 on 13 maps);
+  X1 creek walls into the water + one-piece culvert headwall, X4 wall up to the castle towers, X6 yard enclosed, D1
+  corners/gate leaves, D3 corner towers, D6 gatehouse/fields, X2 terraces; rebuilt one at a time through heavy.sh;
+  sheet `output/xeen_walls/sheet_before_after.jpg` (checked). Map checks in README extended. Started A3 40th: apply
+  A3 39th (Quest topics, D-93 X1/X5), regenerate, full reruns (all through heavy.sh).
+- User: X1's full crenellated creek wall is "a little too much", wants an "end water piece". D-94: a generic water end
+  piece (low battered cutwater/pier, no crenellations, still impassable; stakes/grille if needed) for every circuit end
+  in water. Started A4 walls2 (`output/xeen_walls2/`, after A3 40th's X1 install; writes "WATER END DONE");
+  A3 40th told to start playthroughs only after it.
+- User: X1 culvert entrance should be sunk into a sloped-down terrain cut, not a structure on flat ground with a water
+  quad on grass; the creek side view makes no sense. D-95 sunken/culvert entrance kit piece (terrain cut, arch at
+  ground level, outfall at the waterline on the creek side, no water quads on land), survey all maps. Relayed to the
+  walls2 session (same X1 rebuild).
+- User: Lifeforce Lagoon's village has no villagers; wants diversity of villager types per town (as MM7/MM8 towns).
+  D-96 (to record by the agent): every settlement has wandering peaceful villagers at MM density, a per-settlement
+  palette of 3–5 installed MM6–MM8 townsfolk types fitting WORLD_DESIGN, neighbours differ, data-driven + towns.py
+  check. Started A4 villagers (`output/xeen_villagers/`, writes "VILLAGERS DONE"); A3 40th waits for both DONE lines.
+  Heavy agents now 3 (A3 40th, walls2, villagers) — the cap.
+- Castle Blackfang (DD-14) user pose: open battlements by design (arrival line says so); answered, offered a lean-to.
+- A4 walls2 done: D-94 `water_end` pier (kit `tools/xeen/kit_pieces.py`, wall_check `walls.water_end`), D-95
+  `SunkenEntrance` on X1's culvert (ditch, revetments, barred outfall at the waterline); X1 installed 12:10, checks
+  pass; sheet `output/xeen_walls2/caps/sheet_before_after_x1.jpg` (checked). DECIDE X4 undercroft → yes, folded
+  into the villagers session's X4 rebuild.
+- A4 villagers done (F20, D-96): palettes in `source/towns/villagers.yml`, spots by `tools/xeen/villagers.py`, check in
+  towns.py (density ≥ 0.45/door, ≥2 types, allowed races, neighbours, peaceful, clearances); 11 maps rebuilt, race pass
+  on 8; Nightshadow 0→12, Castleview 0→30, Lakeside 0→12, Necropolis 0→8…; X4 undercroft sunken (D-95). VILLAGER
+  RACES DONE 13:20. Orchestrator on DECIDE: (1) cursed towns keep villagers from day one (the user complained of the
+  empty village; align X3 plan text); (2) no off-race story groups (user's rule); (3) 640 clearance from all doors ok.
+  Left for after A3 40th's reruns (each rebuild resets checkpoints): XD-17 Shangri-La villagers (A5), D7 Olympus (A6),
+  D2 sprite townsfolk type (A2+S), DD-25 dwarf by a door (A8).
+- Music: original Xeen .m rendered (Nuked-OPL3, own renderer, `output/xeen_music/`); user: doesn't fit. ElevenLabs
+  balance (user's dashboard): 48,006 left of 131,000. **U-9: plan B approved — 8 Xeen themes, one take each, cap
+  18,000 credits**; retakes only on the user's say. Started AU music (`level_generation/sounds/xeen_music_20261122/`,
+  review page, install plan in MUSIC.md, no install yet).
+- AU music done (U-9): 8 themes, one take each, ledger 18,000 (price-list rate; real ~16,500), review
+  https://claude.ai/artifact/Tca95rfncnb6hzGFk7r97K; install plan in MUSIC.md (tracks 92001–92008, 21 maps, town
+  musicAreas), nothing installed. Dungeon take weak (loop level jump). Awaiting the user's listen.
+- User resumed the AU music agent to retake the dungeon theme (~2,250 credits, user's own instruction).
+- **A3 40th done:** Quest topics + D-93 applied (X1, X5 rebuilt), tables regenerated; on the final maps main 52/52
+  normal and --reload, promotions 41/41, side 71/71, quests_smoke + 10 hooks + 9 playtests pass, quest_stub 19/19,
+  quests.py 0, build_world 0. Screens `output/a3_s40/shot/` (Falagar Quest+Carlawna, barrel key on cursor).
+  Started G 9th (guide update + deploy). Still open: XD-17/D7 villagers, D2 sprite townsfolk, DD-25 dwarf; music
+  install (user listening; dungeon retake running).
+- AU dungeon retake done (take 2 even level, loop drop ~3 dB vs 10–15); ledger 20,250 total; review page updated with both takes. Awaiting user: install proposal, finale elsewhere, bitrate.
+- User approved installing the music (U-10): 8 themes per MUSIC.md proposal, dungeon take 2, 320 kbit/s, finale only per plan. AU resumed to install (maps.yml music, world.yml musicAreas, map_stats regen, packaging check, audio-trace runs).
+- Peer openyamm-40: main moved to e20d4fc9cd (Unicode text fix: game/ui, engine/FontAsset.cpp; GameplayHudFontLayer gained `shadow`). build-xeen (MP45) predates it; next A1 build: touch GameplayOverlayTypes.h / GameplayHudCommon.h first if crashes appear.
+- Peer openyamm-d2: main moved to 04bf8e6193 (party pouches for Standard games; Party.h gained m_partyPouches). Next A1 build: touch Party.h too.
+- Peer openyamm-c7: main moved to 6966c1c87b (MM9 player-report fixes, 88 files incl. shared Indoor/OutdoorWorldRuntime, ScenarioRunner/RuntimeDriver, EventRuntime; whole working-tree files, so any uncommitted Xeen hunks in them (e.g. A1 39th's walk_to stuck line) are now in that commit).
+- AU music install done (U-10): 92001–92008 in `worlds/xeen/music/`, 21 maps retracked, town musicAreas, runs on X1/D3/P5
+  confirm, +43.5 MiB (xeen.music.0/1). 
+- User: Xeen card "Xeen (alpha)" instead of "Experimental: begin in Vertigo". Orchestrator edited continents.yml +
+  MAW card (title "Xeen (alpha)", caption "Begin in Vertigo"), regenerated (0 differ). Journal tabs/ledger use the card
+  title since MP45 → would break the "Xeen" owner match → A1 41st: optional short-name card field, MP46, build/ too.
+- G 9th done: guide redeployed (md5 235742b3…), ~200 Quest/Promotion topic edits with afterwords, journal lines, D-93
+  finds, culvert ditch + Asp undercroft figures, signs on the Shops page, arrival/giver shots of X1–X6, D1–D4, D6
+  recaptured (villagers, signs, walls), Leafpoint shot fixed; copies `output/xeen_g/s9/`. Note: Q-C1 Autumn/Winter
+  Druids keep own labels (no journal line) — possible A3 consistency polish.
+- User: Castle Xeen corridor shows sky instead of a ceiling; DD-14 Blackfang 'roof' likely the same. Started roofs session (F21, D-97: sky only over deliberately open places, survey of all 69 BLVs + check, rebuilds via heavy.sh; `output/xeen_roofs/`). Playthroughs will need a rerun after its rebuilds.
+- User: Castle Xeen more monsters overall; throne room 4–6 guards (now Xeen + 2). D-98: +30–40% XD-19 monsters (measured vs MM7/MM8 final castles), throne Lord Xeen + 6 guards; DD-17 Alamar checked to the same rule. Folded into the roofs session (same XD-19 rebuild).
+- A1 41st done: MP46 (14:34; build/ 14:37): card `short_title` (journal/ledger/hints/portrait filter), Xeen card 'Xeen (alpha)' + 'Begin in Vertigo' (Standard and MAW), journal tab 'Xeen'; runtime test fails a tab naming no owner. TOWNS_FORMAT line fixed by orchestrator.
+- User: chests in dungeons often rotated wrong relative to doors (e.g. FD-03 Darkstone Tower). Started chests session (A1 + dungeon lanes; D-99 rule measured on MM6–MM8; fix in studio + audit check; survey all BLVs/ODMs; rebuilds via heavy.sh; MP47; `output/xeen_chests/`). Two heavy agents now (roofs, chests). Playthroughs rerun after both.
+- User: Castle Basenji no roof (relayed to roofs session). User: The Sphinx (XD-15) WAY too bright with torch → started bright session (F23, D-100; measure vs MM7/MM8, fix profile/kit/engine spec, all bright-stone BLVs; `output/xeen_bright/`). Heavy agents: roofs, chests, bright = 3 (the cap).
+- User: XD-15 chest in front of stairs/entrance → relayed to the chests session (D-99 placement: clear of doorways, stair ends, through-routes; same check).
+- Roofs session done (F21, D-97/98): cause = sky rooms walled full height both sides read as lidless corridors; 57 sky sectors on 33 BLVs all declared outdoors in briefs; fixed 7 (XD-19 4 wall walks, XD-14 3) by lowering the outer wall to a 160 parapet with sky beyond; `tools/xeen/check_open_sky.py` + open_sky.yml; Castle Xeen 72→98 monsters, throne Lord Xeen + 6 guards; DD-17 has no boss fight. DD-14 kept (DECIDE pending: parapet too?). Asked the user whether parapets suit or real roofs wanted. Sheet `output/xeen_roofs/sheet_roofs_a.png` (checked).
+- Decider D-101: keep open battlements (7 walks), Blackfang as built, parapets 160–224; check rule for parapet height queued (orchestrator's quick attempt measured the sky face's bottom = 0 behind separate parapet faces → reverted).
+- Bright session done (F23, D-100): cause = copied default profile (bounce ×5, ambient 0.9, ceiling 1.5) floodlit pale
+  stone; `bake_indoor.py` `rendered_limit` (opt-in, all 60 xeen profiles mean 90 / ceiling 0.85), check
+  `tools/lighting/indoor_bake_brightness.py --world xeen --check`; all Xeen BLVs rebaked; Sphinx 186→117 (torch 210→171).
+  Orchestrator on DECIDE: torch stays as in MM6–MM8 (a). Follow-ups: DD-26 playtest_in step 10 (grate dialog text,
+  A8); XD-20 isolated launch fails saving the start game (A8/A1); Southern Sphinx library wall still pale (cap by
+  texture max later if judged).
+- Chests session done (F22, D-99, MP47 oymap): cause = `facing` meant width direction, lanes wrote front direction;
+  rule measured on MM7/MM8; studio turns chests by rule + placement clearances; audit `chest.facing`/`chest.placement`
+  errors; 120 chests on 50 maps fixed, 6 moved; 0 chest faults on 82 maps; sheet `output/xeen_chests/sheet_user.png`
+  (checked). Started A3 41st: fix DD-26/XD-06/XD-21/XD-27 entrance-window playtests, XD-20 launch fault, full rerun.
+- Peer openyamm-d2: HEAD 4e9cc80053 (Protection from Magic blocks event/hazard/MAW affix conditions; Party.h declaration) + 63ef301795 on top. build-xeen MP46 predates; next A1 build: touch Party.h.
+- Peer openyamm-1a: 63ef301795 cycle-speed key (KeyboardBindings.h arrays resized). Next A1 build: touch KeyboardBindings.h too.
+- run_game.py start save renamed to 'autosave' (arena maps refuse other saves; XD-20 launches now, X1 still fine) — A3 41st's A1 request done by the orchestrator. A3 41st at 16:50: normal main 52, promo 41, side 70/71 (q-c8 XD-15 waypoint, fixed, passes), 16 scenarios; reload passes running (ETA ~17:40).
+- User: remove Xeen custom loading screens (U-11): done by the orchestrator (source, regen 0 differ, 4 images moved to output/xeen_o4/loading_removed/, X1 launch clean).
+- **A3 41st done (all green on the final maps):** main 52/52 normal + --reload, side 71/71 normal + --reload,
+  promotions 41/41 normal, 16 scenarios, 4 fixed playtests, quest_stub 19/19, quests.py 0, build_world 0.
+  Open polish: XD-15 gen_tests stair waypoint (A7), promotions --reload, XD-17/D7 villagers, D2 sprite townsfolk,
+  DD-25 dwarf, Q-C1 druid labels, check_open_sky parapet-height rule, Southern Sphinx library wall. All of today's
+  work after fb149b6313 is uncommitted (user commits).

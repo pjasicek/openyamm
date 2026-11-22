@@ -245,12 +245,12 @@ steps:
   - assert:
       dialog: {active: true, source_id: 4205, action_label_present: "The Count"}
   - assert:
-      dialog: {active: true, action_label_absent: "Nosferatu"}
+      dialog: {active: true, action_label_absent: "Promotion"}
   - select_topic: {match_label: "The Count"}
   - assert:
       dialog: {text_contains: "Draco is gone. The town breathes."}
   - assert:
-      dialog: {active: true, action_label_absent: "Nosferatu"}
+      dialog: {active: true, action_label_absent: "Promotion"}
   - press_action: {action: cancel_dialog}
   - play_lua:
       source: |

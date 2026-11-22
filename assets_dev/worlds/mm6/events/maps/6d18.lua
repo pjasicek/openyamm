@@ -520,7 +520,7 @@ RegisterEvent(62, "Bookcase", function()
 end, "Bookcase")
 
 RegisterEvent(90, "Exit", function()
-    evt.MoveToMap(15585, 11125, 97, 512, 0, 0, 0, 0, "oute3.odm") -- New Sorpigal
+    evt.MoveToMap(15585, 11125, 97, 512, 0, 0, 0, 6, "oute3.odm") -- New Sorpigal
 end, "Exit")
 
 RegisterEvent(91, nil, function()

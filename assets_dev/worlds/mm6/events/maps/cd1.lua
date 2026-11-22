@@ -174,7 +174,7 @@ end, "Chest")
 
 RegisterEvent(47, "Teleporter", function()
     if IsQBitSet(QBit(1078)) then -- Chris
-        evt.MoveToMap(7829, -7173, 224, 568, 0, 0, 0, 0, "outd1.odm") -- Silver Cove
+        evt.MoveToMap(7829, -7173, 224, 568, 0, 0, 0, 8, "outd1.odm") -- Silver Cove
     end
 end, "Teleporter")
 
@@ -225,7 +225,7 @@ RegisterEvent(60, nil, function()
 end)
 
 RegisterEvent(61, "Exit", function()
-    evt.MoveToMap(13830, 7687, 673, 512, 0, 0, 0, 0, "oute1.odm") -- Eel Infested Waters
+    evt.MoveToMap(13830, 7687, 673, 512, 0, 0, 0, 6, "oute1.odm") -- Eel Infested Waters
 end, "Exit")
 
 RegisterEvent(62, "Door", function()

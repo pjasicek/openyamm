@@ -259,11 +259,11 @@ districts:
       - {building: building:cv_alchemist, at: [57, 53.5], facing: e, parts: [{id: body, at: [64, 64], size: [544, 640], porches: [{wall: e, depth: 128, height: 224, posts: 24, floor: 16}], signs: [{wall: e, bay: 0, texture: sgalch, size: [64, 64], bottom: 120, out: 48, hang: true}], textures: {door: t06a03}, walls: {e: [[window, 128], [wall, 64], [door, 256], [wall, 64], [window, 128]]}, upper_walls: {e: [[window, 128], [wall, 64], [wall, 64], [window, 128], [wall, 64], [wall, 64], [window, 128]]}, roof: gable, roof_pitch: 48, ridge_along: ew}], textures: {door: t06b03, gable: t06b01, post_left: t06b07, post_right: t06b06, ridge: t06a10, roof: t06a05, trim: t06a10, wall: t06b01, window: t06c04}, house: 4454, title: Zelda's Herbs and Remedies, kit: grey, door: {leaves: 2, part: body, wall: e}}
       - {building: building:cv_town_hall, at: [67.5, 51], facing: w, parts: [{id: body, at: [48, 48], size: [640, 1440], walls: {w: [[post_left, 128], [window, 128], [wall, 128], [window, 128], [wall, 80], [door, 256], [wall, 80], [window, 128], [wall, 128], [window, 128], [post_right, 128]]}, upper_walls: {w: [[post_left, 128], [window, 128], [wall, 128], [window, 128], [wall, 80], [wall, 64], [window, 128], [wall, 64], [wall, 80], [window, 128], [wall, 128], [window, 128], [post_right, 128]]}, roof: gable, roof_pitch: 45, ridge_along: ns}, {id: wing, at: [608, 768], size: [608, 656], roof: gable, roof_pitch: 45, ridge_along: ew}], textures: {door: t09a03a, gable: t09c01, post_left: t09c06, post_right: t09c07, ridge: t06a10, roof: xlslate, trim: t09b11b, wall: t09c01, window: t09c04b}, house: 4466, title: Castleview Town Hall, kit: grey, door: {leaves: 2, part: body, wall: w}}
       - {building: building:cv_bank, at: [67.5, 54.5], facing: w, parts: [{id: body, at: [64, 64], size: [896, 896], signs: [{wall: w, bay: 0, texture: sgbank, size: [64, 64], bottom: 120, out: 48, hang: true}], walls: {w: [[post_left, 128], [window, 128], [wall, 64], [door, 256], [wall, 64], [window, 128], [post_right, 128]]}, upper_walls: {w: [[post_left, 128], [window, 128], [wall, 64], [wall, 64], [window, 128], [wall, 64], [wall, 64], [window, 128], [post_right, 128]]}, roof: hip, roof_pitch: 38}], textures: {door: t09a03a, gable: t09c01, post_left: t09c06, post_right: t09c07, ridge: t06a10, roof: xlslate, trim: t09b11b, wall: t09c01, window: t09c04b}, house: 4457, title: Castleview Strongroom, kit: grey, door: {leaves: 2, part: body, wall: w}}
-      - {building: building:cv_guild_fire, at: [52.5, 58.5], facing: n, parts: [{id: body, at: [48, 48], size: [928, 512], signs: [{wall: n, bay: 0, texture: sgspell, size: [64, 64], bottom: 120, out: 48, hang: true}], roof: gable, roof_pitch: 45, ridge_along: ew}, {id: wing, at: [512, 480], size: [400, 480], roof: gable, roof_pitch: 45, ridge_along: ns}], textures: {door: t09a03c, gable: t09a01, post_left: t09a06, post_right: t09a07, ridge: t06a10, roof: xlslate, trim: t09b11b, wall: t09a01, window: t09a04b}, house: 4459, title: Castleview Guild of Fire, kit: grey, door: {part: body, wall: n}}
-      - {building: building:cv_guild_air, at: [55, 58.5], facing: n, parts: [{id: tower, shape: round, at: [512, 628], radius: 348, sides: 10, wall_height: 512, windows: alternate, roof: cone, roof_pitch: 62}, {id: body, at: [225, 48], size: [573, 430], signs: [{wall: n, bay: 0, texture: sgspell, size: [64, 64], bottom: 120, out: 48, hang: true}], roof: gable, roof_pitch: 48, ridge_along: ns}], textures: {door: t09a03c, gable: t09a01, post_left: t09a06, post_right: t09a07, ridge: t06a10, roof: xlslate, trim: t09b11b, wall: t09a01, window: t09a04b}, house: 4460, title: Castleview Guild of Air, kit: grey, door: {part: body, wall: n}}
-      - {building: building:cv_guild_water, at: [57.5, 58.5], facing: n, parts: [{id: body, at: [64, 160], size: [896, 800], porches: [{wall: n, depth: 128, height: 224, posts: 24, floor: 16}], signs: [{wall: n, bay: 0, texture: sgspell, size: [64, 64], bottom: 120, out: 48, hang: true}], roof: gable, roof_pitch: 48, ridge_along: ns}], textures: {door: t09a03c, gable: t09a01, post_left: t09a06, post_right: t09a07, ridge: t06a10, roof: xlslate, trim: t09b11b, wall: t09a01, window: t09a04b}, house: 4461, title: Castleview Guild of Water, kit: grey, door: {part: body, wall: n}}
-      - {building: building:cv_guild_earth, at: [60, 58.5], facing: n, parts: [{id: body, at: [48, 48], size: [928, 512], signs: [{wall: n, bay: 0, texture: sgspell, size: [64, 64], bottom: 120, out: 48, hang: true}], roof: gable, roof_pitch: 45, ridge_along: ew}, {id: wing, at: [512, 480], size: [400, 480], roof: gable, roof_pitch: 45, ridge_along: ns}], textures: {door: t09a03c, gable: t09a01, post_left: t09a06, post_right: t09a07, ridge: t06a10, roof: xlslate, trim: t09b11b, wall: t09a01, window: t09a04b}, house: 4462, title: Castleview Guild of Earth, kit: grey, door: {part: body, wall: n}}
-      - {building: building:cv_guild_body, at: [62.5, 58.5], facing: n, parts: [{id: body, at: [64, 64], size: [896, 896], signs: [{wall: n, bay: 0, texture: sgspell, size: [64, 64], bottom: 120, out: 48, hang: true}], roof: hip, roof_pitch: 38}], textures: {door: t09a03c, gable: t09a01, post_left: t09a06, post_right: t09a07, ridge: t06a10, roof: xlslate, trim: t09b11b, wall: t09a01, window: t09a04b}, house: 4463, title: Castleview Guild of Body, kit: grey, door: {part: body, wall: n}}
+      - {building: building:cv_guild_fire, at: [52.5, 58.5], facing: n, parts: [{id: body, at: [48, 48], size: [928, 512], signs: [{wall: n, bay: 0, texture: sgfire, size: [64, 64], bottom: 120, out: 48, hang: true}], roof: gable, roof_pitch: 45, ridge_along: ew}, {id: wing, at: [512, 480], size: [400, 480], roof: gable, roof_pitch: 45, ridge_along: ns}], textures: {door: t09a03c, gable: t09a01, post_left: t09a06, post_right: t09a07, ridge: t06a10, roof: xlslate, trim: t09b11b, wall: t09a01, window: t09a04b}, house: 4459, title: Castleview Guild of Fire, kit: grey, door: {part: body, wall: n}}
+      - {building: building:cv_guild_air, at: [55, 58.5], facing: n, parts: [{id: tower, shape: round, at: [512, 628], radius: 348, sides: 10, wall_height: 512, windows: alternate, roof: cone, roof_pitch: 62}, {id: body, at: [225, 48], size: [573, 430], signs: [{wall: n, bay: 0, texture: sgair, size: [64, 64], bottom: 120, out: 48, hang: true}], roof: gable, roof_pitch: 48, ridge_along: ns}], textures: {door: t09a03c, gable: t09a01, post_left: t09a06, post_right: t09a07, ridge: t06a10, roof: xlslate, trim: t09b11b, wall: t09a01, window: t09a04b}, house: 4460, title: Castleview Guild of Air, kit: grey, door: {part: body, wall: n}}
+      - {building: building:cv_guild_water, at: [57.5, 58.5], facing: n, parts: [{id: body, at: [64, 160], size: [896, 800], porches: [{wall: n, depth: 128, height: 224, posts: 24, floor: 16}], signs: [{wall: n, bay: 0, texture: sgwater, size: [64, 64], bottom: 120, out: 48, hang: true}], roof: gable, roof_pitch: 48, ridge_along: ns}], textures: {door: t09a03c, gable: t09a01, post_left: t09a06, post_right: t09a07, ridge: t06a10, roof: xlslate, trim: t09b11b, wall: t09a01, window: t09a04b}, house: 4461, title: Castleview Guild of Water, kit: grey, door: {part: body, wall: n}}
+      - {building: building:cv_guild_earth, at: [60, 58.5], facing: n, parts: [{id: body, at: [48, 48], size: [928, 512], signs: [{wall: n, bay: 0, texture: sgearth, size: [64, 64], bottom: 120, out: 48, hang: true}], roof: gable, roof_pitch: 45, ridge_along: ew}, {id: wing, at: [512, 480], size: [400, 480], roof: gable, roof_pitch: 45, ridge_along: ns}], textures: {door: t09a03c, gable: t09a01, post_left: t09a06, post_right: t09a07, ridge: t06a10, roof: xlslate, trim: t09b11b, wall: t09a01, window: t09a04b}, house: 4462, title: Castleview Guild of Earth, kit: grey, door: {part: body, wall: n}}
+      - {building: building:cv_guild_body, at: [62.5, 58.5], facing: n, parts: [{id: body, at: [64, 64], size: [896, 896], signs: [{wall: n, bay: 0, texture: sgbody, size: [64, 64], bottom: 120, out: 48, hang: true}], roof: hip, roof_pitch: 38}], textures: {door: t09a03c, gable: t09a01, post_left: t09a06, post_right: t09a07, ridge: t06a10, roof: xlslate, trim: t09b11b, wall: t09a01, window: t09a04b}, house: 4463, title: Castleview Guild of Body, kit: grey, door: {part: body, wall: n}}
       - {building: building:cv_temple, at: [70.5, 58.5], facing: w, parts: [{id: nave, at: [64, 64], size: [1152, 1408], wall_height: 416, roof: gable, roof_pitch: 50, ridge_along: ew}, {id: tower, at: [1184, 624], size: [288, 288], wall_height: 832, windows: none, roof: hip, roof_pitch: 62}], textures: {door: t09a03c, gable: t09a01, post_left: t09a06, post_right: t09a07, ridge: t06a10, roof: xlslate, trim: t09b11b, wall: t09a01, window: t09a04b}, house: 4455, title: Temple of Mok, kit: grey, door: {part: nave, wall: w}}
       - {building: building:cv_training, at: [72, 48.5], facing: w, parts: [{id: body, at: [48, 48], size: [793, 1184], signs: [{wall: w, bay: 0, texture: sgtrain, size: [64, 64], bottom: 120, out: 48, hang: true}], textures: {door: t06a03}, walls: {w: [[post_left, 128], [wall, 128], [window, 128], [wall, 80], [door, 256], [wall, 80], [window, 128], [wall, 128], [post_right, 128]]}, upper_walls: {w: [[post_left, 128], [wall, 128], [window, 128], [wall, 80], [wall, 64], [window, 128], [wall, 64], [wall, 80], [window, 128], [wall, 128], [post_right, 128]]}, roof: gable, roof_pitch: 40, ridge_along: ns}, {id: shed, at: [825, 96], size: [422, 1024], wall_height: 192, windows: none, roof: lean_to}], textures: {door: t06b03, gable: t06b01, post_left: t06b07, post_right: t06b06, ridge: t06a10, roof: t06a05, trim: t06a10, wall: t06b01, window: t06c04}, house: 4458, title: The Barracks Yard, kit: grey, door: {leaves: 2, part: body, wall: w}}
       - {building: building:cv_stables, at: [72, 52], facing: w, parts: [{id: body, at: [48, 48], size: [793, 1440], signs: [{wall: w, bay: 0, texture: sgstabl, size: [64, 64], bottom: 120, out: 48, hang: true}], textures: {door: t06a03}, walls: {w: [[post_left, 128], [window, 128], [wall, 128], [window, 128], [wall, 80], [door, 256], [wall, 80], [window, 128], [wall, 128], [window, 128], [post_right, 128]]}, upper_walls: {w: [[post_left, 128], [window, 128], [wall, 128], [window, 128], [wall, 80], [wall, 64], [window, 128], [wall, 64], [wall, 80], [window, 128], [wall, 128], [window, 128], [post_right, 128]]}, roof: gable, roof_pitch: 40, ridge_along: ns}, {id: shed, at: [825, 96], size: [422, 1280], wall_height: 192, windows: none, roof: lean_to}], textures: {door: t06b03, gable: t06b01, post_left: t06b07, post_right: t06b06, ridge: t06a10, roof: t06a05, trim: t06a10, wall: t06b01, window: t06c04}, house: 4464, title: Kramer's Caravans, kit: grey, door: {leaves: 2, part: body, wall: w}}
@@ -1627,25 +1627,9 @@ ground:
     width: 2
     notes: a track
 structures:
-  - id: thing:wall_north_w
-    kind: wall
-    line: [[53, 44], [61.25, 44]]
-    height: 600
-    thickness: 256
-    textures: {top: csbr128, wall: cswl128}
-    battlements: true
-    title: Castleview's walls
-  - id: thing:wall_north_e
-    kind: wall
-    line: [[64.75, 44], [73, 44]]
-    height: 600
-    thickness: 256
-    textures: {top: csbr128, wall: cswl128}
-    battlements: true
-    title: Castleview's walls
   - id: thing:wall_ne
     kind: wall
-    line: [[73, 44], [76, 47], [76, 61], [73, 64.5], [54.5, 64.5], [50, 60.5], [50, 55.6]]
+    line: [[64.75, 44], [73, 44], [76, 47], [76, 61], [73, 64.5], [54.5, 64.5], [50, 60.5], [50, 55.6]]
     height: 600
     thickness: 256
     gates:
@@ -1655,7 +1639,7 @@ structures:
     title: Castleview's walls
   - id: thing:wall_nw
     kind: wall
-    line: [[50, 52.8], [50, 47], [53, 44]]
+    line: [[50, 52.8], [50, 47], [53, 44], [61.25, 44]]
     height: 600
     thickness: 256
     textures: {top: csbr128, wall: cswl128}
@@ -1680,19 +1664,19 @@ structures:
     title: The north gatehouse
   - id: thing:north_gate_lintel
     kind: building
-    at: [62.625, 43.938]
-    size: [0.75, 0.125]
+    at: [62.5, 43.938]
+    size: [1, 0.125]
     turn: 0
     kit: grey
     textures: {post_left: cswl128, post_right: cswl128, roof: csbr128, trim: cstr128, wall: cswl128}
     parts:
-      - {id: lintel, at: [0, 0], size: [384, 64], bottom: 256, wall_height: 128, windows: none, roof: flat}
+      - {id: lintel, at: [0, 0], size: [512, 64], bottom: 256, wall_height: 128, windows: none, roof: flat}
     floor: 1150
     door: none
     title: The north gate
   - id: thing:north_gate_outer
     kind: wall
-    line: [[62.625, 43.68], [63.375, 43.68]]
+    line: [[62.5, 43.68], [63.5, 43.68]]
     height: 256
     thickness: 32
     textures: {top: cstr128, wall: xkportc}
@@ -1704,7 +1688,7 @@ structures:
       - text: The gate swings open.
   - id: thing:north_gate_inner
     kind: wall
-    line: [[62.625, 44.32], [63.375, 44.32]]
+    line: [[62.5, 44.32], [63.5, 44.32]]
     height: 256
     thickness: 32
     textures: {top: cstr128, wall: xkportc}
@@ -2844,6 +2828,36 @@ actors:
   - {monster: "361", at: [66, 41.9], spread: 0, group: 52, npc: 4956}
   - {monster: "377", at: [57, 41.2], spread: 0, group: 52, npc: 4951}
   - {monster: "517", at: [30.6, 62.6], spread: 0, group: 52, npc: 4952}
+  - {monster: "358", at: [58.38, 55.62], spread: 0, group: 47, hostile: false, notes: D-96 villager of Castleview (villagers.yml)}
+  - {monster: "352", at: [74.88, 48.62], spread: 0, group: 47, hostile: false, notes: D-96 villager of Castleview (villagers.yml)}
+  - {monster: "382", at: [71.12, 62.88], spread: 0, group: 47, hostile: false, notes: D-96 villager of Castleview (villagers.yml)}
+  - {monster: "304", at: [55.62, 42.88], spread: 0, group: 47, hostile: false, notes: D-96 villager of Castleview (villagers.yml)}
+  - {monster: "359", at: [47.12, 53.12], spread: 0, group: 47, hostile: false, notes: D-96 villager of Castleview (villagers.yml)}
+  - {monster: "353", at: [64.62, 47.62], spread: 0, group: 47, hostile: false, notes: D-96 villager of Castleview (villagers.yml)}
+  - {monster: "358", at: [71.62, 55.38], spread: 0, group: 47, hostile: false, notes: D-96 villager of Castleview (villagers.yml)}
+  - {monster: "352", at: [62.88, 62.38], spread: 0, group: 47, hostile: false, notes: D-96 villager of Castleview (villagers.yml)}
+  - {monster: "382", at: [52.62, 61.38], spread: 0, group: 47, hostile: false, notes: D-96 villager of Castleview (villagers.yml)}
+  - {monster: "304", at: [52.12, 55.62], spread: 0, group: 47, hostile: false, notes: D-96 villager of Castleview (villagers.yml)}
+  - {monster: "359", at: [65.12, 57.62], spread: 0, group: 47, hostile: false, notes: D-96 villager of Castleview (villagers.yml)}
+  - {monster: "353", at: [69.62, 48.38], spread: 0, group: 47, hostile: false, notes: D-96 villager of Castleview (villagers.yml)}
+  - {monster: "358", at: [57.12, 60.38], spread: 0, group: 47, hostile: false, notes: D-96 villager of Castleview (villagers.yml)}
+  - {monster: "352", at: [67.12, 61.38], spread: 0, group: 47, hostile: false, notes: D-96 villager of Castleview (villagers.yml)}
+  - {monster: "382", at: [72.12, 51.38], spread: 0, group: 47, hostile: false, notes: D-96 villager of Castleview (villagers.yml)}
+  - {monster: "304", at: [51.88, 48.38], spread: 0, group: 47, hostile: false, notes: D-96 villager of Castleview (villagers.yml)}
+  - {monster: "359", at: [69.62, 58.62], spread: 0, group: 47, hostile: false, notes: D-96 villager of Castleview (villagers.yml)}
+  - {monster: "353", at: [60.12, 50.38], spread: 0, group: 47, hostile: false, notes: D-96 villager of Castleview (villagers.yml)}
+  - {monster: "358", at: [60.38, 44.88], spread: 0, group: 47, hostile: false, notes: D-96 villager of Castleview (villagers.yml)}
+  - {monster: "352", at: [61.88, 57.62], spread: 0, group: 47, hostile: false, notes: D-96 villager of Castleview (villagers.yml)}
+  - {monster: "382", at: [60.38, 60.38], spread: 0, group: 47, hostile: false, notes: D-96 villager of Castleview (villagers.yml)}
+  - {monster: "304", at: [63.38, 50.38], spread: 0, group: 47, hostile: false, notes: D-96 villager of Castleview (villagers.yml)}
+  - {monster: "359", at: [51.88, 58.38], spread: 0, group: 47, hostile: false, notes: D-96 villager of Castleview (villagers.yml)}
+  - {monster: "353", at: [54.88, 58.62], spread: 0, group: 47, hostile: false, notes: D-96 villager of Castleview (villagers.yml)}
+  - {monster: "358", at: [48.62, 56.38], spread: 0, group: 47, hostile: false, notes: D-96 villager of Castleview (villagers.yml)}
+  - {monster: "352", at: [67.12, 48.12], spread: 0, group: 47, hostile: false, notes: D-96 villager of Castleview (villagers.yml)}
+  - {monster: "382", at: [72.38, 58.12], spread: 0, group: 47, hostile: false, notes: D-96 villager of Castleview (villagers.yml)}
+  - {monster: "304", at: [62.62, 46.12], spread: 0, group: 47, hostile: false, notes: D-96 villager of Castleview (villagers.yml)}
+  - {monster: "359", at: [59.38, 57.88], spread: 0, group: 47, hostile: false, notes: D-96 villager of Castleview (villagers.yml)}
+  - {monster: "353", at: [72.12, 47.88], spread: 0, group: 47, hostile: false, notes: D-96 villager of Castleview (villagers.yml)}
 sounds:
   - {id: sound:bed_darkside_1, at: [27, 25], sound: xeen_amb_darkside, radius: 15000, inner_radius: 6000, volume: 0.45, pan: false}
   - {id: sound:bed_darkside_10, at: [41, 97.5], sound: xeen_amb_darkside, radius: 15000, inner_radius: 6000, volume: 0.45, pan: false}
@@ -2860,6 +2874,7 @@ sounds:
   - {id: sound:kalindra_shimmer, at: [39, 70], sound: xeen_phase_loop, radius: 3500, inner_radius: 1200, volume: 0.35}
 relations:
   - {of: [517, 518, 519], toward: party, relation: friendly}
+  - {of: [304, 352, 353, 358, 359, 382], toward: party, relation: friendly}
 events:
   - id: evt:sky
     trigger: load

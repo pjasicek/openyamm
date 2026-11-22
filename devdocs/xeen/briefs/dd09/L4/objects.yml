@@ -320,7 +320,6 @@ chests:
   - id: chest:sap
     room: room:sap_vats
     at: [-3776, -1472]
-    facing: w
     treasure_level: 3
     random_items: 2
     gold: 600
@@ -328,7 +327,6 @@ chests:
   - id: chest:shaalth
     room: room:shaalth
     at: [7744, -1216]
-    facing: n
     treasure_level: 4
     random_items: 3
     gold: 1500

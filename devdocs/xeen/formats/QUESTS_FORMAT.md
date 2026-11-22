@@ -173,7 +173,7 @@ npcs:
   4003:                      # Mayor Gunther
     topics:
       - n: 1                 # topic id 40000 + 50*block + 1
-        label: Pests
+        role: quest          # the label "Quest" (section 4.4); a topic with no role has `label:`
         show: {not: {qbit: m3.done}}            # optional; RegisterCanShowTopic
         states:              # the first state whose `when` holds answers; the last has no `when`
           - when: {qbit: done}
@@ -248,6 +248,48 @@ Run in order after the state's text is set.
 | `{stat: personality, value: 5}` | every member's base statistic (might, intellect, personality, endurance, accuracy, speed, luck) |
 | `{move_npc: [npc, house]}` | `evt.MoveNPC` (house 0: gone) |
 | `{lua: "statement"}` | as written (a call into `xeen_common.lua`) |
+
+### 4.4 Topic labels by role (MM6–MM8's convention, session 39)
+
+Measured in the engine's merged tables (`assets_dev/engine/data_tables/npc_topic.txt`, `npc.txt`, `events/Global.lua`):
+
+- **Quests read "Quest".** 110 rows: MM6 (Andover Potbello 1609/1610), MM7 (Tarin Withern 929/930, the Harmondale
+  givers), MM8 (Dadeross, Rohtnax, Pascella Tisk: the main plot too). The offer topic gives the task and switches
+  (`evt.SetNPCTopic`) to a second topic, also "Quest", that tracks and hands it in; the hand-in clears it (topic 0) or
+  changes the greeting. An NPC with two quests shows two "Quest" topics (MM7 Niles Stantley, MM8 Arion Hunter). MM6's
+  council quests read "Council Quest".
+- **Promotions name the promotion**: MM6 the class plural through offer and hand-in ("Crusaders", "Cavaliers"), MM7 the
+  class ("Cavalier", "Champion"), MM8 "Promotion to <class>" (Leane Stormlance, Tessalar; Tessalar's hand-in is "Quest").
+- **Answers of a choice keep their own labels** (MM7 "Pay 1000 Gold"/"Don't Pay", Queen Catherine's "Here's a fake
+  prisoner", MM8 "I choose you!").
+
+Xeen's rule, made by the generator from a topic's `role:` (it writes the label; a topic with a role has no `label:`):
+
+| `role:` | Label | Which topics |
+| --- | --- | --- |
+| `quest` | Quest | every topic that gives, tracks or hands in a quest: a state sets a qbit with a journal line (a task opens) or a bit in a line's `until`, or clears a line's bit (a task closes). Also when the hand-in promotes (Xeen's promotion quests promote several class lines at once) |
+| `promotion` | Promotion | a topic that promotes and opens or closes no task (the late recruits' promotions, T1/T2-LATER) |
+
+- `named: "<why>"` keeps a label on a topic whose effects would give it a role: only a choice's answer (the Pharaoh's
+  "Bow low, slave!", Hobstadt's "Sacrifice one") or a person's own talk where a promotion is one answer (Sandro).
+- **Afterword:** a Quest topic goes at its hand-in (MM6–MM8 clear it). Its leading states marked `afterword: true` (what
+  the person says afterwards; no effects) become a topic of their own, `afterword: {n, label}` (a free `n` of the file;
+  the label is the topic's old name), shown instead of the Quest topic once one of their `when`s holds. Text ids do not
+  change (the states stay in place in the file).
+- `stays: "<why>"`: a Quest topic whose first state answers after the hand-in but tracks the next quest of a chain
+  (M28's and M30's Pharaoh: the after-text sends the party on), so it keeps the label; used where an afterword would
+  overflow the NPC's six slots.
+- **One Quest topic of one quest per NPC at a time:** a hand-in is a state of the Quest topic, not a second topic shown
+  beside it (Luna's statuettes and altar are one topic since session 39; Gunther's Pests hides while the invoice is
+  carried).
+
+The audit (`quests.py`, through `load_model()`; the generator stops on the same problems) refuses: a topic whose effects
+give it a role with another label and no `named:`; a `role:` its effects do not give (a `quest` hand-in that only
+promotes is allowed); `label: Quest` or `label: Promotion` written by hand; a Quest topic whose first state answers
+after its own `done`/`rewarded` without `afterword: true` or `stays:`; afterword states that are not leading or have
+effects. The stub (`quest_stub.py`) names a quest file's Quest topics and their afterwords by its stem
+(`talk: [4304, q-c11]`) and fails when two shown topics share the named label. Game tests select a Quest topic by its
+id: `select_topic: {action_id: 43051, match_label: "Quest"}`.
 
 ## 5. An NPC file
 

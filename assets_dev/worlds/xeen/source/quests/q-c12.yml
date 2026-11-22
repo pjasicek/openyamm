@@ -26,9 +26,11 @@ npcs:
   4202:              # Mirabeth
     topics:
       - n: 1
-        label: Elixir
+        role: quest
+        afterword: {n: 2, label: Elixir}
         states:
           - when: {qbit: done}
+            afterword: true
             text: "The sea's cold and the fish are rude. I've never been happier."
           - when: {item: elixir}
             text: "Thank you so much for getting me the elixir! Now I can be restored to my former self and return to my ocean home. As a reward, I blow my kiss to all of you."

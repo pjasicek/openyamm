@@ -98,7 +98,7 @@ steps:
   - assert:
       dialog: {active: true, house_dialog: false, source_id: 4916}
   - play_lua: {source: "remember('gold', gold()); remember('xp', experience(0))"}
-  - select_topic: {match_label: "Gremlins"}
+  - select_topic: {action_id: 44051, match_label: "Quest"}
   - assert:
       dialog: {text_contains: "Oh, frabjous day!"}
   - select_topic: {match_label: "Gettlewaithe's gift"}

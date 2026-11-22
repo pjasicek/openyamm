@@ -97,7 +97,7 @@ steps:
   - play_lua: {source: "remember('xp', experience(0))"}
   - interact_actor: {actor_index: 0}
   - assert: {dialog: {active: true}}
-  - select_topic: {match_label: "Soul Box"}
+  - select_topic: {action_id: 41601, match_label: "Quest"}
   - assert: {dialog: {active: true, text_contains: "Ah! A Soulbox! You have done well."}}
   - play_lua:
       source: |

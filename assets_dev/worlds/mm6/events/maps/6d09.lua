@@ -252,7 +252,7 @@ RegisterEvent(41, nil, function()
 end)
 
 RegisterEvent(50, "Exit", function()
-    evt.MoveToMap(20212, 13238, 97, 1408, 0, 0, 0, 0, "outc3.odm") -- Mire of the Damned
+    evt.MoveToMap(20212, 13238, 97, 1408, 0, 0, 0, 6, "outc3.odm") -- Mire of the Damned
 end, "Exit")
 
 RegisterEvent(60, nil, function()

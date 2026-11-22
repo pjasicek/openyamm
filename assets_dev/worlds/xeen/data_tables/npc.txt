@@ -3,7 +3,7 @@ NPC Data (Special)			Group			Current	Profession	Greet	Join	Event	Event	Event	Eve
 #	Name	Pic	A	B	C	2D Location	 1 - 76	#	Y / N	# A	# B	# C	# D	# E	# F	Notes	Title
 4001	Norman	14001	0	0	0	4001	0	4001	0	47501	0	0	0	0	0	X1	Blacksmith
 4002	Gudrun	14002	0	0	0	0	0	4002	0	0	0	0	0	0	0	X1	Armorer
-4003	Gunther	14003	0	0	0	4003	0	4003	0	40051	40101	40151	0	0	0	X1	Mayor
+4003	Gunther	14003	0	0	0	4003	0	4003	0	40051	40101	40151	40152	0	0	X1	Mayor
 4004	Gilbert	14004	0	0	0	0	0	4004	0	0	0	0	0	0	0	X1	Hexer
 4005	Lady Geraldine	14005	0	0	0	4005	0	4005	0	47502	0	0	0	0	0	X1	
 4006	Mortimer	14006	0	0	0	4006	0	4006	0	47503	0	0	0	0	0	X1	Banker
@@ -28,7 +28,7 @@ NPC Data (Special)			Group			Current	Profession	Greet	Join	Event	Event	Event	Eve
 4027	Fenwick	14027	0	0	0	4026	0	4027	0	40103	47510	306	0	0	0	X1	Retired Cutpurse
 4028	Vern	14028	0	0	0	4027	0	4028	0	47511	0	0	0	0	0	X1	Guildman
 4029	Mylo	14029	0	0	0	4028	0	4029	0	47512	0	0	0	0	0	X1	Mapmaker
-4030	Dudley	14030	0	0	0	4005	0	4030	0	40102	0	0	0	0	0	X1	Tavern Patron
+4030	Dudley	14030	0	0	0	4005	0	4030	0	40102	40106	0	0	0	0	X1	Tavern Patron
 4031	Agnes Tanner	14031	0	0	0	4029	0	4031	0	327	0	0	0	0	0	X1	
 4032	Rialdo	14032	0	0	0	4030	0	4032	0	315	0	0	0	0	0	X1	Ranger
 4033	Cooper	14033	0	0	0	4031	0	4033	0	309	0	0	0	0	0	X1	
@@ -37,16 +37,16 @@ NPC Data (Special)			Group			Current	Profession	Greet	Join	Event	Event	Event	Eve
 4036	Wren	14036	0	0	0	4033	0	4036	0	339	0	0	0	0	0	X1	Air Mage
 4037	Odette Marsh	14037	0	0	0	4034	0	4037	0	342	0	0	0	0	0	X1	Water Mage
 4038	Hollis	14038	0	0	0	4035	0	4038	0	345	0	0	0	0	0	X1	Earth Mage
-4039	Oslo	14039	0	0	0	4036	0	4039	0	47001	47002	0	0	0	0	X1	Farmer
+4039	Oslo	14039	0	0	0	4036	0	4039	0	47001	47003	47002	0	0	0	X1	Farmer
 4040	Tam	14040	0	0	0	0	0	4040	0	0	0	0	0	0	0	X1	Oslo's Son
 4041	Celia	14041	0	0	0	4037	0	4041	0	43602	43603	0	0	0	0	X1	Captive
 4042	Myra	14042	0	0	0	4038	0	4042	0	43551	411	0	0	0	0	X1	Herbalist
 4043	Hedda Bogg	14043	0	0	0	4039	0	4043	0	47514	0	0	0	0	0	X1	Peasant
-4044	Old Valia	14044	0	0	0	4040	0	4044	0	40201	40202	45751	0	0	0	X1	Wise Woman
+4044	Old Valia	14044	0	0	0	4040	0	4044	0	40201	40203	40202	45751	0	0	X1	Wise Woman
 4045	Joe	14045	0	0	0	4041	0	4045	0	40104	40105	0	0	0	0	X1	Exterminator
-4046	Derek	14046	0	0	0	0	0	4046	0	43601	0	0	0	0	0	X1	Ranger
-4047	Orothin	14047	0	0	0	0	0	4047	0	43501	0	0	0	0	0	X1	Hermit
-4048	The Spring Druid	14048	0	0	0	0	0	4048	0	42554	0	0	0	0	0	X1	
+4046	Derek	14046	0	0	0	0	0	4046	0	43601	43604	0	0	0	0	X1	Ranger
+4047	Orothin	14047	0	0	0	0	0	4047	0	43501	43502	0	0	0	0	X1	Hermit
+4048	The Spring Druid	14048	0	0	0	0	0	4048	0	42554	42556	0	0	0	0	X1	
 4049	Plague Cult member	14049	0	0	0	0	0	4049	0	47515	0	0	0	0	0	X1	
 4050	Plague Cult member	14050	0	0	0	0	0	4050	0	0	0	0	0	0	0	X1	
 4051	Plague Cult member	14051	0	0	0	0	0	4051	0	0	0	0	0	0	0	X1	
@@ -63,7 +63,7 @@ NPC Data (Special)			Group			Current	Profession	Greet	Join	Event	Event	Event	Eve
 4110	Thaddeus	14110	0	0	0	0	0	4110	0	0	0	0	0	0	0	X2	Guildmaster
 4111	Sister Amity	14111	0	0	0	0	0	4111	0	0	0	0	0	0	0	X2	
 4112	Garrick	14112	0	0	0	4062	0	4112	0	47556	0	0	0	0	0	X2	Stablemaster
-4113	Captain Nystor	14113	0	0	0	4063	0	4113	0	43651	0	0	0	0	0	X2	
+4113	Captain Nystor	14113	0	0	0	4063	0	4113	0	43651	43652	0	0	0	0	X2	
 4114	Barlow	14114	0	0	0	4065	0	4114	0	318	0	0	0	0	0	X2	Bruiser
 4115	Mrs. Kettle	14115	0	0	0	4066	0	4115	0	47557	0	0	0	0	0	X2	Gossip
 4116	Old Kettle	14116	0	0	0	4066	0	4116	0	0	0	0	0	0	0	X2	Peasant
@@ -101,16 +101,16 @@ NPC Data (Special)			Group			Current	Profession	Greet	Join	Event	Event	Event	Eve
 4148	Brother Cael	14148	0	0	0	4092	0	4148	0	348	0	0	0	0	0	X2	
 4149	Reed	14149	0	0	0	4093	0	4149	0	0	0	0	0	0	0	X2	Basket Weaver
 4150	Darlene	14150	0	0	0	4094	0	4150	0	47568	0	0	0	0	0	X2	Swimming Teacher
-4151	Barok	14151	0	0	0	4095	0	4151	0	42601	45801	0	0	0	0	X2	Sorcerer
-4152	Medin	14152	0	0	0	4096	0	4152	0	43151	0	0	0	0	0	X2	Fisherman
-4153	Tito	14153	0	0	0	4097	0	4153	0	43401	349	0	0	0	0	X2	Elf Priest
-4154	Danulf	14154	0	0	0	0	0	4154	0	43351	43352	0	0	0	0	X2	Faery King
+4151	Barok	14151	0	0	0	4095	0	4151	0	42601	42603	45801	0	0	0	X2	Sorcerer
+4152	Medin	14152	0	0	0	4096	0	4152	0	43151	43152	0	0	0	0	X2	Fisherman
+4153	Tito	14153	0	0	0	4097	0	4153	0	43401	43402	349	0	0	0	X2	Elf Priest
+4154	Danulf	14154	0	0	0	0	0	4154	0	43351	43353	43352	0	0	0	X2	Faery King
 4155	Ligono	14155	0	0	0	0	0	4155	0	43451	43452	0	0	0	0	X2	Restless Spirit
 4156	Velda	14156	0	0	0	4098	0	4156	0	0	0	0	0	0	0	X2	Sorceress for Hire
 4157	Ysmay	14157	0	0	0	4098	0	4157	0	0	0	0	0	0	0	X2	Sorceress for Hire
 4158	Sparrow	14158	0	0	0	4080	0	4158	0	396	399	0	0	0	0	X2	Pit Fighter
 4201	Ebenezer	14201	0	0	0	4101	0	4201	0	40401	40402	40452	47651	0	0	X3	Taxman
-4202	Mirabeth	14202	0	0	0	0	0	4202	0	43101	47652	0	0	0	0	X3	Mermaid
+4202	Mirabeth	14202	0	0	0	0	0	4202	0	43101	43102	47652	0	0	0	X3	Mermaid
 4203	Brother Tobit	14203	0	0	0	4102	0	4203	0	48501	0	0	0	0	0	X3	
 4204	Mordecai	14204	0	0	0	4103	0	4204	0	360	0	0	0	0	0	X3	Moon Guildmaster
 4205	Count Du Monay	14205	0	0	0	4105	0	4205	0	42851	42852	366	0	0	0	X3	
@@ -134,10 +134,10 @@ NPC Data (Special)			Group			Current	Profession	Greet	Join	Event	Event	Event	Eve
 4282	Sir Percival Hale	14282	0	0	0	4142	0	4282	0	48701	391	0	0	0	0	XD-13	
 4283	Father Cuthbert	14283	0	0	0	4143	0	4283	0	48702	0	0	0	0	0	XD-13	
 4284	Lyle Ledger	14284	0	0	0	4144	0	4284	0	48703	0	0	0	0	0	XD-13	Steward of the Counting Room
-4301	Adam	14301	0	0	0	0	0	4301	0	42751	0	0	0	0	0	X4	Townsman of Asp
-4302	Eve	14302	0	0	0	0	0	4302	0	42752	0	0	0	0	0	X4	Townswoman of Asp
-4303	Carlawna	14303	0	0	0	4166	0	4303	0	43001	45851	47701	0	0	0	X4	Cleric
-4304	Falagar	14304	0	0	0	4167	0	4304	0	43051	47702	0	0	0	0	X4	Wizard
+4301	Adam	14301	0	0	0	0	0	4301	0	42751	42753	0	0	0	0	X4	Townsman of Asp
+4302	Eve	14302	0	0	0	0	0	4302	0	42752	42754	0	0	0	0	X4	Townswoman of Asp
+4303	Carlawna	14303	0	0	0	4166	0	4303	0	43001	43002	45851	47701	0	0	X4	Cleric
+4304	Falagar	14304	0	0	0	4167	0	4304	0	43051	43052	47702	0	0	0	X4	Wizard
 4305	Gareth	14305	0	0	0	4151	0	4305	0	310	0	0	0	0	0	X4	Royal Armourer
 4306	Hilda Ironsides	14306	0	0	0	4152	0	4306	0	333	0	0	0	0	0	X4	Mailwright
 4307	Father Anselm	14307	0	0	0	4153	0	4307	0	48551	357	0	0	0	0	X4	
@@ -170,13 +170,13 @@ NPC Data (Special)			Group			Current	Profession	Greet	Join	Event	Event	Event	Eve
 4343	Corin Dale	14343	0	0	0	4184	0	4343	0	48568	0	0	0	0	0	X4	Cobbler
 4344	Mother Ophidia	14344	0	0	0	4185	0	4344	0	48569	0	0	0	0	0	X4	
 4345	Lem Tallow	14345	0	0	0	4186	0	4345	0	48570	0	0	0	0	0	X4	Miller
-4401	King Burlock	14401	0	0	0	4201	0	4401	0	40251	40252	41755	41951	47601	0	XD-07	
+4401	King Burlock	14401	0	0	0	4201	0	4401	0	40251	40252	41755	41756	41951	47601	XD-07	
 4402	Artemus	14402	0	0	0	4202	0	4402	0	40301	40351	40601	41101	47602	47605	XD-07	Royal Advisor
 4403	Emerson	14403	0	0	0	4203	0	4403	0	40451	40501	40551	41102	47603	0	XD-07	Royal Engineer
-4404	Princess Roxanne	14404	0	0	0	4204	0	4404	0	42651	45951	47604	0	0	0	XD-07	
+4404	Princess Roxanne	14404	0	0	0	4204	0	4404	0	42651	42652	45951	47604	0	0	XD-07	
 4405	Prince Roland	14405	0	0	0	4201	0	4405	0	40253	40254	42101	0	0	0	XD-07	
 4501	Casper	14501	0	0	0	4251	0	4501	0	48601	48602	0	0	0	0	X5	Mindmeld Guildmaster
-4502	Mayor Randon	14502	0	0	0	0	0	4502	0	42801	0	0	0	0	0	X5	
+4502	Mayor Randon	14502	0	0	0	0	0	4502	0	42801	42802	0	0	0	0	X5	
 4503	Ulla	14503	0	0	0	4252	0	4503	0	48603	0	0	0	0	0	X5	Innkeeper
 4504	Father Ingram	14504	0	0	0	4253	0	4504	0	48604	0	0	0	0	0	X5	
 4505	Morwenna the Shade	14505	0	0	0	4254	0	4505	0	361	0	0	0	0	0	X5	Mistress of Shadows
@@ -194,24 +194,24 @@ NPC Data (Special)			Group			Current	Profession	Greet	Join	Event	Event	Event	Eve
 4517	Bram	14517	0	0	0	4267	0	4517	0	48611	0	0	0	0	0	X5	Woodcutter
 4518	Liesl	14518	0	0	0	4267	0	4518	0	48612	0	0	0	0	0	X5	Bram's Daughter
 4519	Tobin Snow	14519	0	0	0	4268	0	4519	0	48613	0	0	0	0	0	X5	Town Clerk
-4521	Kai Wu	14521	0	0	0	4270	0	4521	0	42701	42702	301	0	0	0	X5	Master of the Monastery
+4521	Kai Wu	14521	0	0	0	4270	0	4521	0	42701	42703	42702	301	0	0	X5	Master of the Monastery
 4522	Brother Lin	14522	0	0	0	4271	0	4522	0	48614	0	0	0	0	0	X5	
 4523	Sister Mei	14523	0	0	0	4271	0	4523	0	0	0	0	0	0	0	X5	
-4524	Glom	14524	0	0	0	4272	0	4524	0	43301	0	0	0	0	0	X5	Gnome King
+4524	Glom	14524	0	0	0	4272	0	4524	0	43301	43302	0	0	0	0	X5	Gnome King
 4525	Fizzwick	14525	0	0	0	4273	0	4525	0	48615	0	0	0	0	0	X5	Steward of the Gnome King
-4526	Halon the Efficient	14526	0	0	0	4274	0	4526	0	43201	0	0	0	0	0	X5	Clockmaker
+4526	Halon the Efficient	14526	0	0	0	4274	0	4526	0	43201	43202	0	0	0	0	X5	Clockmaker
 4527	Freeda	14527	0	0	0	0	0	4527	0	48616	382	0	0	0	0	X5	Mountaineer
-4528	Thickbark	14528	0	0	0	0	0	4528	0	43251	0	0	0	0	0	X5	Learned Tree
+4528	Thickbark	14528	0	0	0	0	0	4528	0	43251	43252	0	0	0	0	X5	Learned Tree
 4529	The Winter Druid	14529	0	0	0	0	0	4529	0	42553	0	0	0	0	0	X5	
 4530	Shinobu	14530	0	0	0	0	0	4530	0	46051	0	0	0	0	0	X5	Heir of the Clan
-4601	The Summer Druid	14601	0	0	0	0	0	4601	0	42551	0	0	0	0	0	X6	
+4601	The Summer Druid	14601	0	0	0	0	0	4601	0	42551	42555	0	0	0	0	X6	
 4602	Saul	14602	0	0	0	0	0	4602	0	48651	385	0	0	0	0	X6	Hermit
 4603	Hadda	14603	0	0	0	0	0	4603	0	0	0	0	0	0	0	X6	Keeper of the Last Waterskin
 4604	Oskar	14604	0	0	0	0	0	4604	0	0	0	0	0	0	0	X6	Caravan Master
 4605	Gorm	14605	0	0	0	0	0	4605	0	0	0	0	0	0	0	X6	Coachman of the Warzone
 4606	Old Ibb	14606	0	0	0	4303	0	4606	0	0	0	0	0	0	0	X6	Well Keeper
 4607	Tansy	14607	0	0	0	4304	0	4607	0	0	0	0	0	0	0	X6	Saddler
-4608	Arie	14608	0	0	0	0	0	4608	0	42901	0	0	0	0	0	X6	Apprentice
+4608	Arie	14608	0	0	0	0	0	4608	0	42901	42902	0	0	0	0	X6	Apprentice
 4609	Varro	14609	0	0	0	0	0	4609	0	704	0	0	0	0	0	X6	Arena Master
 4701	Wilbur	14701	0	0	0	4353	0	4701	0	49251	0	0	0	0	0	XD-17	Snackmaster
 4702	Kublai Khan	14702	0	0	0	4353	0	4702	0	0	0	0	0	0	0	XD-17	Bouncer
@@ -237,7 +237,7 @@ NPC Data (Special)			Group			Current	Profession	Greet	Join	Event	Event	Event	Eve
 4902	Ingrid Chainmaker	14902	0	0	0	4452	0	4902	0	331	0	0	0	0	0	D1	Mailwright
 4903	Philippa	14903	0	0	0	4453	0	4903	0	48751	0	0	0	0	0	D1	Lampkeeper
 4904	Zelda	14904	0	0	0	4454	0	4904	0	40751	0	0	0	0	0	D1	Herbalist
-4905	Dreyfus	14905	0	0	0	4455	0	4905	0	44301	44302	46151	319	0	0	D1	High Priest of Mok
+4905	Dreyfus	14905	0	0	0	4455	0	4905	0	44301	44303	44302	46151	319	0	D1	High Priest of Mok
 4906	Bertha	14906	0	0	0	4456	0	4906	0	48752	48753	0	0	0	0	D1	Innkeeper
 4907	Crispin Mint	14907	0	0	0	4457	0	4907	0	48754	0	0	0	0	0	D1	Banker
 4908	Captain Varga	14908	0	0	0	4458	0	4908	0	48755	0	0	0	0	0	D1	
@@ -246,16 +246,16 @@ NPC Data (Special)			Group			Current	Profession	Greet	Join	Event	Event	Event	Eve
 4911	Marisol	14911	0	0	0	4461	0	4911	0	48757	343	0	0	0	0	D1	Water Guildmistress
 4912	Grund	14912	0	0	0	4462	0	4912	0	48758	0	0	0	0	0	D1	Earth Guildmaster
 4913	Sister Prudence	14913	0	0	0	0	0	4913	0	0	0	0	0	0	0	D1	
-4914	Kramer	14914	0	0	0	4464	0	4914	0	44551	44552	46156	0	0	0	D1	Caravan Master
+4914	Kramer	14914	0	0	0	4464	0	4914	0	44551	44559	44552	46156	0	0	D1	Caravan Master
 4915	Old Hamish	14915	0	0	0	4465	0	4915	0	48759	0	0	0	0	0	D1	Innkeeper of the Adventurer's Inn
-4916	Mayor Snarfblad	14916	0	0	0	4466	0	4916	0	44051	44052	0	0	0	0	D1	
+4916	Mayor Snarfblad	14916	0	0	0	4466	0	4916	0	44051	44056	44052	0	0	0	D1	
 4917	Warden Krupp	14917	0	0	0	4468	0	4917	0	44102	0	0	0	0	0	D1	Jailer
 4918	Jasper	14918	0	0	0	4468	0	4918	0	44103	0	0	0	0	0	D1	Prisoner
-4919	Jethro	14919	0	0	0	4469	0	4919	0	43701	44101	0	0	0	0	D1	Mapmaker
-4920	Dyson	14920	0	0	0	4470	0	4920	0	44201	394	0	0	0	0	D1	Puzzlemaster
-4921	Madame Oorla	14921	0	0	0	4471	0	4921	0	40752	40753	0	0	0	0	D1	Gypsy
-4922	Nadia	14922	0	0	0	4472	0	4922	0	40801	0	0	0	0	0	D1	Ellinger's Housekeeper
-4923	Brother Otto	14923	0	0	0	4473	0	4923	0	44151	397	0	0	0	0	D1	
+4919	Jethro	14919	0	0	0	4469	0	4919	0	43701	44101	44104	0	0	0	D1	Mapmaker
+4920	Dyson	14920	0	0	0	4470	0	4920	0	44201	44202	394	0	0	0	D1	Puzzlemaster
+4921	Madame Oorla	14921	0	0	0	4471	0	4921	0	40752	40754	40753	0	0	0	D1	Gypsy
+4922	Nadia	14922	0	0	0	4472	0	4922	0	40801	40802	0	0	0	0	D1	Ellinger's Housekeeper
+4923	Brother Otto	14923	0	0	0	4473	0	4923	0	44151	44156	397	0	0	0	D1	
 4924	Sister Hannah	14924	0	0	0	4474	0	4924	0	44152	400	0	0	0	0	D1	
 4925	Brother Bob	14925	0	0	0	4475	0	4925	0	44153	0	0	0	0	0	D1	
 4926	Sister Ada	14926	0	0	0	4476	0	4926	0	44154	0	0	0	0	0	D1	
@@ -281,20 +281,20 @@ NPC Data (Special)			Group			Current	Profession	Greet	Join	Event	Event	Event	Eve
 4946	Simon	14946	0	0	0	4496	0	4946	0	44352	0	0	0	0	0	D1	Emerald Smith
 4947	Toby	14947	0	0	0	4497	0	4947	0	44353	0	0	0	0	0	D1	Sapphire Smith
 4948	Hector	14948	0	0	0	4498	0	4948	0	44354	0	0	0	0	0	D1	Diamond Smith
-4949	Vespar	14949	0	0	0	4499	0	4949	0	44401	0	0	0	0	0	D1	Wizard
-4950	Brother Reger	14950	0	0	0	4500	0	4950	0	44155	46157	0	0	0	0	D1	
+4949	Vespar	14949	0	0	0	4499	0	4949	0	44401	44402	0	0	0	0	D1	Wizard
+4950	Brother Reger	14950	0	0	0	4500	0	4950	0	44155	44157	46157	0	0	0	D1	
 4951	Justine	14951	0	0	0	0	0	4951	0	40701	0	0	0	0	0	D1	Thief
-4952	Luna	14952	0	0	0	0	0	4952	0	45001	45002	46153	0	0	0	D1	Druid
+4952	Luna	14952	0	0	0	0	0	4952	0	45001	45003	46153	0	0	0	D1	Druid
 4953	Yog	14953	0	0	0	0	0	4953	0	44601	44602	44603	44604	0	0	D1	Barbarian Chief
-4954	Ellinger	14954	0	0	0	0	0	4954	0	40851	40951	41301	0	0	0	D1	Wizard
+4954	Ellinger	14954	0	0	0	0	0	4954	0	40851	40852	40951	41301	41302	0	D1	Wizard
 4955	Gettlewaithe	14955	0	0	0	0	0	4955	0	44053	44054	44055	0	0	0	D1	King of the Gremlins
 4956	Joe	14956	0	0	0	0	0	4956	0	43702	43703	0	0	0	0	D1	Mapmaker
-4957	Valio the Simple	14957	0	0	0	0	0	4957	0	44251	0	0	0	0	0	D1	Peasant
+4957	Valio the Simple	14957	0	0	0	0	0	4957	0	44251	44252	0	0	0	0	D1	Peasant
 4958	Felix	14958	0	0	0	0	0	4958	0	0	0	0	0	0	0	D1	Tinker
-5001	Queen Kalindra	15001	0	0	0	0	0	5001	0	41351	42102	0	0	0	0	DD-03	
+5001	Queen Kalindra	15001	0	0	0	0	0	5001	0	41351	41353	42102	0	0	0	DD-03	
 5002	Gem	15002	0	0	0	4501	0	5002	0	49001	388	389	0	0	0	DD-03	Steward of the Throne
 5003	Errol	15003	0	0	0	4501	0	5003	0	49002	406	407	0	0	0	DD-03	Master of Arms
-5004	Dimitri	15004	0	0	0	4502	0	5004	0	41002	41201	46003	0	0	0	DD-03	Captain of the Guard
+5004	Dimitri	15004	0	0	0	4502	0	5004	0	41002	41201	41203	46003	0	0	DD-03	Captain of the Guard
 5005	Megan	15005	0	0	0	4503	0	5005	0	41001	41202	0	0	0	0	DD-03	Dimitri's Daughter
 5006	Astronomer Tycho	15006	0	0	0	4504	0	5006	0	49003	373	0	0	0	0	DD-03	Keeper of the Telescope
 5007	Guido	15007	0	0	0	4505	0	5007	0	0	0	0	0	0	0	DD-03	Convict
@@ -305,7 +305,7 @@ NPC Data (Special)			Group			Current	Profession	Greet	Join	Event	Event	Event	Eve
 5012	Groom Wendell	15012	0	0	0	4510	0	5012	0	49006	0	0	0	0	0	DD-03	
 5013	Sir Roderic	15013	0	0	0	4511	0	5013	0	49007	326	0	0	0	0	DD-03	
 5014	Carl	15014	0	0	0	0	0	5014	0	0	0	0	0	0	0	DD-03	Mason
-5101	Sharla	15101	0	0	0	4553	0	5101	0	44501	44502	44503	44504	46152	0	D2	Queen of the Sprites
+5101	Sharla	15101	0	0	0	4553	0	5101	0	44501	44510	44502	44503	44504	46152	D2	Queen of the Sprites
 5102	Dewdrop	15102	0	0	0	4551	0	5102	0	48851	0	0	0	0	0	D2	Sprite Potioner
 5103	Lumen	15103	0	0	0	4552	0	5103	0	48852	0	0	0	0	0	D2	Sprite Lightkeeper
 5104	Mossbell	15104	0	0	0	4554	0	5104	0	48853	0	0	0	0	0	D2	Sprite
@@ -335,8 +335,8 @@ NPC Data (Special)			Group			Current	Profession	Greet	Join	Event	Event	Event	Eve
 5214	Mindwright Orsolo	15214	0	0	0	4615	0	5214	0	353	0	0	0	0	0	D3	Wizard of the Mind
 5215	Appraiser Quince	15215	0	0	0	4616	0	5215	0	374	0	0	0	0	0	D3	
 5216	Alchemist Morvenna	15216	0	0	0	4617	0	5216	0	413	0	0	0	0	0	D3	Wizard of the Alembic
-5217	Astra	15217	0	0	0	4618	0	5217	0	44701	44702	44703	46154	0	0	D3	Good Sorceress
-5218	Natasha	15218	0	0	0	4619	0	5218	0	41251	0	0	0	0	0	D3	Enchantress
+5217	Astra	15217	0	0	0	4618	0	5217	0	44701	44706	44702	44703	46154	0	D3	Good Sorceress
+5218	Natasha	15218	0	0	0	4619	0	5218	0	41251	41255	0	0	0	0	D3	Enchantress
 5219	Madame Gloriana	15219	0	0	0	4620	0	5219	0	48907	0	0	0	0	0	D3	Palm Reader
 5220	Merchant Hassan	15220	0	0	0	4621	0	5220	0	376	0	0	0	0	0	D3	Master of Trade
 5221	Master Faisal	15221	0	0	0	4622	0	5221	0	415	0	0	0	0	0	D3	
@@ -363,8 +363,8 @@ NPC Data (Special)			Group			Current	Profession	Greet	Join	Event	Event	Event	Eve
 5242	Jamila	15242	0	0	0	0	0	5242	0	0	0	0	0	0	0	D3	Necklace Seller
 5243	Bashir	15243	0	0	0	0	0	5243	0	0	0	0	0	0	0	D3	Belt Seller
 5244	Kadir	15244	0	0	0	4645	0	5244	0	48925	0	0	0	0	0	D3	Boot Seller
-5245	Caleb	15245	0	0	0	4646	0	5245	0	44751	0	0	0	0	0	D3	Inventor
-5246	Thaddeus	15246	0	0	0	4648	0	5246	0	44901	44903	44951	0	0	0	D3	Fountain Keeper
+5245	Caleb	15245	0	0	0	4646	0	5245	0	44751	44752	0	0	0	0	D3	Inventor
+5246	Thaddeus	15246	0	0	0	4648	0	5246	0	44901	44904	44903	44951	44953	0	D3	Fountain Keeper
 5247	Cornelius	15247	0	0	0	0	0	5247	0	48926	388	0	0	0	0	D3	Leprechaun
 5248	Blastem	15248	0	0	0	0	0	5248	0	44704	44705	0	0	0	0	D3	Wizard
 5301	Grizel	15301	0	0	0	4651	0	5301	0	49051	0	0	0	0	0	D4	Guildmistress of Lakeside
@@ -384,11 +384,11 @@ NPC Data (Special)			Group			Current	Profession	Greet	Join	Event	Event	Event	Eve
 5315	Widow Marsh	15315	0	0	0	4665	0	5315	0	49058	0	0	0	0	0	D4	
 5316	Skiff	15316	0	0	0	4666	0	5316	0	49059	0	0	0	0	0	D4	Boatwright
 5317	Slibo	15317	0	0	0	0	0	5317	0	43704	0	0	0	0	0	D4	Wizard of Magic Mountain
-5318	Naomi	15318	0	0	0	0	0	5318	0	45101	45102	0	0	0	0	D4	Prisoner of the Coven
+5318	Naomi	15318	0	0	0	0	0	5318	0	45101	45103	45102	0	0	0	D4	Prisoner of the Coven
 5319	Leafpoint	15319	0	0	0	0	0	5319	0	46101	0	0	0	0	0	D4	Elder Tree
-5320	Ector	15320	0	0	0	0	0	5320	0	45051	0	0	0	0	0	D4	Woodsman
+5320	Ector	15320	0	0	0	0	0	5320	0	45051	45052	0	0	0	0	D4	Woodsman
 5321	Tern	15321	0	0	0	0	0	5321	0	0	0	0	0	0	0	D4	Ferryman's Mate
-5401	Bosco	15401	0	0	0	4704	0	5401	0	44851	0	0	0	0	0	DD-25	Dwarf King
+5401	Bosco	15401	0	0	0	4704	0	5401	0	44851	44853	0	0	0	0	DD-25	Dwarf King
 5402	Durgan Ironfist	15402	0	0	0	4701	0	5402	0	311	0	0	0	0	0	DD-25	Royal Axesmith
 5403	Brunna	15403	0	0	0	4702	0	5403	0	49201	0	0	0	0	0	DD-25	Keeper of the Alehall
 5404	Stonebeard	15404	0	0	0	4703	0	5404	0	49202	347	0	0	0	0	DD-25	Earth Guildmaster
@@ -407,8 +407,8 @@ NPC Data (Special)			Group			Current	Profession	Greet	Join	Event	Event	Event	Eve
 5509	Old Bones	15509	0	0	0	4760	0	5509	0	49105	395	0	0	0	0	D6	Trapsmith
 5510	Digby	15510	0	0	0	4761	0	5510	0	49106	0	0	0	0	0	D6	Gravedigger
 5511	The Weeping Lady	15511	0	0	0	4762	0	5511	0	49107	0	0	0	0	0	D6	Ghost
-5512	Ambrose	15512	0	0	0	0	0	5512	0	41252	41253	41254	41352	0	0	D6	Queen's Knight
-5513	Corak	15513	0	0	0	0	0	5513	0	41601	41602	0	0	0	0	D6	Guardian
+5512	Ambrose	15512	0	0	0	0	0	5512	0	41252	41253	41256	41254	41352	0	D6	Queen's Knight
+5513	Corak	15513	0	0	0	0	0	5513	0	41601	41603	41602	0	0	0	D6	Guardian
 5601	Hephaestus	15601	0	0	0	0	0	5601	0	0	0	0	0	0	0	D7	Smith of the Gods
 5602	Dionysus	15602	0	0	0	4802	0	5602	0	49151	0	0	0	0	0	D7	Keeper of the Nectar House
 5603	Pythia	15603	0	0	0	0	0	5603	0	0	0	0	0	0	0	D7	Priestess of Olympus
@@ -424,7 +424,7 @@ NPC Data (Special)			Group			Current	Profession	Greet	Join	Event	Event	Event	Eve
 5613	Hera	15613	0	0	0	4814	0	5613	0	49156	404	0	0	0	0	D7	Queen of the Gods
 5614	Cyrano Jones	15614	0	0	0	4815	0	5614	0	45401	45402	0	0	0	0	DD-26	Salesman
 5701	Grimbold	15701	0	0	0	4851	0	5701	0	379	0	0	0	0	0	XD-02	Dwarf Smith
-5702	Scaldrith	15702	0	0	0	4852	0	5702	0	43751	43752	371	0	0	0	XD-18	Collector of the Dragon Tax
+5702	Scaldrith	15702	0	0	0	4852	0	5702	0	43751	43753	43752	371	0	0	XD-18	Collector of the Dragon Tax
 5703	Ashkaroth	15703	0	0	0	4853	0	5703	0	0	0	0	0	0	0	FD-04	Eldest Wyrm
-5704	Picard the Aged	15704	0	0	0	0	0	5704	0	42001	0	0	0	0	0	FD-02	
+5704	Picard the Aged	15704	0	0	0	0	0	5704	0	42001	42002	0	0	0	0	FD-02	
 5705	Alister	15705	0	0	0	0	0	5705	0	45551	0	0	0	0	0	FD-04	Druid

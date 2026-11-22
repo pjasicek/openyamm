@@ -21,7 +21,7 @@ steps:
   # D-82 point 5: no member down before the rounds (each reads every member's class).
   - play_lua: {source: "local shown, down = {}, {}; for i = 0, 3 do local c = conditions(i); shown[#shown + 1] = '[' .. c .. ']'; for _, n in ipairs({'Dead', 'Eradicated', 'Petrified', 'Paralyzed', 'Unconscious'}) do if (' ' .. c .. ' '):find(' ' .. n .. ' ', 1, true) then down[#down + 1] = 'member ' .. i .. ' ' .. c; break end end end; log('PARTY 53 before the class table: ' .. table.concat(shown, ' ')); if #down > 0 then error('PARTY DOWN before the class table (D-82 5): ' .. table.concat(down, ' | ')) end"}
 
-  # leafpoint: GreatDruid -> ArchDruid. Leafpoint (T2-LEAFPOINT): "Civilized ones".
+  # leafpoint: GreatDruid -> ArchDruid. Leafpoint (T2-LEAFPOINT): "Promotion".
   # Round 1: GreatDruid Warlock ArchDruid Druid -> ArchDruid Warlock ArchDruid Druid.
   - lua_event: {source: "if not SetPlayerClass(0, 'GreatDruid') then error('SetPlayerClass(0, GreatDruid)') end if not SetPlayerClass(1, 'Warlock') then error('SetPlayerClass(1, Warlock)') end if not SetPlayerClass(2, 'ArchDruid') then error('SetPlayerClass(2, ArchDruid)') end if not SetPlayerClass(3, 'Druid') then error('SetPlayerClass(3, Druid)') end"}
   - play_lua: {source: 'local c = classes() log("CLASSES leafpoint round 1 set: " .. c) if c ~= "GreatDruid Warlock ArchDruid Druid" then error("expected GreatDruid Warlock ArchDruid Druid, got " .. c) end'}
@@ -29,12 +29,12 @@ steps:
   - advance_runtime: {seconds: 0.5}
   - clear_hostiles: {radius: 3000}
   - interact_actor: {actor_index: 22}
-  - assert: {dialog: {active: true, source_id: 5319, action_label_present: "Civilized ones"}}
-  - select_topic: {match_label: "Civilized ones"}
+  - assert: {dialog: {active: true, source_id: 5319, action_label_present: "Promotion"}}
+  - select_topic: {match_label: "Promotion"}
   - assert: {dialog: {active: true, text_contains: "Another druid who listens to trees."}}
   - play_lua: {source: 'local c = classes() log("CLASSES leafpoint round 1 promoted: " .. c) if c ~= "ArchDruid Warlock ArchDruid Druid" then error("expected ArchDruid Warlock ArchDruid Druid, got " .. c) end'}
   # Nobody left: asked again, the line for a party with nobody to promote.
-  - select_topic: {match_label: "Civilized ones"}
+  - select_topic: {match_label: "Promotion"}
   - assert: {dialog: {active: true, text_contains: "The wind says Thickbark has grown a new ring"}}
   - play_lua: {source: 'local c = classes() log("CLASSES leafpoint round 1 again: " .. c) if c ~= "ArchDruid Warlock ArchDruid Druid" then error("expected ArchDruid Warlock ArchDruid Druid, got " .. c) end'}
   - press_action: {action: cancel_dialog}
@@ -46,8 +46,8 @@ steps:
   - advance_runtime: {seconds: 0.5}
   - clear_hostiles: {radius: 3000}
   - interact_actor: {actor_index: 22}
-  - assert: {dialog: {active: true, source_id: 5319, action_label_present: "Civilized ones"}}
-  - select_topic: {match_label: "Civilized ones"}
+  - assert: {dialog: {active: true, source_id: 5319, action_label_present: "Promotion"}}
+  - select_topic: {match_label: "Promotion"}
   - assert: {dialog: {active: true, text_contains: "The wind says Thickbark has grown a new ring"}}
   - press_action: {action: cancel_dialog}
   - play_lua: {source: "for _ = 1, 3 do if not close() then break end end"}

@@ -93,7 +93,7 @@ steps:
   - press_interact: {expect: {kind: event_target}}
   - assert:
       dialog: {active: true, house_dialog: false, source_id: 4904}
-  - select_topic: {match_label: "The orb"}
+  - select_topic: {action_id: 40751, match_label: "Quest"}
   - assert:
       dialog: {text_contains: "Something fell out of the sky last month"}
   - press_action: {action: cancel_dialog}
@@ -108,7 +108,7 @@ steps:
   - press_interact: {expect: {kind: event_target}}
   - assert:
       dialog: {active: true, source_id: 4921}
-  - select_topic: {match_label: "The orb"}
+  - select_topic: {action_id: 40752, match_label: "Quest"}
   - assert:
       dialog: {text_contains: "This orb belongs to the Dragon Pharaoh"}
   - select_topic: {match_label: "Fortune"}
@@ -123,7 +123,7 @@ steps:
   - press_interact: {expect: {kind: event_target}}
   - assert:
       dialog: {active: true, source_id: 4922}
-  - select_topic: {match_label: "Necklace"}
+  - select_topic: {action_id: 40801, match_label: "Quest"}
   - assert:
       dialog: {text_contains: "The rats came up the drain"}
   - press_action: {action: cancel_dialog}

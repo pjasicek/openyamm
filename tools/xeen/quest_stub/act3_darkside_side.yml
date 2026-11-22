@@ -12,7 +12,7 @@ steps:
   # Q-D1, peaceful: the notice, the court's three rounds, the guards beaten, the gift
   - hook: q-d1.gate_notice
   - expect: {qbit: q-d1.started}
-  - talk: [4916, Gremlins]
+  - talk: [4916, q-d1]
   - talk: [4955, The Mayor's demand]
   - expect: {not_qbit: q-d1.court_hostile}
   - talk: [4955, We come in peace]
@@ -23,7 +23,7 @@ steps:
   - talk: [4955, Submit or die]
   - expect: {qbit: [q-d1.court_peace, q-d1.court_won]}
   - hidden: [4916, "Gettlewaithe's gift"]
-  - talk: [4916, Gremlins]
+  - talk: [4916, q-d1]
   - expect: {qbit: q-d1.done, item: castleview_pass, xp: 5000, gold: 2500}
   - talk: [4916, "Gettlewaithe's gift"]
   - expect: {qbit: q-d1.gift_paid, count: [energy_disk, 3]}
@@ -31,50 +31,50 @@ steps:
   - set: q-d1.gettlewaithe_slain
   - hook: [q-d1.throne, false]
   # Q-D2 and Q-C24: Joe's map is the warden's proof, then Jethro's trade, then Slibo
-  - talk: [4919, Jasper]
+  - talk: [4919, q-d2]
   - expect: {qbit: q-d2.started}
   - talk: [4917, Jasper]
   - expect: {not_qbit: q-d2.jasper_freed}
-  - talk: [4956, Treasure map]
+  - talk: [4956, q-c24]
   - expect: {qbit: [q-c24.map_bought, q-c24.started], item: fake_treasure_map, gold: 1500}
-  - talk: [4956, Treasure map]
+  - talk: [4956, q-c24]
   - expect: {count: [fake_treasure_map, 1], gold: 1500}
   - talk: [4917, Jasper]
   - expect: {qbit: q-d2.jasper_freed, item: fake_treasure_map}
   - hook: [q-d2.jail_window, false]
-  - talk: [4919, Jasper]
+  - talk: [4919, q-d2]
   - expect: {qbit: q-d2.done, xp: 9000, gold: 2500}
-  - talk: [4919, "Joe's map"]
+  - talk: [4919, q-c24]
   - expect: {qbit: q-c24.done, item: real_treasure_map, no_item: fake_treasure_map, xp: 11000}
   - talk: [5317, Treasure map]
   - expect: {qbit: q-c24.map_sold, no_item: real_treasure_map, gold: 6500}
   - hook: [q-c24.cairn, false]
   # Q-D4: both rows of chests
-  - talk: [4920, The chests]
+  - talk: [4920, q-d4]
   - expect: {qbit: q-d4.started}
   - hook: q-d4.number_chests
-  - talk: [4920, The chests]
+  - talk: [4920, q-d4]
   - expect: {not_qbit: q-d4.done}
   - hook: q-d4.letter_chests
-  - talk: [4920, The chests]
+  - talk: [4920, q-d4]
   - expect: {qbit: q-d4.done, xp: 13000, gold: 7000}
   # Q-D5: Rooka, then Valio's chest after he pays
-  - talk: [4957, Rats]
+  - talk: [4957, q-d5]
   - expect: {qbit: q-d5.started}
   - hook: q-d5.rooka
   - expect: {qbit: q-d5.rooka_slain, xp: 16000}
-  - talk: [4957, Rats]
+  - talk: [4957, q-d5]
   - expect: {qbit: q-d5.done}
   - hook: q-d5.valio_chest
   - expect: {qbit: q-d5.chest_opened, not_qbit: q-d5.valio_angered}
   # Q-D7: five ruby rocks and two gems
-  - talk: [4945, Ruby work]
+  - talk: [4945, q-d7]
   - expect: {qbit: q-d7.started, no_item: ruby_gear}
   - give: [ruby_rock, 5]
-  - talk: [4945, Ruby work]
+  - talk: [4945, q-d7]
   - expect: {no_item: ruby_gear, count: [ruby_rock, 5]}
   - give: ["engine:177", 2]
-  - talk: [4945, Ruby work]
+  - talk: [4945, q-d7]
   - expect: {item: ruby_gear, count: ["engine:177", 0], no_item: ruby_rock}
   # the God of Minerals (D-27): full mountains refuse, a dug vein and 10,000 gold refill all three pockets
   - hook: q-d7.god_of_minerals
@@ -87,26 +87,26 @@ steps:
   - hook: q-d7.god_of_minerals
   - expect: {qbit: [q-d7.refill_a, q-d7.refill_b, q-d7.refill_c], not_qbit: q-d7.dug, gold: 7000}
   # Q-D8: the handle, the pass, the gate
-  - talk: [4949, Emerald handle]
+  - talk: [4949, q-d8]
   - expect: {qbit: q-d8.started}
   - hook: q-d8.sandcaster_gate   # D-89: Sandcaster is open
   - hook: q-d8.handle
-  - talk: [4949, Emerald handle]
+  - talk: [4949, q-d8]
   - expect: {qbit: q-d8.done, item: vespars_staff, no_item: vespars_handle, xp: 21000}
   - hook: q-d8.sandcaster_gate
   # Q-D9: three melons from the south, one from the field; the fourth goes to Nibbler too
-  - talk: [5106, Monga melons]
+  - talk: [5106, q-d9]
   - expect: {qbit: q-d9.started}
   - hook: q-d9.bark_door   # D-89: the temple is open
   - hook: q-d9.melons_south
   - give: [monga_melon, 4]
-  - talk: [5106, Monga melons]
+  - talk: [5106, q-d9]
   - expect: {qbit: q-d9.done, count: [monga_melon, 1], xp: 22000}
-  - talk: [5106, Monga melons]
+  - talk: [5106, q-d9]
   - expect: {no_item: monga_melon}
   - hook: q-d9.bark_door
   # Q-D10, polite: the alcoves, Shaalth, the cage, Sharla; the Hunter becomes a Ranger Lord
-  - talk: [5101, Sheewana]
+  - talk: [5101, q-d10]
   - expect: {qbit: q-d10.started}
   - talk: [5101, Certainly]
   - expect: {qbit: q-d10.polite}
@@ -127,7 +127,7 @@ steps:
   - hook: [q-d10.crystal_water, false]
   - talk: [5107, Home]
   - expect: {qbit: q-d10.sheewana_freed, xp: 28000}
-  - talk: [5101, Sheewana]
+  - talk: [5101, q-d10]
   - expect: {qbit: q-d10.done, class: [0, RangerLord], count: [energy_disk, 7], gold: 8000}
   - set: q-d10.sprites_slain
   - hook: [q-d10.treehouse, false]
@@ -159,16 +159,16 @@ steps:
   - hook: dd18.d5_grate
   - hook: dd18.tunnel_grate
   # Q-D14 (Act IV): Astra; the Rogue becomes a Spy
-  - talk: [5217, Xenoc and Morgana]
+  - talk: [5217, q-d14]
   - expect: {qbit: q-d14.asked, not_qbit: q-d14.started}
   - talk: [5217, Not our affair]
   - hidden: [5217, Not our affair]
   - talk: [5217, We will help]
   - expect: {qbit: q-d14.started}
   - set: q-d14.xenoc_slain
-  - talk: [5217, Xenoc and Morgana]
+  - talk: [5217, q-d14]
   - expect: {not_qbit: q-d14.done}
   - set: q-d14.morgana_slain
-  - talk: [5217, Xenoc and Morgana]
+  - talk: [5217, q-d14]
   - expect: {qbit: q-d14.done, class: [2, Spy], xp: 43000}
   - hidden: [5217, We will help]

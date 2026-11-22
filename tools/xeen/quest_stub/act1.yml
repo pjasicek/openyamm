@@ -7,31 +7,33 @@ steps:
   - hook: m1.opening
   - expect: {qbit: [m1.opening, m1.started, world.inn_vertigo]}
   - hook: [m1.opening, false]
-  - talk: [4003, Pests]
+  - talk: [4003, m1]
   - hook: m1.crodo_bottle_creek
   - expect: {qbit: [m1.bottle_creek, m1.crodo_lead]}
-  - talk: [4030, Joe]
+  - talk: [4030, m2]
   - expect: {qbit: m2.started}
   - talk: [4045, Warehouse]
   - talk: [4027, Joe's key]
   - hook: [m2.warehouse_door, false]
-  - give: warehouse_key   # D-90 (c): a ground item (m2.rain_barrel is a map_gives record)
+  - hook: m2.rain_barrel   # D-93: the rain barrel gives the key onto the cursor
+  - expect: {item: warehouse_key}
+  - hook: [m2.rain_barrel, false]
   - hidden: [4027, Joe's key]
   - hook: m2.warehouse_door
   - give: joes_invoice   # F15: the chest holds it (the hook only sets its bit)
   - hook: m2.invoice_crate
-  - talk: [4003, Joe's invoice]
+  - talk: [4003, m2]
   - expect: {qbit: [m2.done, m3.started], not_qbit: [m1.started, m2.started], no_item: joes_invoice, xp: 1500}
-  - hidden: [4003, Pests]
+  - hidden: [4003, m1]
   - hook: m2.gate_sign
   - hook: m2.out_of_business
   # M3
-  - talk: [4003, Dwarves]
+  - talk: [4003, m3]
   - set: m3.clan_king_slain
-  - talk: [4003, Dwarves]
+  - talk: [4003, m3]
   - expect: {qbit: m3.done, award: m3.badge, xp: 4000}
   # M4 and T1-A
-  - talk: [4044, Falista]
+  - talk: [4044, m4]
   - expect: {qbit: m4.started}   # D-89: no Crystal Key, the tower stands open
   - hook: m4.tower_door
   - hook: m4.cage_1
@@ -43,45 +45,45 @@ steps:
   - hook: m4.alacorn
   - hook: m4.cage_1
   - expect: {qbit: m4.child_rescued_1}
-  - talk: [4044, Falista]
+  - talk: [4044, m4]
   - expect: {not_qbit: m4.done}
   - set: m4.head_witch_slain
-  - talk: [4044, Falista]
+  - talk: [4044, m4]
   - expect: {qbit: m4.done, award: m4.crusaders, class: [0, Cavalier], no_item: alacorn}
   - expect: {class: [1, Crusader]}
   - expect: {class: [2, Sorcerer]}
   - expect: {class: [3, Hunter]}
   - talk: [4044, Children]
   - expect: {qbit: m4.children_home, xp: 12800}
-  - hidden: [4044, Crusaders]
+  - hidden: [4044, Promotion]
   - class: [2, Knight]
-  - talk: [4044, Crusaders]
+  - talk: [4044, Promotion]
   - expect: {class: [2, Cavalier], xp: 12800}
   # Q-C20, Q-C21, Q-C22, Oslo's son
-  - talk: [4047, Whistle]
+  - talk: [4047, q-c20]
   - hook: m4.tower_door
   - hook: q-c20.whistle
   - hook: [q-c20.statue_poison, false]
-  - talk: [4047, Whistle]
+  - talk: [4047, q-c20]
   - hook: q-c20.statue_poison
   - hook: [q-c20.statue_poison, false]
   - hook: q-c20.statue_disease
   - expect: {qbit: q-c20.done, item: "engine:471"}
-  - talk: [4042, Phirna root]
+  - talk: [4042, q-c21]
   - hook: q-c21.phirna_plant
   - hook: [q-c21.phirna_plant, false]
-  - talk: [4042, Phirna root]
+  - talk: [4042, q-c21]
   - hook: q-c21.phirna_plant
-  - talk: [4042, Phirna root]
+  - talk: [4042, q-c21]
   - expect: {item: "engine:226", qbit: q-c21.done}
-  - talk: [4046, Celia]
+  - talk: [4046, q-c22]
   - talk: [4041, Untie]
   - hidden: [4041, Untie]
-  - talk: [4046, Celia]
+  - talk: [4046, q-c22]
   - expect: {qbit: q-c22.done}
-  - talk: [4039, Tam]
+  - talk: [4039, x1-tam]
   - hook: x1-tam.tam
-  - talk: [4039, Tam]
+  - talk: [4039, x1-tam]
   - hook: x1-tam.drums
   - talk: [4039, Drums]
   - expect: {qbit: x1-tam.done}

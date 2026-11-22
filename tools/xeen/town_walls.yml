@@ -1,0 +1,107 @@
+# Walled towns and castles of the Xeen world: the enclosures tools/xeen/wall_check.py tests (F19, 2026-11-22).
+# Per map stem, a list of enclosures:
+#   name     what it is
+#   inside   [x, y] cells: points inside it (each must not reach the box's edge but through a seal)
+#   seals    [[x, y], [x, y]] cells: the ways in (gate passages, a bridge into town, a door), closed for the test
+#   box      [x0, y0, x1, y1] cells: the ground looked at; its edge counts as outside
+#   circuit  thing ids (glob) of the walls that close it: their ends must not stand on walkable land
+#   joints_ok thing ids (glob) of pieces meant to stand proud of the wall they meet (a bastion): no walls.step for them
+# Keep the seals to real ways in; a wall that needs a seal to pass is open.
+# A circuit that ends in water ends in a water end piece (thing:water_end*, tools/xeen/kit_pieces.py, D-94), checked
+# for every map by walls.water_end.
+xeen_x1:
+  - name: Vertigo
+    inside: [[53.5, 46.6], [44.0, 40.0], [60.5, 47.5]]
+    seals:
+      - [[51.1, 38.0], [52.9, 38.0]]      # north gate
+      - [[62.5, 45.1], [62.5, 46.9]]      # east gate
+      - [[41.5, 43.1], [41.5, 44.9]]      # west gate
+      - [[51.2, 52.0], [52.8, 52.0]]      # the bridge from the south gate over the creek
+    box: [37, 33, 68, 57]
+    circuit: ['thing:wall_run_*', 'thing:gate_arch_*']   # the creek ends: water end piers (D-94, walls.water_end)
+# X3's Newcastle walls are staged (untouchable and hidden until the castle is built, D-13): not an enclosure yet.
+xeen_x4:
+  - name: Burlock
+    inside: [[62.0, 56.0], [57.5, 54.0], [67.0, 53.0]]
+    seals:
+      - [[61.8, 62.0], [63.2, 62.0]]      # south gate
+      - [[69.0, 56.8], [69.0, 58.2]]      # east gate
+    box: [51, 40, 74, 66]
+    circuit: ['thing:village_wall*']
+xeen_x5:
+  - name: Winterkill cloister
+    inside: [[69.0, 31.5]]
+    seals:
+      - [[69.8, 36.3], [71.4, 36.3]]      # the cloister's gateway
+    box: [61, 24, 77, 39]
+    circuit: ['thing:cloister_wall']
+xeen_x6:
+  - name: Coach yard
+    inside: [[86.0, 96.0]]
+    seals:
+      - [[83.0, 95.3], [83.0, 96.7]]      # the yard gate
+    box: [78, 88, 94, 104]
+    circuit: ['thing:yard_wall']
+xeen_x7:
+  - name: Watch post
+    inside: [[66.5, 83.5]]
+    seals:
+      - [[64.6, 81.9], [64.6, 83.1]]      # the gate
+    box: [61, 76, 74, 89]
+    circuit: ['thing:watch_wall']
+xeen_d1:
+  - name: Castleview
+    inside: [[63.0, 54.0], [55.0, 50.0], [70.0, 60.0]]
+    seals:
+      - [[62.3, 44.0], [63.7, 44.0]]      # north gate
+      - [[51.7, 62.0], [52.8, 63.0]]      # Queen's gate
+    box: [46, 40, 80, 68]
+    circuit: ['thing:wall_*', 'thing:jetty_bastion']
+    joints_ok: ['thing:jetty_bastion']    # the bastion stands proud of the wall line on purpose (the jetty's pier)
+xeen_d2:
+  - name: West palisade
+    inside: [[72.0, 33.5]]
+    seals:
+      - [[71.3, 36.0], [72.7, 36.0]]
+    box: [67, 29, 77, 39]
+    circuit: ['thing:west_palisade']
+  - name: East palisade
+    inside: [[87.0, 44.5]]
+    seals:
+      - [[86.3, 42.2], [87.7, 42.2]]
+    box: [82, 39, 92, 50]
+    circuit: ['thing:east_palisade']
+xeen_d3:
+  - name: Sandcaster
+    inside: [[31.0, 36.5], [43.5, 24.0], [43.5, 33.0]]
+    seals:
+      - [[35.9, 39.0], [37.1, 39.0]]      # south gate
+      - [[47.0, 30.9], [47.0, 32.1]]      # east gate
+    box: [23, 12, 51, 43]
+    circuit: ['thing:city_wall_*', 'thing:south_gatehouse']
+    joints_ok: ['thing:gorge_face_*']     # the gorge's cut rock faces step with the land on purpose (not town walls)
+xeen_d4:
+  - name: Blackfang
+    inside: [[87.0, 49.5]]
+    seals: []
+    box: [79, 40, 94, 55]
+    circuit: ['thing:blackfang_curtain']
+xeen_d5:
+  - name: Doom barrier
+    inside: [[73.0, 28.0]]            # the land north of the barrier, closed until the barrier falls
+    seals: []
+    box: [40, 10, 106, 40]
+    circuit: ['thing:barrier_curtain']
+xeen_d6:
+  - name: Castle Alamar
+    inside: [[47.0, 49.0], [55.0, 42.0]]
+    seals:
+      - [[50.2, 51.5], [51.8, 51.5]]      # the gatehouse
+    box: [41, 37, 60, 55]
+    circuit: ['thing:alamar_wall_ring', 'thing:alamar_ruin_wall_ring']
+  - name: Necropolis
+    inside: [[91.0, 78.0], [84.0, 88.0], [98.0, 76.0]]
+    seals:
+      - [[90.4, 74.0], [91.6, 74.0]]      # the gate
+    box: [78, 70, 104, 94]
+    circuit: ['thing:np_wall_*', 'thing:np_gate_wall']

@@ -89,7 +89,8 @@ steps:
     dialog:
       active: true
 - select_topic:
-    match_label: Dragon egg
+    action_id: 45551
+    match_label: Quest
 - assert:
     dialog:
       active: true
@@ -127,7 +128,8 @@ steps:
     seconds: 0.5
     present_dialogs: true
 - select_topic:
-    match_label: Dragon egg
+    action_id: 45551
+    match_label: Quest
 - assert:
     dialog:
       active: true

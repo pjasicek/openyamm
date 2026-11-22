@@ -287,10 +287,10 @@ districts:
   - space: town:sandcaster
     polygon: [[27, 20], [47, 20], [47, 39], [27, 39]]
     plots:
-      - {building: building:sc_lucio_jetty, at: [27.5, 20.5], facing: s, door_to: zone:sc_north_street, parts: [{id: body, at: [48, 48], size: [928, 928], wall_height: 448, windows: alternate, roof: flat, parapet: 64}, {id: tier2, at: [112, 64], size: [800, 672], bottom: 448, wall_height: 384, windows: alternate, roof: flat, parapet: 64}, {id: tier3, at: [176, 80], size: [672, 416], bottom: 832, wall_height: 384, windows: alternate, roof: flat, parapet: 64}, {id: tier4, at: [240, 96], size: [544, 208], bottom: 1216, wall_height: 320, windows: none, roof: flat}], textures: {door: t07a03a, gable: t07a01, post_left: t07a10a, post_right: t07a10a, ridge: t07a11b, roof: t07a05, trim: t07a11a, wall: t07a01, window: t07a02c}, house: 4649, title: Lucio's Jetty, kit: plaster, door: {part: body, wall: s}, condition: {qbit: lucio_open}, else_effects: [{lua: "evt.SimpleMessage(\"A jetty that ends in thin air. A sign: \\\"Celestial boats. Chosen Ones only.\\\"\")"}]}
-      - {building: building:sc_guild_mind, at: [30, 21], facing: s, door_to: zone:sc_north_street, parts: [{id: body, at: [48, 48], size: [1184, 1120], porches: [{wall: s, depth: 112, height: 256, posts: 32, floor: 16}], signs: [{wall: s, bay: 0, texture: sgspell, size: [64, 64], bottom: 160, out: 48, hang: true}], wall_height: 512, roof: gable, roof_pitch: 36, ridge_along: ew}], textures: {door: hcsmdr, gable: hcwall, post_left: hcw1le, post_right: hcw1re, ridge: t07a11b, roof: desrf2a, trim: t07a11b, wall: hcwall, window: {fit: true, size: [128, 256], texture: hcwindo}}, house: 4608, title: Sandcaster Guild of Mind, kit: plaster, door: {part: body, wall: s}}
-      - {building: building:sc_guild_spirit, at: [33, 21], facing: s, door_to: zone:sc_north_street, parts: [{id: body, at: [48, 48], size: [1184, 1120], porches: [{wall: s, depth: 112, height: 256, posts: 32, floor: 16}], signs: [{wall: s, bay: 0, texture: sgspell, size: [64, 64], bottom: 160, out: 48, hang: true}], wall_height: 512, roof: gable, roof_pitch: 36, ridge_along: ew}], textures: {door: hcsmdr, gable: hcwall, post_left: hcw1le, post_right: hcw1re, ridge: t07a11b, roof: desrf2a, trim: t07a11b, wall: hcwall, window: {fit: true, size: [128, 256], texture: hcwindo}}, house: 4609, title: Sandcaster Guild of Spirit, kit: plaster, door: {part: body, wall: s}}
-      - {building: building:sc_guild_light, at: [36, 21], facing: s, door_to: zone:sc_north_street, parts: [{id: body, at: [48, 48], size: [1184, 1120], porches: [{wall: s, depth: 112, height: 256, posts: 32, floor: 16}], signs: [{wall: s, bay: 0, texture: sgspell, size: [64, 64], bottom: 160, out: 48, hang: true}], wall_height: 512, roof: gable, roof_pitch: 36, ridge_along: ew}], textures: {door: hcsmdr, gable: hcwall, post_left: hcw1le, post_right: hcw1re, ridge: t07a11b, roof: desrf2a, trim: t07a11b, wall: hcwall, window: {fit: true, size: [128, 256], texture: hcwindo}}, house: 4610, title: Sandcaster Guild of Light, kit: plaster, door: {part: body, wall: s}}
+      - {building: building:sc_lucio_jetty, at: [27.5, 20.5], facing: s, door_to: zone:sc_north_street, parts: [{id: body, at: [48, 48], size: [928, 928], signs: [{wall: s, bay: 0, texture: sgdock, size: [64, 64], bottom: 160, out: 48, hang: true}], wall_height: 448, windows: alternate, roof: flat, parapet: 64}, {id: tier2, at: [112, 64], size: [800, 672], bottom: 448, wall_height: 384, windows: alternate, roof: flat, parapet: 64}, {id: tier3, at: [176, 80], size: [672, 416], bottom: 832, wall_height: 384, windows: alternate, roof: flat, parapet: 64}, {id: tier4, at: [240, 96], size: [544, 208], bottom: 1216, wall_height: 320, windows: none, roof: flat}], textures: {door: t07a03a, gable: t07a01, post_left: t07a10a, post_right: t07a10a, ridge: t07a11b, roof: t07a05, trim: t07a11a, wall: t07a01, window: t07a02c}, house: 4649, title: Lucio's Jetty, kit: plaster, door: {part: body, wall: s}, condition: {qbit: lucio_open}, else_effects: [{lua: "evt.SimpleMessage(\"A jetty that ends in thin air. A sign: \\\"Celestial boats. Chosen Ones only.\\\"\")"}]}
+      - {building: building:sc_guild_mind, at: [30, 21], facing: s, door_to: zone:sc_north_street, parts: [{id: body, at: [48, 48], size: [1184, 1120], porches: [{wall: s, depth: 112, height: 256, posts: 32, floor: 16}], signs: [{wall: s, bay: 0, texture: sgmind, size: [64, 64], bottom: 160, out: 48, hang: true}], wall_height: 512, roof: gable, roof_pitch: 36, ridge_along: ew}], textures: {door: hcsmdr, gable: hcwall, post_left: hcw1le, post_right: hcw1re, ridge: t07a11b, roof: desrf2a, trim: t07a11b, wall: hcwall, window: {fit: true, size: [128, 256], texture: hcwindo}}, house: 4608, title: Sandcaster Guild of Mind, kit: plaster, door: {part: body, wall: s}}
+      - {building: building:sc_guild_spirit, at: [33, 21], facing: s, door_to: zone:sc_north_street, parts: [{id: body, at: [48, 48], size: [1184, 1120], porches: [{wall: s, depth: 112, height: 256, posts: 32, floor: 16}], signs: [{wall: s, bay: 0, texture: sgspirit, size: [64, 64], bottom: 160, out: 48, hang: true}], wall_height: 512, roof: gable, roof_pitch: 36, ridge_along: ew}], textures: {door: hcsmdr, gable: hcwall, post_left: hcw1le, post_right: hcw1re, ridge: t07a11b, roof: desrf2a, trim: t07a11b, wall: hcwall, window: {fit: true, size: [128, 256], texture: hcwindo}}, house: 4609, title: Sandcaster Guild of Spirit, kit: plaster, door: {part: body, wall: s}}
+      - {building: building:sc_guild_light, at: [36, 21], facing: s, door_to: zone:sc_north_street, parts: [{id: body, at: [48, 48], size: [1184, 1120], porches: [{wall: s, depth: 112, height: 256, posts: 32, floor: 16}], signs: [{wall: s, bay: 0, texture: sglight, size: [64, 64], bottom: 160, out: 48, hang: true}], wall_height: 512, roof: gable, roof_pitch: 36, ridge_along: ew}], textures: {door: hcsmdr, gable: hcwall, post_left: hcw1le, post_right: hcw1re, ridge: t07a11b, roof: desrf2a, trim: t07a11b, wall: hcwall, window: {fit: true, size: [128, 256], texture: hcwindo}}, house: 4610, title: Sandcaster Guild of Light, kit: plaster, door: {part: body, wall: s}}
       - {building: building:sc_magic, at: [33, 25], facing: s, door_to: zone:sc_square, parts: [{id: body, at: [64, 64], size: [896, 896], signs: [{wall: s, bay: 0, texture: xsmagic, size: [128, 64], bottom: 160, out: 48, hang: true}], wall_height: 448, upper_walls: {e: [t07a01, t07a01, t07a01, t07a01, t07a01, t07a01, t07a01], n: [t07a01, t07a01, t07a01, t07a01, t07a01, t07a01, t07a01], s: [t07a01, t07a01, t07a01, t07a01, t07a01, t07a01, t07a01], w: [t07a01, t07a01, t07a01, t07a01, t07a01, t07a01, t07a01]}, roof: hip, roof_pitch: 26}], textures: {door: t07c03b, gable: t07a01, parapet: t07a01, post_left: t07c07, post_right: t07c07, ridge: t07a11b, roof: desrf2a, trim: t07a11b, wall: t07a01b, window: t07c04c}, house: 4603, title: Aladdin's Lamps, kit: plaster, door: {part: body, wall: s}}
       - {building: building:sc_alchemist, at: [37.5, 25], facing: s, door_to: zone:sc_square, parts: [{id: body, at: [48, 48], size: [672, 912], signs: [{wall: s, bay: 0, texture: xspotions, size: [128, 64], bottom: 160, out: 48, hang: true}], wall_height: 576, roof: flat, parapet: 64}], textures: {door: t07a03a, gable: t07a01, post_left: t07a10a, post_right: t07a10a, ridge: t07a11b, roof: t07a05, trim: t07a11a, wall: t07a01, window: t07a02c}, house: 4604, title: Vulture Repellant and Other Remedies, kit: plaster, door: {part: body, wall: s}}
       - {building: building:sc_temple, at: [27.5, 25.5], facing: e, door_to: zone:sc_west_lane, parts: [{id: body, at: [64, 64], size: [1408, 1152], signs: [{wall: e, bay: 0, texture: xstemple, size: [128, 64], bottom: 160, out: 48, hang: true}], wall_height: 512, upper_walls: {e: [t07a01, t07a02c, t07a01, t07a02c, t07a01, t07a02c, t07a01, t07a02c, t07a01], n: [t07a01, t07a02c, t07a01, t07a02c, t07a01, t07a02c, t07a01, t07a02c, t07a01, t07a02c, t07a01], s: [t07a01, t07a02c, t07a01, t07a02c, t07a01, t07a02c, t07a01, t07a02c, t07a01, t07a02c, t07a01], w: [t07a01, t07a02c, t07a01, t07a02c, t07a01, t07a02c, t07a01, t07a02c, t07a01]}, roof: flat, parapet: 96}, {id: dome, shape: round, at: [768, 640], radius: 384, sides: 12, bottom: 512, textures: {roof: desrf3a}, wall_height: 160, windows: none, roof: cone, roof_pitch: 38}], textures: {door: t07c03b, gable: t07a01, parapet: t07a01, post_left: t07c07, post_right: t07c07, ridge: t07a11b, roof: desrf2a, trim: t07a11b, wall: t07a01b, window: t07c04c}, house: 4605, title: Temple of the Desert Sun, kit: plaster, door: {part: body, wall: e}}
@@ -325,7 +325,7 @@ districts:
   - space: zone:wizard_quarter
     polygon: [[40, 20], [47, 20], [47, 27], [40, 27]]
     plots:
-      - {building: building:wq_guild_dark, at: [40.5, 20.5], facing: e, parts: [{id: body, at: [48, 48], size: [864, 928], porches: [{wall: e, depth: 112, height: 256, posts: 32, floor: 16}], signs: [{wall: e, bay: 0, texture: sgspell, size: [64, 64], bottom: 160, out: 48, hang: true}], wall_height: 512, roof: gable, roof_pitch: 36, ridge_along: ns}], textures: {door: hcsmdr, gable: hcwall, post_left: hcw1le, post_right: hcw1re, ridge: t07a11b, roof: desrf2a, trim: t07a11b, wall: hcwall, window: {fit: true, size: [128, 256], texture: hcwindo}}, house: 4613, title: The Guild of Night, kit: plaster, door: {part: body, wall: e}, condition: {qbit: quarter_open}, else_effects: [{lua: "evt.SimpleMessage(\"Sealed with a wizard's lock. A voice from inside: The quarter is closed to the insensitive.\")"}]}
+      - {building: building:wq_guild_dark, at: [40.5, 20.5], facing: e, parts: [{id: body, at: [48, 48], size: [864, 928], porches: [{wall: e, depth: 112, height: 256, posts: 32, floor: 16}], signs: [{wall: e, bay: 0, texture: sgdark, size: [64, 64], bottom: 160, out: 48, hang: true}], wall_height: 512, roof: gable, roof_pitch: 36, ridge_along: ns}], textures: {door: hcsmdr, gable: hcwall, post_left: hcw1le, post_right: hcw1re, ridge: t07a11b, roof: desrf2a, trim: t07a11b, wall: hcwall, window: {fit: true, size: [128, 256], texture: hcwindo}}, house: 4613, title: The Guild of Night, kit: plaster, door: {part: body, wall: e}, condition: {qbit: quarter_open}, else_effects: [{lua: "evt.SimpleMessage(\"Sealed with a wizard's lock. A voice from inside: The quarter is closed to the insensitive.\")"}]}
       - {building: building:wq_magic, at: [44.5, 20.5], facing: s, parts: [{id: body, at: [48, 48], size: [928, 608], porches: [{wall: s, depth: 112, height: 256, posts: 32, floor: 16}], signs: [{wall: s, bay: 0, texture: xsmagic, size: [128, 64], bottom: 160, out: 48, hang: true}], wall_height: 512, roof: gable, roof_pitch: 36, ridge_along: ew}], textures: {door: hcsmdr, gable: hcwall, post_left: hcw1le, post_right: hcw1re, ridge: t07a11b, roof: desrf2a, trim: t07a11b, wall: hcwall, window: {fit: true, size: [128, 256], texture: hcwindo}}, house: 4614, title: Esoterica, kit: plaster, door: {part: body, wall: s}, condition: {qbit: quarter_open}, else_effects: [{lua: "evt.SimpleMessage(\"Sealed with a wizard's lock. A voice from inside: The quarter is closed to the insensitive.\")"}]}
       - {building: building:wq_houses, index: 1, at: [40.5, 25], facing: s, turn: -90, parts: [{id: body, shape: round, at: [384, 384], radius: 307, sides: 10, wall_height: 512, windows: alternate, roof: cone, roof_pitch: 48}], textures: {door: hcsmdr, gable: hcwall, post_left: hcw1le, post_right: hcw1re, ridge: t07a11b, roof: desrf2a, trim: t07a11b, wall: hcwall, window: {fit: true, size: [128, 256], texture: hcwindo}}, house: 4615, title: The Mindwright's Tower, kit: plaster, door: {part: body}, condition: {qbit: quarter_open}, else_effects: [{lua: "evt.SimpleMessage(\"Sealed with a wizard's lock. The wizards are sensitive to insults; best not to knock twice.\")"}]}
       - {building: building:wq_houses, index: 2, at: [43, 25], facing: s, turn: 180, parts: [{id: body, shape: round, at: [384, 384], radius: 307, sides: 10, wall_height: 512, windows: alternate, roof: cone, roof_pitch: 48}], textures: {door: hcsmdr, gable: hcwall, post_left: hcw1le, post_right: hcw1re, ridge: t07a11b, roof: desrf2a, trim: t07a11b, wall: hcwall, window: {fit: true, size: [128, 256], texture: hcwindo}}, house: 4616, title: The Appraiser's Tower, kit: plaster, door: {part: body}, condition: {qbit: quarter_open}, else_effects: [{lua: "evt.SimpleMessage(\"Sealed with a wizard's lock. The wizards are sensitive to insults; best not to knock twice.\")"}]}
@@ -1313,7 +1313,7 @@ ground:
 structures:
   - id: thing:city_wall_west
     kind: wall
-    line: [[36, 39], [27, 39], [27, 20]]
+    line: [[35.9, 39], [27, 39], [27, 20]]
     height: 288
     thickness: 192
     textures: {top: t30a05c, wall: t30c01}
@@ -1337,7 +1337,7 @@ structures:
     title: Sandcaster's walls
   - id: thing:city_wall_east
     kind: wall
-    line: [[47, 27.5], [47, 39], [37, 39]]
+    line: [[47, 27.5], [47, 39], [37.1, 39]]
     height: 288
     thickness: 192
     gates:
@@ -1345,6 +1345,39 @@ structures:
     textures: {top: t30a05c, wall: t30c01}
     battlements: true
     title: Sandcaster's walls
+  - id: thing:corner_tower_1
+    kind: building
+    at: [26.6, 19.6]
+    size: [0.8, 0.8]
+    kit: plaster
+    textures: {door: t07c03b, gable: t30c01, post_left: t30a06, post_right: t30a07, ridge: t07a11a, roof: t07b02, trim: t07a11a, wall: t30c01, window: t30a04a}
+    parts:
+      - {id: tower, at: [32, 32], size: [345, 345], wall_height: 512, windows: none, roof: flat, battlements: true}
+    door: none
+    title: Sandcaster's walls
+    notes: "F19: a corner tower over the joint of two walls of different height."
+  - id: thing:corner_tower_2
+    kind: building
+    at: [39.1, 19.6]
+    size: [0.8, 0.8]
+    kit: plaster
+    textures: {door: t07c03b, gable: t30c01, post_left: t30a06, post_right: t30a07, ridge: t07a11a, roof: t07b02, trim: t07a11a, wall: t30c01, window: t30a04a}
+    parts:
+      - {id: tower, at: [32, 32], size: [345, 345], wall_height: 512, windows: none, roof: flat, battlements: true}
+    door: none
+    title: Sandcaster's walls
+    notes: "F19: a corner tower over the joint of two walls of different height."
+  - id: thing:corner_tower_3
+    kind: building
+    at: [46.6, 27.1]
+    size: [0.8, 0.8]
+    kit: plaster
+    textures: {door: t07c03b, gable: t30c01, post_left: t30a06, post_right: t30a07, ridge: t07a11a, roof: t07b02, trim: t07a11a, wall: t30c01, window: t30a04a}
+    parts:
+      - {id: tower, at: [32, 32], size: [345, 345], wall_height: 512, windows: none, roof: flat, battlements: true}
+    door: none
+    title: Sandcaster's walls
+    notes: "F19: a corner tower over the joint of two walls of different height."
   - id: thing:gate_tower_south_1
     kind: building
     at: [35.1, 38.55]
@@ -1367,7 +1400,7 @@ structures:
     title: Sandcaster's south gate
   - id: thing:south_gatehouse
     kind: wall
-    line: [[36, 39], [37, 39]]
+    line: [[35.9, 39], [37.1, 39]]
     height: 448
     thickness: 192
     gates:
@@ -1555,14 +1588,14 @@ structures:
     notes: "Original line: dark/aaze0031:29."
   - id: thing:quarter_wall_1
     kind: wall
-    line: [[39.88, 20.2], [39.88, 27.12], [42.05, 27.12]]
+    line: [[39.88, 20.1], [39.88, 27.12], [42.05, 27.12]]
     height: 352
     thickness: 128
     textures: {top: t30a05c, wall: hcwall}
     title: The wizard quarter
   - id: thing:quarter_wall_2
     kind: wall
-    line: [[42.95, 27.12], [46.8, 27.12]]
+    line: [[42.95, 27.12], [46.9, 27.12]]
     height: 352
     thickness: 128
     textures: {top: t30a05c, wall: hcwall}
@@ -1603,39 +1636,20 @@ structures:
     notes: "D-42: DD-19's precinct (an open-sky court and the guild halls) seen over the quarter's north wall; no entry from outside."
   - id: thing:precinct_wall_1
     kind: wall
-    line: [[40.45, 19], [40.45, 15.2], [46.65, 15.2], [46.65, 19]]
+    line: [[40.45, 19.85], [40.45, 15.2], [46.65, 15.2], [46.65, 19.85]]
     height: 288
     thickness: 96
     textures: {top: t30a05c, wall: hcwall}
     title: The guild's precinct
+    top: follow
   - id: thing:precinct_wall_2
     kind: wall
-    line: [[43.55, 15.2], [43.55, 19]]
+    line: [[43.55, 15.2], [43.55, 19.85]]
     height: 288
     thickness: 96
     textures: {top: t30a05c, wall: hcwall}
     title: The guild's precinct
-  - id: thing:precinct_wall_3
-    kind: wall
-    line: [[40.45, 19], [40.45, 19.85]]
-    height: 288
-    thickness: 96
-    textures: {top: t30a05c, wall: hcwall}
-    title: The guild's precinct
-  - id: thing:precinct_wall_4
-    kind: wall
-    line: [[43.55, 19], [43.55, 19.85]]
-    height: 288
-    thickness: 96
-    textures: {top: t30a05c, wall: hcwall}
-    title: The guild's precinct
-  - id: thing:precinct_wall_5
-    kind: wall
-    line: [[46.65, 19], [46.65, 19.85]]
-    height: 288
-    thickness: 96
-    textures: {top: t30a05c, wall: hcwall}
-    title: The guild's precinct
+    top: follow
   - id: thing:jetty_deck
     kind: deck
     thickness: 48
@@ -2411,21 +2425,41 @@ actors:
   - {monster: "11351", at: [56, 83], count: 1, spread: 1, group: 62, hostile: true, notes: A Hornet Swarm.}
   - {monster: "11350", at: [44, 93], count: 5, spread: 2, group: 63, hostile: true, notes: Hell Hornets at the nest near the south rim.}
   - {monster: "11351", at: [45, 94], count: 1, spread: 1, group: 63, hostile: true, notes: A Hornet Swarm.}
-  - {monster: "371", at: [35.2, 29], spread: 0, group: 51}
-  - {monster: "350", at: [37.8, 29.6], spread: 0, group: 51}
-  - {monster: "362", at: [35.6, 31.8], spread: 0, group: 51}
-  - {monster: "377", at: [38, 32.4], spread: 0, group: 51}
-  - {monster: "368", at: [36.9, 34.6], spread: 0, group: 51}
-  - {monster: "354", at: [42, 30.6], spread: 0, group: 51}
-  - {monster: "371", at: [45.2, 31.4], spread: 0, group: 51}
-  - {monster: "350", at: [31.2, 28.2], spread: 0, group: 51}
-  - {monster: "362", at: [34.4, 24], spread: 0, group: 51}
-  - {monster: "377", at: [36.5, 41.6], spread: 0, group: 51}
-  - {monster: "371", at: [58.6, 44.9], spread: 0, group: 52}
-  - {monster: "350", at: [61.4, 43], spread: 0, group: 52}
-  - {monster: "362", at: [60.6, 45.6], spread: 0, group: 52}
-  - {monster: "377", at: [59, 42.6], spread: 0, group: 52}
+  - {monster: "577", at: [36.75, 33.25], spread: 0, group: 47, hostile: false, notes: D-96 villager of Sandcaster (villagers.yml)}
+  - {monster: "370", at: [26.25, 21.5], spread: 0, group: 47, hostile: false, notes: D-96 villager of Sandcaster (villagers.yml)}
+  - {monster: "376", at: [48.75, 28.25], spread: 0, group: 47, hostile: false, notes: D-96 villager of Sandcaster (villagers.yml)}
+  - {monster: "595", at: [41.25, 43.5], spread: 0, group: 47, hostile: false, notes: D-96 villager of Sandcaster (villagers.yml)}
+  - {monster: "371", at: [38.75, 20.75], spread: 0, group: 47, hostile: false, notes: D-96 villager of Sandcaster (villagers.yml)}
+  - {monster: "377", at: [32, 27], spread: 0, group: 47, hostile: false, notes: D-96 villager of Sandcaster (villagers.yml)}
+  - {monster: "577", at: [26.25, 38.75], spread: 0, group: 47, hostile: false, notes: D-96 villager of Sandcaster (villagers.yml)}
+  - {monster: "370", at: [43, 31.25], spread: 0, group: 47, hostile: false, notes: D-96 villager of Sandcaster (villagers.yml)}
+  - {monster: "376", at: [31, 35], spread: 0, group: 47, hostile: false, notes: D-96 villager of Sandcaster (villagers.yml)}
+  - {monster: "595", at: [36.75, 38.25], spread: 0, group: 47, hostile: false, notes: D-96 villager of Sandcaster (villagers.yml)}
+  - {monster: "371", at: [36, 24.5], spread: 0, group: 47, hostile: false, notes: D-96 villager of Sandcaster (villagers.yml)}
+  - {monster: "377", at: [31.5, 31], spread: 0, group: 47, hostile: false, notes: D-96 villager of Sandcaster (villagers.yml)}
+  - {monster: "577", at: [29.5, 23.75], spread: 0, group: 47, hostile: false, notes: D-96 villager of Sandcaster (villagers.yml)}
+  - {monster: "370", at: [47.75, 33.25], spread: 0, group: 47, hostile: false, notes: D-96 villager of Sandcaster (villagers.yml)}
   - {monster: "362", at: [40.2, 72.2], spread: 0, group: 53, npc: 5247, notes: Cornelius the Leprechaun (teachers_plan cornelius).}
+  - {monster: "376", at: [40.5, 25], spread: 0, group: 47, hostile: false, notes: D-96 villager of Sandcaster (villagers.yml)}
+  - {monster: "595", at: [32.75, 23.75], spread: 0, group: 47, hostile: false, notes: D-96 villager of Sandcaster (villagers.yml)}
+  - {monster: "371", at: [46, 30.75], spread: 0, group: 47, hostile: false, notes: D-96 villager of Sandcaster (villagers.yml)}
+  - {monster: "377", at: [32, 39.75], spread: 0, group: 47, hostile: false, notes: D-96 villager of Sandcaster (villagers.yml)}
+  - {monster: "577", at: [40.25, 31.5], spread: 0, group: 47, hostile: false, notes: D-96 villager of Sandcaster (villagers.yml)}
+  - {monster: "370", at: [37, 35.75], spread: 0, group: 47, hostile: false, notes: D-96 villager of Sandcaster (villagers.yml)}
+  - {monster: "376", at: [37.75, 42], spread: 0, group: 47, hostile: false, notes: D-96 villager of Sandcaster (villagers.yml)}
+  - {monster: "595", at: [46.75, 39.75], spread: 0, group: 47, hostile: false, notes: D-96 villager of Sandcaster (villagers.yml)}
+  - {monster: "371", at: [38.25, 24.25], spread: 0, group: 47, hostile: false, notes: D-96 villager of Sandcaster (villagers.yml)}
+  - {monster: "377", at: [32, 33], spread: 0, group: 47, hostile: false, notes: D-96 villager of Sandcaster (villagers.yml)}
+  - {monster: "577", at: [31, 29], spread: 0, group: 47, hostile: false, notes: D-96 villager of Sandcaster (villagers.yml)}
+  - {monster: "370", at: [33, 37], spread: 0, group: 47, hostile: false, notes: D-96 villager of Sandcaster (villagers.yml)}
+  - {monster: "376", at: [42.5, 36.5], spread: 0, group: 47, hostile: false, notes: D-96 villager of Sandcaster (villagers.yml)}
+  - {monster: "595", at: [47.75, 20.75], spread: 0, group: 47, hostile: false, notes: D-96 villager of Sandcaster (villagers.yml)}
+  - {monster: "578", at: [59.84, 43.41], spread: 0, group: 48, hostile: false, notes: D-96 villager of Crossroads (villagers.yml)}
+  - {monster: "607", at: [57.84, 48.91], spread: 0, group: 48, hostile: false, notes: D-96 villager of Crossroads (villagers.yml)}
+  - {monster: "355", at: [63.34, 47.66], spread: 0, group: 48, hostile: false, notes: D-96 villager of Crossroads (villagers.yml)}
+  - {monster: "367", at: [55.09, 43.91], spread: 0, group: 48, hostile: false, notes: D-96 villager of Crossroads (villagers.yml)}
+  - {monster: "578", at: [57.09, 39.91], spread: 0, group: 48, hostile: false, notes: D-96 villager of Crossroads (villagers.yml)}
+  - {monster: "607", at: [63.84, 43.66], spread: 0, group: 48, hostile: false, notes: D-96 villager of Crossroads (villagers.yml)}
 sounds:
   - {id: sound:bed_darkside_1, at: [27, 39], sound: xeen_amb_darkside, radius: 15000, inner_radius: 6000, volume: 0.45, pan: false}
   - {id: sound:bed_darkside_2, at: [55, 39], sound: xeen_amb_darkside, radius: 15000, inner_radius: 6000, volume: 0.45, pan: false}
@@ -2443,6 +2477,8 @@ sounds:
   - {id: sound:bed_fen_4, at: [63, 92.5], sound: xeen_amb_lagoon, radius: 10000, inner_radius: 4000, volume: 0.6, pan: false}
   - {id: sound:bed_fen_5, at: [83, 92.5], sound: xeen_amb_lagoon, radius: 10000, inner_radius: 4000, volume: 0.6, pan: false}
   - {id: sound:bed_fen_6, at: [103, 92.5], sound: xeen_amb_lagoon, radius: 10000, inner_radius: 4000, volume: 0.6, pan: false}
+relations:
+  - {of: [355, 367, 370, 371, 376, 377, 577, 578, 595, 607], toward: party, relation: friendly}
 events:
   - id: evt:sky
     trigger: load

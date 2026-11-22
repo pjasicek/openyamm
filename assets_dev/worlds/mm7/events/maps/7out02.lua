@@ -1262,14 +1262,14 @@ RegisterEvent(301, "Enter Castle Harmondale", function()
             SetQBit(QBit(644)) -- Butler only shows up once (area 2)
             return
         end
-        evt.MoveToMap(-5073, -2842, 1, 512, 0, 0, 390, 1, "7d29.blv") -- Castle Harmondale
+        evt.MoveToMap(-5073, -2842, 1, 512, 0, 0, 390, 9, "7d29.blv") -- Castle Harmondale
         return
     end
-    evt.MoveToMap(-5073, -2842, 1, 512, 0, 0, 390, 1, "7d29.blv") -- Castle Harmondale
+    evt.MoveToMap(-5073, -2842, 1, 512, 0, 0, 382, 9, "7d29.blv") -- Castle Harmondale
 end, "Enter Castle Harmondale")
 
 RegisterEvent(302, "Enter the White Cliff Caves", function()
-    evt.MoveToMap(1344, -256, -107, 1024, 0, 0, 135, 1, "7d21.blv") -- White Cliff Cave
+    evt.MoveToMap(1344, -256, -107, 1024, 0, 0, 391, 3, "7d21.blv") -- White Cliff Cave
 end, "Enter the White Cliff Caves")
 
 RegisterEvent(65535, "", function()

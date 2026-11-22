@@ -184,6 +184,6 @@ RegisterEvent(376, "Door", function()
 end, "Door")
 
 RegisterEvent(501, "Leave to tower", function()
-    evt.MoveToMap(-5066, -19323, 3073, 512, 0, 0, 0, 0, "7out05.odm") -- Deyja
+    evt.MoveToMap(-5066, -19323, 3073, 512, 0, 0, 0, 9, "7out05.odm") -- Deyja
 end, "Leave to tower")
 

@@ -19,15 +19,15 @@ steps:
   - hook: m14.gate_open
   # M15
   - talk: [4921, Fortune]
-  - talk: [4904, The orb]
+  - talk: [4904, m15]
   - expect: {qbit: m15.orb, item: pharaoh_orb}
-  - talk: [4921, The orb]
+  - talk: [4921, m15]
   - expect: {qbit: m15.read, xp: 5000}
   # M16
   - talk: [4921, Fortune]
-  - talk: [4922, Necklace]
+  - talk: [4922, m16]
   - hook: m16.necklace
-  - talk: [4922, Necklace]
+  - talk: [4922, m16]
   - expect: {qbit: m16.key, no_item: onyx_necklace, xp: 9000, gold: 1500}   # D-89: gold, not a key
   - hook: [m16.outfall, false]
   - set: m16.outfall_unbarred
@@ -39,39 +39,40 @@ steps:
   - hook: m17.password
   - hook: [m17.tower_lift, false]
   - hook: [m17.runaway_chest, false]
-  - hidden: [4954, Energy discs]
-  - talk: [4954, Alamar]
+  - hidden: [4954, m19]
+  - hidden: [4954, m26]
+  - talk: [4954, m17]
   - expect: {qbit: [m17.done, m18.started, m17.chest_still], xp: 17000}
   - hook: m17.runaway_chest
   - hook: m17.tower_lift
   - hook: m18.sources_note
   # M19: Ellinger takes the disks
-  - talk: [4954, Energy discs]
+  - talk: [4954, m19]
   - give: [energy_disk, 3]
-  - talk: [4954, Energy discs]
+  - talk: [4954, m19]
   - expect: {qbit: m19.started, not_qbit: m19.stage1}
   - hook: [m19.ghost_castle, false]
   - give: [energy_disk, 2]
-  - talk: [4954, Energy discs]
+  - talk: [4954, m19]
   - expect: {qbit: m19.stage1, count: [energy_disk, 0], xp: 21000}
   - hook: m19.ghost_castle
   - hook: m19.first_entry
   - hook: m19.safes
   - give: [energy_disk, 2]
   - give: [energy_disk, 4]
-  - talk: [4954, Energy discs]
+  - talk: [4954, m19]
   - expect: {qbit: m19.stage2, count: [energy_disk, 1], xp: 25000}
   # M20
   - talk: [5004, The Queen]
-  - talk: [5005, Father]
+  - talk: [5005, m20]
   - expect: {qbit: m20.started, item: lost_souls_key, xp: 28000}
   - talk: [4921, Fortune]
   # M26 (Act IV): stages 3 and 4 on Ellinger's second topic
   - give: [energy_disk, 4]
-  - talk: [4954, Energy discs]
+  - talk: [4954, m26]
   - expect: {qbit: m26.stage3, count: [energy_disk, 0], xp: 32000}    # D-16: stage 3 pays 4,000
   - give: [energy_disk, 5]
-  - talk: [4954, Energy discs]
+  - talk: [4954, m26]
   - expect: {qbit: m26.stage4, xp: 38000}    # D-16: stage 4 pays 6,000
   - hook: m26.mirror_switch
   # Q-C22's Darkside end: the cottage

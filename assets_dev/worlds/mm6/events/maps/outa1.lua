@@ -34,7 +34,7 @@ end, "Chest")
 
 RegisterEvent(90, "The Hive", function()
     if IsQBitSet(QBit(1261)) then return end -- NPC
-    evt.MoveToMap(435, 3707, 1, 512, 0, 0, 421, 1, "hive.blv") -- The Hive
+    evt.MoveToMap(435, 3707, 1, 512, 0, 0, 421, 5, "hive.blv") -- The Hive
 end, "The Hive")
 
 RegisterEvent(100, "Drink from Well.", function()

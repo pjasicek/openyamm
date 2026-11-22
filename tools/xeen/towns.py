@@ -12,7 +12,9 @@ teachers_plan.yml, with a warning (WARN) when a Master place's level is below it
 before Master is no fault, U-2); every NPC has a portrait, and a profession, a teacher offer or a greeting; every built
 guild has a book of the world for each spell its shelf sells (feedback F7: Xeen had no books of its own and every guild's
 shelf was empty); every built town map's house hangs the sign of its kind (house_signs.py; a service of a signed kind
-hanging none is a WARN); the generator runs.
+hanging none is an ERROR, D-92); every walled town of a built outdoor map is closed but at its gates and its wall
+pieces meet flush (wall_check.py, F19); every settlement has peaceful street villagers at MM6-MM8's density from a palette of
+3-5 kinds of its own (villagers.py, villagers.yml, D-96); the generator runs.
 
 `--stock-scenario` writes the headless check that opens every built shop's and guild's stock in the game and fails on
 an empty one (tests/scenarios/xeen/shop_stock.yml; run it after a town file, gen_items or a shop rule changes).
@@ -29,6 +31,8 @@ import yaml
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 import gen_towns  # noqa: E402
 import house_signs  # noqa: E402
+import wall_check  # noqa: E402
+import villagers  # noqa: E402
 
 REPO = gen_towns.REPO
 BRIEFS = REPO / 'devdocs' / 'xeen' / 'briefs'
@@ -587,6 +591,16 @@ def main():
     sign_errors, sign_warnings = house_signs.check_all()
     errors += sign_errors
     notes += sign_warnings
+    # every built outdoor map's town walls: each enclosure closed but at its gates, the pieces meeting flush
+    # (wall_check.py, town_walls.yml; the user 2026-11-22: a gap between a wall's end and a tower, slits and steps)
+    wall_errors, wall_notes = wall_check.check_all()
+    errors += wall_errors
+    notes += wall_notes
+    # every settlement's street villagers (villagers.py, villagers.yml; D-96, the user 2026-11-22: "no villagers in the
+    # village? ... diversity"): peaceful, at MM6-MM8's density, 3-5 kinds of its own, clear of doors and givers
+    villager_errors, villager_notes = villagers.check_all()
+    errors += villager_errors
+    notes += villager_notes
     if args.stock_scenario:
         print(f'wrote {STOCK_SCENARIO.relative_to(REPO)}: {stock_scenario(towns)} shops and guilds')
 

@@ -297,7 +297,7 @@ RegisterEvent(27, "Altar of the Moon", function()
 end, "Altar of the Moon")
 
 RegisterEvent(50, "Exit", function()
-    evt.MoveToMap(-18178, 19695, 161, 512, 0, 0, 0, 0, "outc2.odm") -- Free Haven
+    evt.MoveToMap(-18178, 19695, 161, 512, 0, 0, 0, 6, "outc2.odm") -- Free Haven
 end, "Exit")
 
 RegisterEvent(51, nil, function()

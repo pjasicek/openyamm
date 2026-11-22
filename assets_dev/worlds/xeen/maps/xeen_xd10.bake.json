@@ -2,7 +2,7 @@
   "backend": "5.3.0",
   "extra_lights": [],
   "geometry_helper_sha256": "aa0823810bcf2fbed4da16c0d50b7ddc57e1e54e684f1a31381fc0eee3e49332",
-  "producer_sha256": "3fc3ea15348be600b95854fee631efb8a507855e209cd8109c27249d7c5966f2",
+  "producer_sha256": "c9bae7d7f7ed3d5d151b1bb0e8d9dd00a0ec7f4f000a875186e3b39fa56b08a1",
   "profile": {
     "ambient_colour": [
       1.0,
@@ -22,6 +22,10 @@
     "outward_distance": 4096,
     "padding": 2,
     "page_size": 2048,
+    "rendered_limit": {
+      "ceiling": 0.85,
+      "mean": 90
+    },
     "samples": 128,
     "shadowless_faces": [],
     "sky_bounce_scale": 5.0,

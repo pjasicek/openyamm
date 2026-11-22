@@ -12,7 +12,7 @@ steps:
   # M36: the Pharaoh
   - hidden: [5453, The sleepers]
   - expect: {no_journal: [m37.air, m38.fire, m36.started]}
-  - talk: [5453, The destiny of Xeen]
+  - talk: [5453, m36]
   - expect: {qbit: m36.started, xp: 4000, journal: [m36.started, m37.air, m37.fire, m37.earth, m37.water, m38.fire,
              m38.air, m38.earth, m38.water], no_journal: m33.done}
   - talk: [5453, The sleepers]
@@ -30,7 +30,7 @@ steps:
              no_journal: [m37.air, m37.fire, m37.earth, m37.water], journal: m38.fire}
   # M30's award (the Chosen Ones), then the four sleepers
   - set: m29.done
-  - talk: [5453, Chosen Ones]
+  - talk: [5453, m30]
   - hook: m38.sleeper_fire
   - hook: m38.sleeper_air
   - hook: m38.sleeper_earth
@@ -76,10 +76,10 @@ steps:
   - hook: [m40.stair, false]
   - hook: m40.name_right
   - hook: m40.stair
-  - talk: [5704, Chime of Opening]
+  - talk: [5704, m40]
   - expect: {not_qbit: m40.done, no_item: chime_of_opening}
   - give: widget
-  - talk: [5704, Chime of Opening]
+  - talk: [5704, m40]
   - expect: {qbit: m40.done, item: chime_of_opening, no_item: widget}
   # M41: Darkstone Tower
   - hook: m41.tower_door
@@ -106,7 +106,7 @@ steps:
   - talk: [5001, One world]
   - expect: {last: "So do I."}
   - hidden: [4405, The mirror]
-  - hidden: [5001, The crown]
+  - hidden: [5001, m27]
   - hook: m42.disc
   - expect: {last: "stair house"}
   - hook: [m42.shrine, false]

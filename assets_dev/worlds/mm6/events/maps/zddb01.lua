@@ -17,6 +17,6 @@ SetMapMetadata({
 })
 
 RegisterEvent(1, "Exit", function()
-    evt.MoveToMap(-17962, 20974, 1, 1152, 0, 0, 0, 0, "outc3.odm") -- Mire of the Damned
+    evt.MoveToMap(-17962, 20974, 1, 1152, 0, 0, 0, 6, "outc3.odm") -- Mire of the Damned
 end, "Exit")
 

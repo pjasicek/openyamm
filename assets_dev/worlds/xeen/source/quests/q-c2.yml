@@ -24,9 +24,11 @@ npcs:
   4151:              # Barok
     topics:
       - n: 1
-        label: Pendant
+        role: quest
+        afterword: {n: 3, label: Pendant}
         states:
           - when: {qbit: done}
+            afterword: true
             text: "The fountain runs again and the tavern charges for water again. Rivercity is back to normal. I'm not sure that's a compliment."
           - when: {item: baroks_pendant}
             text: "Thank you for returning my pendant. Please accept the Enchant Item spell as your reward. I will also return the drinking fountain to normal. And the spellcasters among you have earned a better title than 'that lot with the pendant'."

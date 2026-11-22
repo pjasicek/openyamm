@@ -167,7 +167,7 @@ steps:
   - walk_to: {x: -704, y: 3050, z: 1920, radius: 64, timeout_seconds: 20, close_dialogs: true}
   - play_lua: {source: "remember('xp', experience(0)); click(15); wait(0.5)"}
   - advance_runtime: {seconds: 1, present_dialogs: true}
-  - select_topic: {match_label: "Alamar"}
+  - select_topic: {action_id: 40851, match_label: "Quest"}
   - advance_runtime: {seconds: 1, present_dialogs: true}
   - assert: {dialog: {active: true, text_contains: "Twenty energy discs will bring it back"}}
   - play_lua:

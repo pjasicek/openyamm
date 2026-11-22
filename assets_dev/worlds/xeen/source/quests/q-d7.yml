@@ -47,7 +47,7 @@ npcs:
   4945:              # Linus
     topics:
       - n: 1
-        label: Ruby work
+        role: quest
         repeatable: true
         states:
           - when: {all: [{items: [ruby_rock, 5]}, {lua: "Xeen.gemCount() >= 2"}]}
@@ -60,7 +60,7 @@ npcs:
   4946:              # Simon
     topics:
       - n: 2
-        label: Emerald work
+        role: quest
         repeatable: true
         states:
           - when: {all: [{items: [emerald_rock, 5]}, {lua: "Xeen.gemCount() >= 4"}]}
@@ -73,7 +73,7 @@ npcs:
   4947:              # Toby
     topics:
       - n: 3
-        label: Sapphire work
+        role: quest
         repeatable: true
         states:
           - when: {all: [{items: [sapphire_rock, 5]}, {lua: "Xeen.gemCount() >= 6"}]}
@@ -86,7 +86,7 @@ npcs:
   4948:              # Hector
     topics:
       - n: 4
-        label: Diamond work
+        role: quest
         repeatable: true
         states:
           - when: {all: [{items: [diamond_rock, 5]}, {lua: "Xeen.gemCount() >= 10"}]}

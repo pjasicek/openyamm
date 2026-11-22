@@ -37,6 +37,10 @@ SLOTS = 6
 LUA_FILE = 'events/common/xeen_quests.lua'
 HOOKS_FILE = 'data_tables/quest_hooks.yml'
 KIND_ORDER = {'main': 0, 'side': 1, 'promotion': 2, 'ours': 3}
+# A topic's label from its role (QUESTS_FORMAT section 4.4, MM6-MM8's merged tables): every topic that gives, tracks
+# or hands in a quest reads "Quest" (MM6's and MM7's quest givers, MM8's Dadeross and Arion Hunter); one that only
+# promotes reads "Promotion" (MM8's "Promotion to <class>": Xeen's promotions serve several class lines at once).
+ROLE_LABELS = {'quest': 'Quest', 'promotion': 'Promotion'}
 ACTS = ['I', 'II', 'III', 'IV', 'V', 'VI', 'opt']
 CONDITION_KEYS = {'qbit', 'item', 'items', 'found', 'award', 'gold', 'promotable', 'lua', 'not', 'all', 'any'}
 # D-89 (DESIGN_GATING_AND_IDENTITY.md 1.5): the tags a condition inside a dungeon carries (`gate:`).
@@ -165,9 +169,68 @@ class Model:
                 self.autonotes[(stem, name)] = int(entry['id'])
             for name, entry in (quest.get('awards') or {}).items():
                 self.awards[(stem, name)] = int(entry['id'])
+        # The journal's tasks: a qbit with a line opens one; a bit in a line's `until`, or clearing the line's own bit,
+        # closes it. A topic that does either gives, tracks or hands in a quest (its role, ROLE_LABELS).
+        self.journal_bits: set[tuple[str, str]] = set()
+        self.closing_bits: set[tuple[str, str]] = set()
+        for quest in self.quests + self.npc_files:
+            stem = quest['_stem']
+            for name, entry in (quest.get('qbits') or {}).items():
+                if isinstance(entry, dict) and entry.get('journal'):
+                    self.journal_bits.add((stem, name))
+                    for ref in entry.get('until') or []:
+                        self.closing_bits.add(self.qbit_key(stem, ref))
 
         for data in self.quests + self.npc_files:
             self._index_texts(data)
+
+    def topic_role(self, stem: str, states: list[dict]) -> str | None:
+        """The role a topic's effects give it: 'quest' when a state opens or closes a journal task, 'promotion' when it
+        only promotes, else None (a named topic)."""
+        promotes = False
+        for state in states:
+            for effect in state.get('do') or []:
+                if not isinstance(effect, dict):
+                    continue
+                for key, closes_only in (('set', False), ('clear', True)):
+                    refs = effect.get(key)
+                    for ref in refs if isinstance(refs, list) else [refs] if refs is not None else []:
+                        bit = self.qbit_key(stem, ref)
+                        if bit in self.journal_bits or (not closes_only and bit in self.closing_bits):
+                            return 'quest'
+                if 'promote' in effect:
+                    promotes = True
+        return 'promotion' if promotes else None
+
+    def _topic_label(self, data: dict, npc_id, topic: dict) -> str:
+        """A topic's label: from its `role:` (MM6-MM8's convention, QUESTS_FORMAT section 4.4), else its `label:`; the
+        role its effects give it must be the one it declares, unless it says why it keeps a name (`named:`)."""
+        where = f"{data['_path']}: npc {npc_id} topic n {topic.get('n')}"
+        role, label, named = topic.get('role'), topic.get('label'), topic.get('named')
+        derived = self.topic_role(data['_stem'], topic_states(topic))
+        if role is not None:
+            if data.get('_flavour'):
+                self.problems.append(f'{where}: a flavour topic has no role')
+            if role not in ROLE_LABELS:
+                self.problems.append(f"{where}: role {role!r} is not one of {', '.join(ROLE_LABELS)}")
+                return str(label or '')
+            if label is not None or named is not None:
+                self.problems.append(f'{where}: a topic with `role: {role}` takes no `label:` or `named:` '
+                                     f'(the generator writes {ROLE_LABELS[role]!r})')
+            if derived != role and not (role == 'quest' and derived == 'promotion'):
+                self.problems.append(f"{where}: `role: {role}` but its effects "
+                                     + ('give it no role' if derived is None else f'make it a {derived} topic'))
+            return ROLE_LABELS[role]
+        if label is None or str(label) == '':
+            self.problems.append(f'{where}: no `label:` and no `role:`')
+            return ''
+        if str(label) in ROLE_LABELS.values():
+            self.problems.append(f'{where}: label {label!r} is written by `role:`, not by hand')
+        if derived is not None and not named:
+            self.problems.append(f"{where}: {label!r} {'gives, tracks or hands in a quest' if derived == 'quest' else 'promotes'}"
+                                 f": `role: {derived}` (the label {ROLE_LABELS[derived]!r}), or `named: \"<why>\"` "
+                                 "for a choice's answer")
+        return str(label)
 
     def _index_texts(self, data: dict):
         blocks = blocks_of(data)
@@ -189,7 +252,8 @@ class Model:
                     self.problems.append(f"{data['_path']}: npc {npc_id} topic {topic.get('label')!r}: n {n} not 1-49")
                 record = {
                     'id': TOPIC_BASE + BLOCK_SIZE * blocks[0] + n,
-                    'label': str(topic.get('label', '')),
+                    'label': self._topic_label(data, npc_id, topic),
+                    'role': topic.get('role'),
                     'npc': int(npc_id),
                     'file': data,
                     'n': n,
@@ -221,7 +285,7 @@ class Model:
                     record['states'].append(entry)
                 if not record['states']:
                     self.problems.append(f"{data['_path']}: npc {npc_id} topic {record['label']!r} has no text")
-                self.topics.append(record)
+                self.topics.extend(self._split_afterword(data, npc_id, topic, record))
 
         for name, hook in (data.get('hooks') or {}).items():
             full = f"{data['_stem']}.{name}"
@@ -255,6 +319,51 @@ class Model:
             if full in self.hooks:
                 self.problems.append(f"{data['_path']}: hook {full} twice")
             self.hooks[full] = entry
+
+    def _split_afterword(self, data: dict, npc_id, topic: dict, record: dict) -> list[dict]:
+        """A Quest topic goes when its quest is handed in (MM6-MM8 clear it); its leading `afterword: true` states (what
+        the person says afterwards) become a topic of their own, `afterword: {n, label}`, shown instead."""
+        where = f"{data['_path']}: npc {npc_id} topic {record['label']!r}"
+        states = record['states']
+        leading = 0
+        while leading < len(states) and states[leading].get('afterword'):
+            leading += 1
+        if any(state.get('afterword') for state in states[leading:]):
+            self.problems.append(f'{where}: `afterword: true` states come first')
+        spec = topic.get('afterword')
+        if record['role'] == 'quest' and not leading:
+            # A Quest topic whose first state is the thanks after the hand-in would stay labelled Quest forever.
+            first = states[0] if states else {}
+            when = first.get('when') if isinstance(first.get('when'), dict) else {}
+            bit = self.qbit_key(data['_stem'], when['qbit']) if set(when) == {'qbit'} else None
+            if not first.get('do') and bit is not None and bit[1] in ('done', 'rewarded') \
+                    and bit[0] == data['_stem'] and not topic.get('stays'):
+                self.problems.append(f"{where}: its first state answers after the hand-in ({when['qbit']}): mark it "
+                                     "`afterword: true` and give the topic `afterword: {n, label}`")
+        if topic.get('stays') is not None and (leading or record['role'] != 'quest'):
+            self.problems.append(f'{where}: `stays: <why>` is for a Quest topic with no afterword (its after-text '
+                                 'tracks the next quest)')
+        if not leading and spec is None:
+            return [record]
+        if not leading or not isinstance(spec, dict) or set(spec) != {'n', 'label'} or record['role'] != 'quest':
+            self.problems.append(f'{where}: a Quest topic (`role: quest`) with `afterword: true` states needs '
+                                 '`afterword: {n, label}`, and the other way round')
+            return [record]
+        if any('when' not in state or state.get('do') for state in states[:leading]) or leading == len(states):
+            self.problems.append(f'{where}: an afterword state has a `when`, no effects, and is not the last state')
+            return [record]
+        n = int(spec['n'])
+        if not 1 <= n < BLOCK_SIZE:
+            self.problems.append(f'{where}: afterword n {n} not 1-49')
+        after_when = {'any': [state['when'] for state in states[:leading]]} if leading > 1 else states[0]['when']
+        own_show = record['show']
+        after = dict(record, id=TOPIC_BASE + BLOCK_SIZE * blocks_of(data)[0] + n, label=str(spec['label']), role=None,
+                     afterword_of=record['id'],
+                     n=n, slot=None, states=states[:leading],
+                     show=after_when if own_show is None else {'all': [own_show, after_when]})
+        record = dict(record, states=states[leading:],
+                      show={'not': after_when} if own_show is None else {'all': [own_show, {'not': after_when}]})
+        return [record, after]
 
     # -- references -------------------------------------------------------------------------------------------------
 

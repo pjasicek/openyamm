@@ -35,7 +35,7 @@ npcs:
   4402:              # Artemus
     topics:
       - n: 1
-        label: Darzog's tower
+        role: quest
         show: {qbit: m6.crodo_quest}
         states:
           - when: {any: [{qbit: key_bought}, {found: skeleton_key}]}   # D-90 5: the key held once, not the chest opened

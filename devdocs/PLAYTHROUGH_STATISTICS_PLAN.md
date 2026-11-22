@@ -79,7 +79,8 @@ Each copy also carries a `PlaythroughTrackingInfo`: the date tracking began, *pa
     reason to `{first_utc, first_day, sessions, commands}`.
   - `time`, `saves`, `combat`, `spells`, `experience`, `losses`, `services`, `travel`, `exploration`, `gold`,
     `artifacts_found` and `members`.
-  - The sidecar adds `playthrough`, `created_utc`, `last_played_utc` and `start: {world, ruleset, difficulty}`.
+  - The sidecar adds `playthrough`, `created_utc`, `last_played_utc`, `start: {world, ruleset, difficulty}` and
+    `party`: the current members' keys in order (`setParty`, set when the roster changes).
 - **Writing.** The sidecar is written on a worker thread: a `.tmp` file, then a rename over the old one. The main
   thread only builds and seals the text, which takes microseconds. It is written:
   - at a new game;
@@ -221,8 +222,10 @@ its saves of that ruleset.
     the index.
   - A save from before statistics is named by its seed (`PlaythroughStatistics::playthroughIdOfSave`).
 - **A heading's facts** come from the playthrough's statistics file, read without attaching to it
-  (`PlaythroughStatistics::readStoredSummary`): start world, creation and last play, and the lifetime's played time.
-  The rules and difficulty are those of its newest save. The playthrough being played shows the game's own time.
+  (`PlaythroughStatistics::readStoredSummary`): start world, creation and last play, the lifetime's played time and
+  the party, each member as "Name (Class)" (a file from before `party` was kept lists every member who joined). The
+  rules and difficulty are those of its newest save. The playthrough being played shows the game's own time and
+  party.
 - **Names.** The automatic name is start continent, rules and difficulty ("Enroth · MAW Nightmare"). A name the player
   types is kept in `saves/playthroughs/names.yml` (`game/party/PlaythroughNames.h`), apart from the sealed statistics.
   Typing the automatic name, or nothing, removes it.

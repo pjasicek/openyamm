@@ -52,7 +52,7 @@ steps:
   - walk_to: {x: 1984, y: -3560, z: 0, radius: 48, clear_hostiles: 1500, timeout_seconds: 40, close_dialogs: true}
   - play_lua: {source: "click(18); wait(0.8)"}
   - assert: {dialog: {active: true, source_id: 5702}}
-  - select_topic: {match_label: "The tax"}
+  - select_topic: {action_id: 43751, match_label: "Quest"}
   - assert: {dialog: {active: true, text_contains: "Dragon tax!"}}
   - play_lua: {source: "close(); wait(0.3); close(); wait(0.3); close(); if not qbit(112500) then error('tax_paid 112500 not set') end; if gold() ~= 0 then error('gold after the tax: ' .. gold()) end; log('after the tax: ' .. party())"}
   - walk_to: {x: 1536, y: -3460, z: 0, radius: 48, clear_hostiles: 1500, timeout_seconds: 40, close_dialogs: true}

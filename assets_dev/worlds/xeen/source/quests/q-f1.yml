@@ -44,7 +44,7 @@ npcs:
   5705:              # Alister the Druid (FD-04's gate hall)
     topics:
       - n: 1
-        label: Dragon egg
+        role: quest
         states:
           - when: {item: dragon_egg}
             text: "You are truly courageous! Thank you soooo much. Now I'll just drink this egg potion and..."

@@ -22,7 +22,7 @@ RegisterEvent(1, nil, function()
 end)
 
 RegisterEvent(101, nil, function()
-    evt.MoveToMap(13839, 16367, 169, 1, 0, 0, 0, 0, "7out01.odm") -- Emerald Island
+    evt.MoveToMap(13839, 16367, 169, 1, 0, 0, 0, 4, "7out01.odm") -- Emerald Island
 end)
 
 RegisterEvent(201, nil, function()

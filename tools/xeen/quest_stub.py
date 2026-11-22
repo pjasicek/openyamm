@@ -20,7 +20,9 @@ A scenario (YAML):
     party: [Knight, Paladin, Sorcerer, Ranger]       # the members' classes
     steps:
       - hook: m1.opening                    # XeenQuests.hook(name); `hook: [name, false]` expects it to refuse
-      - talk: [4003, Pests]                 # click NPC 4003's topic labelled Pests (it must be shown)
+      - talk: [4003, Pests]                 # click NPC 4003's topic labelled Pests (it must be shown, and only one)
+      - talk: [4003, m2]                    # a quest file's stem: its topics of NPC 4003 (labelled Quest, or the
+                                            # afterword the Quest topic becomes after its hand-in), the one shown
       - hidden: [4003, Pests]               # the topic must be hidden now
       - set: m3.clan_king_slain             # what a map event does (a kill, a lever)
       - give: alacorn                       # an item the party picks up (A2 key or engine:<id>); [key, n] for n
@@ -53,6 +55,7 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
 import build_world  # noqa: E402
+import gen_quests  # noqa: E402
 import xeenlib  # noqa: E402
 
 SCENARIOS = Path(__file__).resolve().parent / 'quest_stub'
@@ -181,10 +184,16 @@ function Stub.answer(text, message)
     events[prompt.eventId](step)
 end
 function Stub.pick(ids, message)
+    local picked = nil
     for _, id in ipairs(ids) do
-        if Stub.shown(id) then return id end
+        if Stub.shown(id) then
+            -- Two shown topics with one label are ambiguous to a player too (two "Quest" topics at once).
+            assert(picked == nil, message .. " (ambiguous: topics " .. tostring(picked) .. " and " .. id .. ")")
+            picked = id
+        end
     end
-    error(message)
+    if picked == nil then error(message) end
+    return picked
 end
 '''
 
@@ -214,6 +223,13 @@ def build_tables():
     topics = {}
     for row in ctx.tables['npc_topic.txt'].rows:
         topics.setdefault((int(row[6]), row[1]), []).append(int(row[0]))
+    # A quest file's stem names its Quest topics of an NPC and their afterwords (QUESTS_FORMAT 4.4).
+    model = gen_quests.load_model()
+    for record in model.topics:
+        if record['label'] == 'Quest' or record.get('afterword_of'):
+            topics.setdefault((record['npc'], record['file']['_stem']), []).append(record['id'])
+    for key, ids in topics.items():
+        topics[key] = sorted(set(ids))
     return ctx, lua, topics
 
 
@@ -234,7 +250,8 @@ def scenario_lua(scenario: dict, items: dict, topics: dict) -> str:
         npc, label = pair
         if (int(npc), label) not in topics:
             raise xeenlib.BuildError(f'scenario: NPC {npc} has no topic {label!r}')
-        # Topics of one NPC may share a label when they never show together (Ellinger's discs, M19 then M26).
+        # Topics of one NPC may share a label when they never show together (Ellinger's discs, M19 then M26), and a
+        # quest file's stem names its Quest topics and their afterwords.
         return '{' + ', '.join(str(value) for value in topics[(int(npc), label)]) + '}'
 
     lines = []

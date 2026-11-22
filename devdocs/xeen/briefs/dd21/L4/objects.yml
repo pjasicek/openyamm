@@ -168,9 +168,8 @@ switches:
 chests:
   - id: chest:box
     room: room:east_culvert
-    at: [-64, -2432]
+    at: [64, -2520]
     kind: 7gt002
-    facing: e
     treasure_level: 5
     random_items: 2
     gold: 1200
@@ -189,7 +188,6 @@ chests:
     room: room:reliquary
     at: [1152, -3040]
     kind: 7gt002
-    facing: n
     treasure_level: 5
     random_items: 3
     gold: 3000

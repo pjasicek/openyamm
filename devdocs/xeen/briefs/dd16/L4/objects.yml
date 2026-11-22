@@ -262,7 +262,6 @@ chests:
   - id: chest:locker
     room: room:gun_deck
     at: [1056, 192]
-    facing: s
     treasure_level: 5
     random_items: 3
     gold: 2500
@@ -270,7 +269,6 @@ chests:
   - id: chest:stores
     room: room:engine_room
     at: [-688, -2560]
-    facing: e
     treasure_level: 5
     random_items: 3
     gold: 3000

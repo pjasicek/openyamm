@@ -1,6 +1,6 @@
-# The way in to the Olympus Sewer (DD-26, L4) from D7: A6's evt:sewer_grate (event 104, opened 2026-11-21) asks
-# "Descend into the sewer?" (aaze0037:1) with Yes/No buttons. From D7's entrance:dd26_stair (-8704, 8192, 1808) north
-# towards the marble grate (-8704, 8704): the question, Yes: the stair's foot (0, 0, 0) facing north (512). Run with
+# The way in to the Olympus Sewer (DD-26, L4) from D7: A6's evt:sewer_grate (event 104, opened 2026-11-21) opens the
+# standard entrance window (F16: the grate's line and OK; A3 s41). From D7's entrance:dd26_stair (-8704, 8192, 1808)
+# north towards the marble grate (-8704, 8704): the window, OK: the stair's foot (0, 0, 0) facing north (512). Run with
 # --world xeen (output/studio_cal/dd26/four.sh, TESTS=playtest_in).
 id: xeen.dd26.l4.in
 title: Olympus Sewer (DD-26 L4), in by D7's marble grate
@@ -25,8 +25,8 @@ steps:
   - walk_to: {x: -8704, y: 8450, z: 1808, radius: 64, z_tolerance: 200, timeout_seconds: 20, close_dialogs: true}
   - execute_event: {id: 104}
   - advance_runtime: {seconds: 0.5, present_dialogs: true}
-  - assert: {dialog: {active: true, text_contains: "Descend into the sewer?"}}
-  - answer_input: {text: "Yes"}
+  - assert: {dialog: {active: true, text_contains: "A marble grate", action_label_present: "OK"}}
+  - select_topic: {match_label: "OK"}
   - advance_runtime: {seconds: 1.5, follow_map_move: true}
   - assert: {map: xeen_dd26.blv}
   - assert: {party_position: {x: 0, y: 0, radius: 64, z_min: -8, z_max: 8, facing: 512, facing_within: 64}}

@@ -1312,16 +1312,15 @@ m2.out_of_business:
 m2.rain_barrel:
   quest: M2
   map: X1
-  where: 'the warehouse key at the foot of the rain barrel in Joe''s yard, south bank: a ground item since D-90 (c) (A5, X1
-    2026-11-22), picked up like any item; no event calls this hook (it records that the map gives the key)'
-  sets: {}
+  where: 'the rain barrel in Joe''s yard, south bank (thing:rain_barrel''s click): D-93, a find hidden in a prop goes onto
+    the cursor, as MM6-MM8''s evt.GiveItem; the find line on the status line'
+  sets: {key_found: 111042}
   reads: {}
-  gives: {}
+  gives: {warehouse_key: 12001}
   needs: {}
   takes: {}
-  map_gives:
-    warehouse_key: {id: 12001, count: 1}
   call: XeenQuests.hook("m2.rain_barrel")
+  once: true
 m2.temple_name:
   quest: M2
   map: X1
@@ -1343,7 +1342,8 @@ m2.warehouse_door:
   takes: {}
   call: XeenQuests.hook("m2.warehouse_door")
   entrance: XD-01
-  sealed: Joe's locked warehouse; the key lies by the rain barrel in sight of the door (D-89, as MM6's Goblinwatch key)
+  sealed: 'Joe''s locked warehouse; the key is in the rain barrel by the door, which the fail text names (D-89; D-93: a click
+    on the barrel puts it on the cursor)'
 m2.wobbles:
   quest: M2
   map: XD-01
@@ -4403,17 +4403,15 @@ q-c17.nest:
 q-c18.book:
   quest: Q-C18
   map: X5
-  where: 'the Troll Forest by the troll warren: the book in the snow beside a fallen pack, a ground item since D-90 (c) (A6,
-    X5 2026-11-22; event 108 unused), picked up like any item; no event calls this hook (it records that the map gives the
-    book)'
-  sets: {}
+  where: 'the Troll Forest by the troll warren: the torn pack in the snow (thing:holy_book''s click, A6''s X5): D-93, a find
+    hidden in a prop goes onto the cursor; the find line on the status line'
+  sets: {book_found: 112362}
   reads: {}
-  gives: {}
+  gives: {holy_book: 12524}
   needs: {}
   takes: {}
-  map_gives:
-    holy_book: {id: 12524, count: 1}
   call: XeenQuests.hook("q-c18.book")
+  once: true
 q-c19.skull:
   quest: Q-C19
   map: X2

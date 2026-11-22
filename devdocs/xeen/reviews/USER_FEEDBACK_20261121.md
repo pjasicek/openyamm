@@ -809,3 +809,276 @@ rounds; `q*.sh` the queues and their `.out`; `drops/` the F14 check before/after
   D3 4649; D4 4651, 4655; D6 4751, 4753-4755.
 - **Captures:** `output/xeen_a4_signs/shots/inn_signs_compare.jpg` (Ravenshore, X1 inn, D1 inn, X1 tavern), per map
   `shots/x1c/`, `shots/d1/`, `shots/x2/`, `shots/x4/`, Ravenshore `shots/out02/`.
+
+### F19: town walls closed and flush (A4 for A5/A6, 2026-11-22 ~09:30-11:30)
+
+The user: Burlock Savannah's village wall ended short of the castle's tower, leaving a walkable gap ("the walls should
+close off the city"); Vertigo's end tower stood on the creek bank ("move to the water so that person cant just walk
+around it"); Vertigo's culvert and the walls beside it met with slits and steps; "these are likely generic rules".
+
+**Cause.** The generators drew each wall from its own numbers with nothing that checked how pieces end: a circuit could
+stop on walkable land (X4, X1's open creek side, X6's coach yard), pieces of different thickness or height met without
+a cover piece (X1's culvert between quay walls proud of it, D3's four city walls of different tops, D1's corners as two
+separate walls), and ends stopped at a plot's edge instead of the body inside it (slits of 8-66 at D1's gate leaves,
+D3's gate towers and quarter walls, D6's gatehouse and energy fields, X2's terrace faces at the Great Bridge).
+
+**Check (new).** `tools/xeen/wall_check.py` with the enclosure list `tools/xeen/town_walls.yml`, run by
+`towns.py --strict` (an ERROR) and by each F19 map job before install. On the built ODM as the game collides:
+- `walls.open`: a flood fill at the party's radius (37 + 16) from each enclosure's inside, its gates sealed: water tiles,
+  slopes the game refuses and every upright model face over body height block; reaching the box's edge is an error
+  naming the narrowest point on the way out.
+- `walls.loose_end`: a circuit wall's end on walkable land (not water, cliff, map edge, tower or building).
+- `walls.slit`: a wall end with another piece under 96 in front of it.
+- `walls.step`: a wall end partly covered by the piece it meets and partly open (over a tenth, more than 32 across and
+  up); a tower or building round the joint covers it. `joints_ok` exempts pieces proud by design.
+The joint rules run on every wall of every built outdoor map; the closure rules on the 13 enclosures listed. Before:
+13 maps, 60 errors (after calibration against captures); after: 13 maps, 13 enclosures, 0 errors.
+
+**Sites (enclosures found: 14).**
+- X1 Vertigo: open along the creek (both end towers on the bank). Fixed: `town.py` runs a wall from each end tower
+  0.75 into Pitchfork Creek (`thing:creek_wall_1/2`); the bridge is the way in. Culvert: one 2,560 headwall the
+  quay's whole length (`gen.py`, quay walls removed; dark face kept 128 behind the front for XD-01's arrival).
+- X4 Burlock: open at both north ends (970 to the castle, the rise's flanks walkable). Fixed: `places.py` village wall
+  climbs to the castle's south corner towers, its top following the land (one piece, no joint).
+- X6 Warzone coach yard: open round both ends of the gate wall (the barred gate could be walked round). Fixed:
+  `places.py` yard wall from the north rim's cliff down the west side and along the south into the back cliff, top
+  following the land.
+- D1 Castleview: closed; corners (53, 44) and (73, 44) were two walls proud of each other (one line each now), north
+  gate leaves 384 in a 512 passage (512 now). `gen.py`.
+- D3 Sandcaster: closed; corner towers over the three joints of walls of different tops, the south gate's walls end
+  inside its towers, the quarter's retaining walls run into the city wall, the precinct walls are one piece each with
+  a following top. `places.py`. The gorge's rock faces are exempt (`joints_ok`: a cut, not a town wall).
+- D6 Castle Alamar: closed; the ring ends and the energy fields run into the gatehouse and pylons. Necropolis closed.
+  `gen.py`.
+- X2 Rivercity (no town wall): the terrace faces end 16 inside the Great Bridge's sides (`gen.py`).
+- Closed and flush already: X5 cloister, X7 watch post, D2 both palisades, D4 Blackfang, D5's Doom barrier.
+- Left: X3 Newcastle (its walls are staged, untouchable and hidden until built; not an enclosure yet). D1's jetty
+  bastion stands proud of the wall line on purpose (`joints_ok`).
+
+**Rebuilt** (each under its map lock, through `tools/heavy.sh`): X4 10:46, X6 10:52, X2 10:55, D1 11:00, D6 11:03,
+X1 11:06, D3 11:09, all installed with bakes; per map: L4 gate (only wall things changed), wall_check on the build 0,
+audit 0 errors, door_check/check_exits 0, D-85 0 (X6 by its own 5,120 run in vw.sh), key_npcs written, actor heights
+0, empty zones and props support pass, every L4 playtest passes from assets_dev. Scripts and logs:
+`output/xeen_walls/` (`map_job.sh`, `queue.sh`, `run/<map>/`).
+
+**Captures.** Before: `output/xeen_walls/caps/before/{x1,x4}/` (the user's poses and their mirrors) and
+`caps/flags/<stem>/` (every flagged end); after: `caps/after/{x1,x4}/`, `caps/after_flags/<stem>/`; plans
+`plan_before/`, `plan_after/`; contact sheet `output/xeen_walls/sheet_before_after.jpg`.
+
+### F20: villagers in every settlement, each town its own people (A4 for A5/A6, 2026-11-22 ~11:40-, D-96)
+
+**The report.** Lifeforce Lagoon at (17602, -2965, 2139), yaw 251°, pitch -37°: "no villagers in the village? + do
+we want like all the villagers the same type in all the cities? ... diversity." The spot is Nightshadow's square (X3).
+
+**Cause.** Street villagers were hand-placed, map by map, by whoever built the map; nothing required them. Of the 17
+settlements with streets (plus three indoor towns), 9 had none (Nightshadow, Ebenezer's camp, Winterkill,
+Castleview, the treehouse village, Lakeside, Necropolis, Olympus, Shangri-La), Asp had 3 for 17 doors, Kai Wu's
+monastery 2 novices, and the rest (Vertigo, Rivercity, Castle Burlock, Sandcaster, the Crossroads, Sphinx Wells) all
+used the same MM7 human peasants (rows 350-377); Rivercity (0.38 per door) and Sandcaster (0.26) were thin.
+
+**Measured (MM6-MM8, placed peaceful townsfolk within 1,536 of a town's house doors, per door;
+`output/xeen_villagers/data/ref.txt`):** New Sorpigal 0.88, Free Haven 0.62, Castle Ironfist 0.89, Silver Cove 0.47;
+Harmondale 0.96, Tatalia 0.6-1.0, Steadwick 0.52, Pierpont 0.77, Emerald Isle 1.18, Deyja 0.4-0.56; Ravenshore 0.62,
+Alvar 0.35, Shadowspire 0.42, Dagger Wound 1.19. Hamlets of 2-6 doors: 1-2 per door. Kinds: MM8 one people per town
+(Ravenshore and Alvar dark elves, Shadowspire vampire folk, Dagger Wound lizardmen; Balthazar's minotaurs), MM7 3-6
+human or elf kinds (Pierpont elves, Deyja goblins), MM6 3-4 (peasants, merchants, nobles).
+
+**Fix at the source (D-96).**
+- `assets_dev/worlds/xeen/source/towns/villagers.yml`: every settlement of the town files, with a palette of 3-5 kinds
+  from the MM6-MM8 townsfolk rows that have a 3D model, a count (about 0.7 per door) and a group; or an exemption with
+  its reason (lone houses in the wild, castle interiors, one-house dungeons).
+- `tools/xeen/villagers.py --place <map>` writes `villagers_spots.yml` (generated) from the built map: street points
+  inside the settlement, at least 640 from every house door (closed cursed doors too) and 900 from every talking NPC,
+  never on a model (walls, houses, platforms, bridges) or a decoration, spread by farthest-point picking with roads
+  preferred.
+- Every outdoor generator places them through `villagers.sketch_actors()` / `villagers.fill()` and
+  `villagers.relations()` (peaceful: `hostile: false` and friendly to the party; wandering by their rows' Long
+  movement). `fill()` puts them into the list places of the earlier hand-placed townsfolk (`villagers.slots(n)`), so
+  every other actor keeps its scene index (the first X2 pass moved Danulf's index and broke its playtests; reinstalled).
+- The check: `villagers.py`, run by `towns.py --strict`: a built settlement with no villagers, below its floor (0.45 per
+  door, at least 3; hamlets 2), with one kind; a palette outside 3-5 kinds, a row that is not townsfolk or has no
+  model; neighbours sharing two kinds; a villager starting hostile, by a door or by a giver: ERROR. Indoor towns whose
+  lane places them (`placed_by`): WARN.
+
+**The palettes, race first** (the user, during this work: "make sure we dont use villagers race which doesnt fit the
+city/village"). Each settlement's races and their source are in `villagers.yml`; a row's race comes from its picture
+and the check fails a race the settlement does not allow. The first palettes (MM8 vampire folk in Nightshadow,
+lizardfolk in Asp, dark elves in Sandcaster, goblins in Lakeside, dwarves in Winterkill, Castleview and Ebenezer's
+camp, elves in the treehouse village, ogre/troll/minotaur traders at the Crossroads and Sphinx Wells) were replaced
+and the maps rebuilt again. Diversity now comes from clothing, trade and age (neighbours share at most one kind):
+
+| Settlement | Map | Races (source) | Kinds | Villagers before -> after |
+| --- | --- | --- | --- | --- |
+| Vertigo | X1 | human (WORLD_DESIGN 5.1; 50 named NPCs human) | MM7 Human2 men A/B, Human1 women A/B | 23 (6 by doors or Mylo) -> 23 |
+| Rivercity | X2 | human (57 NPCs human, one elf guest, a ghost) | MM6 peasants M1, F1, F2, merchants | 18 -> 30 |
+| Nightshadow | X3 | human (15 NPCs human, 3 gnomes: no gnome row) | ragged folk (MM8 bedraggled), Human1 woman C, man C, Moon acolytes | 0 -> 12 |
+| Ebenezer's camp | X3 | human (its NPCs) | workmen: Human1 men A/B, Human2 man C | 0 -> 4 |
+| Castle Burlock | X4 | human (14 NPCs human) | MM7 and MM8 Sun clerics, Human2 women A/C, Human1 man B | 10 -> 10 |
+| Asp | X4 | human (16 NPCs human; the curse is on humans) | Human2 woman B, man C, ragged folk | 3 -> 11 |
+| Winterkill | X5 | human (18 NPCs human) | MM6 peasants M1, F2, Human2 woman C, ragged folk | 0 -> 12 |
+| Kai Wu's monastery | X5 | human (its monks) | MM6 and MM7 monks, a Sun cleric, a pilgrim | 2 -> 4 |
+| Sphinx Wells | X6 | human (4 NPCs human) | merchants, Human2 man B, woman B | 4 -> 6 |
+| Castleview | D1 | human (44 NPCs, one elf) | Human1 men A, women B, Human2 women C, Drawkcab's monks | 0 -> 30 |
+| the treehouse village | D2 | sprite (its 5 NPCs sprites) | none: no sprite townsfolk row (request A2/S) | 0 -> 0 (WARN) |
+| Sandcaster | D3 | human (39 NPCs, one elf) | merchants, Human2 men B, women A, MM6 peasant women | 10 -> 28 |
+| Crossroads | D3 | human (6 NPCs human) | a merchant, MM6 peasant men, Human1 woman C, Human2 man A | 4 -> 6 |
+| Lakeside | D4 | human (19 NPCs; the vampire Queen apart) | fisherfolk (Human1 woman A, man C, MM6 F2), the coven's robed women (druidess) | 0 -> 12 |
+| Necropolis | D6 | human, vampire (7 undead NPCs, 5 human) | Moon acolytes, ragged pilgrims, Human2 man C, MM8 vampire folk | 0 -> 8 |
+| Olympus | D7 | human (13 NPCs) | Sun clerics of two orders, monks, Human2 women | 0, pending (A6) |
+| Shangri-La | XD-17 | human (18 NPCs, one orc guest) | monks, Moon acolytes, Human1 man B, Human2 woman B | 0, pending (its lane) |
+| Bosco's Hall | DD-25 | dwarf (6 NPCs dwarves) | A8's dwarves | 3, pending (A8) |
+
+**Rebuilt and installed with bakes, one map at a time under its lock** (`output/xeen_villagers/tools/map_job.sh`: L4
+gate that only the sketch's actors and relations change and no other actor's index moves; audit, door_check,
+check_exits, D-85/D-87, key_npcs --write, actor heights, empty zones, props, house signs, villagers, every L4
+playtest): X3 11:57, X2 12:09, X5 12:15, X6 12:18, D1 12:21, D2 12:24, D4 12:27, X1 12:34 (after WATER END DONE),
+D3 12:38, D6 12:41, X4 12:47; after the race rule again (palettes only) X3 12:56, X4 12:59, X5 13:02, X6 13:05,
+D1 13:09, D2 13:12, D3 13:15, D4 13:19 (VILLAGER RACES DONE 13:20). Every L4 playtest passes. After: `towns.py
+--strict` 0 errors (WARN: the treehouse village, D7, XD-17, DD-25), `stale_bakes.py --check` 0,
+`build_world.py --check` 0 differ. X6's one D-85 ERROR (Arie 4608, two melee spawn
+markers, no disabler) was there before (`output/xeen_walls/run/x6/d85.txt`, D-87's melee warning case).
+
+**D-95 on X4 (the orchestrator's addition):** Asp's undercroft stair (`thing:xd25_stair`) is now a sunken entrance
+(`SunkenEntrance`: floor nodes x 41-42 on row 81, 224 under the square; ramp to row 82; 448-thick revetments, the
+house east of it stands at x 43.0; cap behind). Event, window and XD-25's arrival (41.5, 82.45, on the square south of
+the ramp's top) unchanged; the rule stone moved off the cut to (43.2, 83.0). The kit's headwall and cap now follow the
+revetments' thickness (identical output for X1's culvert).
+
+**Captures.** `output/xeen_villagers/caps/before/`, `after/` (the user's pose, two street views per settlement, the
+stair), `close/` (two shots at villagers per settlement, after the race rule); contact sheets
+`output/xeen_villagers/contact_sheet.jpg` (before | after) and `output/xeen_villagers/closeups_sheet.jpg`.
+
+### F21 roofs: sky over enclosed walks (D-97), and Castle Xeen's monsters (D-98), 2026-11-22 ~14:30-16:00
+
+Agent for A7/A8 (fourth orchestrator); scratch `output/xeen_roofs/` (cycle `cyc.sh`, tours `tours/`, captures
+`before/`, `after/`).
+
+- **Reports:** Castle Xeen (XD-19) at (-4837, -1367, 640): "I dont see the roof"; Castle Blackfang (DD-14) at
+  (-145, 1352, 1280): "should there be roof?"; Castle Basenji (XD-14) at (-28, -2037, 640): the same.
+- **Cause:** the studio builds every room with walls up to its ceiling; `sky: true` only swaps the ceiling for sky. A
+  narrow room under sky with full-height walls on both sides is a corridor with its lid off. No castle or keep kit
+  default: each map's generator gives its open rooms a `theme:sky`/`theme:walk` with a sky ceiling; the ones that read
+  open had a low opening (DD-14's parapets over the courtyard) or walls drawn as sky (XD-22's moon gallery, XD-11).
+- **Rule (D-97):** sky only over places a brief names as outdoors (courtyard, battlements, wall walk, terrace, shaft,
+  pit, ravine, bridge, arena, ruin, open ground, canopy, skylight); a walk opens on at least one side; another open
+  room opens on a side or is at least 0.75 times as wide as its walls are high; a skylight is at most 35 % of its
+  room's floor. Every enclosed room or corridor has a ceiling.
+- **Check:** `tools/xeen/check_open_sky.py` (data `tools/xeen/open_sky.yml`, in lanes/README's map checks): an
+  undeclared sky sector, a walk closed on both sides, a roofless enclosure or an oversized skylight is an ERROR. On
+  the maps as they were it flags exactly the reported family: XD-19's four wall walks, XD-14's battlement walk (the
+  Basenji pose) and roof walk. Now: 57 sky sectors on 33 BLVs, 0 errors (`survey_before.txt`, `survey_after.txt`).
+- **Survey (57 sectors; sky in walls, the views out, counted apart):** kept open: DD-03 yard, DD-14 courtyard and four
+  walks (battlements over the courtyard), DD-19 court, XD-19 aviary (1,920 wide under 1,536), XD-20 arena, DD-12 ruined
+  tower, XD-13 breach, XD-11 roof terrace and stairway, XD-12's roofs, sky stair, well and outside, XD-17 valley and
+  ravine passage, XD-22 moon gallery, FD-01 shaft, the open-air maps (D7, P1-P5, X8, X9); skylights (sky 4-34 % of the
+  floor): DD-09 crown, DD-11A/B/C pits, DD-13 smoke holes, DD-22 viewport, DD-23 crack, DD-24 smoke hole, FD-03/FD-04
+  hatches, XD-13 fallen roof; canopy: DD-09 limb walk. **Fixed (7 sites):** XD-19 `wall_ws`, `wall_wn`, `wall_es`,
+  `wall_en`; XD-14 `battlements`, `roof_walk`, `moon_tower`: the outer wall drawn as sky over a 160-high parapet (the
+  wall stays solid). Nothing was roofed: every sky sector is named open by its brief.
+- **DD-14:** the user stood in the north wall walk (not the coffin landing): battlements, its inner parapet (sill 224)
+  open over the courtyard; kept (`before/dd14/03-user_level.png`, `04-user_south.png`).
+- **D-98 (Castle Xeen):** 72 -> 98 monsters (1.9 per sector, 0.64 per M units²: upper half of Castle Gloaming,
+  The Pit, Castle Lambent, Darkmoor, MM8's Necromancers' Guild); the throne room has Lord Xeen and six Xeen's Guards in
+  two ranks, freed with him. DD-17's Command Central has no boss fight: unchanged.
+- **Builds:** XD-19 and XD-14 rebuilt from their generators, installed, baked; MAW reserves + balance check, exits,
+  drops, doors, key NPCs, actor heights, identity, open sky all 0; audits 0 errors; playtests XD-19 4/4, XD-14 3/3;
+  side quest q-c8 PASS; main segment 83 PASS after its Lord Xeen index (25 -> 37); `stale_bakes --check` 0;
+  `build_world.py --check` 0 differ.
+- **Captures:** `output/xeen_roofs/sheet_roofs_a.png` (XD-19 and XD-14 user poses and every fixed walk, before and
+  after), `output/xeen_roofs/sheet_xd19_monsters.png` (throne room, nave, stair hall, west aisle), DD-14
+  `output/xeen_roofs/before/dd14_sheet.png` (unchanged map).
+
+### F23 bright interiors: The Sphinx too bright with the torch (D-100), 2026-11-22 ~14:50-15:55
+
+Agent for A7/A8 and the lighting side (fourth orchestrator); scratch `output/xeen_bright/` (tools `tools/`, captures
+`caps/`, contact sheet `F23_contact_sheet.jpg`: per map without and with Torch Light (Expert), before and after, and
+the MM6-MM8 references; brightness tables `brightness_before.tsv`, `brightness_after.tsv`).
+
+- **Report:** XD-15 The Sphinx at (-88.5, 5641, 0), yaw 0.551: "WAY too bright (with torch)".
+- **Measured** (game screenshots, HUD off, mean Rec. 709 luma 0-255 / share with a channel at 250+; the torch is
+  Expert, the user's warm torch): the user's pose 186 / 29 % without the torch, 210 / 58 % with it; six Sphinx views
+  202 / 37 % and 224 / 73 %. References: MM6 Tomb of VARN (pyramid.blv) 45 / 75 with the torch, MM7 Tidewater Caverns
+  30 / 45, MM7 Grand Temple of the Sun (t03, the brightest original found) 110 / 3 % and 184 / 35 %, MM8 Troll Tomb
+  (d13) 38 / 87, MM8 Temple of the Sun (d22) 41 / 111. The Sphinx drew brighter without a torch than MM7's brightest
+  temple with one.
+- **Cause: the bake, not the torch.** Every Xeen profile was the same copy (direct 2.0, bounce 5.0, ambient 0.9,
+  `max_lighting` 1.5; seven maps had been hand-lowered after earlier "washed out" reviews). `bounce_scale` 5 suits dark
+  textures; Cycles' bounce grows with albedo, and on the Sphinx's sandstone (texture luma 146) it was 0.65 of the direct
+  light, so the composed bounce was 3.2 times the direct (median raw light 2.9 against the 1.5 ceiling): nearly every
+  texel sat at the ceiling, a flat floodlit 1.5 x a pale texture. The torch then adds its 0.76 x texture as in MM6-MM8
+  (unchanged engine; additive like the originals) and blew the rest out. Lights (92) and textures are not the fault:
+  DD-15, the Great Pyramid, uses the same egy* textures and drew at 112 on its hand-lowered profile.
+- **Fix (D-100), shared:** `tools/lighting/bake_indoor.py` profile key `rendered_limit` (opt-in; MM9 profiles
+  unchanged), in all 60 `profiles/xeen_*.yml` as `{"mean": 90, "ceiling": 0.85}`: per texel no texture mean colour
+  is drawn over 0.85 per channel, and a map drawing over a mean of 90 has all its light scaled to 90 (devdocs/
+  INDOOR_BAKED_LIGHTING.md "Rendered limit"). Guard: `python3 tools/lighting/indoor_bake_brightness.py --world xeen
+  --check` (no Blender, seconds; fails a map over 95): 0 over now.
+- **Maps** (every Xeen BLV rebaked under its lock from the map as it stood; scaled maps, rendered mean before ->
+  after by the check tool): XD-15 The Sphinx 201 -> 93, XD-20 The Warzone 176 -> 92, FD-02 Southern Sphinx 120 -> 90,
+  DD-26 Olympus Sewer 119 -> 92, DD-07 Eastern Tower 114 -> 93, DD-15 Great Pyramid 112 -> 92, DD-03 Castle Kalindra
+  112 -> 93, DD-06 Southern Tower 102 -> 93, DD-05 Western Tower of Mok 98 -> 92, DD-08 Northern Tower 96 -> 93. The
+  other 50 maps were under 90 and only lost texels over the ceiling (pre-torch white, a few % in lamp pools).
+- **After, in game:** the user's pose 117 / 0 % without, 171 / 6 % with the torch; the six Sphinx views 119 / 0 % and
+  176 / 14 %; FD-02 164 / 23 % -> 133 / 7 % and 211 / 60 % -> 196 / 38 %; DD-15 143 -> 123 and 196 / 34 % -> 178 /
+  25 %; DD-26 91 -> 69 and 145 / 16 % -> 127 / 8 %. With the torch the sandstone now reads like MM7's t03 under the
+  torch (184 / 35 %), not white.
+- **Left:** FD-02's library wall (a contrasty pale texture: the ceiling works on the texture's mean) still draws 191
+  without the torch; the torch on any pale stone adds about +55 (the original game's behaviour; DECIDE in the report).
+  `stale_bakes.py --check` 0. Playtests: XD-15 4/4, XD-20 3/3, FD-02 5/5, DD-15 4/4, DD-07 4/4, DD-03 5/5, DD-06 4/4,
+  DD-05 3/3, DD-08 4/4, DD-26 5/6 (`playtest_in` step 10: the sewer grate's dialog lacks "Descend into the sewer?",
+  an event text, not lighting; for A8). XD-20 cannot be started by `run_game.py` (its preparation save fails), so it
+  has no captures.
+
+### F22 chest facing: chests turned and placed by D-99 (A1 42nd session for A7/A8, 2026-11-22 ~14:40-16:30, merge point 47)
+
+The user: "lots of times there is wrong rotation of the chests (in dungeons) based on the position to the doors"
+(Darkstone Tower, FD-03, at (-1798, 11, 864)) and "chest in front of stairs/entrance to another room" (the Sphinx,
+XD-15, at (169, 5843, 0)).
+
+**Cause.** An indoor chest's `facing` is the direction of its width and its front lies a quarter anticlockwise of it
+(F6-R5); the lanes' generators wrote it as the front's direction, so chests stood end-on to the wall they were set
+against (FD-03's library chest: end-on to the west wall, its front north along it) or with their front to it. F6-R5's
+`chest.front` only probed 64 straight out of the front. Chests are geometry, not decorations, so the D-7 dressing rules
+(doorways, walking lines) never saw them: XD-15's vault chest stood on the line from the belly hall to the dungeon stair,
+104 from the stair's doorway.
+
+**Rule: D-99** (DECISIONS), measured on MM7 (7d29 Castle Harmondale, the barrows, 7d08, 7d11, 7d12: 27 of 32 chests back on
+a wall, none end-on) and MM8 (13 dungeons: 33 of 49 back on a wall, every free one with its front within 83 degrees of
+its nearest doorway): back to the wall it stands by, out of a niche, free toward its room's entrance from the party's
+start; its footprint 128 (a party's width and a margin) clear of every doorway and door, 64 off the line between two of
+its room's ways.
+
+**At the source (Map Studio, merge point 47).** A chest without `facing` is turned by the rule (`chestRuleDegrees`:
+the room's walls less its doorways, the entrance by a walk over the openings from the start; a sloping lid by whole
+quarters); a given `facing` still wins. Build warnings `chest.facing` and `chest.placement` (they replace
+`chest.front`). **Check:** `oymap audit` `chest.facing` and `chest.placement` (errors; Xeen, other worlds with
+`--dressing`) on the built map, indoors and on outdoor models, by the same functions (core/ChestKinds.h). Through it the
+shipped maps keep three faults among about 45 chests (7d12's two vault chests, d06's one), the stricter side on purpose.
+Studio tests "D-99: a chest without facing ..." and "D-99's checks ...", 512/512.
+
+**Sites.** Survey with the new audit on all 82 installed maps (`output/xeen_chests/survey_before2/`): 118 faults on 50
+BLVs, 112 facing and 6 placement; while rebuilding the final audit found two more (XD-12). Per map (facing/placement):
+DD-01 3/0, DD-02 3/0, DD-03 4/0, DD-04 3/0, DD-05 4/0, DD-06 1/0, DD-07 3/0, DD-08 4/0, DD-09 2/0, DD-10A 2/0, DD-10C 1/0,
+DD-11A 1/0, DD-12 4/2, DD-13 3/0, DD-14 1/0, DD-15 4/1, DD-16 2/0, DD-17 2/0, DD-18 2/0, DD-19 1/0, DD-20 2/0, DD-21 2/1,
+DD-23 1/0, DD-24 2/0, DD-26 2/0, FD-03 4/0, FD-04 4/0, P5 1/0, XD-02 1/0, XD-03 4/0, XD-04 2/0, XD-05 1/0, XD-06 1/0,
+XD-08 2/0, XD-09 1/0, XD-10 5/0, XD-11 3/0, XD-12 1/0 (+2), XD-13 1/0, XD-14 0/1, XD-15 2/1, XD-16 1/0, XD-19 4/0,
+XD-21 1/0, XD-22 2/0, XD-23 2/0, XD-24 3/0, XD-25 2/0, XD-26 1/0, XD-27 4/0. The 13 ODMs: none (their chests are the
+19-face kind faces standing by houses; none end-on, none at a house door). All 120 fixed: `facing` dropped in the L4
+and the generator (the rule turns them); six moved off their ways (DD-12 negative and reserve, DD-15 strongbox, DD-21
+box, XD-14 dormitory, XD-15 vault: the user's chest, now by the north wall east of the stair, 176 from its doorway);
+three given the `facing` the audit passes where the rule cannot see what is beside them (XD-02 lamp_room, XD-12
+guard_hall and quarters). Per-chest lists in lanes/A7.md and lanes/A8.md (42nd-session blocks); P5's gift chest is the
+P5 lane's (its `facing` dropped in `gen_objects.py` and the L4).
+
+**Rebuilt:** 51 maps (the 50 and XD-01, whose cabinet gives no `facing`), one at a time under each map's lock
+(`output/xeen_chests/cyc.sh`): validate, record, build, install, audit (0 chest errors, no new error), install into
+assets_dev, MAW reserve, exits (0), drops (only the known XD-02, XD-12, XD-15 pockets), bake, playtests (all pass but
+four entrance-window tests that start on the overworld: DD-26, XD-06, XD-21, XD-27 `playtest_in`/`playtest_way_in`, for
+F16). After: the audit finds 0 chest faults on all 82 maps (`survey_after/`); key_npcs --write, check_actor_heights,
+door_check, check_identity, xeen_balance --check clean; stale_bakes --check 0; build_world --check 0 differ.
+
+**Captures.** The user's poses: `output/xeen_chests/before/user_fd03.png` -> `after/user_fd03.png` (the lock now faces
+the room) and `before/user_xd15.png` -> `after/user_xd15.png` (the stair head is clear); `output/xeen_chests/sheet_user.png`.
+One chest per fixed map, before and after from its room: `output/xeen_chests/shots/`, contact sheet
+`output/xeen_chests/sheet.png` (the before maps were built from each run's `objects.before.yml` into a mount and drawn
+with the new bake, so their light may be off).

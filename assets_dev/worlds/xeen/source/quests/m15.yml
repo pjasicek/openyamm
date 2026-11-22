@@ -30,7 +30,7 @@ npcs:
   4904:              # Zelda the Herbalist
     topics:
       - n: 1
-        label: The orb
+        role: quest
         states:
           - when: {qbit: orb}
             text: "Still have it? Good. Keep it away from my herbs. The mint went purple."
@@ -39,10 +39,12 @@ npcs:
   4921:              # Madame Oorla
     topics:
       - n: 2
-        label: The orb
+        role: quest
+        afterword: {n: 4, label: The orb}
         show: {item: pharaoh_orb}
         states:
           - when: {qbit: read}
+            afterword: true
             text: "The Pharaoh's orb wants to go home, but first it must see Ellinger. I don't make the rules. The orb does."
           - text: "Let me see... This orb belongs to the Dragon Pharaoh, in his pyramid in the desert. But first it must see Ellinger, the Queen's wizard. He locked himself in his tower with traps, so you will need his key, and at the top his tower will ask whom you seek: say his name, 'Ellinger'."
             do: [{set: read}, {autonote: oorla}, {xp: 3000}]

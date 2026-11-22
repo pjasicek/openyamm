@@ -206,6 +206,6 @@ end, "Wine Rack")
 
 RegisterEvent(501, "Leave the Vampire Family House", function()
     SetQBit(QBit(619)) -- Slayed the vampire
-    evt.MoveToMap(8216, -10619, 289, 0, 0, 0, 0, 0, "7out13.odm") -- Tatalia
+    evt.MoveToMap(8216, -10619, 289, 0, 0, 0, 0, 1, "7out13.odm") -- Tatalia
 end, "Leave the Vampire Family House")
 

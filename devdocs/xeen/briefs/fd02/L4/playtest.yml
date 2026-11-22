@@ -107,14 +107,14 @@ steps:
   - interact_actor: {actor_index: 16}
   - advance_runtime: {seconds: 0.5, present_dialogs: true}
   - assert: {dialog: {active: true}}
-  - select_topic: {match_label: "Chime of Opening"}
+  - select_topic: {action_id: 42001, match_label: "Quest"}
   - assert: {dialog: {active: true, text_contains: "widget"}}
   - play_lua: {source: "close(); close(); wait(0.5); close(); if qbit(111801) then error('m40.done without the widget') end"}
   - grant_item: {item_id: 12315, member_index: 0}
   - play_lua: {source: "if held() ~= 0 then stow() end"}
   - interact_actor: {actor_index: 16}
   - advance_runtime: {seconds: 0.5, present_dialogs: true}
-  - select_topic: {match_label: "Chime of Opening"}
+  - select_topic: {action_id: 42001, match_label: "Quest"}
   - assert: {dialog: {active: true, text_contains: "Really?"}}
   - play_lua: {source: "close(); close(); wait(0.5); close(); if not qbit(111801) then error('m40.done 111801 not set') end; if not has_item(12373) then error('no Chime of Opening') end; if has_item(12315) then error('the widget is still here') end"}
   # D-51 / D-52: Picard cannot be killed: struck 40 times, no damage, still peaceful.

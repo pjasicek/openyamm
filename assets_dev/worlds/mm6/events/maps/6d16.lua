@@ -387,7 +387,7 @@ RegisterEvent(48, nil, function()
 end)
 
 RegisterEvent(50, "Exit", function()
-    evt.MoveToMap(-18606, 9831, 160, 1536, 0, 0, 0, 0, "outd1.odm") -- Silver Cove
+    evt.MoveToMap(-18606, 9831, 160, 1536, 0, 0, 0, 6, "outd1.odm") -- Silver Cove
 end, "Exit")
 
 RegisterEvent(51, nil, function()

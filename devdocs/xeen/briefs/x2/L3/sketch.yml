@@ -1415,7 +1415,7 @@ structures:
     notes: The terrace's stone face over the quay.
   - id: thing:north_wall_2
     kind: wall
-    line: [[58.45, 48.5], [62.95, 48.5]]
+    line: [[58.45, 48.5], [63.03, 48.5]]
     height: 48
     thickness: 512
     textures: {wall: cnb}
@@ -1423,7 +1423,7 @@ structures:
     notes: The terrace's stone face over the quay.
   - id: thing:north_wall_3
     kind: wall
-    line: [[65.05, 48.5], [72.55, 48.5]]
+    line: [[64.97, 48.5], [72.55, 48.5]]
     height: 48
     thickness: 512
     textures: {wall: cnb}
@@ -1447,7 +1447,7 @@ structures:
     notes: The terrace's stone face over the quay.
   - id: thing:south_wall_2
     kind: wall
-    line: [[59.95, 57.5], [62.95, 57.5]]
+    line: [[59.95, 57.5], [63.03, 57.5]]
     height: 48
     thickness: 512
     textures: {wall: cnb}
@@ -1455,7 +1455,7 @@ structures:
     notes: The terrace's stone face over the quay.
   - id: thing:south_wall_3
     kind: wall
-    line: [[65.05, 57.5], [66.1, 57.5]]
+    line: [[64.97, 57.5], [66.1, 57.5]]
     height: 48
     thickness: 512
     textures: {wall: cnb}
@@ -1525,7 +1525,7 @@ structures:
     kit: timber
     facing: n
     parts:
-      - {id: house, at: [48, 48], size: [928, 640], signs: [{wall: w, bay: 0, texture: sgdock, size: [96, 96], bottom: 120, out: 48, hang: true}], textures: {roof: hhm1rf}, wall_height: 384, roof: gable, roof_pitch: 38, ridge_along: ew}
+      - {id: house, at: [48, 48], size: [928, 640], signs: [{wall: w, bay: 0, texture: sgdock, size: [64, 64], bottom: 120, out: 48, hang: true}], textures: {roof: hhm1rf}, wall_height: 384, roof: gable, roof_pitch: 38, ridge_along: ew}
     door:
       part: house
       wall: w
@@ -2365,24 +2365,24 @@ structures:
     at: [101, 103]
     decoration: rock26
 actors:
-  - {monster: "371", at: [62.5, 44.9], spread: 0, group: 51}
-  - {monster: "368", at: [65.6, 45.2], spread: 0, group: 51}
-  - {monster: "354", at: [63, 47.3], spread: 0, group: 51}
-  - {monster: "350", at: [65.5, 47.3], spread: 0, group: 51}
-  - {monster: "371", at: [56, 42.4], spread: 0, group: 51}
-  - {monster: "368", at: [70.3, 43.25], spread: 0, group: 51}
-  - {monster: "354", at: [75, 42.3], spread: 0, group: 51}
-  - {monster: "350", at: [57.9, 45.8], spread: 0, group: 51}
-  - {monster: "371", at: [72.1, 45.9], spread: 0, group: 51}
-  - {monster: "368", at: [59.5, 48], spread: 0, group: 51}
-  - {monster: "354", at: [69.5, 48], spread: 0, group: 51}
-  - {monster: "350", at: [62.5, 59], spread: 0, group: 51}
-  - {monster: "371", at: [66.4, 59.5], spread: 0, group: 51}
-  - {monster: "368", at: [57, 61], spread: 0, group: 51}
-  - {monster: "354", at: [70, 61], spread: 0, group: 51}
-  - {monster: "350", at: [61, 64.65], spread: 0, group: 51}
-  - {monster: "371", at: [56.5, 50], spread: 0, group: 51}
-  - {monster: "368", at: [70.5, 55.6], spread: 0, group: 51}
+  - {monster: "607", at: [62.59, 54.5], spread: 0, group: 47, hostile: false, notes: D-96 villager of Rivercity (villagers.yml)}
+  - {monster: "595", at: [79.34, 77.25], spread: 0, group: 47, hostile: false, notes: D-96 villager of Rivercity (villagers.yml)}
+  - {monster: "598", at: [41.34, 38.5], spread: 0, group: 47, hostile: false, notes: D-96 villager of Rivercity (villagers.yml)}
+  - {monster: "577", at: [78.59, 42], spread: 0, group: 47, hostile: false, notes: D-96 villager of Rivercity (villagers.yml)}
+  - {monster: "608", at: [47.09, 62.25], spread: 0, group: 47, hostile: false, notes: D-96 villager of Rivercity (villagers.yml)}
+  - {monster: "596", at: [77.59, 61], spread: 0, group: 47, hostile: false, notes: D-96 villager of Rivercity (villagers.yml)}
+  - {monster: "607", at: [63.34, 37.25], spread: 0, group: 47, hostile: false, notes: D-96 villager of Rivercity (villagers.yml)}
+  - {monster: "595", at: [61.59, 67.75], spread: 0, group: 47, hostile: false, notes: D-96 villager of Rivercity (villagers.yml)}
+  - {monster: "598", at: [52.59, 43], spread: 0, group: 47, hostile: false, notes: D-96 villager of Rivercity (villagers.yml)}
+  - {monster: "577", at: [69.34, 43.75], spread: 0, group: 47, hostile: false, notes: D-96 villager of Rivercity (villagers.yml)}
+  - {monster: "608", at: [55.59, 60.75], spread: 0, group: 47, hostile: false, notes: D-96 villager of Rivercity (villagers.yml)}
+  - {monster: "596", at: [67.09, 61.25], spread: 0, group: 47, hostile: false, notes: D-96 villager of Rivercity (villagers.yml)}
+  - {monster: "607", at: [58.09, 47.75], spread: 0, group: 47, hostile: false, notes: D-96 villager of Rivercity (villagers.yml)}
+  - {monster: "595", at: [74.59, 49.5], spread: 0, group: 47, hostile: false, notes: D-96 villager of Rivercity (villagers.yml)}
+  - {monster: "598", at: [62.84, 43.5], spread: 0, group: 47, hostile: false, notes: D-96 villager of Rivercity (villagers.yml)}
+  - {monster: "577", at: [61.34, 61], spread: 0, group: 47, hostile: false, notes: D-96 villager of Rivercity (villagers.yml)}
+  - {monster: "608", at: [57.84, 42], spread: 0, group: 47, hostile: false, notes: D-96 villager of Rivercity (villagers.yml)}
+  - {monster: "596", at: [72.59, 64], spread: 0, group: 47, hostile: false, notes: D-96 villager of Rivercity (villagers.yml)}
   - {monster: "404", at: [63.2, 47.9], spread: 0, group: 51}
   - {monster: "404", at: [64.8, 47.9], spread: 0, group: 51}
   - {monster: "404", at: [63.2, 58.1], spread: 0, group: 51}
@@ -2410,6 +2410,18 @@ actors:
   - {monster: "270", at: [27, 102], spread: 0, group: 55, npc: 4155}
   - {monster: "11184", at: [72.3, 56], spread: 0, group: 54, hostile: true, hidden: true, notes: "Q-C2: the sorceresses' apprentice, shown by the strongbox."}
   - {monster: "11184", at: [72.7, 55.5], spread: 0, group: 54, hostile: true, hidden: true, notes: "Q-C2: the sorceresses' apprentice, shown by the strongbox."}
+  - {monster: "607", at: [73.59, 45], spread: 0, group: 47, hostile: false, notes: D-96 villager of Rivercity (villagers.yml)}
+  - {monster: "595", at: [72.09, 58.5], spread: 0, group: 47, hostile: false, notes: D-96 villager of Rivercity (villagers.yml)}
+  - {monster: "598", at: [45.84, 40.25], spread: 0, group: 47, hostile: false, notes: D-96 villager of Rivercity (villagers.yml)}
+  - {monster: "577", at: [63.84, 64.25], spread: 0, group: 47, hostile: false, notes: D-96 villager of Rivercity (villagers.yml)}
+  - {monster: "608", at: [51.34, 61.5], spread: 0, group: 47, hostile: false, notes: D-96 villager of Rivercity (villagers.yml)}
+  - {monster: "596", at: [75.84, 74.75], spread: 0, group: 47, hostile: false, notes: D-96 villager of Rivercity (villagers.yml)}
+  - {monster: "607", at: [73.09, 39.75], spread: 0, group: 47, hostile: false, notes: D-96 villager of Rivercity (villagers.yml)}
+  - {monster: "595", at: [66.09, 43.5], spread: 0, group: 47, hostile: false, notes: D-96 villager of Rivercity (villagers.yml)}
+  - {monster: "598", at: [64.09, 40.5], spread: 0, group: 47, hostile: false, notes: D-96 villager of Rivercity (villagers.yml)}
+  - {monster: "577", at: [75.34, 42], spread: 0, group: 47, hostile: false, notes: D-96 villager of Rivercity (villagers.yml)}
+  - {monster: "608", at: [74.34, 61.5], spread: 0, group: 47, hostile: false, notes: D-96 villager of Rivercity (villagers.yml)}
+  - {monster: "596", at: [68.09, 50.25], spread: 0, group: 47, hostile: false, notes: D-96 villager of Rivercity (villagers.yml)}
 items:
   - {id: item:ligono_skull, item: 12311, at: [96.6, 102.8]}
 sounds:
@@ -2438,6 +2450,7 @@ sounds:
   - {id: sound:bed_night_9, at: [97, 97.5], sound: xeen_amb_night, radius: 15000, inner_radius: 6000, volume: 0.3, night_only: true, pan: false}
 relations:
   - {of: [268, 269, 270], toward: party, relation: friendly}
+  - {of: [577, 595, 596, 598, 607, 608], toward: party, relation: friendly}
 events:
   - id: evt:ligono_freed
     trigger: load

@@ -68,6 +68,7 @@ XeenQuests.qbits = {
     ["m1.crodo_lead"] = 111022,
     ["m2.started"] = 111040,
     ["m2.done"] = 111041,
+    ["m2.key_found"] = 111042,
     ["m3.started"] = 111060,
     ["m3.done"] = 111061,
     ["m4.started"] = 111080,
@@ -237,6 +238,7 @@ XeenQuests.qbits = {
     ["q-c17.done"] = 112341,
     ["q-c18.started"] = 112360,
     ["q-c18.done"] = 112361,
+    ["q-c18.book_found"] = 112362,
     ["q-c19.done"] = 112380,
     ["q-c19.started"] = 112381,
     ["q-c20.started"] = 112400,
@@ -667,7 +669,7 @@ RegisterCanShowTopic(349, function() return Xeen.isSet("q-c18.done") end)  -- np
 RegisterCanShowTopic(389, function() return Xeen.isSet("m26.stage4") end)  -- npc 5002
 RegisterCanShowTopic(407, function() return Xeen.isSet("m26.stage4") end)  -- npc 5003
 
-RegisterGlobalEvent(40051, "Pests", function()
+RegisterGlobalEvent(40051, "Quest", function()
     if IsQBitSet(QBit(111040)) then
         evt.SetMessage(NPCText(40050, "Joe swears he has the situation under control. He has sworn it for two years."))
         return
@@ -676,10 +678,10 @@ RegisterGlobalEvent(40051, "Pests", function()
     SetQBit(QBit(111020))
 end)
 RegisterCanShowTopic(40051, function()
-    return not (IsQBitSet(QBit(111041)))
+    return (not (IsQBitSet(QBit(111041))) and not (HasItem(12002)))
 end)
 
-RegisterGlobalEvent(40101, "Joe's invoice", function()
+RegisterGlobalEvent(40101, "Quest", function()
     evt.SetMessage(NPCText(40100, "Thank you for cleaning up Vertigo and discovering Joe's treachery. Now it makes sense why the extermination of the pests was taking so long. I present you with the outstanding citizenship award and this treasure. Congratulations. Oh, one more thing. I have received a message from the dwarves who reside in the Red Dwarf Range. They have urgently requested help and promise great reward to whoever is brave enough to come. Apparently, their mines have been invaded by the Mad Dwarf Clan, preventing them from mining. Help them and report back."))
     RemoveItem(12002)
     SetQBit(QBit(111041))
@@ -697,13 +699,22 @@ RegisterCanShowTopic(40101, function()
     return (HasItem(12002) and not (IsQBitSet(QBit(111041))))
 end)
 
-RegisterGlobalEvent(40102, "Joe", function()
+RegisterGlobalEvent(40102, "Quest", function()
+    evt.SetMessage(NPCText(40102, "He...he (hic) breeeds (hicup) Breeeeeds them in the (hic) warehouse (hicup)"))
+    SetQBit(QBit(111040))
+end)
+RegisterCanShowTopic(40102, function()
+    return not (IsQBitSet(QBit(111041)))
+end)
+
+RegisterGlobalEvent(40106, "Joe", function()
     if IsQBitSet(QBit(111041)) then
         evt.SetMessage(NPCText(40101, "Joe's gone. (hic) Good riddance. (hicup) Who's buying?"))
         return
     end
-    evt.SetMessage(NPCText(40102, "He...he (hic) breeeds (hicup) Breeeeeds them in the (hic) warehouse (hicup)"))
-    SetQBit(QBit(111040))
+end)
+RegisterCanShowTopic(40106, function()
+    return IsQBitSet(QBit(111041))
 end)
 
 RegisterGlobalEvent(40103, "Joe's key", function()
@@ -721,11 +732,7 @@ RegisterGlobalEvent(40105, "Warehouse", function()
     evt.SetMessage(NPCText(40105, "My warehouse? Strictly off limits. Dangerous chemicals. I don't even carry the key on me."))
 end)
 
-RegisterGlobalEvent(40151, "Dwarves", function()
-    if IsQBitSet(QBit(111061)) then
-        evt.SetMessage(NPCText(40150, "The dwarves are digging again. You can hear their picks from the town wall, which is more than I asked for."))
-        return
-    end
+RegisterGlobalEvent(40151, "Quest", function()
     if IsQBitSet(QBit(110030)) then
         evt.SetMessage(NPCText(40151, "The local dwarves have informed me of your great deed and have authorized me to present to you a rare honor: The Red Dwarf Badge of Courage. Congratulations."))
         SetQBit(QBit(111061))
@@ -740,14 +747,20 @@ RegisterGlobalEvent(40151, "Dwarves", function()
     evt.SetMessage(NPCText(40152, "The dwarf mines are still being over-run. Please help them. The mine portal is in the hills north-west of town."))
 end)
 RegisterCanShowTopic(40151, function()
-    return (IsQBitSet(QBit(111060)) or IsQBitSet(QBit(111061)))
+    return ((IsQBitSet(QBit(111060)) or IsQBitSet(QBit(111061))) and not (IsQBitSet(QBit(111061))))
 end)
 
-RegisterGlobalEvent(40201, "Falista", function()
-    if IsQBitSet(QBit(110047)) then
-        evt.SetMessage(NPCText(40200, "Falista grazes behind my cottage again, Crusaders. She eats the roses. I let her."))
+RegisterGlobalEvent(40152, "Dwarves", function()
+    if IsQBitSet(QBit(111061)) then
+        evt.SetMessage(NPCText(40150, "The dwarves are digging again. You can hear their picks from the town wall, which is more than I asked for."))
         return
     end
+end)
+RegisterCanShowTopic(40152, function()
+    return ((IsQBitSet(QBit(111060)) or IsQBitSet(QBit(111061))) and IsQBitSet(QBit(111061)))
+end)
+
+RegisterGlobalEvent(40201, "Quest", function()
     if (HasItem(12033) and IsQBitSet(QBit(110046))) then
         evt.SetMessage(NPCText(40201, "You have destroyed the witches and for that I am grateful. For your gallant deeds, I dub thee all Crusaders! Now I must take the Alacorn, for if I can find Falista, I believe the healing power of the Alacorn is strong enough to resurrect her."))
         RemoveItem(12033)
@@ -771,6 +784,19 @@ RegisterGlobalEvent(40201, "Falista", function()
     evt.SetMessage(NPCText(40204, "I am just an old woman but before I die I wish to see the witches of Toad Meadow destroyed. You see, when I was still a young maiden, I fell asleep in Toad Meadow. When I awoke I found a unicorn laying down beside me. Her name was Falista and she was fleeing from a band of witches who were trying to capture her. Since that day I have kept Falista safely hidden. But now she has disappeared. I fear the worst has happened and the witches have killed her for her Alacorn's magic. The witches fear nothing, and lock nothing. Their tower stands south-east of the meadow. Go quickly."))
     SetQBit(QBit(111080))
 end)
+RegisterCanShowTopic(40201, function()
+    return not (IsQBitSet(QBit(110047)))
+end)
+
+RegisterGlobalEvent(40203, "Falista", function()
+    if IsQBitSet(QBit(110047)) then
+        evt.SetMessage(NPCText(40200, "Falista grazes behind my cottage again, Crusaders. She eats the roses. I let her."))
+        return
+    end
+end)
+RegisterCanShowTopic(40203, function()
+    return IsQBitSet(QBit(110047))
+end)
 
 RegisterGlobalEvent(40202, "Children", function()
     if IsQBitSet(QBit(111081)) then
@@ -789,7 +815,7 @@ RegisterCanShowTopic(40202, function()
     return (IsQBitSet(QBit(111080)) or IsQBitSet(QBit(110047)))
 end)
 
-RegisterGlobalEvent(40251, "Sixth Mirror", function()
+RegisterGlobalEvent(40251, "Quest", function()
     if IsQBitSet(QBit(111707)) then
         evt.SetMessage(NPCText(40250, "The Sixth Mirror. In pieces. It is a pity about the mirror, though."))
         return
@@ -827,7 +853,7 @@ RegisterCanShowTopic(40254, function()
     return not ((Xeen.onMap("Clouds of the Ancients")))
 end)
 
-RegisterGlobalEvent(40301, "Crodo", function()
+RegisterGlobalEvent(40301, "Quest", function()
     if IsQBitSet(QBit(110501)) then
         evt.SetMessage(NPCText(40300, "Crodo is free. Good. The King was pleased for almost a minute, and then asked about the mirror."))
         return
@@ -845,7 +871,7 @@ RegisterGlobalEvent(40301, "Crodo", function()
     evt.SetMessage(NPCText(40303, "See the King first. Everyone sees the King first. Then they come to me."))
 end)
 
-RegisterGlobalEvent(40351, "Pyramids", function()
+RegisterGlobalEvent(40351, "Quest", function()
     if IsQBitSet(QBit(110100)) then
         evt.SetMessage(NPCText(40350, "The pyramid on the knoll east of Vertigo. Show it the sigil. Where it takes you, the King prefers not to know, so I don't tell him."))
         return
@@ -868,7 +894,7 @@ RegisterGlobalEvent(40401, "Newcastle", function()
     evt.SetMessage(NPCText(40401, "Wanna buy the land this lovely castle rests upon? Only twelve thousand gold! The rubble is included. So are the wood golems in the foundations."))
 end)
 
-RegisterGlobalEvent(40402, "Buy the deed", function()
+RegisterGlobalEvent(40402, "Quest", function()
     if IsAtLeast(Gold, 12000) then
         evt.SetMessage(NPCText(40402, "Thanks a lot! You won't regret your decision. Sign here. And here. The golems are yours too, of course."))
         SubtractValue(Gold, 12000)
@@ -882,7 +908,7 @@ RegisterCanShowTopic(40402, function()
     return not (IsQBitSet(QBit(111160)))
 end)
 
-RegisterGlobalEvent(40451, "Walls", function()
+RegisterGlobalEvent(40451, "Quest", function()
     if IsQBitSet(QBit(111181)) then
         evt.SetMessage(NPCText(40450, "We want to make sure you approve of the work we have already done. Please go and take a look at your castle."))
         return
@@ -912,7 +938,7 @@ RegisterGlobalEvent(40451, "Walls", function()
     evt.SetMessage(NPCText(40454, "I'm sorry, but I cannot do any work on land that you do not own! Buy some land and we'll talk."))
 end)
 
-RegisterGlobalEvent(40452, "Workers", function()
+RegisterGlobalEvent(40452, "Quest", function()
     if (IsQBitSet(QBit(111221)) and not (IsQBitSet(QBit(111222)))) then
         evt.SetMessage(NPCText(40455, "While building the rest of your castle, a worker came back from the tundra white as a sheet. The Golem Dungeon, by the lagoon, is stuffed with Megacredits, he says. And golems. Mostly golems."))
         SetQBit(QBit(111222))
@@ -929,7 +955,7 @@ RegisterCanShowTopic(40452, function()
     return IsQBitSet(QBit(111181))
 end)
 
-RegisterGlobalEvent(40501, "Megacredits", function()
+RegisterGlobalEvent(40501, "Quest", function()
     if IsQBitSet(QBit(111200)) then
         evt.SetMessage(NPCText(40500, "Three places. The Temple of Yak in Rivercity's south woods. The Tomb of a Thousand Terrors in the lagoon. The Golem Dungeon in the tundra, by the lagoon. Evil people hoard Megacredits. Don't ask me why."))
         return
@@ -939,7 +965,7 @@ RegisterGlobalEvent(40501, "Megacredits", function()
     SetAutonote(4012)
 end)
 
-RegisterGlobalEvent(40551, "Keep", function()
+RegisterGlobalEvent(40551, "Quest", function()
     if IsQBitSet(QBit(111221)) then
         evt.SetMessage(NPCText(40550, "The keep's up. Smith on the ground floor, a training hall above. Ebenezer says the workers have news. They're always finding something."))
         return
@@ -968,7 +994,7 @@ RegisterCanShowTopic(40551, function()
     return IsQBitSet(QBit(111181))
 end)
 
-RegisterGlobalEvent(40601, "Darzog's tower", function()
+RegisterGlobalEvent(40601, "Quest", function()
     if (IsQBitSet(QBit(111240)) or HasEverOwnedItem(12100)) then
         evt.SetMessage(NPCText(40600, "The Tower of High Magic stands in the lagoon. Mind the top floors: the wizards brewed things up there they never named."))
         return
@@ -994,7 +1020,7 @@ RegisterGlobalEvent(40701, "Passes", function()
     evt.SetMessage(NPCText(40702, "A pass is a thousand gold. Come back when you have it. The gremlins won't, if that's what you're hoping."))
 end)
 
-RegisterGlobalEvent(40751, "The orb", function()
+RegisterGlobalEvent(40751, "Quest", function()
     if IsQBitSet(QBit(111300)) then
         evt.SetMessage(NPCText(40750, "Still have it? Good. Keep it away from my herbs. The mint went purple."))
         return
@@ -1004,11 +1030,7 @@ RegisterGlobalEvent(40751, "The orb", function()
     SetQBit(QBit(111300))
 end)
 
-RegisterGlobalEvent(40752, "The orb", function()
-    if IsQBitSet(QBit(111301)) then
-        evt.SetMessage(NPCText(40752, "The Pharaoh's orb wants to go home, but first it must see Ellinger. I don't make the rules. The orb does."))
-        return
-    end
+RegisterGlobalEvent(40752, "Quest", function()
     evt.SetMessage(NPCText(40753, "Let me see... This orb belongs to the Dragon Pharaoh, in his pyramid in the desert. But first it must see Ellinger, the Queen's wizard. He locked himself in his tower with traps, so you will need his key, and at the top his tower will ask whom you seek: say his name, 'Ellinger'."))
     SetQBit(QBit(111301))
     SetAutonote(4115)
@@ -1016,7 +1038,17 @@ RegisterGlobalEvent(40752, "The orb", function()
     AddValue(Experience, 3000)
 end)
 RegisterCanShowTopic(40752, function()
-    return HasItem(12331)
+    return (HasItem(12331) and not (IsQBitSet(QBit(111301))))
+end)
+
+RegisterGlobalEvent(40754, "The orb", function()
+    if IsQBitSet(QBit(111301)) then
+        evt.SetMessage(NPCText(40752, "The Pharaoh's orb wants to go home, but first it must see Ellinger. I don't make the rules. The orb does."))
+        return
+    end
+end)
+RegisterCanShowTopic(40754, function()
+    return (HasItem(12331) and IsQBitSet(QBit(111301)))
 end)
 
 RegisterGlobalEvent(40753, "Fortune", function()
@@ -1043,11 +1075,7 @@ RegisterGlobalEvent(40753, "Fortune", function()
     evt.SetMessage(NPCText(40759, "I see an orb. Somebody nearby has one. Zelda, the herbalist."))
 end)
 
-RegisterGlobalEvent(40801, "Necklace", function()
-    if IsQBitSet(QBit(111322)) then
-        evt.SetMessage(NPCText(40800, "I wear it every day now, and I don't go near the drains."))
-        return
-    end
+RegisterGlobalEvent(40801, "Quest", function()
     if HasItem(12332) then
         evt.SetMessage(NPCText(40801, "My necklace! It still smells of sewer, but it's mine. Here, for your trouble. And Ellinger owes me a favour. Tell him Nadia sent you."))
         RemoveItem(12332)
@@ -1065,12 +1093,21 @@ RegisterGlobalEvent(40801, "Necklace", function()
     evt.SetMessage(NPCText(40803, "The rats came up the drain and took my onyx necklace right off the dresser. They live in the sewers under town. Bring it back and I'll make it worth your while."))
     SetQBit(QBit(111320))
 end)
+RegisterCanShowTopic(40801, function()
+    return not (IsQBitSet(QBit(111322)))
+end)
 
-RegisterGlobalEvent(40851, "Alamar", function()
-    if IsQBitSet(QBit(111342)) then
-        evt.SetMessage(NPCText(40850, "The castle can be restored to our world by casting certain complex spells powered by energy discs. Energy discs are rare magical batteries. I recently used the last of mine protecting this tower, and I haven't a clue where others may be found. Every five will restore a fourth part of the castle."))
+RegisterGlobalEvent(40802, "Necklace", function()
+    if IsQBitSet(QBit(111322)) then
+        evt.SetMessage(NPCText(40800, "I wear it every day now, and I don't go near the drains."))
         return
     end
+end)
+RegisterCanShowTopic(40802, function()
+    return IsQBitSet(QBit(111322))
+end)
+
+RegisterGlobalEvent(40851, "Quest", function()
     if HasItem(12331) then
         evt.SetMessage(NPCText(40851, "Welcome. I'm sorry you had to run the gauntlet; my defenses keep Alamar's spies from my door. I see that you hold the Dragon Pharaoh's orb. Without it he cannot fight Alamar, and you must return it to him. But he has sealed his pyramid, and the key is in Queen Kalindra's castle, which Alamar moved out of phase when he took the Queen. Twenty energy discs will bring it back, five at a time. Bring them to me. And here is a little something: your gifts are in the chest that runs away from you in the south-west of Castleview. I will tell it to stay still."))
         SetQBit(QBit(111342))
@@ -1082,8 +1119,21 @@ RegisterGlobalEvent(40851, "Alamar", function()
     end
     evt.SetMessage(NPCText(40852, "You climbed my tower without the Pharaoh's orb? Then you are either very brave or very lost. Come back when you hold it."))
 end)
+RegisterCanShowTopic(40851, function()
+    return not (IsQBitSet(QBit(111342)))
+end)
 
-RegisterGlobalEvent(40951, "Energy discs", function()
+RegisterGlobalEvent(40852, "Alamar", function()
+    if IsQBitSet(QBit(111342)) then
+        evt.SetMessage(NPCText(40850, "The castle can be restored to our world by casting certain complex spells powered by energy discs. Energy discs are rare magical batteries. I recently used the last of mine protecting this tower, and I haven't a clue where others may be found. Every five will restore a fourth part of the castle."))
+        return
+    end
+end)
+RegisterCanShowTopic(40852, function()
+    return IsQBitSet(QBit(111342))
+end)
+
+RegisterGlobalEvent(40951, "Quest", function()
     if (IsQBitSet(QBit(111381)) and Xeen.itemCount(12334) >= 5) then
         evt.SetMessage(NPCText(40950, "Have I taken the time to tell you that you are doing a wonderful job? All of you. I mean it. These discs will free the second level of the castle from Alamar's curse. Perhaps you will find more on the newly restored section."))
         RemoveItem(12334)
@@ -1128,7 +1178,7 @@ RegisterCanShowTopic(40951, function()
     return (IsQBitSet(QBit(111342)) and not (IsQBitSet(QBit(111382))))
 end)
 
-RegisterGlobalEvent(41001, "Father", function()
+RegisterGlobalEvent(41001, "Quest", function()
     if IsQBitSet(QBit(111400)) then
         evt.SetMessage(NPCText(41000, "The Songbird is on the isle in the lake, past Lakeside. The dungeon there is all doors that ask you to cheer up. Father would never get through them."))
         return
@@ -1147,7 +1197,7 @@ RegisterCanShowTopic(41002, function()
     return not (IsQBitSet(QBit(111481)))
 end)
 
-RegisterGlobalEvent(41101, "Lord Xeen", function()
+RegisterGlobalEvent(41101, "Quest", function()
     if IsQBitSet(QBit(111440)) then
         evt.SetMessage(NPCText(41100, "Dig, and say nothing at table. He smiles at me now. He never used to smile."))
         return
@@ -1163,7 +1213,7 @@ RegisterCanShowTopic(41101, function()
     return IsQBitSet(QBit(110501))
 end)
 
-RegisterGlobalEvent(41102, "Dungeon", function()
+RegisterGlobalEvent(41102, "Quest", function()
     if IsQBitSet(QBit(111441)) then
         evt.SetMessage(NPCText(41102, "Dug, shored and swept. There's a door at the bottom my men won't touch. It hums. I put a chalk mark on it: NOT MY DEPARTMENT."))
         return
@@ -1192,11 +1242,7 @@ RegisterCanShowTopic(41102, function()
     return (IsQBitSet(QBit(111440)) or IsQBitSet(QBit(111441)))
 end)
 
-RegisterGlobalEvent(41201, "The Songbird", function()
-    if IsQBitSet(QBit(111481)) then
-        evt.SetMessage(NPCText(41200, "Ambrose is at Griffin Pass, on the south edge of the Forbidden Zone. He asks everyone who sent them. Tell him Dimitri did, and he'll listen."))
-        return
-    end
+RegisterGlobalEvent(41201, "Quest", function()
     evt.SetMessage(NPCText(41201, "That song... I have been sitting in the dark like a fool. Listen. When Alamar took the castle, he gave the Queen to Count Blackfang, and the Count made her a vampire. Only her own crown can undo it, and it is in her bedroom safe, upstairs, in the part of the castle that isn't back yet. The disk safes on this floor open to 64, 52, 31. And go to Ambrose, the Queen's Knight, at Griffin Pass. He has been trying to reach Blackfang for a year. Keep the bird. I'll hear it when you pass."))
     SetQBit(QBit(111481))
     SetQBit(QBit(111500))
@@ -1208,7 +1254,17 @@ RegisterGlobalEvent(41201, "The Songbird", function()
     evt.GiveItem(5, 0)
 end)
 RegisterCanShowTopic(41201, function()
-    return (HasItem(12526) or IsQBitSet(QBit(111481)))
+    return ((HasItem(12526) or IsQBitSet(QBit(111481))) and not (IsQBitSet(QBit(111481))))
+end)
+
+RegisterGlobalEvent(41203, "The Songbird", function()
+    if IsQBitSet(QBit(111481)) then
+        evt.SetMessage(NPCText(41200, "Ambrose is at Griffin Pass, on the south edge of the Forbidden Zone. He asks everyone who sent them. Tell him Dimitri did, and he'll listen."))
+        return
+    end
+end)
+RegisterCanShowTopic(41203, function()
+    return ((HasItem(12526) or IsQBitSet(QBit(111481))) and IsQBitSet(QBit(111481)))
 end)
 
 RegisterGlobalEvent(41202, "Thanks", function()
@@ -1222,11 +1278,7 @@ RegisterCanShowTopic(41202, function()
     return (IsQBitSet(QBit(111481)) and not (IsQBitSet(QBit(111482))))
 end)
 
-RegisterGlobalEvent(41251, "The bridle", function()
-    if IsQBitSet(QBit(111502)) then
-        evt.SetMessage(NPCText(41250, "If the griffin bites, that is the griffin's business, not the bridle's. No refunds."))
-        return
-    end
+RegisterGlobalEvent(41251, "Quest", function()
     if IsAtLeast(Gold, 5000) then
         evt.SetMessage(NPCText(41251, "A griffin's bridle. Double fee, as the sign says: five thousand. ... There. It hums when a griffin is near, and the griffin hums back. Mostly."))
         SubtractValue(Gold, 5000)
@@ -1238,10 +1290,20 @@ RegisterGlobalEvent(41251, "The bridle", function()
     evt.SetMessage(NPCText(41252, "A griffin's bridle? Five thousand gold. Griffins are a specialty, and specialties cost extra."))
 end)
 RegisterCanShowTopic(41251, function()
-    return (HasItem(12346) or IsQBitSet(QBit(111502)))
+    return ((HasItem(12346) or IsQBitSet(QBit(111502))) and not (IsQBitSet(QBit(111502))))
 end)
 
-RegisterGlobalEvent(41252, "Who sent you?", function()
+RegisterGlobalEvent(41255, "The bridle", function()
+    if IsQBitSet(QBit(111502)) then
+        evt.SetMessage(NPCText(41250, "If the griffin bites, that is the griffin's business, not the bridle's. No refunds."))
+        return
+    end
+end)
+RegisterCanShowTopic(41255, function()
+    return ((HasItem(12346) or IsQBitSet(QBit(111502))) and IsQBitSet(QBit(111502)))
+end)
+
+RegisterGlobalEvent(41252, "Quest", function()
     evt.SetMessage(NPCText(41253, "Dimitri? Then the old bear is awake again. Good. I caught a griffin to fly into Blackfang, and the beast will not take a bridle. An enchanted one, it might. Natasha in Sandcaster could do it. Here is the bridle."))
     AddValue(InventoryItem(12346), 12346)
     SetQBit(QBit(111501))
@@ -1250,11 +1312,7 @@ RegisterCanShowTopic(41252, function()
     return (IsQBitSet(QBit(111500)) and not (IsQBitSet(QBit(111501))))
 end)
 
-RegisterGlobalEvent(41253, "The griffin", function()
-    if IsQBitSet(QBit(111503)) then
-        evt.SetMessage(NPCText(41254, "The griffin is fed and grumpy. Say the word, and we fly to Blackfang."))
-        return
-    end
+RegisterGlobalEvent(41253, "Quest", function()
     if HasItem(12347) then
         evt.SetMessage(NPCText(41255, "It took it! Look at him, calm as a cart horse. Blackfang has no gate that opens to the living, but it has walls, and walls have tops. When you are ready, we fly. And take this, from the Queen's own purse; she would want it spent on her rescue."))
         RemoveItem(12347)
@@ -1268,7 +1326,17 @@ RegisterGlobalEvent(41253, "The griffin", function()
     evt.SetMessage(NPCText(41256, "The griffin still bites anything that looks like leather. Natasha, in Sandcaster."))
 end)
 RegisterCanShowTopic(41253, function()
-    return (IsQBitSet(QBit(111501)) and not ((Xeen.onMap("Castle Blackfang"))))
+    return ((IsQBitSet(QBit(111501)) and not ((Xeen.onMap("Castle Blackfang")))) and not (IsQBitSet(QBit(111503))))
+end)
+
+RegisterGlobalEvent(41256, "The griffin", function()
+    if IsQBitSet(QBit(111503)) then
+        evt.SetMessage(NPCText(41254, "The griffin is fed and grumpy. Say the word, and we fly to Blackfang."))
+        return
+    end
+end)
+RegisterCanShowTopic(41256, function()
+    return ((IsQBitSet(QBit(111501)) and not ((Xeen.onMap("Castle Blackfang")))) and IsQBitSet(QBit(111503)))
 end)
 
 RegisterGlobalEvent(41254, "Fly to Blackfang", function()
@@ -1279,11 +1347,7 @@ RegisterCanShowTopic(41254, function()
     return (IsQBitSet(QBit(111503)) and not ((Xeen.onMap("Castle Blackfang"))))
 end)
 
-RegisterGlobalEvent(41301, "Energy discs", function()
-    if IsQBitSet(QBit(111522)) then
-        evt.SetMessage(NPCText(41300, "It is good to see you again, my friends, but I cannot spend much time talking. I must see to my magical duties, and you must see to yours. The world is depending on us."))
-        return
-    end
+RegisterGlobalEvent(41301, "Quest", function()
     if (IsQBitSet(QBit(111521)) and Xeen.itemCount(12334) >= 5) then
         evt.SetMessage(NPCText(41301, "Congratulations! We've done it! The castle is free! I can't thank you enough. You must now find the key to the pyramid in the castle and return the orb to the Pharaoh. I must attend to certain magical duties from now till the completion of the prophecy. Go with my blessing."))
         RemoveItem(12334)
@@ -1323,14 +1387,20 @@ RegisterGlobalEvent(41301, "Energy discs", function()
     evt.SetMessage(NPCText(41306, "Why have you come to me empty handed? Did you expect congratulations? The final hour approaches while you dawdle here!"))
 end)
 RegisterCanShowTopic(41301, function()
-    return IsQBitSet(QBit(111382))
+    return (IsQBitSet(QBit(111382)) and not (IsQBitSet(QBit(111522))))
 end)
 
-RegisterGlobalEvent(41351, "The crown", function()
-    if IsQBitSet(QBit(111542)) then
-        evt.SetMessage(NPCText(41350, "My crown, my castle, my thanks. The Pharaoh will want his orb back, and he does not like to wait. Neither, I find, do I."))
+RegisterGlobalEvent(41302, "Energy discs", function()
+    if IsQBitSet(QBit(111522)) then
+        evt.SetMessage(NPCText(41300, "It is good to see you again, my friends, but I cannot spend much time talking. I must see to my magical duties, and you must see to yours. The world is depending on us."))
         return
     end
+end)
+RegisterCanShowTopic(41302, function()
+    return (IsQBitSet(QBit(111382)) and IsQBitSet(QBit(111522)))
+end)
+
+RegisterGlobalEvent(41351, "Quest", function()
     if HasItem(12374) then
         evt.SetMessage(NPCText(41351, "My crown. Put it on my head, quickly, before the hunger comes back. ... There. I am myself. Ambrose will fly me home after dark; the sun and I are not friends yet. Take this: the key to the Great Pyramid. Alamar wanted it so badly he took a castle to hide it."))
         RemoveItem(12374)
@@ -1353,7 +1423,17 @@ RegisterGlobalEvent(41351, "The crown", function()
     SetAutonote(4127)
 end)
 RegisterCanShowTopic(41351, function()
-    return not ((Xeen.onMap("Clouds of the Ancients")))
+    return (not ((Xeen.onMap("Clouds of the Ancients"))) and not (IsQBitSet(QBit(111542))))
+end)
+
+RegisterGlobalEvent(41353, "The crown", function()
+    if IsQBitSet(QBit(111542)) then
+        evt.SetMessage(NPCText(41350, "My crown, my castle, my thanks. The Pharaoh will want his orb back, and he does not like to wait. Neither, I find, do I."))
+        return
+    end
+end)
+RegisterCanShowTopic(41353, function()
+    return (not ((Xeen.onMap("Clouds of the Ancients"))) and IsQBitSet(QBit(111542)))
 end)
 
 RegisterGlobalEvent(41352, "Fly us out", function()
@@ -1364,7 +1444,7 @@ RegisterCanShowTopic(41352, function()
     return (IsQBitSet(QBit(111503)) and (Xeen.onMap("Castle Blackfang")))
 end)
 
-RegisterGlobalEvent(41401, "The orb", function()
+RegisterGlobalEvent(41401, "Quest", function()
     if IsQBitSet(QBit(111563)) then
         evt.SetMessage(NPCText(41400, "The lava round the second meteor is cool now. What fell from the sky there is not a meteor. Go and see, and be polite to whoever wakes."))
         return
@@ -1382,7 +1462,7 @@ RegisterGlobalEvent(41401, "The orb", function()
     evt.SetMessage(NPCText(41402, "You found your way up my pyramid without my orb? I admire the effort and regret the result. Bring it."))
 end)
 
-RegisterGlobalEvent(41502, "Chosen Ones", function()
+RegisterGlobalEvent(41502, "Quest", function()
     if IsQBitSet(QBit(111600)) then
         evt.SetMessage(NPCText(41500, "Olympus. Soul Storage. One box. Do not open the others' doors; the gods are touchy about their storage."))
         return
@@ -1412,11 +1492,7 @@ RegisterGlobalEvent(41551, "Prince Roland", function()
     evt.SetMessage(NPCText(41550, "Prince Roland is held by Alamar in the bottom level of the Castle. Alive, after a fashion. Alamar keeps things."))
 end)
 
-RegisterGlobalEvent(41601, "Soul Box", function()
-    if IsQBitSet(QBit(111640)) then
-        evt.SetMessage(NPCText(41600, "(The box is quiet. Something inside it is being very patient.)"))
-        return
-    end
+RegisterGlobalEvent(41601, "Quest", function()
     if HasItem(12363) then
         evt.PlaySoundName("xeen_vo_corak_soulbox")
         evt.SetMessage(NPCText(41601, "Ah! A Soulbox! You have done well. I will hide in the box while you take me to Sheltem. Once you are in his presence, throw the box to the ground and I will come out and fight him. Be careful. If you lose the box or are killed, Xeen is doomed."))
@@ -1430,6 +1506,19 @@ RegisterGlobalEvent(41601, "Soul Box", function()
         return
     end
     evt.SetMessage(NPCText(41602, "I cannot leave the safety of this ship without some means of hiding from Sheltem's defenses. The Ancients made Soul Boxes for such things. The Pharaoh will know where one is left."))
+end)
+RegisterCanShowTopic(41601, function()
+    return not (IsQBitSet(QBit(111640)))
+end)
+
+RegisterGlobalEvent(41603, "Soul Box", function()
+    if IsQBitSet(QBit(111640)) then
+        evt.SetMessage(NPCText(41600, "(The box is quiet. Something inside it is being very patient.)"))
+        return
+    end
+end)
+RegisterCanShowTopic(41603, function()
+    return IsQBitSet(QBit(111640))
 end)
 
 RegisterGlobalEvent(41602, "Sheltem", function()
@@ -1450,11 +1539,7 @@ RegisterCanShowTopic(41653, function()
     return IsQBitSet(QBit(111662))
 end)
 
-RegisterGlobalEvent(41755, "Lord Xeen", function()
-    if IsQBitSet(QBit(111708)) then
-        evt.SetMessage(NPCText(41750, "Thank you again. Castle Xeen is a cloud again. The court misses the mirror more than it misses my brother's double."))
-        return
-    end
+RegisterGlobalEvent(41755, "Quest", function()
     if not (IsQBitSet(QBit(110100))) then
         evt.PlaySoundName("xeen_vo_burlock_thanks")
         evt.SetMessage(NPCText(41751, "Thank you for rescuing Xeen from that foul spirit. It is a pity about the mirror, though. Your destiny lies on the darkside of Xeen."))
@@ -1466,10 +1551,20 @@ RegisterGlobalEvent(41755, "Lord Xeen", function()
     SetQBit(QBit(111708))
 end)
 RegisterCanShowTopic(41755, function()
-    return IsQBitSet(QBit(111707))
+    return (IsQBitSet(QBit(111707)) and not (IsQBitSet(QBit(111708))))
 end)
 
-RegisterGlobalEvent(41801, "The destiny of Xeen", function()
+RegisterGlobalEvent(41756, "Lord Xeen", function()
+    if IsQBitSet(QBit(111708)) then
+        evt.SetMessage(NPCText(41750, "Thank you again. Castle Xeen is a cloud again. The court misses the mirror more than it misses my brother's double."))
+        return
+    end
+end)
+RegisterCanShowTopic(41756, function()
+    return (IsQBitSet(QBit(111707)) and IsQBitSet(QBit(111708)))
+end)
+
+RegisterGlobalEvent(41801, "Quest", function()
     if IsQBitSet(QBit(111840)) then
         evt.SetMessage(NPCText(41800, "Xeen is one world, and the sun is where it belongs. I have nothing left to ask of you, Chosen Ones. That has not happened to me in a very long time."))
         return
@@ -1503,11 +1598,7 @@ RegisterCanShowTopic(41951, function()
     return IsQBitSet(QBit(111781))
 end)
 
-RegisterGlobalEvent(42001, "Chime of Opening", function()
-    if IsQBitSet(QBit(111801)) then
-        evt.SetMessage(NPCText(42000, "Nice to see you again, adventurers! The widget that you brought to me is fascinating! I turn it over every morning. It still does nothing. Marvellous."))
-        return
-    end
+RegisterGlobalEvent(42001, "Quest", function()
     if HasItem(12315) then
         evt.SetMessage(NPCText(42001, "Really? You have one? A widget! Then the Chime of Opening is yours. Make it so!"))
         RemoveItem(12315)
@@ -1518,6 +1609,19 @@ RegisterGlobalEvent(42001, "Chime of Opening", function()
         return
     end
     evt.SetMessage(NPCText(42002, "So you've come to me for the Chime of Opening. What could you possibly offer me in exchange? I've been around for thousands of years and I've seen everything... well, almost everything. There is one mysterious item that I haven't seen. It's called a widget. Go and see Halon the Efficient, the clockmaker, whose workshop stands east of Darkstone Tower in Winterkill Tundra. He's the one who first told me of it. Then don't come back 'til you find one!"))
+end)
+RegisterCanShowTopic(42001, function()
+    return not (IsQBitSet(QBit(111801)))
+end)
+
+RegisterGlobalEvent(42002, "Chime of Opening", function()
+    if IsQBitSet(QBit(111801)) then
+        evt.SetMessage(NPCText(42000, "Nice to see you again, adventurers! The widget that you brought to me is fascinating! I turn it over every morning. It still does nothing. Marvellous."))
+        return
+    end
+end)
+RegisterCanShowTopic(42002, function()
+    return IsQBitSet(QBit(111801))
 end)
 
 RegisterGlobalEvent(42101, "The wedding", function()
@@ -1534,15 +1638,24 @@ RegisterCanShowTopic(42102, function()
     return (IsQBitSet(QBit(111840)) and (Xeen.onMap("Clouds of the Ancients")))
 end)
 
-RegisterGlobalEvent(42551, "Summer", function()
-    if IsQBitSet(QBit(112021)) then
-        evt.SetMessage(NPCText(42550, "Take the Last Flower of Summer to the Autumn Druid on the savannah, so that summer can end."))
-        return
-    end
+RegisterGlobalEvent(42551, "Quest", function()
     evt.SetMessage(NPCText(42551, "I am the Summer Druid. Summer will not end until someone carries its last flower away. Take it to the Autumn Druid, on Burlock's savannah. The year is a relay, and I have held it long enough."))
     AddValue(InventoryItem(12510), 12510)
     SetQBit(QBit(112021))
     SetQBit(QBit(112020))
+end)
+RegisterCanShowTopic(42551, function()
+    return not (IsQBitSet(QBit(112021)))
+end)
+
+RegisterGlobalEvent(42555, "Summer", function()
+    if IsQBitSet(QBit(112021)) then
+        evt.SetMessage(NPCText(42550, "Take the Last Flower of Summer to the Autumn Druid on the savannah, so that summer can end."))
+        return
+    end
+end)
+RegisterCanShowTopic(42555, function()
+    return IsQBitSet(QBit(112021))
 end)
 
 RegisterGlobalEvent(42552, "Autumn", function()
@@ -1575,11 +1688,7 @@ RegisterGlobalEvent(42553, "Winter", function()
     evt.SetMessage(NPCText(42557, "I am the Winter Druid. Bring me the last fallen Leaf of Autumn, or winter waits, and so does everything after it."))
 end)
 
-RegisterGlobalEvent(42554, "Spring", function()
-    if IsQBitSet(QBit(112024)) then
-        evt.SetMessage(NPCText(42558, "Spring comes to those who wait. You did not wait; you walked. That works too."))
-        return
-    end
+RegisterGlobalEvent(42554, "Quest", function()
     if HasItem(12512) then
         evt.SetMessage(NPCText(42559, "The last snowflake of Winter. Here is the Last Raindrop of Spring, and your reward. As I renew the year, so will I renew you."))
         RemoveItem(12512)
@@ -1592,12 +1701,21 @@ RegisterGlobalEvent(42554, "Spring", function()
     end
     evt.SetMessage(NPCText(42560, "I require the last snowflake of Winter before I can give you the Last Raindrop of Spring and your reward. The Summer Druid begins the year, in the west."))
 end)
+RegisterCanShowTopic(42554, function()
+    return not (IsQBitSet(QBit(112024)))
+end)
 
-RegisterGlobalEvent(42601, "Pendant", function()
-    if IsQBitSet(QBit(110204)) then
-        evt.SetMessage(NPCText(42600, "The fountain runs again and the tavern charges for water again. Rivercity is back to normal. I'm not sure that's a compliment."))
+RegisterGlobalEvent(42556, "Spring", function()
+    if IsQBitSet(QBit(112024)) then
+        evt.SetMessage(NPCText(42558, "Spring comes to those who wait. You did not wait; you walked. That works too."))
         return
     end
+end)
+RegisterCanShowTopic(42556, function()
+    return IsQBitSet(QBit(112024))
+end)
+
+RegisterGlobalEvent(42601, "Quest", function()
     if HasItem(12152) then
         evt.SetMessage(NPCText(42601, "Thank you for returning my pendant. Please accept the Enchant Item spell as your reward. I will also return the drinking fountain to normal. And the spellcasters among you have earned a better title than 'that lot with the pendant'."))
         RemoveItem(12152)
@@ -1618,6 +1736,19 @@ RegisterGlobalEvent(42601, "Pendant", function()
     evt.SetMessage(NPCText(42603, "The sorceresses of Rivercity have stolen a magical pendant of mine. I want it back, and I will reward you if you return it. They keep their loot in a strongbox on the south quay, outside their house."))
     SetQBit(QBit(112040))
 end)
+RegisterCanShowTopic(42601, function()
+    return not (IsQBitSet(QBit(110204)))
+end)
+
+RegisterGlobalEvent(42603, "Pendant", function()
+    if IsQBitSet(QBit(110204)) then
+        evt.SetMessage(NPCText(42600, "The fountain runs again and the tavern charges for water again. Rivercity is back to normal. I'm not sure that's a compliment."))
+        return
+    end
+end)
+RegisterCanShowTopic(42603, function()
+    return IsQBitSet(QBit(110204))
+end)
 
 RegisterGlobalEvent(42602, "Barok", function()
     evt.SetMessage(NPCText(42604, "The tavern hired the sorceresses to run Barok out of town. Then they plugged the fountain, so now we buy our water here. Funny how that works."))
@@ -1626,11 +1757,7 @@ RegisterCanShowTopic(42602, function()
     return not (IsQBitSet(QBit(110204)))
 end)
 
-RegisterGlobalEvent(42651, "Tiara", function()
-    if IsQBitSet(QBit(112061)) then
-        evt.SetMessage(NPCText(42650, "It is always exhilarating to see adventurers such as yourselves."))
-        return
-    end
+RegisterGlobalEvent(42651, "Quest", function()
     if HasItem(12150) then
         evt.SetMessage(NPCText(42651, "You have recovered my tiara and gotten rid of that bothersome robber gang. I am pleased. As a reward I give you this treasure: its twin, which I never liked as much. And the thieves among you will be called Rogues from today. I'll have it written down."))
         RemoveItem(12150)
@@ -1651,12 +1778,21 @@ RegisterGlobalEvent(42651, "Tiara", function()
     evt.SetMessage(NPCText(42653, "My servants have informed me that my diamond tiara has been stolen from my room. I believe it to be the work of robbers that dwell in Rivercity, under the great bridge. They are led by a devious and cunning boss. They must be stopped and my tiara recovered. Do this and you will be greatly rewarded."))
     SetQBit(QBit(112060))
 end)
+RegisterCanShowTopic(42651, function()
+    return not (IsQBitSet(QBit(112061)))
+end)
 
-RegisterGlobalEvent(42701, "The Pagoda", function()
-    if IsQBitSet(QBit(112082)) then
-        evt.SetMessage(NPCText(42700, "The pagoda is quiet again. I sweep it every morning. The ninjas never swept. Someone lives in the cellar, though. I leave rice by the shrine."))
+RegisterGlobalEvent(42652, "Tiara", function()
+    if IsQBitSet(QBit(112061)) then
+        evt.SetMessage(NPCText(42650, "It is always exhilarating to see adventurers such as yourselves."))
         return
     end
+end)
+RegisterCanShowTopic(42652, function()
+    return IsQBitSet(QBit(112061))
+end)
+
+RegisterGlobalEvent(42701, "Quest", function()
     if IsQBitSet(QBit(112081)) then
         evt.SetMessage(NPCText(42701, "You have destroyed the Ninja Clan that drove me from my sacred home. I am eternally grateful. As payment for your services, please let me fill your packs with food. And those of you who walk the monk's road: you have walked it far enough to be called Initiates."))
         SetQBit(QBit(112082))
@@ -1676,8 +1812,21 @@ RegisterGlobalEvent(42701, "The Pagoda", function()
     evt.SetMessage(NPCText(42703, "I am a peace loving old monk driven from my sacred home. I used to live in the Pagoda due south from here until the Evil Ninja clan drove me out. I am too old to fight, but perhaps you, being so strong and well-armed, could rid my home of these evil clansmen. I could reward you."))
     SetQBit(QBit(112080))
 end)
+RegisterCanShowTopic(42701, function()
+    return not (IsQBitSet(QBit(112082)))
+end)
 
-RegisterGlobalEvent(42702, "Initiation", function()
+RegisterGlobalEvent(42703, "The Pagoda", function()
+    if IsQBitSet(QBit(112082)) then
+        evt.SetMessage(NPCText(42700, "The pagoda is quiet again. I sweep it every morning. The ninjas never swept. Someone lives in the cellar, though. I leave rice by the shrine."))
+        return
+    end
+end)
+RegisterCanShowTopic(42703, function()
+    return IsQBitSet(QBit(112082))
+end)
+
+RegisterGlobalEvent(42702, "Promotion", function()
     evt.SetMessage(NPCText(42704, "A monk who has not been initiated? Sit. Breathe. Stand up. That's all it is, really. The rest you already did."))
     Xeen.promote("pagoda")
 end)
@@ -1685,11 +1834,7 @@ RegisterCanShowTopic(42702, function()
     return (IsQBitSet(QBit(112082)) and Xeen.canPromote("pagoda"))
 end)
 
-RegisterGlobalEvent(42751, "Curse", function()
-    if IsQBitSet(QBit(112103)) then
-        evt.SetMessage(NPCText(42750, "Thank you for saving us! Eve hasn't hissed in a week. I've started to miss it."))
-        return
-    end
+RegisterGlobalEvent(42751, "Quest", function()
     if IsQBitSet(QBit(112102)) then
         evt.SetMessage(NPCText(42751, "The curse is over. People are walking out of the cellars on two legs. Here: the town collected this for you. Some of it was in snakeskins."))
         SetQBit(QBit(112103))
@@ -1705,21 +1850,39 @@ RegisterGlobalEvent(42751, "Curse", function()
     evt.SetMessage(NPCText(42753, "A terrible thing has happened to Asp. A foul curse has been placed on the town that turns people into snakes. Please save us!"))
     SetQBit(QBit(112100))
 end)
+RegisterCanShowTopic(42751, function()
+    return not (IsQBitSet(QBit(112103)))
+end)
 
-RegisterGlobalEvent(42752, "Transformer", function()
+RegisterGlobalEvent(42753, "Curse", function()
+    if IsQBitSet(QBit(112103)) then
+        evt.SetMessage(NPCText(42750, "Thank you for saving us! Eve hasn't hissed in a week. I've started to miss it."))
+        return
+    end
+end)
+RegisterCanShowTopic(42753, function()
+    return IsQBitSet(QBit(112103))
+end)
+
+RegisterGlobalEvent(42752, "Quest", function()
+    evt.SetMessage(NPCText(42755, "There isss a transformer somewhere under town that is turning people into snakes. If you destroy it, the curse will surely end. The ssstones round the well open the way: start with the south-west stone, make it red, then every other one red all the way round."))
+    SetQBit(QBit(112100))
+end)
+RegisterCanShowTopic(42752, function()
+    return not (IsQBitSet(QBit(112102)))
+end)
+
+RegisterGlobalEvent(42754, "Transformer", function()
     if IsQBitSet(QBit(112102)) then
         evt.SetMessage(NPCText(42754, "The curse is over! Thank you so much!"))
         return
     end
-    evt.SetMessage(NPCText(42755, "There isss a transformer somewhere under town that is turning people into snakes. If you destroy it, the curse will surely end. The ssstones round the well open the way: start with the south-west stone, make it red, then every other one red all the way round."))
-    SetQBit(QBit(112100))
+end)
+RegisterCanShowTopic(42754, function()
+    return IsQBitSet(QBit(112102))
 end)
 
-RegisterGlobalEvent(42801, "Ghosts", function()
-    if IsQBitSet(QBit(112121)) then
-        evt.SetMessage(NPCText(42800, "Always a pleasure to see you, Ghostslayers."))
-        return
-    end
+RegisterGlobalEvent(42801, "Quest", function()
     if (IsQBitSet(QBit(112124)) and IsQBitSet(QBit(112125))) then
         evt.SetMessage(NPCText(42801, "Congratulations! You have finally rid Winterkill of all the spirits. As a reward, I dub thee Ghostslayers Extraordinaire."))
         SetQBit(QBit(112121))
@@ -1756,6 +1919,19 @@ RegisterGlobalEvent(42801, "Ghosts", function()
     SetQBit(QBit(112120))
     SetAutonote(4106)
 end)
+RegisterCanShowTopic(42801, function()
+    return not (IsQBitSet(QBit(112121)))
+end)
+
+RegisterGlobalEvent(42802, "Ghosts", function()
+    if IsQBitSet(QBit(112121)) then
+        evt.SetMessage(NPCText(42800, "Always a pleasure to see you, Ghostslayers."))
+        return
+    end
+end)
+RegisterCanShowTopic(42802, function()
+    return IsQBitSet(QBit(112121))
+end)
 
 RegisterGlobalEvent(42851, "The Count", function()
     if IsQBitSet(QBit(112141)) then
@@ -1765,7 +1941,7 @@ RegisterGlobalEvent(42851, "The Count", function()
     evt.SetMessage(NPCText(42851, "Draco? A boor. He sleeps in the square in a box with his name on it, and he bites the customers. If the dials were set right and his lid came off at night, I would not stand in your way. I would not stand anywhere near it."))
 end)
 
-RegisterGlobalEvent(42852, "Nosferatu", function()
+RegisterGlobalEvent(42852, "Promotion", function()
     evt.SetMessage(NPCText(42852, "With Draco gone, someone must be the elder of this town's night. You'll do. Rise, Nosferatu."))
     Xeen.promote("vampire")
 end)
@@ -1773,11 +1949,7 @@ RegisterCanShowTopic(42852, function()
     return (IsQBitSet(QBit(112141)) and Xeen.canPromote("vampire"))
 end)
 
-RegisterGlobalEvent(42901, "My master", function()
-    if IsQBitSet(QBit(112163)) then
-        evt.SetMessage(NPCText(42900, "The Sphinx lies east of here, out in the dunes. It asks its own name. Its name is Golux. Master always said it was cheating to know that, so of course he knew."))
-        return
-    end
+RegisterGlobalEvent(42901, "Quest", function()
     if HasItem(12316) then
         evt.SetMessage(NPCText(42901, "His Scroll of Insight! He would say thank you. He would also say not to read it upside down, which is how he read it. The Northern Sphinx lies east of here, out in the dunes; he always meant to go in. He never had the nerve."))
         RemoveItem(12316)
@@ -1795,12 +1967,21 @@ RegisterGlobalEvent(42901, "My master", function()
     SetQBit(QBit(112160))
     SetAutonote(4220)
 end)
+RegisterCanShowTopic(42901, function()
+    return not (IsQBitSet(QBit(112163)))
+end)
 
-RegisterGlobalEvent(43001, "Scarab", function()
-    if IsQBitSet(QBit(112201)) then
-        evt.SetMessage(NPCText(43000, "The spell is finished. The gargoyles haven't been back. I like to think they heard what happened to the last ones."))
+RegisterGlobalEvent(42902, "My master", function()
+    if IsQBitSet(QBit(112163)) then
+        evt.SetMessage(NPCText(42900, "The Sphinx lies east of here, out in the dunes. It asks its own name. Its name is Golux. Master always said it was cheating to know that, so of course he knew."))
         return
     end
+end)
+RegisterCanShowTopic(42902, function()
+    return IsQBitSet(QBit(112163))
+end)
+
+RegisterGlobalEvent(43001, "Quest", function()
     if HasItem(12312) then
         evt.SetMessage(NPCText(43001, "Oh, thank you so much for recovering my Scarab. Now I can complete my spell. Take this; I was keeping it for whoever was brave enough. And the healers and druids among you: kneel. You have earned more than a trinket. Druids rise as Great Druids, Clerics as Priests."))
         RemoveItem(12312)
@@ -1821,12 +2002,21 @@ RegisterGlobalEvent(43001, "Scarab", function()
     evt.SetMessage(NPCText(43003, "The other day I was using my Scarab of Imaging for one of my spells when out of the sky swooped a flock of gargoyles. While I was busy fending off their attack, one of them snatched my Scarab and they all flew off toward the Gargoyle Range. I know not why they took it, only that gargoyles are hired to steal things for people. I need the Scarab back to complete my spell, and I will reward you if you can return it to me."))
     SetQBit(QBit(112200))
 end)
+RegisterCanShowTopic(43001, function()
+    return not (IsQBitSet(QBit(112201)))
+end)
 
-RegisterGlobalEvent(43051, "Crystals", function()
-    if IsQBitSet(QBit(112221)) then
-        evt.SetMessage(NPCText(43050, "Carlawna is my sister, by the way. She never tells anyone. I tell everyone."))
+RegisterGlobalEvent(43002, "Scarab", function()
+    if IsQBitSet(QBit(112201)) then
+        evt.SetMessage(NPCText(43000, "The spell is finished. The gargoyles haven't been back. I like to think they heard what happened to the last ones."))
         return
     end
+end)
+RegisterCanShowTopic(43002, function()
+    return IsQBitSet(QBit(112201))
+end)
+
+RegisterGlobalEvent(43051, "Quest", function()
     if HasItem(12313) then
         evt.SetMessage(NPCText(43051, "Thank the Gods! You've recovered the crystals. You are truly great adventurers. As a reward, take this. A wizard's house is full of things a wizard has stopped using."))
         RemoveItem(12313)
@@ -1844,12 +2034,21 @@ RegisterGlobalEvent(43051, "Crystals", function()
     evt.SetMessage(NPCText(43053, "This region is in a lot of danger. First, my sister Carlawna's Scarab of Imaging was stolen, and now my Crystals of Piezoelectricity have been taken. Last night I remembered a story told to me as a boy about a strange machine that produced reptile creatures. This machine could be powered by using Crystals of Piezoelectricity and a Scarab of Imaging. I never gave much validity to the story because a mad wizard told it to me, but now I can't help but think it's true. Get my Crystals back and there will be a reward."))
     SetQBit(QBit(112220))
 end)
+RegisterCanShowTopic(43051, function()
+    return not (IsQBitSet(QBit(112221)))
+end)
 
-RegisterGlobalEvent(43101, "Elixir", function()
-    if IsQBitSet(QBit(112240)) then
-        evt.SetMessage(NPCText(43100, "The sea's cold and the fish are rude. I've never been happier."))
+RegisterGlobalEvent(43052, "Crystals", function()
+    if IsQBitSet(QBit(112221)) then
+        evt.SetMessage(NPCText(43050, "Carlawna is my sister, by the way. She never tells anyone. I tell everyone."))
         return
     end
+end)
+RegisterCanShowTopic(43052, function()
+    return IsQBitSet(QBit(112221))
+end)
+
+RegisterGlobalEvent(43101, "Quest", function()
     if HasItem(12191) then
         evt.SetMessage(NPCText(43101, "Thank you so much for getting me the elixir! Now I can be restored to my former self and return to my ocean home. As a reward, I blow my kiss to all of you."))
         RemoveItem(12191)
@@ -1867,12 +2066,21 @@ RegisterGlobalEvent(43101, "Elixir", function()
     evt.SetMessage(NPCText(43103, "I was once a beautiful mermaid. But one day a sorceress saw me swimming and became jealous of my beauty. She cast a spell that took away my beauty, but worst of all she took away my mermaid tail and gave me legs instead. I search to find an elixir of restoration so I can return to the way I once was. I've heard the clerics of the evil Temple of Yak, in the dark south end of the fairy woods below Rivercity, have one. If you could retrieve this elixir for me I would be eternally grateful. The temple's door is never locked. Its clerics want visitors; they do not let them leave."))
     SetQBit(QBit(110101))
 end)
+RegisterCanShowTopic(43101, function()
+    return not (IsQBitSet(QBit(112240)))
+end)
 
-RegisterGlobalEvent(43151, "Lake beasts", function()
-    if IsQBitSet(QBit(112261)) then
-        evt.SetMessage(NPCText(43150, "My friends, I am always glad to see you. The fish are back, and so am I. My boat's at the jetty if you want the island."))
+RegisterGlobalEvent(43102, "Elixir", function()
+    if IsQBitSet(QBit(112240)) then
+        evt.SetMessage(NPCText(43100, "The sea's cold and the fish are rude. I've never been happier."))
         return
     end
+end)
+RegisterCanShowTopic(43102, function()
+    return IsQBitSet(QBit(112240))
+end)
+
+RegisterGlobalEvent(43151, "Quest", function()
     if IsQBitSet(QBit(110201)) then
         evt.SetMessage(NPCText(43151, "You have slain the monsters of the lake! Here, I insist you take this as a token of my appreciation. And my boat is yours whenever you want the island."))
         SetQBit(QBit(112261))
@@ -1890,12 +2098,21 @@ RegisterGlobalEvent(43151, "Lake beasts", function()
     evt.SetMessage(NPCText(43153, "The fish supply is low. I am sure some sort of lake beasts are eating all the fish. If you kill the beasts, I will be indebted to you."))
     SetQBit(QBit(112260))
 end)
+RegisterCanShowTopic(43151, function()
+    return not (IsQBitSet(QBit(112261)))
+end)
 
-RegisterGlobalEvent(43201, "Water clock", function()
-    if IsQBitSet(QBit(112282)) then
-        evt.SetMessage(NPCText(43200, "It is wonderful to see my clock work year round. But still, one can never have enough time."))
+RegisterGlobalEvent(43152, "Lake beasts", function()
+    if IsQBitSet(QBit(112261)) then
+        evt.SetMessage(NPCText(43150, "My friends, I am always glad to see you. The fish are back, and so am I. My boat's at the jetty if you want the island."))
         return
     end
+end)
+RegisterCanShowTopic(43152, function()
+    return IsQBitSet(QBit(112261))
+end)
+
+RegisterGlobalEvent(43201, "Quest", function()
     if HasItem(12314) then
         evt.SetMessage(NPCText(43201, "Lava! Great! You can't imagine how much time you have saved me. Take this widget as payment."))
         RemoveItem(12314)
@@ -1913,12 +2130,21 @@ RegisterGlobalEvent(43201, "Water clock", function()
     evt.SetMessage(NPCText(43203, "I am Halon the Efficient. I have moved here from Rivercity to avoid the timewasters that place is full of. To help me keep track of time I have constructed a massive water clock, but the water freezes every winter. If I had some magical lava from Mount Firestone, I could melt the ice in the clock. Bring me some lava and I will reward you."))
     SetQBit(QBit(112280))
 end)
+RegisterCanShowTopic(43201, function()
+    return not (IsQBitSet(QBit(112282)))
+end)
 
-RegisterGlobalEvent(43251, "Trolls", function()
-    if IsQBitSet(QBit(112302)) then
-        evt.SetMessage(NPCText(43250, "You are welcome to converse with us anytime, civilized ones."))
+RegisterGlobalEvent(43202, "Water clock", function()
+    if IsQBitSet(QBit(112282)) then
+        evt.SetMessage(NPCText(43200, "It is wonderful to see my clock work year round. But still, one can never have enough time."))
         return
     end
+end)
+RegisterCanShowTopic(43202, function()
+    return IsQBitSet(QBit(112282))
+end)
+
+RegisterGlobalEvent(43251, "Quest", function()
     if IsQBitSet(QBit(112301)) then
         evt.SetMessage(NPCText(43251, "Thank you for killing the trolls, civilized ones. Your speedy job has saved us many lives and much discomfort. A cousin of mine on the dark side of the world, Leafpoint, will want to meet you. Take this. It grew in my roots for a century; we have no use for it."))
         SetQBit(QBit(112302))
@@ -1935,12 +2161,21 @@ RegisterGlobalEvent(43251, "Trolls", function()
     evt.SetMessage(NPCText(43253, "It is good to see some civilized people around here. Maybe you will kill the Trolls for us. They gnaw on our bark to sharpen their teeth in a most uncivilized fashion. Friends don't gnaw on friend's bark. We have talked about this for a couple of centuries, give or take a few decades, and have decided to hire some civilized people. Their warren is in the forest behind me."))
     SetQBit(QBit(112300))
 end)
+RegisterCanShowTopic(43251, function()
+    return not (IsQBitSet(QBit(112302)))
+end)
 
-RegisterGlobalEvent(43301, "Cyclopes", function()
-    if IsQBitSet(QBit(112322)) then
-        evt.SetMessage(NPCText(43300, "Friends, you are always welcome here."))
+RegisterGlobalEvent(43252, "Trolls", function()
+    if IsQBitSet(QBit(112302)) then
+        evt.SetMessage(NPCText(43250, "You are welcome to converse with us anytime, civilized ones."))
         return
     end
+end)
+RegisterCanShowTopic(43252, function()
+    return IsQBitSet(QBit(112302))
+end)
+
+RegisterGlobalEvent(43301, "Quest", function()
     if IsQBitSet(QBit(112321)) then
         evt.SetMessage(NPCText(43301, "We saw the Cyclops' outpost burning in the distance. You have our eternal thanks. Songs will be sung in your honor for generations to come. Here, take these treasures. We know it isn't much, but it is all we have to give."))
         SetQBit(QBit(112322))
@@ -1958,12 +2193,21 @@ RegisterGlobalEvent(43301, "Cyclopes", function()
     evt.SetMessage(NPCText(43303, "Oh mighty heroes, your fame precedes you. Recently, a group of cyclops established an outpost near our lands, in the Land of the Giants to the south-west. They are cruel monsters that eat anyone they can catch. Please destroy them for us. We will give you what we can in return for your help."))
     SetQBit(QBit(112320))
 end)
+RegisterCanShowTopic(43301, function()
+    return not (IsQBitSet(QBit(112322)))
+end)
 
-RegisterGlobalEvent(43351, "Wand", function()
-    if IsQBitSet(QBit(112341)) then
-        evt.SetMessage(NPCText(43350, "The forest is quiet again. The sprites are merely rude now, which for sprites is peace."))
+RegisterGlobalEvent(43302, "Cyclopes", function()
+    if IsQBitSet(QBit(112322)) then
+        evt.SetMessage(NPCText(43300, "Friends, you are always welcome here."))
         return
     end
+end)
+RegisterCanShowTopic(43302, function()
+    return IsQBitSet(QBit(112322))
+end)
+
+RegisterGlobalEvent(43351, "Quest", function()
     if HasItem(12310) then
         evt.SetMessage(NPCText(43351, "You have returned my Wand of Faery Magic! Now peace can be restored to the forest. Please accept this gold as a reward. And any of you with elven blood in the dark: kneel. The wand remembers its own."))
         RemoveItem(12310)
@@ -1982,8 +2226,21 @@ RegisterGlobalEvent(43351, "Wand", function()
     evt.SetMessage(NPCText(43353, "A terrible thing has happened. My Wand of Faery Magic has been stolen by the Sprites. Without the Wand in my possession, my powers of magic are reduced. Now that the Sprites possess my Wand they are crazed with power, attacking anyone in the forest. If you return my Wand I will reward you handsomely."))
     SetQBit(QBit(112340))
 end)
+RegisterCanShowTopic(43351, function()
+    return not (IsQBitSet(QBit(112341)))
+end)
 
-RegisterGlobalEvent(43352, "Patriarch", function()
+RegisterGlobalEvent(43353, "Wand", function()
+    if IsQBitSet(QBit(112341)) then
+        evt.SetMessage(NPCText(43350, "The forest is quiet again. The sprites are merely rude now, which for sprites is peace."))
+        return
+    end
+end)
+RegisterCanShowTopic(43353, function()
+    return IsQBitSet(QBit(112341))
+end)
+
+RegisterGlobalEvent(43352, "Promotion", function()
     evt.SetMessage(NPCText(43354, "Elven blood in the dark, and the wand remembers it. Rise, Patriarch."))
     Xeen.promote("elf")
 end)
@@ -1991,11 +2248,7 @@ RegisterCanShowTopic(43352, function()
     return (IsQBitSet(QBit(112341)) and Xeen.canPromote("elf"))
 end)
 
-RegisterGlobalEvent(43401, "Holy Book", function()
-    if IsQBitSet(QBit(112361)) then
-        evt.SetMessage(NPCText(43400, "The Book is home. Whenever you are ready, I will teach you the Spirit as a Master knows it. I owe you that much."))
-        return
-    end
+RegisterGlobalEvent(43401, "Quest", function()
     if HasItem(12524) then
         evt.SetMessage(NPCText(43401, "You have recovered the Holy Book of Elvenkind! The entire Elf kingdom thanks you. Please accept this gold as a reward. And ask me about the Spirit: I can teach it to the rank of Master."))
         RemoveItem(12524)
@@ -2013,8 +2266,21 @@ RegisterGlobalEvent(43401, "Holy Book", function()
     evt.SetMessage(NPCText(43403, "While travelling through Troll forest recently, I was ambushed. In my haste to escape I dropped the Holy Book of Elvenkind. I can only hope that it has not been found, for if it happens to fall into the wrong hands it could lead to the extinction of my entire race. I will reward you well if you can return it to me. The Troll Forest is far to the south-west, in the snows."))
     SetQBit(QBit(112360))
 end)
+RegisterCanShowTopic(43401, function()
+    return not (IsQBitSet(QBit(112361)))
+end)
 
-RegisterGlobalEvent(43451, "Skull", function()
+RegisterGlobalEvent(43402, "Holy Book", function()
+    if IsQBitSet(QBit(112361)) then
+        evt.SetMessage(NPCText(43400, "The Book is home. Whenever you are ready, I will teach you the Spirit as a Master knows it. I owe you that much."))
+        return
+    end
+end)
+RegisterCanShowTopic(43402, function()
+    return IsQBitSet(QBit(112361))
+end)
+
+RegisterGlobalEvent(43451, "Quest", function()
     if HasItem(12311) then
         evt.SetMessage(NPCText(43450, "My skull! Thank you! Already I can feel my tie to this world fading. Listen to the sound of the surf for your spell. (A book washes up at your feet: Recharge Item.)"))
         RemoveItem(12311)
@@ -2045,11 +2311,7 @@ RegisterCanShowTopic(43452, function()
     return IsQBitSet(QBit(112380))
 end)
 
-RegisterGlobalEvent(43501, "Whistle", function()
-    if IsQBitSet(QBit(112402)) then
-        evt.SetMessage(NPCText(43500, "The statues are awake. Each holds a book for the first caster who comes."))
-        return
-    end
+RegisterGlobalEvent(43501, "Quest", function()
     if HasItem(12308) then
         evt.SetMessage(NPCText(43501, "The Whistle! Thank you. I'll activate the statues now. Bye."))
         RemoveItem(12308)
@@ -2066,8 +2328,21 @@ RegisterGlobalEvent(43501, "Whistle", function()
     evt.SetMessage(NPCText(43503, "A couple of years ago I built a statue on each of the two islands near here. The statues are supposed to teach spellcasters the cure poison and cure disease spells, but I lost the bone whistle needed to activate them. I think I dropped it somewhere in Pitchfork Creek. If you can find my whistle I will activate the statues."))
     SetQBit(QBit(112400))
 end)
+RegisterCanShowTopic(43501, function()
+    return not (IsQBitSet(QBit(112402)))
+end)
 
-RegisterGlobalEvent(43551, "Phirna root", function()
+RegisterGlobalEvent(43502, "Whistle", function()
+    if IsQBitSet(QBit(112402)) then
+        evt.SetMessage(NPCText(43500, "The statues are awake. Each holds a book for the first caster who comes."))
+        return
+    end
+end)
+RegisterCanShowTopic(43502, function()
+    return IsQBitSet(QBit(112402))
+end)
+
+RegisterGlobalEvent(43551, "Quest", function()
     if (HasItem(12309) and not (IsQBitSet(QBit(112421)))) then
         evt.SetMessage(NPCText(43550, "Thanks for the ingredients. I'll make a batch right away."))
         RemoveItem(12309)
@@ -2100,15 +2375,7 @@ RegisterGlobalEvent(43551, "Phirna root", function()
     SetQBit(QBit(112420))
 end)
 
-RegisterGlobalEvent(43601, "Celia", function()
-    if IsQBitSet(QBit(112443)) then
-        evt.SetMessage(NPCText(43600, "No zombies down here. Gremlins, cobras, the odd hornet. Celia says it's an improvement."))
-        return
-    end
-    if IsQBitSet(QBit(112442)) then
-        evt.SetMessage(NPCText(43601, "We are to be married. Somewhere with fewer zombies."))
-        return
-    end
+RegisterGlobalEvent(43601, "Quest", function()
     if IsQBitSet(QBit(112441)) then
         evt.SetMessage(NPCText(43602, "You have rescued my Celia! I am so grateful to you for reuniting us. As payment for your services, please accept this treasure."))
         SetQBit(QBit(112442))
@@ -2125,6 +2392,23 @@ RegisterGlobalEvent(43601, "Celia", function()
     end
     evt.SetMessage(NPCText(43604, "I am searching for my intended bride, Celia. She was tending her family's sheep when zombies snatched her and disappeared into the Forest of the Walking Dead. The forest is so large and the zombies so many I'll need help to rescue her before they turn her into one of them. Help me, please."))
     SetQBit(QBit(112440))
+end)
+RegisterCanShowTopic(43601, function()
+    return not ((IsQBitSet(QBit(112443)) or IsQBitSet(QBit(112442))))
+end)
+
+RegisterGlobalEvent(43604, "Celia", function()
+    if IsQBitSet(QBit(112443)) then
+        evt.SetMessage(NPCText(43600, "No zombies down here. Gremlins, cobras, the odd hornet. Celia says it's an improvement."))
+        return
+    end
+    if IsQBitSet(QBit(112442)) then
+        evt.SetMessage(NPCText(43601, "We are to be married. Somewhere with fewer zombies."))
+        return
+    end
+end)
+RegisterCanShowTopic(43604, function()
+    return (IsQBitSet(QBit(112443)) or IsQBitSet(QBit(112442)))
 end)
 
 RegisterGlobalEvent(43602, "Untie", function()
@@ -2145,11 +2429,7 @@ RegisterCanShowTopic(43603, function()
     return (IsQBitSet(QBit(112443)) and not (IsQBitSet(QBit(112444))))
 end)
 
-RegisterGlobalEvent(43651, "Ogres", function()
-    if IsQBitSet(QBit(112461)) then
-        evt.SetMessage(NPCText(43650, "Not a boulder in a month! The boats run upriver again, and my crews have stopped flinching at loud noises. Mostly."))
-        return
-    end
+RegisterGlobalEvent(43651, "Quest", function()
     if IsQBitSet(QBit(110340)) then
         evt.SetMessage(NPCText(43651, "Thank you for getting rid of the Ogres. Here is your reward. The upriver run opens tomorrow."))
         SetQBit(QBit(112461))
@@ -2166,8 +2446,21 @@ RegisterGlobalEvent(43651, "Ogres", function()
     evt.SetMessage(NPCText(43653, "Those Ogres are ruining me! For months they have been throwing boulders at the boats that ply the waters around here. Three of my ships have gone to the bottom in as many months because the Ogres like the sound of crunching wood and screaming men. I want those Ogres gone and I am willing to pay well for the service."))
     SetQBit(QBit(112460))
 end)
+RegisterCanShowTopic(43651, function()
+    return not (IsQBitSet(QBit(112461)))
+end)
 
-RegisterGlobalEvent(43701, "Joe's map", function()
+RegisterGlobalEvent(43652, "Ogres", function()
+    if IsQBitSet(QBit(112461)) then
+        evt.SetMessage(NPCText(43650, "Not a boulder in a month! The boats run upriver again, and my crews have stopped flinching at loud noises. Mostly."))
+        return
+    end
+end)
+RegisterCanShowTopic(43652, function()
+    return IsQBitSet(QBit(112461))
+end)
+
+RegisterGlobalEvent(43701, "Quest", function()
     evt.SetMessage(NPCText(43700, "You bought one of Joe's treasure maps?!? Hahahahaha! Sorry. Here, let me give you a REAL treasure map. I'm too old to chase after treasure."))
     RemoveItem(12355)
     AddValue(InventoryItem(12356), 12356)
@@ -2180,7 +2473,7 @@ RegisterCanShowTopic(43701, function()
     return HasItem(12355)
 end)
 
-RegisterGlobalEvent(43702, "Treasure map", function()
+RegisterGlobalEvent(43702, "Quest", function()
     if HasItem(12355) then
         evt.SetMessage(NPCText(43701, "You already have the only one of its kind. Two would be greedy, and it would make the first one less unique."))
         return
@@ -2227,11 +2520,7 @@ RegisterGlobalEvent(43704, "Treasure map", function()
     evt.SetMessage(NPCText(43709, "I am Slibo. I collect maps, and the things at the end of them."))
 end)
 
-RegisterGlobalEvent(43751, "The tax", function()
-    if IsQBitSet(QBit(112500)) then
-        evt.SetMessage(NPCText(43750, "Paid in full. Keep the receipt. The dragons inside don't ask for it, but they do eat people who argue."))
-        return
-    end
+RegisterGlobalEvent(43751, "Quest", function()
     if (IsAtLeast(Gold, 2000) and (Xeen.gemCount() >= 20)) then
         evt.SetMessage(NPCText(43751, "Dragon tax! 2,000 gold pieces and 20 gems fly from your packs and into the urn on the counter. Peering inside the urn, you see that your money has vanished. Scaldrith stamps a receipt. \"Proceed. Mind the dragons; they are exempt from manners.\""))
         SubtractValue(Gold, 2000)
@@ -2243,8 +2532,21 @@ RegisterGlobalEvent(43751, "The tax", function()
     evt.SetMessage(NPCText(43752, "Everyone who wants an audience with the Dragon King pays the dragon tax: two thousand gold and twenty gems. No gems, no audience. No exceptions. I was an exception once. Never again."))
     SetQBit(QBit(112508))
 end)
+RegisterCanShowTopic(43751, function()
+    return not (IsQBitSet(QBit(112500)))
+end)
 
-RegisterGlobalEvent(43752, "Great Wyrm", function()
+RegisterGlobalEvent(43753, "The tax", function()
+    if IsQBitSet(QBit(112500)) then
+        evt.SetMessage(NPCText(43750, "Paid in full. Keep the receipt. The dragons inside don't ask for it, but they do eat people who argue."))
+        return
+    end
+end)
+RegisterCanShowTopic(43753, function()
+    return IsQBitSet(QBit(112500))
+end)
+
+RegisterGlobalEvent(43752, "Promotion", function()
     if (Xeen.canPromote("dragon") and not (IsQBitSet(QBit(112507)))) then
         evt.SetMessage(NPCText(43753, "A dragon who pays tax and reads. Rarer than gold. The last lesson costs the most, and you have paid it. Rise, Great Wyrm."))
         SetQBit(QBit(112507))
@@ -2264,11 +2566,7 @@ RegisterCanShowTopic(43752, function()
     return (IsQBitSet(QBit(112500)) and IsQBitSet(QBit(112501)))
 end)
 
-RegisterGlobalEvent(44051, "Gremlins", function()
-    if IsQBitSet(QBit(113022)) then
-        evt.SetMessage(NPCText(44050, "Castleview likes you! Visit anytime!"))
-        return
-    end
+RegisterGlobalEvent(44051, "Quest", function()
     if IsQBitSet(QBit(113021)) then
         evt.SetMessage(NPCText(44051, "You have saved Castleview from the wicked Gremlins! Oh, frabjous day! Here is your gold, and a pass, so the gate stops arguing with you."))
         SetQBit(QBit(113022))
@@ -2286,6 +2584,19 @@ RegisterGlobalEvent(44051, "Gremlins", function()
     evt.SetMessage(NPCText(44053, "I am the mouthpiece of Castleview. The treasury will pay well for ending the Gremlins' mischief in town. Their king, Gettlewaithe, holds court in a burrow under our wall."))
     SetQBit(QBit(113020))
     SetAutonote(4410)
+end)
+RegisterCanShowTopic(44051, function()
+    return not (IsQBitSet(QBit(113022)))
+end)
+
+RegisterGlobalEvent(44056, "Gremlins", function()
+    if IsQBitSet(QBit(113022)) then
+        evt.SetMessage(NPCText(44050, "Castleview likes you! Visit anytime!"))
+        return
+    end
+end)
+RegisterCanShowTopic(44056, function()
+    return IsQBitSet(QBit(113022))
 end)
 
 RegisterGlobalEvent(44052, "Gettlewaithe's gift", function()
@@ -2350,11 +2661,7 @@ RegisterGlobalEvent(44055, "Submit or die", function()
     SetQBit(QBit(113024))
 end)
 
-RegisterGlobalEvent(44101, "Jasper", function()
-    if IsQBitSet(QBit(113042)) then
-        evt.SetMessage(NPCText(44100, "Good to see you again, friends! Remember, if you ever want to know anything about maps, just come to me."))
-        return
-    end
+RegisterGlobalEvent(44101, "Quest", function()
     if IsQBitSet(QBit(113041)) then
         evt.SetMessage(NPCText(44101, "Thank you for freeing my brother! Here's a little money for your trouble. If you ever want to know anything about maps, just come to me."))
         SetQBit(QBit(113042))
@@ -2370,6 +2677,19 @@ RegisterGlobalEvent(44101, "Jasper", function()
     evt.SetMessage(NPCText(44103, "I'm Jethro, brother of Jasper. Jasper is in Castleview jail, falsely accused of stealing a treasure map from Joe, the treasure map salesman. Joe is a crook, but I can't prove it. Maybe you could break Jasper out. I'm not strong enough to do it."))
     SetQBit(QBit(113040))
     SetAutonote(4420)
+end)
+RegisterCanShowTopic(44101, function()
+    return not (IsQBitSet(QBit(113042)))
+end)
+
+RegisterGlobalEvent(44104, "Jasper", function()
+    if IsQBitSet(QBit(113042)) then
+        evt.SetMessage(NPCText(44100, "Good to see you again, friends! Remember, if you ever want to know anything about maps, just come to me."))
+        return
+    end
+end)
+RegisterCanShowTopic(44104, function()
+    return IsQBitSet(QBit(113042))
 end)
 
 RegisterGlobalEvent(44102, "Jasper", function()
@@ -2394,15 +2714,24 @@ RegisterGlobalEvent(44103, "Joe", function()
     evt.SetMessage(NPCText(44108, "Joe sold the fake maps. I drew the real ones. Guess which of us is in jail. The back window's bars are older than the warden."))
 end)
 
-RegisterGlobalEvent(44151, "Lesson", function()
-    if IsQBitSet(QBit(113061)) then
-        evt.SetMessage(NPCText(44150, "Learned you have. Hannah Sister to go, now."))
-        return
-    end
+RegisterGlobalEvent(44151, "Quest", function()
     evt.SetMessage(NPCText(44151, "Ah, listeners! Allow me to enlighten you: No word, no bond, row on. Now do I repay a period won. Go, now, and visit Sister Hannah for more enlightenment."))
     SetQBit(QBit(113060))
     SetQBit(QBit(113061))
     SetAutonote(4430)
+end)
+RegisterCanShowTopic(44151, function()
+    return not (IsQBitSet(QBit(113061)))
+end)
+
+RegisterGlobalEvent(44156, "Lesson", function()
+    if IsQBitSet(QBit(113061)) then
+        evt.SetMessage(NPCText(44150, "Learned you have. Hannah Sister to go, now."))
+        return
+    end
+end)
+RegisterCanShowTopic(44156, function()
+    return IsQBitSet(QBit(113061))
 end)
 
 RegisterGlobalEvent(44152, "Lesson", function()
@@ -2449,11 +2778,7 @@ RegisterGlobalEvent(44154, "Lesson", function()
     evt.SetMessage(NPCText(44160, "Order wrong the. Otto first, Brother. Lesson one."))
 end)
 
-RegisterGlobalEvent(44155, "The word", function()
-    if IsQBitSet(QBit(113066)) then
-        evt.SetMessage(NPCText(44161, "Pleased to see you, fellow Drawkcabs."))
-        return
-    end
+RegisterGlobalEvent(44155, "Quest", function()
     if (IsQBitSet(QBit(113065)) and IsQBitSet(QBit(111400))) then
         evt.SetMessage(NPCText(44162, "Correct. You are truly a Drawkcab! Those of you who walk the inner way walk it now as Masters. Backwards, naturally."))
         SetQBit(QBit(113066))
@@ -2472,12 +2797,21 @@ RegisterGlobalEvent(44155, "The word", function()
     end
     evt.SetMessage(NPCText(44165, "Wrong. Go visit the monks of Castleview for enlightenment and return to me when you feel you are ready."))
 end)
+RegisterCanShowTopic(44155, function()
+    return not (IsQBitSet(QBit(113066)))
+end)
 
-RegisterGlobalEvent(44201, "The chests", function()
-    if IsQBitSet(QBit(113083)) then
-        evt.SetMessage(NPCText(44200, "To close all of the chests is quite an accomplishment, but to open them requires intellect most uncommon. Don't try. I just got them shut."))
+RegisterGlobalEvent(44157, "The word", function()
+    if IsQBitSet(QBit(113066)) then
+        evt.SetMessage(NPCText(44161, "Pleased to see you, fellow Drawkcabs."))
         return
     end
+end)
+RegisterCanShowTopic(44157, function()
+    return IsQBitSet(QBit(113066))
+end)
+
+RegisterGlobalEvent(44201, "Quest", function()
     if (IsQBitSet(QBit(113081)) and IsQBitSet(QBit(113082))) then
         evt.SetMessage(NPCText(44201, "Every lid down, in order. Quite an accomplishment. Here: a few things people stored and never came back for."))
         SetQBit(QBit(113083))
@@ -2496,12 +2830,21 @@ RegisterGlobalEvent(44201, "The chests", function()
     SetQBit(QBit(113080))
     SetAutonote(4440)
 end)
+RegisterCanShowTopic(44201, function()
+    return not (IsQBitSet(QBit(113083)))
+end)
 
-RegisterGlobalEvent(44251, "Rats", function()
-    if IsQBitSet(QBit(113102)) then
-        evt.SetMessage(NPCText(44250, "It's good to see you again."))
+RegisterGlobalEvent(44202, "The chests", function()
+    if IsQBitSet(QBit(113083)) then
+        evt.SetMessage(NPCText(44200, "To close all of the chests is quite an accomplishment, but to open them requires intellect most uncommon. Don't try. I just got them shut."))
         return
     end
+end)
+RegisterCanShowTopic(44202, function()
+    return IsQBitSet(QBit(113083))
+end)
+
+RegisterGlobalEvent(44251, "Quest", function()
     if IsQBitSet(QBit(113101)) then
         evt.SetMessage(NPCText(44251, "You've killed the Queen Rat! Here is your reward: my chest. Go on, open it. It's yours. Thanks."))
         SetQBit(QBit(113102))
@@ -2515,12 +2858,21 @@ RegisterGlobalEvent(44251, "Rats", function()
     SetQBit(QBit(113100))
     SetAutonote(4450)
 end)
+RegisterCanShowTopic(44251, function()
+    return not (IsQBitSet(QBit(113102)))
+end)
 
-RegisterGlobalEvent(44301, "Heretics", function()
-    if IsQBitSet(QBit(113127)) then
-        evt.SetMessage(NPCText(44300, "It is always pleasing to be honored with your presence, my friends."))
+RegisterGlobalEvent(44252, "Rats", function()
+    if IsQBitSet(QBit(113102)) then
+        evt.SetMessage(NPCText(44250, "It's good to see you again."))
         return
     end
+end)
+RegisterCanShowTopic(44252, function()
+    return IsQBitSet(QBit(113102))
+end)
+
+RegisterGlobalEvent(44301, "Quest", function()
     if (IsQBitSet(QBit(113125)) and IsQBitSet(QBit(113123))) then
         evt.SetMessage(NPCText(44301, "Thank you for your help in the battle against the heretics. Ours is the true religion, and Mok has sided with the righteous. Those of you who serve the light, Mok raises up; the rest of you get gold."))
         SetQBit(QBit(113127))
@@ -2548,6 +2900,19 @@ RegisterGlobalEvent(44301, "Heretics", function()
     SetQBit(QBit(113120))
     SetAutonote(4460)
 end)
+RegisterCanShowTopic(44301, function()
+    return not (IsQBitSet(QBit(113127)))
+end)
+
+RegisterGlobalEvent(44303, "Heretics", function()
+    if IsQBitSet(QBit(113127)) then
+        evt.SetMessage(NPCText(44300, "It is always pleasing to be honored with your presence, my friends."))
+        return
+    end
+end)
+RegisterCanShowTopic(44303, function()
+    return IsQBitSet(QBit(113127))
+end)
 
 RegisterGlobalEvent(44302, "The clerics", function()
     evt.SetMessage(NPCText(44306, "Humble and Pious came to me and begged forgiveness. I gave them the latrines. Mok is merciful; I am thorough."))
@@ -2556,7 +2921,7 @@ RegisterCanShowTopic(44302, function()
     return (IsQBitSet(QBit(113127)) and (IsQBitSet(QBit(113124)) or IsQBitSet(QBit(113128))))
 end)
 
-RegisterGlobalEvent(44351, "Ruby work", function()
+RegisterGlobalEvent(44351, "Quest", function()
     if (Xeen.itemCount(12357) >= 5 and (Xeen.gemCount() >= 2)) then
         evt.SetMessage(NPCText(44350, "Five ruby rocks and two gems. Give me an hour. There. Ruby. Mind the edge."))
         RemoveItem(12357)
@@ -2577,7 +2942,7 @@ RegisterGlobalEvent(44351, "Ruby work", function()
     SetAutonote(4470)
 end)
 
-RegisterGlobalEvent(44352, "Emerald work", function()
+RegisterGlobalEvent(44352, "Quest", function()
     if (Xeen.itemCount(12358) >= 5 and (Xeen.gemCount() >= 4)) then
         evt.SetMessage(NPCText(44353, "Five emerald rocks and four gems. Emerald steel never dulls. Neither does my invoice."))
         RemoveItem(12358)
@@ -2598,7 +2963,7 @@ RegisterGlobalEvent(44352, "Emerald work", function()
     SetAutonote(4470)
 end)
 
-RegisterGlobalEvent(44353, "Sapphire work", function()
+RegisterGlobalEvent(44353, "Quest", function()
     if (Xeen.itemCount(12359) >= 5 and (Xeen.gemCount() >= 6)) then
         evt.SetMessage(NPCText(44356, "Five sapphire rocks, six gems. Sapphire keeps you cool under fire. Literally. Don't test it on me."))
         RemoveItem(12359)
@@ -2619,7 +2984,7 @@ RegisterGlobalEvent(44353, "Sapphire work", function()
     SetAutonote(4470)
 end)
 
-RegisterGlobalEvent(44354, "Diamond work", function()
+RegisterGlobalEvent(44354, "Quest", function()
     if (Xeen.itemCount(12360) >= 5 and (Xeen.gemCount() >= 10)) then
         evt.SetMessage(NPCText(44359, "Five diamonds, ten gems. Diamonds are forever. So was the wait. Here."))
         RemoveItem(12360)
@@ -2640,11 +3005,7 @@ RegisterGlobalEvent(44354, "Diamond work", function()
     SetAutonote(4470)
 end)
 
-RegisterGlobalEvent(44401, "Emerald handle", function()
-    if IsQBitSet(QBit(113162)) then
-        evt.SetMessage(NPCText(44400, "Retirement suits me. I sit, I read, I do not look for handles."))
-        return
-    end
+RegisterGlobalEvent(44401, "Quest", function()
     if HasItem(12345) then
         evt.SetMessage(NPCText(44401, "Oh, thank you! You've found the emerald handle. Here's something for your trouble: the staff. I fixed it, cast one spell to prove I still could, and retired. Take it."))
         RemoveItem(12345)
@@ -2662,8 +3023,21 @@ RegisterGlobalEvent(44401, "Emerald handle", function()
     SetQBit(QBit(113160))
     SetAutonote(4480)
 end)
+RegisterCanShowTopic(44401, function()
+    return not (IsQBitSet(QBit(113162)))
+end)
 
-RegisterGlobalEvent(44451, "Monga melons", function()
+RegisterGlobalEvent(44402, "Emerald handle", function()
+    if IsQBitSet(QBit(113162)) then
+        evt.SetMessage(NPCText(44400, "Retirement suits me. I sit, I read, I do not look for handles."))
+        return
+    end
+end)
+RegisterCanShowTopic(44402, function()
+    return IsQBitSet(QBit(113162))
+end)
+
+RegisterGlobalEvent(44451, "Quest", function()
     if (IsQBitSet(QBit(113181)) and HasItem(12343)) then
         evt.SetMessage(NPCText(44450, "Hi! Glad to see you again. I saved the seeds from the Monga Melons you gave me, and now I'm growing my own! (He eats yours anyway.) (sigh) I love Monga Melons."))
         RemoveItem(12343)
@@ -2693,15 +3067,7 @@ RegisterGlobalEvent(44451, "Monga melons", function()
     SetAutonote(4490)
 end)
 
-RegisterGlobalEvent(44501, "Sheewana", function()
-    if IsQBitSet(QBit(113203)) then
-        evt.SetMessage(NPCText(44500, "You came into our forest with your hands on your purses and ours. We pay nothing to robbers."))
-        return
-    end
-    if IsQBitSet(QBit(113207)) then
-        evt.SetMessage(NPCText(44501, "We are always pleased to see heroes such as yourselves. You are welcome in our forest."))
-        return
-    end
+RegisterGlobalEvent(44501, "Quest", function()
     if (IsQBitSet(QBit(113206)) and IsQBitSet(QBit(113201))) then
         evt.SetMessage(NPCText(44502, "Thank you! It is good to see her back. Here is your reward. And those of you who hunt: the forest has taught you all it can. Walk it now as its lords."))
         SetQBit(QBit(113207))
@@ -2726,6 +3092,23 @@ RegisterGlobalEvent(44501, "Sheewana", function()
     evt.SetMessage(NPCText(44505, "I am Sharla, First of the Sprites. We have a problem. The Orcs have kidnapped one of our sisters. Can you help her?"))
     SetQBit(QBit(113200))
     SetAutonote(4500)
+end)
+RegisterCanShowTopic(44501, function()
+    return not ((IsQBitSet(QBit(113203)) or IsQBitSet(QBit(113207))))
+end)
+
+RegisterGlobalEvent(44510, "Sheewana", function()
+    if IsQBitSet(QBit(113203)) then
+        evt.SetMessage(NPCText(44500, "You came into our forest with your hands on your purses and ours. We pay nothing to robbers."))
+        return
+    end
+    if IsQBitSet(QBit(113207)) then
+        evt.SetMessage(NPCText(44501, "We are always pleased to see heroes such as yourselves. You are welcome in our forest."))
+        return
+    end
+end)
+RegisterCanShowTopic(44510, function()
+    return (IsQBitSet(QBit(113203)) or IsQBitSet(QBit(113207)))
 end)
 
 RegisterGlobalEvent(44502, "Certainly", function()
@@ -2813,11 +3196,7 @@ RegisterGlobalEvent(44509, "Thanks", function()
     AddValue(Experience, 500)
 end)
 
-RegisterGlobalEvent(44551, "Ogres", function()
-    if IsQBitSet(QBit(113227)) then
-        evt.SetMessage(NPCText(44550, "The caravans run through Ogre Pass on time. Nearly on time. On a day."))
-        return
-    end
+RegisterGlobalEvent(44551, "Quest", function()
     if (IsQBitSet(QBit(113223)) or (IsQBitSet(QBit(113224)) and IsQBitSet(QBit(113225)))) then
         evt.SetMessage(NPCText(44551, "Thank you so much for getting rid of the Ogres! My caravans can now get through the pass safely. Here, take this gold as a reward."))
         SetQBit(QBit(113227))
@@ -2834,8 +3213,21 @@ RegisterGlobalEvent(44551, "Ogres", function()
     SetQBit(QBit(113220))
     SetAutonote(4510)
 end)
+RegisterCanShowTopic(44551, function()
+    return not (IsQBitSet(QBit(113227)))
+end)
 
-RegisterGlobalEvent(44552, "Bounty", function()
+RegisterGlobalEvent(44559, "Ogres", function()
+    if IsQBitSet(QBit(113227)) then
+        evt.SetMessage(NPCText(44550, "The caravans run through Ogre Pass on time. Nearly on time. On a day."))
+        return
+    end
+end)
+RegisterCanShowTopic(44559, function()
+    return IsQBitSet(QBit(113227))
+end)
+
+RegisterGlobalEvent(44552, "Promotion", function()
     evt.SetMessage(NPCText(44554, "Two forts, burned to the ground. The bounty, as promised. And those of you who hunt for pay: the caravan guild has a title for hunters like you."))
     SetQBit(QBit(113228))
     evt.ForPlayer(Players.All)
@@ -3003,11 +3395,7 @@ RegisterCanShowTopic(44654, function()
     return (IsQBitSet(QBit(113261)) or IsQBitSet(QBit(113262)))
 end)
 
-RegisterGlobalEvent(44701, "Xenoc and Morgana", function()
-    if IsQBitSet(QBit(113281)) then
-        evt.SetMessage(NPCText(44700, "I am pleased to see you! Sandcaster will not forget your great deeds!"))
-        return
-    end
+RegisterGlobalEvent(44701, "Quest", function()
     if (IsQBitSet(QBit(113283)) and IsQBitSet(QBit(113284))) then
         evt.SetMessage(NPCText(44701, "Thank you. You have done both me and Sandcaster a great service. The quarter is open again. And those of you who walked their halls unseen: the guilds have a word for people like you. Spies. Good ones."))
         SetQBit(QBit(113281))
@@ -3027,6 +3415,19 @@ RegisterGlobalEvent(44701, "Xenoc and Morgana", function()
     end
     evt.SetMessage(NPCText(44704, "Two years ago, Xenoc the Wizard and Morgana the Sorceress came to town with visions of conquest. They ruined my good name and made themselves heads of the guilds. Now I am dethroned, and the guilds are wicked. Will you help right the wrong?"))
     SetQBit(QBit(113282))
+end)
+RegisterCanShowTopic(44701, function()
+    return not (IsQBitSet(QBit(113281)))
+end)
+
+RegisterGlobalEvent(44706, "Xenoc and Morgana", function()
+    if IsQBitSet(QBit(113281)) then
+        evt.SetMessage(NPCText(44700, "I am pleased to see you! Sandcaster will not forget your great deeds!"))
+        return
+    end
+end)
+RegisterCanShowTopic(44706, function()
+    return IsQBitSet(QBit(113281))
 end)
 
 RegisterGlobalEvent(44702, "We will help", function()
@@ -3061,11 +3462,7 @@ RegisterCanShowTopic(44705, function()
     return not (IsQBitSet(QBit(113286)))
 end)
 
-RegisterGlobalEvent(44751, "Magnifying glass", function()
-    if IsQBitSet(QBit(113303)) then
-        evt.SetMessage(NPCText(44750, "Always nice to see you! Come and look at this. No? It's very small."))
-        return
-    end
+RegisterGlobalEvent(44751, "Quest", function()
     if HasItem(12352) then
         evt.SetMessage(NPCText(44751, "How wonderful! You have located my magnifying glass. Can't thank you enough. Take this gold, and this: I made it, and now I can finally see what it is."))
         RemoveItem(12352)
@@ -3083,6 +3480,19 @@ RegisterGlobalEvent(44751, "Magnifying glass", function()
     evt.SetMessage(NPCText(44753, "Well, this is just great! How am I supposed to get any work done? My magnifying glass is missing and I can't see what I'm working on without it. Do you think you could find it for me? Gargoyles were loitering around the tent. Gargoyles like shiny things."))
     SetQBit(QBit(113300))
     SetAutonote(4550)
+end)
+RegisterCanShowTopic(44751, function()
+    return not (IsQBitSet(QBit(113303)))
+end)
+
+RegisterGlobalEvent(44752, "Magnifying glass", function()
+    if IsQBitSet(QBit(113303)) then
+        evt.SetMessage(NPCText(44750, "Always nice to see you! Come and look at this. No? It's very small."))
+        return
+    end
+end)
+RegisterCanShowTopic(44752, function()
+    return IsQBitSet(QBit(113303))
 end)
 
 RegisterGlobalEvent(44801, "The People", function()
@@ -3117,11 +3527,7 @@ RegisterCanShowTopic(44803, function()
     return not ((IsQBitSet(QBit(113320)) or IsQBitSet(QBit(113321)) or IsQBitSet(QBit(113323))))
 end)
 
-RegisterGlobalEvent(44851, "Chalice", function()
-    if IsQBitSet(QBit(113343)) then
-        evt.SetMessage(NPCText(44850, "I drink from it every morning. Water, mostly. I'm still alive, so it works."))
-        return
-    end
+RegisterGlobalEvent(44851, "Quest", function()
     if IsQBitSet(QBit(113344)) then
         evt.SetMessage(NPCText(44851, "You gave it back to those mumbling knights? I'll die of thirst before I die of poison. Get out."))
         return
@@ -3150,6 +3556,19 @@ RegisterGlobalEvent(44851, "Chalice", function()
     SetQBit(QBit(113341))
     SetAutonote(4570)
 end)
+RegisterCanShowTopic(44851, function()
+    return not (IsQBitSet(QBit(113343)))
+end)
+
+RegisterGlobalEvent(44853, "Chalice", function()
+    if IsQBitSet(QBit(113343)) then
+        evt.SetMessage(NPCText(44850, "I drink from it every morning. Water, mostly. I'm still alive, so it works."))
+        return
+    end
+end)
+RegisterCanShowTopic(44853, function()
+    return IsQBitSet(QBit(113343))
+end)
 
 RegisterGlobalEvent(44852, "The Voweless Knights' answers", function()
     if IsQBitSet(QBit(113346)) then
@@ -3166,11 +3585,7 @@ RegisterGlobalEvent(44852, "The Voweless Knights' answers", function()
     evt.SetMessage(NPCText(44857, "Five hundred gold, and not a copper less. Knowledge is free. Binding is not."))
 end)
 
-RegisterGlobalEvent(44901, "Jewel of Ages", function()
-    if IsQBitSet(QBit(113364)) then
-        evt.SetMessage(NPCText(44900, "You can now come and drink here whenever you feel the effects of unnatural aging. The jewel keeps you; the water keeps everyone else."))
-        return
-    end
+RegisterGlobalEvent(44901, "Quest", function()
     if HasItem(12527) then
         evt.SetMessage(NPCText(44901, "You've found the Jewel of Ages! Let me dip it in the fountain. See: the waters remember it. Keep the jewel; the fountain only needed to see it once. Drink here whenever you feel the effects of unnatural aging."))
         SetQBit(QBit(113364))
@@ -3191,6 +3606,19 @@ RegisterGlobalEvent(44901, "Jewel of Ages", function()
     evt.SetMessage(NPCText(44904, "A terrible thing has happened. The Jewel of Ages has been stolen from its place in the fountain. Now the once youth-giving waters have turned back to venom. If you recover the jewel, I'll be able to restore the fountain."))
     SetQBit(QBit(113360))
 end)
+RegisterCanShowTopic(44901, function()
+    return not (IsQBitSet(QBit(113364)))
+end)
+
+RegisterGlobalEvent(44904, "Jewel of Ages", function()
+    if IsQBitSet(QBit(113364)) then
+        evt.SetMessage(NPCText(44900, "You can now come and drink here whenever you feel the effects of unnatural aging. The jewel keeps you; the water keeps everyone else."))
+        return
+    end
+end)
+RegisterCanShowTopic(44904, function()
+    return IsQBitSet(QBit(113364))
+end)
 
 RegisterGlobalEvent(44903, "Hornets", function()
     if IsQBitSet(QBit(113364)) then
@@ -3200,7 +3628,7 @@ RegisterGlobalEvent(44903, "Hornets", function()
     evt.SetMessage(NPCText(44906, "Stay out from under the great oak. Its hornets don't take blood, they take years. My fountain used to give them back. Now it is venom, like everything else round here."))
 end)
 
-RegisterGlobalEvent(44902, "Ellinger's letter", function()
+RegisterGlobalEvent(44902, "Promotion", function()
     evt.SetMessage(NPCText(44907, "Ellinger's seal. 'To the Guildmaster of Sandcaster: the bearer has earned the robes of an Archmage.' Ellinger never wrote that about anyone. Those of you in a Wizard's robe, take these instead. The rest of you may hold the letter."))
     RemoveItem(12361)
     SetQBit(QBit(113365))
@@ -3210,11 +3638,7 @@ RegisterCanShowTopic(44902, function()
     return (HasItem(12361) and not (IsQBitSet(QBit(113365))))
 end)
 
-RegisterGlobalEvent(44951, "Southern Tower", function()
-    if IsQBitSet(QBit(113386)) then
-        evt.SetMessage(NPCText(44950, "Thieves who keep accounts. The world is full of surprises, most of them bad."))
-        return
-    end
+RegisterGlobalEvent(44951, "Quest", function()
     if IsQBitSet(QBit(113381)) then
         evt.SetMessage(NPCText(44951, "Sold to the mages of the Eastern Tower? Then that is where my jewel is. And where Luna's statuettes went, she should hear. Thank you. Take this for the trouble."))
         SetQBit(QBit(113386))
@@ -3230,8 +3654,21 @@ RegisterGlobalEvent(44951, "Southern Tower", function()
     evt.SetMessage(NPCText(44953, "A thief bragged of it in his haste to escape: the Great Southern Tower, in the woods south of Ogre Pass. It is the only help I can offer. Whoever took the Jewel of Ages went there first."))
     SetQBit(QBit(113380))
 end)
+RegisterCanShowTopic(44951, function()
+    return not (IsQBitSet(QBit(113386)))
+end)
 
-RegisterGlobalEvent(44952, "Inner circle", function()
+RegisterGlobalEvent(44953, "Southern Tower", function()
+    if IsQBitSet(QBit(113386)) then
+        evt.SetMessage(NPCText(44950, "Thieves who keep accounts. The world is full of surprises, most of them bad."))
+        return
+    end
+end)
+RegisterCanShowTopic(44953, function()
+    return IsQBitSet(QBit(113386))
+end)
+
+RegisterGlobalEvent(44952, "Promotion", function()
     if Xeen.canPromote("southern") then
         evt.SetMessage(NPCText(44954, "You got past the gongs, the chest and my accountants. Rogues and marksmen that good are wasted on heroics. Join the inner circle. No paperwork. Well, a ledger."))
         SetQBit(QBit(113385))
@@ -3244,11 +3681,7 @@ RegisterCanShowTopic(44952, function()
     return (not (IsQBitSet(QBit(113385))) and not (IsQBitSet(QBit(113384))))
 end)
 
-RegisterGlobalEvent(45001, "Statuettes", function()
-    if IsQBitSet(QBit(113407)) then
-        evt.SetMessage(NPCText(45000, "I'm pleased to see you again, friends. Please come by more often!"))
-        return
-    end
+RegisterGlobalEvent(45001, "Quest", function()
     if HasItem(12349) then
         evt.SetMessage(NPCText(45001, "The Pegasus! You are truly great adventurers to have found this statuette. It goes back on the altar, and this is for you."))
         RemoveItem(12349)
@@ -3277,7 +3710,9 @@ RegisterGlobalEvent(45001, "Statuettes", function()
         return
     end
     if (IsQBitSet(QBit(113404)) and IsQBitSet(QBit(113405)) and IsQBitSet(QBit(113406))) then
-        evt.SetMessage(NPCText(45004, "All three are on the altar. Look at the altar, please, not at me."))
+        evt.SetMessage(NPCText(45004, "You have found all of my statuettes! Now I can restore the altar's magical aura and regain my powers of healing. For you, great adventurers, shall share my powers. Those of you who fight with bow and spell alike, rise as Master Archers."))
+        SetQBit(QBit(113407))
+        Xeen.promote("statuettes")
         return
     end
     if IsQBitSet(QBit(113400)) then
@@ -3288,21 +3723,21 @@ RegisterGlobalEvent(45001, "Statuettes", function()
     SetQBit(QBit(113400))
     SetAutonote(4600)
 end)
-
-RegisterGlobalEvent(45002, "The altar", function()
-    evt.SetMessage(NPCText(45007, "You have found all of my statuettes! Now I can restore the altar's magical aura and regain my powers of healing. For you, great adventurers, shall share my powers. Those of you who fight with bow and spell alike, rise as Master Archers."))
-    SetQBit(QBit(113407))
-    Xeen.promote("statuettes")
-end)
-RegisterCanShowTopic(45002, function()
-    return (IsQBitSet(QBit(113404)) and IsQBitSet(QBit(113405)) and IsQBitSet(QBit(113406)) and not (IsQBitSet(QBit(113407))))
+RegisterCanShowTopic(45001, function()
+    return not (IsQBitSet(QBit(113407)))
 end)
 
-RegisterGlobalEvent(45051, "The ring", function()
-    if IsQBitSet(QBit(113422)) then
-        evt.SetMessage(NPCText(45050, "Wear it in good health. It makes sure you have plenty."))
+RegisterGlobalEvent(45003, "Statuettes", function()
+    if IsQBitSet(QBit(113407)) then
+        evt.SetMessage(NPCText(45000, "I'm pleased to see you again, friends. Please come by more often!"))
         return
     end
+end)
+RegisterCanShowTopic(45003, function()
+    return IsQBitSet(QBit(113407))
+end)
+
+RegisterGlobalEvent(45051, "Quest", function()
     if HasItem(12522) then
         evt.SetMessage(NPCText(45051, "That's it. I took it off to split wood and the mountain kept it. You know, it never did fit me after I got it back the last time. Keep it. And take this for the climb."))
         SetQBit(QBit(113422))
@@ -3318,12 +3753,21 @@ RegisterGlobalEvent(45051, "The ring", function()
     evt.SetMessage(NPCText(45053, "I took my ring off to split wood up on Magic Mountain, and now it's somewhere in the woodpile. Fetch it and I'll make it worth the walk."))
     SetQBit(QBit(113420))
 end)
+RegisterCanShowTopic(45051, function()
+    return not (IsQBitSet(QBit(113422)))
+end)
 
-RegisterGlobalEvent(45101, "The coven", function()
-    if IsQBitSet(QBit(113441)) then
-        evt.SetMessage(NPCText(45100, "Lakeside has its tavern back and I have my feet back. I keep checking on both."))
+RegisterGlobalEvent(45052, "The ring", function()
+    if IsQBitSet(QBit(113422)) then
+        evt.SetMessage(NPCText(45050, "Wear it in good health. It makes sure you have plenty."))
         return
     end
+end)
+RegisterCanShowTopic(45052, function()
+    return IsQBitSet(QBit(113422))
+end)
+
+RegisterGlobalEvent(45101, "Quest", function()
     if (IsQBitSet(QBit(113447)) and IsQBitSet(QBit(113443)) and IsQBitSet(QBit(113444)) and IsQBitSet(QBit(113445)) and IsQBitSet(QBit(113446))) then
         evt.SetMessage(NPCText(45101, "The stocks fell open when the Head Witch died, and the others are out. Lakeside is ours again. The tavern was never destroyed, by the way. They only painted it gone."))
         SetQBit(QBit(113441))
@@ -3345,6 +3789,19 @@ RegisterGlobalEvent(45101, "The coven", function()
     evt.SetMessage(NPCText(45104, "They put me in the stocks for failing the initiation test. The test is the riddle at the Guild's door, 'What am I?', and the answer is witch. I said 'broom'. Four more of us are in the cells below. The good ones go to Castle Blackfang as guards; the rejects go to the Isle. Get them out, and break the coven."))
     SetQBit(QBit(113440))
     SetAutonote(4620)
+end)
+RegisterCanShowTopic(45101, function()
+    return not (IsQBitSet(QBit(113441)))
+end)
+
+RegisterGlobalEvent(45103, "The coven", function()
+    if IsQBitSet(QBit(113441)) then
+        evt.SetMessage(NPCText(45100, "Lakeside has its tavern back and I have my feet back. I keep checking on both."))
+        return
+    end
+end)
+RegisterCanShowTopic(45103, function()
+    return IsQBitSet(QBit(113441))
 end)
 
 RegisterGlobalEvent(45102, "Necropolis pass", function()
@@ -3394,7 +3851,7 @@ RegisterCanShowTopic(45402, function()
     return IsQBitSet(QBit(113560))
 end)
 
-RegisterGlobalEvent(45551, "Dragon egg", function()
+RegisterGlobalEvent(45551, "Quest", function()
     if HasItem(12375) then
         evt.SetMessage(NPCText(45550, "You are truly courageous! Thank you soooo much. Now I'll just drink this egg potion and..."))
         RemoveItem(12375)
@@ -3411,7 +3868,7 @@ RegisterGlobalEvent(45551, "Dragon egg", function()
     SetQBit(QBit(114020))
 end)
 
-RegisterGlobalEvent(45751, "Crusaders", function()
+RegisterGlobalEvent(45751, "Promotion", function()
     evt.SetMessage(NPCText(45750, "Falista says to tell you: \"I, Falista, grant all great adventurers the title of Crusader.\" Kneel, then. Knights rise as Cavaliers, Paladins as Crusaders, Rangers as Hunters."))
     Xeen.promote("crusade")
 end)
@@ -3427,7 +3884,7 @@ RegisterCanShowTopic(45801, function()
     return (IsQBitSet(QBit(110204)) and Xeen.canPromote("pendant"))
 end)
 
-RegisterGlobalEvent(45851, "Ordination", function()
+RegisterGlobalEvent(45851, "Promotion", function()
     evt.SetMessage(NPCText(45850, "Another one who heals and hasn't been ordained? Kneel. Druids rise as Great Druids, Clerics as Priests."))
     Xeen.promote("seasons")
 end)
@@ -3435,7 +3892,7 @@ RegisterCanShowTopic(45851, function()
     return (IsQBitSet(QBit(112201)) and Xeen.canPromote("seasons"))
 end)
 
-RegisterGlobalEvent(45852, "The turning year", function()
+RegisterGlobalEvent(45852, "Promotion", function()
     evt.SetMessage(NPCText(45851, "Carlawna sent word that you helped her. Leaves fall so the tree can grow. Druids rise as Great Druids, Clerics as Priests."))
     Xeen.promote("seasons")
 end)
@@ -3443,7 +3900,7 @@ RegisterCanShowTopic(45852, function()
     return (IsQBitSet(QBit(112201)) and Xeen.canPromote("seasons"))
 end)
 
-RegisterGlobalEvent(45951, "Rogues", function()
+RegisterGlobalEvent(45951, "Promotion", function()
     evt.SetMessage(NPCText(45950, "Another thief in your company? How useful. Rise, Rogue. Don't touch anything on the way out."))
     Xeen.promote("tiara")
 end)
@@ -3451,7 +3908,7 @@ RegisterCanShowTopic(45951, function()
     return (IsQBitSet(QBit(112061)) and Xeen.canPromote("tiara"))
 end)
 
-RegisterGlobalEvent(46003, "The dungeon", function()
+RegisterGlobalEvent(46003, "Quest", function()
     if (IsQBitSet(QBit(114522)) and Xeen.canPromote("dimitri")) then
         evt.SetMessage(NPCText(46000, "Another knight in your company. Kneel. ... Rise, Champion of the Darkside. That's the whole ceremony; we lost the trumpets."))
         Xeen.promote("dimitri")
@@ -3480,7 +3937,7 @@ RegisterCanShowTopic(46003, function()
     return (IsQBitSet(QBit(111481)) and IsQBitSet(QBit(111521)))
 end)
 
-RegisterGlobalEvent(46051, "The clan", function()
+RegisterGlobalEvent(46051, "Quest", function()
     if (IsQBitSet(QBit(114540)) and Xeen.canPromote("clan")) then
         evt.SetMessage(NPCText(46050, "Another one who walks quietly? Good. The clan has room."))
         Xeen.promote("clan")
@@ -3509,7 +3966,7 @@ RegisterCanShowTopic(46051, function()
     return IsQBitSet(QBit(112082))
 end)
 
-RegisterGlobalEvent(46151, "Mok's blessing", function()
+RegisterGlobalEvent(46151, "Promotion", function()
     evt.SetMessage(NPCText(46150, "Another servant of the light who has not knelt to Mok? Kneel. Crusaders rise as Heroes, Priests as Priests of Light. Mind the candles."))
     Xeen.promote("heretics")
 end)
@@ -3517,7 +3974,7 @@ RegisterCanShowTopic(46151, function()
     return (IsQBitSet(QBit(113127)) and Xeen.canPromote("heretics"))
 end)
 
-RegisterGlobalEvent(46152, "Forest lords", function()
+RegisterGlobalEvent(46152, "Promotion", function()
     evt.SetMessage(NPCText(46151, "Another hunter the forest has not met? It has now. Walk it as its lord."))
     Xeen.promote("sprites")
 end)
@@ -3525,7 +3982,7 @@ RegisterCanShowTopic(46152, function()
     return (IsQBitSet(QBit(113207)) and IsQBitSet(QBit(113201)) and Xeen.canPromote("sprites"))
 end)
 
-RegisterGlobalEvent(46153, "The altar's light", function()
+RegisterGlobalEvent(46153, "Promotion", function()
     evt.SetMessage(NPCText(46152, "The altar still hums. Bow and spell together? Stand in its light. Rise, Master Archer."))
     Xeen.promote("statuettes")
 end)
@@ -3533,7 +3990,7 @@ RegisterCanShowTopic(46153, function()
     return (IsQBitSet(QBit(113407)) and Xeen.canPromote("statuettes"))
 end)
 
-RegisterGlobalEvent(46154, "The guilds' word", function()
+RegisterGlobalEvent(46154, "Promotion", function()
     evt.SetMessage(NPCText(46153, "The guilds still talk about you. This one walks unseen too? Then the word is Spy."))
     Xeen.promote("quarter")
 end)
@@ -3541,7 +3998,7 @@ RegisterCanShowTopic(46154, function()
     return (IsQBitSet(QBit(113281)) and Xeen.canPromote("quarter"))
 end)
 
-RegisterGlobalEvent(46155, "Archmage's robes", function()
+RegisterGlobalEvent(46155, "Promotion", function()
     evt.SetMessage(NPCText(46154, "Ellinger's letter is in my files, and it says 'the bearer'. Close enough. Wizards, take the robes."))
     Xeen.promote("jewel")
 end)
@@ -3549,7 +4006,7 @@ RegisterCanShowTopic(46155, function()
     return (IsQBitSet(QBit(113365)) and Xeen.canPromote("jewel"))
 end)
 
-RegisterGlobalEvent(46156, "Guild title", function()
+RegisterGlobalEvent(46156, "Promotion", function()
     evt.SetMessage(NPCText(46155, "A hunter who works for pay? The caravan guild's title is yours too. Bounty Hunter. It comes with a form."))
     Xeen.promote("bounty")
 end)
@@ -3557,7 +4014,7 @@ RegisterCanShowTopic(46156, function()
     return (IsQBitSet(QBit(113228)) and Xeen.canPromote("bounty"))
 end)
 
-RegisterGlobalEvent(46157, "Masters", function()
+RegisterGlobalEvent(46157, "Promotion", function()
     evt.SetMessage(NPCText(46156, "Another walker of the inner way? Master you are now. Backwards, naturally."))
     Xeen.promote("drawkcab")
 end)
@@ -3565,7 +4022,7 @@ RegisterCanShowTopic(46157, function()
     return (IsQBitSet(QBit(113066)) and Xeen.canPromote("drawkcab"))
 end)
 
-RegisterGlobalEvent(46158, "New members", function()
+RegisterGlobalEvent(46158, "Promotion", function()
     evt.SetMessage(NPCText(46157, "More hands for my trade? The ledger has room. Inner circle. Don't touch the chest on your way out."))
     Xeen.promote("southern")
 end)
@@ -3573,7 +4030,7 @@ RegisterCanShowTopic(46158, function()
     return (IsQBitSet(QBit(113385)) and not (IsQBitSet(QBit(113384))) and Xeen.canPromote("southern"))
 end)
 
-RegisterGlobalEvent(46101, "Civilized ones", function()
+RegisterGlobalEvent(46101, "Promotion", function()
     if (IsQBitSet(QBit(114560)) and Xeen.canPromote("leafpoint")) then
         evt.SetMessage(NPCText(46100, "Another druid who listens to trees. Stand in my shade a while. There. Arch Druid."))
         Xeen.promote("leafpoint")
@@ -3598,11 +4055,7 @@ RegisterGlobalEvent(46101, "Civilized ones", function()
     evt.SetMessage(NPCText(46104, "A tree does not talk to strangers who might be carrying axes."))
 end)
 
-RegisterGlobalEvent(47001, "Tam", function()
-    if IsQBitSet(QBit(110102)) then
-        evt.SetMessage(NPCText(47000, "Tam eats like an orc now. I'm not complaining. Thank you."))
-        return
-    end
+RegisterGlobalEvent(47001, "Quest", function()
     if IsQBitSet(QBit(110052)) then
         evt.SetMessage(NPCText(47001, "Tam! He walked in the door an hour ago and asked what's for supper, as if nothing happened. Here. It's what I put by for his wedding, and he can earn another."))
         SetQBit(QBit(110102))
@@ -3619,6 +4072,19 @@ RegisterGlobalEvent(47001, "Tam", function()
     end
     evt.SetMessage(NPCText(47003, "The orcs took my boy Tam to their caves in the hills, north-east of town. You can hear their drums at night. I'm a farmer. I can't fight orcs."))
     SetQBit(QBit(115000))
+end)
+RegisterCanShowTopic(47001, function()
+    return not (IsQBitSet(QBit(110102)))
+end)
+
+RegisterGlobalEvent(47003, "Tam", function()
+    if IsQBitSet(QBit(110102)) then
+        evt.SetMessage(NPCText(47000, "Tam eats like an orc now. I'm not complaining. Thank you."))
+        return
+    end
+end)
+RegisterCanShowTopic(47003, function()
+    return IsQBitSet(QBit(110102))
 end)
 
 RegisterGlobalEvent(47002, "Drums", function()
@@ -5389,10 +5855,10 @@ XeenQuests.hooks["m2.culvert_x1"] = {
 XeenQuests.hooks["m2.gate_sign"] = {
     run = function()
         if IsQBitSet(QBit(111041)) then
-            evt.SimpleMessage(NPCText(40109, "Thank you."))
+            evt.SimpleMessage(NPCText(40111, "Thank you."))
             return
         end
-        evt.SimpleMessage(NPCText(40110, "Please help clean up our beautiful town."))
+        evt.SimpleMessage(NPCText(40112, "Please help clean up our beautiful town."))
     end,
 }
 
@@ -5401,21 +5867,26 @@ XeenQuests.hooks["m2.invoice_crate"] = {
     run = function()
         SetQBit(QBit(110010))
         SetAutonote(4002)
-        evt.SimpleMessage(NPCText(40107, "Inside the crate you find a piece of paper that reads: \"Breeder Slimes, 1 mated pair, 287. 5 Doom Bugs at 145 each, 725. Total: 1012 gold.\" It appears that Joe has been buying monsters and distributing them around town! Mayor Gunther will want to hear about this."))
+        evt.SimpleMessage(NPCText(40109, "Inside the crate you find a piece of paper that reads: \"Breeder Slimes, 1 mated pair, 287. 5 Doom Bugs at 145 each, 725. Total: 1012 gold.\" It appears that Joe has been buying monsters and distributing them around town! Mayor Gunther will want to hear about this."))
     end,
 }
 
 XeenQuests.hooks["m2.out_of_business"] = {
     requires = function() return IsQBitSet(QBit(111041)) end,
     run = function()
-        evt.SimpleMessage(NPCText(40108, "A sign hanging on the side of the desk reads: 'Out of Business'"))
+        evt.SimpleMessage(NPCText(40110, "A sign hanging on the side of the desk reads: 'Out of Business'"))
     end,
 }
 
 XeenQuests.hooks["m2.rain_barrel"] = {
+    once = 111042,
+    elseText = function() return NPCText(40107, "Only wet stones under the barrel now.") end,
     failStatus = true,
     elseStatus = true,
     run = function()
+        SetQBit(QBit(111042))
+        AddValue(InventoryItem(12001), 12001)
+        evt.StatusText(NPCText(40106, "Under the rain barrel, wrapped in oilcloth: a key."), 5)
     end,
 }
 
@@ -5426,7 +5897,7 @@ XeenQuests.hooks["m2.temple_name"] = {
 
 XeenQuests.hooks["m2.warehouse_door"] = {
     requires = function() return HasItem(12001) end,
-    failText = function() return NPCText(40106, "The warehouse door is locked. KEEP OUT. THIS MEANS YOU, GUNTHER. A rain barrel stands by the door. Joe is the kind of man who hides keys in rain barrels.") end,
+    failText = function() return NPCText(40108, "The warehouse door is locked. KEEP OUT. THIS MEANS YOU, GUNTHER. A rain barrel stands by the door. Joe is the kind of man who hides keys in rain barrels.") end,
     run = function()
     end,
 }
@@ -7748,9 +8219,14 @@ XeenQuests.hooks["q-c17.nest"] = {
 }
 
 XeenQuests.hooks["q-c18.book"] = {
+    once = 112362,
+    elseText = function() return NPCText(43405, "The torn pack is empty now.") end,
     failStatus = true,
     elseStatus = true,
     run = function()
+        SetQBit(QBit(112362))
+        AddValue(InventoryItem(12524), 12524)
+        evt.StatusText(NPCText(43404, "In the torn pack, under the snow: a book bound in white leather. Tito's Holy Book."), 6)
     end,
 }
 
@@ -9328,7 +9804,7 @@ XeenQuests.hooks["q-d20.griffin"] = {
     elseStatus = true,
     run = function()
         SetQBit(QBit(113403))
-        evt.StatusText(NPCText(45008, "Statuette. A golden griffin in a mage's curio cabinet, labelled in a neat hand: 'Griffin, gold. Thaumic value: none. Bought anyway.'"), 6)
+        evt.StatusText(NPCText(45007, "Statuette. A golden griffin in a mage's curio cabinet, labelled in a neat hand: 'Griffin, gold. Thaumic value: none. Bought anyway.'"), 6)
     end,
 }
 

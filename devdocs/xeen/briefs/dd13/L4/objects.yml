@@ -597,7 +597,6 @@ chests:
     room: room:loot_cave
     at: [2720, 740]
     kind: gt002
-    facing: s
     treasure_level: 3
     random_items: 2
     gold: 500
@@ -606,7 +605,6 @@ chests:
     room: room:plunder_w
     at: [-2064, 1900]
     kind: gt002
-    facing: s
     treasure_level: 3
     random_items: 2
     gold: 600
@@ -615,7 +613,6 @@ chests:
     room: room:graalg
     at: [5520, -416]
     kind: gt002
-    facing: s
     treasure_level: 3
     random_items: 1
     gold: 800

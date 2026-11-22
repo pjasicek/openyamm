@@ -48,7 +48,7 @@ steps:
   - press_interact: {expect: {kind: event_target}}
   - assert:
       dialog: {active: true, source_id: 5246}
-  - select_topic: {match_label: "Southern Tower"}
+  - select_topic: {action_id: 44951, match_label: "Quest"}
   - assert:
       dialog: {text_contains: "the Great Southern Tower, in the woods south of Ogre Pass"}
   - press_action: {action: cancel_dialog}
@@ -234,7 +234,7 @@ steps:
   - press_interact: {expect: {kind: event_target}}
   - assert:
       dialog: {active: true, source_id: 5246}
-  - select_topic: {match_label: "Southern Tower"}
+  - select_topic: {action_id: 44951, match_label: "Quest"}
   - assert:
       dialog: {text_contains: "Then that is where my jewel is"}
   - press_action: {action: cancel_dialog}
@@ -286,7 +286,7 @@ steps:
         if item_count(12334) < 5 then error("only " .. item_count(12334) .. " Energy Disks for Ellinger") end
         click(15); wait(0.5)
   - advance_runtime: {seconds: 1, present_dialogs: true}
-  - select_topic: {match_label: "Energy discs"}
+  - select_topic: {action_id: 40951, match_label: "Quest"}
   - assert:
       dialog: {text_contains: "free the second level of the castle"}
   - advance_runtime: {seconds: 1, present_dialogs: true}

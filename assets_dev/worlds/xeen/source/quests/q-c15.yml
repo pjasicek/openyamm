@@ -25,9 +25,11 @@ npcs:
   4528:              # Thickbark
     topics:
       - n: 1
-        label: Trolls
+        role: quest
+        afterword: {n: 2, label: Trolls}
         states:
           - when: {qbit: done}
+            afterword: true
             text: "You are welcome to converse with us anytime, civilized ones."
           - when: {qbit: lair_burnt}
             text: "Thank you for killing the trolls, civilized ones. Your speedy job has saved us many lives and much discomfort. A cousin of mine on the dark side of the world, Leafpoint, will want to meet you. Take this. It grew in my roots for a century; we have no use for it."

@@ -166,7 +166,7 @@ steps:
   - interact_actor: {actor_index: 24}
   - advance_runtime: {seconds: 0.6, present_dialogs: true}
   - assert: {dialog: {active: true, text_contains: "You walk loudly"}}
-  - select_topic: {match_label: "The clan"}
+  - select_topic: {action_id: 46051, match_label: "Quest"}
   - assert: {dialog: {active: true, text_contains: "My father's killers"}}
   - play_lua: {source: "close(); close()"}
   - interact_actor: {actor_index: 24}

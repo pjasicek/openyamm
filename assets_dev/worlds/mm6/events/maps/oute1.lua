@@ -114,7 +114,7 @@ RegisterEvent(59, nil, function()
 end)
 
 RegisterEvent(90, nil, function()
-    evt.MoveToMap(-2921, 13139, 225, 1536, 0, 0, 419, 1, "cd1.blv") -- Castle Alamos
+    evt.MoveToMap(-2921, 13139, 225, 1536, 0, 0, 419, 5, "cd1.blv") -- Castle Alamos
 end)
 
 RegisterEvent(100, "Drink from Fountain.", function()

@@ -615,6 +615,6 @@ RegisterEvent(459, nil, function()
 end)
 
 RegisterEvent(501, "Leave to Temple of Dark", function()
-    evt.MoveToMap(-16202, -4096, -95, 1408, 0, 0, 0, 0, "7d26.blv") -- The Pit
+    evt.MoveToMap(-16202, -4096, -95, 1408, 0, 0, 0, 8, "7d26.blv") -- The Pit
 end, "Leave to Temple of Dark")
 

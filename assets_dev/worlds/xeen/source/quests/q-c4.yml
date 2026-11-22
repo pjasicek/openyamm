@@ -24,9 +24,11 @@ npcs:
   4521:              # Kai Wu
     topics:
       - n: 1
-        label: The Pagoda
+        role: quest
+        afterword: {n: 3, label: The Pagoda}
         states:
           - when: {qbit: done}
+            afterword: true
             text: "The pagoda is quiet again. I sweep it every morning. The ninjas never swept. Someone lives in the cellar, though. I leave rice by the shrine."
           - when: {qbit: clan_master_slain}
             text: "You have destroyed the Ninja Clan that drove me from my sacred home. I am eternally grateful. As payment for your services, please let me fill your packs with food. And those of you who walk the monk's road: you have walked it far enough to be called Initiates."
@@ -36,7 +38,7 @@ npcs:
           - text: "I am a peace loving old monk driven from my sacred home. I used to live in the Pagoda due south from here until the Evil Ninja clan drove me out. I am too old to fight, but perhaps you, being so strong and well-armed, could rid my home of these evil clansmen. I could reward you."
             do: [{set: started}]
       - n: 2
-        label: Initiation
+        role: promotion
         show: {all: [{qbit: done}, {promotable: pagoda}]}
         text: "A monk who has not been initiated? Sit. Breathe. Stand up. That's all it is, really. The rest you already did."
         do: [{promote: pagoda}]

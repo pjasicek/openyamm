@@ -894,15 +894,15 @@ RegisterEvent(500, nil, function()
 end)
 
 RegisterEvent(501, "Enter The Erathian Sewer", function()
-    evt.MoveToMap(28, -217, 1, 512, 0, 0, 136, 1, "d01.blv") -- The Erathian Sewers
+    evt.MoveToMap(28, -217, 1, 512, 0, 0, 392, 5, "d01.blv") -- The Erathian Sewers
 end, "Enter The Erathian Sewer")
 
 RegisterEvent(502, "Enter Fort Riverstride", function()
-    evt.MoveToMap(64, -448, 1, 512, 0, 0, 393, 1, "7d31.blv") -- Fort Riverstride
+    evt.MoveToMap(64, -448, 1, 512, 0, 0, 393, 9, "7d31.blv") -- Fort Riverstride
 end, "Enter Fort Riverstride")
 
 RegisterEvent(503, "Enter Castle Gryphonheart", function()
-    evt.MoveToMap(768, 0, 1, 1024, 0, 0, 383, 1, "7d33.blv") -- Castle Gryphonheart
+    evt.MoveToMap(768, 0, 1, 1024, 0, 0, 383, 9, "7d33.blv") -- Castle Gryphonheart
 end, "Enter Castle Gryphonheart")
 
 RegisterEvent(504, "Door", function()
@@ -911,27 +911,27 @@ RegisterEvent(504, "Door", function()
         evt.FaceAnimation(FaceAnimation.DoorLocked)
         return
     end
-    evt.MoveToMap(-6314, -618, 1873, 1024, 0, 0, 383, 1, "7d33.blv") -- Castle Gryphonheart
+    evt.MoveToMap(-6314, -618, 1873, 1024, 0, 0, 383, 9, "7d33.blv") -- Castle Gryphonheart
 end, "Door")
 
 RegisterEvent(505, "Enter Fort Riverstride", function()
-    evt.MoveToMap(-1262, 587, -1215, 1024, 0, 0, 393, 1, "7d31.blv") -- Fort Riverstride
+    evt.MoveToMap(-1262, 587, -1215, 1024, 0, 0, 393, 9, "7d31.blv") -- Fort Riverstride
 end, "Enter Fort Riverstride")
 
 RegisterEvent(506, "Enter The Erathian Sewer", function()
-    evt.MoveToMap(6647, 3511, -511, 1024, 0, 0, 136, 1, "d01.blv") -- The Erathian Sewers
+    evt.MoveToMap(6647, 3511, -511, 1024, 0, 0, 392, 5, "d01.blv") -- The Erathian Sewers
 end, "Enter The Erathian Sewer")
 
 RegisterEvent(507, "Enter The Erathian Sewer", function()
-    evt.MoveToMap(-6507, 10205, -383, 512, 0, 0, 136, 1, "d01.blv") -- The Erathian Sewers
+    evt.MoveToMap(-6507, 10205, -383, 512, 0, 0, 392, 5, "d01.blv") -- The Erathian Sewers
 end, "Enter The Erathian Sewer")
 
 RegisterEvent(508, "Enter", function()
-    evt.MoveToMap(-111, -25, 1, 640, 0, 0, 0, 0, "mdt11.blv") -- The Hidden Tomb
+    evt.MoveToMap(-111, -25, 1, 640, 0, 0, 0, 2, "mdt11.blv") -- The Hidden Tomb
 end, "Enter")
 
 RegisterEvent(509, "Enter", function()
-    evt.MoveToMap(-104, 128, 1, 0, 0, 0, 0, 0, "mdt14.blv") -- The Bandit Caves
+    evt.MoveToMap(-104, 128, 1, 0, 0, 0, 0, 3, "mdt14.blv") -- The Bandit Caves
 end, "Enter")
 
 RegisterEvent(65535, "", function()

@@ -23,7 +23,7 @@ steps:
   - play_lua: {source: "if classes() ~= 'Cavalier Crusader Sorcerer Hunter' then error('party: ' .. classes()) end"}
   # Barok's hut (event 1): Pendant (Q-C2 started).
   - execute_event: {id: 1}
-  - select_topic: {match_label: Pendant}
+  - select_topic: {action_id: 42601, match_label: "Quest"}
   - assert:
       dialog: {text_contains: "They keep their loot in a strongbox"}
   - press_action: {action: cancel_dialog}
@@ -49,7 +49,7 @@ steps:
   # Barok: the pendant back (Q-C2 done); 14,000 experience each, the Enchant Item book, the Sorcerer a Wizard.
   - play_lua: {source: "remember('xp', experience(0))"}
   - execute_event: {id: 1}
-  - select_topic: {match_label: Pendant}
+  - select_topic: {action_id: 42601, match_label: "Quest"}
   - assert:
       dialog: {text_contains: "Thank you for returning my pendant"}
   - press_action: {action: cancel_dialog}
@@ -68,7 +68,7 @@ steps:
   - set_pose: {map: xeen_x2.odm, x: -3277, y: -8909, z: 1044, yaw: -2.16, pitch: 0.0}
   - clear_hostiles: {radius: 3000}
   - interact_actor: {actor_index: 51}
-  - select_topic: {match_label: Wand}
+  - select_topic: {action_id: 43351, match_label: "Quest"}
   - assert:
       dialog: {text_contains: "My Wand of Faery Magic has been stolen by the Sprites"}
   - press_action: {action: cancel_dialog}
@@ -92,7 +92,7 @@ steps:
   - clear_hostiles: {radius: 3000}
   - play_lua: {source: "remember('gold', gold()); remember('xp', experience(0))"}
   - interact_actor: {actor_index: 51}
-  - select_topic: {match_label: Wand}
+  - select_topic: {action_id: 43351, match_label: "Quest"}
   - assert:
       dialog: {text_contains: "You have returned my Wand of Faery Magic"}
   - press_action: {action: cancel_dialog}
@@ -110,7 +110,7 @@ steps:
   - press_interact: {expect: {kind: event_target}}
   - assert:
       dialog: {active: true, source_id: 4152}
-  - select_topic: {match_label: Lake beasts}
+  - select_topic: {action_id: 43151, match_label: "Quest"}
   - assert:
       dialog: {text_contains: "The fish supply is low"}
   - press_action: {action: cancel_dialog}
@@ -138,7 +138,7 @@ steps:
   - play_lua: {source: "remember('xp', experience(0)); remember('gold', gold())"}
   - advance_runtime: {seconds: 0.5}
   - press_interact: {expect: {kind: event_target}}
-  - select_topic: {match_label: Lake beasts}
+  - select_topic: {action_id: 43151, match_label: "Quest"}
   - assert:
       dialog: {text_contains: "You have slain the monsters of the lake!"}
   - press_action: {action: cancel_dialog}

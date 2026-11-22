@@ -46,9 +46,11 @@ npcs:
   5246:              # Thaddeus
     topics:
       - n: 1
-        label: Jewel of Ages
+        role: quest
+        afterword: {n: 4, label: Jewel of Ages}
         states:
           - when: {qbit: done}
+            afterword: true
             text: "You can now come and drink here whenever you feel the effects of unnatural aging. The jewel keeps you; the water keeps everyone else."
           - when: {item: jewel_of_ages}
             text: "You've found the Jewel of Ages! Let me dip it in the fountain. See: the waters remember it. Keep the jewel; the fountain only needed to see it once. Drink here whenever you feel the effects of unnatural aging."
@@ -69,7 +71,7 @@ npcs:
   5210:              # Nasir, Light Guildmaster of Sandcaster
     topics:
       - n: 2
-        label: "Ellinger's letter"
+        role: promotion
         show: {all: [{item: ellingers_letter}, {not: {qbit: archmage}}]}
         text: "Ellinger's seal. 'To the Guildmaster of Sandcaster: the bearer has earned the robes of an Archmage.' Ellinger never wrote that about anyone. Those of you in a Wizard's robe, take these instead. The rest of you may hold the letter."
         do: [{take: ellingers_letter}, {set: archmage}, {promote: jewel}]

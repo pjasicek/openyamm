@@ -144,6 +144,6 @@ RegisterEvent(195, "Sarcophagus", function()
 end, "Sarcophagus")
 
 RegisterEvent(501, "Leave the Hidden tomb", function()
-    evt.MoveToMap(14207, -21526, 0, 1536, 0, 0, 0, 0, "7out03.odm") -- Erathia
+    evt.MoveToMap(14207, -21526, 0, 1536, 0, 0, 0, 1, "7out03.odm") -- Erathia
 end, "Leave the Hidden tomb")
 

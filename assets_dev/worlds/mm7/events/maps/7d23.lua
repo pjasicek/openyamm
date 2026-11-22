@@ -855,7 +855,7 @@ RegisterEvent(501, "Leave the Lincoln", function()
         end
     end
     if hasAllWetsuits then
-        evt.MoveToMap(-7005, 7856, 225, 128, 0, 0, 0, 0, "7out15.odm") -- Shoals
+        evt.MoveToMap(-7005, 7856, 225, 128, 0, 0, 0, 8, "7out15.odm") -- Shoals
         return
     end
     evt.StatusText("You must all be wearing your wetsuits to exit the ship")

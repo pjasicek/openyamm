@@ -1,0 +1,97 @@
+# The Xeen BLVs' places deliberately open to the sky (D-97; tools/xeen/check_open_sky.py reads it).
+# map key -> room id (L4/ids.lock.yml; `sector:<n>` for a sector no room names) -> {kind, why}.
+# Kinds: courtyard, battlements, wall_walk, terrace, shaft, pit, bridge, open_ground, garden, ruin, deck, crater,
+# arena, ravine (a slot between rock walls), canopy (walls of foliage), skylight (a hole in a roof: smoke hole, crack, open hatch, oculus; the sky over at
+# most 35 % of the floor). Every other sky sector is an error: an enclosed room or corridor has a ceiling.
+# A room open overhead must also read open: a low opening (a parapet over a courtyard, a wall drawn as sky over a
+# parapet) or a floor wider than its walls are high; else check_open_sky.py calls it a roofless enclosure.
+# `why` quotes or sums up the map's brief (devdocs/xeen/briefs/<map>/L4/rooms.yml notes, plan.yml).
+
+d7:
+  room:air: {kind: open_ground, why: "The Skyroads: the whole map is open air over the roads."}
+dd03:
+  room:yard: {kind: courtyard, why: "An open yard inside the castle walls (sky): the stables and the Mirror."}
+dd09:
+  room:crown: {kind: skylight, why: "The tree's crown: a canopy of leaves overhead, open to the sky in the middle."}
+  room:limb_walk: {kind: canopy, why: "A walk along the top of a great limb: bark to 256, leaves above, the sky overhead."}
+dd11a:
+  room:pit: {kind: skylight, why: "The pit bottom under a shaft of daylight 768 up."}
+dd11b:
+  room:pit: {kind: skylight, why: "The pit bottom, daylight 768 up."}
+dd11c:
+  room:pit: {kind: skylight, why: "The widest of the three pits, daylight 896 up."}
+dd12:
+  room:entry: {kind: ruin, why: "The ruined tower's base, round, 1,094 across, open to the Darkside sky."}
+dd13:
+  room:hall_e: {kind: skylight, why: "Graalg's blockhouse hall under its plank roof: the smoke hole over the fire pit."}
+  room:hall_w: {kind: skylight, why: "The west blockhouse under a pitched plank roof: the smoke hole over the fire pit."}
+dd14:
+  room:courtyard: {kind: courtyard, why: "The castle's courtyard, open to the sky: the dry fountain, the gargoyles."}
+  room:east_walk: {kind: battlements, why: "The east wall walk; its inner parapet over the courtyard."}
+  room:landing: {kind: battlements, why: "The south wall walk's middle stretch: the griffin's landing, the coffins, the inner parapet."}
+  room:north_walk: {kind: battlements, why: "The north wall walk; its inner parapet (sill 224) over the courtyard."}
+  room:west_walk: {kind: battlements, why: "The west wall walk; its inner parapet over the courtyard."}
+dd19:
+  room:court: {kind: courtyard, why: "The guild court, open to Darkside's sky."}
+dd22:
+  room:bridge: {kind: skylight, why: "The pod's bridge: a domed viewport of dark steel ribs over the command couch."}
+dd23:
+  room:roost: {kind: skylight, why: "A tall cave under a crack of sky, snow sifted under it."}
+dd24:
+  room:throne_hall: {kind: skylight, why: "The bloody throne under a plank roof with a smoke hole before the throne."}
+fd01:
+  room:shaft: {kind: shaft, why: "The rubble shaft up to D7's roof hatch, grey light far above."}
+fd03:
+  room:roof_stair: {kind: skylight, why: "The roof stair's top landing under the open hatch."}
+fd04:
+  room:roof_stair: {kind: skylight, why: "Steps up to a head under the open hatch onto the Dragon Clouds."}
+p1:
+  room:crater: {kind: open_ground, why: "The Plane of Fire: one open-air room, the lava lake under cliffs to the sky."}
+  room:hall: {kind: crater, why: "The Sleeper's Hall cut into the tallest spire, open to the sky (P-2: walls to the sky)."}
+p2:
+  room:air: {kind: open_ground, why: "The Plane of Air: open sky all round."}
+p3:
+  room:bowl: {kind: open_ground, why: "The Plane of Earth: the bowl under the sky."}
+p4:
+  room:sea: {kind: open_ground, why: "The Plane of Water: the sea under the sky."}
+p5:
+  room:air: {kind: open_ground, why: "The plane: open sky all round."}
+x8:
+  room:air: {kind: open_ground, why: "The High Magic clouds: open sky."}
+x9:
+  room:air: {kind: open_ground, why: "The Clouds of Xeen: open sky."}
+xd11:
+  room:roof: {kind: terrace, why: "The roof terrace under the open sky; a rubble parapet."}
+  room:stairway: {kind: shaft, why: "The Stairway to Heaven: the top floor to the roof, open to the sky."}
+xd12:
+  room:out_e: {kind: open_ground, why: "The island and lake east, seen from the windows and roof, never walked."}
+  room:out_n: {kind: open_ground, why: "The island and lake north, seen, never walked."}
+  room:out_s: {kind: open_ground, why: "The island and lake south, seen, never walked."}
+  room:out_w: {kind: open_ground, why: "The island and lake west, seen, never walked."}
+  room:roof_e: {kind: terrace, why: "Darzog's tower roof, its thin parapets over the open air."}
+  room:roof_n: {kind: terrace, why: "Darzog's tower roof."}
+  room:roof_s: {kind: terrace, why: "Darzog's tower roof."}
+  room:roof_w: {kind: terrace, why: "Darzog's tower roof."}
+  room:sky_stair: {kind: terrace, why: "Darzog's floor to the roof, open to the sky: the flight up to the roof."}
+  room:well: {kind: shaft, why: "The tower's core: an octagonal well 1,792 across, gate floor to the open sky."}
+xd13:
+  room:great_hall: {kind: skylight, why: "Stage 0: the roof has fallen in over the hall's middle (bare rafters)."}
+  room:breach: {kind: ruin, why: "Outside the breach (seen, never walked): the fallen corner's rubble under the open sky."}
+xd14:
+  room:battlements: {kind: battlements, why: "The walk over the gate between the two towers, open to X6's sky; south parapet (D-97)."}
+  room:moon_tower: {kind: terrace, why: "The tower top where the cult calls the moon, open to the sky; south parapet (D-97)."}
+  room:roof_walk: {kind: wall_walk, why: "A walk on the keep's leads under open sky; north parapet (D-97)."}
+xd17:
+  room:valley: {kind: open_ground, why: "The hidden valley, open to the sky: the town floor and its terraces."}
+  room:passage: {kind: ravine, why: "D-50 Q8: a slot open to the sky, 384 wide, from the valley's crest (a ravine)."}
+xd19:
+  room:aviary_n: {kind: courtyard, why: "Xeen's Aviary, the roost: Xeen's Pet under open sky (D-32)."}
+  room:aviary_s: {kind: courtyard, why: "Xeen's Aviary under the open sky: ledges, gnawed bones."}
+  room:wall_ws: {kind: wall_walk, why: "The west wall walk under open sky; outer parapet over X9's cloud sea (D-97)."}
+  room:wall_wn: {kind: wall_walk, why: "The west wall walk's north stretch; outer parapet (D-97)."}
+  room:wall_es: {kind: wall_walk, why: "The east wall walk under open sky; outer parapet (D-97)."}
+  room:wall_en: {kind: wall_walk, why: "The east wall walk's north stretch; outer parapet (D-97)."}
+xd20:
+  room:floor: {kind: arena, why: "The war floor: the arena's ring under the sky (D-39)."}
+xd22:
+  room:gallery: {kind: wall_walk, why: "The moon gallery: a railed walk open to the sky over its outer walls and overhead."}

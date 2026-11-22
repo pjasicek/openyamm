@@ -238,7 +238,7 @@ RegisterEvent(451, "Take a Drink", function()
 end, "Take a Drink")
 
 RegisterEvent(501, "Enter the Castle of Air", function()
-    evt.MoveToMap(-545, -2124, 0, 512, 0, 0, 374, 1, "d27.blv") -- Castle of Air
+    evt.MoveToMap(-545, -2124, 0, 512, 0, 0, 373, 1, "d27.blv") -- Castle of Air
 end, "Enter the Castle of Air")
 
 RegisterEvent(505, "Leave the Plane of Air", function()

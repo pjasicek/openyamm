@@ -25,9 +25,11 @@ npcs:
   4301:              # Adam
     topics:
       - n: 1
-        label: Curse
+        role: quest
+        afterword: {n: 3, label: Curse}
         states:
           - when: {qbit: rewarded}
+            afterword: true
             text: "Thank you for saving us! Eve hasn't hissed in a week. I've started to miss it."
           - when: {qbit: done}
             text: "The curse is over. People are walking out of the cellars on two legs. Here: the town collected this for you. Some of it was in snakeskins."
@@ -39,9 +41,11 @@ npcs:
   4302:              # Eve
     topics:
       - n: 2
-        label: Transformer
+        role: quest
+        afterword: {n: 4, label: Transformer}
         states:
           - when: {qbit: done}
+            afterword: true
             text: "The curse is over! Thank you so much!"
           - text: "There isss a transformer somewhere under town that is turning people into snakes. If you destroy it, the curse will surely end. The ssstones round the well open the way: start with the south-west stone, make it red, then every other one red all the way round."
             do: [{set: started}]

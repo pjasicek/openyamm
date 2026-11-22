@@ -358,6 +358,6 @@ RegisterEvent(376, "Portrait", function()
 end, "Portrait")
 
 RegisterEvent(501, "Leave the Haunted Mansion", function()
-    evt.MoveToMap(-19207, 12339, 33, 1536, 0, 0, 0, 0, "out11.odm") -- The Barrow Downs
+    evt.MoveToMap(-19207, 12339, 33, 1536, 0, 0, 0, 8, "out11.odm") -- The Barrow Downs
 end, "Leave the Haunted Mansion")
 

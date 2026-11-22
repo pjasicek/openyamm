@@ -102,6 +102,13 @@ MM7/MM8 exit face unless on its SPECIAL list), `python3 tools/xeen/check_drops.p
 drop to and not walk back from without spells), `python3 tools/xeen/door_check.py` (outdoor doors: no half-door alone,
 centred on their steps; `--sketch` for cave mouths), and the D-85/D-87 distance checker of the map's lane. After any map install: `python3 tools/xeen/key_npcs.py --write`
 (the unkillable-NPC list goes by actor index) and `python3 tools/xeen/check_actor_heights.py`.
+Outdoor maps with a walled town, castle or yard (F19, D-92): `python3 tools/xeen/wall_check.py <stem>` (closed
+circuits, wall ends in water/cliff/towers, flush joints; `towns.py --strict` runs it) and `tools/xeen/house_signs.py`
+(every service signed by kind); a new walled place goes into `tools/xeen/town_walls.yml`.
+Indoor maps with sky faces (F21, D-97): `python3 tools/xeen/check_open_sky.py <key>`: every sector under sky is listed
+as deliberately open in `tools/xeen/open_sky.yml` (its kind and the brief's reason), a wall walk or battlements opens
+on a side (a parapet over a courtyard, or its outer wall drawn as sky over a parapet), a skylight stays a hole in a
+roof; an enclosed room or corridor has a ceiling.
 
 ## Design questions
 
@@ -129,3 +136,14 @@ NEXT: <what you will do when resumed>
 ```
 
 The orchestrator updates STATUS.md, relays requests and resumes you.
+
+## Memory (2026-11-22, after the PC locked up)
+
+At 10:19 on 2026-11-22 RAM (121 GB) and swap filled and the PC had to be power-cycled: MM9 conversions, two C++
+builds and game runs overlapped. Every lane runs its heavy jobs through `tools/heavy.sh <cap GB> <command...>` (waits
+for the cap plus a 24 GB reserve, kills the job alone over its cap; see AGENTS.md "Heavy jobs and memory"):
+- A1 builds: `tools/heavy.sh 24 cmake --build build-xeen --target openyamm -j16` (never -j25 any more).
+- Bakes: `tools/heavy.sh 16 flock output/xeen_locks/bake.lock <bake>` (scripts that take bake.lock themselves:
+  `tools/heavy.sh 16 <script>`).
+- oymap builds/installs: cap 8. Game runs, scenarios, playthrough runners: cap 6 each, still at most two at once.
+- The orchestrator runs at most three agents with heavy jobs at once.

@@ -9,10 +9,10 @@ steps:
   - set: m21.crodo_freed
   - set: m11.keep
   - give: [megacredit, 5]
-  - hidden: [4403, Dungeon]
-  - talk: [4402, Lord Xeen]
+  - hidden: [4403, m22]
+  - talk: [4402, m22]
   - expect: {qbit: m22.started, item: excavation_permit, xp: 1000}
-  - talk: [4403, Dungeon]
+  - talk: [4403, m22]
   - expect: {qbit: [m22.dungeon, m23.started], no_item: excavation_permit, count: [megacredit, 0], xp: 3000}
   # M23 (the vault door is the gate; the sword is its chest's item, D-90 (b))
   - hook: m23.syllable_la
@@ -24,7 +24,7 @@ steps:
   # M24
   - set: m19.stage2
   - set: m20.started
-  - hidden: [5004, The Songbird]
+  - hidden: [5004, m24]
   - hook: m24.arrival
   - hook: m24.gate1
   - hook: m24.gate_open
@@ -32,7 +32,7 @@ steps:
   - give: lost_souls_key
   - hook: m24.songbird
   - hook: [m24.disk_safes, false]
-  - talk: [5004, The Songbird]
+  - talk: [5004, m24]
   - expect: {qbit: [m24.done, m25.started], item: songbird_of_serenity, award: m24.cheered, xp: 20000}
   - hidden: [5004, The Queen]
   - hook: m24.disk_safes
@@ -41,32 +41,32 @@ steps:
   - hidden: [5005, Thanks]
   - expect: {qbit: m24.thanked, xp: 24000}
   # T2-A
-  - hidden: [5004, The dungeon]
+  - hidden: [5004, t2-a]
   - set: m26.stage3
-  - talk: [5004, The dungeon]
+  - talk: [5004, t2-a]
   - expect: {qbit: t2-a.started}
   - hook: t2-a.cells
   - hook: t2-a.liches
-  - talk: [5004, The dungeon]
+  - talk: [5004, t2-a]
   - expect: {qbit: t2-a.done, class: [0, Champion], xp: 30000}
   # M25: Ambrose on D6, Natasha on D3; his D6 topics are hidden on DD-14, his DD-14 topic only there (D-52)
   - map: The Forbidden Zone
-  - talk: [5512, "Who sent you?"]
+  - talk: [5512, m25]
   - expect: {qbit: m25.bridle_given, item: bridle}
-  - talk: [5512, The griffin]
+  - talk: [5512, m25]
   - expect: {qbit: m25.bridle_given, not_qbit: m25.done, last: "Natasha, in Sandcaster"}
   - gold: 5000
   - map: Sandcaster
-  - talk: [5218, The bridle]
+  - talk: [5218, m25]
   - expect: {qbit: m25.enchanted, item: enchanted_bridle, no_item: bridle}
   - map: The Forbidden Zone
-  - talk: [5512, The griffin]
+  - talk: [5512, m25]
   - expect: {qbit: m25.done, no_item: enchanted_bridle, xp: 35000}
   - hidden: [5512, Fly us out]
   - talk: [5512, Fly to Blackfang]
   - expect: {last: "drops you on Castle Blackfang's walls"}
   - map: Castle Blackfang
-  - hidden: [5512, The griffin]
+  - hidden: [5512, m25]
   - hidden: [5512, Fly to Blackfang]
   - talk: [5512, Fly us out]
   - expect: {last: "sets you down on the shore below the castle"}
@@ -79,10 +79,10 @@ steps:
   - hook: m27.blackfang
   - hook: m27.dungeon_stair
   - hook: [m27.crown_safe, false]
-  - talk: [5001, The crown]
+  - talk: [5001, m27]
   - expect: {qbit: [m27.queen_found, m27.blackfang_slain], no_item: kalindra_crown}
   - hook: m27.crown_safe
-  - talk: [5001, The crown]
+  - talk: [5001, m27]
   - expect: {qbit: m27.done, item: pyramid_key, no_item: kalindra_crown, award: m27.queen, xp: 47000}
   - hook: m27.ambrose_return
   # M29 (M28's Pharaoh is an outline: set)
@@ -103,7 +103,7 @@ steps:
   - expect: {last: "May the Gods smile upon me."}
   # Q-C8: Arie, XD-14's peasant (D-39), the password, the scrolls (D-39), the Scroll of Insight
   - hook: q-c9.door   # D-89: the Sphinx is open
-  - talk: [4608, My master]
+  - talk: [4608, q-c8]
   - expect: {qbit: q-c8.started}
   - hook: q-c8.peasant
   - hook: q-c8.peasant_freed
@@ -126,7 +126,7 @@ steps:
   - expect: {stat: [Age, 20]}
   - hook: q-c8.scroll
   - give: scroll_of_insight   # D-90 (b): a chest item (map_gives)
-  - talk: [4608, My master]
+  - talk: [4608, q-c8]
   - expect: {qbit: [q-c8.done, q-c8.password, q-c8.scroll_found], no_item: scroll_of_insight}
   # Q-C9: the door, the name, the thrones (+2 once per character, D-39)
   - hook: [q-c9.door, false]   # once
@@ -142,9 +142,9 @@ steps:
   - expect: {qbit: [q-c9.entered, q-c9.done], award: q-c9.sphinx, xp: 67500}
   # Q-C25: a Dragon recruit
   - class: [3, Dragon]
-  - hidden: [5702, Great Wyrm]
+  - hidden: [5702, Promotion]
   - expect: {no_journal: q-c25.asked}
-  - talk: [5702, The tax]
+  - talk: [5702, q-c25]
   - expect: {not_qbit: q-c25.tax_paid, journal: q-c25.asked}     # A3 s38: the tax named shows in Current Quests
   - hook: q-c25.urn
   - expect: {last: "looks hungry"}
@@ -153,14 +153,14 @@ steps:
   - expect: {last: "Tax first"}
   - gold: 2000
   - give: ["engine:177", 20]
-  - talk: [5702, The tax]
+  - talk: [5702, q-c25]
   - expect: {qbit: q-c25.tax_paid, count: ["engine:177", 0], no_journal: q-c25.asked}
   - hook: q-c25.king_door
   - hook: q-c25.urn
   - expect: {last: "empty and powerless"}
   - hook: q-c25.receipt
   - hook: q-c25.volume1
-  - talk: [5702, Great Wyrm]
+  - talk: [5702, Promotion]
   - expect: {qbit: q-c25.wyrm, class: [3, GreatWyrm], award: q-c25.worms, xp: 81500}
   - hook: [q-c25.taxation, false]
   - hook: q-c25.volume2

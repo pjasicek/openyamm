@@ -171,7 +171,7 @@ RegisterEvent(28, "Buccaneers' Lair", nil, "Buccaneers' Lair")
 RegisterEvent(29, "Town Hall", nil, "Town Hall")
 
 RegisterEvent(30, "Throne Room", function()
-    evt.MoveToMap(0, 0, 0, 0, 0, 0, 80, 1)
+    evt.MoveToMap(0, 0, 0, 0, 0, 0, 336, 2)
     evt.EnterHouse(223) -- Throne Room
 end, "Throne Room")
 
@@ -252,7 +252,7 @@ RegisterEvent(79, "Chest", function()
 end, "Chest")
 
 RegisterEvent(90, nil, function()
-    evt.MoveToMap(4427, 3061, 769, 1024, 0, 0, 434, 1, "6d07.blv") -- Silver Helm Outpost
+    evt.MoveToMap(4427, 3061, 769, 1024, 0, 0, 434, 5, "6d07.blv") -- Silver Helm Outpost
 end)
 
 RegisterEvent(91, nil, function()

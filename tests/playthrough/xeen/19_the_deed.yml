@@ -39,11 +39,11 @@ steps:
   - assert:
       dialog: {text_contains: "Only twelve thousand gold!"}
   - play_lua: {source: "remember('gold', gold())"}
-  - select_topic: {match_label: "Buy the deed"}
+  - select_topic: {action_id: 40402, match_label: "Quest"}
   - assert:
       dialog: {text_contains: "Thanks a lot! You won't regret your decision."}
   - assert:
-      dialog: {action_label_absent: "Buy the deed"}
+      dialog: {action_label_absent: "Quest"}
   - select_topic: {match_label: "Newcastle"}
   - assert:
       dialog: {text_contains: "you should see the King's engineers. Emerson"}
@@ -64,7 +64,7 @@ steps:
   - set_pose: {map: xeen_x3.odm, x: 11059, y: -8404, z: 900, yaw: -1.5708, pitch: 0.0}
   - advance_runtime: {seconds: 1.0}
   - interact_actor: {actor_index: 15}
-  - select_topic: {match_label: "Elixir"}
+  - select_topic: {action_id: 43101, match_label: "Quest"}
   - assert:
       dialog: {text_contains: "The temple's door is never locked."}
   - press_action: {action: cancel_dialog}

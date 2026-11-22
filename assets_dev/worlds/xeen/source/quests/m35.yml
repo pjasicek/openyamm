@@ -48,10 +48,12 @@ npcs:
   4401:              # King Burlock
     topics:
       - n: 5
-        label: Lord Xeen
+        role: quest
+        afterword: {n: 6, label: Lord Xeen}
         show: {qbit: done}
         states:
           - when: {qbit: king_told}
+            afterword: true
             text: "Thank you again. Castle Xeen is a cloud again. The court misses the mirror more than it misses my brother's double."
           - when: {not: {qbit: m7.sigil}}
             text: "Thank you for rescuing Xeen from that foul spirit. It is a pity about the mirror, though. Your destiny lies on the darkside of Xeen."

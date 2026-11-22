@@ -1,0 +1,154 @@
+{
+  "_about": "Test parties for tools/coop_local/run.py, in the scenario party format (tests/scenarios/README.md). Strong on purpose: testing co-op should not be about staying alive. portrait_id is a character picture's row minus one (character_data.txt): 0-27 MM8, 31-60 MM7 and MM6, 9000+ MM9. The gear_ parties wear fine, rich and relic gear (the body's glow in the other players' games: weak, strong, strongest); the size_ parties are a dwarf, a minotaur and a dragon, for the bodies' heights.",
+  "god_lich": {
+    "gold": 500000, "food": 99,
+    "members": [
+      {"name": "Mortis", "class": "Lich", "level": 150, "portrait_id": 26,
+       "might": 300, "intellect": 500, "personality": 300, "endurance": 500, "speed": 300, "accuracy": 300, "luck": 300,
+       "skills": [{"name": "FireMagic", "level": 30, "mastery": 4}, {"name": "AirMagic", "level": 30, "mastery": 4},
+                  {"name": "WaterMagic", "level": 30, "mastery": 4}, {"name": "EarthMagic", "level": 30, "mastery": 4},
+                  {"name": "DarkMagic", "level": 30, "mastery": 4}, {"name": "Staff", "level": 20, "mastery": 2}],
+       "spells": [2, 6, 11, 15, 18, 20, 24, 26, 29, 35, 37, 39, 41, 90, 93, 97],
+       "equipment": {}}
+    ]
+  },
+  "god_knight": {
+    "gold": 500000, "food": 99,
+    "members": [
+      {"name": "Roland", "class": "Knight", "level": 150, "portrait_id": 0,
+       "might": 500, "intellect": 100, "personality": 100, "endurance": 500, "speed": 400, "accuracy": 400, "luck": 300,
+       "skills": [{"name": "Sword", "level": 30, "mastery": 2}, {"name": "Shield", "level": 20, "mastery": 2},
+                  {"name": "ChainArmor", "level": 20, "mastery": 2}, {"name": "Bow", "level": 20, "mastery": 2}],
+       "equipment": {"main_hand": 1, "off_hand": 99, "bow": 56}}
+    ]
+  },
+  "god_cleric": {
+    "gold": 500000, "food": 99,
+    "members": [
+      {"name": "Dseyria", "class": "Cleric", "level": 150, "portrait_id": 5,
+       "might": 300, "intellect": 300, "personality": 500, "endurance": 500, "speed": 300, "accuracy": 300, "luck": 300,
+       "skills": [{"name": "Mace", "level": 20, "mastery": 2}, {"name": "BodyMagic", "level": 30, "mastery": 2},
+                  {"name": "SpiritMagic", "level": 30, "mastery": 2}, {"name": "MindMagic", "level": 30, "mastery": 2}],
+       "spells": [46, 47, 49, 51, 55, 67, 68, 71, 72, 74],
+       "equipment": {},
+       "battle_orders": {"fallback": "weapon", "orders": [{"spell": "Heal", "ally_hp_below": 60}],
+                         "upkeep": [{"spell": "Heal"}, {"spell": "Cure Poison"}, {"spell": "Cure Disease"}]}}
+    ]
+  },
+  "five": {
+    "gold": 500000, "food": 99,
+    "members": [
+      {"name": "Roland", "class": "Knight", "level": 120, "portrait_id": 0,
+       "might": 400, "endurance": 400, "speed": 300, "accuracy": 300,
+       "skills": [{"name": "Sword", "level": 25, "mastery": 2}, {"name": "Shield", "level": 15, "mastery": 2},
+                  {"name": "ChainArmor", "level": 15, "mastery": 2}],
+       "equipment": {"main_hand": 1, "off_hand": 99}},
+      {"name": "Dseyria", "class": "Cleric", "level": 120, "portrait_id": 5,
+       "personality": 400, "endurance": 400, "speed": 300,
+       "skills": [{"name": "Mace", "level": 15, "mastery": 2}, {"name": "BodyMagic", "level": 25, "mastery": 2},
+                  {"name": "SpiritMagic", "level": 25, "mastery": 2}],
+       "spells": [46, 47, 49, 51, 55, 67, 68, 71, 72, 74],
+       "equipment": {},
+       "battle_orders": {"fallback": "weapon", "orders": [{"spell": "Heal", "ally_hp_below": 60}],
+                         "upkeep": [{"spell": "Heal"}]}},
+      {"name": "Alaric", "class": "Sorcerer", "level": 120, "portrait_id": 33,
+       "intellect": 400, "endurance": 400, "speed": 300,
+       "skills": [{"name": "Staff", "level": 15, "mastery": 2}, {"name": "FireMagic", "level": 25, "mastery": 2},
+                  {"name": "AirMagic", "level": 25, "mastery": 2}],
+       "spells": [2, 6, 15, 18],
+       "equipment": {}},
+      {"name": "Grisha", "class": "Thief", "level": 120, "portrait_id": 36,
+       "might": 300, "endurance": 400, "speed": 400, "accuracy": 400,
+       "skills": [{"name": "Dagger", "level": 25, "mastery": 2}, {"name": "DisarmTraps", "level": 20, "mastery": 3},
+                  {"name": "Perception", "level": 20, "mastery": 3}, {"name": "Bow", "level": 20, "mastery": 2}],
+       "equipment": {"main_hand": 21, "bow": 56}},
+      {"name": "Mortis", "class": "Lich", "level": 120, "portrait_id": 26,
+       "intellect": 400, "endurance": 400, "speed": 300,
+       "skills": [{"name": "FireMagic", "level": 25, "mastery": 4}, {"name": "DarkMagic", "level": 25, "mastery": 4}],
+       "spells": [2, 6, 11, 90, 93, 97],
+       "equipment": {}}
+    ]
+  },
+  "three": {
+    "gold": 500000, "food": 99,
+    "members": [
+      {"name": "Zoltan", "class": "Knight", "level": 120, "portrait_id": 40,
+       "might": 400, "endurance": 400, "speed": 300, "accuracy": 300,
+       "skills": [{"name": "Sword", "level": 25, "mastery": 2}, {"name": "ChainArmor", "level": 15, "mastery": 2}],
+       "equipment": {"main_hand": 1}},
+      {"name": "Serena", "class": "Cleric", "level": 120, "portrait_id": 41,
+       "personality": 400, "endurance": 400, "speed": 300,
+       "skills": [{"name": "Mace", "level": 15, "mastery": 2}, {"name": "BodyMagic", "level": 25, "mastery": 2}],
+       "spells": [67, 68, 71, 72, 74],
+       "equipment": {},
+       "battle_orders": {"fallback": "weapon", "orders": [{"spell": "Heal", "ally_hp_below": 60}],
+                         "upkeep": [{"spell": "Heal"}]}},
+      {"name": "Nim", "class": "Sorcerer", "level": 120, "portrait_id": 9000,
+       "intellect": 400, "endurance": 400, "speed": 300,
+       "skills": [{"name": "Staff", "level": 15, "mastery": 2}, {"name": "FireMagic", "level": 25, "mastery": 2},
+                  {"name": "AirMagic", "level": 25, "mastery": 2}],
+       "spells": [2, 6, 15, 18],
+       "equipment": {}}
+    ]
+  },
+  "gear_fine_knight": {
+    "gold": 500000, "food": 99,
+    "members": [
+      {"name": "Roland", "class": "Knight", "level": 120, "portrait_id": 0,
+       "might": 400, "endurance": 400, "speed": 300, "accuracy": 300,
+       "skills": [{"name": "Sword", "level": 25, "mastery": 2}, {"name": "Shield", "level": 15, "mastery": 2},
+                  {"name": "ChainArmor", "level": 15, "mastery": 2}],
+       "equipment": {"main_hand": 3, "off_hand": 101, "armor": 90, "helm": 111, "belt": 120, "gauntlets": 129,
+                     "boots": 134}}
+    ]
+  },
+  "gear_rich_sorceress": {
+    "gold": 500000, "food": 99,
+    "members": [
+      {"name": "Elvira", "class": "Sorcerer", "level": 120, "portrait_id": 1,
+       "intellect": 400, "endurance": 400, "speed": 300,
+       "skills": [{"name": "Staff", "level": 15, "mastery": 2}, {"name": "FireMagic", "level": 25, "mastery": 2},
+                  {"name": "AirMagic", "level": 25, "mastery": 2}],
+       "spells": [2, 6, 15, 18],
+       "equipment": {"main_hand": 83, "helm": 112, "cloak": 126, "belt": 121, "gauntlets": 131, "boots": 136}}
+    ]
+  },
+  "gear_relic_lich": {
+    "gold": 500000, "food": 99,
+    "members": [
+      {"name": "Mortis", "class": "Lich", "level": 120, "portrait_id": 26,
+       "intellect": 400, "endurance": 400, "speed": 300,
+       "skills": [{"name": "Staff", "level": 15, "mastery": 2}, {"name": "DarkMagic", "level": 25, "mastery": 2},
+                  {"name": "FireMagic", "level": 25, "mastery": 2}],
+       "spells": [2, 6, 90, 93],
+       "equipment": {"main_hand": 530, "helm": 521, "cloak": 522, "belt": 537, "gauntlets": 517, "boots": 518}}
+    ]
+  },
+  "size_dwarf": {
+    "gold": 500000, "food": 99,
+    "members": [
+      {"name": "Durin", "class": "Knight", "level": 120, "portrait_id": 61,
+       "might": 400, "endurance": 400, "speed": 300, "accuracy": 300,
+       "skills": [{"name": "Axe", "level": 25, "mastery": 2}, {"name": "ChainArmor", "level": 15, "mastery": 2}],
+       "equipment": {"main_hand": 1}}
+    ]
+  },
+  "size_minotaur": {
+    "gold": 500000, "food": 99,
+    "members": [
+      {"name": "Thorn", "class": "Minotaur", "level": 120, "portrait_id": 20,
+       "might": 400, "endurance": 400, "speed": 300, "accuracy": 300,
+       "skills": [{"name": "Axe", "level": 25, "mastery": 2}],
+       "equipment": {}}
+    ]
+  },
+  "size_dragon": {
+    "gold": 500000, "food": 99,
+    "members": [
+      {"name": "Ithilgore", "class": "Dragon", "level": 120, "portrait_id": 24,
+       "might": 400, "endurance": 400, "speed": 300, "accuracy": 300,
+       "skills": [],
+       "equipment": {}}
+    ]
+  }
+}

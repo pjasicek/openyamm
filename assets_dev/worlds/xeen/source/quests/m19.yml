@@ -30,7 +30,7 @@ npcs:
   4954:              # Ellinger
     topics:
       - n: 1
-        label: Energy discs
+        role: quest
         show: {all: [{qbit: m17.done}, {not: {qbit: stage2}}]}
         states:
           - when: {all: [{qbit: stage1}, {items: [energy_disk, 5]}]}

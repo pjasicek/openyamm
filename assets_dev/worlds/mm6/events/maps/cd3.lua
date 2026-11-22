@@ -143,7 +143,7 @@ RegisterEvent(18, nil, function()
 end)
 
 RegisterEvent(19, nil, function()
-    evt.MoveToMap(-11534, -9562, 97, 1536, 0, 0, 0, 0, "outb1.odm") -- Kriegspire
+    evt.MoveToMap(-11534, -9562, 97, 1536, 0, 0, 0, 6, "outb1.odm") -- Kriegspire
 end)
 
 RegisterEvent(20, nil, function()

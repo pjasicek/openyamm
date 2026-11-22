@@ -30,9 +30,11 @@ npcs:
   4404:              # Princess Roxanne
     topics:
       - n: 1
-        label: Tiara
+        role: quest
+        afterword: {n: 2, label: Tiara}
         states:
           - when: {qbit: done}
+            afterword: true
             text: "It is always exhilarating to see adventurers such as yourselves."
           - when: {item: roxannes_tiara}
             text: "You have recovered my tiara and gotten rid of that bothersome robber gang. I am pleased. As a reward I give you this treasure: its twin, which I never liked as much. And the thieves among you will be called Rogues from today. I'll have it written down."

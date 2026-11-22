@@ -18,6 +18,39 @@ the original data A3 ported, the quest files, the playthroughs) instead of guess
   `output/xeen_site_monsters/`.
 - The server folder `/var/www/html/openyamm/xeen-guide/` (via `tools/xeen_site/deploy.sh`).
 
+## State (2026-11-22, end of the ninth session)
+
+- **Ninth session (14:12-14:25 by the machine clock): the guide follows A3 38th-39th (topics by role, journal lines,
+  D-93 cursor finds), F19 walls, D-92 signs, D-95 sunken entrances and D-96 villagers; republished** (`data/guide.js`
+  matches the server, md5 235742b3...; the new figures and the recaptured shots too).
+  - Data against the s8 copy: `quest_hooks.yml` changed only in D-93 (`m2.rain_barrel`, `q-c18.book` give the item,
+    no `map_gives`). Points: X1 "Rain barrel" (objective, m2) replaces the ground "Warehouse Key", X5 "A torn pack"
+    (q-c18) the ground "Holy Book of Elvenkind"; X1's culvert grate moved about 600 south into its ditch; X4's undercroft
+    stair about 600 north, the rule stone about 1,000 to the pedestal ring's north-east. Journal stages: m37/m38 gained
+    four lines each, q-c25 and t2-clan new lines, done-lines gone (m22, m42, q-c9, q-c26, q-d16, q-d17, q-d24-26, q-f1,
+    q-f2; quests left with no line show none). No other point moved over 200.
+  - Walkthroughs (two sub-agents, checked against `output/a3_s39/renamed.txt`, the quest files and `npc_topic.txt`): every
+    renamed topic reads 'Quest' or 'Promotion' (act1-6 about 60 edits, promotions 32, side files about 110); an NPC with
+    several Quest topics at once names them by slot order (Artemus m6/m7/m12/m22, Emerson m9/m10/m11/m22, the Pharaoh
+    m28/m30/m36, Burlock m5/m35, Thaddeus, Jethro; all stay visible, checked in the quest files); afterwords described
+    where useful (Dudley 'Joe', Valia 'Falista', Ellinger 'Alamar', Dimitri 'The Songbird', Burlock 'Lord Xeen', Arie
+    'My master' with Golux, Tito, Scaldrith 'The tax', Oslo 'Tam', Otto 'Lesson'); Luna's statuettes and altar one topic;
+    m18 'Bow low, slave!' and 'Gifts'. m38's journal sentence fixed. FAQ unchanged.
+  - Lead's own text: m2 rain barrel (click: key on the cursor, Android into the packs), culvert grate in its ditch beside
+    the warehouse (the creek arch is only the outfall), Fenwick's topic until the key is found; q-c18 torn pack; q-c5/
+    q-c11 rule stone north-east of the ring, undercroft stair cut into the square north of the well; Shops lead: every
+    service hangs a sign (guild school signs, the inn's key and heart).
+  - Captures (`tools/heavy.sh 6`, at most two games): arrival and giver shots of X1-X6, D1-D4, D6 (before copies
+    `output/xeen_g/s9/before_shots/`, sheets `sheet1.jpg`, `sheet2.jpg`: villagers, signs, walls; nothing cut).
+    D4's Leafpoint (a22) showed the inside of his trunk since the seventh session: `capture_shots.py` `FAR_NPCS` puts the
+    camera 1,400 off with the pitch up; the whole tree shows now. New story figures from place tours
+    (`output/xeen_g/s9/place/`): `x1_culvert.webp` (m2) and `x4_undercroft.webp` (q-c5); `asp_pedestals.webp` redrawn
+    (rule stone moved). Creek ends and other walls show in no guide picture (place shots kept in `place/`).
+  - No NPC topic screens in the guide (houses have no 3D view), so Falagar's topics needed no capture. Dimension Door is
+    not in the guide. `check_story_refs.py` 0 problems. Fresh copies in `output/xeen_g/s9/`: `quest_hooks_1412.yml`,
+    `npc_topic.txt`, `npc.txt`, `npc_topic_text.txt`, `quests.txt`, `quest_sources.tgz`, `guide_before.js`,
+    `guide_after.js`, `poidiff.py` (points matched by type, name and text; moves over 200 units).
+
 ## State (2026-11-22, end of the eighth session)
 
 - **Eighth session (05:50-06:00 by the machine clock): the guide follows A3 36th-37th, A6's D6 gate and A8 30th's
@@ -161,14 +194,16 @@ the original data A3 ported, the quest files, the playthroughs) instead of guess
 
 ## Next
 
-0. After later story changes: `cmp output/xeen_g/s8/quest_hooks_0553.yml assets_dev/worlds/xeen/data_tables/quest_hooks.yml`;
+0. After later story changes: `cmp output/xeen_g/s9/quest_hooks_1412.yml assets_dev/worlds/xeen/data_tables/quest_hooks.yml`
+   (and `npc_topic.txt`, `quests.txt` against the s9 copies; `output/xeen_g/s9/poidiff.py` for points);
    if it differs, `build_site.py --skip-images`, `check_story_refs.py`, deploy. D7, X8, X9, D3, D5 still ask Yes/No at
    some entrances (not yet rebuilt for F16): their walkthrough lines follow the built Yes/No and need a pass after.
 1. (Done in the fifth session: Q-C22 hint, XD-05 drums clause, Q-C9 two-click door.)
 2. Any new clue text on a map: judge it by D-79 and add its phrases to `solutions`.
 3. More figures if wanted (the Witch Tower's skulls, XD-15's riddles, the Skyroads' merchants); more hand renames for
    generic points.
-4. Rerun the captures after map changes (`capture_shots.py --maps ...`, `capture_monsters.py --ids ...`); S's next
+4. Rerun the captures after map changes (`capture_shots.py --maps ...`, `capture_monsters.py --ids ...`; through
+   `tools/heavy.sh 6`; a `--skip-images` build keeps an existing webp, so delete the recaptured maps' `img/shots` webps first); S's next
    recolours (Power Lich, Skeletal Lich) need `--ids 11284,11285`.
 5. Optional: make `quest_levels`' tie-break stable (sorted maps) once the MM9 owner agrees (MM9 output may change).
 
@@ -186,6 +221,9 @@ the original data A3 ported, the quest files, the playthroughs) instead of guess
 
 ## Log
 
+- 2026-11-22 14:12-14:25 (ninth session): topics by role (two sub-agents), D-93 cursor finds, culvert ditch, Asp stair
+  and rule stone, signs sentence; 11 maps' shots recaptured, Leafpoint framed (`FAR_NPCS`), two new figures, Asp figure
+  redrawn; story refs 0 problems; republished, live md5 matches.
 - 2026-11-22 05:50-06:00 (eighth session): hooks diff (only XD-18's east wall), rebuild diff (D6 gate, q-d10 level);
   m33 gate refusal, q-c25 east wall, XD-12 disc/grille tip, Fenwick topic; `--skip-images` build, story refs 0
   problems; republished, live md5 matches.

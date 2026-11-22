@@ -20,9 +20,11 @@ npcs:
   4152:              # Medin
     topics:
       - n: 1
-        label: Lake beasts
+        role: quest
+        afterword: {n: 2, label: Lake beasts}
         states:
           - when: {qbit: done}
+            afterword: true
             text: "My friends, I am always glad to see you. The fish are back, and so am I. My boat's at the jetty if you want the island."
           - when: {qbit: lake_beasts_slain}
             text: "You have slain the monsters of the lake! Here, I insist you take this as a token of my appreciation. And my boat is yours whenever you want the island."

@@ -907,7 +907,7 @@ RegisterEvent(503, "Enter the Uplifted Library", function()
 end, "Enter the Uplifted Library")
 
 RegisterEvent(504, "Enter the Abandoned Temple", function()
-    evt.MoveToMap(12704, 2432, 385, 0, 0, 0, 346, 1, "d05.blv") -- Abandoned Temple
+    evt.MoveToMap(12704, 2432, 385, 0, 0, 0, 345, 1, "d05.blv") -- Abandoned Temple
 end, "Enter the Abandoned Temple")
 
 RegisterEvent(505, "Enter the Plane of Earth", function()

@@ -31,7 +31,7 @@ npcs:
   4402:              # Artemus
     topics:
       - n: 1
-        label: Lord Xeen
+        role: quest
         show: {qbit: m21.crodo_freed}
         states:
           - when: {qbit: started}
@@ -41,7 +41,7 @@ npcs:
   4403:              # Emerson
     topics:
       - n: 2
-        label: Dungeon
+        role: quest
         show: {any: [{qbit: started}, {qbit: dungeon}]}
         states:
           - when: {qbit: dungeon}

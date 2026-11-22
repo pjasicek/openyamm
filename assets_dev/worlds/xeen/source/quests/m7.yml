@@ -23,7 +23,7 @@ npcs:
   4402:              # Artemus
     topics:
       - n: 1
-        label: Pyramids
+        role: quest
         show: {qbit: m6.crodo_quest}
         states:
           - when: {qbit: sigil}

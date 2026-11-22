@@ -214,11 +214,11 @@ RegisterEvent(452, nil, function()
 end)
 
 RegisterEvent(501, "Leave the Breeding Zone", function()
-    evt.MoveToMap(-5376, 474, -415, 1536, 0, 0, 0, 0, "7d26.blv") -- The Pit
+    evt.MoveToMap(-5376, 474, -415, 1536, 0, 0, 0, 8, "7d26.blv") -- The Pit
 end, "Leave the Breeding Zone")
 
 RegisterEvent(502, "Leave the Breeding Zone", function()
     SetQBit(QBit(641)) -- Completed Breeding Pit.
-    evt.MoveToMap(-5376, 474, -415, 1536, 0, 0, 0, 0, "7d26.blv") -- The Pit
+    evt.MoveToMap(-5376, 474, -415, 1536, 0, 0, 0, 8, "7d26.blv") -- The Pit
 end, "Leave the Breeding Zone")
 

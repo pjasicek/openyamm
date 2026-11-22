@@ -21,7 +21,7 @@ npcs:
   5319:              # Leafpoint
     topics:
       - n: 1
-        label: Civilized ones
+        role: promotion
         states:
           - when: {all: [{qbit: done}, {promotable: leafpoint}]}
             text: "Another druid who listens to trees. Stand in my shade a while. There. Arch Druid."

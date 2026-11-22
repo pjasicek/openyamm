@@ -292,7 +292,7 @@ RegisterEvent(455, "Door", function()
 end, "Door")
 
 RegisterEvent(501, "Leave the School of Sorcery", function()
-    evt.MoveToMap(1530, -16578, 1377, 512, 0, 0, 0, 0, "7out06.odm") -- The Bracada Desert
+    evt.MoveToMap(1530, -16578, 1377, 512, 0, 0, 0, 8, "7out06.odm") -- The Bracada Desert
 end, "Leave the School of Sorcery")
 
 RegisterEvent(65535, "", function()

@@ -1,0 +1,288 @@
+# Player stand-in bodies: roster (plan of 2026-11-20). Nothing in this file exists as a model yet.
+# Read README.md beside this file first. Values marked "estimate" are judgement, not measurement.
+schema: openyamm.playerBodies.plan.v1
+status: planned
+
+# The one rig layout every skinned player body uses.
+rig:
+  id: humanoid_set_b56
+  family: Humanoid set layout (B_* bones), the source-frame rig of level_generation/creatures/CLAUDE_HUMANOID_NPC_PLAYBOOK.md
+  joints: 56
+  joint_list_reference: assets_source/worlds/mm6/models/mm6_bar1.glb   # its 57 joints minus the bone "Sword"
+  template_project: level_generation/creatures/mm6_natm_claude        # scripts to copy (playbook: best current template)
+  fit: joints fitted to each body's own mesh (gate G3); names and hierarchy identical on every body
+  clips: baked into each body file from one clip list by rebuild.sh; the engine reads clips from the model's own file
+  facing: -Y in Blender, yaw_offset -1.570796327 in the binding (as every MM6-MM8 humanoid)
+
+# Plain nodes under the bones. Names and axes are those of the first-person arms (assets_dev/engine/view_model/arms.glb),
+# so game/render/HeldWeapons.h (heldWeaponMatrix) and the w_*.glb templates work unchanged. The templates are in
+# Oblivion units (about 1.43 cm), so each mount node carries that scale against the body's units.
+mount_nodes:
+  - {node: Weapon, parent: B_R_Hand, holds: "main-hand weapon; crossbow stock", axes: "palm at origin, head +Y, edge +X"}
+  - {node: OffHandWeapon, parent: B_L_Hand, holds: "second weapon when dual wielding", axes: "mirror of Weapon"}
+  - {node: Torch, parent: B_L_Hand, holds: "bow in use", axes: "limbs along Y, riser at origin, tips toward -X"}
+  - {node: Shield, parent: B_L_Forearm, holds: shield, axes: "face toward -Y, top along -Z"}
+  - {node: BackWeapon, parent: B_Spine2, holds: "stowed bow while a melee weapon is in the hand"}
+  - {node: Quiver, parent: B_Spine2, holds: "reserved, unused in the first release"}
+  - {node: Helm, parent: B_Head, holds: "the worn helm's ground item model"}
+  - {node: B_Head, parent: B_Neck, holds: "the race head (a static model)"}
+
+# animation.sockets of the binding.
+sockets:
+  palm_left: Socket_Palm_Left        # spell charge and release
+  palm_right: Socket_Palm_Right
+  arrow: Socket_Arrow                # arrow release, on the bow hand
+  weapon_tip: {node: Weapon, offset: "set per weapon length at run time"}
+  head_top: Socket_Head_Top          # name label
+
+# Clip names are <Set><Action>. Sets follow FirstPersonViewModel::WeaponSet.
+# source: library = git-ignored anim_library/ (humanoid set, Mixamo), chosen at gate G1;
+#         authored = mm6_natm_claude/scripts/author_attack.py or author_carry.py; mm9 = retargeted MM9 clip (untested).
+clip_set:
+  id: player_v1
+  count: 48
+  locomotion_per_set: [Standing, Walking, Running]
+  sets:
+    - {set: Unarmed, when: "nothing in the hands", attacks: [UnarmedAttack, UnarmedAttack2], source: "library: Unarmed set; upright idle and walk from Mixamo"}
+    - {set: Onehand, when: "one-handed weapon with a free off hand; wand; blaster", attacks: [OnehandAttack, OnehandAttack2], source: "library: 1Hand attacks; carry authored (the set's own idle is a low guard)"}
+    - {set: Shield, when: "one-handed weapon and a shield", attacks: [ShieldAttack], source: "library: Armed-Shield set, Mixamo sword-and-shield"}
+    - {set: Dual, when: "a weapon in each hand", attacks: [DualAttack, DualAttack2], source: "to be made: one-handed attacks mirrored onto the left arm"}
+    - {set: Twohand, when: "two-handed sword, axe or hammer", attacks: [TwohandAttack, TwohandAttack2], source: "library: 2Hand Sword and 2Hand Axe sets"}
+    - {set: Pole, when: "spear, trident, halberd or poleaxe in two hands", attacks: [PoleAttack, PoleAttack2], source: "library: 2Hand Spear locomotion; thrust authored (underhand)"}
+    - {set: Staff, when: staff, attacks: [StaffAttack, StaffCast], source: "library: 2Hand Staff set"}
+    - {set: Bow, when: "bow in the hands", attacks: [BowAttack], source: "library: 2Hand Bow set, Mixamo bow clips"}
+    - {set: Crossbow, when: "crossbow in the hands", attacks: [CrossbowAttack], source: "library: 2Hand Crossbow set"}
+  shared:
+    - {clip: Cast, source: "library: Unarmed and Armed casts (left open hand, release forward)"}
+    - {clip: Cast2, source: "library (raise, for spells on oneself)"}
+    - {clip: Hit, source: "library: Unarmed set"}
+    - {clip: Death, source: "library: Unarmed set"}
+    - {clip: Dead, source: "last key of Death"}
+    - {clip: Fidget, source: library}
+  later_optional:
+    - {clips: [Taunt, Bow, Applause, Cower, Sit], source: "mm9 townsfolk and soldiers, retargeted; needs a player emote command in the engine"}
+
+armour_looks: [cloth, leather, chain, plate]     # defined in armour_looks_manifest.yml; every skinned body carries all four
+
+# ---------------------------------------------------------------------------------------------------------------------
+# Skinned bodies. One model file per body with four looks as material variants.
+# Native art is in assets_legacy/icons_20260926/engine/icons/<name>.bmp; restored x2 copies in assets_dev/engine/icons_x2/.
+# Worn armour art per doll type: <armour icon>v<doll type + 1>.bmp and ...a.bmp (arm piece), e.g. item096v1.bmp.
+bodies:
+  - id: pb_male
+    kind: skinned_body
+    race: shared
+    sex: male
+    doll_type: 0
+    base_rig: humanoid_set_b56
+    model_file: engine/models/player_male.glb
+    source_references:
+      paperdoll_bodies: [pc01bod, pc03bod, pc05bod, pc07bod, mlabod, mlbbod, 7pc01bod, 7pc02bod, 7pc04bod]
+      worn_armour_art: "v1 variants: cloth none; leather item084v1-item088v1; chain item089v1-item093v1; plate item094v1-item098v1"
+      portraits: "pc01-, pc03-, pc05-, pc07- (face reference for ph_human_male)"
+      existing_models_for_reference: [mm7_m222 (Fighter Chain, 57 joints), mm6_bar1, mm6_natm, mm9_guard (three armour paints on one mesh)]
+      start_from: "new Meshy mesh; scripts from mm6_natm_claude"
+    clip_set: player_v1
+    sockets: all
+    armour_looks: [cloth, leather, chain, plate]
+    head: separate (ph_* by race)
+    wave: 1
+    status: planned
+
+  - id: pb_female
+    kind: skinned_body
+    race: shared
+    sex: female
+    doll_type: 1
+    base_rig: humanoid_set_b56
+    model_file: engine/models/player_female.glb
+    source_references:
+      paperdoll_bodies: [pc02bod, pc04bod, pc06bod, pc08bod, grlabod, grlbbod, 7pc05bod, 7pc07bod, 7pc08bod]
+      worn_armour_art: "v2 variants (item084v2 ... item098v2)"
+      portraits: "pc02-, pc04-, pc06-, pc08-"
+      existing_models_for_reference: [mm6_pfem (woman's proportions, skirt strips), mm6_natf, mm6_dru1, mm8_m416 (pirate woman)]
+      start_from: "new Meshy mesh; clip list and scripts from pb_male"
+    clip_set: player_v1
+    sockets: all
+    armour_looks: [cloth, leather, chain, plate]
+    head: separate (ph_* by race)
+    wave: 3
+    status: planned
+
+  - id: pb_dwarf_male
+    kind: skinned_body
+    race: dwarf
+    sex: male
+    doll_type: 4
+    base_rig: humanoid_set_b56
+    model_file: engine/models/player_dwarf_male.glb
+    source_references:
+      paperdoll_bodies: [7pc13bod, 7pc14bod]
+      worn_armour_art: "v5 variants (item084v5 ... item098v5)"
+      portraits: "7pc13-, 7pc14-"
+      existing_models_for_reference: [mm7_m190 (Dwarf A, 57 joints, same joint set as mm6_bar1), mm6_dwa1, mm9_dwarf]
+      start_from: "new Meshy mesh; clip list and scripts from pb_male"
+    clip_set: player_v1
+    sockets: all
+    armour_looks: [cloth, leather, chain, plate]
+    head: separate (ph_dwarf_male, ph_dwarf_female, ph_lich)
+    wave: 5
+    status: planned
+
+  - id: pb_dwarf_female
+    kind: skinned_body
+    race: dwarf
+    sex: female
+    doll_type: 4
+    base_rig: humanoid_set_b56
+    model_file: engine/models/player_dwarf_female.glb
+    optional: true
+    until_built: "pb_dwarf_male with ph_dwarf_female"     # the original game also draws both sexes on one dwarf doll type
+    source_references:
+      paperdoll_bodies: [7pc15bod, 7pc16bod]
+      worn_armour_art: "v5 variants (shared with dwarf men in the original)"
+      portraits: "7pc15-, 7pc16-"
+      start_from: "new Meshy mesh; clip list and scripts from pb_male"
+    clip_set: player_v1
+    sockets: all
+    armour_looks: [cloth, leather, chain, plate]
+    head: separate (ph_dwarf_female)
+    wave: 6
+    status: planned
+
+  - id: pb_minotaur
+    kind: skinned_body
+    race: minotaur
+    sex: male
+    doll_type: 2
+    base_rig: humanoid_set_b56
+    model_file: engine/models/player_minotaur.glb
+    source_references:
+      paperdoll_bodies: [pc21bod, pc22bod, lminbod, zminbod]
+      worn_armour_art: "v3 variants (item084v3 ... item098v3)"
+      portraits: "pc21-, pc22-"
+      existing_models_for_reference: [mm7_m286 (AMinotaur A, 57 joints, same joint set as mm6_bar1), mm8_m484 (Minotaur A), mm6_min1]
+      start_from: "new Meshy mesh; clip list and scripts from pb_male"
+    clip_set: player_v1
+    sockets: "all but Helm (doll_types.txt: a minotaur wears no helm and no boots)"
+    armour_looks: [cloth, leather, chain, plate]
+    head: part of the body (own 1K head texture set)
+    until_built: {keeps_monster_model: true, descriptors: [Minotaur A, BMinotaur A, AMinotaur A, Minotaur Pesant A]}
+    wave: 5
+    status: planned
+
+  - id: pb_troll
+    kind: skinned_body
+    race: troll
+    sex: male
+    doll_type: 3
+    base_rig: humanoid_set_b56
+    model_file: engine/models/player_troll.glb
+    source_references:
+      paperdoll_bodies: [pc23bod, pc24bod, pc41bod, pc42bod]
+      worn_armour_art: "v4 variants (item084v4 ... item098v4)"
+      portraits: "pc23-, pc24-"
+      existing_models_for_reference: [mm8_m476 (Troll A, 57 joints), mm7_m461 (ATroll A)]
+      start_from: "new Meshy mesh; clip list and scripts from pb_male"
+    clip_set: player_v1
+    sockets: all
+    armour_looks: [cloth, leather, chain, plate]
+    head: part of the body (own 1K head texture set)
+    until_built: {keeps_monster_model: true, descriptors: [Troll A, ATroll A, Troll Pesant A]}
+    wave: 5
+    status: planned
+
+# ---------------------------------------------------------------------------------------------------------------------
+# Heads: static models on B_Head, a standard neck ring, one 1K texture set, a second copy without the hair volume
+# (<file>_cap.glb) for use under a helm. Region mask: R skin, A hair.
+heads:
+  - {id: ph_human_male, sex: male, fits: [pb_male], model_file: engine/models/player_head_human_male.glb, made_from: "cut from pb_male's generated mesh", portraits: "pc01-, pc03-, pc05-, pc07-", wave: 1, status: planned}
+  - {id: ph_human_female, sex: female, fits: [pb_female], model_file: engine/models/player_head_human_female.glb, made_from: "cut from pb_female's generated mesh", portraits: "pc02-, pc04-, pc06-, pc08-", wave: 3, status: planned}
+  - {id: ph_elf_male, sex: male, fits: [pb_male], model_file: engine/models/player_head_elf_male.glb, made_from: "ph_human_male with pointed ears (estimate: an edit; else a head-only model)", portraits: "pc33-, pc34- (elves); pc17-, pc19- (dark elves)", wave: 1, status: planned}
+  - {id: ph_elf_female, sex: female, fits: [pb_female], model_file: engine/models/player_head_elf_female.glb, made_from: "ph_human_female with pointed ears", portraits: "pc31-, pc32- (elves); pc18-, pc20- (dark elves)", wave: 3, status: planned}
+  - {id: ph_goblin_male, sex: male, fits: [pb_male], model_file: engine/models/player_head_goblin_male.glb, made_from: "head-only Meshy model", portraits: "7pc17-, 7pc18-", existing_models_for_reference: [mm6_gob2, mm7_m246], wave: 4, status: planned}
+  - {id: ph_goblin_female, sex: female, fits: [pb_female], model_file: engine/models/player_head_goblin_female.glb, made_from: "head-only Meshy model", portraits: "7pc19-, 7pc20-", wave: 4, status: planned}
+  - {id: ph_halforc_male, sex: male, fits: [pb_male], model_file: engine/models/player_head_halforc_male.glb, made_from: "head-only Meshy model", portraits: "9pc09-, 9pc11-", existing_models_for_reference: [mm9_dookmilitia (MM9 Half Orc A)], wave: 4, status: planned}
+  - {id: ph_halforc_female, sex: female, fits: [pb_female], model_file: engine/models/player_head_halforc_female.glb, made_from: "head-only Meshy model", portraits: "9pc10-, 9pc12-", wave: 4, status: planned}
+  - {id: ph_lich, sex: any, fits: [pb_male, pb_female, pb_dwarf_male, pb_dwarf_female], model_file: engine/models/player_head_lich.glb, made_from: "head-only Meshy model (a skull)", portraits: "pc27-, pc28-", existing_models_for_reference: [mm6_lch, mm7_m270, mm9_lich], wave: 4, status: planned}
+  - {id: ph_dwarf_male, sex: male, fits: [pb_dwarf_male], model_file: engine/models/player_head_dwarf_male.glb, made_from: "cut from pb_dwarf_male's generated mesh", portraits: "7pc13-, 7pc14-", wave: 5, status: planned}
+  - {id: ph_dwarf_female, sex: female, fits: [pb_dwarf_male, pb_dwarf_female], model_file: engine/models/player_head_dwarf_female.glb, made_from: "head-only Meshy model", portraits: "7pc15-, 7pc16-", wave: 5, status: planned}
+
+# ---------------------------------------------------------------------------------------------------------------------
+# Races that keep an existing monster model (bindings in assets_dev/worlds/<world>/models/actors.yml).
+kept_monster_models:
+  - race: dragon
+    race_id: 5
+    doll_type: 5
+    permanent: true
+    descriptors: [Wimpy Dragon A, Dragon A, ADragon A, DragonLand A]     # today's order in game/coop/CoopBodies.cpp
+    models: [mm8_m492, mm7_m182, mm6_wyrm]
+    why: "doll type 5 equips nothing (doll_types.txt), the body is not humanoid, first person has its own forelegs"
+    also_covers: ["lich dragon (portrait 68)", "dragon ghost (portrait 69)"]
+  - race: minotaur
+    race_id: 3
+    permanent: false
+    descriptors: [Minotaur A, BMinotaur A, AMinotaur A, Minotaur Pesant A]
+    why: "stands in until pb_minotaur is built (wave 5)"
+  - race: troll
+    race_id: 4
+    permanent: false
+    descriptors: [Troll A, ATroll A, Troll Pesant A]
+    why: "stands in until pb_troll is built (wave 5)"
+  - race: any
+    permanent: false
+    descriptors: "the tables of game/coop/CoopBodies.cpp as they are today"
+    why: "fallback whenever a planned body or head is not installed in the mounted packages"
+
+# ---------------------------------------------------------------------------------------------------------------------
+# Skin colours (region R ramps), chosen by race and form. Colours are to be measured from the portraits; none exist yet.
+skin_ramps: [human, elf, dark_elf, vampire, goblin, halforc, dwarf, minotaur, troll, lich_bone, zombie]
+
+# Every race, sex and doll type combination in assets_dev/engine/data_tables/character_data.txt (97 portrait rows,
+# measured 2026-11-20). race_id is that table's Race column; goblin and half-orc share id 8 and differ by the row's
+# World column. "today" is the first monster descriptor game/coop/CoopBodies.cpp tries now.
+appearances:
+  - {race: human, race_id: 0, sex: male, doll_type: 0, body: pb_male, head: ph_human_male, skin: human, portrait_rows: 20, today: "by class, else Human Mercenary A"}
+  - {race: human, race_id: 0, sex: female, doll_type: 1, body: pb_female, head: ph_human_female, skin: human, portrait_rows: 16, today: "Druidess A or Pirate Crossbowman (Female) A"}
+  - {race: vampire, race_id: 1, sex: male, doll_type: 0, body: pb_male, head: ph_human_male, skin: vampire, portrait_rows: 2, today: "Vampire (monster) A"}
+  - {race: vampire, race_id: 1, sex: female, doll_type: 1, body: pb_female, head: ph_human_female, skin: vampire, portrait_rows: 2, today: "Vampire (monster) A"}
+  - {race: dark_elf, race_id: 2, sex: male, doll_type: 0, body: pb_male, head: ph_elf_male, skin: dark_elf, portrait_rows: 2, today: "Dark Elf Warrior A"}
+  - {race: dark_elf, race_id: 2, sex: female, doll_type: 1, body: pb_female, head: ph_elf_female, skin: dark_elf, portrait_rows: 2, today: "Dark Elf Warrior A"}
+  - {race: minotaur, race_id: 3, sex: male, doll_type: 2, body: pb_minotaur, head: integral, skin: minotaur, portrait_rows: 2, today: "Minotaur A"}
+  - {race: troll, race_id: 4, sex: male, doll_type: 3, body: pb_troll, head: integral, skin: troll, portrait_rows: 2, today: "Troll A"}
+  - {race: dragon, race_id: 5, sex: male, doll_type: 5, body: monster_model, head: none, skin: none, portrait_rows: 4, today: "Wimpy Dragon A", keeps_monster_model: true}
+  - {race: elf, race_id: 7, sex: male, doll_type: 0, body: pb_male, head: ph_elf_male, skin: elf, portrait_rows: 4, today: "Elf Archer A"}
+  - {race: elf, race_id: 7, sex: female, doll_type: 1, body: pb_female, head: ph_elf_female, skin: elf, portrait_rows: 4, today: "Elf Archer A"}
+  - {race: goblin, race_id: 8, world: mm7, sex: male, doll_type: 0, body: pb_male, head: ph_goblin_male, skin: goblin, portrait_rows: 2, today: "BGoblin A"}
+  - {race: goblin, race_id: 8, world: mm7, sex: female, doll_type: 1, body: pb_female, head: ph_goblin_female, skin: goblin, portrait_rows: 2, today: "BGoblin A"}
+  - {race: halforc, race_id: 8, world: mm9, sex: male, doll_type: 0, body: pb_male, head: ph_halforc_male, skin: halforc, portrait_rows: 2, today: "BGoblin A, else MM9 Half Orc A"}
+  - {race: halforc, race_id: 8, world: mm9, sex: female, doll_type: 1, body: pb_female, head: ph_halforc_female, skin: halforc, portrait_rows: 2, today: "BGoblin A, else MM9 Half Orc A"}
+  - {race: dwarf, race_id: 9, sex: male, doll_type: 4, body: pb_dwarf_male, head: ph_dwarf_male, skin: dwarf, portrait_rows: 4, today: "BDwarf A"}
+  - {race: dwarf, race_id: 9, sex: female, doll_type: 4, body: "pb_dwarf_female, until built pb_dwarf_male", head: ph_dwarf_female, skin: dwarf, portrait_rows: 4, today: "BDwarf A"}
+  # Liches (race id 6; reached by promotion, not offered at the start).
+  - {race: lich, race_id: 6, sex: male, doll_type: 0, body: pb_male, head: ph_lich, skin: lich_bone, portrait_rows: 3, today: "BLich A"}
+  - {race: lich, race_id: 6, sex: female, doll_type: 1, body: pb_female, head: ph_lich, skin: lich_bone, portrait_rows: 3, today: "BLich A"}
+  - {race: lich, race_id: 6, sex: male, doll_type: 4, body: pb_dwarf_male, head: ph_lich, skin: lich_bone, portrait_rows: 1, today: "BLich A"}
+  - {race: lich, race_id: 6, sex: female, doll_type: 4, body: "pb_dwarf_female, until built pb_dwarf_male", head: ph_lich, skin: lich_bone, portrait_rows: 1, today: "BLich A"}
+  - {race: lich, race_id: 6, sex: male, doll_type: 2, body: pb_minotaur, head: integral, skin: lich_bone, portrait_rows: 1, today: "BLich A"}
+  - {race: lich, race_id: 6, sex: male, doll_type: 3, body: pb_troll, head: integral, skin: lich_bone, portrait_rows: 1, today: "BLich A"}
+  - {race: lich, race_id: 6, sex: male, doll_type: 5, body: monster_model, head: none, skin: none, portrait_rows: 1, today: "BLich A", keeps_monster_model: true, note: "should use the dragon's model, not a lich's"}
+  # Zombies (race id 10; a condition's portrait).
+  - {race: zombie, race_id: 10, sex: male, doll_type: 0, body: pb_male, head: ph_human_male, skin: zombie, portrait_rows: 1, today: "Zombie A"}
+  - {race: zombie, race_id: 10, sex: female, doll_type: 1, body: pb_female, head: ph_human_female, skin: zombie, portrait_rows: 1, today: "Zombie A"}
+  - {race: zombie, race_id: 10, sex: male, doll_type: 4, body: pb_dwarf_male, head: ph_dwarf_male, skin: zombie, portrait_rows: 1, today: "Zombie A"}
+  - {race: zombie, race_id: 10, sex: female, doll_type: 4, body: "pb_dwarf_female, until built pb_dwarf_male", head: ph_dwarf_female, skin: zombie, portrait_rows: 1, today: "Zombie A"}
+  - {race: zombie, race_id: 10, sex: male, doll_type: 2, body: pb_minotaur, head: integral, skin: zombie, portrait_rows: 1, today: "Zombie A"}
+  - {race: zombie, race_id: 10, sex: male, doll_type: 3, body: pb_troll, head: integral, skin: zombie, portrait_rows: 1, today: "Zombie A"}
+  - {race: zombie, race_id: 10, sex: male, doll_type: 5, body: monster_model, head: none, skin: none, portrait_rows: 1, today: "Zombie A", keeps_monster_model: true, note: "the dragon ghost; should use the dragon's model"}
+
+not_player_bodies:
+  - {portrait_rows: [29, 30, 31], why: "no race in the table (two unused rows and the wetsuit row)"}
+
+# The rule that turns a character into an appearance, in the order to check.
+selection_rule:
+  - "doll type 5 (dragon), whatever the race: the kept dragon model"
+  - "body by doll type and sex: 0 pb_male, 1 pb_female, 2 pb_minotaur, 3 pb_troll, 4 pb_dwarf_male or pb_dwarf_female"
+  - "head by race and sex; race id 8 is a half-orc when the portrait row's World is mm9, else a goblin; a lich takes ph_lich"
+  - "skin ramp by race; a lich or zombie form replaces it"
+  - "a body or head that is not installed: today's monster table in game/coop/CoopBodies.cpp"

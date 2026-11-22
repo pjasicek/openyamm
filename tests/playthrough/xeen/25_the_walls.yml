@@ -55,10 +55,10 @@ steps:
   - play_lua: {source: "remember('xp', experience(0)); click(6); wait(1)"}
   - assert:
       dialog: {source_id: 4403}
-  - select_topic: {match_label: "Walls"}
+  - select_topic: {action_id: 40451, match_label: "Quest"}
   - assert:
       dialog: {text_contains: "Thanks! We'll have the work done by the time you get back to the site."}
-  - select_topic: {match_label: "Keep"}
+  - select_topic: {action_id: 40551, match_label: "Quest"}
   - assert:
       dialog: {text_contains: "How about a keep to go with those walls? Just 5 Megacredits!"}
   - press_action: {action: cancel_dialog}
@@ -97,7 +97,7 @@ steps:
   - assert:
       dialog: {active: true, house_dialog: true, source_id: 4101}
   - select_topic: {match_label: "Ebenezer, Taxman"}
-  - select_topic: {match_label: "Workers"}
+  - select_topic: {action_id: 40452, match_label: "Quest"}
   - assert:
       dialog: {text_contains: "One of the workers swears the Tomb of a Thousand Terrors"}
   - press_action: {action: cancel_dialog}
@@ -140,7 +140,7 @@ steps:
   - advance_runtime: {seconds: 1.0}
   - play_lua: {source: "remember('xp', experience(0))"}
   - interact_actor: {actor_index: 15}
-  - select_topic: {match_label: "Elixir"}
+  - select_topic: {action_id: 43101, match_label: "Quest"}
   - assert:
       dialog: {text_contains: "Thank you so much for getting me the elixir!"}
   - press_action: {action: cancel_dialog}

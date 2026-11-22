@@ -41,9 +41,11 @@ npcs:
   4914:              # Kramer
     topics:
       - n: 1
-        label: Ogres
+        role: quest
+        afterword: {n: 9, label: Ogres}
         states:
           - when: {qbit: done}
+            afterword: true
             text: "The caravans run through Ogre Pass on time. Nearly on time. On a day."
           - when: {any: [{qbit: peace}, {all: [{qbit: west_burned}, {qbit: east_burned}]}]}
             text: "Thank you so much for getting rid of the Ogres! My caravans can now get through the pass safely. Here, take this gold as a reward."
@@ -53,7 +55,7 @@ npcs:
           - text: "These blasted Ogres are killing my business. Every time I try to get a caravan through Ogre Pass they attack it, stealing everything. Get rid of them for me. There is a reward, and a bounty if both their forts burn."
             do: [{set: started}, {autonote: pass}]
       - n: 2
-        label: Bounty
+        role: promotion
         show: {all: [{qbit: west_burned}, {qbit: east_burned}, {not: {qbit: bounty_paid}}]}
         text: "Two forts, burned to the ground. The bounty, as promised. And those of you who hunt for pay: the caravan guild has a title for hunters like you."
         do: [{set: bounty_paid}, {xp: 1000}, {gold: 1000}, {promote: bounty}]
@@ -61,6 +63,7 @@ npcs:
     topics:
       - n: 3
         label: Gifts
+        named: "the Pharaoh's choice: the answer that pays"
         show: {all: [{not: {qbit: friends}}, {not: {qbit: hostile}}]}
         states:
           - when: {gold: 1000}
@@ -74,11 +77,13 @@ npcs:
         do: [{set: hostile}]
       - n: 5
         label: "Bow low, slave!"
+        named: "the Pharaoh's choice: the answer that bows"
         show: {all: [{not: {qbit: friends}}, {not: {qbit: hostile}}]}
         text: "Har Har Har! We LIKE! You make big laugh! You friends. What you need?"
         do: [{set: friends}, {set: started}]
       - n: 6
         label: Energy disks
+        named: "the Pharaoh's gift once the party is his friend (M18's disks)"
         show: {all: [{qbit: friends}, {not: {qbit: hostile}}]}
         states:
           - when: {qbit: peace}

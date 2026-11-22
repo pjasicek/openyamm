@@ -555,6 +555,6 @@ RegisterEvent(453, nil, function()
 end)
 
 RegisterEvent(501, "Leave Castle Lambent", function()
-    evt.MoveToMap(-1264, 19718, 225, 1536, 0, 0, 0, 0, "7d25.blv") -- Celeste
+    evt.MoveToMap(-1264, 19718, 225, 1536, 0, 0, 0, 8, "7d25.blv") -- Celeste
 end, "Leave Castle Lambent")
 

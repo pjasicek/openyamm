@@ -544,10 +544,10 @@ RegisterEvent(454, nil, function()
 end)
 
 RegisterEvent(501, nil, function()
-    evt.MoveToMap(-11435, -20277, 1, 0, 0, 0, 0, 0, "7d26.blv") -- The Pit
+    evt.MoveToMap(-11435, -20277, 1, 0, 0, 0, 0, 8, "7d26.blv") -- The Pit
 end)
 
 RegisterEvent(502, nil, function()
-    evt.MoveToMap(-10656, -23968, -384, 0, 0, 0, 0, 0, "7d26.blv") -- The Pit
+    evt.MoveToMap(-10656, -23968, -384, 0, 0, 0, 0, 8, "7d26.blv") -- The Pit
 end)
 

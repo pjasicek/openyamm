@@ -26,7 +26,7 @@ npcs:
   4155:              # Ligono
     topics:
       - n: 1
-        label: Skull
+        role: quest
         show: {not: {qbit: done}}
         states:
           - when: {item: ligonos_skull}

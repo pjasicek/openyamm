@@ -21,19 +21,19 @@ steps:
   # D-82 point 5: no member down before the rounds (each reads every member's class).
   - play_lua: {source: "local shown, down = {}, {}; for i = 0, 3 do local c = conditions(i); shown[#shown + 1] = '[' .. c .. ']'; for _, n in ipairs({'Dead', 'Eradicated', 'Petrified', 'Paralyzed', 'Unconscious'}) do if (' ' .. c .. ' '):find(' ' .. n .. ' ', 1, true) then down[#down + 1] = 'member ' .. i .. ' ' .. c; break end end end; log('PARTY 01 before the class table: ' .. table.concat(shown, ' ')); if #down > 0 then error('PARTY DOWN before the class table (D-82 5): ' .. table.concat(down, ' | ')) end"}
 
-  # crusade: Knight -> Cavalier, Paladin -> Crusader, Ranger -> Hunter. Old Valia (T1-A): "Crusaders".
+  # crusade: Knight -> Cavalier, Paladin -> Crusader, Ranger -> Hunter. Old Valia (T1-A): "Promotion".
   # Round 1: Knight Paladin Ranger Cavalier -> Cavalier Crusader Hunter Cavalier.
   - lua_event: {source: "if not SetPlayerClass(0, 'Knight') then error('SetPlayerClass(0, Knight)') end if not SetPlayerClass(1, 'Paladin') then error('SetPlayerClass(1, Paladin)') end if not SetPlayerClass(2, 'Ranger') then error('SetPlayerClass(2, Ranger)') end if not SetPlayerClass(3, 'Cavalier') then error('SetPlayerClass(3, Cavalier)') end"}
   - play_lua: {source: 'local c = classes() log("CLASSES crusade round 1 set: " .. c) if c ~= "Knight Paladin Ranger Cavalier" then error("expected Knight Paladin Ranger Cavalier, got " .. c) end'}
   - set_pose: {map: xeen_x1.odm, x: 7552, y: -4332, z: 625, yaw: 1.5708, pitch: 0.0}
   - advance_runtime: {seconds: 0.5}
   - press_interact: {expect: {kind: event_target}}
-  - assert: {dialog: {active: true, source_id: 4044, action_label_present: "Crusaders"}}
-  - select_topic: {match_label: "Crusaders"}
+  - assert: {dialog: {active: true, source_id: 4044, action_label_present: "Promotion"}}
+  - select_topic: {match_label: "Promotion"}
   - assert: {dialog: {active: true, text_contains: "Kneel, then. Knights rise as Cavaliers"}}
   - play_lua: {source: 'local c = classes() log("CLASSES crusade round 1 promoted: " .. c) if c ~= "Cavalier Crusader Hunter Cavalier" then error("expected Cavalier Crusader Hunter Cavalier, got " .. c) end'}
   # Nobody left: the promote is no longer offered.
-  - assert: {dialog: {active: true, action_label_absent: "Crusaders"}}
+  - assert: {dialog: {active: true, action_label_absent: "Promotion"}}
   - press_action: {action: cancel_dialog}
   - play_lua: {source: "for _ = 1, 3 do if not close() then break end end"}
   # Round 2: Cavalier Crusader Hunter Peasant, none of them eligible: the promote is not offered.
@@ -42,7 +42,7 @@ steps:
   - set_pose: {map: xeen_x1.odm, x: 7552, y: -4332, z: 625, yaw: 1.5708, pitch: 0.0}
   - advance_runtime: {seconds: 0.5}
   - press_interact: {expect: {kind: event_target}}
-  - assert: {dialog: {active: true, source_id: 4044, action_label_absent: "Crusaders"}}
+  - assert: {dialog: {active: true, source_id: 4044, action_label_absent: "Promotion"}}
   - press_action: {action: cancel_dialog}
   - play_lua: {source: "for _ = 1, 3 do if not close() then break end end"}
   - play_lua: {source: 'local c = classes() log("CLASSES crusade round 2 kept: " .. c) if c ~= "Cavalier Crusader Hunter Peasant" then error("expected Cavalier Crusader Hunter Peasant, got " .. c) end'}

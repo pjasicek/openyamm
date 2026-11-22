@@ -137,6 +137,6 @@ RegisterEvent(20, "Barrel", function()
 end, "Barrel")
 
 RegisterEvent(50, "Exit", function()
-    evt.MoveToMap(-13551, 4864, 161, 512, 0, 0, 0, 0, "outb1.odm") -- Kriegspire
+    evt.MoveToMap(-13551, 4864, 161, 512, 0, 0, 0, 6, "outb1.odm") -- Kriegspire
 end, "Exit")
 

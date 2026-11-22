@@ -183,7 +183,6 @@ chests:
   - id: chest:feast
     room: room:feast_hall
     at: [-2192, -4000]
-    facing: e
     treasure_level: 3
     random_items: 3
     gold: 900
@@ -192,7 +191,6 @@ chests:
   - id: chest:hoard
     room: room:draco_vault
     at: [2688, -1648]
-    facing: s
     treasure_level: 4
     random_items: 3
     gold: 2000
@@ -201,7 +199,6 @@ chests:
   - id: chest:sexton
     room: room:sexton
     at: [-4000, 512]
-    facing: e
     treasure_level: 3
     random_items: 2
     gold: 600

@@ -82,6 +82,15 @@ handlers[232] = function()   -- KiraDoor1/2
     evt.SetDoorState(DOORS["KiraDoor1"], DoorAction.Trigger) evt.SetDoorState(DOORS["KiraDoor2"], DoorAction.Trigger)
     if has(90) and has(91) and not has(40) then MM9Cinematic.start("council_argument") end
 end
+-- The doors may stand open from an earlier visit: the party inside Kira's hall with both signatures starts the
+-- council as well (on the poll; MM9Cinematic plays it once).
+local function councilHall()
+    if not (has(90) and has(91)) or has(40) then return end
+    local x, y, z = evt.GetPartyPosition()
+    if x >= -12101 and x <= -10427 and y >= 15631 and y <= 17508 and z >= 3200 and z <= 3900 then
+        MM9Cinematic.start("council_argument")
+    end
+end
 
 -- ARG_Yrsa.scr (Yrsa the Troll, RUDE 1): she appears after the council; talking gives key 93 (her errand: the
 -- prize at the Thing in Thjorgard), the exit gives 185 and she vanishes. MM9 shows her only during that
@@ -408,7 +417,9 @@ local function poll()
     breakoutClock()
     evt.StartTimer(260, seconds(1))
 end
-handlers[260] = poll
+-- councilHall only on the timer: during the map load the party still stands where it last was on this map
+-- (it is moved to its arrival point after the load event)
+handlers[260] = function() poll(); councilHall() end
 handlers[1] = function()   -- map load
     for k = 1024, 1033 do if k ~= 1030 and has(k) then MM9.takeKey(k) end end
     MM9.giveKey(1030)

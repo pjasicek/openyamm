@@ -820,7 +820,6 @@ chests:
     room: room:barracks
     at: [-2976, -4006]
     kind: gt002
-    facing: n
     treasure_level: 5
     random_items: 3
     gold: 3000
@@ -838,7 +837,6 @@ chests:
     room: room:loft
     at: [3088, -2489]
     kind: gt002
-    facing: w
     treasure_level: 5
     random_items: 3
     gold: 3000
@@ -856,7 +854,6 @@ chests:
     room: room:store
     at: [-2214, 1752]
     kind: gt002
-    facing: w
     treasure_level: 5
     random_items: 3
     gold: 3000
@@ -865,12 +862,39 @@ chests:
     room: room:war_room
     at: [-3065, 768]
     kind: gt002
-    facing: e
     treasure_level: 5
     random_items: 3
     gold: 3000
     notes: The war room's chest.
 monsters:
+  - id: monster:aisle_e_1
+    room: room:aisle_e
+    monster: 11630
+    at: [1600, -2144]
+    facing: 180
+    hostile: true
+    group: 71
+  - id: monster:aisle_e_2
+    room: room:aisle_e
+    monster: 11630
+    at: [1600, -1376]
+    facing: 180
+    hostile: true
+    group: 71
+  - id: monster:aisle_w_1
+    room: room:aisle_w
+    monster: 11630
+    at: [-1600, -2144]
+    facing: 0
+    hostile: true
+    group: 70
+  - id: monster:aisle_w_2
+    room: room:aisle_w
+    monster: 11630
+    at: [-1600, -1376]
+    facing: 0
+    hostile: true
+    group: 70
   - id: monster:armoury_1
     room: room:armoury
     monster: 11603
@@ -927,6 +951,48 @@ monsters:
     facing: 270
     hostile: true
     group: 36
+  - id: monster:barrier_e_1
+    room: room:barrier_e
+    monster: 11631
+    at: [1600, -1760]
+    facing: 180
+    hostile: true
+    group: 76
+  - id: monster:barrier_w_1
+    room: room:barrier_w
+    monster: 11631
+    at: [-1600, -1760]
+    facing: 0
+    hostile: true
+    group: 75
+  - id: monster:crown_landing_1
+    room: room:crown_landing
+    monster: 11603
+    at: [-1360, -4128]
+    facing: 90
+    hostile: true
+    group: 79
+  - id: monster:crown_landing_2
+    room: room:crown_landing
+    monster: 11603
+    at: [-1360, -3552]
+    facing: 90
+    hostile: true
+    group: 79
+  - id: monster:crown_stair_1
+    room: room:crown_stair
+    monster: 11632
+    at: [-320, -3072]
+    facing: 270
+    hostile: true
+    group: 78
+  - id: monster:crown_stair_2
+    room: room:crown_stair
+    monster: 11631
+    at: [320, -3072]
+    facing: 270
+    hostile: true
+    group: 78
   - id: monster:foundry_1
     room: room:foundry
     monster: 11603
@@ -1025,6 +1091,20 @@ monsters:
     facing: 270
     hostile: true
     group: 30
+  - id: monster:keep_stair_1
+    room: room:keep_stair
+    monster: 11630
+    at: [2416, 1536]
+    facing: 270
+    hostile: true
+    group: 74
+  - id: monster:keep_stair_2
+    room: room:keep_stair
+    monster: 11630
+    at: [2864, 1536]
+    facing: 270
+    hostile: true
+    group: 74
   - id: monster:loft_1
     room: room:loft
     monster: 11630
@@ -1081,6 +1161,13 @@ monsters:
     monster: 11631
     at: [0, -2240]
     facing: 90
+    hostile: true
+    group: 10
+  - id: monster:nave_5
+    room: room:nave
+    monster: 11631
+    at: [0, -1760]
+    facing: 270
     hostile: true
     group: 10
   - id: monster:pet
@@ -1175,6 +1262,20 @@ monsters:
     facing: 270
     hostile: true
     group: 19
+  - id: monster:stair_hall_4
+    room: room:stair_hall
+    monster: 11603
+    at: [1280, 800]
+    facing: 270
+    hostile: true
+    group: 19
+  - id: monster:stair_hall_5
+    room: room:stair_hall
+    monster: 11631
+    at: [0, -320]
+    facing: 270
+    hostile: true
+    group: 19
   - id: monster:store_1
     room: room:store
     monster: 11630
@@ -1205,6 +1306,38 @@ monsters:
     hostile: true
     group: 61
     immobile: true
+  - id: monster:throne_3
+    room: room:throne
+    monster: 11603
+    at: [-480, 2496]
+    facing: 270
+    hostile: true
+    group: 61
+    immobile: true
+  - id: monster:throne_4
+    room: room:throne
+    monster: 11603
+    at: [480, 2496]
+    facing: 270
+    hostile: true
+    group: 61
+    immobile: true
+  - id: monster:throne_5
+    room: room:throne
+    monster: 11603
+    at: [-480, 2112]
+    facing: 270
+    hostile: true
+    group: 61
+    immobile: true
+  - id: monster:throne_6
+    room: room:throne
+    monster: 11603
+    at: [480, 2112]
+    facing: 270
+    hostile: true
+    group: 61
+    immobile: true
   - id: monster:upper_e_1
     room: room:upper_e
     monster: 11630
@@ -1226,6 +1359,20 @@ monsters:
     facing: 90
     hostile: true
     group: 33
+  - id: monster:upper_landing_1
+    room: room:upper_landing
+    monster: 11630
+    at: [-1152, 0]
+    facing: 270
+    hostile: true
+    group: 77
+  - id: monster:upper_landing_2
+    room: room:upper_landing
+    monster: 11630
+    at: [1152, 0]
+    facing: 270
+    hostile: true
+    group: 77
   - id: monster:upper_w_1
     room: room:upper_w
     monster: 11630
@@ -1282,6 +1429,13 @@ monsters:
     facing: 270
     hostile: true
     group: 51
+  - id: monster:walk_n_2
+    room: room:walk_n
+    monster: 11631
+    at: [-2640, -1376]
+    facing: 90
+    hostile: true
+    group: 51
   - id: monster:walk_s_1
     room: room:walk_s
     monster: 11631
@@ -1296,6 +1450,20 @@ monsters:
     facing: 90
     hostile: true
     group: 50
+  - id: monster:wall_en_1
+    room: room:wall_en
+    monster: 11630
+    at: [4720, 2608]
+    facing: 270
+    hostile: true
+    group: 73
+  - id: monster:wall_en_2
+    room: room:wall_en
+    monster: 11631
+    at: [4720, 3616]
+    facing: 270
+    hostile: true
+    group: 73
   - id: monster:wall_es_1
     room: room:wall_es
     monster: 11630
@@ -1317,6 +1485,20 @@ monsters:
     facing: 270
     hostile: true
     group: 23
+  - id: monster:wall_wn_1
+    room: room:wall_wn
+    monster: 11630
+    at: [-4720, 2608]
+    facing: 270
+    hostile: true
+    group: 72
+  - id: monster:wall_wn_2
+    room: room:wall_wn
+    monster: 11631
+    at: [-4720, 3616]
+    facing: 270
+    hostile: true
+    group: 72
   - id: monster:wall_ws_1
     room: room:wall_ws
     monster: 11630

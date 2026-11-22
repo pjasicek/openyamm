@@ -50,7 +50,7 @@ steps:
   - walk_to: {x: -2880, y: -1728, z: 0, radius: 64, timeout_seconds: 20, close_dialogs: true}
   - walk_to: {x: -2240, y: -1700, z: 0, radius: 64, timeout_seconds: 20, close_dialogs: true}
   - play_lua: {source: "click(3); wait(1)"}
-  - select_topic: {match_label: Rats}
+  - select_topic: {action_id: 44251, match_label: "Quest"}
   - assert: {dialog: {text_contains: "Maybe you could kill the Queen Rat"}}
   - press_action: {action: cancel_dialog}
   - assert: {qbit_set: [113100]}
@@ -149,7 +149,7 @@ steps:
   - walk_to: {x: -2880, y: -1728, z: 0, radius: 64, timeout_seconds: 30, close_dialogs: true}
   - walk_to: {x: -2240, y: -1700, z: 0, radius: 64, timeout_seconds: 20, close_dialogs: true}
   - play_lua: {source: "click(3); wait(1)"}
-  - select_topic: {match_label: Rats}
+  - select_topic: {action_id: 44251, match_label: "Quest"}
   - assert: {dialog: {text_contains: "Here is your reward: my chest"}}
   - press_action: {action: cancel_dialog}
   - assert: {qbit_set: [113102]}
@@ -198,7 +198,7 @@ steps:
   - press_interact: {expect: {kind: event_target}}
   - assert:
       dialog: {active: true, source_id: 4922}
-  - select_topic: {match_label: "Necklace"}
+  - select_topic: {action_id: 40801, match_label: "Quest"}
   - assert:
       dialog: {text_contains: "Ellinger owes me a favour."}
   - press_action: {action: cancel_dialog}

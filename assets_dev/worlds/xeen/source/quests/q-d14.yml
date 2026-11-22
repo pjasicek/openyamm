@@ -39,9 +39,11 @@ npcs:
   5217:              # Astra
     topics:
       - n: 1
-        label: Xenoc and Morgana
+        role: quest
+        afterword: {n: 6, label: Xenoc and Morgana}
         states:
           - when: {qbit: done}
+            afterword: true
             text: "I am pleased to see you! Sandcaster will not forget your great deeds!"
           - when: {all: [{qbit: xenoc_slain}, {qbit: morgana_slain}]}
             text: "Thank you. You have done both me and Sandcaster a great service. The quarter is open again. And those of you who walked their halls unseen: the guilds have a word for people like you. Spies. Good ones."
@@ -54,6 +56,7 @@ npcs:
             do: [{set: asked}]
       - n: 2
         label: We will help
+        named: "the answer to Xenoc and Morgana's question"
         show: {all: [{qbit: asked}, {not: {qbit: started}}]}
         text: "Good. I fear that it will be impossible to talk them from their lofty positions, so you will have to defeat them in battle. They hold the quarter behind the guild gate. Good luck."
         do: [{set: started}, {autonote: quarter}]

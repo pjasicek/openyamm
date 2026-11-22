@@ -658,15 +658,15 @@ RegisterEvent(455, "East to the Tularean Forest", nil, "East to the Tularean For
 RegisterEvent(456, "Docks", nil, "Docks")
 
 RegisterEvent(501, "Enter the The Titan Stronghold", function()
-    evt.MoveToMap(-1707, -21848, -1007, 512, 0, 0, 157, 1, "7d09.blv") -- The Titans' Stronghold
+    evt.MoveToMap(-1707, -21848, -1007, 512, 0, 0, 413, 9, "7d09.blv") -- The Titans' Stronghold
 end, "Enter the The Titan Stronghold")
 
 RegisterEvent(502, "Enter the Temple of Baa", function()
-    evt.MoveToMap(1, -2772, 1, 512, 0, 0, 158, 1, "d04.blv") -- The Temple of Baa
+    evt.MoveToMap(1, -2772, 1, 512, 0, 0, 414, 9, "d04.blv") -- The Temple of Baa
 end, "Enter the Temple of Baa")
 
 RegisterEvent(503, "Enter the Hall under the Hill", function()
-    evt.MoveToMap(-1114, 2778, 1, 1280, 0, 0, 159, 1, "7d22.blv") -- The Hall under the Hill
+    evt.MoveToMap(-1114, 2778, 1, 1280, 0, 0, 415, 3, "7d22.blv") -- The Hall under the Hill
 end, "Enter the Hall under the Hill")
 
 RegisterEvent(65535, "", function()

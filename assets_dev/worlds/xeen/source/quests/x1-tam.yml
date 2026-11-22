@@ -23,9 +23,11 @@ npcs:
   4039:              # Oslo
     topics:
       - n: 1
-        label: Tam
+        role: quest
+        afterword: {n: 3, label: Tam}
         states:
           - when: {qbit: done}
+            afterword: true
             text: "Tam eats like an orc now. I'm not complaining. Thank you."
           - when: {qbit: captive_freed}
             text: "Tam! He walked in the door an hour ago and asked what's for supper, as if nothing happened. Here. It's what I put by for his wedding, and he can earn another."

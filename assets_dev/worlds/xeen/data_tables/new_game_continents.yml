@@ -6,4 +6,5 @@ new_game_continents:
   available_class_ids: [0, 4, 8, 10, 12, 16, 22, 26, 30, 34, 40, 42]
   available_race_ids: [0, 1, 2, 5, 7, 8, 9]
   portrait_exceptions: []
-  card: {order: 1, title: Xeen, subtitle: Might and Magic IV and V, caption: 'Experimental: begin in Vertigo', picture: worlds/xeen/ui/hud_x2/menus/omenu_continent_xeen.png}
+  card: {order: 1, title: Xeen (alpha), short_title: Xeen, subtitle: Might and Magic IV and V, caption: Begin in Vertigo,
+    picture: worlds/xeen/ui/hud_x2/menus/omenu_continent_xeen.png}

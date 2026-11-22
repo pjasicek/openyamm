@@ -8,13 +8,13 @@ quests:
     summary: "Carry the year's four tokens around the four druids of the seasons, Summer to Autumn to Winter to Spring."
     requires: "Nothing. The relay has to start with the Summer Druid; the other three only talk until you bring the previous season's token. It is set for a party of about level 25 because of the wilderness between the groves."
     steps:
-      - "The Summer Druid stands in the open on the Desert of the Sphinx, south of Sphinx Wells and north-west of the Warzone. Click the druid and choose 'Summer' to receive the Last Flower of Summer."
+      - "The Summer Druid stands in the open on the Desert of the Sphinx, south of Sphinx Wells and north-west of the Warzone. Click the druid and choose 'Quest' to receive the Last Flower of Summer."
       - "Take the flower to the Autumn Druid on Burlock Savannah. The druid stands on the open grass in the west of the savannah, north-west of Asp. Choose 'Autumn' to hand it over; the druid takes the flower and gives you the Leaf of Autumn."
       - "Take the leaf to the Winter Druid on Winterkill Tundra. The druid stands in the open south-west of Winterkill. Choose 'Winter' to hand it over; the druid takes the leaf and gives you the Snowflake of Winter."
-      - "Take the snowflake to the Spring Druid in Vertigo Meadows. The druid stands by Pitchfork Creek, west of Vertigo, beside the Spring Druid's rune stone. Choose 'Spring' to hand it over and finish the relay."
+      - "Take the snowflake to the Spring Druid in Vertigo Meadows. The druid stands by Pitchfork Creek, west of Vertigo, beside the Spring Druid's rune stone. Choose 'Quest' to hand it over and finish the relay."
     tips:
       - "Each token is wearable while you carry it: the Last Flower of Summer is a ring (+10 Fire resistance), the Leaf of Autumn an amulet (+10 Earth), the Snowflake of Winter a belt (+10 Water). Each druid takes it from your packs, so you lose it at the next grove."
-      - "A druid who has not seen the previous token only says what is needed. Asking again after the hand-off repeats where to go next."
+      - "A druid who has not seen the previous token only says what is needed. Asking again after the hand-off repeats where to go next: the Autumn and Winter Druids keep their 'Autumn' and 'Winter' topics, and the Summer Druid's 'Quest' topic becomes 'Summer' once she has given you the flower."
       - "The Spring Druid's renewal removes magical aging, the extra years that some traps and monsters add. Do the last leg when someone in the party has been aged."
     reward: "8,000 XP for each member. The Spring Druid removes every member's magical aging and gives you the Raindrop of Spring, a cloak (+10 Air resistance) that you keep."
     points:
@@ -33,10 +33,10 @@ quests:
     requires: "Nothing. This is the Pendant promotion: when you return the pendant, every Sorcerer becomes a Wizard and every Archer a Warrior Mage."
     steps:
       - "The fountain on Rivercity's square is dry, plugged with a sorceress's brass plug. In Bull's Tavern, north of the square, a tavern patron tells you about it under the topic 'Barok': the tavern hired the sorceresses to run Barok out of town."
-      - "Barok's hut stands outside the town, north-west of the square. Choose 'Pendant'. He says the sorceresses keep their loot in a strongbox on the south quay, outside their house."
+      - "Barok's hut stands outside the town, north-west of the square. Choose 'Quest'. He says the sorceresses keep their loot in a strongbox on the south quay, outside their house."
       - "Walk to the south quay, south-east of the square. The strongbox stands outside Velda and Ysmay's house. Open it to take Barok's Pendant."
       - "Opening the box lets out two Apprentice Sorceresses (level 12). Kill them; they cast spells, so close in quickly."
-      - "Return to Barok and choose 'Pendant' again. He takes the pendant, pays you, gives you a spell book and promotes your spellcasters."
+      - "Return to Barok and choose 'Quest' again. He takes the pendant, pays you, gives you a spell book and promotes your spellcasters."
     tips:
       - "After the hand-in the fountain flows again and gives +100 spell points to whoever drinks."
       - "The reward book is Enchant Item, a Water magic spell. Only a character with the Water Magic skill can learn it."
@@ -56,18 +56,18 @@ quests:
     summary: "Princess Roxanne's diamond tiara was stolen by the Rivercity robbers. Recover it from their den under the great bridge."
     requires: "Old Valia's Crusader title (The Crusade), because the portcullis inside Castle Burlock's door only lifts for Crusaders. This is the Tiara promotion: when you return the tiara, every Thief becomes a Rogue."
     steps:
-      - "In Castle Burlock, pass the portcullis, cross the great hall and go through the throne room's double door. Take the East tower door and climb to the Princess's Parlour on the landing. Ask Princess Roxanne about her 'Tiara'."
+      - "In Castle Burlock, pass the portcullis, cross the great hall and go through the throne room's double door. Take the East tower door and climb to the Princess's Parlour on the landing. Ask Princess Roxanne about 'Quest'."
       - "Go to Rivercity. The Robbers' Den's door is in the wall of the south quay, just south of the square. Inside, wet footprints lead from the drain to the north wall, where one block is worn smooth. Push the worn block: it slides aside onto a brick passage north."
       - "Follow the crawl north into the dicing room, where the first robbers attack. Beyond it, the plank bridge over the race on the west bank is drawn back. Go north past the bunks instead, then cross the sluice chamber's catwalk east over the race."
       - "On the east bank, turn the bridge winch to run the plank bridge out for your way back. Then climb the boss's stair to the east. The Robber Boss (level 22) and his Thieves come out of his doorway. Kill him and take the Ring of Keys from his body."
       - "Read the Boss's ledger if you like: it warns you to throw the catch by the hearth before you walk the strongroom passage. Throw the catch, then walk north up the passage. Its darts are now locked."
       - "The iron door at the end opens with the Ring of Keys. The strongbox behind it is trapped: the first try sets off the trap, and the next one opens it. Take the tiara from among its loot."
-      - "Leave the way you came: back down the stair, west over the plank bridge, through the dicing room and out by the quay door. Return to Roxanne in Castle Burlock and choose 'Tiara'."
+      - "Leave the way you came: back down the stair, west over the plank bridge, through the dicing room and out by the quay door. Return to Roxanne in Castle Burlock and choose 'Quest'."
     tips:
       - "The tiara you recover cannot be worn. Roxanne's gift, its twin, is a unique helm with +10 Personality, +10 Intellect and +30 Mind resistance."
       - "Roxanne's chest in the royal bedroom, up the stair north of her parlour, stays locked until she has her tiara back. After that it holds 1,000 gold and a treasure level 3 item."
       - "The Fence's door in the den has a good lock. A thief with Disarm Traps 3 can pick it, or the Robber Boss's keys open it."
-      - "Roxanne's 'Rogues' topic promotes a Thief who joins you later, for free."
+      - "Roxanne's 'Promotion' topic promotes a Thief who joins you later, for free."
     reward: "8,000 XP for each member, Roxanne's Tiara (a unique helm), and the Tiara promotion: Thief to Rogue."
     points:
       - {map: xeen_x2, name: "Robbers' Den"}
@@ -88,15 +88,15 @@ quests:
     summary: "Drive the Evil Ninja clan out of Kai Wu's pagoda, due south of his monastery, by killing their Clan Master."
     requires: "Nothing. It is set for a party of about level 25. This is the T1-D promotion: every Monk becomes an Initiate at the hand-in. Its Dark counterpart for Initiates (Ninja) comes later from the Clan Master's heir in the pagoda's cellar: see The Clan's Return."
     steps:
-      - "Kai Wu's Monastery is in the north of Winterkill Tundra. Enter it, talk to Kai Wu and choose 'The Pagoda'."
+      - "Kai Wu's Monastery is in the north of Winterkill Tundra. Enter it, talk to Kai Wu and choose 'Quest'."
       - "Walk due south to the Ninja Pagoda and enter by its north door. On the ground floor, go through the shrine hall and climb the east stair to the sleeping loft."
       - "Go west through the loft's sliding door into the dojo. Its north wing has an open hatch in the floor over the kitchen ladder. Walk around it on its south side, or you drop into the kitchen. Take the west stair up to the Hall of Screens."
       - "The Hall of Screens is a maze of lit paper screens. Work through it to the screen painted with a crane on the east side and tear it: a stair behind it climbs to the armoury."
       - "Go west through the armoury door onto the moon gallery, then take the top stair to the top hall. The Ninja Master and the Clan Master (level 42) wait there. When the Clan Master dies, the status line says the Ninjas will not return."
-      - "Go back down and out by the north door, then report to Kai Wu with 'The Pagoda'."
+      - "Go back down and out by the north door, then report to Kai Wu with 'Quest'."
     tips:
       - "The pagoda has five storeys stacked on top of each other. Fight one floor at a time and do not rush the stairs."
-      - "Kai Wu's 'Initiation' topic promotes a Monk who joins you later, for free."
+      - "Kai Wu's 'Promotion' topic promotes a Monk who joins you later, for free."
       - "After the quest the clan's survivors gather in the cellar under the Clan Master's heir, Shinobu. You reach her by the trapdoor under the mat on the ground floor."
     reward: "16,000 XP for each member, 20 food, and the T1-D promotion: Monk to Initiate."
     points:
@@ -114,13 +114,13 @@ quests:
     summary: "A curse is turning the people of Asp into snakes. Set the pedestals round the well, then destroy the transformer under the town."
     requires: "Nothing. It is set for a party of about level 16 to 18. Falagar's Crystals of Piezoelectricity lie in the transformer's housing, so take his quest first and do both in one trip."
     steps:
-      - "Asp is in the south-west of Burlock Savannah. Adam stands by the town well: choose 'Curse'. Eve stands just south of him: her 'Transformer' tells you the rule for the stones."
-      - "Touch the rule stone at the north end of the square, beside the hatch down to the undercroft. Its rhyme says: start with the south-west stone, begin with red, and alternate the colours around the well."
+      - "Asp is in the south-west of Burlock Savannah. Adam stands by the town well: choose 'Quest'. Eve stands just south of him: her 'Quest' topic tells you the rule for the stones."
+      - "Touch the rule stone just north-east of the pedestal ring. Its rhyme says: start with the south-west stone, begin with red, and alternate the colours around the well."
       - "Eight pedestals ring the well, all blue at first. Each touch turns one red, and a second touch turns it blue again. Touch the south-west, north-west, north-east and south-east pedestals (the four corners) so they are red, and leave the four in between blue. After a moment the pedestals hum together."
-      - "Go down the undercroft stair by the rule stone. In the Asp Undercroft, go through the cistern door, east past the moulting room and south into the brood hall. Take the brood stair down to the machine level and follow the coil passage west."
+      - "Go down the undercroft stair north of the well: a cut in the square leads down to a door in its end. In the Asp Undercroft, go through the cistern door, east past the moulting room and south into the brood hall. Take the brood stair down to the machine level and follow the coil passage west."
       - "The field of light across the passage sinks now that the pedestals are set. Snake Lords (level 26) guard the transformer hall beyond it."
       - "Click the transformer. To 'Do you wish to destroy it?' answer Yes. This ends the curse and opens the crystal housing and the cages."
-      - "On the way back, unbolt the drain grate from below; the freed townsfolk thank you beyond it. Climb back through the cistern and leave by the door to Asp's square. Report to Adam with 'Curse'."
+      - "On the way back, unbolt the drain grate from below; the freed townsfolk thank you beyond it. Climb back through the cistern and leave by the door to Asp's square. Report to Adam with 'Quest'."
     tips:
       - "If the field of light still hums, a pedestal is wrong: go back up and check the colours."
       - "Behind the transformer, the crystal housing holds the Crystals of Piezoelectricity for Falagar (Crystals of Piezoelectricity)."
@@ -128,7 +128,9 @@ quests:
     reward: "5,000 XP for each member and 1,500 gold. Asp is liberated."
     figures:
       - img: asp_pedestals.webp
-        caption: "Asp's square from above: the eight pedestals round the well and the colour each must show. The four corners are red, the four sides blue; the rule stone stands at the north end."
+        caption: "Asp's square from above: the eight pedestals round the well and the colour each must show. The four corners are red, the four sides blue; the rule stone stands north-east of the ring."
+      - img: x4_undercroft.webp
+        caption: "The undercroft stair, north of the well: a cut in the square leads down to the arched door under a stone cap."
     points:
       - {map: xeen_x4, name: "Eve"}
       - {map: xeen_x4, name: "Rule stone"}
@@ -138,7 +140,7 @@ quests:
       - {map: xeen_xd25, name: "Transformer"}
       - {map: xeen_xd25, name: "Drain grate"}
     maps:
-      - {map: xeen_x4, focus: "Pedestal", caption: "The eight pedestals ring Asp's well. The rule stone and the undercroft hatch are at the north end of the square."}
+      - {map: xeen_x4, focus: "Pedestal", caption: "The eight pedestals ring Asp's well. The rule stone stands north-east of them; the undercroft stair is cut into the square to the north."}
       - {map: xeen_xd25, show: [exit, door], focus: "Transformer", caption: "The transformer hall lies past the field of light in the south of the undercroft."}
 
   # ---- Q-C6 Ghosts of Winterkill (X5) -------------------------------------------------------------------------------
@@ -148,10 +150,10 @@ quests:
     summary: "Drive three waves of ghosts out of Winterkill, ringing the southern gong and reporting to Mayor Randon after each."
     requires: "Nothing. It is set for a party of about level 26. The third wave, the Ghost Riders, is about level 26 to 28."
     steps:
-      - "Mayor Randon stands on Winterkill's square by the gongs, in the north-west of the tundra. Choose 'Ghosts'. The signboard beside him spells the loop: '1) Destroy all ghosts. 2) Bang southern gong. 3) Re-visit Randon. 4) Repeat as necessary.' The same loop goes into your autonotes."
+      - "Mayor Randon stands on Winterkill's square by the gongs, in the north-west of the tundra. Choose 'Quest'. The signboard beside him spells the loop: '1) Destroy all ghosts. 2) Bang southern gong. 3) Re-visit Randon. 4) Repeat as necessary.' The same loop goes into your autonotes."
       - "Wave one is the Spirit Bones, about 16 of them all over the town's streets and square. Walk the streets and kill every one."
       - "Ring the southern gong, beside Randon. If the wave is cleared, the note rolls over the roofs and the cold goes out of the air. If a ghost laughs instead, some are still left."
-      - "Talk to Randon ('Ghosts'). He thanks you, and the Polter-Fools move in. Clear them the same way, ring the southern gong and report again."
+      - "Talk to Randon ('Quest'). He thanks you, and the Polter-Fools move in. Clear them the same way, ring the southern gong and report again."
       - "The Ghost Riders come last. Clear them, ring the gong and report a third time. Randon dubs you Ghostslayers Extraordinaire."
     tips:
       - "When the last ghost of a wave dies, the town takes a few seconds to notice. Wait a moment before you ring the gong."
@@ -185,7 +187,7 @@ quests:
     tips:
       - "Turning a dial off 9 again undoes the setting, so count your turns."
       - "With Draco gone, Nightshadow's well cures Disease and Weakness and gives +10 Personality until you rest. Before that its water is black."
-      - "Count Du Monay in Du Monay Manor, north-east of the square, says little before the deed ('The Count'). Afterwards his 'Nosferatu' topic promotes your Vampires, and any Vampire who joins later."
+      - "Count Du Monay in Du Monay Manor, north-east of the square, says little before the deed ('The Count'). Afterwards his 'Promotion' topic promotes your Vampires, and any Vampire who joins later."
       - "Nightshadow's temple, tavern, shops and houses open once Draco is dead."
     reward: "10,000 XP for each member when Draco dies, and his hoard. Nightshadow is liberated. Vampire racial promotion: Vampire to Nosferatu at Count Du Monay."
     points:
@@ -205,13 +207,13 @@ quests:
     to: {map: xeen_x6, npc: "Arie"}
     summary: "Get Arie's dead master's Scroll of Insight back from the wizard cult in Castle Basenji."
     steps:
-      - "Arie camps below the cliff in the north-west of the Desert of the Sphinx, north-west of Sphinx Wells. Click 'My master'. She tells you the story and hands over her master's note. It goes into your autonotes: the password for the second-floor door is 'There wolf'."
+      - "Arie camps below the cliff in the north-west of the Desert of the Sphinx, north-west of Sphinx Wells. Click 'Quest'. She tells you the story and hands over her master's note. It goes into your autonotes: the password for the second-floor door is 'There wolf'."
       - "Castle Basenji stands on the terrace above her, in the desert's north-west corner. Werewolves roam outside it. Click the gate and choose OK in the entrance window."
       - "Cross the great hall, then take the west tower's stair up to the west landing on the second floor. The door there asks for a password. Type There wolf ('therewolf' also works). Any other answer gets 'Wrong' and the door stays shut, but you can try again."
       - "Behind it is the hall of scrolls. Go east from there through the dormitory to the keep stair, which climbs to the third floor. On the way, lift the bar on the dormitory's door to the east landing from your side. You will need that door on the way down."
       - "On the third floor, the Cult Leader's study is guarded by the Basenji Cult Leader (level 45) and two Sorcerers. Kill them, then open the writing box on the desk, a chest, and take the Scroll of Insight."
       - "Optional: go down the east tower to the kennels, then down the stair to the dungeon. In the jailers' room, pull the lever and the bars of the cell row go up. Click the Trapped Peasant to free him (500 XP for each member, once). Through the bars he also repeats the password and tells you the Sphinx's name, Golux."
-      - "Leave by the great hall's gate and give Arie the scroll ('My master'). She pays you and tells you that the Northern Sphinx lies east of her camp, out in the dunes. Ask her again and she gives its name: Golux (The Sphinx)."
+      - "Leave by the great hall's gate and give Arie the scroll ('Quest'). She pays you and tells you that the Northern Sphinx lies east of her camp, out in the dunes. Her 'Quest' topic then goes, and her 'My master' topic gives its name: Golux (The Sphinx)."
     tips:
       - "Readable scrolls lie all over the castle, and each one affects only the member who reads it. Reading these once per character gives a permanent bonus: in the hall of scrolls, Intellect, Personality and Speed (+2 each) and Magic (+5 Mind resistance); in the lower scriptorium, Fire (+5 Fire resistance) and Electricity (+5 Air resistance); in the moon tower, Energy (+5 Earth resistance). Avoid Aging (ten years older, on every read), Depression, Confusion, Insanity, Weakness and Death. They curse whoever reads them, every time. The moon tower's second Scroll of Magic is blank."
       - "The castle is full of Werewolves, Cult Acolytes, Wizards and Sorcerers. The wooden chests hold 600 to 2,500 gold each."
@@ -257,16 +259,16 @@ quests:
     summary: "Bring back the Scarab of Imaging that gargoyles stole from Carlawna the Cleric."
     requires: "Nothing. The hand-in is also the Seasons promotion: every Druid becomes a Great Druid and every Cleric a Priest."
     steps:
-      - "Carlawna's hut is west of Castle Burlock on the Burlock Savannah. Click 'Scarab'. She tells you gargoyles took it to their eyrie on the Gargoyle Range, north of her hut."
+      - "Carlawna's hut is west of Castle Burlock on the Burlock Savannah. Click 'Quest'. She tells you gargoyles took it to their eyrie on the Gargoyle Range, north of her hut."
       - "Follow the path uphill past the waystone ('Up: the Gargoyle Eyrie') to the cave mouth and enter the Gargoyle Eyrie."
       - "Inside the shaft, climb the ladder on the west wall to the first ledge. Go round by the low nests and up the rock ramp, then cross the rope bridge east to the east nests."
       - "The hoist hangs at the ledge above, and its call rope will not work yet. Go through the door into the gargoyles' fence's cave beside it and wind the winch. The hoist comes down."
       - "Ride the hoist up to the high ledge. Walk west along it to the roost ladder and climb to the top."
       - "Click the great nest. Among the shiny things is the Scarab, with a tag that says 'Deliver to Asp: one scarab'."
-      - "Leave through the crack at the top ('Climb out through the crack'). It lets you out high on Gargoyle Peak. Walk back down to Carlawna and click 'Scarab'."
+      - "Leave through the crack at the top ('Climb out through the crack'). It lets you out high on Gargoyle Peak. Walk back down to Carlawna and click 'Quest'."
     tips:
       - "Obsidian Gargoyles (level 28) guard the nest and the fence's cave."
-      - "A Druid or Cleric who joins later, or reaches the class later, can still be promoted for free: ask Carlawna ('Ordination') or the Autumn Druid in her savannah grove ('The turning year')."
+      - "A Druid or Cleric who joins later, or reaches the class later, can still be promoted for free: choose 'Promotion' at Carlawna's or at the Autumn Druid's in her savannah grove."
       - "The tag on the Scarab and Falagar's story point to the machine under Asp (The Snakes of Asp, Crystals of Piezoelectricity)."
     reward: "9,000 XP for each member, a random item (treasure level 3), and the Seasons promotion: Druid to Great Druid, Cleric to Priest."
     points:
@@ -283,12 +285,12 @@ quests:
     summary: "Bring Falagar the Wizard his stolen Crystals of Piezoelectricity from the machine under Asp."
     requires: "To reach the crystals you must first destroy Asp's transformer (The Snakes of Asp). You can take this quest at any time."
     steps:
-      - "Falagar's hut is on the lava shoulder in the east of the Burlock Savannah. Click 'Crystals'. He thinks they power a machine under Asp."
-      - "In Asp, set the eight coloured pedestals round the well to break the field of light below: alternate the colours, starting with red at the south-west pedestal. The rule stone at the well's head gives the rhyme. Then go down the undercroft stair to the Asp Undercroft."
+      - "Falagar's hut is on the lava shoulder in the east of the Burlock Savannah. Click 'Quest'. He thinks they power a machine under Asp."
+      - "In Asp, set the eight coloured pedestals round the well to break the field of light below: alternate the colours, starting with red at the south-west pedestal. The rule stone north-east of the well gives the rhyme. Then go down the undercroft stair, cut into the square north of the well, to the Asp Undercroft."
       - "Follow the cistern east and take the brood stair down. Pass the field of light, which is down once the pedestals are right, and enter the transformer hall. The crystal housing stays shut while the machine hums."
       - "Click the transformer and answer Yes to 'Do you wish to destroy it?'. This frees Asp (The Snakes of Asp)."
       - "Click the crystal housing, which is now open, to take the Crystals of Piezoelectricity. Leave by the drain and the cellar door, back to Asp's square."
-      - "Return to Falagar and click 'Crystals'."
+      - "Return to Falagar and click 'Quest'."
     tips:
       - "Do this quest together with The Snakes of Asp, because the same trip under the town finishes both."
     reward: "3,000 XP for each member and a random item (treasure level 3)."
@@ -306,12 +308,12 @@ quests:
     to: {map: xeen_x3, npc: "Mirabeth"}
     summary: "Fetch the Elixir of Restoration from the Temple of Yak so the cursed mermaid Mirabeth can return to the sea."
     steps:
-      - "Mirabeth sits on her black rock off Nightshadow's quay, south-west of the town in Lifeforce Lagoon. Click 'Elixir'. She sends you to the Temple of Yak, whose door is never locked."
+      - "Mirabeth sits on her black rock off Nightshadow's quay, south-west of the town in Lifeforce Lagoon. Click 'Quest'. She sends you to the Temple of Yak, whose door is never locked."
       - "Go east to Rivercity and Lake Darzog. The Temple of Yak's door is in the dark south end of the fairy woods, south of Rivercity, and Killer Sprites roam around it. Click the door and choose OK in the entrance window."
       - "Inside, go through the Yak door, the narthex and the nave. Then take the clerics' west wing to the west stair down to the crypt, and go through the ossuary to the causeway pool."
       - "Three buttons raise the causeway's blocks. Each button flips its own block and the next one. Press the north button, then the middle one, then the south one, then the middle one again, and all three blocks stand up."
       - "Cross the causeway, open the sanctum's doors and kill the Yak Master. His death raises the slab over the reliquary. Open the reliquary chest and take the Elixir of Restoration."
-      - "The Master's stair and door lead back to the vestry, a short way out. Leave by the porch and take the elixir to Mirabeth ('Elixir'). She leaves for the sea, and her rock is empty the next time you come."
+      - "The Master's stair and door lead back to the vestry, a short way out. Leave by the porch and take the elixir to Mirabeth ('Quest'). She leaves for the sea, and her rock is empty the next time you come."
     tips:
       - "The Temple of Yak is also part of the main story: the Yak Master carries a Megacredit, and the treasury needs both of its bars sunk. Clear the temple once for both."
     reward: "2,000 XP and +5 Personality (permanent) for each member."
@@ -328,10 +330,10 @@ quests:
     summary: "Kill the three lake beasts, which are water dragons, that are eating Lake Darzog's fish."
     requires: "No precondition, but the dragons are level 60. Medin himself warns you off without a great deal of practice."
     steps:
-      - "Medin's hut is on Rivercity's west side, by the lake shore. Click 'Lake beasts'."
+      - "Medin's hut is on Rivercity's west side, by the lake shore. Click 'Quest'."
       - "Three Water Dragons (level 60, 540 HP each) fly round the island in the middle of Lake Darzog. One is north-west of the island, one west of it and one south-west of it. Each keeps to its own stretch of water."
       - "Kill all three. When the last one dies, a message says the last of the lake beasts sinks beneath the waves."
-      - "Return to Medin ('Lake beasts') for your reward."
+      - "Return to Medin ('Quest') for your reward."
       - "His boat is tied up at the jetty just west of his hut. While the beasts live he will not take you. Afterwards, click the boat and he rows you to the island, and the boat on the island rows you back."
     tips:
       - "The dragons stay close to the banks: ranged attacks and spells reach them from the shore or the islands, so Water Walk is not needed."
@@ -352,11 +354,11 @@ quests:
     summary: "Bring Halon the Efficient magical lava from Mount Firestone to thaw his frozen water clock."
     requires: "No precondition. Mount Firestone is an Act V map (party around level 45). The Widget you get is needed late in the main story (Picard)."
     steps:
-      - "Halon's workshop stands beside the frozen millpond in the east of Winterkill Tundra. Click 'Water clock'."
+      - "Halon's workshop stands beside the frozen millpond in the east of Winterkill Tundra. Click 'Quest'."
       - "Travel to Mount Firestone. Its south edge borders Vertigo Meadows and its west edge the Burlock Savannah. Head for the lava lake under the north rim, west of the Volcano Cave."
       - "A causeway runs out over the lava to a cooled-flow island. Eight Lava Golems guard it, two on the causeway and six on the island. They stay there, so you can fight them one group at a time."
       - "The Ever-Hot Lava Rock lies on the ground on the island. Pick it up like any item."
-      - "Take it back to Halon ('Water clock'). He pays with his Widget."
+      - "Take it back to Halon ('Quest'). He pays with his Widget."
     tips:
       - "Keep the Widget: Picard trades for it in the last act."
       - "The lava is all round the island. Stay on the causeway."
@@ -374,18 +376,18 @@ quests:
     summary: "Thickbark the Civilized, a talking tree, wants the trolls who gnaw his bark dead and their warren burnt."
     requires: "Nothing. Set for a party of about level 25: the warren holds Trolls (level 18), Troll Guards (level 28) and the Troll Matron (level 32)."
     steps:
-      - "Thickbark is a learned tree east of the middle of Winterkill Tundra, by the frozen river. Click him and ask about 'Trolls'."
+      - "Thickbark is a learned tree east of the middle of Winterkill Tundra, by the frozen river. Click him and ask about 'Quest'."
       - "The Troll Warren's mouth is in a barrow mound about 12,000 units south-south-west of Thickbark, at the Troll Forest's edge. Click the frozen hides over the hole to drag them aside and go down."
       - "Fight through the trolls in the mouth and the gnawing hall south of it, then follow the tunnel south and down into the sleeping hollows. The rock store east of the hollows has a bag with 350 gold and an item."
       - "From the hollows, go north-west into the cold spring and take the slope down from its west wall into the guard tunnel. Kill its Troll Guards and follow it south, then east. The hide curtain on the south side opens on the whelping den (young trolls and a chest)."
       - "Push through the hide curtain at the east end of that tunnel into the hearth hall and kill the Troll Matron and her guards. Until she is dead the fire pit only says the Matron is near."
       - "Loot the hoard chest in the south-east corner (1,200 gold and an item), then click the fire pit and answer 'Yes' to 'Destroy the lair?'. 'No' leaves it for later."
       - "Climb the root ladder on the chimney's east wall, above the fire pit, and click the smoke hole to come out on the mound's crown."
-      - "Ask Thickbark about 'Trolls' again for the reward."
+      - "Ask Thickbark about 'Quest' again for the reward."
     tips:
-      - "From then on the trees call you 'civilized ones'. On Darkside, Leafpoint the Elder Tree in Lakeside and Blackfang talks to you only after this quest, and his 'Civilized ones' topic is the Arch Druid promotion (Great Druid to Arch Druid, the Light route; see Leafpoint's Grove)."
+      - "From then on the trees call you 'civilized ones'. On Darkside, Leafpoint the Elder Tree in Lakeside and Blackfang talks to you only after this quest, and his 'Promotion' topic is the Arch Druid promotion (Great Druid to Arch Druid, the Light route; see Leafpoint's Grove)."
       - "From the cold spring, the crawlway climbs north to the larder, whose hide flap leads back into the mouth: a shortcut out if you need to rest."
-      - "The Holy Book of Elvenkind lies in the snow beside a torn pack, just east of the warren's mouth (Tito's quest)."
+      - "A torn pack lies in the snow just east of the warren's mouth: click it for the Holy Book of Elvenkind (Tito's quest)."
     reward: "5,000 XP for each member and a random item (treasure level 4)."
     points:
       - {map: xeen_x5, name: "Troll Warren"}
@@ -401,10 +403,10 @@ quests:
     summary: "Glom the Gnome King asks you to destroy the cyclops outpost in the Land of the Giants."
     requires: "Nothing, but the cyclopes around the outpost are level 36: come at about level 28 or higher."
     steps:
-      - "Glom's Burrow is in the south-west of Winterkill Tundra, by the sign 'Glom's burrows'. Click the burrow's door: Glom answers there himself. Ask about 'Cyclopes'."
+      - "Glom's Burrow is in the south-west of Winterkill Tundra, by the sign 'Glom's burrows'. Click the burrow's door: Glom answers there himself. Ask about 'Quest'."
       - "Go south about 6,000 units into the Land of the Giants, the high south-west corner. A band of eight cyclopes guards the outpost's tents."
       - "Kill the cyclopes, then click the outpost and answer Yes to 'You have found the Cyclops' outpost! Burn?': the tents burn."
-      - "Return to Glom's door and ask about 'Cyclopes' again."
+      - "Return to Glom's door and ask about 'Quest' again."
     tips:
       - "The Waters of Great Magic (+200 spell points) are just south-east of the outpost, and the Earth Reflector of the main quest is on the rim corner south of it."
     reward: "6,000 XP for each member, 1,500 gold and a random item (treasure level 4)."
@@ -421,12 +423,12 @@ quests:
     summary: "The crazed sprites stole Danulf the Faery King's Wand of Faery Magic; take it back from their nest in the south woods."
     requires: "Nothing. The hand-in is the Dark Elf racial promotion: every Dark Elf in the party becomes a Patriarch."
     steps:
-      - "Danulf the Faery King stands at his ring of stones in the woods south of Rivercity. Click him and ask about 'Wand'."
+      - "Danulf the Faery King stands at his ring of stones in the woods south of Rivercity. Click him and ask about 'Quest'."
       - "The sprites' nest is about 5,000 units west-south-west of Danulf, deeper in the south woods. Sprite groups (Medusa Sprites, Killer Sprites and Sprite Queens, levels 10-18) swarm the woods around it."
       - "Click the sprite eggs. The wand lies among them and goes into your packs. The nest gives it only once."
-      - "Bring it to Danulf and ask about 'Wand'. He takes the wand, pays you and promotes your Dark Elves."
+      - "Bring it to Danulf and ask about 'Quest'. He takes the wand, pays you and promotes your Dark Elves."
     tips:
-      - "A Dark Elf who joins later, or who was not in the party at the hand-in, is promoted by Danulf's 'Patriarch' topic. It shows only while someone in the party can be promoted."
+      - "A Dark Elf who joins later, or who was not in the party at the hand-in, is promoted by Danulf's 'Promotion' topic. It shows only while someone in the party can be promoted."
       - "Medusa Sprites can turn characters to stone. Carry a cure or fight from range."
     reward: "4,000 XP for each member, 1,500 gold, and Dark Elf to Patriarch for every Dark Elf in the party."
     points:
@@ -440,20 +442,20 @@ quests:
     summary: "Tito the Elf Priest dropped the Holy Book of Elvenkind when trolls ambushed him; find it in the Troll Forest of Winterkill Tundra."
     requires: "Nothing, but the Troll Forest's trolls are levels 18-38: come at about level 25."
     steps:
-      - "Tito's Chapel is on the east side of Rivercity's southern half, near the elven graves. Enter it (Tito talks to you at once) and ask about 'Holy Book'."
+      - "Tito's Chapel is on the east side of Rivercity's southern half, near the elven graves. Enter it (Tito talks to you at once) and ask about 'Quest'."
       - "Travel to Winterkill Tundra: walk off the west edge of Rivercity and Lake Darzog into Lifeforce Lagoon, then off Lifeforce Lagoon's west edge, or use a mirror if you have touched Winterkill's."
-      - "In Winterkill Tundra, go to the Troll Warren's mound south of the map's middle. The Holy Book of Elvenkind lies in the snow beside a torn pack, about 1,500 units east of the warren's mouth. Pick it up like any item."
-      - "Return to Tito and ask about 'Holy Book'."
+      - "In Winterkill Tundra, go to the Troll Warren's mound south of the map's middle. A torn pack lies in the snow about 1,500 units east of the warren's mouth. Click it: 'In the torn pack, under the snow: a book bound in white leather. Tito's Holy Book.' The Holy Book of Elvenkind comes up on your cursor (on Android it goes straight into your packs); put it in a pack."
+      - "Return to Tito and ask about 'Quest'."
     tips:
-      - "After the hand-in Tito teaches Spirit Magic to Master ('Master Spirit Magic' in his chapel). He does not offer it before."
+      - "After the hand-in Tito's 'Quest' topic goes and 'Holy Book' gives his after-word. He teaches Spirit Magic to Master ('Master Spirit Magic' in his chapel). He does not offer it before."
       - "If you are doing Thickbark's Troll Problem, the book is on your way to the warren."
     reward: "5,000 XP for each member, 1,500 gold, and Tito's Spirit Magic Master teaching."
     points:
-      - {map: xeen_x5, name: "Holy Book of Elvenkind"}
+      - {map: xeen_x5, name: "A torn pack"}
       - {map: xeen_x5, name: "Troll Warren"}
     maps:
       - {map: xeen_x2, focus: "Tito", caption: "Tito's chapel is in the south-east of Rivercity."}
-      - {map: xeen_x5, focus: "Holy Book of Elvenkind", caption: "The book lies just east of the Troll Warren's mound."}
+      - {map: xeen_x5, focus: "A torn pack", caption: "The torn pack with the book lies just east of the Troll Warren's mound."}
 
   - quest: q-c19
     from: {map: xeen_x2, npc: "Ligono"}
@@ -461,10 +463,10 @@ quests:
     summary: "Ligono's spirit is trapped in the surf; bring back his skull from the rocks at the world's edge so he can go free."
     requires: "Nothing (a party of about level 14)."
     steps:
-      - "Ligono, a restless spirit, washes up in the surf on the far south-west shore of the map, south of Lake Darzog. Click him and ask about 'Skull'."
+      - "Ligono, a restless spirit, washes up in the surf on the far south-west shore of the map, south of Lake Darzog. Click him and ask about 'Quest'."
       - "His skull is at the opposite end of the south rim: go east along the south edge to the rocks in the far south-east corner, about 35,000 units away."
       - "Ligono's Skull lies on the ground among the rocks. Pick it up like any item."
-      - "Walk back to Ligono and ask about 'Skull'. He takes it, a book washes up at your feet, and he leaves the surf for good."
+      - "Walk back to Ligono and ask about 'Quest'. He takes it, a book washes up at your feet, and he leaves the surf for good."
     tips:
       - "Ligono turns up later in Olympus on the Skyroads, in the House of Hera. His 'Warning' topic there is advice for Alamar's castle."
     reward: "4,000 XP for each member and a Recharge Item book."
@@ -481,9 +483,9 @@ quests:
     summary: "Orothin the Hermit lost the bone whistle that wakes his two spell-teaching statues; find it in Pitchfork Creek."
     requires: "Nothing (a party of level 3-5)."
     steps:
-      - "Orothin is outdoors south of Vertigo, south of Joe's yard on the creek's south bank, by the delta pond. Click him and ask about 'Whistle'."
+      - "Orothin is outdoors south of Vertigo, south of Joe's yard on the creek's south bank, by the delta pond. Click him and ask about 'Quest'."
       - "The whistle is in the mud of Pitchfork Creek just west of Vertigo, south-west of the west gate and upstream of the bridge. Click the patch 'Something in the mud' to take it."
-      - "Bring it to Orothin and ask about 'Whistle'."
+      - "Bring it to Orothin and ask about 'Quest'."
       - "Now click his two statues on the isles of the delta pond, east of him. The north isle's statue gives a Cure Poison book, the south isle's a Cure Disease book."
     tips:
       - "Before the whistle is back the statues only repel you."
@@ -501,10 +503,10 @@ quests:
     summary: "Myra the Herbalist makes five Cure Poison potions for every Phirna root you dig up in Toad Meadow. You can repeat it."
     requires: "Nothing (a party of level 1-3; mind the toads)."
     steps:
-      - "Myra's hut is south-east of Vertigo, next to Old Valia's cottage. Ask her about 'Phirna root'."
+      - "Myra's hut is south-east of Vertigo, next to Old Valia's cottage. Ask her about 'Quest'."
       - "Toad Meadow lies south and south-east of her hut, around the Witch Tower's rise. Four Phirna plants grow there. Click one to dig up its root."
       - "You can carry only one root at a time. A second plant 'stubbornly resists' while you have one."
-      - "Bring the root to Myra and ask about 'Phirna root'. She takes it and gives you five Cure Poison potions."
+      - "Bring the root to Myra and ask about 'Quest'. She takes it and gives you five Cure Poison potions."
       - "Dig another root and bring it back for five more potions whenever you need them."
     tips:
       - "Giant, Bog and Swamp Toads (levels 5-11) roam the meadow."
@@ -521,10 +523,10 @@ quests:
     summary: "Derek the Ranger's bride Celia was carried off by the undead into the Forest of the Walking Dead; free her from the hut where she is tied up."
     requires: "Nothing (a party of about level 6: the forest's skeleton groups are levels 6-16)."
     steps:
-      - "Derek's camp is in the forest south of Vertigo, south-west of the Fountain of Ability. Click him and ask about 'Celia'."
+      - "Derek's camp is in the forest south of Vertigo, south-west of the Fountain of Ability. Click him and ask about 'Quest'."
       - "Celia's Hut is about 4,500 units south of the camp, a little east, deeper in the Forest of the Walking Dead. Skeleton groups roam the forest round the hut, most of them to its west and south."
       - "Enter the hut and choose 'Untie'. Celia leaves on her own; you do not need to escort her."
-      - "Go back to Derek and ask about 'Celia'."
+      - "Go back to Derek and ask about 'Quest'."
     tips:
       - "From the next time you enter Vertigo Meadows, Celia sits at Derek's fire."
       - "On Darkside, Celia and Derek's Cottage by the Crossroads (Sandcaster and the Aging Forest) is shut until this quest is done. Knock after it: they have moved in, and Celia's 'The sword' topic gives you a sword Derek found (a random item, treasure level 4). After that their camp in Vertigo Meadows is empty."
@@ -544,14 +546,14 @@ quests:
     summary: "Ogres throw boulders at Captain Nystor's boats; destroy their lair in the north-west bluff."
     requires: "Nothing. The Ogre Chieftain is level 24 and his ogres level 18: come at about level 12-14 with healing."
     steps:
-      - "Captain Nystor's Dock is on the east bank of the river in Rivercity, south of the bridge. Inside, pick Captain Nystor himself (the boat service has the same name) and ask about 'Ogres'."
+      - "Captain Nystor's Dock is on the east bank of the river in Rivercity, south of the bridge. Inside, pick Captain Nystor himself (the boat service has the same name) and ask about 'Quest'."
       - "Go up the north river to the hills in the far north-west corner of the map, past the boulders that block the river. Click the cave mouth to enter the Ogre Lair."
       - "The log gate ahead is barred from the inside. Climb the midden crack in the west wall of the mouth instead, up through the bone den, and down the terrace steps east into the feast cave."
       - "Optional: go back south to the gate yard, lift the gate bar and open the log gate. That gives you a short way out."
       - "Take the quarry ramp north of the feast cave up to the quarry, then the boulder chute east (it is trapped) down to the throwing ledge. Kill the Ogre Chieftain and his throwers there. His body holds the larder key."
       - "Optional: click the boulder rack on the ledge to tip the ogres' boulders into the river."
       - "Go back to the Chieftain's seat at the west end of the feast cave, click it and answer 'Yes'. You break the lair. While the Chieftain lives the seat only tells you where he is."
-      - "Leave by the mouth and report to Nystor: 'Ogres'."
+      - "Leave by the mouth and report to Nystor: 'Quest'."
     tips:
       - "The larder door beside the Chieftain's seat opens with his key. The lair's four chests hold 1,250 gold and items in all."
       - "The day after the hand-in, Nystor's boats also run upriver to Burlock Savannah (Tuesday and Saturday, 2 days, 100 gold)."
@@ -572,9 +574,9 @@ quests:
     summary: "Joe, the con man run out of Vertigo, now sells treasure maps outside Castleview. Buy one and show it to Jethro the mapmaker."
     requires: "Any time on Darkside. Joe's fake map is also the peaceful way to free Jasper (Jasper in Jail), so show it to Warden Krupp before Jethro takes it."
     steps:
-      - "Joe stands at his market stall on the road just east of Castleview's north gate, outside the walls, under the sign 'MAPS BY JOE! Genuine! Only one of its kind!'. Ask him 'Treasure map' with at least 1,000 gold in your purse. He sells you Joe's Treasure Map for 1,000 gold (behind him stands a crate of them)."
+      - "Joe stands at his market stall on the road just east of Castleview's north gate, outside the walls, under the sign 'MAPS BY JOE! Genuine! Only one of its kind!'. Ask him about 'Quest' with at least 1,000 gold in your purse. He sells you Joe's Treasure Map for 1,000 gold (behind him stands a crate of them)."
       - "If you are freeing Jasper, take the map to Castleview Jail first, just inside the north gate, and ask Warden Krupp 'Jasper'. He only looks at it and hands it back."
-      - "Go to Jethro's Maps in the west of Castleview and ask Jethro 'Joe's map'. He laughs, takes the fake and gives you Jethro's Treasure Map. The journal's autonote copies its directions: Lakeside's eastern shore, the cairn of five stones, two paces north."
+      - "Go to Jethro's Maps in the west of Castleview and ask Jethro about 'Quest'. This 'Quest' topic shows only while you carry Joe's map; if Jethro also shows the one for Jasper in Jail, the map's is the first. He laughs, takes the fake and gives you Jethro's Treasure Map. The journal's autonote copies its directions: Lakeside's eastern shore, the cairn of five stones, two paces north."
       - "Now choose one of two routes. To dig it yourself, travel to Lakeside (D4) and walk east along the lake shore from the town to a cairn of five stones. Click the cairn with Jethro's map in your packs: you dig up a strongbox and the map falls apart."
       - "Or sell the map instead: Slibo, the Wizard of Magic Mountain, camps on Magic Mountain in the west of the Lakeside map. Ask him 'Treasure map' and he buys it for 4,000 gold. Once the map is sold, the cairn gives nothing."
     tips:
@@ -599,10 +601,10 @@ quests:
     steps:
       - "On Mount Firestone, take the road north from the Firestone Gap. At the signpost ('North: the Dragon Cave. East: the Volcano Cave.') keep north and a little west to the cave mouth. Click it; the entrance window says 'The Dragon Cave smells pretty bad. Are you sure you wish to enter?'. Choose OK."
       - "You arrive in the cave mouth, with the tax hall just east of it. The brass urn lettered DRAGON TAX stands on the counter. Scaldrith, Collector of the Dragon Tax, is behind the office door in the same wall."
-      - "Ask Scaldrith 'The tax'. You need 2,000 gold and 20 gems in your packs. With both, they go into the urn, Scaldrith stamps a receipt, and the Dragon King's door will let you pass. Without them he refuses and takes nothing."
+      - "Ask Scaldrith about 'Quest'. You need 2,000 gold and 20 gems in your packs. With both, they go into the urn, Scaldrith stamps a receipt, and the Dragon King's door will let you pass. Without them he refuses and takes nothing. Once you have paid, the 'Quest' topic goes and 'The tax' gives his after-word."
       - "The inner door in the tax hall's east wall opens for everyone, paid or not, and stays open. Only the Dragon King's door, beyond the library, wants the tax: unpaid, the status line says '\"Tax first,\" says the door in Scaldrith's voice. It stays shut.' The office stays open, so come back when you have the gems."
       - "Read Dragon Lore, volume 1, on the lectern in the waiting room through the door north of the office. Each title and its experience come once."
-      - "Ask Scaldrith 'Great Wyrm'. The topic appears once you have paid and read volume 1. Every Dragon in the party becomes a Great Wyrm. Without a Dragon he says 'Great Wyrms are made of dragons, and you have none with you.'"
+      - "Choose Scaldrith's 'Promotion' topic. It appears once you have paid and read volume 1. Every Dragon in the party becomes a Great Wyrm. Without a Dragon he says 'Great Wyrms are made of dragons, and you have none with you.'"
       - "Optional, level 60 and up: past the inner door, follow the scorched passage east through the bone hall, along the ledge road and across the fire crossing to the stair at the far east end. Go down to the great roost, then west along the ember gallery and through the door into the library."
       - "In the library, read volumes 2, 3 and 4 on the shelves along its south side and volume 5 by the Dragon King's door in the west. Then read The Art of Taxation on the ledger stand. It refuses you until all five volumes are read ('Read the Lore first. Then we'll talk money.')."
     tips:
@@ -610,7 +612,7 @@ quests:
       - "Scaldrith also teaches Dragon skill at Grandmaster. The hermit Sablewing, a gold dragon in an open shelter on Mount Firestone's southern slope, teaches it at Master."
       - "The cave holds Fire and Frost Dragons of level 75 to 85. The Dragon King and his hoard, behind the King's door, are not part of the quest."
       - "In a dead end lies a knight's remains with a strongbox and a receipt pinned under it. He paid. He also argued with the dragons."
-      - "A Dragon who joins later can still ask 'Great Wyrm'. The promotion is free then, without the experience."
+      - "A Dragon who joins later can still choose Scaldrith's 'Promotion'. The promotion is free then, without the experience."
     reward: "Dragon Lore and The Art of Taxation: 2,000 XP for each member per book (12,000 for all six) and the titles Loremaster of Worms, Lizards, Serpents, Drakes and Dragons and Taxman Emeritus. Great Wyrm: 12,000 XP for each member the first time and the promotion. The tax costs 2,000 gold and 20 gems."
     points:
       - {map: xeen_xd18, name: "Urn"}
@@ -656,12 +658,12 @@ quests:
     summary: "Free Oslo's son Tam from the orcs' prisoner pit in the Orc Caves."
     requires: "Nothing. It is for a party of level 4 or so."
     steps:
-      - "Oslo, the farmer, lives in a hut on the west side of Vertigo. Ask him 'Tam'."
+      - "Oslo, the farmer, lives in a hut on the west side of Vertigo. Ask him about 'Quest'."
       - "The Orc Caves are in the north-east hills: a skull-hung cave mouth past a cairn scratched 'Orcs past here.'. Click it and choose OK in the entrance window."
       - "Kill the orc archers on the palisade's firing steps and open the palisade gate north of the entrance."
       - "Follow the run north to the cookfire cave and on west to the sleeping hollows, where a voice calls from a pit by the south wall. Click the cage gate over the pit's rim to cut the lashings and lower the rope ladder."
       - "Step down into the pit. Tam climbs out and runs home by himself. Climb back up the ladder."
-      - "Go back to Oslo and ask 'Tam' again. Tam is already home."
+      - "Go back to Oslo and ask about 'Quest' again. Tam is already home. Afterwards the 'Quest' topic goes, and 'Tam' gives Oslo's after-word."
     tips:
       - "The caves' three war drums are optional. The signal drum is on the palisade's east firing step and the spirit drum behind a curtain of hides in the shaman's den, up two steps west of the cookfire cave. The great drum stands on a scaffold in the Drum Hall to the north: kill the Drum-Master first, then burn it. Click each drum and answer Yes to 'Destroy (Yes/No)?'."
       - "Drag marks in the straw lead to a boulder at the hollows' west end. Push it aside for a low cave with a chest in it."
@@ -741,11 +743,11 @@ quests:
     requires: "Prince Roland freed. The Key to the Dragon Tower is found in the key vault of the Alamar Depths, on Prince Roland's path. The Ancient Books on the Dragon Clouds can be read only after the Book of Languages in Castle Burlock. It is for a party of level 62 and up."
     steps:
       - "On Mount Firestone, the Dragon Tower stands on the crag in the north-west. Click its gate with the Key to the Dragon Tower. The key opens it and stays with you."
-      - "In the gate hall, Alister the Druid waits in the west alcove. Ask him 'Dragon egg'."
+      - "In the gate hall, Alister the Druid waits in the west alcove. Ask him about 'Quest'."
       - "Go up the ramp in the west wall to floor 1. In the bone alcove at its east end, two dead adventurers' notes say Alister is a fraud and that 'the secret of the dragon has something to do with forever'."
       - "Take the ramp in the north wall up to floor 2. Click the nest of black rock in the middle of the floor and lift out one egg. One is enough."
       - "On floor 2, the last climber's bones in the west dead end hold a note ('The eye of the Dragon holds the Elder Staff.') and a potion (+2 Endurance for the member who drinks it, once per character). The hatchery's bones in the east hold a note about the crystal balls."
-      - "Go back down to Alister and ask 'Dragon egg'. He pays, drinks the egg and turns into a lizard."
+      - "Go back down to Alister and ask about 'Quest'. He pays, drinks the egg and turns into a lizard."
       - "Take the ramp in the east wall to floor 3. Read the Tome of Great Experience in the tome room in the north-west corner with each member. Then open the roof stair's door, climb to the hatch and answer Yes to 'Climb up through the hatch?'."
       - "On the Dragon Clouds, at the tower's foot in the north-east: read the four Ancient Books of the Dragon (their runes are IN, FI, NI, TY), then click the Eye of the Dragon in the dragon-head rock. To 'What is the secret of the Dragon?' answer INFINITY. The Eye gives you the Elder Staff."
     tips:

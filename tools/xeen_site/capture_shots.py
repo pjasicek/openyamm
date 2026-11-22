@@ -119,6 +119,10 @@ def open_yaw(map_file: str, position: list[float], yaw: float) -> float:
     return best if sight(walls, x, y, best) > own * 1.5 else yaw
 
 
+# People too big for the standard close-up (the camera would stand inside them): (distance, pitch) per map and actor.
+FAR_NPCS = {"xeen_d4": {"a22": (1400.0, 0.12)}}  # Leafpoint the Elder Tree
+
+
 def tour_for(map_id: str, npc_pois: set[str], out_dir: Path, map_file: str = "") -> str:
     scene = load_scene(map_id)
     lines = [f"output_dir: {out_dir}", "settle_seconds: 2.5", "exit: true", "shots:"]
@@ -136,10 +140,11 @@ def tour_for(map_id: str, npc_pois: set[str], out_dir: Path, map_file: str = "")
             continue
         facing = actor.get("initial_yaw_units", 0) / mm9.YAW_UNITS * 2 * math.pi
         pos = actor["position"]
-        cx = pos["x"] + math.cos(facing) * mm9.NPC_DISTANCE
-        cy = pos["y"] + math.sin(facing) * mm9.NPC_DISTANCE
+        distance, pitch = FAR_NPCS.get(map_id, {}).get(poi, (mm9.NPC_DISTANCE, -0.08))
+        cx = pos["x"] + math.cos(facing) * distance
+        cy = pos["y"] + math.sin(facing) * distance
         lines += [f"  - name: {poi}", f"    position: [{cx:.0f}, {cy:.0f}, {pos['z']}]",
-                  f"    yaw: {(facing + math.pi) % (2 * math.pi):.4f}", "    pitch: -0.08"]
+                  f"    yaw: {(facing + math.pi) % (2 * math.pi):.4f}", f"    pitch: {pitch}"]
     return "\n".join(lines) + "\n"
 
 

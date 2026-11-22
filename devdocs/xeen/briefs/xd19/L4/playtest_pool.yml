@@ -58,8 +58,8 @@ steps:
 - assert:
     actor_count:
       monster_id: 11603
-      min: 14
-      max: 14
+      min: 21
+      max: 21
 - clear_hostiles:
     radius: 3000
 - play_lua:
@@ -70,11 +70,11 @@ steps:
       value: 1
 - assert:
     actor_visible:
-      actor_index: 31
+      actor_index: 44
       hidden: false
 - assert:
     actor_visible:
-      actor_index: 32
+      actor_index: 45
       hidden: true
 - clear_hostiles:
     radius: 6000
@@ -142,17 +142,17 @@ steps:
     source: 'wait(3); if door_state(3) ~= ''open'' then error(''bays: '' .. door_state(3)) end'
 - assert:
     actor_visible:
-      actor_index: 32
+      actor_index: 45
       hidden: false
       dead: false
 - assert:
     actor_visible:
-      actor_index: 33
+      actor_index: 46
       hidden: false
       dead: false
 - assert:
     actor_visible:
-      actor_index: 34
+      actor_index: 47
       hidden: false
       dead: false
 - clear_hostiles:

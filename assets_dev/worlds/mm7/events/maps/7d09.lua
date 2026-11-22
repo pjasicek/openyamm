@@ -179,6 +179,6 @@ RegisterEvent(195, "Chest", function()
 end, "Chest")
 
 RegisterEvent(501, nil, function()
-    evt.MoveToMap(18754, -17550, 929, 768, 0, 0, 0, 0, "out14.odm") -- Avlee
+    evt.MoveToMap(18754, -17550, 929, 768, 0, 0, 0, 8, "out14.odm") -- Avlee
 end)
 

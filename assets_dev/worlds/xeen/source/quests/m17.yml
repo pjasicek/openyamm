@@ -33,9 +33,11 @@ npcs:
   4954:              # Ellinger
     topics:
       - n: 1
-        label: Alamar
+        role: quest
+        afterword: {n: 2, label: Alamar}
         states:
           - when: {qbit: done}
+            afterword: true
             text: "The castle can be restored to our world by casting certain complex spells powered by energy discs. Energy discs are rare magical batteries. I recently used the last of mine protecting this tower, and I haven't a clue where others may be found. Every five will restore a fourth part of the castle."
           - when: {item: pharaoh_orb}
             text: "Welcome. I'm sorry you had to run the gauntlet; my defenses keep Alamar's spies from my door. I see that you hold the Dragon Pharaoh's orb. Without it he cannot fight Alamar, and you must return it to him. But he has sealed his pyramid, and the key is in Queen Kalindra's castle, which Alamar moved out of phase when he took the Queen. Twenty energy discs will bring it back, five at a time. Bring them to me. And here is a little something: your gifts are in the chest that runs away from you in the south-west of Castleview. I will tell it to stay still."

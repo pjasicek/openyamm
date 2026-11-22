@@ -18,14 +18,14 @@ npcs:
   4303:              # Carlawna
     topics:
       - n: 1
-        label: Ordination
+        role: promotion
         show: {all: [{qbit: q-c10.done}, {promotable: seasons}]}
         text: "Another one who heals and hasn't been ordained? Kneel. Druids rise as Great Druids, Clerics as Priests."
         do: [{promote: seasons}]
   4321:              # the Autumn Druid
     topics:
       - n: 2
-        label: The turning year
+        role: promotion
         show: {all: [{qbit: q-c10.done}, {promotable: seasons}]}
         text: "Carlawna sent word that you helped her. Leaves fall so the tree can grow. Druids rise as Great Druids, Clerics as Priests."
         do: [{promote: seasons}]

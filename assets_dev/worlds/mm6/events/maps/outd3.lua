@@ -166,7 +166,7 @@ end, "King's Library")
 
 RegisterEvent(43, "Throne Room", function(continueStep)
     if continueStep == 13 then
-        evt.MoveToMap(0, 0, 0, 0, 0, 0, 79, 1)
+        evt.MoveToMap(0, 0, 0, 0, 0, 0, 335, 2)
         evt.EnterHouse(222) -- Throne Room
         return
     end
@@ -179,7 +179,7 @@ RegisterEvent(43, "Throne Room", function(continueStep)
             evt._PressAnyKey(43, 19)
             return
         end
-        evt.MoveToMap(0, 0, 0, 0, 0, 0, 79, 1)
+        evt.MoveToMap(0, 0, 0, 0, 0, 0, 335, 2)
         evt.EnterHouse(222) -- Throne Room
         return
     elseif IsQBitSet(QBit(1119)) then -- Find and return Prince Nicolai to Castle Ironfist. - Walt
@@ -197,7 +197,7 @@ RegisterEvent(43, "Throne Room", function(continueStep)
         evt.SetMessage("The prince has been kidnapped!  No visitors will be admitted until this crisis has been resolved!")
         evt._PressAnyKey(43, 19)
     else
-        evt.MoveToMap(0, 0, 0, 0, 0, 0, 79, 1)
+        evt.MoveToMap(0, 0, 0, 0, 0, 0, 335, 2)
         evt.EnterHouse(222) -- Throne Room
         return
     end
@@ -352,23 +352,23 @@ RegisterEvent(83, "House", function()
 end, "House")
 
 RegisterEvent(90, nil, function()
-    evt.MoveToMap(-130, -1408, 1, 512, 0, 0, 425, 1, "6d03.blv") -- Shadow Guild Hideout
+    evt.MoveToMap(-130, -1408, 1, 512, 0, 0, 425, 5, "6d03.blv") -- Shadow Guild Hideout
 end)
 
 RegisterEvent(91, nil, function()
-    evt.MoveToMap(1664, -1896, 1, 1024, 0, 0, 430, 1, "6d05.blv") -- Snergle's Caverns
+    evt.MoveToMap(1664, -1896, 1, 1024, 0, 0, 430, 5, "6d05.blv") -- Snergle's Caverns
 end)
 
 RegisterEvent(92, nil, function()
-    evt.MoveToMap(2716, -256, 1, 1024, 0, 0, 432, 1, "6d06.blv") -- Dragoons' Caverns
+    evt.MoveToMap(2716, -256, 1, 1024, 0, 0, 432, 5, "6d06.blv") -- Dragoons' Caverns
 end)
 
 RegisterEvent(93, nil, function()
-    evt.MoveToMap(128, -151, 1, 512, 0, 0, 440, 1, "6d11.blv") -- Corlagon's Estate
+    evt.MoveToMap(128, -151, 1, 512, 0, 0, 440, 5, "6d11.blv") -- Corlagon's Estate
 end)
 
 RegisterEvent(94, nil, function()
-    evt.MoveToMap(-15592, 120, -191, 0, 0, 0, 418, 1, "6t1.blv") -- Temple of Baa
+    evt.MoveToMap(-15592, 120, -191, 0, 0, 0, 418, 5, "6t1.blv") -- Temple of Baa
 end)
 
 RegisterEvent(97, "Temple Baa", function()

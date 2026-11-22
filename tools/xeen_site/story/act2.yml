@@ -13,7 +13,7 @@ chapters:
               - "From the coach stop by the Royal Stables, walk north up the castle lane past the herald's board to the castle gate at its head, click it and choose OK in the entrance window."
               - "Just inside the castle door a portcullis blocks the gatehouse. Click it: it lifts only for Crusaders ('Only Crusaders are allowed to enter Castle Burlock. Old Valia of Toad Meadow names Crusaders.' otherwise). The King's Guards inside are friendly; leave them be."
               - "Go north through the great hall and open the double doors of the throne room. King Burlock sits on the throne at its north end, with Prince Roland beside him. Click the throne."
-              - "Choose King Burlock and ask 'Sixth Mirror' (1,000 XP): he charges you to find the mirror, last seen near the great volcano, for an earldom. Ask 'Earldom' too: he mentions that Newcastle's ruins are for sale."
+              - "Choose King Burlock and ask 'Quest' (1,000 XP): he charges you to find the mirror, last seen near the great volcano, for an earldom. Ask 'Earldom' too: he mentions that Newcastle's ruins are for sale."
               - "Optional: choose Prince Roland and ask 'The mirror' and 'Travels'."
             tips:
               - "The Sixth Mirror is not found in this act. Asking the King about it again only gets 'NO MIRROR?!? Get out of my sight!'."
@@ -36,9 +36,9 @@ chapters:
           - quest: m6
             requires: "The King's audience (Sixth Mirror). Before it Artemus only says 'See the King first'."
             steps:
-              - "In Artemus's study, ask 'Crodo'. He tells you that Crodo, the King's friend, vanished together with Baron Darzog, the King's jealous master sorcerer, and that Darzog's island tower has been sealed since."
+              - "In Artemus's study, ask 'Quest'. He tells you that Crodo, the King's friend, vanished together with Baron Darzog, the King's jealous master sorcerer, and that Darzog's island tower has been sealed since. From now on Artemus has three Quest topics: the first is Crodo, the second the Pyramids, the third Darzog's tower."
               - "The journal and an autonote record it: Darzog's Tower stands on the island in Lake Darzog, west of Rivercity."
-              - "You cannot enter the tower yet. Artemus's 'Darzog's tower' topic (The Enchanted Key, below) names the two keys that lead into it; freeing Crodo is Act IV."
+              - "You cannot enter the tower yet. Artemus's third 'Quest' topic (Darzog's tower: The Enchanted Key, below) names the two keys that lead into it; freeing Crodo is Act IV."
             tips:
               - "Crodo's messages in bottles (Act I's Vertigo creek and Lake Darzog's north shore) point the same way."
             reward: "A journal entry and an autonote; no experience."
@@ -49,11 +49,11 @@ chapters:
                 caption: "Artemus's study at the east end of the gallery of arms; Emerson's office is just south of it."
 
           - quest: m7
-            requires: "Artemus's 'Crodo' topic."
+            requires: "Artemus's first 'Quest' topic (Crodo)."
             steps:
-              - "Ask Artemus 'Pyramids'. He gives you the Pyramid Sigil, quietly (1,000 XP), and tells you to try the pyramid on the knoll east of Vertigo."
+              - "Ask Artemus about his second 'Quest' topic (the Pyramids). He gives you the Pyramid Sigil, quietly (1,000 XP), and tells you to try the pyramid on the knoll east of Vertigo."
               - "Go back to Vertigo Meadows. The travel pyramid stands on a knoll east of the town. Click it with the sigil in your packs: it carries you to Castleview Vale on the Darkside. Without the sigil it only says 'The moons are not aligned.'"
-              - "The Darkside is Act III (set for about level 15-18). You can go at once or finish the Newcastle and key errands below first; a good moment is after Darzog's door. Asking 'Pyramids' again repeats where the pyramid is."
+              - "The Darkside is Act III (set for about level 15-18). You can go at once or finish the Newcastle and key errands below first; a good moment is after Darzog's door. Asking that 'Quest' topic again repeats where the pyramid is."
             reward: "1,000 XP and the Pyramid Sigil."
             maps:
               - map: xeen_x1
@@ -69,7 +69,7 @@ chapters:
             steps:
               - "Ebenezer's Tent stands in the camp at the Newcastle site, with the Camp Shrine just east of it and the stair into the ruined keep to the north. Enter the tent and choose Ebenezer."
               - "Ask 'Newcastle': he offers the land, rubble and wood golems included, for twelve thousand gold."
-              - "With 12,000 gold in your purse, ask 'Buy the deed'. You get the Deed to Newcastle. Ask 'Newcastle' again: he sends you to Emerson, the King's engineer at Castle Burlock."
+              - "With 12,000 gold in your purse, ask 'Quest' (buying the deed). You get the Deed to Newcastle. Ask 'Newcastle' again: he sends you to Emerson, the King's engineer at Castle Burlock."
               - "This is stage 0 of Newcastle: you own a ruin. Emerson builds walls (stage 1), a keep (stage 2) and later a dungeon (stage 3, Act IV) for 5 King's Megacredits each."
             tips:
               - "Twelve thousand gold is a lot at this point. To raise it, do Rivercity's side quests first: Captain Nystor's Ogre Boulders (1,500 gold), Danulf's Faery Wand (1,500), Medin's Lake Beasts (2,000) and the Robbers' Den, which leaves it 13,700-16,600 gold before the deed. Gold kept in Rivercity's bank must be withdrawn first: Ebenezer takes only what you carry."
@@ -89,10 +89,10 @@ chapters:
           - quest: m9
             requires: "The Deed to Newcastle. Without it Emerson cannot work on land you do not own."
             steps:
-              - "Ask Emerson 'Walls': every defensible piece of land needs a wall, for 5 King's Megacredits. Ask 'Megacredits' as well, which starts the search (The King's Megacredits, below)."
-              - "Fetch five Megacredits (the Temple of Yak has six), come back and ask 'Walls' again. He takes five (3,000 XP) and the walls are built by the time you reach the site: Newcastle stage 1."
-              - "Ask 'Keep' while you are there: he offers the keep for 5 more (The Keep of Newcastle, below)."
-              - "Optional: at the Newcastle site, go into Ebenezer's tent, choose Ebenezer and ask 'Workers'. The rubble is cleared, and one of the workers swears the Tomb of a Thousand Terrors, out in the lagoon, is full of Megacredits."
+              - "Ask Emerson about his first 'Quest' topic (the walls): every defensible piece of land needs a wall, for 5 King's Megacredits. Ask his second 'Quest' topic (the Megacredits) as well, which starts the search (The King's Megacredits, below)."
+              - "Fetch five Megacredits (the Temple of Yak has six), come back and ask his first 'Quest' topic again. He takes five (3,000 XP) and the walls are built by the time you reach the site: Newcastle stage 1."
+              - "A third 'Quest' topic now appears, the keep: he offers the keep for 5 more (The Keep of Newcastle, below)."
+              - "Optional: at the Newcastle site, go into Ebenezer's tent, choose Ebenezer and ask 'Quest'. The rubble is cleared, and one of the workers swears the Tomb of a Thousand Terrors, out in the lagoon, is full of Megacredits."
             reward: "3,000 XP and Newcastle's walls."
             maps:
               - map: xeen_xd07
@@ -105,9 +105,9 @@ chapters:
                 caption: "Ebenezer's tent at the Newcastle site."
 
           - quest: m10
-            requires: "Emerson's 'Megacredits' topic (asked with the walls). The three dungeons are open; their doors need no key."
+            requires: "Emerson's second 'Quest' topic, the Megacredits (asked with the walls). The three dungeons are open; their doors need no key."
             steps:
-              - "Optional: Mirabeth sits on her rock in the south-east of Lifeforce Lagoon, west of Nightshadow. Ask her 'Elixir': she asks for the Temple of Yak's Elixir of Restoration (her side quest, Mirabeth's Elixir), which you find on the same trip."
+              - "Optional: Mirabeth sits on her rock in the south-east of Lifeforce Lagoon, west of Nightshadow. Ask her 'Quest': she asks for the Temple of Yak's Elixir of Restoration (her side quest, Mirabeth's Elixir), which you find on the same trip."
               - "Temple of Yak (6 Megacredits): the temple's door is in the dark south end of the fairy woods, due south of Rivercity; it is never locked. Inside, the treasury gate west of the nave's idol is held by two iron bars. Press the stone button in the west chapel (sinks the west bar) and the one in the library of the east wing (sinks the east bar), then click the gate. The treasury chest holds five Megacredits (1,500 XP) and 1,500 gold."
               - "Take the west stair down from the clerics' wing to the crypt and the ossuary. On the near bank of the green Yak Pool, three stone buttons stand in a north-south row and three sunken blocks lie under the water toward the far shore. Press the north button, then the south button: all three blocks rise into a causeway. (The north button moves the first two blocks, the middle one the second and third, the south one the third.)"
               - "Cross to the sanctum and kill the Yak Master (level 35) and his elders (5,000 XP). His corpse carries the sixth Megacredit, and his death opens the reliquary behind the altar: its chest holds Mirabeth's Elixir. The Master's cell beside it has a cabinet with 2,500 gold. Leave by the Master's stair beyond the far bank: the slab at its top opens from this side into the vestry, near the way out."
@@ -145,10 +145,10 @@ chapters:
                 caption: "Golem Dungeon: the Wood west of the statue, the block field north, the forge and the great lock east, the Diamond Golem's vault below."
 
           - quest: m11
-            requires: "Newcastle's walls. Emerson's 'Keep' topic appears once they stand."
+            requires: "Newcastle's walls. Emerson's third 'Quest' topic, the keep, appears once they stand."
             steps:
-              - "Ask Emerson 'Keep' (5 more Megacredits). With five more Megacredits in your packs, ask 'Keep' again: he takes five (4,000 XP). Newcastle stage 2: the keep stands."
-              - "Optional: at the Newcastle site, in Ebenezer's tent, ask Ebenezer 'Workers' again: a worker came back from the tundra and says the Golem Dungeon, by the lagoon, is stuffed with Megacredits (and golems)."
+              - "Ask Emerson about the keep, his third 'Quest' topic (5 more Megacredits). With five more Megacredits in your packs, ask it again: he takes five (4,000 XP). Newcastle stage 2: the keep stands."
+              - "Optional: at the Newcastle site, in Ebenezer's tent, ask Ebenezer 'Quest' again: a worker came back from the tundra and says the Golem Dungeon, by the lagoon, is stuffed with Megacredits (and golems)."
               - "The keep now has a working smithy, Torvald's Newcastle Smithy, and Sir Percival Hale's Newcastle Training Hall (trains to level 60). Enter by the stair north of Ebenezer's tent."
               - "Stage 3, the dungeon under the keep, costs the last 5 Megacredits and needs an Excavation Permit: that is Act IV."
             reward: "4,000 XP; Newcastle's keep with its smithy and training hall."
@@ -163,13 +163,13 @@ chapters:
                 caption: "Ebenezer's tent and the keep's stair at the Newcastle site."
 
       - title: "The keys to Darzog's Tower"
-        intro: "Darzog's Tower is locked with a Skeleton Key kept in a chest in the Archmage's study atop the Tower of High Magic, and that chest opens only to an Enchanted Key sold by a talking skull in the Cave of Illusion. Artemus tells you so when you ask him 'Darzog's tower'."
+        intro: "Darzog's Tower is locked with a Skeleton Key kept in a chest in the Archmage's study atop the Tower of High Magic, and that chest opens only to an Enchanted Key sold by a talking skull in the Cave of Illusion. Artemus tells you so when you ask him about Darzog's tower, his third 'Quest' topic."
         giver: {map: xeen_xd07, npc: "Artemus"}
         quests:
           - quest: m12
-            requires: "Artemus's 'Crodo' topic. Carry ten gems."
+            requires: "Artemus's first 'Quest' topic (Crodo). Carry ten gems."
             steps:
-              - "Ask Artemus 'Darzog's tower'. Skulls take gems, not gold: ten, for the key."
+              - "Ask Artemus about his third 'Quest' topic (Darzog's tower). Skulls take gems, not gold: ten, for the key."
               - "The Cave of Illusion has two mouths in Winterkill Tundra; enter by the north mouth, in the hills north of Halon's Workshop near the map's east edge. Not every wall is real: the west wall of the mouth is a mirage that dissipates when you touch it, and behind it a cache holds a Potion of Might. Keep it."
               - "Go on through the phantom safe's cave (its north wall is another mirage: click it), the icicle hall and the Hall of Mirages to the frost cavern, and through its door to the sluice. The bronze plug there drains the reservoir, but it needs a member with Might 30: have one drink the Potion of Might and pull the plug with that member selected. The water roars away and the stone sluice gates below open."
               - "Take the ice stair down from the Hall of Mirages to the ledge over the reservoir. The notice there says it plainly: the great skull at the bottom wants ten gems, and the echo cave past the Guardians' post keeps some. Go through the mirror maze to the Guardians' post and the echo cave: its chest holds 15 gems."

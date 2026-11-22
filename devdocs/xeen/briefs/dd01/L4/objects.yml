@@ -278,7 +278,6 @@ chests:
   - id: chest:cellar
     room: room:cellar
     at: [4608, -1184]
-    facing: n
     treasure_level: 2
     random_items: 2
     gold: 250
@@ -302,7 +301,6 @@ chests:
   - id: chest:midden
     room: room:midden
     at: [6272, -1696]
-    facing: w
     treasure_level: 2
     random_items: 2
     gold: 200
@@ -310,7 +308,6 @@ chests:
   - id: chest:valio
     room: room:valio
     at: [-2240, -1488]
-    facing: s
     treasure_level: 2
     random_items: 1
     gold: 300

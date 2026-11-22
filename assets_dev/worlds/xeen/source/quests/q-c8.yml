@@ -49,9 +49,11 @@ npcs:
   4608:              # Arie the apprentice (X6, her camp below Castle Basenji)
     topics:
       - n: 1
-        label: My master
+        role: quest
+        afterword: {n: 2, label: My master}
         states:
           - when: {qbit: done}
+            afterword: true
             text: "The Sphinx lies east of here, out in the dunes. It asks its own name. Its name is Golux. Master always said it was cheating to know that, so of course he knew."
           - when: {item: scroll_of_insight}
             text: "His Scroll of Insight! He would say thank you. He would also say not to read it upside down, which is how he read it. The Northern Sphinx lies east of here, out in the dunes; he always meant to go in. He never had the nerve."

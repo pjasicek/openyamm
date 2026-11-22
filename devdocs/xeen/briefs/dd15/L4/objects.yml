@@ -680,15 +680,13 @@ chests:
   - id: chest:safe
     room: room:bedchamber
     at: [2880, 1536]
-    facing: w
     treasure_level: 5
     random_items: 3
     gold: 3000
     notes: "The wall safe (D-61 Q7): its three prompts, 20-30-1, then it opens (117574)."
   - id: chest:strongbox
     room: room:information
-    at: [3072, 3360]
-    facing: s
+    at: [2000, 1192]
     treasure_level: 5
     random_items: 2
     gold: 1500
@@ -696,7 +694,6 @@ chests:
   - id: chest:sun
     room: room:cell_a
     at: [-2432, -336]
-    facing: s
     treasure_level: 5
     random_items: 3
     gold: 1500
@@ -704,7 +701,6 @@ chests:
   - id: chest:tomb_w
     room: room:tomb_w
     at: [-2432, -1696]
-    facing: n
     treasure_level: 5
     random_items: 3
     gold: 1200

@@ -255,10 +255,10 @@ RegisterEvent(500, nil, function()
 end)
 
 RegisterEvent(501, "Enter the Grand Temple of the Moon", function()
-    evt.MoveToMap(3136, 2053, 1, 512, 0, 0, 148, 1, "7d19.blv") -- Grand Temple of the Moon
+    evt.MoveToMap(3136, 2053, 1, 512, 0, 0, 404, 1, "7d19.blv") -- Grand Temple of the Moon
 end, "Enter the Grand Temple of the Moon")
 
 RegisterEvent(502, "Enter the Grand Temple of the Sun", function()
-    evt.MoveToMap(0, -3179, 161, 512, 0, 0, 149, 1, "t03.blv") -- Grand Temple of the Sun
+    evt.MoveToMap(0, -3179, 161, 512, 0, 0, 405, 1, "t03.blv") -- Grand Temple of the Sun
 end, "Enter the Grand Temple of the Sun")
 

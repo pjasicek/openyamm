@@ -59,7 +59,7 @@ steps:
   - play_lua: {source: "remember('xp', experience(0)); click(42); wait(1)"}
   - assert:
       dialog: {source_id: 4404}
-  - select_topic: {match_label: "Tiara"}
+  - select_topic: {action_id: 42651, match_label: "Quest"}
   - assert:
       dialog: {text_contains: "You have recovered my tiara"}
   - press_action: {action: cancel_dialog}
@@ -86,10 +86,10 @@ steps:
   - play_lua: {source: "click(6); wait(1)"}
   - assert:
       dialog: {source_id: 4403}
-  - select_topic: {match_label: "Walls"}
+  - select_topic: {action_id: 40451, match_label: "Quest"}
   - assert:
       dialog: {text_contains: "Every defensible piece of land needs a wall around it"}
-  - select_topic: {match_label: "Megacredits"}
+  - select_topic: {action_id: 40501, match_label: "Quest"}
   - assert:
       dialog: {text_contains: "the Temple of Yak, the Tomb of a Thousand Terrors and the Golem Dungeon"}
   - press_action: {action: cancel_dialog}

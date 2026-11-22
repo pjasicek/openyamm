@@ -212,7 +212,7 @@ end, "Chest")
 
 RegisterEvent(376, "Hostel", function()
     if IsQBitSet(QBit(639)) then -- Assassinate Robert the Wise in his house in Celeste and return to Tolberti in the Pit.
-        evt.MoveToMap(0, 3808, 129, 270, 0, 0, 0, 0, "mdt15.blv") -- The Small House
+        evt.MoveToMap(0, 3808, 129, 270, 0, 0, 0, 9, "mdt15.blv") -- The Small House
     elseif IsQBitSet(QBit(626)) then -- Finished Wizard Proving Grounds
         if IsQBitSet(QBit(627)) then -- Finished Wizard Task 2 - Temple of Dark
             if IsQBitSet(QBit(628)) then -- Finished Wizard Task 3 - Wine Cellar
@@ -411,15 +411,15 @@ RegisterEvent(452, "Take a Drink", function()
 end, "Take a Drink")
 
 RegisterEvent(501, "Leave Celeste", function()
-    evt.MoveToMap(-9718, 10097, 2449, 1536, 0, 0, 0, 0, "7out06.odm") -- The Bracada Desert
+    evt.MoveToMap(-9718, 10097, 2449, 1536, 0, 0, 0, 8, "7out06.odm") -- The Bracada Desert
 end, "Leave Celeste")
 
 RegisterEvent(502, "Enter the Walls of Mist", function()
-    evt.MoveToMap(-896, -4717, 161, 512, 0, 0, 144, 1, "7d11.blv") -- The Walls of Mist
+    evt.MoveToMap(-896, -4717, 161, 512, 0, 0, 400, 9, "7d11.blv") -- The Walls of Mist
 end, "Enter the Walls of Mist")
 
 RegisterEvent(503, "Enter Castle Lambent", function()
-    evt.MoveToMap(64, -640, 1, 512, 0, 0, 130, 1, "7d30.blv") -- Castle Lambent
+    evt.MoveToMap(64, -640, 1, 512, 0, 0, 386, 9, "7d30.blv") -- Castle Lambent
 end, "Enter Castle Lambent")
 
 RegisterEvent(504, "Temple of Light", function()

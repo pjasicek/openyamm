@@ -57,9 +57,11 @@ npcs:
                              # head_witch_slain is set; she stays on the square after)
     topics:
       - n: 1
-        label: The coven
+        role: quest
+        afterword: {n: 3, label: The coven}
         states:
           - when: {qbit: done}
+            afterword: true
             text: "Lakeside has its tavern back and I have my feet back. I keep checking on both."
           - when: {all: [{qbit: head_witch_slain}, {qbit: camilla_freed}, {qbit: aretha_freed}, {qbit: isabella_freed}, {qbit: rhett_freed}]}
             text: "The stocks fell open when the Head Witch died, and the others are out. Lakeside is ours again. The tavern was never destroyed, by the way. They only painted it gone."

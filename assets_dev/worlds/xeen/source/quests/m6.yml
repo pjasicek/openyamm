@@ -22,7 +22,7 @@ npcs:
   4402:              # Artemus
     topics:
       - n: 1
-        label: Crodo
+        role: quest
         states:
           - when: {qbit: m21.crodo_freed}
             text: "Crodo is free. Good. The King was pleased for almost a minute, and then asked about the mirror."

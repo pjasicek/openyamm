@@ -25,9 +25,11 @@ npcs:
   4154:              # Danulf
     topics:
       - n: 1
-        label: Wand
+        role: quest
+        afterword: {n: 3, label: Wand}
         states:
           - when: {qbit: done}
+            afterword: true
             text: "The forest is quiet again. The sprites are merely rude now, which for sprites is peace."
           - when: {item: wand_of_faery_magic}
             text: "You have returned my Wand of Faery Magic! Now peace can be restored to the forest. Please accept this gold as a reward. And any of you with elven blood in the dark: kneel. The wand remembers its own."
@@ -37,7 +39,7 @@ npcs:
           - text: "A terrible thing has happened. My Wand of Faery Magic has been stolen by the Sprites. Without the Wand in my possession, my powers of magic are reduced. Now that the Sprites possess my Wand they are crazed with power, attacking anyone in the forest. If you return my Wand I will reward you handsomely."
             do: [{set: started}]
       - n: 2
-        label: Patriarch
+        role: promotion
         show: {all: [{qbit: done}, {promotable: elf}]}
         text: "Elven blood in the dark, and the wand remembers it. Rise, Patriarch."
         do: [{promote: elf}]

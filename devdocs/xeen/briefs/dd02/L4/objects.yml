@@ -319,7 +319,6 @@ chests:
     room: room:boots
     at: [-96, 4256]
     kind: ch1
-    facing: s
     treasure_level: 3
     random_items: 3
     gold: 500
@@ -337,7 +336,6 @@ chests:
     room: room:reading
     at: [2720, 2944]
     kind: ch1
-    facing: w
     treasure_level: 2
     random_items: 2
     gold: 300
@@ -346,7 +344,6 @@ chests:
     room: room:store
     at: [-224, -672]
     kind: ch1
-    facing: n
     treasure_level: 2
     random_items: 2
     gold: 200

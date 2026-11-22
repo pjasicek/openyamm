@@ -345,26 +345,26 @@ RegisterEvent(454, nil, function()
 end)
 
 RegisterEvent(501, "Leave Thunderfist Mountain", function()
-    evt.MoveToMap(-7673, -7957, 3201, 512, 0, 0, 0, 0, "out10.odm") -- Mount Nighon
+    evt.MoveToMap(-7673, -7957, 3201, 512, 0, 0, 0, 8, "out10.odm") -- Mount Nighon
 end, "Leave Thunderfist Mountain")
 
 RegisterEvent(502, "Leave Thunderfist Mountain", function()
-    evt.MoveToMap(-14395, 3771, 3201, 1024, 0, 0, 0, 0, "out10.odm") -- Mount Nighon
+    evt.MoveToMap(-14395, 3771, 3201, 1024, 0, 0, 0, 8, "out10.odm") -- Mount Nighon
 end, "Leave Thunderfist Mountain")
 
 RegisterEvent(503, "Leave Thunderfist Mountain", function()
-    evt.MoveToMap(6138, 3063, 2406, 0, 0, 0, 0, 0, "out10.odm") -- Mount Nighon
+    evt.MoveToMap(6138, 3063, 2406, 0, 0, 0, 0, 8, "out10.odm") -- Mount Nighon
 end, "Leave Thunderfist Mountain")
 
 RegisterEvent(504, "Leave Thunderfist Mountain", function()
-    evt.MoveToMap(11623, -11083, 3840, 0, 0, 0, 0, 0, "out10.odm") -- Mount Nighon
+    evt.MoveToMap(11623, -11083, 3840, 0, 0, 0, 0, 8, "out10.odm") -- Mount Nighon
 end, "Leave Thunderfist Mountain")
 
 RegisterEvent(505, "Leave Thunderfist Mountain", function()
-    evt.MoveToMap(9350, -1010, 1, 744, 0, 0, 45, 0, "7d35.blv") -- Nighon Tunnels
+    evt.MoveToMap(9350, -1010, 1, 744, 0, 0, 45, 3, "7d35.blv") -- Nighon Tunnels
 end, "Leave Thunderfist Mountain")
 
 RegisterEvent(506, "Leave Thunderfist Mountain", function()
-    evt.MoveToMap(-437, -1078, 1, 256, 0, 0, 48, 0, "7d36.blv") -- Tunnels to Eeofol
+    evt.MoveToMap(-437, -1078, 1, 256, 0, 0, 48, 3, "7d36.blv") -- Tunnels to Eeofol
 end, "Leave Thunderfist Mountain")
 

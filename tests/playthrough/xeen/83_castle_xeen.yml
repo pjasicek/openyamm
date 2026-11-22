@@ -476,19 +476,20 @@ steps:
   - play_lua: {source: "open_door(25, 13)"}
   - walk_to: {x: 0, y: 416, z: 1920, radius: 40, clear_hostiles: 0, timeout_seconds: 40, close_dialogs: true}
   - play_lua: {source: "wait(1.5); close(); if not qbit(111709) then error('m35.lord_xeen_seen 111709 not set') end"}
-  - assert: {actor_visible: {actor_index: 25, dead: false}}
+  # Lord Xeen is actor 37 since D-98's six throne guards and the castle's extra monsters (was 25).
+  - assert: {actor_visible: {actor_index: 37, dead: false}}
   - play_lua: {source: "wait(5); close()"}
   # Blows without the sword do nothing (m35.untouchable once).
-  - party_attack: {actor_index: 25, member_index: 0, count: 12, kill: true, report: true}
-  - assert: {actor_visible: {actor_index: 25, dead: false}}
+  - party_attack: {actor_index: 37, member_index: 0, count: 12, kill: true, report: true}
+  - assert: {actor_visible: {actor_index: 37, dead: false}}
   - assert: {state_dump_map_var: {index: 13, value: 1}}
   # The Xeen Slayer Sword in the Cavalier's hand.
   - equip_item: {item_id: 12500, member_index: 0, slot: main_hand}
   - assert: {equipped_item: [{item_id: 12500, member_index: 0, slot: main_hand}]}
   - play_lua: {source: "remember('xp', experience(0))"}
-  - party_attack: {actor_index: 25, member_index: 0, count: 3000, kill: true, report: true}
+  - party_attack: {actor_index: 37, member_index: 0, count: 3000, kill: true, report: true}
   - advance_runtime: {seconds: 3}
-  - assert: {actor_visible: {actor_index: 25, dead: true}}
+  - assert: {actor_visible: {actor_index: 37, dead: true}}
   - clear_hostiles: {radius: 4000}
   - advance_runtime: {seconds: 3}
   - play_lua: {source: "close(); if not qbit(111706) then error('m35.lord_xeen_slain 111706 not set') end; wait(2); if door_state(15) ~= 'open' then error('the treasury: ' .. door_state(15)) end"}
@@ -577,7 +578,7 @@ steps:
   - play_lua: {source: "remember('xp', experience(0)); remember('gold', gold()); click(43); wait(1)"}
   # Prince Roland's double left the throne room with Lord Xeen's death: the King alone receives the party.
   - assert: {dialog: {active: true, source_id: 4401}}
-  - select_topic: {match_label: "Lord Xeen"}
+  - select_topic: {action_id: 41755, match_label: "Quest"}
   - assert: {dialog: {text_contains: "Thank you for rescuing Xeen from that foul spirit"}}
   - assert: {dialog: {text_contains: "he is on the other side. Go to him."}}
   - press_action: {action: cancel_dialog}

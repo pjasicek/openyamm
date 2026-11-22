@@ -1720,24 +1720,24 @@ textures:
   sfw6b: {border: [43, 46, 42], class: tile, mirror: 0.73, motif: 1.32, seam: [1.08, 1.54], size: [128, 256], tiles: [true, true], used: [17.5, 0.75]}
   sfw7a: {border: [36, 36, 35], class: tile, mirror: 0.58, motif: 0.3, seam: [0.84, 0.0], size: [128, 256], tiles: [true, true], used: [71.0, 27.75]}
   sfw7b: {border: [26, 37, 28], class: tile, mirror: 0.65, motif: 0.56, seam: [0.97, 0.0], size: [128, 256], tiles: [true, true], used: [4.0, 3.0]}
-  sgair: {border: [189, 130, 67], class: tile, mirror: 0.55, motif: 0.59, seam: [1.48, 1.79], size: [64, 64], tiles: [true, true], used: [1.07, 1.0]}
+  sgair: {border: [189, 130, 67], class: feature, mirror: 0.55, motif: 0.59, override: true, seam: [1.48, 1.79], size: [64, 64], tiles: [true, true], used: [1.07, 1.0]}
   sgalch: {border: [83, 52, 88], class: feature, mirror: 0.48, motif: 0.35, seam: [8.06, 9.44], size: [64, 64], tiles: [false, false], used: [1.0, 1.0]}
-  sgarm: {border: [54, 60, 81], class: tile, mirror: 0.65, motif: 1.62, seam: [1.34, 1.98], size: [64, 64], tiles: [true, true], used: [1.0, 1.0]}
-  sgbank: {border: [53, 53, 76], class: tile, mirror: 0.3, motif: 1.23, seam: [4.09, 5.45], size: [64, 64], tiles: [false, false], used: [1.0, 1.0]}
-  sgbody: {border: [135, 88, 54], class: tile, mirror: 0.7, motif: 1.03, seam: [0.87, 1.17], size: [64, 64], tiles: [true, true], used: [1.0, 1.0]}
-  sgdark: {border: [146, 104, 60], class: tile, mirror: 0.51, motif: 1.1, seam: [1.05, 1.93], size: [64, 64], tiles: [true, true], used: [1.0, 1.0]}
-  sgdock: {border: [129, 86, 54], class: tile, mirror: 0.49, motif: 0.47, seam: [0.83, 1.27], size: [64, 64], tiles: [true, true]}
-  sgearth: {border: [196, 135, 70], class: tile, mirror: 0.53, motif: 0.77, seam: [1.59, 1.73], size: [64, 64], tiles: [true, true], used: [1.07, 1.0]}
-  sgfire: {border: [153, 113, 68], class: tile, mirror: 0.61, motif: 1.14, seam: [1.0, 1.94], size: [64, 64], tiles: [true, true], used: [1.0, 1.0]}
-  sginn: {border: [121, 71, 77], class: tile, mirror: 0.34, motif: 0.99, seam: [4.79, 6.66], size: [64, 64], tiles: [false, false], used: [1.02, 1.0]}
+  sgarm: {border: [54, 60, 81], class: feature, mirror: 0.65, motif: 1.62, override: true, seam: [1.34, 1.98], size: [64, 64], tiles: [true, true], used: [1.0, 1.0]}
+  sgbank: {border: [53, 53, 76], class: feature, mirror: 0.3, motif: 1.23, override: true, seam: [4.09, 5.45], size: [64, 64], tiles: [false, false], used: [1.0, 1.0]}
+  sgbody: {border: [135, 88, 54], class: feature, mirror: 0.7, motif: 1.03, override: true, seam: [0.87, 1.17], size: [64, 64], tiles: [true, true], used: [1.0, 1.0]}
+  sgdark: {border: [146, 104, 60], class: feature, mirror: 0.51, motif: 1.1, override: true, seam: [1.05, 1.93], size: [64, 64], tiles: [true, true], used: [1.0, 1.0]}
+  sgdock: {border: [129, 86, 54], class: feature, mirror: 0.49, motif: 0.47, override: true, seam: [0.83, 1.27], size: [64, 64], tiles: [true, true]}
+  sgearth: {border: [196, 135, 70], class: feature, mirror: 0.53, motif: 0.77, override: true, seam: [1.59, 1.73], size: [64, 64], tiles: [true, true], used: [1.07, 1.0]}
+  sgfire: {border: [153, 113, 68], class: feature, mirror: 0.61, motif: 1.14, override: true, seam: [1.0, 1.94], size: [64, 64], tiles: [true, true], used: [1.0, 1.0]}
+  sginn: {border: [121, 71, 77], class: feature, mirror: 0.34, motif: 0.99, override: true, seam: [4.79, 6.66], size: [64, 64], tiles: [false, false], used: [1.02, 1.0]}
   sgldorb: {border: [97, 83, 74], class: trim_u, door: tile, material: wood, mirror: 0.62, motif: 0.38, seam: [1.59, 18.7], size: [256, 256], tiles: [true, false], used: [1.0, 1.0]}
-  sglight: {border: [151, 107, 61], class: tile, mirror: 0.44, motif: 0.93, seam: [1.07, 1.87], size: [64, 64], tiles: [true, true], used: [1.0, 1.0]}
+  sglight: {border: [151, 107, 61], class: feature, mirror: 0.44, motif: 0.93, override: true, seam: [1.07, 1.87], size: [64, 64], tiles: [true, true], used: [1.0, 1.0]}
   sglstrde: {border: [109, 114, 115], class: trim_u, material: stone, mirror: 0.53, motif: 0.65, seam: [0.36, 8.36], size: [128, 256], tiles: [true, false], used: [1.0, 1.0]}
-  sgmagi: {border: [64, 69, 117], class: tile, mirror: 0.54, motif: 1.26, seam: [0.99, 1.01], size: [64, 64], tiles: [true, true], used: [1.0, 1.0]}
-  sgmagic: {border: [54, 61, 82], class: tile, mirror: 0.4, motif: 1.62, seam: [0.89, 1.24], size: [64, 64], tiles: [true, true], used: [1.06, 1.0]}
-  sgmind: {border: [127, 80, 44], class: tile, mirror: 0.6, motif: 1.39, seam: [0.91, 1.49], size: [64, 64], tiles: [true, true], used: [1.0, 1.0]}
+  sgmagi: {border: [64, 69, 117], class: feature, mirror: 0.54, motif: 1.26, override: true, seam: [0.99, 1.01], size: [64, 64], tiles: [true, true], used: [1.0, 1.0]}
+  sgmagic: {border: [54, 61, 82], class: feature, mirror: 0.4, motif: 1.62, override: true, seam: [0.89, 1.24], size: [64, 64], tiles: [true, true], used: [1.06, 1.0]}
+  sgmind: {border: [127, 80, 44], class: feature, mirror: 0.6, motif: 1.39, override: true, seam: [0.91, 1.49], size: [64, 64], tiles: [true, true], used: [1.0, 1.0]}
   sgspell: {border: [84, 53, 88], class: feature, mirror: 0.38, motif: 0.41, seam: [8.12, 8.38], size: [64, 64], tiles: [false, false], used: [1.06, 1.0]}
-  sgspirit: {border: [65, 78, 98], class: tile, mirror: 0.53, motif: 1.2, seam: [1.15, 1.37], size: [64, 64], tiles: [true, true], used: [1.0, 1.0]}
+  sgspirit: {border: [65, 78, 98], class: feature, mirror: 0.53, motif: 1.2, override: true, seam: [1.15, 1.37], size: [64, 64], tiles: [true, true], used: [1.0, 1.0]}
   sgstabl: {border: [141, 112, 82], class: feature, mirror: 0.18, motif: 0.73, seam: [5.61, 8.75], size: [64, 64], tiles: [false, false], used: [1.0, 1.0]}
   sgstars: {border: [2, 2, 2], class: tile, mirror: 0.33, motif: 0.13, seam: [0.0, 1.64], size: [64, 64], tiles: [true, true], used: [24.0, 24.0]}
   sgstrdr: {border: [79, 64, 57], class: trim_u, material: wood, mirror: 0.55, motif: 0.4, seam: [1.42, 20.82], size: [128, 256], tiles: [true, false], used: [1.0, 1.0]}
@@ -1750,12 +1750,12 @@ textures:
   sgstrst: {border: [99, 81, 71], class: trim_u, material: wood, mirror: 0.5, motif: 0.33, seam: [1.31, 10.69], size: [128, 256], tiles: [true, false], used: [3.0, 1.0]}
   sgstrwde: {border: [98, 106, 107], class: trim_u, material: stone, mirror: 0.45, motif: 0.54, seam: [2.16, 10.33], size: [128, 256], tiles: [true, false], used: [1.0, 1.0]}
   sgstrwn1: {border: [102, 86, 78], class: trim_u, material: wood, mirror: 0.42, motif: 0.31, seam: [1.24, 11.19], size: [128, 256], tiles: [true, false], used: [2.0, 1.0]}
-  sgtempl: {border: [71, 31, 8], class: tile, mirror: 0.55, motif: 1.71, seam: [0.6, 0.6], size: [64, 64], tiles: [true, true], used: [1.0, 1.0]}
-  sgtrain: {border: [113, 90, 59], class: tile, mirror: 0.4, motif: 1.19, seam: [1.09, 1.49], size: [64, 64], tiles: [true, true], used: [1.0, 1.0]}
-  sgtvrn: {border: [82, 57, 43], class: tile, mirror: 0.19, motif: 1.2, seam: [6.55, 4.15], size: [64, 64], tiles: [false, false], used: [1.0, 1.0]}
-  sgwater: {border: [192, 130, 67], class: tile, mirror: 0.48, motif: 0.77, seam: [1.47, 1.71], size: [64, 64], tiles: [true, true], used: [1.06, 1.0]}
-  sgweap: {border: [108, 86, 57], class: tile, mirror: 0.09, motif: 0.94, seam: [1.31, 1.39], size: [64, 64], tiles: [true, true], used: [1.0, 1.0]}
-  sgweapon: {border: [119, 88, 73], class: tile, mirror: 0.29, motif: 1.01, seam: [1.38, 0.8], size: [64, 64], tiles: [true, true], used: [1.02, 1.0]}
+  sgtempl: {border: [71, 31, 8], class: feature, mirror: 0.55, motif: 1.71, override: true, seam: [0.6, 0.6], size: [64, 64], tiles: [true, true], used: [1.0, 1.0]}
+  sgtrain: {border: [113, 90, 59], class: feature, mirror: 0.4, motif: 1.19, override: true, seam: [1.09, 1.49], size: [64, 64], tiles: [true, true], used: [1.0, 1.0]}
+  sgtvrn: {border: [82, 57, 43], class: feature, mirror: 0.19, motif: 1.2, override: true, seam: [6.55, 4.15], size: [64, 64], tiles: [false, false], used: [1.0, 1.0]}
+  sgwater: {border: [192, 130, 67], class: feature, mirror: 0.48, motif: 0.77, override: true, seam: [1.47, 1.71], size: [64, 64], tiles: [true, true], used: [1.06, 1.0]}
+  sgweap: {border: [108, 86, 57], class: feature, mirror: 0.09, motif: 0.94, override: true, seam: [1.31, 1.39], size: [64, 64], tiles: [true, true], used: [1.0, 1.0]}
+  sgweapon: {border: [119, 88, 73], class: feature, mirror: 0.29, motif: 1.01, override: true, seam: [1.38, 0.8], size: [64, 64], tiles: [true, true], used: [1.02, 1.0]}
   sidert32: {border: [153, 115, 77], class: tile, material: wood, mirror: 0.13, motif: 1.4, seam: [2.45, 1.09], size: [32, 64], tiles: [true, true], used: [0.25, 0.5]}
   sign01-1: {border: [216, 196, 122], class: feature, mirror: 0.23, motif: 0.89, seam: [0.88, 0.92], size: [256, 128], tiles: [true, true], used: [1.0, 1.0]}
   sign01-2: {border: [176, 140, 85], class: feature, mirror: 0.2, motif: 0.27, seam: [10.62, 0.15], size: [128, 32], tiles: [false, true], used: [0.75, 1.0]}

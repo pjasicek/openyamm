@@ -721,7 +721,7 @@ steps:
     source: if not qbit(111709) then error('lord_xeen_seen not set') end
 - assert:
     actor_visible:
-      actor_index: 25
+      actor_index: 37
       dead: false
 - play_lua:
     source: wait(5); close()
@@ -730,20 +730,20 @@ steps:
       index: 12
       value: 1
 - party_attack:
-    actor_index: 25
+    actor_index: 37
     member_index: 0
     count: 48
     kill: true
     report: true
 - party_attack:
-    actor_index: 25
+    actor_index: 37
     member_index: 2
     count: 48
     kill: true
     report: true
 - assert:
     actor_visible:
-      actor_index: 25
+      actor_index: 37
       dead: false
       hp: 2200
       report_state: true
@@ -756,7 +756,7 @@ steps:
     member_index: 0
     equip: main_hand
 - party_attack:
-    actor_index: 25
+    actor_index: 37
     member_index: 0
     count: 1500
     kill: true
@@ -765,7 +765,7 @@ steps:
     seconds: 3
 - assert:
     actor_visible:
-      actor_index: 25
+      actor_index: 37
       dead: true
       report_state: true
 - clear_hostiles:

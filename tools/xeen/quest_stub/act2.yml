@@ -9,53 +9,53 @@ steps:
   - hook: [m5.crusaders_gate, false]
   - set: m4.done
   - hook: m5.crusaders_gate
-  - talk: [4402, Crodo]
+  - talk: [4402, m6]
   - expect: {not_qbit: m6.crodo_quest}
   - hidden: [4401, Earldom]
-  - talk: [4401, Sixth Mirror]
+  - talk: [4401, m5]
   - expect: {qbit: m5.audience, xp: 1000}
-  - talk: [4401, Sixth Mirror]
+  - talk: [4401, m5]
   - talk: [4401, Earldom]
   - talk: [4405, The mirror]
   - talk: [4405, Travels]
   # M6, M7, M12's pointer: Artemus
-  - hidden: [4402, Pyramids]
-  - talk: [4402, Crodo]
+  - hidden: [4402, m7]
+  - talk: [4402, m6]
   - expect: {qbit: m6.crodo_quest}
-  - talk: [4402, Pyramids]
+  - talk: [4402, m7]
   - expect: {qbit: m7.sigil, item: pyramid_sigil, xp: 2000}
-  - talk: [4402, Darzog's tower]
+  - talk: [4402, m12]
   - expect: {qbit: m12.started}
   # Q-C3 and T1-E: Roxanne's tiara
   - hook: [q-c3.bedroom_chest, false]
-  - talk: [4404, Tiara]
+  - talk: [4404, q-c3]
   - set: q-c3.robbers_den_found
   - hook: q-c3.boss
   - set: q-c3.robbers_vault_opened
   - give: roxannes_tiara   # F15: the chest holds it (the hook only sets its bit)
   - hook: q-c3.vault
-  - talk: [4404, Tiara]
+  - talk: [4404, q-c3]
   - expect: {qbit: q-c3.done, not_qbit: q-c3.started, no_item: roxannes_tiara, item: roxannes_tiara_gift,
              class: [0, Rogue], xp: 10000}
   - hook: q-c3.bedroom_chest
-  - hidden: [4404, Rogues]
+  - hidden: [4404, Promotion]
   - class: [3, Thief]
-  - talk: [4404, Rogues]
+  - talk: [4404, Promotion]
   - expect: {class: [3, Rogue], xp: 10000}
   # M8: the deed
   - talk: [4201, Newcastle]
-  - talk: [4201, Buy the deed]
+  - talk: [4201, m8]
   - expect: {not_qbit: m8.deed}
   - gold: 12000
-  - talk: [4201, Buy the deed]
+  - talk: [4201, m8]
   - expect: {qbit: m8.deed, item: deed_to_newcastle, gold: 0}
-  - hidden: [4201, Buy the deed]
+  - hidden: [4201, m8]
   # M9 offered; Q-C12 and the Temple of Yak (M10's first six coins)
-  - talk: [4403, Walls]
+  - talk: [4403, m9]
   - expect: {qbit: m9.started, not_qbit: m9.walls}
-  - talk: [4403, Megacredits]
+  - talk: [4403, m10]
   - expect: {qbit: m10.started}
-  - talk: [4202, Elixir]
+  - talk: [4202, q-c12]
   - expect: {qbit: q-c12.yak_stone}   # D-89: the Yak Stone is retired
   - hook: m10.yak_arrival
   - set: m10.yak_master_slain
@@ -65,12 +65,12 @@ steps:
   - hook: [m10.yak_treasury, false]
   - give: elixir   # F15: the chest holds it (the hook only sets its bit)
   - hook: q-c12.reliquary
-  - talk: [4202, Elixir]
+  - talk: [4202, q-c12]
   - expect: {qbit: q-c12.done, no_item: elixir, stat: [Personality, 5], xp: 13500}
   # M9: the walls, the Stone of a Thousand Terrors
-  - talk: [4403, Walls]
+  - talk: [4403, m9]
   - expect: {qbit: m9.walls, count: [megacredit, 1], xp: 16500}
-  - talk: [4201, Workers]
+  - talk: [4201, m9]
   - expect: {qbit: m9.stone_given}
   # M10: the Tomb
   - hook: m10.tomb_door
@@ -78,10 +78,10 @@ steps:
   - hook: m10.tomb_vault
   - give: [megacredit, 5]
   # M11: the keep, the Golem Stone
-  - talk: [4403, Keep]
-  - talk: [4403, Keep]
+  - talk: [4403, m11]
+  - talk: [4403, m11]
   - expect: {qbit: m11.keep, count: [megacredit, 1], xp: 23000}
-  - talk: [4201, Workers]
+  - talk: [4201, m9]
   - expect: {qbit: m11.stone_given}
   # M10: the Golem Dungeon
   - hook: m10.golem_door
@@ -104,31 +104,31 @@ steps:
   - expect: {qbit: m13.done, item: skeleton_key, xp: 33500}
   # Q-C5 and Q-C11: Asp
   - hook: [q-c5.field_gate, false]
-  - talk: [4301, Curse]
-  - talk: [4302, Transformer]
-  - talk: [4304, Crystals]
+  - talk: [4301, q-c5]
+  - talk: [4302, q-c5]
+  - talk: [4304, q-c11]
   - hook: q-c5.pedestal_rhyme
   - hook: q-c5.pedestal_touch
   - set: q-c5.pedestals
   - hook: q-c5.field_gate
   - hook: [q-c11.crystals, false]
   - hook: q-c5.transformer
-  - talk: [4301, Curse]
-  - talk: [4301, Curse]
+  - talk: [4301, q-c5]
+  - talk: [4301, q-c5]
   - expect: {qbit: [q-c5.done, q-c5.rewarded], xp: 38500, gold: 1500}
   - hook: q-c11.crystals
-  - talk: [4304, Crystals]
+  - talk: [4304, q-c11]
   - expect: {qbit: q-c11.done, no_item: piezo_crystals, xp: 41500}
   # Q-C10: the scarab
-  - talk: [4303, Scarab]
+  - talk: [4303, q-c10]
   - hook: q-c10.scarab
-  - talk: [4303, Scarab]
+  - talk: [4303, q-c10]
   - expect: {qbit: q-c10.done, no_item: scarab_of_imaging, xp: 50500, class: [1, Priest]}
   # T1-C for a Druid recruited later: Carlawna or the Autumn Druid, no second reward
   - class: [2, Druid]
-  - talk: [4321, The turning year]
+  - talk: [4321, Promotion]
   - expect: {class: [2, GreatDruid], xp: 50500}
-  - hidden: [4303, Ordination]
+  - hidden: [4303, Promotion]
   # Artemus's dungeon key (D-4)
   - hook: xd07.dungeon_door   # D-89: open before Artemus speaks
   - talk: [4402, The dungeon]
