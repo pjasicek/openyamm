@@ -12,7 +12,7 @@ Releases are built, checked, signed and published by GitHub Actions
 
 Players download a small package of tens of MB (the game without its content): `OpenYAMM-X.Y-windows-x64.zip`,
 `OpenYAMM-X.Y-linux-x64.tar.gz`, `OpenYAMM-X.Y-macos-arm64.dmg` or the APK. The first start downloads the content packs
-(about 5 GB on the desktop, 3 GB on Android), and every later release downloads only the packs that changed. On
+(about 10.5 GB on the desktop, 6.1 GB on Android, as of 3.0), and every later release downloads only the packs that changed. On
 Windows and Linux everything, including `saves/`, `settings.ini` and `openyamm.log`, stays in the extracted folder.
 The macOS app, dragged from the disk image to Applications, installs itself into
 `~/Library/Application Support/OpenYAMM` on its first start and keeps the player's data there
