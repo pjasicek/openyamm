@@ -222,7 +222,7 @@ private:
     void line(const GameplayScreenRuntime::HudFontHandle &font, uint32_t colour, const std::string &value, float x,
         float y) const
     {
-        m_context.renderHudFontLayer(font, GameplayHudFontLayer(font.shadowTextureHandle), value, x, y, 1.0f);
+        m_context.renderHudFontLayer(font, font.shadowLayer(), value, x, y, 1.0f);
         m_context.renderHudFontLayer(font, m_context.hudFontMainLayer(font, colour), value, x, y, 1.0f);
     }
 

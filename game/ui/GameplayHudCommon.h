@@ -89,6 +89,12 @@ struct GameplayHudFontData : Engine::FontAtlas
     bool sharedTextures = false;
     // A Unicode atlas's baseline in raster pixels; glyph placements are relative to it.
     int unicodeBaseline = 0;
+
+    // The face's shadow, drawn black (GameplayHudFontLayer::shadowOf).
+    GameplayHudFontLayer shadowLayer() const
+    {
+        return GameplayHudFontLayer::shadowOf(shadowTextureHandle);
+    }
 };
 
 enum class GameplayHudTextureColorMode

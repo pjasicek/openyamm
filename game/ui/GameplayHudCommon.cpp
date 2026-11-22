@@ -1303,6 +1303,8 @@ struct FontSource
     // The face's baseline at that raster height: faces sharing an atlas differ only in it.
     int unicodeBaseline = 0;
     int displayHeight = 0;
+    // An outline face's descriptor's presentation: tintable-with-shadow (the default) or tintable, without one.
+    bool drawShadow = true;
     std::optional<std::vector<uint8_t>> fntBytes;
     std::optional<GameplayHudFontData> bitmapFont;
 };
@@ -1315,6 +1317,7 @@ struct PreparedFont
     bool independentFont = false;
     std::string unicodeAtlasKey;
     int unicodeBaseline = 0;
+    bool drawShadow = true;
     std::optional<Engine::FontAtlasImage> image;
     std::string error;
     PreparedBgraTexture main;
@@ -1379,6 +1382,7 @@ std::optional<FontSource> resolveFontSource(
         {
             const YAML::Node descriptor = YAML::Load(*descriptorText);
             source.independentFont = descriptor["metrics"].as<std::string>("legacy") == "freetype";
+            source.drawShadow = descriptor["presentation"].as<std::string>("tintable-with-shadow") != "tintable";
             if (source.independentFont && descriptor["encoding"].as<std::string>("") == "utf-8")
             {
                 const int logicalHeight = descriptor["logical_height"].as<int>(0);
@@ -1468,6 +1472,7 @@ PreparedFont prepareFont(const Engine::AssetFileSystem &assetFileSystem, const F
     font.independentFont = source.independentFont;
     font.unicodeAtlasKey = source.unicodeAtlasKey;
     font.unicodeBaseline = source.unicodeBaseline;
+    font.drawShadow = source.drawShadow;
     font.image = source.independentFont
         ? Engine::loadTrueTypeFontAtlas(assetFileSystem, source.fontName, font.error, source.pixelHeight)
         : Engine::loadFontAtlas(assetFileSystem, *source.fntBytes, source.fontName, font.error);
@@ -1503,8 +1508,8 @@ PreparedFont prepareFont(const Engine::AssetFileSystem &assetFileSystem, const F
     }
     // The atlas pixels only feed these textures (the outline atlases are 10-40 MB each), so they move into them.
     font.main = prepareBgraTexture2D(width, height, std::move(mainPixels), filter);
-    // A Unicode atlas's shadow mask is the glyph itself, offset when drawn: it draws from the main texture.
-    if (!atlas.unicode)
+    // A Unicode atlas's shadow mask is the glyph itself: its shadow draws the main texture black (shadowOf).
+    if (!atlas.unicode && font.drawShadow)
     {
         font.shadow = prepareBgraTexture2D(width, height, std::move(font.image->shadowPixels), filter);
     }
@@ -1527,13 +1532,16 @@ std::optional<GameplayHudFontData> finishFont(PreparedFont &prepared)
     fontHandle.smooth = fontHandle.atlasScale > 1 || prepared.independentFont;
     const TextureFilterProfile filter = fontFilter(fontHandle, prepared.independentFont);
     fontHandle.mainTextureHandle = createPreparedBgraTexture2D(std::move(prepared.main), filter);
-    fontHandle.shadowTextureHandle = fontHandle.unicode
-        ? fontHandle.mainTextureHandle : createPreparedBgraTexture2D(std::move(prepared.shadow), filter);
+    // A Unicode atlas keeps its shadow for the faces that draw one (unicodeFontFromAtlas decides per face).
+    fontHandle.shadowTextureHandle = fontHandle.unicode ? fontHandle.mainTextureHandle
+        : prepared.drawShadow ? createPreparedBgraTexture2D(std::move(prepared.shadow), filter)
+                              : bgfx::TextureHandle{bgfx::kInvalidHandle};
     fontHandle.unicodeBaseline = prepared.unicodeBaseline;
     fontHandle.tintTextureHandle = prepared.tint
         ? createPreparedBgraTexture2D(std::move(*prepared.tint), filter) : fontHandle.mainTextureHandle;
 
-    if (!bgfx::isValid(fontHandle.mainTextureHandle) || !bgfx::isValid(fontHandle.shadowTextureHandle)
+    if (!bgfx::isValid(fontHandle.mainTextureHandle)
+        || (prepared.drawShadow && !bgfx::isValid(fontHandle.shadowTextureHandle))
         || !bgfx::isValid(fontHandle.tintTextureHandle))
     {
         destroyFontTextures(fontHandle);
@@ -1567,6 +1575,8 @@ std::unique_ptr<GameplayHudFontData> unicodeFontFromAtlas(
     pFont->fontHeight = displayHeight;
     pFont->layoutScale = float(displayHeight) / float(pFont->rasterHeight);
     pFont->sharedTextures = true;
+    pFont->shadowTextureHandle =
+        source.drawShadow ? pFont->mainTextureHandle : bgfx::TextureHandle{bgfx::kInvalidHandle};
     return pFont;
 }
 
@@ -1994,7 +2004,7 @@ void GameplayHudCommon::renderHudFontLayer(
     const float atlasWidth = static_cast<float>(font.atlasWidth / font.atlasScale);
     const float atlasHeight = static_cast<float>(font.atlasHeight / font.atlasScale);
     // Colour codes recolour the main layer through the tint atlas; the shadow stays as it is.
-    const bool shadow = layer.textureHandle.idx == font.shadowTextureHandle.idx;
+    const bool shadow = layer.shadow;
 
     walkHudLine(font, text,
         [&](int glyph, float pen, const std::optional<uint32_t> &runColor)
@@ -2115,7 +2125,7 @@ void GameplayHudCommon::renderLayoutLabel(
     textX = std::round(textX);
     textY = std::round(textY);
 
-    renderHudFontLayerFn(*pFont, pFont->shadowTextureHandle, clampedLabel, textX, textY, fontScale);
+    renderHudFontLayerFn(*pFont, pFont->shadowLayer(), clampedLabel, textX, textY, fontScale);
     renderHudFontLayerFn(*pFont, hudFontMainLayer(*pFont, layout.textColorAbgr), clampedLabel, textX, textY,
         fontScale);
 }

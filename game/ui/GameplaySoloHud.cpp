@@ -870,7 +870,7 @@ void renderSelfText(GameplayScreenRuntime &context, int width, int height)
         const uint32_t alphaBits = uint32_t(std::lround(255.0f * alpha)) << 24;
         const float textX = centerX - context.measureHudTextWidth(*font, line.text) * fontScale * 0.5f;
         const float textY = newestY - float(lines.size() - 1 - index) * lineHeight;
-        const GameplayHudFontLayer shadow(font->shadowTextureHandle, 0x00ffffffu | alphaBits);
+        const GameplayHudFontLayer shadow = GameplayHudFontLayer::shadowOf(font->shadowTextureHandle, alphaBits);
         for (const std::array<float, 2> &direction : Outline)
         {
             context.renderHudFontLayer(*font, shadow, line.text, textX + direction[0] * outline,

@@ -194,6 +194,8 @@ struct GameplayHudTextureHandle
     bgfx::TextureHandle textureHandle = BGFX_INVALID_HANDLE;
 };
 
+struct GameplayHudFontLayer;
+
 struct GameplayHudFontHandle
 {
     std::string fontName;
@@ -203,6 +205,9 @@ struct GameplayHudFontHandle
     int fontHeight = 0;
     bgfx::TextureHandle mainTextureHandle = BGFX_INVALID_HANDLE;
     bgfx::TextureHandle shadowTextureHandle = BGFX_INVALID_HANDLE;
+
+    // The face's shadow, drawn black (GameplayHudFontLayer::shadowOf).
+    GameplayHudFontLayer shadowLayer() const;
 };
 
 struct GameplayHudBatchQuad
@@ -241,16 +246,32 @@ struct GameplayHudFontLayer
 {
     bgfx::TextureHandle textureHandle = BGFX_INVALID_HANDLE;
     uint32_t tintAbgr = 0xffffffffu;
+    // A shadow or outline layer: colour codes in the text leave it as it is.
+    bool shadow = false;
 
     GameplayHudFontLayer() = default;
 
-    // An atlas drawn in its own colours, such as a font's shadow layer.
+    // An atlas drawn in its own colours.
     GameplayHudFontLayer(bgfx::TextureHandle handle, uint32_t tint = 0xffffffffu)
         : textureHandle(handle)
         , tintAbgr(tint)
     {
     }
+
+    // A font's shadow atlas drawn black at the alpha of alphaBits. A Unicode face's shadow is its white glyph atlas,
+    // so the black has to come from the tint; the other faces' shadow atlases are black already.
+    static GameplayHudFontLayer shadowOf(bgfx::TextureHandle handle, uint32_t alphaBits = 0xff000000u)
+    {
+        GameplayHudFontLayer layer(handle, alphaBits & 0xff000000u);
+        layer.shadow = true;
+        return layer;
+    }
 };
+
+inline GameplayHudFontLayer GameplayHudFontHandle::shadowLayer() const
+{
+    return GameplayHudFontLayer::shadowOf(shadowTextureHandle);
+}
 
 enum class GameplayMinimapMarkerType
 {

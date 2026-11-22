@@ -5256,7 +5256,7 @@ void GameplayScreenRuntime::renderHudTextLine(
         return;
     }
 
-    renderHudFontLayer(*font, font->shadowTextureHandle, text, textX, textY, fontScale);
+    renderHudFontLayer(*font, font->shadowLayer(), text, textX, textY, fontScale);
     renderHudFontLayer(*font, hudFontMainLayer(*font, colorAbgr), text, textX, textY, fontScale);
 }
 
@@ -5273,7 +5273,7 @@ void GameplayScreenRuntime::renderHudTextRuns(
         return;
     }
 
-    uiRuntime().renderHudFontLayerRuns(*font, font->shadowTextureHandle, runs, fontScale);
+    uiRuntime().renderHudFontLayerRuns(*font, font->shadowLayer(), runs, fontScale);
     uiRuntime().renderHudFontLayerRuns(*font, hudFontMainLayer(*font, colorAbgr), runs, fontScale);
 }
 

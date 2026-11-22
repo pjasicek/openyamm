@@ -269,7 +269,8 @@ void CombatFloatingText::render(const GameplayScreenRuntime &screenRuntime, int 
             const float textY = screenY - entry.liftCells * cellHeight - drawnHeight * 0.5f;
             const uint32_t alphaBits = uint32_t(std::lround(255.0f * pose.alpha)) << 24;
             const float outline = std::max(1.0f, drawnHeight * OutlineFraction);
-            const GameplayHudFontLayer outlineLayer(font->shadowTextureHandle, 0x00ffffffu | alphaBits);
+            const GameplayHudFontLayer outlineLayer =
+                GameplayHudFontLayer::shadowOf(font->shadowTextureHandle, alphaBits);
 
             for (const std::array<float, 2> &direction : OutlineDirections)
             {

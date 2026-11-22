@@ -510,6 +510,8 @@ std::optional<FontAtlasImage> loadTrueTypeFontAtlas(const AssetFileSystem &asset
         maxRasterHeight = descriptor["max_raster_height"].as<int>(0);
         glyphScale = descriptor["glyph_scale"].as<float>(1.0f);
         embolden = descriptor["embolden"].as<float>(0.0f);
+        // Read where the faces are made (the HUD font cache): tintable draws no shadow.
+        const std::string presentation = descriptor["presentation"].as<std::string>("tintable-with-shadow");
         file = descriptor["file"].as<std::string>();
         unicode = descriptor["encoding"].as<std::string>() == "utf-8";
         characterListFile = unicode ? descriptor["characters_file"].as<std::string>("") : "";
@@ -526,7 +528,8 @@ std::optional<FontAtlasImage> loadTrueTypeFontAtlas(const AssetFileSystem &asset
             baseline < 0 || baseline > atlas.fontHeight || (weight && (*weight < 1 || *weight > 1000)) ||
             embolden < 0.0f || embolden > 0.1f || (unicode && embolden > 0.0f) || maxRasterHeight < 0 ||
             glyphScale < 0.5f || glyphScale > 1.0f || (!unicode && glyphScale != 1.0f) ||
-            (maxRasterHeight > 0 && (!unicode || maxRasterHeight < 16)))
+            (maxRasterHeight > 0 && (!unicode || maxRasterHeight < 16)) ||
+            (presentation != "tintable-with-shadow" && presentation != "tintable"))
         {
             error = "Invalid independent outline font descriptor: " + name;
             return std::nullopt;

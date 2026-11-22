@@ -228,7 +228,11 @@ Changes, cheapest first:
    `glyph_scale`) are applied when drawing, so they do not split the atlas. **Done**: the key is the font file,
    character list, weight and raster height; a face sharing an atlas shifts its glyph placements by its own baseline.
 2. Draw the shadow from the main atlas if it is only an offset copy, removing the second texture. **Done** for
-   Unicode faces, whose shadow mask was an exact copy.
+   Unicode faces, whose shadow mask was an exact copy. The main atlas is white, so every shadow draw goes through
+   an explicit shadow layer tinted black (`GameplayHudFontLayer::shadowOf`, the faces' `shadowLayer()`, the menus'
+   black shadow tint); drawn untinted it was a white copy one pixel off, the "ghosted" Chinese text of 1.22–2.8.
+   An outline face's descriptor may set `presentation: tintable` (default `tintable-with-shadow`) to draw no
+   shadow at all.
 3. Store glyph coverage in one channel (R8) instead of BGRA: four times smaller.
 4. Subset a pack's font files to the characters its `.po` files use (download size only); `l10n.py check`
    produces the character list.

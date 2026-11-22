@@ -842,7 +842,8 @@ bool MenuScreenBase::drawText(
 
     if (withShadow)
     {
-        m_drawTint = 0xffffffffu;
+        // Black: a Unicode face's shadow is its white glyph atlas (the other faces' shadow atlases are black).
+        m_drawTint = 0xff000000u;
         submitQuads(pFont->shadowTextureHandle, std::max(1.0f, scale));
     }
 

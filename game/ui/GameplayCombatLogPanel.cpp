@@ -125,7 +125,7 @@ float appendText(std::vector<GameplayHudBatchQuad> &quads, const TextStyle &styl
     const float roundedX = std::round(x);
     const float roundedY = std::round(y);
     GameplayHudCommon::renderHudFontLayer(
-        *style.pFont, GameplayHudFontLayer(style.pFont->shadowTextureHandle), text, roundedX, roundedY, style.scale,
+        *style.pFont, style.pFont->shadowLayer(), text, roundedX, roundedY, style.scale,
         collect);
     GameplayHudCommon::renderHudFontLayer(
         *style.pFont, GameplayHudCommon::hudFontMainLayer(*style.pFont, color), text, roundedX, roundedY, style.scale,
@@ -997,10 +997,12 @@ void GameplayCombatLogPanel::layOut(GameplayScreenRuntime &context, const Combat
     const std::array<uint16_t, 4> shadowTextures = {titleStyle.pFont->shadowTextureHandle.idx,
         chipStyle.pFont->shadowTextureHandle.idx, lineStyle.pFont->shadowTextureHandle.idx,
         stageStyle.pFont->shadowTextureHandle.idx};
+    // A Unicode face's shadow is its main atlas drawn black, so the black tint tells its shadow from its text.
     const auto isShadow = [&shadowTextures](const GameplayHudBatchQuad &quad)
     {
-        return std::find(shadowTextures.begin(), shadowTextures.end(), quad.textureHandle.idx)
-            != shadowTextures.end();
+        return (quad.tintAbgr & 0x00ffffffu) == 0
+            && std::find(shadowTextures.begin(), shadowTextures.end(), quad.textureHandle.idx)
+                != shadowTextures.end();
     };
     std::stable_sort(m_textQuads.begin(), m_textQuads.end(),
         [&isShadow](const GameplayHudBatchQuad &left, const GameplayHudBatchQuad &right)

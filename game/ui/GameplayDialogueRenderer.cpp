@@ -2215,7 +2215,7 @@ void GameplayDialogueRenderer::renderDialogueBodyText(
     {
         const float y = resolvedText->y + i * lineHeight;
         const std::string &line = lines[i + interaction.dialogueBodyScrollLines];
-        view.renderHudFontLayer(font, font.shadowTextureHandle, line, x, y, fontScale, &*resolvedText);
+        view.renderHudFontLayer(font, font.shadowLayer(), line, x, y, fontScale, &*resolvedText);
         view.renderHudFontLayer(font, main, line, x, y, fontScale, &*resolvedText);
     }
 

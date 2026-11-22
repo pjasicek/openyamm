@@ -1258,7 +1258,7 @@ void renderHudLines(
         const bool finalLine = index < paragraphEnds.size() ? paragraphEnds[index] != 0 : index + 1 == lines.size();
         if (justifiedWidth <= 0 || finalLine || spaces == 0)
         {
-            context.renderHudFontLayer(font, font.shadowTextureHandle, line, x, lineY, fontScale);
+            context.renderHudFontLayer(font, font.shadowLayer(), line, x, lineY, fontScale);
             context.renderHudFontLayer(font, coloredMainLayer, line, x, lineY, fontScale);
             continue;
         }
@@ -1276,7 +1276,7 @@ void renderHudLines(
             std::vector<std::string> carried = {word, std::string()};
             GameplayHudCommon::carryTextColorsAcrossLines(carried);
             openCode = carried[1];
-            context.renderHudFontLayer(font, font.shadowTextureHandle, word, pen, lineY, fontScale);
+            context.renderHudFontLayer(font, font.shadowLayer(), word, pen, lineY, fontScale);
             context.renderHudFontLayer(font, coloredMainLayer, word, pen, lineY, fontScale);
             pen += context.measureHudTextWidth(font.fontName, word) * fontScale + extra;
             first = last;
@@ -7109,7 +7109,7 @@ void GameplayPartyOverlayRenderer::renderItemInspectOverlay(GameplayScreenRuntim
             for (const SpecialDetailLine &detailLine : specialDetailLines)
             {
                 context.renderHudFontLayer(
-                    *pDetailFont, pDetailFont->shadowTextureHandle, detailLine.text, textX, textY, detailFontScale);
+                    *pDetailFont, pDetailFont->shadowLayer(), detailLine.text, textX, textY, detailFontScale);
 
                 // Drawn in parts: before the accent, the accent in its colour, after it.
                 const std::array<std::pair<std::string, uint32_t>, 3> parts = {{
@@ -7179,7 +7179,7 @@ void GameplayPartyOverlayRenderer::renderItemInspectOverlay(GameplayScreenRuntim
         {
             const float y = clip.y + i * bodyLineHeight;
             const std::string &line = descriptionLines[i + interaction.itemInspectScrollLines];
-            context.renderHudFontLayer(*pBodyFont, pBodyFont->shadowTextureHandle, line,
+            context.renderHudFontLayer(*pBodyFont, pBodyFont->shadowLayer(), line,
                 clip.x, y, popupScale, &clip);
             context.renderHudFontLayer(*pBodyFont, main, line, clip.x, y, popupScale, &clip);
         }
@@ -7544,7 +7544,7 @@ void GameplayPartyOverlayRenderer::renderCharacterInspectOverlay(GameplayScreenR
 
         for (const std::string &line : bodyLines)
         {
-            context.renderHudFontLayer(*pBodyFont, pBodyFont->shadowTextureHandle, line, textX, textY, popupScale);
+            context.renderHudFontLayer(*pBodyFont, pBodyFont->shadowLayer(), line, textX, textY, popupScale);
             context.renderHudFontLayer(*pBodyFont, coloredMainLayer, line, textX, textY, popupScale);
             textY += bodyLineHeight;
         }
@@ -7601,7 +7601,7 @@ void GameplayPartyOverlayRenderer::renderCharacterInspectOverlay(GameplayScreenR
 
                 for (const std::string &wrappedLine : wrappedLines)
                 {
-                    context.renderHudFontLayer(*pFont, pFont->shadowTextureHandle, wrappedLine, textX, textY, popupScale);
+                    context.renderHudFontLayer(*pFont, pFont->shadowLayer(), wrappedLine, textX, textY, popupScale);
                     context.renderHudFontLayer(*pFont, coloredMainLayer, wrappedLine, textX, textY, popupScale);
                     textY += lineHeight;
                 }
@@ -7644,9 +7644,9 @@ void GameplayPartyOverlayRenderer::renderCharacterInspectOverlay(GameplayScreenR
                 const float valueX = labelX + context.measureHudTextWidth(*pFont, label) * popupScale;
                 const float textY = std::round(rowY + baseLayout.textPadY * popupScale);
 
-                context.renderHudFontLayer(*pFont, pFont->shadowTextureHandle, label, labelX, textY, popupScale);
+                context.renderHudFontLayer(*pFont, pFont->shadowLayer(), label, labelX, textY, popupScale);
                 context.renderHudFontLayer(*pFont, labelLayer, label, labelX, textY, popupScale);
-                context.renderHudFontLayer(*pFont, pFont->shadowTextureHandle, value, valueX, textY, popupScale);
+                context.renderHudFontLayer(*pFont, pFont->shadowLayer(), value, valueX, textY, popupScale);
                 context.renderHudFontLayer(*pFont, bonusLayer, value, valueX, textY, popupScale);
             };
 
@@ -7735,7 +7735,7 @@ void GameplayPartyOverlayRenderer::renderCharacterInspectOverlay(GameplayScreenR
 
             for (const std::string &line : footerLines)
             {
-                context.renderHudFontLayer(*pBodyFont, pBodyFont->shadowTextureHandle, line, textX, footerY, popupScale);
+                context.renderHudFontLayer(*pBodyFont, pBodyFont->shadowLayer(), line, textX, footerY, popupScale);
                 context.renderHudFontLayer(*pBodyFont, coloredMainLayer, line, textX, footerY, popupScale);
                 footerY += bodyLineHeight;
             }
@@ -8044,7 +8044,7 @@ void GameplayPartyOverlayRenderer::renderSpellInspectOverlay(GameplayScreenRunti
 
             for (const std::string &line : bodyLines)
             {
-                context.renderHudFontLayer(*pBodyFont, pBodyFont->shadowTextureHandle, line, textX, textY, popupScale);
+                context.renderHudFontLayer(*pBodyFont, pBodyFont->shadowLayer(), line, textX, textY, popupScale);
                 context.renderHudFontLayer(*pBodyFont, coloredMainLayer, line, textX, textY, popupScale);
                 textY += bodyLineHeight;
             }
@@ -8079,7 +8079,7 @@ void GameplayPartyOverlayRenderer::renderSpellInspectOverlay(GameplayScreenRunti
 
                     for (const std::string &wrappedLine : wrappedLines)
                     {
-                        context.renderHudFontLayer(*pFont, pFont->shadowTextureHandle, wrappedLine, textX, textY, popupScale);
+                        context.renderHudFontLayer(*pFont, pFont->shadowLayer(), wrappedLine, textX, textY, popupScale);
                         context.renderHudFontLayer(*pFont, coloredMainLayer, wrappedLine, textX, textY, popupScale);
                         textY += lineHeight;
                     }
@@ -8353,7 +8353,7 @@ void GameplayPartyOverlayRenderer::renderReadableScrollOverlay(GameplayScreenRun
             break;
         }
 
-        context.renderHudFontLayer(*pBodyFont, pBodyFont->shadowTextureHandle, line, textX, textY, bodyFontScale);
+        context.renderHudFontLayer(*pBodyFont, pBodyFont->shadowLayer(), line, textX, textY, bodyFontScale);
         context.renderHudFontLayer(*pBodyFont, coloredMainLayer, line, textX, textY, bodyFontScale);
         textY += bodyLineHeight;
     }
@@ -8555,7 +8555,7 @@ void GameplayPartyOverlayRenderer::renderBuffInspectOverlay(GameplayScreenRuntim
 
     for (const std::string &line : bodyLines)
     {
-        context.renderHudFontLayer(*pBodyFont, pBodyFont->shadowTextureHandle, line, textX, textY, popupScale);
+        context.renderHudFontLayer(*pBodyFont, pBodyFont->shadowLayer(), line, textX, textY, popupScale);
         context.renderHudFontLayer(*pBodyFont, coloredMainLayer, line, textX, textY, popupScale);
         textY += bodyLineHeight;
     }
@@ -8737,7 +8737,7 @@ void GameplayPartyOverlayRenderer::renderCharacterDetailOverlay(GameplayScreenRu
                 context.hudFontMainLayer(font, colorAbgr);
 
 
-            context.renderHudFontLayer(font, font.shadowTextureHandle, text, textX, textY, fontScale);
+            context.renderHudFontLayer(font, font.shadowLayer(), text, textX, textY, fontScale);
             context.renderHudFontLayer(font, coloredMainLayer, text, textX, textY, fontScale);
         };
     const auto submitSolidQuad =
@@ -9956,21 +9956,21 @@ void GameplayPartyOverlayRenderer::renderCharacterOverlay(
 
             if (!showBase)
             {
-                context.renderHudFontLayer(*font, font->shadowTextureHandle, value.prefixText, textX, textY, fontScale);
+                context.renderHudFontLayer(*font, font->shadowLayer(), value.prefixText, textX, textY, fontScale);
                 context.renderHudFontLayer(*font, baseLayer, value.prefixText, textX, textY, fontScale);
                 textX += prefixWidth;
             }
 
-            context.renderHudFontLayer(*font, font->shadowTextureHandle, value.actualText, textX, textY, fontScale);
+            context.renderHudFontLayer(*font, font->shadowLayer(), value.actualText, textX, textY, fontScale);
             context.renderHudFontLayer(*font, actualLayer, value.actualText, textX, textY, fontScale);
 
             if (showBase)
             {
                 textX += actualWidth;
-                context.renderHudFontLayer(*font, font->shadowTextureHandle, separatorText, textX, textY, fontScale);
+                context.renderHudFontLayer(*font, font->shadowLayer(), separatorText, textX, textY, fontScale);
                 context.renderHudFontLayer(*font, baseLayer, separatorText, textX, textY, fontScale);
                 textX += separatorWidth;
-                context.renderHudFontLayer(*font, font->shadowTextureHandle, baseText, textX, textY, fontScale);
+                context.renderHudFontLayer(*font, font->shadowLayer(), baseText, textX, textY, fontScale);
                 context.renderHudFontLayer(*font, baseLayer, baseText, textX, textY, fontScale);
             }
         };
@@ -11488,7 +11488,7 @@ void GameplayPartyOverlayRenderer::renderCharacterOverlay(
 
                 for (const std::string &line : wrappedLines)
                 {
-                    context.renderHudFontLayer(*font, font->shadowTextureHandle, line, blurbX, blurbY, fontScale);
+                    context.renderHudFontLayer(*font, font->shadowLayer(), line, blurbX, blurbY, fontScale);
                     context.renderHudFontLayer(*font, coloredLayer, line, blurbX, blurbY, fontScale);
                     blurbY += lineHeight;
                 }

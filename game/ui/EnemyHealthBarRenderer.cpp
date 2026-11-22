@@ -417,7 +417,7 @@ void EnemyHealthBarRenderer::render(const GameplayScreenRuntime &context, const 
                     quad(texture, x, y, w, h, u0, v0, u1, v1, tintAbgr);
                 };
                 // A thin dark outline keeps the compact gold caption readable against sky and scenery.
-                const bgfx::TextureHandle outline = font->shadowTextureHandle;
+                const GameplayHudFontLayer outline = font->shadowLayer();
                 const float outlineOffset = 0.5f * textScale;
                 for (const bx::Vec3 offset : std::array<bx::Vec3, 4>{{
                     {-outlineOffset, 0, 0}, {outlineOffset, 0, 0},
