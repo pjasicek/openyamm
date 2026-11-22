@@ -1,0 +1,32 @@
+id: coop.monsters_fight_the_nearest_player
+title: "Co-op - monsters turn to the nearest player's party; the other party is left alone"
+world: mm8
+mode: faithful
+tags: [coop, regression]
+steps:
+  - note:
+      text: >-
+        devdocs/plans/MULTIPLAYER_LISTEN_SERVER_ARCHITECTURE.md, "Two players as built". A second player's party
+        stands 700 units from the local one, and three Pirates (181, hostile, a blow of 5D2) appear beside it. Each
+        monster deals with the nearest party that can act, so the blows land on the second party and the local
+        one is not touched. The second player's own blow goes through the command front as that player.
+  - new_game_flow:
+      start_map: out01.odm
+      party:
+        gold: 0
+        food: 10
+        members:
+          - {name: A, class: Knight, level: 10, skills: [{name: Sword, level: 5, mastery: 1}], equipment: {}}
+          - {name: B, class: Knight, level: 10, skills: [{name: Sword, level: 5, mastery: 1}], equipment: {}}
+  - advance_runtime: {seconds: 1}
+  - console: {line: coop on, expect_contains: "co-op session: on"}
+  - console: {line: "coop add 700 0", expect_contains: "player 1 at"}
+  - spawn_actor: {monster_id: 181, near_player: 1, count: 3}
+  - advance_runtime: {seconds: 12}
+  - console: {line: coop show}
+  - console: {line: "coop check 1 hurt = 1"}
+  - console: {line: "coop check 0 hurt = 0"}
+  # The island's lizardmen fight pirates too, so the blow goes at one that has just appeared.
+  - spawn_actor: {monster_id: 181, near_player: 1}
+  - party_attack: {player: 1, actor_index: last, member_index: 0, count: 1}
+  - console: {line: commands, expect_contains: "attack 1"}

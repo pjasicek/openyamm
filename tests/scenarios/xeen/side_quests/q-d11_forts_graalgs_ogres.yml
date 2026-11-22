@@ -39,7 +39,7 @@ steps:
   - press_interact: {expect: {kind: event_target}}
   - assert:
       dialog: {active: true, house_dialog: false}
-  - select_topic: {match_label: "Ogres"}
+  - select_topic: {action_id: 44551, match_label: "Quest"}
   - assert:
       dialog: {text_contains: "There is a reward, and a bounty if both their forts burn."}
   - press_action: {action: cancel_dialog}
@@ -162,14 +162,14 @@ steps:
   - play_lua: {source: "for _, i in ipairs({0}) do local c = conditions(i); for _, n in ipairs({'Dead', 'Eradicated', 'Petrified', 'Paralyzed', 'Unconscious', 'Asleep'}) do if c:find(n, 1, true) then error('member ' .. i .. ' cannot act before the Bounty topic: ' .. c) end end end"}
   - play_lua: {source: "remember('gold', gold()); for i = 0, 3 do remember('xp' .. i, experience(i)) end"}
   - press_interact: {expect: {kind: event_target}}
-  - assert: {dialog: {active: true, action_label_present: "Bounty"}}
-  - select_topic: {match_label: "Ogres"}
+  - assert: {dialog: {active: true, action_label_present: "Promotion"}}
+  - select_topic: {action_id: 44551, match_label: "Quest"}
   - assert:
       dialog: {text_contains: "Thank you so much for getting rid of the Ogres!"}
-  - select_topic: {match_label: "Bounty"}
+  - select_topic: {action_id: 44552, match_label: "Promotion"}
   - assert:
       dialog: {text_contains: "the caravan guild has a title for hunters like you"}
-  - assert: {dialog: {active: true, action_label_absent: "Bounty"}}
+  - assert: {dialog: {active: true, action_label_absent: "Promotion"}}
   - select_topic: {match_label: "Ogres"}
   - assert:
       dialog: {text_contains: "The caravans run through Ogre Pass on time."}

@@ -1,0 +1,32 @@
+id: coop.net_position_jump
+title: "Co-op - a guest's place that jumps across the map is not taken, and its game is put back"
+world: mm8
+mode: faithful
+tags: [coop, regression]
+steps:
+  - note:
+      text: >-
+        A guest's game says where its character stands and the host takes it. A place the character cannot have
+        reached since the last one is not taken: the host keeps the character where it has it and orders the
+        guest's game back there. Here the guest's game is moved 12000 units in one frame; the host still has
+        player 1 beside it, and a moment later the guest's game stands there again. A short step is taken as before.
+  - new_game_flow:
+      start_map: out01.odm
+  - advance_runtime: {seconds: 1}
+  - coop_guest: {}
+  - new_game_flow:
+      start_map: out02.odm
+    game: guest
+  - coop_join: {expect: joined}
+  - advance_runtime: {seconds: 0.5}
+  - console: {line: coop show, expect_contains: "player 1 at 3656 7696"}
+  - set_pose: {map: out01.odm, x: 3756, y: 7696, z: 545, yaw: 0, pitch: 0}
+    game: guest
+  - advance_runtime: {seconds: 0.5}
+  - console: {line: coop show, expect_contains: "player 1 at 3756 7696"}
+  - set_pose: {map: out01.odm, x: -8244, y: 7696, z: 545, yaw: 0, pitch: 0}
+    game: guest
+  - advance_runtime: {seconds: 1}
+  - console: {line: coop show, expect_contains: "player 1 at 3756 7696"}
+  - assert: {party_position: {x: 3756, y: 7696, radius: 96}}
+    game: guest

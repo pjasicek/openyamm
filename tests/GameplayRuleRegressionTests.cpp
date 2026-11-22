@@ -9605,6 +9605,42 @@ TEST_CASE("dungeon transition dialog uses trans table title text icon and transi
     CHECK_EQ(dialog.actions[1].kind, OpenYAMM::Game::EventDialogActionKind::MapTransitionCancel);
 }
 
+TEST_CASE("transition dialog shows MMerge's destination text and keeps the house's title")
+{
+    const OpenYAMM::Tests::RegressionGameData &gameData = requireRegressionGameData();
+    OpenYAMM::Game::EventRuntimeState runtimeState = {};
+    OpenYAMM::Game::EventRuntimeState::PendingMapMove mapMove = {};
+    mapMove.mapName = std::string("oracle.blv");
+
+    // Free Haven's oracle door names house 451 (The Oracle), whose trans.txt line belongs to the Control Center.
+    OpenYAMM::Game::EventRuntimeState::PendingDialogueContext context = {};
+    context.kind = OpenYAMM::Game::DialogueContextKind::MapTransition;
+    context.transitionMapMove = mapMove;
+    context.transitionTextId = 451;
+    context.transitionImageId = 9;
+    runtimeState.pendingDialogueContext = context;
+
+    const OpenYAMM::Game::EventDialogContent dialog = OpenYAMM::Game::buildEventDialogContent(
+        runtimeState,
+        0,
+        true,
+        nullptr,
+        nullptr,
+        nullptr,
+        nullptr,
+        &gameData.transitionTable,
+        nullptr,
+        nullptr,
+        nullptr,
+        nullptr,
+        0.0f);
+
+    REQUIRE(dialog.isActive);
+    REQUIRE_FALSE(dialog.lines.empty());
+    CHECK(dialog.lines.front().find("The Oracle has provided") != std::string::npos);
+    CHECK(dialog.lines.front().find("Control Center") == std::string::npos);
+}
+
 TEST_CASE("merged dungeon transition dialog uses world house movie metadata before shared title fallback")
 {
     const OpenYAMM::Tests::RegressionGameData &gameData = requireRegressionGameData();

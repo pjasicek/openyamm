@@ -1,7 +1,10 @@
 #include "core/ChestKinds.h"
 
+#include "core/CoreMath.h"
+
 #include <algorithm>
 #include <cctype>
+#include <cmath>
 #include <tuple>
 
 namespace OpenYAMM::Studio
@@ -244,5 +247,224 @@ std::vector<ChestFace> chestKindFaces(const ChestKind &kind, const std::array<do
     }
 
     return faces;
+}
+
+double ChestGaps::nearest() const
+{
+    return std::min({front, back, endLeft, endRight});
+}
+
+ChestGaps chestGaps(const std::vector<ChestWall> &walls, const std::array<double, 2> &centre, double frontRadians,
+    double width, double depth)
+{
+    // From the middle straight out to the nearest wall, less the chest's own half.
+    const auto reach = [&walls, &centre](double radians, double half)
+    {
+        const double dx = oy::cos(radians);
+        const double dy = oy::sin(radians);
+        double best = 1.0e9;
+
+        for (const ChestWall &wall : walls)
+        {
+            const double ex = wall.to[0] - wall.from[0];
+            const double ey = wall.to[1] - wall.from[1];
+            const double denominator = dx * ey - dy * ex;
+
+            if (std::abs(denominator) < 1.0e-9)
+            {
+                continue;
+            }
+
+            const double t = ((wall.from[0] - centre[0]) * ey - (wall.from[1] - centre[1]) * ex) / denominator;
+            const double s = ((wall.from[0] - centre[0]) * dy - (wall.from[1] - centre[1]) * dx) / denominator;
+
+            if (t > 0.0 && s >= -1.0e-6 && s <= 1.0 + 1.0e-6)
+            {
+                best = std::min(best, t - half);
+            }
+        }
+
+        return best;
+    };
+
+    constexpr double Quarter = 1.57079632679489661923;
+    ChestGaps gaps;
+    gaps.front = reach(frontRadians, depth / 2.0);
+    gaps.back = reach(frontRadians + 2.0 * Quarter, depth / 2.0);
+    gaps.endLeft = reach(frontRadians + Quarter, width / 2.0);
+    gaps.endRight = reach(frontRadians - Quarter, width / 2.0);
+    return gaps;
+}
+
+std::string chestFacingFault(const ChestGaps &gaps, bool frontKnown, std::optional<double> entranceDegrees)
+{
+    const auto units = [](double value)
+    {
+        return std::to_string(static_cast<long>(std::lround(std::max(value, 0.0))));
+    };
+    const double ends = std::min(gaps.endLeft, gaps.endRight);
+
+    if (!frontKnown)
+    {
+        // Either long side may be the back: only an end to the wall with both long sides clear is wrong.
+        if (ends <= ChestFacing::Reach && std::min(gaps.front, gaps.back) > ChestFacing::Reach)
+        {
+            return "it stands end-on to a wall " + units(ends) + " away, a long side to the room";
+        }
+
+        return {};
+    }
+
+    if (gaps.front < ChestFacing::Reach && gaps.front < gaps.back)
+    {
+        return "its front faces a wall " + units(gaps.front) + " away";
+    }
+
+    if (gaps.back > ChestFacing::Reach && ends <= ChestFacing::Reach)
+    {
+        return "it stands end-on to a wall " + units(ends) + " away, its back to the room";
+    }
+
+    if (gaps.nearest() > ChestFacing::Reach && entranceDegrees && *entranceDegrees > ChestFacing::EntranceDegrees)
+    {
+        return "it stands free with its back to its room's entrance (" + units(*entranceDegrees)
+            + " degrees from its front)";
+    }
+
+    return {};
+}
+
+std::array<std::array<double, 2>, 4> chestFootprint(const std::array<double, 2> &centre, double frontRadians,
+    double width, double depth)
+{
+    const std::array<double, 2> front = {oy::cos(frontRadians), oy::sin(frontRadians)};
+    const std::array<double, 2> across = {-front[1], front[0]};
+    std::array<std::array<double, 2>, 4> corners;
+    size_t index = 0;
+
+    for (const std::array<double, 2> &unit :
+         std::array<std::array<double, 2>, 4>{{{-1.0, -1.0}, {1.0, -1.0}, {1.0, 1.0}, {-1.0, 1.0}}})
+    {
+        corners[index++] = {centre[0] + across[0] * unit[0] * width / 2.0 + front[0] * unit[1] * depth / 2.0,
+            centre[1] + across[1] * unit[0] * width / 2.0 + front[1] * unit[1] * depth / 2.0};
+    }
+
+    return corners;
+}
+
+namespace
+{
+double pointToSegment(const std::array<double, 2> &point, const std::array<double, 2> &from,
+    const std::array<double, 2> &to)
+{
+    const double dx = to[0] - from[0];
+    const double dy = to[1] - from[1];
+    const double lengthSquared = dx * dx + dy * dy;
+    const double t = lengthSquared <= 0.0 ? 0.0
+        : std::clamp(((point[0] - from[0]) * dx + (point[1] - from[1]) * dy) / lengthSquared, 0.0, 1.0);
+    return std::sqrt((point[0] - from[0] - dx * t) * (point[0] - from[0] - dx * t)
+        + (point[1] - from[1] - dy * t) * (point[1] - from[1] - dy * t));
+}
+
+bool insideFootprint(const std::array<std::array<double, 2>, 4> &footprint, const std::array<double, 2> &point)
+{
+    bool inside = false;
+
+    for (size_t index = 0, previous = 3; index < 4; previous = index++)
+    {
+        const std::array<double, 2> &a = footprint[index];
+        const std::array<double, 2> &b = footprint[previous];
+
+        if ((a[1] > point[1]) != (b[1] > point[1])
+            && point[0] < (b[0] - a[0]) * (point[1] - a[1]) / (b[1] - a[1]) + a[0])
+        {
+            inside = !inside;
+        }
+    }
+
+    return inside;
+}
+
+// From a footprint to a segment: 0 when they touch, else the least distance (its sides sampled every 4).
+double footprintToSegment(const std::array<std::array<double, 2>, 4> &footprint, const std::array<double, 2> &from,
+    const std::array<double, 2> &to)
+{
+    if (insideFootprint(footprint, from) || insideFootprint(footprint, to))
+    {
+        return 0.0;
+    }
+
+    double best = 1.0e18;
+
+    for (size_t side = 0; side < 4; ++side)
+    {
+        const std::array<double, 2> &a = footprint[side];
+        const std::array<double, 2> &b = footprint[(side + 1) % 4];
+        const double length = std::sqrt((b[0] - a[0]) * (b[0] - a[0]) + (b[1] - a[1]) * (b[1] - a[1]));
+        const int steps = std::max(1, static_cast<int>(std::ceil(length / 4.0)));
+
+        for (int step = 0; step <= steps; ++step)
+        {
+            const double t = static_cast<double>(step) / steps;
+            best = std::min(best, pointToSegment({a[0] + (b[0] - a[0]) * t, a[1] + (b[1] - a[1]) * t}, from, to));
+        }
+
+        best = std::min({best, pointToSegment(from, a, b), pointToSegment(to, a, b)});
+    }
+
+    return best;
+}
+
+std::string wholeUnits(double value)
+{
+    return std::to_string(static_cast<long>(std::lround(std::max(value, 0.0))));
+}
+}
+
+std::string chestPlacementFault(const std::array<std::array<double, 2>, 4> &footprint,
+    const std::vector<ChestDoorway> &doorways, bool lines)
+{
+    const std::array<double, 2> centre = {(footprint[0][0] + footprint[2][0]) / 2.0,
+        (footprint[0][1] + footprint[2][1]) / 2.0};
+
+    for (const ChestDoorway &doorway : doorways)
+    {
+        const double dx = doorway.to[0] - doorway.from[0];
+        const double dy = doorway.to[1] - doorway.from[1];
+        const double width = std::sqrt(dx * dx + dy * dy);
+        // Whether the chest's middle lies in front of the opening (its foot within it and 64 past its ends).
+        const double along = width <= 0.0 ? 0.0
+            : ((centre[0] - doorway.from[0]) * dx + (centre[1] - doorway.from[1]) * dy) / width;
+        const bool inFront = along >= -ChestPlacement::SideMargin && along <= width + ChestPlacement::SideMargin;
+        const double gap = footprintToSegment(footprint, doorway.from, doorway.to);
+        const double clearance = inFront ? ChestPlacement::DoorwayFront : ChestPlacement::DoorwayBeside;
+
+        if (gap < clearance)
+        {
+            return "it stands " + wholeUnits(gap) + (inFront ? " in front of " : " beside ") + doorway.name
+                + " (a chest keeps " + wholeUnits(std::min(ChestPlacement::DoorwayFront, ChestPlacement::DoorwayBeside))
+                + " clear of a way in)";
+        }
+    }
+
+    for (size_t first = 0; lines && first < doorways.size(); ++first)
+    {
+        for (size_t second = first + 1; second < doorways.size(); ++second)
+        {
+            const ChestDoorway &a = doorways[first];
+            const ChestDoorway &b = doorways[second];
+            const std::array<double, 2> from = {(a.from[0] + a.to[0]) / 2.0, (a.from[1] + a.to[1]) / 2.0};
+            const std::array<double, 2> to = {(b.from[0] + b.to[0]) / 2.0, (b.from[1] + b.to[1]) / 2.0};
+            const double gap = footprintToSegment(footprint, from, to);
+
+            if (gap < ChestPlacement::WalkingLine)
+            {
+                return "it stands " + wholeUnits(gap) + " from the walking line between " + a.name + " and " + b.name
+                    + " (a chest keeps " + wholeUnits(ChestPlacement::WalkingLine) + " clear of it)";
+            }
+        }
+    }
+
+    return {};
 }
 }

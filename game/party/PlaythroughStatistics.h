@@ -208,6 +208,14 @@ public:
         std::string startWorld;
         std::string ruleset;
         std::string difficulty;
+        // The party's members in their order (memberKey), as last seen; empty in files from before it was kept.
+        std::vector<std::string> party;
+    };
+
+    struct PartyMember
+    {
+        std::string name;
+        std::string className;
     };
 
     // What a playthrough's statistics file says of it, for the save lists.
@@ -215,6 +223,7 @@ public:
     {
         Header header;
         double playedSeconds = 0.0;
+        std::vector<PartyMember> party;
     };
 
     struct SessionCounters
@@ -277,6 +286,10 @@ public:
     void markAssisted(const std::string &reason, const std::string &detail = std::string());
 
     void syncMember(const StatMemberRef &member);
+    // The party's members in their order (memberKey), for the save lists; kept in the statistics file.
+    void setParty(std::vector<std::string> memberKeys);
+    // The party with its names and classes (the save lists).
+    std::vector<PartyMember> party() const;
 
     void recordSave(StatSaveKind kind);
     void recordMonsterKilled(const std::string &monsterName, int level);
@@ -330,6 +343,11 @@ public:
     // The real time played that a save's timeline holds; 0 when it has none or cannot be opened.
     static double timelinePlayedSeconds(const std::string &playthroughId, const std::string &savedTimeline);
     static std::string memberKey(uint64_t statsMemberId);
+    // The members `party` names, with their names and classes from `counters`; when `party` is empty (a file from
+    // before it was kept), every member who joined, by joining.
+    static std::vector<PartyMember> partyMembers(
+        const std::vector<std::string> &party,
+        const PlaythroughCounters &counters);
 
 private:
     void forBoth(const std::function<void(PlaythroughCounters &)> &apply);

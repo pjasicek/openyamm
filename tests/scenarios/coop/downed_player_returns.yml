@@ -1,0 +1,42 @@
+id: coop.downed_player_returns
+title: "Co-op - one party down is not a defeat; after ten seconds it returns to the arrival point at the defeat's price"
+world: mm8
+mode: faithful
+tags: [coop, regression]
+steps:
+  - note:
+      text: >-
+        "A downed player" in devdocs/plans/MULTIPLAYER_LISTEN_SERVER_ARCHITECTURE.md. The local party is struck
+        down while player 1 stands: the game is not lost and the map stays. After ten seconds the local party
+        returns: on its feet where the players arrived, with its gold (since 2026-11-21 a return costs none). The
+        same for player 1 afterwards.
+  - new_game_flow:
+      start_map: out01.odm
+  - advance_runtime: {seconds: 1}
+  - console: {line: coop on, expect_contains: "co-op session: on"}
+  - console: {line: "coop add 300 0", expect_contains: "player 1 at"}
+  - console: {line: "coop check 0 gold = 10000"}
+  - console: {line: "coop damage 0 1000000", expect_contains: "down"}
+  - advance_runtime: {seconds: 11}
+  - assert: {map: out01.odm}
+  - console: {line: "coop check 0 down = 1"}
+  - console: {line: "coop return 0", expect_contains: "player 0 returned"}
+  - console: {line: "coop check 0 down = 0"}
+  - console: {line: "coop check 0 gold = 10000"}
+  - console: {line: "coop check 1 gold = 10000"}
+  - console: {line: "coop pose 1 9000 9000 545"}
+  - console: {line: "coop damage 1 1000000", expect_contains: "down"}
+  - advance_runtime: {seconds: 11}
+  - console: {line: "coop return 1", expect_contains: "player 1 returned"}
+  - console: {line: "coop check 1 down = 0"}
+  - console: {line: "coop check 1 gold = 10000"}
+  - console: {line: coop show, expect_contains: "player 1 at 3560 7696"}
+  - assert: {map: out01.odm}
+  - note:
+      text: >-
+        Both parties down at once is the defeat, and it is everyone's - both stand again afterwards and the game
+        goes on.
+  - console: {line: "coop damage 1 1000000", expect_contains: "down"}
+  - party_defeat: {knock_out: true, wait_seconds: 5}
+  - console: {line: "coop check 0 down = 0"}
+  - console: {line: "coop check 1 down = 0"}

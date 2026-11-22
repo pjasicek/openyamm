@@ -3658,6 +3658,16 @@ bool GameDataLoader::loadTransitionTable(const Engine::AssetFileSystem &assetFil
         return false;
     }
 
+    // MMerge's per-destination entrance texts, for MM6-MM8 entrances whose own text is missing or belongs elsewhere.
+    std::vector<std::vector<std::string>> mapTextRows;
+
+    if (!loadFirstTextTableRows(assetFileSystem, {engineDataTablePath("transition_map_texts.txt")}, mapTextRows)
+        || !m_transitionTable.loadMapTextsFromRows(mapTextRows))
+    {
+        std::cerr << "Failed to parse transition map text table.\n";
+        return false;
+    }
+
     return true;
 }
 

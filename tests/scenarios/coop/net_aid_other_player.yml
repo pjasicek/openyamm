@@ -1,0 +1,104 @@
+id: coop.net_aid_other_player
+title: "Co-op - a heal goes to the other player who needs it, wakes one who is down, and the downed do not walk"
+world: mm8
+mode: faithful
+tags: [coop, regression]
+steps:
+  - note:
+      text: >-
+        A heal, cure or raising looks at the other players' characters within reach as well as the caster's own
+        (GameplaySpellService::coopCharacterTarget): here the Upkeep key's Heal, from the host for the guest and
+        from the guest for the host. A player struck unconscious lies where it fell (its walking keys do nothing)
+        until another player's heals have made up the deficit; then it is up again, in both games. Before
+        2026-11-21 a heal only ever went to the caster's own character, and a downed player walked about.
+  - new_game_flow:
+      start_map: out01.odm
+      party:
+        gold: 0
+        food: 10
+        members:
+          - name: H
+            class: Cleric
+            level: 20
+            skills: [{name: BodyMagic, level: 10, mastery: 2}]
+            spells: [68]
+            equipment: {}
+            battle_orders: {fallback: weapon, orders: [], upkeep: [{spell: Heal}]}
+  - advance_runtime: {seconds: 1}
+  - coop_guest: {}
+  - new_game_flow:
+      start_map: out02.odm
+      party:
+        gold: 0
+        food: 10
+        members:
+          - name: G
+            class: Cleric
+            level: 20
+            skills: [{name: BodyMagic, level: 10, mastery: 2}]
+            spells: [68]
+            equipment: {}
+            battle_orders: {fallback: weapon, orders: [], upkeep: [{spell: Heal}]}
+    game: guest
+  - coop_join: {expect: joined}
+  - damage_actor: {all: true, amount: 1000000}
+  - advance_runtime: {seconds: 2}
+  - console: {line: "coop damage 1 30"}
+  - advance_runtime: {seconds: 1}
+  - console: {line: "coop check 1 hp = 42"}
+  - press_action: {action: upkeep}
+  - advance_runtime: {seconds: 2}
+  - console: {line: "coop check 1 hp = 72"}
+  - console: {line: "coop check 0 hp = 72"}
+    game: guest
+  # The reach is that of the party's own spells (5120 since 2026-11-21; 1024 before): 1440 away the guest is
+  # healed, 5940 away it is not.
+  - console: {line: "coop pose 1 5000 7696 545", expect_contains: "player 1 at 5000"}
+  - advance_runtime: {seconds: 2}
+  - console: {line: "coop damage 1 30"}
+  - advance_runtime: {seconds: 1}
+  - press_action: {action: upkeep}
+  - advance_runtime: {seconds: 2}
+  - console: {line: "coop check 1 hp = 72"}
+  - console: {line: "coop pose 1 9500 7696 545", expect_contains: "player 1 at 9500"}
+  - advance_runtime: {seconds: 2}
+  - console: {line: "coop damage 1 30"}
+  - advance_runtime: {seconds: 1}
+  - press_action: {action: upkeep}
+  - advance_runtime: {seconds: 2}
+  - console: {line: "coop check 1 hp = 42"}
+  - console: {line: "coop pose 1 3656 7696 545", expect_contains: "player 1 at 3656"}
+  - advance_runtime: {seconds: 2}
+  - press_action: {action: upkeep}
+  - advance_runtime: {seconds: 2}
+  - console: {line: "coop check 1 hp = 72"}
+  - console: {line: "coop damage 0 30"}
+  - advance_runtime: {seconds: 1}
+  - press_action: {action: upkeep}
+    game: guest
+  - advance_runtime: {seconds: 2}
+  - console: {line: "coop check 0 hp = 72"}
+  # Struck unconscious (8 below nothing), the guest lies where it fell.
+  - console: {line: "coop damage 1 80", expect_contains: "down"}
+  - advance_runtime: {seconds: 1}
+  - console: {line: "coop check 1 down = 1"}
+  - press_action: {action: forward, seconds: 2}
+    game: guest
+  - console: {line: loc, expect_contains: "position=(3656.000, 7696.000"}
+    game: guest
+  - advance_runtime: {seconds: 1}
+  - console: {line: coop show, expect_contains: "player 1 at 3656 7696"}
+  # The host's heals bring it up again.
+  - press_action: {action: upkeep}
+  - advance_runtime: {seconds: 4}
+  - press_action: {action: upkeep}
+  - advance_runtime: {seconds: 4}
+  - console: {line: "coop check 1 down = 0"}
+  - console: {line: "coop check 0 down = 0"}
+    game: guest
+  - press_action: {action: forward, seconds: 0.4}
+    game: guest
+  - console: {line: loc, expect_not_contains: "position=(3656.000, 7696.000"}
+    game: guest
+  - console: {line: coop net, expect_contains: "joined as player 1"}
+    game: guest

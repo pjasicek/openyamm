@@ -1,0 +1,63 @@
+id: coop.net_guest_map_edge
+title: "Co-op - a guest walks off the map's edge: its OK is its proposal, and with the host's yes both arrive"
+world: mm8
+mode: faithful
+tags: [coop, regression]
+steps:
+  - note:
+      text: >-
+        The question at a map's edge is asked by the game whose party walked into the edge. For a guest that is
+        the guest's own game, and the host has no dialogue of it: before 2026-11-20 the guest's OK was sent to the
+        host as a dialogue choice, found no dialogue there and did nothing. Now OK tells the host where the edge
+        leads; the host proposes it in the guest's name, and with its yes both games are in Shadowspire.
+  - new_game_flow:
+      start_map: out02.odm
+  - advance_runtime: {seconds: 1}
+  - coop_guest: {}
+  - new_game_flow:
+      start_map: out01.odm
+    game: guest
+  - coop_join: {expect: joined}
+  - advance_runtime: {seconds: 1}
+  - console: {line: "coop pose 1 22000 0 2000", expect_contains: "player 1 at 22000"}
+  - advance_runtime: {seconds: 2}
+  - press_action: {action: forward, seconds: 4}
+    game: guest
+  - advance_runtime: {seconds: 1}
+  - assert:
+      dialog: {active: true, action_label_present: "OK"}
+    game: guest
+  - console: {line: "coop dialog 1", expect_contains: "player 1 has no dialogue open"}
+  - select_topic: {match_label: "OK"}
+    game: guest
+  - advance_runtime: {seconds: 1, present_dialogs: true}
+  - assert: {map: out02.odm}
+  - console: {line: coop show, expect_contains: "proposed by player 1, 0 accepted"}
+  # The guest is asked first, alone: with the party, or alone. With the party puts the trip to the host.
+  - assert:
+      dialog: {active: true, action_label_present: "Go Alone"}
+    game: guest
+  - assert: {dialog: {active: false}}
+  - select_topic: {match_label: "Travel with the Party"}
+    game: guest
+  - advance_runtime: {seconds: 1, present_dialogs: true}
+  # The vote's window is up in both games: the guest, who proposed, may still go alone or cancel; the host votes.
+  - assert:
+      dialog: {active: true, action_label_present: "Go Alone"}
+    game: guest
+  - assert:
+      dialog: {active: true, action_label_present: "Cancel the Trip"}
+    game: guest
+  - assert:
+      dialog: {active: true, action_label_present: "Travel"}
+  - assert:
+      dialog: {active: true, action_label_present: "Stay Here"}
+  - console: {line: coop show, expect_contains: "proposed by player 1, 0 accepted"}
+  - select_topic: {match_label: "Travel"}
+  - advance_runtime: {seconds: 3, follow_map_move: true}
+  - advance_runtime: {seconds: 3}
+  - console: {line: loc, expect_contains: "Shadowspire"}
+  - console: {line: loc, expect_contains: "Shadowspire"}
+    game: guest
+  - console: {line: coop net, expect_contains: "joined as player 1, map revision 2"}
+    game: guest

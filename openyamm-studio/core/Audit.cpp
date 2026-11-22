@@ -1,5 +1,7 @@
 #include "core/Audit.h"
 
+#include "core/ChestKinds.h"
+
 #include "core/Coplanar.h"
 #include "core/Compare.h"
 #include "core/EyeSector.h"
@@ -22,6 +24,7 @@
 #include <algorithm>
 #include <cctype>
 #include <cmath>
+#include <functional>
 #include <sstream>
 #include <map>
 #include <numbers>
@@ -2415,6 +2418,557 @@ std::vector<AuditFinding> auditDressing(const LoadedMap &map, const std::string 
                     + faceList(b) + " of sector " + std::to_string(prop.room);
                 checkWalkingLine(prop, a.middle(), b.middle(), where, walls, props, onLine, narrowed, findings);
             }
+        }
+    }
+
+    return findings;
+}
+
+namespace
+{
+// A face as the chest audit reads it, indoors or out.
+struct ChestAuditFace
+{
+    std::vector<std::array<double, 3>> points;
+    std::string texture;
+    int room = -1;
+    int roomBehind = -1;
+    size_t face = 0;
+    bool portal = false;
+    bool leaf = false;
+    bool houseDoor = false;
+    bool hidden = false;
+};
+
+// A chest found by its pictures: faces of a chest kind's pictures touching one another.
+struct AuditedChest
+{
+    std::vector<size_t> faces;
+    std::array<double, 2> centre = {};
+    double low = 0.0;
+    double high = 0.0;
+    double frontRadians = 0.0;
+    bool frontKnown = false;
+    double width = 0.0;
+    double depth = 0.0;
+    int room = -1;
+};
+
+std::array<double, 2> horizontalMiddle(const std::vector<std::array<double, 3>> &points)
+{
+    std::array<double, 2> middle = {0.0, 0.0};
+
+    for (const std::array<double, 3> &point : points)
+    {
+        middle = {middle[0] + point[0] / points.size(), middle[1] + point[1] / points.size()};
+    }
+
+    return middle;
+}
+
+// The sloping lids' own pictures (7gt002e, gt002e, ch001f ... ch006f): the front.
+bool chestFrontPicture(const std::string &texture)
+{
+    std::string lower = trimmedLower(texture);
+
+    for (const char *pName : {"7gt002", "gt002", "ch001", "ch002", "ch003", "ch004", "ch005", "ch006"})
+    {
+        const std::optional<ChestKind> kind = chestKindOf(pName);
+
+        if (kind && kind->sloped && lower == kind->slopeMiddle)
+        {
+            return true;
+        }
+    }
+
+    return false;
+}
+
+std::vector<AuditedChest> findChests(const std::vector<ChestAuditFace> &faces)
+{
+    std::vector<size_t> members;
+
+    for (size_t index = 0; index < faces.size(); ++index)
+    {
+        if (!faces[index].portal && faces[index].points.size() >= 3 && isChestTexture(faces[index].texture))
+        {
+            members.push_back(index);
+        }
+    }
+
+    // Faces that share a corner are one chest.
+    std::vector<size_t> group(members.size());
+    std::map<std::array<long, 3>, size_t> firstAtCorner;
+
+    for (size_t index = 0; index < members.size(); ++index)
+    {
+        group[index] = index;
+    }
+
+    const auto root = [&group](size_t index)
+    {
+        while (group[index] != index)
+        {
+            index = group[index] = group[group[index]];
+        }
+
+        return index;
+    };
+
+    for (size_t index = 0; index < members.size(); ++index)
+    {
+        for (const std::array<double, 3> &point : faces[members[index]].points)
+        {
+            const std::array<long, 3> key = {std::lround(point[0]), std::lround(point[1]), std::lround(point[2])};
+            const auto [found, added] = firstAtCorner.emplace(key, index);
+
+            if (!added)
+            {
+                group[root(index)] = root(found->second);
+            }
+        }
+    }
+
+    std::map<size_t, std::vector<size_t>> groups;
+
+    for (size_t index = 0; index < members.size(); ++index)
+    {
+        groups[root(index)].push_back(members[index]);
+    }
+
+    std::vector<AuditedChest> chests;
+
+    for (const std::pair<const size_t, std::vector<size_t>> &found : groups)
+    {
+        AuditedChest chest;
+        chest.faces = found.second;
+        std::vector<std::array<double, 3>> points;
+        double least[2] = {1.0e18, 1.0e18};
+        double most[2] = {-1.0e18, -1.0e18};
+        chest.low = 1.0e18;
+        chest.high = -1.0e18;
+
+        for (const size_t face : chest.faces)
+        {
+            for (const std::array<double, 3> &point : faces[face].points)
+            {
+                points.push_back(point);
+                least[0] = std::min(least[0], point[0]);
+                least[1] = std::min(least[1], point[1]);
+                most[0] = std::max(most[0], point[0]);
+                most[1] = std::max(most[1], point[1]);
+                chest.low = std::min(chest.low, point[2]);
+                chest.high = std::max(chest.high, point[2]);
+            }
+        }
+
+        chest.room = faces[chest.faces.front()].room;
+        // Its middle: the middle of its corners' spread along its own axes, found below; first the box's.
+        chest.centre = {(least[0] + most[0]) / 2.0, (least[1] + most[1]) / 2.0};
+        std::optional<std::array<double, 2>> toward;
+        double nearestSide = 1.0e18;
+
+        for (const size_t face : chest.faces)
+        {
+            const std::optional<UprightFace> upright = uprightPolygon(faces[face].points);
+            const std::array<double, 2> middle = horizontalMiddle(faces[face].points);
+            const std::array<double, 2> offset = {middle[0] - chest.centre[0], middle[1] - chest.centre[1]};
+            const double distance = std::hypot(offset[0], offset[1]);
+
+            if (distance <= 1.0)
+            {
+                continue;
+            }
+
+            if (chestFrontPicture(faces[face].texture))
+            {
+                toward = std::array<double, 2>{offset[0] / distance, offset[1] / distance};
+                chest.frontKnown = true;
+                break;
+            }
+
+            // A long side is the upright face nearest the middle (half the depth against half the width).
+            if (upright && distance < nearestSide)
+            {
+                nearestSide = distance;
+                toward = std::array<double, 2>{offset[0] / distance, offset[1] / distance};
+            }
+        }
+
+        if (!toward)
+        {
+            continue;
+        }
+
+        chest.frontRadians = std::atan2((*toward)[1], (*toward)[0]);
+        // The middle and size along its own axes (a chest turned off the axes has a wider box from above).
+        const std::array<double, 2> across = {-(*toward)[1], (*toward)[0]};
+        double lowFront = 1.0e18;
+        double highFront = -1.0e18;
+        double lowAcross = 1.0e18;
+        double highAcross = -1.0e18;
+
+        for (const std::array<double, 3> &point : points)
+        {
+            const double f = point[0] * (*toward)[0] + point[1] * (*toward)[1];
+            const double a = point[0] * across[0] + point[1] * across[1];
+            lowFront = std::min(lowFront, f);
+            highFront = std::max(highFront, f);
+            lowAcross = std::min(lowAcross, a);
+            highAcross = std::max(highAcross, a);
+        }
+
+        const double f = (lowFront + highFront) / 2.0;
+        const double a = (lowAcross + highAcross) / 2.0;
+        chest.centre = {(*toward)[0] * f + across[0] * a, (*toward)[1] * f + across[1] * a};
+        chest.depth = highFront - lowFront;
+        chest.width = highAcross - lowAcross;
+        chests.push_back(chest);
+    }
+
+    return chests;
+}
+
+std::string chestLabel(const AuditedChest &chest, const std::vector<ChestAuditFace> &faces, bool indoors)
+{
+    return "the chest at [" + roundedUnits(chest.centre[0]) + ", " + roundedUnits(chest.centre[1]) + ", "
+        + roundedUnits(chest.low) + "]" + (indoors ? " in sector " + std::to_string(chest.room) : std::string())
+        + " (faces " + std::to_string(faces[chest.faces.front()].face) + " ...)";
+}
+}
+
+std::vector<AuditFinding> auditChests(const LoadedMap &map)
+{
+    std::vector<AuditFinding> findings;
+    std::vector<ChestAuditFace> faces;
+    const bool indoors = map.indoor.has_value();
+
+    if (indoors)
+    {
+        const Game::IndoorMapData &indoor = *map.indoor;
+        std::set<size_t> doorFaces;
+
+        if (map.state)
+        {
+            for (const Game::MapDeltaDoor &door : map.state->doors)
+            {
+                doorFaces.insert(door.faceIds.begin(), door.faceIds.end());
+            }
+        }
+
+        for (size_t faceIndex = 0; faceIndex < indoor.faces.size(); ++faceIndex)
+        {
+            const Game::IndoorFace &face = indoor.faces[faceIndex];
+            ChestAuditFace read;
+            read.texture = face.textureName;
+            read.room = face.roomNumber;
+            read.roomBehind = face.roomBehindNumber;
+            read.face = faceIndex;
+            read.portal = face.isPortal || Game::hasFaceAttribute(face.attributes, Game::FaceAttribute::IsPortal);
+            read.leaf = doorFaces.contains(faceIndex);
+            read.hidden = Game::hasFaceAttribute(face.attributes, Game::FaceAttribute::Invisible)
+                && Game::hasFaceAttribute(face.attributes, Game::FaceAttribute::Untouchable);
+
+            for (const uint16_t vertexIndex : face.vertexIndices)
+            {
+                if (vertexIndex < indoor.vertices.size())
+                {
+                    const Game::IndoorVertex &vertex = indoor.vertices[vertexIndex];
+                    read.points.push_back({double(vertex.x), double(vertex.y), double(vertex.z)});
+                }
+            }
+
+            faces.push_back(read);
+        }
+    }
+    else if (map.outdoor)
+    {
+        const std::set<int> houseEvents = houseDoorEvents(map.scriptText);
+        size_t number = 0;
+
+        for (const Game::OutdoorBModel &model : map.outdoor->bmodels)
+        {
+            for (const Game::OutdoorBModelFace &face : model.faces)
+            {
+                ChestAuditFace read;
+                read.texture = face.textureName;
+                read.face = number++;
+                read.houseDoor = houseEvents.contains(face.cogTriggeredNumber);
+
+                for (const uint16_t vertexIndex : face.vertexIndices)
+                {
+                    if (vertexIndex < model.vertices.size())
+                    {
+                        const Game::OutdoorBModelVertex &vertex = model.vertices[vertexIndex];
+                        read.points.push_back({double(vertex.x), double(vertex.y), double(vertex.z)});
+                    }
+                }
+
+                faces.push_back(read);
+            }
+        }
+    }
+    else
+    {
+        return findings;
+    }
+
+    const std::vector<AuditedChest> chests = findChests(faces);
+
+    if (chests.empty())
+    {
+        return findings;
+    }
+
+    std::set<size_t> chestFaces;
+
+    for (const AuditedChest &chest : chests)
+    {
+        chestFaces.insert(chest.faces.begin(), chest.faces.end());
+    }
+
+    // The upright faces: walls (door leaves too, as the map starts) and the ways (doorways, door leaves, house doors).
+    std::vector<std::pair<size_t, UprightFace>> uprights;
+
+    for (size_t index = 0; index < faces.size(); ++index)
+    {
+        if (chestFaces.contains(index) || faces[index].hidden)
+        {
+            continue;
+        }
+
+        if (std::optional<UprightFace> upright = uprightPolygon(faces[index].points))
+        {
+            upright->face = faces[index].face;
+            upright->room = faces[index].room;
+            upright->roomBehind = faces[index].roomBehind;
+            uprights.push_back({index, *upright});
+        }
+    }
+
+    // Indoors: the sectors' rooms from the party's start, through the portals, for the free chests' entrances.
+    std::map<int, int> roomGroups;
+    const std::function<int(int)> roomOf = [&roomGroups, &roomOf](int sector)
+    {
+        const std::map<int, int>::const_iterator parent = roomGroups.find(sector);
+        return parent == roomGroups.end() || parent->second == sector ? sector : roomOf(parent->second);
+    };
+    std::map<int, int> hops;
+    std::optional<std::array<double, 2>> start;
+    int startSector = -1;
+
+    if (indoors)
+    {
+        std::optional<Game::IndoorPartyStartPoint> point = map.indoor->partyStartPoint;
+
+        if (map.indoorScene && !map.indoorScene->partyStartPoints.empty())
+        {
+            point = map.indoorScene->partyStartPoints.front().startPoint;
+        }
+
+        if (point)
+        {
+            start = std::array<double, 2>{double(point->x), double(point->y)};
+            double smallest = 1.0e18;
+
+            for (size_t sector = 0; sector < map.indoor->sectors.size(); ++sector)
+            {
+                const Game::IndoorSector &bounds = map.indoor->sectors[sector];
+                const double volume = (double(bounds.maxX) - bounds.minX) * (double(bounds.maxY) - bounds.minY)
+                    * std::max(1.0, double(bounds.maxZ) - bounds.minZ);
+
+                if (point->x >= bounds.minX && point->x <= bounds.maxX && point->y >= bounds.minY
+                    && point->y <= bounds.maxY && point->z >= bounds.minZ - 64 && point->z <= bounds.maxZ
+                    && volume < smallest)
+                {
+                    smallest = volume;
+                    startSector = static_cast<int>(sector);
+                }
+            }
+        }
+
+        // A big room may be several sectors: sectors joined by a portal wider than any doorway are one room.
+        for (const ChestAuditFace &face : faces)
+        {
+            const std::optional<UprightFace> upright = face.portal ? uprightPolygon(face.points) : std::nullopt;
+
+            if (upright && upright->width() > Dressing::WidestDoorway && face.room != face.roomBehind)
+            {
+                const int a = roomOf(face.room);
+                const int b = roomOf(face.roomBehind);
+
+                if (a != b)
+                {
+                    roomGroups[b] = a;
+                }
+            }
+        }
+
+        if (startSector >= 0)
+        {
+            std::map<int, std::set<int>> joins;
+
+            for (const ChestAuditFace &face : faces)
+            {
+                const int a = roomOf(face.room);
+                const int b = roomOf(face.roomBehind);
+
+                if (face.portal && a != b)
+                {
+                    joins[a].insert(b);
+                    joins[b].insert(a);
+                }
+            }
+
+            const int first = roomOf(startSector);
+            hops[first] = 0;
+            std::vector<int> queue = {first};
+
+            for (size_t next = 0; next < queue.size(); ++next)
+            {
+                for (const int there : joins[queue[next]])
+                {
+                    if (!hops.contains(there))
+                    {
+                        hops[there] = hops[queue[next]] + 1;
+                        queue.push_back(there);
+                    }
+                }
+            }
+        }
+    }
+
+    for (const AuditedChest &chest : chests)
+    {
+        const double middle = chest.low + 32.0;
+        std::vector<ChestWall> walls;
+        std::vector<const UprightFace *> wayFaces;
+        std::vector<ChestDoorway> houseDoors;
+        std::optional<std::array<double, 2>> entrance;
+        int entranceHops = -1;
+
+        for (const std::pair<size_t, UprightFace> &entry : uprights)
+        {
+            const ChestAuditFace &face = faces[entry.first];
+            const UprightFace &upright = entry.second;
+
+            // The doorway its room is entered by (as near or far as it is).
+            if (face.portal)
+            {
+                const int here = roomOf(chest.room);
+                const int a = roomOf(face.room);
+                const int b = roomOf(face.roomBehind);
+
+                if (a != b && (a == here || b == here) && hops.contains(a) && hops.contains(b))
+                {
+                    const int other = hops[a == here ? b : a];
+
+                    if (entranceHops < 0 || other < entranceHops)
+                    {
+                        entranceHops = other;
+                        entrance = upright.middle();
+                    }
+                }
+            }
+
+            if (distanceToSegment(chest.centre, upright.from, upright.to) > 2048.0)
+            {
+                continue;
+            }
+
+            const bool spans = upright.low <= middle && upright.high >= middle;
+            const bool touches = !indoors || face.room == chest.room || face.roomBehind == chest.room;
+            // A way through at the chest's floor: a party wide and tall.
+            const bool way = upright.width() >= 2.0 * Dressing::PartyRadius && upright.high - upright.low >= 128.0
+                && upright.width() <= Dressing::WidestDoorway && upright.low <= chest.low + 64.0 && spans;
+
+            if (face.portal)
+            {
+                if (touches && way)
+                {
+                    wayFaces.push_back(&upright);
+                }
+
+                continue;
+            }
+
+            // A wall stands higher than the chest (a dais, a step or a low platform beside it is none).
+            if (spans && upright.high >= chest.high + 16.0)
+            {
+                walls.push_back({upright.from, upright.to});
+            }
+
+            if (face.leaf && touches && way)
+            {
+                wayFaces.push_back(&upright);
+            }
+
+            if (face.houseDoor && spans)
+            {
+                houseDoors.push_back({upright.from, upright.to, "the house door of face " + std::to_string(face.face)});
+            }
+        }
+
+        if (indoors && startSector >= 0 && roomOf(chest.room) == roomOf(startSector) && start)
+        {
+            entrance = start;
+        }
+
+        const std::string label = chestLabel(chest, faces, indoors);
+        std::optional<double> entranceDegrees;
+
+        if (entrance)
+        {
+            const double dx = (*entrance)[0] - chest.centre[0];
+            const double dy = (*entrance)[1] - chest.centre[1];
+            const double length = std::hypot(dx, dy);
+
+            if (length > 1.0)
+            {
+                entranceDegrees = std::acos(std::clamp((dx * std::cos(chest.frontRadians)
+                    + dy * std::sin(chest.frontRadians)) / length, -1.0, 1.0)) * 180.0 / std::numbers::pi;
+            }
+        }
+
+        const std::string fault = chestFacingFault(
+            chestGaps(walls, chest.centre, chest.frontRadians, chest.width, chest.depth), chest.frontKnown,
+            chest.frontKnown ? entranceDegrees : std::nullopt);
+
+        if (!fault.empty())
+        {
+            findings.push_back({"chest.facing", "error", label + ": " + fault + " (D-99)",
+                "Stand it with its back to the wall and its front to the room (in a niche facing out, standing free "
+                "toward its room's entrance): drop its `facing` and the studio turns it so."});
+        }
+
+        // Its ways: the doorways and doors of its sector, side by side ones as one.
+        std::vector<ChestDoorway> ways;
+
+        for (const Opening &opening : mergedOpenings(wayFaces))
+        {
+            std::string list;
+
+            for (const size_t face : opening.faces)
+            {
+                list += (list.empty() ? "" : "+") + std::to_string(face);
+            }
+
+            ways.push_back({opening.from, opening.to, "the way through face " + list});
+        }
+
+        const std::array<std::array<double, 2>, 4> footprint =
+            chestFootprint(chest.centre, chest.frontRadians, chest.width, chest.depth);
+        std::string placed = chestPlacementFault(footprint, ways, true);
+
+        if (placed.empty())
+        {
+            placed = chestPlacementFault(footprint, houseDoors, false);
+        }
+
+        if (!placed.empty())
+        {
+            findings.push_back({"chest.placement", "error", label + ": " + placed + " (D-99)",
+                "Move it against a wall, into a corner or a niche, off the ways through its room."});
         }
     }
 

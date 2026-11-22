@@ -1,0 +1,27 @@
+id: coop.monster_health_per_player
+title: "Co-op - monsters have the same health whatever the number of players, and keep it when players come and go"
+world: mm8
+mode: faithful
+tags: [coop, regression]
+steps:
+  - note:
+      text: >-
+        Monster health does not grow with the number of players (the user, 2026-11-21: MAW's own multiplayer does
+        not either; from 2026-11-19 until then it was half as much again per extra player). A Pirate (181) has 20
+        hit points alone and with a second player, a new one appears with 20, and one hurt to 10 is at 10 still
+        when the second player leaves.
+  - new_game_flow:
+      start_map: out01.odm
+  - advance_runtime: {seconds: 1}
+  - spawn_actor: {monster_id: 181, x: 3760, y: 9000, z: 545}
+  - assert: {actor_visible: {actor_index: last, current_hp: 20}}
+  - console: {line: coop on, expect_contains: "co-op session: on"}
+  - console: {line: "coop add 300 0", expect_contains: "player 1 at"}
+  - assert: {actor_visible: {actor_index: last, current_hp: 20}}
+  - spawn_actor: {monster_id: 181, x: 3860, y: 9000, z: 545}
+  - assert: {actor_visible: {actor_index: last, current_hp: 20}}
+  - damage_actor: {actor_index: last, amount: 10}
+  - assert: {actor_visible: {actor_index: last, current_hp: 10}}
+  - console: {line: "coop remove 1", expect_contains: "player 1 removed"}
+  - assert: {actor_visible: {actor_index: last, current_hp: 10}}
+  - assert: {actor_visible: {actor_index: last-1, current_hp: 20}}

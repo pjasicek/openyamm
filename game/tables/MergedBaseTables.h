@@ -34,6 +34,9 @@ struct MergedCharacterSelectionContinent
     bool hasCard = false;
     uint32_t cardOrder = 0;
     std::string cardTitle;
+    // The continent's name everywhere but the card (`card.short_title`, else the title): journal tabs, the Ledger of
+    // Teachers, trainer hints, the portrait filter. It must equal the continent's quest and autonote owner.
+    std::string cardShortTitle;
     std::string cardSubtitle;
     std::string cardCaption;
     std::string cardPicture;

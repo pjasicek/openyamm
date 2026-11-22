@@ -2,6 +2,7 @@
 #include "doctest/doctest.h"
 
 #include "core/CanonicalYaml.h"
+#include "core/ChestKinds.h"
 #include "core/CoreMath.h"
 #include "core/IndoorBuild.h"
 #include "core/IndoorLowering.h"
@@ -12,6 +13,8 @@
 #include "core/Schema.h"
 
 #include <algorithm>
+#include <cmath>
+#include <numbers>
 #include <bit>
 #include <cstdint>
 #include <filesystem>
@@ -4671,6 +4674,102 @@ TEST_CASE("walls a little off parallel at a joint are named as that, and a chest
     CHECK(inside.built);
 }
 
+TEST_CASE("D-99: a chest without facing: its back to the wall by it, out of a niche, free toward the entrance")
+{
+    // Room a, 1000 square, with a niche (room n, 160 wide and 128 deep) off its east wall and a doorway to room b in
+    // its north wall; the start in room b, so room a is entered through the north doorway.
+    const std::string rooms =
+        "rooms:\n"
+        "  - {id: room:a, outline: [[0, 0], [1000, 0], [1000, 1000], [0, 1000]], floor: 0, ceiling: 256}\n"
+        "  - {id: room:n, outline: [[1000, 420], [1128, 420], [1128, 580], [1000, 580]], floor: 0, ceiling: 256}\n"
+        "  - {id: room:b, outline: [[0, 1000], [1000, 1000], [1000, 2000], [0, 2000]], floor: 0, ceiling: 256}\n"
+        "openings:\n"
+        "  - {id: open:an, from: room:a, to: room:n, width: full, height: 192}\n"
+        "  - {id: open:ab, from: room:a, to: room:b, width: 128, height: 192}\n";
+    const std::string objects =
+        "format: 0\nstart: {room: room:b, at: [500, 1500]}\nchests:\n"
+        "  - {id: chest:south, room: room:a, at: [300, 40], kind: 7gt002}\n"
+        "  - {id: chest:west, room: room:a, at: [40, 300], kind: 7gt002}\n"
+        "  - {id: chest:niche, room: room:n, at: [1080, 500], kind: 7gt002}\n"
+        "  - {id: chest:free, room: room:a, at: [700, 500], kind: 7gt002}\n";
+    const BuiltRooms built = buildRooms(rooms, objects);
+    INFO(issueText(built));
+    REQUIRE(built.built);
+    // Each chest's front: from its middle to its sloping lid's own picture (7gt002e), seen from above.
+    const auto frontOf = [&built](double x, double y)
+    {
+        std::array<double, 2> sum = {0.0, 0.0};
+        double count = 0.0;
+
+        for (const OpenYAMM::Game::IndoorFace &face : built.map.faces)
+        {
+            if (face.textureName != "7gt002e")
+            {
+                continue;
+            }
+
+            std::array<double, 2> middle = {0.0, 0.0};
+
+            for (const uint16_t vertex : face.vertexIndices)
+            {
+                middle[0] += built.map.vertices[vertex].x / double(face.vertexIndices.size());
+                middle[1] += built.map.vertices[vertex].y / double(face.vertexIndices.size());
+            }
+
+            if (std::hypot(middle[0] - x, middle[1] - y) < 80.0)
+            {
+                sum = {sum[0] + middle[0] - x, sum[1] + middle[1] - y};
+                count += 1.0;
+            }
+        }
+
+        return count > 0.0 ? std::array<double, 2>{sum[0] / count, sum[1] / count} : std::array<double, 2>{0.0, 0.0};
+    };
+    // By the south wall: front north; by the west wall: front east; in the niche: front west, out of it; free in
+    // the room: front north, toward the doorway from room b.
+    CHECK(frontOf(300, 40)[1] > 10.0);
+    CHECK(std::abs(frontOf(300, 40)[0]) < 1.0);
+    CHECK(frontOf(40, 300)[0] > 10.0);
+    CHECK(frontOf(1080, 500)[0] < -10.0);
+    CHECK(frontOf(700, 500)[1] > 10.0);
+    CHECK(std::abs(frontOf(700, 500)[0]) < 1.0);
+}
+
+TEST_CASE("D-99's checks: a chest's front to a wall, end-on, back to the entrance, in a doorway, on a walking line")
+{
+    // A room 1000 square; a chest 96 by 64 by its south wall (y 0).
+    const std::vector<OpenYAMM::Studio::ChestWall> walls = {{{0, 0}, {1000, 0}}, {{1000, 0}, {1000, 1000}},
+        {{1000, 1000}, {0, 1000}}, {{0, 1000}, {0, 0}}};
+    const double north = std::numbers::pi / 2.0;
+    using OpenYAMM::Studio::chestFacingFault;
+    using OpenYAMM::Studio::chestGaps;
+    CHECK(chestFacingFault(chestGaps(walls, {500, 40}, north, 96, 64), true, std::nullopt).empty());
+    CHECK(chestFacingFault(chestGaps(walls, {500, 40}, -north, 96, 64), true, std::nullopt)
+              .find("its front faces a wall") != std::string::npos);
+    CHECK(chestFacingFault(chestGaps(walls, {500, 56}, 0.0, 96, 64), true, std::nullopt)
+              .find("end-on") != std::string::npos);
+    // MM6's chests show the same long side front and back: either long side may face the wall.
+    CHECK(chestFacingFault(chestGaps(walls, {500, 40}, -north, 96, 64), false, std::nullopt).empty());
+    // Free in the room: its back to the entrance is wrong, its front toward it right.
+    CHECK(chestFacingFault(chestGaps(walls, {500, 500}, north, 96, 64), true, 170.0).find("back to its room's entrance")
+        != std::string::npos);
+    CHECK(chestFacingFault(chestGaps(walls, {500, 500}, north, 96, 64), true, 20.0).empty());
+    // A doorway in the north wall from 436 to 564, one in the south wall: in front of it, on the line, clear.
+    const std::vector<OpenYAMM::Studio::ChestDoorway> ways = {{{436, 1000}, {564, 1000}, "north"},
+        {{436, 0}, {564, 0}, "south"}};
+    using OpenYAMM::Studio::chestFootprint;
+    using OpenYAMM::Studio::chestPlacementFault;
+    CHECK(chestPlacementFault(chestFootprint({500, 900}, -north, 96, 64), ways, true).find("in front of north")
+        != std::string::npos);
+    CHECK(chestPlacementFault(chestFootprint({520, 500}, 0.0, 96, 64), ways, true).find("walking line")
+        != std::string::npos);
+    CHECK(chestPlacementFault(chestFootprint({900, 40}, north, 96, 64), ways, true).empty());
+    // Beside a doorway along its wall: 128 clear, as in front.
+    CHECK(chestPlacementFault(chestFootprint({700, 960}, -north, 96, 64), ways, true).find("beside north")
+        != std::string::npos);
+    CHECK(chestPlacementFault(chestFootprint({760, 960}, -north, 96, 64), ways, true).empty());
+}
+
 TEST_CASE("a floor marked water has the fluid flag and no lava flag; a floor has one kind")
 {
     const std::string objects =
@@ -4765,10 +4864,10 @@ TEST_CASE("a platform in a sunken level has its top above that level's floor, an
         INFO(pFlight << "\n" << issueText(built));
         REQUIRE(built.built);
         // The platform's top is at -112 (144 above the sunken floor), the flight's last tread level with it, and
-        // the chest stands on the top.
+        // the chest stands on the top (free, so D-99 turns its front west, toward the start: 48 deep along x).
         CHECK(built.hasVertex(1436, 936, -112));
         CHECK(built.hasVertex(1436, 888, -112));
-        CHECK(built.hasVertex(1468, 976, -72));
+        CHECK(built.hasVertex(1476, 968, -72));
         CHECK_FALSE(built.hasVertex(1436, 936, 144));
     }
 }

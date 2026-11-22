@@ -1,0 +1,33 @@
+id: coop.net_join
+title: "Co-op - a second game joins the first, loads its map and each sees where the other stands"
+world: mm8
+mode: faithful
+tags: [coop, regression]
+steps:
+  - note:
+      text: >-
+        "The replica as built" in devdocs/plans/MULTIPLAYER_LISTEN_SERVER_ARCHITECTURE.md - two games in one
+        process. The first is on Dagger Wound Island, the second starts a game of its own somewhere else and joins
+        with its character. It then stands on the host's map beside the host, and each game knows the other
+        player.
+  - new_game_flow:
+      start_map: out01.odm
+  - advance_runtime: {seconds: 1}
+  - coop_guest: {}
+  - new_game_flow:
+      start_map: out02.odm
+    game: guest
+  - advance_runtime: {seconds: 1}
+    game: guest
+  - assert: {map: out02.odm}
+    game: guest
+  - coop_join: {expect: joined}
+  - assert: {map: out01.odm}
+    game: guest
+  - advance_runtime: {seconds: 1}
+  - console: {line: coop net, expect_contains: "hosting, map revision 1, 1 connection(s)"}
+  - console: {line: coop show, expect_contains: "player 1 at"}
+  - console: {line: coop net, expect_contains: "joined as player 1"}
+    game: guest
+  - console: {line: coop net, expect_contains: "player 0"}
+    game: guest

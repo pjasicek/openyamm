@@ -34,7 +34,7 @@ steps:
   # Orothin: Whistle (Q-C20 started).
   - set_pose: {map: xeen_x1.odm, x: -205, y: -507, z: 576, yaw: 1.5708, pitch: 0.0}
   - interact_actor: {actor_index: 76}   # Orothin (NPC 4047), the scene's actor 76 (fuller X1)
-  - select_topic: {match_label: Whistle}
+  - select_topic: {action_id: 43501, match_label: "Quest"}
   - assert:
       dialog: {text_contains: "I lost the bone whistle"}
   - press_action: {action: cancel_dialog}
@@ -50,7 +50,7 @@ steps:
   # Orothin takes it (Q-C20 done).
   - set_pose: {map: xeen_x1.odm, x: -205, y: -507, z: 576, yaw: 1.5708, pitch: 0.0}
   - interact_actor: {actor_index: 76}   # Orothin (NPC 4047), the scene's actor 76 (fuller X1)
-  - select_topic: {match_label: Whistle}
+  - select_topic: {action_id: 43501, match_label: "Quest"}
   - assert:
       dialog: {text_contains: "I'll activate the statues now"}
   - press_action: {action: cancel_dialog}

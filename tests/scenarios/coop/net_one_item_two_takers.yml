@@ -1,0 +1,45 @@
+id: coop.net_one_item_two_takers
+title: "Co-op - two players take the same item in the same moment: the host's word decides, one has it"
+world: mm8
+mode: faithful
+tags: [coop, regression]
+steps:
+  - note:
+      text: >-
+        One sword lies between the two players, on a line that delays every message by 400 ms. The host's player
+        takes it; in the guest's game it still lies there for those 400 ms, and the guest takes it too. The
+        guest's taking is a request to the host, where the sword is gone: the host's player has one item more,
+        the guest none, in both games. Before 2026-11-20 a guest's game took a lying item out of its own copy of
+        the world only: the guest had the sword, and it still lay in the host's world for anyone to take again.
+  - new_game_flow:
+      start_map: out01.odm
+  - advance_runtime: {seconds: 1}
+  - coop_guest: {}
+  - new_game_flow:
+      start_map: out02.odm
+      party:
+        gold: 5000
+        food: 10
+        members:
+          - {name: G, class: Knight, level: 10, skills: [{name: Sword, level: 4, mastery: 1}], equipment: {}}
+    game: guest
+  - coop_join: {expect: joined}
+  - damage_actor: {all: true, amount: 1000000}
+  - advance_runtime: {seconds: 2}
+  - console: {line: "coop check 0 bag_items = 14"}
+  - console: {line: "coop check 1 bag_items = 0"}
+  - console: {line: "item drop 1 3600 7760 545", expect_contains: "Dropped item 1"}
+  - advance_runtime: {seconds: 2}
+  - coop_network: {delay_ms: 400}
+  - pick_up: {item_id: 1}
+  - pick_up: {item_id: 1, gained: false}
+    game: guest
+  - advance_runtime: {seconds: 3}
+  - console: {line: "coop check 0 bag_items = 15"}
+  - console: {line: "coop check 1 bag_items = 0"}
+  - console: {line: "coop check 0 bag_items = 0"}
+    game: guest
+  - coop_network: {delay_ms: 0}
+  - advance_runtime: {seconds: 1}
+  - console: {line: coop net, expect_contains: "joined as player 1"}
+    game: guest

@@ -47,7 +47,7 @@ steps:
   - interact_actor: {actor_index: 6}
   - assert:
       dialog: {active: true, source_id: 4601}
-  - select_topic: {match_label: "Summer"}
+  - select_topic: {action_id: 42551, match_label: "Quest"}
   - assert:
       dialog: {text_contains: "The year is a relay, and I have held it long enough."}
   - select_topic: {match_label: "Summer"}
@@ -124,7 +124,7 @@ steps:
   - interact_actor: {actor_index: 77}
   - assert:
       dialog: {active: true, source_id: 4048}
-  - select_topic: {match_label: "Spring"}
+  - select_topic: {action_id: 42554, match_label: "Quest"}
   - assert:
       dialog: {text_contains: "As I renew the year, so will I renew you."}
   - select_topic: {match_label: "Spring"}

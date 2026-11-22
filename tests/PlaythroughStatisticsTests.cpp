@@ -380,6 +380,45 @@ TEST_CASE("the save lists read a playthrough's statistics file and the name the 
     std::filesystem::remove_all(directory);
 }
 
+TEST_CASE("the save lists show a playthrough's party with its classes, without former members")
+{
+    const std::filesystem::path directory = freshDirectory("party");
+    std::string id;
+
+    {
+        PlaythroughStatistics statistics;
+        statistics.setDirectory(directory);
+        statistics.beginNewPlaythrough("mm6", "standard", "normal");
+        statistics.syncMember({0x1, "Zoltan", "Knight"});
+        statistics.syncMember({0x2, "Mira", "Cleric"});
+        statistics.syncMember({0x3, "Left", "Archer"});
+        statistics.setParty({PlaythroughStatistics::memberKey(0x2), PlaythroughStatistics::memberKey(0x1)});
+        // A promotion renames the class.
+        statistics.syncMember({0x1, "Zoltan", "Cavalier"});
+        id = statistics.playthroughId();
+        statistics.endPlaythrough();
+    }
+
+    const std::optional<PlaythroughStatistics::StoredSummary> stored =
+        PlaythroughStatistics::readStoredSummary(directory, id);
+    REQUIRE(stored.has_value());
+    REQUIRE(stored->party.size() == 2);
+    CHECK(stored->party[0].name == "Mira");
+    CHECK(stored->party[0].className == "Cleric");
+    CHECK(stored->party[1].name == "Zoltan");
+    CHECK(stored->party[1].className == "Cavalier");
+
+    // A file from before the party was kept lists everyone who joined.
+    PlaythroughCounters counters;
+    counters.members["b"] = {"Second", "Druid", 2.0};
+    counters.members["a"] = {"First", "Paladin", 1.0};
+    const std::vector<PlaythroughStatistics::PartyMember> joined = PlaythroughStatistics::partyMembers({}, counters);
+    REQUIRE(joined.size() == 2);
+    CHECK(joined[0].name == "First");
+    CHECK(joined[1].className == "Druid");
+    std::filesystem::remove_all(directory);
+}
+
 TEST_CASE("a save from before statistics is named a playthrough by its random root seed")
 {
     CHECK(PlaythroughStatistics::playthroughIdOfSave("abc", 7) == "abc");

@@ -1,0 +1,47 @@
+id: coop.net_chat_and_ping
+title: "Co-op - what a player says and where it points reach the other game"
+world: mm8
+mode: faithful
+tags: [coop, regression]
+steps:
+  - note:
+      text: >-
+        A line a player says shows in its own game at once and reaches every other game under its character's
+        name; so does a place it points at, which fades after eight seconds. The host says a line and the guest
+        answers; the guest points at a place and the host has it.
+  - new_game_flow:
+      start_map: out01.odm
+      party:
+        gold: 0
+        food: 10
+        members:
+          - {name: Aldo, class: Knight, level: 10, skills: [{name: Sword, level: 4, mastery: 1}], equipment: {}}
+  - advance_runtime: {seconds: 1}
+  - coop_guest: {}
+  - new_game_flow:
+      start_map: out02.odm
+      party:
+        gold: 0
+        food: 10
+        members:
+          - {name: Bera, class: Cleric, level: 7, skills: [{name: Mace, level: 4, mastery: 1}], equipment: {}}
+    game: guest
+  - coop_join: {expect: joined}
+  - advance_runtime: {seconds: 0.5}
+  - console: {line: coop say to the temple, expect_contains: "said: to the temple"}
+  - advance_runtime: {seconds: 0.3}
+  - console: {line: coop chat, expect_contains: "Aldo: to the temple"}
+    game: guest
+  - console: {line: coop say wait for me}
+    game: guest
+  - advance_runtime: {seconds: 0.3}
+  - console: {line: coop chat, expect_contains: "Bera: wait for me"}
+  - console: {line: coop chat, expect_contains: "Aldo: to the temple"}
+  - console: {line: coop ping 1000 2000 300, expect_contains: "pointed at 1000 2000"}
+    game: guest
+  - advance_runtime: {seconds: 0.3}
+  - console: {line: coop chat, expect_contains: "Bera points at 1000 2000"}
+  - console: {line: coop chat, expect_contains: "Bera points at 1000 2000"}
+    game: guest
+  - advance_runtime: {seconds: 9}
+  - console: {line: coop chat, expect_not_contains: "points at"}

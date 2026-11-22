@@ -1,0 +1,47 @@
+id: coop.net_rules_must_match
+title: "Co-op - a guest plays by the host's difficulty, whatever its own; a solo run and a party do not mix"
+world: mm8
+mode: faithful
+tags: [coop, regression, maw]
+steps:
+  - note:
+      text: >-
+        The world is the host's, and so are its difficulty and progression while a guest is in it (2026-11-21, as
+        in MAW's own multiplayer). What must match is the ruleset and, under a ruleset, the kind (a solo run or a
+        party). The host plays MAW on Hard: a guest of the MAW difficulty joins and plays on Hard, and is on its
+        own difficulty again when it leaves; a solo run is refused; a Nightmare game joins like any other.
+  - new_game_flow:
+      start_map: out01.odm
+      ruleset: "maw:hard"
+  - advance_runtime: {seconds: 1}
+  - coop_guest: {}
+  - new_game_flow:
+      start_map: out02.odm
+      ruleset: "maw:maw"
+    game: guest
+  - console: {line: ruleset}
+    game: guest
+  - coop_join: {expect: joined}
+  - advance_runtime: {seconds: 1}
+  - console: {line: ruleset, expect_contains: "Hard"}
+    game: guest
+  - console: {line: coop leave, expect_contains: "left the network session"}
+    game: guest
+  - advance_runtime: {seconds: 1}
+  - console: {line: ruleset, expect_not_contains: "Hard"}
+    game: guest
+  - new_game_flow:
+      start_map: out02.odm
+      ruleset: "maw:hard:solo"
+    game: guest
+  - coop_join: {expect: refused}
+  - console: {line: coop net, expect_contains: "a solo run and a party do not play together"}
+    game: guest
+  - new_game_flow:
+      start_map: out02.odm
+      ruleset: "maw:nightmare"
+    game: guest
+  - coop_join: {expect: joined}
+  - advance_runtime: {seconds: 1}
+  - console: {line: ruleset, expect_contains: "Hard"}
+    game: guest

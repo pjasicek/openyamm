@@ -462,6 +462,20 @@ bool loadRegressionGameData(RegressionGameData &data, std::string &failure)
         return false;
     }
 
+    std::vector<std::vector<std::string>> transitionMapTextRows;
+
+    if (!loadTextTableRows(
+            assetFileSystem, engineDataTablePath("transition_map_texts.txt"), transitionMapTextRows, failure))
+    {
+        return false;
+    }
+
+    if (!data.transitionTable.loadMapTextsFromRows(transitionMapTextRows))
+    {
+        failure = "could not load transition map text table for regression tests";
+        return false;
+    }
+
     std::vector<std::vector<std::string>> monsterRelationRows;
 
     if (!loadTextTableRows(assetFileSystem, engineDataTablePath("hostile.txt"), monsterRelationRows, failure))

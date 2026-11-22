@@ -1,0 +1,27 @@
+id: mm6.dungeon_entrance_texts
+title: "MM6 dungeon entrances describe the dungeon they lead to"
+world: mm6
+mode: faithful
+tags: [mm6, events, travel, regression]
+steps:
+  - note:
+      text: >-
+        The exporter read MoveToMap's house id as one byte and then guessed the house from the map name, so some
+        entrances showed another dungeon's title and description. The id is two bytes. MMerge also replaces the
+        text for a few destinations whose house is shared (the Oracle's house 451 is MM7's Control Center).
+  - new_game_flow: {start_map: outa3.odm}
+  # Event 90: the Supreme Temple of Baa, house 433.
+  - execute_event: {id: 90}
+  - assert:
+      dialog:
+        active: true
+        title: Supreme Temple of Baa
+        text_contains: The temperature rises steadily
+  - select_topic: {kind: map_transition_cancel, action_id: 0}
+  - load_map: {map: outc2.odm}
+  # Event 153: the Oracle of Enroth, house 451, with MMerge's destination text 166.
+  - execute_event: {id: 153}
+  - assert:
+      dialog:
+        active: true
+        text_contains: The Oracle has provided the rulers of Enroth

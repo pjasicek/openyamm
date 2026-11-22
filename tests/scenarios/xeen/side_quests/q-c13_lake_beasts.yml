@@ -31,10 +31,10 @@ steps:
   - press_interact: {expect: {kind: event_target}}
   - assert:
       dialog: {active: true, house_dialog: false, source_id: 4152}   # the hut's one resident talks at once
-  - select_topic: {match_label: Lake beasts}
+  - select_topic: {action_id: 43151, match_label: "Quest"}
   - assert:
       dialog: {text_contains: "The fish supply is low"}
-  - select_topic: {match_label: Lake beasts}
+  - select_topic: {action_id: 43151, match_label: "Quest"}
   - assert:
       dialog: {text_contains: "The beasts still live"}
   - press_action: {action: cancel_dialog}
@@ -73,7 +73,7 @@ steps:
   - press_interact: {expect: {kind: event_target}}
   - assert:
       dialog: {active: true, house_dialog: false, source_id: 4152}   # the hut's one resident talks at once
-  - select_topic: {match_label: Lake beasts}
+  - select_topic: {action_id: 43151, match_label: "Quest"}
   - assert:
       dialog: {text_contains: "You have slain the monsters of the lake!"}
   - select_topic: {match_label: Lake beasts}

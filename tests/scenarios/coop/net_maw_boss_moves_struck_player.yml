@@ -1,0 +1,47 @@
+id: coop.net_maw_boss_moves_struck_player
+title: "Co-op under MAW - a Swapper or Puller boss that strikes a guest does not move the host"
+world: mm8
+mode: faithful
+tags: [coop, regression, maw]
+steps:
+  - note:
+      text: >-
+        A Swapper boss trades places with the party it strikes and a Puller jumps that party at itself. Both moved
+        the world's own party, which in a co-op host's game is the host's: before 2026-11-20 a boss striking a
+        guest 2700 units away threw the host there. Now only a blow on the host's own party moves it; a struck
+        guest is hurt and stays (its body is its own game's to move, and no order for such a throw exists yet).
+  - new_game_flow:
+      start_map: out01.odm
+      ruleset: {id: maw, difficulty: maw, progression: free}
+      party:
+        gold: 0
+        food: 10
+        members:
+          - {name: A, class: Knight, level: 100, skills: [{name: Sword, level: 10, mastery: 2}], equipment: {}}
+  - advance_runtime: {seconds: 1}
+  - coop_guest: {}
+  - new_game_flow:
+      start_map: out02.odm
+      ruleset: {id: maw, difficulty: maw, progression: free}
+      party:
+        gold: 0
+        food: 10
+        members:
+          - {name: B, class: Knight, level: 100, skills: [{name: Sword, level: 10, mastery: 2}], equipment: {}}
+    game: guest
+  - coop_join: {expect: joined}
+  - damage_actor: {all: true, amount: 1000000}
+  - advance_runtime: {seconds: 0.5}
+  - console: {line: "coop pose 1 3656 4950 545", expect_contains: "player 1 at 3656"}
+  - advance_runtime: {seconds: 2}
+  - spawn_actor: {monster_id: 181, near_player: 1, boss_affix: 9}
+  - advance_runtime: {seconds: 12}
+  - console: {line: "coop check 1 hurt = 1"}
+  - console: {line: loc, expect_contains: "position=(3560.000, 7696.000"}
+  - damage_actor: {all: true, amount: 1000000}
+  - advance_runtime: {seconds: 0.5}
+  - spawn_actor: {monster_id: 181, near_player: 1, boss_affix: 11}
+  - advance_runtime: {seconds: 12}
+  - console: {line: loc, expect_contains: "position=(3560.000, 7696.000"}
+  - console: {line: coop net, expect_contains: "joined as player 1"}
+    game: guest

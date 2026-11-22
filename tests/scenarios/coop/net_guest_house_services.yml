@@ -1,0 +1,110 @@
+id: coop.net_guest_house_services
+title: "Co-op - a house's lessons, healing, food and training are for the guest who asked, not for the host"
+world: mm8
+mode: faithful
+tags: [coop, regression]
+steps:
+  - note:
+      text: >-
+        What a house does for a character it does for the player who stands in it. The guest, a knight who knows
+        only the sword, asks the weaponsmith of Dagger Wound for lessons: the list is the knight's (the host's
+        cleric knows every skill and would be offered none), and Learn Bow costs the guest its 500 gold and
+        teaches the guest's knight. Hurt, the guest is then healed at the temple for its own gold. The host's
+        gold does not change. Before 2026-11-20 the outdoor dialogue took the host's own party: the guest was
+        shown its lessons, chose one, and nothing happened.
+  - new_game_flow:
+      start_map: out01.odm
+  - advance_runtime: {seconds: 1}
+  - coop_guest: {}
+  - new_game_flow:
+      start_map: out02.odm
+      party:
+        gold: 50000
+        food: 3
+        members:
+          - {name: G, class: Knight, level: 1, skills: [{name: Sword, level: 1, mastery: 1}], equipment: {}}
+    game: guest
+  - coop_join: {expect: joined}
+  - advance_runtime: {seconds: 0.5}
+  - console: {line: "coop check 0 gold = 10000"}
+  - lua_event:
+      player: 1
+      source: "evt.EnterHouse(1)"
+  - advance_runtime: {seconds: 0.3}
+  - select_topic: {match_label: "Learn Skills"}
+    game: guest
+  - advance_runtime: {seconds: 0.5}
+  - console: {line: "coop dialog 1", expect_contains: "Learn Bow for 500 gold"}
+  - select_topic: {match_label: "Learn Bow for 500 gold"}
+    game: guest
+  - advance_runtime: {seconds: 1}
+  - console: {line: "coop check 1 gold = 49500"}
+  - console: {line: "coop check 0 gold = 10000"}
+  - console: {line: "coop dialog 1", expect_not_contains: "Learn Bow"}
+  - console: {line: "coop check 0 gold = 49500"}
+    game: guest
+  - console: {line: "skill get Bow", expect_not_contains: "has no Bow"}
+    game: guest
+  - press_action: {action: escape}
+    game: guest
+  - advance_runtime: {seconds: 0.3}
+  - press_action: {action: escape}
+    game: guest
+  - advance_runtime: {seconds: 0.3}
+  - console: {line: "coop damage 1 20"}
+  - advance_runtime: {seconds: 0.5}
+  - console: {line: "coop check 1 hurt > 0"}
+  - lua_event:
+      player: 1
+      source: "evt.EnterHouse(303)"
+  - advance_runtime: {seconds: 0.3}
+  - select_topic: {match_label: "Heal 10 gold"}
+    game: guest
+  - advance_runtime: {seconds: 1}
+  - console: {line: "coop check 1 hurt = 0"}
+  - console: {line: "coop check 1 gold = 49490"}
+  - console: {line: "coop check 0 gold = 10000"}
+  - console: {line: "coop check 0 gold = 49490"}
+    game: guest
+  - press_action: {action: escape}
+    game: guest
+  - advance_runtime: {seconds: 0.3}
+  - note:
+      text: >-
+        The inn sells the guest its food, and the training hall trains the guest's knight on the guest's
+        experience and gold.
+  - lua_event:
+      player: 1
+      source: "evt.EnterHouse(228)"
+  - advance_runtime: {seconds: 0.3}
+  - select_topic: {match_label: "Tubrict, Innkeep"}
+    game: guest
+  - advance_runtime: {seconds: 0.5}
+  - select_topic: {match_label: "Fill packs to 6 days for 2 gold"}
+    game: guest
+  - advance_runtime: {seconds: 1}
+  - console: {line: "coop check 1 food = 6"}
+  - console: {line: "coop check 1 gold = 49488"}
+  - console: {line: "coop check 0 gold = 10000"}
+  - press_action: {action: escape}
+    game: guest
+  - advance_runtime: {seconds: 0.3}
+  - press_action: {action: escape}
+    game: guest
+  - advance_runtime: {seconds: 0.3}
+  - lua_event:
+      player: 1
+      source: "AddValue(Experience, 3000)"
+  - advance_runtime: {seconds: 0.5}
+  - lua_event:
+      player: 1
+      source: "evt.EnterHouse(1564)"
+  - advance_runtime: {seconds: 0.3}
+  - select_topic: {match_label: "Train to level 2 for 10 gold"}
+    game: guest
+  - advance_runtime: {seconds: 1}
+  - console: {line: coop net, expect_contains: "player 1 G (Knight 2)"}
+  - console: {line: "coop check 1 gold = 49478"}
+  - console: {line: "coop check 0 gold = 10000"}
+  - console: {line: coop net, expect_contains: "joined as player 1"}
+    game: guest

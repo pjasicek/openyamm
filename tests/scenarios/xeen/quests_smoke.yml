@@ -21,7 +21,7 @@ steps:
       qbit_set: [110104, 111022]
   - press_action: {action: cancel_dialog}
   - execute_event: {id: 57}
-  - select_topic: {match_label: Falista}
+  - select_topic: {action_id: 40201, match_label: "Quest"}
   - play_lua:
       source: |
         if has_item(12031) then error("Valia handed over the Crystal Key (D-89: the tower is open)") end

@@ -67,9 +67,9 @@ steps:
   - clear_hostiles: {radius: 3000}
   - press_interact: {expect: {kind: event_target}}
   - assert: {dialog: {active: true, source_id: 5246}}
-  - select_topic: {match_label: "Southern Tower"}
+  - select_topic: {action_id: 44951, match_label: "Quest"}
   - assert: {dialog: {text_contains: "A thief bragged of it in his haste to escape: the Great Southern Tower"}}
-  - select_topic: {match_label: "Southern Tower"}
+  - select_topic: {action_id: 44951, match_label: "Quest"}
   - assert: {dialog: {text_contains: "Thieves write things down. Look for that."}}
   - press_action: {action: cancel_dialog}
   - play_lua:
@@ -222,7 +222,7 @@ steps:
   - interact_actor: {actor_index: 29}
   - advance_runtime: {seconds: 0.6, present_dialogs: true}
   - assert: {dialog: {active: true, source_id: 5109}}
-  - select_topic: {match_label: "Inner circle"}
+  - select_topic: {action_id: 44952, match_label: "Promotion"}
   - assert: {dialog: {text_contains: "You got past the gongs, the chest and my accountants. Rogues and marksmen that good are wasted on heroics. Join the inner circle."}}
   - press_action: {action: cancel_dialog}
   - play_lua:
@@ -270,7 +270,7 @@ steps:
   - play_lua: {source: "for i = 0, 3 do remember('x' .. i, experience(i)) end; remember('gold', gold())"}
   - press_interact: {expect: {kind: event_target}}
   - assert: {dialog: {active: true, source_id: 5246}}
-  - select_topic: {match_label: "Southern Tower"}
+  - select_topic: {action_id: 44951, match_label: "Quest"}
   - assert: {dialog: {text_contains: "Sold to the mages of the Eastern Tower? Then that is where my jewel is."}}
   - select_topic: {match_label: "Southern Tower"}
   - assert: {dialog: {text_contains: "Thieves who keep accounts. The world is full of surprises, most of them bad."}}

@@ -39,10 +39,10 @@ steps:
   - press_interact: {expect: {kind: event_target}}
   - advance_runtime: {seconds: 0.5}
   - assert: {dialog: {active: true, source_id: 5106}}
-  - select_topic: {match_label: "Monga melons"}
+  - select_topic: {action_id: 44451, match_label: "Quest"}
   - assert:
       dialog: {text_contains: "The sweetest grow in the southern meadowlands, home of the most vicious centipedes."}
-  - select_topic: {match_label: "Monga melons"}
+  - select_topic: {action_id: 44451, match_label: "Quest"}
   - assert:
       dialog: {text_contains: "You didn't bring me enough Monga Melons."}
   - press_action: {action: cancel_dialog}
@@ -130,13 +130,13 @@ steps:
   - press_interact: {expect: {kind: event_target}}
   - advance_runtime: {seconds: 0.5}
   - assert: {dialog: {active: true, source_id: 5106}}
-  - select_topic: {match_label: "Monga melons"}
+  - select_topic: {action_id: 44451, match_label: "Quest"}
   - assert:
       dialog: {text_contains: "Here's what I promised you: something shiny I found in the Temple of Bark"}
-  - select_topic: {match_label: "Monga melons"}
+  - select_topic: {action_id: 44451, match_label: "Quest"}
   - assert:
       dialog: {text_contains: "(He eats yours anyway.)"}
-  - select_topic: {match_label: "Monga melons"}
+  - select_topic: {action_id: 44451, match_label: "Quest"}
   - assert:
       dialog: {text_contains: "I'm growing my own melons now. (sigh) I love Monga Melons."}
   - press_action: {action: cancel_dialog}

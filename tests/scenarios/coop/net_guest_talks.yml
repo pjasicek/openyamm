@@ -1,0 +1,47 @@
+id: coop.net_guest_talks
+title: "Co-op - a guest's conversation opens in the guest's game and not on the host's screen"
+world: mm8
+mode: faithful
+tags: [coop, regression]
+steps:
+  - note:
+      text: >-
+        The guest's player talks to a villager of Dagger Wound. The host does the talking for that player and
+        keeps the player's dialogue apart from its own; the guest's game shows the dialogue, and the host's own
+        screen shows none.
+  - new_game_flow:
+      start_map: out01.odm
+  - advance_runtime: {seconds: 1}
+  - coop_guest: {}
+  - new_game_flow:
+      start_map: out02.odm
+    game: guest
+  - coop_join: {expect: joined}
+  - interact_actor: {actor_index: 0}
+    game: guest
+  - advance_runtime: {seconds: 0.5}
+  - assert: {dialog: {active: true}}
+    game: guest
+  - assert: {dialog: {active: false}}
+  - press_action: {action: cancel_dialog}
+    game: guest
+  - advance_runtime: {seconds: 0.5}
+  - assert: {dialog: {active: false}}
+    game: guest
+  - note:
+      text: >-
+        A smith's topic, which an event answers - the player's choice is the host's to carry out, for that
+        player's party, and the answer comes back to the guest's game. Robert Sourbrow (522) makes armour of ore;
+        the guest has none and is told so.
+  - lua_event: {player: 1, source: "evt.SpeakNPC(522)"}
+  - advance_runtime: {seconds: 0.5}
+  - assert: {dialog: {active: true}}
+    game: guest
+  - assert: {dialog: {active: false}}
+  - select_topic: {action_id: 502}
+    game: guest
+  - advance_runtime: {seconds: 0.5}
+  - assert:
+      dialog: {active: true, text_contains: "You need ore for me to create armor"}
+    game: guest
+  - assert: {dialog: {active: false}}

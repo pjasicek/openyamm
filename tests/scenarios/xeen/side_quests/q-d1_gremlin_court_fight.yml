@@ -39,10 +39,10 @@ steps:
   - press_interact: {expect: {kind: event_target}}
   - assert:
       dialog: {active: true, house_dialog: false}
-  - select_topic: {match_label: "Gremlins"}
+  - select_topic: {action_id: 44051, match_label: "Quest"}
   - assert:
       dialog: {text_contains: "Their king, Gettlewaithe, holds court in a burrow under our wall."}
-  - select_topic: {match_label: "Gremlins"}
+  - select_topic: {action_id: 44051, match_label: "Quest"}
   - assert:
       dialog: {text_contains: "The Gremlins' reign of terror persists. No gold for you.", action_label_absent: "Gettlewaithe's gift"}
   - press_action: {action: cancel_dialog}
@@ -137,7 +137,7 @@ steps:
   - press_interact: {expect: {kind: event_target}}
   - assert:
       dialog: {active: true, house_dialog: false}
-  - select_topic: {match_label: "Gremlins"}
+  - select_topic: {action_id: 44051, match_label: "Quest"}
   - assert:
       dialog: {text_contains: "Oh, frabjous day!"}
   - select_topic: {match_label: "Gremlins"}

@@ -1,0 +1,25 @@
+id: coop.net_cinematic
+title: "Co-op - a cinematic the host's game plays is played in a guest's game too"
+world: mm9
+mode: faithful
+tags: [coop, regression]
+steps:
+  - note:
+      text: >-
+        A cinematic belongs to the story everyone plays. The host's game starts one of the bath house's; the
+        guest's game is told and plays the same one (the run's output has "Cinematic: ebora_escape starts" twice,
+        which this scenario cannot count), and the guest is still joined afterwards.
+  - new_game_flow:
+      start_map: bathhouse.blv
+  - advance_runtime: {seconds: 1}
+  - coop_guest: {}
+  - new_game_flow:
+      start_map: bathhouse.blv
+    game: guest
+  - coop_join: {expect: joined}
+  - advance_runtime: {seconds: 2}
+  - console: {line: "cinematic list"}
+  - console: {line: "cinematic play ebora_escape"}
+  - advance_runtime: {seconds: 3}
+  - console: {line: coop net, expect_contains: "joined as player 1"}
+    game: guest

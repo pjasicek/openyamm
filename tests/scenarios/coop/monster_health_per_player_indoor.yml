@@ -1,0 +1,38 @@
+id: coop.monster_health_per_player_indoor
+title: "Co-op - indoor monsters have the same health whatever the number of players, across saves too"
+world: mm8
+mode: faithful
+tags: [coop, regression]
+steps:
+  - note:
+      text: >-
+        As monster_health_per_player.yml, in a dungeon and across saves: no more health for more players since
+        2026-11-21. A Pirate has 20 hit points with one player and with two. Hurt to 10, it is at 10 after a save
+        and load with both players, after the second player leaves, and in the two-player save loaded by one.
+  - new_game_flow:
+      start_map: d06.blv
+  - advance_runtime: {seconds: 1}
+  - console: {line: "actor kill 200000"}
+  - spawn_actor: {monster_id: 181, near_party: true}
+  - assert: {actor_visible: {actor_index: last, current_hp: 20}}
+  - console: {line: coop on, expect_contains: "co-op session: on"}
+  - console: {line: "coop add 250 0", expect_contains: "player 1 at"}
+  - assert: {actor_visible: {actor_index: last, current_hp: 20}}
+  - damage_actor: {actor_index: last, amount: 10}
+  - assert: {actor_visible: {actor_index: last, current_hp: 10}}
+  - save_game: {name: coop_health_two}
+  - load_game: {name: coop_health_two}
+  - advance_runtime: {seconds: 0.2}
+  - assert: {actor_visible: {actor_index: last, current_hp: 10}}
+  - console: {line: "coop remove 1", expect_contains: "player 1 removed"}
+  - assert: {actor_visible: {actor_index: last, current_hp: 10}}
+  - save_game: {name: coop_health_one}
+  - load_game: {name: coop_health_one}
+  - advance_runtime: {seconds: 0.2}
+  - assert: {actor_visible: {actor_index: last, current_hp: 10}}
+  - note:
+      text: >-
+        The save made with two players, loaded by one: its monsters are as they were, 10 of 20.
+  - load_game: {name: coop_health_two}
+  - advance_runtime: {seconds: 0.2}
+  - assert: {actor_visible: {actor_index: last, current_hp: 10}}

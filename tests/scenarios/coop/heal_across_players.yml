@@ -1,0 +1,39 @@
+id: coop.heal_across_players
+title: "Co-op - a heal, a buff and a resurrection cast on another player's character"
+world: mm8
+mode: faithful
+tags: [coop, regression]
+steps:
+  - note:
+      text: >-
+        A spell on one character can name another player's: the caster pays and recovers, the other player's
+        character is healed, blessed or raised. Both ways round: the local player on player 1, player 1 on the
+        local player.
+  - new_game_flow:
+      start_map: out01.odm
+      party:
+        gold: 0
+        food: 10
+        members:
+          - {name: A, class: Cleric, level: 30, skills: [{name: BodyMagic, level: 8, mastery: 2}], equipment: {}}
+  - advance_runtime: {seconds: 1}
+  - console: {line: coop on, expect_contains: "co-op session: on"}
+  - console: {line: "coop add 300 0", expect_contains: "player 1 at"}
+  - console: {line: "coop damage 1 20"}
+  - console: {line: "coop check 1 hurt = 1"}
+  - cast_spell: {member_index: 0, spell_id: 68, skill: 10, mastery: 3, target_member: 0, target_player: 1, expect: applied}
+  - console: {line: "coop check 1 hurt = 0"}
+  - console: {line: "coop damage 0 20"}
+  - console: {line: "coop check 0 hurt = 1"}
+  - cast_spell: {player: 1, member_index: 0, spell_id: 68, skill: 10, mastery: 3, target_member: 0, target_player: 0, expect: applied}
+  - console: {line: "coop check 0 hurt = 0"}
+  - console: {line: "coop check 1 hurt = 0"}
+  - console: {line: "coop damage 1 1000000", expect_contains: "down"}
+  - console: {line: "coop check 1 down = 1"}
+  - cast_spell: {member_index: 0, spell_id: 55, skill: 10, mastery: 4, target_member: 0, target_player: 1, expect: applied}
+  - console: {line: "coop check 1 down = 0"}
+  - console: {line: "coop check 0 down = 0"}
+  - note:
+      text: >-
+        A target player who is not in the session - the cast has no character to land on and fails.
+  - cast_spell: {member_index: 0, spell_id: 68, skill: 10, mastery: 3, target_member: 0, target_player: 3, expect: refused}

@@ -55,7 +55,8 @@ class LoadGameScreen : public MenuDesignScreen
                        const std::vector<uint8_t> &previewBmp, SaveFoodCost foodCost = {});
     // The playthrough being played (screens opened from play), its real time played in all (reloaded stretches too)
     // and the part of it a save made now would hold.
-    void configureCurrentPlaythrough(const std::string &playthroughId, double playedSeconds, double saveSeconds);
+    void configureCurrentPlaythrough(const std::string &playthroughId, double playedSeconds, double saveSeconds,
+                                     std::vector<PlaythroughStatistics::PartyMember> party);
     // The list order (gameplay.save_list_order) and where a change of it is remembered.
     void configureSortOrder(bool newestFirst, SortOrderAction changed);
     void handleSdlEvent(const SDL_Event &event) override;
@@ -100,6 +101,8 @@ class LoadGameScreen : public MenuDesignScreen
         std::string started;
         std::string lastPlayed;
         std::string played;
+        // The party as last seen: "Name (Class)" each.
+        std::string party;
         // Its saves in the list's order, as indices into m_slots, and the newest of them.
         std::vector<size_t> slots;
         size_t newestSlot = 0;
@@ -188,6 +191,7 @@ class LoadGameScreen : public MenuDesignScreen
     std::unordered_map<std::string, std::string> m_rulesetNames;
     std::string m_currentPlaythroughId;
     double m_currentPlayedSeconds = 0.0;
+    std::vector<PlaythroughStatistics::PartyMember> m_currentParty;
     double m_currentSaveSeconds = 0.0;
     // The Save screen lists every playthrough, not only the one being played.
     bool m_showAllPlaythroughs = false;

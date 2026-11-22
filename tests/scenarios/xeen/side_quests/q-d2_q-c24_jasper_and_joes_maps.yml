@@ -48,11 +48,11 @@ steps:
   - advance_runtime: {seconds: 0.5}
   - press_interact: {expect: {kind: event_target}}
   - advance_runtime: {seconds: 0.5}
-  - assert: {dialog: {active: true, source_id: 4919, action_label_absent: "Joe's map"}}
-  - select_topic: {match_label: "Jasper"}
+  - assert: {dialog: {active: true, source_id: 4919}}   # Joe's map (a Quest topic now, like Jasper's) is checked by its hand-in below
+  - select_topic: {action_id: 44101, match_label: "Quest"}
   - assert:
       dialog: {text_contains: "Jasper is in Castleview jail, falsely accused of stealing a treasure map from Joe"}
-  - select_topic: {match_label: "Jasper"}
+  - select_topic: {action_id: 44101, match_label: "Quest"}
   - assert:
       dialog: {text_contains: "My brother still languishes in the town jail."}
   - press_action: {action: cancel_dialog}
@@ -89,10 +89,10 @@ steps:
   - play_lua: {source: "remember('gold', gold())"}
   - interact_actor: {actor_index: 30}
   - assert: {dialog: {active: true, source_id: 4956}}
-  - select_topic: {match_label: "Treasure map"}
+  - select_topic: {action_id: 43702, match_label: "Quest"}
   - assert:
       dialog: {text_contains: "Friend, have I got a deal for you! Only 1000 gold for this secret treasure map"}
-  - select_topic: {match_label: "Treasure map"}
+  - select_topic: {action_id: 43702, match_label: "Quest"}
   - assert:
       dialog: {text_contains: "You already have the only one of its kind."}
   - press_action: {action: cancel_dialog}
@@ -132,8 +132,8 @@ steps:
   - advance_runtime: {seconds: 0.5}
   - assert: {dialog: {active: true, house_dialog: true}}
   - select_topic: {match_label: "Jethro"}
-  - assert: {dialog: {action_label_present: "Joe's map"}}
-  - select_topic: {match_label: "Jasper"}
+  - assert: {dialog: {action_label_present: "Quest"}}
+  - select_topic: {action_id: 44101, match_label: "Quest"}
   - assert:
       dialog: {text_contains: "Thank you for freeing my brother! Here's a little money for your trouble."}
   - play_lua:
@@ -145,11 +145,11 @@ steps:
         end
         if gold() - recall("gold") ~= 1000 then error("Jethro paid " .. (gold() - recall("gold")) .. " gold, not 1000") end
         remember('gold', gold())
-  - select_topic: {match_label: "Joe's map"}
+  - select_topic: {action_id: 43701, match_label: "Quest"}
   - assert:
       dialog: {text_contains: "You bought one of Joe's treasure maps?!? Hahahahaha!"}
   - assert:
-      dialog: {action_label_absent: "Joe's map"}
+      dialog: {action_label_absent: "Quest"}
   - select_topic: {match_label: "Jasper"}
   - assert:
       dialog: {text_contains: "Good to see you again, friends!"}

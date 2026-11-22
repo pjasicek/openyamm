@@ -49,7 +49,7 @@ steps:
   - advance_runtime: {seconds: 0.5}
   - interact_actor: {actor_index: 0}
   - advance_runtime: {seconds: 0.5, present_dialogs: true}
-  - select_topic: {match_label: Dragon egg}
+  - select_topic: {action_id: 45551, match_label: "Quest"}
   - assert: {dialog: {active: true, text_contains: "If you bring me one I will reward you."}}
   - play_lua:
       source: |
@@ -184,7 +184,7 @@ steps:
   - play_lua: {source: "for i = 0, 3 do remember('x' .. i, experience(i)) end; close()"}
   - interact_actor: {actor_index: 0}
   - advance_runtime: {seconds: 0.5, present_dialogs: true}
-  - select_topic: {match_label: Dragon egg}
+  - select_topic: {action_id: 45551, match_label: "Quest"}
   - assert: {dialog: {active: true, text_contains: "Now I'll just drink this egg potion and..."}}
   - play_lua:
       source: |

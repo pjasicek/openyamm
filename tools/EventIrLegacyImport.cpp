@@ -570,22 +570,11 @@ EventIrInstruction convertInstruction(
         const std::optional<int32_t> yaw = readPayloadValue<int32_t>(evtInstruction.rawPayload, 12);
         const std::optional<int32_t> pitch = readPayloadValue<int32_t>(evtInstruction.rawPayload, 16);
         const std::optional<int32_t> zSpeed = readPayloadValue<int32_t>(evtInstruction.rawPayload, 20);
-        std::optional<uint32_t> houseId;
-
-        if (legacyEventVersion == 8)
-        {
-            if (const std::optional<uint16_t> value = readPayloadValue<uint16_t>(evtInstruction.rawPayload, 24))
-            {
-                houseId = *value;
-            }
-        }
-        else if (const std::optional<uint8_t> value = readPayloadValue<uint8_t>(evtInstruction.rawPayload, 24))
-        {
-            houseId = *value;
-        }
-
-        const size_t iconOffset = legacyEventVersion == 8 ? 26 : 25;
-        const size_t mapNameOffset = legacyEventVersion == 8 ? 27 : 26;
+        // MMerge rebuilt the MM6 and MM7 events in MM8's layout, so every world's MoveToMap has a 16-bit house id
+        // (MMerge's merged numbering, which keys trans.txt), then the exit icon, then the map name.
+        const std::optional<uint16_t> houseId = readPayloadValue<uint16_t>(evtInstruction.rawPayload, 24);
+        const size_t iconOffset = 26;
+        const size_t mapNameOffset = 27;
         const std::optional<uint8_t> exitPicId = readPayloadValue<uint8_t>(evtInstruction.rawPayload, iconOffset);
 
         if (x && y && z && yaw && pitch && zSpeed && houseId && exitPicId)

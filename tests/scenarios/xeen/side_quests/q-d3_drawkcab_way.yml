@@ -68,7 +68,7 @@ steps:
   - press_interact: {expect: {kind: event_target}}
   - advance_runtime: {seconds: 0.5}
   - assert: {dialog: {active: true, source_id: 4923}}
-  - select_topic: {match_label: "Lesson"}
+  - select_topic: {action_id: 44151, match_label: "Quest"}
   - assert:
       dialog: {text_contains: "No word, no bond, row on. Now do I repay a period won."}
   - select_topic: {match_label: "Lesson"}
@@ -157,7 +157,7 @@ steps:
   - press_interact: {expect: {kind: event_target}}
   - advance_runtime: {seconds: 0.5}
   - assert: {dialog: {active: true, source_id: 4950}}
-  - select_topic: {match_label: "The word"}
+  - select_topic: {action_id: 44155, match_label: "Quest"}
   - assert:
       dialog: {text_contains: "Masters, though, ready not yet are you. Return when the Queen's castle stands higher."}
   - press_action: {action: cancel_dialog}
@@ -172,7 +172,7 @@ steps:
   - press_interact: {expect: {kind: event_target}}
   - advance_runtime: {seconds: 0.5}
   - assert: {dialog: {active: true, source_id: 4950}}
-  - select_topic: {match_label: "The word"}
+  - select_topic: {action_id: 44155, match_label: "Quest"}
   - assert:
       dialog: {text_contains: "Correct. You are truly a Drawkcab! Those of you who walk the inner way walk it now as Masters."}
   - select_topic: {match_label: "The word"}

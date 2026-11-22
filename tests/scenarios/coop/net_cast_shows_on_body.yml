@@ -1,0 +1,56 @@
+id: coop.net_cast_shows_on_body
+title: "Co-op - a spell cast by an Attack order shows as a cast on the caster's body in the other game"
+world: mm8
+mode: faithful
+tags: [coop, regression]
+steps:
+  - note:
+      text: >-
+        Each game tells the others what its character begins (a blow, a shot, a cast), and their bodies of it play
+        that. A spell cast by an Attack order by a party's member (no first-person arms) was counted nowhere:
+        before 2026-11-21 the others saw the missile leave a body that stood still. Every spell a player casts is
+        counted now. The host's Attack casts Fire Bolt and the guest's game has "action 1 cast" for it; then the
+        other way round.
+  - new_game_flow:
+      start_map: out01.odm
+      party:
+        gold: 0
+        food: 10
+        members:
+          - name: H
+            class: Necromancer
+            level: 20
+            skills: [{name: FireMagic, level: 8, mastery: 2}]
+            spells: [2]
+            equipment: {}
+            battle_orders: {fallback: weapon, orders: [{spell: Fire Bolt}]}
+  - advance_runtime: {seconds: 1}
+  - coop_guest: {}
+  - new_game_flow:
+      start_map: out02.odm
+      party:
+        gold: 0
+        food: 10
+        members:
+          - name: G
+            class: Necromancer
+            level: 20
+            skills: [{name: FireMagic, level: 8, mastery: 2}]
+            spells: [2]
+            equipment: {}
+            battle_orders: {fallback: weapon, orders: [{spell: Fire Bolt}]}
+    game: guest
+  - coop_join: {expect: joined}
+  - damage_actor: {all: true, amount: 1000000}
+  - advance_runtime: {seconds: 2}
+  - console: {line: "actor spawn 181 1 4100 7696 545"}
+  - console: {line: "actor immobile last on"}
+  - advance_runtime: {seconds: 1}
+  - press_action: {action: attack}
+  - advance_runtime: {seconds: 2}
+  - console: {line: coop net, expect_contains: "action 1 cast"}
+    game: guest
+  - press_action: {action: attack}
+    game: guest
+  - advance_runtime: {seconds: 2}
+  - console: {line: coop net, expect_contains: "action 1 cast"}

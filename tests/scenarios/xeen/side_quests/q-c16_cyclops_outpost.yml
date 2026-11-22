@@ -35,10 +35,10 @@ steps:
   - press_interact: {expect: {kind: event_target}}
   - assert:
       dialog: {active: true, source_id: 4524}
-  - select_topic: {match_label: "Cyclopes"}
+  - select_topic: {action_id: 43301, match_label: "Quest"}
   - assert:
       dialog: {text_contains: "a group of cyclops established an outpost near our lands, in the Land of the Giants"}
-  - select_topic: {match_label: "Cyclopes"}
+  - select_topic: {action_id: 43301, match_label: "Quest"}
   - assert:
       dialog: {text_contains: "Every day the casualties increase."}
   - press_action: {action: cancel_dialog}
@@ -76,7 +76,7 @@ steps:
   - press_interact: {expect: {kind: event_target}}
   - assert:
       dialog: {active: true, source_id: 4524}
-  - select_topic: {match_label: "Cyclopes"}
+  - select_topic: {action_id: 43301, match_label: "Quest"}
   - assert:
       dialog: {text_contains: "We saw the Cyclops' outpost burning in the distance."}
   - select_topic: {match_label: "Cyclopes"}

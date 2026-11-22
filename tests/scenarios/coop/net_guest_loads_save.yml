@@ -1,0 +1,45 @@
+id: coop.net_guest_loads_save
+title: "Co-op - a guest that loads a save of its own leaves the session first"
+world: mm8
+mode: faithful
+tags: [coop, regression]
+steps:
+  - note:
+      text: >-
+        A save is a game of the player's own, not the host's world. A guest saved its game on Ravenshore before
+        joining the host on Dagger Wound. Loading that save while joined ends its part in the session: it is on
+        Ravenshore in its own game, no longer a replica (it can save again), and the host has no connection left.
+        Before 2026-11-20 the load left the guest in its own world while still joined, and the host saw it walk
+        about Dagger Wound at Ravenshore's coordinates.
+  - new_game_flow:
+      start_map: out01.odm
+  - advance_runtime: {seconds: 1}
+  - coop_guest: {}
+  - new_game_flow:
+      start_map: out02.odm
+      party:
+        gold: 5000
+        food: 10
+        members:
+          - {name: G, class: Knight, level: 10, skills: [{name: Sword, level: 4, mastery: 1}], equipment: {}}
+    game: guest
+  - save_game: {name: coop_guest_home}
+    game: guest
+  - coop_join: {expect: joined}
+  - advance_runtime: {seconds: 2}
+  - console: {line: coop net, expect_contains: "joined as player 1"}
+    game: guest
+  - assert: {map: out01.odm}
+    game: guest
+  - load_game: {name: coop_guest_home}
+    game: guest
+  - advance_runtime: {seconds: 2}
+  - console: {line: coop net, expect_contains: "no network session"}
+    game: guest
+  - assert: {map: out02.odm}
+    game: guest
+  - console: {line: "gold get", expect_contains: "5000"}
+    game: guest
+  - save_game: {name: coop_guest_home_again}
+    game: guest
+  - console: {line: coop net, expect_contains: "0 connection(s)"}

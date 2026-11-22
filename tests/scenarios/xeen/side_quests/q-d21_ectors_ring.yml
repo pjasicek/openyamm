@@ -39,9 +39,9 @@ steps:
   - interact_actor: {actor_index: 21}
   - advance_runtime: {seconds: 0.5}
   - assert: {dialog: {active: true, source_id: 5320}}
-  - select_topic: {match_label: "The ring"}
+  - select_topic: {action_id: 45051, match_label: "Quest"}
   - assert: {dialog: {text_contains: "now it's somewhere in the woodpile. Fetch it and I'll make it worth the walk."}}
-  - select_topic: {match_label: "The ring"}
+  - select_topic: {action_id: 45051, match_label: "Quest"}
   - assert: {dialog: {text_contains: "Third log, if I remember right. I never remember right."}}
   - press_action: {action: cancel_dialog}
   - play_lua: {source: "for _ = 1, 3 do if not close() then break end end"}
@@ -67,7 +67,7 @@ steps:
   - interact_actor: {actor_index: 21}
   - advance_runtime: {seconds: 0.5}
   - assert: {dialog: {active: true, source_id: 5320}}
-  - select_topic: {match_label: "The ring"}
+  - select_topic: {action_id: 45051, match_label: "Quest"}
   - assert: {dialog: {text_contains: "Keep it. And take this for the climb."}}
   - select_topic: {match_label: "The ring"}
   - assert: {dialog: {text_contains: "Wear it in good health. It makes sure you have plenty."}}

@@ -37,12 +37,12 @@ steps:
   - press_interact: {expect: {kind: event_target}}
   - assert:
       dialog: {active: true, house_dialog: false}
-  - select_topic: {match_label: "Ogres"}
+  - select_topic: {action_id: 44551, match_label: "Quest"}
   - assert:
       dialog: {text_contains: "These blasted Ogres are killing my business."}
-  - select_topic: {match_label: "Ogres"}
+  - select_topic: {action_id: 44551, match_label: "Quest"}
   - assert:
-      dialog: {text_contains: "There are still Ogres attacking my caravans. Please do something!", action_label_absent: "Bounty"}
+      dialog: {text_contains: "There are still Ogres attacking my caravans. Please do something!", action_label_absent: "Promotion"}
   - press_action: {action: cancel_dialog}
   - play_lua: {source: "for _ = 1, 3 do if not close() then break end end"}
   - assert: {qbit_set: [113220]}
@@ -99,12 +99,12 @@ steps:
   - clear_hostiles: {radius: 3000}
   - play_lua: {source: "remember('gold', gold()); for i = 0, 3 do remember('xp' .. i, experience(i)) end"}
   - press_interact: {expect: {kind: event_target}}
-  - select_topic: {match_label: "Ogres"}
+  - select_topic: {action_id: 44551, match_label: "Quest"}
   - assert:
       dialog: {text_contains: "Thank you so much for getting rid of the Ogres!"}
   - select_topic: {match_label: "Ogres"}
   - assert:
-      dialog: {text_contains: "The caravans run through Ogre Pass on time.", action_label_absent: "Bounty"}
+      dialog: {text_contains: "The caravans run through Ogre Pass on time.", action_label_absent: "Promotion"}
   - press_action: {action: cancel_dialog}
   - play_lua:
       source: |

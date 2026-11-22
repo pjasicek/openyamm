@@ -1,0 +1,42 @@
+id: coop.net_replica_monsters
+title: "Co-op - the guest's game shows the host's monsters: a new one, its health, its death"
+world: mm8
+mode: faithful
+tags: [coop, regression]
+steps:
+  - note:
+      text: >-
+        A guest's game runs no monsters of its own. A Pirate that appears on the host appears in the guest's game
+        at the same number, with its 20 hit points (no more for a second player since 2026-11-21); what the host's blows take shows in the guest's
+        game, and so does its death.
+  - new_game_flow:
+      start_map: out01.odm
+  - advance_runtime: {seconds: 1}
+  - coop_guest: {}
+  - new_game_flow:
+      start_map: out02.odm
+    game: guest
+  - coop_join: {expect: joined}
+  - note:
+      text: >-
+        The island's own monsters and villagers go first, so that nobody else hurts the Pirate or the players.
+  - damage_actor: {all: true, amount: 1000000}
+  - spawn_actor: {monster_id: 181, near_party: true}
+  - assert: {actor_visible: {actor_index: last, monster_id: 181, current_hp: 20}}
+  - advance_runtime: {seconds: 1}
+  - assert: {actor_visible: {actor_index: last, monster_id: 181, current_hp: 20, max_hp: 20}}
+    game: guest
+  - damage_actor: {actor_index: last, amount: 10}
+  - assert: {actor_visible: {actor_index: last, current_hp: 10}}
+  - advance_runtime: {seconds: 0.5}
+  - assert: {actor_visible: {actor_index: last, current_hp: 10}}
+  - assert: {actor_visible: {actor_index: last, current_hp: 10}}
+    game: guest
+  - damage_actor: {actor_index: last, amount: 100}
+  - advance_runtime: {seconds: 3}
+  - assert: {actor_visible: {actor_index: last, dead: true}}
+  - assert: {actor_visible: {actor_index: last, dead: true}}
+    game: guest
+  - console: {line: coop net, expect_contains: "joined as player 1"}
+    game: guest
+  - console: {line: coop net, expect_contains: "hosting"}

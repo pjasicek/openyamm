@@ -39,10 +39,10 @@ steps:
   - clear_hostiles: {radius: 3000}
   - interact_actor: {actor_index: 32}
   - advance_runtime: {seconds: 0.5}
-  - assert: {dialog: {active: true, source_id: 4952, action_label_absent: "The altar"}}
-  - select_topic: {match_label: "Statuettes"}
+  - assert: {dialog: {active: true, source_id: 4952, action_label_present: "Quest"}}
+  - select_topic: {action_id: 45001, match_label: "Quest"}
   - assert: {dialog: {text_contains: "Start with the thieves of the Great Southern Tower"}}
-  - select_topic: {match_label: "Statuettes"}
+  - select_topic: {action_id: 45001, match_label: "Quest"}
   - assert: {dialog: {text_contains: "I see you haven't found all of the statuettes yet."}}
   - press_action: {action: cancel_dialog}
   - play_lua: {source: "for _ = 1, 3 do if not close() then break end end"}
@@ -98,7 +98,7 @@ steps:
   - interact_actor: {actor_index: 32}
   - advance_runtime: {seconds: 0.5}
   - assert: {dialog: {active: true, source_id: 4952}}
-  - select_topic: {match_label: "Statuettes"}
+  - select_topic: {action_id: 45001, match_label: "Quest"}
   - assert: {dialog: {text_contains: "The Pegasus! You are truly great adventurers"}}
   - press_action: {action: cancel_dialog}
   - play_lua:
@@ -248,10 +248,10 @@ steps:
   - play_lua: {source: "remember('items', pack_items()); remember('gold', gold()); for i = 0, 3 do remember('xp' .. i, experience(i)) end"}
   - interact_actor: {actor_index: 32}
   - advance_runtime: {seconds: 0.5}
-  - assert: {dialog: {active: true, source_id: 4952, action_label_absent: "The altar"}}
-  - select_topic: {match_label: "Statuettes"}
+  - assert: {dialog: {active: true, source_id: 4952, action_label_present: "Quest"}}
+  - select_topic: {action_id: 45001, match_label: "Quest"}
   - assert: {dialog: {text_contains: "The Dragon! You are truly great adventurers"}}
-  - select_topic: {match_label: "Statuettes"}
+  - select_topic: {action_id: 45001, match_label: "Quest"}
   - assert: {dialog: {text_contains: "The Griffin! You are truly great adventurers"}}
   - play_lua:
       source: |
@@ -260,11 +260,9 @@ steps:
           if experience(i) - recall("xp" .. i) ~= 6000 then error("member " .. i .. " got " .. (experience(i) - recall("xp" .. i)) .. " XP for two statuettes") end
         end
         remember("xp_after", experience(0))
-  - select_topic: {match_label: "Statuettes"}
-  - assert: {dialog: {text_contains: "All three are on the altar. Look at the altar, please, not at me."}}
-  - select_topic: {match_label: "The altar"}
+  - select_topic: {action_id: 45001, match_label: "Quest"}
   - assert: {dialog: {text_contains: "Those of you who fight with bow and spell alike, rise as Master Archers."}}
-  - assert: {dialog: {action_label_absent: "The altar"}}
+  - assert: {dialog: {action_label_absent: "Quest"}}
   - select_topic: {match_label: "Statuettes"}
   - assert: {dialog: {text_contains: "I'm pleased to see you again, friends. Please come by more often!"}}
   - press_action: {action: cancel_dialog}

@@ -1,0 +1,32 @@
+id: coop.world_under_dialogue_outdoor
+title: "Co-op - outdoors the world goes on under a house dialogue; a single-player world stops there"
+world: mm8
+mode: faithful
+tags: [coop, regression]
+steps:
+  - note:
+      text: >-
+        devdocs/plans/MULTIPLAYER_LISTEN_SERVER_ARCHITECTURE.md, "Co-op rules": a co-op session has no pause, and a
+        screen of one game holds that game's input only. Outdoors the clock runs in the party's movement frame
+        (OutdoorSceneRuntime::advanceFrame), which a dialogue stops in a single-player game. The Grog and Grub on
+        Dagger Wound Island is house 228, event 191. A game minute is two seconds, so 130 seconds are 65 minutes.
+  - new_game_flow:
+      start_map: out01.odm
+  - advance_runtime: {seconds: 1}
+  - assert: {game_hour: 9}
+  - execute_event: {id: 191}
+  - assert: {dialog: {active: true}}
+  # A single-player game: the dialogue holds the world, the clock with it.
+  - advance_runtime: {seconds: 130}
+  - assert:
+      dialog: {active: true}
+      game_hour: 9
+  - console: {line: coop on, expect_contains: "co-op session: on"}
+  # The same dialogue, still open: the world is no longer this game's to stop.
+  - advance_runtime: {seconds: 130}
+  - assert:
+      dialog: {active: true}
+      game_hour: 10
+  - console: {line: coop off, expect_contains: "co-op session: off"}
+  - advance_runtime: {seconds: 130}
+  - assert: {game_hour: 10}

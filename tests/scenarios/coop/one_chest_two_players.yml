@@ -1,0 +1,40 @@
+id: coop.one_chest_two_players
+title: "Co-op - each player has their own open chest; a chest one player has open is refused to the other"
+world: mm8
+mode: faithful
+tags: [coop, regression]
+steps:
+  - note:
+      text: >-
+        The local player opens chest 1. Player 1 asks for the same chest and is refused, opens chest 2 instead
+        and has that one open while the local player still has chest 1. Player 1 takes what is in chest 2: the
+        things go to player 1's party and the found gold to both. When the local player closes chest 1, player 1
+        can open it.
+  - new_game_flow:
+      start_map: out01.odm
+      party:
+        gold: 0
+        food: 10
+        members:
+          - {name: A, class: Knight, level: 10, skills: [{name: Sword, level: 5, mastery: 1}], equipment: {}}
+  - advance_runtime: {seconds: 1}
+  - console: {line: coop on, expect_contains: "co-op session: on"}
+  - console: {line: "coop add 300 0", expect_contains: "player 1 at"}
+  - execute_event: {id: 82}
+  - advance_runtime: {seconds: 0.2}
+  - console: {line: "coop chest 0", expect_contains: "player 0 has chest 1 open"}
+  - console: {line: "coop chest 1", expect_contains: "player 1 has no chest open"}
+  - lua_event: {player: 1, source: "evt.OpenChest(1)"}
+  - console: {line: "coop chest 1", expect_contains: "player 1 has no chest open"}
+  - lua_event: {player: 1, source: "evt.OpenChest(2)"}
+  - console: {line: "coop chest 1", expect_contains: "player 1 has chest 2 open"}
+  - console: {line: "coop chest 0", expect_contains: "player 0 has chest 1 open"}
+  - console: {line: "coop chest 1 take", expect_contains: "player 1 has chest 2 open, 0 things in it"}
+  - console: {line: coop show}
+  - console: {line: "coop chest 0 close", expect_contains: "player 0 has no chest open"}
+  - lua_event: {player: 1, source: "evt.OpenChest(1)"}
+  - console: {line: "coop chest 1", expect_contains: "player 1 has chest 1 open"}
+  - console: {line: "coop chest 0", expect_contains: "player 0 has no chest open"}
+  - execute_event: {id: 82}
+  - advance_runtime: {seconds: 0.2}
+  - console: {line: "coop chest 0", expect_contains: "player 0 has no chest open"}

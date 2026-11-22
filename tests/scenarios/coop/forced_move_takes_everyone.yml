@@ -1,0 +1,23 @@
+id: coop.forced_move_takes_everyone
+title: "Co-op - a move a script forces takes every player without asking"
+world: mm8
+mode: faithful
+tags: [coop, regression]
+steps:
+  - note:
+      text: >-
+        "Map travel" in devdocs/plans/MULTIPLAYER_LISTEN_SERVER_ARCHITECTURE.md - a move by a script that does not
+        ask (a trap, a teleporter, a story event - evt.MoveToMap with no leave dialogue) skips the vote. The
+        local player's event moves the party to the Abandoned Temple (d05.blv); nobody is asked and player 1
+        stands there beside the party.
+  - new_game_flow:
+      start_map: out01.odm
+  - advance_runtime: {seconds: 1}
+  - console: {line: coop on, expect_contains: "co-op session: on"}
+  - console: {line: "coop add 300 0", expect_contains: "player 1 at"}
+  - lua_event:
+      source: "evt.MoveToMap(-3008, -1696, 2464, 512, 0, 0, 0, 0, 'd05.blv')"
+  - advance_runtime: {seconds: 1, follow_map_move: true}
+  - assert: {map: d05.blv}
+  - console: {line: coop show, expect_not_contains: "travel to"}
+  - console: {line: coop show, expect_contains: "player 1 at -2912 -1696"}

@@ -58,12 +58,12 @@ steps:
   - clear_hostiles: {radius: 3000}
   - assert: {actor_visible: {actor_index: 15, hidden: false}}
   - interact_actor: {actor_index: 15}
-  - select_topic: {match_label: "Elixir"}
+  - select_topic: {action_id: 43101, match_label: "Quest"}
   - assert:
       dialog: {text_contains: "I was once a beautiful mermaid."}
   - assert:
       dialog: {text_contains: "The temple's door is never locked."}
-  - select_topic: {match_label: "Elixir"}
+  - select_topic: {action_id: 43101, match_label: "Quest"}
   - assert:
       dialog: {text_contains: "I'm waiting for you to bring me the elixir of restoration from the evil clerics."}
   - press_action: {action: cancel_dialog}
@@ -220,7 +220,7 @@ steps:
         log("Personality before Mirabeth: " .. line)
   # Mirabeth: Elixir (done: the Elixir taken, 2,000 XP and +5 Personality each), Elixir again (never been happier).
   - interact_actor: {actor_index: 15}
-  - select_topic: {match_label: "Elixir"}
+  - select_topic: {action_id: 43101, match_label: "Quest"}
   - assert:
       dialog: {text_contains: "Thank you so much for getting me the elixir!"}
   - select_topic: {match_label: "Elixir"}

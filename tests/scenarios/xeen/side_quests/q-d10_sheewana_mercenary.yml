@@ -39,7 +39,7 @@ steps:
   - press_interact: {expect: {kind: event_target}}
   - assert:
       dialog: {active: true, source_id: 5101, action_label_absent: "Certainly"}
-  - select_topic: {match_label: "Sheewana"}
+  - select_topic: {action_id: 44501, match_label: "Quest"}
   - assert:
       dialog: {text_contains: "The Orcs have kidnapped one of our sisters. Can you help her?", action_label_present: "This is a stick up!"}
   - assert:
@@ -47,7 +47,7 @@ steps:
   - select_topic: {match_label: "What's in it for us?"}
   - assert:
       dialog: {text_contains: "We have two Energy Disks and some gold to give you after you rescue her. A LOT of gold? Very well. A lot. Go to the Temple of Bark and free her!", action_label_absent: "Certainly"}
-  - select_topic: {match_label: "Sheewana"}
+  - select_topic: {action_id: 44501, match_label: "Quest"}
   - assert:
       dialog: {text_contains: "You have not rescued her yet. Keep trying."}
   - press_action: {action: cancel_dialog}
@@ -62,7 +62,7 @@ steps:
   - press_interact: {expect: {kind: event_target}}
   - advance_runtime: {seconds: 0.5}
   - assert: {dialog: {active: true, source_id: 5106}}
-  - select_topic: {match_label: "Monga melons"}
+  - select_topic: {action_id: 44451, match_label: "Quest"}
   - press_action: {action: cancel_dialog}
   - play_lua: {source: "for _ = 1, 3 do if not close() then break end end; if not qbit(113180) then error('Q-D9 not started') end"}
   - set_pose: {map: xeen_d2.odm, x: -22016, y: 2048, z: 992, yaw: 3.1416, pitch: 0.0}
@@ -99,7 +99,7 @@ steps:
   - clear_hostiles: {radius: 3000}
   - press_interact: {expect: {kind: event_target}}
   - advance_runtime: {seconds: 0.5}
-  - select_topic: {match_label: "Monga melons"}
+  - select_topic: {action_id: 44451, match_label: "Quest"}
   - assert:
       dialog: {text_contains: "Here's what I promised you"}
   - press_action: {action: cancel_dialog}
@@ -317,7 +317,7 @@ steps:
   - assert:
       dialog: {active: true, house_dialog: true}
   - select_topic: {action_id: 5101, match_label: "Sharla"}
-  - select_topic: {match_label: "Sheewana"}
+  - select_topic: {action_id: 44501, match_label: "Quest"}
   - assert:
       dialog: {text_contains: "Thank you! It is good to see her back. Here is your reward: two Energy Disks and a LOT of gold, as agreed."}
   - select_topic: {match_label: "Sheewana"}

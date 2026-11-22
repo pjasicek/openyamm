@@ -81,12 +81,27 @@ TEST_CASE("the journal's continents are the new-game cards in their order, a wor
         CHECK_GT(xeenTeachers, 0u);
     }
 
-    // Every quest and note owner is a tab: a card's title or Shared (empty).
+    // Every quest and note owner is a tab: a card's short title or Shared (empty).
+    std::vector<std::string> owners;
     for (const Game::JournalQuestEntry &entry : loader.getJournalQuestTable().entries())
     {
         CHECK_MESSAGE((entry.owner.empty() || entry.owner == "Shared"
                           || std::find(names.begin(), names.end(), entry.owner) != names.end()),
             entry.qbitId, " ", entry.owner);
+        owners.push_back(entry.owner);
+    }
+    for (const auto &entry : loader.getJournalAutonoteTable().entries())
+    {
+        CHECK_MESSAGE((entry.owner.empty() || entry.owner == "Shared"
+                          || std::find(names.begin(), names.end(), entry.owner) != names.end()),
+            entry.id, " ", entry.owner);
+        owners.push_back(entry.owner);
+    }
+
+    // And every tab names an owner: a card titled differently ("Xeen (alpha)") names its tab by its short title.
+    for (const std::string &name : names)
+    {
+        CHECK_MESSAGE(std::find(owners.begin(), owners.end(), name) != owners.end(), "tab without an owner: ", name);
     }
 }
 

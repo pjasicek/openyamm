@@ -42,10 +42,10 @@ steps:
   - press_interact: {expect: {kind: event_target}}
   - assert:
       dialog: {active: true, source_id: 5246}
-  - select_topic: {match_label: "Jewel of Ages"}
+  - select_topic: {action_id: 44901, match_label: "Quest"}
   - assert:
       dialog: {text_contains: "A terrible thing has happened. The Jewel of Ages has been stolen"}
-  - select_topic: {match_label: "Jewel of Ages"}
+  - select_topic: {action_id: 44901, match_label: "Quest"}
   - assert:
       dialog: {text_contains: "find a clue to its whereabouts in the Great Southern Tower"}
   - select_topic: {match_label: "Hornets"}
@@ -66,7 +66,7 @@ steps:
   - press_interact: {expect: {kind: event_target}}
   - assert:
       dialog: {active: true, source_id: 5246}
-  - select_topic: {match_label: "Jewel of Ages"}
+  - select_topic: {action_id: 44901, match_label: "Quest"}
   - assert:
       dialog: {text_contains: "Sold to the mages of the Eastern Tower, east of here by the rim."}
   - press_action: {action: cancel_dialog}
@@ -320,7 +320,7 @@ steps:
   - press_interact: {expect: {kind: event_target}}
   - assert:
       dialog: {active: true, source_id: 5246}
-  - select_topic: {match_label: "Jewel of Ages"}
+  - select_topic: {action_id: 44901, match_label: "Quest"}
   - assert:
       dialog: {text_contains: "You've found the Jewel of Ages! Let me dip it in the fountain."}
   - select_topic: {match_label: "Jewel of Ages"}
@@ -352,11 +352,11 @@ steps:
   - advance_runtime: {seconds: 0.5}
   - assert:
       dialog: {active: true, house_dialog: false, source_id: 5210}
-  - select_topic: {match_label: "Ellinger's letter"}
+  - select_topic: {action_id: 44902, match_label: "Promotion"}
   - assert:
       dialog: {text_contains: "Ellinger's seal. 'To the Guildmaster of Sandcaster: the bearer has earned the robes of an Archmage.'"}
   - assert:
-      dialog: {action_label_absent: "Ellinger's letter"}
+      dialog: {action_label_absent: "Promotion"}
   - press_action: {action: cancel_dialog}
   - play_lua: {source: "close()"}   # F1: a sole proprietor's talk closes at once (no lobby behind it)
   - play_lua:

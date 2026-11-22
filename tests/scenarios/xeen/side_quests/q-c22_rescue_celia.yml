@@ -26,11 +26,11 @@ steps:
   - advance_runtime: {seconds: 6, present_dialogs: true}
   - press_action: {action: cancel_dialog}
   - assert: {actor_visible: {actor_index: 82, hidden: true}}
-  # Derek at his camp: Celia (Q-C22 started).
+  # Derek at his camp: Quest (Q-C22 started).
   - set_pose: {map: xeen_x1.odm, x: -11674, y: -6763, z: 640, yaw: -1.5708, pitch: 0.0}
   - clear_hostiles: {radius: 2000}
   - interact_actor: {actor_index: 75}   # Derek (NPC 4046), the scene's actor 75 (fuller X1)
-  - select_topic: {match_label: Celia}
+  - select_topic: {action_id: 43601, match_label: "Quest"}
   - assert:
       dialog: {text_contains: "Help me, please"}
   - press_action: {action: cancel_dialog}
@@ -43,11 +43,11 @@ steps:
       dialog: {text_contains: "Derek sent you?"}
   - press_action: {action: cancel_dialog}
   - assert: {qbit_set: [112441]}
-  # Derek: Celia (Q-C22 done).
+  # Derek: Quest (Q-C22 done; its afterword "Celia" stays).
   - set_pose: {map: xeen_x1.odm, x: -11674, y: -6763, z: 640, yaw: -1.5708, pitch: 0.0}
   - clear_hostiles: {radius: 2000}
   - interact_actor: {actor_index: 75}   # Derek (NPC 4046), the scene's actor 75 (fuller X1)
-  - select_topic: {match_label: Celia}
+  - select_topic: {action_id: 43601, match_label: "Quest"}
   - assert:
       dialog: {text_contains: "You have rescued my Celia"}
   - press_action: {action: cancel_dialog}
@@ -79,6 +79,7 @@ steps:
       dialog: {active: true, source_id: 4647, action_label_present: Derek}
   # Celia in the cottage: the sword Derek found (treasure level 4, once).
   - play_lua: {source: "remember('pack', pack_items())"}
+  # Celia's portrait in the cottage (house 4647), not a topic
   - select_topic: {match_label: Celia}
   - select_topic: {match_label: "The sword"}
   - assert:

@@ -30,10 +30,10 @@ steps:
   - press_interact: {expect: {kind: event_target}}
   - assert:
       dialog: {active: true, source_id: 4153}   # the chapel's one resident talks at once
-  - select_topic: {match_label: Holy Book}
+  - select_topic: {action_id: 43401, match_label: "Quest"}
   - assert:
       dialog: {text_contains: "In my haste to escape I dropped the Holy Book of Elvenkind"}
-  - select_topic: {match_label: Holy Book}
+  - select_topic: {action_id: 43401, match_label: "Quest"}
   - assert:
       dialog: {text_contains: "I see you haven't found the Holy Book of Elvenkind"}
   - assert: {dialog: {action_label_absent: "Master Spirit Magic"}}   # no teaching before the book is home
@@ -42,21 +42,26 @@ steps:
   - assert: {dialog: {active: false}}
   - assert: {qbit_set: [112360]}
   - assert: {qbit_clear: [112361]}
-  # Overland to X5, the Troll Forest: the book on the ground by the torn pack at the troll warren (cell 68.85, 92.4).
+  # Overland to X5, the Troll Forest: the torn pack at the troll warren (cell 68.6, 92.4) holds the book.
   - travel: {map: xeen_x5.odm, days: 4}
   - assert: {map: xeen_x5.odm}
   - set_pose: {map: xeen_x5.odm, x: 2355, y: -14241, z: 1300, yaw: -1.5708, pitch: -0.3}
   - clear_hostiles: {radius: 3000}
   - advance_runtime: {seconds: 1.0}
   - walk_to: {x: 2483, y: -14720, z: 962, z_tolerance: 700, radius: 192, timeout_seconds: 90, clear_hostiles: 3000}
-  - play_lua: {source: "if ground_items(12524) ~= 1 then error('the Holy Book is not on the ground') end"}
-  - pick_up: {item_id: 12524, reach: 700}
+  # D-93: the torn pack (X5 event 108, q-c18.book) puts the book onto the cursor, the find on the status line.
   - play_lua:
       source: |
-        close()
-        if held() ~= 0 then stow() end
-        if item_count(12524) ~= 1 then error("no Holy Book from the ground by the torn pack") end
-        if ground_items(12524) ~= 0 then error("the Holy Book is still on the ground") end
+        if ground_items(12524) ~= 0 then error("a Holy Book lies on the ground (D-93: it is in the torn pack)") end
+        status(); click(108); wait(0.5)
+        local line = status()
+        if held() ~= 12524 then error("the torn pack put no book on the cursor (held " .. held() .. ")") end
+        if not line:find("Tito's Holy Book", 1, true) then error("no find line on the status line: " .. line) end
+        stow()
+        if item_count(12524) ~= 1 then error("no Holy Book from the torn pack") end
+        click(108); wait(0.5)
+        if not status():find("The torn pack is empty now.", 1, true) then error("the pack's second click says no else line") end
+  - assert: {dialog: {active: false}}
   # Back to Rivercity; Tito: Holy Book (Q-C18 done), 5000 experience each and 1500 gold.
   - travel: {map: xeen_x2.odm, days: 4}
   - assert: {map: xeen_x2.odm}
@@ -66,7 +71,7 @@ steps:
   - press_interact: {expect: {kind: event_target}}
   - assert:
       dialog: {active: true, source_id: 4153}
-  - select_topic: {match_label: Holy Book}
+  - select_topic: {action_id: 43401, match_label: "Quest"}
   - assert:
       dialog: {text_contains: "You have recovered the Holy Book of Elvenkind!"}
   - select_topic: {match_label: Holy Book}
@@ -80,6 +85,8 @@ steps:
         if has_item(12524) then error("Tito did not take the book") end
   # "Ask me about the spirit whenever you like": Tito now teaches Master Spirit Magic (towns/x2.yml `opens:
   # q-c18.done`, the RegisterCanShowTopic gate in xeen_quests.lua).
+  # The Quest topic went at the hand-in; its afterword "Holy Book" stays (QUESTS_FORMAT 4.4).
+  - assert: {dialog: {action_label_absent: "Quest"}}
   - assert: {dialog: {action_label_present: "Holy Book"}}
   - assert: {dialog: {action_label_present: "Master Spirit Magic"}}
   - press_action: {action: cancel_dialog}

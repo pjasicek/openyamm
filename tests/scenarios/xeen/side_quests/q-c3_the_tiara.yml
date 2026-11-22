@@ -65,11 +65,11 @@ steps:
   - walk_to: {x: 4900, y: 5376, z: 640, radius: 64, timeout_seconds: 30, close_dialogs: true}
   - play_lua: {source: "click(42); wait(1)"}
   - assert:
-      dialog: {source_id: 4404, action_label_absent: "Rogues"}
-  - select_topic: {match_label: "Tiara"}
+      dialog: {source_id: 4404, action_label_absent: "Promotion"}
+  - select_topic: {action_id: 42651, match_label: "Quest"}
   - assert:
       dialog: {text_contains: "my diamond tiara has been stolen from my room"}
-  - select_topic: {match_label: "Tiara"}
+  - select_topic: {action_id: 42651, match_label: "Quest"}
   - assert:
       dialog: {text_contains: "I see that you have not recovered my tiara"}
   - press_action: {action: cancel_dialog}
@@ -264,14 +264,14 @@ steps:
   - play_lua: {source: "remember('xp0', experience(0)); remember('xp1', experience(1)); remember('gold', gold()); click(42); wait(1)"}
   - assert:
       dialog: {source_id: 4404}
-  - select_topic: {match_label: "Tiara"}
+  - select_topic: {action_id: 42651, match_label: "Quest"}
   - assert:
       dialog: {text_contains: "You have recovered my tiara and gotten rid of that bothersome robber gang"}
   - select_topic: {match_label: "Tiara"}
   - assert:
       dialog: {text_contains: "It is always exhilarating to see adventurers such as yourselves."}
   - assert:
-      dialog: {action_label_absent: "Rogues"}
+      dialog: {action_label_absent: "Promotion"}
   - press_action: {action: cancel_dialog}
   - play_lua:
       source: |

@@ -1,0 +1,21 @@
+id: coop.no_turn_based
+title: "Co-op - turn-based combat cannot be entered in a co-op session"
+world: mm8
+mode: faithful
+tags: [coop, turn_based, regression]
+steps:
+  - note:
+      text: >-
+        The players of a co-op session share one clock, so the session has no turn-based combat (the user,
+        2026-11-19). The Combat key is refused with a status line. Out of a session it works as before.
+  - new_game_flow:
+      start_map: out01.odm
+  - advance_runtime: {seconds: 1}
+  - console: {line: coop on, expect_contains: "co-op session: on"}
+  - press_action: combat
+  - advance_runtime: {seconds: 1}
+  - assert: {turn_based: {active: false}}
+  - console: {line: coop off, expect_contains: "co-op session: off"}
+  - press_action: combat
+  - advance_runtime: {seconds: 1}
+  - assert: {turn_based: {active: true}}

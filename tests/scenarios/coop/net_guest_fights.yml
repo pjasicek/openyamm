@@ -1,0 +1,44 @@
+id: coop.net_guest_fights
+title: "Co-op - a guest's own blows kill the host's monster"
+world: mm8
+mode: faithful
+tags: [coop, regression]
+steps:
+  - note:
+      text: >-
+        A guest's game resolves its player's blows itself (the aim, the roll, the number over the monster) and
+        tells the host what they did. The host's Pirate, brought to its last hit point, dies of the guest's blow;
+        the host works out the kill (kill_experience_for_every_player.yml shows who gets its experience).
+  - new_game_flow:
+      start_map: out01.odm
+      party:
+        gold: 0
+        food: 10
+        members:
+          - {name: A, class: Knight, level: 10, skills: [{name: Sword, level: 10, mastery: 2}], equipment: {}}
+  - advance_runtime: {seconds: 1}
+  - coop_guest: {}
+  - new_game_flow:
+      start_map: out02.odm
+      party:
+        gold: 0
+        food: 10
+        members:
+          - {name: B, class: Knight, level: 10, skills: [{name: Sword, level: 10, mastery: 2}], equipment: {}}
+    game: guest
+  - coop_join: {expect: joined}
+  - damage_actor: {all: true, amount: 1000000}
+  - advance_runtime: {seconds: 0.5}
+  - spawn_actor: {monster_id: 181, near_player: 1}
+  - damage_actor: {actor_index: last, amount: 19}
+  - advance_runtime: {seconds: 0.5}
+  - assert: {actor_visible: {actor_index: last, current_hp: 1}}
+    game: guest
+  - party_attack: {actor_index: last, member_index: 0, count: 50, kill: true}
+    game: guest
+  - advance_runtime: {seconds: 1}
+  - assert: {actor_visible: {actor_index: last, current_hp: 0}}
+  - assert: {actor_visible: {actor_index: last, current_hp: 0}}
+    game: guest
+  - console: {line: coop net, expect_contains: "joined as player 1"}
+    game: guest

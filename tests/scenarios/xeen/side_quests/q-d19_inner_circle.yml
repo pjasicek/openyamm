@@ -42,7 +42,7 @@ steps:
   - advance_runtime: {seconds: 0.6, present_dialogs: true}
   - assert:
       dialog: {active: true, source_id: 5109}
-  - select_topic: {match_label: "Inner circle"}
+  - select_topic: {action_id: 44952, match_label: "Promotion"}
   - assert:
       dialog: {text_contains: "Join the inner circle."}
   - press_action: {action: cancel_dialog}

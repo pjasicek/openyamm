@@ -1,0 +1,84 @@
+id: coop.net_maw_auras
+title: "Co-op - under MAW each player holds its own auras and lends them to the players near it"
+world: mm8
+mode: faithful
+tags: [coop, regression, maw]
+steps:
+  - note:
+      text: >-
+        What MAW keeps for a party (its auras, the food held back, its deaths) is the party's own and travels with
+        the character. An aura in effect also reaches the other players' parties within the aid reach (5120
+        units, no line of sight needed; the user, 2026-11-21): they have its buff without holding it or paying
+        for it. The guest casts Fire Resistance (3), which the host casts for it: the guest's party holds the
+        aura, and the host's party beside it has the buff too. With the guest 5940 units away the host's buff
+        ends. The host casts Shield (17): the far guest has none of it, and has it once it is back beside the
+        host. The guest lets its aura go by casting it again, and the host's borrowed buff ends with it.
+  - new_game_flow:
+      start_map: out01.odm
+      ruleset: {id: maw, difficulty: maw, progression: free}
+      party:
+        gold: 0
+        food: 10
+        members:
+          - {name: A, class: Sorcerer, level: 100, skills: [{name: AirMagic, level: 10, mastery: 2}], equipment: {}}
+  - advance_runtime: {seconds: 1}
+  - coop_guest: {}
+  - new_game_flow:
+      start_map: out02.odm
+      ruleset: {id: maw, difficulty: maw, progression: free}
+      party:
+        gold: 0
+        food: 10
+        members:
+          - {name: B, class: Sorcerer, level: 100, skills: [{name: FireMagic, level: 10, mastery: 2}], equipment: {}}
+    game: guest
+  - coop_join: {expect: joined}
+  - damage_actor: {all: true, amount: 1000000}
+  - advance_runtime: {seconds: 0.5}
+  - cast_spell: {member_index: 0, spell_id: 3, skill: 10, mastery: 2}
+    game: guest
+  - advance_runtime: {seconds: 2.5}
+  # The guest's party holds it: in its own game and in the host's copy of it.
+  - assert: {buff: {spell_id: 3, present: true}}
+    game: guest
+  - console: {line: "coop check 0 auras = 1"}
+    game: guest
+  - console: {line: "coop check 1 auras = 1"}
+  # The host's party beside it holds no aura and has the buff, lent.
+  - console: {line: "coop check 0 auras = 0"}
+  - assert: {buff: {spell_id: 3, present: true}}
+  # Out of reach, the lent buff ends; the guest keeps its own.
+  - console: {line: "coop pose 1 9500 7696 545", expect_contains: "player 1 at 9500"}
+  - advance_runtime: {seconds: 2.5}
+  - assert: {buff: {spell_id: 3, present: false}}
+  - assert: {buff: {spell_id: 3, present: true}}
+    game: guest
+  # The host's own aura does not reach the far guest.
+  - cast_spell: {member_index: 0, spell_id: 17, skill: 10, mastery: 2}
+  - advance_runtime: {seconds: 2.5}
+  - assert: {buff: {spell_id: 17, present: true}}
+  - console: {line: "coop check 0 auras = 1"}
+  - console: {line: "coop check 1 auras = 1"}
+  - assert: {buff: {spell_id: 17, present: false}}
+    game: guest
+  # Back beside the host, each has the other's.
+  - console: {line: "coop pose 1 5000 7696 545", expect_contains: "player 1 at 5000"}
+  - advance_runtime: {seconds: 3}
+  - assert: {buff: {spell_id: 17, present: true}}
+    game: guest
+  - assert: {buff: {spell_id: 3, present: true}}
+  - console: {line: "coop check 1 auras = 1"}
+  # Cast again, the guest's aura is let go: the host's borrowed buff ends, the host's own aura stays for both.
+  - cast_spell: {member_index: 0, spell_id: 3, skill: 10, mastery: 2}
+    game: guest
+  - advance_runtime: {seconds: 2.5}
+  - assert: {buff: {spell_id: 3, present: false}}
+    game: guest
+  - assert: {buff: {spell_id: 3, present: false}}
+  - console: {line: "coop check 1 auras = 0"}
+  - console: {line: "coop check 0 auras = 1"}
+  - assert: {buff: {spell_id: 17, present: true}}
+  - assert: {buff: {spell_id: 17, present: true}}
+    game: guest
+  - console: {line: coop net, expect_contains: "joined as player 1"}
+    game: guest

@@ -1,0 +1,55 @@
+id: coop.net_guest_flies
+title: "Co-op - the host knows that a guest flies"
+world: mm8
+mode: faithful
+tags: [coop, regression]
+steps:
+  - note:
+      text: >-
+        A flier comes to meet a party that flies and hovers over one that stands on the ground, so the host has
+        to know which another player's party does. The guest casts Fly and rises: its game says that
+        it flies, and the host's record of the player says so.
+  - new_game_flow:
+      start_map: out01.odm
+      party:
+        gold: 0
+        food: 10
+        members:
+          - {name: H, class: Necromancer, level: 30, skills: [{name: FireMagic, level: 10, mastery: 3}], equipment: {}}
+  - advance_runtime: {seconds: 1}
+  - coop_guest: {}
+  - new_game_flow:
+      start_map: out02.odm
+      party:
+        gold: 0
+        food: 10
+        members:
+          - {name: G, class: Lich, level: 60, skills: [{name: AirMagic, level: 10, mastery: 4}], equipment: {}}
+    game: guest
+  - coop_join: {expect: joined}
+  - damage_actor: {all: true, amount: 1000000}
+  - advance_runtime: {seconds: 1}
+  - console: {line: "coop pose 1 3860 7696 545", expect_contains: "player 1 at 3860"}
+  - advance_runtime: {seconds: 2}
+  - console: {line: coop show, expect_not_contains: "flying"}
+  - cast_spell: {member_index: 0, spell_id: 21, skill: 10, mastery: 4}
+    game: guest
+  - advance_runtime: {seconds: 1}
+  - assert: {buff: {spell_id: 21, present: true}}
+    game: guest
+  - movement_segment:
+      input: none
+      fly_up: true
+      seconds: 1.5
+      actor_collision: false
+      actor_ai: false
+      start: {map: out01.odm, x: 3860, y: 7696, z: 545, yaw_degrees: 0, pitch: 0}
+      expect_stop: {map: out01.odm, x: 3860, y: 7696, z: 1500, yaw_degrees: 0, pitch: 0}
+      loose_tolerance: true
+      tolerance_xy: 600
+      tolerance_z: 2000
+    game: guest
+  - advance_runtime: {seconds: 1.5}
+  - console: {line: coop show, expect_contains: "flying"}
+  - console: {line: coop net, expect_contains: "joined as player 1"}
+    game: guest

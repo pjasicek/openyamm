@@ -249,6 +249,13 @@ std::vector<AuditFinding> auditCaveShape(const LoadedMap &map, const std::string
 // `form: shelter` or `form: blocked`.
 std::vector<AuditFinding> auditBlindMouths(const std::vector<std::string> &blindMouths);
 
+// D-99: the chests (faces of a chest kind's pictures, indoors or on the models outdoors) against the walls (upright
+// faces higher than the chest) and ways round them. "chest.facing" (error) for a chest whose front faces a wall within 64, that stands end-on to the wall it
+// stands by with its back to the room, or (indoors) stands free with its back to the doorway its room is entered by
+// from the party's start; "chest.placement" (error) for one within a party's width and a margin of a doorway, a door
+// or a house door, or on the walking line between two ways of its sector (core/ChestKinds.h).
+std::vector<AuditFinding> auditChests(const LoadedMap &map);
+
 // Moving parts that carry the party (a door record with a level top 64 or more across: a car, a cage, a lift) and are
 // worked by clicked things, at each end of their way: is one of those things (other than the part's own faces) in
 // reach of a rider on the deck there, within the game's 512 of his eye and facing him? (The user's walk through

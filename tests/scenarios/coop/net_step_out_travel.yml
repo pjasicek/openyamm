@@ -1,0 +1,56 @@
+id: coop.net_step_out_travel
+title: "Co-op - a guest whose travel proposal waits goes there alone: out of the session, into its own world's map"
+world: mm8
+mode: faithful
+tags: [coop, regression]
+steps:
+  - note:
+      text: >-
+        A guest's travel (here the map's edge) is its proposal to the others. While it waits, the guest's game
+        offers to go alone: the guest steps out of the session, its own game comes back and travels to where the
+        proposal led, in the guest's own world. The host stays where it is, with no proposal left and the
+        guest's seat kept. The guest then joins again and is on the host's map as the player it was.
+  - new_game_flow:
+      start_map: out02.odm
+  - advance_runtime: {seconds: 1}
+  - coop_guest: {}
+  - new_game_flow:
+      start_map: out01.odm
+    game: guest
+  - coop_join: {expect: joined}
+  - advance_runtime: {seconds: 1}
+  - console: {line: "coop pose 1 22000 0 2000", expect_contains: "player 1 at 22000"}
+  - advance_runtime: {seconds: 2}
+  - press_action: {action: forward, seconds: 4}
+    game: guest
+  - advance_runtime: {seconds: 1}
+  - select_topic: {match_label: "OK"}
+    game: guest
+  - advance_runtime: {seconds: 1}
+  - console: {line: coop show, expect_contains: "proposed by player 1, 0 accepted"}
+  - assert:
+      dialog: {active: true, action_label_present: "Go Alone"}
+    game: guest
+  - select_topic: {match_label: "Go Alone"}
+    game: guest
+  - advance_runtime: {seconds: 2}
+  - advance_runtime: {seconds: 3, follow_map_move: true}
+    game: guest
+  - advance_runtime: {seconds: 2}
+    game: guest
+  - console: {line: coop net, expect_contains: "no network session"}
+    game: guest
+  - console: {line: loc, expect_contains: "Shadowspire"}
+    game: guest
+  - console: {line: "coop away", expect_contains: "away from"}
+    game: guest
+  - console: {line: loc, expect_contains: "Ravenshore"}
+  - console: {line: "coop away", expect_contains: "1 seat(s) kept"}
+  - console: {line: coop show, expect_not_contains: "proposed by"}
+  - coop_join: {expect: joined}
+  - advance_runtime: {seconds: 2}
+  - console: {line: coop net, expect_contains: "joined as player 1"}
+    game: guest
+  - assert: {map: out02.odm}
+    game: guest
+  - console: {line: "coop away", expect_contains: "0 seat(s) kept"}

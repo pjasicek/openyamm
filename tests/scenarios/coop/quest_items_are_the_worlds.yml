@@ -1,0 +1,39 @@
+id: coop.quest_items_are_the_worlds
+title: "Co-op - quest items are the world's under any ruleset, and go back into the bags when the session ends"
+world: mm8
+mode: faithful
+tags: [coop, regression]
+steps:
+  - note:
+      text: >-
+        Standard MMMerge has no pouches: a quest item lies in a character's bags. In a co-op session a quest item
+        is the world's, so a player who leaves cannot carry it off: the session puts the party's quest items into
+        the world's quest pouch, what a party gains goes there too, and every player's party has it.
+        When the session ends they go back into the host's bags. Item 733 is a quest item (worth nothing, no gear).
+  - new_game_flow:
+      start_map: out01.odm
+      party:
+        gold: 0
+        food: 10
+        members:
+          - {name: A, class: Knight, level: 10, skills: [{name: Sword, level: 4, mastery: 1}], equipment: {}}
+  - advance_runtime: {seconds: 1}
+  - grant_item: {item_id: 733, member_index: 0}
+  - console: {line: "coop check 0 bag_items = 1"}
+  - console: {line: "coop check 0 quest_items = 0"}
+  - console: {line: coop on, expect_contains: "co-op session: on"}
+  - console: {line: "coop check 0 bag_items = 0"}
+  - console: {line: "coop check 0 quest_items = 1"}
+  - console: {line: "coop add 300 0", expect_contains: "player 1 at"}
+  # Every player's party has the world's quest items; none lies in a bag.
+  - console: {line: "coop check 1 quest_items = 1"}
+  - console: {line: "coop check 1 bag_items = 0"}
+  # What a party gains during the session goes to the world's pouch too.
+  - grant_item: {item_id: 732, member_index: 0}
+  - console: {line: "coop check 0 bag_items = 0"}
+  - console: {line: "coop check 1 quest_items = 2"}
+  - lua_event: {source: "if not evt.HasItemAnywhere(732) then error('the party lacks the item') end"}
+  - console: {line: "coop remove 1"}
+  - console: {line: coop off, expect_contains: "co-op session: off"}
+  - console: {line: "coop check 0 quest_items = 0"}
+  - console: {line: "coop check 0 bag_items = 2"}

@@ -1,0 +1,75 @@
+id: coop.net_bad_line
+title: "Co-op - two games on a slow, lossy line: a fight, a refused and an agreed travel, and both arrive"
+world: mm8
+mode: faithful
+tags: [coop, regression]
+steps:
+  - note:
+      text: >-
+        The line between the two games is made bad both ways (coop_network): every message is 150 to 220 ms late,
+        and a fifth of the messages of which only the newest counts (where monsters, missiles and players are) is
+        lost. What has to arrive still does, in order, only later. The guest joins over this line, kills the
+        host's monster with its own blows, refuses a travel and agrees to the next one, and both games end in the
+        temple with the guest beside the host. Waits are longer than on a good line; nothing else differs.
+  - new_game_flow:
+      start_map: out01.odm
+      party:
+        gold: 0
+        food: 10
+        members:
+          - {name: A, class: Knight, level: 10, skills: [{name: Sword, level: 10, mastery: 2}], equipment: {}}
+  - advance_runtime: {seconds: 1}
+  - coop_guest: {}
+  - coop_network: {delay_ms: 150, jitter_ms: 70, loss_permille: 200, seed: 3}
+  - new_game_flow:
+      start_map: out02.odm
+      party:
+        gold: 0
+        food: 10
+        members:
+          - {name: B, class: Knight, level: 10, skills: [{name: Sword, level: 10, mastery: 2}], equipment: {}}
+    game: guest
+  - coop_join: {expect: joined}
+  - advance_runtime: {seconds: 1}
+  - damage_actor: {all: true, amount: 1000000}
+  - advance_runtime: {seconds: 1}
+  - spawn_actor: {monster_id: 181, near_player: 1}
+  - damage_actor: {actor_index: last, amount: 19}
+  - advance_runtime: {seconds: 1.5}
+  - assert: {actor_visible: {actor_index: last, current_hp: 1}}
+    game: guest
+  - party_attack: {actor_index: last, member_index: 0, count: 50, kill: true}
+    game: guest
+  - advance_runtime: {seconds: 2}
+  - assert: {actor_visible: {actor_index: last, current_hp: 0}}
+  - assert: {actor_visible: {actor_index: last, current_hp: 0}}
+    game: guest
+  - lua_event:
+      source: "evt.MoveToMap(-3008, -1696, 2464, 512, 0, 0, 0, 1, 'd05.blv')"
+  - advance_runtime: {seconds: 0.2, present_dialogs: true}
+  - select_topic: {kind: map_transition_confirm, action_id: 0}
+  - advance_runtime: {seconds: 1.5, follow_map_move: true}
+  - assert: {map: out01.odm}
+  - assert: {dialog: {active: true}}
+    game: guest
+  - select_topic: {match_label: "Stay Here"}
+    game: guest
+  - advance_runtime: {seconds: 1.5, follow_map_move: true}
+  - assert: {map: out01.odm}
+  - console: {line: coop show, expect_not_contains: "travel to"}
+  - lua_event:
+      source: "evt.MoveToMap(-3008, -1696, 2464, 512, 0, 0, 0, 1, 'd05.blv')"
+  - advance_runtime: {seconds: 0.2, present_dialogs: true}
+  - select_topic: {kind: map_transition_confirm, action_id: 0}
+  - advance_runtime: {seconds: 1.5, follow_map_move: true}
+  - assert: {dialog: {active: true}}
+    game: guest
+  - select_topic: {match_label: "Travel"}
+    game: guest
+  - advance_runtime: {seconds: 5, follow_map_move: true}
+  - assert: {map: d05.blv}
+  - assert: {map: d05.blv}
+    game: guest
+  - console: {line: coop net, expect_contains: "joined as player 1, map revision 2"}
+    game: guest
+  - console: {line: coop show, expect_contains: "player 1 at -2912 -1696"}

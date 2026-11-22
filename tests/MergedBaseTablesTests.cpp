@@ -296,6 +296,7 @@ TEST_CASE("merged base engine tables load without changing active MM8 runtime ta
     CHECK(chedian.hasCard);
     CHECK_EQ(chedian.cardOrder, 5u);
     CHECK_EQ(chedian.cardTitle, "Chedian");
+    CHECK_EQ(chedian.cardShortTitle, "Chedian");
     CHECK_EQ(chedian.cardPicture, "hud_x2/menus/omenu_continent_chedian.png");
     CHECK_EQ(characterSelectionTable.continents()[2].cardCaption, "Begin in New Sorpigal");
     CHECK_FALSE(characterSelectionTable.continents()[3].hasCard);
@@ -305,12 +306,15 @@ TEST_CASE("merged base engine tables load without changing active MM8 runtime ta
     CHECK(characterSelectionTable.appendNewGameContinentsFromYaml(
         "new_game_continents:\n"
         "  - {id: 6, key: xeen, name: Cloudside, available_class_ids: [0], available_race_ids: [0],\n"
-        "     card: {order: 5, title: Xeen, subtitle: Clouds of Xeen, caption: Begin in Vertigo,\n"
-        "            picture: worlds/xeen/ui/hud_x2/menus/omenu_continent_xeen.png}}\n",
+        "     card: {order: 5, title: Xeen (alpha), short_title: Xeen, subtitle: Clouds of Xeen,\n"
+        "            caption: Begin in Vertigo, picture: worlds/xeen/ui/hud_x2/menus/omenu_continent_xeen.png}}\n",
         6, 7, worldContinentError));
     REQUIRE_EQ(characterSelectionTable.continents().size(), 6u);
     CHECK_EQ(characterSelectionTable.continents()[5].cardOrder, 5u);
     CHECK_EQ(characterSelectionTable.continents()[5].cardSubtitle, "Clouds of Xeen");
+    // The card shows the title; tabs and sentences name the continent by its short title (the title when not given).
+    CHECK_EQ(characterSelectionTable.continents()[5].cardTitle, "Xeen (alpha)");
+    CHECK_EQ(characterSelectionTable.continents()[5].cardShortTitle, "Xeen");
     CHECK_FALSE(characterSelectionTable.appendNewGameContinentsFromYaml(
         "new_game_continents:\n"
         "  - {id: 7, key: darkside, name: Darkside, available_class_ids: [0], available_race_ids: [0],\n"

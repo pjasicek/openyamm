@@ -50,7 +50,7 @@ steps:
 
   # ---- Scaldrith (house 4852, event 18): The tax with 2,500 gold and no gems: refused.
   - execute_event: {id: 18}
-  - select_topic: {match_label: "The tax"}
+  - select_topic: {action_id: 43751, match_label: "Quest"}
   - assert: {dialog: {text_contains: "No gems, no audience. No exceptions."}}
   - press_action: {action: cancel_dialog}
   - play_lua: {source: "close(); wait(0.3); if gold() ~= 2500 then error('the refusal took gold') end"}
@@ -78,7 +78,7 @@ steps:
   - grant_item: {item_id: 181, member_index: 3}
   - grant_item: {item_id: 180, member_index: 3}
   - execute_event: {id: 18}
-  - select_topic: {match_label: "The tax"}
+  - select_topic: {action_id: 43751, match_label: "Quest"}
   - assert: {dialog: {text_contains: "2,000 gold pieces and 20 gems fly from your packs and into the urn"}}
   - press_action: {action: cancel_dialog}
   - play_lua:
@@ -135,7 +135,7 @@ steps:
   - set_pose: {map: xeen_xd18.blv, x: 1856, y: -3536, z: 0, yaw: -1.5708, pitch: 0.0}
   - advance_runtime: {seconds: 0.5}
   - execute_event: {id: 18}
-  - select_topic: {match_label: "Great Wyrm"}
+  - select_topic: {action_id: 43752, match_label: "Promotion"}
   - assert: {dialog: {text_contains: "Great Wyrms are made of dragons, and you have none with you."}}
   - press_action: {action: cancel_dialog}
   - play_lua: {source: "close(); wait(0.3)"}

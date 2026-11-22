@@ -54,7 +54,10 @@ enum class MonsterKind : uint32_t
     Elf = 1u << 11,
 };
 
-uint32_t monsterKindFlag(MonsterKind kind);
+inline uint32_t monsterKindFlag(MonsterKind kind)
+{
+    return static_cast<uint32_t>(kind);
+}
 
 struct MonsterEntry
 {

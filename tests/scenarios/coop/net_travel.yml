@@ -1,0 +1,52 @@
+id: coop.net_travel
+title: "Co-op - the host asks to travel, the guest's game shows the question, and both arrive"
+world: mm8
+mode: faithful
+tags: [coop, regression]
+steps:
+  - note:
+      text: >-
+        The host's player takes an exit to the Abandoned Temple (d05.blv) and confirms it. That is a proposal - the
+        guest's game shows the same question to its player. The guest refuses once and nothing happens. Asked
+        again, the guest agrees, the host loads the temple, and the guest's game loads it too and stands there
+        beside the host.
+  - new_game_flow:
+      start_map: out01.odm
+  - advance_runtime: {seconds: 1}
+  - coop_guest: {}
+  - new_game_flow:
+      start_map: out02.odm
+    game: guest
+  - coop_join: {expect: joined}
+  - lua_event:
+      source: "evt.MoveToMap(-3008, -1696, 2464, 512, 0, 0, 0, 1, 'd05.blv')"
+  - advance_runtime: {seconds: 0.2, present_dialogs: true}
+  - select_topic: {kind: map_transition_confirm, action_id: 0}
+  - advance_runtime: {seconds: 0.5, follow_map_move: true}
+  - assert: {map: out01.odm}
+  - console: {line: coop show, expect_contains: "travel to d05.blv proposed by player 0, 0 accepted"}
+  - assert: {dialog: {active: true}}
+    game: guest
+  - select_topic: {match_label: "Stay Here"}
+    game: guest
+  - advance_runtime: {seconds: 0.5, follow_map_move: true}
+  - assert: {map: out01.odm}
+  - console: {line: coop show, expect_not_contains: "travel to"}
+  - assert: {dialog: {active: false}}
+    game: guest
+  - lua_event:
+      source: "evt.MoveToMap(-3008, -1696, 2464, 512, 0, 0, 0, 1, 'd05.blv')"
+  - advance_runtime: {seconds: 0.2, present_dialogs: true}
+  - select_topic: {kind: map_transition_confirm, action_id: 0}
+  - advance_runtime: {seconds: 0.5, follow_map_move: true}
+  - assert: {dialog: {active: true}}
+    game: guest
+  - select_topic: {match_label: "Travel"}
+    game: guest
+  - advance_runtime: {seconds: 2, follow_map_move: true}
+  - assert: {map: d05.blv}
+  - assert: {map: d05.blv}
+    game: guest
+  - console: {line: coop net, expect_contains: "joined as player 1, map revision 2"}
+    game: guest
+  - console: {line: coop show, expect_contains: "player 1 at -2912 -1696"}

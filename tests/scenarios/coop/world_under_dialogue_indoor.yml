@@ -1,0 +1,27 @@
+id: coop.world_under_dialogue_indoor
+title: "Co-op - indoors the world goes on under a house dialogue; a single-player world stops there"
+world: mm7
+mode: faithful
+tags: [coop, regression]
+steps:
+  - note:
+      text: >-
+        The indoor half of coop.world_under_dialogue_outdoor. Indoors the clock, timers and doors run in the map's own
+        simulation (IndoorSceneRuntime::advanceSimulation), which the window runs from its renderer and which a
+        dialogue stops in a single-player game. Grogg's Grog in Stone City (7d24.blv) is event 429.
+  - new_game_flow:
+      start_map: 7out01.odm
+  - load_map: {map: 7d24.blv}
+  - advance_runtime: {seconds: 1}
+  - assert: {game_hour: 9}
+  - execute_event: {id: 429}
+  - assert: {dialog: {active: true}}
+  - advance_runtime: {seconds: 130}
+  - assert:
+      dialog: {active: true}
+      game_hour: 9
+  - console: {line: coop on, expect_contains: "co-op session: on"}
+  - advance_runtime: {seconds: 130}
+  - assert:
+      dialog: {active: true}
+      game_hour: 10

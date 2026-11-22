@@ -1,0 +1,43 @@
+id: coop.rest_vote
+title: "Co-op - a rest waits for the other player; agreed, both rest and each pays its own food"
+world: mm8
+mode: faithful
+tags: [coop, regression]
+steps:
+  - note:
+      text: >-
+        "Rest and waiting" in devdocs/plans/MULTIPLAYER_LISTEN_SERVER_ARCHITECTURE.md: a vote. The local player
+        asks for an eight-hour rest; nothing happens and nothing is paid until player 1 agrees. Left unanswered,
+        the asking lapses. Asked again and agreed, both hurt characters are whole afterwards, each party has paid
+        its own food, and eight hours have passed once.
+  - new_game_flow:
+      start_map: out01.odm
+  - advance_runtime: {seconds: 1}
+  - damage_actor: {all: true, amount: 1000000}
+  - advance_runtime: {seconds: 8}
+  - console: {line: coop on, expect_contains: "co-op session: on"}
+  - console: {line: "coop add 300 0", expect_contains: "player 1 at"}
+  - console: {line: "coop damage 0 500"}
+  - console: {line: "coop damage 1 500"}
+  - console: {line: "coop check 0 food = 7"}
+  - console: {line: "coop check 1 food = 7"}
+  - console: {line: "rest heal 480"}
+  - console: {line: coop rest, expect_contains: "rest of 480 minutes asked by player 0, 0 agreed"}
+  - advance_runtime: {seconds: 2}
+  - console: {line: "coop check 0 hurt > 0"}
+  - console: {line: "coop check 0 food = 7"}
+  - note:
+      text: Twenty seconds without an answer, and the asking is gone.
+  - advance_runtime: {seconds: 20}
+  - console: {line: coop rest, expect_contains: "no rest is asked"}
+  - console: {line: "coop check 0 food = 7"}
+  - console: {line: "coop damage 0 500"}
+  - console: {line: "coop damage 1 500"}
+  - console: {line: "rest heal 480"}
+  - console: {line: "coop rest 1 yes", expect_contains: "asked by player 0, 1 agreed"}
+  - advance_runtime: {seconds: 0.2}
+  - console: {line: "coop check 0 food = 5"}
+  - console: {line: "coop check 1 food = 5"}
+  - advance_runtime: {seconds: 12}
+  - console: {line: "coop check 0 hurt = 0"}
+  - console: {line: "coop check 1 hurt = 0"}

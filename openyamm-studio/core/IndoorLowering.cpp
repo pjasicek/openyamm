@@ -8441,6 +8441,339 @@ private:
         return holes;
     }
 
+    // D-99: a room's solid walls seen from above (its outline less the doorways a party walks through at `floor`),
+    // its doorways (`ways`, walking lines run between them) and the holes in its floor or ceiling (`holes`).
+    void chestSurroundings(size_t roomIndex, double floor, std::vector<ChestWall> &walls,
+        std::vector<ChestDoorway> &ways, std::vector<ChestDoorway> &holes) const
+    {
+        const LoweredRoom &room = m_lowered.rooms[roomIndex];
+        const size_t corners = room.outline.size();
+        // The doorways' stretches along each wall, by edge.
+        std::map<size_t, std::vector<std::array<double, 2>>> gaps;
+
+        for (const LoweredOpening &opening : m_lowered.openings)
+        {
+            if (opening.fromRoom != roomIndex && opening.toRoom != roomIndex)
+            {
+                continue;
+            }
+
+            const std::string &other = m_lowered.rooms[opening.fromRoom == roomIndex ? opening.toRoom
+                : opening.fromRoom].id;
+
+            if (opening.inFloor)
+            {
+                for (size_t index = 0; index < opening.outline.size(); ++index)
+                {
+                    holes.push_back({opening.outline[index], opening.outline[(index + 1) % opening.outline.size()],
+                        "the hole to " + other});
+                }
+
+                continue;
+            }
+
+            // A window or a hatch high in the wall is no way in at the chest's floor.
+            if (opening.bottom > floor + 64.0 || opening.top < floor + 64.0)
+            {
+                continue;
+            }
+
+            const bool from = opening.fromRoom == roomIndex;
+            const size_t edge = from ? opening.fromEdge : opening.toEdge;
+
+            if (edge >= corners)
+            {
+                continue;
+            }
+
+            const double low = from ? opening.fromLow : opening.toLow;
+            const double high = from ? opening.fromHigh : opening.toHigh;
+            const Point2 &a = room.outline[edge];
+            const Point2 &b = room.outline[(edge + 1) % corners];
+            const double length = std::max(oy::hypot(b[0] - a[0], b[1] - a[1]), 1.0);
+            const auto at = [&a, &b, length](double distance)
+            {
+                return Point2{a[0] + (b[0] - a[0]) * distance / length, a[1] + (b[1] - a[1]) * distance / length};
+            };
+            gaps[edge].push_back({std::min(low, high), std::max(low, high)});
+            ways.push_back({at(low), at(high), "the doorway to " + other});
+        }
+
+        for (size_t edge = 0; edge < corners; ++edge)
+        {
+            const Point2 &a = room.outline[edge];
+            const Point2 &b = room.outline[(edge + 1) % corners];
+            const double length = oy::hypot(b[0] - a[0], b[1] - a[1]);
+
+            if (length <= 0.0)
+            {
+                continue;
+            }
+
+            std::vector<std::array<double, 2>> cut = gaps[edge];
+            std::sort(cut.begin(), cut.end());
+            double start = 0.0;
+            const auto add = [&walls, &a, &b, length](double from, double to)
+            {
+                if (to - from > 1.0)
+                {
+                    walls.push_back({{a[0] + (b[0] - a[0]) * from / length, a[1] + (b[1] - a[1]) * from / length},
+                        {a[0] + (b[0] - a[0]) * to / length, a[1] + (b[1] - a[1]) * to / length}});
+                }
+            };
+
+            for (const std::array<double, 2> &gap : cut)
+            {
+                add(start, gap[0]);
+                start = std::max(start, gap[1]);
+            }
+
+            add(start, length);
+        }
+    }
+
+    // D-99: where the party comes into a room: the middle of its doorway (or hole) on the fewest rooms' way from the
+    // start, in the start's room the start itself. Nothing without a start.
+    std::optional<Point2> roomEntrance(size_t roomIndex)
+    {
+        if (!m_startRoom || !m_lowered.start)
+        {
+            return std::nullopt;
+        }
+
+        if (*m_startRoom == roomIndex)
+        {
+            return Point2{m_lowered.start->position[0], m_lowered.start->position[1]};
+        }
+
+        if (m_roomStartHops.size() != m_lowered.rooms.size())
+        {
+            m_roomStartHops.assign(m_lowered.rooms.size(), -1);
+            m_roomStartHops[*m_startRoom] = 0;
+            std::vector<size_t> queue = {*m_startRoom};
+
+            for (size_t next = 0; next < queue.size(); ++next)
+            {
+                const size_t here = queue[next];
+
+                for (const LoweredOpening &opening : m_lowered.openings)
+                {
+                    const size_t there = opening.fromRoom == here ? opening.toRoom
+                        : opening.toRoom == here ? opening.fromRoom : here;
+
+                    if (there != here && there < m_roomStartHops.size() && m_roomStartHops[there] < 0)
+                    {
+                        m_roomStartHops[there] = m_roomStartHops[here] + 1;
+                        queue.push_back(there);
+                    }
+                }
+            }
+        }
+
+        const LoweredRoom &room = m_lowered.rooms[roomIndex];
+        std::optional<Point2> best;
+        int bestHops = -1;
+
+        for (const LoweredOpening &opening : m_lowered.openings)
+        {
+            if (opening.fromRoom != roomIndex && opening.toRoom != roomIndex)
+            {
+                continue;
+            }
+
+            const bool from = opening.fromRoom == roomIndex;
+            const int hops = m_roomStartHops[from ? opening.toRoom : opening.fromRoom];
+
+            if (hops < 0 || (bestHops >= 0 && hops >= bestHops))
+            {
+                continue;
+            }
+
+            Point2 middle = {0.0, 0.0};
+
+            if (opening.inFloor)
+            {
+                for (const Point2 &corner : opening.outline)
+                {
+                    middle = {middle[0] + corner[0] / opening.outline.size(),
+                        middle[1] + corner[1] / opening.outline.size()};
+                }
+            }
+            else
+            {
+                const size_t edge = from ? opening.fromEdge : opening.toEdge;
+
+                if (edge >= room.outline.size())
+                {
+                    continue;
+                }
+
+                const Point2 &a = room.outline[edge];
+                const Point2 &b = room.outline[(edge + 1) % room.outline.size()];
+                const double length = std::max(oy::hypot(b[0] - a[0], b[1] - a[1]), 1.0);
+                const double along = ((from ? opening.fromLow : opening.toLow)
+                    + (from ? opening.fromHigh : opening.toHigh)) / 2.0;
+                middle = {a[0] + (b[0] - a[0]) * along / length, a[1] + (b[1] - a[1]) * along / length};
+            }
+
+            best = middle;
+            bestHops = hops;
+        }
+
+        return best;
+    }
+
+    // The turn in degrees (0 to 180) from a chest's front toward a point.
+    static double degreesToward(const Point2 &centre, double frontRadians, const Point2 &target)
+    {
+        const double dx = target[0] - centre[0];
+        const double dy = target[1] - centre[1];
+        const double length = oy::hypot(dx, dy);
+
+        if (length <= 0.0)
+        {
+            return 0.0;
+        }
+
+        const double cosine = (dx * oy::cos(frontRadians) + dy * oy::sin(frontRadians)) / length;
+        return oy::acos(std::clamp(cosine, -1.0, 1.0)) * 180.0 / 3.14159265358979323846;
+    }
+
+    // D-99: the `facing` of a chest that gives none (degrees, its width's direction; its front a quarter
+    // anticlockwise of it). Against a wall (a side within 64 of one): its back to that wall, the wall leaving the
+    // most room in front first (out of a niche), the nearest of those; standing free: facing its room's entrance,
+    // squared to the room's walls. Only a turn whose footprint lies in the room and that D-99 finds no fault with.
+    double chestRuleDegrees(size_t roomIndex, const Point2 &centre, const std::array<double, 3> &size, double floor,
+        bool sloped)
+    {
+        const LoweredRoom &room = m_lowered.rooms[roomIndex];
+        std::vector<ChestWall> walls;
+        std::vector<ChestDoorway> ways;
+        std::vector<ChestDoorway> holes;
+        chestSurroundings(roomIndex, floor, walls, ways, holes);
+        const std::optional<Point2> entrance = roomEntrance(roomIndex);
+        double area = 0.0;
+
+        for (size_t index = 0; index < room.outline.size(); ++index)
+        {
+            const Point2 &a = room.outline[index];
+            const Point2 &b = room.outline[(index + 1) % room.outline.size()];
+            area += a[0] * b[1] - b[0] * a[1];
+        }
+
+        const auto fits = [&room, &centre, &size](double frontRadians)
+        {
+            for (const Point2 &corner : chestFootprint(centre, frontRadians, size[0], size[1]))
+            {
+                const double reach = oy::hypot(corner[0] - centre[0], corner[1] - centre[1]);
+                const Point2 inward = {corner[0] + (centre[0] - corner[0]) / std::max(reach, 1.0),
+                    corner[1] + (centre[1] - corner[1]) / std::max(reach, 1.0)};
+
+                if (!pointInOrOnPolygon(room.outline, inward))
+                {
+                    return false;
+                }
+            }
+
+            return true;
+        };
+
+        // The fronts the walls give: each wall's inward direction.
+        std::vector<double> fronts;
+
+        for (size_t index = 0; index < room.outline.size(); ++index)
+        {
+            const Point2 &a = room.outline[index];
+            const Point2 &b = room.outline[(index + 1) % room.outline.size()];
+
+            if (a == b)
+            {
+                continue;
+            }
+
+            const double radians = area >= 0.0 ? oy::atan2(b[0] - a[0], -(b[1] - a[1]))
+                : oy::atan2(-(b[0] - a[0]), b[1] - a[1]);
+            // Squared to whole thousandths of a degree, so a room's walls along the axes give exact turns. A sloping
+            // lid's faces stay flat on whole units only turned a whole quarter: its fronts are squared to the axes.
+            const double degrees = sloped
+                ? std::fmod(std::round(radians * 2.0 / 3.14159265358979323846) * 90.0 + 360.0, 360.0)
+                : std::round(radians * 180.0 / 3.14159265358979323846 * 1000.0) / 1000.0;
+
+            if (std::find(fronts.begin(), fronts.end(), degrees) == fronts.end())
+            {
+                fronts.push_back(degrees);
+            }
+        }
+
+        std::optional<double> chosen;
+        double chosenFront = -1.0;
+        double chosenBack = 0.0;
+
+        for (const double front : fronts)
+        {
+            const double radians = front * 3.14159265358979323846 / 180.0;
+            const ChestGaps gaps = chestGaps(walls, centre, radians, size[0], size[1]);
+
+            if (gaps.back > ChestFacing::Reach || !fits(radians)
+                || !chestFacingFault(gaps, true, std::nullopt).empty())
+            {
+                continue;
+            }
+
+            const double ahead = std::min(gaps.front, 256.0);
+
+            if (!chosen || ahead > chosenFront || (ahead == chosenFront && gaps.back < chosenBack))
+            {
+                chosen = front;
+                chosenFront = ahead;
+                chosenBack = gaps.back;
+            }
+        }
+
+        if (!chosen && entrance)
+        {
+            double least = 1.0e9;
+
+            for (const double front : fronts)
+            {
+                const double radians = front * 3.14159265358979323846 / 180.0;
+                const double turn = degreesToward(centre, radians, *entrance);
+                const ChestGaps gaps = chestGaps(walls, centre, radians, size[0], size[1]);
+
+                if (turn < least && fits(radians) && chestFacingFault(gaps, true, turn).empty())
+                {
+                    least = turn;
+                    chosen = front;
+                }
+            }
+        }
+
+        // Wedged where no turn is right (D-99's checks warn): one that fits, its back to the nearest wall.
+        if (!chosen)
+        {
+            double nearest = 1.0e18;
+
+            for (const double front : fronts)
+            {
+                const double radians = front * 3.14159265358979323846 / 180.0;
+                const double back = chestGaps(walls, centre, radians, size[0], size[1]).back;
+
+                if (back < nearest && fits(radians))
+                {
+                    nearest = back;
+                    chosen = front;
+                }
+            }
+        }
+
+        if (!chosen)
+        {
+            return 0.0;
+        }
+
+        return std::fmod(*chosen - 90.0 + 720.0, 360.0);
+    }
+
     static std::optional<double> facingDegrees(const YAML::Node &node)
     {
         return facingWordDegrees(node);
@@ -14241,6 +14574,14 @@ private:
                     continue;
                 }
 
+                // D-99: a chest that says no `facing` stands as the rule has it (its back to the wall it stands by, out
+                // of a niche, or free toward its room's entrance).
+                if (!node["facing"])
+                {
+                    box.degrees = chestRuleDegrees(*room, {position->x, position->y}, box.size, *chestFloor,
+                        box.chestKind && box.chestKind->sloped);
+                }
+
                 // The whole chest stands in its room: each corner of its footprint, not only its middle.
                 {
                     const LoweredRoom &chestRoom = m_lowered.rooms[*room];
@@ -14273,31 +14614,53 @@ private:
                         issue("objects.yml", path, "the chest stands partly outside " + chestRoom.id + ": it is "
                             + formatNumber(box.size[0]) + " wide and " + formatNumber(box.size[1])
                             + " deep, its width running along its `facing` ("
-                            + (node["facing"] ? node["facing"].Scalar() : std::string("east by default"))
+                            + (node["facing"] ? node["facing"].Scalar() : std::string("by D-99's rule"))
                             + "), and its corner at " + outside + " lies beyond the room's walls. Move it (`at` is "
                               "its middle), turn it a quarter (`facing`) or make it smaller (`size`)", "geometry");
                         continue;
                     }
 
-                    // `chest.front` (F6-R5): a chest's `facing` is its long axis, and its front (the lock, the lid's
-                    // own picture) is the side 90 degrees anticlockwise of it. A front within 64 of a wall shows the
-                    // room the chest's back or an end.
-                    if (box.chestKind)
-                    {
-                        const double frontRadians = box.degrees * 3.14159265358979323846 / 180.0;
-                        const double reach = box.size[1] / 2.0 + 63.0;
-                        const Point2 probe = {position->x - oy::sin(frontRadians) * reach,
-                            position->y + oy::cos(frontRadians) * reach};
+                    // D-99: `chest.facing` (a chest of a kind with its front to a wall, end-on to the wall it stands
+                    // by, or standing free with its back to its room's entrance) and `chest.placement` (in front of or
+                    // in a doorway, by a hole or on the walking line between two doorways).
+                    std::vector<ChestWall> walls;
+                    std::vector<ChestDoorway> ways;
+                    std::vector<ChestDoorway> holes;
+                    chestSurroundings(*room, *chestFloor, walls, ways, holes);
+                    const Point2 centre = {position->x, position->y};
+                    const double frontRadians = (box.degrees + 90.0) * 3.14159265358979323846 / 180.0;
 
-                        if (!pointInOrOnPolygon(chestRoom.outline, probe))
+                    if (box.chestKind && node["facing"])
+                    {
+                        const std::optional<Point2> entrance = roomEntrance(*room);
+                        const std::string fault = chestFacingFault(
+                            chestGaps(walls, centre, frontRadians, box.size[0], box.size[1]), box.chestKind->sloped,
+                            entrance ? std::optional<double>(degreesToward(centre, frontRadians, *entrance))
+                                : std::nullopt);
+
+                        if (!fault.empty())
                         {
-                            m_lowered.warnings.push_back("objects.yml: " + path + ": chest.front: " + id
-                                + "'s front (the side 90 degrees anticlockwise of its `facing` "
-                                + formatNumber(box.degrees) + ", where its lock and lid picture are) is within 64 of "
-                                "a wall of " + chestRoom.id + ": turn it to `facing` "
-                                + formatNumber(std::fmod(box.degrees + 180.0, 360.0)) + " (its back to the wall) or "
-                                "move it");
+                            m_lowered.warnings.push_back("objects.yml: " + path + ": chest.facing: " + id + ": "
+                                + fault + " (`facing` " + node["facing"].Scalar() + " is its width's direction, its "
+                                "front a quarter anticlockwise of it): drop `facing` and the build turns it as D-99 "
+                                "has it, its back to the wall");
                         }
+                    }
+
+                    const std::array<std::array<double, 2>, 4> footprint =
+                        chestFootprint(centre, frontRadians, box.size[0], box.size[1]);
+                    std::string placed = chestPlacementFault(footprint, ways, true);
+
+                    if (placed.empty())
+                    {
+                        placed = chestPlacementFault(footprint, holes, false);
+                    }
+
+                    if (!placed.empty())
+                    {
+                        m_lowered.warnings.push_back("objects.yml: " + path + ": chest.placement: " + id + ": "
+                            + placed + ": move it against a wall, into a corner or a niche, off the ways through "
+                            + chestRoom.id);
                     }
                 }
 
@@ -23075,6 +23438,8 @@ private:
     std::set<std::string> m_refusedIds;
     // The room of objects.yml `start`, and objects.yml `arrivals` by entrance id with their paths.
     std::optional<size_t> m_startRoom;
+    // D-99: each room's number of rooms from the start's (-1: not reached), for roomEntrance; filled when first asked.
+    std::vector<int> m_roomStartHops;
     std::map<std::string, std::pair<LoweredStart, std::string>> m_placedArrivals;
 
     // A flight that ends in a doorway (`to` on a wall, `to_height` the sill there): the wall, the flight's stretch

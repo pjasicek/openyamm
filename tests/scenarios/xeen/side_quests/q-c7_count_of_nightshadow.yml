@@ -236,7 +236,7 @@ steps:
   - select_topic: {match_label: "The Count"}
   - assert:
       dialog: {text_contains: "Draco is gone. The town breathes."}
-  - select_topic: {match_label: "Nosferatu"}
+  - select_topic: {action_id: 42852, match_label: "Promotion"}
   - assert:
       dialog: {text_contains: "Rise, Nosferatu."}
   - press_action: {action: cancel_dialog}

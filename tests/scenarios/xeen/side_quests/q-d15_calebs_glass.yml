@@ -37,9 +37,9 @@ steps:
   - press_interact: {expect: {kind: event_target}}
   - advance_runtime: {seconds: 0.5}
   - assert: {dialog: {active: true, source_id: 5245}}
-  - select_topic: {match_label: "Magnifying glass"}
+  - select_topic: {action_id: 44751, match_label: "Quest"}
   - assert: {dialog: {text_contains: "Gargoyles were loitering around the tent. Gargoyles like shiny things."}}
-  - select_topic: {match_label: "Magnifying glass"}
+  - select_topic: {action_id: 44751, match_label: "Quest"}
   - assert: {dialog: {text_contains: "I see you didn't find my magnifying glass."}}
   - press_action: {action: cancel_dialog}
   - play_lua: {source: "for _ = 1, 3 do if not close() then break end end"}
@@ -158,7 +158,7 @@ steps:
   - press_interact: {expect: {kind: event_target}}
   - advance_runtime: {seconds: 0.5}
   - assert: {dialog: {active: true, source_id: 5245}}
-  - select_topic: {match_label: "Magnifying glass"}
+  - select_topic: {action_id: 44751, match_label: "Quest"}
   - assert: {dialog: {text_contains: "How wonderful! You have located my magnifying glass."}}
   - select_topic: {match_label: "Magnifying glass"}
   - assert: {dialog: {text_contains: "Always nice to see you! Come and look at this."}}

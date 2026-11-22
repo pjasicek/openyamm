@@ -136,7 +136,7 @@ steps:
   - press_interact: {expect: {kind: event_target}}
   - assert:
       dialog: {active: true, house_dialog: false}
-  - select_topic: {match_label: "Gremlins"}
+  - select_topic: {action_id: 44051, match_label: "Quest"}
   - assert:
       dialog: {text_contains: "Oh, frabjous day!"}
   - select_topic: {match_label: "Gettlewaithe's gift"}

@@ -35,10 +35,10 @@ steps:
   - interact_actor: {actor_index: 122}
   - assert:
       dialog: {active: true, source_id: 4528}
-  - select_topic: {match_label: "Trolls"}
+  - select_topic: {action_id: 43251, match_label: "Quest"}
   - assert:
       dialog: {text_contains: "Friends don't gnaw on friend's bark."}
-  - select_topic: {match_label: "Trolls"}
+  - select_topic: {action_id: 43251, match_label: "Quest"}
   - assert:
       dialog: {text_contains: "The Trolls are not dead yet."}
   - press_action: {action: cancel_dialog}
@@ -157,7 +157,7 @@ steps:
   - advance_runtime: {seconds: 0.5}
   - play_lua: {source: "remember('xp', experience(0)); remember('items', #pack_items())"}
   - interact_actor: {actor_index: 122}
-  - select_topic: {match_label: "Trolls"}
+  - select_topic: {action_id: 43251, match_label: "Quest"}
   - assert:
       dialog: {text_contains: "Thank you for killing the trolls, civilized ones."}
   - select_topic: {match_label: "Trolls"}

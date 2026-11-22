@@ -1,0 +1,31 @@
+id: coop.kill_experience_for_every_player
+title: "Co-op - a kill's experience goes in full to every player's party"
+world: mm8
+mode: faithful
+tags: [coop, regression]
+steps:
+  - note:
+      text: >-
+        The co-op rule (the user, 2026-11-19): kill experience in full to every player, not split. The second
+        player's party kills a Pirate (181, 20 hit points, brought to its last one first so that one blow is
+        enough); both parties have more experience than the 45000 a level 10 character starts with.
+  - new_game_flow:
+      start_map: out01.odm
+      party:
+        gold: 0
+        food: 10
+        members:
+          - {name: A, class: Knight, level: 10, skills: [{name: Sword, level: 10, mastery: 2}], equipment: {}}
+  - advance_runtime: {seconds: 1}
+  - console: {line: coop on, expect_contains: "co-op session: on"}
+  - console: {line: "coop add 300 0", expect_contains: "player 1 at"}
+  - console: {line: "coop check 0 xp = 45000"}
+  - console: {line: "coop check 1 xp = 45000"}
+  - spawn_actor: {monster_id: 181, near_player: 1}
+  - damage_actor: {actor_index: last, amount: 19}
+  - party_attack: {player: 1, actor_index: last, member_index: 0, count: 50, kill: true}
+  - assert:
+      actor_visible: {actor_index: last, current_hp: 0}
+  - console: {line: coop show}
+  - console: {line: "coop check 1 xp > 45000"}
+  - console: {line: "coop check 0 xp > 45000"}

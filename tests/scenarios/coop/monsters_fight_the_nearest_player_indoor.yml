@@ -1,0 +1,30 @@
+id: coop.monsters_fight_the_nearest_player_indoor
+title: "Co-op - indoors monsters turn to the nearest player's party; the other party is left alone"
+world: mm8
+mode: faithful
+tags: [coop, regression]
+steps:
+  - note:
+      text: >-
+        The indoor half of coop.monsters_fight_the_nearest_player: the Abandoned Temple's first hall (d06.blv), a
+        second player's party 250 units from the local one and three Pirates (181) beside it. Indoors a monster
+        also needs the sector its party stands in, which the world works out for another player's place.
+  - new_game_flow:
+      start_map: d06.blv
+      party:
+        gold: 0
+        food: 10
+        members:
+          - {name: A, class: Knight, level: 10, skills: [{name: Sword, level: 5, mastery: 1}], equipment: {}}
+          - {name: B, class: Knight, level: 10, skills: [{name: Sword, level: 5, mastery: 1}], equipment: {}}
+  # The map's own monsters go before any time passes: one of them reaching the party in the first second would
+  # hurt the local party and make the check below meaningless.
+  - console: {line: "actor kill 200000"}
+  - advance_runtime: {seconds: 1}
+  - console: {line: coop on, expect_contains: "co-op session: on"}
+  - console: {line: "coop add 250 0", expect_contains: "player 1 at"}
+  - spawn_actor: {monster_id: 181, near_player: 1, count: 3}
+  - advance_runtime: {seconds: 12}
+  - console: {line: coop show}
+  - console: {line: "coop check 1 hurt = 1"}
+  - console: {line: "coop check 0 hurt = 0"}

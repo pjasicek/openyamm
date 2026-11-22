@@ -803,6 +803,8 @@ bool parseNewGameContinent(
         continent.hasCard = true;
         continent.cardOrder = parseOptionalYamlUnsigned(cardNode["order"]).value_or(0);
         continent.cardTitle = yamlStringOrEmpty(cardNode["title"]);
+        continent.cardShortTitle = yamlStringOrEmpty(cardNode["short_title"]);
+        continent.cardShortTitle = continent.cardShortTitle.empty() ? continent.cardTitle : continent.cardShortTitle;
         continent.cardSubtitle = yamlStringOrEmpty(cardNode["subtitle"]);
         continent.cardCaption = yamlStringOrEmpty(cardNode["caption"]);
         continent.cardPicture = yamlStringOrEmpty(cardNode["picture"]);

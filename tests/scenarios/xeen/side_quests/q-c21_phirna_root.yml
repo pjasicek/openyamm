@@ -25,7 +25,7 @@ steps:
   - press_action: {action: cancel_dialog}
   # Myra's hut (event 55): Phirna root (Q-C21 started).
   - execute_event: {id: 55}
-  - select_topic: {match_label: Phirna root}
+  - select_topic: {action_id: 43551, match_label: "Quest"}
   - assert:
       dialog: {text_contains: "five potions for each Phirna root"}
   - press_action: {action: cancel_dialog}
@@ -46,7 +46,7 @@ steps:
   - play_lua: {source: "close(); if item_count(12309) ~= 1 then error('a second plant gave a root while the party had one') end"}
   # Myra: the first root (Q-C21 done), five potions.
   - execute_event: {id: 55}
-  - select_topic: {match_label: Phirna root}
+  - select_topic: {action_id: 43551, match_label: "Quest"}
   - assert:
       dialog: {text_contains: "I'll make a batch right away"}
   - press_action: {action: cancel_dialog}
@@ -65,7 +65,7 @@ steps:
         if held() ~= 0 then stow() end
         if item_count(12309) ~= 1 then error("the second plant gave no root") end
   - execute_event: {id: 55}
-  - select_topic: {match_label: Phirna root}
+  - select_topic: {action_id: 43551, match_label: "Quest"}
   - press_action: {action: cancel_dialog}
   - play_lua:
       source: |

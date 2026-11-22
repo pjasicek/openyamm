@@ -1,0 +1,33 @@
+id: coop.event_rewards_for_every_player
+title: "Co-op - what an event gives as a reward goes to every player; what it takes, the acting party pays"
+world: mm8
+mode: faithful
+tags: [coop, regression]
+steps:
+  - note:
+      text: >-
+        The co-op rule: quest rewards are for everyone in the session. An event's experience and gold reach both
+        parties; gold an event takes comes from the party it runs for. Quest bits are the session's own: set once,
+        every party reads them (the campaign is shared).
+  - new_game_flow:
+      start_map: out01.odm
+      party:
+        gold: 500
+        food: 10
+        members:
+          - {name: A, class: Knight, level: 10, skills: [{name: Sword, level: 5, mastery: 1}], equipment: {}}
+  - advance_runtime: {seconds: 1}
+  - console: {line: coop on, expect_contains: "co-op session: on"}
+  - console: {line: "coop add 300 0", expect_contains: "player 1 at"}
+  - advance_runtime: {seconds: 0.2}
+  - lua_event:
+      source: "AddValue(Experience, 1000) AddValue(Gold, 250) SetQBit(QBit(9000))"
+  - console: {line: "coop check 0 xp = 46000"}
+  - console: {line: "coop check 1 xp = 46000"}
+  - console: {line: "coop check 0 gold = 750"}
+  - console: {line: "coop check 1 gold = 750"}
+  - assert: {qbit_set: [9000]}
+  - lua_event:
+      source: "SubtractValue(Gold, 100)"
+  - console: {line: "coop check 0 gold = 650"}
+  - console: {line: "coop check 1 gold = 750"}

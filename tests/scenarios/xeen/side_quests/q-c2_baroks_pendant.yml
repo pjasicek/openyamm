@@ -46,10 +46,10 @@ steps:
   - execute_event: {id: 1}
   - assert:
       dialog: {action_label_absent: Promotion}
-  - select_topic: {match_label: Pendant}
+  - select_topic: {action_id: 42601, match_label: "Quest"}
   - assert:
       dialog: {text_contains: "They keep their loot in a strongbox"}
-  - select_topic: {match_label: Pendant}
+  - select_topic: {action_id: 42601, match_label: "Quest"}
   - assert:
       dialog: {text_contains: "No pendant, no reward"}
   - press_action: {action: cancel_dialog}
@@ -86,7 +86,7 @@ steps:
   # Barok: the pendant back (Q-C2 done); 4,000 + 10,000 (T1-B's share) each, the Enchant Item book, the promotions.
   - play_lua: {source: "for _, i in ipairs({0, 1}) do local c = conditions(i); for _, n in ipairs({'Dead', 'Eradicated', 'Petrified', 'Paralyzed', 'Unconscious', 'Asleep'}) do if c:find(n, 1, true) then error('member ' .. i .. ' cannot act before the pendant hand-in: ' .. c) end end end"}
   - execute_event: {id: 1}
-  - select_topic: {match_label: Pendant}
+  - select_topic: {action_id: 42601, match_label: "Quest"}
   - assert:
       dialog: {text_contains: "Thank you for returning my pendant"}
   - assert:
@@ -128,7 +128,7 @@ steps:
   - play_lua: {source: "for _, i in ipairs({4}) do local c = conditions(i); for _, n in ipairs({'Dead', 'Eradicated', 'Petrified', 'Paralyzed', 'Unconscious', 'Asleep'}) do if c:find(n, 1, true) then error('member ' .. i .. ' cannot act before the Promotion topic: ' .. c) end end end"}
   - play_lua: {source: "remember('xp4', experience(4))"}
   - execute_event: {id: 1}
-  - select_topic: {match_label: Promotion}
+  - select_topic: {action_id: 45801, match_label: "Promotion"}
   - assert:
       dialog: {text_contains: "Sorcerers rise as Wizards"}
   - assert:

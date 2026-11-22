@@ -1297,6 +1297,9 @@ bool auditTarget(const AuditRequest &request, AuditOutcome &outcome, ReadFailure
         const std::vector<AuditFinding> supportFindings = auditPropSupport(
             map, decorationTable, flowRead ? flowJson : std::string(), opened.hangingDecorations);
         findings.insert(findings.end(), supportFindings.begin(), supportFindings.end());
+        // How the chests stand and where (D-99).
+        const std::vector<AuditFinding> chestFindings = auditChests(map);
+        findings.insert(findings.end(), chestFindings.begin(), chestFindings.end());
     }
 
     // A cave or a mine shaped as one (D-89).

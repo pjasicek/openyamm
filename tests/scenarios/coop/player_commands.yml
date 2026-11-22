@@ -1,0 +1,23 @@
+id: coop.player_commands
+title: "Player commands - an attack, an activation and the use of a held item enter through the session's command front"
+world: mm8
+mode: faithful
+tags: [coop, regression]
+steps:
+  - note:
+      text: >-
+        devdocs/plans/MULTIPLAYER_LISTEN_SERVER_ARCHITECTURE.md, "Commands": what a player does to the world enters
+        through GameSession::playerCommands with the player who does it, so that a second player's actions can
+        arrive the same way. The console's `commands` counts what the session has taken.
+  - new_game_flow:
+      start_map: out01.odm
+  - advance_runtime: {seconds: 1}
+  - console: {line: commands, expect_contains: "attack 0, cast 0, activate 0, use item 0"}
+  - spawn_actor: {monster_id: 156, near_party: true}
+  - party_attack: {actor_index: last, member_index: 0, count: 1}
+  - console: {line: commands, expect_contains: "attack 1, cast 0, activate 0, use item 0"}
+  - grant_item: {item_id: 222, member_index: 0, count: 1, power: 20}
+  - use_item: {member_index: 0, item_id: 222}
+  - console: {line: commands, expect_contains: "attack 1, cast 0, activate 0, use item 1"}
+  - interact_actor: {actor_index: 0}
+  - console: {line: commands, expect_contains: "attack 1, cast 0, activate 1, use item 1"}

@@ -827,7 +827,7 @@ std::vector<TrainerContinent> buildTrainerContinents(
     {
         TrainerContinent continent;
         continent.id = pCard->id;
-        continent.name = pCard->cardTitle;
+        continent.name = pCard->cardShortTitle;
         continent.members.push_back(pCard->id);
         const MergedContinentSettingEntry *pSetting = settings.findById(pCard->id);
         const MapStatsEntry *pStart = pSetting != nullptr ? maps.findByFileName(pSetting->deathMap1) : nullptr;

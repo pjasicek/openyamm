@@ -340,88 +340,6 @@ std::string toLowerCopy(std::string_view text)
     return lowered;
 }
 
-std::string normalizeDungeonEntryLookupName(std::string_view text)
-{
-    std::string normalized;
-    normalized.reserve(text.size());
-
-    bool previousWasSpace = true;
-
-    for (char character : text)
-    {
-        const unsigned char unsignedCharacter = static_cast<unsigned char>(character);
-
-        if (std::isalnum(unsignedCharacter))
-        {
-            normalized.push_back(static_cast<char>(std::tolower(unsignedCharacter)));
-            previousWasSpace = false;
-        }
-        else if (!previousWasSpace)
-        {
-            normalized.push_back(' ');
-            previousWasSpace = true;
-        }
-    }
-
-    while (!normalized.empty() && normalized.back() == ' ')
-    {
-        normalized.pop_back();
-    }
-
-    return normalized;
-}
-
-std::optional<uint32_t> resolveDungeonEntryMoveToMapHouseId(
-    const LegacyLuaExportLookups &lookups,
-    uint32_t sourceHouseId,
-    const std::optional<std::string> &targetMapName)
-{
-    if (sourceHouseId == 0 || !targetMapName || lookups.currentMapDungeonEntryHouseIdsByName.empty())
-    {
-        return std::nullopt;
-    }
-
-    const std::filesystem::path targetPath(*targetMapName);
-
-    if (toLowerCopy(targetPath.extension().string()) != ".blv")
-    {
-        return std::nullopt;
-    }
-
-    const std::string loweredFileName = toLowerCopy(targetPath.filename().string());
-    const auto fileIterator = lookups.mapNamesByFile.find(loweredFileName);
-    std::optional<std::string> targetDisplayName;
-
-    if (fileIterator != lookups.mapNamesByFile.end())
-    {
-        targetDisplayName = fileIterator->second;
-    }
-    else
-    {
-        const auto stemIterator = lookups.mapNamesByFile.find(toLowerCopy(targetPath.stem().string()));
-
-        if (stemIterator != lookups.mapNamesByFile.end())
-        {
-            targetDisplayName = stemIterator->second;
-        }
-    }
-
-    if (!targetDisplayName)
-    {
-        return std::nullopt;
-    }
-
-    const std::string lookupName = normalizeDungeonEntryLookupName(*targetDisplayName);
-    const auto houseIterator = lookups.currentMapDungeonEntryHouseIdsByName.find(lookupName);
-
-    if (houseIterator == lookups.currentMapDungeonEntryHouseIdsByName.end())
-    {
-        return std::nullopt;
-    }
-
-    return houseIterator->second;
-}
-
 std::string sanitizeLuaCommentText(std::string_view text)
 {
     std::string sanitized;
@@ -2311,36 +2229,16 @@ LegacyLuaInstruction decodeInstruction(
         const std::optional<int32_t> yaw = readPayloadValue<int32_t>(instruction.rawPayload, 12);
         const std::optional<int32_t> pitch = readPayloadValue<int32_t>(instruction.rawPayload, 16);
         const std::optional<int32_t> zSpeed = readPayloadValue<int32_t>(instruction.rawPayload, 20);
-        std::optional<uint32_t> houseId;
-
-        if (version == LegacyEventVersion::Mm8)
-        {
-            if (const std::optional<uint16_t> value = readPayloadValue<uint16_t>(instruction.rawPayload, 24))
-            {
-                houseId = *value;
-            }
-        }
-        else if (const std::optional<uint8_t> value = readPayloadValue<uint8_t>(instruction.rawPayload, 24))
-        {
-            houseId = *value;
-        }
-
-        const size_t iconOffset = version == LegacyEventVersion::Mm8 ? 26 : 25;
-        const size_t mapNameOffset = version == LegacyEventVersion::Mm8 ? 27 : 26;
+        // MMerge rebuilt the MM6 and MM7 events in MM8's layout, so every world's MoveToMap has a 16-bit house id
+        // (MMerge's merged numbering, which keys trans.txt), then the exit icon, then the map name.
+        const std::optional<uint16_t> houseId = readPayloadValue<uint16_t>(instruction.rawPayload, 24);
+        const size_t iconOffset = 26;
+        const size_t mapNameOffset = 27;
         const std::optional<uint8_t> exitPicId = readPayloadValue<uint8_t>(instruction.rawPayload, iconOffset);
         const std::optional<std::string> mapName = readMoveToMapName(instruction.rawPayload, mapNameOffset);
 
         if (x && y && z && yaw && pitch && zSpeed && houseId && exitPicId)
         {
-            uint32_t transitionHouseId = *houseId;
-            const std::optional<uint32_t> dungeonEntryHouseId =
-                resolveDungeonEntryMoveToMapHouseId(lookups, transitionHouseId, mapName);
-
-            if (dungeonEntryHouseId)
-            {
-                transitionHouseId = *dungeonEntryHouseId;
-            }
-
             decoded.arguments = {
                 static_cast<uint32_t>(*x),
                 static_cast<uint32_t>(*y),
@@ -2348,7 +2246,7 @@ LegacyLuaInstruction decodeInstruction(
                 static_cast<uint32_t>(*yaw),
                 static_cast<uint32_t>(*pitch),
                 static_cast<uint32_t>(*zSpeed),
-                transitionHouseId,
+                *houseId,
                 *exitPicId
             };
         }
@@ -5284,7 +5182,7 @@ std::string rewriteLincolnWetsuitCheck(std::string luaText)
         "                if HasItem(1406) then -- Wetsuit\n"
         "                    evt.ForPlayer(Players.Current)\n"
         "                    if HasItem(1406) then -- Wetsuit\n"
-        "                        evt.MoveToMap(-7005, 7856, 225, 128, 0, 0, 0, 0, \"7out15.odm\") -- Shoals\n"
+        "                        evt.MoveToMap(-7005, 7856, 225, 128, 0, 0, 0, 8, \"7out15.odm\") -- Shoals\n"
         "                        return\n"
         "                    end\n"
         "                end\n"
@@ -5301,7 +5199,7 @@ std::string rewriteLincolnWetsuitCheck(std::string luaText)
         "        end\n"
         "    end\n"
         "    if hasAllWetsuits then\n"
-        "        evt.MoveToMap(-7005, 7856, 225, 128, 0, 0, 0, 0, \"7out15.odm\") -- Shoals\n"
+        "        evt.MoveToMap(-7005, 7856, 225, 128, 0, 0, 0, 8, \"7out15.odm\") -- Shoals\n"
         "        return\n"
         "    end\n";
 

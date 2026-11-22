@@ -1,0 +1,42 @@
+id: coop.net_blast_hurts_friends
+title: "Co-op - a player's blast burns the other player who stands in it"
+world: mm8
+mode: faithful
+tags: [coop, regression]
+steps:
+  - note:
+      text: >-
+        A party's own blast always burned that party when it stood too near. With several players a blast now
+        burns every party inside it (the user, 2026-11-21: the friend in the melee is in the Fireball). Before,
+        the host's blast never touched a guest and a guest's own blast never touched that guest. The guest
+        stands 2700 units from the host; the host's Starburst falls around the guest and the guest is hurt,
+        the host is not.
+  - new_game_flow:
+      start_map: out01.odm
+      party:
+        gold: 0
+        food: 10
+        members:
+          - {name: H, class: Necromancer, level: 30, skills: [{name: FireMagic, level: 10, mastery: 3}], equipment: {}}
+  - advance_runtime: {seconds: 1}
+  - coop_guest: {}
+  - new_game_flow:
+      start_map: out02.odm
+      party:
+        gold: 0
+        food: 10
+        members:
+          - {name: G, class: Knight, level: 60, skills: [{name: Sword, level: 4, mastery: 1}], equipment: {}}
+    game: guest
+  - coop_join: {expect: joined}
+  - damage_actor: {all: true, amount: 1000000}
+  - advance_runtime: {seconds: 1}
+  - console: {line: "coop pose 1 5000 7696 545", expect_contains: "player 1 at 5000"}
+  - advance_runtime: {seconds: 2}
+  - console: {line: "coop check 1 hurt = 0"}
+  - cast_spell: {member_index: 0, spell_id: 22, skill: 10, mastery: 4, scroll: true, target_point: [5000, 7696, 560], expect: applied}
+  - advance_runtime: {seconds: 4}
+  - console: {line: "coop check 1 hurt = 1"}
+  - console: {line: "coop check 0 hurt = 0"}
+  - console: {line: "coop check 0 hurt = 1"}
+    game: guest

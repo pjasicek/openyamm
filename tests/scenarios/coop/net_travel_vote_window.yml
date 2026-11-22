@@ -1,0 +1,60 @@
+id: coop.net_travel_vote_window
+title: "Co-op - the travel vote's window: the proposer cancels, a voter refuses, a voter drops out and the others travel on"
+world: mm8
+mode: faithful
+tags: [coop, regression]
+steps:
+  - note:
+      text: >-
+        One window for every player while a trip waits for answers (since 2026-11-21): who proposed it, who agreed,
+        who has not answered, and this player's choices. The host proposes and takes the proposal back. It proposes
+        again and the guest refuses, which ends the vote for everyone. It proposes a third time and the guest drops
+        out: the guest is in its own game with its seat kept, and the host, with nobody left to wait for, travels.
+  - new_game_flow:
+      start_map: out01.odm
+  - advance_runtime: {seconds: 1}
+  - coop_guest: {}
+  - new_game_flow:
+      start_map: out03.odm
+    game: guest
+  - coop_join: {expect: joined}
+  - advance_runtime: {seconds: 1}
+  # The proposer's window: no agreeing to its own trip, only taking it back.
+  - console: {line: "coop propose out02.odm", expect_contains: "proposed the trip"}
+  - advance_runtime: {seconds: 1, present_dialogs: true}
+  - assert:
+      dialog: {active: true, action_label_present: "Cancel the Trip"}
+  - assert:
+      dialog: {active: true, action_label_present: "Travel"}
+    game: guest
+  - assert:
+      dialog: {active: true, action_label_present: "Drop Out"}
+    game: guest
+  - select_topic: {match_label: "Cancel the Trip"}
+  - advance_runtime: {seconds: 1}
+  - console: {line: coop show, expect_not_contains: "proposed by"}
+  - assert: {dialog: {active: false}}
+    game: guest
+  # A voter's refusal ends the vote.
+  - console: {line: "coop propose out02.odm", expect_contains: "proposed the trip"}
+  - advance_runtime: {seconds: 1, present_dialogs: true}
+  - select_topic: {match_label: "Stay Here"}
+    game: guest
+  - advance_runtime: {seconds: 1}
+  - console: {line: coop show, expect_not_contains: "proposed by"}
+  - assert: {map: out01.odm}
+  # A voter who drops out leaves the session for now; the others go.
+  - console: {line: "coop propose out02.odm", expect_contains: "proposed the trip"}
+  - advance_runtime: {seconds: 1, present_dialogs: true}
+  - select_topic: {match_label: "Drop Out"}
+    game: guest
+  - advance_runtime: {seconds: 3, follow_map_move: true}
+  - advance_runtime: {seconds: 2}
+  - console: {line: loc, expect_contains: "Ravenshore"}
+  - console: {line: "coop away", expect_contains: "1 seat(s) kept"}
+  - console: {line: coop net, expect_contains: "no network session"}
+    game: guest
+  - assert: {map: out03.odm}
+    game: guest
+  - console: {line: "coop away", expect_contains: "away from"}
+    game: guest

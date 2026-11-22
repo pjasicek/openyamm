@@ -68,10 +68,10 @@ steps:
   - assert: {actor_visible: {actor_index: 0, name: "Alister, Druid", hidden: false}}
   - interact_actor: {actor_index: 0}
   - advance_runtime: {seconds: 0.5, present_dialogs: true}
-  - assert: {dialog: {active: true, source_id: 5705, action_label_present: "Dragon egg"}}
-  - select_topic: {match_label: "Dragon egg"}
+  - assert: {dialog: {active: true, source_id: 5705, action_label_present: "Quest"}}
+  - select_topic: {action_id: 45551, match_label: "Quest"}
   - assert: {dialog: {active: true, text_contains: "I need a dragon egg to mix into one of my potions, but I'm not brave enough to go further into the tower to steal one."}}
-  - select_topic: {match_label: "Dragon egg"}
+  - select_topic: {action_id: 45551, match_label: "Quest"}
   - assert: {dialog: {active: true, text_contains: "I can see you weren't brave enough to steal an egg, either."}}
   - press_action: {action: cancel_dialog}
   - play_lua: {source: "for _ = 1, 3 do if not close() then break end end; if not qbit(114020) then error('q-f1.started 114020 not set') end"}
@@ -174,7 +174,7 @@ steps:
   - play_lua: {source: "for i = 0, 3 do remember('xp' .. i, experience(i)) end"}
   - interact_actor: {actor_index: 0}
   - advance_runtime: {seconds: 0.5, present_dialogs: true}
-  - select_topic: {match_label: "Dragon egg"}
+  - select_topic: {action_id: 45551, match_label: "Quest"}
   - assert: {dialog: {active: true, text_contains: "You are truly courageous! Thank you soooo much. Now I'll just drink this egg potion and..."}}
   - press_action: {action: cancel_dialog}
   - play_lua:

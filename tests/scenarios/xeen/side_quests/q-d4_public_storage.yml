@@ -40,7 +40,7 @@ steps:
   - press_interact: {expect: {kind: event_target}}
   - assert:
       dialog: {active: true, source_id: 4920}
-  - select_topic: {match_label: "The chests"}
+  - select_topic: {action_id: 44201, match_label: "Quest"}
   - assert:
       dialog: {text_contains: "The letters spell something you'd find in a barn: PITCHFORK."}
   - press_action: {action: cancel_dialog}
@@ -106,7 +106,7 @@ steps:
   - press_interact: {expect: {kind: event_target}}
   - assert:
       dialog: {active: true, source_id: 4920}
-  - select_topic: {match_label: "The chests"}
+  - select_topic: {action_id: 44201, match_label: "Quest"}
   - assert:
       dialog: {text_contains: "Half the chests. Half an accomplishment."}
   - press_action: {action: cancel_dialog}
@@ -217,7 +217,7 @@ steps:
   - press_interact: {expect: {kind: event_target}}
   - assert:
       dialog: {active: true, source_id: 4920}
-  - select_topic: {match_label: "The chests"}
+  - select_topic: {action_id: 44201, match_label: "Quest"}
   - assert:
       dialog: {text_contains: "Every lid down, in order. Quite an accomplishment."}
   - select_topic: {match_label: "The chests"}

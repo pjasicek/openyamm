@@ -1,0 +1,42 @@
+id: coop.net_host_loads_save
+title: "Co-op - the host loads a save with a guest joined: the guest follows into the loaded world with its own character"
+world: mm8
+mode: faithful
+tags: [coop, regression]
+steps:
+  - note:
+      text: >-
+        The host's load is every guest's next map. The host saved with 1000 gold before the guest joined, has
+        2000 when it loads that save, and has 1000 again afterwards. The guest is told the loaded world as it is
+        told a map change (the map's revision goes up), stays joined, and keeps its own character: its 5000
+        gold is not the save's to change.
+  - new_game_flow:
+      start_map: out01.odm
+  - advance_runtime: {seconds: 1}
+  - console: {line: "gold set 1000"}
+  - save_game: {name: coop_host_before}
+  - coop_guest: {}
+  - new_game_flow:
+      start_map: out02.odm
+      party:
+        gold: 5000
+        food: 10
+        members:
+          - {name: G, class: Knight, level: 10, skills: [{name: Sword, level: 4, mastery: 1}], equipment: {}}
+    game: guest
+  - coop_join: {expect: joined}
+  - advance_runtime: {seconds: 2}
+  - console: {line: "gold set 2000"}
+  - console: {line: "coop check 0 gold = 2000"}
+  - console: {line: "coop check 1 gold = 5000"}
+  - load_game: {name: coop_host_before}
+  - advance_runtime: {seconds: 3}
+  - console: {line: coop net, expect_contains: "hosting, map revision 2, 1 connection(s)"}
+  - console: {line: "coop check 0 gold = 1000"}
+  - console: {line: "coop check 1 gold = 5000"}
+  - console: {line: coop net, expect_contains: "joined as player 1, map revision 2"}
+    game: guest
+  - console: {line: "coop check 0 gold = 5000"}
+    game: guest
+  - assert: {map: out01.odm}
+    game: guest

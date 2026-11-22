@@ -1,0 +1,46 @@
+id: coop.net_downed_out_of_fight
+title: "Co-op - a party that is down is out of the fight"
+world: mm8
+mode: faithful
+tags: [coop, regression]
+steps:
+  - note:
+      text: >-
+        With several players a party that is down lies where it fell until a friend brings it back or it returns
+        to the arrival point. Nothing strikes it further (2026-11-21): more damage would turn unconscious into
+        dead, and a friend's heal would no longer be enough. The guest's knight (340 hit points) is struck to
+        5 below nothing and is unconscious; the host's Starburst then falls around it and takes nothing more.
+  - new_game_flow:
+      start_map: out01.odm
+      party:
+        gold: 0
+        food: 10
+        members:
+          - {name: H, class: Necromancer, level: 30, skills: [{name: FireMagic, level: 10, mastery: 3}], equipment: {}}
+  - advance_runtime: {seconds: 1}
+  - coop_guest: {}
+  - new_game_flow:
+      start_map: out02.odm
+      party:
+        gold: 0
+        food: 10
+        members:
+          - {name: G, class: Knight, level: 60, skills: [{name: Sword, level: 4, mastery: 1}], equipment: {}}
+    game: guest
+  - coop_join: {expect: joined}
+  - damage_actor: {all: true, amount: 1000000}
+  - advance_runtime: {seconds: 1}
+  - console: {line: "coop pose 1 5000 7696 545", expect_contains: "player 1 at 5000"}
+  - advance_runtime: {seconds: 2}
+  - console: {line: "coop check 1 max_hp = 340"}
+  - console: {line: "coop damage 1 345"}
+  - advance_runtime: {seconds: 1}
+  - console: {line: "coop check 1 down = 1"}
+  - console: {line: "coop check 1 hp = -5"}
+  - console: {line: "coop mark 1"}
+  - cast_spell: {member_index: 0, spell_id: 22, skill: 10, mastery: 4, scroll: true, target_point: [5000, 7696, 560], expect: applied}
+  - advance_runtime: {seconds: 4}
+  - console: {line: "coop check 1 hp_lost = 0"}
+  - console: {line: "coop check 1 hp = -5"}
+  - console: {line: coop net, expect_contains: "joined as player 1"}
+    game: guest

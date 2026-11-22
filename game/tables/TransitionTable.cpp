@@ -1,5 +1,7 @@
 #include "game/tables/TransitionTable.h"
 
+#include <algorithm>
+#include <cctype>
 #include <cstddef>
 #include <string>
 #include <utility>
@@ -29,6 +31,13 @@ std::string getCell(const std::vector<std::string> &row, size_t index)
 {
     return index < row.size() ? row[index] : "";
 }
+
+std::string lowerCopy(std::string value)
+{
+    std::transform(value.begin(), value.end(), value.begin(),
+        [](unsigned char character) { return static_cast<char>(std::tolower(character)); });
+    return value;
+}
 } // namespace
 
 bool TransitionTable::loadFromRows(const std::vector<std::vector<std::string>> &rows)
@@ -52,6 +61,38 @@ bool TransitionTable::loadFromRows(const std::vector<std::vector<std::string>> &
     }
 
     return !m_entriesById.empty();
+}
+
+bool TransitionTable::loadMapTextsFromRows(const std::vector<std::vector<std::string>> &rows)
+{
+    m_textIdsByMapFileName.clear();
+
+    for (const std::vector<std::string> &row : rows)
+    {
+        const std::string mapFileName = lowerCopy(getCell(row, 0));
+        const uint32_t id = parseUnsigned(getCell(row, 1));
+
+        if (mapFileName.empty() || id == 0)
+        {
+            continue;
+        }
+
+        if (get(id) == nullptr)
+        {
+            return false;
+        }
+
+        m_textIdsByMapFileName[mapFileName] = id;
+    }
+
+    return true;
+}
+
+const TransitionEntry *TransitionTable::getForDestinationMap(const std::string &mapFileName) const
+{
+    const std::unordered_map<std::string, uint32_t>::const_iterator it =
+        m_textIdsByMapFileName.find(lowerCopy(mapFileName));
+    return it != m_textIdsByMapFileName.end() ? get(it->second) : nullptr;
 }
 
 const TransitionEntry *TransitionTable::get(uint32_t id) const

@@ -1,0 +1,54 @@
+id: coop.net_maw_leecher_aura
+title: "Co-op - a MAW Leecher drains the parties within its reach, each by its own distance"
+world: mm8
+mode: faithful
+tags: [coop, regression, maw]
+steps:
+  - note:
+      text: >-
+        A Leecher boss drains the hit points and spell points of a party within 1500 units of it. With several
+        players each party is measured by its own distance: the guest stands 450 units from a Leecher that is
+        2300 from the host and is drained, the host is not, and away from it the draining stops. The
+        guest's own game works the aura out for its party (MAW's monster rules run there on its copy of the world). (The Leecher is a pirate held in its place out of
+        its blade's reach, so that only its aura acts.)
+  - new_game_flow:
+      start_map: out01.odm
+      ruleset: {id: maw, difficulty: maw, progression: free}
+      party:
+        gold: 0
+        food: 10
+        members:
+          - {name: A, class: Knight, level: 100, skills: [{name: Sword, level: 10, mastery: 2}], equipment: {}}
+  - advance_runtime: {seconds: 1}
+  - coop_guest: {}
+  - new_game_flow:
+      start_map: out02.odm
+      ruleset: {id: maw, difficulty: maw, progression: free}
+      party:
+        gold: 0
+        food: 10
+        members:
+          - {name: B, class: Knight, level: 100, skills: [{name: Sword, level: 10, mastery: 2}], equipment: {}}
+    game: guest
+  - coop_join: {expect: joined}
+  - damage_actor: {all: true, amount: 1000000}
+  - advance_runtime: {seconds: 0.5}
+  - console: {line: "coop pose 1 3656 4950 545", expect_contains: "player 1 at 3656"}
+  - advance_runtime: {seconds: 2}
+  - console: {line: "coop mark 1"}
+  - console: {line: "coop mark 0"}
+  - advance_runtime: {seconds: 4}
+  - console: {line: "coop check 1 hp_lost <= 0"}
+  - spawn_actor: {monster_id: 181, x: 3656, y: 5400, z: 545, boss_affix: 12}
+  - console: {line: "actor immobile last on"}
+  - advance_runtime: {seconds: 8}
+  - console: {line: "coop check 1 hp_lost > 0"}
+  - console: {line: "coop check 0 hp_lost <= 0"}
+  # Out of its reach the draining stops.
+  - console: {line: "coop pose 1 3656 3000 545", expect_contains: "player 1 at 3656"}
+  - advance_runtime: {seconds: 3}
+  - console: {line: "coop mark 1"}
+  - advance_runtime: {seconds: 6}
+  - console: {line: "coop check 1 hp_lost <= 0"}
+  - console: {line: coop net, expect_contains: "joined as player 1"}
+    game: guest

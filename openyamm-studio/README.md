@@ -1049,11 +1049,23 @@ Unit cases in `tests/OutdoorTests.cpp` ("chests outdoors", "the ground things st
   footprint corners (the higher side sinks into the slope). Structures keep the stored height.
 - **Scatter keeps to level spots (F6-R3)**: a scattered decoration on walkable ground (not `steep: true`) refuses a
   spot where the game's ground within its radius (decoration_data.txt's Radius) varies by more than 48.
-- **Indoor chests: `facing` is the long axis (F6-R5)**: an indoor chest's `facing` is the direction its width runs
-  (east by default); its **front** (the lock, the sloping lid's own picture) is the side 90 degrees anticlockwise of
-  it, so `facing: east` shows the front to the north. A chest standing in a room's south-west corner with its back
-  to the south wall: `facing: east`; against the north wall: `facing: west`. The build warns `chest.front` when a
-  chest of a kind has its front within 64 of its room's wall (it shows the room its back or an end).
+- **Indoor chests: `facing` is the long axis (F6-R5)**: an indoor chest's `facing` is the direction its width runs;
+  its **front** (the lock, the sloping lid's own picture) is the side 90 degrees anticlockwise of it, so `facing: east`
+  shows the front to the north.
+- **Chests turn and stand by D-99 (2026-11-22)**: a chest that gives no `facing` is turned by the build: against a wall
+  (a side within 64 of one) its back to that wall and its front to the room, the wall leaving the most room in front
+  first (so a chest in a niche faces out of it), then the nearest; standing free, its front toward the doorway its room
+  is entered by from the party's start (the start itself in the start's room), squared to the room's walls
+  (`chestRuleDegrees`). Give `facing` only for a turn the rule would not give. The build warns `chest.facing` when a
+  chest of a kind with a given `facing` has its front within 64 of a wall, stands end-on to the wall by it with its back
+  to the room, or stands free with its back (more than 100 degrees) to its room's entrance, and `chest.placement` when
+  any chest's footprint is under 128 from a doorway of its room (in front of it or beside it), by a hole in its floor
+  or ceiling, or under 64 from the line between two doorways' middles.
+  `oymap audit` (Xeen's maps, others with `--dressing`) fails the built map's chests by the same numbers
+  (`chest.facing`, `chest.placement`; core/ChestKinds.h holds both), indoors and on outdoor models. A sloping lid's
+  chest is turned by whole quarters only (its slopes stay flat on whole units). The rule sees the room's outline and
+  openings; the audit sees every face higher than the chest and every portal, so a pillar or a tall block beside a
+  chest can still fail it: give that chest the `facing` the audit passes.
 - **A wing door is a double door (F2)**: an outdoor building door that says no `leaves` and whose picture is one wing
   of a double door (texture_classes.yml `door: wing`: MM7's `7hhr1d2`, MM8's `t06a03`, `t09a03a`, `chb1dl` ...) is
   built as two leaves (`leaves: 2`), the first showing the left wing (of the picture and its `twin` the first by

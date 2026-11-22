@@ -30,10 +30,10 @@ steps:
   - play_lua: {source: "click(43); wait(0.5)"}
   - assert:
       dialog: {active: true, source_id: 4526}
-  - select_topic: {match_label: Water clock}
+  - select_topic: {action_id: 43201, match_label: "Quest"}
   - assert:
       dialog: {text_contains: "If I had some magical lava from Mount Firestone"}
-  - select_topic: {match_label: Water clock}
+  - select_topic: {action_id: 43201, match_label: "Quest"}
   - assert:
       dialog: {text_contains: "You don't have the lava!"}
   - press_action: {action: cancel_dialog}
@@ -61,7 +61,7 @@ steps:
   - play_lua: {source: "for _ = 1, 3 do if not close() then break end end; remember('xp', experience(0)); click(43); wait(0.5)"}
   - assert:
       dialog: {active: true, source_id: 4526}
-  - select_topic: {match_label: Water clock}
+  - select_topic: {action_id: 43201, match_label: "Quest"}
   - assert:
       dialog: {text_contains: "Take this widget as payment."}
   - press_action: {action: cancel_dialog}

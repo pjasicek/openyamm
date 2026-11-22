@@ -37,11 +37,11 @@ steps:
   - clear_hostiles: {radius: 3000}
   - press_interact: {expect: {kind: event_target}}
   - advance_runtime: {seconds: 0.5}
-  - assert: {dialog: {active: true, source_id: 4303, action_label_absent: "Ordination"}}
-  - select_topic: {match_label: "Scarab"}
+  - assert: {dialog: {active: true, source_id: 4303, action_label_absent: "Promotion"}}
+  - select_topic: {action_id: 43001, match_label: "Quest"}
   - assert:
       dialog: {text_contains: "one of them snatched my Scarab and they all flew off toward the Gargoyle Range"}
-  - select_topic: {match_label: "Scarab"}
+  - select_topic: {action_id: 43001, match_label: "Quest"}
   - assert:
       dialog: {text_contains: "I see you haven't recovered my Scarab of Imaging yet."}
   - press_action: {action: cancel_dialog}
@@ -160,14 +160,14 @@ steps:
   - press_interact: {expect: {kind: event_target}}
   - advance_runtime: {seconds: 0.5}
   - assert: {dialog: {active: true, source_id: 4303}}
-  - select_topic: {match_label: "Scarab"}
+  - select_topic: {action_id: 43001, match_label: "Quest"}
   - assert:
       dialog: {text_contains: "Druids rise as Great Druids, Clerics as Priests."}
   - select_topic: {match_label: "Scarab"}
   - assert:
       dialog: {text_contains: "The spell is finished. The gargoyles haven't been back."}
   - assert:
-      dialog: {action_label_absent: "Ordination"}
+      dialog: {action_label_absent: "Promotion"}
   - press_action: {action: cancel_dialog}
   - play_lua:
       source: |

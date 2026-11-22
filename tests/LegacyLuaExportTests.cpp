@@ -532,8 +532,9 @@ TEST_CASE("legacy lua exporter prefers house names over stale mouseover hints fo
     CHECK(eventLua.find("You pray at the shrine") == std::string::npos);
 }
 
-TEST_CASE("legacy lua exporter remaps outdoor dungeon transitions to current map house ids")
+TEST_CASE("legacy lua exporter reads the 16-bit MoveToMap house id of MMerge's MM6 and MM7 events")
 {
+    // MMerge stores every world's events in MM8's layout: house id (u16), exit icon, map name.
     const std::filesystem::path sourceRoot = OPENYAMM_SOURCE_DIR;
     const std::vector<uint8_t> evtBytes =
         readBinaryFixture(sourceRoot / "assets_dev/worlds/mm6/_legacy/events/OUTB1.EVT");
@@ -549,7 +550,6 @@ TEST_CASE("legacy lua exporter remaps outdoor dungeon transitions to current map
     OpenYAMM::Game::LegacyLuaExportLookups lookups = {};
     lookups.mapName = "Kriegspire";
     lookups.mapNamesByFile["6t7.blv"] = "Superior Temple of Baa";
-    lookups.currentMapDungeonEntryHouseIdsByName["superior temple of baa"] = 435;
 
     const std::string lua = OpenYAMM::Game::generateLegacyEventLuaChunk(
         evtProgram,
@@ -560,10 +560,8 @@ TEST_CASE("legacy lua exporter remaps outdoor dungeon transitions to current map
 
     const std::string templeLua = extractLuaEvent(lua, "RegisterEvent(90");
     INFO(templeLua);
-    CHECK(templeLua.find("evt.MoveToMap(2094, -19, 177, 337, 0, 0, 435, 1, \"6t7.blv\")")
+    CHECK(templeLua.find("evt.MoveToMap(2094, -19, 177, 337, 0, 0, 435, 5, \"6t7.blv\")")
         != std::string::npos);
-    CHECK(templeLua.find("evt.MoveToMap(2094, -19, 177, 337, 0, 0, 179, 1, \"6t7.blv\")")
-        == std::string::npos);
 }
 
 TEST_CASE("legacy lua exporter omits generated fallback titles")

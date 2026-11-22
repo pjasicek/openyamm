@@ -1,0 +1,52 @@
+id: coop.fares_wait_for_the_vote
+title: "Co-op - a coach ride is paid when everyone agreed: each player its fare, the calendar once"
+world: mm8
+mode: faithful
+tags: [coop, regression]
+steps:
+  - note:
+      text: >-
+        "Map travel" in devdocs/plans/MULTIPLAYER_LISTEN_SERVER_ARCHITECTURE.md: a trip to another map waits for
+        the other players, and nothing is paid and no day passes before they agree. With other players in the
+        world the coaches leave on every day of the week. The local player buys the two days' ride from
+        Ravenshore to Alvar for 50 gold. Refused by player 1, nobody paid and it is still the first day. Bought
+        again and accepted, each of the two players paid 50 gold and two days passed, once.
+  - new_game_flow:
+      start_map: out02.odm
+      party:
+        gold: 5000
+        food: 10
+        members:
+          - {name: A, class: Knight, level: 10, skills: [{name: Sword, level: 4, mastery: 1}], equipment: {}}
+  - advance_runtime: {seconds: 1}
+  - console: {line: coop on, expect_contains: "co-op session: on"}
+  - console: {line: "coop add 300 0", expect_contains: "player 1 at"}
+  - console: {line: "coop check 0 gold = 5000"}
+  - console: {line: "coop check 1 gold = 5000"}
+  - console: {line: "coop check 0 day = 0"}
+  - lua_event: {source: "evt.EnterHouse(452)"}
+  - advance_runtime: {seconds: 0.3, present_dialogs: true}
+  - select_topic: {match_label: "2 days to Alvar for 50 gold"}
+  - advance_runtime: {seconds: 1, follow_map_move: true}
+  - assert: {map: out02.odm}
+  - console: {line: coop show, expect_contains: "proposed by player 0, 0 accepted"}
+  - console: {line: "coop check 0 gold = 5000"}
+  - console: {line: "coop check 0 day = 0"}
+  - console: {line: "coop vote 1 no", expect_contains: "player 1 voted no"}
+  - advance_runtime: {seconds: 1, follow_map_move: true}
+  - assert: {map: out02.odm}
+  - console: {line: "coop check 0 gold = 5000"}
+  - console: {line: "coop check 1 gold = 5000"}
+  - console: {line: "coop check 0 day = 0"}
+  - lua_event: {source: "evt.EnterHouse(452)"}
+  - advance_runtime: {seconds: 0.3, present_dialogs: true}
+  - select_topic: {match_label: "2 days to Alvar for 50 gold"}
+  - advance_runtime: {seconds: 1, follow_map_move: true}
+  - assert: {map: out02.odm}
+  - console: {line: "coop check 0 gold = 5000"}
+  - console: {line: "coop vote 1 yes", expect_contains: "player 1 voted yes"}
+  - advance_runtime: {seconds: 2, follow_map_move: true}
+  - assert: {map: out03.odm}
+  - console: {line: "coop check 0 gold = 4950"}
+  - console: {line: "coop check 1 gold = 4950"}
+  - console: {line: "coop check 0 day = 2"}

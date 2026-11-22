@@ -1,0 +1,54 @@
+id: coop.net_world_kept
+title: "Co-op - a guest keeps the host's world without asking: as of the host's save, and as of its stopping"
+world: mm8
+mode: faithful
+tags: [coop, regression]
+steps:
+  - note:
+      text: >-
+        A guest could only get the host's world by asking while joined; a host that stopped first took it away.
+        Since 2026-11-21 the host sends its world to every guest when it saves, and once more when it stops
+        hosting, and the guest's game keeps it in one file named after the host (coop_world_<host>.oysav). The
+        host sets quest bit 9000 and saves; it then sets 9001 and stops hosting. The guest is back in its own
+        game, untouched, and the kept world has both bits, the host's map and the guest's own character.
+  - new_game_flow:
+      start_map: out01.odm
+      party:
+        gold: 0
+        food: 10
+        members:
+          - {name: A, class: Knight, level: 10, skills: [{name: Sword, level: 4, mastery: 1}], equipment: {}}
+  - advance_runtime: {seconds: 1}
+  - coop_guest: {}
+  - new_game_flow:
+      start_map: out02.odm
+      party:
+        gold: 55
+        food: 10
+        members:
+          - {name: B, class: Cleric, level: 7, skills: [{name: Mace, level: 4, mastery: 1}], equipment: {}}
+    game: guest
+  - coop_join: {expect: joined}
+  - lua_event:
+      source: "SetQBit(QBit(9000))"
+  - advance_runtime: {seconds: 0.5}
+  - console: {line: "savegame coop_kept_host"}
+  - advance_runtime: {seconds: 1}
+  - lua_event:
+      source: "SetQBit(QBit(9001))"
+  - advance_runtime: {seconds: 0.5}
+  - console: {line: coop leave, expect_contains: "left the network session"}
+  - advance_runtime: {seconds: 2}
+  - console: {line: coop net, expect_contains: "no network session"}
+  - console: {line: coop net, expect_contains: "no network session"}
+    game: guest
+  # The guest's own game, as it was.
+  - assert: {map: out02.odm, qbit_clear: [9000]}
+    game: guest
+  # The kept world: the host's map and both quest bits, the guest's own character.
+  - load_game: {path: saves/coop_world_A.oysav}
+    game: guest
+  - advance_runtime: {seconds: 0.5}
+    game: guest
+  - assert: {map: out01.odm, gold: 55, qbit_set: [9000, 9001]}
+    game: guest

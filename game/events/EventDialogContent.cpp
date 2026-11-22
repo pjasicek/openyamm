@@ -1330,9 +1330,16 @@ EventDialogContent buildEventDialogContent(
                                                {{"days", travelDays}, {"place", dialog.title}}));
         }
 
-        if (pTransitionText != nullptr && !pTransitionText->description.empty())
+        // MMerge gives some MM6-MM8 destinations their entrance text by map; the house still picks title and video.
+        const TransitionEntry *pDestinationText =
+            pTransitionTable != nullptr && !leavingCurrentDungeon && !transitionMapName.empty()
+                ? pTransitionTable->getForDestinationMap(transitionMapName)
+                : nullptr;
+        const TransitionEntry *pDescriptionText = pDestinationText != nullptr ? pDestinationText : pTransitionText;
+
+        if (pDescriptionText != nullptr && !pDescriptionText->description.empty())
         {
-            dialog.lines.push_back(Engine::localize(pTransitionText->description));
+            dialog.lines.push_back(Engine::localize(pDescriptionText->description));
         }
         else if (leavingCurrentDungeon)
         {

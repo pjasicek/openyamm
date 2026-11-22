@@ -38,7 +38,7 @@ steps:
   - press_interact: {expect: {kind: event_target}}
   - advance_runtime: {seconds: 0.5}
   - assert: {dialog: {active: true, source_id: 5217, action_label_absent: "We will help"}}
-  - select_topic: {match_label: "Xenoc and Morgana"}
+  - select_topic: {action_id: 44701, match_label: "Quest"}
   - assert: {dialog: {text_contains: "Now I am dethroned, and the guilds are wicked. Will you help right the wrong?"}}
   - select_topic: {match_label: "Not our affair"}
   - assert: {dialog: {text_contains: "I see. I had thought better of you."}}
@@ -46,7 +46,7 @@ steps:
   - select_topic: {match_label: "We will help"}
   - assert: {dialog: {text_contains: "you will have to defeat them in battle"}}
   - assert: {dialog: {action_label_absent: "We will help"}}
-  - select_topic: {match_label: "Xenoc and Morgana"}
+  - select_topic: {action_id: 44701, match_label: "Quest"}
   - assert: {dialog: {text_contains: "Everyone is relying on you to put matters right."}}
   - press_action: {action: cancel_dialog}
   - play_lua: {source: "for _ = 1, 3 do if not close() then break end end"}
@@ -175,7 +175,7 @@ steps:
   - press_interact: {expect: {kind: event_target}}
   - advance_runtime: {seconds: 0.5}
   - assert: {dialog: {active: true, source_id: 5217}}
-  - select_topic: {match_label: "Xenoc and Morgana"}
+  - select_topic: {action_id: 44701, match_label: "Quest"}
   - assert: {dialog: {text_contains: "the guilds have a word for people like you. Spies. Good ones."}}
   - play_lua:
       source: |

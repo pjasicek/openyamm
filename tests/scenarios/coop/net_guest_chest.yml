@@ -1,0 +1,48 @@
+id: coop.net_guest_chest
+title: "Co-op - a guest's game shows the chest the host opened for it and empties it"
+world: mm8
+mode: faithful
+tags: [coop, regression]
+steps:
+  - note:
+      text: >-
+        The host opens chest 2 for player 1, as that player's click would. The guest's game shows the chest. Its
+        player takes everything - in its own game, where the things go into its bags. The host's chest is then
+        empty, the guest's character has the things on the host too, and the gold that was in the chest went to
+        both players.
+  - new_game_flow:
+      start_map: out01.odm
+      party:
+        gold: 0
+        food: 10
+        members:
+          - {name: A, class: Knight, level: 10, skills: [{name: Sword, level: 5, mastery: 1}], equipment: {}}
+  - advance_runtime: {seconds: 1}
+  - coop_guest: {}
+  - new_game_flow:
+      start_map: out02.odm
+      party:
+        gold: 0
+        food: 10
+        members:
+          - {name: B, class: Knight, level: 10, skills: [{name: Sword, level: 5, mastery: 1}], equipment: {}}
+    game: guest
+  - coop_join: {expect: joined}
+  - console: {line: "coop chest 0", expect_contains: "player 0 has no chest open"}
+    game: guest
+  - lua_event: {player: 1, source: "evt.OpenChest(2)"}
+  - advance_runtime: {seconds: 0.5}
+  - console: {line: "coop chest 1", expect_contains: "player 1 has chest 2 open"}
+  - console: {line: "coop chest 0", expect_contains: "player 0 has chest 2 open"}
+    game: guest
+  - console: {line: "coop chest 0 take", expect_contains: "player 0 has chest 2 open, 0 things in it"}
+    game: guest
+  - advance_runtime: {seconds: 0.5}
+  - console: {line: "coop chest 1", expect_contains: "player 1 has chest 2 open, 0 things in it"}
+  - console: {line: coop show}
+  - console: {line: coop show}
+    game: guest
+  - console: {line: "coop chest 0 close", expect_contains: "player 0 has no chest open"}
+    game: guest
+  - advance_runtime: {seconds: 0.5}
+  - console: {line: "coop chest 1", expect_contains: "player 1 has no chest open"}

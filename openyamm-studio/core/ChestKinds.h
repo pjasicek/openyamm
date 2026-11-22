@@ -85,4 +85,76 @@ struct ChestFace
 // the shipped chest of 19 faces (7gt002: a 4, b 10, c 2, e 1, g 2).
 std::vector<ChestFace> chestKindFaces(const ChestKind &kind, const std::array<double, 3> &size, double bottom,
     double top);
+
+// D-99 (devdocs/xeen/DECISIONS.md): how a chest stands. A chest against a wall stands with its back to it and its
+// front (the lock, the sloping lid's own picture) to the room; in a niche or an alcove it faces out of it; standing
+// free it faces the doorway the party enters its room by. Measured on MM7's Castle Harmondale, the Barrow Downs and
+// four other dungeons, and fifteen MM8 dungeons (2026-11-22): of 81 chests 60 stand with their back on a wall (gap 0),
+// none end-on to their nearest wall, and every free-standing MM8 chest shows its front to its room's nearest doorway.
+namespace ChestFacing
+{
+// A side of a chest within this of a wall stands against it.
+constexpr double Reach = 64.0;
+// A free chest whose front turns further than this from its room's entrance shows the entrance its back.
+constexpr double EntranceDegrees = 100.0;
+}
+
+// A stretch of solid wall seen from above (a doorway is not one).
+struct ChestWall
+{
+    std::array<double, 2> from = {};
+    std::array<double, 2> to = {};
+};
+
+// How far each side of a chest is from the nearest wall straight out from its middle (1e9: none), its sides 90 degrees
+// apart from `front`: the front, the back and the two ends.
+struct ChestGaps
+{
+    double front = 1.0e9;
+    double back = 1.0e9;
+    double endLeft = 1.0e9;
+    double endRight = 1.0e9;
+
+    double nearest() const;
+};
+
+// The gaps of a chest `width` wide (along its ends' axis) and `depth` deep standing at `centre` with its front toward
+// `frontRadians` (counter-clockwise from east).
+ChestGaps chestGaps(const std::vector<ChestWall> &walls, const std::array<double, 2> &centre, double frontRadians,
+    double width, double depth);
+
+// D-99's fault of a chest standing so, or empty: its front to a wall, an end to the wall with its back to the room, or
+// (free-standing) its back to the room's entrance (`entranceDegrees`, the turn from its front to its room's entrance,
+// when known). `frontKnown` false: a chest whose front and back look alike (MM6's), whose either long side may be its
+// back.
+std::string chestFacingFault(const ChestGaps &gaps, bool frontKnown, std::optional<double> entranceDegrees);
+
+// D-99 (b): where a chest may stand. Never in a doorway, at a stair's end or on the walking line between its room's
+// ways: its footprint keeps a party's width and a margin (128) clear of a doorway or a door, in front of it or beside
+// it along its wall, and 64 from the straight line between the middles of two ways of its room.
+namespace ChestPlacement
+{
+constexpr double DoorwayFront = 128.0;
+constexpr double DoorwayBeside = 128.0;
+constexpr double SideMargin = 64.0;
+constexpr double WalkingLine = 64.0;
+}
+
+// A way into a chest's room, seen from above: a doorway's or a door's opening along its wall (`from` to `to`), or a
+// stair's end; `name` for messages.
+struct ChestDoorway
+{
+    std::array<double, 2> from = {};
+    std::array<double, 2> to = {};
+    std::string name;
+};
+
+// The corners of a chest's footprint `width` by `depth` at `centre` with its front toward `frontRadians`.
+std::array<std::array<double, 2>, 4> chestFootprint(const std::array<double, 2> &centre, double frontRadians,
+    double width, double depth);
+
+// D-99 (b)'s fault of a chest with this footprint, or empty: too near a doorway (in front or beside), or on the
+// walking line between two of `doorways` (each pair, by their middles; `lines` false checks the doorways alone).
+std::string chestPlacementFault(const std::array<std::array<double, 2>, 4> &footprint,
+    const std::vector<ChestDoorway> &doorways, bool lines);
 }

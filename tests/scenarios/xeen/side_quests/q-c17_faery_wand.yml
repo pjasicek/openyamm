@@ -33,11 +33,11 @@ steps:
   - clear_hostiles: {radius: 3000}
   - interact_actor: {actor_index: 51}   # Danulf (NPC 4154), the scene's actor 51
   - assert:
-      dialog: {action_label_absent: Patriarch}
-  - select_topic: {match_label: Wand}
+      dialog: {action_label_absent: "Promotion"}
+  - select_topic: {action_id: 43351, match_label: "Quest"}
   - assert:
       dialog: {text_contains: "My Wand of Faery Magic has been stolen by the Sprites"}
-  - select_topic: {match_label: Wand}
+  - select_topic: {action_id: 43351, match_label: "Quest"}
   - assert:
       dialog: {text_contains: "The Sprites still possess my Wand"}
   - press_action: {action: cancel_dialog}
@@ -80,11 +80,11 @@ steps:
         remember("gold", gold())
         for i = 0, 3 do remember("xp" .. i, experience(i)) end
   - interact_actor: {actor_index: 51}
-  - select_topic: {match_label: Wand}
+  - select_topic: {action_id: 43351, match_label: "Quest"}
   - assert:
       dialog: {text_contains: "You have returned my Wand of Faery Magic"}
   - assert:
-      dialog: {action_label_absent: Patriarch}
+      dialog: {action_label_absent: "Promotion"}
   - press_action: {action: cancel_dialog}
   - assert: {qbit_set: [112341]}
   - assert: {qbit_clear: [112340]}
@@ -108,11 +108,11 @@ steps:
   - console: {line: "player add DarkElf Vael", expect_contains: "Added Vael"}
   - play_lua: {source: "for _, i in ipairs({4}) do local c = conditions(i); for _, n in ipairs({'Dead', 'Eradicated', 'Petrified', 'Paralyzed', 'Unconscious', 'Asleep'}) do if c:find(n, 1, true) then error('member ' .. i .. ' cannot act before the Patriarch topic: ' .. c) end end end"}
   - interact_actor: {actor_index: 51}
-  - select_topic: {match_label: Patriarch}
+  - select_topic: {action_id: 43352, match_label: "Promotion"}
   - assert:
       dialog: {text_contains: "Rise, Patriarch"}
   - assert:
-      dialog: {action_label_absent: Patriarch}
+      dialog: {action_label_absent: "Promotion"}
   - press_action: {action: cancel_dialog}
   - play_lua:
       source: |

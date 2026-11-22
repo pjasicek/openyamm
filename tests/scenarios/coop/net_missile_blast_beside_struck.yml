@@ -1,0 +1,44 @@
+id: coop.net_missile_blast_beside_struck
+title: "Co-op - a monster's Fireball that strikes one party burns the party beside it"
+world: mm8
+mode: faithful
+tags: [coop, regression]
+steps:
+  - note:
+      text: >-
+        A missile that strikes a party itself gives that party its own damage and no blast on top, as in a game
+        of one. The parties beside it are in the blast: before, they took nothing at all. The guest stands 300
+        units from the host, between the host and a Regnan Archmage held in its place; the mage's Fireball
+        strikes the guest, and the host, inside the blast, is burned too.
+  - new_game_flow:
+      start_map: out01.odm
+      party:
+        gold: 0
+        food: 10
+        members:
+          - {name: H, class: Necromancer, level: 30, skills: [{name: FireMagic, level: 10, mastery: 3}], equipment: {}}
+  - advance_runtime: {seconds: 1}
+  - coop_guest: {}
+  - new_game_flow:
+      start_map: out02.odm
+      party:
+        gold: 0
+        food: 10
+        members:
+          - {name: G, class: Knight, level: 60, skills: [{name: Sword, level: 4, mastery: 1}], equipment: {}}
+    game: guest
+  - coop_join: {expect: joined}
+  - damage_actor: {all: true, amount: 1000000}
+  - advance_runtime: {seconds: 1}
+  - console: {line: "coop pose 1 3860 7696 545", expect_contains: "player 1 at 3860"}
+  - advance_runtime: {seconds: 2}
+  - spawn_actor: {monster_id: 18, x: 4500, y: 7696, z: 545}
+  - console: {line: "actor immobile last on"}
+  - console: {line: "coop mark 0"}
+  - console: {line: "coop mark 1"}
+  - fire_actor_projectile: {actor_index: last, ability: spell1, damage: 40}
+  - advance_runtime: {seconds: 3}
+  - console: {line: "coop check 1 hp_lost > 0"}
+  - console: {line: "coop check 0 hp_lost > 0"}
+  - console: {line: coop net, expect_contains: "joined as player 1"}
+    game: guest

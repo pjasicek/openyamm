@@ -64,10 +64,10 @@ steps:
   - interact_actor: {actor_index: 4}
   - assert:
       dialog: {active: true, source_id: 4608}
-  - select_topic: {match_label: "My master"}
+  - select_topic: {action_id: 42901, match_label: "Quest"}
   - assert:
       dialog: {text_contains: "The second floor's door wants 'There wolf'. Bring the scroll back."}
-  - select_topic: {match_label: "My master"}
+  - select_topic: {action_id: 42901, match_label: "Quest"}
   - assert:
       dialog: {text_contains: "Third floor. Mind the dogs. They are not dogs."}
   - press_action: {action: cancel_dialog}
@@ -289,7 +289,7 @@ steps:
   - interact_actor: {actor_index: 4}
   - assert:
       dialog: {active: true, source_id: 4608}
-  - select_topic: {match_label: "My master"}
+  - select_topic: {action_id: 42901, match_label: "Quest"}
   - assert:
       dialog: {text_contains: "His Scroll of Insight! He would say thank you."}
   - select_topic: {match_label: "My master"}
@@ -321,12 +321,12 @@ steps:
   # first.
   - clear_hostiles: {radius: 1500}
   - play_lua: {source: "wait(2); log('arrive: ' .. status()); for _ = 1, 3 do if not close() then break end end; if not qbit(112180) then error('q-c9.entered 112180 not set') end"}
-  # The paw hall; up the throat stair to the neck landing.
+  # The paw hall; up the throat stair to the neck landing (y -2100: at y -1700 the stair is still at z 1152-1184, A3 s41).
   - walk_to: {x: 0, y: 1300, z: 0, radius: 64, clear_hostiles: 1500, timeout_seconds: 40, close_dialogs: true}
   - clear_hostiles: {radius: 2500}
   - walk_to: {x: 832, y: 1000, z: 0, radius: 64, clear_hostiles: 1500, timeout_seconds: 40, close_dialogs: true}
   - walk_to: {x: 832, y: 560, z: 0, z_tolerance: 40, radius: 64, clear_hostiles: 1500, timeout_seconds: 40, close_dialogs: true}
-  - walk_to: {x: 832, y: -1700, z: 1280, z_tolerance: 48, radius: 64, clear_hostiles: 1500, timeout_seconds: 60, close_dialogs: true}
+  - walk_to: {x: 832, y: -2100, z: 1280, z_tolerance: 48, radius: 64, clear_hostiles: 1500, timeout_seconds: 60, close_dialogs: true}
   - walk_to: {x: 832, y: -2300, z: 1280, radius: 64, clear_hostiles: 1500, timeout_seconds: 40, close_dialogs: true}
   - clear_hostiles: {radius: 2000}
   # The riddle chamber by the west lappet: the Sphinx's question as the party comes in.
@@ -388,7 +388,7 @@ steps:
   - walk_to: {x: 1792, y: 1440, z: 0, radius: 64, clear_hostiles: 1500, timeout_seconds: 40, close_dialogs: true}
   - walk_to: {x: 832, y: 1100, z: 0, radius: 64, clear_hostiles: 1500, timeout_seconds: 40, close_dialogs: true}
   - walk_to: {x: 832, y: 560, z: 0, z_tolerance: 40, radius: 64, clear_hostiles: 1500, timeout_seconds: 40, close_dialogs: true}
-  - walk_to: {x: 832, y: -1700, z: 1280, z_tolerance: 48, radius: 64, clear_hostiles: 1500, timeout_seconds: 60, close_dialogs: true}
+  - walk_to: {x: 832, y: -2100, z: 1280, z_tolerance: 48, radius: 64, clear_hostiles: 1500, timeout_seconds: 60, close_dialogs: true}
   - walk_to: {x: 832, y: -2300, z: 1280, radius: 64, clear_hostiles: 1500, timeout_seconds: 40, close_dialogs: true}
   - walk_to: {x: 1728, y: -2496, z: 1280, radius: 64, clear_hostiles: 1500, timeout_seconds: 40, close_dialogs: true}
   - clear_hostiles: {radius: 2000}
@@ -460,7 +460,7 @@ steps:
   - walk_to: {x: 1728, y: -3650, z: 1280, radius: 64, clear_hostiles: 1500, timeout_seconds: 40, close_dialogs: true}
   - walk_to: {x: 1728, y: -2496, z: 1280, radius: 64, clear_hostiles: 1500, timeout_seconds: 40, close_dialogs: true}
   - walk_to: {x: 832, y: -2300, z: 1280, radius: 64, clear_hostiles: 1500, timeout_seconds: 40, close_dialogs: true}
-  - walk_to: {x: 832, y: -1700, z: 1280, z_tolerance: 48, radius: 64, clear_hostiles: 1500, timeout_seconds: 40, close_dialogs: true}
+  - walk_to: {x: 832, y: -2100, z: 1280, z_tolerance: 48, radius: 64, clear_hostiles: 1500, timeout_seconds: 40, close_dialogs: true}
   - walk_to: {x: 832, y: 900, z: 0, radius: 64, clear_hostiles: 1500, timeout_seconds: 60, close_dialogs: true}
   - walk_to: {x: 832, y: 1100, z: 0, radius: 64, clear_hostiles: 1500, timeout_seconds: 40, close_dialogs: true}
   - walk_to: {x: 1792, y: 1440, z: 0, radius: 64, clear_hostiles: 1500, timeout_seconds: 40, close_dialogs: true}

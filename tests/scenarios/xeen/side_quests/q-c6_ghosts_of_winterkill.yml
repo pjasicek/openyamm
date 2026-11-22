@@ -41,7 +41,7 @@ steps:
   - interact_actor: {actor_index: 120}
   - assert:
       dialog: {active: true, source_id: 4502}
-  - select_topic: {match_label: "Ghosts"}
+  - select_topic: {action_id: 42801, match_label: "Quest"}
   - assert:
       dialog: {text_contains: "driven out by a curse that brought the spirits of the dead back to life"}
   - press_action: {action: cancel_dialog}
@@ -77,7 +77,7 @@ steps:
   - interact_actor: {actor_index: 120}
   - assert:
       dialog: {active: true, source_id: 4502}
-  - select_topic: {match_label: "Ghosts"}
+  - select_topic: {action_id: 42801, match_label: "Quest"}
   - assert:
       dialog: {text_contains: "now the spirits of Polter Fools have moved in"}
   - press_action: {action: cancel_dialog}
@@ -109,7 +109,7 @@ steps:
   - interact_actor: {actor_index: 120}
   - assert:
       dialog: {active: true, source_id: 4502}
-  - select_topic: {match_label: "Ghosts"}
+  - select_topic: {action_id: 42801, match_label: "Quest"}
   - assert:
       dialog: {text_contains: "now the spirits of Ghost Riders have moved in"}
   - press_action: {action: cancel_dialog}
@@ -141,7 +141,7 @@ steps:
   - interact_actor: {actor_index: 120}
   - assert:
       dialog: {active: true, source_id: 4502}
-  - select_topic: {match_label: "Ghosts"}
+  - select_topic: {action_id: 42801, match_label: "Quest"}
   - assert:
       dialog: {text_contains: "I dub thee Ghostslayers Extraordinaire."}
   - press_action: {action: cancel_dialog}

@@ -856,11 +856,6 @@ MonsterTable::LootPrototype parseLootPrototype(const std::string &value)
 }
 }
 
-uint32_t monsterKindFlag(MonsterKind kind)
-{
-    return static_cast<uint32_t>(kind);
-}
-
 bool MonsterTable::MonsterStatsEntry::hasKind(MonsterKind kind) const
 {
     return (kindFlags & monsterKindFlag(kind)) != 0;

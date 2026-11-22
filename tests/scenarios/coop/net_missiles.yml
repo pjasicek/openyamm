@@ -1,0 +1,60 @@
+id: coop.net_missiles
+title: "Co-op - the host's missiles fly in the guest's game, and a guest's Fire Bolt is the host's missile"
+world: mm8
+mode: faithful
+tags: [coop, regression, projectiles]
+steps:
+  - note:
+      text: >-
+        Missiles are the host's. The host's Starburst drops its stars and the guest's game shows them falling and
+        gone when they have landed. Then the guest casts Fire Bolt at the host's Corsair - the host makes the
+        missile, the guest's game sees it fly, and the Corsair is hurt in both games.
+  - new_game_flow:
+      start_map: out01.odm
+      party:
+        gold: 0
+        food: 10
+        members:
+          - {name: A, class: Lich, level: 50, skills: [{name: AirMagic, level: 10, mastery: 4}], equipment: {}}
+  - advance_runtime: {seconds: 1}
+  - coop_guest: {}
+  - new_game_flow:
+      start_map: out02.odm
+      party:
+        gold: 0
+        food: 10
+        members:
+          - {name: B, class: Lich, level: 50, skills: [{name: FireMagic, level: 10, mastery: 4}], equipment: {}}
+    game: guest
+  - coop_join: {expect: joined}
+  - damage_actor: {all: true, amount: 1000000}
+  - note:
+      text: The missiles of the island's own fight, in the air when the guest joined, land in both games.
+  - advance_runtime: {seconds: 8}
+  - assert: {projectiles: {max_count: 0}}
+  - assert: {projectiles: {max_count: 0}}
+    game: guest
+  - cast_spell: {member_index: 0, spell_id: 22, skill: 10, mastery: 4, target_point: [3560, 9200, 545], expect: applied}
+  - assert: {projectiles: {source: party, min_count: 20}}
+  - advance_runtime: {seconds: 0.3}
+  - assert: {projectiles: {source: party, min_count: 10}}
+  - assert: {projectiles: {source: party, min_count: 10}}
+    game: guest
+  - advance_runtime: {seconds: 6}
+  - assert: {projectiles: {source: party, max_count: 0}}
+  - assert: {projectiles: {source: party, max_count: 0}}
+    game: guest
+  # A Corsair (50 hit points): the bolt, of the host's copy of the guest's skill, takes about 20, and the 20 of a
+  # Pirate would sometimes not be enough to be found hurt and alive (it has no more for two players since 2026-11-21).
+  - spawn_actor: {monster_id: 183, near_player: 1}
+  - advance_runtime: {seconds: 0.5}
+  - cast_spell: {member_index: 0, spell_id: 2, skill: 10, mastery: 4, actor_index: last, expect: applied}
+    game: guest
+  - advance_runtime: {seconds: 2}
+  - assert: {actor_count: {name: Corsair, hurt: true, min: 1}}
+  - assert: {actor_count: {name: Corsair, hurt: true, min: 1}}
+    game: guest
+  - assert: {projectiles: {source: party, max_count: 0}}
+    game: guest
+  - console: {line: coop net, expect_contains: "joined as player 1"}
+    game: guest

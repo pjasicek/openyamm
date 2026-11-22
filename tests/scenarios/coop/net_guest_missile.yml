@@ -1,0 +1,38 @@
+id: coop.net_guest_missile
+title: "Co-op - a guest's missile that lands is the guest's hit, not the host's"
+world: mm8
+mode: faithful
+tags: [coop, regression]
+steps:
+  - note:
+      text: >-
+        A missile lands frames after it was shot, when the host's game no longer acts for the guest who shot it.
+        The guest's Fire Bolt strikes a pirate: the hit is recorded for the guest (its own combat log has it).
+        Before 2026-11-20 the host's game worked the hit out for the host's own character and told the host's
+        player "Ariel shoots Regnan Pirate".
+  - new_game_flow:
+      start_map: out01.odm
+  - advance_runtime: {seconds: 1}
+  - coop_guest: {}
+  - new_game_flow:
+      start_map: out02.odm
+      party:
+        gold: 5000
+        food: 10
+        members:
+          - {name: G, class: Necromancer, level: 20, skills: [{name: FireMagic, level: 4, mastery: 1}], equipment: {}}
+    game: guest
+  - coop_join: {expect: joined}
+  - damage_actor: {all: true, amount: 1000000}
+  - advance_runtime: {seconds: 2}
+  - console: {line: "actor spawn 11 1 3656 7950 545"}
+  - console: {line: "actor immobile last on"}
+  - advance_runtime: {seconds: 1}
+  - cast_spell: {member_index: 0, spell_id: 2, skill: 4, mastery: 1, actor_index: last}
+    game: guest
+  - advance_runtime: {seconds: 3}
+  - assert:
+      combat_log: {dealt_min: 1}
+    game: guest
+  - console: {line: coop net, expect_contains: "joined as player 1"}
+    game: guest

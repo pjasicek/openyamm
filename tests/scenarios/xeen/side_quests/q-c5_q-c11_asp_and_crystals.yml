@@ -43,10 +43,10 @@ steps:
   - clear_hostiles: {radius: 3000}
   - interact_actor: {actor_index: 32}
   - assert: {dialog: {active: true, source_id: 4301}}
-  - select_topic: {match_label: "Curse"}
+  - select_topic: {action_id: 42751, match_label: "Quest"}
   - assert:
       dialog: {text_contains: "A foul curse has been placed on the town that turns people into snakes"}
-  - select_topic: {match_label: "Curse"}
+  - select_topic: {action_id: 42751, match_label: "Quest"}
   - assert:
       dialog: {text_contains: "Eve says the stones round the well have something to say"}
   - press_action: {action: cancel_dialog}
@@ -57,7 +57,7 @@ steps:
   - advance_runtime: {seconds: 0.5}
   - interact_actor: {actor_index: 33}
   - assert: {dialog: {active: true, source_id: 4302}}
-  - select_topic: {match_label: "Transformer"}
+  - select_topic: {action_id: 42752, match_label: "Quest"}
   - assert:
       dialog: {text_contains: "start with the south-west stone, make it red, then every other one red all the way round"}
   - press_action: {action: cancel_dialog}
@@ -83,10 +83,10 @@ steps:
   - press_interact: {expect: {kind: event_target}}
   - advance_runtime: {seconds: 0.5}
   - assert: {dialog: {active: true, source_id: 4304}}
-  - select_topic: {match_label: "Crystals"}
+  - select_topic: {action_id: 43051, match_label: "Quest"}
   - assert:
       dialog: {text_contains: "Get my Crystals back and there will be a reward."}
-  - select_topic: {match_label: "Crystals"}
+  - select_topic: {action_id: 43051, match_label: "Quest"}
   - assert:
       dialog: {text_contains: "You haven't brought me my Crystals of Piezoelectricity. Perhaps they are in Asp."}
   - press_action: {action: cancel_dialog}
@@ -226,7 +226,7 @@ steps:
   - play_lua: {source: "for i = 0, 3 do remember('xp' .. i, experience(i)) end; remember('gold', gold())"}
   - interact_actor: {actor_index: 32}
   - assert: {dialog: {active: true, source_id: 4301}}
-  - select_topic: {match_label: "Curse"}
+  - select_topic: {action_id: 42751, match_label: "Quest"}
   - assert:
       dialog: {text_contains: "The curse is over. People are walking out of the cellars on two legs."}
   - select_topic: {match_label: "Curse"}
@@ -274,7 +274,7 @@ steps:
   - press_interact: {expect: {kind: event_target}}
   - advance_runtime: {seconds: 0.5}
   - assert: {dialog: {active: true, source_id: 4304}}
-  - select_topic: {match_label: "Crystals"}
+  - select_topic: {action_id: 43051, match_label: "Quest"}
   - assert:
       dialog: {text_contains: "Thank the Gods! You've recovered the crystals."}
   - select_topic: {match_label: "Crystals"}

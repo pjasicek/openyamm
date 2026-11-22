@@ -319,6 +319,21 @@ void emitCounters(YAML::Emitter &out, const PlaythroughCounters &c)
     out << YAML::EndMap;
 }
 
+std::vector<std::string> readParty(const YAML::Node &root)
+{
+    std::vector<std::string> party;
+
+    if (const YAML::Node node = root["party"]; node && node.IsSequence())
+    {
+        for (const YAML::Node &key : node)
+        {
+            party.push_back(key.as<std::string>(""));
+        }
+    }
+
+    return party;
+}
+
 void readCounters(const YAML::Node &root, PlaythroughCounters &c)
 {
     c = {};
@@ -843,6 +858,10 @@ std::optional<PlaythroughStatistics::StoredSummary> PlaythroughStatistics::readS
                 summary.playedSeconds = time["played_seconds"].as<double>(0.0);
             }
 
+            summary.header.party = readParty(root);
+            PlaythroughCounters counters;
+            readCounters(root, counters);
+            summary.party = partyMembers(summary.header.party, counters);
             return summary;
         }
         catch (const YAML::Exception &)
@@ -1267,6 +1286,58 @@ void PlaythroughStatistics::syncMember(const StatMemberRef &member)
     }
 
     forBoth([&](PlaythroughCounters &c) { memberCounters(c, member); });
+}
+
+void PlaythroughStatistics::setParty(std::vector<std::string> memberKeys)
+{
+    if (m_active)
+    {
+        m_header.party = std::move(memberKeys);
+    }
+}
+
+std::vector<PlaythroughStatistics::PartyMember> PlaythroughStatistics::party() const
+{
+    return partyMembers(m_header.party, m_lifetime);
+}
+
+std::vector<PlaythroughStatistics::PartyMember> PlaythroughStatistics::partyMembers(
+    const std::vector<std::string> &party,
+    const PlaythroughCounters &counters)
+{
+    std::vector<PartyMember> members;
+
+    if (!party.empty())
+    {
+        for (const std::string &key : party)
+        {
+            const auto found = counters.members.find(key);
+
+            if (found != counters.members.end())
+            {
+                members.push_back({found->second.name, found->second.className});
+            }
+        }
+
+        return members;
+    }
+
+    std::vector<const PlaythroughMemberCounters *> joined;
+
+    for (const auto &[key, member] : counters.members)
+    {
+        joined.push_back(&member);
+    }
+
+    std::stable_sort(joined.begin(), joined.end(), [](const PlaythroughMemberCounters *pLeft,
+        const PlaythroughMemberCounters *pRight) { return pLeft->joinedDay < pRight->joinedDay; });
+
+    for (const PlaythroughMemberCounters *pMember : joined)
+    {
+        members.push_back({pMember->name, pMember->className});
+    }
+
+    return members;
 }
 
 void PlaythroughStatistics::recordSave(StatSaveKind kind)
@@ -1757,7 +1828,8 @@ std::string PlaythroughStatistics::serializeFile() const
         << YAML::Key << "world" << YAML::Value << m_header.startWorld
         << YAML::Key << "ruleset" << YAML::Value << m_header.ruleset
         << YAML::Key << "difficulty" << YAML::Value << m_header.difficulty
-        << YAML::EndMap;
+        << YAML::EndMap
+        << YAML::Key << "party" << YAML::Value << YAML::Flow << m_header.party;
     emitTracking(out, m_lifetimeInfo);
     emitCounters(out, m_lifetime);
     out << YAML::EndMap;
@@ -1806,6 +1878,7 @@ bool PlaythroughStatistics::loadFile(const std::filesystem::path &path, bool &fa
             m_header.difficulty = start["difficulty"].as<std::string>("");
         }
 
+        m_header.party = readParty(root);
         readTracking(root, m_lifetimeInfo);
         m_lifetimeInfo.developmentBuild = m_lifetimeInfo.developmentBuild || opened->developmentKey;
         readCounters(root, m_lifetime);

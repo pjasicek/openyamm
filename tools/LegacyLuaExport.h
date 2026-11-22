@@ -28,7 +28,6 @@ struct LegacyLuaExportLookups
     std::optional<std::string> mapName;
     std::optional<std::string> sourceMapFile;
     std::unordered_map<std::string, std::string> mapNamesByFile;
-    std::unordered_map<std::string, uint32_t> currentMapDungeonEntryHouseIdsByName;
     std::unordered_map<uint32_t, std::string> eventTitles;
     std::unordered_map<uint32_t, std::string> houseNames;
     std::unordered_map<uint32_t, std::string> npcTexts;

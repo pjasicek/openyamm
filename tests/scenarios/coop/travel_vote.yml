@@ -1,0 +1,67 @@
+id: coop.travel_vote
+title: "Co-op - a move to another map waits for the other player; a refusal cancels it, an acceptance takes everyone"
+world: mm8
+mode: faithful
+tags: [coop, regression]
+steps:
+  - note:
+      text: >-
+        "Map travel" in devdocs/plans/MULTIPLAYER_LISTEN_SERVER_ARCHITECTURE.md: one map is active for everyone, so
+        a move to another map is everyone's. The local player's move to the Abandoned Temple (d05.blv) waits for
+        player 1. Refused, nothing happens. Asked again and accepted, the map changes and player 1 stands beside
+        the party there.
+  - new_game_flow:
+      start_map: out01.odm
+  - advance_runtime: {seconds: 1}
+  - console: {line: coop on, expect_contains: "co-op session: on"}
+  - console: {line: "coop add 300 0", expect_contains: "player 1 at"}
+  - note:
+      text: >-
+        The exit asks first (a transition picture, as a dungeon door has it); the local player's OK is the proposal.
+  - lua_event:
+      source: "evt.MoveToMap(-3008, -1696, 2464, 512, 0, 0, 0, 1, 'd05.blv')"
+  - advance_runtime: {seconds: 0.2, present_dialogs: true}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1, follow_map_move: true}
+  - assert: {map: out01.odm}
+  - console: {line: coop show, expect_contains: "travel to d05.blv proposed by player 0, 0 accepted"}
+  - console: {line: "coop vote 1 no", expect_contains: "player 1 voted no"}
+  - advance_runtime: {seconds: 1, follow_map_move: true}
+  - assert: {map: out01.odm}
+  - note:
+      text: >-
+        The other way round - player 1's event asks, player 1 answers its own question with OK (the host keeps a
+        dialogue for every other player), so the proposal is player 1's and the local player is the one asked.
+        The local player's game shows the vote's window; Stay Here refuses.
+  - lua_event:
+      player: 1
+      source: "evt.MoveToMap(-3008, -1696, 2464, 512, 0, 0, 0, 1, 'd05.blv')"
+  - console: {line: "coop dialog 1", expect_contains: "player 1 has a dialogue open"}
+  - console: {line: "coop dialog 1 0"}
+  - advance_runtime: {seconds: 1, follow_map_move: true, present_dialogs: true}
+  - assert: {map: out01.odm}
+  - console: {line: coop show, expect_contains: "travel to d05.blv proposed by player 1, 0 accepted"}
+  # A guest's trip is asked of that guest first; its yes puts it to the others (the console answers for player 1).
+  - assert: {dialog: {active: false}}
+  - console: {line: "coop vote 1 yes"}
+  - advance_runtime: {seconds: 0.5, present_dialogs: true}
+  - assert: {dialog: {active: true}}
+  - select_topic: {match_label: "Stay Here"}
+  - advance_runtime: {seconds: 1, follow_map_move: true}
+  - assert: {map: out01.odm}
+  - console: {line: coop show, expect_not_contains: "travel to"}
+  - lua_event:
+      source: "evt.MoveToMap(-3008, -1696, 2464, 512, 0, 0, 0, 1, 'd05.blv')"
+  - advance_runtime: {seconds: 0.2, present_dialogs: true}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1, follow_map_move: true}
+  - assert: {map: out01.odm}
+  - console: {line: "coop vote 1 yes", expect_contains: "player 1 voted yes"}
+  - advance_runtime: {seconds: 2, follow_map_move: true}
+  - assert: {map: d05.blv}
+  - console: {line: coop show, expect_contains: "player 1 at -2912 -1696"}
+  - note:
+      text: >-
+        The map the two players entered has its monsters as ever - a Pirate has 20 hit points, with two players too.
+  - spawn_actor: {monster_id: 181, near_party: true}
+  - assert: {actor_visible: {actor_index: last, current_hp: 20}}

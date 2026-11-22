@@ -37,10 +37,10 @@ steps:
   - press_interact: {expect: {kind: event_target}}
   - assert:
       dialog: {active: true, source_id: 4949}
-  - select_topic: {match_label: "Emerald handle"}
+  - select_topic: {action_id: 44401, match_label: "Quest"}
   - assert:
       dialog: {text_contains: "It must have come off on my journey back from visiting Sandcaster."}
-  - select_topic: {match_label: "Emerald handle"}
+  - select_topic: {action_id: 44401, match_label: "Quest"}
   - assert:
       dialog: {text_contains: "You haven't found my staff's emerald handle yet."}
   - press_action: {action: cancel_dialog}
@@ -87,7 +87,7 @@ steps:
   - press_interact: {expect: {kind: event_target}}
   - assert:
       dialog: {active: true, source_id: 4949}
-  - select_topic: {match_label: "Emerald handle"}
+  - select_topic: {action_id: 44401, match_label: "Quest"}
   - assert:
       dialog: {text_contains: "You've found the emerald handle. Here's something for your trouble: the staff."}
   - select_topic: {match_label: "Emerald handle"}

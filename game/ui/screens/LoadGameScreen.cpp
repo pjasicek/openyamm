@@ -5,6 +5,7 @@
 #include "game/content/RulesetDefinition.h"
 #include "game/maps/SaveGame.h"
 #include "game/party/PlaythroughNames.h"
+#include "game/party/SkillData.h"
 #include "game/ui/CalendarText.h"
 #include "engine/UserDataPaths.h"
 
@@ -565,10 +566,12 @@ void LoadGameScreen::configureSave(SaveAction action, const std::string &locatio
 }
 
 void LoadGameScreen::configureCurrentPlaythrough(const std::string &playthroughId, double playedSeconds,
-                                                 double saveSeconds)
+                                                 double saveSeconds,
+                                                 std::vector<PlaythroughStatistics::PartyMember> party)
 {
     m_currentPlaythroughId = playthroughId;
     m_currentPlayedSeconds = playedSeconds;
+    m_currentParty = std::move(party);
     m_currentSaveSeconds = saveSeconds;
 }
 
@@ -1283,6 +1286,17 @@ void LoadGameScreen::drawPlaythroughDetails(const PlaythroughGroup &group)
     fact(SecondColumn, top + 26, Engine::tr("Started"), group.started);
     fact(Left, top + 52, Engine::tr("Last played"), group.lastPlayed);
     fact(SecondColumn, top + 52, Engine::tr("Time played"), group.played);
+    float noteTop = top + 82;
+
+    if (!group.party.empty())
+    {
+        textInRect(canvasRect(Left, top + 78, 323.2f, 9.07f), Engine::tr("Party"), "menu_lucida", LabelSize,
+                   FactLabelColor);
+        textInRect(canvasRect(Left, top + 88.6f, 323.2f, 28.0f), group.party, "menu_arrus", ValueSize,
+                   FactValueColor);
+        noteTop = top + 122;
+    }
+
     std::string note = Engine::trn("{count} save", "{count} saves", uint64_t(group.slots.size()),
                                    {{"count", int64_t(group.slots.size())}});
 
@@ -1296,7 +1310,7 @@ void LoadGameScreen::drawPlaythroughDetails(const PlaythroughGroup &group)
             + Engine::tr("This playthrough has no statistics here yet. Its record starts when a save is loaded.");
     }
 
-    textInRect(canvasRect(Left, top + 82, 323.2f, 40.0f), note, "menu_lucida", 10.24f, NoteColor);
+    textInRect(canvasRect(Left, noteTop, 323.2f, 40.0f), note, "menu_lucida", 10.24f, NoteColor);
 }
 
 void LoadGameScreen::drawScreen(float deltaSeconds)
@@ -1824,10 +1838,30 @@ void LoadGameScreen::describeGroup(PlaythroughGroup &group)
         }
     }
 
-    // The statistics file of the playthrough being played is written every so often; the game knows its time now.
+    const std::vector<PlaythroughStatistics::PartyMember> *pParty = pRecord != nullptr ? &pRecord->party : nullptr;
+
+    // The statistics file of the playthrough being played is written every so often; the game knows its time and
+    // party now.
     if (!group.id.empty() && group.id == m_currentPlaythroughId)
     {
         playedSeconds = m_currentPlayedSeconds;
+        pParty = &m_currentParty;
+    }
+
+    group.party.clear();
+
+    if (pParty != nullptr)
+    {
+        for (const PlaythroughStatistics::PartyMember &member : *pParty)
+        {
+            const std::string className = member.className.empty()
+                ? std::string()
+                : Engine::localize(displayClassName(member.className), "class");
+            const std::string text = member.name.empty() ? className
+                : className.empty() ? member.name
+                : Engine::tr("{name} ({class})", {{"name", member.name}, {"class", className}});
+            group.party += (group.party.empty() ? "" : ", ") + text;
+        }
     }
 
     // Under a minute reads as no time: a save from before the statistics, or a game just begun.

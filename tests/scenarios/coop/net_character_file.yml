@@ -1,0 +1,61 @@
+id: coop.net_character_file
+title: "Co-op - a character from a file joins, gains gold in the host's world and keeps it in its file"
+world: mm8
+mode: faithful
+tags: [coop, regression]
+steps:
+  - note:
+      text: >-
+        "The character file" in devdocs/plans/MULTIPLAYER_LISTEN_SERVER_ARCHITECTURE.md. The guest copies its
+        game's character (B, 300 gold) into the file "traveller" and then plays another game, with C. It joins the
+        host with the file's character, not with C. The host's world pays everyone 500 gold. The guest leaves: its
+        own game is back as it was, with C and C's gold, and the file holds B with 800 gold - joining again with
+        the file brings B back with them.
+  - new_game_flow:
+      start_map: out01.odm
+      party:
+        gold: 100
+        food: 10
+        members:
+          - {name: A, class: Knight, level: 10, skills: [{name: Sword, level: 4, mastery: 1}], equipment: {}}
+  - advance_runtime: {seconds: 1}
+  - coop_guest: {}
+  - new_game_flow:
+      start_map: out02.odm
+      party:
+        gold: 300
+        food: 10
+        members:
+          - {name: B, class: Knight, level: 12, skills: [{name: Sword, level: 4, mastery: 1}], equipment: {}}
+    game: guest
+  - console: {line: coop character save traveller, expect_contains: "B (Knight 12"}
+    game: guest
+  - new_game_flow:
+      start_map: out02.odm
+      party:
+        gold: 7
+        food: 10
+        members:
+          - {name: C, class: Cleric, level: 3, skills: [{name: Mace, level: 1, mastery: 1}], equipment: {}}
+    game: guest
+  - coop_join: {expect: joined, character: traveller}
+  - console: {line: coop show, expect_contains: "gold 300"}
+  - console: {line: "coop check 1 gold = 300"}
+  - lua_event:
+      source: "AddValue(Gold, 500)"
+  - advance_runtime: {seconds: 0.5}
+  - console: {line: "coop check 1 gold = 800"}
+  - console: {line: "coop check 0 gold = 800"}
+    game: guest
+  - console: {line: coop leave, expect_contains: "left the network session"}
+    game: guest
+  - advance_runtime: {seconds: 0.5}
+  # The guest's own game is back as it was: C with C's gold, on its own map.
+  - assert: {map: out02.odm, gold: 7}
+    game: guest
+  - console: {line: coop character, expect_contains: "traveller: B (Knight 12"}
+    game: guest
+  # The file kept what B gained: joining with it again brings B back with 800 gold.
+  - coop_join: {expect: joined, character: traveller}
+  - console: {line: "coop check 1 gold = 800"}
+  - console: {line: "coop check 0 gold = 600"}

@@ -62,8 +62,8 @@ steps:
   # Scaldrith (house 4852, event 18): The tax with 2,100 gold and no gems: refused.
   - walk_to: {x: 1984, y: -3560, z: 0, radius: 48, clear_hostiles: 1500, timeout_seconds: 40, close_dialogs: true}
   - play_lua: {source: "click(18); wait(0.8)"}
-  - assert: {dialog: {active: true, source_id: 5702, action_label_absent: "Great Wyrm"}}
-  - select_topic: {match_label: "The tax"}
+  - assert: {dialog: {active: true, source_id: 5702, action_label_absent: "Promotion"}}
+  - select_topic: {action_id: 43751, match_label: "Quest"}
   - assert: {dialog: {text_contains: "No gems, no audience. No exceptions."}}
   - press_action: {action: cancel_dialog}
   - play_lua: {source: "for _ = 1, 3 do if not close() then break end end; if gold() ~= 2100 then error('the refusal took gold: ' .. gold()) end"}
@@ -76,7 +76,7 @@ steps:
   # The tax: paid (2,000 gold and 20 gems, tax_paid, autonote 4390); again: paid in full.
   - play_lua: {source: "click(18); wait(0.8)"}
   - assert: {dialog: {active: true, source_id: 5702}}
-  - select_topic: {match_label: "The tax"}
+  - select_topic: {action_id: 43751, match_label: "Quest"}
   - assert: {dialog: {text_contains: "2,000 gold pieces and 20 gems fly from your packs and into the urn on the counter."}}
   - select_topic: {match_label: "The tax"}
   - assert: {dialog: {text_contains: "Paid in full. Keep the receipt."}}
@@ -120,10 +120,10 @@ steps:
   - walk_to: {x: 1984, y: -3560, z: 0, radius: 48, clear_hostiles: 1500, timeout_seconds: 40, close_dialogs: true}
   - play_lua: {source: "for _, i in ipairs({0}) do local c = conditions(i); for _, n in ipairs({'Dead', 'Eradicated', 'Petrified', 'Paralyzed', 'Unconscious', 'Asleep'}) do if c:find(n, 1, true) then error('member ' .. i .. ' cannot act before the Great Wyrm topic: ' .. c) end end end"}
   - play_lua: {source: "for i = 0, 3 do remember('x' .. i, experience(i)) end; click(18); wait(0.8)"}
-  - assert: {dialog: {active: true, source_id: 5702, action_label_present: "Great Wyrm"}}
-  - select_topic: {match_label: "Great Wyrm"}
+  - assert: {dialog: {active: true, source_id: 5702, action_label_present: "Promotion"}}
+  - select_topic: {action_id: 43752, match_label: "Promotion"}
   - assert: {dialog: {text_contains: "A dragon who pays tax and reads. Rarer than gold."}}
-  - select_topic: {match_label: "Great Wyrm"}
+  - select_topic: {action_id: 43752, match_label: "Promotion"}
   - assert: {dialog: {text_contains: "Great Wyrms are made of dragons, and you have none with you."}}
   - press_action: {action: cancel_dialog}
   - play_lua:

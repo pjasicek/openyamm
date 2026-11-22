@@ -1,0 +1,42 @@
+id: coop.net_guest_direct_spell
+title: "Co-op - a guest's spell that strikes a monster directly changes nothing in its own copy; the host's word kills"
+world: mm8
+mode: faithful
+tags: [coop, regression]
+steps:
+  - note:
+      text: >-
+        A guest's game tries its own cast before it asks the host for it. The try must leave the guest's copy of
+        the map alone: Implosion at a pirate leaves the pirate standing in the guest's game at the moment of the
+        cast, and it dies there when the host's game has struck it. Before 2026-11-20 the try killed the copy at
+        once and paid its experience to the guest's own party.
+  - new_game_flow:
+      start_map: out01.odm
+  - advance_runtime: {seconds: 1}
+  - coop_guest: {}
+  - new_game_flow:
+      start_map: out02.odm
+      party:
+        gold: 5000
+        food: 10
+        members:
+          - {name: G, class: Necromancer, level: 20, skills: [{name: AirMagic, level: 10, mastery: 3}], equipment: {}}
+    game: guest
+  - coop_join: {expect: joined}
+  - damage_actor: {all: true, amount: 1000000}
+  - advance_runtime: {seconds: 2}
+  - console: {line: "actor spawn 181 1 3656 7950 545"}
+  - console: {line: "actor immobile last on"}
+  - advance_runtime: {seconds: 1}
+  - console: {line: "actor count 181", expect_contains: "remaining=1"}
+    game: guest
+  - cast_spell: {member_index: 0, spell_id: 20, skill: 10, mastery: 3, actor_index: last}
+    game: guest
+  - console: {line: "actor count 181", expect_contains: "remaining=1"}
+    game: guest
+  - advance_runtime: {seconds: 3}
+  - console: {line: "actor count 181", expect_contains: "remaining=0"}
+  - console: {line: "actor count 181", expect_contains: "remaining=0"}
+    game: guest
+  - console: {line: coop net, expect_contains: "joined as player 1"}
+    game: guest

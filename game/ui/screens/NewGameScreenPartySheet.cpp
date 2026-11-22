@@ -1602,7 +1602,7 @@ void NewGameScreen::drawPortraitPicker()
         }
     }
 
-    // World filter: the worlds whose portraits are offered here, named after their new-game cards (a world's card
+    // World filter: the worlds whose portraits are offered here, named after their new-game cards' short titles (a world's card
     // is the continent whose start map is in it), in the cards' order.
     struct PortraitWorld
     {
@@ -1633,7 +1633,7 @@ void NewGameScreen::drawPortraitPicker()
             [pMap](const PortraitWorld &world) { return world.worldId == pMap->worldId; });
         if (!known && !pMap->worldId.empty())
         {
-            worlds.push_back({pMap->worldId, Engine::localize(pCard->cardTitle)});
+            worlds.push_back({pMap->worldId, Engine::localize(pCard->cardShortTitle)});
         }
     }
     float worldX = X + 676;

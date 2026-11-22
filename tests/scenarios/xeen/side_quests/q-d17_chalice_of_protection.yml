@@ -56,10 +56,10 @@ steps:
   - walk_to: {x: -3380, y: -288, z: 224, radius: 64, timeout_seconds: 20, close_dialogs: true}
   # The King's Hall (event 8): Bosco, Chalice (started, the tower's key, the autonote), and again.
   - play_lua: {source: "click(8); wait(1)"}
-  - assert: {dialog: {active: true, source_id: 5401, action_label_present: "Chalice"}}
-  - select_topic: {match_label: Chalice}
+  - assert: {dialog: {active: true, source_id: 5401, action_label_present: "Quest"}}
+  - select_topic: {action_id: 44851, match_label: "Quest"}
   - assert: {dialog: {active: true, text_contains: "Their door stands open"}}
-  - select_topic: {match_label: Chalice}
+  - select_topic: {action_id: 44851, match_label: "Quest"}
   - assert: {dialog: {active: true, text_contains: "No vowels. C, H, L, C."}}
   - press_action: {action: cancel_dialog}
   - play_lua: {source: "for i = 1, 3 do if not close() then break end wait(0.5) end"}
@@ -214,7 +214,7 @@ steps:
         for i = 0, 3 do remember("xp" .. i, experience(i)) end
         click(8); wait(1)
   - assert: {dialog: {active: true, source_id: 5401}}
-  - select_topic: {match_label: Chalice}
+  - select_topic: {action_id: 44851, match_label: "Quest"}
   - assert: {dialog: {active: true, text_contains: "For saving my life, I dub thee royal taste testers and give you this treasure."}}
   - select_topic: {match_label: Chalice}
   - assert: {dialog: {active: true, text_contains: "I drink from it every morning."}}

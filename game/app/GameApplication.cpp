@@ -12551,10 +12551,15 @@ void GameApplication::updatePlaythroughStatistics(float realDeltaSeconds, bool g
         {
             m_playthroughStatisticsRoster = rosterSignature;
 
+            std::vector<std::string> memberKeys;
+
             for (size_t memberIndex = 0; memberIndex < pParty->members().size(); ++memberIndex)
             {
                 statistics.syncMember(pParty->statsMember(memberIndex));
+                memberKeys.push_back(PlaythroughStatistics::memberKey(pParty->members()[memberIndex].statsMemberId));
             }
+
+            statistics.setParty(std::move(memberKeys));
         }
     }
 
@@ -15731,7 +15736,8 @@ void GameApplication::openSaveGameScreen()
     pScreen->configureCurrentPlaythrough(
         m_gameSession.playthroughStatistics().playthroughId(),
         m_gameSession.playthroughStatistics().lifetime().playedSeconds,
-        m_gameSession.playthroughStatistics().timeline().playedSeconds);
+        m_gameSession.playthroughStatistics().timeline().playedSeconds,
+        m_gameSession.playthroughStatistics().party());
     pScreen->configureSortOrder(m_settings.saveListNewestFirst, [this](bool newestFirst)
         {
             m_settings.saveListNewestFirst = newestFirst;
@@ -15783,7 +15789,8 @@ void GameApplication::openLoadGameScreen(bool returnToGameplayMenu, const std::s
         pScreen->configureCurrentPlaythrough(
             m_gameSession.playthroughStatistics().playthroughId(),
             m_gameSession.playthroughStatistics().lifetime().playedSeconds,
-            m_gameSession.playthroughStatistics().timeline().playedSeconds);
+            m_gameSession.playthroughStatistics().timeline().playedSeconds,
+        m_gameSession.playthroughStatistics().party());
     }
     pScreen->configureSortOrder(m_settings.saveListNewestFirst, [this](bool newestFirst)
         {

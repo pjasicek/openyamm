@@ -1,0 +1,28 @@
+id: coop.net_guest_asks_save
+title: "Co-op - a guest's save key asks the host to save; the host's save is told to the guest"
+world: mm8
+mode: faithful
+tags: [coop, regression]
+steps:
+  - note:
+      text: >-
+        A guest's game holds the host's world, which is the host's to save. The guest's own save asks the host's
+        player to save instead, who is told who asks. The host saving is told to the guest, whose game keeps what
+        its character has now, and the guest stays joined.
+  - new_game_flow:
+      start_map: out01.odm
+  - advance_runtime: {seconds: 1}
+  - coop_guest: {}
+  - new_game_flow:
+      start_map: out02.odm
+    game: guest
+  - coop_join: {expect: joined}
+  - advance_runtime: {seconds: 2}
+  - console: {line: coop asksave, expect_contains: "asked the host to save"}
+    game: guest
+  - advance_runtime: {seconds: 1}
+  - console: {line: coop net, expect_contains: "asks you to save the game"}
+  - save_game: {name: coop_host_saves_for_all}
+  - advance_runtime: {seconds: 1}
+  - console: {line: coop net, expect_contains: "joined as player 1"}
+    game: guest

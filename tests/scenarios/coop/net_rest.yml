@@ -1,0 +1,41 @@
+id: coop.net_rest
+title: "Co-op - a guest asks to rest, the host agrees with its Rest key, and both characters are rested"
+world: mm8
+mode: faithful
+tags: [coop, regression]
+steps:
+  - note:
+      text: >-
+        The rest vote between two games (rest_vote.yml shows the rule itself). The guest's rest screen asks the
+        host instead of resting; the host's game is told, and its player's Rest key is the agreement. The host
+        rests everyone - the guest's hurt character is whole in the guest's game afterwards and has paid its own
+        food.
+  - new_game_flow:
+      start_map: out01.odm
+  - advance_runtime: {seconds: 1}
+  - coop_guest: {}
+  - new_game_flow:
+      start_map: out02.odm
+    game: guest
+  - coop_join: {expect: joined}
+  - damage_actor: {all: true, amount: 1000000}
+  - advance_runtime: {seconds: 8}
+  - console: {line: "coop damage 0 500"}
+  - console: {line: "coop damage 1 500"}
+  - advance_runtime: {seconds: 0.5}
+  - assert: {party_health: {full: false}}
+    game: guest
+  - console: {line: "rest heal 480"}
+    game: guest
+  - advance_runtime: {seconds: 0.5}
+  - console: {line: coop rest, expect_contains: "rest of 480 minutes asked by player 1, 0 agreed"}
+  - press_action: {action: rest}
+  - advance_runtime: {seconds: 12}
+  - console: {line: coop rest, expect_contains: "no rest is asked"}
+  - console: {line: "coop check 0 hurt = 0"}
+  - console: {line: "coop check 1 hurt = 0"}
+  - console: {line: "coop check 1 food = 5"}
+  - assert: {party_health: {full: true}}
+    game: guest
+  - console: {line: coop net, expect_contains: "joined as player 1"}
+    game: guest
