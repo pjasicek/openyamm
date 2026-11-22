@@ -195,7 +195,10 @@ TEST_CASE("every MM6-MM8 item has a ground model of its own")
     for (const ItemDefinition &item : items.entries())
     {
         const std::string icon = toLowerCopy(item.iconName);
-        if (item.itemId == 0 || icon.empty() || icon == "null" || item.packageId == "mm9")
+        // The engine's (MMerge's) items and MM6-MM8's; other worlds' (MM9, Xeen) are checked by their own lanes.
+        const bool mm678 = item.packageId == "engine" || item.packageId == "mm6" || item.packageId == "mm7"
+            || item.packageId == "mm8";
+        if (item.itemId == 0 || icon.empty() || icon == "null" || !mm678)
         {
             continue;
         }

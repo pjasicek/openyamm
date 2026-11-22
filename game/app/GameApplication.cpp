@@ -1,4 +1,8 @@
 #include "game/app/GameApplication.h"
+
+#include "game/coop/CoopBodies.h"
+#include "game/coop/CoopLobbyBrowser.h"
+#include "game/coop/CoopSession.h"
 #include "game/rules/SoloTalents.h"
 
 #include "game/gameplay/BountyHuntRuntime.h"
@@ -15,6 +19,8 @@
 #include "game/debug/PinInbox.h"
 #include "game/gameplay/GameMechanics.h"
 #include "game/gameplay/GameplayHeldItemController.h"
+#include "game/gameplay/GameplayOverlayInputController.h"
+#include "game/gameplay/HouseServiceRuntime.h"
 #include "game/gameplay/InteractiveDecorationRules.h"
 #include "game/gameplay/ReputationRuntime.h"
 #include "game/scene/IndoorSceneRuntime.h"
@@ -49,6 +55,7 @@
 #include "game/ui/GameplaySoloBarSelector.h"
 #include "game/ui/screens/ArcomageScreen.h"
 #include "game/ui/screens/CutsceneVideoScreen.h"
+#include "game/ui/screens/CoopMenuScreen.h"
 #include "game/ui/screens/LoadGameScreen.h"
 #include "game/ui/screens/LoadingOverlayScreen.h"
 #include "game/ui/screens/MainMenuScreen.h"
@@ -124,6 +131,10 @@ struct PendingMapLeaveOutputs
     std::optional<EventRuntimeState::PendingMovie> pendingMovie;
     bool pendingReturnToMainMenu = false;
     std::vector<EventRuntimeState::PendingSound> pendingSounds;
+    // Status lines the leaving map's events set and the game has not shown yet (a fall's line before its move): the
+    // arriving map shows them.
+    std::vector<std::string> statusMessages;
+    std::vector<float> statusMessageSeconds;
 };
 
 double millisecondsFromNanoseconds(uint64_t nanoseconds)
@@ -696,6 +707,15 @@ PendingMapLeaveOutputs consumePendingMapLeaveOutputs(EventRuntimeState &runtimeS
     runtimeState.pendingReturnToMainMenu = false;
     outputs.pendingSounds = std::move(runtimeState.pendingSounds);
     runtimeState.pendingSounds.clear();
+
+    for (size_t index = 0; index < runtimeState.statusMessages.size(); ++index)
+    {
+        outputs.statusMessages.push_back(runtimeState.statusMessages[index]);
+        outputs.statusMessageSeconds.push_back(statusMessageSeconds(runtimeState, index));
+    }
+
+    runtimeState.statusMessages.clear();
+    runtimeState.statusMessageSeconds.clear();
     return outputs;
 }
 
@@ -711,6 +731,18 @@ void appendPendingMapLeaveOutputs(EventRuntimeState &runtimeState, PendingMapLea
         runtimeState.pendingSounds.end(),
         std::make_move_iterator(outputs.pendingSounds.begin()),
         std::make_move_iterator(outputs.pendingSounds.end()));
+
+    // Before the arriving map's own lines, each with its seconds (statusMessageSeconds is by index).
+    if (!outputs.statusMessages.empty())
+    {
+        runtimeState.statusMessageSeconds.resize(runtimeState.statusMessages.size(), 0.0f);
+        runtimeState.statusMessages.insert(
+            runtimeState.statusMessages.begin(), outputs.statusMessages.begin(), outputs.statusMessages.end());
+        runtimeState.statusMessageSeconds.insert(
+            runtimeState.statusMessageSeconds.begin(),
+            outputs.statusMessageSeconds.begin(),
+            outputs.statusMessageSeconds.end());
+    }
 }
 
 const char *sceneKindName(SceneKind kind)
@@ -1035,12 +1067,12 @@ void tracePartySnapshot(
         }
     }
 
-    for (uint32_t qbitId : sortedIds(snapshot.questBits))
+    for (uint32_t qbitId : sortedIds(snapshot.campaign.questBits))
     {
         GAMEPLAY_DEBUG_TRACE(eventPrefix + "_qbit id=" + std::to_string(qbitId));
     }
 
-    for (const auto &[variableId, value] : sortedMap(snapshot.eventVariables))
+    for (const auto &[variableId, value] : sortedMap(snapshot.campaign.eventVariables))
     {
         GAMEPLAY_DEBUG_TRACE(
             eventPrefix
@@ -1669,7 +1701,7 @@ void applyPartyReputationToWorld(
         return;
     }
 
-    worldRuntime.setCurrentLocationReputation(party.continentReputation(map.mergedContinentId));
+    worldRuntime.setCurrentLocationReputation(party.campaign().continentReputation(map.mergedContinentId));
     applyReputationGuardHostility(worldRuntime, 25);
 }
 
@@ -1687,7 +1719,7 @@ void storeWorldReputationInParty(
         return;
     }
 
-    party.setContinentReputation(map.mergedContinentId, worldRuntime.currentLocationReputation());
+    party.campaign().setContinentReputation(map.mergedContinentId, worldRuntime.currentLocationReputation());
 }
 
 bool mapMatchesDeathDestination(
@@ -2959,10 +2991,12 @@ void setDebugTownPortalUnlocks(Party &party, bool unlocked)
 {
     for (uint32_t qbitId : DebugUnlockedTownPortalQBits)
     {
-        party.setQuestBit(qbitId, unlocked);
+        party.campaign().setQuestBit(qbitId, unlocked);
     }
 }
 }
+
+GameApplication::~GameApplication() = default;
 
 GameApplication::GameApplication(const Engine::ApplicationConfig &config)
     : m_config(config)
@@ -2983,6 +3017,7 @@ GameApplication::GameApplication(const Engine::ApplicationConfig &config)
           std::bind(&GameApplication::applicationTextInputActive, this)
       )
     , m_gameSession()
+    , m_pCoopSession(std::make_unique<CoopSession>(*this))
     , m_indoorRenderer(m_spriteAtlasCache, m_nativeSpriteCache)
     , m_indoorGameView(m_gameSession)
     , m_outdoorGameView(m_gameSession, m_spriteAtlasCache, m_nativeSpriteCache)
@@ -2990,6 +3025,9 @@ GameApplication::GameApplication(const Engine::ApplicationConfig &config)
     , m_lastFrameWidth(config.windowWidth)
     , m_lastFrameHeight(config.windowHeight)
 {
+    m_engineApplication.setUndrawnFrameCallback([this](float deltaSeconds) { advanceUndrawnFrame(deltaSeconds); });
+    m_gameSession.setCinematicStartedCallback(
+        [this](const std::string &id) { m_pCoopSession->hostPresentation(Coop::PresentationCinematic, id); });
     m_outdoorGameView.setWorldPostProcessing(&m_cinematicGrading);
     m_indoorRenderer.setWorldPostProcessing(&m_cinematicGrading);
     // One effect texture cache for both scene renderers: each texture loads once, wherever it is first used.
@@ -3068,6 +3106,41 @@ void GameApplication::registerDebugConsoleCommands()
         {
             m_gameSession.playthroughStatistics().markAssisted(
                 std::string(Engine::trNoop("debug console")), command.name);
+        });
+
+    // A co-op guest's game is a copy of the host's world: a command that would change the world, the quests, the
+    // clock or the map changes only the copy, which then no longer is the host's (or takes this game to another map
+    // alone). Those are the host's console's. What changes the guest's own character (gold, items, skills, hit
+    // points) reaches the host with the character and stays allowed, as do the commands that only show something.
+    m_debugConsole.setCommandGate(
+        [this](const DebugConsole::CommandDefinition &command, const std::vector<std::string> &args)
+            -> std::optional<std::string>
+        {
+            if (m_pCoopSession == nullptr || !(m_pCoopSession->joined() || m_pCoopSession->joining())
+                || command.readOnly || (command.readOnlyWith && command.readOnlyWith(args)))
+            {
+                return std::nullopt;
+            }
+
+            static const std::array<std::string_view, 18> WorldCommands = {"goto", "reload", "event", "lua", "qbit",
+                "autonote", "ledger", "npc", "arcomage", "mapvar", "global", "destructible", "arena", "projectile",
+                "testparty", "hire", "tp", "ruleset"};
+            const std::string first = args.empty() ? std::string() : toLowerCopy(args.front());
+            const bool world =
+                std::find(WorldCommands.begin(), WorldCommands.end(), command.name) != WorldCommands.end();
+            // The same commands' forms that only show something have no argument or a showing one.
+            const bool shows = args.empty() || first == "list" || first == "show" || first == "get" || first == "dump"
+                || first == "count" || first == "sheet" || first == "search" || first == "trace";
+            const bool refused = (world && !shows)
+                || (command.name == "actor" && !shows)
+                || (command.name == "time" && !args.empty())
+                || (command.name == "cinematic" && (first == "play" || first == "load" || first == "skip"))
+                || (command.name == "hireling" && (first == "add" || first == "remove"))
+                || (command.name == "player" && first == "add");
+            return refused
+                ? std::optional<std::string>("Only the host's console does that in a co-op game: this game's world"
+                                             " is a copy of the host's.")
+                : std::nullopt;
         });
 
     const auto commandResult = [](bool success, const std::string &message)
@@ -3159,6 +3232,941 @@ void GameApplication::registerDebugConsoleCommands()
         .readOnly = true});
 
     m_debugConsole.registerCommand({
+        .name = "commands",
+        .description = "Show how many player commands of each kind the session has taken.",
+        .usage = "commands",
+        .callback = [this, commandResult](const DebugConsole::CommandContext &)
+        {
+            const PlayerCommands &commands = m_gameSession.playerCommands();
+            return commandResult(
+                true,
+                "player commands: attack " + std::to_string(commands.count(PlayerCommandKind::Attack))
+                    + ", cast " + std::to_string(commands.count(PlayerCommandKind::CastSpell))
+                    + ", activate " + std::to_string(commands.count(PlayerCommandKind::ActivateWorldHit))
+                    + ", use item " + std::to_string(commands.count(PlayerCommandKind::UseHeldItem)));
+        },
+        .readOnly = true});
+
+    m_debugConsole.registerCommand({
+        .name = "coop",
+        .description = "Show or switch the co-op session; add, place, show and check its other players.",
+        .usage = "coop [on | off | show | host [port] | join <address> | leave | net | add [dx dy]"
+                 " | remove <player> | pose <player> <x> <y> <z>"
+                 " | check <player> <hp|max_hp|hurt|xp|gold|down|members> <op> <value> | damage <player> <amount>"
+                 " | chest <player> [show|take|close] | dialog <player> [<choice>|close] | shop [buy <slot>]"
+                 " | rest [<player> yes|no]"
+                 " | return <player>"
+                 " | vote <player> yes|no | vote force | stepout | stepback | away | sync [player] | propose <map file>"
+                 " | avatar [member]]",
+        .callback = [this, activeGameplayWorld, commandResult](const DebugConsole::CommandContext &context)
+        {
+            const std::string action = context.args.empty() ? std::string() : toLowerCopy(context.args[0]);
+            IGameplayWorldRuntime *pWorldRuntime = activeGameplayWorld();
+            const auto describePlayer = [this, pWorldRuntime](PlayerId player)
+            {
+                const Party *pParty = m_gameSession.partyOfPlayer(player);
+                std::ostringstream out;
+                out << "player " << int(player);
+
+                if (pParty == nullptr)
+                {
+                    out << ": none";
+                    return out.str();
+                }
+
+                GameplayPlayerBody body = {};
+
+                if (const GameSession::GuestPlayer *pGuest = m_gameSession.guestPlayer(player))
+                {
+                    body = pGuest->body;
+                }
+                else if (pWorldRuntime != nullptr)
+                {
+                    body = {pWorldRuntime->partyX(), pWorldRuntime->partyY(), pWorldRuntime->partyFootZ(), 0.0f};
+                }
+
+                out << (player == LocalPlayer ? " (local)" : "") << " at " << int(std::lround(body.x)) << ' '
+                    << int(std::lround(body.y)) << ' ' << int(std::lround(body.footZ)) << " hp "
+                    << pParty->totalHealth() << '/' << pParty->totalMaxHealth() << " gold " << pParty->gold()
+                    << (pParty->hasActableMember() ? "" : " down") << (body.flying ? " flying" : "");
+                return out.str();
+            };
+
+            if (action.empty() || action == "show")
+            {
+                std::string text = m_gameSession.coopSession() ? "co-op session: on" : "co-op session: off";
+
+                if (action == "show")
+                {
+                    if (const std::optional<GameSession::TravelProposal> &proposal = m_gameSession.travelProposal())
+                    {
+                        text += "\ntravel to " + proposal->move.mapName.value_or(std::string()) + " proposed by player "
+                            + std::to_string(int(proposal->proposer)) + ", "
+                            + std::to_string(proposal->accepted.size()) + " accepted";
+                    }
+
+                    text += "\n" + describePlayer(LocalPlayer);
+
+                    for (const std::unique_ptr<GameSession::GuestPlayer> &pGuest : m_gameSession.guestPlayers())
+                    {
+                        text += "\n" + describePlayer(pGuest->id);
+                    }
+                }
+
+                return commandResult(true, text);
+            }
+
+            // Sessions between games (game/coop/CoopSession.h): host this game, join another, leave, and what the
+            // connection carries.
+            // coop host [port] [lobby <address> [name ...]]: hosts the game in progress. With a lobby the session is
+            // registered there, listed, and gets a code to join by.
+            if (action == "host")
+            {
+                size_t next = 1;
+                int port = int(Coop::DefaultPort);
+
+                if (next < context.args.size() && toLowerCopy(context.args[next]) != "lobby")
+                {
+                    const std::optional<float> portArgument = parseFloatArgument(context.args[next]);
+
+                    if (!portArgument || *portArgument <= 0.0f || *portArgument > 65535.0f)
+                    {
+                        return commandResult(false, "Usage: coop host [port] [lobby <address> [name ...]]");
+                    }
+
+                    port = int(*portArgument);
+                    ++next;
+                }
+
+                std::string lobbyAddress;
+                std::string name;
+
+                if (next < context.args.size())
+                {
+                    if (toLowerCopy(context.args[next]) != "lobby" || next + 1 >= context.args.size())
+                    {
+                        return commandResult(false, "Usage: coop host [port] [lobby <address> [name ...]]");
+                    }
+
+                    lobbyAddress = context.args[next + 1];
+
+                    for (size_t index = next + 2; index < context.args.size(); ++index)
+                    {
+                        name += (name.empty() ? "" : " ") + context.args[index];
+                    }
+                }
+
+                std::string error;
+
+                if (!m_pCoopSession->host(uint16_t(port), error, name, lobbyAddress))
+                {
+                    return commandResult(false, error);
+                }
+
+                return commandResult(true, "hosting on UDP port " + std::to_string(port)
+                    + (lobbyAddress.empty() ? std::string() : ", asking the lobby at " + lobbyAddress));
+            }
+
+            // coop find [lobby address]: the games on the local network, and a lobby's sessions. It waits a
+            // second for the answers.
+            if (action == "find")
+            {
+                if (context.args.size() > 2)
+                {
+                    return commandResult(false, "Usage: coop find [lobby address]");
+                }
+
+                CoopLobbyBrowser browser;
+                std::string error;
+                browser.refresh(Coop::DefaultPort, context.args.size() == 2 ? context.args[1] : std::string(), error);
+
+                for (int wait = 0; wait < 20; ++wait)
+                {
+                    SDL_Delay(50);
+                    browser.update();
+                }
+
+                std::string text = error.empty() ? std::string() : error + '\n';
+
+                for (const CoopLobbyBrowser::Entry &entry : browser.entries())
+                {
+                    text += (entry.code.empty() ? "local " + entry.address : "code " + entry.code) + ": " + entry.name
+                        + " (" + entry.world + ", " + entry.ruleset + ", " + std::to_string(entry.players) + "/"
+                        + std::to_string(entry.maxPlayers) + ")\n";
+                }
+
+                if (!browser.lobbyAnswered())
+                {
+                    text += "the lobby did not answer\n";
+                }
+
+                return commandResult(true, text.empty() ? "no games found" : text);
+            }
+
+            // coop join code <code> <lobby address> [character]: through a lobby, by a session's code.
+            // coop join relay <code> <lobby address>: the same through the lobby's relay only.
+            if (action == "join" && context.args.size() == 4 && toLowerCopy(context.args[1]) == "relay")
+            {
+                std::string error;
+
+                if (!m_pCoopSession->joinByCode(context.args[3], context.args[2], error, true))
+                {
+                    return commandResult(false, error);
+                }
+
+                return commandResult(true, "asking the lobby at " + context.args[3] + " to relay to "
+                    + context.args[2]);
+            }
+
+            if (action == "join" && context.args.size() >= 4 && toLowerCopy(context.args[1]) == "code")
+            {
+                std::string error;
+                std::optional<CharacterFile> character;
+                std::optional<std::filesystem::path> characterPath;
+
+                if (context.args.size() == 5)
+                {
+                    characterPath = characterFilePath(context.args[4]);
+                    character = characterPath ? readCharacterFile(*characterPath, error) : std::nullopt;
+
+                    if (!character)
+                    {
+                        return commandResult(false, error.empty() ? "that is no character file's name" : error);
+                    }
+                }
+
+                if (context.args.size() > 5 || !m_pCoopSession->joinByCode(context.args[3], context.args[2], error))
+                {
+                    return commandResult(false, error.empty() ? "Usage: coop join code <code> <lobby> [character]"
+                                                              : error);
+                }
+
+                if (character)
+                {
+                    m_pCoopSession->setJoinCharacter(std::move(*character), *characterPath);
+                }
+
+                return commandResult(true, "asking the lobby at " + context.args[3] + " for " + context.args[2]);
+            }
+
+            if (action == "join")
+            {
+                if (context.args.size() != 2 && context.args.size() != 3)
+                {
+                    return commandResult(false,
+                        "coop join takes the host's address, as host or host:port, and optionally a character file's "
+                        "name (coop character)");
+                }
+
+                std::string error;
+                std::optional<CharacterFile> character;
+                std::optional<std::filesystem::path> characterPath;
+
+                if (context.args.size() == 3)
+                {
+                    characterPath = characterFilePath(context.args[2]);
+                    character = characterPath ? readCharacterFile(*characterPath, error) : std::nullopt;
+
+                    if (!character)
+                    {
+                        return commandResult(false, error.empty() ? "that is no character file's name" : error);
+                    }
+                }
+
+                if (!m_pCoopSession->join(context.args[1], error))
+                {
+                    return commandResult(false, error);
+                }
+
+                if (character)
+                {
+                    const std::string who = character->describe();
+                    m_pCoopSession->setJoinCharacter(std::move(*character), *characterPath);
+                    return commandResult(true, "joining " + context.args[1] + " as " + who);
+                }
+
+                return commandResult(true, "joining " + context.args[1]);
+            }
+
+            // coop say <words>: a line of chat. coop ping [x y z]: points the players at a place (where the party
+            // stands when none is given). coop chat: the lines said so far, and the places pointed at.
+            // coop asksave: a guest's player asks the host to save, as the guest's save key does.
+            if (action == "asksave")
+            {
+                return m_pCoopSession->askHostToSave()
+                    ? commandResult(true, "asked the host to save")
+                    : commandResult(false, "only a joined guest asks, and not oftener than every ten seconds");
+            }
+
+            // coop password host|join [text]: what the next hosting asks of who joins, or the next joining gives.
+            if (action == "password" && context.args.size() >= 2)
+            {
+                const std::string side = toLowerCopy(context.args[1]);
+                const std::string password = context.args.size() >= 3 ? context.args[2] : std::string();
+
+                if (side == "host")
+                {
+                    m_pCoopSession->setHostPassword(password);
+                }
+                else if (side == "join")
+                {
+                    m_pCoopSession->setJoinPassword(password);
+                }
+                else
+                {
+                    return commandResult(false, "Usage: coop password host|join [text]");
+                }
+
+                return commandResult(true, password.empty() ? side + " password: none" : side + " password set");
+            }
+
+            // coop avatar [member]: which member of the party stands for this player in the others' games, its body
+            // and its face (1 the first); without a number, who does now.
+            if (action == "avatar" && context.args.size() <= 2)
+            {
+                const Party *pParty = m_gameSession.partyOfPlayer(LocalPlayer);
+                const size_t memberCount = pParty != nullptr ? pParty->members().size() : 0;
+
+                if (context.args.size() == 2)
+                {
+                    const int number = std::atoi(context.args[1].c_str());
+
+                    if (number < 1 || size_t(number) > std::max<size_t>(memberCount, 1))
+                    {
+                        return commandResult(false, "the party has members 1 to " + std::to_string(memberCount));
+                    }
+
+                    setCoopAvatarMember(size_t(number - 1));
+                }
+
+                const size_t avatar = m_pCoopSession->ownAvatarMember() < memberCount
+                    ? m_pCoopSession->ownAvatarMember() : 0;
+                const Character *pMember = pParty != nullptr ? pParty->member(avatar) : nullptr;
+                return commandResult(true, "the others see member " + std::to_string(avatar + 1)
+                    + (pMember != nullptr ? ": " + pMember->name + " (" + pMember->className + ")" : std::string()));
+            }
+
+            if (action == "say")
+            {
+                std::string text;
+
+                for (size_t index = 1; index < context.args.size(); ++index)
+                {
+                    text += (index > 1 ? " " : "") + context.args[index];
+                }
+
+                return commandResult(m_pCoopSession->sayChat(text), "said: " + text);
+            }
+
+            if (action == "ping")
+            {
+                const IGameplayWorldRuntime *pWorldRuntime = m_gameSession.activeWorldRuntime();
+
+                if (pWorldRuntime == nullptr || (context.args.size() != 1 && context.args.size() != 4))
+                {
+                    return commandResult(false, "Usage: coop ping [x y z]");
+                }
+
+                const bool placed = context.args.size() == 4;
+                const float x = placed ? std::strtof(context.args[1].c_str(), nullptr) : pWorldRuntime->partyX();
+                const float y = placed ? std::strtof(context.args[2].c_str(), nullptr) : pWorldRuntime->partyY();
+                const float z = placed ? std::strtof(context.args[3].c_str(), nullptr) : pWorldRuntime->partyFootZ();
+                return commandResult(m_pCoopSession->sendPing(x, y, z), "pointed at " + std::to_string(std::lround(x))
+                    + " " + std::to_string(std::lround(y)));
+            }
+
+            if (action == "chat")
+            {
+                std::string text;
+
+                for (const CoopSession::ChatLine &line : m_pCoopSession->chatLines())
+                {
+                    text += line.name + ": " + line.text + '\n';
+                }
+
+                for (const CoopSession::Ping &ping : m_pCoopSession->pings())
+                {
+                    text += ping.name + " points at " + std::to_string(std::lround(ping.x)) + " "
+                        + std::to_string(std::lround(ping.y)) + '\n';
+                }
+
+                return commandResult(true, text.empty() ? "nothing was said" : text);
+            }
+
+            // coop keep <name>: a guest keeps a copy of the host's whole world as a save of its own.
+            if (action == "keep")
+            {
+                std::string error;
+
+                const bool replace = context.args.size() == 3 && toLowerCopy(context.args[2]) == "replace";
+
+                if (context.args.size() != 2 && !replace)
+                {
+                    return commandResult(false, "Usage: coop keep <name> [replace]");
+                }
+
+                if (!m_pCoopSession->keepWorldCopy(context.args[1], replace, error))
+                {
+                    return commandResult(false, error);
+                }
+
+                return commandResult(true, "asked the host for a copy of its world");
+            }
+
+            // coop character: lists the character files; `save <name>` copies the game's character into one, which
+            // lives on by itself; `write` writes the file of a guest that joined with one, now.
+            if (action == "character")
+            {
+                std::string error;
+
+                if (context.args.size() == 1)
+                {
+                    std::string text;
+
+                    for (const std::filesystem::path &path : listCharacterFiles())
+                    {
+                        const std::optional<CharacterFile> file = readCharacterFile(path, error);
+                        text += path.stem().string() + ": "
+                            + (file ? file->describe() + ", written " + std::to_string(file->revision) + " times"
+                                    : error)
+                            + '\n';
+                    }
+
+                    return commandResult(true, text.empty() ? "no character files in saves/characters" : text);
+                }
+
+                if (context.args.size() == 3 && toLowerCopy(context.args[1]) == "save")
+                {
+                    const Party *pParty = m_gameSession.partyOfPlayer(LocalPlayer);
+                    const std::optional<std::filesystem::path> path = characterFilePath(context.args[2]);
+
+                    if (pParty == nullptr || !path)
+                    {
+                        return commandResult(false, "coop character save needs a game in progress and a name");
+                    }
+
+                    if (m_gameSession.coopReplica())
+                    {
+                        return commandResult(false, "a guest's character is written with coop character write");
+                    }
+
+                    CharacterFile file = makeCharacterFile(pParty->snapshot(), m_gameSession.ruleset());
+
+                    if (!writeCharacterFile(*path, file, error))
+                    {
+                        return commandResult(false, error);
+                    }
+
+                    return commandResult(true, "wrote " + path->string() + ": " + file.describe());
+                }
+
+                if (context.args.size() == 2 && toLowerCopy(context.args[1]) == "write")
+                {
+                    if (!m_pCoopSession->writeJoinCharacter(error))
+                    {
+                        return commandResult(false, error);
+                    }
+
+                    return commandResult(true, "wrote " + m_pCoopSession->joinCharacterPath()->string());
+                }
+
+                return commandResult(false,
+                    "Usage: coop character | coop character save <name> | coop character write");
+            }
+
+            // coop stepout: a guest leaves for its own game for now, its seat kept by the host. coop stepback: it
+            // joins that session again. coop away: who is away (a host's game), or what this game is away from.
+            if (action == "stepout" || action == "stepback")
+            {
+                std::string error;
+                const bool done = action == "stepout" ? m_pCoopSession->stepOut(std::nullopt, error)
+                    : m_pCoopSession->stepBack(error);
+                return done ? commandResult(true, action == "stepout" ? "asked the host to keep the seat"
+                                                                       : "joining the session again")
+                    : commandResult(false, error);
+            }
+
+            // coop propose <map file>: for testing. This game's player proposes the trip to the others, as an exit
+            // taken would (the map's own arrival point).
+            if (action == "propose" && context.args.size() == 2)
+            {
+                EventRuntimeState::PendingMapMove move = {};
+                move.mapName = context.args[1];
+
+                if (m_pCoopSession->joined())
+                {
+                    m_pCoopSession->proposeTravel(move);
+                    return commandResult(true, "asked the host to propose the trip");
+                }
+
+                if (!m_pCoopSession->hosting() || m_gameSession.guestPlayers().empty())
+                {
+                    return commandResult(false, "a trip is proposed in a session with other players");
+                }
+
+                m_gameSession.proposeTravel(std::move(move), LocalPlayer);
+                return commandResult(true, "proposed the trip");
+            }
+
+            // coop sync [player]: for testing. In a host's game every player is put beside the host, or beside
+            // the player named. In a guest's game this guest is put beside the host, where the host's test commands
+            // are on ([coop] test_commands, set by tools/coop_local).
+            if (action == "sync")
+            {
+                if (m_pCoopSession->joined())
+                {
+                    m_pCoopSession->askTestSync();
+                    return commandResult(true, "asked the host to bring this player to it");
+                }
+
+                std::string message;
+                const PlayerId around =
+                    context.args.size() >= 2 ? PlayerId(std::atoi(context.args[1].c_str())) : LocalPlayer;
+                const bool done = coopSyncPlayers(around, std::nullopt, message);
+                return commandResult(done, message);
+            }
+
+            if (action == "away")
+            {
+                if (const std::optional<CoopSession::AwayFrom> &away = m_pCoopSession->awayFrom())
+                {
+                    return commandResult(true, "away from " + away->hostName + "'s game");
+                }
+
+                return commandResult(true, std::to_string(m_pCoopSession->awaySeatCount()) + " seat(s) kept");
+            }
+
+            if (action == "leave")
+            {
+                if (!m_pCoopSession->hosting() && !m_pCoopSession->joined() && !m_pCoopSession->joining())
+                {
+                    return commandResult(false, "no network session to leave");
+                }
+
+                m_pCoopSession->leave();
+                return commandResult(true, "left the network session");
+            }
+
+            if (action == "net")
+            {
+                return commandResult(true, m_pCoopSession->describe());
+            }
+
+            if (action == "on" || action == "off")
+            {
+                if (context.args.size() != 1)
+                {
+                    return commandResult(false, "coop takes on or off");
+                }
+
+                if (action == "on" && m_gameSession.turnBasedCombatRuntime().active())
+                {
+                    return commandResult(false, "leave turn-based mode first: a co-op session has none");
+                }
+
+                m_gameSession.setCoopSession(action == "on");
+
+                if (m_gameSession.coopSession())
+                {
+                    m_fastMode = false;
+                }
+
+                return commandResult(true, m_gameSession.coopSession() ? "co-op session: on" : "co-op session: off");
+            }
+
+            if (action == "add")
+            {
+                // A second player with a copy of the local party, placed beside it: for scenarios and for looking
+                // at a co-op world before anything connects two games.
+                Party *pLocalParty = m_gameSession.partyOfPlayer(LocalPlayer);
+
+                if (!m_gameSession.coopSession() || pLocalParty == nullptr || pWorldRuntime == nullptr)
+                {
+                    return commandResult(false, "coop add needs a co-op session (coop on) and a loaded map");
+                }
+
+                if (context.args.size() != 1 && context.args.size() != 3)
+                {
+                    return commandResult(false, "Usage: coop add [dx dy]");
+                }
+
+                const float offsetX = context.args.size() == 3 ? std::strtof(context.args[1].c_str(), nullptr) : 128.0f;
+                const float offsetY = context.args.size() == 3 ? std::strtof(context.args[2].c_str(), nullptr) : 0.0f;
+                const GameplayPlayerBody body = {
+                    pWorldRuntime->partyX() + offsetX, pWorldRuntime->partyY() + offsetY, pWorldRuntime->partyFootZ(),
+                    0.0f};
+                const PlayerId player = m_gameSession.addGuestPlayer(*pLocalParty, body);
+                return commandResult(true, describePlayer(player));
+            }
+
+            const PlayerId player =
+                context.args.size() >= 2 ? PlayerId(std::atoi(context.args[1].c_str())) : LocalPlayer;
+
+            if (action == "remove" && context.args.size() == 2)
+            {
+                return m_gameSession.removeGuestPlayer(player)
+                    ? commandResult(true, "player " + context.args[1] + " removed")
+                    : commandResult(false, "no such guest player");
+            }
+
+            if (action == "pose" && context.args.size() == 5)
+            {
+                GameSession::GuestPlayer *pGuest = m_gameSession.guestPlayer(player);
+
+                if (pGuest == nullptr)
+                {
+                    return commandResult(false, "no such guest player");
+                }
+
+                pGuest->body.x = std::strtof(context.args[2].c_str(), nullptr);
+                pGuest->body.y = std::strtof(context.args[3].c_str(), nullptr);
+                pGuest->body.footZ = std::strtof(context.args[4].c_str(), nullptr);
+                // Its own game puts it there (without the order, the place it next reports could win).
+                ++pGuest->bodyOrderSerial;
+                return commandResult(true, describePlayer(player));
+            }
+
+            if (action == "check" && context.args.size() == 5)
+            {
+                const Party *pParty = m_gameSession.partyOfPlayer(player);
+
+                if (pParty == nullptr)
+                {
+                    return commandResult(false, "no such player");
+                }
+
+                const std::string field = toLowerCopy(context.args[2]);
+                const std::string &op = context.args[3];
+                const long long expected = std::atoll(context.args[4].c_str());
+                long long actual = 0;
+
+                if (field == "hp")
+                {
+                    actual = pParty->totalHealth();
+                }
+                else if (field == "max_hp")
+                {
+                    actual = pParty->totalMaxHealth();
+                }
+                else if (field == "hp_lost")
+                {
+                    // Since the player's last `coop mark`.
+                    const auto mark = std::find_if(m_coopHealthMarks.begin(), m_coopHealthMarks.end(),
+                        [player](const std::pair<PlayerId, long long> &known) { return known.first == player; });
+
+                    if (mark == m_coopHealthMarks.end())
+                    {
+                        return commandResult(false, "no coop mark for that player yet");
+                    }
+
+                    actual = mark->second - static_cast<long long>(pParty->totalHealth());
+                }
+                else if (field == "hurt")
+                {
+                    actual = pParty->totalHealth() < pParty->totalMaxHealth() ? 1 : 0;
+                }
+                else if (field == "xp")
+                {
+                    for (const Character &member : pParty->members())
+                    {
+                        actual += static_cast<long long>(member.experience);
+                    }
+                }
+                else if (field == "gold")
+                {
+                    actual = pParty->gold();
+                }
+                else if (field == "food")
+                {
+                    actual = pParty->food();
+                }
+                else if (field == "down")
+                {
+                    actual = pParty->hasActableMember() ? 0 : 1;
+                }
+                else if (field == "members")
+                {
+                    actual = static_cast<long long>(pParty->members().size());
+                }
+                else if (field == "day")
+                {
+                    // The calendar is everyone's: the day the game is on, counted from its start.
+                    const IGameplayWorldRuntime *pWorldRuntime = m_gameSession.activeWorldRuntime();
+                    actual = pWorldRuntime != nullptr
+                        ? static_cast<long long>(pWorldRuntime->gameMinutes() / (24.0f * 60.0f))
+                        : 0;
+                }
+                else if (field == "quest_items")
+                {
+                    // The world's quest pouch, which every party of the game shares.
+                    actual = static_cast<long long>(pParty->campaign().questPouch().size());
+                }
+                else if (field == "bag_items")
+                {
+                    for (const Character &member : pParty->members())
+                    {
+                        actual += static_cast<long long>(member.inventory.size());
+                    }
+                }
+                else if (field == "auras")
+                {
+                    // The auras the ruleset keeps for the party (MAW).
+                    actual = static_cast<long long>(pParty->rulesetState().auraHolders.size());
+                }
+                else
+                {
+                    return commandResult(false,
+                        "coop check knows hp, max_hp, hp_lost, hurt, xp, gold, food, down, day, auras, quest_items and "
+                        "bag_items");
+                }
+
+                const bool holds = op == "<" ? actual < expected
+                    : op == "<=" ? actual <= expected
+                    : op == "=" ? actual == expected
+                    : op == ">=" ? actual >= expected
+                    : op == ">" ? actual > expected
+                    : false;
+                const std::string text = "player " + context.args[1] + ' ' + field + " is " + std::to_string(actual)
+                    + ", checked " + op + ' ' + context.args[4];
+                return commandResult(holds, text);
+            }
+
+            // Another player's answer to the asking to rest, or what is asked.
+            if (action == "rest" && (context.args.size() == 1 || context.args.size() == 3))
+            {
+                if (context.args.size() == 3)
+                {
+                    const std::optional<int32_t> playerArgument = parseInt32Argument(context.args[1]);
+                    const std::string answer = toLowerCopy(context.args[2]);
+
+                    if (!playerArgument || (answer != "yes" && answer != "no")
+                        || !m_gameSession.answerRestProposal(PlayerId(*playerArgument), answer == "yes"))
+                    {
+                        return commandResult(false, "Usage: coop rest <player> yes|no, while a rest is asked");
+                    }
+                }
+
+                const std::optional<GameSession::RestProposal> &rest = m_gameSession.restProposal();
+                return commandResult(true, rest
+                    ? std::string(rest->heal ? "rest" : "wait") + " of " + std::to_string(int(rest->minutes))
+                        + " minutes asked by player " + std::to_string(int(rest->proposer)) + ", "
+                        + std::to_string(rest->accepted.size()) + " agreed"
+                    : "no rest is asked");
+            }
+
+            // The stock screen this game's player has open: what it shows, or a slot bought as a click on it buys it
+            // (in a guest's game the host does the buying).
+            if (action == "shop" && (context.args.size() == 1 || context.args.size() == 3))
+            {
+                GameplayScreenRuntime &screenRuntime = m_gameSession.gameplayScreenRuntime();
+                const GameplayUiController::HouseShopOverlayState &overlay = screenRuntime.houseShopOverlay();
+                const HouseEntry *pHouseEntry =
+                    overlay.active ? m_gameDataLoader.getHouseTable().get(overlay.houseId) : nullptr;
+                const std::optional<HouseStockMode> stockMode =
+                    overlay.mode == GameplayUiController::HouseShopMode::BuyStandard
+                        ? std::optional(HouseStockMode::ShopStandard)
+                    : overlay.mode == GameplayUiController::HouseShopMode::BuySpecial
+                        ? std::optional(HouseStockMode::ShopSpecial)
+                    : overlay.mode == GameplayUiController::HouseShopMode::BuySpellbooks
+                        ? std::optional(HouseStockMode::GuildSpellbooks)
+                    : std::nullopt;
+
+                if (pHouseEntry == nullptr || !stockMode)
+                {
+                    return commandResult(context.args.size() == 1, "no stock screen is open");
+                }
+
+                if (context.args.size() == 3)
+                {
+                    const std::optional<int32_t> slot = parseInt32Argument(context.args[2]);
+
+                    if (toLowerCopy(context.args[1]) != "buy" || !slot || *slot < 0)
+                    {
+                        return commandResult(false, "Usage: coop shop [buy <slot>]");
+                    }
+
+                    if (IPlayerCommandRemote *pRemote = m_gameSession.playerCommands().remote(); pRemote != nullptr)
+                    {
+                        pRemote->houseStockAction(HouseStockAction::Buy, *stockMode, size_t(*slot));
+                    }
+                    else
+                    {
+                        GameplayOverlayInputController::performHouseStockAction(
+                            screenRuntime, *pHouseEntry, *stockMode, size_t(*slot), HouseStockAction::Buy);
+                    }
+                }
+
+                Party *pParty = m_gameSession.partyOfPlayer(LocalPlayer);
+                IGameplayWorldRuntime *pWorldRuntime = m_gameSession.activeWorldRuntime();
+                size_t filled = 0;
+
+                for (const InventoryItem &item : HouseServiceRuntime::ensureStock(
+                         *pParty, m_gameDataLoader.getItemTable(), m_gameDataLoader.getStandardItemEnchantTable(),
+                         m_gameDataLoader.getSpecialItemEnchantTable(), *pHouseEntry,
+                         pWorldRuntime != nullptr ? pWorldRuntime->gameMinutes() : 0.0f, *stockMode))
+                {
+                    filled += item.objectDescriptionId != 0 ? 1 : 0;
+                }
+
+                return commandResult(true, "stock of " + pHouseEntry->name + ": " + std::to_string(filled)
+                    + " things, the party has " + std::to_string(pParty->gold()) + " gold");
+            }
+
+            // The dialogue the host keeps open for another player: what it shows, a choice by its place, or closing it.
+            if (action == "dialog" && (context.args.size() == 2 || context.args.size() == 3))
+            {
+                GameSession::GuestPlayer *pGuest = m_gameSession.guestPlayer(player);
+
+                if (pGuest == nullptr)
+                {
+                    return commandResult(false, "coop dialog takes another player of the session");
+                }
+
+                PlayerCommands &commands = m_gameSession.playerCommands();
+
+                if (context.args.size() == 3 && toLowerCopy(context.args[2]) == "close")
+                {
+                    commands.dialogueClose(player);
+                }
+                else if (context.args.size() == 3)
+                {
+                    const std::optional<int32_t> choice = parseInt32Argument(context.args[2]);
+                    const EventDialogContent &dialog = pGuest->ui.eventDialog().content;
+
+                    if (!choice || *choice < 0 || size_t(*choice) >= dialog.actions.size())
+                    {
+                        return commandResult(false, "the dialogue has no such choice");
+                    }
+
+                    // A copy: the choice may change the dialogue it is read from.
+                    const EventDialogAction chosen = dialog.actions[size_t(*choice)];
+
+                    if (!commands.dialogueAction(player, size_t(*choice), chosen, false))
+                    {
+                        return commandResult(false, "the choice was refused");
+                    }
+                }
+
+                const EventDialogContent &dialog = pGuest->ui.eventDialog().content;
+                std::string text = "player " + std::to_string(int(player))
+                    + (dialog.isActive ? " has a dialogue open: " + dialog.title : " has no dialogue open");
+
+                for (size_t index = 0; dialog.isActive && index < dialog.actions.size(); ++index)
+                {
+                    text += "\n" + std::to_string(index) + ": " + dialog.actions[index].label;
+                }
+
+                return commandResult(true, text);
+            }
+
+            if (action == "chest" && (context.args.size() == 2 || context.args.size() == 3))
+            {
+                if (m_gameSession.partyOfPlayer(player) == nullptr)
+                {
+                    return commandResult(false, "no such player");
+                }
+
+                PlayerCommands &commands = m_gameSession.playerCommands();
+                const std::string chestAction = context.args.size() == 3 ? toLowerCopy(context.args[2]) : "show";
+                std::string taken;
+
+                if (chestAction == "take")
+                {
+                    taken = ", took " + std::to_string(
+                        commands.takeAllFromOpenChest(player, m_gameDataLoader.getItemTable()));
+                }
+                else if (chestAction == "close")
+                {
+                    commands.closeOpenChestAndCorpse(player);
+                }
+                else if (chestAction != "show")
+                {
+                    return commandResult(false, "Usage: coop chest <player> [show|take|close]");
+                }
+
+                const std::optional<GameplayChestViewState> chest = commands.openChest(player);
+                return commandResult(
+                    true,
+                    "player " + std::to_string(player)
+                        + (chest ? " has chest " + std::to_string(chest->chestId) + " open, "
+                                + std::to_string(chest->items.size()) + " things in it"
+                                 : " has no chest open")
+                        + taken);
+            }
+
+            if (action == "mark" && context.args.size() == 2)
+            {
+                const Party *pParty = m_gameSession.partyOfPlayer(player);
+
+                if (pParty == nullptr)
+                {
+                    return commandResult(false, "no such player");
+                }
+
+                std::erase_if(m_coopHealthMarks,
+                    [player](const std::pair<PlayerId, long long> &known) { return known.first == player; });
+                m_coopHealthMarks.emplace_back(player, static_cast<long long>(pParty->totalHealth()));
+                return commandResult(true, "player " + context.args[1] + " marked at "
+                    + std::to_string(pParty->totalHealth()) + " hit points");
+            }
+
+            if (action == "damage" && context.args.size() == 3)
+            {
+                Party *pParty = m_gameSession.partyOfPlayer(player);
+
+                if (pParty == nullptr)
+                {
+                    return commandResult(false, "no such player");
+                }
+
+                pParty->applyDamageToAllLivingMembers(std::atoi(context.args[2].c_str()), std::string());
+                return commandResult(true, describePlayer(player));
+            }
+
+            if (action == "return" && context.args.size() == 2)
+            {
+                // In a guest's game the host returns the player, as its Use key asks.
+                if (IPlayerCommandRemote *pRemote = m_gameSession.playerCommands().remote();
+                    pRemote != nullptr && player == LocalPlayer)
+                {
+                    pRemote->returnDowned();
+                    return commandResult(true, "asked the host to return this player");
+                }
+
+                std::string message;
+                const bool returned = returnDownedPlayer(player, message);
+                return commandResult(returned, message);
+            }
+
+            if (action == "vote" && context.args.size() == 2 && toLowerCopy(context.args[1]) == "force")
+            {
+                return m_gameSession.forceTravelProposal()
+                    ? commandResult(true, "travel forced")
+                    : commandResult(false, "no travel proposal is old enough to force");
+            }
+
+            if (action == "vote" && context.args.size() == 3)
+            {
+                const std::string answer = toLowerCopy(context.args[2]);
+
+                if (answer != "yes" && answer != "no")
+                {
+                    return commandResult(false, "coop vote takes yes or no");
+                }
+
+                return m_gameSession.answerTravelProposal(player, answer == "yes")
+                    ? commandResult(true, "player " + context.args[1] + " voted " + answer)
+                    : commandResult(false, "no travel proposal waits for that player");
+            }
+
+            return commandResult(false, "Usage: coop [on | off | show | add [dx dy] | remove <player>"
+                                        " | pose <player> <x> <y> <z> | check <player> <field> <op> <value>"
+                                        " | damage <player> <amount> | chest <player> [show|take|close]"
+                                        " | return <player> | vote <player> yes|no"
+                                        " | vote force]");
+        }});
+
+    m_debugConsole.registerCommand({
         .name = "ruleset",
         .description = "Show the game's ruleset; change its difficulty or MAW's level banks; make it a solo run.",
         .usage = "ruleset [difficulty <id> | solo | banks <mm8> <mm7> <mm6> <mm9> | maplevels <file.tsv> [banked]"
@@ -3178,7 +4186,8 @@ void GameApplication::registerDebugConsoleCommands()
                     text += ", banked levels " + std::to_string(int(state.continentLevels[0])) + "/"
                         + std::to_string(int(state.continentLevels[1])) + "/"
                         + std::to_string(int(state.continentLevels[2])) + "/"
-                        + std::to_string(int(state.continentLevels[3]));
+                        + std::to_string(int(state.continentLevels[3])) + "/"
+                        + std::to_string(int(state.continentLevels[4]));
                 }
                 return text;
             };
@@ -3220,15 +4229,18 @@ void GameApplication::registerDebugConsoleCommands()
                 }
                 return commandResult(true, describe());
             }
-            if (context.args.size() == 5 && toLowerCopy(context.args[0]) == "banks" && pMawRules != nullptr)
+            // Xeen's bank is optional (0 when left out).
+            if ((context.args.size() == 5 || context.args.size() == 6) && toLowerCopy(context.args[0]) == "banks"
+                && pMawRules != nullptr)
             {
                 MawGameState state = pMawRules->state();
-                for (size_t continent = 0; continent < MawGameState::ContinentCount; ++continent)
+                state.continentLevels[4] = 0;
+                for (size_t continent = 0; continent + 1 < context.args.size(); ++continent)
                 {
                     const std::optional<float> level = parseFloatArgument(context.args[continent + 1]);
                     if (!level || *level < 0)
                     {
-                        return commandResult(false, "Usage: ruleset banks <mm8> <mm7> <mm6> <mm9>");
+                        return commandResult(false, "Usage: ruleset banks <mm8> <mm7> <mm6> <mm9> [xeen]");
                     }
                     state.continentLevels[continent] = *level;
                 }
@@ -4349,7 +5361,7 @@ void GameApplication::registerDebugConsoleCommands()
                 // As a hire does, without the fee: its key unlocks the dismissal and service rows of its dialogue.
                 if (pRow->hireQBit != 0)
                 {
-                    pParty->setQuestBit(pRow->hireQBit, true);
+                    pParty->campaign().setQuestBit(pRow->hireQBit, true);
                 }
 
                 return commandResult(true, pRow->name + " joins the party.");
@@ -4992,7 +6004,11 @@ void GameApplication::registerDebugConsoleCommands()
 
             if (context.args.empty() || toLowerCopy(context.args[0]) == "get")
             {
-                return commandResult(true, "Current date: " + formatDebugGameDate(m_gameSession.gameMinutes()));
+                // The loaded map's running clock; the session's copy is as old as the last hand-over from the map.
+                const IGameplayWorldRuntime *pWorldRuntime = m_gameSession.activeWorldRuntime();
+                const float minutes =
+                    pWorldRuntime != nullptr ? pWorldRuntime->gameMinutes() : m_gameSession.gameMinutes();
+                return commandResult(true, "Current date: " + formatDebugGameDate(minutes));
             }
 
             const std::string action = toLowerCopy(context.args[0]);
@@ -5437,7 +6453,7 @@ void GameApplication::registerDebugConsoleCommands()
                 {"creature_outlines", &m_settings.creatureOutlines}, {"light_grid", &m_settings.lightGridEnabled},
                 {"surface_materials", &m_settings.surfaceMaterials}, {"surface_parallax", &m_settings.surfaceParallax},
                 {"surface_reflections", &m_settings.surfaceReflections},
-                {"freeze", &m_renderFreezeWorld}, {"hud", &m_renderHud}};
+                {"freeze", &m_renderFreezeWorld}, {"hud", &m_renderHud}, {"undrawn", &m_renderUndrawnFrames}};
             const auto describe = [&]()
             {
                 std::ostringstream out;
@@ -6480,7 +7496,7 @@ void GameApplication::registerDebugConsoleCommands()
 
                 if (activeOnly)
                 {
-                    qbitIds.insert(snapshot.questBits.begin(), snapshot.questBits.end());
+                    qbitIds.insert(snapshot.campaign.questBits.begin(), snapshot.campaign.questBits.end());
                 }
                 else
                 {
@@ -6499,7 +7515,7 @@ void GameApplication::registerDebugConsoleCommands()
                         qbitIds.insert(entry.qbitId);
                     }
 
-                    for (uint32_t qbitId : snapshot.questBits)
+                    for (uint32_t qbitId : snapshot.campaign.questBits)
                     {
                         if (allRows)
                         {
@@ -6524,7 +7540,7 @@ void GameApplication::registerDebugConsoleCommands()
                         continue;
                     }
 
-                    const bool isActive = snapshot.questBits.contains(qbitId);
+                    const bool isActive = snapshot.campaign.questBits.contains(qbitId);
 
                     if (activeOnly && !isActive)
                     {
@@ -6585,7 +7601,7 @@ void GameApplication::registerDebugConsoleCommands()
                             out << ", ";
                         }
 
-                        out << "qbit " << id << "=" << boolString(pParty->hasQuestBit(id));
+                        out << "qbit " << id << "=" << boolString(pParty->campaign().hasQuestBit(id));
                     }
 
                     return out.str();
@@ -6600,7 +7616,7 @@ void GameApplication::registerDebugConsoleCommands()
             {
                 for (uint32_t id : qbitIds)
                 {
-                    pParty->setQuestBit(id, true);
+                    pParty->campaign().setQuestBit(id, true);
                 }
 
                 return commandResult(true, formatQBitResults(qbitIds));
@@ -6610,7 +7626,7 @@ void GameApplication::registerDebugConsoleCommands()
             {
                 for (uint32_t id : qbitIds)
                 {
-                    pParty->setQuestBit(id, false);
+                    pParty->campaign().setQuestBit(id, false);
                 }
 
                 return commandResult(true, formatQBitResults(qbitIds));
@@ -6622,7 +7638,8 @@ void GameApplication::registerDebugConsoleCommands()
 
     m_debugConsole.registerCommand({
         .name = "ledger",
-        .description = "Inspect or give the party's Ledgers of Teachers (1 Jadame, 2 Antagarich, 3 Enroth, 5 Chedian).",
+        .description = "Inspect or give the party's Ledgers of Teachers (a continent id: 1 Jadame, 2 Antagarich, 3 Enroth, "
+            "5 Chedian, 6 Xeen).",
         .usage = "ledger get | ledger set <continent|all>",
         .callback = [this, activeParty, commandResult](const DebugConsole::CommandContext &context)
         {
@@ -6634,6 +7651,7 @@ void GameApplication::registerDebugConsoleCommands()
             }
 
             const std::string action = context.args.empty() ? "get" : toLowerCopy(context.args[0]);
+            const TrainerDirectory &directory = m_gameSession.data().trainerDirectory();
             std::vector<uint32_t> continents;
 
             if (action != "get")
@@ -6645,12 +7663,15 @@ void GameApplication::registerDebugConsoleCommands()
 
                 if (toLowerCopy(context.args[1]) == "all")
                 {
-                    continents.assign(TrainerContinents.begin(), TrainerContinents.end());
+                    for (const TrainerContinent &continent : directory.continents())
+                    {
+                        continents.push_back(continent.id);
+                    }
                 }
                 else if (const std::optional<int32_t> continent = parseInt32Argument(context.args[1]);
-                         continent && !trainerContinentName(uint32_t(*continent)).empty())
+                         continent && directory.cardContinent(uint32_t(*continent)))
                 {
-                    continents.push_back(uint32_t(*continent));
+                    continents.push_back(*directory.cardContinent(uint32_t(*continent)));
                 }
                 else
                 {
@@ -6666,16 +7687,15 @@ void GameApplication::registerDebugConsoleCommands()
                 for (uint32_t autonoteId :
                     m_gameSession.data().trainerDirectory().forParty(*pParty).continentAutonotes(continent))
                 {
-                    pParty->setAutonote(autonoteId, true);
+                    pParty->campaign().setAutonote(autonoteId, true);
                 }
             }
 
             std::ostringstream out;
 
-            for (uint32_t continent : TrainerContinents)
+            for (const TrainerContinent &continent : directory.continents())
             {
-                out << trainerContinentName(continent) << "=" << (pParty->hasTeacherLedger(continent) ? "bought" : "-")
-                    << ' ';
+                out << continent.name << "=" << (pParty->hasTeacherLedger(continent.id) ? "bought" : "-") << ' ';
             }
 
             return commandResult(true, out.str());
@@ -6704,7 +7724,7 @@ void GameApplication::registerDebugConsoleCommands()
 
                 for (const JournalAutonoteEntry &entry : entries)
                 {
-                    pParty->setAutonote(entry.id, true);
+                    pParty->campaign().setAutonote(entry.id, true);
                 }
 
                 return commandResult(true, "Unlocked " + std::to_string(entries.size()) + " autonotes.");
@@ -6728,10 +7748,11 @@ void GameApplication::registerDebugConsoleCommands()
 
                 if (action != "get")
                 {
-                    pParty->setAutonote(uint32_t(*autonoteId), action == "set");
+                    pParty->campaign().setAutonote(uint32_t(*autonoteId), action == "set");
                 }
 
-                out << *autonoteId << " [" << (pParty->hasAutonote(uint32_t(*autonoteId)) ? "set" : "clear") << "]\n";
+                const bool noted = pParty->campaign().hasAutonote(uint32_t(*autonoteId));
+                out << *autonoteId << " [" << (noted ? "set" : "clear") << "]\n";
             }
 
             return commandResult(true, out.str());
@@ -6791,9 +7812,9 @@ void GameApplication::registerDebugConsoleCommands()
             else
             {
                 const std::unordered_map<uint32_t, uint32_t>::const_iterator partyGreetingIt =
-                    partySnapshot.npcGreetingOverrides.find(npcId);
+                    partySnapshot.campaign.npcGreetingOverrides.find(npcId);
 
-                if (partyGreetingIt != partySnapshot.npcGreetingOverrides.end())
+                if (partyGreetingIt != partySnapshot.campaign.npcGreetingOverrides.end())
                 {
                     greetingId = partyGreetingIt->second;
                     pSource = "party override";
@@ -6802,7 +7823,7 @@ void GameApplication::registerDebugConsoleCommands()
 
             const std::unordered_map<uint32_t, uint32_t> *pDisplayCounts =
                 pRuntimeState != nullptr ? &pRuntimeState->npcGreetingDisplayCounts
-                                         : &partySnapshot.npcGreetingDisplayCounts;
+                                         : &partySnapshot.campaign.npcGreetingDisplayCounts;
             const std::unordered_map<uint32_t, uint32_t>::const_iterator displayIt = pDisplayCounts->find(npcId);
 
             if (displayIt != pDisplayCounts->end())
@@ -6856,7 +7877,7 @@ void GameApplication::registerDebugConsoleCommands()
                 return commandResult(false, "Unknown greeting id.");
             }
 
-            pParty->setNpcGreetingOverride(npcId, greetingId);
+            pParty->campaign().setNpcGreetingOverride(npcId, greetingId);
 
             if (pRuntimeState != nullptr)
             {
@@ -7273,7 +8294,7 @@ void GameApplication::registerDebugConsoleCommands()
                     return commandResult(false, "Unknown Arcomage tavern house id: " + std::to_string(houseId));
                 }
 
-                const bool firstWin = !pParty->hasArcomageWinAt(houseId);
+                const bool firstWin = !pParty->campaign().hasArcomageWinAt(houseId);
                 const int goldReward = firstWin ? static_cast<int>(pHouseEntry->priceMultiplier * 100.0f) : 0;
                 const uint32_t firstWinAwardId = pRule->firstWinAwardId;
                 pParty->recordArcomageWin(houseId, goldReward, firstWinAwardId);
@@ -7294,7 +8315,7 @@ void GameApplication::registerDebugConsoleCommands()
 
             out << "; first_wins=" << firstWinCount
                 << "; gold=" << totalGoldReward
-                << "; qbit174=" << boolString(pParty->hasQuestBit(174))
+                << "; qbit174=" << boolString(pParty->campaign().hasQuestBit(174))
                 << "; award41=" << boolString(pParty->hasAward(41));
             return commandResult(true, out.str());
         }});
@@ -7774,8 +8795,8 @@ void GameApplication::registerDebugConsoleCommands()
             pRuntimeState->unavailableNpcIds.insert(selectedNpc->id);
             pRuntimeState->npcHouseOverrides.erase(selectedNpc->id);
             pParty->addHiredNpcFollower(follower);
-            pParty->setNpcUnavailable(selectedNpc->id, true);
-            pParty->clearNpcHouseOverride(selectedNpc->id);
+            pParty->campaign().setNpcUnavailable(selectedNpc->id, true);
+            pParty->campaign().clearNpcHouseOverride(selectedNpc->id);
 
             if (m_pMapSceneRuntime != nullptr)
             {
@@ -9039,7 +10060,7 @@ bool GameApplication::processPendingDebugMapJump()
     MapLoadTimingLogger timingLogger(pTargetMap->fileName, "debug_map_jump");
     timingLogger.stage("world activated");
 
-    beginLoadingOverlay(LoadingOverlayScreen::Presentation::Fullscreen);
+    beginLoadingOverlay(LoadingOverlayScreen::Presentation::Fullscreen, pTargetMap->fileName);
     renderLoadingOverlayProgress(15);
     timingLogger.stage("loading overlay begun");
 
@@ -9264,7 +10285,7 @@ void GameApplication::handleSdlEvent(const SDL_Event &event)
         }
     }
 
-    if (handlePendingInputPromptSdlEvent(event))
+    if (handleCoopChatSdlEvent(event) || handlePendingInputPromptSdlEvent(event))
     {
         return;
     }
@@ -9334,7 +10355,7 @@ bool GameApplication::applicationTextInputActive() const
         return pActiveScreen->textInputActive();
     }
 
-    if (pendingInputPromptActive())
+    if (pendingInputPromptActive() || m_coopChatEntry)
     {
         return true;
     }
@@ -9348,6 +10369,148 @@ bool GameApplication::applicationTextInputActive() const
         || GameplayUiController::journalSearchActive(gameplayScreenRuntime.journalScreenStateReadOnly())
         || GameplayUiController::spellbookSearchActive(gameplayScreenRuntime.spellbookReadOnly())
         || GameplaySoloBarSelector::isOpen(gameplayScreenRuntime);
+}
+
+bool GameApplication::handleCoopChatSdlEvent(const SDL_Event &event)
+{
+    if (!m_coopChatEntry)
+    {
+        return false;
+    }
+
+    if (event.type == SDL_EVENT_TEXT_INPUT)
+    {
+        if (event.text.text != nullptr)
+        {
+            Engine::Utf8::appendPrintable(*m_coopChatEntry, event.text.text, Coop::MaxChatLength / 2);
+        }
+
+        return true;
+    }
+
+    // While the line is open every key is the line's: none reaches the game.
+    if (event.type != SDL_EVENT_KEY_DOWN)
+    {
+        return event.type == SDL_EVENT_KEY_UP;
+    }
+
+    switch (event.key.key)
+    {
+        case SDLK_RETURN:
+        case SDLK_KP_ENTER:
+            m_pCoopSession->sayChat(*m_coopChatEntry);
+            m_coopChatEntry.reset();
+            break;
+
+        case SDLK_ESCAPE:
+            m_coopChatEntry.reset();
+            break;
+
+        case SDLK_BACKSPACE:
+            Engine::Utf8::popBack(*m_coopChatEntry);
+            break;
+
+        default:
+            break;
+    }
+
+    return true;
+}
+
+void GameApplication::updateCoopChat(int width, int height)
+{
+    GameplayScreenRuntime &screenRuntime = m_gameSession.gameplayScreenRuntime();
+    const bool inSession = m_pCoopSession->hosting() || m_pCoopSession->joined();
+
+    if (!inSession)
+    {
+        m_coopChatEntry.reset();
+        m_coopChatShownSerial = m_pCoopSession->chatSerial();
+        m_coopChatOpenedPanel = false;
+        return;
+    }
+
+    // What was said since the last frame goes into the log, where the players read it, and onto the status bar,
+    // so that a line is seen while the log is closed.
+    const std::deque<CoopSession::ChatLine> &lines = m_pCoopSession->chatLines();
+    const uint32_t serial = m_pCoopSession->chatSerial();
+    const size_t unseen = std::min<size_t>(serial - m_coopChatShownSerial, lines.size());
+
+    for (size_t index = lines.size() - unseen; index < lines.size(); ++index)
+    {
+        CombatLogEntry entry;
+        entry.kind = CombatLogKind::Chat;
+        entry.attacker = lines[index].name;
+        entry.target = lines[index].text;
+        screenRuntime.combatLog().add(std::move(entry), false);
+
+        if (lines[index].player != m_pCoopSession->ownPlayer())
+        {
+            screenRuntime.setStatusBarEvent(lines[index].name + ": " + lines[index].text, 5.0f);
+        }
+
+        // The first thing said in a session opens the panel it is read in; after that the player's own toggle
+        // holds.
+        if (!m_coopChatOpenedPanel)
+        {
+            m_coopChatOpenedPanel = true;
+            screenRuntime.combatLogPanel().setOpen(true);
+        }
+    }
+
+    m_coopChatShownSerial = serial;
+
+    if (m_coopChatEntry)
+    {
+        // The line being typed, with its caret.
+        screenRuntime.setStatusBarEvent(Engine::tr("Say: {text}", {{"text", *m_coopChatEntry + "_"}}), 0.2f);
+        return;
+    }
+
+    if (screenRuntime.currentHudScreenState() != GameplayHudScreenState::Gameplay
+        || m_debugConsole.wantsGameplayInputBlocked())
+    {
+        return;
+    }
+
+    const GameplayInputFrame &inputFrame = m_gameInputSystem.frame();
+
+    if (inputFrame.action(KeyboardAction::CoopChat).pressed)
+    {
+        m_coopChatEntry.emplace();
+        return;
+    }
+
+    IGameplayWorldRuntime *pWorldRuntime = m_gameSession.activeWorldRuntime();
+
+    if (!inputFrame.action(KeyboardAction::CoopPing).pressed || pWorldRuntime == nullptr)
+    {
+        return;
+    }
+
+    // The place under the middle of the view: what the player looks at.
+    const GameplayWorldPickRequest request = pWorldRuntime->buildWorldPickRequest(
+        GameplayWorldPickRequestInput{float(width) * 0.5f, float(height) * 0.5f, width, height, true});
+    const GameplayWorldHit hit = pWorldRuntime->pickMouseInteractionTarget(request);
+    bx::Vec3 point = {pWorldRuntime->partyX(), pWorldRuntime->partyY(), pWorldRuntime->partyFootZ()};
+
+    if (hit.ground && hit.ground->isValid)
+    {
+        point = hit.ground->worldPoint;
+    }
+    else if (hit.actor)
+    {
+        point = hit.actor->hitPoint;
+    }
+    else
+    {
+        // Nothing under it within reach: a stretch ahead of the player, at the height it stands.
+        const float yaw = pWorldRuntime->gameplayCameraYawRadians();
+        point.x += std::cos(yaw) * 1024.0f;
+        point.y += std::sin(yaw) * 1024.0f;
+    }
+
+    m_pCoopSession->sendPing(point.x, point.y, point.z);
 }
 
 bool GameApplication::handlePendingInputPromptSdlEvent(const SDL_Event &event)
@@ -10644,6 +11807,7 @@ bool GameApplication::buildSelectedMapRuntime(bool initializeView)
     MapLoadTimingLogger timingLogger(selectedMap->map.fileName, "selected_map_runtime");
     m_gameSession.setCurrentMapLayoutIdentity(selectedMap->layoutIdentity);
     m_mapStateResetNotice = resetSavedMapStateOfAnotherLayout(m_gameSession, *selectedMap, m_loadingSavedGameRuntime);
+    m_lastMapLoadResetState = !m_mapStateResetNotice.empty();
     // The map's cinematics (<stem>.cinematics.yml beside it), before its load events run: they may start one.
     m_gameSession.stopCinematics();
     m_gameSession.setMapCinematics(loadMapCinematics(*selectedMap));
@@ -10723,8 +11887,9 @@ bool GameApplication::buildSelectedMapRuntime(bool initializeView)
         const OutdoorWorldRuntime::Snapshot *pSavedOutdoorState =
             findSavedOutdoorWorldState(m_gameSession, *selectedMap);
         // A dimension map refills the map it opens (MAW).
+        // A replica's map is as its host sent it: the host has refilled it already when that was due.
         const bool outdoorTimedRespawn =
-            pSavedOutdoorState != nullptr
+            pSavedOutdoorState != nullptr && !m_gameSession.coopReplica()
                 && (boundGameRules().monsters.mapRefillForced(selectedMap->map.fileName)
                     || (!loadsMapInstance(m_gameSession, *selectedMap)
                         && timedMapRespawnDue(selectedMap->map, pSavedOutdoorState->locationInfo, currentMapDay)));
@@ -10761,8 +11926,11 @@ bool GameApplication::buildSelectedMapRuntime(bool initializeView)
         }
 
         m_pOutdoorWorldRuntime = std::make_unique<OutdoorWorldRuntime>();
+        m_pOutdoorWorldRuntime->setReplica(m_gameSession.coopReplica());
         m_pOutdoorWorldRuntime->setPartyCollisionDimensions(partyCollisionRadius, partyCollisionHeight);
         m_pOutdoorWorldRuntime->setBolsterMonstersEnabled(m_settings.bolsterMonsters);
+        m_pOutdoorWorldRuntime->setActorNpcNames(
+            {&m_gameDataLoader.getNpcDialogTable(), &m_gameDataLoader.getMergedNpcProfessionTable()});
         m_pOutdoorWorldRuntime->initialize(
             selectedMap->map,
             m_gameDataLoader.getMonsterTable(),
@@ -10854,23 +12022,32 @@ bool GameApplication::buildSelectedMapRuntime(bool initializeView)
 
             EventRuntime eventRuntime(&m_gameDataLoader.getHouseTable(), &m_gameDataLoader.getNpcDialogTable());
 
-            eventRuntime.executeOnLoadEvents(
-                selectedMap->localEventProgram,
-                selectedMap->globalEventProgram,
-                *pEventRuntimeState,
-                &m_pOutdoorPartyRuntime->party(),
-                m_pOutdoorWorldRuntime.get());
-            eventRuntime.executeMapRefillHooks(
-                selectedMap->localEventProgram,
-                selectedMap->globalEventProgram,
-                selectedMap->outdoorMapDeltaData,
-                *pEventRuntimeState,
-                &m_pOutdoorPartyRuntime->party(),
-                m_pOutdoorWorldRuntime.get());
+            // A replica's host has run the map's load events; their results are in the state it sent.
+            if (!m_gameSession.coopReplica())
+            {
+                eventRuntime.executeOnLoadEvents(
+                    selectedMap->localEventProgram,
+                    selectedMap->globalEventProgram,
+                    *pEventRuntimeState,
+                    &m_pOutdoorPartyRuntime->party(),
+                    m_pOutdoorWorldRuntime.get());
+                eventRuntime.executeMapRefillHooks(
+                    selectedMap->localEventProgram,
+                    selectedMap->globalEventProgram,
+                    selectedMap->outdoorMapDeltaData,
+                    *pEventRuntimeState,
+                    &m_pOutdoorPartyRuntime->party(),
+                    m_pOutdoorWorldRuntime.get());
+            }
+
             m_pOutdoorWorldRuntime->applyEventRuntimeState(true);
             m_pOutdoorPartyRuntime->applyEventRuntimeState(*pEventRuntimeState, false);
+
             // A bounty another map's office posted here (an MM9 Jarl's) gets its target now.
-            spawnPendingBountyHunt(*m_pOutdoorWorldRuntime, &m_pOutdoorPartyRuntime->party());
+            if (!m_gameSession.coopReplica())
+            {
+                spawnPendingBountyHunt(*m_pOutdoorWorldRuntime, &m_pOutdoorPartyRuntime->party());
+            }
         }
 
         if (m_config.loadUniqueActorIndex.has_value()
@@ -10989,6 +12166,7 @@ bool GameApplication::buildSelectedMapRuntime(bool initializeView)
         const bool indoorTimedRespawn =
             pSavedIndoorState != nullptr
             && pSavedIndoorState->mapDeltaData
+            && !m_gameSession.coopReplica()
             && (forcedIndoorRefill
                 || (!loadsMapInstance(m_gameSession, *selectedMap)
                     && timedMapRespawnDue(
@@ -11092,9 +12270,11 @@ bool GameApplication::buildSelectedMapRuntime(bool initializeView)
             &m_gameDataLoader.getNpcDialogTable(),
             selectedMap->itemSourceData ? &*selectedMap->itemSourceData : nullptr,
             &m_gameDataLoader.getMm9MapTransitionTable(),
-            &m_gameDataLoader.getMm9TeacherScheduleTable()
+            &m_gameDataLoader.getMm9TeacherScheduleTable(),
+            &m_gameDataLoader.getMergedNpcProfessionTable()
         );
         pIndoorSceneRuntime->worldRuntime().bindActorBehaviorCatalog(reloadActorBehaviorCatalog());
+        pIndoorSceneRuntime->worldRuntime().setReplica(m_gameSession.coopReplica());
         timingLogger.stage("indoor runtime initialized");
 
         if (restoreSavedIndoorState && pSavedIndoorState != nullptr)
@@ -11140,23 +12320,33 @@ bool GameApplication::buildSelectedMapRuntime(bool initializeView)
             m_gameSession.applyNamedGlobalVarsToRuntime(*pEventRuntimeState);
 
             EventRuntime eventRuntime(&m_gameDataLoader.getHouseTable(), &m_gameDataLoader.getNpcDialogTable());
-            eventRuntime.executeOnLoadEvents(
-                selectedMap->localEventProgram,
-                selectedMap->globalEventProgram,
-                *pEventRuntimeState,
-                &pIndoorSceneRuntime->party(),
-                pIndoorSceneRuntime->sceneEventContext());
-            eventRuntime.executeMapRefillHooks(
-                selectedMap->localEventProgram,
-                selectedMap->globalEventProgram,
-                pIndoorSceneRuntime->mapDeltaData(),
-                *pEventRuntimeState,
-                &pIndoorSceneRuntime->party(),
-                pIndoorSceneRuntime->sceneEventContext());
+
+            // A replica's host has run the map's load events; their results are in the state it sent.
+            if (!m_gameSession.coopReplica())
+            {
+                eventRuntime.executeOnLoadEvents(
+                    selectedMap->localEventProgram,
+                    selectedMap->globalEventProgram,
+                    *pEventRuntimeState,
+                    &pIndoorSceneRuntime->party(),
+                    pIndoorSceneRuntime->sceneEventContext());
+                eventRuntime.executeMapRefillHooks(
+                    selectedMap->localEventProgram,
+                    selectedMap->globalEventProgram,
+                    pIndoorSceneRuntime->mapDeltaData(),
+                    *pEventRuntimeState,
+                    &pIndoorSceneRuntime->party(),
+                    pIndoorSceneRuntime->sceneEventContext());
+            }
+
             pIndoorSceneRuntime->worldRuntime().applyEventRuntimeState(true);
             pIndoorSceneRuntime->party().applyEventRuntimeState(*pEventRuntimeState, false);
+
             // A bounty another map's office posted here (an MM9 Jarl's) gets its target now.
-            spawnPendingBountyHunt(pIndoorSceneRuntime->worldRuntime(), &pIndoorSceneRuntime->party());
+            if (!m_gameSession.coopReplica())
+            {
+                spawnPendingBountyHunt(pIndoorSceneRuntime->worldRuntime(), &pIndoorSceneRuntime->party());
+            }
         }
 
         if (m_config.loadUniqueActorIndex.has_value()
@@ -11600,6 +12790,7 @@ bool GameApplication::loadCurrentSessionMap(
     }
 
     timingLogger.stage("current session map load complete");
+    ++m_mapLoadSerial;
     return true;
 }
 
@@ -11728,7 +12919,31 @@ void GameApplication::updateMusicArea(float partyX, float partyY)
     }
 }
 
-void GameApplication::beginLoadingOverlay(LoadingOverlayScreen::Presentation presentation)
+std::vector<std::string> GameApplication::loadingPagesForMap(const std::string &mapFileName)
+{
+    const MapStatsEntry *pMap =
+        mapFileName.empty() ? nullptr : m_gameDataLoader.getMapStats().findByFileName(mapFileName);
+    std::optional<uint32_t> continentId;
+    if (pMap != nullptr)
+    {
+        const MergedContinentSettingEntry *pContinent = m_gameDataLoader.findMergedContinentSettingsForMap(*pMap);
+        continentId = pContinent != nullptr ? pContinent->id : 0;
+    }
+    const MergedContinentSettingTable &continents = m_gameDataLoader.getMergedContinentSettingTable();
+    const std::string mapWorldId = pMap != nullptr ? normalizeWorldId(pMap->worldId) : std::string();
+    if (mapWorldId.empty() || mapWorldId == m_activeWorldManifest.id)
+    {
+        return worldLoadingPages(m_activeWorldManifest, continents, continentId);
+    }
+    // A move into another world: its pages, before it is activated.
+    std::string error;
+    const WorldManifest mapWorld = loadActiveWorldManifestOrDefault(*m_pAssetFileSystem, mapWorldId, error);
+    return worldLoadingPages(error.empty() ? mapWorld : m_activeWorldManifest, continents, continentId);
+}
+
+void GameApplication::beginLoadingOverlay(
+    LoadingOverlayScreen::Presentation presentation,
+    const std::string &mapFileName)
 {
     setGameplayProfilingEnabled(false);
 
@@ -11767,8 +12982,8 @@ void GameApplication::beginLoadingOverlay(LoadingOverlayScreen::Presentation pre
     {
         std::random_device randomDevice;
         std::mt19937 rng(randomDevice());
-        // The world's own pages (world.yml loadingScreens), else the engine's.
-        const std::vector<std::string> &worldPages = m_activeWorldManifest.loadingScreens;
+        // The map's world's own pages (its continent's, or world.yml loadingScreens), else the engine's.
+        const std::vector<std::string> worldPages = loadingPagesForMap(mapFileName);
         const int backgroundIndex = std::uniform_int_distribution<int>(
             1, worldPages.empty() ? LoadingOverlayBackgroundCount : int(worldPages.size()))(rng);
         m_loadingOverlayBackgroundTextureName = worldPages.empty()
@@ -12541,6 +13756,15 @@ void GameApplication::updateDoubleSpeedInput()
         return;
     }
 
+    // Every player of a co-op session shares one clock.
+    if (m_gameSession.coopSession())
+    {
+        m_fastMode = false;
+        m_gameSession.gameplayScreenRuntime().setStatusBarEvent(
+            Engine::tr("Fast mode is not available in a co-op game."));
+        return;
+    }
+
     m_fastMode = !m_fastMode;
     const std::string status = m_fastMode
         ? Engine::tr("Fast mode ({speed}x)", {{"speed", fastModeSpeedValue(m_settings.fastModeSpeed)}})
@@ -12549,6 +13773,706 @@ void GameApplication::updateDoubleSpeedInput()
     constexpr float StatusSeconds = 2.0f;
     m_gameSession.gameplayScreenRuntime().setStatusBarEvent(
         status, StatusSeconds * (m_fastMode ? m_settings.fastModeSpeed : 1.0f));
+}
+
+bool GameApplication::presentWorldFrame(
+    IGameplayWorldRuntime &worldRuntime,
+    float worldDeltaSeconds,
+    float frameDeltaSeconds)
+{
+    WorldFxSystem &worldFx = m_pMapSceneRuntime->kind() == SceneKind::Outdoor
+        ? m_outdoorGameView.worldFxSystem() : m_indoorRenderer.worldFxSystem();
+    std::string satchelError;
+    if (!worldFx.configureCorpseSatchels(*m_pAssetFileSystem, satchelError))
+    {
+        std::cerr << "Loot satchel load failed: " << satchelError << '\n';
+        requestApplicationQuit();
+        return false;
+    }
+    // Before the models: a corpse whose body is gone has no actor model to update.
+    worldFx.syncCorpseSatchels(worldRuntime, worldDeltaSeconds);
+    worldFx.syncShieldDomes(worldRuntime, worldDeltaSeconds);
+    worldFx.syncBeams(worldRuntime, worldDeltaSeconds);
+    worldFx.syncScriptedActorEffects(worldRuntime, worldDeltaSeconds);
+    if (EventRuntimeState *pEvents = worldRuntime.eventRuntimeState())
+    {
+        advanceDecorationAims(*pEvents, worldDeltaSeconds);
+        advanceDecorationClips(*pEvents, worldDeltaSeconds);
+        advanceActorPresentations(*pEvents, worldDeltaSeconds);
+    }
+    updateMusicArea(worldRuntime.partyX(), worldRuntime.partyY());
+
+    // The world's battle music (world.yml music battleTrack; MM9) under the yellow alert, MM9's "monsters nearby".
+    if (const WorldMusicDefinition &music = m_activeWorldManifest.music; music.battleTrack > 0)
+    {
+        m_gameAudioSystem.setBattleMusic(
+            music.battleTrack, partyHasYellowAlert(worldRuntime), music.battleFadeSeconds);
+    }
+
+    syncActorSounds(worldRuntime);
+    if (!syncActorModels(worldRuntime, worldDeltaSeconds, frameDeltaSeconds))
+    {
+        return false;
+    }
+    syncCoopPlayerBodies(worldFx, frameDeltaSeconds);
+    m_gameSession.gameplayFxService().consumePendingWorldFxRequests(
+        worldRuntime.eventRuntimeState(),
+        worldFx,
+        *m_pAssetFileSystem);
+    // A co-op host notes the frame's sounds for its guests before playing them empties the lists.
+    m_pCoopSession->collectFrameSounds();
+    m_gameSession.consumePendingGameplayAudioRequests();
+    m_worldAmbientSounds.update(
+        m_gameAudioSystem,
+        worldRuntime.ambientSounds(),
+        {worldRuntime.partyX(), worldRuntime.partyY(), worldRuntime.partyFootZ() + AmbientSoundListenerHeight},
+        worldRuntime.gameMinutes(),
+        worldDeltaSeconds,
+        worldRuntime.eventRuntimeState(),
+        WorldAmbientSoundRules{m_activeWorldManifest.ambientSounds.dayStartHour,
+            m_activeWorldManifest.ambientSounds.dayEndHour, m_activeWorldManifest.ambientSounds.pan});
+    return true;
+}
+
+void GameApplication::advanceWorldBehindScreens(
+    int width,
+    int height,
+    float deltaSeconds,
+    HiddenWorldFrame frame)
+{
+    IGameplayWorldRuntime *pWorldRuntime = m_gameSession.activeWorldRuntime();
+    const IScreen *pActiveScreen = m_screenManager.activeScreen();
+
+    if (!m_gameSession.coopSession() || pWorldRuntime == nullptr || m_pMapSceneRuntime == nullptr
+        || deltaSeconds <= 0.0f || (pActiveScreen != nullptr && pActiveScreen->holdsCoopWorld()))
+    {
+        return;
+    }
+
+    // A long frame is taken in short steps, as a drawn frame's movement clamps its own; what exceeds a few of them is
+    // dropped rather than caught up, so that a stall does not become a burst.
+    constexpr float MaxStepSeconds = 0.05f;
+    constexpr int MaxSteps = 4;
+    float remainingSeconds = std::min(deltaSeconds, MaxStepSeconds * MaxSteps);
+    GameplayInputFrame nothingHeld;
+    nothingHeld.screenWidth = width;
+    nothingHeld.screenHeight = height;
+    nothingHeld.localInputHeld = true;
+    m_gameSession.setGameSpeed(1.0f);
+
+    while (remainingSeconds > 0.0f)
+    {
+        const float stepSeconds = std::min(remainingSeconds, MaxStepSeconds);
+        m_gameSession.updateGameplay(nothingHeld, stepSeconds, false);
+        pWorldRuntime->updateWorld(stepSeconds);
+
+        if (m_pMapSceneRuntime->kind() == SceneKind::Indoor && frame != HiddenWorldFrame::DrawnBehindScreen)
+        {
+            m_indoorRenderer.advanceWorldSimulation(
+                m_gameSession, stepSeconds, frame != HiddenWorldFrame::NotPresented);
+        }
+
+        remainingSeconds -= stepSeconds;
+    }
+
+    m_gameSession.bindCurrentGameplayInputFrame(&m_gameInputSystem.frame());
+}
+
+void GameApplication::advanceUndrawnFrame(float deltaSeconds)
+{
+    updateCoopSession(deltaSeconds);
+    advanceWorldBehindScreens(m_lastFrameWidth, m_lastFrameHeight, deltaSeconds, HiddenWorldFrame::NotPresented);
+}
+
+void GameApplication::updateCoopSession(float realDeltaSeconds)
+{
+    m_pCoopSession->update(realDeltaSeconds);
+
+    // The other players on the map, for the spells cast on them (a handful at most).
+    std::vector<CoopAidPlayer> aidPlayers;
+
+    for (const CoopSession::OtherPlayer &player : m_pCoopSession->otherPlayers())
+    {
+        if (!player.loadingMap && !player.away)
+        {
+            CoopAidPlayer aid{player.id, player.body.x, player.body.y, player.body.footZ, {}, player.down};
+            // In the party's own order, by which a spell names its target: the member that stands for the player
+            // is shown first and may be any of them.
+            const size_t avatar = std::min<size_t>(player.avatarMember, player.mates.size());
+
+            for (size_t index = 0; index <= player.mates.size(); ++index)
+            {
+                if (index == avatar)
+                {
+                    aid.members.push_back({player.health, player.maxHealth, player.condition});
+                    continue;
+                }
+
+                const CoopSession::OtherPlayer::Mate &mate = player.mates[index < avatar ? index : index - 1];
+                aid.members.push_back({mate.health, mate.maxHealth, mate.condition});
+            }
+
+            aidPlayers.push_back(std::move(aid));
+        }
+    }
+
+    m_gameSession.setCoopAidPlayers(std::move(aidPlayers));
+    updateCoopPrompts(realDeltaSeconds);
+}
+
+void GameApplication::syncCoopPlayerBodies(WorldFxSystem &worldFx, float deltaSeconds)
+{
+    const std::vector<CoopSession::OtherPlayer> &players = m_pCoopSession->otherPlayers();
+
+    if (players.empty() && m_pCoopSession->pings().empty() && m_gameSession.coopPlayerLabels().empty()
+        && m_gameSession.coopHudPlayers().empty() && m_gameSession.coopHudPings().empty())
+    {
+        return;
+    }
+
+    std::vector<WorldFxSystem::PlayerBody> bodies;
+
+    for (const CoopSession::OtherPlayer &player : players)
+    {
+        if (player.loadingMap)
+        {
+            continue;
+        }
+
+        WorldFxSystem::PlayerBody body;
+        body.key = player.id;
+        // The body of these looks, found once and kept while the player looks so.
+        auto choice = std::find_if(m_coopBodyChoices.begin(), m_coopBodyChoices.end(),
+            [&player](const CoopBodyChoice &known) { return known.player == player.id; });
+
+        if (choice == m_coopBodyChoices.end())
+        {
+            m_coopBodyChoices.push_back(CoopBodyChoice{});
+            choice = std::prev(m_coopBodyChoices.end());
+            choice->player = player.id;
+            choice->raceId = ~uint32_t(player.raceId);
+        }
+
+        if (choice->raceId != uint32_t(player.raceId) || choice->sexId != uint32_t(player.sexId)
+            || choice->className != player.className)
+        {
+            choice->raceId = uint32_t(player.raceId);
+            choice->sexId = uint32_t(player.sexId);
+            choice->className = player.className;
+            choice->descriptor = coopBodyDescriptor(player.raceId, player.sexId, player.className,
+                [&worldFx](const std::string &descriptor)
+                {
+                    return worldFx.bindsActorModel(descriptor);
+                });
+        }
+
+        body.descriptor = choice->descriptor;
+        body.actionSerial = player.action.serial;
+        body.actionKind = uint8_t(player.action.kind);
+        body.actionSeconds = player.action.seconds;
+        body.gearTier = player.gearTier;
+        body.height = coopBodyHeight(player.raceId, player.sexId);
+        body.x = player.body.x;
+        body.y = player.body.y;
+        body.z = player.body.footZ;
+        body.yawRadians = player.body.yawRadians;
+        body.down = player.down;
+
+        if (!body.descriptor.empty())
+        {
+            bodies.push_back(std::move(body));
+        }
+    }
+
+    worldFx.syncPlayerBodies(bodies, deltaSeconds);
+    std::vector<CoopPlayerLabel> labels;
+
+    for (const CoopSession::OtherPlayer &player : players)
+    {
+        CoopPlayerLabel label;
+        label.name = player.name;
+        label.down = player.down;
+
+        if (worldFx.playerBodyHead(player.id, label.x, label.y, label.z))
+        {
+            labels.push_back(std::move(label));
+        }
+    }
+
+    // The places the players point at: a line in the world over each, and a mark on the minimap.
+    std::vector<CoopHudPing> hudPings;
+
+    for (const CoopSession::Ping &ping : m_pCoopSession->pings())
+    {
+        CoopPlayerLabel label;
+        label.name = Engine::tr("{name}: here", {{"name", ping.name}});
+        label.x = ping.x;
+        label.y = ping.y;
+        label.z = ping.z + 96.0f;
+        label.ping = true;
+        labels.push_back(std::move(label));
+        hudPings.push_back(CoopHudPing{ping.x, ping.y, ping.ageSeconds});
+    }
+
+    std::vector<CoopHudPlayer> hudPlayers;
+
+    for (const CoopSession::OtherPlayer &player : players)
+    {
+        CoopHudPlayer hudPlayer;
+        hudPlayer.name = player.name;
+        hudPlayer.portraitTextureName =
+            GameplayUiRuntime::restingPortraitTextureName(player.portraitTextureName, player.portraitPictureId);
+        hudPlayer.healthShare = std::clamp(float(player.health) / float(std::max(1, player.maxHealth)), 0.0f, 1.0f);
+
+        if (player.maxSpellPoints > 0)
+        {
+            hudPlayer.spellPointShare =
+                std::clamp(float(player.spellPoints) / float(player.maxSpellPoints), 0.0f, 1.0f);
+        }
+
+        if (player.condition != 0)
+        {
+            hudPlayer.condition = Engine::localizeKnown(
+                GameMechanics::conditionName(CharacterCondition(player.condition - 1)));
+        }
+
+        // Stepped out for now: greyed like one still loading, and said so where its condition would be.
+        if (player.away)
+        {
+            hudPlayer.condition = Engine::tr("away");
+        }
+
+        hudPlayer.down = player.down;
+        hudPlayer.loadingMap = player.loadingMap;
+        hudPlayer.x = player.body.x;
+        hudPlayer.y = player.body.y;
+
+        for (const CoopSession::OtherPlayer::Mate &mate : player.mates)
+        {
+            const bool out = mate.health <= 0 || mate.condition == uint8_t(CharacterCondition::Dead) + 1
+                || mate.condition == uint8_t(CharacterCondition::Eradicated) + 1
+                || mate.condition == uint8_t(CharacterCondition::Petrified) + 1
+                || mate.condition == uint8_t(CharacterCondition::Unconscious) + 1;
+            hudPlayer.mates.push_back(CoopHudPlayer::Mate{
+                GameplayUiRuntime::restingPortraitTextureName(mate.portraitTextureName, mate.portraitPictureId),
+                std::clamp(float(mate.health) / float(std::max(1, mate.maxHealth)), 0.0f, 1.0f), out});
+        }
+
+        hudPlayers.push_back(std::move(hudPlayer));
+    }
+
+    m_gameSession.setCoopPlayerLabels(std::move(labels));
+    m_gameSession.setCoopHud(std::move(hudPlayers), std::move(hudPings));
+}
+
+void GameApplication::updateCoopPrompts(float realDeltaSeconds)
+{
+    IGameplayWorldRuntime *pWorldRuntime = m_gameSession.activeWorldRuntime();
+    EventRuntimeState *pEventRuntimeState = pWorldRuntime != nullptr ? pWorldRuntime->eventRuntimeState() : nullptr;
+
+    if (!m_gameSession.coopSession() || pEventRuntimeState == nullptr || m_gameSession.actingGuestPlayer() != nullptr)
+    {
+        return;
+    }
+
+    GameplayScreenRuntime &screenRuntime = m_gameSession.gameplayScreenRuntime();
+    const std::optional<GameSession::TravelProposal> &proposal = m_gameSession.travelProposal();
+    const PlayerId ownPlayer = m_pCoopSession->ownPlayer();
+
+    // The travel vote's window, one for every player: who proposed the trip, who agreed, who has not answered,
+    // and what this player may do about it. The world waits while the vote is open (GameSession). It is drawn anew
+    // when what it says changes, and again if its player closed it without an answer.
+    using TravelChoice = GameSession::TravelChoice;
+    enum class VoteView : uint8_t { None, Asked, Voter, Agreed, Proposer, Departing };
+    const bool guest = m_pCoopSession->joined();
+    VoteView view = VoteView::None;
+    uint32_t viewSerial = 0;
+
+    if (proposal)
+    {
+        viewSerial = proposal->serial;
+        const bool answered = m_gameSession.travelPromptAnswerSerial() == proposal->serial;
+        const TravelChoice answer = answered ? m_gameSession.travelPromptAnswer() : TravelChoice::None;
+        const bool agreed =
+            std::find(proposal->accepted.begin(), proposal->accepted.end(), ownPlayer) != proposal->accepted.end();
+        // An answer that ends the vote or takes this player out of it is on its way: nothing more to ask.
+        // A trip not yet put to the others is its proposer's question alone: with the party, or alone.
+        view = answer == TravelChoice::Stay || answer == TravelChoice::Cancel || answer == TravelChoice::DropOut
+                || answer == TravelChoice::GoAlone || answer == TravelChoice::Force
+            ? VoteView::None
+            : !proposal->open && answer != TravelChoice::WithParty
+                ? (proposal->proposer == ownPlayer ? VoteView::Asked : VoteView::None)
+            : proposal->proposer == ownPlayer ? VoteView::Proposer
+            : agreed || answer == TravelChoice::Travel ? VoteView::Agreed
+            : VoteView::Voter;
+        m_coopVoteMove = proposal->move;
+    }
+    else if (m_pCoopSession->guestDeparting()
+        && m_gameSession.travelPromptAnswerSerial() != GameSession::TravelDepartingSerial)
+    {
+        view = VoteView::Departing;
+        viewSerial = GameSession::TravelDepartingSerial;
+    }
+
+    if (!proposal && !m_pCoopSession->guestDeparting()
+        && m_gameSession.travelPromptAnswerSerial() == GameSession::TravelDepartingSerial)
+    {
+        m_gameSession.noteTravelPromptAnswer(0, TravelChoice::None);
+    }
+
+    const bool canForce = proposal && !guest && proposal->ageSeconds >= GameSession::TravelVoteForceSeconds;
+    // What the window says, in one number: a change of it draws the window anew.
+    uint64_t voteKey = uint64_t(view) | uint64_t(viewSerial) << 8 | uint64_t(canForce) << 40;
+
+    if (proposal)
+    {
+        for (const PlayerId accepted : proposal->accepted)
+        {
+            voteKey ^= uint64_t(1) << (41 + accepted % 8);
+        }
+
+        voteKey ^= uint64_t(m_pCoopSession->otherPlayers().size()) << 50;
+    }
+
+    voteKey = view == VoteView::None ? 0 : voteKey;
+    const bool ownWindowUp = m_gameSession.travelPromptSerial() != 0
+        && (screenRuntime.activeEventDialog().isActive || pEventRuntimeState->pendingDialogueContext);
+
+    if (voteKey != m_coopVoteKey || (voteKey != 0 && !ownWindowUp))
+    {
+        if (m_gameSession.travelPromptSerial() != 0)
+        {
+            m_gameSession.setTravelPromptSerial(0);
+            pEventRuntimeState->pendingDialogueContext.reset();
+
+            if (screenRuntime.activeEventDialog().isActive)
+            {
+                screenRuntime.closeActiveEventDialog();
+            }
+        }
+
+        m_coopVoteKey = 0;
+
+        // Shown when no other dialogue is in the way (a shop the player is in closes first).
+        if (voteKey != 0 && !screenRuntime.activeEventDialog().isActive && !pEventRuntimeState->pendingDialogueContext)
+        {
+            const std::string mapFile = m_coopVoteMove.mapName.value_or(std::string());
+            const MapStatsEntry *pMap = m_gameDataLoader.getMapStats().findByFileName(mapFile);
+            const std::string place = pMap != nullptr && !pMap->name.empty() ? Engine::localize(pMap->name) : mapFile;
+            EventRuntimeState::PendingDialogueContext::OwnQuestion question;
+            std::vector<TravelChoice> choices;
+            const auto offer = [&](TravelChoice choice, std::string label)
+            {
+                choices.push_back(choice);
+                question.choices.push_back(std::move(label));
+            };
+
+            question.travelMapFile = mapFile;
+
+            if (view == VoteView::Asked)
+            {
+                question.lines.push_back(Engine::tr("Travel to {place}?", {{"place", place}}));
+                question.lines.push_back(Engine::tr(
+                    "With the party: the other players are asked, and everyone goes when all agree."));
+                question.lines.push_back(Engine::tr(
+                    "Alone: you leave their game for now and travel in your own. The Multiplayer menu brings you"
+                    " back."));
+                offer(TravelChoice::WithParty, Engine::tr("Travel with the Party"));
+                offer(TravelChoice::GoAlone, Engine::tr("Go Alone"));
+                offer(TravelChoice::Cancel, Engine::tr("Cancel the Trip"));
+            }
+            else if (view == VoteView::Departing)
+            {
+                question.lines.push_back(Engine::tr("Everyone agreed to travel to {place}.", {{"place", place}}));
+                question.lines.push_back(Engine::tr("Waiting for the host to arrive there ..."));
+                offer(TravelChoice::Ok, Engine::tr("OK"));
+            }
+            else
+            {
+                const std::string proposerName = m_pCoopSession->playerName(proposal->proposer);
+                question.lines.push_back(view == VoteView::Proposer
+                    ? Engine::tr("You want to travel to {place}.", {{"place", place}})
+                    : Engine::tr("{name} wants to travel to {place}.", {{"name", proposerName}, {"place", place}}));
+
+                if (const std::optional<TravelCost> &cost = proposal->move.unpaidCost)
+                {
+                    const int days = cost->waitDays + cost->travelDays;
+                    question.lines.push_back(cost->fareGold > 0
+                        ? Engine::trn("The trip takes {days} day and costs each player {gold} gold.",
+                              "The trip takes {days} days and costs each player {gold} gold.",
+                              uint64_t(std::max(days, 0)), {{"days", days}, {"gold", cost->fareGold}})
+                        : Engine::trn("The trip takes {days} day and {food} food from each player.",
+                              "The trip takes {days} days and {food} food from each player.",
+                              uint64_t(std::max(days, 0)), {{"days", days}, {"food", cost->travelFood}}));
+                }
+
+                // Every player on the map and where its answer stands.
+                std::vector<PlayerId> everyone = {ownPlayer};
+
+                for (const CoopSession::OtherPlayer &other : m_pCoopSession->otherPlayers())
+                {
+                    if (!other.away)
+                    {
+                        everyone.push_back(other.id);
+                    }
+                }
+
+                std::sort(everyone.begin(), everyone.end());
+
+                for (const PlayerId player : everyone)
+                {
+                    const bool hasAgreed = std::find(proposal->accepted.begin(), proposal->accepted.end(), player)
+                            != proposal->accepted.end()
+                        || (player == ownPlayer && view == VoteView::Agreed);
+                    const std::string name = m_pCoopSession->playerName(player);
+                    question.lines.push_back(player == proposal->proposer
+                            ? Engine::tr("{name}: proposed it", {{"name", name}})
+                        : hasAgreed ? Engine::tr("{name}: agreed", {{"name", name}})
+                                    : Engine::tr("{name}: has not answered", {{"name", name}}));
+                }
+
+                question.lines.push_back(Engine::tr("The world waits while the players decide."));
+
+                if (view == VoteView::Voter)
+                {
+                    offer(TravelChoice::Travel, Engine::tr("Travel"));
+                    offer(TravelChoice::Stay, Engine::tr("Stay Here"));
+                }
+
+                if (view == VoteView::Proposer && guest)
+                {
+                    offer(TravelChoice::GoAlone, Engine::tr("Go Alone"));
+                }
+
+                if (canForce)
+                {
+                    offer(TravelChoice::Force, Engine::tr("Travel Anyway"));
+                }
+
+                if (view == VoteView::Proposer)
+                {
+                    offer(TravelChoice::Cancel, Engine::tr("Cancel the Trip"));
+                }
+
+                if (view == VoteView::Agreed)
+                {
+                    offer(TravelChoice::Stay, Engine::tr("Stay Here After All"));
+                }
+
+                // Out of the session for now, into the player's own game; the others travel on without it.
+                if (view != VoteView::Proposer && guest)
+                {
+                    offer(TravelChoice::DropOut, Engine::tr("Drop Out"));
+                }
+            }
+
+            EventRuntimeState::PendingDialogueContext context = {};
+            context.kind = DialogueContextKind::MapEvent;
+            context.titleOverride = place;
+            context.ownQuestion = std::move(question);
+            pEventRuntimeState->pendingDialogueContext = std::move(context);
+            m_gameSession.setTravelPromptSerial(viewSerial, std::move(choices));
+            m_coopVoteKey = voteKey;
+        }
+    }
+
+    // The rest every player agreed to starts in the host's game, which rests them all.
+    if (const std::optional<GameSession::RestProposal> passed = m_gameSession.takePassedRestProposal())
+    {
+        screenRuntime.startAgreedRest(passed->heal, passed->minutes);
+    }
+
+    // Another player's asking to rest is told to this player until it agrees (its Rest key) or the asking lapses.
+    const std::optional<GameSession::RestProposal> &rest = m_gameSession.restProposal();
+    const bool restAnswerWanted = rest && rest->proposer != ownPlayer
+        && std::find(rest->accepted.begin(), rest->accepted.end(), ownPlayer) == rest->accepted.end();
+    m_coopRestHintSeconds = restAnswerWanted ? m_coopRestHintSeconds - realDeltaSeconds : 0.0f;
+
+    if (restAnswerWanted && m_coopRestHintSeconds <= 0.0f)
+    {
+        m_coopRestHintSeconds = 4.0f;
+        screenRuntime.setStatusBarEvent(
+            rest->heal ? Engine::tr("Another player wants to rest. Press the Rest key to agree.")
+                : Engine::tr("Another player wants to wait. Press the Rest key to agree."),
+            4.0f);
+    }
+
+    // A party down long enough may return to where the players arrived, at the defeat's price ("A downed player").
+    const Party *pParty = m_gameSession.partyOfPlayer(LocalPlayer);
+    const bool othersPlay =
+        m_pCoopSession->hosting() ? !m_gameSession.guestPlayers().empty() : m_pCoopSession->joined();
+
+    if (pParty == nullptr || pParty->hasActableMember() || !othersPlay)
+    {
+        m_coopReturnHintSeconds = 0.0f;
+        m_coopDownSeconds = 0.0f;
+        return;
+    }
+
+    // Told from the fall on, and kept on the screen: what the others can do, and the key that brings the player
+    // back by itself, with the seconds until it may. This game counts the wait for the telling; the host decides.
+    m_coopDownSeconds += realDeltaSeconds;
+    m_coopReturnHintSeconds -= realDeltaSeconds;
+    const float waitSeconds = GameSession::DownedReturnSeconds - m_coopDownSeconds;
+
+    if (m_coopReturnHintSeconds <= 0.0f)
+    {
+        m_coopReturnHintSeconds = 1.0f;
+        const std::string key = inputBindingDisplayName(m_settings.keyboard.binding(KeyboardAction::Use));
+        screenRuntime.setStatusBarEvent(
+            waitSeconds > 0.0f
+                ? Engine::tr("You are down. Another player can heal or raise you. In {seconds} s {key} returns you"
+                             " to where you arrived.",
+                      {{"seconds", int64_t(std::ceil(waitSeconds))}, {"key", key}})
+                : Engine::tr("You are down. Another player can heal or raise you, or press {key} to return to"
+                             " where you arrived.",
+                      {{"key", key}}),
+            1.5f);
+    }
+
+    if (waitSeconds > 0.0f)
+    {
+        return;
+    }
+
+    if (!m_gameInputSystem.frame().actions[keyboardActionIndex(KeyboardAction::Use)].pressed)
+    {
+        return;
+    }
+
+    if (IPlayerCommandRemote *pRemote = m_gameSession.playerCommands().remote(); pRemote != nullptr)
+    {
+        pRemote->returnDowned();
+    }
+    else
+    {
+        std::string message;
+        returnDownedPlayer(LocalPlayer, message);
+    }
+}
+
+std::optional<GameSaveData> GameApplication::buildCoopWorldState(PlayerId guest, bool wholeWorld)
+{
+    GameSession::GuestPlayer *pGuest = m_gameSession.guestPlayer(guest);
+
+    if (pGuest == nullptr || m_pMapSceneRuntime == nullptr)
+    {
+        return std::nullopt;
+    }
+
+    captureCurrentSceneState();
+    std::optional<GameSaveData> worldState = m_gameSession.buildSaveData();
+
+    if (!worldState)
+    {
+        return std::nullopt;
+    }
+
+    // The guest's character in the host's campaign (its party is bound to it), and the one map everyone is on.
+    worldState->party = pGuest->party.snapshot();
+
+    if (!wholeWorld)
+    {
+        worldState->outdoorWorldStates.clear();
+        worldState->indoorSceneStates.clear();
+    }
+
+    // What the host has open and holds is the host's.
+    worldState->outdoorWorld.activeChestView.reset();
+    worldState->outdoorWorld.activeCorpseView.reset();
+    worldState->indoorScene.worldRuntime.activeChestView.reset();
+    worldState->indoorScene.worldRuntime.activeCorpseView.reset();
+    worldState->heldInventoryItemActive = false;
+    worldState->heldInventoryItem = {};
+    // A guest has no save and no playthrough of the host's world.
+    worldState->playthroughId.clear();
+    worldState->playthroughTimeline.clear();
+    worldState->playthroughPlayedSeconds = 0.0;
+    worldState->saveName.clear();
+    worldState->previewBmp.clear();
+    worldState->requiredContentPackages = collectRequiredContentPackages(
+        *worldState,
+        m_gameDataLoader.getItemTable(),
+        m_gameDataLoader.getHouseTable(),
+        m_gameDataLoader.getLoadedContentPackageSchemas());
+    return worldState;
+}
+
+std::vector<std::string> GameApplication::coopContentIdentity() const
+{
+    std::vector<std::string> lines;
+
+    for (const auto &[packageId, schema] : m_gameDataLoader.getLoadedContentPackageSchemas())
+    {
+        lines.push_back("package " + packageId + " schema " + std::to_string(schema));
+    }
+
+    std::sort(lines.begin(), lines.end());
+
+    // The mods' order matters: each mounts in front of those before it.
+    for (const NamedModManifest &mod : m_namedModCatalog.mountedManifests())
+    {
+        lines.push_back("mod " + mod.id + " " + mod.version);
+    }
+
+    // What the packages hold where it decides how the game plays: the tables, the rulesets' patches of them and
+    // every world's event scripts. Two games of the same packages and versions may still differ here (a tree a
+    // table was edited in, a mod a file was changed in), and would play a different game without knowing it.
+    if (!m_coopGameplayDigest && m_pAssetFileSystem != nullptr)
+    {
+        uint64_t digest = 1469598103934665603ull;
+        const auto mix = [&digest](std::span<const uint8_t> bytes)
+        {
+            for (const uint8_t byte : bytes)
+            {
+                digest = (digest ^ byte) * 1099511628211ull;
+            }
+        };
+        const std::function<void(const std::string &)> walk = [&](const std::string &directory)
+        {
+            for (const std::string &entry : m_pAssetFileSystem->enumerate(directory))
+            {
+                const std::string path = directory + "/" + entry;
+
+                // A file is named and read; anything else is a directory, walked in its turn.
+                if (const std::optional<std::vector<uint8_t>> bytes = m_pAssetFileSystem->readBinaryFile(path))
+                {
+                    mix(std::span<const uint8_t>(reinterpret_cast<const uint8_t *>(path.data()), path.size()));
+                    mix(*bytes);
+                }
+                else
+                {
+                    walk(path);
+                }
+            }
+        };
+        walk("engine/data_tables");
+        walk("engine/events");
+        walk("engine/rulesets");
+
+        for (const std::string &world : m_pAssetFileSystem->enumerate("worlds"))
+        {
+            walk("worlds/" + world + "/events");
+        }
+
+        m_coopGameplayDigest = digest;
+    }
+
+    if (m_coopGameplayDigest)
+    {
+        std::ostringstream digestText;
+        digestText << std::hex << *m_coopGameplayDigest;
+        lines.push_back("gameplay tables and scripts " + digestText.str());
+    }
+
+    // The last line: a game that joins with a character file names that character's rules here.
+    lines.push_back("ruleset " + coopRulesText(m_gameSession.ruleset()));
+    return lines;
+}
+
+bool GameApplication::lastMapLoadResetState() const
+{
+    return m_lastMapLoadResetState;
 }
 
 float GameApplication::gameplaySpeed() const
@@ -12560,7 +14484,7 @@ float GameApplication::gameplaySpeed() const
         return 1.0f;
     }
 
-    float speed = m_fastMode ? m_settings.fastModeSpeed : 1.0f;
+    float speed = m_fastMode && !m_gameSession.coopSession() ? m_settings.fastModeSpeed : 1.0f;
 
     switch (m_gameSession.turnBasedCombatRuntime().speedPhase())
     {
@@ -12914,6 +14838,21 @@ bool GameApplication::quickSaveToPath(
         return false;
     }
 
+    // A guest's game holds the host's world, which is the host's to save; the guest's character goes home with what
+    // it gained when the guest leaves (CoopSession).
+    if (m_gameSession.coopReplica())
+    {
+        // The guest's save key asks the host, whose player saves or does not.
+        if (!isAutosavePath(path))
+        {
+            reportQuickSaveStatus(m_pCoopSession != nullptr && m_pCoopSession->askHostToSave()
+                    ? Engine::tr("Asked the host to save the game")
+                    : Engine::tr("Only the host can save a co-op game"));
+        }
+
+        return false;
+    }
+
     if (!selectedMap->map.runtimeRestrictions.allowSaveGame && !isAutosavePath(path))
     {
         GAMEPLAY_DEBUG_TRACE("save_game_failed path=\"" + path.string() + "\" reason=restricted_map");
@@ -13020,6 +14959,13 @@ bool GameApplication::quickSaveToPath(
     );
     reportQuickSaveStatus("Quick save written");
 
+    // The guests of a hosted game keep what their characters have now, as the host's game does.
+    if (m_pCoopSession != nullptr)
+    {
+        m_pCoopSession->hostSaved();
+    }
+
+
     if (isQuickSavePath(path))
     {
         m_gameSession.gameplayScreenRuntime().setStatusBarEvent(foodCost.food > 0
@@ -13093,6 +15039,44 @@ bool GameApplication::quickLoadFromPath(const std::filesystem::path &path, bool 
 
     std::string error;
     std::optional<GameSaveData> saveData = loadGameDataFromPath(path, error);
+
+    if (!saveData)
+    {
+        cancelLoadingOverlay();
+        GAMEPLAY_DEBUG_TRACE(
+            "load_game_failed path=\"" + path.string() + "\""
+            + " reason=\"" + error + "\"");
+        reportQuickSaveStatus("Quick load failed: " + error);
+        return false;
+    }
+
+    // A save is a game of this player's own, not the host's world: a guest leaves the session before one loads
+    // (its character goes home first, as on any leaving). The host's load is every guest's next map.
+    if (m_pCoopSession != nullptr && (m_pCoopSession->joined() || m_pCoopSession->joining()))
+    {
+        m_pCoopSession->leave();
+    }
+
+    return loadSaveData(*saveData, initializeView, &path);
+}
+
+bool GameApplication::loadSaveData(GameSaveData &loadedData, bool initializeView, const std::filesystem::path *pPath)
+{
+    // What a host sent has no file: it is named by what it is in the trace.
+    const std::filesystem::path path = pPath != nullptr ? *pPath : std::filesystem::path("<co-op host>");
+
+    if (pPath == nullptr)
+    {
+        if (m_pAssetFileSystem == nullptr || !ensureCommonGameDataLoaded())
+        {
+            return false;
+        }
+
+        beginLoadingOverlay();
+    }
+
+    GameSaveData *saveData = &loadedData;
+    std::string error;
     const auto fail = [this, &path](const std::string &reason, bool sessionLost)
     {
         cancelLoadingOverlay();
@@ -13109,11 +15093,6 @@ bool GameApplication::quickLoadFromPath(const std::filesystem::path &path, bool 
         reportQuickSaveStatus("Quick load failed: " + reason);
         return false;
     };
-
-    if (!saveData)
-    {
-        return fail(error, false);
-    }
 
     // The party's map must exist: a map a named mod brought is gone while the mod is off. Refused here, before the
     // game in progress changes (devdocs/NAMED_MODS.md).
@@ -13207,16 +15186,27 @@ bool GameApplication::quickLoadFromPath(const std::filesystem::path &path, bool 
     renderLoadingOverlayProgress(20);
 
     m_gameSession.restoreFromSaveData(*saveData);
-    m_gameSession.setCurrentSavePath(path);
-    // The seed restoreFromSaveData kept (or gave a save older than the seeds) links older saves of the party.
-    m_gameSession.playthroughStatistics().attachLoadedSave(
-        saveData->playthroughId,
-        m_gameSession.randomRootSeed(),
-        saveData->playthroughTimeline,
-        isQuickSavePath(path) ? StatLoadKind::Quick : StatLoadKind::Menu,
-        worldIdOfMap(saveData->mapFileName),
-        saveData->ruleset.id,
-        statisticsDifficulty(saveData->ruleset));
+
+    if (pPath != nullptr)
+    {
+        m_gameSession.setCurrentSavePath(path);
+        // The seed restoreFromSaveData kept (or gave a save older than the seeds) links older saves of the party.
+        m_gameSession.playthroughStatistics().attachLoadedSave(
+            saveData->playthroughId,
+            m_gameSession.randomRootSeed(),
+            saveData->playthroughTimeline,
+            isQuickSavePath(path) ? StatLoadKind::Quick : StatLoadKind::Menu,
+            worldIdOfMap(saveData->mapFileName),
+            saveData->ruleset.id,
+            statisticsDifficulty(saveData->ruleset));
+    }
+    else
+    {
+        // A host's world is the host's playthrough: a guest has no save of it and keeps no statistics of it.
+        m_gameSession.clearCurrentSavePath();
+        m_gameSession.playthroughStatistics().endPlaythrough();
+    }
+
     m_playthroughStatisticsMap.clear();
 
     renderLoadingOverlayProgress(35);
@@ -13276,6 +15266,7 @@ bool GameApplication::quickLoadFromPath(const std::filesystem::path &path, bool 
 
 void GameApplication::openMainMenuScreen()
 {
+    m_openCoopMenuInGame = false;
     m_gameSession.playthroughStatistics().endPlaythrough();
     openMenuScreen(false);
 }
@@ -13408,11 +15399,26 @@ void GameApplication::openMenuScreen(bool paused)
     };
     actions.loadGame = [this, paused]() { openLoadGameScreen(paused, paused ? "gameplay_menu" : "main_menu"); };
     actions.saveGame = [this]() { openSaveGameScreen(); };
+    actions.multiplayer = [this, paused]()
+    {
+        if (paused)
+        {
+            openCoopMenuScreen();
+        }
+        else
+        {
+            m_openCoopMenuInGame = true;
+        }
+    };
     actions.quit = [this]() { requestApplicationQuit(); };
     actions.resume = [this]() { resumeMenuGameplay(); };
     actions.mainMenu = [this]() { openMainMenuScreen(); };
     actions.continueGame = [this](const std::filesystem::path &path)
-    { return ensureCommonGameDataLoaded() && loadSessionFromPath(path); };
+    {
+        const bool loaded = ensureCommonGameDataLoaded() && loadSessionFromPath(path);
+        m_openCoopMenuInGame = m_openCoopMenuInGame && loaded;
+        return loaded;
+    };
     actions.applySettings = [this](const GameSettings &settings, bool persist, std::string &error)
     { return applyMenuSettings(settings, persist, error); };
     std::string location = m_gameSession.currentMapFileName();
@@ -13469,6 +15475,204 @@ void GameApplication::openMenuScreen(bool paused)
         m_deferredMainMenuChildWarmupStage = m_mainMenuChildScreensPrepared ? 0 : 1;
     }
     m_screenManager.setActiveScreen(std::move(pScreen));
+}
+
+void GameApplication::openCoopMenuScreen()
+{
+    if (m_pAssetFileSystem == nullptr || m_pMapSceneRuntime == nullptr)
+    {
+        return;
+    }
+
+    CoopMenuScreen::Actions actions;
+    actions.state = [this]()
+    {
+        CoopMenuScreen::State state;
+        state.hosting = m_pCoopSession->hosting();
+        state.joined = m_pCoopSession->joined();
+        state.joining = m_pCoopSession->joining();
+        state.hostName = m_pCoopSession->hostName();
+        state.hostPort = m_pCoopSession->hostPort();
+        state.hostCode = m_pCoopSession->hostCode();
+        state.hostAsksLobby = m_pCoopSession->hostAsksLobby();
+        state.notice = m_pCoopSession->lastNotice();
+        state.ownCharacter = m_pCoopSession->playerName(m_pCoopSession->ownPlayer());
+        state.ownRules = coopRulesText(m_gameSession.ruleset());
+        // The address this machine has towards the rest of its network; nothing is sent to find it.
+        const uint32_t nowMs = Engine::netNowMilliseconds();
+
+        if (!m_coopLocalAddressKnown || nowMs - m_coopLocalAddressAtMs >= 5000)
+        {
+            m_coopLocalAddressHost = Engine::localAddressTowards(Engine::NetAddress{0x08080808u, 53}).host;
+            m_coopLocalAddressAtMs = nowMs;
+            m_coopLocalAddressKnown = true;
+        }
+
+        Engine::NetAddress local = {};
+        local.host = m_coopLocalAddressHost;
+        local.port = uint16_t(state.hostPort);
+        state.localAddress = local.host != 0 ? Engine::toString(local) : std::string();
+
+        // The usual port goes without saying.
+        if (const std::string usualPort = ":" + std::to_string(Coop::DefaultPort);
+            state.localAddress.ends_with(usualPort))
+        {
+            state.localAddress.resize(state.localAddress.size() - usualPort.size());
+        }
+
+        if (state.hosting || state.joined)
+        {
+            // This player as the others see it: the member that stands for its party.
+            const Party *pParty = m_gameSession.partyOfPlayer(LocalPlayer);
+            const size_t memberCount = pParty != nullptr ? pParty->members().size() : 0;
+            state.avatarMember =
+                m_pCoopSession->ownAvatarMember() < memberCount ? m_pCoopSession->ownAvatarMember() : 0;
+            const Character *pMember = pParty != nullptr ? pParty->member(state.avatarMember) : nullptr;
+
+            if (pMember != nullptr)
+            {
+                state.players.push_back(pMember->name + " (" + Engine::localizeKnown(pMember->className) + " "
+                    + std::to_string(pMember->level) + ") - " + Engine::tr("you"));
+            }
+
+            for (size_t index = 0; index < memberCount; ++index)
+            {
+                const Character &member = pParty->members()[index];
+                state.ownMembers.push_back(member.name + " (" + Engine::localizeKnown(member.className) + ")");
+            }
+
+            for (const CoopSession::OtherPlayer &player : m_pCoopSession->otherPlayers())
+            {
+                state.players.push_back(player.name + " (" + Engine::localizeKnown(player.className) + " "
+                    + std::to_string(player.level) + ")"
+                    + (player.id == LocalPlayer ? " - " + Engine::tr("the host") : std::string())
+                    + (player.away ? " - " + Engine::tr("away") : player.loadingMap
+                            ? " - " + Engine::tr("loading the map") : std::string()));
+            }
+        }
+
+        if (const std::optional<CoopSession::AwayFrom> &away = m_pCoopSession->awayFrom())
+        {
+            state.away = true;
+            state.awayHostName = away->hostName;
+            state.awayCanReturn = away->route.kind != CoopSession::JoinRoute::Kind::Other;
+        }
+
+        return state;
+    };
+    actions.host = [this](const std::string &name, const std::string &lobby, const std::string &password,
+        std::string &error)
+    {
+        m_pCoopSession->setHostPassword(password);
+        return m_pCoopSession->host(Coop::DefaultPort, error, name, lobby);
+    };
+    actions.joinPassword = [this](const std::string &password) { m_pCoopSession->setJoinPassword(password); };
+    actions.setAvatar = [this](size_t member) { setCoopAvatarMember(member); };
+    const auto joinCharacter = [this](const std::string &character, std::string &error)
+    {
+        if (character.empty())
+        {
+            return true;
+        }
+
+        const std::optional<std::filesystem::path> path = characterFilePath(character);
+        std::optional<CharacterFile> file = path ? readCharacterFile(*path, error) : std::nullopt;
+
+        if (!file)
+        {
+            return false;
+        }
+
+        m_pCoopSession->setJoinCharacter(std::move(*file), *path);
+        return true;
+    };
+    actions.joinAddress = [this, joinCharacter](const std::string &address, const std::string &character,
+        std::string &error)
+    {
+        if (!m_pCoopSession->join(address, error))
+        {
+            return false;
+        }
+
+        if (!joinCharacter(character, error))
+        {
+            m_pCoopSession->leave();
+            return false;
+        }
+
+        return true;
+    };
+    actions.joinCode = [this, joinCharacter](const std::string &lobby, const std::string &code,
+        const std::string &character, std::string &error)
+    {
+        if (!m_pCoopSession->joinByCode(lobby, code, error))
+        {
+            return false;
+        }
+
+        if (!joinCharacter(character, error))
+        {
+            m_pCoopSession->leave();
+            return false;
+        }
+
+        return true;
+    };
+    actions.leave = [this]() { m_pCoopSession->leave(); };
+    actions.stepOut = [this](std::string &error) { return m_pCoopSession->stepOut(std::nullopt, error); };
+    actions.stepBack = [this](std::string &error) { return m_pCoopSession->stepBack(error); };
+    actions.forgetAway = [this]() { m_pCoopSession->forgetAwaySession(); };
+    actions.saveCharacter = [this](const std::string &name, std::string &error)
+    {
+        const Party *pParty = m_gameSession.partyOfPlayer(LocalPlayer);
+        const std::optional<std::filesystem::path> path = characterFilePath(name);
+
+        if (pParty == nullptr || !path)
+        {
+            error = Engine::tr("That is no name for a file");
+            return false;
+        }
+
+        CharacterFile file = makeCharacterFile(pParty->snapshot(), m_gameSession.ruleset());
+        return writeCharacterFile(*path, file, error);
+    };
+    actions.keepWorld = [this](const std::string &name, std::string &error)
+    {
+        return m_pCoopSession->keepWorldCopy(name, false, error);
+    };
+    actions.back = [this]() { openPauseMenuScreen(); };
+    actions.resume = [this]() { resumeMenuGameplay(); };
+    actions.builtInLobby = std::string(Coop::DefaultLobbyAddress);
+    actions.remembered = CoopMenuScreen::Remembered{
+        .sessionName = m_settings.coopSessionName,
+        .lobbyAddress = m_settings.coopLobbyAddress,
+        .localNetworkOnly = m_settings.coopLocalNetworkOnly,
+        .hostAddress = m_settings.coopHostAddress,
+        .joinTab = m_settings.coopJoinTab,
+        .hostPassword = m_settings.coopHostPassword,
+    };
+    actions.remember = [this](const CoopMenuScreen::Remembered &remembered)
+    {
+        if (remembered.sessionName == m_settings.coopSessionName
+            && remembered.lobbyAddress == m_settings.coopLobbyAddress
+            && remembered.localNetworkOnly == m_settings.coopLocalNetworkOnly
+            && remembered.hostAddress == m_settings.coopHostAddress && remembered.joinTab == m_settings.coopJoinTab
+            && remembered.hostPassword == m_settings.coopHostPassword)
+        {
+            return;
+        }
+
+        m_settings.coopSessionName = remembered.sessionName;
+        m_settings.coopLobbyAddress = remembered.lobbyAddress;
+        m_settings.coopLocalNetworkOnly = remembered.localNetworkOnly;
+        m_settings.coopHostAddress = remembered.hostAddress;
+        m_settings.coopJoinTab = remembered.joinTab;
+        m_settings.coopHostPassword = remembered.hostPassword;
+        std::string error;
+        saveSettings(m_settings, error);
+    };
+    m_screenManager.setActiveScreen(
+        std::make_unique<CoopMenuScreen>(*m_pAssetFileSystem, std::move(actions), &m_gameAudioSystem));
 }
 
 void GameApplication::openSaveGameScreen()
@@ -13624,31 +15828,27 @@ void GameApplication::openNewGameScreen(const std::string &source)
     m_screenManager.setActiveScreen(std::move(pScreen));
 }
 
+// The active world's continent: its start map's in bolster_maps.txt (MM8 Jadame 1, MM7 Antagarich 2, MM6 Enroth 3,
+// MM9 Chedian 5, and a new world's own).
 std::optional<uint32_t> GameApplication::activeWorldContinentId() const
 {
-    const std::string activeWorldId = normalizeWorldId(m_activeWorldManifest.id);
+    const MapStatsEntry *pStartMap =
+        m_gameDataLoader.getMapStats().findByFileName(m_activeWorldManifest.start.mapFileName);
 
-    if (activeWorldId == "mm8")
+    if (pStartMap == nullptr || pStartMap->id < 0)
     {
-        return 1u;
+        return std::nullopt;
     }
 
-    if (activeWorldId == "mm7")
+    const MergedBolsterMapEntry *pBolsterMap =
+        m_gameDataLoader.getMergedBolsterMapTable().findById(uint32_t(pStartMap->id));
+
+    if (pBolsterMap == nullptr || pBolsterMap->continent == 0)
     {
-        return 2u;
+        return std::nullopt;
     }
 
-    if (activeWorldId == "mm6")
-    {
-        return 3u;
-    }
-
-    if (activeWorldId == "mm9")
-    {
-        return 5u;
-    }
-
-    return std::nullopt;
+    return pBolsterMap->continent;
 }
 
 std::optional<GameApplication::MapStartDestination> GameApplication::resolveContinentStartDestination(
@@ -13913,6 +16113,14 @@ bool GameApplication::startNewSessionFromCharacterCreation(
         return false;
     }
 
+    // A new game is this player's own, not the host's world: a guest leaves the session first, as before a load
+    // (the new world would otherwise be built as a copy without monsters' minds or scripts, and leaving would write
+    // the new party into the old game's save).
+    if (m_pCoopSession != nullptr && (m_pCoopSession->joined() || m_pCoopSession->joining()))
+    {
+        m_pCoopSession->leave();
+    }
+
     std::string rulesetError;
 
     if (!activateRuleset(options.ruleset.id, rulesetError))
@@ -13933,7 +16141,10 @@ bool GameApplication::startNewSessionFromCharacterCreation(
 
     m_gameAudioSystem.stopBackgroundMusicImmediate();
     m_screenManager.setActiveScreen(nullptr);
-    beginLoadingOverlay();
+    const MergedContinentSettingEntry *pStartContinent =
+        continentId != 0 ? m_gameDataLoader.getMergedContinentSettingTable().findById(continentId) : nullptr;
+    beginLoadingOverlay(LoadingOverlayScreen::Presentation::Fullscreen,
+        pStartContinent != nullptr ? pStartContinent->deathMap1 : std::string());
     m_gameSession.gameplayScreenRuntime().clearSharedUiRuntime();
     shutdownRenderer();
     m_gameSession.clear();
@@ -14123,6 +16334,17 @@ void GameApplication::renderFrame(int width, int height, float mouseWheelDelta, 
     {
         cancelLoadingOverlay();
     }
+    updateCoopSession(realDeltaSeconds);
+
+    // The title menu's Multiplayer: its screen, now that the game it asked for is on the screen.
+    if (m_openCoopMenuInGame && m_pMapSceneRuntime != nullptr && m_screenManager.activeScreen() == nullptr
+        && !m_loadingOverlayActive)
+    {
+        m_openCoopMenuInGame = false;
+        openPauseMenuScreen();
+        openCoopMenuScreen();
+    }
+
     m_cinematicGrading.resetViews();
     m_outdoorGameView.modelRenderer().setCreatureContour(m_settings.creatureOutlines);
     m_indoorRenderer.modelRenderer().setCreatureContour(m_settings.creatureOutlines);
@@ -14278,7 +16500,9 @@ void GameApplication::renderFrame(int width, int height, float mouseWheelDelta, 
     const uint64_t debugConsoleBeginTickCount = collectFrameDiagnostics ? SDL_GetTicksNS() : 0;
     beginDebugConsoleFrame();
     const bool debugConsoleOpen = m_debugConsole.wantsGameplayInputBlocked();
-    const bool debugConsoleFreezesGameplay = m_debugConsole.freezesGameplay();
+    const bool coopSession = m_gameSession.coopSession();
+    // The console freezes this game's world while it is open; a co-op session's world is not this game's to freeze.
+    const bool debugConsoleFreezesGameplay = m_debugConsole.freezesGameplay() && !coopSession;
     recordFrameDiagnostics(
         m_framePerformanceDiagnostics.debugConsoleBeginNanoseconds,
         debugConsoleBeginTickCount);
@@ -14336,7 +16560,8 @@ void GameApplication::renderFrame(int width, int height, float mouseWheelDelta, 
         height,
         mouseWheelDelta,
         m_settings,
-        debugConsoleOpen,
+        // The line a player types to the others takes every key, as the console does.
+        debugConsoleOpen || m_coopChatEntry.has_value(),
         mobileGameplayTouchControlsEnabled,
         mobileJumpGestureEnabled,
         mobileFlightControlsEnabled,
@@ -14362,9 +16587,24 @@ void GameApplication::renderFrame(int width, int height, float mouseWheelDelta, 
         processPendingArcomageGame();
     }
 
+    if (m_renderUndrawnFrames)
+    {
+        advanceUndrawnFrame(deltaSeconds);
+        return;
+    }
+
     if (IScreen *pActiveScreen = m_screenManager.activeScreen())
     {
         updateDeferredStartupLoads();
+        // A co-op session's world goes on behind this game's own screens; a single-player world is held and drawn as
+        // it stood.
+        const bool coopWorldGoesOn = coopSession && !pActiveScreen->holdsCoopWorld();
+        advanceWorldBehindScreens(
+            width,
+            height,
+            deltaSeconds,
+            pActiveScreen->rendersOverGameplay() ? HiddenWorldFrame::DrawnBehindScreen
+                                                  : HiddenWorldFrame::CoveredByScreen);
 
         const uint64_t activeScreenBeginTickCount = collectFrameDiagnostics ? SDL_GetTicksNS() : 0;
         if (pActiveScreen->rendersOverGameplay())
@@ -14377,6 +16617,12 @@ void GameApplication::renderFrame(int width, int height, float mouseWheelDelta, 
                 backgroundInput.screenWidth = width;
                 backgroundInput.screenHeight = height;
                 m_gameSession.bindCurrentGameplayInputFrame(&backgroundInput);
+                const float worldFrameSeconds = coopWorldGoesOn && m_pMapSceneRuntime != nullptr ? deltaSeconds : 0.0f;
+
+                if (worldFrameSeconds > 0.0f && !presentWorldFrame(*pWorldRuntime, worldFrameSeconds, deltaSeconds))
+                {
+                    return;
+                }
                 // A paused world shown before its first gameplay frame (a startup screen) still shows its actor
                 // models, never their sprites; later it keeps the poses of its last gameplay frame.
                 if (m_pMapSceneRuntime != nullptr && !activeWorldFxSystem().actorModelsConfigured()
@@ -14388,7 +16634,7 @@ void GameApplication::renderFrame(int width, int height, float mouseWheelDelta, 
                     m_settings.ambientOcclusion, m_settings.ambientOcclusionStrength, m_settings.sharpening,
                     m_settings.antialiasing, m_settings.bloom, m_settings.bloomStrength,
                     m_settings.surfaceMaterials && m_settings.surfaceReflections);
-                pWorldRuntime->renderWorld(width, height, backgroundInput, 0.0f);
+                pWorldRuntime->renderWorld(width, height, backgroundInput, worldFrameSeconds);
                 m_cinematicGrading.submit();
                 m_gameSession.renderGameplayUi(width, height);
                 m_gameSession.bindCurrentGameplayInputFrame(&m_gameInputSystem.frame());
@@ -14428,6 +16674,7 @@ void GameApplication::renderFrame(int width, int height, float mouseWheelDelta, 
     const uint64_t pendingStateBeginTickCount = collectFrameDiagnostics ? SDL_GetTicksNS() : 0;
     updateQuickSaveInput();
     updateDoubleSpeedInput();
+    updateCoopChat(width, height);
     updateGameplayTraceSnapshotHotkeys();
 
     if (processPendingPartyDefeat())
@@ -14579,13 +16826,18 @@ void GameApplication::renderFrame(int width, int height, float mouseWheelDelta, 
         const GameplaySharedInputFrameResult &sharedInput = m_gameSession.sharedInputFrameResult();
         const bool pendingSpellTargetActive = m_gameSession.gameplayScreenState().pendingSpellTarget().active;
         const bool rightMouseInspectPauseActive = m_gameInputSystem.frame().rightMouseButton.held;
+        // This game's own screens, a spell waiting for its target and the inspect pause stop the world of a
+        // single-player game only (GameSession::coopSession).
+        const bool localScreenPausesWorld =
+            !coopSession
+            && (sharedInput.worldInputBlocked
+                || pendingSpellTargetActive
+                || m_gameSession.sharedWorldInteractionBlockedThisFrame()
+                || rightMouseInspectPauseActive);
         const bool gameplayWorldPaused =
-            sharedInput.worldInputBlocked
-            || pendingSpellTargetActive
-            || m_gameSession.sharedWorldInteractionBlockedThisFrame()
+            localScreenPausesWorld
             || debugConsoleFreezesGameplay
             || screenshotTourActive
-            || rightMouseInspectPauseActive
             || m_renderFreezeWorld;
 
         if (!gameplayWorldPaused)
@@ -14596,55 +16848,11 @@ void GameApplication::renderFrame(int width, int height, float mouseWheelDelta, 
         }
 
         const uint64_t postWorldBeginTickCount = collectFrameDiagnostics ? SDL_GetTicksNS() : 0;
-        WorldFxSystem &worldFx = m_pMapSceneRuntime->kind() == SceneKind::Outdoor
-            ? m_outdoorGameView.worldFxSystem() : m_indoorRenderer.worldFxSystem();
-        std::string satchelError;
-        if (!worldFx.configureCorpseSatchels(*m_pAssetFileSystem, satchelError))
-        {
-            std::cerr << "Loot satchel load failed: " << satchelError << '\n';
-            requestApplicationQuit();
-            return;
-        }
-        // Before the models: a corpse whose body is gone has no actor model to update.
-        worldFx.syncCorpseSatchels(*pWorldRuntime, gameplayWorldPaused ? 0.0f : scaledGameplayDeltaSeconds);
-        worldFx.syncShieldDomes(*pWorldRuntime, gameplayWorldPaused ? 0.0f : scaledGameplayDeltaSeconds);
-        worldFx.syncBeams(*pWorldRuntime, gameplayWorldPaused ? 0.0f : scaledGameplayDeltaSeconds);
-        worldFx.syncScriptedActorEffects(*pWorldRuntime, gameplayWorldPaused ? 0.0f : scaledGameplayDeltaSeconds);
-        if (EventRuntimeState *pEvents = pWorldRuntime->eventRuntimeState())
-        {
-            advanceDecorationAims(*pEvents, gameplayWorldPaused ? 0.0f : scaledGameplayDeltaSeconds);
-            advanceDecorationClips(*pEvents, gameplayWorldPaused ? 0.0f : scaledGameplayDeltaSeconds);
-            advanceActorPresentations(*pEvents, gameplayWorldPaused ? 0.0f : scaledGameplayDeltaSeconds);
-        }
-        updateMusicArea(pWorldRuntime->partyX(), pWorldRuntime->partyY());
-
-        // The world's battle music (world.yml music battleTrack; MM9) under the yellow alert, MM9's "monsters nearby".
-        if (const WorldMusicDefinition &music = m_activeWorldManifest.music; music.battleTrack > 0)
-        {
-            m_gameAudioSystem.setBattleMusic(
-                music.battleTrack, partyHasYellowAlert(*pWorldRuntime), music.battleFadeSeconds);
-        }
-
-        syncActorSounds(*pWorldRuntime);
-        if (!syncActorModels(*pWorldRuntime, gameplayWorldPaused ? 0.0f : scaledGameplayDeltaSeconds,
-                scaledGameplayDeltaSeconds))
+        if (!presentWorldFrame(
+                *pWorldRuntime, gameplayWorldPaused ? 0.0f : scaledGameplayDeltaSeconds, scaledGameplayDeltaSeconds))
         {
             return;
         }
-        m_gameSession.gameplayFxService().consumePendingWorldFxRequests(
-            pWorldRuntime->eventRuntimeState(),
-            worldFx,
-            *m_pAssetFileSystem);
-        m_gameSession.consumePendingGameplayAudioRequests();
-        m_worldAmbientSounds.update(
-            m_gameAudioSystem,
-            pWorldRuntime->ambientSounds(),
-            {pWorldRuntime->partyX(), pWorldRuntime->partyY(), pWorldRuntime->partyFootZ() + AmbientSoundListenerHeight},
-            pWorldRuntime->gameMinutes(),
-            gameplayWorldPaused ? 0.0f : scaledGameplayDeltaSeconds,
-            pWorldRuntime->eventRuntimeState(),
-            WorldAmbientSoundRules{m_activeWorldManifest.ambientSounds.dayStartHour,
-                m_activeWorldManifest.ambientSounds.dayEndHour, m_activeWorldManifest.ambientSounds.pan});
         recordFrameDiagnostics(m_framePerformanceDiagnostics.postWorldNanoseconds, postWorldBeginTickCount);
         const uint64_t renderWorldBeginTickCount = collectFrameDiagnostics ? SDL_GetTicksNS() : 0;
         const float worldRenderDeltaSeconds = gameplayWorldPaused ? deltaSeconds : scaledGameplayDeltaSeconds;
@@ -15408,9 +17616,63 @@ bool GameApplication::processPendingMapMove()
         pendingMapMove = m_gameplayController.consumePendingMapMove();
     }
 
+    // A co-op session with other players: a move to another map is everyone's, so it waits for their answers
+    // (GameSession::TravelProposal). A move within the map is the player's own, and one a script forces takes
+    // everyone without asking.
+    // The player whose command asked for the move: the local one unless another player's did.
+    const PlayerId moveProposer = pendingMapMove ? m_gameSession.takePendingMoveProposer() : LocalPlayer;
+
+    // Not the move that comes back from its autosave: that one was already voted on.
+    if (pendingMapMove && !autosaveRequested && !pendingMapMove->forced && m_gameSession.coopSession()
+        && !m_gameSession.guestPlayers().empty()
+        && pendingMapMove->mapName && !pendingMapMove->mapName->empty() && *pendingMapMove->mapName != "0"
+        && *pendingMapMove->mapName != "0."
+        && !sameMapFileName(*pendingMapMove->mapName, m_gameSession.currentMapFileName()))
+    {
+        m_gameSession.proposeTravel(std::move(*pendingMapMove), moveProposer);
+        pendingMapMove.reset();
+        // The exit's dialogue was kept open for the departure; the departure now waits for the others. A guest's
+        // was closed with its command, and the host's own conversation or shop is not that one.
+        if (moveProposer == LocalPlayer)
+        {
+            m_gameSession.gameplayScreenRuntime().closeActiveDialogForMapMove();
+        }
+    }
+
+    bool votedMove = false;
+
+    if (!pendingMapMove)
+    {
+        pendingMapMove = m_gameSession.takePassedTravelProposal();
+        votedMove = pendingMapMove.has_value();
+    }
+
     if (!pendingMapMove)
     {
         return false;
+    }
+
+    // A trip chosen with other players in the world is paid as it sets off: every party its own fare and food, the
+    // calendar once. From here on it is a paid trip like any other.
+    if (pendingMapMove->unpaidCost)
+    {
+        std::vector<Party *> otherParties;
+
+        for (const std::unique_ptr<GameSession::GuestPlayer> &pGuest : m_gameSession.guestPlayers())
+        {
+            otherParties.push_back(&pGuest->party);
+        }
+
+        if (Party *pParty = m_gameSession.partyOfPlayer(LocalPlayer))
+        {
+            pendingMapMove->travelTimeApplied = applyTravelCost(
+                *pParty,
+                otherParties,
+                m_gameSession.activeWorldRuntime(),
+                *pendingMapMove->unpaidCost);
+        }
+
+        pendingMapMove->unpaidCost.reset();
     }
 
     synchronizeSessionFromRuntime();
@@ -15466,6 +17728,13 @@ bool GameApplication::processPendingMapMove()
             && targetMapInstanceId == previousMapInstanceId
             && sameMapFileName(*pendingMapMove->mapName, m_gameSession.currentMapFileName()));
 
+    // The guests' games say that the trip begins, before this game's autosave and map load hold it; only now that
+    // the rules did not refuse it and it leads to another map.
+    if (votedMove && !isSameMapTeleport && m_pCoopSession != nullptr && !m_gameSession.guestPlayers().empty())
+    {
+        m_pCoopSession->hostTravelDeparting();
+    }
+
     // Like the original, autosave on the map being left, before its leave events run. Travel that already spent
     // its days, food or fare autosaves on arrival instead, so the save never holds a paid trip not yet taken, and so
     // does every move in a world that autosaves on arrival (MM9).
@@ -15511,6 +17780,23 @@ bool GameApplication::processPendingMapMove()
             m_indoorRenderer.setCameraAngles(yawRadians, m_indoorRenderer.cameraPitchRadians());
         }
     };
+    // A move inside the map is the player's own: another player's party is put there and its game told
+    // (GameSession::GuestPlayer::bodyOrderSerial); the local party stays where it is.
+    if (GameSession::GuestPlayer *pMovedGuest = isSameMapTeleport ? m_gameSession.guestPlayer(moveProposer) : nullptr)
+    {
+        pMovedGuest->body.x = static_cast<float>(pendingMapMove->x);
+        pMovedGuest->body.y = static_cast<float>(pendingMapMove->y);
+        pMovedGuest->body.footZ = static_cast<float>(pendingMapMove->z);
+
+        if (pendingMapMove->directionDegrees)
+        {
+            pMovedGuest->body.yawRadians = mapMoveHeadingDegreesToYawRadians(*pendingMapMove->directionDegrees);
+        }
+
+        ++pMovedGuest->bodyOrderSerial;
+        return true;
+    }
+
     if (isSameMapTeleport)
     {
         // A chest that teleports its opener (The Barrow Downs) stays open, as in the original: the party is moved
@@ -15521,10 +17807,12 @@ bool GameApplication::processPendingMapMove()
             && m_pMapSceneRuntime->kind() == SceneKind::Outdoor
             && m_pOutdoorPartyRuntime != nullptr)
         {
+            // {keepHeight = true} within the map too: the party arrives at z in the air and falls (as across maps).
             m_pOutdoorPartyRuntime->teleportTo(
                 static_cast<float>(pendingMapMove->x),
                 static_cast<float>(pendingMapMove->y),
-                static_cast<float>(pendingMapMove->z)
+                static_cast<float>(pendingMapMove->z),
+                pendingMapMove->keepHeight
             );
         }
         else if (m_pMapSceneRuntime != nullptr && m_pMapSceneRuntime->kind() == SceneKind::Indoor)
@@ -15554,7 +17842,7 @@ bool GameApplication::processPendingMapMove()
     const LoadingOverlayScreen::Presentation loadingPresentation = pendingMapMove->useFullscreenLoading
         ? LoadingOverlayScreen::Presentation::Fullscreen
         : LoadingOverlayScreen::Presentation::DungeonTransition;
-    beginLoadingOverlay(loadingPresentation);
+    beginLoadingOverlay(loadingPresentation, pendingMapMove->mapName.value_or(std::string()));
     closeTransientGameplayUiForMapMove(false);
 
     EventRuntimeState *pLeavingRuntimeState =
@@ -15749,7 +18037,8 @@ void GameApplication::closeTransientGameplayUiForMapMove(bool keepLootView)
     screenRuntime.stopHouseVideoPlayback();
     screenRuntime.closeHouseShopOverlay();
     screenRuntime.closeTransportSchedule();
-    screenRuntime.closeActiveDialogForMapMove();
+    // An event that shows a message and moves the party within the map (a trapdoor, a sinking disc) keeps its window.
+    screenRuntime.closeActiveDialogForMapMove(keepLootView);
     GameplayFormationBuilder::close(screenRuntime);
     GameplaySoloBarSelector::close(screenRuntime);
 
@@ -15807,7 +18096,7 @@ bool GameApplication::processPendingArcomageGame()
         Engine::localize(!pHouseEntry->proprietorName.empty() ? pHouseEntry->proprietorName : pHouseEntry->name);
     int winGoldReward = 0;
 
-    if (!pParty->hasArcomageWinAt(pendingArcomageGame->houseId))
+    if (!pParty->campaign().hasArcomageWinAt(pendingArcomageGame->houseId))
     {
         winGoldReward = static_cast<int>(pHouseEntry->priceMultiplier * 100.0f);
     }
@@ -15933,6 +18222,12 @@ bool GameApplication::processPendingCompletionCertificate()
         return false;
     }
 
+    // A window still open (a story's closing text after its cinematic, D-56) is read and closed first.
+    if (m_gameSession.gameplayScreenRuntime().activeEventDialog().isActive)
+    {
+        return false;
+    }
+
     const IGameplayWorldRuntime *pWorldRuntime = m_gameSession.activeWorldRuntime();
 
     if (pWorldRuntime == nullptr)
@@ -16014,6 +18309,9 @@ bool GameApplication::processPendingEventMovie()
 
     std::optional<EventRuntimeState::PendingMovie> pendingMovie = std::move(pRuntimeState->pendingMovie);
     pRuntimeState->pendingMovie.reset();
+
+    // A hosted game's guests see the movie too, each by its own settings.
+    m_pCoopSession->hostPresentation(Coop::PresentationMovie, pendingMovie->movieName);
 
     if (m_settings.skipEventCutscenes)
     {
@@ -16226,7 +18524,127 @@ bool GameApplication::shouldTriggerPartyDefeat() const
         return false;
     }
 
-    return !m_pMapSceneRuntime->party().hasActableMember();
+    // A guest's game knows no party but its own and decides no defeat: the host's game does, for everyone
+    // (applyPartyDefeatConsequences), and a guest down alone waits for help or returns.
+    if (m_gameSession.coopReplica())
+    {
+        return false;
+    }
+
+    // A co-op session is lost only when no player's party can act; one party down waits for help or returns
+    // (GameSession::anyPlayerCanAct, returnDownedPlayer).
+    return !m_pMapSceneRuntime->party().hasActableMember()
+        && (m_gameSession.guestPlayers().empty() || !m_gameSession.anyPlayerCanAct());
+}
+
+bool GameApplication::coopTestCommandsAllowed() const
+{
+    return m_settings.coopTestCommands;
+}
+
+void GameApplication::setCoopAvatarMember(size_t member)
+{
+    const int chosen = int(std::min<size_t>(member, 254));
+
+    if (chosen == m_settings.coopAvatarMember)
+    {
+        return;
+    }
+
+    m_settings.coopAvatarMember = chosen;
+    std::string error;
+    saveSettings(m_settings, error);
+    // A host's own players list is made from the setting; a guest's host is told.
+    m_pCoopSession->tellOwnAvatar();
+}
+
+bool GameApplication::coopSyncPlayers(PlayerId around, std::optional<PlayerId> only, std::string &message)
+{
+    IGameplayWorldRuntime *pWorldRuntime = m_gameSession.activeWorldRuntime();
+    const std::optional<GameplayPlayerBody> centre = m_gameSession.bodyOfPlayer(around);
+
+    if (pWorldRuntime == nullptr || !centre || m_gameSession.coopReplica())
+    {
+        message = "only a host with that player on its map gathers the players";
+        return false;
+    }
+
+    // Two steps apart along the map's east: nearer, a body fills the other's view.
+    constexpr float Spacing = 192.0f;
+    float offset = Spacing;
+    size_t moved = 0;
+
+    if (around != LocalPlayer && (!only || *only == LocalPlayer))
+    {
+        pWorldRuntime->teleportParty(centre->x + offset, centre->y, centre->footZ);
+        synchronizeSessionFromRuntime();
+        offset += Spacing;
+        ++moved;
+    }
+
+    for (const std::unique_ptr<GameSession::GuestPlayer> &pGuest : m_gameSession.guestPlayers())
+    {
+        if (pGuest->id == around || (only && *only != pGuest->id))
+        {
+            continue;
+        }
+
+        pGuest->body = GameplayPlayerBody{centre->x + offset, centre->y, centre->footZ, centre->yawRadians};
+        // Its own game puts it there.
+        ++pGuest->bodyOrderSerial;
+        offset += Spacing;
+        ++moved;
+    }
+
+    message = std::to_string(moved) + " player(s) put beside player " + std::to_string(int(around));
+    return true;
+}
+
+bool GameApplication::returnDownedPlayer(PlayerId player, std::string &message)
+{
+    Party *pParty = m_gameSession.partyOfPlayer(player);
+    IGameplayWorldRuntime *pWorldRuntime = m_gameSession.activeWorldRuntime();
+    const std::optional<GameplayPlayerBody> &arrival = m_gameSession.mapArrivalBody();
+
+    if (pParty == nullptr || pWorldRuntime == nullptr || !arrival)
+    {
+        message = "no such player in a loaded map";
+        return false;
+    }
+
+    if (pParty->hasActableMember())
+    {
+        message = "the player's party is not down";
+        return false;
+    }
+
+    if (m_gameSession.playerDownSeconds(player) < GameSession::DownedReturnSeconds)
+    {
+        message = "a downed player may return after "
+            + std::to_string(int(GameSession::DownedReturnSeconds)) + " seconds";
+        return false;
+    }
+
+    // A death counted and everyone on their feet, for this party alone. The place is where the players arrived on
+    // this map: the walk back is the cost. The gold stays (the user's decision of 2026-11-21: a player who falls
+    // beside the others loses none; a defeat of everyone is still the ruleset's defeat).
+    pParty->campaign().addEventVariableValue(static_cast<uint16_t>(EvtVariable::NumDeaths), 1);
+    pParty->reviveAndRestoreAll();
+
+    if (player == LocalPlayer)
+    {
+        pWorldRuntime->teleportParty(arrival->x, arrival->y, arrival->footZ);
+        synchronizeSessionFromRuntime();
+    }
+    else if (GameSession::GuestPlayer *pGuest = m_gameSession.guestPlayer(player))
+    {
+        pGuest->body = *arrival;
+        // Its own game puts it there.
+        ++pGuest->bodyOrderSerial;
+    }
+
+    message = "player " + std::to_string(int(player)) + " returned";
+    return true;
 }
 
 std::string GameApplication::resolvePartyDefeatRespawnMapFileName() const
@@ -16274,9 +18692,9 @@ GameApplication::MapStartDestination GameApplication::resolvePartyDefeatRespawnD
                     : nullptr;
                 const bool unfinishedMm7Contest = pContinentMap->worldId == "mm7"
                     && m_pMapSceneRuntime != nullptr
-                    && !m_pMapSceneRuntime->party().hasQuestBit(EmeraldIslandFinishedQBit);
+                    && !m_pMapSceneRuntime->party().campaign().hasQuestBit(EmeraldIslandFinishedQBit);
                 const bool useFirstDeathMap = pContinentMap->worldId == "mm8" && m_pMapSceneRuntime != nullptr
-                    ? !m_pMapSceneRuntime->party().hasQuestBit(RavenshoreVisitedQBit)
+                    ? !m_pMapSceneRuntime->party().campaign().hasQuestBit(RavenshoreVisitedQBit)
                     : unfinishedMm7Contest
                         || sameMapFileName(continentMapFileName, deathMap1)
                         || mapMatchesDeathDestination(*pContinentMap, continentMapFileName, pDeathMap1);
@@ -16401,9 +18819,9 @@ bool GameApplication::partyDefeatIsLost() const
     for (const WorldPartyDeathCondition &condition : worldDeath.when)
     {
         const bool setHold = std::all_of(condition.qbits.begin(), condition.qbits.end(),
-            [&party](uint32_t qbit) { return party.hasQuestBit(qbit); });
+            [&party](uint32_t qbit) { return party.campaign().hasQuestBit(qbit); });
         const bool clearHold = std::none_of(condition.notQbits.begin(), condition.notQbits.end(),
-            [&party](uint32_t qbit) { return party.hasQuestBit(qbit); });
+            [&party](uint32_t qbit) { return party.campaign().hasQuestBit(qbit); });
 
         if (setHold && clearHold)
         {
@@ -16435,8 +18853,21 @@ void GameApplication::applyPartyDefeatConsequences()
     }
 
     const uint16_t numDeathsVariableId = static_cast<uint16_t>(EvtVariable::NumDeaths);
-    party.setEventVariableValue(numDeathsVariableId, party.eventVariableValue(numDeathsVariableId) + 1);
+    party.campaign().addEventVariableValue(numDeathsVariableId, 1);
     party.reviveAndRestoreAll();
+
+    // A co-op session is defeated when no player can act, and then the defeat is everyone's: each party pays and
+    // stands up. The death is one, counted above.
+    for (const std::unique_ptr<GameSession::GuestPlayer> &pGuest : m_gameSession.guestPlayers())
+    {
+        if (!keepGold && pGuest->party.gold() > 0)
+        {
+            pGuest->party.addGold(-pGuest->party.gold(), GoldReason::Defeat);
+        }
+
+        pGuest->party.reviveAndRestoreAll();
+    }
+
     synchronizeSessionFromRuntime();
 }
 
@@ -16459,7 +18890,7 @@ bool GameApplication::respawnPartyAfterDefeat(bool initializeView)
     // The party wakes on the map itself, out of any instance.
     m_gameSession.setCurrentMapFileName(*m_pendingPartyDefeatRespawnMapFileName);
     m_gameSession.setMapInstanceId({});
-    beginLoadingOverlay();
+    beginLoadingOverlay(LoadingOverlayScreen::Presentation::Fullscreen, m_gameSession.currentMapFileName());
     renderLoadingOverlayProgress(15);
 
     if (!loadCurrentSessionMapKeepingHeldItem(
@@ -16526,7 +18957,7 @@ void GameApplication::handleCompletedArcomageScreen()
             int goldReward = 0;
             const HouseEntry *pHouseEntry = m_gameDataLoader.getHouseTable().get(state.houseId);
 
-            if (pHouseEntry != nullptr && !pParty->hasArcomageWinAt(state.houseId))
+            if (pHouseEntry != nullptr && !pParty->campaign().hasArcomageWinAt(state.houseId))
             {
                 goldReward = static_cast<int>(pHouseEntry->priceMultiplier * 100.0f);
             }

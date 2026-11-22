@@ -4265,10 +4265,30 @@ bool recordOutsideEdits(
 
     HistoryHead head;
     OutsideRecord outside;
+    // A project without a history (made by a generator, never built or formatted): its files as they are become the
+    // first entry, the author's, instead of a silent baseline that leaves nothing to record.
+    const bool firstSight = readHistoryHead(projectRoot).revision.empty();
 
     if (!syncOutsideEdits(projectRoot, project, head, outside, errorMessage))
     {
         return false;
+    }
+
+    if (firstSight)
+    {
+        const std::map<std::string, std::string> files = fileTexts(projectRoot);
+        NewHistoryEntry entry;
+        entry.kind = "outside";
+        entry.author = "outside";
+        entry.revisionBefore = head.revision;
+        entry.revisionAfter = head.revision;
+        entry.changes.push_back("the project's " + std::to_string(files.size())
+            + " files as first recorded: its history starts here");
+
+        if (!appendHistoryEntry(projectRoot, head, entry, errorMessage))
+        {
+            return false;
+        }
     }
 
     result.revision = head.revision;

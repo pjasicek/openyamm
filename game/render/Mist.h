@@ -127,6 +127,43 @@ inline std::vector<std::pair<size_t, float>> selectMistVolumes(const std::vector
     return selected;
 }
 
+// The share of a map's mist its script asks for (evt.SetMist), faded from the share shown over the call's seconds.
+class MistScriptFade
+{
+public:
+    // The share to draw at `now` (the view's clock, seconds) for the script's latest call (`revision`, 0: none).
+    float amount(uint32_t revision, float target, float seconds, float now)
+    {
+        if (revision != m_revision)
+        {
+            m_from = shown(now);
+            m_to = std::clamp(target, 0.0f, 1.0f);
+            m_start = now;
+            m_seconds = seconds;
+            m_revision = revision;
+        }
+
+        return shown(now);
+    }
+
+private:
+    float shown(float now) const
+    {
+        if (m_seconds <= 0.0f || now >= m_start + m_seconds)
+        {
+            return m_to;
+        }
+
+        return m_from + (m_to - m_from) * std::max(now - m_start, 0.0f) / m_seconds;
+    }
+
+    uint32_t m_revision = 0;
+    float m_from = 1.0f;
+    float m_to = 1.0f;
+    float m_start = 0.0f;
+    float m_seconds = 0.0f;
+};
+
 // The mist block of u_skyFog for one frame (game/shaders/mist.sh reads it from vector SkyFogVectors on):
 // [0] layer count, volume count; [1] the volumes' patches: 1 / patch size, drift offset x, y;
 // per layer: colour, most it covers; base height, 1 / falloff height, density per unit, noise; 1 / depth (0: none),

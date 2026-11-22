@@ -1,4 +1,5 @@
 #include "core/IndoorBuild.h"
+#include "core/Audit.h"
 #include "core/GroundTerrain.h"
 #include "core/Json.h"
 #include "core/Ops.h"
@@ -17,6 +18,27 @@ namespace
 YAML::Node childOf(const YAML::Node &node, const char *pKey)
 {
     return node.IsDefined() && node.IsMap() ? node[pKey] : YAML::Node(YAML::NodeType::Undefined);
+}
+
+// A world that declares its own map ids (world.yml idRanges.maps, as Xeen does) owns its maps' table rows: its own
+// generator writes them, and the game reads them through world.yml tableContributions (devdocs/xeen/lanes/TABLES.md).
+bool worldOwnsMapRows(const std::filesystem::path &assetRoot, const std::string &world)
+{
+    std::string manifest;
+
+    if (!readTextFile(assetRoot / "worlds" / world / "world.yml", manifest))
+    {
+        return false;
+    }
+
+    try
+    {
+        return childOf(childOf(YAML::Load(manifest), "idRanges"), "maps").IsMap();
+    }
+    catch (const YAML::Exception &)
+    {
+        return false;
+    }
 }
 
 std::string lower(std::string text)
@@ -312,6 +334,8 @@ bool writeStudioMapFile(
     std::string revision;
     std::string lockHash;
     std::string buildJson;
+    // The map's named arrivals (D-4), which doors and exits of other maps name.
+    std::string arrivals;
 
     if (readTextFile(buildDirectory / "build.json", buildJson))
     {
@@ -320,6 +344,20 @@ bool writeStudioMapFile(
             const YAML::Node built = YAML::Load(buildJson);
             revision = built["source_revision"] ? built["source_revision"].Scalar() : std::string();
             lockHash = built["lock_hash"] ? built["lock_hash"].Scalar() : std::string();
+            const YAML::Node named = built["named_arrivals"];
+
+            for (const YAML::Node &arrival : named && named.IsSequence() ? named : YAML::Node())
+            {
+                const YAML::Node at = arrival["at"];
+
+                if (arrival["name"] && at && at.IsSequence() && at.size() == 3)
+                {
+                    arrivals += "  - {name: " + jsonQuote(arrival["name"].Scalar()) + ", at: ["
+                        + std::to_string(at[0].as<int>(0)) + ", " + std::to_string(at[1].as<int>(0)) + ", "
+                        + std::to_string(at[2].as<int>(0)) + "], facing: "
+                        + std::to_string(arrival["facing"] ? arrival["facing"].as<int>(0) : 0) + "}\n";
+                }
+            }
         }
         catch (const YAML::Exception &)
         {
@@ -340,11 +378,65 @@ bool writeStudioMapFile(
         projectPath = std::filesystem::absolute(project.root);
     }
 
-    const std::string text = "# Written by oymap install: the Map Studio project this map was built from. The game's `pin`"
+    std::string text = "# Written by oymap install: the Map Studio project this map was built from. The game's `pin`"
         " copies it into\n# every pin made on the map; `oymap pins import` files the pin into that project.\n"
         "project: " + jsonQuote(projectPath.generic_string()) + "\n"
         "revision: " + jsonQuote(revision) + "\n"
         "lock_hash: " + jsonQuote(lockHash) + "\n";
+
+    if (!arrivals.empty())
+    {
+        text += "# Where a party arrives (`into: {map, arrival}` and a neighbour's `arrival: <name>` of other maps).\n"
+            "arrivals:\n" + arrivals;
+    }
+
+    // What the project says of the map that the map cannot (the audit of the installed map reads it back): the
+    // decorations that hang, the storerooms and the trapdoors, by the numbers of the lock the build wrote.
+    Project built;
+    std::vector<ProjectIssue> unused;
+
+    if (loadProject(project.root, built, unused))
+    {
+        const DressingFacts facts = projectDressingFacts(built);
+
+        // What the map is (D-89), for the audit's cave-shape check of the installed map.
+        if (!facts.identityShape.empty())
+        {
+            text += "identity: {shape: " + jsonQuote(facts.identityShape) + "}\n";
+        }
+
+        // D-91: the cave mouths that lead nowhere, for the audit's `caves.blind_mouth`.
+        if (!facts.blindMouths.empty())
+        {
+            text += "blind_mouths: [";
+
+            for (const std::string &id : facts.blindMouths)
+            {
+                text += (text.back() == '[' ? "" : ", ") + jsonQuote(id);
+            }
+
+            text += "]\n";
+        }
+
+        for (const std::pair<const char *, const std::set<int> *> list :
+            {std::pair<const char *, const std::set<int> *>{"hanging_decorations", &facts.hanging},
+                std::pair<const char *, const std::set<int> *>{"storerooms", &facts.storerooms},
+                std::pair<const char *, const std::set<int> *>{"trap_doors", &facts.traps}})
+        {
+            if (!list.second->empty())
+            {
+                text += std::string(list.first) + ": [";
+
+                for (const int number : *list.second)
+                {
+                    text += (text.back() == '[' ? "" : ", ") + std::to_string(number);
+                }
+
+                text += "]\n";
+            }
+        }
+    }
+
     return writeTextFileAtomically(target, text, errorMessage);
 }
 }
@@ -355,7 +447,8 @@ bool installBuild(
     const std::filesystem::path &assetRoot,
     std::vector<std::string> &installedFiles,
     std::string &errorMessage,
-    bool statsOptional)
+    bool statsOptional,
+    const std::filesystem::path *pManifestRoot)
 {
     const YAML::Node card = project.document("project.yml");
     const std::string stem = card["id"].Scalar();
@@ -369,9 +462,13 @@ bool installBuild(
         return false;
     }
 
+    // A world that owns its maps' table rows takes only the map's files, all in its own folder, so its maps install
+    // into the development root too; they write no table row, sky theme or travel row (the world's generator does).
+    const bool ownRows = worldOwnsMapRows(pManifestRoot != nullptr ? *pManifestRoot : assetRoot, world);
+
     // S0 installs into scratch roots only (a hard-link copy of assets_dev, as the MM9 scratch builds use); the
     // development assets get new maps once the game can mount a build folder (PLAN.md section 10b).
-    if (std::filesystem::weakly_canonical(assetRoot, error).filename() == "assets_dev")
+    if (!ownRows && std::filesystem::weakly_canonical(assetRoot, error).filename() == "assets_dev")
     {
         errorMessage = "refusing to install into assets_dev: install into a scratch asset root (cp -al assets_dev "
             "output/<name>_root)";
@@ -443,7 +540,7 @@ bool installBuild(
         || !copyFileAtomically(buildDirectory / (stem + ".scene.yml"), maps / (stem + ".scene.yml"), errorMessage)
         || !copyFileAtomically(buildDirectory / (stem + ".lua"), events / (stem + ".lua"), errorMessage)
         || !writeStudioMapFile(project, buildDirectory, maps / (stem + ".studio.yml"), errorMessage)
-        || (!(statsOptional && !hasStatsId)
+        || (!ownRows && !(statsOptional && !hasStatsId)
             && !upsertMapStatsRow(project, assetRoot / "engine" / "data_tables" / "map_stats.txt", errorMessage)))
     {
         return false;
@@ -469,14 +566,20 @@ bool installBuild(
         "worlds/" + world + "/maps/" + mapFile,
         "worlds/" + world + "/maps/" + stem + ".scene.yml",
         "worlds/" + world + "/events/maps/" + stem + ".lua",
-        "worlds/" + world + "/maps/" + stem + ".studio.yml",
-        "engine/data_tables/map_stats.txt"};
+        "worlds/" + world + "/maps/" + stem + ".studio.yml"};
 
     // An open-air map's ground (atmosphere.yml `ground`): its material file and weights (core/GroundTerrain.h).
     if (!installGroundFiles(buildDirectory, assetRoot, world, stem, installedFiles, errorMessage))
     {
         return false;
     }
+
+    if (ownRows)
+    {
+        return true;
+    }
+
+    installedFiles.push_back("engine/data_tables/map_stats.txt");
 
     // An outdoor map's ways to its neighbours across its sides: its row of the travel table (core/OutdoorInstall).
     const std::filesystem::path travels = assetRoot / "engine" / "data_tables" / "outdoor_travels.txt";
@@ -731,21 +834,26 @@ bool installBuildIntoMount(
         return false;
     }
 
-    if (!card["base"].IsDefined()
+    // A world that owns its maps' rows (Xeen) gets none in the mount: the root's world tables have them, and an engine
+    // copy would collide with them.
+    const bool ownRows = worldOwnsMapRows(assetRoot, world);
+
+    if (!ownRows && !card["base"].IsDefined()
         && !prepareMountTable(rootTables / "map_stats.txt", tables / "map_stats.txt", errorMessage))
     {
         return false;
     }
 
     // The same for the travel table of an outdoor map that leads to neighbours across its sides.
-    if (!outdoorTravelEdges(project).empty()
+    if (!ownRows && !outdoorTravelEdges(project).empty()
         && !prepareMountTable(rootTables / "outdoor_travels.txt", tables / "outdoor_travels.txt", errorMessage))
     {
         return false;
     }
 
     // And for the table with a map's continent, weather and bolster kind.
-    if (outdoorWeatherRow(project).written && std::filesystem::exists(rootTables / "bolster_maps.txt", error)
+    if (!ownRows && outdoorWeatherRow(project).written
+        && std::filesystem::exists(rootTables / "bolster_maps.txt", error)
         && !prepareMountTable(rootTables / "bolster_maps.txt", tables / "bolster_maps.txt", errorMessage))
     {
         return false;
@@ -763,6 +871,6 @@ bool installBuildIntoMount(
         }
     }
 
-    return installBuild(project, buildDirectory, mountRoot, installedFiles, errorMessage, statsOptional);
+    return installBuild(project, buildDirectory, mountRoot, installedFiles, errorMessage, statsOptional, &assetRoot);
 }
 }

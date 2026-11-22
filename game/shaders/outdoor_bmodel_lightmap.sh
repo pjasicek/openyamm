@@ -25,8 +25,10 @@ uniform vec4 u_secretPulseParams;
 
 #include "weather_wetness.sh"
 #include "light_grid.sh"
-#if SURFACE_MATERIALS
+#if SURFACE_MATERIALS || SURFACE_GLOW_ONLY
 #include "surface_material.sh"
+#endif
+#if SURFACE_MATERIALS
 #if !SUN_SHADOWS
 SAMPLER2D(s_texBakedSunDirect, 5);
 #endif
@@ -235,6 +237,18 @@ void main()
         u_surfaceMaterial.y);
 #endif
 
+#if SURFACE_GLOW_ONLY
+    // The glow map is read before any discard, in uniform control flow (implicit derivatives).
+#if BMODEL_TEXTURE_ARRAY
+    // The texture's layer in the group's glow arrays; negative: the texture does not glow.
+    bool hasGlow = v_texcoord1.z > -0.5;
+    float glowSample = surfaceMap(s_surfaceNormal, texcoord, max(v_texcoord1.z, 0.0)).b;
+#else
+    bool hasGlow = true;
+    float glowSample = surfaceMap(s_surfaceNormal, texcoord, 0.0).b;
+#endif
+#endif
+
 #if BMODEL_TEXTURE_ARRAY
     vec4 textureColor = texture2DArray(s_texColor, vec3(texcoord, v_texcoord1.y));
 #else
@@ -262,6 +276,10 @@ void main()
         litTextureColor = vec4(bakedSurfaceColor(textureColor.rgb,
             staticLighting + getFxLighting(v_worldPosition)), textureColor.a);
         litTextureColor.rgb = applyWetness(litTextureColor.rgb, v_worldPosition);
+#if SURFACE_GLOW_ONLY
+        litTextureColor.rgb = surfaceGlowOnlyColor(litTextureColor.rgb, textureColor.rgb,
+            hasGlow ? surfaceGlowStrength(glowSample, u_surfaceMaterial.y) : 0.0);
+#endif
     }
 #else
     vec3 staticLighting = texture2D(s_texLightmap, v_lightmapUv).rgb * v_color0.rgb;

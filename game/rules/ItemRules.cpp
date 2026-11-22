@@ -348,6 +348,18 @@ bool ItemRules::hasPouches() const
     return false;
 }
 
+bool ItemRules::questItem(const ItemDefinition &definition)
+{
+    // What is worn or wielded stays with the gear, whatever it is worth (blasters, the Wetsuit); a pile of gold is
+    // no item of a bag.
+    static constexpr std::array<std::string_view, 18> NoQuestItem = {
+        "Weapon", "Weapon2", "Weapon1or2", "Missile", "WeaponW", "Armor", "Shield", "Helm", "Belt", "Cloak",
+        "Gauntlets", "Boots", "Ring", "Amulet", "Gold", "Bottle", "Reagent", "Herb"};
+
+    return definition.itemId != 0 && definition.value == 0 && !definition.name.empty()
+        && std::find(NoQuestItem.begin(), NoQuestItem.end(), definition.equipStat) == NoQuestItem.end();
+}
+
 std::optional<std::string> ItemRules::chestOpenRefusal(const Party &, int) const
 {
     return std::nullopt;

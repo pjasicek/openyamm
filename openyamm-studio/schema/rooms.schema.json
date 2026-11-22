@@ -367,6 +367,10 @@
             "x-key": "key",
             "x-key-prefix": "floor_part"
           },
+          "store": {
+            "description": "true: a storeroom, where containers (barrels, sacks, crates) may stand in clumps and a second row from the walls (devdocs/xeen/formats/DRESSING.md; the audit's dressing.clump and dressing.wall). A room with 8 or more containers is one without it.",
+            "type": "boolean"
+          },
           "steep_floor": {
             "description": "true: floors of this room that are too steep to walk are meant (rock banks, a pit's sides, a console's top): triangles of an uneven floor, banks of `levels` and sloping tops of `platforms` that rise between 0.9 and 2 for each unit of run are built instead of refused. The party does not walk up them. Steeper than 2 is a wall and is refused in any case.",
             "type": "boolean"
@@ -583,6 +587,10 @@
                       },
                       "secret": {
                         "description": "true: the panel's faces carry the engine's secret flag, so the game makes them pulse for a party whose Perception finds secrets (the Temple of the Moon's rock-face chests, the Abandoned Temple's clues). Needs an `id`. Default false.",
+                        "type": "boolean"
+                      },
+                      "cover": {
+                        "description": "true: the panel hangs 2 in front of the wall instead of being cut into it, and the wall is built whole behind it (a hide, a tapestry, boards over a wall), so a destructible `of` the panel burns or breaks away to the wall behind (DD-13). It may stand in front of another panel of the wall, which is then built whole behind it; two covers may not overlap. Needs an `id`. Default false.",
                         "type": "boolean"
                       },
                       "notes": {
@@ -1584,7 +1592,8 @@
               "flights",
               "parapets",
               "beams",
-              "stalactites"
+              "stalactites",
+              "store"
             ]
           ],
           [
@@ -2083,6 +2092,48 @@
         "sky": {
           "description": "The faces of this surface are where the sky shows: on a map open to the sky (atmosphere.yml `open_sky`) the game draws the sky there instead of the picture (the faces stay solid). Default false.",
           "type": "boolean"
+        },
+        "translucent": {
+          "description": "The faces of this surface are drawn see-through: blended over what lies behind them, lit like their room, and still solid (they collide and block sight, missiles and clicks as a wall does; devdocs/INDOOR_TRANSLUCENT_FACES.md). The build lists them in the scene's `translucent_faces`. A number is the opacity (0 to 1, times the texture's own alpha); or {opacity, tint ([r, g, b] multiplying the lit colour, default white), two_sided (default false: drawn only from the side the face looks to, which suits a door leaf, whose two faces each look out)}. A single face seen from both sides (a pane laid on a panel) takes two_sided: true. Example: surface: {texture: xpaper, size: [128, 256], translucent: 0.6}.",
+          "oneOf": [
+            {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 1,
+              "x-unit": "ratio"
+            },
+            {
+              "type": "object",
+              "x-flow": true,
+              "properties": {
+                "opacity": {
+                  "description": "0 to 1, times the texture's own alpha. Default 1.",
+                  "type": "number",
+                  "minimum": 0,
+                  "maximum": 1,
+                  "x-unit": "ratio"
+                },
+                "tint": {
+                  "description": "[r, g, b] multiplying the lit colour, each 0 or more. Default [1, 1, 1].",
+                  "type": "array",
+                  "items": {
+                    "type": "number",
+                    "minimum": 0
+                  },
+                  "minItems": 3,
+                  "maxItems": 3,
+                  "x-unit": "ratio",
+                  "x-geom": false
+                },
+                "two_sided": {
+                  "description": "Drawn from both sides. Default false: only from the side the face looks to.",
+                  "type": "boolean"
+                }
+              },
+              "additionalProperties": false
+            }
+          ],
+          "x-unit": "ratio"
         }
       },
       "additionalProperties": false

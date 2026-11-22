@@ -65,6 +65,15 @@ struct ModelColorRamp
     std::array<std::array<float, 3>, ModelColorRampStops> colors = {};
 };
 
+// A colour region's ramp turned to another colour (ModelInstanceSystem::setRegionRecolor): a variant of a skin made
+// from one of its own without a new asset. Every stop takes the colour's hue; its saturation is raised to
+// ModelRecolorMinSaturation and held at the colour's; and the ramp is brightened, at most ModelRecolorMaxGain times,
+// until its brightest stop is as bright as the colour. The region keeps its shading. `srgbColor` is a display
+// colour, 0 to 1.
+constexpr float ModelRecolorMinSaturation = 0.6f;
+constexpr float ModelRecolorMaxGain = 2.5f;
+ModelColorRamp recoloredModelRamp(const ModelColorRamp &ramp, const std::array<float, 3> &srgbColor);
+
 // Edge darkening of creature materials that do not set "openyamm_edge_darkening".
 constexpr float DefaultCreatureEdgeDarkening = 0.65f;
 

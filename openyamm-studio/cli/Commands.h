@@ -120,6 +120,20 @@ struct AuditRequest
     // Also the lock-and-key solve of an indoor map, as `oymap solve --json` gives it (check.audit's `solve`): one
     // walk serves the solve and the questions' order, where an audit and a solve each walk the map.
     bool solve = false;
+    // The props' dressing rules (core/Audit.h auditDressing) on a map of any world; Xeen's maps always have them.
+    bool dressing = false;
+    // The light fixtures' mounts (core/Audit.h auditLightFixtures) on a map of any world; Xeen's maps always have
+    // them. `lightsMeasure`: also one lights.measure line per fixture and light (the calibration).
+    bool lights = false;
+    bool lightsMeasure = false;
+    // The door leaves' pictures (core/Audit.h auditDoorTextures) on a map of any world; Xeen's maps always have them.
+    // `doorsMeasure`: also one doors.measure line per leaf (the calibration).
+    bool doors = false;
+    bool doorsMeasure = false;
+    // The pictures' fit (core/Audit.h auditTextureFit) likewise; `texturesMeasure`: one textures.measure line per
+    // surface and per pair of neighbouring surfaces.
+    bool textures = false;
+    bool texturesMeasure = false;
 };
 
 // `oymap audit --json`'s members (map, world, overview, coplanar, reachability, scene_overlays, scripts, warnings,

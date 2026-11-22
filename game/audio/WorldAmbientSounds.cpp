@@ -9,6 +9,21 @@
 
 namespace OpenYAMM::Game
 {
+bool worldAmbientSoundPans(const WorldAmbientSound &source, const WorldAmbientSoundRules &rules)
+{
+    return rules.pan && source.pan;
+}
+
+float worldAmbientSoundStartFraction(const WorldAmbientSound &source, std::mt19937 &rng)
+{
+    if (!source.loop || source.waitMaxSeconds > 0.0f)
+    {
+        return 0.0f;
+    }
+
+    return std::min(std::uniform_real_distribution<float>(0.0f, 1.0f)(rng), 0.999f);
+}
+
 bool worldAmbientSoundDaytime(float gameMinutes, const WorldAmbientSoundRules &rules)
 {
     const float hour = std::fmod(std::max(gameMinutes, 0.0f) / 60.0f, 24.0f);
@@ -179,16 +194,21 @@ void WorldAmbientSoundRuntime::update(
             continue;
         }
 
+        // A loop without a wait starts somewhere in its clip, so a bed's emitters that come into reach together do
+        // not play in step (D-48).
+        const bool plainLoop = source.loop && !waits;
+        const float startFraction = worldAmbientSoundStartFraction(source, m_rng);
         voice.instanceId = audio.playAssetInstance(
             *path,
             GameAudioSystem::PlaybackGroup::World,
             GameAudioSystem::WorldPosition{source.position[0], source.position[1], source.position[2]},
-            source.loop && !waits,
+            plainLoop,
             source.volume,
             1.0f,
             source.innerRadius,
             source.outerRadius,
-            rules.pan);
+            worldAmbientSoundPans(source, rules),
+            startFraction);
         voice.playedOnce = true;
         voice.failed = voice.instanceId == 0;
     }

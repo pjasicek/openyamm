@@ -755,7 +755,7 @@ std::vector<const Mm9RudeRow *> Mm9RudeDialogueTable::visibleRows(
                 row,
                 [&party](uint32_t qbitId)
                 {
-                    return party.hasQuestBit(qbitId);
+                    return party.campaign().hasQuestBit(qbitId);
                 }))
         {
             rows.push_back(&row);
@@ -910,7 +910,7 @@ void applyMm9RudeRowActions(
             }
             else
             {
-                party.setQuestBit(*qbitId, true);
+                party.campaign().setQuestBit(*qbitId, true);
             }
         }
     }
@@ -926,7 +926,7 @@ void applyMm9RudeRowActions(
             }
             else
             {
-                party.setQuestBit(*qbitId, false);
+                party.campaign().setQuestBit(*qbitId, false);
             }
         }
     }

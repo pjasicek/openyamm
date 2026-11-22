@@ -1945,3 +1945,57 @@ TEST_CASE("ModelAnimation bakes a frozen skinned pose into a static asset that m
         }
     }
 }
+
+TEST_CASE("ModelAnimation recolours a colour region's ramp: the colour's hue, the ramp's shading, brightened to it")
+{
+    using OpenYAMM::Engine::ModelColorRamp;
+    using OpenYAMM::Engine::ModelColorRampStops;
+    using OpenYAMM::Engine::linearToSrgb;
+    using OpenYAMM::Engine::srgbToLinear;
+    // A dark green cloth: from nearly black to a green of half brightness.
+    ModelColorRamp green;
+    green.luminanceRange = {0.02f, 0.4f};
+
+    for (size_t stop = 0; stop < ModelColorRampStops; ++stop)
+    {
+        const float value = 0.05f + 0.45f * float(stop) / float(ModelColorRampStops - 1);
+        green.colors[stop] = {srgbToLinear(value * 0.3f), srgbToLinear(value), srgbToLinear(value * 0.35f)};
+    }
+
+    const std::array<float, 3> gold = {0.92f, 0.71f, 0.15f};
+    const ModelColorRamp recolored = OpenYAMM::Engine::recoloredModelRamp(green, gold);
+    CHECK_EQ(recolored.luminanceRange[0], doctest::Approx(0.02f));
+    CHECK_EQ(recolored.luminanceRange[1], doctest::Approx(0.4f));
+    float previous = 0.0f;
+
+    for (size_t stop = 0; stop < ModelColorRampStops; ++stop)
+    {
+        const float red = linearToSrgb(recolored.colors[stop][0]);
+        const float greenShare = linearToSrgb(recolored.colors[stop][1]);
+        const float blue = linearToSrgb(recolored.colors[stop][2]);
+        // Gold at every stop: red over green over blue, in the colour's own proportion.
+        CHECK(red > greenShare);
+        CHECK(greenShare > blue);
+        CHECK_EQ((greenShare - blue) / (red - blue), doctest::Approx((0.71f - 0.15f) / (0.92f - 0.15f)).epsilon(0.02));
+        // The shading is kept: brighter stop by stop.
+        CHECK(red > previous);
+        previous = red;
+    }
+
+    // The brightest stop is as bright as the colour (0.5 times a gain of 1.84).
+    CHECK_EQ(linearToSrgb(recolored.colors[ModelColorRampStops - 1][0]), doctest::Approx(0.92f).epsilon(0.01));
+
+    // A ramp too dark for that is brightened at most ModelRecolorMaxGain times; a grey one takes the colour.
+    ModelColorRamp dark;
+
+    for (size_t stop = 0; stop < ModelColorRampStops; ++stop)
+    {
+        const float value = 0.1f * float(stop + 1) / float(ModelColorRampStops);
+        dark.colors[stop] = {srgbToLinear(value), srgbToLinear(value), srgbToLinear(value)};
+    }
+
+    const ModelColorRamp lifted = OpenYAMM::Engine::recoloredModelRamp(dark, gold);
+    CHECK_EQ(linearToSrgb(lifted.colors[ModelColorRampStops - 1][0]),
+        doctest::Approx(0.1f * OpenYAMM::Engine::ModelRecolorMaxGain).epsilon(0.01));
+    CHECK(lifted.colors[ModelColorRampStops - 1][0] > lifted.colors[ModelColorRampStops - 1][2]);
+}

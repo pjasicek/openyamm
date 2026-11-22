@@ -175,6 +175,14 @@ std::vector<uint32_t> collectSelectableResidentNpcIds(
     const EventRuntimeState &eventRuntimeState
 );
 
+// The resident who is the house's proprietor himself (his portrait is the house's non-zero proprietor picture, in a
+// house with services): he is listed once, and his talk carries the house's services.
+std::optional<uint32_t> houseProprietorResidentNpcId(
+    const HouseEntry &houseEntry,
+    const NpcDialogTable &npcDialogTable,
+    const EventRuntimeState &eventRuntimeState
+);
+
 std::string formatNpcProfessionText(
     std::string text,
     const NpcEntry &npc,

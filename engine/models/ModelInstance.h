@@ -131,6 +131,11 @@ public:
     // Multiplier of the emission of the instance's skinned draws (a creature's frenzy glow), 1 = as authored.
     bool setEmissionMultiplier(ModelInstanceHandle handle, float multiplier);
     float emissionMultiplier(ModelInstanceHandle handle) const;
+    // A display colour (0 to 1) every colour region of the instance's skinned draws is turned to
+    // (recoloredModelRamp): one more colour variant of a skin, made of the variant it shows. Materials without
+    // colour regions stay as they are. Null draws the variant's own colours.
+    bool setRegionRecolor(ModelInstanceHandle handle, const std::array<float, 3> *pSrgbColor);
+    const std::array<float, 3> *regionRecolor(ModelInstanceHandle handle) const;
     // Null stops the burn: the surface is whole again.
     bool setBurn(ModelInstanceHandle handle, const ModelBurn *pBurn);
     const ModelBurn *burn(ModelInstanceHandle handle) const;
@@ -209,6 +214,7 @@ private:
         uint32_t outlineColorAbgr = 0;
         float hitFlash = 0.0f;
         float emissionMultiplier = 1.0f;
+        std::optional<std::array<float, 3>> regionRecolor;
         std::optional<ModelBurn> burn;
         std::optional<ModelShieldShell> shieldShell;
         uint32_t materialVariant = 0;

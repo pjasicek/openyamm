@@ -107,6 +107,15 @@ vec2 surfaceParallax(vec2 uv, float layer, float weight, vec3 toCamera, float di
     return uv + uvPerDepth * hitDepth;
 }
 
+// The glow strength of a normal map's b channel now: (0, 0.45] glows at night (nightGlow: 0 by day, 1 at night),
+// [0.55, 1] always. The gap keeps block compression from moving a full night glow across the boundary.
+float surfaceGlowStrength(float glow, float nightGlow)
+{
+    float nightStrength = glow < 0.5 ? clamp(glow / 0.45, 0.0, 1.0) : 0.0;
+    float alwaysStrength = glow >= 0.5 ? clamp((glow - 0.55) / 0.45, 0.0, 1.0) : 0.0;
+    return nightStrength * nightGlow + alwaysStrength;
+}
+
 // The material at a texture coordinate; nightGlow is the night factor of night-glowing texels.
 SurfacePoint surfacePoint(vec4 normalSample, vec4 detailSample, vec3 normal, vec3 gradientU, vec3 gradientV,
     float nightGlow)
@@ -128,12 +137,7 @@ SurfacePoint surfacePoint(vec4 normalSample, vec4 detailSample, vec3 normal, vec
     float variance = 0.25 * (dot(dndx, dndx) + dot(dndy, dndy));
     float roughness = max(detailSample.g, 0.04);
     material.roughness = sqrt(clamp(roughness * roughness + min(2.0 * variance, 0.18), 0.0, 1.0));
-    // b in (0, 0.45]: glows at night; [0.55, 1]: always glows. The gap keeps block compression from moving a full
-    // night glow across the boundary.
-    float glow = normalSample.b;
-    float nightStrength = glow < 0.5 ? clamp(glow / 0.45, 0.0, 1.0) : 0.0;
-    float alwaysStrength = glow >= 0.5 ? clamp((glow - 0.55) / 0.45, 0.0, 1.0) : 0.0;
-    material.glow = nightStrength * nightGlow + alwaysStrength;
+    material.glow = surfaceGlowStrength(normalSample.b, nightGlow);
     return material;
 }
 
@@ -143,6 +147,20 @@ vec3 surfaceGlowColor(vec3 albedo)
 {
     float peak = max(max(albedo.r, albedo.g), albedo.b);
     return albedo / max(peak, 0.002) * (0.35 + 0.65 * sqrt(peak));
+}
+
+// SURFACE_GLOW_ONLY (D-55): a world whose glow is content (world.yml surfaceGlowContent) with Surface materials off
+// draws its glowing textures with the ordinary shading and only their normal maps: the glow is added to the ordinary
+// display-space colour as the material shading adds it. A texel without glow keeps its colour exactly.
+vec3 surfaceGlowOnlyColor(vec3 litDisplayColor, vec3 textureDisplayColor, float glow)
+{
+    if (glow <= 0.0)
+    {
+        return litDisplayColor;
+    }
+    vec3 albedo = pow(max(textureDisplayColor, vec3_splat(0.0)), vec3_splat(2.2));
+    vec3 lit = pow(max(litDisplayColor, vec3_splat(0.0)), vec3_splat(2.2));
+    return pow(lit + surfaceGlowColor(albedo) * (glow * SURFACE_GLOW_SCALE), vec3_splat(1.0 / 2.2));
 }
 
 // The history texel a world point (relative to the history camera) falls on; xy: texture coordinate, z: whether it

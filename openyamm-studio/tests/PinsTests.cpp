@@ -3,6 +3,7 @@
 // and <stem>.studio.yml on every install route.
 #include "doctest/doctest.h"
 
+#include "core/Audit.h"
 #include "core/CanonicalYaml.h"
 #include "core/IndoorBuild.h"
 #include "core/IndoorLowering.h"
@@ -653,6 +654,27 @@ TEST_CASE("S5a1: oymap record attributes the unattributed outside entries since 
     std::filesystem::remove_all(root);
 }
 
+TEST_CASE("oymap record on a project without a history makes its files the author's first entry")
+{
+    // A generator wrote the project and nothing has read it since: no baseline yet.
+    const std::filesystem::path root = writeProject("record_first");
+    RecordResult recorded;
+    std::string errorMessage;
+    REQUIRE(recordOutsideEdits(root, "agent:gen", "generator run 1", recorded, errorMessage));
+    REQUIRE(recorded.taken.size() == 1);
+    CHECK(recorded.taken[0].sequence == 1);
+    REQUIRE(recorded.taken[0].changes.size() == 1);
+    CHECK(recorded.taken[0].changes[0].find("as first recorded") != std::string::npos);
+    const ProjectStatus status = statusOf(root);
+    REQUIRE(status.history.size() == 1);
+    CHECK(status.history[0].author == "agent:gen");
+    CHECK(status.history[0].label == "generator run 1");
+    // Again with nothing changed: nothing more to record.
+    REQUIRE(recordOutsideEdits(root, "agent:gen", "generator run 2", recorded, errorMessage));
+    CHECK(recorded.taken.empty());
+    std::filesystem::remove_all(root);
+}
+
 TEST_CASE("S5a1: every install route writes <stem>.studio.yml with the project, the build's revision and lock hash")
 {
     const std::filesystem::path root = writeProject("install");
@@ -688,8 +710,107 @@ TEST_CASE("S5a1: every install route writes <stem>.studio.yml with the project, 
     REQUIRE(installBuildIntoMount(project, build, mount, assets, installed, errorMessage, true));
     CHECK(YAML::LoadFile((mount / "worlds" / "mm6" / "maps" / "testmap.studio.yml").string())["revision"].Scalar()
         == projectRevision(project));
+    CHECK_FALSE(YAML::LoadFile((mount / "worlds" / "mm6" / "maps" / "testmap.studio.yml").string())["storerooms"]);
+
+    // A room with `store: true` goes in by its sector number (the dressing audit of the installed map reads it).
+    std::string rooms = RoomsText;
+    rooms.replace(rooms.find("ceiling: 384}"), 13, "ceiling: 384, store: true}");
+    writeText(root / "rooms.yml", rooms);
+    writeText(root / "ids.lock.yml", "format: 0\nsectors:\n  room:a: 1\n  room:b: 2\n");
+    REQUIRE(installBuildIntoMount(project, build, mount, assets, installed, errorMessage, true));
+    const YAML::Node stored = YAML::LoadFile((mount / "worlds" / "mm6" / "maps" / "testmap.studio.yml").string());
+    CHECK(studioFileDressingFacts(stored).storerooms == std::set<int>{1});
 
     for (const std::filesystem::path &folder : {root, build, assets, mount})
+    {
+        std::filesystem::remove_all(folder);
+    }
+}
+
+TEST_CASE("D-4: install lists a map's named arrivals in its studio file, and doors of other maps find them")
+{
+    const std::filesystem::path root = writeProject("install_arrivals");
+    const std::filesystem::path build = scratchFolder("install_arrivals_build");
+    const std::filesystem::path assets = scratchFolder("install_arrivals_assets");
+    writeText(build / "testmap.blv", "blv");
+    writeText(build / "testmap.scene.yml", "scene");
+    writeText(build / "testmap.lua", "lua");
+    writeText(build / "build.json", "{\"ok\": true, \"map\": \"testmap.blv\", \"named_arrivals\": ["
+        "{\"name\": \"start\", \"at\": [0, 9664, 1408], \"facing\": 1536}, "
+        "{\"name\": \"entrance:south_mouth\", \"at\": [-4096, -512, 64], \"facing\": 1024}]}\n");
+    writeText(assets / "engine" / "data_tables" / "map_stats.txt", "header\n");
+    std::filesystem::create_directories(assets / "worlds" / "mm6");
+    Project project;
+    std::vector<ProjectIssue> issues;
+    REQUIRE(loadProject(root, project, issues));
+    std::vector<std::string> installed;
+    std::string errorMessage;
+    REQUIRE(installBuild(project, build, assets, installed, errorMessage, true));
+
+    MapArrival arrival;
+    std::string warning;
+    REQUIRE(resolveMapArrival(assets, {}, "mm6", "testmap.blv", "entrance:south_mouth", arrival, warning));
+    CHECK(warning.empty());
+    CHECK(arrival.at[0] == -4096);
+    CHECK(arrival.at[1] == -512);
+    CHECK(arrival.at[2] == 64);
+    CHECK(arrival.facing == 1024);
+    REQUIRE(resolveMapArrival(assets, {}, "mm6", "testmap.blv", "start", arrival, warning));
+    CHECK(arrival.at[1] == 9664);
+    // A name the installed map does not have is an error that lists the names it has.
+    CHECK_FALSE(resolveMapArrival(assets, {}, "mm6", "testmap.blv", "entrance:north", arrival, warning));
+    CHECK(warning.find("entrance:south_mouth") != std::string::npos);
+    // A map not installed yet: its start, with a warning.
+    REQUIRE(resolveMapArrival(assets, {}, "mm6", "other.blv", "entrance:north", arrival, warning));
+    CHECK(arrival.at[0] == 0);
+    CHECK(warning.find("not installed") != std::string::npos);
+
+    for (const std::filesystem::path &folder : {root, build, assets})
+    {
+        std::filesystem::remove_all(folder);
+    }
+}
+
+TEST_CASE("a world with its own map ids installs a map's files only, development root included")
+{
+    const std::filesystem::path root = writeProject("install_own_rows");
+    writeText(root / "project.yml", "format: 0\nid: testmap\nworld: xeen\nkind: indoor\n"
+        "map_stats: {id: 9150, name: Test Map}\n");
+    const std::filesystem::path build = scratchFolder("install_own_rows_build");
+    const std::filesystem::path assets = scratchFolder("install_own_rows_root") / "assets_dev";
+    writeText(build / "testmap.blv", "blv");
+    writeText(build / "testmap.scene.yml", "scene");
+    writeText(build / "testmap.lua", "lua");
+    writeText(build / "build.json", "{\"ok\": true, \"map\": \"testmap.blv\"}\n");
+    writeText(assets / "engine" / "data_tables" / "map_stats.txt", "header\n");
+    writeText(assets / "worlds" / "xeen" / "world.yml", "id: xeen\nidRanges:\n  maps: {begin: 9101, end: 9199}\n");
+    Project project;
+    std::vector<ProjectIssue> issues;
+    REQUIRE(loadProject(root, project, issues));
+
+    std::vector<std::string> installed;
+    std::string errorMessage;
+    REQUIRE(installBuild(project, build, assets, installed, errorMessage));
+    CHECK(installed.size() == 4);
+    CHECK(std::filesystem::exists(assets / "worlds" / "xeen" / "maps" / "testmap.blv"));
+    std::string mapStats;
+    REQUIRE(readTextFile(assets / "engine" / "data_tables" / "map_stats.txt", mapStats));
+    CHECK(mapStats == "header\n");
+
+    // Into a mount over that root: the map's files and no engine table (a copy with the row collided with the
+    // world's own map_stats).
+    const std::filesystem::path mount = scratchFolder("install_own_rows_mount");
+    REQUIRE(installBuildIntoMount(project, build, mount, assets, installed, errorMessage));
+    CHECK(std::filesystem::exists(mount / "worlds" / "xeen" / "maps" / "testmap.blv"));
+    CHECK_FALSE(std::filesystem::exists(mount / "engine" / "data_tables" / "map_stats.txt"));
+    std::filesystem::remove_all(mount);
+
+    // Without its own map ids the world's rows are the engine's, and assets_dev is refused.
+    writeText(assets / "worlds" / "xeen" / "world.yml", "id: xeen\n");
+    CHECK_FALSE(installBuild(project, build, assets, installed, errorMessage));
+    CHECK(errorMessage.find("refusing to install into assets_dev") != std::string::npos);
+
+    for (const std::filesystem::path &folder : {root, build, assets.parent_path()})
     {
         std::filesystem::remove_all(folder);
     }

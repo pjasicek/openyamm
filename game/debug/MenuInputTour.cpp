@@ -5,6 +5,7 @@
 
 #include <yaml-cpp/yaml.h>
 #include <algorithm>
+#include <chrono>
 #include <iostream>
 #include <sstream>
 #include <stdexcept>
@@ -98,6 +99,10 @@ void MenuInputTour::update(const std::string &path, uint64_t nowNanoseconds, Gam
             {
                 step.seconds = value.as<float>();
             }
+            else if (kind == "wait_until")
+            {
+                step.epochSeconds = value.as<double>();
+            }
             else if (kind == "console" && value.IsSequence())
             {
                 // Several console lines run in the same frame (a recording and a cinematic starting together).
@@ -144,6 +149,18 @@ void MenuInputTour::update(const std::string &path, uint64_t nowNanoseconds, Gam
     m_lastInputTicks = inputTicks;
     input.relativeMouseX += m_lookRateX * inputSeconds;
     input.relativeMouseY += m_lookRateY * inputSeconds;
+    if (m_waitUntilEpochSeconds > 0.0)
+    {
+        const double nowEpochSeconds =
+            std::chrono::duration<double>(std::chrono::system_clock::now().time_since_epoch()).count();
+
+        if (nowEpochSeconds < m_waitUntilEpochSeconds)
+        {
+            return;
+        }
+
+        m_waitUntilEpochSeconds = 0.0;
+    }
     if (nowMilliseconds < m_nextTicks)
     {
         return;
@@ -172,6 +189,13 @@ void MenuInputTour::update(const std::string &path, uint64_t nowNanoseconds, Gam
     if (step.kind == "wait")
     {
         m_nextTicks = nowMilliseconds + uint64_t(std::max(0.0f, step.seconds) * 1000);
+    }
+    else if (step.kind == "wait_until")
+    {
+        // Until a moment of the wall clock, by which the tours of two games keep step. Looked at every frame: the
+        // tour's own clock stands while the game's frames do (a rest, a map load).
+        m_waitUntilEpochSeconds = step.epochSeconds;
+        m_nextTicks = nowMilliseconds;
     }
     else if (step.kind == "look_rate")
     {

@@ -144,13 +144,13 @@ std::vector<std::string> recordNewCompletions(
     float gameMinutes,
     int64_t nowUnixSeconds)
 {
-    const bool untracked = party.worldCompletionsUntracked();
+    const bool untracked = party.campaign().worldCompletionsUntracked();
     std::vector<std::string> newIds;
 
     for (const CompletionCertificateDefinition &certificate : certificates)
     {
-        if (certificate.qbit == 0 || !party.hasQuestBit(certificate.qbit)
-            || party.findWorldCompletion(certificate.id) != nullptr)
+        if (certificate.qbit == 0 || !party.campaign().hasQuestBit(certificate.qbit)
+            || party.campaign().findWorldCompletion(certificate.id) != nullptr)
         {
             continue;
         }
@@ -161,7 +161,7 @@ std::vector<std::string> recordNewCompletions(
         record.score = completionScore(party, gameMinutes);
         record.completedAtUnixSeconds = nowUnixSeconds;
         record.timed = !untracked;
-        party.addWorldCompletion(record);
+        party.campaign().addWorldCompletion(record);
 
         if (!untracked)
         {
@@ -171,7 +171,7 @@ std::vector<std::string> recordNewCompletions(
 
     for (const CompletionCertificateDefinition &certificate : certificates)
     {
-        if (certificate.worldIds.empty() || party.findWorldCompletion(certificate.id) != nullptr)
+        if (certificate.worldIds.empty() || party.campaign().findWorldCompletion(certificate.id) != nullptr)
         {
             continue;
         }
@@ -181,7 +181,7 @@ std::vector<std::string> recordNewCompletions(
             certificate.worldIds.end(),
             [&party](const std::string &worldId)
             {
-                return party.findWorldCompletion(worldId) != nullptr;
+                return party.campaign().findWorldCompletion(worldId) != nullptr;
             });
 
         if (!everyWorldFinished)
@@ -195,7 +195,7 @@ std::vector<std::string> recordNewCompletions(
         record.score = completionScore(party, gameMinutes);
         record.completedAtUnixSeconds = nowUnixSeconds;
         record.timed = !untracked;
-        party.addWorldCompletion(record);
+        party.campaign().addWorldCompletion(record);
 
         if (!untracked)
         {
@@ -203,7 +203,7 @@ std::vector<std::string> recordNewCompletions(
         }
     }
 
-    party.clearWorldCompletionsUntracked();
+    party.campaign().clearWorldCompletionsUntracked();
     return newIds;
 }
 
@@ -290,7 +290,7 @@ CompletionCertificate buildCompletionCertificate(
 
     for (const WorldCompletionDefinition::Variant &variant : definition.variants)
     {
-        if (party.hasQuestBit(variant.qbit))
+        if (party.campaign().hasQuestBit(variant.qbit))
         {
             certificate.headline = Engine::localize(variant.headline, context);
             certificate.text = Engine::localize(variant.text, context);
@@ -314,7 +314,7 @@ CompletionCertificate buildCompletionCertificate(
     for (const std::string &worldId : definition.worldIds)
     {
         const CompletionCertificateDefinition *pWorld = findCertificate(certificates, worldId);
-        const WorldCompletionRecord *pRecord = party.findWorldCompletion(worldId);
+        const WorldCompletionRecord *pRecord = party.campaign().findWorldCompletion(worldId);
         const std::string name = pWorld != nullptr && !pWorld->continent.empty()
             ? Engine::localize(pWorld->continent, "world:" + worldId)
             : worldId;
@@ -330,7 +330,7 @@ CompletionCertificate buildCompletionCertificate(
         }
     }
 
-    if (const WorldCompletionRecord *pRecord = party.findWorldCompletion(definition.id))
+    if (const WorldCompletionRecord *pRecord = party.campaign().findWorldCompletion(definition.id))
     {
         certificate.timeLine = Engine::tr("Total Time: {time}", {{"time", formatPlayTime(pRecord->gameMinutes)}});
         certificate.scoreLine = original ? Engine::tr("Your score: {score}", {{"score", pRecord->score}})

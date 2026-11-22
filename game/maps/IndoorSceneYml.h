@@ -13,6 +13,11 @@
 #include <string>
 #include <vector>
 
+namespace YAML
+{
+class Node;
+}
+
 namespace OpenYAMM::Game
 {
 struct IndoorSceneEnvironment
@@ -135,6 +140,8 @@ struct IndoorSceneData
     std::optional<IndoorTerrain> terrain;
     // Scene `party_movement: {steep_slopes: block}`.
     bool partySteepSlopesBlock = false;
+    // Scene `party_movement: {touch_faces: run}`.
+    bool partyTouchFacesRun = false;
     // Scene `actor_barriers: {faces: [...]}`.
     std::vector<uint16_t> actorBarrierFaceIds;
     // Scene `actor_movement: {drops: follow}`.
@@ -202,6 +209,11 @@ bool parseIndoorSceneWaterVolumes(
 // anything else.
 bool parseIndoorSceneAmbientSounds(
     const std::string &yamlText,
+    std::vector<WorldAmbientSound> &sounds,
+    std::string &errorMessage);
+// A scene's `ambient_sounds` node, indoor or outdoor (devdocs/AMBIENT_SOUNDS.md).
+bool parseSceneAmbientSoundsNode(
+    const YAML::Node &node,
     std::vector<WorldAmbientSound> &sounds,
     std::string &errorMessage);
 

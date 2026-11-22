@@ -1,0 +1,26 @@
+# equip_item (A3, Xeen segment 83's Slayer Sword): a member wears an item the party already carries, from another
+# member's pack, under the game's wearing rules; what the slot held goes back to the packs. A1, 2026-11-21.
+id: equip_carried_item
+title: equip_item wears a carried item from any member's pack; the displaced item goes to the packs
+world: mm8
+mode: faithful
+tags: [items, scenario_runner, regression]
+steps:
+  - new_game_flow:
+      start_map: out01.odm
+      party:
+        gold: 0
+        food: 20
+        members:
+          - {name: Brokk, class: Knight, level: 10, skills: [{name: Sword, level: 4, mastery: 1}], equipment: {}}
+          - {name: Hild, class: Cleric, level: 10, skills: [], equipment: {}}
+  - grant_item: {item_id: 1, member_index: 1}
+  - equip_item: {item_id: 1, member_index: 0, slot: main_hand}
+  - assert:
+      equipped_item: [{item_id: 1, member_index: 0, slot: main_hand}]
+  - play_lua: {source: "if (' ' .. pack_items() .. ' '):find(' 1x') then error('the worn sword is still in a pack') end"}
+  - grant_item: {item_id: 2, member_index: 0}
+  - equip_item: {item_id: 2, member_index: 0, slot: main_hand}
+  - assert:
+      equipped_item: [{item_id: 2, member_index: 0, slot: main_hand}]
+  - play_lua: {source: "local p = ' ' .. pack_items() .. ' '; if not p:find(' 1x1 ') or p:find(' 2x') then error('packs: ' .. p) end"}

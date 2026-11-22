@@ -8,6 +8,7 @@
 #include "game/gameplay/GameplayHeldItemController.h"
 #include "game/gameplay/GameplayRuntimeInterfaces.h"
 #include "game/gameplay/GameplayScreenRuntime.h"
+#include "game/gameplay/PlayerCommands.h"
 #include "game/gameplay/TurnBasedCombatRuntime.h"
 #include "game/party/LloydsBeaconRuntime.h"
 #include "game/party/SpellIds.h"
@@ -232,6 +233,7 @@ bool GameplaySpellService::tryPrepareQuickCastRequest(
     {
         request.quickCast = true;
         request.targetCharacterIndex = targetQueries.characterTargetIndex;
+        request.targetPlayer = targetQueries.characterTargetPlayer;
         return true;
     }
 
@@ -261,7 +263,241 @@ bool GameplaySpellService::tryPrepareQuickCastRequest(
     }
 
     request.quickCast = true;
+
+    // In a co-op session a heal, cure or raising goes to whoever near needs it most, another player's character
+    // too.
+    if (descriptor->targetKind == PartySpellCastTargetKind::Character && !targetQueries.characterTargetIndex)
+    {
+        if (const std::optional<CoopCharacterTarget> target =
+                coopCharacterTarget(runtime, request.casterMemberIndex, request.spellId, false))
+        {
+            request.targetCharacterIndex = target->memberIndex;
+            request.targetPlayer = target->player;
+            return true;
+        }
+    }
+
     return tryResolveQuickCastRequest(runtime, request, *descriptor, targetQueries);
+}
+
+namespace
+{
+// Whether what this game knows of another player's character says the spell would help it.
+bool otherPlayerNeedsSpell(uint32_t spellId, const CoopAidPlayer::Member &other)
+{
+    using enum CharacterCondition;
+    const std::optional<CharacterCondition> condition = other.conditionCode != 0
+        ? std::optional<CharacterCondition>(CharacterCondition(other.conditionCode - 1)) : std::nullopt;
+    const auto ails = [&condition](std::initializer_list<CharacterCondition> conditions)
+    {
+        return condition && std::find(conditions.begin(), conditions.end(), *condition) != conditions.end();
+    };
+
+    switch (spellIdFromValue(spellId))
+    {
+        case SpellId::RaiseDead: return ails({Dead});
+        case SpellId::Resurrection: return ails({Dead, Eradicated});
+        case SpellId::StoneToFlesh: return ails({Petrified});
+        case SpellId::RemoveCurse: return ails({Cursed});
+        case SpellId::RemoveFear: return ails({Fear});
+        case SpellId::CureParalysis: return ails({Paralyzed});
+        case SpellId::CureInsanity: return ails({Insane});
+        case SpellId::CureWeakness: return ails({Weak});
+        case SpellId::CurePoison: return ails({PoisonWeak, PoisonMedium, PoisonSevere});
+        case SpellId::CureDisease: return ails({DiseaseWeak, DiseaseMedium, DiseaseSevere});
+        default: break;
+    }
+
+    // A heal: the wounded, the unconscious too; not those a heal cannot reach.
+    return other.health < other.maxHealth && !ails({Dead, Eradicated, Petrified});
+}
+
+float healthShare(int32_t health, int32_t maximum)
+{
+    return maximum > 0 ? float(health) / float(maximum) : 1.0f;
+}
+}
+
+std::optional<GameplaySpellService::CoopCharacterTarget> GameplaySpellService::coopCharacterTarget(
+    GameplayScreenRuntime &runtime,
+    size_t casterMemberIndex,
+    uint32_t spellId,
+    bool explicitCast) const
+{
+    const Party *pParty = runtime.partyReadOnly();
+    const IGameplayWorldRuntime *pWorldRuntime = m_session.activeWorldRuntime();
+    const std::vector<CoopAidPlayer> &others = m_session.coopAidPlayers();
+
+    if (!m_session.coopSession() || others.empty() || pParty == nullptr || pWorldRuntime == nullptr)
+    {
+        return std::nullopt;
+    }
+
+    // A player with one character has nobody else of its own to choose; one with a party chooses among its members
+    // as ever, unless it points at another player.
+    const bool oneCharacter = pParty->combatantCount() == 1;
+
+    const float x = pWorldRuntime->partyX();
+    const float y = pWorldRuntime->partyY();
+    const float footZ = pWorldRuntime->partyFootZ();
+    // Within the reach of a party's spells, with nothing of the map in between (as the host will ask).
+    const float reach = m_session.aidReach();
+    const float eyeHeight = m_session.partyEyeHeight();
+    const auto withinReach = [&](const CoopAidPlayer &other)
+    {
+        const float deltaX = other.x - x;
+        const float deltaY = other.y - y;
+        const float deltaZ = other.footZ - footZ;
+        return deltaX * deltaX + deltaY * deltaY + deltaZ * deltaZ <= reach * reach
+            && pWorldRuntime->hasClearLineBetween({x, y, footZ + eyeHeight},
+                {other.x, other.y, other.footZ + eyeHeight});
+    };
+
+    // The player the view is pointed at: the nearest body the line of sight passes through.
+    if (explicitCast)
+    {
+        const float yaw = pWorldRuntime->gameplayCameraYawRadians();
+        const float pitch = pWorldRuntime->gameplayCameraPitchRadians();
+        const bx::Vec3 direction = {std::cos(pitch) * std::cos(yaw), std::cos(pitch) * std::sin(yaw), std::sin(pitch)};
+        const bx::Vec3 eye = {x, y, pWorldRuntime->partyEyeZ()};
+        std::optional<PlayerId> aimed;
+        float aimedDistance = 0.0f;
+
+        for (const CoopAidPlayer &other : others)
+        {
+            if (!withinReach(other))
+            {
+                continue;
+            }
+
+            // Standing it is tall and narrow; down it lies low and wide.
+            const float height = other.down ? 60.0f : 176.0f;
+            const float radius = other.down ? 110.0f : 64.0f;
+
+            for (int step = 0; step <= 6; ++step)
+            {
+                const bx::Vec3 offset = {other.x - eye.x, other.y - eye.y,
+                    other.footZ + height * float(step) / 6.0f - eye.z};
+                const float along = bx::dot(offset, direction);
+                const bx::Vec3 nearest = bx::mul(direction, along);
+                const float away = bx::length(bx::sub(offset, nearest));
+
+                if (along > 0.0f && away <= radius && (!aimed || along < aimedDistance))
+                {
+                    aimed = other.player;
+                    aimedDistance = along;
+                }
+            }
+        }
+
+        // Of the party pointed at: the member the spell would help most, else its first.
+        if (aimed)
+        {
+            size_t member = 0;
+            std::optional<float> lowest;
+
+            for (const CoopAidPlayer &other : others)
+            {
+                for (size_t index = 0; other.player == *aimed && index < other.members.size(); ++index)
+                {
+                    const float share = healthShare(other.members[index].health, other.members[index].maxHealth);
+
+                    if (PartySpellSystem::hasQuickCastCharacterTarget(spellId)
+                        && otherPlayerNeedsSpell(spellId, other.members[index]) && (!lowest || share < *lowest))
+                    {
+                        member = index;
+                        lowest = share;
+                    }
+                }
+            }
+
+            return CoopCharacterTarget{member, aimed};
+        }
+
+        if (!oneCharacter)
+        {
+            return std::nullopt;
+        }
+    }
+
+    // Whoever needs it most: the lowest share of hit points among those the spell would help.
+    std::optional<CoopCharacterTarget> best;
+    float bestShare = 0.0f;
+
+    if (const std::optional<size_t> own = PartySpellSystem::quickCastCharacterTarget(
+            *pParty, casterMemberIndex, spellId, runtime.spellTable()))
+    {
+        const Character *pOwn = pParty->combatant(*own);
+        best = CoopCharacterTarget{*own, std::nullopt};
+        bestShare = pOwn != nullptr ? healthShare(pOwn->health, pParty->reachableMaximumHealth(*own)) : 1.0f;
+    }
+
+    if (PartySpellSystem::hasQuickCastCharacterTarget(spellId))
+    {
+        for (const CoopAidPlayer &other : others)
+        {
+            for (size_t index = 0; withinReach(other) && index < other.members.size(); ++index)
+            {
+                const float share = healthShare(other.members[index].health, other.members[index].maxHealth);
+
+                if (otherPlayerNeedsSpell(spellId, other.members[index]) && (!best || share < bestShare))
+                {
+                    best = CoopCharacterTarget{index, other.player};
+                    bestShare = share;
+                }
+            }
+        }
+    }
+
+    if (!best && explicitCast)
+    {
+        return CoopCharacterTarget{casterMemberIndex, std::nullopt};
+    }
+
+    return best;
+}
+
+float GameplaySpellService::coopLowestOtherHealthShare() const
+{
+    const IGameplayWorldRuntime *pWorldRuntime = m_session.activeWorldRuntime();
+    float lowest = 1.0f;
+
+    if (!m_session.coopSession() || pWorldRuntime == nullptr)
+    {
+        return lowest;
+    }
+
+    for (const CoopAidPlayer &other : m_session.coopAidPlayers())
+    {
+        const float deltaX = other.x - pWorldRuntime->partyX();
+        const float deltaY = other.y - pWorldRuntime->partyY();
+        const float deltaZ = other.footZ - pWorldRuntime->partyFootZ();
+        const float reach = m_session.aidReach();
+        const float eyeHeight = m_session.partyEyeHeight();
+
+        // Those a heal could reach: within the spells' reach and in sight.
+        if (deltaX * deltaX + deltaY * deltaY + deltaZ * deltaZ > reach * reach
+            || !pWorldRuntime->hasClearLineBetween(
+                {pWorldRuntime->partyX(), pWorldRuntime->partyY(), pWorldRuntime->partyFootZ() + eyeHeight},
+                {other.x, other.y, other.footZ + eyeHeight}))
+        {
+            continue;
+        }
+
+        for (const CoopAidPlayer::Member &member : other.members)
+        {
+            const bool beyond = member.conditionCode == uint8_t(CharacterCondition::Dead) + 1
+                || member.conditionCode == uint8_t(CharacterCondition::Eradicated) + 1
+                || member.conditionCode == uint8_t(CharacterCondition::Petrified) + 1;
+
+            if (!beyond && member.maxHealth > 0)
+            {
+                lowest = std::min(lowest, std::max(0.0f, healthShare(member.health, member.maxHealth)));
+            }
+        }
+    }
+
+    return lowest;
 }
 
 bool GameplaySpellService::tryResolveQuickCastRequest(
@@ -457,7 +693,7 @@ GameplaySpellService::SpellRequestResolution GameplaySpellService::resolveSpellR
         return resolution;
     }
 
-    resolution.castResult = castSpell(runtime, request);
+    resolution.castResult = m_session.playerCommands().castSpell(LocalPlayer, runtime, request);
 
     // A solo run has one character: a heal, cure or buff that wants a character goes to the hero without asking.
     // MM9 hirelings, which come along but never act, are not picked this way.
@@ -465,10 +701,16 @@ GameplaySpellService::SpellRequestResolution GameplaySpellService::resolveSpellR
     {
         const Party *pParty = runtime.partyReadOnly();
 
-        if (pParty != nullptr && pParty->soloRun() && pParty->member(request.casterMemberIndex) != nullptr)
+        // With other players about (a co-op session): the one the view is pointed at; for a player with one
+        // character, else whoever near needs it, else that character.
+        const std::optional<CoopCharacterTarget> other = pParty != nullptr
+            ? coopCharacterTarget(runtime, request.casterMemberIndex, request.spellId, true) : std::nullopt;
+
+        if (pParty != nullptr && (other || pParty->soloRun()) && pParty->member(request.casterMemberIndex) != nullptr)
         {
-            request.targetCharacterIndex = request.casterMemberIndex;
-            resolution.castResult = castSpell(runtime, request);
+            request.targetCharacterIndex = other ? other->memberIndex : request.casterMemberIndex;
+            request.targetPlayer = other ? other->player : std::nullopt;
+            resolution.castResult = m_session.playerCommands().castSpell(LocalPlayer, runtime, request);
         }
     }
 
@@ -692,7 +934,7 @@ GameplaySpellService::PendingTargetResolution GameplaySpellService::resolvePendi
     const PartySpellCastRequest &request) const
 {
     PendingTargetResolution resolution = {};
-    resolution.castResult = castSpell(runtime, request);
+    resolution.castResult = m_session.playerCommands().castSpell(LocalPlayer, runtime, request);
 
     if (resolution.castResult.succeeded())
     {
@@ -895,6 +1137,7 @@ void GameplaySpellService::applySuccessFeedback(
 
     runtime.triggerPortraitFaceAnimation(request.casterMemberIndex, FaceAnimationId::CastSpell);
     runtime.playSpeechReaction(request.casterMemberIndex, SpeechId::CastSpell, false);
+    runtime.noteSpellCast();
 
     if (isSpellId(request.spellId, SpellId::Awaken) && !result.affectedCharacterIndices.empty())
     {

@@ -2,6 +2,9 @@
 
 #include "core/IndoorBuild.h"
 
+#include <optional>
+#include <utility>
+
 namespace OpenYAMM::Studio
 {
 // The build of a new outdoor project (project.yml `kind: outdoor`, without `base`): a classic ODM, the form of the
@@ -48,6 +51,10 @@ struct OutdoorTravelEdge
     int days = 0;
     // The neighbour's own row is left as it is (`one_way`, `listed_only`).
     bool oneWay = false;
+    // `span`: the stretch of the side this neighbour covers, [from, to] in units along it (x for north and south, y
+    // for east and west). Such a neighbour is no row of the travel table, which has one map per side: the world's
+    // edge_spans table holds it (game/tables/MapStats.h MapEdgeSpan), written by the world's own generator.
+    std::optional<std::pair<int, int>> span;
 };
 
 std::vector<OutdoorTravelEdge> outdoorTravelEdges(const Project &project);

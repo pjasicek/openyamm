@@ -2,6 +2,7 @@
 
 #include "engine/ApplicationConfig.h"
 #include "engine/AssetFileSystem.h"
+#include "engine/net/LoopbackTransport.h"
 #include "game/app/GameApplication.h"
 #include "game/events/EventRuntime.h"
 #include "game/gameplay/GameplayWorldInteraction.h"
@@ -17,6 +18,7 @@
 namespace OpenYAMM::Game
 {
 class CombatLog;
+class CoopSession;
 class TurnBasedCombatRuntime;
 class MawRules;
 struct ScenarioPose
@@ -82,6 +84,7 @@ struct ScenarioWalkRequest
     std::optional<float> zTolerance;            // arrival also needs the feet this near the target's height
     float timeoutSeconds = 180.0f;
     float clearHostilesRadius = 0.0f;           // kills the party's enemies this near every half second (0: none)
+    std::optional<float> clearHostilesHeight;   // and within this height of the party's feet (unset: the default band)
     std::string expectMap;                      // arriving on this map ends the walk (an exit on the way)
     bool plan = true;
     size_t nodeLimit = 400000;
@@ -125,6 +128,10 @@ struct ScenarioPartyAttackRequest
     size_t actorIndex = 0;
     size_t memberIndex = 0;
     int count = 1;
+    // The player whose party attacks: the local one, or a co-op session's guest (GameSession::addGuestPlayer).
+    PlayerId player = LocalPlayer;
+    // The attacks are meant to kill: the step ends well with the blow that does, and no damage is measured.
+    bool kill = false;
     // Conditions the member has for these attacks; they are lifted again afterwards.
     std::vector<CharacterCondition> conditions;
     // The member's attack spell for these attacks (restored afterwards); when set, the attacks go through the
@@ -142,8 +149,13 @@ struct ScenarioSpellCastRequest
     SkillMastery mastery = SkillMastery::None;
     std::optional<size_t> actorIndex;
     std::optional<size_t> targetMemberIndex;
+    // A co-op session's players: who casts, and whose character targetMemberIndex is (the caster's when unset).
+    PlayerId player = LocalPlayer;
+    std::optional<PlayerId> targetPlayer;
     // A ground point (Meteor Shower, Starburst and the other spells cast at the ground).
     std::optional<std::array<float, 3>> targetPoint;
+    // Telekinesis: the map's chest it is aimed at.
+    std::optional<size_t> telekinesisChest;
     bool scroll = false;
 };
 
@@ -175,6 +187,8 @@ struct ScenarioDialogSnapshot
 {
     bool active = false;
     bool houseDialog = false;
+    // The Adventurer's Inn's roster or a character viewed from it is open (a character screen, not a dialogue).
+    bool adventurersInn = false;
     uint32_t sourceId = 0;
     std::string title;
     std::string houseTitle;
@@ -253,9 +267,16 @@ public:
         ScenarioMovementResult &result,
         std::string &failure);
     bool walkTo(const ScenarioWalkRequest &request, ScenarioWalkResult &result, std::string &failure);
-    // Kills the party's living enemies within `radius` of it through the ordinary damage path (deaths, corpses and
-    // loot as in combat); `killed` counts them.
-    bool killHostilesNear(float radius, size_t &killed, std::string &failure);
+    // Kills the party's living enemies within `radius` of it across the ground and `height` above or below its feet
+    // through the ordinary damage path (deaths, corpses and loot as in combat); `killed` counts them. Unset `height`:
+    // indoors DefaultClearHostilesHeight (less than a storey, so monsters on the floors above and below live) unless
+    // the radius is a map clear (MapClearHostilesRadius or more: every storey); outdoors the radius (no storeys).
+    static constexpr float DefaultClearHostilesHeight = 384.0f;
+    static constexpr float MapClearHostilesRadius = 5000.0f;
+    bool killHostilesNear(float radius, std::optional<float> height, size_t &killed, std::string &failure);
+    // A temple's Heal for every member it can treat, each selected in turn as at the temple's counter (house
+    // `houseId`, its prices; the active member is kept). `lines` gets one line per member treated or refused.
+    bool healAtTemple(uint32_t houseId, size_t &healed, std::vector<std::string> &lines, std::string &failure);
     // Lets the world run until nobody in the party can act (at most waitSeconds; knockOut: every member falls at
     // once), then the game's defeat: the respawn at the world's death destination (its movie skipped); `destination`
     // is the map it woke on.
@@ -299,7 +320,7 @@ public:
         std::string &failure);
     bool executeMapEvent(uint16_t eventId, std::string &failure);
     // A scenario's own Lua (lua_event) run as an event of the current map, after the map's event support.
-    bool runLuaEvent(const std::string &source, std::string &failure);
+    bool runLuaEvent(const std::string &source, PlayerId player, std::string &failure);
     bool selectDialogAction(size_t actionIndex, std::string &failure);
     bool selectDialogActionById(uint32_t actionId, std::string &failure);
     bool answerPendingInputPrompt(
@@ -316,6 +337,17 @@ public:
     std::string activeDialogSummary() const;
     // presentDialogs: a dialogue that a world event queued during the step is presented at once, as the game's frame
     // presents it (off by default: older scenarios open queued dialogues themselves).
+    // Two games in one process (a co-op host and a guest): the other game takes a frame with every frame this one
+    // advances, and each takes its part of the session between them. Null: this game runs alone.
+    void setPeer(ScenarioRuntimeDriver *pPeer);
+    CoopSession &coopSession();
+    // Joins the host game's co-op session with this game's character, over the transport that joins two games in one
+    // process. The host starts hosting if it does not yet. False when either game has no map.
+    bool joinCoopHost(ScenarioRuntimeDriver &host, std::string &failure);
+    // Makes what this game sends to the other one late and lossy (Engine::NetFaults), now and after a join.
+    void setCoopNetworkFaults(const Engine::NetFaults &faults);
+    // One frame of this game while the other game's step advances time.
+    void advancePeerFrame(float deltaSeconds);
     bool advanceRuntime(float seconds, std::string &failure, bool presentDialogs = false,
         bool followMapMove = false);
     bool advanceGameMinutes(float minutes, std::string &failure);
@@ -344,6 +376,8 @@ public:
     // Hostile monsters of a table row summoned at a point (outdoor maps), as the console's actor spawn does; they
     // are appended after the map's actors. A boss affix (the ruleset's id) makes them bosses with it; a party ally is
     // summoned as a party spell's summon instead.
+    // Where a co-op session's guest player stands; none for a player the session has not.
+    std::optional<GameplayPlayerBody> guestPlayerBody(PlayerId player);
     bool spawnActor(int16_t monsterId, uint32_t count, float x, float y, float z, uint32_t group, uint8_t bossAffix,
         bool partyAlly, std::string &failure);
     // Sets up an AI arena (game/debug/AiArena.h), loading its map first when another one (or none) is loaded;
@@ -392,7 +426,7 @@ public:
     // The cursor item into the first member's packs it fits, the active member first (a player drops it on a portrait).
     bool placeHeldItemInAnyMemberInventory();
     // A MAW game's banked levels by world (Jadame, Antagarich, Enroth, other); false outside MAW.
-    bool setRulesetBanks(const std::array<double, 4> &levels, std::string &failure);
+    bool setRulesetBanks(const std::array<double, 5> &levels, std::string &failure);
     // The MAW rules of the game, or null outside MAW.
     MawRules *mawRules();
     // Runs a debug console line as typed; output gets what the console printed. False when it reported an error.
@@ -411,6 +445,9 @@ public:
     // Uses (drinks, reads) the first pack item of this id on the member through the inventory's use path, as a
     // right-click on the portrait does; `used` tells whether the game took it.
     bool useInventoryItem(size_t memberIndex, uint32_t itemId, bool &used, std::string &failure);
+    // Wears the first pack item of this id that any member carries (the wearer's own bag first) on the member in the
+    // slot, under the game's wearing rules; a refused item stays where it was.
+    bool equipCarriedItem(size_t memberIndex, uint32_t itemId, EquipmentSlot slot, std::string &failure);
     // Right-clicks the target member's portrait with the carrier's first pack item of this id under the cursor,
     // through the live input path (on the inventory page when `inventoryOpen`). By default the press lands on the
     // portrait and a scroll's text must close with the release; with `releaseOverPortrait` (Modern controls) the
@@ -427,7 +464,12 @@ public:
         std::string &failure);
     // Casts the spell through the party's spell system with full mana and no recovery left (the rules' auras, heals
     // and splashes, the world's projectiles); `status` is the cast's outcome.
-    bool castSpell(const ScenarioSpellCastRequest &request, PartySpellCastStatus &status, std::string &failure);
+    // `statusText`: the cast's own status line (a refusal's reason: "Spells do not work here").
+    bool castSpell(
+        const ScenarioSpellCastRequest &request,
+        PartySpellCastStatus &status,
+        std::string &statusText,
+        std::string &failure);
     // The Knight Charge action at the actor (party_charge): the rules' status line, or nothing without a charge.
     bool partyCharge(std::optional<size_t> actorIndex, std::optional<std::string> &status, std::string &failure);
     // The Workbench's crafting with a material on the member's item (worn in `wornSlot`, else the first pack item of
@@ -464,9 +506,15 @@ public:
     EventRuntimeState *eventRuntimeState();
     const EventRuntimeState *eventRuntimeState() const;
     const IGameplayWorldRuntime *worldRuntime() const;
+    // The status lines shown since the last call (" | " between them), over steps, map moves and walks: the lines the
+    // events asked for and not yet shown are shown first, as the game's next frame shows them.
+    std::string takeStatusLines();
 
 private:
     IGameplayWorldRuntime *worldRuntime();
+    // The session's entry for the party's actions on the world: a scenario's attack, activation and item use go
+    // through it as the game's do.
+    PlayerCommands &playerCommands();
     bool loadSelectedMapRuntime(const std::string &mapFileName, std::string &failure);
     GameplayWorldPickRequest buildCenterPickRequest();
     ScenarioInteractionResult pickCenterInteractionTarget(bool ignoreActors, std::string &failure);
@@ -483,7 +531,20 @@ private:
     std::filesystem::path m_basePath;
     Engine::ApplicationConfig m_config;
     Engine::AssetFileSystem *m_pAssetFileSystem = nullptr;
+    // Every status bar line the game showed (GameplayUiController::setStatusBarEventLog), and how many
+    // takeStatusLines() has returned. Declared before the application, which writes into it, so it outlives it.
+    std::vector<std::string> m_statusLines;
+    size_t m_statusLinesTaken = 0;
     GameApplication m_application;
+    ScenarioRuntimeDriver *m_pPeer = nullptr;
+    // The host's end of the in-process transport its co-op session owns, for the guests that join later.
+    Engine::LoopbackTransport *m_pCoopHostTransport = nullptr;
+    // This game's end while it is the guest of the other one. The session owns it: it is only named here while the
+    // session is joining or joined.
+    Engine::LoopbackTransport *m_pCoopGuestTransport = nullptr;
+    Engine::NetFaults m_coopNetworkFaults;
+    // This game's end of the in-process line while its session uses one, else null.
+    Engine::LoopbackTransport *coopLoopbackEnd();
     bool m_initialized = false;
 };
 }

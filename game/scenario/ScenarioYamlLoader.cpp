@@ -58,7 +58,7 @@ struct NestedKeys
 
 const std::vector<NestedKeys> AssertBlockKeys = {
     {"projectiles", {"source", "source_monster_id", "min_count", "max_count", "homing", "toward_party_within_degrees",
-        "report"}},
+        "source_actor_index", "max_source_rise", "report"}},
     {"homing_ends", {"source_monster_id", "hit", "min_count", "max_count", "report"}},
     {"party_health", {"full"}},
     {"item_set_bonus", {"member_index", "set_id", "active"}},
@@ -74,7 +74,7 @@ const std::vector<NestedKeys> AssertBlockKeys = {
     {"teacher_ledger", {"continent", "bought"}},
     {"quick_item_ring", {"open", "member_index"}},
     {"chest_view", {"open", "chest_id"}},
-    {"party_position", {"x", "y", "radius", "z_min", "z_max"}},
+    {"party_position", {"x", "y", "radius", "z_min", "z_max", "facing", "facing_within"}},
     {"quick_item_popup", {"kind", "member_index"}},
     {"dimension_door", {"pending", "without_quest"}},
     {"light", {"key", "on"}},
@@ -166,39 +166,46 @@ const std::vector<StepKeys> &stepKeyTable()
         {ScenarioStepKind::DamageActor, {"actor_index", "amount", "tier", "skip_dead", "all", "spare", "expect"}},
         {ScenarioStepKind::PartyAttack, {"actor_index", "member_index", "count", "conditions", "record", "ratio_to",
             "damage_ratio", "applied_ratio", "recovery_ratio", "min_hit_rate", "max_hit_rate", "min_average",
-            "max_average", "report", "attack_spell", "min_weapon_attacks", "max_weapon_attacks"}},
+            "max_average", "report", "attack_spell", "min_weapon_attacks", "max_weapon_attacks", "player", "kill"}},
         {ScenarioStepKind::SetRuleset, {"options"}},
-        {ScenarioStepKind::RulesetBanks, {"mm8", "mm7", "mm6", "mm9", "completed_maps", "dimension_quest_done"}},
-        {ScenarioStepKind::ConsoleCommand, {"line", "expect_contains", "expect_not_contains"}},
+        {ScenarioStepKind::RulesetBanks, {"mm8", "mm7", "mm6", "mm9", "xeen", "completed_maps", "dimension_quest_done"}},
+        {ScenarioStepKind::ConsoleCommand, {"line", "expect_contains", "expect_not_contains", "expect_refusal"}},
+        {ScenarioStepKind::CoopGuest, {}},
+        {ScenarioStepKind::CoopJoin, {"expect", "timeout_runtime_seconds", "character"}},
+        {ScenarioStepKind::CoopNetwork, {"delay_ms", "jitter_ms", "loss_permille", "seed"}},
         {ScenarioStepKind::DebugLaunch, {"startup_console_file", "exit_pose", "expect_contains"}},
         {ScenarioStepKind::WalkTo, concatKeys({PoseKeys, {"to", "via", "radius", "timeout_seconds", "clear_hostiles",
-            "expect_map", "plan", "node_limit", "close_dialogs", "expect", "z_tolerance"}})},
-        {ScenarioStepKind::ClearHostiles, {"radius", "min"}},
+            "clear_height", "expect_map", "plan", "node_limit", "close_dialogs", "expect", "z_tolerance"}})},
+        {ScenarioStepKind::ClearHostiles, {"radius", "height", "min"}},
+        {ScenarioStepKind::HealAtTemple, {"house", "min"}},
         {ScenarioStepKind::PlayLua, {"source", "max_seconds"}},
         {ScenarioStepKind::PartyDefeat, {"wait_seconds", "knock_out", "expect_map", "expect_game_over"}},
         {ScenarioStepKind::Reload, {"name", "expect_blocked"}},
-        {ScenarioStepKind::PickUp, {"item_id", "reach"}},
+        {ScenarioStepKind::PickUp, {"item_id", "reach", "gained"}},
         {ScenarioStepKind::Climb, {"ladder", "down", "timeout_seconds"}},
         {ScenarioStepKind::QuickLoad, {"save", "expect", "expect_status"}},
         {ScenarioStepKind::GrantItem, {"item_id", "count", "member_index", "power", "state", "enchant",
             "second_enchant", "special", "rarity", "drop_level", "item_power", "charges", "identified", "equip",
             "roll_level", "boss", "seed", "dimension_map", "legendary"}},
         {ScenarioStepKind::UseItem, {"item_id", "member_index", "expect"}},
+        {ScenarioStepKind::EquipItem, {"item_id", "member_index", "slot"}},
         {ScenarioStepKind::TurnBasedTurns, {"count", "max_seconds", "game_speed"}},
         {ScenarioStepKind::RightClickPortrait, {"item_id", "carrier_index", "member_index", "inventory", "release",
             "expect"}},
         {ScenarioStepKind::CastSpell, {"member_index", "spell_id", "skill", "mastery", "actor_index", "target_member",
-            "target_point", "scroll", "expect", "expect_status"}},
+            "target_point", "scroll", "expect", "expect_status", "expect_status_text", "player", "target_player",
+            "telekinesis_chest"}},
         {ScenarioStepKind::PartyCharge, {"actor_index", "status", "advance_seconds", "min_moved"}},
         {ScenarioStepKind::Craft, {"member_index", "target_item_id", "worn_slot", "material_item_id", "all",
             "choice", "expect"}},
         {ScenarioStepKind::CombineGems, {"item_id", "all", "expect"}},
-        {ScenarioStepKind::SpawnActor, {"monster_id", "count", "x", "y", "z", "group", "near_party", "boss_affix",
+        {ScenarioStepKind::SpawnActor, {"monster_id", "count", "x", "y", "z", "group", "near_party", "near_player",
+            "boss_affix",
             "party_ally"}},
         {ScenarioStepKind::FireActorProjectile, {"actor_index", "ability", "damage"}},
         {ScenarioStepKind::BlinkActor, {"actor_index"}},
         {ScenarioStepKind::ExecuteEvent, {"id"}},
-        {ScenarioStepKind::LuaEvent, {"source"}},
+        {ScenarioStepKind::LuaEvent, {"source", "player"}},
         {ScenarioStepKind::ChargeActor, {"actor_index"}},
         {ScenarioStepKind::FrenzyActor, {"actor_index"}},
         {ScenarioStepKind::AiArena, {"path", "log"}},
@@ -579,9 +586,33 @@ bool ScenarioYamlLoader::parseStepKind(const std::string &value, ScenarioStepKin
         return true;
     }
 
+    if (value == "heal_at_temple")
+    {
+        kind = ScenarioStepKind::HealAtTemple;
+        return true;
+    }
+
     if (value == "console")
     {
         kind = ScenarioStepKind::ConsoleCommand;
+        return true;
+    }
+
+    if (value == "coop_guest")
+    {
+        kind = ScenarioStepKind::CoopGuest;
+        return true;
+    }
+
+    if (value == "coop_network")
+    {
+        kind = ScenarioStepKind::CoopNetwork;
+        return true;
+    }
+
+    if (value == "coop_join")
+    {
+        kind = ScenarioStepKind::CoopJoin;
         return true;
     }
 
@@ -600,6 +631,12 @@ bool ScenarioYamlLoader::parseStepKind(const std::string &value, ScenarioStepKin
     if (value == "use_item")
     {
         kind = ScenarioStepKind::UseItem;
+        return true;
+    }
+
+    if (value == "equip_item")
+    {
+        kind = ScenarioStepKind::EquipItem;
         return true;
     }
 
@@ -871,6 +908,7 @@ ScenarioLoadResult ScenarioYamlLoader::load(const std::filesystem::path &path) c
         std::string stepKindName;
         YAML::Node payload;
         int traceSourceLine = 0;
+        bool onGuestGame = false;
 
         for (YAML::const_iterator iterator = stepNode.begin(); iterator != stepNode.end(); ++iterator)
         {
@@ -894,6 +932,20 @@ ScenarioLoadResult ScenarioYamlLoader::load(const std::filesystem::path &path) c
 
             if (key == "todo" && iterator->second.IsScalar())
             {
+                continue;
+            }
+
+            if (key == "game" && iterator->second.IsScalar())
+            {
+                const std::string game = iterator->second.as<std::string>();
+
+                if (game != "guest" && game != "host")
+                {
+                    result.errors.push_back(formatLocation(path, iterator->first.Mark().line + 1)
+                        + ": a step's game is host or guest");
+                }
+
+                onGuestGame = game == "guest";
                 continue;
             }
 
@@ -932,6 +984,7 @@ ScenarioLoadResult ScenarioYamlLoader::load(const std::filesystem::path &path) c
         step.sourceLine = stepNode.Mark().line + 1;
         step.traceSourceLine = traceSourceLine;
         step.stepIndex = stepIndex + 1;
+        step.onGuestGame = onGuestGame;
         validateScenarioStepKeys(step,
             formatLocation(path, step.sourceLine) + " step " + std::to_string(step.stepIndex) + " (" + stepKindName
                 + ")",

@@ -8,6 +8,7 @@
 
 namespace OpenYAMM::Game
 {
+class MergedNpcProfessionTable;
 class RosterTable;
 
 struct NpcGreetingEntry
@@ -47,7 +48,14 @@ struct NpcEntry
     uint32_t greetId = 0;
     bool joins = false;
     std::vector<uint32_t> topicIds;
+    // npc.txt's optional "Title" column after Notes (a world's rows): a talk reads "{name}, {title}". Empty: the
+    // profession's "{name} the {profession}", or the name.
+    std::string title;
 };
+
+// An NPC as its talk's title names it, localized: "{name}, {title}" with a title, else the profession's
+// "{name} the {profession}" (the original NameAndTitle), else the name. Empty for an NPC without a name.
+std::string npcNameAndTitle(const NpcEntry &npc, const MergedNpcProfessionTable *pProfessionTable);
 
 class NpcDialogTable
 {

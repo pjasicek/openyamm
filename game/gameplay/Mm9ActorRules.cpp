@@ -382,6 +382,29 @@ bool mm9SwimmerCanTarget(bool selfInWater, bool targetInWater)
     return !selfInWater || targetInWater;
 }
 
+bool outdoorBodyInWater(bool overWaterTile, bool flying, float footZ, float surfaceZ)
+{
+    return overWaterTile && !flying && footZ <= surfaceZ + OutdoorSwimDepth;
+}
+
+bool outdoorSwimmerStepAllowed(bool candidateOverWater, float leashRadius, float fromHomeX, float fromHomeY,
+    float candidateFromHomeX, float candidateFromHomeY)
+{
+    if (!candidateOverWater)
+    {
+        return false;
+    }
+
+    if (leashRadius <= 0.0f)
+    {
+        return true;
+    }
+
+    const float candidateSquared = candidateFromHomeX * candidateFromHomeX + candidateFromHomeY * candidateFromHomeY;
+    return candidateSquared <= leashRadius * leashRadius
+        || candidateSquared < fromHomeX * fromHomeX + fromHomeY * fromHomeY;
+}
+
 float mm9WanderSeconds(float minimum, float maximum, float unit)
 {
     // BaseWanderStartup: a zero bound reads as 0.01.

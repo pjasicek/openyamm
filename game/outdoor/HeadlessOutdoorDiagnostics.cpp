@@ -3778,7 +3778,8 @@ bool openActorInScenario(
     }
 
     const MapDeltaActor &actor = selectedMap.outdoorMapDeltaData->actors[actorIndex];
-    const std::string actorName = resolveMapDeltaActorName(gameDataLoader.getMonsterTable(), actor);
+    const std::string actorName = resolveMapDeltaActorName(gameDataLoader.getMonsterTable(), actor,
+        {&gameDataLoader.getNpcDialogTable(), &gameDataLoader.getMergedNpcProfessionTable()});
 
     if (actor.npcId > 0)
     {
@@ -7314,7 +7315,8 @@ int HeadlessGameplayDiagnostics::runOpenActor(
     party.applyEventRuntimeState(*pEventRuntimeState);
 
     const MapDeltaActor &actor = selectedMap->outdoorMapDeltaData->actors[actorIndex];
-    const std::string actorName = resolveMapDeltaActorName(gameDataLoader.getMonsterTable(), actor);
+    const std::string actorName = resolveMapDeltaActorName(gameDataLoader.getMonsterTable(), actor,
+        {&gameDataLoader.getNpcDialogTable(), &gameDataLoader.getMergedNpcProfessionTable()});
     std::cout << "Headless actor diagnostic: index=" << actorIndex
               << " name=\"" << actorName << "\""
               << " npc=" << actor.npcId
@@ -20517,7 +20519,7 @@ int HeadlessGameplayDiagnostics::runRegressionSuite(
                 party.setClassMultiplierTable(&gameDataLoader.getClassMultiplierTable());
                 party.setClassSkillTable(&gameDataLoader.getClassSkillTable());
                 party.seed(createRegressionPartySeed());
-                party.setQuestBit(42, true);
+                party.campaign().setQuestBit(42, true);
 
                 std::optional<MapDeltaData> indoorMapDeltaData = *loadedMap->indoorMapDeltaData;
                 std::optional<EventRuntimeState> eventRuntimeState = *loadedMap->eventRuntimeState;
@@ -22653,8 +22655,8 @@ int HeadlessGameplayDiagnostics::runRegressionSuite(
                     return false;
                 }
 
-                scenario.party.setQuestBit(233, true); // You have Pissed of the Dragons
-                scenario.party.setEventVariableValue(static_cast<uint16_t>(EvtVariable::Counter10), 1);
+                scenario.party.campaign().setQuestBit(233, true); // You have Pissed of the Dragons
+                scenario.party.campaign().setEventVariableValue(static_cast<uint16_t>(EvtVariable::Counter10), 1);
                 scenario.eventRuntimeState->variables[static_cast<uint32_t>(EvtVariable::DayOfYear)] = 57;
                 scenario.eventRuntimeState->variables[static_cast<uint32_t>(EvtVariable::Hour)] = 1;
 
@@ -24166,13 +24168,24 @@ int HeadlessGameplayDiagnostics::runRegressionSuite(
 
                 scenario.mapDeltaData->actors.back().attributes |= static_cast<uint32_t>(EvtActorAttribute::Invisible);
 
+                // A hidden actor is defeated only for a check with InvisibleAsDead (A3's Castle Kalindra liches).
                 if (!scenario.world.checkMonstersKilled(
+                        static_cast<uint32_t>(EvtActorKillCheck::Group),
+                        77,
+                        0,
+                        true))
+                {
+                    failure = "event-invisible indoor actor was not treated as defeated with InvisibleAsDead";
+                    return false;
+                }
+
+                if (scenario.world.checkMonstersKilled(
                         static_cast<uint32_t>(EvtActorKillCheck::Group),
                         77,
                         0,
                         false))
                 {
-                    failure = "event-invisible indoor actor was not treated as defeated";
+                    failure = "event-invisible indoor actor was treated as defeated without InvisibleAsDead";
                     return false;
                 }
 
@@ -24600,7 +24613,7 @@ int HeadlessGameplayDiagnostics::runRegressionSuite(
             {
                 rewardedExperience += member.experience;
             }
-            if (!partyRuntime.party().hasQuestBit(90035u) || rewardedExperience <= initialExperience)
+            if (!partyRuntime.party().campaign().hasQuestBit(90035u) || rewardedExperience <= initialExperience)
             {
                 failure = "CaveIn death output did not award MM9 key 35 and experience";
                 return false;
@@ -25282,7 +25295,7 @@ int HeadlessGameplayDiagnostics::runRegressionSuite(
             }
 
             pMember->skills["DisarmTraps"] = {"DisarmTraps", 3, SkillMastery::Normal};
-            scenario.party.setQuestBit(270, false);
+            scenario.party.campaign().setQuestBit(270, false);
             const size_t initialCount = scenario.world.worldItemCount();
 
             if (!executeLocalEventInScenario(gameDataLoader, *selectedMap, scenario, 494))
@@ -25310,7 +25323,7 @@ int HeadlessGameplayDiagnostics::runRegressionSuite(
                 return false;
             }
 
-            if (!scenario.party.hasQuestBit(270))
+            if (!scenario.party.campaign().hasQuestBit(270))
             {
                 failure = "palm tree event did not set its one-shot quest bit";
                 return false;
@@ -25341,7 +25354,7 @@ int HeadlessGameplayDiagnostics::runRegressionSuite(
             }
 
             pMember->skills["DisarmTraps"] = {"DisarmTraps", 5, SkillMastery::Normal};
-            scenario.party.setQuestBit(271, false);
+            scenario.party.campaign().setQuestBit(271, false);
             const size_t initialCount = scenario.world.worldItemCount();
 
             if (!executeLocalEventInScenario(gameDataLoader, *selectedMap, scenario, 495))
@@ -31933,9 +31946,19 @@ int HeadlessGameplayDiagnostics::runRegressionSuite(
                     static_cast<uint32_t>(EvtActorKillCheck::MonsterId),
                     TestEventMonsterId,
                     0,
+                    true))
+            {
+                failure = "event-invisible outdoor actor was not treated as killed with InvisibleAsDead";
+                return false;
+            }
+
+            if (disabledScenario.world.checkMonstersKilled(
+                    static_cast<uint32_t>(EvtActorKillCheck::MonsterId),
+                    TestEventMonsterId,
+                    0,
                     false))
             {
-                failure = "event-invisible outdoor actor was not treated as killed";
+                failure = "event-invisible outdoor actor was treated as killed without InvisibleAsDead";
                 return false;
             }
 
@@ -31969,8 +31992,8 @@ int HeadlessGameplayDiagnostics::runRegressionSuite(
                 OutdoorWorldRuntime &world = pScene->worldRuntime();
                 Party &party = pScene->party();
                 party.seed(createRegressionPartySeed());
-                party.setQuestBit(21, huntDragons);
-                party.setQuestBit(22, !huntDragons);
+                party.campaign().setQuestBit(21, huntDragons);
+                party.campaign().setQuestBit(22, !huntDragons);
                 const uint32_t completionBit = huntDragons ? 155 : 158;
                 const int firstMonsterId = huntDragons ? 190 : 43;
                 const std::string completionText = huntDragons
@@ -31989,7 +32012,7 @@ int HeadlessGameplayDiagnostics::runRegressionSuite(
                     }
                 }
 
-                if (targets.size() < 2 || party.hasQuestBit(completionBit))
+                if (targets.size() < 2 || party.campaign().hasQuestBit(completionBit))
                 {
                     failure = "clearance scenario did not start with living quest monsters";
                     return false;
@@ -32003,7 +32026,7 @@ int HeadlessGameplayDiagnostics::runRegressionSuite(
                     EventRuntimeState &eventState = *world.eventRuntimeState();
                     eventState.portraitFxRequests.clear();
                     eventState.pendingSounds.clear();
-                    const bool campWasCleared = party.hasQuestBit(75);
+                    const bool campWasCleared = party.campaign().hasQuestBit(75);
                     const size_t actorIndex = targets[index];
                     // Cast from beside the target: targeted spells refuse monsters past their range.
                     const OutdoorWorldRuntime::MapActorState *pTarget = world.mapActorState(actorIndex);
@@ -32029,14 +32052,14 @@ int HeadlessGameplayDiagnostics::runRegressionSuite(
                         pScene->advanceTurnBasedGameMinutes(0.0f);
                     }
 
-                    if (party.hasQuestBit(completionBit) != (index + 1 == targets.size()))
+                    if (party.campaign().hasQuestBit(completionBit) != (index + 1 == targets.size()))
                     {
                         failure = "clearance did not complete exactly when the last matching monster died";
                         return false;
                     }
 
                     const bool completed = index + 1 == targets.size()
-                        || (!campWasCleared && party.hasQuestBit(75));
+                        || (!campWasCleared && party.campaign().hasQuestBit(75));
                     const auto questSoundCount = std::count_if(
                         eventState.pendingSounds.begin(), eventState.pendingSounds.end(),
                         [](const EventRuntimeState::PendingSound &sound)
@@ -32084,7 +32107,7 @@ int HeadlessGameplayDiagnostics::runRegressionSuite(
                 }
 
                 if (world.gameMinutes() != initialGameMinutes || world.mapActorCount() != initialActorCount
-                    || (!huntDragons && (!party.hasQuestBit(75) || !party.hasQuestBit(200))))
+                    || (!huntDragons && (!party.campaign().hasQuestBit(75) || !party.campaign().hasQuestBit(200))))
                 {
                     failure = "kill hook advanced time, spawned a sentinel, or missed promotion clearance";
                     return false;
@@ -32105,7 +32128,7 @@ int HeadlessGameplayDiagnostics::runRegressionSuite(
                 const std::vector<std::string> &messages = world.eventRuntimeState()->statusMessages;
 
                 if (std::count(messages.begin(), messages.end(), completionText) != 1
-                    || party.hasQuestBit(huntDragons ? 158 : 155)
+                    || party.campaign().hasQuestBit(huntDragons ? 158 : 155)
                     || !world.eventRuntimeState()->portraitFxRequests.empty()
                     || !world.eventRuntimeState()->pendingSounds.empty())
                 {
@@ -32155,7 +32178,7 @@ int HeadlessGameplayDiagnostics::runRegressionSuite(
                 }
 
                 scenario.party.grantItem(662);
-                scenario.party.setQuestBit(37, false);
+                scenario.party.campaign().setQuestBit(37, false);
                 scenario.world.advanceGameMinutes(startMinutes - scenario.world.gameMinutes());
                 scenario.world.prepareTimers(loadedMap->localEventProgram, loadedMap->globalEventProgram);
                 if (!scenario.eventRuntime.executeEventById(
@@ -32188,14 +32211,14 @@ int HeadlessGameplayDiagnostics::runRegressionSuite(
                 if (std::abs(elapsedMinutes - 4.0f) > 0.1f
                     || std::abs(indoorClock.gameMinutes() - startMinutes - 4.0f) > 0.1f
                     || scenario.pEventRuntimeState->mapVars[41] != 0
-                    || !scenario.party.hasQuestBit(37))
+                    || !scenario.party.campaign().hasQuestBit(37))
                 {
                     failure = "Regna cannon stalled: start_minutes=" + std::to_string(startMinutes)
                         + " fps=" + std::to_string(clockCase.framesPerSecond)
                         + " elapsed_minutes=" + std::to_string(elapsedMinutes)
                         + " indoor_elapsed_minutes=" + std::to_string(indoorClock.gameMinutes() - startMinutes)
                         + " stage=" + std::to_string(scenario.pEventRuntimeState->mapVars[41])
-                        + " sunk=" + std::to_string(scenario.party.hasQuestBit(37));
+                        + " sunk=" + std::to_string(scenario.party.campaign().hasQuestBit(37));
                     return false;
                 }
             }
@@ -32252,11 +32275,11 @@ int HeadlessGameplayDiagnostics::runRegressionSuite(
                 return false;
             }
 
-            scenario.party.setQuestBit(21, false);
-            scenario.party.setQuestBit(22, true);
-            scenario.party.setQuestBit(158, false);
-            scenario.party.setQuestBit(159, false);
-            scenario.party.setQuestBit(75, false);
+            scenario.party.campaign().setQuestBit(21, false);
+            scenario.party.campaign().setQuestBit(22, true);
+            scenario.party.campaign().setQuestBit(158, false);
+            scenario.party.campaign().setQuestBit(159, false);
+            scenario.party.campaign().setQuestBit(75, false);
 
             std::vector<size_t> hunterIndices;
 
@@ -32290,7 +32313,7 @@ int HeadlessGameplayDiagnostics::runRegressionSuite(
             scenario.world.updateTimers(
                 20.0f, eventRuntime, loadedMap->localEventProgram, loadedMap->globalEventProgram);
 
-            if (scenario.party.hasQuestBit(159) || scenario.party.hasQuestBit(158))
+            if (scenario.party.campaign().hasQuestBit(159) || scenario.party.campaign().hasQuestBit(158))
             {
                 failure = "tracker completed while an authored Dragon Hunter was still alive";
                 return false;
@@ -32305,7 +32328,7 @@ int HeadlessGameplayDiagnostics::runRegressionSuite(
             scenario.world.updateTimers(
                 19.0f, eventRuntime, loadedMap->localEventProgram, loadedMap->globalEventProgram);
 
-            if (scenario.party.hasQuestBit(158))
+            if (scenario.party.campaign().hasQuestBit(158))
             {
                 failure = "hunter quest completed before the next tracker alarm";
                 return false;
@@ -32314,7 +32337,7 @@ int HeadlessGameplayDiagnostics::runRegressionSuite(
             scenario.world.updateTimers(
                 1.0f, eventRuntime, loadedMap->localEventProgram, loadedMap->globalEventProgram);
 
-            if (!scenario.party.hasQuestBit(159) || !scenario.party.hasQuestBit(75))
+            if (!scenario.party.campaign().hasQuestBit(159) || !scenario.party.campaign().hasQuestBit(75))
             {
                 failure = "first tracker alarm did not set the hunter marker and promotion camp objective";
                 return false;
@@ -32325,12 +32348,14 @@ int HeadlessGameplayDiagnostics::runRegressionSuite(
             scenario.world.updateTimers(
                 20.0f, eventRuntime, loadedMap->localEventProgram, loadedMap->globalEventProgram);
 
-            if (!scenario.party.hasQuestBit(159) || !scenario.party.hasQuestBit(158) || !scenario.party.hasQuestBit(75))
+            if (!scenario.party.campaign().hasQuestBit(159)
+                || !scenario.party.campaign().hasQuestBit(158)
+                || !scenario.party.campaign().hasQuestBit(75))
             {
                 failure = "tracker alarm did not complete both objectives: marker="
-                    + std::to_string(scenario.party.hasQuestBit(159))
-                    + " hunters=" + std::to_string(scenario.party.hasQuestBit(158))
-                    + " camp=" + std::to_string(scenario.party.hasQuestBit(75));
+                    + std::to_string(scenario.party.campaign().hasQuestBit(159))
+                    + " hunters=" + std::to_string(scenario.party.campaign().hasQuestBit(158))
+                    + " camp=" + std::to_string(scenario.party.campaign().hasQuestBit(75));
 
                 for (size_t actorIndex = 0; actorIndex < scenario.world.mapActorCount(); ++actorIndex)
                 {
@@ -32357,12 +32382,12 @@ int HeadlessGameplayDiagnostics::runRegressionSuite(
                 return false;
             }
 
-            scenario.party.setQuestBit(157, true);
+            scenario.party.campaign().setQuestBit(157, true);
 
             if (!eventRuntime.executeEventById(
                     std::nullopt, loadedMap->globalEventProgram, 221,
                     *scenario.pEventRuntimeState, &scenario.party, &scenario.world)
-                || scenario.party.hasQuestBit(157))
+                || scenario.party.campaign().hasQuestBit(157))
             {
                 failure = "Jerin did not accept the completed wilderness hunter quest";
                 return false;
@@ -32815,7 +32840,7 @@ int HeadlessGameplayDiagnostics::runRegressionSuite(
 
             constexpr uint32_t QBitId = 5;
             constexpr uint32_t QBitRawId = (QBitId << 16) | static_cast<uint32_t>(EvtVariable::QBits);
-            scenario.party.setQuestBit(QBitId, false);
+            scenario.party.campaign().setQuestBit(QBitId, false);
             scenario.pEventRuntimeState->portraitFxRequests.clear();
 
             std::string error;
@@ -32840,7 +32865,7 @@ int HeadlessGameplayDiagnostics::runRegressionSuite(
                 return false;
             }
 
-            if (!scenario.party.hasQuestBit(QBitId))
+            if (!scenario.party.campaign().hasQuestBit(QBitId))
             {
                 failure = "outdoor timer did not set the party qbit";
                 return false;
@@ -33055,7 +33080,7 @@ int HeadlessGameplayDiagnostics::runRegressionSuite(
             }
 
             constexpr uint32_t StonTalkedQBit = 232;
-            scenario.party.setQuestBit(StonTalkedQBit, false);
+            scenario.party.campaign().setQuestBit(StonTalkedQBit, false);
             scenario.pEventRuntimeState->pendingDialogueContext.reset();
             scenario.world.prepareTimers(daggerWoundMap.localEventProgram, daggerWoundMap.globalEventProgram);
 
@@ -33071,7 +33096,7 @@ int HeadlessGameplayDiagnostics::runRegressionSuite(
                 daggerWoundMap.localEventProgram,
                 daggerWoundMap.globalEventProgram);
 
-            if (scenario.party.hasQuestBit(StonTalkedQBit)
+            if (scenario.party.campaign().hasQuestBit(StonTalkedQBit)
                 || scenario.pEventRuntimeState->pendingDialogueContext)
             {
                 failure = "S'ton's timer fired before 10:00";
@@ -33088,13 +33113,13 @@ int HeadlessGameplayDiagnostics::runRegressionSuite(
                 return false;
             }
 
-            if (!scenario.party.hasQuestBit(StonTalkedQBit)
+            if (!scenario.party.campaign().hasQuestBit(StonTalkedQBit)
                 || !scenario.pEventRuntimeState->pendingDialogueContext
                 || scenario.pEventRuntimeState->pendingDialogueContext->kind != DialogueContextKind::NpcTalk
                 || scenario.pEventRuntimeState->pendingDialogueContext->sourceId != 27)
             {
                 failure = "S'ton's timer did not open S'ton's NPC dialogue at 10:00: qbit="
-                    + std::to_string(scenario.party.hasQuestBit(StonTalkedQBit))
+                    + std::to_string(scenario.party.campaign().hasQuestBit(StonTalkedQBit))
                     + " pending=" + std::to_string(scenario.pEventRuntimeState->pendingDialogueContext.has_value())
                     + " source="
                     + std::to_string(
@@ -33128,7 +33153,7 @@ int HeadlessGameplayDiagnostics::runRegressionSuite(
 
             scenario.party.addGold(123);
             scenario.party.depositGoldToBank(50);
-            scenario.party.markArtifactItemFound(519);
+            scenario.party.campaign().markArtifactItemFound(519);
             scenario.party.applyPartyBuff(PartyBuffId::Haste, 60.0f, 1, 6, 1, SkillMastery::Normal, 0);
             scenario.world.advanceGameMinutes(37.5f);
 
@@ -33155,7 +33180,7 @@ int HeadlessGameplayDiagnostics::runRegressionSuite(
                 return false;
             }
 
-            Party::HouseStockState &shopState = scenario.party.ensureHouseStockState(1);
+            CampaignState::HouseStockState &shopState = scenario.party.campaign().ensureHouseStockState(1);
             shopState.nextRefreshGameMinutes = scenario.world.gameMinutes() + 1440.0f;
             shopState.refreshSequence = 7;
             shopState.standardStock.push_back(savedInventoryItem);
@@ -33477,7 +33502,7 @@ int HeadlessGameplayDiagnostics::runRegressionSuite(
                 return false;
             }
 
-            if (!restoredParty.hasFoundArtifactItem(519) || !restoredParty.hasPartyBuff(PartyBuffId::Haste))
+            if (!restoredParty.campaign().hasFoundArtifactItem(519) || !restoredParty.hasPartyBuff(PartyBuffId::Haste))
             {
                 failure = "party artifact or buff state did not roundtrip";
                 return false;
@@ -33505,7 +33530,7 @@ int HeadlessGameplayDiagnostics::runRegressionSuite(
                 return false;
             }
 
-            const Party::HouseStockState *pRestoredShopState = restoredParty.houseStockState(1);
+            const CampaignState::HouseStockState *pRestoredShopState = restoredParty.campaign().houseStockState(1);
 
             if (pRestoredShopState == nullptr
                 || pRestoredShopState->refreshSequence != 7
@@ -36161,7 +36186,7 @@ int HeadlessGameplayDiagnostics::runRegressionSuite(
             pActiveMember->permanentBonuses.intellect = 0;
             pActiveMember->intellect = baseIntellect;
             pActiveMember->inventory.clear();
-            party.clearHouseStockStates();
+            party.campaign().clearHouseStockStates();
             pEventRuntimeState->variables.erase(qbitRawId);
 
             if (!GameApplicationTestAccess::quickLoadFromPath(application, savePath, true))
@@ -36207,8 +36232,8 @@ int HeadlessGameplayDiagnostics::runRegressionSuite(
                 return false;
             }
 
-            const Party::HouseStockState *pLoadedShopState =
-                GameApplicationTestAccess::outdoorPartyRuntime(application)->party().houseStockState(1);
+            const CampaignState::HouseStockState *pLoadedShopState =
+                GameApplicationTestAccess::outdoorPartyRuntime(application)->party().campaign().houseStockState(1);
 
             if (pLoadedShopState == nullptr
                 || purchasedSlotIndex >= pLoadedShopState->standardStock.size()
@@ -36333,7 +36358,7 @@ int HeadlessGameplayDiagnostics::runRegressionSuite(
             }
 
             // Departed NPCs are global state, kept by the party.
-            GameApplicationTestAccess::outdoorPartyRuntime(application)->party().setNpcUnavailable(28, true);
+            GameApplicationTestAccess::outdoorPartyRuntime(application)->party().campaign().setNpcUnavailable(28, true);
 
             const std::filesystem::path savePath = "/tmp/openyamm_app_empty_house.oysav";
 
@@ -36570,7 +36595,7 @@ int HeadlessGameplayDiagnostics::runRegressionSuite(
             }
 
             Party &party = pPartyRuntime->party();
-            party.setQuestBit(93, false);
+            party.campaign().setQuestBit(93, false);
             party.addGold(1234);
             party.depositGoldToBank(234);
 
@@ -36633,7 +36658,7 @@ int HeadlessGameplayDiagnostics::runRegressionSuite(
                 return false;
             }
 
-            if (pDefeatedParty->eventVariableValue(static_cast<uint16_t>(EvtVariable::NumDeaths)) != 1)
+            if (pDefeatedParty->campaign().eventVariableValue(static_cast<uint16_t>(EvtVariable::NumDeaths)) != 1)
             {
                 failure = "party defeat did not increment NumDeaths";
                 return false;
@@ -36661,7 +36686,7 @@ int HeadlessGameplayDiagnostics::runRegressionSuite(
                 return false;
             }
 
-            if (!GameApplicationTestAccess::mapSceneRuntime(application)->party().hasQuestBit(93))
+            if (!GameApplicationTestAccess::mapSceneRuntime(application)->party().campaign().hasQuestBit(93))
             {
                 failure = "visiting Ravenshore did not set QBit 93";
                 return false;
@@ -36680,7 +36705,7 @@ int HeadlessGameplayDiagnostics::runRegressionSuite(
                     return false;
                 }
 
-                if (!GameApplicationTestAccess::mapSceneRuntime(application)->party().hasQuestBit(93)
+                if (!GameApplicationTestAccess::mapSceneRuntime(application)->party().campaign().hasQuestBit(93)
                     || GameApplicationTestAccess::resolvePartyDefeatRespawnMapFileName(application) != "out02.odm")
                 {
                     failure = std::string(pMapFileName) + " defeat after visiting Ravenshore did not use Ravenshore";
@@ -36693,7 +36718,7 @@ int HeadlessGameplayDiagnostics::runRegressionSuite(
                 return false;
             }
 
-            GameApplicationTestAccess::mapSceneRuntime(application)->party().setQuestBit(519, false);
+            GameApplicationTestAccess::mapSceneRuntime(application)->party().campaign().setQuestBit(519, false);
 
             if (GameApplicationTestAccess::resolvePartyDefeatRespawnMapFileName(application) != "7out01.odm")
             {
@@ -36709,7 +36734,7 @@ int HeadlessGameplayDiagnostics::runRegressionSuite(
                 }
 
                 Party &mm7Party = GameApplicationTestAccess::mapSceneRuntime(application)->party();
-                mm7Party.setQuestBit(519, false);
+                mm7Party.campaign().setQuestBit(519, false);
 
                 if (GameApplicationTestAccess::resolvePartyDefeatRespawnMapFileName(application) != "7out01.odm")
                 {
@@ -36717,7 +36742,7 @@ int HeadlessGameplayDiagnostics::runRegressionSuite(
                     return false;
                 }
 
-                mm7Party.setQuestBit(519, true);
+                mm7Party.campaign().setQuestBit(519, true);
 
                 if (GameApplicationTestAccess::resolvePartyDefeatRespawnMapFileName(application) != "7out02.odm")
                 {
@@ -36873,7 +36898,7 @@ int HeadlessGameplayDiagnostics::runRegressionSuite(
                 return false;
             }
 
-            if (pWorld->party() == nullptr || pWorld->party()->hasAutonote(AutoNoteId))
+            if (pWorld->party() == nullptr || pWorld->party()->campaign().hasAutonote(AutoNoteId))
             {
                 failure = "teacher autonote was already unlocked before house entry";
                 return false;
@@ -36906,7 +36931,7 @@ int HeadlessGameplayDiagnostics::runRegressionSuite(
                 return false;
             }
 
-            if (!pWorld->party()->hasAutonote(AutoNoteId))
+            if (!pWorld->party()->campaign().hasAutonote(AutoNoteId))
             {
                 failure = "teacher autonote was not unlocked on house entry";
                 return false;
@@ -37453,7 +37478,7 @@ int HeadlessGameplayDiagnostics::runRegressionSuite(
                 return false;
             }
 
-            pPartyRuntime->party().setNpcGroupNews(16, 10);
+            pPartyRuntime->party().campaign().setNpcGroupNews(16, 10);
 
             if (!loadHeadlessGameApplicationMap(application, assetFileSystem, "out03.odm", failure))
             {
@@ -37541,6 +37566,9 @@ int HeadlessGameplayDiagnostics::runRegressionSuite(
                 return false;
             }
 
+            // The shared session's party comes from the earlier cases, Weak among them (their travel and defeat): a
+            // Weak face shows no smile (portraitExpressionAllowedForCondition), so the member starts well.
+            pActiveMember->conditions.reset();
             pActiveMember->portraitState = PortraitId::Normal;
             pActiveMember->portraitElapsedTicks = 0;
             pActiveMember->portraitDurationTicks = 0;
@@ -37566,15 +37594,123 @@ int HeadlessGameplayDiagnostics::runRegressionSuite(
                 return false;
             }
 
-            if (!pEventRuntimeState->portraitFxRequests.empty())
-            {
-                failure = "house trade topic still queued portrait event fx";
-                return false;
-            }
-
+            // The topic's own portrait fx (the gold it takes) stay queued since 2026-04-27 (50d8e212ba); the trade adds
+            // the face reaction on top.
             if (pActiveMember->portraitState == PortraitId::Normal)
             {
                 failure = "house trade topic did not trigger the face-only smile reaction";
+                return false;
+            }
+
+            return true;
+        }
+    );
+
+    runCase(
+        "app_return_closing_message_does_not_toggle_turn_based",
+        [&](std::string &failure)
+        {
+            if (!prepareSharedHeadlessGameApplication(
+                    out01ViewSession,
+                    assetFileSystem,
+                    "out01.odm",
+                    true,
+                    failure))
+            {
+                return false;
+            }
+
+            GameApplication &application = out01ViewSession.application;
+            OutdoorWorldRuntime *pWorldRuntime = GameApplicationTestAccess::outdoorWorldRuntime(application);
+            EventRuntimeState *pEventRuntimeState =
+                pWorldRuntime != nullptr ? pWorldRuntime->eventRuntimeState() : nullptr;
+
+            if (pEventRuntimeState == nullptr || pWorldRuntime->party() == nullptr)
+            {
+                failure = "missing outdoor runtime state";
+                return false;
+            }
+
+            GameSession &session = GameApplicationTestAccess::gameSession(application);
+            TurnBasedCombatRuntime &turnBased = session.gameplayScreenRuntime().turnBasedCombatRuntime();
+
+            if (turnBased.active())
+            {
+                turnBased.end(pWorldRuntime->party(), pWorldRuntime);
+            }
+
+            GameplayInputFrame input = {};
+            input.screenWidth = 640;
+            input.screenHeight = 480;
+            input.pointerX = 320.0f;
+            input.pointerY = 240.0f;
+            const auto runFrame =
+                [&](bool returnHeld, bool returnPressed)
+                {
+                    input.keyboardHeld[SDL_SCANCODE_RETURN] = returnHeld;
+                    input.keyboardPressCounts[SDL_SCANCODE_RETURN] = returnPressed ? 1 : 0;
+                    input.actions[keyboardActionIndex(KeyboardAction::Combat)] =
+                        {returnHeld, returnPressed, !returnHeld};
+                    session.updateGameplay(input, 1.0f / 60.0f, false);
+                    session.bindCurrentGameplayInputFrame(nullptr);
+                };
+            // A key press lasts several frames: pressed, held twice, let go.
+            const auto pressReturn =
+                [&]()
+                {
+                    runFrame(true, true);
+                    runFrame(true, false);
+                    runFrame(true, false);
+                    runFrame(false, false);
+                };
+
+            // Whatever an earlier case left open (its NPC's dialogue) closes first.
+            for (int attempt = 0; attempt < 4 && GameApplicationTestAccess::hasActiveEventDialog(application); ++attempt)
+            {
+                GameApplicationTestAccess::handleDialogueCloseRequest(application);
+            }
+
+            runFrame(false, false);
+            const size_t previousMessageCount = pEventRuntimeState->messages.size();
+            pEventRuntimeState->messages.push_back("A message closed with Return.");
+            EventRuntimeState::PendingDialogueContext messageContext = {};
+            messageContext.kind = DialogueContextKind::MapEvent;
+            pEventRuntimeState->pendingDialogueContext = std::move(messageContext);
+            GameApplicationTestAccess::openPendingEventDialog(application, previousMessageCount, false);
+
+            if (!GameApplicationTestAccess::hasActiveEventDialog(application))
+            {
+                failure = "the message window did not open";
+                return false;
+            }
+
+            pressReturn();
+
+            if (GameApplicationTestAccess::hasActiveEventDialog(application))
+            {
+                failure = "Return did not close the message window";
+                return false;
+            }
+
+            if (turnBased.active())
+            {
+                turnBased.end(pWorldRuntime->party(), pWorldRuntime);
+                failure = "the Return that closed the message window also toggled turn-based mode";
+                return false;
+            }
+
+            // The next press, in play, is the Combat key's.
+            pressReturn();
+            const bool toggledInPlay = turnBased.active();
+
+            if (turnBased.active())
+            {
+                turnBased.end(pWorldRuntime->party(), pWorldRuntime);
+            }
+
+            if (!toggledInPlay)
+            {
+                failure = "Return in play did not toggle turn-based mode";
                 return false;
             }
 

@@ -585,7 +585,8 @@ std::optional<RuntimeActorBillboard> buildRuntimeActorBillboard(
         || !runtimeActorState.hostileToParty;
     billboard.actorName = pActorAiState != nullptr
         ? pActorAiState->displayName
-        : resolveMapDeltaActorName(monsterTable, actor);
+        : resolveMapDeltaActorName(
+            monsterTable, actor, pWorldRuntime != nullptr ? pWorldRuntime->actorNpcNames() : ActorNpcNameTables{});
     return billboard;
 }
 
@@ -2766,6 +2767,7 @@ bool IndoorRenderer::initialize(
     m_modelSectorCache.clear();
     clearPortalVisibilityCaches();
     m_pSceneRuntime = &sceneRuntime;
+    m_doorIdsAwaitingGeometry.clear();
     m_indoorPortalGraph = buildIndoorPortalGraph(
         indoorMapData,
         runtimeMapDeltaData() ? &runtimeMapDeltaData().value() : nullptr);
@@ -2790,6 +2792,8 @@ bool IndoorRenderer::initialize(
         runtimeEventRuntimeStateStorage());
     m_indoorTextureSet = indoorTextureSet;
     m_indoorDecorationBillboardSet = indoorDecorationBillboardSet;
+    m_decorationSmokeCooldowns.clear();
+    m_lastDecorationSmokeTime = -1.0f;
     buildIndoorInteractiveDecorationBindingCaches(
         indoorMapData,
         m_indoorDecorationBillboardSet ? &m_indoorDecorationBillboardSet.value() : nullptr,
@@ -3041,10 +3045,14 @@ bool IndoorRenderer::initialize(
     m_indoorLitProgramHandle = loadProgram("vs_indoor_textured_lit", "fs_indoor_textured_lit");
     // Surface materials (devdocs/SURFACE_MATERIALS_PLAN.md), only for a map loaded with their maps.
     const bool surfaceMaterials = indoorTextureSet && hasSurfaceMaterialMaps(indoorTextureSet->textures);
+    // Normal maps alone, loaded for their glow (D-55): the same handles hold the glow variants of the ordinary
+    // programs.
+    m_surfaceGlowOnly = surfaceMaterials && hasSurfaceGlowOnlyMaps(indoorTextureSet->textures);
+    const std::string materialVariant = m_surfaceGlowOnly ? "_glow" : "_materials";
     if (surfaceMaterials)
     {
         m_indoorLitMaterialProgramHandle =
-            loadProgram("vs_indoor_textured_lit", "fs_indoor_textured_lit_materials");
+            loadProgram("vs_indoor_textured_lit", ("fs_indoor_textured_lit" + materialVariant).c_str());
     }
     // Baked lighting (devdocs/INDOOR_BAKED_LIGHTING.md), only for a map that has it: its lightmap pages, decoded once.
     if (indoorMapData.bakedLighting)
@@ -3053,7 +3061,7 @@ bool IndoorRenderer::initialize(
         if (surfaceMaterials)
         {
             m_indoorBakedMaterialProgramHandle =
-                loadProgram("vs_indoor_textured_baked", "fs_indoor_textured_baked_materials");
+                loadProgram("vs_indoor_textured_baked", ("fs_indoor_textured_baked" + materialVariant).c_str());
         }
         m_lightmapSamplerHandle = bgfx::createUniform("s_texLightmap", bgfx::UniformType::Sampler);
         m_daylightmapSamplerHandle = bgfx::createUniform("s_texDaylightmap", bgfx::UniformType::Sampler);
@@ -3094,6 +3102,20 @@ bool IndoorRenderer::initialize(
                 loadProgram("vs_indoor_textured_baked", "fs_indoor_textured_baked_translucent");
         }
         m_indoorTranslucencyUniformHandle = bgfx::createUniform("u_indoorTranslucency", bgfx::UniformType::Vec4);
+        if (m_surfaceGlowOnly)
+        {
+            m_indoorTranslucentGlowProgramHandles[0] =
+                loadProgram("vs_indoor_textured_lit", "fs_indoor_textured_translucent_glow");
+            m_indoorTranslucentGlowProgramHandles[2] =
+                loadProgram("vs_indoor_textured_lit", "fs_indoor_textured_translucent_glow_fog");
+            if (indoorMapData.bakedLighting)
+            {
+                m_indoorTranslucentGlowProgramHandles[1] =
+                    loadProgram("vs_indoor_textured_baked", "fs_indoor_textured_baked_translucent_glow");
+                m_indoorTranslucentGlowProgramHandles[3] =
+                    loadProgram("vs_indoor_textured_baked", "fs_indoor_textured_baked_translucent_glow_fog");
+            }
+        }
     }
     // Scene water volumes (devdocs/mm9_rework/MM9_WATER_SWIMMING_DESIGN.md): the screen tint under water, only for a
     // map that has them.
@@ -3172,7 +3194,7 @@ bool IndoorRenderer::initialize(
         if (surfaceMaterials)
         {
             m_indoorFogProgramHandles[1] =
-                loadProgram("vs_indoor_textured_lit", "fs_indoor_textured_lit_materials_fog");
+                loadProgram("vs_indoor_textured_lit", ("fs_indoor_textured_lit" + materialVariant + "_fog").c_str());
         }
         m_indoorFogProgramHandles[2] = loadProgram("vs_indoor_textured_lit", "fs_indoor_textured_translucent_fog");
         if (indoorMapData.bakedLighting)
@@ -3180,8 +3202,8 @@ bool IndoorRenderer::initialize(
             m_indoorFogProgramHandles[3] = loadProgram("vs_indoor_textured_baked", "fs_indoor_textured_baked_fog");
             if (surfaceMaterials)
             {
-                m_indoorFogProgramHandles[4] =
-                    loadProgram("vs_indoor_textured_baked", "fs_indoor_textured_baked_materials_fog");
+                m_indoorFogProgramHandles[4] = loadProgram("vs_indoor_textured_baked",
+                    ("fs_indoor_textured_baked" + materialVariant + "_fog").c_str());
             }
             m_indoorFogProgramHandles[5] =
                 loadProgram("vs_indoor_textured_baked", "fs_indoor_textured_baked_translucent_fog");
@@ -3977,6 +3999,125 @@ uint64_t IndoorRenderer::indoorMapRevealRevision() const
     return m_indoorMapRevealRevision;
 }
 
+void IndoorRenderer::advanceWorldSimulation(GameSession &gameSession, float deltaSeconds, bool updateDoorGeometry)
+{
+    if (m_pSceneRuntime == nullptr)
+    {
+        return;
+    }
+
+    if (updateDoorGeometry && !m_doorIdsAwaitingGeometry.empty())
+    {
+        // Doors that moved while nothing was presented take their place before this step moves them further.
+        uint64_t texturedBuildNanoseconds = 0;
+        uint64_t uploadNanoseconds = 0;
+        updateMechanismGeometryResourcesForDoorIds(
+            m_doorIdsAwaitingGeometry, texturedBuildNanoseconds, uploadNanoseconds);
+        m_doorIdsAwaitingGeometry.clear();
+    }
+
+    const float deltaMilliseconds = deltaSeconds * 1000.0f;
+
+    // Turn-based mode freezes game time, but the party's steps still fire floor events and doors and lifts keep
+    // moving; a held world (setWorldTimeHeld) runs only the doors and lifts.
+    const bool turnBased = gameSession.turnBasedCombatRuntime().active();
+    const bool collectDiagnostics = m_logIndoorPerformanceDiagnostics;
+    const uint64_t mechanismBeginTickCount = collectDiagnostics ? SDL_GetTicksNS() : 0;
+    const uint64_t simulationBeginTickCount = collectDiagnostics ? SDL_GetTicksNS() : 0;
+    const EventRuntimeState *pPreviousEventRuntimeState = runtimeEventRuntimeState();
+    const std::unordered_map<uint32_t, RuntimeMechanismState> previousMechanisms =
+        pPreviousEventRuntimeState != nullptr
+            ? pPreviousEventRuntimeState->mechanisms
+            : std::unordered_map<uint32_t, RuntimeMechanismState>();
+    const bool simulationAdvanced = m_worldTimeHeld
+        ? m_pSceneRuntime->advanceMechanisms(deltaMilliseconds)
+        : m_pSceneRuntime->advanceSimulation(deltaMilliseconds, !turnBased);
+
+    if (collectDiagnostics)
+    {
+        ++m_indoorPerformanceDiagnostics.simulationCalls;
+        m_indoorPerformanceDiagnostics.simulationNanoseconds += SDL_GetTicksNS() - simulationBeginTickCount;
+    }
+
+    if (simulationAdvanced)
+    {
+        if (collectDiagnostics)
+        {
+            ++m_indoorPerformanceDiagnostics.simulationAdvancedFrames;
+        }
+
+        const uint64_t mechanismProbeBeginTickCount = collectDiagnostics ? SDL_GetTicksNS() : 0;
+        const bool mechanismsStillMoving = hasMovingMechanism(runtimeEventRuntimeState());
+
+        if (collectDiagnostics)
+        {
+            m_indoorPerformanceDiagnostics.mechanismProbeNanoseconds +=
+                SDL_GetTicksNS() - mechanismProbeBeginTickCount;
+        }
+
+        std::vector<uint32_t> changedDoorIds = collectChangedMechanismDoorIds(previousMechanisms);
+
+        if (!updateDoorGeometry)
+        {
+            for (uint32_t doorId : changedDoorIds)
+            {
+                if (std::find(m_doorIdsAwaitingGeometry.begin(), m_doorIdsAwaitingGeometry.end(), doorId)
+                    == m_doorIdsAwaitingGeometry.end())
+                {
+                    m_doorIdsAwaitingGeometry.push_back(doorId);
+                }
+            }
+
+            changedDoorIds.clear();
+        }
+
+        if (mechanismsStillMoving && updateDoorGeometry)
+        {
+            if (collectDiagnostics)
+            {
+                ++m_indoorPerformanceDiagnostics.movingFrames;
+            }
+
+            uint64_t texturedBuildNanoseconds = 0;
+            uint64_t uploadNanoseconds = 0;
+
+            if (!updateMechanismGeometryResourcesForDoorIds(
+                    changedDoorIds,
+                    texturedBuildNanoseconds,
+                    uploadNanoseconds)
+                && collectDiagnostics)
+            {
+                ++m_indoorPerformanceDiagnostics.movingUpdateFailures;
+            }
+        }
+        else
+        {
+            if (!changedDoorIds.empty())
+            {
+                uint64_t texturedBuildNanoseconds = 0;
+                uint64_t uploadNanoseconds = 0;
+
+                if (!updateMechanismGeometryResourcesForDoorIds(
+                        changedDoorIds,
+                        texturedBuildNanoseconds,
+                        uploadNanoseconds)
+                    && collectDiagnostics)
+                {
+                    ++m_indoorPerformanceDiagnostics.movingUpdateFailures;
+                }
+            }
+        }
+
+        if (collectDiagnostics)
+        {
+            m_indoorPerformanceDiagnostics.mechanismTotalNanoseconds +=
+                SDL_GetTicksNS() - mechanismBeginTickCount;
+        }
+        // A surface change made by the simulation (a destructible broken) is caught up below: in place, else
+        // rebuilt.
+    }
+}
+
 void IndoorRenderer::render(
     int width,
     int height,
@@ -4090,95 +4231,11 @@ void IndoorRenderer::render(
         ++m_indoorPerformanceDiagnostics.renderFrames;
     }
 
-    const float deltaMilliseconds = deltaSeconds * 1000.0f;
     m_elapsedTime += std::max(deltaSeconds, 0.0f);
 
-    if (allowWorldSimulation && m_pSceneRuntime != nullptr)
+    if (allowWorldSimulation)
     {
-        // Turn-based mode freezes game time, but the party's steps still fire floor events and doors and lifts keep
-        // moving; a held world (setWorldTimeHeld) runs only the doors and lifts.
-        const bool turnBased = gameSession.turnBasedCombatRuntime().active();
-        const bool collectDiagnostics = m_logIndoorPerformanceDiagnostics;
-        const uint64_t mechanismBeginTickCount = collectDiagnostics ? SDL_GetTicksNS() : 0;
-        const uint64_t simulationBeginTickCount = collectDiagnostics ? SDL_GetTicksNS() : 0;
-        const EventRuntimeState *pPreviousEventRuntimeState = runtimeEventRuntimeState();
-        const std::unordered_map<uint32_t, RuntimeMechanismState> previousMechanisms =
-            pPreviousEventRuntimeState != nullptr
-                ? pPreviousEventRuntimeState->mechanisms
-                : std::unordered_map<uint32_t, RuntimeMechanismState>();
-        const bool simulationAdvanced = m_worldTimeHeld
-            ? m_pSceneRuntime->advanceMechanisms(deltaMilliseconds)
-            : m_pSceneRuntime->advanceSimulation(deltaMilliseconds, !turnBased);
-
-        if (collectDiagnostics)
-        {
-            ++m_indoorPerformanceDiagnostics.simulationCalls;
-            m_indoorPerformanceDiagnostics.simulationNanoseconds += SDL_GetTicksNS() - simulationBeginTickCount;
-        }
-
-        if (simulationAdvanced)
-        {
-            if (collectDiagnostics)
-            {
-                ++m_indoorPerformanceDiagnostics.simulationAdvancedFrames;
-            }
-
-            const uint64_t mechanismProbeBeginTickCount = collectDiagnostics ? SDL_GetTicksNS() : 0;
-            const bool mechanismsStillMoving = hasMovingMechanism(runtimeEventRuntimeState());
-
-            if (collectDiagnostics)
-            {
-                m_indoorPerformanceDiagnostics.mechanismProbeNanoseconds +=
-                    SDL_GetTicksNS() - mechanismProbeBeginTickCount;
-            }
-
-            const std::vector<uint32_t> changedDoorIds = collectChangedMechanismDoorIds(previousMechanisms);
-
-            if (mechanismsStillMoving)
-            {
-                if (collectDiagnostics)
-                {
-                    ++m_indoorPerformanceDiagnostics.movingFrames;
-                }
-
-                uint64_t texturedBuildNanoseconds = 0;
-                uint64_t uploadNanoseconds = 0;
-
-                if (!updateMechanismGeometryResourcesForDoorIds(
-                        changedDoorIds,
-                        texturedBuildNanoseconds,
-                        uploadNanoseconds)
-                    && collectDiagnostics)
-                {
-                    ++m_indoorPerformanceDiagnostics.movingUpdateFailures;
-                }
-            }
-            else
-            {
-                if (!changedDoorIds.empty())
-                {
-                    uint64_t texturedBuildNanoseconds = 0;
-                    uint64_t uploadNanoseconds = 0;
-
-                    if (!updateMechanismGeometryResourcesForDoorIds(
-                            changedDoorIds,
-                            texturedBuildNanoseconds,
-                            uploadNanoseconds)
-                        && collectDiagnostics)
-                    {
-                        ++m_indoorPerformanceDiagnostics.movingUpdateFailures;
-                    }
-                }
-            }
-
-            if (collectDiagnostics)
-            {
-                m_indoorPerformanceDiagnostics.mechanismTotalNanoseconds +=
-                    SDL_GetTicksNS() - mechanismBeginTickCount;
-            }
-            // A surface change made by the simulation (a destructible broken) is caught up below: in place, else
-            // rebuilt.
-        }
+        advanceWorldSimulation(gameSession, deltaSeconds);
     }
 
     // Baked lighting follows `[video] lightmaps`: switching it rebuilds the batches once, lightmapped or vertex-lit.
@@ -4977,11 +5034,12 @@ void IndoorRenderer::render(
 
     const uint64_t particlesBeginTickCount = collectRenderDiagnostics ? SDL_GetTicksNS() : 0;
     renderFxSegmentProjectiles(translucentView, viewMatrix);
-    if (settings.mist && settings.mistWisps && m_mist.enabled())
+    if (settings.mist && settings.mistWisps && m_mist.enabled() && m_frameScriptedMist > 0.01f)
     {
         // The mist's wisps near the eye (devdocs/MIST.md "Wisps").
         m_mistWisps.update(m_mist, {eye.x, eye.y, eye.z}, m_elapsedTime, m_frameMistLight, m_worldFxSystem.particles());
     }
+    emitDecorationSmoke(renderVisibleSectorMask);
     ParticleRenderer::renderParticles(
         m_worldFxRenderResources,
         m_worldFxSystem.particles(),
@@ -7187,6 +7245,7 @@ void IndoorRenderer::shutdown()
     m_renderVertices.clear();
     m_neighboringSectorIds.clear();
     m_pSceneRuntime = nullptr;
+    m_doorIdsAwaitingGeometry.clear();
     m_pAssetFileSystem = nullptr;
     m_pItemTable = nullptr;
     m_spriteLoadCache = {};
@@ -7420,7 +7479,8 @@ void IndoorRenderer::shutdown()
     }
 
     for (bgfx::ProgramHandle *pHandle : {&m_indoorTranslucentProgramHandle, &m_indoorBakedTranslucentProgramHandle,
-        &m_waterTintProgramHandle})
+        &m_waterTintProgramHandle, &m_indoorTranslucentGlowProgramHandles[0], &m_indoorTranslucentGlowProgramHandles[1],
+        &m_indoorTranslucentGlowProgramHandles[2], &m_indoorTranslucentGlowProgramHandles[3]})
     {
         if (bgfx::isValid(*pHandle))
         {
@@ -8112,6 +8172,51 @@ void IndoorRenderer::renderBloodSplats(
     bgfx::submit(viewId, m_indoorLitProgramHandle);
 }
 
+void IndoorRenderer::emitDecorationSmoke(const std::vector<uint8_t> &visibleSectorMask)
+{
+    // A puff every quarter second, as the outdoor emitters (OutdoorSpatialFxRuntime).
+    constexpr float SmokePuffSeconds = 0.24f;
+
+    if (!m_indoorDecorationBillboardSet)
+    {
+        return;
+    }
+
+    const std::vector<DecorationBillboard> &billboards = m_indoorDecorationBillboardSet->billboards;
+    const float deltaSeconds = m_lastDecorationSmokeTime < 0.0f
+        ? 0.0f : std::clamp(m_elapsedTime - m_lastDecorationSmokeTime, 0.0f, 1.0f);
+    m_lastDecorationSmokeTime = m_elapsedTime;
+    m_decorationSmokeCooldowns.resize(billboards.size(), 0.0f);
+
+    for (size_t index = 0; index < billboards.size(); ++index)
+    {
+        const DecorationBillboard &billboard = billboards[index];
+
+        if (!hasDecorationFlag(billboard.flags, DecorationDescFlag::EmitSmoke)
+            || !isRenderSectorVisible(billboard.sectorId, visibleSectorMask))
+        {
+            continue;
+        }
+
+        bool hidden = false;
+        resolveDecorationBillboardSpriteId(billboard, hidden);
+        float &cooldown = m_decorationSmokeCooldowns[index];
+        cooldown -= deltaSeconds;
+
+        if (hidden || cooldown > 0.0f)
+        {
+            continue;
+        }
+
+        cooldown = SmokePuffSeconds;
+        FxRecipes::spawnDecorationSmokeParticles(m_worldFxSystem.particles(),
+            static_cast<uint32_t>(index) * 2654435761u ^ (++m_decorationSmokeSequence * 2246822519u),
+            static_cast<float>(billboard.x), static_cast<float>(billboard.y),
+            static_cast<float>(billboard.z) + std::max(18.0f, static_cast<float>(billboard.height) * 0.35f),
+            std::max(12.0f, static_cast<float>(billboard.radius)));
+    }
+}
+
 uint16_t IndoorRenderer::resolveDecorationBillboardSpriteId(const DecorationBillboard &billboard, bool &hidden) const
 {
     hidden = false;
@@ -8147,6 +8252,8 @@ uint16_t IndoorRenderer::resolveDecorationBillboardSpriteId(const DecorationBill
 
     if (overrideIterator == eventRuntimeState->spriteOverrides.end())
     {
+        // No event changed it: the map's invisible flag hides it until an evt.SetSprite shows it.
+        hidden = billboard.startsHidden;
         return billboard.spriteId;
     }
 
@@ -8339,8 +8446,7 @@ void IndoorRenderer::renderDecorationBillboards(
         reflectionFrustum.emplace(pReflection->view.data(), pReflection->projection.data(),
             bgfx::getCaps()->homogeneousDepth);
     }
-    const std::array<float, 4> clip = pReflection != nullptr
-        ? std::array<float, 4>{0.0f, 0.0f, 1.0f, -pReflection->height} : std::array<float, 4>{};
+    const std::array<float, 4> clip = pReflection != nullptr ? pReflection->plane : std::array<float, 4>{};
     bgfx::setUniform(m_worldClipPlaneUniform, clip.data());
     const uint32_t animationTimeTicks = currentAnimationTicks();
 
@@ -8427,7 +8533,7 @@ void IndoorRenderer::renderDecorationBillboards(
 
         const bool visible = pReflection != nullptr
             ? waterBillboardVisible(billboardQuad(center, cameraRight, cameraUp, worldWidth, worldHeight),
-                *reflectionFrustum, pReflection->height)
+                *reflectionFrustum, pReflection->plane)
             : billboardSphereInFrustum(center, radius, frustumPlanes);
         if (!visible)
         {
@@ -8798,8 +8904,7 @@ void IndoorRenderer::renderActorPreviewBillboards(
         reflectionFrustum.emplace(pReflection->view.data(), pReflection->projection.data(),
             bgfx::getCaps()->homogeneousDepth);
     }
-    const std::array<float, 4> clip = pReflection != nullptr
-        ? std::array<float, 4>{0.0f, 0.0f, 1.0f, -pReflection->height} : std::array<float, 4>{};
+    const std::array<float, 4> clip = pReflection != nullptr ? pReflection->plane : std::array<float, 4>{};
     bgfx::setUniform(m_worldClipPlaneUniform, clip.data());
     const uint32_t animationTimeTicks = currentAnimationTicks();
 
@@ -9015,7 +9120,7 @@ void IndoorRenderer::renderActorPreviewBillboards(
 
             const bool visible = pReflection != nullptr
                 ? waterBillboardVisible(billboardQuad(center, cameraRight, cameraUp, worldWidth, worldHeight),
-                    *reflectionFrustum, pReflection->height)
+                    *reflectionFrustum, pReflection->plane)
                 : billboardSphereInFrustum(center, radius, frustumPlanes);
             if (!visible)
             {
@@ -9098,7 +9203,7 @@ void IndoorRenderer::renderActorPreviewBillboards(
 
             const bool visible = pReflection != nullptr
                 ? waterBillboardVisible(billboardQuad(center, cameraRight, cameraUp, worldWidth, worldHeight),
-                    *reflectionFrustum, pReflection->height)
+                    *reflectionFrustum, pReflection->plane)
                 : billboardSphereInFrustum(center, radius, frustumPlanes);
             if (!visible)
             {
@@ -11074,13 +11179,18 @@ void IndoorRenderer::renderWaterReflections(const bx::Vec3 &forward,
     {
         return;
     }
-    const bx::Vec3 reflectedForward = {forward.x, forward.y, -forward.z};
     for (const WaterRenderer::Reflection &reflection : m_waterRenderer.reflections())
     {
         if (!reflection.update)
         {
             continue;
         }
+        // The camera's basis mirrored in the plane (water: forward's height flipped, up turned down).
+        const bx::Vec3 reflectedForward = reflectPlaneDirection(forward, reflection.plane);
+        const bool waterPlane = std::abs(reflection.plane[2]) > 0.999f;
+        const float reflectedYaw = waterPlane ? m_cameraYawRadians : std::atan2(reflectedForward.y, reflectedForward.x);
+        const float reflectedPitch = waterPlane ? -m_cameraPitchRadians
+            : std::asin(std::clamp(reflectedForward.z, -1.0f, 1.0f));
         // Reflections use their own portal query. They must never reveal the map or mark actors as seen.
         IndoorPortalVisibilityInput visibilityInput = {};
         visibilityInput.pMapData = m_pIndoorMapData;
@@ -11090,7 +11200,7 @@ void IndoorRenderer::renderWaterReflections(const bx::Vec3 &forward,
         visibilityInput.pEventRuntimeState = &runtimeEventRuntimeStateStorage();
         visibilityInput.cameraPosition = reflection.camera;
         visibilityInput.cameraForward = reflectedForward;
-        visibilityInput.cameraUp = {0.0f, 0.0f, -1.0f};
+        visibilityInput.cameraUp = reflectPlaneDirection({0.0f, 0.0f, 1.0f}, reflection.plane);
         visibilityInput.startSectorId = reflection.sectorId;
         visibilityInput.extraStartSectorIds = reflection.waterSectorIds;
         visibilityInput.collectPortalTraces = false;
@@ -11105,7 +11215,7 @@ void IndoorRenderer::renderWaterReflections(const bx::Vec3 &forward,
         const IndoorLightingFrame lighting = m_indoorLightingRuntime.buildFrame(reflectedLightingInput);
         const ViewFrustum frustum(reflection.view.data(), reflection.projection.data(),
             bgfx::getCaps()->homogeneousDepth);
-        const std::array<float, 4> clip = {0.0f, 0.0f, 1.0f, -reflection.height};
+        const std::array<float, 4> &clip = reflection.plane;
         // A map open to the sky reflects its sky where the reflected view meets no face (the capture clears black,
         // which drew the Isle of Ashes' sea black wherever it mirrored the sky). The sky state is the last frame's.
         if (m_openSky.enabled && m_skyRenderer.isReady())
@@ -11120,7 +11230,7 @@ void IndoorRenderer::renderWaterReflections(const bx::Vec3 &forward,
             // Water reflections leave out the translucent faces (they would need their own sorted pass).
             if (batch.waterColorAbgr != 0 || batch.translucent
                 || !indoorGeometrySectorsVisible(visibility.visibleSectorMask, batch.sectorId, batch.backSectorId)
-                || (batch.hasBounds && (batch.boundsMax.z < reflection.height
+                || (batch.hasBounds && (!reflectionPlaneBoundsInFront(reflection.plane, batch.boundsMin, batch.boundsMax)
                     || !frustum.intersectsBounds(batch.boundsMin, batch.boundsMax))))
             {
                 continue;
@@ -11135,7 +11245,7 @@ void IndoorRenderer::renderWaterReflections(const bx::Vec3 &forward,
                 lights.params[channel] = std::max(lights.params[channel] - lighting.ambient, 0.0f);
             }
             submitTexturedBatch(batchIndex, reflection.worldView, lights, nullptr, reflection.camera,
-                m_cameraYawRadians, -m_cameraPitchRadians, width, height, false, clip,
+                reflectedYaw, reflectedPitch, width, height, false, clip,
                 reflection.projectionScale);
         }
         bgfx::setUniform(m_worldClipPlaneUniform, clip.data());
@@ -11145,7 +11255,7 @@ void IndoorRenderer::renderWaterReflections(const bx::Vec3 &forward,
         if (billboards)
         {
             float billboardView[16];
-            waterReflectionView(billboardView, reflection.view.data(), reflection.height);
+            reflectionPlaneView(billboardView, reflection.view.data(), reflection.plane);
             renderDecorationBillboards(reflection.worldView, billboardView, reflection.camera,
                 visibility.visibleSectorMask, visibility.frustumsBySector, lighting, nullptr, nullptr, &reflection);
             if (!m_decorationModels.empty())
@@ -11168,7 +11278,9 @@ void IndoorRenderer::renderWaterReflections(const bx::Vec3 &forward,
                     decorationLighting, {}, nullptr,
                     [&](const Engine::ModelBounds &bounds)
                     {
-                        return bounds.max[2] >= reflection.height && modelFrustum.intersectsBounds(
+                        return reflectionPlaneBoundsInFront(reflection.plane,
+                            {bounds.min[0], bounds.min[1], bounds.min[2]}, {bounds.max[0], bounds.max[1], bounds.max[2]})
+                            && modelFrustum.intersectsBounds(
                             {bounds.min[0], bounds.min[1], bounds.min[2]},
                             {bounds.max[0], bounds.max[1], bounds.max[2]});
                     }, std::abs(reflection.projection[5]) * float(reflection.size) * 0.5f,
@@ -11384,9 +11496,19 @@ bool IndoorRenderer::submitTexturedFaces(const TexturedDrawGroup &group, const I
     if (pTranslucentBatch != nullptr)
     {
         // Depth tested against the opaque scene, not written: the faces behind it stay visible through it.
-        const bgfx::ProgramHandle program = m_fog.enabled
+        bgfx::ProgramHandle program = m_fog.enabled
             ? m_indoorFogProgramHandles[lightmapped ? 5 : 2]
             : lightmapped ? m_indoorBakedTranslucentProgramHandle : m_indoorTranslucentProgramHandle;
+        // A glowing texture glows through (D-55, DD-16's and XD-19's fields), as an opaque face does.
+        const bgfx::ProgramHandle glowProgram =
+            m_indoorTranslucentGlowProgramHandles[(m_fog.enabled ? 2 : 0) + (lightmapped ? 1 : 0)];
+        if (m_surfaceGlowOnly && bgfx::isValid(group.materialNormal) && bgfx::isValid(glowProgram))
+        {
+            bindTexture(7, m_surfaceNormalSamplerHandle, group.materialNormal, TextureFilterProfile::BModel);
+            const std::array<float, 4> material = {0.0f, 1.0f, 0.0f, 0.0f};
+            bgfx::setUniform(m_surfaceMaterialUniformHandle, material.data());
+            program = glowProgram;
+        }
         if (!bgfx::isValid(program) || !bgfx::isValid(m_indoorTranslucencyUniformHandle))
         {
             bgfx::discard();
@@ -11431,6 +11553,16 @@ bool IndoorRenderer::submitTexturedFaces(const TexturedDrawGroup &group, const I
             return true;
         }
         bgfx::submit(viewId, m_fog.enabled ? m_indoorTerrainFogProgramHandle : m_indoorTerrainProgramHandle);
+        return true;
+    }
+    if (m_surfaceGlowOnly && bgfx::isValid(group.materialNormal))
+    {
+        // Glow only (D-55), whatever the setting: glass is lit from outside at any hour.
+        bindTexture(7, m_surfaceNormalSamplerHandle, group.materialNormal, TextureFilterProfile::BModel);
+        const std::array<float, 4> material = {0.0f, 1.0f, 0.0f, 0.0f};
+        bgfx::setUniform(m_surfaceMaterialUniformHandle, material.data());
+        bgfx::submit(viewId, m_fog.enabled ? m_indoorFogProgramHandles[lightmapped ? 4 : 1]
+            : lightmapped ? m_indoorBakedMaterialProgramHandle : m_indoorLitMaterialProgramHandle);
         return true;
     }
     if (m_surfaceMaterialsEnabled && bgfx::isValid(group.materialNormal))
@@ -11578,7 +11710,11 @@ void IndoorRenderer::updateFrameDaylightAndFog()
         const std::array<float, 3> light = m_daylight.enabled ? indoorDaylightFogScale(m_daylight, gameMinutes)
                                                               : std::array<float, 3>{1.0f, 1.0f, 1.0f};
         m_frameMistLight = light;
-        m_frameSurroundings.mist = packMistUniform(m_mist, cameraPosition(), m_elapsedTime, light, m_mistStrengthSetting);
+        const EventRuntimeState *pEvents = runtimeEventRuntimeState();
+        m_frameScriptedMist = pEvents != nullptr ? m_mistScriptFade.amount(pEvents->scriptedMist.revision,
+            pEvents->scriptedMist.amount, pEvents->scriptedMist.seconds, m_elapsedTime) : 1.0f;
+        m_frameSurroundings.mist = packMistUniform(m_mist, cameraPosition(), m_elapsedTime, light,
+            m_mistStrengthSetting * m_frameScriptedMist);
         m_flatSkyFog = packSkyFogUniform(nullptr, m_frameSurroundings);
     }
     if (m_fog.enabled)
@@ -11627,6 +11763,13 @@ void IndoorRenderer::updateFrameDaylightAndFog()
         {
             m_frameFog = pVolume->fog;
             m_frameFog.lithtech = m_fog.lithtech;
+            // A volume fog that takes the sky too (`sky` above 0, Xeen's P4) leaves the outdoor view's haze and sky
+            // colour above the surface: under it the faces fade into the volume's own colour. Without it (MM9's
+            // volumes) the haze stays as it was.
+            if (pVolume->fog.sky > 0.0f)
+            {
+                m_outdoorSkyFog = m_flatSkyFog;
+            }
         }
     }
     if (!m_daylight.enabled)
@@ -12396,8 +12539,11 @@ IndoorRenderer::TexturedDrawGroup IndoorRenderer::createTexturedDrawGroup(const 
         {
             textureHandleEntry.materialNormal =
                 createCookedTexture2D(*pFrameTexture->materialNormal, TextureFilterProfile::BModel);
-            textureHandleEntry.materialDetail =
-                createCookedTexture2D(*pFrameTexture->materialDetail, TextureFilterProfile::BModel);
+            if (pFrameTexture->materialDetail != nullptr)
+            {
+                textureHandleEntry.materialDetail =
+                    createCookedTexture2D(*pFrameTexture->materialDetail, TextureFilterProfile::BModel);
+            }
         }
         if (singleFrame)
         {

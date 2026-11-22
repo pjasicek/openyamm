@@ -56,6 +56,18 @@ std::optional<PendingMonsterDeathExplosion> monsterDeathExplosionFor(
     const IGameplayWorldRuntime &world,
     size_t actorIndex);
 
+// The damage of the blast to a party standing at this place, rolled; none when it is out of range or out of
+// sight. The world's own party is in resolveMonsterDeathExplosion's result; this is for the other players of a
+// co-op session.
+std::optional<int> monsterDeathExplosionDamageAt(
+    const ISceneEventContext &scene,
+    const PendingMonsterDeathExplosion &pending,
+    float x,
+    float y,
+    float footZ,
+    float eyeZ,
+    std::mt19937 &rng);
+
 MonsterDeathExplosion resolveMonsterDeathExplosion(
     const IGameplayWorldRuntime &world,
     const ISceneEventContext &scene,

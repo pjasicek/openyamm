@@ -374,6 +374,10 @@ public:
     // The same for an actor drawn as a 3D model spanning modelBottom..modelTop above its feet: 60% up the model when
     // that is lower (a model shorter than its collision height), so a shot meets the body rather than the air above.
     static float actorTargetHeight(uint16_t actorHeight, float modelBottom, float modelTop);
+    // Where an actor launches a missile or spell from its body (no release socket), above its feet: factor of its
+    // height, or of its 3D model's top above its feet when that is lower (modelTop > 0), so a short model does not
+    // fire from the air above it (F4-R1: MM6's Air Elemental, 240 tall on a 148 model).
+    static float actorLaunchHeight(uint16_t actorHeight, float factor, float modelTop);
     // Where a party shot aims at an actor, above its feet, given whether the line from the shot's source to a height on
     // it is clear (lineClear): its target height when that line is clear, else the lowest of three points from there up
     // to near the top of its height that is, so a slope or ridge edge in front of the target's legs does not take the

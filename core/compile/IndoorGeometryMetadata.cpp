@@ -679,6 +679,11 @@ std::string serializeIndoorGeometryMetadata(const EditorIndoorGeometryMetadata &
             emitter << YAML::Key << "facing" << YAML::Value << entity.facing;
         }
 
+        if (entity.aiAttributes != 0)
+        {
+            emitter << YAML::Key << "ai_attributes" << YAML::Value << entity.aiAttributes;
+        }
+
         if (entity.runtimeEntityIndex)
         {
             emitter << YAML::Key << "runtime_entity_index" << YAML::Value << *entity.runtimeEntityIndex;
@@ -1184,6 +1189,12 @@ std::optional<EditorIndoorGeometryMetadata> loadIndoorGeometryMetadataFromText(
                     errorMessage = std::string("invalid indoor geometry metadata field 'facing': ") + exception.what();
                     return std::nullopt;
                 }
+            }
+
+            if (entityNode["ai_attributes"]
+                && !readScalarNode(entityNode, "ai_attributes", entity.aiAttributes, errorMessage))
+            {
+                return std::nullopt;
             }
 
             metadata.entities.push_back(std::move(entity));

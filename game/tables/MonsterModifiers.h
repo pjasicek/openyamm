@@ -239,6 +239,8 @@ struct MonsterModifierSet
     std::optional<SpellConditionsModifier> spellConditions;
     std::optional<MissileBlastModifier> missileBlast;
     std::optional<RepositionModifier> reposition;
+    // wander: how far from its place it wanders, over its row's movement type.
+    std::optional<float> wanderRadius;
     // mm9_ai: the MM9 AI profile of an MM9 row (devdocs/mm9_rework/monster_ai/PROFILE.md); generated, data only.
     std::optional<Mm9AiProfile> mm9Ai;
     // The modifier names in file order (console, logs).

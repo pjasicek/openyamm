@@ -315,33 +315,47 @@ uint64_t sharedTextureKey(const ModelImage &image, const MaterialImageUse &use)
 }
 
 // One row per colour region (mask channel order), 16 stops, sRGB-encoded so the sampler decodes and interpolates.
-bgfx::TextureHandle createRampTexture(const ModelMaterial &material)
+bgfx::TextureHandle createRampTexture(const std::vector<ModelColorRamp> &ramps)
 {
-    if (material.regionRamps.empty())
+    if (ramps.empty())
     {
         return BGFX_INVALID_HANDLE;
     }
     std::vector<uint8_t> pixels(ModelColorRampStops * ModelMaxColorRegions * 4, 255);
-    for (size_t region = 0; region < material.regionRamps.size(); ++region)
+    for (size_t region = 0; region < ramps.size() && region < ModelMaxColorRegions; ++region)
     {
         for (size_t stop = 0; stop < ModelColorRampStops; ++stop)
         {
             uint8_t *pPixel = &pixels[(region * ModelColorRampStops + stop) * 4];
             for (size_t channel = 0; channel < 3; ++channel)
             {
-                const float encoded = linearToSrgb(material.regionRamps[region].colors[stop][channel]);
+                const float encoded = linearToSrgb(ramps[region].colors[stop][channel]);
                 pPixel[channel] = uint8_t(std::lround(std::clamp(encoded, 0.0f, 1.0f) * 255.0f));
             }
         }
     }
-    const bgfx::TextureHandle texture = bgfx::createTexture2D(uint16_t(ModelColorRampStops),
-        uint16_t(ModelMaxColorRegions), false, 1, bgfx::TextureFormat::RGBA8, BGFX_TEXTURE_SRGB,
-        bgfx::copy(pixels.data(), uint32_t(pixels.size())));
-    if (!bgfx::isValid(texture))
+    return bgfx::createTexture2D(uint16_t(ModelColorRampStops), uint16_t(ModelMaxColorRegions), false, 1,
+        bgfx::TextureFormat::RGBA8, BGFX_TEXTURE_SRGB, bgfx::copy(pixels.data(), uint32_t(pixels.size())));
+}
+
+bgfx::TextureHandle createRampTexture(const ModelMaterial &material)
+{
+    const bgfx::TextureHandle texture = createRampTexture(material.regionRamps);
+    if (!material.regionRamps.empty() && !bgfx::isValid(texture))
     {
         throw std::runtime_error("Cannot allocate model colour ramps: " + material.name);
     }
     return texture;
+}
+
+// A recolour as the key of its ramp textures: its display colour in eight bits a channel.
+uint32_t regionRecolorKey(const std::array<float, 3> &srgbColor)
+{
+    const auto channel = [](float value)
+    {
+        return uint32_t(std::lround(std::clamp(value, 0.0f, 1.0f) * 255.0f));
+    };
+    return channel(srgbColor[0]) | (channel(srgbColor[1]) << 8) | (channel(srgbColor[2]) << 16);
 }
 
 uint64_t cullState(const ModelMaterial &material, const ModelMatrix &matrix)
@@ -482,6 +496,8 @@ struct ModelRenderer::Draw
     float hitFlash = 0.0f;
     // Creature emission multiplier (ModelInstanceSystem::emissionMultiplier).
     float emissionMultiplier = 1.0f;
+    // The colour the instance's colour regions are turned to (ModelInstanceSystem::regionRecolor), null for none.
+    const std::array<float, 3> *pRegionRecolor = nullptr;
     // The instance's burn (ModelInstanceSystem::burn), null when whole.
     const ModelBurn *pBurn = nullptr;
     // The instance's energy shield shell (ModelInstanceSystem::shieldShell), null without one.
@@ -749,6 +765,11 @@ void ModelRenderer::submit(const Draw &draw, uint16_t viewId, const ModelRenderL
     if (draw.materialIndex >= 0)
     {
         textures = draw.pResources->materialTextures[draw.materialIndex];
+        if (draw.pRegionRecolor != nullptr && bgfx::isValid(textures.regionRamps))
+        {
+            textures.regionRamps =
+                recoloredRampTexture(*draw.pResources, draw.materialIndex, material, *draw.pRegionRecolor);
+        }
     }
     const bgfx::TextureHandle texture = bgfx::isValid(textures.base) ? textures.base : m_whiteTextureHandle;
 
@@ -1494,6 +1515,30 @@ void ModelRenderer::bindStaticMaterial(const AssetResources &resources, const Mo
     bgfx::setUniform(m_edgeUniformHandle, edge);
     bindColorRegions(material, textures);
     bindEmissiveTexture(material, textures);
+}
+
+bgfx::TextureHandle ModelRenderer::recoloredRampTexture(const AssetResources &resources, int materialIndex,
+    const ModelMaterial &material, const std::array<float, 3> &srgbColor) const
+{
+    const uint32_t colorKey = regionRecolorKey(srgbColor);
+    // Where no texture could be made the material keeps its own colours.
+    const bgfx::TextureHandle own = resources.materialTextures[size_t(materialIndex)].regionRamps;
+    for (const AssetResources::RecoloredRamps &ramps : resources.recoloredRamps)
+    {
+        if (ramps.materialIndex == materialIndex && ramps.colorKey == colorKey)
+        {
+            return bgfx::isValid(ramps.handle) ? ramps.handle : own;
+        }
+    }
+    std::vector<ModelColorRamp> ramps;
+    ramps.reserve(material.regionRamps.size());
+    for (const ModelColorRamp &ramp : material.regionRamps)
+    {
+        ramps.push_back(recoloredModelRamp(ramp, srgbColor));
+    }
+    const bgfx::TextureHandle texture = createRampTexture(ramps);
+    resources.recoloredRamps.push_back({materialIndex, colorKey, texture});
+    return bgfx::isValid(texture) ? texture : own;
 }
 
 void ModelRenderer::bindColorRegions(
@@ -2679,11 +2724,13 @@ std::vector<ModelRenderer::Draw> ModelRenderer::collectDraws(const ModelInstance
                 instances.outlineColor(handle), handle);
             const float hitFlash = instances.hitFlash(handle);
             const float emissionMultiplier = instances.emissionMultiplier(handle);
+            const std::array<float, 3> *pRegionRecolor = shadow ? nullptr : instances.regionRecolor(handle);
             const ModelShieldShell *pShield = shadow ? nullptr : instances.shieldShell(handle);
             for (size_t drawIndex = firstDraw; drawIndex < draws.size(); ++drawIndex)
             {
                 draws[drawIndex].hitFlash = hitFlash;
                 draws[drawIndex].emissionMultiplier = emissionMultiplier;
+                draws[drawIndex].pRegionRecolor = pRegionRecolor;
                 draws[drawIndex].pBurn = pBurn;
                 draws[drawIndex].pShield = pShield;
             }
@@ -2831,13 +2878,13 @@ void ModelRenderer::render(
     if (bgfx::isValid(m_skinnedInstancedProgramHandle) && bgfx::isValid(m_staticUniformHandle) && m_skinnedInstancing)
     {
         // Skinned creatures lit only by the shared sun and their own ambient draw instanced; point-lit, outlined,
-        // hit-flashing, glow-boosted and morphing ones keep their own draws (point lights, outline shells, flashes and
-        // emission multipliers are per draw).
+        // hit-flashing, glow-boosted, recoloured and morphing ones keep their own draws (point lights, outline
+        // shells, flashes, emission multipliers and recoloured ramps are per draw).
         std::vector<Draw> single;
         for (const Draw &draw : opaqueDraws)
         {
             const bool eligible = draw.pSkin != nullptr && draw.outlineColorAbgr == 0 && draw.hitFlash <= 0.0f
-                && draw.emissionMultiplier == 1.0f
+                && draw.emissionMultiplier == 1.0f && draw.pRegionRecolor == nullptr
                 && draw.pBurn == nullptr && draw.pLighting->pointCount == 0
                 && (instanced.empty() || sameSharedLighting(*instanced.front().pLighting, *draw.pLighting));
             (eligible ? instanced : single).push_back(draw);
@@ -3402,6 +3449,14 @@ void ModelRenderer::pruneUnusedAssets()
 
 void ModelRenderer::destroy(AssetResources &resources)
 {
+    for (const AssetResources::RecoloredRamps &ramps : resources.recoloredRamps)
+    {
+        if (bgfx::isValid(ramps.handle))
+        {
+            bgfx::destroy(ramps.handle);
+        }
+    }
+    resources.recoloredRamps.clear();
     for (const AssetResources::Texture &texture : resources.textures)
     {
         if (texture.sharedKey != 0)

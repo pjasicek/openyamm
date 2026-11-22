@@ -1135,6 +1135,7 @@ std::string MawSkillRules::statTooltip(
     values["levels_mm7"] = state.continentLevels[1];
     values["levels_mm6"] = state.continentLevels[2];
     values["levels_mm9"] = state.continentLevels[3];
+    values["levels_xeen"] = state.continentLevels[4];
     values["levels_total"] = state.totalLevel();
     // Each world's bolster level, as MAW's popup shows it: the levels banked in the other worlds, less 4
     // (zzMaw-Stats.lua:458-466, TXT-2-9).
@@ -1142,6 +1143,7 @@ std::string MawSkillRules::statTooltip(
     values["bolster_mm7"] = std::max(state.levelOutside(2) - 4, 0.0);
     values["bolster_mm6"] = std::max(state.levelOutside(3) - 4, 0.0);
     values["bolster_mm9"] = std::max(state.levelOutside(5) - 4, 0.0);
+    values["bolster_xeen"] = std::max(state.levelOutside(6) - 4, 0.0);
 
     std::string text = pEntry->description ? mawFillText(*pEntry->description, values) : table;
 

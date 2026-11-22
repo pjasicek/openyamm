@@ -556,6 +556,13 @@ public:
         }
     }
 
+    // The texture classes' door pictures (F2: a wing becomes a double door) and where its notes go.
+    void useDoorPictures(const OutdoorDoorPictures *pDoorPictures, std::vector<std::string> &warnings)
+    {
+        m_pDoorPictures = pDoorPictures;
+        m_pWarnings = &warnings;
+    }
+
     bool read(OutdoorBuildingPlan &building)
     {
         const size_t before = m_issues.size();
@@ -1675,7 +1682,8 @@ private:
         const std::string kitName = textField(node, "kit");
         const Kit *pKit = findKit(m_world, kitName);
 
-        if (pKit == nullptr)
+        // A part of a world without kits names its textures (checked below); only a kit it names must exist.
+        if (pKit == nullptr && !kitName.empty())
         {
             add(at + ".kit", "the world " + m_world + " has no kit `" + kitName + "`; its kits are "
                 + joined(outdoorKitNames(m_world)) + ", or name the textures one by one in `textures`");
@@ -1715,16 +1723,36 @@ private:
                     };
                     const std::string name = word("texture");
                     const uint32_t bits = outdoorLiquidBits(word("liquid"), word("flow"), m_world);
+                    // A picture laid once per bay: {texture, fit: true, size: [w, h]} (A6, the texture-fit rule).
+                    const bool fit = word("fit") == "true";
+                    const YAML::Node size = childOf(entry->second, "size");
+                    const bool sized = size.IsDefined() && size.IsSequence() && size.size() == 2
+                        && size[0].IsScalar() && size[1].IsScalar();
+                    const std::array<double, 2> picture = sized
+                        ? std::array<double, 2>{std::atof(size[0].Scalar().c_str()), std::atof(size[1].Scalar().c_str())}
+                        : std::array<double, 2>{0.0, 0.0};
 
-                    if (name.empty() || bits == UINT32_MAX)
+                    if (name.empty() || bits == UINT32_MAX || (!word("fit").empty() && word("fit") != "true"
+                            && word("fit") != "false")
+                        || (fit && (bits != 0 || picture[0] < 8.0 || picture[1] < 8.0))
+                        || (!fit && size.IsDefined()))
                     {
                         add(at + ".textures." + entry->first.Scalar(), "a texture is a name, or {texture: <name>, "
-                            "liquid: water | lava, flow: up | down | left | right}");
+                            "liquid: water | lava, flow: up | down | left | right}, or a picture laid once per bay "
+                            "{texture: <name>, fit: true, size: [width, height] (the picture's texels)}");
                         continue;
                     }
 
                     part.textures[entry->first.Scalar()] = name;
-                    part.liquids[name] |= bits;
+
+                    if (fit)
+                    {
+                        part.fitted[entry->first.Scalar()] = picture;
+                    }
+                    else if (bits != 0)
+                    {
+                        part.liquids[name] |= bits;
+                    }
                 }
             }
         }
@@ -2230,27 +2258,21 @@ private:
             }
 
             double arrivalFacing = 0.0;
-            numberOf(into, "facing", arrivalFacing);
+            door.arrivalFacingGiven = numberOf(into, "facing", arrivalFacing);
             door.arrivalFacing = static_cast<int>(arrivalFacing);
-            const YAML::Node screen = childOf(into, "screen");
+            door.arrivalName = textOf(into, "arrival");
 
-            if (screen.IsDefined())
+            if (!door.arrivalName.empty() && arrival.IsDefined())
             {
-                double screenHouse = 0.0;
-                double screenPicture = 0.0;
+                add(at + ".into", "into takes `at` or `arrival`, not both");
+                return;
+            }
+            std::string screenError;
 
-                if (!screen.IsMap() || !numberOf(screen, "house", screenHouse) || screenHouse < 1.0
-                    || screenHouse != std::floor(screenHouse) || (childOf(screen, "picture").IsDefined()
-                    && (!numberOf(screen, "picture", screenPicture) || screenPicture < 0.0
-                    || screenPicture != std::floor(screenPicture))))
-                {
-                    add(at + ".into.screen", "the screen before the map is `{house: <the house row whose \"Enter "
-                        "...?\" text it shows>, picture: <its picture, 1 when left out>}`, whole numbers");
-                    return;
-                }
-
-                door.screenHouse = static_cast<int>(screenHouse);
-                door.screenPicture = childOf(screen, "picture").IsDefined() ? static_cast<int>(screenPicture) : 1;
+            if (!readMoveScreen(childOf(into, "screen"), door.toMap, door.screen, screenError))
+            {
+                add(at + ".into.screen", screenError);
+                return;
             }
         }
 
@@ -2524,6 +2546,7 @@ private:
         double number = 0.0;
         door.archSides = numberOf(place, "sides", number) ? static_cast<int>(number) : 6;
         door.leaves = numberOf(place, "leaves", number) ? static_cast<int>(number) : 1;
+        door.leavesGiven = childOf(place, "leaves").IsDefined();
         door.hood = numberOf(place, "hood", number) ? number : 0.0;
         const YAML::Node frame = childOf(place, "frame");
 
@@ -2842,7 +2865,10 @@ private:
         }
 
         // The doors of this part: a listed wall keeps its bays and the door takes the bay written `door` (the
-        // first, unless the door names its bay); a wall that is not listed is laid out round the door.
+        // first, unless the door names its bay); a wall that is not listed is laid out round the door. `pairLaid`:
+        // one more than the bay of a double door the wall was laid out round (F2), 0 for none.
+        std::vector<size_t> pairLaid(count, 0);
+
         for (size_t index = 0; index < building.doors.size(); ++index)
         {
             OutdoorDoorPlan &door = building.doors[index];
@@ -2866,12 +2892,25 @@ private:
                 door.bay = std::min(door.bay, bays.size() - 1);
                 door.texture = doorTextureOf(part, bays[door.bay]);
                 bays[door.bay] = "door";
+                const std::vector<double> edges = bayEdgesOf(part, door.wall, false);
+                pairWingDoor(part, door, edges[door.bay + 1] - edges[door.bay]);
             }
             else
             {
                 door.bay = std::min(door.bay, bays.size() - 1);
-                bays = defaultBays(bays.size(), posts, windows, static_cast<int>(door.bay));
+                pairWingDoor(part, door, 2.0 * BayWidth);
+
+                if (door.leaves > 1 && layPairBay(part, door, posts, windows))
+                {
+                    pairLaid[door.wall] = door.bay + 1;
+                }
+                else
+                {
+                    bays = defaultBays(bays.size(), posts, windows, static_cast<int>(door.bay));
+                }
             }
+
+            door.pictureWidth = door.leaves > 1 ? doorPictureWidth(part, door) : 0.0;
         }
 
         // The rows above: as listed, else the lowest row with a window where its door is.
@@ -2885,6 +2924,22 @@ private:
                 for (std::string &role : part.upperBays[wall])
                 {
                     role = role == "door" ? (part.textures.contains("window") ? "window" : "wall") : role;
+                    // A picture laid once per bay stands in the lowest row only (A6: no window or frieze repeated
+                    // up a wall taller than one row); `upper_walls` puts it higher.
+                    role = part.fitted.contains(role) ? "wall" : role;
+                }
+
+                // Over a double door's bay of 256 one window in the middle, the wall beside it (F2).
+                if (pairLaid[wall] > 0 && part.upperBays[wall][pairLaid[wall] - 1] == "window")
+                {
+                    const size_t bay = pairLaid[wall] - 1;
+                    std::vector<std::string> &roles = part.upperBays[wall];
+                    std::vector<double> &widths = part.upperBayWidths[wall];
+                    const double side = (widths[bay] - BayWidth) * 0.5;
+                    roles[bay] = "wall";
+                    widths[bay] = side;
+                    roles.insert(roles.begin() + static_cast<std::ptrdiff_t>(bay) + 1, {"window", "wall"});
+                    widths.insert(widths.begin() + static_cast<std::ptrdiff_t>(bay) + 1, {BayWidth, side});
                 }
             }
         }
@@ -2911,6 +2966,7 @@ private:
             door.bay = std::min(door.bay, bays.size() - 1);
             door.texture = upperListed[door.wall] ? doorTextureOf(part, bays[door.bay]) : std::string();
             bays[door.bay] = "door";
+            door.pictureWidth = door.leaves > 1 ? doorPictureWidth(part, door) : 0.0;
         }
     }
 
@@ -3671,12 +3727,130 @@ private:
         return word != "door" && !part.textures.contains(word) ? word : std::string();
     }
 
+    // The picture a door shows, in lower case: its bay's own texture, else its part's `door`.
+    static std::string doorPictureOf(const OutdoorPartPlan &part, const OutdoorDoorPlan &door)
+    {
+        const std::map<std::string, std::string>::const_iterator role = part.textures.find("door");
+        std::string name = !door.texture.empty() ? door.texture
+            : role != part.textures.end() ? role->second : std::string();
+        std::transform(name.begin(), name.end(), name.begin(),
+            [](unsigned char character) { return static_cast<char>(std::tolower(character)); });
+        return name;
+    }
+
+    // The texels across of a door's picture as the texture classes know it; 0 when they do not.
+    double doorPictureWidth(const OutdoorPartPlan &part, const OutdoorDoorPlan &door) const
+    {
+        if (m_pDoorPictures == nullptr)
+        {
+            return 0.0;
+        }
+
+        const OutdoorDoorPictures::const_iterator known = m_pDoorPictures->find(doorPictureOf(part, door));
+        return known != m_pDoorPictures->end() && known->second.size[0] >= 32 ? known->second.size[0] : 0.0;
+    }
+
+    // F2: a door that says no `leaves` and whose picture is one wing of a double door (the texture classes: MM7's
+    // 7hhr1d2, MM8's t06a03, t09a03a ...) becomes a pair, its first leaf the left wing (of the twins the first by
+    // name: 7hhr1d1, t06a03, chb1dl), the second it mirrored, as tools/xeen/house_doors.py did for each sketch. On a
+    // listed bay under 192 wide it stays one leaf, with a warning.
+    void pairWingDoor(const OutdoorPartPlan &part, OutdoorDoorPlan &door, double bayWidth)
+    {
+        if (m_pDoorPictures == nullptr || door.leavesGiven)
+        {
+            return;
+        }
+
+        const std::string picture = doorPictureOf(part, door);
+        const OutdoorDoorPictures::const_iterator known = m_pDoorPictures->find(picture);
+
+        if (known == m_pDoorPictures->end() || known->second.door != "wing")
+        {
+            return;
+        }
+
+        if (bayWidth < 192.0 - 0.5)
+        {
+            if (m_pWarnings != nullptr)
+            {
+                m_pWarnings->push_back(m_path + ": the door's picture " + picture + " is one wing of a double door, "
+                    "on a listed bay " + formatNumber(bayWidth) + " wide: list the door's bay 256 wide (`[door, "
+                    "256]`) to make it a pair, or give it a single door's picture (`leaves: 1` keeps the wing alone)");
+            }
+
+            return;
+        }
+
+        door.leaves = 2;
+
+        if (!known->second.twin.empty() && known->second.twin < picture)
+        {
+            door.texture = known->second.twin;
+        }
+    }
+
+    // F2: a double door on a wall whose bays are not listed: the wall laid out round one bay 256 wide (each leaf
+    // 128, a wing's width) centred where the door's bay was, the stretches beside it in bays of about 128 (a window
+    // next to the door, every second bay out from it, the posts at the ends). A recess of the door moves with it.
+    // False, nothing changed, on a wall too short for it.
+    bool layPairBay(OutdoorPartPlan &part, OutdoorDoorPlan &door, bool posts, const std::string &windows)
+    {
+        const size_t wall = door.wall;
+        const double length = lengthOf(part.outline[wall], part.outline[(wall + 1) % part.outline.size()]);
+        const size_t count = part.bays[wall].size();
+        const double pair = 2.0 * BayWidth;
+
+        if (count == 0 || length < pair - 0.5 || (length > pair + 0.5 && length < pair + 32.0))
+        {
+            return false;
+        }
+
+        const double middle = (static_cast<double>(door.bay) + 0.5) * length / static_cast<double>(count);
+        double from = std::clamp(middle - BayWidth, 0.0, std::max(0.0, length - pair));
+
+        // No sliver beside the door: a stretch under 16 goes to the door's other side.
+        from = from < 16.0 ? 0.0 : length - pair - from < 16.0 ? std::max(0.0, length - pair) : from;
+        const double rest = std::max(0.0, length - pair - from);
+        const auto pieces = [](double stretch)
+        {
+            return stretch < 0.5 ? size_t(0) : std::max<size_t>(1, static_cast<size_t>(std::round(stretch / BayWidth)));
+        };
+        const size_t left = pieces(from);
+        const size_t right = pieces(rest);
+        std::vector<double> widths(left, left > 0 ? from / static_cast<double>(left) : 0.0);
+        widths.push_back(std::min(pair, length));
+        widths.insert(widths.end(), right, right > 0 ? rest / static_cast<double>(right) : 0.0);
+        const size_t oldBay = door.bay;
+        door.bay = left;
+        part.bays[wall] = defaultBays(widths.size(), posts, windows, static_cast<int>(door.bay));
+
+        if (wall >= part.bayWidths.size())
+        {
+            part.bayWidths.resize(wall + 1);
+        }
+
+        part.bayWidths[wall] = widths;
+
+        for (OutdoorPorchPlan &porch : part.porches)
+        {
+            if (porch.recess && porch.wall == wall && porch.fromBay == oldBay && porch.toBay == oldBay)
+            {
+                porch.fromBay = door.bay;
+                porch.toBay = door.bay;
+            }
+        }
+
+        return true;
+    }
+
     const std::string &m_world;
     const YAML::Node m_plot;
     const std::string m_path;
     const std::array<double, 4> m_rectangle;
     std::vector<ProjectIssue> &m_issues;
     const WorldRoof *m_pWorldRoof = nullptr;
+    const OutdoorDoorPictures *m_pDoorPictures = nullptr;
+    std::vector<std::string> *m_pWarnings = nullptr;
     double m_turn = 0.0;
     std::vector<YAML::Node> m_partNodes;
     std::vector<std::vector<size_t>> m_wallOrder;
@@ -5000,10 +5174,15 @@ private:
         const WallFrame frame = frameOf(cut.wall);
         const std::string &doorTexture = door.texture.empty() ? texture("door") : door.texture;
         const double width = cut.to - cut.from;
-        const int made = m_builder.addFace({inFrame(frame, cut.from, 0.0, m_floor), inFrame(frame, cut.to, 0.0, m_floor),
-            inFrame(frame, cut.to, 0.0, cut.top), inFrame(frame, cut.from, 0.0, cut.top)}, doorTexture,
-            {{0.0, RowHeight}, {width, RowHeight}, {width, 0.0}, {0.0, 0.0}}, door.event != 0 ? door.event
-            : m_nameEvent);
+        const uint16_t event = door.event != 0 ? door.event : m_nameEvent;
+        // Two leaves (the second mirrored) or an arched head as on a door under the walls' top (A5's castle gates on
+        // X6, `door_height` 384: one plain face before).
+        const int made = door.leaves > 1 || !door.arch.empty()
+            ? dressedPiece(cut.wall, cut.from, cut.to, m_floor, cut.top, doorTexture, width, 0.0, event, door.arch,
+                door.archSides, door.leaves, RowHeight, false, door.pictureWidth)
+            : m_builder.addFace({inFrame(frame, cut.from, 0.0, m_floor), inFrame(frame, cut.to, 0.0, m_floor),
+                inFrame(frame, cut.to, 0.0, cut.top), inFrame(frame, cut.from, 0.0, cut.top)}, doorTexture,
+                {{0.0, RowHeight}, {width, RowHeight}, {width, 0.0}, {0.0, 0.0}}, event);
         const OutdoorModelPoint middle = inFrame(frame, (cut.from + cut.to) * 0.5, 0.0, m_floor);
         door.face = made;
         door.x = middle[0];
@@ -5343,8 +5522,34 @@ private:
             return;
         }
 
-        m_builder.addPrism({onWall(wall, from, 0.0), onWall(wall, from + width, 0.0), onWall(wall, from + width, width),
-            onWall(wall, from, width)}, low, high, textureName, textureName, "", m_nameEvent);
+        const std::vector<Point2> outline = {onWall(wall, from, 0.0), onWall(wall, from + width, 0.0),
+            onWall(wall, from + width, width), onWall(wall, from, width)};
+
+        if (m_part.textures.contains("post"))
+        {
+            m_builder.addPrism(outline, low, high, textureName, textureName, "", m_nameEvent);
+            return;
+        }
+
+        // The trim (a band: it repeats along its width only) stands on its end up the post, so that it runs along
+        // the post instead of repeating up it (the texture-fit check, TEXTURE_FIT.md).
+        for (size_t side = 0; side < outline.size(); ++side)
+        {
+            const Point2 &a = outline[side];
+            const Point2 &b = outline[(side + 1) % outline.size()];
+            const double across = lengthOf(a, b);
+            m_builder.addFace({{a[0], a[1], low}, {b[0], b[1], low}, {b[0], b[1], high}, {a[0], a[1], high}},
+                textureName, {{0.0, 0.0}, {0.0, across}, {high - low, across}, {high - low, 0.0}}, m_nameEvent);
+        }
+
+        std::vector<OutdoorModelPoint> top;
+
+        for (const Point2 &corner : outline)
+        {
+            top.push_back({corner[0], corner[1], high});
+        }
+
+        m_builder.addSurface(top, textureName, m_nameEvent);
     }
 
     // An open part (`posts`): a post at each corner and every `post_every` along the walls, low walls between them
@@ -5991,15 +6196,18 @@ private:
 
     // A door or window bay with an arched head or two leaves: the opening's picture on one face per leaf (the
     // second mirrored), cut to the head; the panel's corners over the head in the wall's own texture. The first face.
+    // `fitted`: the picture is `across` by `vBottom - vTop` texels, laid once over each leaf (`fit`). `leafWidth`:
+    // the texels across each leaf of two shows (the picture's own width, F2/D-91); 0: 128, a wing's width.
     int dressedPiece(size_t wall, double from, double to, double low, double high, const std::string &textureName,
-        double across, double vTop, uint16_t event, const std::string &arch, int sides, int leaves)
+        double across, double vTop, uint16_t event, const std::string &arch, int sides, int leaves,
+        double vBottom = RowHeight, bool fitted = false, double leafWidth = 0.0)
     {
         for (const std::array<double, 2> &open : openStretchesOf(m_part, wall))
         {
             if (from < open[1] - 0.5 && to > open[0] + 0.5)
             {
                 // S8d: a bay that reaches into a stretch left open at a corner is a plain piece, cut there.
-                return wallPiece(wall, from, to, low, high, textureName, 0.0, across, vTop, RowHeight, event);
+                return wallPiece(wall, from, to, low, high, textureName, 0.0, across, vTop, vBottom, event);
             }
         }
 
@@ -6025,6 +6233,10 @@ private:
             }
         }
 
+        // Each leaf of two shows its picture once, stretched over the leaf (a wing, 128 texels across, as a doorway
+        // lays its door; a picture the texture classes know at its own width: a 256-wide door whole on each leaf);
+        // one leaf as many texels as the bay is wide, as the wall's panels.
+        const double leafAcross = leaves > 1 && !fitted ? (leafWidth > 0.0 ? leafWidth : BayWidth) : across;
         // One leaf: the opening clipped to [left, right] along, its picture spread over the leaf.
         const auto leaf = [&](double left, double right, bool mirrored)
         {
@@ -6071,8 +6283,8 @@ private:
             {
                 const double share = (point[0] - left) / std::max(right - left, 1.0e-9);
                 points.push_back(at(onWall(wall, from + point[0], in), low + point[1]));
-                texels.push_back({across * (mirrored ? 1.0 - share : share),
-                    RowHeight - (RowHeight - vTop) * point[1] / std::max(height, 1.0e-9)});
+                texels.push_back({leafAcross * (mirrored ? 1.0 - share : share),
+                    vBottom - (vBottom - vTop) * point[1] / std::max(height, 1.0e-9)});
             }
 
             return texelFace(points, textureName, texels, event);
@@ -6316,9 +6528,9 @@ private:
                 const std::string role = bays.empty() ? "wall" : bays[bay];
                 size_t end = bay + 1;
 
-                // Plain bays side by side are one face: the texture repeats.
+                // Plain bays side by side are one face: the texture repeats (not a picture laid once per bay).
                 while (role != "door" && end < count && bays[end] == role && sameEvent(wall, row, bay, end)
-                    && tiles(role))
+                    && tiles(role) && !m_part.fitted.contains(role))
                 {
                     ++end;
                 }
@@ -6370,11 +6582,19 @@ private:
                         RowHeight - sill, RowHeight, m_nameEvent);
                 }
 
+                // A picture laid once per bay (`fit`): its own texels stretched over the bay's piece.
+                const std::map<std::string, std::array<double, 2>>::const_iterator fitted =
+                    pDoor != nullptr && !pDoor->texture.empty() ? m_part.fitted.end() : m_part.fitted.find(role);
+                const bool fit = fitted != m_part.fitted.end();
+                const double faceAcross = fit ? fitted->second[0] : across;
+                const double faceTop = fit ? 0.0 : pieceTop;
+                const double faceBottom = fit ? fitted->second[1] : RowHeight;
                 const int face = (!arch.empty() || leaves > 1) && end == bay + 1
-                    ? dressedPiece(wall, edges[bay], edges[end], pieceLow, pieceHigh, faceTexture, across, pieceTop,
-                        pieceEvent, arch, pDoor != nullptr ? pDoor->archSides : 6, leaves)
-                    : wallPiece(wall, edges[bay], edges[end], pieceLow, pieceHigh, faceTexture, 0.0, across, pieceTop,
-                        RowHeight, pieceEvent);
+                    ? dressedPiece(wall, edges[bay], edges[end], pieceLow, pieceHigh, faceTexture, faceAcross,
+                        faceTop, pieceEvent, arch, pDoor != nullptr ? pDoor->archSides : 6, leaves, faceBottom, fit,
+                        pDoor != nullptr ? pDoor->pictureWidth : 0.0)
+                    : wallPiece(wall, edges[bay], edges[end], pieceLow, pieceHigh, faceTexture, 0.0, faceAcross,
+                        faceTop, faceBottom, pieceEvent);
 
                 if (m_upright)
                 {
@@ -7902,7 +8122,8 @@ std::vector<OutdoorBuildingPlan> readOutdoorBuildings(
     const Project &project,
     const std::string &world,
     std::vector<ProjectIssue> &issues,
-    std::vector<std::string> &warnings)
+    std::vector<std::string> &warnings,
+    const OutdoorDoorPictures *pDoorPictures)
 {
     std::vector<OutdoorBuildingPlan> buildings;
     const YAML::Node sketch = project.document(SketchFile);
@@ -7942,6 +8163,7 @@ std::vector<OutdoorBuildingPlan> readOutdoorBuildings(
             building.id = textOf(plot, "building")
                 + (childOf(plot, "index").IsDefined() ? "#" + textOf(plot, "index") : std::string());
             BuildingReader reader(world, plot, path, rectangle, issues);
+            reader.useDoorPictures(pDoorPictures, warnings);
 
             if (reader.read(building))
             {
@@ -7981,6 +8203,7 @@ std::vector<OutdoorBuildingPlan> readOutdoorBuildings(
         building.id = textOf(structure, "id");
         BuildingReader reader(world, structure, path, {corner[0], corner[1], corner[0] + size[0],
             corner[1] + size[1]}, issues);
+        reader.useDoorPictures(pDoorPictures, warnings);
 
         if (reader.read(building))
         {
@@ -8047,6 +8270,98 @@ Game::OutdoorBModel raiseOutdoorBuilding(OutdoorBuildingPlan &plan)
 
     builder.finish();
     return model;
+}
+
+OutdoorDoorPictures parseOutdoorDoorPictures(const std::vector<std::string> &texts)
+{
+    OutdoorDoorPictures pictures;
+
+    for (const std::string &text : texts)
+    {
+        // One row a line (tools/xeen/texture_classes.py): only the rows with a door role are read, so a build reads
+        // a few hundred of the thousands.
+        std::string rows = "textures:\n";
+        size_t start = 0;
+
+        while (start < text.size())
+        {
+            const size_t end = std::min(text.find('\n', start), text.size());
+            const std::string line = text.substr(start, end - start);
+
+            if (line.find(" door: ") != std::string::npos || line.find("{door: ") != std::string::npos)
+            {
+                rows += line + "\n";
+            }
+
+            start = end + 1;
+        }
+
+        YAML::Node root;
+
+        try
+        {
+            root = YAML::Load(rows);
+        }
+        catch (const YAML::Exception &)
+        {
+            continue;
+        }
+
+        const YAML::Node textures = root["textures"];
+
+        for (YAML::const_iterator entry = textures.begin(); textures.IsMap() && entry != textures.end(); ++entry)
+        {
+            const YAML::Node &row = entry->second;
+
+            if (!row.IsMap() || !row["door"] || !row["door"].IsScalar())
+            {
+                continue;
+            }
+
+            std::string name = entry->first.Scalar();
+            std::transform(name.begin(), name.end(), name.begin(),
+                [](unsigned char character) { return static_cast<char>(std::tolower(character)); });
+            OutdoorDoorPicture picture;
+            picture.door = row["door"].Scalar();
+            const YAML::Node size = row["size"];
+            double number = 0.0;
+
+            if (size.IsSequence() && size.size() == 2 && numberOfNode(size[0], number))
+            {
+                picture.size[0] = static_cast<int>(number);
+                picture.size[1] = numberOfNode(size[1], number) ? static_cast<int>(number) : 0;
+            }
+
+            if (row["twin"] && row["twin"].IsScalar())
+            {
+                picture.twin = row["twin"].Scalar();
+                std::transform(picture.twin.begin(), picture.twin.end(), picture.twin.begin(),
+                    [](unsigned char character) { return static_cast<char>(std::tolower(character)); });
+            }
+
+            pictures[name] = picture;
+        }
+    }
+
+    return pictures;
+}
+
+OutdoorDoorPictures readOutdoorDoorPictures(const std::filesystem::path &assetRoot, const std::string &world)
+{
+    std::vector<std::string> texts;
+
+    for (const std::filesystem::path &folder : {assetRoot / "engine" / "models",
+             assetRoot / "worlds" / world / "models"})
+    {
+        std::string text;
+
+        if (!assetRoot.empty() && readTextFile(folder / "texture_classes.yml", text))
+        {
+            texts.push_back(text);
+        }
+    }
+
+    return parseOutdoorDoorPictures(texts);
 }
 
 std::set<std::string> outdoorTextureNames(const std::filesystem::path &assetRoot, const std::string &world,

@@ -51,7 +51,7 @@ per creature, which is what instancing (section 4) batches.
 ## 3. Runtime objects
 
 - `ModelInstanceSystem` holds instances: asset, root transform, clip state, pose and bounds, material variant,
-  outline colour, and **attachments** (`ModelAttachment {asset, nodeIndex, materialVariant}`). An attachment is drawn
+  outline colour, an optional recolour of its colour regions, and **attachments** (`ModelAttachment {asset, nodeIndex, materialVariant}`). An attachment is drawn
   with its node's world matrix every frame. It has no skin and no pose of its own.
 - `WorldFxSystem` binds actors to models from `actors.yml`. One binding per monster descriptor. An attachment
   without its own `skin:` uses the carrier's skin when the item has a variant of that name (split items do), so a
@@ -317,6 +317,16 @@ and releases its palette rows once the front passes `1 + edge + fire`. `u_modelB
 uniforms persist between draws. The emission colour is linear: fire orange is about `[1.0, 0.18, 0.02]`.
 After the burn completes, picking uses only visible attachment bounds (for example, Wyrm charred remains),
 or the loot satchel when present; the vanished body is no longer pickable.
+
+**A recolour per instance** (`ModelInstanceSystem::setRegionRecolor`, 2026-11-21). An instance may carry a display
+colour that every colour region of its skinned materials is turned to: a colour variant of a skin made at run time
+from the variant it shows, without a new asset (the co-op players' gold bodies). `recoloredModelRamp` gives each ramp
+stop the colour's hue, a saturation of at least `ModelRecolorMinSaturation` and at most the colour's, and brightens
+the ramp (at most `ModelRecolorMaxGain` times) until its brightest stop is as bright as the colour, so the region
+keeps its shading. The renderer makes the 16×4 ramp texture of a material and a colour when it first draws them
+(`recoloredRampTexture`), keeps it with the asset's resources and binds it in place of the material's own; where no
+texture can be made the material keeps its colours. No shader or program changes. Such an instance is drawn singly,
+not instanced. Materials without colour regions, attachments and static stand-ins keep their colours.
 
 **Energy shield shells** (`ModelShieldShell`, `ModelInstanceSystem::setShieldShell`, `submitShieldShell`; game side:
 `devdocs/ENERGY_SHIELDS_AND_RELATIONS.md`). An instance with a shell draws each skinned or CPU-deformed draw once more

@@ -1,6 +1,7 @@
 #include "game/render/RuntimeShader.h"
 #include "engine/Localization.h"
 #include "game/outdoor/OutdoorGameView.h"
+#include "game/coop/CoopBodies.h"
 #include "game/debug/AiArena.h"
 #include "game/outdoor/OutdoorSunlight.h"
 
@@ -3376,6 +3377,7 @@ void OutdoorGameView::shutdown()
         m_bmodelWorldRenderRevision = std::numeric_limits<uint64_t>::max();
 
         m_texturedBModelBatches.clear();
+        m_hasTranslucentBModelBatches = false;
         OutdoorBillboardRenderer::invalidateRenderAssets(*this);
         OutdoorRenderer::invalidateSkyResources(*this);
         screenRuntime.releaseHudGpuResources(false);
@@ -3674,6 +3676,7 @@ void OutdoorGameView::shutdown()
     }
     m_bmodelTextureArrays.clear();
     m_texturedBModelBatches.clear();
+    m_hasTranslucentBModelBatches = false;
     m_bmodelTextureAnimations.clear();
     for (ResolvedBModelDrawGroup &group : m_resolvedBModelDrawGroups)
     {
@@ -4528,8 +4531,12 @@ SkySurroundings OutdoorGameView::skySurroundings() const
 
     if (m_gameSettings.mist && m_pOutdoorMapData->mist.enabled())
     {
+        const EventRuntimeState *pEvents =
+            m_pOutdoorWorldRuntime != nullptr ? m_pOutdoorWorldRuntime->eventRuntimeState() : nullptr;
+        const float scripted = pEvents != nullptr ? m_mistScriptFade.amount(pEvents->scriptedMist.revision,
+            pEvents->scriptedMist.amount, pEvents->scriptedMist.seconds, m_elapsedTime) : 1.0f;
         surroundings.mist = packMistUniform(m_pOutdoorMapData->mist, m_skyCameraPosition, m_elapsedTime, mistLight(),
-            float(m_gameSettings.mistStrength) / 100.0f);
+            float(m_gameSettings.mistStrength) / 100.0f * scripted);
     }
 
     if (m_pOutdoorMapData->noTerrain)
@@ -4660,6 +4667,24 @@ void OutdoorGameView::renderCombatFeedbackOverlay(
             screenY = projected.y;
             return true;
         });
+
+    if (!m_gameSession.coopPlayerLabels().empty())
+    {
+        renderCoopPlayerLabels(screenRuntime, m_gameSession.coopPlayerLabels(),
+            [width, height, pViewProjectionMatrix](const bx::Vec3 &point, float &screenX, float &screenY)
+            {
+                ProjectedPoint projected = {};
+
+                if (!projectWorldPointToScreen(point, width, height, pViewProjectionMatrix, projected))
+                {
+                    return false;
+                }
+
+                screenX = projected.x;
+                screenY = projected.y;
+                return true;
+            });
+    }
 
     const ActorAiTrace *pAiTrace = m_pOutdoorWorldRuntime->actorAiTrace();
 

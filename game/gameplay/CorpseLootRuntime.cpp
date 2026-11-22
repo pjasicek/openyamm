@@ -543,7 +543,11 @@ GameplayCorpseAutoLootResult autoLootActiveCorpseView(
             }
 
             const FoundGold foundGold = resolveFoundGold(removedItem.goldAmount, worldRuntime.eventRuntimeState(), &party);
-            party.addGold(static_cast<int>(foundGold.partyAmount), GoldReason::LootCorpse);
+            creditFoundGold(
+                party,
+                static_cast<int>(foundGold.partyAmount),
+                GoldReason::LootCorpse,
+                worldRuntime.eventRuntimeState());
             result.goldAmount += static_cast<int>(foundGold.amount);
             result.followerGoldShare += static_cast<int>(foundGold.followerShare);
             result.lootedAny = result.lootedAny || foundGold.amount > 0;
@@ -765,7 +769,7 @@ GameplayUiController::LootSummaryOverlayState lootAllCorpses(IGameplayWorldRunti
 
     if (partyGold > 0)
     {
-        party.addGold(partyGold, GoldReason::LootCorpse);
+        creditFoundGold(party, partyGold, GoldReason::LootCorpse, worldRuntime.eventRuntimeState());
     }
     else if (!summary.takenItems.empty())
     {
@@ -866,7 +870,7 @@ void lootSpottedWorldItems(
 
     if (partyGold > 0)
     {
-        party.addGold(partyGold, GoldReason::LootGround);
+        creditFoundGold(party, partyGold, GoldReason::LootGround, worldRuntime.eventRuntimeState());
     }
     else if (tookItem)
     {

@@ -563,4 +563,69 @@ bool composeKeyedAppendTableRows(
 
     return true;
 }
+
+bool composeMapKeyedAppendTableRows(
+    const std::vector<std::vector<std::string>> &baseRows,
+    const std::vector<MapKeyedTableContributionRows> &contributions,
+    size_t keyColumn,
+    std::vector<std::vector<std::string>> &composedRows,
+    std::string &errorMessage)
+{
+    composedRows = baseRows;
+    errorMessage.clear();
+
+    const auto mapKey = [keyColumn](const std::vector<std::string> &row) -> std::optional<std::string>
+    {
+        const std::string key = toLowerCopy(cell(row, keyColumn));
+
+        if (!key.ends_with(".odm") && !key.ends_with(".blv"))
+        {
+            return std::nullopt;
+        }
+
+        return key;
+    };
+
+    std::unordered_map<std::string, std::string> rowOwners;
+
+    for (const std::vector<std::string> &row : baseRows)
+    {
+        if (const std::optional<std::string> key = mapKey(row))
+        {
+            rowOwners.emplace(*key, "engine");
+        }
+    }
+
+    for (const MapKeyedTableContributionRows &contribution : contributions)
+    {
+        for (const std::vector<std::string> &row : contribution.rows)
+        {
+            const std::optional<std::string> key = mapKey(row);
+
+            if (!key)
+            {
+                continue;
+            }
+
+            if (!contribution.mapFileNames.contains(*key))
+            {
+                errorMessage = "map " + *key + " is not a map of package '" + contribution.packageId + "'";
+                return false;
+            }
+
+            const auto [owner, inserted] = rowOwners.emplace(*key, contribution.packageId);
+
+            if (!inserted)
+            {
+                errorMessage = "map " + *key + " from package '" + contribution.packageId
+                    + "' already has a row from package '" + owner->second + "'";
+                return false;
+            }
+
+            composedRows.push_back(row);
+        }
+    }
+
+    return true;
+}
 }

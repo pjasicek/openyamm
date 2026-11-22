@@ -1,8 +1,32 @@
 #include "game/data/ActorNameResolver.h"
 
+#include "game/tables/NpcDialogTable.h"
+
+#include <utility>
+
 namespace OpenYAMM::Game
 {
-std::string resolveMapDeltaActorName(const MonsterTable &monsterTable, const MapDeltaActor &actor)
+std::optional<std::string> resolveActorNpcName(int32_t npcId, const ActorNpcNameTables &npcNames)
+{
+    if (npcId <= 0 || npcNames.pNpcDialogTable == nullptr)
+    {
+        return std::nullopt;
+    }
+
+    const NpcEntry *pNpc = npcNames.pNpcDialogTable->getNpc(uint32_t(npcId));
+
+    if (pNpc == nullptr || pNpc->name.empty())
+    {
+        return std::nullopt;
+    }
+
+    return npcNameAndTitle(*pNpc, npcNames.pNpcProfessionTable);
+}
+
+std::string resolveMapDeltaActorName(
+    const MonsterTable &monsterTable,
+    const MapDeltaActor &actor,
+    const ActorNpcNameTables &npcNames)
 {
     if (actor.uniqueNameIndex > 0)
     {
@@ -19,6 +43,12 @@ std::string resolveMapDeltaActorName(const MonsterTable &monsterTable, const Map
     if (actor.mm9RudeId > 0 && !actor.name.empty())
     {
         return actor.name;
+    }
+
+    // An actor with an NPC id is that NPC (MM6-MM8, a placed talking figure on a peasant row), not its body's row.
+    if (std::optional<std::string> npcName = resolveActorNpcName(actor.npcId, npcNames))
+    {
+        return std::move(*npcName);
     }
 
     const MonsterTable::MonsterDisplayNameEntry *pDisplayEntry =

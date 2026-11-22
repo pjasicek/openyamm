@@ -1,5 +1,6 @@
 #pragma once
 
+#include <algorithm>
 #include <cstdint>
 
 namespace OpenYAMM::Game
@@ -53,4 +54,29 @@ struct ActorRulesetFacts
 
     bool operator==(const ActorRulesetFacts &) const = default;
 };
+// What one blow leaves on the monster it struck, for the rules that count it (MAW's Spear stacks, the legendary
+// 29 stack, a Regenerating boss's hits, a solo run's Expose Weakness). A co-op guest's game passes it to its host,
+// whose monster it is (IGameplayWorldRuntime::addActorHitMarks).
+struct ActorHitMarks
+{
+    float spearDamage = 0.0f;
+    float legendaryDamage = 0.0f;
+    uint16_t regeneratingHits = 0;
+    float exposedPercent = 0.0f;
+    float exposedGameMinutes = 0.0f;
+};
+
+inline void applyActorHitMarks(ActorRulesetFacts &facts, const ActorHitMarks &marks, float gameMinutes)
+{
+    facts.spearDamageTaken += marks.spearDamage;
+    facts.legendaryDamageTaken += marks.legendaryDamage;
+    facts.regeneratingHits = uint16_t(std::min(int(facts.regeneratingHits) + int(marks.regeneratingHits), 65535));
+
+    if (marks.exposedPercent > 0.0f)
+    {
+        const bool running = gameMinutes < facts.exposedUntilGameMinutes;
+        facts.exposedPercent = running ? std::max(facts.exposedPercent, marks.exposedPercent) : marks.exposedPercent;
+        facts.exposedUntilGameMinutes = gameMinutes + marks.exposedGameMinutes;
+    }
+}
 }

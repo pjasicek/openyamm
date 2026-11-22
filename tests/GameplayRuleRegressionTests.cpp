@@ -793,6 +793,57 @@ TEST_CASE("outdoor running recovery penalty applies only while the party runs")
     CHECK_FALSE(movementDriver.isRunningMovement(input));
 }
 
+TEST_CASE("outdoor falls of the same height land and hurt whichever step ends them")
+{
+    // D7's falls (Xeen, 2026-11-21): a step that stopped within the snap height above the ground ended the fall
+    // without its landing, so a fall from exactly 850 above did no damage while one from 858 did.
+    const SyntheticOutdoorWaterBoundaryScenario boundary = createSyntheticOutdoorWaterBoundaryScenario();
+    OpenYAMM::Game::OutdoorMovementController movementController(
+        boundary.mapData,
+        std::nullopt,
+        std::nullopt,
+        std::nullopt,
+        std::nullopt);
+    const OpenYAMM::Game::OutdoorMoveState ground =
+        movementController.initializeState(boundary.landX, boundary.landY, 0.0f);
+
+    for (int offset = 0; offset < 32; ++offset)
+    {
+        CAPTURE(offset);
+        OpenYAMM::Game::OutdoorMovementDriver movementDriver(
+            boundary.mapData,
+            std::nullopt,
+            std::nullopt,
+            std::nullopt,
+            std::nullopt);
+        OpenYAMM::Game::ItemTable itemTable = {};
+        OpenYAMM::Game::OutdoorPartyRuntime partyRuntime(std::move(movementDriver), itemTable);
+        partyRuntime.initialize(boundary.landX, boundary.landY, 0.0f, true);
+
+        OpenYAMM::Game::OutdoorPartyRuntime::Snapshot snapshot = partyRuntime.snapshot();
+        snapshot.movementState = ground;
+        snapshot.movementState.footZ = ground.footZ - 1.0f + 850.0f + static_cast<float>(offset) * 0.375f;
+        snapshot.movementState.airborne = true;
+        snapshot.movementState.verticalVelocity = 0.0f;
+        snapshot.movementState.fallStartZ = snapshot.movementState.footZ;
+        snapshot.partyMovementState = {};
+        partyRuntime.restoreSnapshot(snapshot);
+
+        const int initialHealth = partyRuntime.party().totalHealth();
+
+        for (int i = 0; i < 40 && partyRuntime.movementState().airborne; ++i)
+        {
+            partyRuntime.update(OpenYAMM::Game::OutdoorMovementInput{}, 0.1f);
+        }
+
+        partyRuntime.update(OpenYAMM::Game::OutdoorMovementInput{}, 0.1f);
+        CHECK_FALSE(partyRuntime.movementState().airborne);
+        CHECK(partyRuntime.movementState().footZ == doctest::Approx(ground.footZ));
+        CHECK_GT(partyRuntime.party().lastFallDamageDistance(), 840.0f);
+        CHECK_LT(partyRuntime.party().totalHealth(), initialHealth);
+    }
+}
+
 TEST_CASE("outdoor water landing still applies fall damage")
 {
     const SyntheticOutdoorWaterBoundaryScenario boundary = createSyntheticOutdoorWaterBoundaryScenario();
@@ -2779,6 +2830,38 @@ TEST_CASE("liquids scoped to a world override the shared ones there alone and sh
         "wade_speed: 0.6, match: {texture_names: [x]}}\n", error));
 }
 
+TEST_CASE("Xeen's mirror liquid is a reflecting face of that world alone")
+{
+    OpenYAMM::Engine::AssetFileSystem assetFileSystem;
+    REQUIRE(initializeTestAssetFileSystem(assetFileSystem));
+    const std::optional<std::string> liquidYaml = assetFileSystem.readTextFile("engine/liquids/liquids.yml");
+    REQUIRE(liquidYaml.has_value());
+    OpenYAMM::Game::LiquidTable shipped;
+    std::string error;
+    REQUIRE_MESSAGE(shipped.loadFromYaml(*liquidYaml, error), error);
+
+    const OpenYAMM::Game::LiquidDefinition *pMirror = shipped.forWorld("xeen").findMatch("xmirror", 0, false);
+    REQUIRE(pMirror != nullptr);
+    CHECK(pMirror->kind == OpenYAMM::Game::LiquidKind::Mirror);
+    CHECK(pMirror->reflects);
+    CHECK_FALSE(pMirror->shallow);
+    // The textured silvered glass of the dead mirrors stays a picture; other worlds have no mirror surfaces.
+    CHECK(shipped.forWorld("xeen").findMatch("xkmirror", 0, false) == nullptr);
+    for (const char *pWorld : {"mm6", "mm7", "mm8", "mm9"})
+    {
+        CHECK(shipped.forWorld(pWorld).findMatch("xmirror", 0, false) == nullptr);
+    }
+
+    // A mirror is an opaque, reflecting liquid of faces only.
+    OpenYAMM::Game::LiquidTable bad;
+    for (const char *pExtra : {"applies_to: [terrain]", "applies_to: [face], opacity: 0.5",
+             "applies_to: [face], depth: shallow", "applies_to: [face], reflections: false"})
+    {
+        CHECK_FALSE(bad.loadFromYaml(std::string("liquids:\n  - {id: m, kind: mirror, color: [1, 2, 3], ") + pExtra
+            + ", match: {texture_names: [m]}}\n", error));
+    }
+}
+
 TEST_CASE("liquid opacity defaults to opaque and makes see-through faces")
 {
     OpenYAMM::Engine::AssetFileSystem assetFileSystem;
@@ -4294,6 +4377,22 @@ TEST_CASE("the party aims at a 3D model shorter than its collision height")
     // Below the feet counts from the feet; an unknown model keeps the collision height's rule.
     CHECK(GameMechanics::actorTargetHeight(300, -50.0f, 100.0f) == doctest::Approx(60.0f));
     CHECK(GameMechanics::actorTargetHeight(300, 0.0f, 0.0f) == doctest::Approx(180.0f));
+}
+
+TEST_CASE("a monster launches from its 3D model's body, not from the air above a shorter model (F4-R1)")
+{
+    using OpenYAMM::Game::GameMechanics;
+    // MM6's Air Elemental C: 240 tall on a 148 model, launched at 168 outdoors before (0.7 x 240); 0.7 x 148 now.
+    CHECK(GameMechanics::actorLaunchHeight(240, 0.7f, 148.0f) == doctest::Approx(103.6f));
+    // Its A and B (168 tall): 118 before, the same 104 now.
+    CHECK(GameMechanics::actorLaunchHeight(168, 0.7f, 148.0f) == doctest::Approx(103.6f));
+    // MM7's Elemental Water A: 180 tall on a 177 model, 126 before.
+    CHECK(GameMechanics::actorLaunchHeight(180, 0.7f, 177.0f) == doctest::Approx(123.9f));
+    // Indoors, a spell at half the body: 0.5 x 148.
+    CHECK(GameMechanics::actorLaunchHeight(240, 0.5f, 148.0f) == doctest::Approx(74.0f));
+    // A taller model, a sprite (no model) or models off keep the collision height's rule.
+    CHECK(GameMechanics::actorLaunchHeight(474, 0.7f, 524.0f) == doctest::Approx(331.8f));
+    CHECK(GameMechanics::actorLaunchHeight(240, 0.7f, 0.0f) == doctest::Approx(168.0f));
 }
 
 TEST_CASE("a party shot blocked low on its target aims higher where the line is clear")
@@ -8597,12 +8696,12 @@ TEST_CASE("event runtime queues qbit portrait fx only for visible quest entries"
     CHECK(runtimeState.pendingSounds.empty());
 
     OpenYAMM::Game::EventRuntime::addVariableValue(runtimeState, internalQbit, 777, &party, {0});
-    CHECK(party.hasQuestBit(777));
+    CHECK(party.campaign().hasQuestBit(777));
     CHECK(runtimeState.portraitFxRequests.empty());
     CHECK(runtimeState.pendingSounds.empty());
 
     OpenYAMM::Game::EventRuntime::subtractVariableValue(runtimeState, visibleQbit, 5, &party, {0});
-    CHECK_FALSE(party.hasQuestBit(5));
+    CHECK_FALSE(party.campaign().hasQuestBit(5));
     CHECK(runtimeState.portraitFxRequests.empty());
     CHECK(runtimeState.pendingSounds.empty());
 }
@@ -9175,7 +9274,7 @@ TEST_CASE("lua event runtime onload sees party quest bits")
 
     OpenYAMM::Game::Party party = {};
     party.seed(createRegressionPartySeed());
-    party.setQuestBit(36, true);
+    party.campaign().setQuestBit(36, true);
 
     OpenYAMM::Game::EventRuntime eventRuntime = {};
     OpenYAMM::Game::EventRuntimeState runtimeState = {};
@@ -9212,14 +9311,14 @@ TEST_CASE("lua event runtime onload sets party quest bits")
 
     OpenYAMM::Game::Party party = {};
     party.seed(createRegressionPartySeed());
-    party.setQuestBit(QBitId, false);
+    party.campaign().setQuestBit(QBitId, false);
 
     OpenYAMM::Game::EventRuntime eventRuntime = {};
     OpenYAMM::Game::EventRuntimeState runtimeState = {};
 
     REQUIRE(eventRuntime.executeOnLoadEvents(scriptedProgram, std::nullopt, runtimeState, &party, nullptr));
     CHECK_EQ(runtimeState.localOnLoadEventsExecuted, 1u);
-    CHECK(party.hasQuestBit(QBitId));
+    CHECK(party.campaign().hasQuestBit(QBitId));
 }
 
 TEST_CASE("dagger wound onload seeds starting roster quest bits")
@@ -9240,10 +9339,10 @@ TEST_CASE("dagger wound onload seeds starting roster quest bits")
         &party,
         nullptr));
     CHECK_EQ(runtimeState.localOnLoadEventsExecuted, 4u);
-    CHECK(party.hasQuestBit(226));
-    CHECK(party.hasQuestBit(306));
-    CHECK(party.hasQuestBit(401));
-    CHECK(party.hasQuestBit(407));
+    CHECK(party.campaign().hasQuestBit(226));
+    CHECK(party.campaign().hasQuestBit(306));
+    CHECK(party.campaign().hasQuestBit(401));
+    CHECK(party.campaign().hasQuestBit(407));
 }
 
 TEST_CASE("lua event runtime resolves MM8 invisible event variable alias")
@@ -11630,7 +11729,7 @@ TEST_CASE("event reputation variable mutates runtime location reputation")
         targetMemberIndices);
     CHECK_EQ(runtimeState.currentLocationReputation, 12);
     CHECK_EQ(
-        party.eventVariableValue(
+        party.campaign().eventVariableValue(
             static_cast<uint16_t>(OpenYAMM::Game::EvtVariable::ReputationInCurrentLocation)),
         0);
 

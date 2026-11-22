@@ -257,8 +257,10 @@ int weaponDamageMultiplierAgainstMonster(
         runtimeState.specialEnchantId,
         pSpecialTable,
         monsterKindFlags);
+    // The item's own Slaying<Kind> effect flag (a world's relic: Xeen's Slayer Sword against demons).
+    const int slayingMultiplier = (itemSlayingKindFlags(itemDefinition.contentEffect) & monsterKindFlags) != 0 ? 2 : 1;
 
-    return std::max(rareMultiplier, specialMultiplier);
+    return std::max({rareMultiplier, specialMultiplier, slayingMultiplier});
 }
 
 bool isSpellSchoolSkill(const std::string &skillName)
@@ -2009,6 +2011,11 @@ void ItemEnchantRuntime::applyContentEffect(
         else if (flag == "AllConditionImmunity")
         {
             member.magicalConditionImmunities.set();
+        }
+        else if (flag == "AgingImmunity")
+        {
+            // A monster's aging touch leaves the member as old as before (Xeen's Jewel of Ages, carried: D-2.4).
+            member.agingImmune = true;
         }
         else if (flag == "MeleeArmor40")
         {

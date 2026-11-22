@@ -1,3 +1,4 @@
+#include "game/gameplay/PlayerCommands.h"
 #include "game/gameplay/TurnBasedCombatRuntime.h"
 #include "game/ui/GameplayBuffHud.h"
 #include "game/ui/GameplayFormationBuilder.h"
@@ -276,7 +277,7 @@ bool GameplayHudInputController::useHeldItemOnPortraitAtPointer(
     const std::optional<size_t> memberIndex =
         context.resolvePartyPortraitIndexAtPoint(screenWidth, screenHeight, pointerX, pointerY);
 
-    if (!memberIndex || !context.itemService().tryUseHeldItemOnPartyMember(context, *memberIndex, false))
+    if (!memberIndex || !context.playerCommands().useHeldItemOnMember(LocalPlayer, context, *memberIndex, false))
     {
         return false;
     }
@@ -323,7 +324,8 @@ void GameplayHudInputController::handlePartyPortraitInput(
             && context.characterScreenReadOnly().page == GameplayUiController::CharacterPage::Inventory;
 
         if (memberIndex
-            && context.itemService().tryUseHeldItemOnPartyMember(
+            && context.playerCommands().useHeldItemOnMember(
+                LocalPlayer,
                 context,
                 *memberIndex,
                 keepCharacterScreenOpen))
@@ -478,7 +480,7 @@ void GameplayHudInputController::handleGameplayHudButtonInput(
                 return context.interactionState().gameplayHudPressedTarget;
             }
 
-            if (context.combatLogShown()
+            if (context.combatLogPanelShown()
                 && pointerInsideHudElement(context, config, "CombatLogToggle", pointerX, pointerY))
             {
                 return {GameplayHudPointerTargetType::CombatLogToggleButton};
@@ -805,7 +807,7 @@ void GameplayHudInputController::handleGameplayHudButtonInput(
                     && activationHit.hasHit
                     && pWorldRuntime->canActivateWorldHit(activationHit, GameplayInteractionMethod::Keyboard))
                 {
-                    pWorldRuntime->activateWorldHit(activationHit);
+                    context.playerCommands().activateWorldHit(LocalPlayer, activationHit);
                 }
 
                 context.interactionState().gameplayHudPressedContextActionActive = false;

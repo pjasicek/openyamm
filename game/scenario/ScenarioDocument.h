@@ -18,6 +18,9 @@ enum class ScenarioMode
 
 enum class ScenarioStepKind
 {
+    CoopGuest,
+    CoopJoin,
+    CoopNetwork,
     NewGameFlow,
     LoadMap,
     Travel,
@@ -56,6 +59,7 @@ enum class ScenarioStepKind
     DebugLaunch,
     WalkTo,
     ClearHostiles,
+    HealAtTemple,
     PlayLua,
     PartyDefeat,
     Reload,
@@ -63,6 +67,7 @@ enum class ScenarioStepKind
     Climb,
     QuickLoad,
     UseItem,
+    EquipItem,
     TurnBasedTurns,
     RightClickPortrait,
     CastSpell,
@@ -87,6 +92,8 @@ struct ScenarioStep
     int sourceLine = 0;
     int traceSourceLine = 0;
     size_t stepIndex = 0;
+    // `game: guest` beside the step's command: it runs on the second game of a co-op scenario (coop_guest).
+    bool onGuestGame = false;
 };
 
 // A scenario's `mods` (devdocs/NAMED_MODS.md): the named mods it plays with. Other scenarios play none.

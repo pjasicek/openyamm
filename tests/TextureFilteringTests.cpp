@@ -1,3 +1,5 @@
+#include "engine/AssetFileSystem.h"
+#include "game/content/ContentManifest.h"
 #include "game/maps/MapAssetLoader.h"
 #include "game/render/BillboardOpacityMask.h"
 #include "game/render/TextureFiltering.h"
@@ -6,6 +8,7 @@
 
 #include <cstdint>
 #include <cmath>
+#include <filesystem>
 #include <future>
 #include <memory>
 #include <vector>
@@ -342,4 +345,56 @@ TEST_CASE("map bitmap residency retains recently used images within its byte bud
     cache.beginLoad(2);
     CHECK(cache.bitmapPixelsByKey.empty());
     CHECK(cache.bitmapLastUse.empty());
+}
+
+TEST_CASE("D-55: a world whose glow is content loads the normal maps of its glowing textures alone, others nothing")
+{
+    CHECK(parseSurfaceGlowList("# generated\nXaEnergy\n  xafield \r\n\n") == std::vector<std::string>{
+        "xaenergy", "xafield"});
+
+    WorldManifest mm7;
+    mm7.id = "mm7";
+    WorldManifest xeen;
+    xeen.id = "xeen";
+    xeen.surfaceGlowContent = true;
+    const std::vector<WorldManifest> worlds = {mm7, xeen};
+    // Only a declaring world's maps with Surface materials off read the lists, and they read every mounted world's
+    // (a texture borrowed from MM7 finds MM7's).
+    CHECK(surfaceGlowListWorlds(worlds, "xeen", false) == std::vector<std::string>{"mm7", "xeen"});
+    CHECK(surfaceGlowListWorlds(worlds, "XEEN", false) == std::vector<std::string>{"mm7", "xeen"});
+    CHECK(surfaceGlowListWorlds(worlds, "xeen", true).empty());
+    CHECK(surfaceGlowListWorlds(worlds, "mm7", false).empty());
+
+    // MM7's hkm3elw glows (its glow list, tools/surface_materials.py); 7solid01 has maps but no glow.
+    const std::filesystem::path sourceRoot = OPENYAMM_SOURCE_DIR;
+    OpenYAMM::Engine::AssetFileSystem assetFileSystem;
+    OpenYAMM::Engine::AssetScaleProfile profile;
+    profile.textures = OpenYAMM::Engine::AssetScaleTier::X4;
+    REQUIRE(assetFileSystem.initialize(sourceRoot, sourceRoot / "assets_dev", OpenYAMM::Engine::AssetScaleTier::X1,
+        profile, "mm7"));
+    MapCompanionLoadOptions glowOnly;
+    glowOnly.surfaceGlowWorlds = {"mm7"};
+    const std::optional<OutdoorBitmapTexture> glowing = loadSurfaceTexture(assetFileSystem, "hkm3elw", glowOnly);
+    REQUIRE(glowing.has_value());
+    REQUIRE(glowing->cookedTexture != nullptr);
+    CHECK(glowing->materialNormal != nullptr);
+    CHECK(glowing->materialDetail == nullptr);
+    const std::optional<OutdoorBitmapTexture> plain = loadSurfaceTexture(assetFileSystem, "7solid01", glowOnly);
+    REQUIRE(plain.has_value());
+    CHECK(plain->materialNormal == nullptr);
+    CHECK(plain->materialDetail == nullptr);
+
+    // A world without the field (no glow worlds, the setting off): nothing.
+    const std::optional<OutdoorBitmapTexture> off = loadSurfaceTexture(assetFileSystem, "hkm3elw", {});
+    REQUIRE(off.has_value());
+    CHECK(off->materialNormal == nullptr);
+    CHECK(off->materialDetail == nullptr);
+
+    // The setting on: both maps, as before.
+    MapCompanionLoadOptions materials;
+    materials.surfaceMaterials = true;
+    const std::optional<OutdoorBitmapTexture> full = loadSurfaceTexture(assetFileSystem, "hkm3elw", materials);
+    REQUIRE(full.has_value());
+    CHECK(full->materialNormal != nullptr);
+    CHECK(full->materialDetail != nullptr);
 }

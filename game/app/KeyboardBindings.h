@@ -141,6 +141,9 @@ enum class KeyboardAction : uint8_t
     ActionBar8,
     ActionBar9,
     ActionBar10,
+    // A co-op session: opens the line a player types to the others, and points them at the place looked at.
+    CoopChat,
+    CoopPing,
     Count
 };
 

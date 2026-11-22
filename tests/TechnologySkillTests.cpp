@@ -686,12 +686,12 @@ TEST_CASE("the Hum: damage spells at its share by nodes down, a map's own share,
     Character caster = *party.member(0);
     party.setSpellField({100009, 100010, 100014}, {50, 65, 80, 100}, std::nullopt);
     CHECK_EQ(party.spellDamagePercentFor(caster), 50);
-    party.setQuestBit(100010, true);
+    party.campaign().setQuestBit(100010, true);
     CHECK_EQ(party.spellDamagePercentFor(caster), 65);
     caster.humPoints = 30;
     CHECK_EQ(party.spellDamagePercentFor(caster), 95);
-    party.setQuestBit(100009, true);
-    party.setQuestBit(100014, true);
+    party.campaign().setQuestBit(100009, true);
+    party.campaign().setQuestBit(100014, true);
     CHECK_EQ(party.spellDamagePercentFor(caster), 100);
 
     // The Crownspire keeps the full Hum; D9 is a null field.
@@ -871,7 +871,7 @@ TEST_CASE("vendor stock gated by the world's objectives: a tiered lane shows wha
         party.setObjectiveQBits({100040, 100041, 100042, 100043, 100009, 100010, 100014, 100018});
         for (size_t index = 0; index < objectivesDone; ++index)
         {
-            party.setQuestBit(std::array<uint32_t, 8>{100040, 100041, 100042, 100043, 100009, 100010, 100014,
+            party.campaign().setQuestBit(std::array<uint32_t, 8>{100040, 100041, 100042, 100043, 100009, 100010, 100014,
                 100018}[index], true);
         }
         CHECK_EQ(party.objectivesDone(), objectivesDone);
@@ -1049,4 +1049,17 @@ TEST_CASE("a world's own enchantments roll only on its items and work worn and i
     CHECK(worn.meleeWeaponEnchant.bonusAgainst(10040));
     const CharacterAttackProfile profile = GameMechanics::buildCharacterAttackProfile(worn, &itemTable, nullptr);
     CHECK(profile.meleeShieldModifiers.shieldDamageMultiplier > 1.0f);
+}
+
+TEST_CASE("an item effect's AgingImmunity flag keeps a member from aging (Xeen's Jewel of Ages, D-2.4)")
+{
+    // Carried with CarriedPartyEffect it reaches every member (Party::refreshDerivedState); the monster's aging touch
+    // then leaves ageModifier alone (GameplayCombatController).
+    OpenYAMM::Game::ItemContentEffect effect = {};
+    effect.flags = {"CarriedPartyEffect", "AgingImmunity"};
+    OpenYAMM::Game::Character member;
+    CHECK_FALSE(member.agingImmune);
+    OpenYAMM::Game::ItemEnchantRuntime::applyContentEffect(effect, member);
+    CHECK(member.agingImmune);
+    CHECK(member.equippedItemEffectFlags.contains("AgingImmunity"));
 }

@@ -1,0 +1,40 @@
+id: mm8.garrote_gorge_dragons_quest
+title: "Garrote Gorge: killing every dragon and dragon hunter sets the clear-land bits at the last kill, before the hidden Riki marker"
+world: mm8
+mode: faithful
+tags: [mm8, events, regression]
+steps:
+  - note:
+      text: >-
+        Event 131 (a ten-minute timer) is MM8's clear-land check: once every Hatchling, Dragonette and Young Dragon is
+        dead it summons a hidden marker of the same kind (the "Riki" bit, 156) and only sets 155 on a later pass; the
+        same for the hunters (159, then 158). Since merge point 31 of the Xeen lanes evt.CheckMonstersKilled counts a
+        hidden monster as alive when its InvisibleAsDead argument is 0, as MM8 does, so the marker blocks MM8's own
+        completion again. OpenYAMM's supplement (out05_mmmerge.lua, a monster-killed hook) sets 155 and 158 at the
+        last kill, before the timer can summon a marker. This holds that path: the bits are set at once, and after
+        the timer has run no marker was summoned and the bits stay. A1, after the G3 review.
+  - new_game_flow: {start_map: out05.odm}
+  - advance_runtime: {seconds: 1}
+  - assert: {qbit_clear: [155, 156, 158, 159]}
+  - assert:
+      actor_count: {monster_id: 192, min: 1}
+  - assert:
+      actor_count: {monster_id: 43, min: 1}
+  - damage_actor: {all: true, amount: 100000}
+  - advance_runtime: {seconds: 1}
+  - assert:
+      actor_count: {monster_id: 190, max: 0}
+  - assert:
+      actor_count: {monster_id: 191, max: 0}
+  - assert:
+      actor_count: {monster_id: 192, max: 0}
+  - assert:
+      actor_count: {monster_id: 43, max: 0}
+  - assert:
+      actor_count: {monster_id: 44, max: 0}
+  - assert:
+      actor_count: {monster_id: 45, max: 0}
+  - assert: {qbit_set: [155, 158]}
+  - advance_game_time: {minutes: 30}
+  - advance_runtime: {seconds: 2}
+  - assert: {qbit_set: [155, 158], qbit_clear: [156, 159]}

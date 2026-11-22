@@ -11,6 +11,7 @@
 
 namespace OpenYAMM::Studio
 {
+class JsonWriter;
 struct LoweredIndoorMap;
 struct LoweredItem;
 struct LoweredLadder;
@@ -71,6 +72,9 @@ struct BuildResult
     // project's source revision and the hash of the lock the build wrote or used.
     std::string sourceRevision;
     std::string lockHash;
+    // The map's named arrivals (build.json `named_arrivals`, then <stem>.studio.yml `arrivals`): `start` and each plan
+    // entrance a party can arrive by (D-4).
+    std::vector<MapArrival> arrivals;
     // An overlay that changes the base map's scene (S6_PLAN.md item O): the scene overlay's keys and what it adds,
     // changes and removes.
     std::vector<std::string> sceneOverlayKeys;
@@ -90,6 +94,9 @@ struct BuildResult
 YAML::Node sceneActorNode(const LoweredMonster &monster, int actorIndex);
 YAML::Node sceneSpriteObjectNode(const LoweredItem &item, int index);
 YAML::Node sceneLadderNode(const LoweredLadder &ladder);
+
+// build.json's `named_arrivals` (BuildResult::arrivals), which `oymap install` copies into <stem>.studio.yml.
+void writeNamedArrivals(JsonWriter &writer, const std::vector<MapArrival> &arrivals);
 
 // The asset root's tables the indoor lowering looks names up in (each empty without an asset root), with their
 // parsed lookups (LoweringOptions::tables).
@@ -172,5 +179,8 @@ bool installBuild(
     std::string &errorMessage,
     // For reading a build back with oymap only: a project without a map_stats block installs without a row (the
     // game could not enter such a map).
-    bool statsOptional = false);
+    bool statsOptional = false,
+    // The asset root whose world.yml says whether the world owns its maps' rows (idRanges.maps); default
+    // `assetRoot`. A mount passes the root it lies over, as the mount has no world.yml.
+    const std::filesystem::path *pManifestRoot = nullptr);
 }

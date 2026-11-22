@@ -177,10 +177,10 @@ TEST_CASE("quest world-item availability evaluates shared party qbits")
     party.seed(OpenYAMM::Game::Party::createDefaultSeed());
     CHECK_FALSE(OpenYAMM::Game::worldItemPolicyAvailable(source, party));
 
-    party.setQuestBit(90128, true);
+    party.campaign().setQuestBit(90128, true);
     CHECK(OpenYAMM::Game::worldItemPolicyAvailable(source, party));
 
-    party.setQuestBit(90130, true);
+    party.campaign().setQuestBit(90130, true);
     CHECK_FALSE(OpenYAMM::Game::worldItemPolicyAvailable(source, party));
 }
 
@@ -195,7 +195,7 @@ TEST_CASE("a placed world item's pickup quest bits gate the take, not the showin
     CHECK(OpenYAMM::Game::worldItemPolicyAvailable(source, party));
     CHECK_FALSE(OpenYAMM::Game::worldItemPickupAllowed(source, party));
 
-    party.setQuestBit(90214, true);
+    party.campaign().setQuestBit(90214, true);
     CHECK(OpenYAMM::Game::worldItemPickupAllowed(source, party));
 }
 

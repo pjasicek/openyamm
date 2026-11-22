@@ -290,9 +290,18 @@ private:
             // Only while the emissive programs are loaded (ensureEmissivePrograms).
             bgfx::TextureHandle emissive = BGFX_INVALID_HANDLE;
         };
+        // A material's colour ramps turned to a colour (ModelInstanceSystem::setRegionRecolor), made when first
+        // drawn and kept with the asset: a material's index, the colour's key and the texture.
+        struct RecoloredRamps
+        {
+            int materialIndex = -1;
+            uint32_t colorKey = 0;
+            bgfx::TextureHandle handle = BGFX_INVALID_HANDLE;
+        };
         std::shared_ptr<const ModelAsset> asset;
         std::vector<Texture> textures;
         std::vector<MaterialTextures> materialTextures;
+        mutable std::vector<RecoloredRamps> recoloredRamps;
         std::vector<MeshResources> meshes;
         // Rest-pose node matrices and model height (up extent) for static placement.
         std::vector<ModelMatrix> restMatrices;
@@ -406,6 +415,9 @@ private:
     void bindStaticMaterial(const AssetResources &resources, const ModelMaterial &material, int materialIndex,
         float timeSeconds, bool shadow, const std::array<float, 3> *pCardPivot = nullptr, float emissionScale = 1.0f);
     void bindColorRegions(const ModelMaterial &material, const AssetResources::MaterialTextures &textures) const;
+    // The ramp texture of a material with its colour regions turned to a display colour.
+    bgfx::TextureHandle recoloredRampTexture(const AssetResources &resources, int materialIndex,
+        const ModelMaterial &material, const std::array<float, 3> &srgbColor) const;
     // u_modelBurn and the burn map for every fs_model/fs_model_shadow draw: off without a burn (uniforms persist
     // between draws). fire: the additive pass over the burnt surface instead of the burning surface itself.
     void bindBurn(const ModelBurn *pBurn, const ModelMaterial &material,

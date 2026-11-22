@@ -91,6 +91,17 @@ public:
     void setVoiceVolume(float volume);
     float soundVolume() const;
 
+    // While held, nothing new is played: the host of a co-op session does something for another player, and what
+    // that would let its own player hear is the other player's to hear (PlayerCommands).
+    void setPlaybackHeld(bool held)
+    {
+        m_playbackHeld = held;
+    }
+    bool playbackHeld() const
+    {
+        return m_playbackHeld;
+    }
+
     bool playSound(
         uint32_t soundId,
         PlaybackGroup group,
@@ -129,7 +140,8 @@ public:
         float pitch = 1.0f,
         float innerRadius = -1.0f,
         float outerRadius = -1.0f,
-        bool pan = true);
+        bool pan = true,
+        float startFraction = 0.0f);
     bool playLoopingSound(
         uint32_t soundId,
         PlaybackGroup group,
@@ -164,6 +176,8 @@ public:
     void stopAllPlayback();
 
 private:
+    bool m_playbackHeld = false;
+
     struct ActorVoice
     {
         size_t actorIndex = 0;

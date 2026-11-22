@@ -486,6 +486,24 @@ struct GameSettings
     // HUD state the game remembers across map loads and saves: the follower panel beside the minimap (shown when the
     // party has followers) and the minimap zoom step (0 zoomed out, 1 default, 2 zoomed in).
     bool followerPanel = true;
+    // What the Multiplayer screen was last given (the [coop] section): typed once, offered again.
+    std::string coopSessionName;
+    // The player's own lobby server, typed on the Multiplayer screen. Empty: the lobby every game asks
+    // (Coop::DefaultLobbyAddress). With coopLocalNetworkOnly no lobby is asked at all: games are hosted for and
+    // found on the local network only.
+    std::string coopLobbyAddress;
+    bool coopLocalNetworkOnly = false;
+    std::string coopHostAddress;
+    bool coopJoinTab = false;
+    // Which member of the party stands for this player in the other players' games (its body, its face in their
+    // players panel): the member's place in the party, 0 the first. The file says it from 1 (avatar_member).
+    int coopAvatarMember = 0;
+    // The password this player's hosted games ask for (none when empty). Kept as typed: it guards a game among
+    // friends, not an account.
+    std::string coopHostPassword;
+    // A host's game: a guest's test commands are carried out (`coop sync` typed in a guest's console brings that
+    // guest to the host). Off unless a test launcher turns it on (tools/coop_local); never saved.
+    bool coopTestCommands = false;
     int minimapZoom = 1;
 #if defined(__ANDROID__) || defined(OPENYAMM_IOS)
     bool contextActionPopup = true;

@@ -116,6 +116,20 @@
       },
       "additionalProperties": false
     },
+    "ash": {
+      "description": "Outdoor: the map's chance of ash fall, in percent of days (decision D-40: X7 Mount Firestone 40), drawn as the engine's ash (grey, slow, swirling flakes and haze; weather.yml `flakes.ash`). Written into the scene's weather as `ash_chance`; the engine's weather.yml, when it names the map, wins. Left out: no ash.",
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 100,
+      "x-unit": "percent"
+    },
+    "view_distance": {
+      "description": "Outdoor: the map's view distance scaled, far clip and draw distances alike (the scene's rendering.view_distance_scale): 1.6 sees 1.6 times as far, for a landmark across a lake that must read from afar. Every scale above 1 costs frame time: measure the map. Left out: 1.",
+      "type": "number",
+      "minimum": 0.5,
+      "maximum": 3,
+      "x-unit": "ratio"
+    },
     "precipitation": {
       "description": "Outdoor: what the scene itself says falls on the map, whatever the day: none, rain or snow (the scene's weather block; a map of rain that never ends). For rain and snow that come and go by chance use `weather`. Left out: none.",
       "enum": [
@@ -893,6 +907,7 @@
         "daily_fog",
         "mist",
         "ceiling",
+        "view_distance",
         "flags"
       ]
     ],

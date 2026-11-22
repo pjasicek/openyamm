@@ -637,6 +637,12 @@ int EngineApplication::run() const
         {
             // Retain the pending surface refresh until Android has a valid drawable.
             refreshRenderWindow = true;
+
+            if (m_undrawnFrameCallback)
+            {
+                m_undrawnFrameCallback(deltaSeconds);
+            }
+
             SDL_Delay(10);
             continue;
         }
@@ -874,6 +880,11 @@ bool EngineApplication::applyDisplaySettings(WindowMode mode, int width, int hei
 void EngineApplication::setFixedFrameSeconds(float seconds)
 {
     m_fixedFrameSeconds = std::max(0.0f, seconds);
+}
+
+void EngineApplication::setUndrawnFrameCallback(UndrawnFrameCallback callback)
+{
+    m_undrawnFrameCallback = std::move(callback);
 }
 
 void EngineApplication::setMaxAnisotropy(uint8_t level)

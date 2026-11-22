@@ -20,6 +20,10 @@ public:
         AppMode mode);
 
     AppMode mode() const override;
+    bool holdsCoopWorld() const override
+    {
+        return true;
+    }
     bool shouldClose() const;
 
     void onEnter() override;

@@ -2,6 +2,7 @@
 
 #include "core/GlbWriter.h"
 #include "core/HeightMesh.h"
+#include "core/MonsterRelations.h"
 #include "core/Project.h"
 
 #include "core/compile/IndoorGeometryMetadata.h"
@@ -76,6 +77,8 @@ struct LoweredSurface
     // Engine face attribute bits of every face laid with this surface: `liquid` (the fluid bit, and lava's burning
     // bit) and `flow` (the picture flows one way), as the shipped maps' water, slime and lava faces carry them.
     uint32_t faceBits = 0;
+    // `translucent`: every face laid with it goes into the scene's `translucent_faces`.
+    std::optional<GlbFaceTranslucency> translucency;
 };
 
 // The textures the game draws as liquids on faces (engine/liquids/liquids.yml, those of every world and of
@@ -114,6 +117,9 @@ struct LoweredWallPanel
     std::string path;
     // Its `id`, when it has one: what a click event names as its source.
     std::string id;
+    // `cover: true`: the panel hangs 2 in front of a wall built whole behind it (a hide, a tapestry, a board), so a
+    // destructible of it burns away to the wall.
+    bool cover = false;
 };
 
 // A point of a climbing path room's centre line: the two outline corners across it and the heights there.
@@ -298,9 +304,18 @@ struct LoweredDoor
     double autoCloseSeconds = 0.0;
     // A door of two leaves (`leaves: 2`): the second leaf's door number; events move both. 0: one leaf.
     int secondDoorId = 0;
+    // A hinged pair (`kind: hinged, leaves: 2`): the second (right) leaf's hinge line and swing; `pivot` and
+    // `openDegrees` are the first (left) leaf's.
+    std::array<double, 3> secondPivot = {};
+    double secondOpenDegrees = 90.0;
     // `fold: true`: of each leaf only the free edge moves (the corners farthest in the closing direction), and the
     // leaf shrinks against its jamb.
     bool fold = false;
+    // A trapdoor: a hinged leaf lying in a hole of a floor (an opening `in: floor`), turning about a level hinge line
+    // along one side of the hole (`axis`, a unit vector; positive `openDegrees` turn it right-handed about it), down
+    // into the room below or up into the room above, the same way whoever opens it.
+    bool hatch = false;
+    std::array<double, 3> axis = {0.0, 0.0, 1.0};
 };
 
 // A lift: a block of floor that an event raises and lowers. To the engine it is a door whose faces are walked on.
@@ -316,6 +331,14 @@ struct LoweredLift
     double autoReturnSeconds = 0.0;
     // Mover: only the end face in the direction of travel moves, so the block grows and shrinks.
     bool stretch = false;
+    // Mover with `turn`: it turns about a line instead of travelling (the engine's rotating mover): a point of the
+    // line (absolute), its unit axis, the signed angle from start to end (right-handed about the axis) and the
+    // speed in degrees per second.
+    bool turning = false;
+    std::array<double, 3> pivot = {};
+    std::array<double, 3> axis = {};
+    double degrees = 0.0;
+    double turnSpeed = 90.0;
 };
 
 struct LoweredChest
@@ -361,10 +384,15 @@ struct LoweredMonster
     int sector = 0;
     // Keeps its place (the scene's `immobile`): it neither wanders nor walks after anyone.
     bool immobile = false;
+    // Its home radius (`leash`, the scene's leash_radius): it holds its place and fights within this distance of it;
+    // 0 for none.
+    int leash = 0;
     // Its own name (`name`): the record's name, which the game shows on its corpse, and the row of the engine's
     // place_mon.txt that bears it, which the game shows while it lives (0: no such row).
     std::string displayName;
     int uniqueNameIndex = 0;
+    // `npc`: the row of the world's npc table it is (the scene's npc_id): clicked while peaceful, it talks as that NPC.
+    int npc = 0;
 };
 
 // An item of objects.yml `items`: one sprite object of the scene's starting state, lying on the floor.
@@ -400,6 +428,11 @@ struct LoweredEvent
     // to no face.
     std::string trigger = "click";
     int everySeconds = 0;
+    // trigger "monster_damage" (the map's MonsterDamage hook, run before each hit on a monster lands): the monster ids
+    // (monster_data rows) it acts on; empty: every monster.
+    std::vector<int> hookMonsters;
+    // ... and the placed monsters (objects.yml `monsters` ids, by their actor index in the scene) it acts on.
+    std::vector<int> hookActors;
 };
 
 // A ladder of objects.yml `ladders`: the scene's climbable strip (devdocs/INDOOR_ROTATING_MOVERS_AND_LADDERS.md).
@@ -431,6 +464,11 @@ struct LoweredPulsingLight
 };
 
 // A sound of objects.yml `sounds`: the scene's placed ambient sound (devdocs/AMBIENT_SOUNDS.md).
+// The sound names a placed sound may give for a world (the game's audio folders of the world and the engine, in the
+// asset root and the mount; lower case, with and without `.wav`); empty when none is there.
+std::set<std::string> knownWorldSoundNames(
+    const std::filesystem::path &assetRoot, const std::filesystem::path &mountRoot, const std::string &world);
+
 struct LoweredAmbientSound
 {
     int key = 0;
@@ -445,6 +483,8 @@ struct LoweredAmbientSound
     // Heard only by day, or only by night (the world's day hours; S6).
     bool dayOnly = false;
     bool nightOnly = false;
+    // false: heard centred, with its falloff (D-48).
+    bool pan = true;
 };
 
 // objects.yml `destructibles` (S6): the scene's destructible entries. The faces of a cog, or a decoration whose
@@ -475,6 +515,9 @@ struct LoweredWater
     double top = 0.0;
     std::optional<std::array<double, 3>> tint;
     std::optional<std::array<double, 3>> current;
+    // The view's fog while the eye is inside: the scene's `fog` block of a water volume, as given (checked by the
+    // game's parser); undefined for the map's own fog.
+    YAML::Node fog;
 };
 
 // A thing the build places as a marker (a decoration, a light, a spawn point), by its project id: where it stands,
@@ -499,6 +542,16 @@ struct LoweredStart
     int directionDegrees = 0;
 };
 
+// objects.yml `arena` (XD-20): the scene's `arena` block as MM7's 7d05 carries it (its opponents' monster ids, where
+// the party stands, where each opponent appears), and the map's runtime restrictions of an arena.
+struct LoweredArena
+{
+    int minimumMonsterId = 0;
+    int maximumMonsterId = 0;
+    LoweredStart party;
+    std::vector<std::array<double, 3>> marks;
+};
+
 // Everything the build needs from a project, derived and checked: the mesh for the indoor compiler, its metadata, and
 // what goes into the scene file and the Lua.
 struct LoweredIndoorMap
@@ -513,6 +566,10 @@ struct LoweredIndoorMap
     std::vector<LoweredItem> items;
     std::vector<LoweredEvent> events;
     std::optional<LoweredStart> start;
+    // Where a party arrives by each plan entrance of kind arrival or both (D-4), by entrance id: objects.yml
+    // `arrivals`, else the start where its room realises the entrance's space, else the middle of such a room.
+    std::vector<std::pair<std::string, LoweredStart>> arrivals;
+    std::optional<LoweredArena> arena;
     std::vector<GlbNode> nodes;
     Editor::EditorIndoorGeometryMetadata metadata;
     IdsLock ids;
@@ -531,6 +588,8 @@ struct LoweredIndoorMap
     // Decorations, lights and spawn points as placed (their markers' places), for the view.
     std::vector<LoweredPlaced> placed;
     int sceneCeiling = 1024;
+    // An event runs when walked into (wiring `touch: true`): the scene's `party_movement: {touch_faces: run}`.
+    bool touchFaces = false;
     int fogWeakDistance = 4096;
     int fogStrongDistance = 8192;
     // The actor number of the first of `monsters`: 0 for a new map. An overlay project's monsters (objects.yml
@@ -561,6 +620,8 @@ struct LoweringOptions
     // (a reference row's encounter slots): what the hostility check reads (core/MonsterRelations.h); empty: no check.
     std::string relationTableText;
     std::string mapStatsTableText;
+    // The project's world's relations.yml (factions and their relations, consulted before hostile.txt); empty: none.
+    std::string worldRelationsText;
     // The asset root, to check that a placed sound's file is there (worlds/<world>/audio, engine/audio); empty: not
     // checked.
     std::filesystem::path assetRoot;
@@ -606,6 +667,7 @@ struct LoweringTables
     std::vector<std::vector<std::string>> uniqueNameRows;
     std::vector<std::vector<std::string>> relationRows;
     std::vector<std::vector<std::string>> mapStatsRows;
+    WorldMonsterRelations worldRelations;
     // engine/models/indoor_decorations.yml, read once; an empty node when absent or unreadable.
     YAML::Node modelBindings;
     // What a decoration draws with where no model binds it (the lowering's decorationWithoutArt), read once from the
@@ -624,6 +686,14 @@ std::shared_ptr<const LoweringTables> parseLoweringTables(const LoweringOptions 
 // The rows of a tab-separated data table, each cell without the blanks round it; rows that are empty or begin with
 // `//` are left out, as the game's table readers leave them out.
 std::vector<std::vector<std::string>> parseTableRows(const std::string &text);
+
+// What draws an item lying on the ground (indoors objects.yml `items`, outdoors sketch.yml `items`): the row of
+// object_list.txt whose object number (column 2) is the item's sprite index (items.txt column 11), into `item`'s
+// objectDescriptionId and spriteId, with its number. False when no row draws it.
+bool groundItemObjectOf(
+    const std::vector<std::string> &itemRow,
+    const std::vector<std::vector<std::string>> &objectRows,
+    LoweredItem &item);
 
 // The degrees of a facing word (objects.schema.json $defs/facing): a compass side (n, e, ne, north ...) or a number
 // (0 east, 90 north); none for anything else.

@@ -537,7 +537,7 @@ TEST_CASE("AssetFileSystem reads an extra development mount in front of a develo
     writeTextFile(extraRoot / "worlds" / "mm8" / "maps" / "d05.blv", "build-mm8-map");
     const AssetScaleProfile profile = createUniformAssetScaleProfile(AssetScaleTier::X1);
     InstalledContentOptions options;
-    options.extraMountRoot = extraRoot;
+    options.extraMountRoots = {extraRoot};
 
     {
         AssetFileSystem fs;
@@ -568,7 +568,7 @@ TEST_CASE("AssetFileSystem reads an extra development mount in front of a develo
     }
 
     // A folder that does not exist is an error, not silence.
-    options.extraMountRoot = temporaryRoot / "missing";
+    options.extraMountRoots = {temporaryRoot / "missing"};
     AssetFileSystem missing;
     CHECK_FALSE(missing.initialize(temporaryRoot, assetRoot, AssetScaleTier::X1, profile, "mm6", options));
     std::filesystem::remove_all(temporaryRoot);

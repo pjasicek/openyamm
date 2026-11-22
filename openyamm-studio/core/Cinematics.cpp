@@ -516,6 +516,26 @@ private:
         else if (childOf(cue, "fade").IsDefined())
         {
             out["fade"] = textOf(cue, "fade", "in");
+
+            // color: [r, g, b] (0-255), the veil's colour (D-56's fade to white); black without it.
+            if (const YAML::Node color = childOf(cue, "color"); color.IsDefined())
+            {
+                bool valid = color.IsSequence() && color.size() == 3;
+
+                for (size_t channel = 0; valid && channel < 3; ++channel)
+                {
+                    const double value = color[channel].IsScalar() ? color[channel].as<double>(-1.0) : -1.0;
+                    valid = value >= 0.0 && value <= 255.0;
+                }
+
+                if (!valid)
+                {
+                    issue(path + ".color", "a fade's `color` is [r, g, b], each 0-255");
+                    return false;
+                }
+
+                out["color"] = YAML::Clone(color);
+            }
         }
         else if (childOf(cue, "letterbox").IsDefined())
         {

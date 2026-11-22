@@ -2333,7 +2333,7 @@ TEST_CASE("MAW legendaries 15, 18/22, 24, 27 and 30 in MAW's order and on MAW's 
 
     for (const uint32_t aura : {3u, 5u, 14u, 17u, 38u, 46u, 83u, 85u})
     {
-        rules.state().auraHolders = {{aura, 1}};
+        party.rulesetState().auraHolders = {{aura, 1}};
         spells.updateAuras(party, 0.5f);
         reserved = spells.reservedSpellPoints(party, 1);
 
@@ -2355,7 +2355,7 @@ TEST_CASE("MAW legendaries 15, 18/22, 24, 27 and 30 in MAW's order and on MAW's 
     kill.killed = true;
     combat.applyPartyHitEffects(party, kill);
     CHECK_EQ(killer.spellPoints, int((Party::effectiveMaximumSpellPoints(killer) - reserved) * 0.05));
-    rules.state().auraHolders.clear();
+    party.rulesetState().auraHolders.clear();
 
     // L6: legendary 27 sends a leech's overheal to the lowest member, an unconscious one too.
     Character &biter = *party.member(2);
@@ -2451,17 +2451,17 @@ TEST_CASE("MAW shops want quest items only once their quest is done, and unique 
     InventoryItem quest;
     quest.objectDescriptionId = 1342;
     CHECK(items.sellRefusal(party, quest).has_value());
-    party.setQuestBit(1564, true);
+    party.campaign().setQuestBit(1564, true);
     CHECK_FALSE(items.sellRefusal(party, quest).has_value());
 
     // A sold unique item is bought once; the seer's bit is cleared to hand it out again.
     InventoryItem relic;
     relic.objectDescriptionId = 539;
-    party.setQuestBit(1540, true);
-    party.setQuestBit(199, true);
+    party.campaign().setQuestBit(1540, true);
+    party.campaign().setQuestBit(199, true);
     REQUIRE_FALSE(items.sellRefusal(party, relic).has_value());
     items.itemSold(party, relic);
-    CHECK_FALSE(party.hasQuestBit(199));
+    CHECK_FALSE(party.campaign().hasQuestBit(199));
     CHECK_EQ(items.sellRefusal(party, relic).value_or(""), "I have already bought an item like that.");
     InventoryItem sword;
     sword.objectDescriptionId = 1;
@@ -2830,6 +2830,8 @@ TEST_CASE("MAW Swapper bosses swap places and turn hits aside; Pullers jump the 
     Party party;
     party.seed(seed);
     party.setRules(&rules.gameRules());
+    // The struck party is the world's own (another player's, in a co-op host's game, is not moved).
+    world.bindParty(&party);
     world.swaps.clear();
     combat.applyMonsterHitEffects(party, &world, 0, world.actor(swapper).rulesetFacts, 1, 10,
         CombatDamageType::Physical);
@@ -2919,7 +2921,7 @@ TEST_CASE("MAW Shadow bosses blind the Wizard Eye aura too (A3.6)")
     Party party;
     party.seed(seed);
     party.setRules(&rules.gameRules());
-    rules.state().auraHolders[12] = 0;
+    party.rulesetState().auraHolders[12] = 0;
     rules.gameRules().spells.updateAuras(party, 0.5f);
     REQUIRE(party.hasPartyBuff(PartyBuffId::WizardEye));
 
@@ -3456,7 +3458,7 @@ TEST_CASE("Road to Insanity: no refills, revived monsters drop nothing, dungeons
     rules.setCurrentMap("d01.blv");
     monsters.updateMonsters(world, 0.016f);
     CHECK_EQ(party.food(), 16);
-    CHECK_EQ(rules.state().heldFood, 24);
+    CHECK_EQ(party.rulesetState().heldFood, 24);
     monsters.updateMonsters(world, 0.016f);
     CHECK_EQ(party.food(), 16);
 
@@ -3464,7 +3466,7 @@ TEST_CASE("Road to Insanity: no refills, revived monsters drop nothing, dungeons
     rules.setCurrentMap("out01.odm");
     monsters.updateMonsters(world, 0.016f);
     CHECK_EQ(party.food(), 40);
-    CHECK_EQ(rules.state().heldFood, 0);
+    CHECK_EQ(party.rulesetState().heldFood, 0);
 }
 
 TEST_CASE("Beyond Madness: special bosses carry bad-luck protection, none in the Arena (P9.M4)")
@@ -3727,23 +3729,37 @@ TEST_CASE("A solo run's early monster cut divides monsters' hits and multiplies 
     REQUIRE(plainTaken > 20);
     REQUIRE(plainDealt > 0);
 
-    solo.setSoloMonsterCut(2.5);
+    // A hit that names its character reads the cut of that character's level, whichever party is in play (in a game
+    // of several players each character has its own); a hit that names none reads the party in play's.
+    SoloTalentTable table;
+    std::string error;
+    REQUIRE_MESSAGE(table.loadFromYaml("early_monster_cut:\n  - [1, 2.5]\n  - [20, 2.5]\ntalents: []", error), error);
+    bindSoloTalentTable(&table);
     // A monster's hit is cut before armour, so the result is the plain one over the cut, to rounding.
     CHECK(taken(solo, true) == doctest::Approx(plainTaken / 2.5).epsilon(0.05));
     // A fall is no monster's hit.
     CHECK_EQ(taken(solo, false), plainFall);
     // The party's hit counts for 2.5 times as much; a monster striking a monster is left alone.
+    CHECK_EQ(dealt(solo, 0), plainDealt);
+    solo.setSoloMonsterCut(2.5);
     CHECK(dealt(solo, 0) == doctest::Approx(plainDealt * 2.5).epsilon(0.01));
     CHECK_EQ(dealt(solo, 5), plainMonsterBlow);
 
-    // The cut never raises a monster above its own numbers.
-    solo.setSoloMonsterCut(0.5);
-    CHECK_EQ(taken(solo, true), plainTaken);
+    // Another player's party in play has its own cut.
+    solo.setPartyInPlay(1);
     CHECK_EQ(dealt(solo, 0), plainDealt);
+    solo.setPartyInPlay(LocalPlayer);
+    CHECK(dealt(solo, 0) == doctest::Approx(plainDealt * 2.5).epsilon(0.01));
 
     // A game that is not a solo run ignores it: a party of one in plain MAW fights MAW's monsters.
     MawRules party(RulesetOptions{}, MawMapLevels{});
     party.setSoloMonsterCut(2.5);
     CHECK_EQ(taken(party, true), plainTaken);
     CHECK_EQ(dealt(party, 0), plainDealt);
+
+    // The cut never raises a monster above its own numbers.
+    bindSoloTalentTable(nullptr);
+    solo.setSoloMonsterCut(0.5);
+    CHECK_EQ(taken(solo, true), plainTaken);
+    CHECK_EQ(dealt(solo, 0), plainDealt);
 }

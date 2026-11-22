@@ -169,6 +169,22 @@
           "solve": {
             "description": "Also the lock-and-key solve of an indoor map (check.solve's answer, as `solve`): one walk serves it and the order the questions are judged by, where an audit and a solve each walk the map (the scorecard's background check). Left out when the map is outdoor or its event handlers could not be read.",
             "type": "boolean"
+          },
+          "dressing": {
+            "description": "Also the props' dressing rules (devdocs/xeen/formats/DRESSING.md) on a map of any world; a Xeen map always has them.",
+            "type": "boolean"
+          },
+          "lights": {
+            "description": "Also the light fixtures' mounts (devdocs/xeen/formats/LIGHTS.md) on an indoor map of any world; a Xeen map always has them.",
+            "type": "boolean"
+          },
+          "doors": {
+            "description": "Also the door leaves' pictures (devdocs/xeen/formats/DOORS.md: tiled, half wings, unmirrored pairs) on a map of any world; a Xeen map always has them.",
+            "type": "boolean"
+          },
+          "textures": {
+            "description": "Also the pictures' fit (devdocs/xeen/formats/TEXTURE_FIT.md: pictures meant once repeated or cut, bands tiled up a face, seams, unlike borders and walls) on a map of any world; a Xeen map always has it.",
+            "type": "boolean"
           }
         },
         "additionalProperties": false

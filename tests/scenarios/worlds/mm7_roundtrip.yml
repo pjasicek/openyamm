@@ -1,0 +1,17 @@
+# A1's world regression (devdocs/xeen/lanes/A1.md): MM7 starts, changes map, saves and loads back, and Town Portal
+# opens its window. Cast from a scroll, so no member needs the mana.
+#   ./build/game/openyamm --headless-run-scenario tests/scenarios/worlds/mm7_roundtrip.yml
+id: worlds.mm7_roundtrip
+title: "MM7: start, map change, save, load and Town Portal"
+world: mm7
+mode: faithful
+tags: [mm7, worlds]
+steps:
+  - new_game_flow:
+      start_map: 7out01.odm
+  - save_game: worlds_mm7
+  - load_map: {map: 7d29.blv}
+  - assert: {map: 7d29.blv}
+  - load_game: worlds_mm7
+  - assert: {map: 7out01.odm}
+  - cast_spell: {member_index: 0, spell_id: 31, skill: 10, mastery: 4, scroll: true, expect: refused, expect_status: needs_window}

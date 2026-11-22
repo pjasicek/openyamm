@@ -22,6 +22,9 @@ class MainMenuScreen : public MenuDesignScreen
     struct Actions
     {
         Action newGame, loadGame, saveGame, quit, resume, mainMenu;
+        // The Multiplayer screen (CoopMenuScreen): at once from the game menu; from the title menu once the game
+        // that the title menu then continues or starts is running.
+        Action multiplayer;
         std::function<bool(const std::filesystem::path &)> continueGame;
         std::function<bool(const GameSettings &, bool, std::string &)> applySettings;
         // Changes the options of the game in progress (the pause menu's Rules tab).

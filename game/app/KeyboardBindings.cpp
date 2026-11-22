@@ -209,6 +209,10 @@ const std::array<KeyboardBindingDefinition, KeyboardActionCount> KeyboardBinding
         KeyboardBindingColumn::Left, 0, {InputBindingKind::Keyboard, SDL_SCANCODE_9, 0}, true},
     {KeyboardAction::ActionBar10, "action_bar_10", Engine::trNoop("Action Bar 10"), KeyboardBindingPage::Hidden,
         KeyboardBindingColumn::Left, 0, {InputBindingKind::Keyboard, SDL_SCANCODE_0, 0}, true},
+    {KeyboardAction::CoopChat, "coop_chat", Engine::trNoop("Chat"), KeyboardBindingPage::Hidden,
+        KeyboardBindingColumn::Left, 0, {InputBindingKind::Keyboard, SDL_SCANCODE_SLASH, 0}, true},
+    {KeyboardAction::CoopPing, "coop_ping", Engine::trNoop("Point at a place"), KeyboardBindingPage::Hidden,
+        KeyboardBindingColumn::Left, 0, {InputBindingKind::Keyboard, SDL_SCANCODE_BACKSLASH, 0}, true},
 }};
 
 const std::array<KeyboardScancodeName, 98> KeyboardScancodeNames = {{

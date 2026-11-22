@@ -65,7 +65,7 @@
             ]
           },
           "question": {
-            "description": "The event asks the player a question first (a typed answer, as the shipped maps' sarcophagi and riddles do): what the event does (its preset's work, `effects`, `lua`) happens only when the answer is one of `answers`; any other answer shows `wrong_text` if given and does nothing else. `once`, `condition`, `locked_text` and `else_effects` act before the question is asked. Example: {id: evt:sarcophagus, preset: script, source: platform:sarcophagus, condition: {not: {map_var: robbed}}, question: {message: \"Steal from the dead?\", ask: \"Steal (Yes/No)?\", answers: [Yes, Y]}, effects: [{set: {var: {map_var: robbed}, value: 1}}, {give_item: 35}, {subtract: {var: ReputationInCurrentLocation, value: 10}}]}.",
+            "description": "The event asks the player a question first (a typed answer, as the shipped maps' sarcophagi and riddles do): what the event does (its preset's work, `effects`, `lua`) happens only when the answer is one of `answers`; any other answer shows `wrong_text` if given and runs `wrong_effects` if given. `once`, `condition`, `locked_text` and `else_effects` act before the question is asked. Example: {id: evt:sarcophagus, preset: script, source: platform:sarcophagus, condition: {not: {map_var: robbed}}, question: {message: \"Steal from the dead?\", ask: \"Steal (Yes/No)?\", answers: [Yes, Y]}, effects: [{set: {var: {map_var: robbed}, value: 1}}, {give_item: 35}, {subtract: {var: ReputationInCurrentLocation, value: 10}}]}.",
             "type": "object",
             "x-flow": true,
             "required": [
@@ -94,6 +94,13 @@
               "wrong_text": {
                 "description": "A status line for any other answer.",
                 "type": "string"
+              },
+              "wrong_effects": {
+                "description": "Effects run on any other answer, after `wrong_text`, in order: the same steps as the event's `effects` (a trap's {damage: ...}, a quest hook's {lua: ...}).",
+                "type": "array",
+                "items": {
+                  "$ref": "#/$defs/effect"
+                }
               }
             },
             "additionalProperties": false
@@ -105,16 +112,40 @@
               "room"
             ]
           },
+          "touch": {
+            "description": "A clicked event that also runs when the party walks into its source: the faces of a door, a wall panel, a platform, a switch or an exit (Xeen's mirages, decision D-4: \"The mirage dissipates with your touch.\"). Once per contact: leaning on it does not run it again; walking away and back does (add `once: true` for one time only). The build writes the scene's `party_movement: {touch_faces: run}`. Not on a chest, a decoration or an event with another `trigger`. Example: {id: evt:mirage, preset: switch, source: door:mirage, touch: true, once: true, opens: [door:mirage], text: \"The mirage dissipates with your touch.\"}.",
+            "type": "boolean"
+          },
           "trigger": {
-            "description": "What runs the event. click (default): the player uses `source`. step: the party walks onto the floor named by `source` (and `sources`): a room (its own floor), a level or platform with an `id`, a plate, or a lift or a mover of objects.yml (walked onto on its top; a moving part runs one event, so one that a step event names is not also clicked); it runs each time the party comes onto it from a floor that does not run the same event, also when it lands or is teleported there, and once only with `once: true`. timer: every `every` seconds while the party is in the map, no `source`. load: when the map is entered, no `source`. leave: when the party leaves the map (by any exit, a teleport into another map or a travel), no `source`: what the map should hold when the party next comes (a door shut again, a variable reset; the map's state is kept with the save). call: run by something else of the map, no `source`: a destructible's `on_destroyed` or `on_damaged` (objects.yml), a cinematic's `event` cue. Events not run by a click take the presets switch, text, teleport and script. Examples: {id: evt:trap, preset: switch, trigger: step, source: plate:trap, closes: [door:cell]}; {id: evt:lava_on, preset: script, trigger: step, source: room:forge, effects: [{set: {var: {map_var: on_lava}, value: 1}}]}; {id: evt:burn, preset: script, trigger: timer, every: 2, condition: {map_var: on_lava}, effects: [{damage: {amount: 25, kind: fire}}]}; {id: evt:enter, preset: text, trigger: load, text: \"The air is hot.\"}.",
+            "description": "What runs the event. click (default): the player uses `source`. step: the party walks onto the floor named by `source` (and `sources`): a room (its own floor), a level or platform with an `id`, a plate, or a lift or a mover of objects.yml (walked onto on its top; a moving part runs one event, so one that a step event names is not also clicked); it runs each time the party comes onto it from a floor that does not run the same event, also when it lands or is teleported there, and once only with `once: true`. timer: every `every` seconds while the party is in the map, no `source`. load: when the map is entered, no `source`. leave: when the party leaves the map (by any exit, a teleport into another map or a travel), no `source`: what the map should hold when the party next comes (a door shut again, a variable reset; the map's state is kept with the save). call: run by something else of the map, no `source`: a destructible's `on_destroyed` or `on_damaged` (objects.yml), a cinematic's `event` cue. monster_damage: the map's damage hook, run before each hit on a monster lands, no `source`: `monsters` names the monster ids it acts on, `set_damage` changes the hit, and its `lua` reads the hit as `hook` (hook.monsterId, hook.damage, hook.attack: melee, missile, spell or other, hook.weaponItemId, hook.byParty). Events not run by a click take the presets switch, text, teleport and script. Examples: {id: evt:trap, preset: switch, trigger: step, source: plate:trap, closes: [door:cell]}; {id: evt:lava_on, preset: script, trigger: step, source: room:forge, effects: [{set: {var: {map_var: on_lava}, value: 1}}]}; {id: evt:burn, preset: script, trigger: timer, every: 2, condition: {map_var: on_lava}, effects: [{damage: {amount: 25, kind: fire}}]}; {id: evt:enter, preset: text, trigger: load, text: \"The air is hot.\"}.",
             "enum": [
               "click",
               "step",
               "timer",
               "load",
               "leave",
-              "call"
+              "call",
+              "monster_damage"
             ]
+          },
+          "actors": {
+            "description": "trigger: monster_damage: the placed monsters (objects.yml `monsters` ids) the hook acts on; with `monsters` too, a hit must match both. Example: {id: evt:xeen_sword, preset: script, trigger: monster_damage, actors: [monster:lord_xeen], effects: [{lua: \"if not (hook.attack == 'melee' and hook.weaponItemId == 12500) then evt.SetHookDamage(0) end\"}]}.",
+            "type": "array",
+            "items": {
+              "$ref": "common.schema.json#/$defs/id",
+              "x-id-kinds": [
+                "monster"
+              ]
+            }
+          },
+          "monsters": {
+            "description": "trigger: monster_damage: the monster ids (monster_data rows) the hook acts on; without it every monster. Example: {id: evt:corak_unhurt, preset: script, trigger: monster_damage, monsters: [11690], effects: [{set_damage: 0}]}.",
+            "type": "array",
+            "items": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 65535
+            }
           },
           "every": {
             "description": "trigger: timer: the seconds between two runs, a whole number (the map's clock counts half minutes of game time, one second of play each). The first run comes one interval after the map is entered. Example: every: 2.",
@@ -124,7 +155,7 @@
             "x-unit": "seconds"
           },
           "sources": {
-            "description": "trigger: step: further floors that run the same event (rooms, levels and platforms with an `id`, plates). Example: sources: [room:bank_west, level:island].",
+            "description": "trigger: step: further floors that run the same event (rooms, levels and platforms with an `id`, plates). A room's own low platforms (on its floor, at most 50 high) run its event without being named; a higher or hanging platform and a level are named here. Example: sources: [room:bank_west, level:island].",
             "type": "array",
             "items": {
               "$ref": "common.schema.json#/$defs/id",
@@ -262,7 +293,7 @@
             "$ref": "common.schema.json#/$defs/condition"
           },
           "effects": {
-            "description": "What the event does besides its preset's own work, in order; each step is one key: {gold: 100} or {gold: -5} (give or take gold), {add: {var: BaseLuck, value: 2}}, {subtract: {...}}, {set: {var: HP, value: 0}} (`var` is the name of a selector of the game's scripts, such as Gold, HP, SP, BaseLuck, MightBonus, or {map_var: n}; `oymap script-reference` lists them), {autonote: 391}, {qbit: n}, {clear_qbit: n}, {award: n} (every member of the party takes the award, as the shipped scripts give one; {award: {id: n, who: current}} for the member who used the thing alone; {clear_award: n} takes it back; the scripts' tables Awards, QBits, Inventory and AutonotesBits are no `var` of add, subtract or set), {message: \"...\"} (a message window with the text, which the player closes: a terminal's screen, a plaque; `text` is one line in the status bar), {give_item: id}, {give_item: {one_of: [id, id, id]}} (one of the list at random, each as likely as the others), {give_item: {level: 6, kind: 25}} (a random item of a treasure level 1 to 6 and of an item kind, the items table's kind number; without `kind` any kind: Warlord's Fortress's flambeau, evt.GiveItem(6, 25)), {take_item: id}, {open_chest: chest:spent} (shows a chest's contents as the chest preset shows its source's: with `else_effects`, one chest of two chosen by the condition; the chest named may be one without a box of its own, objects.yml `box_of`), {text: \"...\"}, {lua: \"...\"} (Lua lines; `MapVar(name)` with a name declared in `variables` is turned into the variable's number, so Lua text need not copy numbers from ids.lock.yml); {damage: {amount: 25, kind: fire, who: all}} hurts the party (kind: air, body, cold, dark, earth, electric, energy, fire, light, magic, mind, physical (default), poison, spirit, water; who: all (default) or current; {damage: 25} is physical damage to all); {cast: {spell: 2, from: [x, y, z], to: [x, y, z], mastery: expert, level: 1}} casts a spell from a point toward another (spell: its number, 2 is Fire Bolt; mastery normal (default), expert, master, grandmaster; level default 1); {summon: {slot: 1, at: [x, y, z], count: 3, tier: a}} puts monsters of the map card's encounter slot 1 to 3 at a point (tier a (default), b, c; count default 1; group default 0); {teleport: {to: [x, y, z], direction: 90}} moves the party within the map; {leave: <a neighbour of project.yml>} takes the party to that map, as an exit does, from any event (a cart at the end of its line; the neighbour's `arrival`, `direction` and `screen`); {shake: {strength: 1, seconds: 2}} shakes the view (1 a strong quake, at most 4; seconds at most 30), with `at: [x, y, z]` and `radius: [<felt fully within>, <not felt past>]` felt only near a place; {player_bit: 59} and {clear_player_bit: 59} set and clear a bit of the member who used the thing (with the condition {not: {player_bit: 59}}, once per character); {lights_on: [light:tube_1, light:tube_2]} and {lights_off: light:tube_3} switch lights of objects.yml on and off (one id or a list; each named light gets a number in ids.lock.yml `lights`, and a light may start dark with `on: false` in objects.yml); {show_actors: 56} and {hide_actors: 56} make the placed monsters of that `group` (objects.yml `monsters`), and the monsters spawned by spawn points of that `group`, visible or invisible: neither drawn nor acting while invisible; `hidden: true` starts them so. Faces: {set_texture: {of: door:gate, to: cfb1}} gives the faces of a door or a plate, or of a platform, raised level, wall panel or floor or ceiling region (`floor_surfaces`, `ceiling_surfaces` entry) of rooms.yml with an `id`, a new texture (with `face: top`, a platform's or level's top alone: Castle Darkmoor's podium, {set_texture: {of: platform:podium, to: deskside, face: top}}); {passable: id} and {solid: id} let the party through or not; {hide: id} and {show: id} stop and start drawing them; {secret: id} and {clear_secret: id} set and clear the engine's secret flag on them (the faces then pulse for a party whose Perception finds secrets, or stop: the Abandoned Temple's event 451 marks the walkway after the third fall), {secret: {of: platform:walk, face: top}} on a platform's or level's top alone (each by a cog number ids.lock.yml `cogs` keeps; a top alone as `<id>.top`). {set_sprite: {of: deco:crystal, to: crysdisc}} changes a decoration's picture (by its number in the built map, which ids.lock.yml `decorations` keeps).",
+            "description": "What the event does besides its preset's own work, in order; each step is one key: {gold: 100} or {gold: -5} (give or take gold), {add: {var: BaseLuck, value: 2}}, {subtract: {...}}, {set: {var: HP, value: 0}} (`var` is the name of a selector of the game's scripts, such as Gold, HP, SP, BaseLuck, MightBonus, or {map_var: n}; `oymap script-reference` lists them), {autonote: 391}, {qbit: n}, {clear_qbit: n}, {award: n} (every member of the party takes the award, as the shipped scripts give one; {award: {id: n, who: current}} for the member who used the thing alone; {clear_award: n} takes it back; the scripts' tables Awards, QBits, Inventory and AutonotesBits are no `var` of add, subtract or set), {message: \"...\"} (a message window with the text, which the player closes: a terminal's screen, a plaque; `text` is one line in the status bar), {give_item: id}, {give_item: {one_of: [id, id, id]}} (one of the list at random, each as likely as the others), {give_item: {level: 6, kind: 25}} (a random item of a treasure level 1 to 6 and of an item kind, the items table's kind number; without `kind` any kind: Warlord's Fortress's flambeau, evt.GiveItem(6, 25)), {take_item: id}, {open_chest: chest:spent} (shows a chest's contents as the chest preset shows its source's: with `else_effects`, one chest of two chosen by the condition; the chest named may be one without a box of its own, objects.yml `box_of`), {text: \"...\"}, {lua: \"...\"} (Lua lines; `MapVar(name)` with a name declared in `variables` is turned into the variable's number, so Lua text need not copy numbers from ids.lock.yml); {damage: {amount: 25, kind: fire, who: all}} hurts the party (kind: air, body, cold, dark, earth, electric, energy, fire, light, magic, mind, physical (default), poison, spirit, water; who: all (default) or current; {damage: 25} is physical damage to all); {cast: {spell: 2, from: [x, y, z], to: [x, y, z], mastery: expert, level: 1}} casts a spell from a point toward another (spell: its number, 2 is Fire Bolt; mastery normal (default), expert, master, grandmaster; level default 1); {summon: {slot: 1, at: [x, y, z], count: 3, tier: a}} puts monsters of the map card's encounter slot 1 to 3 at a point (tier a (default), b, c; count default 1; group default 0); {teleport: {to: [x, y, z], direction: 90}} moves the party within the map; {leave: <a neighbour of project.yml>} takes the party to that map, as an exit does, from any event (a cart at the end of its line; the neighbour's `arrival`, `direction` and `screen`); {shake: {strength: 1, seconds: 2}} shakes the view (1 a strong quake, at most 4; seconds at most 30), with `at: [x, y, z]` and `radius: [<felt fully within>, <not felt past>]` felt only near a place; {player_bit: 59} and {clear_player_bit: 59} set and clear a bit of the member who used the thing (with the condition {not: {player_bit: 59}}, once per character); {lights_on: [light:tube_1, light:tube_2]} and {lights_off: light:tube_3} switch lights of objects.yml on and off (one id or a list; each named light gets a number in ids.lock.yml `lights`, and a light may start dark with `on: false` in objects.yml); {show_actors: 56} and {hide_actors: 56} make the placed monsters of that `group` (objects.yml `monsters`), and the monsters spawned by spawn points of that `group`, visible or invisible: neither drawn nor acting while invisible; `hidden: true` starts them so. Faces: {set_texture: {of: door:gate, to: cfb1}} gives the faces of a door or a plate, or of a platform, raised level, wall panel or floor or ceiling region (`floor_surfaces`, `ceiling_surfaces` entry) of rooms.yml with an `id`, a new texture (with `face: top`, a platform's or level's top alone: Castle Darkmoor's podium, {set_texture: {of: platform:podium, to: deskside, face: top}}); {passable: id} and {solid: id} let the party through or not; {hide: id} and {show: id} stop and start drawing them (a chest of objects.yml too, whole: {show: chest:gift} brings it drawn, touched and clicked, as `hidden: true` starts it away); {secret: id} and {clear_secret: id} set and clear the engine's secret flag on them (the faces then pulse for a party whose Perception finds secrets, or stop: the Abandoned Temple's event 451 marks the walkway after the third fall), {secret: {of: platform:walk, face: top}} on a platform's or level's top alone (each by a cog number ids.lock.yml `cogs` keeps; a top alone as `<id>.top`). {set_sprite: {of: deco:crystal, to: crysdisc}} changes a decoration's picture (by its number in the built map, which ids.lock.yml `decorations` keeps).",
             "type": "array",
             "items": {
               "$ref": "#/$defs/effect"
@@ -309,10 +340,13 @@
             "Runs on",
             [
               "trigger",
+              "touch",
               "source",
               "sources",
               "side",
               "every",
+              "monsters",
+              "actors",
               "replaces"
             ]
           ],
@@ -631,11 +665,22 @@
                   "minLength": 1
                 },
                 "fade": {
-                  "description": "in: from black; out: to black.",
+                  "description": "in: from black (or `color`); out: to black (or `color`).",
                   "enum": [
                     "in",
                     "out"
                   ]
+                },
+                "color": {
+                  "description": "A fade's colour, [r, g, b] each 0-255 (D-56's fade to white: [255, 255, 255]); black without it. A fade in from a colour names it again.",
+                  "type": "array",
+                  "items": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 255
+                  },
+                  "minItems": 3,
+                  "maxItems": 3
                 },
                 "letterbox": {
                   "description": "Bars in (true) or out (false); without a letterbox cue the cinematic's own bars apply.",
@@ -1401,6 +1446,22 @@
         {
           "type": "object",
           "required": [
+            "exit"
+          ],
+          "properties": {
+            "exit": {
+              "description": "The project.yml neighbour the party leaves to through the game's leave window, as the `exit` preset does (an ODM asks \"leave?\" first), from any source: a platform's or a wall panel's click (X9's gate). `leave` goes at once.",
+              "$ref": "common.schema.json#/$defs/id",
+              "x-id-kinds": [
+                "neighbour"
+              ]
+            }
+          },
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "required": [
             "shake"
           ],
           "properties": {
@@ -1580,6 +1641,20 @@
         {
           "type": "object",
           "required": [
+            "set_damage"
+          ],
+          "properties": {
+            "set_damage": {
+              "description": "In a damage hook (trigger: monster_damage): the hit's damage instead, a whole number from 0 ({set_damage: 0}: the monster takes nothing).",
+              "type": "integer",
+              "minimum": 0
+            }
+          },
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "required": [
             "set_sprite"
           ],
           "properties": {
@@ -1650,7 +1725,7 @@
           ],
           "properties": {
             "show": {
-              "description": "Faces drawn again.",
+              "description": "Faces drawn again; a decoration of objects.yml brought (one with `hidden: true` starts away).",
               "$ref": "common.schema.json#/$defs/id",
               "x-id-kinds": [
                 "door",
@@ -1658,7 +1733,8 @@
                 "platform",
                 "level",
                 "panel",
-                "region"
+                "region",
+                "decoration"
               ]
             }
           },
@@ -1679,7 +1755,8 @@
                 "platform",
                 "level",
                 "panel",
-                "region"
+                "region",
+                "decoration"
               ]
             }
           },
@@ -2089,6 +2166,12 @@
           "label": "change a decoration",
           "when": {
             "present": "set_sprite"
+          }
+        },
+        {
+          "label": "change a hit's damage",
+          "when": {
+            "present": "set_damage"
           }
         },
         {

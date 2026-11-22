@@ -14,6 +14,7 @@
 #include <cstdint>
 #include <optional>
 #include <string>
+#include <utility>
 #include <vector>
 
 namespace OpenYAMM::Game
@@ -47,6 +48,9 @@ struct OutdoorSceneEnvironment
         OutdoorFogDistances denseFog = {0, 2048};
         OutdoorAuthoredFogState authoredDayFog = {};
         OutdoorAuthoredFogState authoredNightFog = {};
+        // The map's own daily chance of ash fall, percent (weather.ash_chance; a studio map's atmosphere.yml `ash`,
+        // decision D-40); 0: none, unless the engine's weather.yml gives the map one.
+        float ashChance = 0.0f;
     };
 
     std::string skyTexture;
@@ -174,11 +178,16 @@ struct OutdoorSceneData
     OutdoorSceneMovement movement = {};
     // Scene `mist` (devdocs/MIST.md).
     MapMist mist;
+    // Scene `ambient_sounds` (devdocs/AMBIENT_SOUNDS.md).
+    std::vector<WorldAmbientSound> ambientSounds;
     std::vector<OutdoorSceneTerrainAttributeOverride> terrainAttributeOverrides;
     std::vector<OutdoorSceneTerrainFootstepSoundOverride> terrainFootstepSoundOverrides;
     std::vector<OutdoorSceneSurfaceAnimation> surfaceAnimations;
     std::vector<OutdoorSceneInteractiveFace> interactiveFaces;
     std::vector<OutdoorScenePerceptionFace> perceptionFaces;
+    // `bmodel_faces.translucent_faces`: (bmodel, face) drawn blended by their texture's alpha
+    // (OutdoorBModelFace::translucent; devdocs/INDOOR_TRANSLUCENT_FACES.md, Outdoor). An overlay's entries add.
+    std::vector<std::pair<size_t, size_t>> translucentFaces;
     std::vector<OutdoorBModelMechanism> mechanisms;
     std::vector<OutdoorDestructible> destructibles;
     std::vector<OutdoorDestructibleReceiver> destructibleReceivers;

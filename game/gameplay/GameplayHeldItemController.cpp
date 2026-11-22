@@ -15,6 +15,7 @@
 #include <optional>
 #include <string>
 #include <utility>
+#include <vector>
 
 namespace OpenYAMM::Game
 {
@@ -51,6 +52,31 @@ void notifyEventGrantedItemReceived(
 
     runtime.setStatusBarEvent(Engine::tr("You found something ({item})!",
         {{"item", eventGrantedItemStatusName(item, itemTable)}}));
+}
+// Drops item before the party as a player's drop does (the originals throw a displaced cursor item so too); false when
+// the item may not lie on the ground or the world cannot take it.
+bool throwItemToWorld(GameplayScreenRuntime &runtime, const InventoryItem &item)
+{
+    IGameplayWorldRuntime *pWorldRuntime = runtime.worldRuntime();
+    const ItemTable *pItemTable = runtime.itemTable();
+    const ItemDefinition *pItemDefinition = pItemTable != nullptr ? pItemTable->get(item.objectDescriptionId) : nullptr;
+    const bool droppable =
+        pItemDefinition == nullptr || gameRulesFor(runtime.partyReadOnly()).items.canDropToWorld(item, *pItemDefinition);
+
+    if (pWorldRuntime == nullptr || !droppable)
+    {
+        return false;
+    }
+
+    std::optional<GameplayHeldItemDropRequest> dropRequest = pWorldRuntime->buildHeldItemDropRequest();
+
+    if (!dropRequest)
+    {
+        return false;
+    }
+
+    dropRequest->item = item;
+    return pWorldRuntime->dropHeldItemToWorld(*dropRequest);
 }
 } // namespace
 
@@ -107,33 +133,15 @@ bool GameplayHeldItemController::tryDisplaceHeldInventoryItem(
         return true;
     }
 
-    IGameplayWorldRuntime *pWorldRuntime = runtime.worldRuntime();
-    const ItemTable *pItemTable = runtime.itemTable();
-    const ItemDefinition *pItemDefinition =
-        pItemTable != nullptr ? pItemTable->get(heldInventoryItem.item.objectDescriptionId) : nullptr;
-
-    const bool droppable = pItemDefinition == nullptr
-        || gameRulesFor(runtime.partyReadOnly()).items.canDropToWorld(heldInventoryItem.item, *pItemDefinition);
-
-    if (pWorldRuntime == nullptr || !droppable)
+    if (!throwItemToWorld(runtime, heldInventoryItem.item))
     {
         return false;
     }
 
-    std::optional<GameplayHeldItemDropRequest> dropRequest = pWorldRuntime->buildHeldItemDropRequest();
-
-    if (!dropRequest)
-    {
-        return false;
-    }
-
-    dropRequest->item = heldInventoryItem.item;
-
-    if (!pWorldRuntime->dropHeldItemToWorld(*dropRequest))
-    {
-        return false;
-    }
-
+    GAMEPLAY_DEBUG_TRACE(
+        "item_received destination=world source=held_displace item_id="
+        + std::to_string(heldInventoryItem.item.objectDescriptionId)
+        + gameplayDebugTraceItemSummary(heldInventoryItem.item.objectDescriptionId, runtime.itemTable()));
     clearHeldInventoryItem(heldInventoryItem);
     if (pParty != nullptr)
     {
@@ -147,15 +155,16 @@ void GameplayHeldItemController::applyGrantedEventItemsToHeldInventory(
     EventRuntimeState &eventRuntimeState,
     const ItemTable &itemTable)
 {
-    if (eventRuntimeState.grantedItems.empty()
-        && eventRuntimeState.grantedItemIds.empty()
-        && !eventRuntimeState.clearHeldItemRequest
-        && eventRuntimeState.takenHeldItemId == 0)
+    if (runtime.party() == nullptr)
     {
         return;
     }
 
-    if (runtime.party() == nullptr)
+    if (eventRuntimeState.grantedItems.empty()
+        && eventRuntimeState.grantedItemIds.empty()
+        && !eventRuntimeState.clearHeldItemRequest
+        && eventRuntimeState.takenHeldItemId == 0
+        && runtime.party()->waitingGivenItems().empty())
     {
         return;
     }
@@ -181,16 +190,19 @@ void GameplayHeldItemController::applyGrantedEventItemsToHeldInventory(
         eventRuntimeState.clearHeldItemRequest = false;
     }
 
+    // A given item comes to the cursor, and the item held there goes to the packs or, when they are full, falls before
+    // the party (as in MM6-MM8). When the held item can go nowhere (it may not be dropped), the given item goes to the
+    // packs or to the ground itself; when it cannot either, it waits with the party (Party::waitingGivenItems, saved
+    // with it) for a later frame (a pack slot freed, the held item put away). Nothing an event gives or the party
+    // holds is lost.
     const auto receiveGrantedItem =
         [&runtime, &itemTable, &heldInventoryItem](InventoryItem grantedItem)
         {
-            forceEventGrantedItemIdentificationState(grantedItem, itemTable);
-
-#if defined(__ANDROID__) || defined(OPENYAMM_IOS)
             Party *pParty = runtime.party();
+#if defined(__ANDROID__) || defined(OPENYAMM_IOS)
             size_t recipientMemberIndex = 0;
 
-            if (pParty != nullptr && pParty->tryGrantInventoryItem(grantedItem, &recipientMemberIndex))
+            if (pParty->tryGrantInventoryItem(grantedItem, &recipientMemberIndex))
             {
                 notifyEventGrantedItemReceived(runtime, grantedItem, itemTable);
                 GAMEPLAY_DEBUG_TRACE(
@@ -198,32 +210,65 @@ void GameplayHeldItemController::applyGrantedEventItemsToHeldInventory(
                     + std::to_string(grantedItem.objectDescriptionId)
                     + gameplayDebugTraceItemSummary(grantedItem.objectDescriptionId, &itemTable)
                     + " member_index=" + std::to_string(recipientMemberIndex));
-                return;
+                return true;
             }
 #endif
 
-            if (!GameplayHeldItemController::tryDisplaceHeldInventoryItem(runtime))
+            if (GameplayHeldItemController::tryDisplaceHeldInventoryItem(runtime))
             {
-                return;
+                GameplayHeldItemController::setHeldInventoryItem(heldInventoryItem, grantedItem);
+                pParty->setHeldItemForQueries(grantedItem);
+                notifyEventGrantedItemReceived(runtime, grantedItem, itemTable);
+                GAMEPLAY_DEBUG_TRACE(
+                    "item_received destination=held source=event item_id="
+                    + std::to_string(grantedItem.objectDescriptionId)
+                    + gameplayDebugTraceItemSummary(grantedItem.objectDescriptionId, &itemTable));
+                return true;
             }
 
-            GameplayHeldItemController::setHeldInventoryItem(heldInventoryItem, grantedItem);
-            runtime.party()->setHeldItemForQueries(grantedItem);
+            std::string destination;
+
+            if (pParty->tryGrantInventoryItem(grantedItem))
+            {
+                destination = "inventory";
+            }
+            else if (throwItemToWorld(runtime, grantedItem))
+            {
+                destination = "world";
+            }
+            else
+            {
+                return false;
+            }
+
             notifyEventGrantedItemReceived(runtime, grantedItem, itemTable);
             GAMEPLAY_DEBUG_TRACE(
-                "item_received destination=held source=event item_id="
+                "item_received destination=" + destination + " source=event_held_kept item_id="
                 + std::to_string(grantedItem.objectDescriptionId)
                 + gameplayDebugTraceItemSummary(grantedItem.objectDescriptionId, &itemTable));
+            return true;
         };
 
-    for (const InventoryItem &item : eventRuntimeState.grantedItems)
+    // The items that waited first, then the new ones.
+    std::vector<InventoryItem> givenItems = std::move(runtime.party()->waitingGivenItems());
+    runtime.party()->waitingGivenItems().clear();
+    givenItems.insert(givenItems.end(), eventRuntimeState.grantedItems.begin(), eventRuntimeState.grantedItems.end());
+    eventRuntimeState.grantedItems.clear();
+    std::vector<InventoryItem> waitingItems;
+
+    for (InventoryItem item : givenItems)
     {
         if (item.objectDescriptionId == 0)
         {
             continue;
         }
 
-        receiveGrantedItem(item);
+        forceEventGrantedItemIdentificationState(item, itemTable);
+
+        if (!receiveGrantedItem(item))
+        {
+            waitingItems.push_back(std::move(item));
+        }
     }
 
     for (uint32_t itemId : eventRuntimeState.grantedItemIds)
@@ -236,10 +281,15 @@ void GameplayHeldItemController::applyGrantedEventItemsToHeldInventory(
         InventoryItem item = ItemGenerator::makeInventoryItem(itemId, itemTable, ItemGenerationMode::Generic);
         // A fixed item that an event gives comes identified, as in the originals (OY-182).
         item.identified = true;
-        receiveGrantedItem(std::move(item));
+        forceEventGrantedItemIdentificationState(item, itemTable);
+
+        if (!receiveGrantedItem(item))
+        {
+            waitingItems.push_back(std::move(item));
+        }
     }
 
-    eventRuntimeState.grantedItems.clear();
+    runtime.party()->waitingGivenItems() = std::move(waitingItems);
     eventRuntimeState.grantedItemIds.clear();
 }
 

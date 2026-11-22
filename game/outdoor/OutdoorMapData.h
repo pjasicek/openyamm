@@ -1,5 +1,6 @@
 #pragma once
 
+#include "game/audio/WorldAmbientSounds.h"
 #include "game/maps/MapPresentation.h"
 #include "game/render/Mist.h"
 
@@ -54,6 +55,9 @@ struct OutdoorBModelFace
     uint8_t shade = 0;
     uint8_t visibility = 0;
     int perceptionDifficulty = -1;
+    // The scene's `bmodel_faces.translucent_faces`: drawn blended by the texture's alpha, sorted back to front, after
+    // the opaque world (OutdoorRenderer); still solid.
+    bool translucent = false;
     std::string textureName;
 };
 
@@ -261,6 +265,8 @@ struct OutdoorMapData
     float viewDistanceScale = 1.0f;
     // The scene's mist (none for every map without it).
     MapMist mist;
+    // The scene's `ambient_sounds` (devdocs/AMBIENT_SOUNDS.md; none for every shipped map).
+    std::vector<WorldAmbientSound> ambientSounds;
     // The scene's movement.flight_ceiling; the default ceiling when absent.
     std::optional<float> flightCeiling;
     bool noTerrain = false;

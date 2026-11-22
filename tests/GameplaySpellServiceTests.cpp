@@ -1006,8 +1006,8 @@ TEST_CASE("upkeep: a press casts the first due spell of a ready member's list")
         settings.upkeepAutoBrew = true;
         pCaster->skills["Alchemy"] = {"Alchemy", 4, Game::SkillMastery::Expert};
         // Haste's recipe and the Cure Disease it is mixed from.
-        party.setAutonote(32, true);
-        party.setAutonote(35, true);
+        party.campaign().setAutonote(32, true);
+        party.campaign().setAutonote(35, true);
 
         for (int bottle = 0; bottle < 3; ++bottle)
         {

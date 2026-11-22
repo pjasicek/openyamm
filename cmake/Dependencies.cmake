@@ -105,6 +105,64 @@ function(openyamm_configure_monocypher)
     )
 endfunction()
 
+# ENet 1.3.18 (MIT): the UDP transport of co-op sessions (engine/net/EnetTransport.cpp), chosen by the spike in
+# tools/net_spike. Built from its sources with the checks its own build file makes.
+function(openyamm_configure_enet)
+    if (TARGET openyamm_enet)
+        return()
+    endif()
+
+    FetchContent_Declare(
+        enet
+        URL https://codeload.github.com/lsalzman/enet/tar.gz/refs/tags/v1.3.18
+        URL_HASH SHA256=28603c895f9ed24a846478180ee72c7376b39b4bb1287b73877e5eae7d96b0dd
+    )
+    openyamm_populate_dependency(enet enetSourceDir)
+    add_library(openyamm_enet STATIC
+        ${enetSourceDir}/callbacks.c
+        ${enetSourceDir}/compress.c
+        ${enetSourceDir}/host.c
+        ${enetSourceDir}/list.c
+        ${enetSourceDir}/packet.c
+        ${enetSourceDir}/peer.c
+        ${enetSourceDir}/protocol.c
+        ${enetSourceDir}/unix.c
+        ${enetSourceDir}/win32.c
+    )
+    target_include_directories(openyamm_enet PUBLIC ${enetSourceDir}/include)
+
+    if (WIN32)
+        target_link_libraries(openyamm_enet PUBLIC ws2_32 winmm)
+    else()
+        include(CheckFunctionExists)
+        include(CheckStructHasMember)
+        include(CheckTypeSize)
+
+        foreach(enetFunction fcntl poll getaddrinfo getnameinfo gethostbyname_r gethostbyaddr_r inet_pton inet_ntop)
+            string(TOUPPER "HAS_${enetFunction}" enetDefine)
+            check_function_exists(${enetFunction} OPENYAMM_ENET_${enetDefine})
+
+            if (OPENYAMM_ENET_${enetDefine})
+                target_compile_definitions(openyamm_enet PRIVATE ${enetDefine}=1)
+            endif()
+        endforeach()
+
+        check_struct_has_member("struct msghdr" "msg_flags" "sys/types.h;sys/socket.h" OPENYAMM_ENET_HAS_MSGHDR_FLAGS)
+
+        if (OPENYAMM_ENET_HAS_MSGHDR_FLAGS)
+            target_compile_definitions(openyamm_enet PRIVATE HAS_MSGHDR_FLAGS=1)
+        endif()
+
+        set(CMAKE_EXTRA_INCLUDE_FILES "sys/types.h" "sys/socket.h")
+        check_type_size("socklen_t" OPENYAMM_ENET_HAS_SOCKLEN_T BUILTIN_TYPES_ONLY)
+        unset(CMAKE_EXTRA_INCLUDE_FILES)
+
+        if (OPENYAMM_ENET_HAS_SOCKLEN_T)
+            target_compile_definitions(openyamm_enet PRIVATE HAS_SOCKLEN_T=1)
+        endif()
+    endif()
+endfunction()
+
 function(openyamm_configure_lua)
     FetchContent_Declare(
         lua

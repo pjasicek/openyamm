@@ -388,8 +388,9 @@ TEST_CASE("a ruleset plays in the worlds it lists, or in every world")
     CHECK(limited->supportsWorld("mm8"));
     CHECK_FALSE(limited->supportsWorld("mm9"));
     CHECK(OpenYAMM::Game::standardRulesetDefinition().supportsWorld("mm9"));
-    // MAW's four continents: Jadame, Antagarich, Enroth and Chedian (devdocs/maw/MM9_SUPPORT.md).
-    for (const char *pWorld : {"mm6", "mm7", "mm8", "mm9"})
+    // MAW's four continents, Jadame, Antagarich, Enroth and Chedian (devdocs/maw/MM9_SUPPORT.md), and the World of
+    // Xeen (devdocs/maw/XEEN_SUPPORT.md).
+    for (const char *pWorld : {"mm6", "mm7", "mm8", "mm9", "xeen"})
     {
         CHECK(parseMaw().supportsWorld(pWorld));
     }
@@ -603,11 +604,28 @@ size_t partyPouchesOffset(const OpenYAMM::Game::GameSaveData &save)
     return static_cast<size_t>(markerIt - probeBytes.begin());
 }
 
-// Saves before version 192 end the party without its pouches: cuts their empty counts. Called on the save as
-// written, before anything else is cut.
+// Saves before version 198 do not record the number of players a map's monsters are sized for: cuts the count (1)
+// that ends each world's state, after minimalSave's outdoor layout identity and after its indoor Armageddon (its time
+// left, skill level, mastery, caster, shake steps and sequence, and shake yaw and pitch). Found by the markers, so
+// before either of them is cut.
+void eraseMonsterHealthPlayers(std::vector<uint8_t> &bytes)
+{
+    const size_t outdoorOffset = findValue(bytes, OutdoorLayoutMarker) + sizeof(uint64_t);
+    REQUIRE(outdoorOffset < bytes.size());
+    REQUIRE_EQ(bytes[outdoorOffset], 1);
+    eraseBytes(bytes, outdoorOffset, sizeof(uint8_t));
+    const size_t indoorOffset = findValue(bytes, IndoorArmageddonMarker) + 3 * sizeof(float) + 4 * sizeof(uint32_t)
+        + sizeof(std::underlying_type_t<OpenYAMM::Game::SkillMastery>);
+    REQUIRE(indoorOffset < bytes.size());
+    REQUIRE_EQ(bytes[indoorOffset], 1);
+    eraseBytes(bytes, indoorOffset, sizeof(uint8_t));
+}
+
+// Saves before version 192 end the party without its pouches: cuts their empty counts, and the empty count of the
+// waiting given items (version 199) that follows them. Called on the save as written, before anything else is cut.
 void erasePartyPouches(std::vector<uint8_t> &bytes, const OpenYAMM::Game::GameSaveData &save)
 {
-    eraseEmptyCounts(bytes, partyPouchesOffset(save), OpenYAMM::Game::ItemPouchCount);
+    eraseEmptyCounts(bytes, partyPouchesOffset(save), OpenYAMM::Game::ItemPouchCount + 1);
 }
 
 // Saves before version 181 have no solo run: cuts the ruleset's last byte (the solo flag, before the name, the preview
@@ -618,6 +636,7 @@ void erasePartyPouches(std::vector<uint8_t> &bytes, const OpenYAMM::Game::GameSa
 void eraseSoloRun(std::vector<uint8_t> &bytes, const OpenYAMM::Game::GameSaveData &save)
 {
     erasePartyPouches(bytes, save);
+    eraseMonsterHealthPlayers(bytes);
     constexpr size_t HeaderSize = 8 + sizeof(uint32_t);
     constexpr size_t PlaythroughSize = sizeof(uint64_t) + sizeof(double);
     uint32_t summarySize = 0;
@@ -835,7 +854,7 @@ TEST_CASE("saves written before rulesets load as the Standard ruleset")
     const float yawMarker = 2.71828f;
     save.cameraYawRadians = yawMarker;
     const std::string completionMarker = "completionmarker";
-    save.party.worldCompletions.push_back({completionMarker});
+    save.party.campaign.worldCompletions.push_back({completionMarker});
     const std::filesystem::path path = makeTemporaryRoot("ruleset_legacy").replace_extension(".oysav");
     std::string error;
     REQUIRE_MESSAGE(OpenYAMM::Game::saveGameDataToPath(path, save, error), error);
@@ -888,7 +907,7 @@ TEST_CASE("the save list reads a save's summary alone, and older saves' summary 
     const uint64_t seedMarker = 0x1122334455667788ull;
     save.randomRootSeed = seedMarker;
     const std::string completionMarker = "completionmarker";
-    save.party.worldCompletions.push_back({completionMarker});
+    save.party.campaign.worldCompletions.push_back({completionMarker});
     const std::filesystem::path path = makeTemporaryRoot("save_summary").replace_extension(".oysav");
     std::string error;
     REQUIRE_MESSAGE(OpenYAMM::Game::saveGameDataToPath(path, save, error), error);
@@ -986,7 +1005,7 @@ TEST_CASE("saves before the Bow preference load with the bow on")
     save.ruleset.options.preferences.trainerHints = true;
     save.ruleset.options.preferences.bowDisabled = true;
     const std::string completionMarker = "completionmarker";
-    save.party.worldCompletions.push_back({completionMarker});
+    save.party.campaign.worldCompletions.push_back({completionMarker});
     const std::filesystem::path path = makeTemporaryRoot("bow_preference").replace_extension(".oysav");
     std::string error;
     REQUIRE_MESSAGE(OpenYAMM::Game::saveGameDataToPath(path, save, error), error);
@@ -1034,7 +1053,7 @@ TEST_CASE("saves before the MM9 hirelings load with none")
     OpenYAMM::Game::GameSaveData save = minimalSave();
     save.ruleset.options.preferences.bowDisabled = true;
     const std::string completionMarker = "completionmarker";
-    save.party.worldCompletions.push_back({completionMarker});
+    save.party.campaign.worldCompletions.push_back({completionMarker});
     const std::filesystem::path path = makeTemporaryRoot("mm9_hirelings").replace_extension(".oysav");
     std::string error;
     REQUIRE_MESSAGE(OpenYAMM::Game::saveGameDataToPath(path, save, error), error);
@@ -1057,8 +1076,8 @@ TEST_CASE("saves before the MM9 hirelings load with none")
     std::filesystem::remove(path);
     REQUIRE_MESSAGE(restored.has_value(), error);
     CHECK(restored->party.mm9Hirelings.empty());
-    REQUIRE_EQ(restored->party.worldCompletions.size(), 1u);
-    CHECK_EQ(restored->party.worldCompletions[0].certificateId, completionMarker);
+    REQUIRE_EQ(restored->party.campaign.worldCompletions.size(), 1u);
+    CHECK_EQ(restored->party.campaign.worldCompletions[0].certificateId, completionMarker);
     CHECK(restored->ruleset.options.preferences.bowDisabled);
     CHECK_EQ(restored->saveName, "ruleset check");
 }
@@ -1264,7 +1283,7 @@ TEST_CASE("saves keep the MAW level banks, loot counters and each actor's rulese
 {
     OpenYAMM::Game::GameSaveData save = minimalSave();
     OpenYAMM::Game::MawGameState mawState;
-    mawState.continentLevels = {12.5, 3, 0, 0.25};
+    mawState.continentLevels = {12.5, 3, 0, 0.25, 7.5};
     mawState.bankedExperience = 98765.5;
     mawState.bankedLevel = 15.75;
     mawState.mapResetCounts["d08.blv"] = 2;
@@ -1278,7 +1297,9 @@ TEST_CASE("saves keep the MAW level banks, loot counters and each actor's rulese
     mawState.legendaryAffixDrops[19] = 1;
     mawState.craftingPity[1061] = 120;
     mawState.craftingPity[1070] = 3;
-    mawState.heldFood = 24;
+    // The party's own part lies inside MAW's state in the file and goes back to the party.
+    save.party.rulesetState.heldFood = 24;
+    save.party.rulesetState.auraHolders[5] = 0;
     mawState.broodlordPity = 17;
     mawState.omnipotentPity = 140;
     // The Journal's Progress tab: the maps left, the runs cleared and the bounties claimed.
@@ -1286,7 +1307,7 @@ TEST_CASE("saves keep the MAW level banks, loot counters and each actor's rulese
     mawState.dimensionRunsCleared = 3;
     mawState.bountiesClaimed = 5;
     mawState.usedStatDecorations["d10.blv"] = {{3, 0}, {7, 0}};
-    mawState.madnessDeaths = 4;
+    save.party.rulesetState.madnessDeaths = 4;
     mawState.pendingRefills.insert("d11.blv");
     // A rift (version 195): where the party entered it from, how far it got, and the party standing in it.
     OpenYAMM::Game::MawDimensionRun rift;
@@ -1330,6 +1351,7 @@ TEST_CASE("saves keep the MAW level banks, loot counters and each actor's rulese
     REQUIRE_MESSAGE(restored.has_value(), error);
     REQUIRE(restored->mawState.has_value());
     CHECK(*restored->mawState == mawState);
+    CHECK(restored->party.rulesetState == save.party.rulesetState);
     CHECK_EQ(restored->mapInstanceId, "rift");
     REQUIRE_EQ(restored->outdoorWorld.mapActors.size(), 1u);
     CHECK(restored->outdoorWorld.mapActors[0].rulesetFacts == facts);
@@ -1521,12 +1543,25 @@ TEST_CASE("the generated MAW patches apply cleanly to the engine tables")
             continue;
         }
 
-        if (!composed.contains(table.table))
+        // A world's entry names that world's own table (world.yml's path); a world not in the checkout (Xeen's
+        // package is git-ignored) has nothing to patch here.
+        const std::filesystem::path base = table.world.empty()
+            ? std::filesystem::path("assets_dev/engine/data_tables") / table.table
+            : std::filesystem::path("assets_dev/worlds") / table.world / table.table;
+        const std::string key = table.world.empty() ? table.table : table.world + "/" + table.table;
+
+        if (!table.world.empty() && !std::filesystem::exists(source / base))
         {
-            composed[table.table] = readTable(std::filesystem::path("assets_dev/engine/data_tables") / table.table);
+            MESSAGE("skipped: " << base.string() << " is not in this checkout");
+            continue;
         }
 
-        Rows &rows = composed[table.table];
+        if (!composed.contains(key))
+        {
+            composed[key] = readTable(base);
+        }
+
+        Rows &rows = composed[key];
         REQUIRE_MESSAGE(
             OpenYAMM::Game::applyTableCellOverrides(
                 rows, readTable(package / table.path), table.keyColumn, table.headerRow, error),
@@ -1853,8 +1888,10 @@ TEST_CASE("saves of version 192 load their two pouches, with an empty quest pouc
     save.party.pouches[size_t(ItemPouch::Alchemy)] = {potion, potion};
     REQUIRE(OpenYAMM::Game::saveGameDataToPath(path, save, error));
     std::vector<uint8_t> bytes = readBytes(path);
-    // The quest pouch's empty count follows the two pouches' counts and their three items.
-    eraseEmptyCounts(bytes, pouchesOffset + 2 * sizeof(uint64_t) + (bytes.size() - emptySize), 1);
+    // The quest pouch's empty count follows the two pouches' counts and their three items, and the waiting given
+    // items' (version 199) follows it.
+    eraseEmptyCounts(bytes, pouchesOffset + 2 * sizeof(uint64_t) + (bytes.size() - emptySize), 2);
+    eraseMonsterHealthPlayers(bytes);
     const uint32_t previousVersion = 192;
     std::memcpy(bytes.data() + 8, &previousVersion, sizeof(previousVersion));
     writeBytes(path, bytes);
@@ -1864,7 +1901,43 @@ TEST_CASE("saves of version 192 load their two pouches, with an empty quest pouc
     CHECK_EQ(restored->sourceSaveVersion, 192u);
     CHECK(restored->party.pouches[size_t(ItemPouch::Crafting)] == save.party.pouches[size_t(ItemPouch::Crafting)]);
     CHECK(restored->party.pouches[size_t(ItemPouch::Alchemy)] == save.party.pouches[size_t(ItemPouch::Alchemy)]);
-    CHECK(restored->party.pouches[size_t(ItemPouch::Quest)].empty());
+    CHECK(restored->party.campaign.questPouch.empty());
+}
+
+// An item an event gave that found no room waits for it with the party (Party::waitingGivenItems): a save keeps it,
+// and saves before version 199 (it waited in the map's event state, which a save clears) load with none.
+TEST_CASE("saves keep the items an event gave that wait for room")
+{
+    OpenYAMM::Game::GameSaveData save = minimalSave();
+    OpenYAMM::Game::InventoryItem songbird;
+    songbird.objectDescriptionId = 12526;
+    songbird.identified = true;
+    save.party.waitingGivenItems = {songbird};
+    std::string error;
+    const std::optional<OpenYAMM::Game::GameSaveData> restored = roundTrip(save, error);
+    REQUIRE_MESSAGE(restored.has_value(), error);
+    CHECK(restored->party.waitingGivenItems == save.party.waitingGivenItems);
+
+    OpenYAMM::Game::Party party = {};
+    party.restoreSnapshot(restored->party);
+    REQUIRE_EQ(party.waitingGivenItems().size(), 1u);
+    CHECK_EQ(party.waitingGivenItems()[0].objectDescriptionId, 12526u);
+    CHECK_EQ(party.snapshot().waitingGivenItems.size(), 1u);
+
+    OpenYAMM::Game::GameSaveData older = minimalSave();
+    const size_t pouchesOffset = partyPouchesOffset(older);
+    const std::filesystem::path path = makeTemporaryRoot("waiting_given").replace_extension(".oysav");
+    REQUIRE(OpenYAMM::Game::saveGameDataToPath(path, older, error));
+    std::vector<uint8_t> bytes = readBytes(path);
+    eraseEmptyCounts(bytes, pouchesOffset + OpenYAMM::Game::ItemPouchCount * sizeof(uint64_t), 1);
+    const uint32_t previousVersion = 198;
+    std::memcpy(bytes.data() + 8, &previousVersion, sizeof(previousVersion));
+    writeBytes(path, bytes);
+    const auto loaded = OpenYAMM::Game::loadGameDataFromPath(path, error);
+    std::filesystem::remove(path);
+    REQUIRE_MESSAGE(loaded.has_value(), error);
+    CHECK_EQ(loaded->sourceSaveVersion, 198u);
+    CHECK(loaded->party.waitingGivenItems.empty());
 }
 
 // eraseSoloRun gives back a save of the version before the solo run: it loads, with a hireling (a character outside

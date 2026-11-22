@@ -4,6 +4,7 @@
 #include "game/indoor/IndoorMapData.h"
 #include "game/indoor/IndoorOpenSky.h"
 #include "game/indoor/IndoorTerrainSurface.h"
+#include "game/indoor/IndoorTouchContacts.h"
 #include "game/maps/IndoorSceneYml.h"
 #include "game/render/TerrainMaterialConfig.h"
 
@@ -398,6 +399,47 @@ TEST_CASE("indoor party movement: steep slopes climb by default, block by the sc
     CHECK(blocking->partySteepSlopesBlock);
     CHECK_FALSE(loader.loadFromText(base + "party_movement: {steep_slopes: fly}\n", error).has_value());
     CHECK_FALSE(loader.loadFromText(base + "party_movement: {jump: 3}\n", error).has_value());
+}
+
+TEST_CASE("indoor touch faces: ignored by default, run by the scene, once per contact")
+{
+    IndoorSceneYmlLoader loader;
+    std::string error;
+    const std::string base = readOpenSkySceneText("assets_dev/worlds/mm6/maps/6d02.scene.yml") + "\n";
+    const std::optional<IndoorSceneData> plain = loader.loadFromText(base, error);
+    REQUIRE_MESSAGE(plain.has_value(), error);
+    CHECK_FALSE(plain->partyTouchFacesRun);
+    const std::optional<IndoorSceneData> running =
+        loader.loadFromText(base + "party_movement: {steep_slopes: block, touch_faces: run}\n", error);
+    REQUIRE_MESSAGE(running.has_value(), error);
+    CHECK(running->partyTouchFacesRun);
+    CHECK(running->partySteepSlopesBlock);
+    CHECK_FALSE(loader.loadFromText(base + "party_movement: {touch_faces: yes}\n", error).has_value());
+
+    // A wall leaned on runs once; let go for longer than the grace and touched again, it runs again.
+    IndoorTouchContacts contacts;
+    std::vector<size_t> fresh;
+    contacts.step({7}, fresh);
+    CHECK_EQ(fresh, std::vector<size_t>{7});
+    fresh.clear();
+
+    for (int step = 0; step < 50; ++step)
+    {
+        contacts.step(step % 3 == 0 ? std::vector<size_t>{} : std::vector<size_t>{7}, fresh);
+    }
+
+    CHECK(fresh.empty());
+    contacts.step({7, 9}, fresh);
+    CHECK_EQ(fresh, std::vector<size_t>{9});
+    fresh.clear();
+
+    for (uint32_t step = 0; step <= IndoorTouchContacts::GraceSteps; ++step)
+    {
+        contacts.step({}, fresh);
+    }
+
+    contacts.step({7}, fresh);
+    CHECK_EQ(fresh, std::vector<size_t>{7});
 }
 
 TEST_CASE("indoor actor movement: drops guarded by default, followed by the scene")

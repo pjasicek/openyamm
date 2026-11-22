@@ -1247,7 +1247,7 @@ bool refreshMercenaryRecruitmentForCurrentMap(
         runtimeState.npcNameOverrides[npcId] = pRecruit->character.name;
         runtimeState.npcPictureOverrides[npcId] = pRecruit->npcPictureId;
         runtimeState.npcProfessionOverrides[npcId] = PlaceholderNpcProfessionId;
-        party.setNpcHouseOverride(npcId, *houseId);
+        party.campaign().setNpcHouseOverride(npcId, *houseId);
         return true;
     }
 

@@ -341,8 +341,12 @@ ActorAttackTiming actorAttackTiming(const ActorModelManifest *pModels, int16_t m
         pClips->impactSeconds[size_t(role)], pClips->clipsTimeAttacks);
 }
 
-float actorTargetHeight(const MonsterTable &monsters, const SpriteFrameTable *pSpriteFrames, int16_t monsterId,
-    uint16_t height, uint16_t bodyHeight, float drawScale, float visualScale)
+namespace
+{
+// The bound model's lowest and highest point above the feet, as WorldFxSystem draws it: bodyHeight over the
+// descriptor's height (or drawScale when set) and visualScale. Empty without a model (or with models off).
+std::optional<std::array<float, 2>> drawnModelHeightRange(const MonsterTable &monsters,
+    const SpriteFrameTable *pSpriteFrames, int16_t monsterId, uint16_t bodyHeight, float drawScale, float visualScale)
 {
     const ActorModelManifest *pModels = monsters.actorModels();
     const MonsterEntry *pMonster = monsters.findById(monsterId);
@@ -354,11 +358,29 @@ float actorTargetHeight(const MonsterTable &monsters, const SpriteFrameTable *pS
         pClips != nullptr ? pModels->scaleReferenceRatio(monsterId, monsters, pSpriteFrames) : 0.0f;
     if (pClips == nullptr || !(pClips->bodyTop > pClips->bodyBottom) || referenceRatio <= 0.0f || modelScale <= 0.0f)
     {
-        return GameMechanics::actorTargetHeight(height);
+        return std::nullopt;
     }
     const float scale = referenceRatio * modelScale;
-    return GameMechanics::actorTargetHeight(
-        height, pClips->zOffset + pClips->bodyBottom * scale, pClips->zOffset + pClips->bodyTop * scale);
+    return std::array<float, 2>{
+        pClips->zOffset + pClips->bodyBottom * scale, pClips->zOffset + pClips->bodyTop * scale};
+}
+}
+
+float actorTargetHeight(const MonsterTable &monsters, const SpriteFrameTable *pSpriteFrames, int16_t monsterId,
+    uint16_t height, uint16_t bodyHeight, float drawScale, float visualScale)
+{
+    const std::optional<std::array<float, 2>> range =
+        drawnModelHeightRange(monsters, pSpriteFrames, monsterId, bodyHeight, drawScale, visualScale);
+    return range ? GameMechanics::actorTargetHeight(height, (*range)[0], (*range)[1])
+        : GameMechanics::actorTargetHeight(height);
+}
+
+float actorLaunchHeight(const MonsterTable &monsters, const SpriteFrameTable *pSpriteFrames, int16_t monsterId,
+    uint16_t height, uint16_t bodyHeight, float drawScale, float visualScale, float factor)
+{
+    const std::optional<std::array<float, 2>> range =
+        drawnModelHeightRange(monsters, pSpriteFrames, monsterId, bodyHeight, drawScale, visualScale);
+    return GameMechanics::actorLaunchHeight(height, factor, range ? (*range)[1] : 0.0f);
 }
 
 ActorClipChoices actorFidgetClips(const ActorModelManifest *pModels, int16_t monsterId)

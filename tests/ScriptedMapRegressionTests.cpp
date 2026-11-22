@@ -314,6 +314,11 @@ public:
         m_indoorMap = indoorMap;
     }
 
+    void setMapName(const std::string &mapName)
+    {
+        m_mapName = mapName;
+    }
+
     void setPartyFlyingForEventChecks(bool flying)
     {
         m_partyFlyingForEventChecks = flying;
@@ -733,7 +738,8 @@ public:
         OpenYAMM::Game::ShieldAttackTier shieldTier,
         const OpenYAMM::Game::ShieldHitModifiers &shieldModifiers = {},
         bool critical = false,
-        bool hitReaction = true) override
+        bool hitReaction = true,
+        uint32_t weaponItemId = 0) override
     {
         (void)actorIndex;
         (void)damage;
@@ -742,6 +748,7 @@ public:
         (void)shieldModifiers;
         (void)critical;
         (void)hitReaction;
+        (void)weaponItemId;
         return false;
     }
 
@@ -2040,6 +2047,42 @@ end)
     CHECK_EQ(party.activeMemberIndex(), 0);
 }
 
+TEST_CASE("an event's HasItem counts the item on the cursor, as after a map move or a load")
+{
+    const std::filesystem::path sourceRoot = OPENYAMM_SOURCE_DIR;
+    const std::optional<std::string> supportLua =
+        readSourceTextFile(sourceRoot / "assets_dev/engine/scripts/common/event_support.lua");
+    REQUIRE(supportLua.has_value());
+
+    std::string error;
+    const std::optional<OpenYAMM::Game::ScriptedEventProgram> program =
+        OpenYAMM::Game::ScriptedEventProgram::loadFromLuaText(
+            *supportLua + "\n\n"
+                + "RegisterEvent(1, \"Door\", function()\n"
+                + "    if HasItem(1463) then SetQBit(QBit(752)) end\n"
+                + "end)\n",
+            "@events/maps/held_key_test.lua",
+            OpenYAMM::Game::ScriptedEventScope::Map,
+            error);
+    REQUIRE_MESSAGE(program.has_value(), error.c_str());
+
+    OpenYAMM::Game::EventRuntime eventRuntime = {};
+
+    // Only the cursor holds the key (grants already handed over, as on the next map or after a load).
+    OpenYAMM::Game::Party heldParty = makeScriptedRegressionParty();
+    heldParty.setHeldItemForQueries(makeScriptedInventoryItem(1463));
+    OpenYAMM::Game::EventRuntimeState heldState = {};
+    CHECK_EQ(eventInventoryItemCount(heldState, heldParty, 1463), 1);
+    REQUIRE(eventRuntime.executeEventById(program, std::nullopt, 1, heldState, &heldParty));
+    CHECK(heldParty.campaign().hasQuestBit(752));
+
+    OpenYAMM::Game::Party emptyParty = makeScriptedRegressionParty();
+    OpenYAMM::Game::EventRuntimeState emptyState = {};
+    CHECK_EQ(eventInventoryItemCount(emptyState, emptyParty, 1463), 0);
+    REQUIRE(eventRuntime.executeEventById(program, std::nullopt, 1, emptyState, &emptyParty));
+    CHECK_FALSE(emptyParty.campaign().hasQuestBit(752));
+}
+
 TEST_CASE("seer lost item topic recovers ever owned active quest items")
 {
     const std::filesystem::path sourceRoot = OPENYAMM_SOURCE_DIR;
@@ -2068,7 +2111,7 @@ TEST_CASE("seer lost item topic recovers ever owned active quest items")
 
     OpenYAMM::Game::Party recoveredParty = makeScriptedRegressionParty();
     recoveredParty.recordEverOwnedItem(2170);
-    recoveredParty.setQuestBit(1215, true);
+    recoveredParty.campaign().setQuestBit(1215, true);
     OpenYAMM::Game::EventRuntimeState recoveredState = {};
     REQUIRE(eventRuntime.executeEventById(std::nullopt, globalEventProgram, 1358, recoveredState, &recoveredParty));
     REQUIRE_EQ(recoveredState.grantedItems.size(), 1u);
@@ -2077,7 +2120,7 @@ TEST_CASE("seer lost item topic recovers ever owned active quest items")
     CHECK_EQ(recoveredState.messages.back(), "Here is your missing item.");
 
     OpenYAMM::Game::Party heldParty = makeScriptedRegressionParty();
-    heldParty.setQuestBit(1215, true);
+    heldParty.campaign().setQuestBit(1215, true);
     heldParty.setHeldItemForQueries(makeScriptedInventoryItem(2170));
     OpenYAMM::Game::EventRuntimeState heldState = {};
     REQUIRE(eventRuntime.executeEventById(std::nullopt, globalEventProgram, 1358, heldState, &heldParty));
@@ -2095,7 +2138,7 @@ TEST_CASE("seer lost item topic recovers ever owned active quest items")
 
     OpenYAMM::Game::Party letterParty = makeScriptedRegressionParty();
     letterParty.recordEverOwnedItem(2125);
-    letterParty.setQuestBit(1105, true);
+    letterParty.campaign().setQuestBit(1105, true);
     OpenYAMM::Game::EventRuntimeState letterState = {};
     REQUIRE(eventRuntime.executeEventById(std::nullopt, globalEventProgram, 1358, letterState, &letterParty));
     REQUIRE_EQ(letterState.grantedItems.size(), 1u);
@@ -2103,7 +2146,7 @@ TEST_CASE("seer lost item topic recovers ever owned active quest items")
 
     OpenYAMM::Game::Party dischargePapersParty = makeScriptedRegressionParty();
     dischargePapersParty.recordEverOwnedItem(2128);
-    dischargePapersParty.setQuestBit(1211, true);
+    dischargePapersParty.campaign().setQuestBit(1211, true);
     OpenYAMM::Game::EventRuntimeState dischargePapersState = {};
     REQUIRE(eventRuntime.executeEventById(
         std::nullopt,
@@ -2116,15 +2159,15 @@ TEST_CASE("seer lost item topic recovers ever owned active quest items")
 
     OpenYAMM::Game::Party kilburnParty = makeScriptedRegressionParty();
     kilburnParty.recordEverOwnedItem(2119);
-    kilburnParty.setQuestBit(1110, true);
+    kilburnParty.campaign().setQuestBit(1110, true);
     OpenYAMM::Game::EventRuntimeState kilburnState = {};
     REQUIRE(eventRuntime.executeEventById(std::nullopt, globalEventProgram, 1358, kilburnState, &kilburnParty));
     REQUIRE_EQ(kilburnState.grantedItems.size(), 1u);
     CHECK_EQ(kilburnState.grantedItems.front().objectDescriptionId, 2119);
 
     OpenYAMM::Game::Party kilburnLegacyProofParty = makeScriptedRegressionParty();
-    kilburnLegacyProofParty.setQuestBit(1110, true);
-    kilburnLegacyProofParty.setQuestBit(1206, true);
+    kilburnLegacyProofParty.campaign().setQuestBit(1110, true);
+    kilburnLegacyProofParty.campaign().setQuestBit(1206, true);
     OpenYAMM::Game::EventRuntimeState kilburnLegacyProofState = {};
     REQUIRE(eventRuntime.executeEventById(
         std::nullopt,
@@ -2136,7 +2179,7 @@ TEST_CASE("seer lost item topic recovers ever owned active quest items")
     CHECK_EQ(kilburnLegacyProofState.grantedItems.front().objectDescriptionId, 2119);
 
     OpenYAMM::Game::Party kilburnNeverOwnedParty = makeScriptedRegressionParty();
-    kilburnNeverOwnedParty.setQuestBit(1110, true);
+    kilburnNeverOwnedParty.campaign().setQuestBit(1110, true);
     OpenYAMM::Game::EventRuntimeState kilburnNeverOwnedState = {};
     REQUIRE(eventRuntime.executeEventById(
         std::nullopt,
@@ -2388,7 +2431,7 @@ TEST_CASE("seer lost item tables compile for mm7 and mm8")
 
         OpenYAMM::Game::Party party = makeScriptedRegressionParty();
         party.recordEverOwnedItem(testCase.itemId);
-        party.setQuestBit(testCase.qbitId, true);
+        party.campaign().setQuestBit(testCase.qbitId, true);
         OpenYAMM::Game::EventRuntimeState runtimeState = {};
         OpenYAMM::Game::EventRuntime eventRuntime = {};
         REQUIRE(eventRuntime.executeEventById(
@@ -2520,16 +2563,16 @@ TEST_CASE("mm6 monthly shrines reward in their month and name the Seer when the 
 
         context.setCurrentGameMinutes(((shrine.month + 11) % 12) * 28 * 1440.0f);
         REQUIRE(runtime.executeEventById(program, std::nullopt, shrine.eventId, state, &party, &context));
-        CHECK_FALSE(party.hasQuestBit(1230));
-        CHECK_FALSE(party.hasQuestBit(firstVisitBit));
+        CHECK_FALSE(party.campaign().hasQuestBit(1230));
+        CHECK_FALSE(party.campaign().hasQuestBit(firstVisitBit));
         REQUIRE_FALSE(state.statusMessages.empty());
         CHECK_EQ(state.statusMessages.back(), "You pray at the shrine.");
         checkRewards(0);
 
         context.setCurrentGameMinutes(shrine.month * 28 * 1440.0f);
         REQUIRE(runtime.executeEventById(program, std::nullopt, shrine.eventId, state, &party, &context));
-        CHECK(party.hasQuestBit(1230));
-        CHECK(party.hasQuestBit(firstVisitBit));
+        CHECK(party.campaign().hasQuestBit(1230));
+        CHECK(party.campaign().hasQuestBit(firstVisitBit));
         CHECK(state.statusMessages.back().starts_with("+10 "));
         checkRewards(10);
 
@@ -2539,10 +2582,10 @@ TEST_CASE("mm6 monthly shrines reward in their month and name the Seer when the 
         checkRewards(10);
 
         // The Seer clears the shared completion bit for another eligible pilgrimage.
-        party.setQuestBit(1230, false);
+        party.campaign().setQuestBit(1230, false);
         context.setCurrentGameMinutes((336 + shrine.month * 28 + 27) * 1440.0f);
         REQUIRE(runtime.executeEventById(program, std::nullopt, shrine.eventId, state, &party, &context));
-        CHECK(party.hasQuestBit(1230));
+        CHECK(party.campaign().hasQuestBit(1230));
         CHECK(state.statusMessages.back().starts_with("+3 "));
         checkRewards(13);
     }
@@ -2590,8 +2633,8 @@ TEST_CASE("mm6 obelisk dialogs reopen after collection and other dialogs")
         OpenYAMM::Game::EventRuntimeState runtimeState = {};
         OpenYAMM::Game::EventRuntime eventRuntime = {};
         runtimeState.messages = {"Previous dialog"};
-        CHECK_FALSE(party.hasQuestBit(obelisk.questBit));
-        CHECK_FALSE(party.hasAutonote(obelisk.autonoteId));
+        CHECK_FALSE(party.campaign().hasQuestBit(obelisk.questBit));
+        CHECK_FALSE(party.campaign().hasAutonote(obelisk.autonoteId));
 
         for (int visit = 0; visit < 2; ++visit)
         {
@@ -2616,8 +2659,8 @@ TEST_CASE("mm6 obelisk dialogs reopen after collection and other dialogs")
             runtimeState.pendingInputPrompt.reset();
             REQUIRE(eventRuntime.executeEventById(
                 localEventProgram, std::nullopt, obelisk.eventId, runtimeState, &party, nullptr, 2));
-            CHECK(party.hasQuestBit(obelisk.questBit));
-            CHECK(party.hasAutonote(obelisk.autonoteId));
+            CHECK(party.campaign().hasQuestBit(obelisk.questBit));
+            CHECK(party.campaign().hasAutonote(obelisk.autonoteId));
             if (visit == 0)
             {
                 REQUIRE_EQ(runtimeState.portraitFxRequests.size(), 1u);
@@ -2652,12 +2695,12 @@ end)
     seed.members.resize(5, makeScriptedRegressionMember());
     OpenYAMM::Game::Party party = {};
     party.seed(seed);
-    party.setQuestBit(158, true);
+    party.campaign().setQuestBit(158, true);
     const OpenYAMM::Game::Party::Snapshot before = party.snapshot();
     OpenYAMM::Game::EventRuntimeState runtimeState = {};
     OpenYAMM::Game::EventRuntime eventRuntime = {};
     REQUIRE(eventRuntime.executeEventById(program, std::nullopt, 1, runtimeState, &party));
-    CHECK(party.snapshot().questBits == before.questBits);
+    CHECK(party.snapshot().campaign.questBits == before.campaign.questBits);
     REQUIRE_EQ(runtimeState.portraitFxRequests.size(), 1u);
     CHECK_EQ(runtimeState.portraitFxRequests.front().kind, OpenYAMM::Game::PortraitFxEventKind::QuestComplete);
     CHECK_EQ(runtimeState.portraitFxRequests.front().memberIndices, std::vector<size_t>({0, 1, 2, 3, 4}));
@@ -3105,6 +3148,44 @@ end)
     CHECK_EQ(runtimeState.namedMapVars["MM9ActorNearby"], 1);
 }
 
+TEST_CASE("evt.RemovePartyBuff ends a party buff by name and says whether it was on")
+{
+    const std::filesystem::path sourceRoot = OPENYAMM_SOURCE_DIR;
+    const std::optional<std::string> supportLua =
+        readSourceTextFile(sourceRoot / "assets_dev/engine/scripts/common/event_support.lua");
+    REQUIRE(supportLua.has_value());
+    const std::string localLuaSource = *supportLua + R"lua(
+
+RegisterEvent(40, "Bat storm", function()
+    if evt.RemovePartyBuff("Fly") then
+        evt.SetMapVar("FlyWasOn", 1)
+    end
+    if not evt.RemovePartyBuff("Fly") then
+        evt.SetMapVar("FlyNowOff", 1)
+    end
+end)
+
+)lua";
+    std::string error;
+    const std::optional<OpenYAMM::Game::ScriptedEventProgram> localEventProgram =
+        OpenYAMM::Game::ScriptedEventProgram::loadFromLuaText(
+            localLuaSource, "@events/maps/test_bat_storm.lua", OpenYAMM::Game::ScriptedEventScope::Map, error);
+    REQUIRE_MESSAGE(localEventProgram.has_value(), error.c_str());
+
+    OpenYAMM::Game::EventRuntime eventRuntime = {};
+    OpenYAMM::Game::Party party = makeScriptedRegressionParty();
+    party.applyPartyBuff(OpenYAMM::Game::PartyBuffId::Fly, 600.0f, 1, 0, 0, OpenYAMM::Game::SkillMastery::None, 0);
+    party.applyPartyBuff(
+        OpenYAMM::Game::PartyBuffId::WaterWalk, 600.0f, 1, 0, 0, OpenYAMM::Game::SkillMastery::None, 0);
+    OpenYAMM::Game::EventRuntimeState runtimeState = {};
+
+    REQUIRE(eventRuntime.executeEventById(localEventProgram, std::nullopt, 40, runtimeState, &party));
+    CHECK_FALSE(party.hasPartyBuff(OpenYAMM::Game::PartyBuffId::Fly));
+    CHECK(party.hasPartyBuff(OpenYAMM::Game::PartyBuffId::WaterWalk));
+    CHECK_EQ(runtimeState.namedMapVars["FlyWasOn"], 1);
+    CHECK_EQ(runtimeState.namedMapVars["FlyNowOff"], 1);
+}
+
 TEST_CASE("mm7 lincoln mmmerge supplement registers containment actors on load")
 {
     std::string error;
@@ -3336,7 +3417,7 @@ TEST_CASE("outdoor facet overlays reconstruct old saves from durable progress")
 
         OpenYAMM::Game::EventRuntime eventRuntime = {};
         OpenYAMM::Game::Party completedParty = makeScriptedRegressionParty();
-        completedParty.setQuestBit(569, true);
+        completedParty.campaign().setQuestBit(569, true);
         OpenYAMM::Game::EventRuntimeState completedState = {};
         REQUIRE(eventRuntime.buildOnLoadState(
             localEventProgram,
@@ -3368,7 +3449,7 @@ TEST_CASE("outdoor facet overlays reconstruct old saves from durable progress")
 
         OpenYAMM::Game::EventRuntime eventRuntime = {};
         OpenYAMM::Game::Party completedParty = makeScriptedRegressionParty();
-        completedParty.setQuestBit(37, true);
+        completedParty.campaign().setQuestBit(37, true);
         OpenYAMM::Game::EventRuntimeState completedState = {};
         REQUIRE(eventRuntime.buildOnLoadState(
             localEventProgram,
@@ -3407,7 +3488,7 @@ TEST_CASE("mm8 mmmerge reusable travel keys preserve opened map state")
         keyedParty.grantItem(619);
         OpenYAMM::Game::EventRuntimeState keyedState = {};
         REQUIRE(eventRuntime.executeEventById(localEventProgram, std::nullopt, 451, keyedState, &keyedParty));
-        CHECK(keyedParty.hasQuestBit(214));
+        CHECK(keyedParty.campaign().hasQuestBit(214));
         const OpenYAMM::Game::EventRuntimeState::PendingMapMove *pKeyedMove = pendingMapMove(keyedState);
         REQUIRE(pKeyedMove != nullptr);
         CHECK_EQ(pKeyedMove->mapName, std::optional<std::string>("d34.blv"));
@@ -3416,7 +3497,7 @@ TEST_CASE("mm8 mmmerge reusable travel keys preserve opened map state")
         CHECK_EQ(pKeyedMove->z, -687);
 
         OpenYAMM::Game::Party reopenedParty = makeScriptedRegressionParty();
-        reopenedParty.setQuestBit(214, true);
+        reopenedParty.campaign().setQuestBit(214, true);
         OpenYAMM::Game::EventRuntimeState reopenedState = {};
         REQUIRE(eventRuntime.executeEventById(localEventProgram, std::nullopt, 451, reopenedState, &reopenedParty));
         const OpenYAMM::Game::EventRuntimeState::PendingMapMove *pReopenedMove = pendingMapMove(reopenedState);
@@ -3560,7 +3641,7 @@ TEST_CASE("mm8 mmmerge d19 dyson and skeleton transformer branches apply")
     OpenYAMM::Game::EventRuntime eventRuntime = {};
 
     OpenYAMM::Game::Party alliedParty = makeScriptedRegressionParty();
-    alliedParty.setQuestBit(20, true);
+    alliedParty.campaign().setQuestBit(20, true);
     OpenYAMM::Game::EventRuntimeState alliedState = {};
     REQUIRE(eventRuntime.executeEventById(localEventProgram, std::nullopt, 15, alliedState, &alliedParty));
     CHECK_EQ(alliedState.lastAffectedMechanismIds, std::vector<uint32_t>{5});
@@ -3587,7 +3668,7 @@ TEST_CASE("mm8 mmmerge d19 dyson and skeleton transformer branches apply")
     CHECK_EQ(blockedState.pendingDialogueContext->sourceId, 45u);
 
     OpenYAMM::Game::Party transformerParty = makeScriptedRegressionParty();
-    transformerParty.setQuestBit(26, true);
+    transformerParty.campaign().setQuestBit(26, true);
     OpenYAMM::Game::EventRuntimeState transformerState = {};
     transformerState.mapVars[21] = 15;
     REQUIRE(eventRuntime.executeEventById(
@@ -3596,7 +3677,7 @@ TEST_CASE("mm8 mmmerge d19 dyson and skeleton transformer branches apply")
         131,
         transformerState,
         &transformerParty));
-    CHECK(transformerParty.hasQuestBit(27));
+    CHECK(transformerParty.campaign().hasQuestBit(27));
     CHECK_EQ(
         transformerState.facetSetMasks[30] & static_cast<uint32_t>(OpenYAMM::Game::FaceAttribute::Invisible),
         static_cast<uint32_t>(OpenYAMM::Game::FaceAttribute::Invisible));
@@ -3605,7 +3686,7 @@ TEST_CASE("mm8 mmmerge d19 dyson and skeleton transformer branches apply")
         static_cast<uint32_t>(OpenYAMM::Game::FaceAttribute::Untouchable));
 
     OpenYAMM::Game::Party restoredTransformerParty = makeScriptedRegressionParty();
-    restoredTransformerParty.setQuestBit(27, true);
+    restoredTransformerParty.campaign().setQuestBit(27, true);
     OpenYAMM::Game::EventRuntimeState restoredTransformerState = {};
     REQUIRE(eventRuntime.buildOnLoadState(
         localEventProgram,
@@ -3648,8 +3729,8 @@ TEST_CASE("mm8 mmmerge out07 statues and duplicate gems apply")
         132,
         interactSpellState,
         &interactSpellParty));
-    CHECK_FALSE(interactSpellParty.hasQuestBit(40));
-    CHECK_FALSE(interactSpellParty.hasQuestBit(430));
+    CHECK_FALSE(interactSpellParty.campaign().hasQuestBit(40));
+    CHECK_FALSE(interactSpellParty.campaign().hasQuestBit(430));
     CHECK_FALSE(interactSpellState.spriteOverrides[20].hidden);
     CHECK_FALSE(interactSpellState.pendingDialogueContext.has_value());
 
@@ -3657,8 +3738,8 @@ TEST_CASE("mm8 mmmerge out07 statues and duplicate gems apply")
     OpenYAMM::Game::EventRuntimeState spellState = {};
     spellState.activeEventSpellId = 40;
     REQUIRE(eventRuntime.executeEventById(localEventProgram, std::nullopt, 132, spellState, &spellParty));
-    CHECK(spellParty.hasQuestBit(40));
-    CHECK(spellParty.hasQuestBit(430));
+    CHECK(spellParty.campaign().hasQuestBit(40));
+    CHECK(spellParty.campaign().hasQuestBit(430));
     CHECK(spellState.spriteOverrides[20].hidden);
     REQUIRE(spellState.pendingDialogueContext.has_value());
     CHECK_EQ(spellState.pendingDialogueContext->sourceId, 42u);
@@ -3734,12 +3815,12 @@ TEST_CASE("mm8 mmmerge out13 cannon sequence advances through every reusable sta
     OpenYAMM::Game::EventRuntime eventRuntime = {};
     OpenYAMM::Game::Party party = makeScriptedRegressionParty();
     party.grantItem(662);
-    party.setQuestBit(224, true);
+    party.campaign().setQuestBit(224, true);
     OpenYAMM::Game::EventRuntimeState runtimeState = {};
 
     REQUIRE(eventRuntime.executeEventById(localEventProgram, std::nullopt, 451, runtimeState, &party));
     CHECK_EQ(party.inventoryItemCount(662), 0);
-    CHECK_FALSE(party.hasQuestBit(224));
+    CHECK_FALSE(party.campaign().hasQuestBit(224));
     CHECK_EQ(runtimeState.mapVars[41], 1u);
     REQUIRE_FALSE(runtimeState.pendingSounds.empty());
     CHECK_EQ(runtimeState.pendingSounds.back().soundId, 473u);
@@ -3779,7 +3860,7 @@ TEST_CASE("mm8 mmmerge out13 cannon sequence advances through every reusable sta
         &party,
         &sceneContext));
     CHECK_EQ(runtimeState.mapVars[41], 0u);
-    CHECK(party.hasQuestBit(37));
+    CHECK(party.campaign().hasQuestBit(37));
     CHECK_EQ(runtimeState.npcHouseOverrides[64], 899u);
     CHECK_EQ(runtimeState.npcHouseOverrides[20], 900u);
     CHECK_EQ(runtimeState.npcHouseOverrides[21], 900u);
@@ -3851,7 +3932,7 @@ TEST_CASE("mm8 mmmerge arena exit applies and the dimension door tiles are gone"
         OpenYAMM::Game::Party party = makeScriptedRegressionParty();
         OpenYAMM::Game::EventRuntimeState runtimeState = {};
         REQUIRE(eventRuntime.buildOnLoadState(localEventProgram, std::nullopt, std::nullopt, runtimeState, &party));
-        CHECK_EQ(party.hasQuestBit(185), std::string(pMapName) == "out01");
+        CHECK_EQ(party.campaign().hasQuestBit(185), std::string(pMapName) == "out01");
         CHECK_FALSE(runtimeState.pendingDimensionDoorOverlay);
     }
 }
@@ -3868,7 +3949,7 @@ TEST_CASE("mm8 mmmerge on-load and kill-tracker overlays apply runtime state")
         REQUIRE_MESSAGE(localEventProgram.has_value(), error.c_str());
 
         OpenYAMM::Game::Party party = makeScriptedRegressionParty();
-        party.setQuestBit(23, true);
+        party.campaign().setQuestBit(23, true);
         OpenYAMM::Game::EventRuntime eventRuntime = {};
         OpenYAMM::Game::EventRuntimeState runtimeState = {};
         REQUIRE(eventRuntime.buildOnLoadState(localEventProgram, std::nullopt, std::nullopt, runtimeState, &party));
@@ -3893,7 +3974,7 @@ TEST_CASE("mm8 mmmerge on-load and kill-tracker overlays apply runtime state")
         CHECK_EQ(pendingState.npcHouseOverrides[24], 662u);
 
         OpenYAMM::Game::Party completedParty = makeScriptedRegressionParty();
-        completedParty.setQuestBit(53, true);
+        completedParty.campaign().setQuestBit(53, true);
         OpenYAMM::Game::EventRuntimeState completedState = {};
         REQUIRE(eventRuntime.buildOnLoadState(
             localEventProgram,
@@ -3945,7 +4026,7 @@ TEST_CASE("mm8 mmmerge on-load and kill-tracker overlays apply runtime state")
         CHECK_EQ(firstVisitState.actorGroupSetMasks[11] & actorInvisibleBit, actorInvisibleBit);
 
         OpenYAMM::Game::Party party = makeScriptedRegressionParty();
-        party.setQuestBit(10, true);
+        party.campaign().setQuestBit(10, true);
         OpenYAMM::Game::EventRuntimeState runtimeState = {};
         RecordingSceneEventContext sceneContext = {};
         sceneContext.killedGroupResults[8] = true;
@@ -4025,8 +4106,8 @@ TEST_CASE("mm8 mmmerge on-load and kill-tracker overlays apply runtime state")
             runtimeState,
             &party,
             &sceneContext));
-        CHECK(party.hasQuestBit(155));
-        CHECK(party.hasQuestBit(158));
+        CHECK(party.campaign().hasQuestBit(155));
+        CHECK(party.campaign().hasQuestBit(158));
     }
 }
 
@@ -4234,7 +4315,7 @@ TEST_CASE("dimensional travel fountains keep their own effects and need no quest
         poorParty.addGold(-poorParty.gold());
         fountainState.pendingDimensionDoorOverlay = false;
         REQUIRE(eventRuntime.executeEventById(ravenshoreProgram, std::nullopt, 104, fountainState, &poorParty));
-        CHECK(poorParty.hasQuestBit(302));
+        CHECK(poorParty.campaign().hasQuestBit(302));
         CHECK(fountainState.pendingDimensionDoorOverlay);
         CHECK_EQ(poorParty.gold(), expectedGold);
     }
@@ -4276,18 +4357,18 @@ TEST_CASE("dimensional travel fountains keep their own effects and need no quest
     for (bool restored : {false, true})
     {
         OpenYAMM::Game::Party castleParty = makeScriptedRegressionParty();
-        castleParty.setQuestBit(610, restored);
+        castleParty.campaign().setQuestBit(610, restored);
         OpenYAMM::Game::EventRuntimeState castleState = {};
         REQUIRE(eventRuntime.buildOnLoadState(
             castleProgram, std::nullopt, pCastle->indoorMapDeltaData, castleState, &castleParty));
-        CHECK(castleParty.hasQuestBit(718));
+        CHECK(castleParty.campaign().hasQuestBit(718));
         CHECK(OpenYAMM::Game::hasFaceAttribute(
             castleState.facetSetMasks.at(65031), OpenYAMM::Game::FaceAttribute::Clickable));
         CHECK_FALSE(castleState.textureOverrides.contains(65031));
         REQUIRE(eventRuntime.executeEventById(
             castleProgram, std::nullopt, 65031, castleState, &castleParty));
         CHECK(castleState.pendingDimensionDoorOverlay);
-        CHECK(castleParty.hasQuestBit(718));
+        CHECK(castleParty.campaign().hasQuestBit(718));
     }
 }
 
@@ -4315,7 +4396,7 @@ TEST_CASE("mm7 castle harmondale mmmerge local quest state")
     {
         OpenYAMM::Game::EventRuntime eventRuntime = {};
         OpenYAMM::Game::Party party = makeScriptedRegressionParty();
-        party.setQuestBit(585, true);
+        party.campaign().setQuestBit(585, true);
         party.addHiredNpcFollower({395, 0, 0});
         OpenYAMM::Game::EventRuntimeState runtimeState = {};
         runtimeState.hiredNpcFollowers.push_back({395, 0, 0});
@@ -4344,7 +4425,7 @@ TEST_CASE("mm7 castle harmondale mmmerge local quest state")
         REQUIRE(runtimeState.activeHookContext.has_value());
         CHECK_FALSE(runtimeState.activeHookContext->restFoodCostOverride.has_value());
 
-        party.setQuestBit(610, true);
+        party.campaign().setQuestBit(610, true);
         runtimeState.activeHookContext = hookContext;
         REQUIRE(eventRuntime.executeHooks(
             localEventProgram,
@@ -4362,10 +4443,10 @@ TEST_CASE("mm7 castle harmondale mmmerge local quest state")
         OpenYAMM::Game::Party party = makeScriptedRegressionParty();
         party.addGold(500);
         CHECK_EQ(party.depositGoldToBank(500), 500);
-        party.setQuestBit(526, true);
-        party.setQuestBit(693, true);
-        party.setQuestBit(694, true);
-        party.setQuestBit(695, true);
+        party.campaign().setQuestBit(526, true);
+        party.campaign().setQuestBit(693, true);
+        party.campaign().setQuestBit(694, true);
+        party.campaign().setQuestBit(695, true);
         OpenYAMM::Game::EventRuntimeState runtimeState = {};
 
         REQUIRE(eventRuntime.buildOnLoadState(localEventProgram, std::nullopt, std::nullopt, runtimeState, &party));
@@ -4374,14 +4455,14 @@ TEST_CASE("mm7 castle harmondale mmmerge local quest state")
         CHECK_EQ(runtimeState.actorGroupSetMasks[60] & hostileBit, hostileBit);
         CHECK_EQ(runtimeState.actorGroupClearMasks[60] & invisibleBit, invisibleBit);
         CHECK_EQ(party.bankGold(), 0);
-        CHECK_FALSE(party.hasQuestBit(693));
-        CHECK_FALSE(party.hasQuestBit(694));
+        CHECK_FALSE(party.campaign().hasQuestBit(693));
+        CHECK_FALSE(party.campaign().hasQuestBit(694));
     }
 
     {
         OpenYAMM::Game::EventRuntime eventRuntime = {};
         OpenYAMM::Game::Party party = makeScriptedRegressionParty();
-        party.setQuestBit(610, true);
+        party.campaign().setQuestBit(610, true);
         OpenYAMM::Game::EventRuntimeState runtimeState = {};
 
         REQUIRE(eventRuntime.buildOnLoadState(localEventProgram, std::nullopt, std::nullopt, runtimeState, &party));
@@ -4392,16 +4473,16 @@ TEST_CASE("mm7 castle harmondale mmmerge local quest state")
     {
         OpenYAMM::Game::EventRuntime eventRuntime = {};
         OpenYAMM::Game::Party party = makeScriptedRegressionParty();
-        party.setQuestBit(695, true);
-        party.setQuestBit(697, true);
+        party.campaign().setQuestBit(695, true);
+        party.campaign().setQuestBit(697, true);
         OpenYAMM::Game::EventRuntimeState runtimeState = {};
         RecordingSceneEventContext sceneContext = {};
         sceneContext.killedGroupResults[60] = true;
 
         REQUIRE(eventRuntime.executeOnLeaveEvents(localEventProgram, std::nullopt, runtimeState, &party, &sceneContext));
-        CHECK(party.hasQuestBit(696));
-        CHECK(party.hasQuestBit(702));
-        CHECK_FALSE(party.hasQuestBit(695));
+        CHECK(party.campaign().hasQuestBit(696));
+        CHECK(party.campaign().hasQuestBit(702));
+        CHECK_FALSE(party.campaign().hasQuestBit(695));
     }
 }
 
@@ -4448,13 +4529,13 @@ TEST_CASE("mm7 castle lambent and gloaming mmmerge faction gates")
         CHECK_EQ(noPathState.statusMessages.back(), "The Door is Locked");
 
         OpenYAMM::Game::Party darkParty = makeScriptedRegressionParty();
-        darkParty.setQuestBit(612, true);
+        darkParty.campaign().setQuestBit(612, true);
         const OpenYAMM::Game::EventRuntimeState darkState = executeGate(lambentProgram, 416, darkParty);
         REQUIRE_FALSE(darkState.statusMessages.empty());
         CHECK_EQ(darkState.statusMessages.back(), "The Door is Locked");
 
         OpenYAMM::Game::Party lightParty = makeScriptedRegressionParty();
-        lightParty.setQuestBit(611, true);
+        lightParty.campaign().setQuestBit(611, true);
         const OpenYAMM::Game::EventRuntimeState lightState = executeGate(lambentProgram, 416, lightParty);
         REQUIRE(lightState.pendingDialogueContext.has_value());
         CHECK_EQ(lightState.pendingDialogueContext->kind, OpenYAMM::Game::DialogueContextKind::HouseService);
@@ -4468,21 +4549,21 @@ TEST_CASE("mm7 castle lambent and gloaming mmmerge faction gates")
         CHECK_EQ(noPathState.statusMessages.back(), "The Door is Locked");
 
         OpenYAMM::Game::Party lightParty = makeScriptedRegressionParty();
-        lightParty.setQuestBit(611, true);
+        lightParty.campaign().setQuestBit(611, true);
         const OpenYAMM::Game::EventRuntimeState lightState = executeGate(gloamingProgram, 5, lightParty);
         REQUIRE_FALSE(lightState.statusMessages.empty());
         CHECK_EQ(lightState.statusMessages.back(), "The Door is Locked");
 
         OpenYAMM::Game::Party darkParty = makeScriptedRegressionParty();
-        darkParty.setQuestBit(612, true);
+        darkParty.campaign().setQuestBit(612, true);
         const OpenYAMM::Game::EventRuntimeState darkState = executeGate(gloamingProgram, 5, darkParty);
         REQUIRE(darkState.pendingDialogueContext.has_value());
         CHECK_EQ(darkState.pendingDialogueContext->kind, OpenYAMM::Game::DialogueContextKind::HouseService);
         CHECK_EQ(darkState.pendingDialogueContext->sourceId, 219u);
 
         OpenYAMM::Game::Party archibaldParty = makeScriptedRegressionParty();
-        archibaldParty.setQuestBit(612, true);
-        archibaldParty.setQuestBit(710, true);
+        archibaldParty.campaign().setQuestBit(612, true);
+        archibaldParty.campaign().setQuestBit(710, true);
         const OpenYAMM::Game::EventRuntimeState archibaldState = executeGate(gloamingProgram, 5, archibaldParty);
         REQUIRE(archibaldState.pendingDialogueContext.has_value());
         CHECK_EQ(archibaldState.pendingDialogueContext->kind, OpenYAMM::Game::DialogueContextKind::HouseService);
@@ -4499,15 +4580,15 @@ TEST_CASE("mm7 castle gloaming soul jar chest stops after dark path chest")
 
     OpenYAMM::Game::EventRuntime eventRuntime = {};
     OpenYAMM::Game::Party party = makeScriptedRegressionParty();
-    party.setQuestBit(611, true);
+    party.campaign().setQuestBit(611, true);
 
     OpenYAMM::Game::EventRuntimeState runtimeState = {};
     REQUIRE(eventRuntime.executeEventById(localEventProgram, std::nullopt, 176, runtimeState, &party));
 
     REQUIRE_EQ(runtimeState.openedChestIds.size(), 1u);
     CHECK_EQ(runtimeState.openedChestIds.front(), 0u);
-    CHECK(party.hasQuestBit(743));
-    CHECK(party.hasQuestBit(662));
+    CHECK(party.campaign().hasQuestBit(743));
+    CHECK(party.campaign().hasQuestBit(662));
 }
 
 TEST_CASE("mm7 deyja tatalia and evenmorn mmmerge overlays apply local behavior")
@@ -4526,7 +4607,7 @@ TEST_CASE("mm7 deyja tatalia and evenmorn mmmerge overlays apply local behavior"
 
         OpenYAMM::Game::EventRuntime eventRuntime = {};
         OpenYAMM::Game::Party party = makeScriptedRegressionParty();
-        party.setQuestBit(611, true);
+        party.campaign().setQuestBit(611, true);
         OpenYAMM::Game::EventRuntimeState runtimeState = {};
 
         REQUIRE(eventRuntime.buildOnLoadState(localEventProgram, std::nullopt, std::nullopt, runtimeState, &party));
@@ -4595,7 +4676,7 @@ TEST_CASE("mm7 deyja tatalia and evenmorn mmmerge overlays apply local behavior"
         treasureState.variables[static_cast<uint32_t>(OpenYAMM::Game::EvtVariable::Hour)] = 1;
         for (uint32_t qbitId = 676; qbitId <= 689; ++qbitId)
         {
-            party.setQuestBit(qbitId, true);
+            party.campaign().setQuestBit(qbitId, true);
         }
         REQUIRE(eventRuntime.executeEventById(localEventProgram, std::nullopt, 65009, treasureState, &party));
         CHECK_FALSE(treasureState.spriteOverrides.contains(170));
@@ -4650,7 +4731,7 @@ TEST_CASE("mm7 tularean forest mmmerge artifact and clanker overlays apply")
     {
         OpenYAMM::Game::EventRuntime eventRuntime = {};
         OpenYAMM::Game::Party party = makeScriptedRegressionParty();
-        party.setQuestBit(600, true);
+        party.campaign().setQuestBit(600, true);
         OpenYAMM::Game::EventRuntimeState runtimeState = {};
         RecordingSceneEventContext sceneContext = {};
 
@@ -4661,8 +4742,8 @@ TEST_CASE("mm7 tularean forest mmmerge artifact and clanker overlays apply")
             runtimeState,
             &party,
             &sceneContext));
-        CHECK(party.hasQuestBit(649));
-        CHECK(party.hasQuestBit(591));
+        CHECK(party.campaign().hasQuestBit(649));
+        CHECK(party.campaign().hasQuestBit(591));
         REQUIRE_EQ(runtimeState.grantedItemIds.size(), 1u);
         CHECK_EQ(runtimeState.grantedItemIds.front(), 1502u);
         REQUIRE(runtimeState.pendingDialogueContext.has_value());
@@ -4676,7 +4757,7 @@ TEST_CASE("mm7 tularean forest mmmerge artifact and clanker overlays apply")
     {
         OpenYAMM::Game::EventRuntime eventRuntime(&OpenYAMM::Tests::regressionGameData().houseTable);
         OpenYAMM::Game::Party party = makeScriptedRegressionParty();
-        party.setQuestBit(710, true);
+        party.campaign().setQuestBit(710, true);
         OpenYAMM::Game::EventRuntimeState runtimeState = {};
 
         REQUIRE(eventRuntime.executeEventById(localEventProgram, std::nullopt, 503, runtimeState, &party));
@@ -4689,8 +4770,8 @@ TEST_CASE("mm7 tularean forest mmmerge artifact and clanker overlays apply")
     {
         OpenYAMM::Game::EventRuntime eventRuntime = {};
         OpenYAMM::Game::Party party = makeScriptedRegressionParty();
-        party.setQuestBit(591, true);
-        party.setQuestBit(649, true);
+        party.campaign().setQuestBit(591, true);
+        party.campaign().setQuestBit(649, true);
         OpenYAMM::Game::EventRuntimeState runtimeState = {};
         runtimeState.mapVars[11] = 1;
         RecordingSceneEventContext sceneContext = {};
@@ -4727,29 +4808,29 @@ TEST_CASE("mm7 harmondale erathia shoals and strange temple mmmerge overlays app
         OpenYAMM::Game::Party party = makeScriptedRegressionParty();
         party.addHiredNpcFollower({416, 0, 0});
         party.addHiredNpcFollower({417, 0, 0});
-        party.setQuestBit(1697, true);
+        party.campaign().setQuestBit(1697, true);
         OpenYAMM::Game::EventRuntimeState runtimeState = {};
         runtimeState.hiredNpcFollowers = {{416, 0, 0}, {417, 0, 0}};
 
         REQUIRE(eventRuntime.executeEventById(localEventProgram, std::nullopt, 37, runtimeState, &party));
         CHECK(runtimeState.hiredNpcFollowers.empty());
-        CHECK(party.hasQuestBit(611));
-        CHECK(party.hasQuestBit(664));
-        CHECK_FALSE(party.hasQuestBit(1697));
-        CHECK_FALSE(party.hasQuestBit(1698));
+        CHECK(party.campaign().hasQuestBit(611));
+        CHECK(party.campaign().hasQuestBit(664));
+        CHECK_FALSE(party.campaign().hasQuestBit(1697));
+        CHECK_FALSE(party.campaign().hasQuestBit(1698));
 
-        party.setQuestBit(519, true);
+        party.campaign().setQuestBit(519, true);
         OpenYAMM::Game::EventRuntimeState castleState = {};
         REQUIRE(eventRuntime.executeEventById(localEventProgram, std::nullopt, 301, castleState, &party));
-        CHECK(party.hasQuestBit(587));
-        CHECK(party.hasQuestBit(644));
+        CHECK(party.campaign().hasQuestBit(587));
+        CHECK(party.campaign().hasQuestBit(644));
         CHECK_EQ(castleState.npcHouseOverrides[397], 240u);
         REQUIRE(castleState.pendingDialogueContext.has_value());
         CHECK_EQ(castleState.pendingDialogueContext->sourceId, 397u);
 
         OpenYAMM::Game::Party unrepairedParty = makeScriptedRegressionParty();
-        unrepairedParty.setQuestBit(519, true);
-        unrepairedParty.setQuestBit(644, true);
+        unrepairedParty.campaign().setQuestBit(519, true);
+        unrepairedParty.campaign().setQuestBit(644, true);
         OpenYAMM::Game::EventRuntimeState unrepairedCastleState = {};
         REQUIRE(eventRuntime.executeEventById(
             localEventProgram,
@@ -4795,8 +4876,8 @@ TEST_CASE("mm7 harmondale erathia shoals and strange temple mmmerge overlays app
         CHECK_EQ(unrepairedDialog.videoName, "out02 castle harmondy");
 
         OpenYAMM::Game::Party repairedParty = makeScriptedRegressionParty();
-        repairedParty.setQuestBit(519, true);
-        repairedParty.setQuestBit(610, true);
+        repairedParty.campaign().setQuestBit(519, true);
+        repairedParty.campaign().setQuestBit(610, true);
         OpenYAMM::Game::EventRuntimeState repairedCastleState = {};
         REQUIRE(eventRuntime.executeEventById(
             localEventProgram,
@@ -4823,12 +4904,12 @@ TEST_CASE("mm7 harmondale erathia shoals and strange temple mmmerge overlays app
         CHECK_EQ(repairedDialog.videoName, "out02 castle harmondy abandoned");
 
         OpenYAMM::Game::Party invadedParty = makeScriptedRegressionParty();
-        invadedParty.setQuestBit(693, true);
+        invadedParty.campaign().setQuestBit(693, true);
         OpenYAMM::Game::EventRuntimeState invasionState = {};
         invasionState.namedMapVars["InvasionTime"] = 1;
         invasionState.variables[static_cast<uint32_t>(OpenYAMM::Game::EvtVariable::DayOfYear)] = 2;
         REQUIRE(eventRuntime.executeEventById(localEventProgram, std::nullopt, 65002, invasionState, &invadedParty));
-        CHECK(invadedParty.hasQuestBit(695));
+        CHECK(invadedParty.campaign().hasQuestBit(695));
         CHECK_EQ(
             invasionState.actorGroupSetMasks[60] & static_cast<uint32_t>(OpenYAMM::Game::EvtActorAttribute::Hostile),
             static_cast<uint32_t>(OpenYAMM::Game::EvtActorAttribute::Hostile));
@@ -4843,7 +4924,7 @@ TEST_CASE("mm7 harmondale erathia shoals and strange temple mmmerge overlays app
 
         OpenYAMM::Game::EventRuntime eventRuntime = {};
         OpenYAMM::Game::Party party = makeScriptedRegressionParty();
-        party.setQuestBit(610, true);
+        party.campaign().setQuestBit(610, true);
         OpenYAMM::Game::EventRuntimeState runtimeState = {};
         runtimeState.mapFileName = "7d29.blv";
         REQUIRE(eventRuntime.buildOnLoadState(localEventProgram, std::nullopt, std::nullopt, runtimeState, &party));
@@ -4859,7 +4940,7 @@ TEST_CASE("mm7 harmondale erathia shoals and strange temple mmmerge overlays app
 
         OpenYAMM::Game::EventRuntime eventRuntime = {};
         OpenYAMM::Game::Party blockedParty = makeScriptedRegressionParty();
-        blockedParty.setQuestBit(642, true);
+        blockedParty.campaign().setQuestBit(642, true);
         OpenYAMM::Game::EventRuntimeState blockedState = {};
         OpenYAMM::Game::EventRuntimeState::ActiveHookContext hookContext = {};
         hookContext.kind = OpenYAMM::Game::EventRuntimeHookKind::MapTransition;
@@ -4878,7 +4959,7 @@ TEST_CASE("mm7 harmondale erathia shoals and strange temple mmmerge overlays app
         CHECK_EQ(*blockedState.activeHookContext->statusText, "You must all be wearing your wetsuits!");
 
         OpenYAMM::Game::Party inventoryOnlyParty = makeScriptedRegressionParty();
-        inventoryOnlyParty.setQuestBit(642, true);
+        inventoryOnlyParty.campaign().setQuestBit(642, true);
         REQUIRE(inventoryOnlyParty.member(0) != nullptr);
         inventoryOnlyParty.member(0)->inventory.push_back(makeScriptedInventoryItem(1406));
         OpenYAMM::Game::EventRuntimeState inventoryOnlyState = {};
@@ -4907,7 +4988,7 @@ TEST_CASE("mm7 harmondale erathia shoals and strange temple mmmerge overlays app
         CHECK(noQuestState.activeHookContext->blocked);
 
         OpenYAMM::Game::Party allowedParty = makeScriptedRegressionParty();
-        allowedParty.setQuestBit(642, true);
+        allowedParty.campaign().setQuestBit(642, true);
         REQUIRE(allowedParty.member(0) != nullptr);
         allowedParty.member(0)->equipment.armor = 1406;
         OpenYAMM::Game::EventRuntimeState allowedState = {};
@@ -5073,7 +5154,7 @@ TEST_CASE("mm7 erathia mmmerge transport route switches contest destination")
     CHECK_EQ(emeraldRoute.directionDegrees, 90);
 
     OpenYAMM::Game::Party completedContestParty = makeScriptedRegressionParty();
-    completedContestParty.setQuestBit(519, true);
+    completedContestParty.campaign().setQuestBit(519, true);
     OpenYAMM::Game::EventRuntimeState completedContestState = {};
     REQUIRE(eventRuntime.buildOnLoadState(
         localEventProgram,
@@ -5140,15 +5221,15 @@ TEST_CASE("mm7 tularean caves mmmerge overlay adds Loren Steel as quest follower
     OpenYAMM::Game::Party party = makeScriptedRegressionParty();
     OpenYAMM::Game::EventRuntimeState runtimeState = {};
     REQUIRE(eventRuntime.executeEventById(localEventProgram, std::nullopt, 376, runtimeState, &party));
-    CHECK(party.hasQuestBit(1695));
-    CHECK(party.hasQuestBit(605));
+    CHECK(party.campaign().hasQuestBit(1695));
+    CHECK(party.campaign().hasQuestBit(605));
     REQUIRE_EQ(runtimeState.hiredNpcFollowers.size(), 1u);
     CHECK_EQ(runtimeState.hiredNpcFollowers.front().npcId, 410u);
     REQUIRE(runtimeState.pendingDialogueContext.has_value());
     CHECK_EQ(runtimeState.pendingDialogueContext->sourceId, 410u);
 
     OpenYAMM::Game::Party existingQuestParty = makeScriptedRegressionParty();
-    existingQuestParty.setQuestBit(1695, true);
+    existingQuestParty.campaign().setQuestBit(1695, true);
     OpenYAMM::Game::EventRuntimeState existingQuestState = {};
     REQUIRE(eventRuntime.executeEventById(localEventProgram, std::nullopt, 376, existingQuestState, &existingQuestParty));
     REQUIRE_EQ(existingQuestState.hiredNpcFollowers.size(), 1u);
@@ -5178,8 +5259,8 @@ TEST_CASE("mm7 global mmmerge supplement keeps quest followers in sync")
         OpenYAMM::Game::Party party = makeScriptedRegressionParty();
         OpenYAMM::Game::EventRuntimeState runtimeState = {};
         REQUIRE(eventRuntime.executeEventById(std::nullopt, globalEventProgram, 842, runtimeState, &party));
-        CHECK(party.hasQuestBit(557));
-        CHECK(party.hasQuestBit(1686));
+        CHECK(party.campaign().hasQuestBit(557));
+        CHECK(party.campaign().hasQuestBit(1686));
         CHECK(hasFollower(runtimeState, 395));
         CHECK_EQ(runtimeState.npcTopicOverrides[387][0], 843u);
         REQUIRE_FALSE(runtimeState.messages.empty());
@@ -5189,11 +5270,11 @@ TEST_CASE("mm7 global mmmerge supplement keeps quest followers in sync")
     {
         OpenYAMM::Game::EventRuntime eventRuntime = {};
         OpenYAMM::Game::Party party = makeScriptedRegressionParty();
-        party.setQuestBit(611, true);
+        party.campaign().setQuestBit(611, true);
         OpenYAMM::Game::EventRuntimeState runtimeState = {};
         REQUIRE(eventRuntime.executeEventById(std::nullopt, globalEventProgram, 805, runtimeState, &party));
-        CHECK(party.hasQuestBit(537));
-        CHECK(party.hasQuestBit(1685));
+        CHECK(party.campaign().hasQuestBit(537));
+        CHECK(party.campaign().hasQuestBit(1685));
         CHECK(hasFollower(runtimeState, 393));
         REQUIRE_FALSE(runtimeState.messages.empty());
         CHECK(runtimeState.messages.back().find("William has captured me") != std::string::npos);
@@ -5204,12 +5285,12 @@ TEST_CASE("mm7 global mmmerge supplement keeps quest followers in sync")
         OpenYAMM::Game::Party party = makeScriptedRegressionParty();
         OpenYAMM::Game::EventRuntimeState runtimeState = {};
         REQUIRE(eventRuntime.executeEventById(std::nullopt, globalEventProgram, 859, runtimeState, &party));
-        CHECK(party.hasQuestBit(1688));
+        CHECK(party.campaign().hasQuestBit(1688));
         REQUIRE_EQ(runtimeState.hiredNpcFollowers.size(), 1u);
         CHECK_EQ(runtimeState.hiredNpcFollowers.front().npcId, 399u);
 
         REQUIRE(eventRuntime.executeEventById(std::nullopt, globalEventProgram, 865, runtimeState, &party));
-        CHECK(party.hasQuestBit(1694));
+        CHECK(party.campaign().hasQuestBit(1694));
         CHECK(hasFollower(runtimeState, 405));
     }
 
@@ -5218,7 +5299,7 @@ TEST_CASE("mm7 global mmmerge supplement keeps quest followers in sync")
         OpenYAMM::Game::Party party = makeScriptedRegressionParty();
         for (uint32_t qbitId = 1688; qbitId <= 1694; ++qbitId)
         {
-            party.setQuestBit(qbitId, true);
+            party.campaign().setQuestBit(qbitId, true);
         }
 
         OpenYAMM::Game::EventRuntimeState runtimeState = {};
@@ -5229,14 +5310,14 @@ TEST_CASE("mm7 global mmmerge supplement keeps quest followers in sync")
         }
 
         REQUIRE(eventRuntime.executeEventById(std::nullopt, globalEventProgram, 858, runtimeState, &party));
-        CHECK(party.hasQuestBit(610));
+        CHECK(party.campaign().hasQuestBit(610));
         CHECK(runtimeState.hiredNpcFollowers.empty());
     }
 
     {
         OpenYAMM::Game::EventRuntime eventRuntime = {};
         OpenYAMM::Game::Party party = makeScriptedRegressionParty();
-        party.setQuestBit(610, true);
+        party.campaign().setQuestBit(610, true);
         OpenYAMM::Game::EventRuntimeState runtimeState = {};
         runtimeState.hiredNpcFollowers.push_back({399, 0, 0});
         party.addHiredNpcFollower({399, 0, 0});
@@ -5258,19 +5339,19 @@ TEST_CASE("mm7 global mmmerge supplement keeps quest followers in sync")
         OpenYAMM::Game::Party party = makeScriptedRegressionParty();
         OpenYAMM::Game::EventRuntimeState runtimeState = {};
         REQUIRE(eventRuntime.executeEventById(std::nullopt, globalEventProgram, 884, runtimeState, &party));
-        CHECK(party.hasQuestBit(1696));
+        CHECK(party.campaign().hasQuestBit(1696));
         CHECK(hasFollower(runtimeState, 411));
     }
 
     {
         OpenYAMM::Game::EventRuntime eventRuntime = {};
         OpenYAMM::Game::Party party = makeScriptedRegressionParty();
-        party.setQuestBit(1695, true);
+        party.campaign().setQuestBit(1695, true);
         OpenYAMM::Game::EventRuntimeState runtimeState = {};
         runtimeState.hiredNpcFollowers.push_back({410, 0, 0});
         party.addHiredNpcFollower({410, 0, 0});
         REQUIRE(eventRuntime.executeEventById(std::nullopt, globalEventProgram, 875, runtimeState, &party));
-        CHECK_FALSE(party.hasQuestBit(1695));
+        CHECK_FALSE(party.campaign().hasQuestBit(1695));
         CHECK_FALSE(hasFollower(runtimeState, 410));
     }
 
@@ -5283,14 +5364,14 @@ TEST_CASE("mm7 global mmmerge supplement keeps quest followers in sync")
         REQUIRE(eventRuntime.executeEventById(std::nullopt, globalEventProgram, 891, runtimeState, &party));
         CHECK_FALSE(hasFollower(runtimeState, 416));
         CHECK(hasFollower(runtimeState, 417));
-        CHECK_FALSE(party.hasQuestBit(1697));
-        CHECK(party.hasQuestBit(1698));
+        CHECK_FALSE(party.campaign().hasQuestBit(1697));
+        CHECK(party.campaign().hasQuestBit(1698));
 
         REQUIRE(eventRuntime.executeEventById(std::nullopt, globalEventProgram, 893, runtimeState, &party));
         CHECK(hasFollower(runtimeState, 416));
         CHECK_FALSE(hasFollower(runtimeState, 417));
-        CHECK(party.hasQuestBit(1697));
-        CHECK_FALSE(party.hasQuestBit(1698));
+        CHECK(party.campaign().hasQuestBit(1697));
+        CHECK_FALSE(party.campaign().hasQuestBit(1698));
     }
 }
 
@@ -5313,7 +5394,7 @@ TEST_CASE("mm7 global mmmerge supplement applies remaining original quest fixups
         CHECK(runtimeState.grantedItems.front().identified);
         CHECK_EQ(runtimeState.grantedItems.front().currentCharges, 30u);
         CHECK_EQ(runtimeState.grantedItems.front().maxCharges, 30u);
-        CHECK(party.hasQuestBit(526));
+        CHECK(party.campaign().hasQuestBit(526));
         CHECK_EQ(runtimeState.npcItemOverrides[345], 0u);
         CHECK_EQ(runtimeState.npcTopicOverrides[345][0], 767u);
         CHECK_EQ(runtimeState.npcTopicOverrides[345][1], 0u);
@@ -5323,7 +5404,7 @@ TEST_CASE("mm7 global mmmerge supplement applies remaining original quest fixups
     {
         OpenYAMM::Game::EventRuntime eventRuntime = {};
         OpenYAMM::Game::Party resolvedParty = makeScriptedRegressionParty();
-        resolvedParty.setQuestBit(761, true);
+        resolvedParty.campaign().setQuestBit(761, true);
         OpenYAMM::Game::EventRuntimeState resolvedState = {};
         RecordingSceneEventContext sceneContext = {};
         REQUIRE(eventRuntime.executeEventById(
@@ -5367,7 +5448,7 @@ TEST_CASE("mm7 global mmmerge supplement applies remaining original quest fixups
             paidState,
             &paidParty,
             &paidSceneContext));
-        CHECK(paidParty.hasQuestBit(761));
+        CHECK(paidParty.campaign().hasQuestBit(761));
         CHECK_EQ(paidParty.gold(), 0);
         CHECK(paidSceneContext.summonMonstersCalls.empty());
         REQUIRE_FALSE(paidState.messages.empty());
@@ -5376,7 +5457,7 @@ TEST_CASE("mm7 global mmmerge supplement applies remaining original quest fixups
 
         OpenYAMM::Game::EventRuntimeState forcedState = {};
         OpenYAMM::Game::Party forcedParty = makeScriptedRegressionParty();
-        forcedParty.setQuestBit(761, true);
+        forcedParty.campaign().setQuestBit(761, true);
         REQUIRE(eventRuntime.executeEventById(
             std::nullopt,
             globalEventProgram,
@@ -5394,7 +5475,7 @@ TEST_CASE("mm7 global mmmerge supplement applies remaining original quest fixups
     {
         OpenYAMM::Game::EventRuntime eventRuntime = {};
         OpenYAMM::Game::Party party = makeScriptedRegressionParty();
-        party.setQuestBit(528, true);
+        party.campaign().setQuestBit(528, true);
         OpenYAMM::Game::EventRuntimeState runtimeState = {};
         runtimeState.activeHistoryContinentId = 2;
         runtimeState.variables[static_cast<uint32_t>(OpenYAMM::Game::EvtVariable::Hour)] = 6;
@@ -5403,10 +5484,10 @@ TEST_CASE("mm7 global mmmerge supplement applies remaining original quest fixups
         REQUIRE(eventRuntime.executeEventById(
             std::nullopt, globalEventProgram, 783, runtimeState, &party, &sceneContext));
         // Its pages 1 and 2 are the forward pages, known from the start; the castle pages come later.
-        CHECK_FALSE(party.historyEventTimes(2).contains(3));
-        CHECK_FALSE(party.historyEventTimes(2).contains(4));
+        CHECK_FALSE(party.campaign().historyEventTimes(2).contains(3));
+        CHECK_FALSE(party.campaign().historyEventTimes(2).contains(4));
         CHECK_EQ(sceneContext.currentGameMinutes(), 360.0f + 14 * 24 * 60);
-        CHECK_FALSE(party.hasQuestBit(528));
+        CHECK_FALSE(party.campaign().hasQuestBit(528));
         CHECK_EQ(runtimeState.npcHouseOverrides[340], 215u);
         CHECK_EQ(runtimeState.npcGreetingOverrides[340], 320u);
         CHECK_EQ(runtimeState.npcTopicOverrides[340][3], 0u);
@@ -5422,11 +5503,11 @@ TEST_CASE("mm7 global mmmerge supplement applies remaining original quest fixups
         OpenYAMM::Game::Party party = makeScriptedRegressionParty();
         REQUIRE(party.member(0) != nullptr);
         REQUIRE(party.member(0)->addInventoryItem(makeScriptedInventoryItem(1407)));
-        party.setQuestBit(642, true);
+        party.campaign().setQuestBit(642, true);
         OpenYAMM::Game::EventRuntimeState runtimeState = {};
         REQUIRE(eventRuntime.executeEventById(std::nullopt, globalEventProgram, 920, runtimeState, &party));
-        CHECK(party.hasQuestBit(783));
-        CHECK_FALSE(party.hasQuestBit(642));
+        CHECK(party.campaign().hasQuestBit(783));
+        CHECK_FALSE(party.campaign().hasQuestBit(642));
         CHECK_EQ(party.inventoryItemCount(1407), 0);
         CHECK_EQ(runtimeState.npcTopicOverrides[419][1], 0u);
         REQUIRE(runtimeState.pendingMovie.has_value());
@@ -5436,11 +5517,11 @@ TEST_CASE("mm7 global mmmerge supplement applies remaining original quest fixups
         OpenYAMM::Game::Party darkParty = makeScriptedRegressionParty();
         REQUIRE(darkParty.member(0) != nullptr);
         REQUIRE(darkParty.member(0)->addInventoryItem(makeScriptedInventoryItem(1407)));
-        darkParty.setQuestBit(643, true);
+        darkParty.campaign().setQuestBit(643, true);
         OpenYAMM::Game::EventRuntimeState darkRuntimeState = {};
         REQUIRE(eventRuntime.executeEventById(std::nullopt, globalEventProgram, 922, darkRuntimeState, &darkParty));
-        CHECK(darkParty.hasQuestBit(783));
-        CHECK_FALSE(darkParty.hasQuestBit(643));
+        CHECK(darkParty.campaign().hasQuestBit(783));
+        CHECK_FALSE(darkParty.campaign().hasQuestBit(643));
         CHECK_EQ(darkParty.inventoryItemCount(1407), 0);
         CHECK_EQ(darkRuntimeState.npcTopicOverrides[423][1], 0u);
         REQUIRE(darkRuntimeState.pendingMovie.has_value());
@@ -5510,16 +5591,16 @@ TEST_CASE("mm7 global mmmerge supplement applies hatchling fixups and has no Ver
         OpenYAMM::Game::EventRuntime eventRuntime = {};
         OpenYAMM::Game::Party party = makeScriptedRegressionParty();
         party.setClassSkillTable(&mapLoader.gameDataLoader.getClassSkillTable());
-        party.setQuestBit(611, true);
-        party.setQuestBit(1613, true);
+        party.campaign().setQuestBit(611, true);
+        party.campaign().setQuestBit(1613, true);
         OpenYAMM::Game::EventRuntimeState runtimeState = {};
 
         REQUIRE(eventRuntime.executeEventById(std::nullopt, globalEventProgram, 850, runtimeState, &party));
-        CHECK(party.hasQuestBit(566));
+        CHECK(party.campaign().hasQuestBit(566));
         CHECK_EQ(runtimeState.npcTopicOverrides[389][1], 851u);
 
         REQUIRE(eventRuntime.executeEventById(std::nullopt, globalEventProgram, 852, runtimeState, &party));
-        CHECK(party.hasQuestBit(567));
+        CHECK(party.campaign().hasQuestBit(567));
         CHECK_EQ(runtimeState.npcTopicOverrides[390][0], 853u);
 
         REQUIRE(eventRuntime.executeEventById(std::nullopt, globalEventProgram, 950, runtimeState, &party));
@@ -5566,8 +5647,8 @@ TEST_CASE("mm7 global mmmerge supplement applies hatchling fixups and has no Ver
         CHECK_EQ(pWizard->skills.count("RepairItem"), 0u);
         CHECK_EQ(pWizard->skillPoints, 7u);
         CHECK_EQ(party.inventoryItemCount(1417), 0);
-        CHECK(party.hasQuestBit(1623));
-        CHECK(party.hasQuestBit(1624));
+        CHECK(party.campaign().hasQuestBit(1623));
+        CHECK(party.campaign().hasQuestBit(1624));
         CHECK_EQ(runtimeState.npcTopicOverrides[388][0], 0u);
         CHECK_EQ(runtimeState.npcGreetingOverrides[388], 194u);
     }
@@ -5577,18 +5658,18 @@ TEST_CASE("mm7 global mmmerge supplement applies hatchling fixups and has no Ver
         OpenYAMM::Game::Party party = makeScriptedRegressionParty();
         party.setClassSkillTable(&mapLoader.gameDataLoader.getClassSkillTable());
         REQUIRE(party.setMemberClassName(0, "Monk"));
-        party.setQuestBit(539, true);
-        party.setQuestBit(1685, true);
+        party.campaign().setQuestBit(539, true);
+        party.campaign().setQuestBit(1685, true);
         OpenYAMM::Game::EventRuntimeState runtimeState = {};
 
         REQUIRE(eventRuntime.executeEventById(std::nullopt, globalEventProgram, 810, runtimeState, &party));
         const OpenYAMM::Game::Character *pMember = party.member(0);
         REQUIRE(pMember != nullptr);
         CHECK_EQ(pMember->className, "Initiate");
-        CHECK(party.hasQuestBit(1572));
-        CHECK(party.hasQuestBit(1573));
-        CHECK_FALSE(party.hasQuestBit(539));
-        CHECK(party.hasQuestBit(1685));
+        CHECK(party.campaign().hasQuestBit(1572));
+        CHECK(party.campaign().hasQuestBit(1573));
+        CHECK_FALSE(party.campaign().hasQuestBit(539));
+        CHECK(party.campaign().hasQuestBit(1685));
         CHECK_EQ(runtimeState.npcTopicOverrides[377][0], 810u);
         CHECK_EQ(runtimeState.npcTopicOverrides[377][1], 811u);
         CHECK_EQ(runtimeState.npcTopicOverrides[394][0], 810u);
@@ -5604,30 +5685,30 @@ TEST_CASE("mm7 global mmmerge supplement applies hatchling fixups and has no Ver
         OpenYAMM::Game::EventRuntime eventRuntime = {};
         OpenYAMM::Game::Party party = makeScriptedRegressionParty();
         party.setClassSkillTable(&mapLoader.gameDataLoader.getClassSkillTable());
-        party.setQuestBit(652, true);
+        party.campaign().setQuestBit(652, true);
         OpenYAMM::Game::EventRuntimeState runtimeState = {};
 
         REQUIRE(eventRuntime.executeEventById(std::nullopt, globalEventProgram, 824, runtimeState, &party));
         const OpenYAMM::Game::Character *pMember = party.member(0);
         REQUIRE(pMember != nullptr);
         CHECK_EQ(pMember->className, "Cavalier");
-        CHECK(party.hasQuestBit(1566));
-        CHECK(party.hasQuestBit(1567));
+        CHECK(party.campaign().hasQuestBit(1566));
+        CHECK(party.campaign().hasQuestBit(1567));
         CHECK_EQ(runtimeState.npcTopicOverrides[382][1], 825u);
 
-        party.setQuestBit(611, true);
+        party.campaign().setQuestBit(611, true);
         REQUIRE(eventRuntime.executeEventById(std::nullopt, globalEventProgram, 821, runtimeState, &party));
-        CHECK(party.hasQuestBit(545));
+        CHECK(party.campaign().hasQuestBit(545));
         CHECK_EQ(runtimeState.npcTopicOverrides[381][0], 822u);
 
-        party.setEventVariableValue(static_cast<uint16_t>(OpenYAMM::Game::EvtVariable::ArenaWinsKnight), 5);
+        party.campaign().setEventVariableValue(static_cast<uint16_t>(OpenYAMM::Game::EvtVariable::ArenaWinsKnight), 5);
         REQUIRE(eventRuntime.executeEventById(std::nullopt, globalEventProgram, 822, runtimeState, &party));
         pMember = party.member(0);
         REQUIRE(pMember != nullptr);
         CHECK_EQ(pMember->className, "Champion");
-        CHECK(party.hasQuestBit(1568));
-        CHECK(party.hasQuestBit(1569));
-        CHECK_FALSE(party.hasQuestBit(545));
+        CHECK(party.campaign().hasQuestBit(1568));
+        CHECK(party.campaign().hasQuestBit(1569));
+        CHECK_FALSE(party.campaign().hasQuestBit(545));
     }
 
     {
@@ -5635,15 +5716,15 @@ TEST_CASE("mm7 global mmmerge supplement applies hatchling fixups and has no Ver
         OpenYAMM::Game::Party party = makeScriptedRegressionParty();
         party.setClassSkillTable(&mapLoader.gameDataLoader.getClassSkillTable());
         REQUIRE(party.setMemberClassName(0, "GreatDruid"));
-        party.setQuestBit(577, true);
+        party.campaign().setQuestBit(577, true);
         OpenYAMM::Game::EventRuntimeState runtimeState = {};
 
         REQUIRE(eventRuntime.executeEventById(std::nullopt, globalEventProgram, 851, runtimeState, &party));
         const OpenYAMM::Game::Character *pMember = party.member(0);
         REQUIRE(pMember != nullptr);
         CHECK_EQ(pMember->className, "ArchDruid");
-        CHECK(party.hasQuestBit(1615));
-        CHECK(party.hasQuestBit(1616));
+        CHECK(party.campaign().hasQuestBit(1615));
+        CHECK(party.campaign().hasQuestBit(1616));
     }
 }
 
@@ -5755,7 +5836,7 @@ TEST_CASE("mm7 shoals let a dragon in with a carried wetsuit and still want the 
         {
             OpenYAMM::Game::Party party = makeScriptedRegressionParty();
             party.setCharacterDollTable(&dolls);
-            party.setQuestBit(642, true);
+            party.campaign().setQuestBit(642, true);
             OpenYAMM::Game::Character &member = *party.member(0);
             member.characterDataId = dragon ? 25 : 0;
             member.health = 40;
@@ -5829,14 +5910,14 @@ TEST_CASE("mm7 stone city mmmerge throne room and dwarf king cleanup")
     CHECK_EQ(lockedState.statusMessages.back(), "The Door is Locked");
 
     OpenYAMM::Game::Party allowedParty = makeScriptedRegressionParty();
-    allowedParty.setQuestBit(647, true);
+    allowedParty.campaign().setQuestBit(647, true);
     OpenYAMM::Game::EventRuntimeState allowedState = {};
     REQUIRE(eventRuntime.executeEventById(localEventProgram, std::nullopt, 416, allowedState, &allowedParty));
     REQUIRE(allowedState.pendingDialogueContext.has_value());
     CHECK_EQ(allowedState.pendingDialogueContext->sourceId, 216u);
 
     OpenYAMM::Game::Party cleanupParty = makeScriptedRegressionParty();
-    cleanupParty.setQuestBit(658, true);
+    cleanupParty.campaign().setQuestBit(658, true);
     OpenYAMM::Game::EventRuntimeState cleanupState = {};
     OpenYAMM::Game::EventRuntimeState::ActiveHookContext hookContext = {};
     hookContext.kind = OpenYAMM::Game::EventRuntimeHookKind::NpcExit;
@@ -5848,7 +5929,7 @@ TEST_CASE("mm7 stone city mmmerge throne room and dwarf king cleanup")
         OpenYAMM::Game::EventRuntimeHookKind::NpcExit,
         cleanupState,
         &cleanupParty));
-    CHECK_FALSE(cleanupParty.hasQuestBit(658));
+    CHECK_FALSE(cleanupParty.campaign().hasQuestBit(658));
 }
 
 TEST_CASE("mm7 colony zod releases Roland and restores the open pathway")
@@ -5867,15 +5948,15 @@ TEST_CASE("mm7 colony zod releases Roland and restores the open pathway")
     freshState.activeHistoryContinentId = 2;
     freshState.variables[static_cast<uint32_t>(OpenYAMM::Game::EvtVariable::Hour)] = 6;
     REQUIRE(eventRuntime.executeEventById(localEventProgram, std::nullopt, 376, freshState, &freshParty));
-    CHECK_EQ(freshParty.historyEventTimes(2).at(24), 360);
+    CHECK_EQ(freshParty.campaign().historyEventTimes(2).at(24), 360);
     // Handed over, as the game does (applyGrantedEventItemsToHeldInventory): granted items wait for it.
     freshState.grantedItems.clear();
     freshState.variables[static_cast<uint32_t>(OpenYAMM::Game::EvtVariable::Hour)] = 7;
     REQUIRE(eventRuntime.executeEventById(localEventProgram, std::nullopt, 376, freshState, &freshParty));
-    CHECK_EQ(freshParty.historyEventTimes(2).at(24), 360);
+    CHECK_EQ(freshParty.campaign().historyEventTimes(2).at(24), 360);
     REQUIRE_EQ(freshState.grantedItems.size(), 1u);
     CHECK_EQ(freshState.grantedItems.front().objectDescriptionId, 1463u);
-    CHECK(freshParty.hasQuestBit(752));
+    CHECK(freshParty.campaign().hasQuestBit(752));
     CHECK_EQ(freshState.spriteOverrides[20].textureName, "0");
     CHECK_EQ(
         freshState.facetSetMasks[1] & static_cast<uint32_t>(OpenYAMM::Game::FaceAttribute::Invisible),
@@ -5895,7 +5976,7 @@ TEST_CASE("mm7 colony zod releases Roland and restores the open pathway")
         inventoryKeyState,
         &inventoryKeyParty));
     CHECK(inventoryKeyState.grantedItems.empty());
-    CHECK(inventoryKeyParty.hasQuestBit(752));
+    CHECK(inventoryKeyParty.campaign().hasQuestBit(752));
     CHECK_EQ(inventoryKeyState.spriteOverrides[20].textureName, "0");
     CHECK_EQ(
         inventoryKeyState.facetSetMasks[1] & static_cast<uint32_t>(OpenYAMM::Game::FaceAttribute::Invisible),
@@ -5909,7 +5990,7 @@ TEST_CASE("mm7 colony zod releases Roland and restores the open pathway")
     OpenYAMM::Game::EventRuntimeState heldKeyState = {};
     REQUIRE(eventRuntime.executeEventById(localEventProgram, std::nullopt, 376, heldKeyState, &heldKeyParty));
     CHECK(heldKeyState.grantedItems.empty());
-    CHECK(heldKeyParty.hasQuestBit(752));
+    CHECK(heldKeyParty.campaign().hasQuestBit(752));
     CHECK_EQ(heldKeyState.spriteOverrides[20].textureName, "0");
     CHECK_EQ(
         heldKeyState.facetSetMasks[1] & static_cast<uint32_t>(OpenYAMM::Game::FaceAttribute::Invisible),
@@ -5930,7 +6011,7 @@ TEST_CASE("mm7 colony zod releases Roland and restores the open pathway")
     CHECK(unreleasedState.facetSetMasks.find(1) == unreleasedState.facetSetMasks.end());
 
     OpenYAMM::Game::Party releasedParty = makeScriptedRegressionParty();
-    releasedParty.setQuestBit(752, true);
+    releasedParty.campaign().setQuestBit(752, true);
     OpenYAMM::Game::EventRuntimeState releasedState = {};
     REQUIRE(eventRuntime.buildOnLoadState(
         localEventProgram,
@@ -5965,7 +6046,7 @@ TEST_CASE("mm7 phase1 mmmerge map overlays apply runtime state changes")
 
         OpenYAMM::Game::EventRuntime eventRuntime = {};
         OpenYAMM::Game::Party party = makeScriptedRegressionParty();
-        party.setQuestBit(611, true);
+        party.campaign().setQuestBit(611, true);
         OpenYAMM::Game::EventRuntimeState runtimeState = loadedState;
         REQUIRE(eventRuntime.executeOnLoadEvents(
             selectedMap->localEventProgram,
@@ -5991,7 +6072,7 @@ TEST_CASE("mm7 phase1 mmmerge map overlays apply runtime state changes")
         REQUIRE_MESSAGE(localEventProgram.has_value(), error.c_str());
         OpenYAMM::Game::EventRuntime eventRuntime = {};
         OpenYAMM::Game::Party party = makeScriptedRegressionParty();
-        party.setQuestBit(612, true);
+        party.campaign().setQuestBit(612, true);
         OpenYAMM::Game::EventRuntimeState runtimeState = {};
         REQUIRE(eventRuntime.buildOnLoadState(localEventProgram, std::nullopt, std::nullopt, runtimeState, &party));
         CHECK_EQ(
@@ -6016,7 +6097,7 @@ TEST_CASE("mm7 phase1 mmmerge map overlays apply runtime state changes")
         REQUIRE(eventRuntime.executeEventById(localEventProgram, std::nullopt, 376, runtimeState, &party));
         REQUIRE_EQ(runtimeState.grantedItems.size(), 1u);
         CHECK_EQ(runtimeState.grantedItems.front().objectDescriptionId, 1463u);
-        CHECK(party.hasQuestBit(752));
+        CHECK(party.campaign().hasQuestBit(752));
         CHECK_EQ(runtimeState.spriteOverrides[20].textureName, "0");
         CHECK_EQ(
             runtimeState.facetSetMasks[1] & static_cast<uint32_t>(OpenYAMM::Game::FaceAttribute::Invisible),
@@ -6039,7 +6120,7 @@ TEST_CASE("mm7 phase1 mmmerge map overlays apply runtime state changes")
         REQUIRE(eventRuntime.executeEventById(localEventProgram, std::nullopt, 376, runtimeState, &party));
         REQUIRE_EQ(runtimeState.hiredNpcFollowers.size(), 1u);
         CHECK_EQ(runtimeState.hiredNpcFollowers.front().npcId, 400u);
-        CHECK(party.hasQuestBit(1689));
+        CHECK(party.campaign().hasQuestBit(1689));
         REQUIRE(runtimeState.pendingDialogueContext.has_value());
         CHECK_EQ(runtimeState.pendingDialogueContext->kind, OpenYAMM::Game::DialogueContextKind::NpcTalk);
         CHECK_EQ(runtimeState.pendingDialogueContext->sourceId, 400u);
@@ -6097,7 +6178,7 @@ TEST_CASE("mm7 phase1 mmmerge map overlays apply runtime state changes")
         OpenYAMM::Game::EventRuntimeState runtimeState = {};
         REQUIRE(eventRuntime.executeEventById(localEventProgram, std::nullopt, 376, runtimeState, &party));
         CHECK_EQ(runtimeState.namedMapVars["PortraitTaken"], 1);
-        CHECK(party.hasQuestBit(778));
+        CHECK(party.campaign().hasQuestBit(778));
         REQUIRE_EQ(runtimeState.grantedItemIds.size(), 1u);
         CHECK_EQ(runtimeState.grantedItemIds.front(), 1423u);
         CHECK_EQ(runtimeState.textureOverrides[15], "t2bs");
@@ -6136,11 +6217,11 @@ TEST_CASE("mm7 Evenmorn obelisk treasure shows only at midnight after every obel
 
     for (uint32_t qbitId = 676; qbitId <= 688; ++qbitId)
     {
-        party.setQuestBit(qbitId, true);
+        party.campaign().setQuestBit(qbitId, true);
     }
     CHECK(treasureHidden(0));
 
-    party.setQuestBit(689, true);
+    party.campaign().setQuestBit(689, true);
     CHECK(treasureHidden(5));
     CHECK(treasureHidden(1));
     CHECK(treasureHidden(23));
@@ -6158,7 +6239,7 @@ TEST_CASE("mm7 rescued dwarf and Haunted Mansion portrait states survive map rel
         OpenYAMM::Game::EventRuntime eventRuntime = {};
         OpenYAMM::Game::Party party = makeScriptedRegressionParty();
         party.grantItem(1431);
-        party.setQuestBit(1689, true);
+        party.campaign().setQuestBit(1689, true);
 
         OpenYAMM::Game::EventRuntimeState interactionState = {};
         REQUIRE(eventRuntime.executeEventById(
@@ -6193,7 +6274,7 @@ TEST_CASE("mm7 rescued dwarf and Haunted Mansion portrait states survive map rel
 
         OpenYAMM::Game::EventRuntime eventRuntime = {};
         OpenYAMM::Game::Party restoredParty = makeScriptedRegressionParty();
-        restoredParty.setQuestBit(778, true);
+        restoredParty.campaign().setQuestBit(778, true);
         OpenYAMM::Game::EventRuntimeState restoredState = {};
         REQUIRE(eventRuntime.buildOnLoadState(
             localEventProgram,
@@ -6221,7 +6302,7 @@ TEST_CASE("mm7 rescued dwarf and Haunted Mansion portrait states survive map rel
             376,
             paintingState,
             &paintingParty));
-        CHECK(paintingParty.hasQuestBit(778));
+        CHECK(paintingParty.campaign().hasQuestBit(778));
         CHECK(paintingState.grantedItemIds.empty());
         CHECK_EQ(paintingState.namedMapVars["PortraitTaken"], 1);
         CHECK_EQ(paintingState.textureOverrides[15], "t2bs");
@@ -6271,10 +6352,10 @@ TEST_CASE("mm7 phase1 mmmerge travel and after-load overlays apply destinations"
         REQUIRE_MESSAGE(localEventProgram.has_value(), error.c_str());
         OpenYAMM::Game::EventRuntime eventRuntime = {};
         OpenYAMM::Game::Party party = makeScriptedRegressionParty();
-        party.setQuestBit(616, true);
+        party.campaign().setQuestBit(616, true);
         OpenYAMM::Game::EventRuntimeState runtimeState = {};
         REQUIRE(eventRuntime.buildOnLoadState(localEventProgram, std::nullopt, std::nullopt, runtimeState, &party));
-        CHECK(party.hasQuestBit(775));
+        CHECK(party.campaign().hasQuestBit(775));
         CHECK_EQ(runtimeState.npcGreetingOverrides[462], 316u);
         REQUIRE_EQ(runtimeState.grantedItems.size(), 1u);
         CHECK_EQ(runtimeState.grantedItems.front().objectDescriptionId, 866u);
@@ -6365,8 +6446,8 @@ TEST_CASE("mm6 outdoor mmmerge supplements unlock local town portal destinations
         OpenYAMM::Game::EventRuntime eventRuntime = {};
 
         REQUIRE(eventRuntime.buildOnLoadState(localEventProgram, std::nullopt, std::nullopt, runtimeState, &party));
-        CHECK(party.hasQuestBit(testCase.qbitId));
-        CHECK_FALSE(party.hasQuestBit(testCase.dragonTowerQbitId));
+        CHECK(party.campaign().hasQuestBit(testCase.qbitId));
+        CHECK_FALSE(party.campaign().hasQuestBit(testCase.dragonTowerQbitId));
 
         if (std::string(testCase.pBaseName) == "outc1")
         {
@@ -6380,7 +6461,7 @@ TEST_CASE("mm6 outdoor mmmerge supplements unlock local town portal destinations
             CHECK(*runtimeState.snowEnabled);
 
             OpenYAMM::Game::Party hermitOnlyParty = makeScriptedRegressionParty();
-            hermitOnlyParty.setQuestBit(1252, true);
+            hermitOnlyParty.campaign().setQuestBit(1252, true);
             OpenYAMM::Game::EventRuntimeState hermitOnlyState = {};
             REQUIRE(eventRuntime.buildOnLoadState(
                 localEventProgram,
@@ -6437,7 +6518,7 @@ TEST_CASE("mm6 outdoor mmmerge supplements unlock local town portal destinations
             towerState,
             &party,
             nullptr));
-        CHECK(party.hasQuestBit(testCase.dragonTowerQbitId));
+        CHECK(party.campaign().hasQuestBit(testCase.dragonTowerQbitId));
 
         REQUIRE(towerState.outdoorModelFacetTextureOverrides.contains(textureKey));
         CHECK_EQ(towerState.outdoorModelFacetTextureOverrides.at(textureKey), "t1swbu");
@@ -6541,7 +6622,7 @@ TEST_CASE("mm6 outdoor mmmerge supplements unlock local town portal destinations
             0,
             OpenYAMM::Game::SkillMastery::Normal,
             0);
-        disabledParty.setQuestBit(testCase.dragonTowerQbitId, true);
+        disabledParty.campaign().setQuestBit(testCase.dragonTowerQbitId, true);
         RecordingGameplayWorldContext disabledContext = {};
         disabledContext.setPartyFlyingForEventChecks(true);
         REQUIRE(eventRuntime.executeEventById(
@@ -6635,13 +6716,13 @@ TEST_CASE("mm6 loretta stable overlays preserve stable entry")
             fallbackState,
             &fallbackParty,
             &noonContext));
-        CHECK_FALSE(fallbackParty.hasQuestBit(testCase.lorettaQbitId));
+        CHECK_FALSE(fallbackParty.campaign().hasQuestBit(testCase.lorettaQbitId));
         REQUIRE(fallbackState.pendingDialogueContext.has_value());
         CHECK_EQ(fallbackState.pendingDialogueContext->kind, OpenYAMM::Game::DialogueContextKind::HouseService);
         CHECK_EQ(fallbackState.pendingDialogueContext->sourceId, testCase.houseId);
 
         OpenYAMM::Game::Party activeParty = makeScriptedRegressionParty();
-        activeParty.setQuestBit(1140, true);
+        activeParty.campaign().setQuestBit(1140, true);
         OpenYAMM::Game::EventRuntimeState activeState = {};
         REQUIRE(eventRuntime.executeEventById(
             localEventProgram,
@@ -6650,8 +6731,8 @@ TEST_CASE("mm6 loretta stable overlays preserve stable entry")
             activeState,
             &activeParty,
             &noonContext));
-        CHECK_FALSE(activeParty.hasQuestBit(testCase.lorettaQbitId));
-        CHECK_FALSE(activeParty.hasQuestBit(1141));
+        CHECK_FALSE(activeParty.campaign().hasQuestBit(testCase.lorettaQbitId));
+        CHECK_FALSE(activeParty.campaign().hasQuestBit(1141));
         REQUIRE(activeState.pendingDialogueContext.has_value());
         CHECK_EQ(activeState.pendingDialogueContext->kind, OpenYAMM::Game::DialogueContextKind::HouseService);
         CHECK_EQ(activeState.pendingDialogueContext->sourceId, testCase.houseId);
@@ -6752,7 +6833,7 @@ TEST_CASE("mm6 global mmmerge supplement keeps rescue followers and collector to
         REQUIRE(runtimeState.npcTopicOverrides.contains(817));
         CHECK_EQ(runtimeState.npcTopicOverrides[817][3], 0u);
 
-        party.setQuestBit(1051, true);
+        party.campaign().setQuestBit(1051, true);
         REQUIRE(eventRuntime.executeHooks(
             std::nullopt,
             globalEventProgram,
@@ -6779,8 +6860,8 @@ TEST_CASE("mm6 global mmmerge supplement keeps rescue followers and collector to
         OpenYAMM::Game::Party party = makeScriptedRegressionParty();
         OpenYAMM::Game::EventRuntimeState runtimeState = {};
         REQUIRE(eventRuntime.executeEventById(std::nullopt, globalEventProgram, 1331, runtimeState, &party));
-        CHECK(party.hasQuestBit(1114));
-        CHECK(party.hasQuestBit(1700));
+        CHECK(party.campaign().hasQuestBit(1114));
+        CHECK(party.campaign().hasQuestBit(1700));
         CHECK(hasFollower(runtimeState, 798));
         CHECK_EQ(runtimeState.npcTopicOverrides[798][0], 1332u);
         REQUIRE_FALSE(runtimeState.messages.empty());
@@ -6792,7 +6873,7 @@ TEST_CASE("mm6 global mmmerge supplement keeps rescue followers and collector to
         OpenYAMM::Game::Party party = makeScriptedRegressionParty();
         OpenYAMM::Game::EventRuntimeState runtimeState = {};
         REQUIRE(eventRuntime.executeEventById(std::nullopt, globalEventProgram, 1334, runtimeState, &party));
-        CHECK(party.hasQuestBit(1700));
+        CHECK(party.campaign().hasQuestBit(1700));
         CHECK(hasFollower(runtimeState, 798));
         CHECK_EQ(runtimeState.npcTopicOverrides[798][0], 1335u);
         REQUIRE_FALSE(runtimeState.messages.empty());
@@ -6804,11 +6885,11 @@ TEST_CASE("mm6 global mmmerge supplement keeps rescue followers and collector to
         OpenYAMM::Game::Party party = makeScriptedRegressionParty();
         OpenYAMM::Game::EventRuntimeState runtimeState = {};
         REQUIRE(eventRuntime.executeEventById(std::nullopt, globalEventProgram, 1634, runtimeState, &party));
-        CHECK(party.hasQuestBit(1702));
+        CHECK(party.campaign().hasQuestBit(1702));
         CHECK(hasFollower(runtimeState, 893));
 
         REQUIRE(eventRuntime.executeEventById(std::nullopt, globalEventProgram, 1631, runtimeState, &party));
-        CHECK_FALSE(party.hasQuestBit(1702));
+        CHECK_FALSE(party.campaign().hasQuestBit(1702));
         CHECK_FALSE(hasFollower(runtimeState, 893));
         CHECK(party.hasAward(88));
     }
@@ -6819,11 +6900,11 @@ TEST_CASE("mm6 global mmmerge supplement keeps rescue followers and collector to
         OpenYAMM::Game::EventRuntimeState runtimeState = {};
         runtimeState.hiredNpcFollowers.push_back({980, 0, 0});
         party.addHiredNpcFollower({980, 0, 0});
-        party.setQuestBit(1704, true);
-        party.setQuestBit(1163, true);
+        party.campaign().setQuestBit(1704, true);
+        party.campaign().setQuestBit(1163, true);
         REQUIRE(eventRuntime.executeEventById(std::nullopt, globalEventProgram, 1642, runtimeState, &party));
         CHECK_FALSE(hasFollower(runtimeState, 980));
-        CHECK_FALSE(party.hasQuestBit(1704));
+        CHECK_FALSE(party.campaign().hasQuestBit(1704));
         CHECK(party.hasAward(91));
     }
 
@@ -6890,7 +6971,7 @@ TEST_CASE("mm6 global mmmerge supplement keeps rescue followers and collector to
 
             for (uint32_t qbitId : testCase.prerequisiteQBitIds)
             {
-                party.setQuestBit(qbitId, true);
+                party.campaign().setQuestBit(qbitId, true);
             }
 
             if (testCase.itemId != 0)
@@ -6911,7 +6992,7 @@ TEST_CASE("mm6 global mmmerge supplement keeps rescue followers and collector to
             pFifthMember = party.member(4);
             REQUIRE(pFifthMember != nullptr);
             CHECK_EQ(pFifthMember->className, std::string(testCase.pExpectedClassName));
-            CHECK(party.hasQuestBit(testCase.receivedPromotionQBitId));
+            CHECK(party.campaign().hasQuestBit(testCase.receivedPromotionQBitId));
         }
     }
 }
@@ -6958,12 +7039,12 @@ TEST_CASE("mm6 rescue map overlays add quest followers")
         OpenYAMM::Game::Party party = makeScriptedRegressionParty();
         if (testCase.prerequisiteQbitId != 0)
         {
-            party.setQuestBit(testCase.prerequisiteQbitId, true);
+            party.campaign().setQuestBit(testCase.prerequisiteQbitId, true);
         }
 
         OpenYAMM::Game::EventRuntimeState runtimeState = {};
         REQUIRE(eventRuntime.executeEventById(localEventProgram, std::nullopt, testCase.eventId, runtimeState, &party));
-        CHECK(party.hasQuestBit(testCase.rescueQbitId));
+        CHECK(party.campaign().hasQuestBit(testCase.rescueQbitId));
         CHECK(hasFollower(runtimeState, testCase.followerNpcId));
         REQUIRE(runtimeState.pendingDialogueContext.has_value());
         CHECK_EQ(runtimeState.pendingDialogueContext->sourceId, testCase.followerNpcId);
@@ -7088,7 +7169,7 @@ TEST_CASE("mm6 outc2 overlay ports council and temple local fixes")
     REQUIRE(councilState.pendingMovie.has_value());
     CHECK_EQ(councilState.pendingMovie->movieName, "citytrtr");
     CHECK_EQ(councilState.npcHouseOverrides[1089], 0u);
-    CHECK(councilParty.hasQuestBit(1192));
+    CHECK(councilParty.campaign().hasQuestBit(1192));
     CHECK(councilParty.hasAward(63));
     CHECK_EQ(councilParty.inventoryItemCount(2122), 0);
     REQUIRE(councilState.pendingDialogueContext.has_value());
@@ -7121,7 +7202,7 @@ TEST_CASE("mm6 outc2 overlay ports council and temple local fixes")
         templeState,
         &templeParty,
         nullptr));
-    CHECK(templeParty.hasQuestBit(1130));
+    CHECK(templeParty.campaign().hasQuestBit(1130));
     CHECK(templeState.hiredNpcFollowers.empty());
     OpenYAMM::Game::EventRuntimeState syncedTempleState = {};
     templeParty.applyGlobalNpcStateTo(syncedTempleState);
@@ -7134,8 +7215,8 @@ TEST_CASE("mm6 outc2 overlay ports council and temple local fixes")
         OpenYAMM::Game::DialogueContextKind::MapEvent);
 
     OpenYAMM::Game::Party chaliceParty = makeScriptedRegressionParty();
-    chaliceParty.setQuestBit(1131, true);
-    chaliceParty.setQuestBit(1212, true);
+    chaliceParty.campaign().setQuestBit(1131, true);
+    chaliceParty.campaign().setQuestBit(1212, true);
     chaliceParty.grantItem(2054);
     OpenYAMM::Game::EventRuntimeState chaliceState = {};
     REQUIRE(eventRuntime.executeEventById(
@@ -7145,8 +7226,8 @@ TEST_CASE("mm6 outc2 overlay ports council and temple local fixes")
         chaliceState,
         &chaliceParty,
         nullptr));
-    CHECK_FALSE(chaliceParty.hasQuestBit(1212));
-    CHECK(chaliceParty.hasQuestBit(1132));
+    CHECK_FALSE(chaliceParty.campaign().hasQuestBit(1212));
+    CHECK(chaliceParty.campaign().hasQuestBit(1132));
     CHECK_EQ(chaliceParty.inventoryItemCount(2054), 0);
     REQUIRE(chaliceState.pendingDialogueContext.has_value());
     CHECK_EQ(
@@ -7159,7 +7240,7 @@ TEST_CASE("mm6 outc2 overlay ports council and temple local fixes")
         != std::string::npos);
 
     OpenYAMM::Game::Party chaliceMissingParty = makeScriptedRegressionParty();
-    chaliceMissingParty.setQuestBit(1131, true);
+    chaliceMissingParty.campaign().setQuestBit(1131, true);
     OpenYAMM::Game::EventRuntimeState chaliceMissingState = {};
     REQUIRE(eventRuntime.executeEventById(
         localEventProgram,
@@ -7172,8 +7253,8 @@ TEST_CASE("mm6 outc2 overlay ports council and temple local fixes")
     CHECK_EQ(chaliceMissingState.pendingDialogueContext->sourceId, 1442u);
 
     OpenYAMM::Game::Party repairedQuestCompleteParty = makeScriptedRegressionParty();
-    repairedQuestCompleteParty.setQuestBit(1130, true);
-    repairedQuestCompleteParty.setQuestBit(1129, true);
+    repairedQuestCompleteParty.campaign().setQuestBit(1130, true);
+    repairedQuestCompleteParty.campaign().setQuestBit(1129, true);
     OpenYAMM::Game::EventRuntimeState repairedQuestCompleteState = {};
     REQUIRE(eventRuntime.executeEventById(
         localEventProgram,
@@ -7186,7 +7267,7 @@ TEST_CASE("mm6 outc2 overlay ports council and temple local fixes")
     CHECK_EQ(repairedQuestCompleteState.pendingDialogueContext->sourceId, 1442u);
 
     OpenYAMM::Game::Party repairedQuestPendingParty = makeScriptedRegressionParty();
-    repairedQuestPendingParty.setQuestBit(1130, true);
+    repairedQuestPendingParty.campaign().setQuestBit(1130, true);
     OpenYAMM::Game::EventRuntimeState repairedQuestPendingState = {};
     REQUIRE(eventRuntime.executeEventById(
         localEventProgram,
@@ -7199,7 +7280,7 @@ TEST_CASE("mm6 outc2 overlay ports council and temple local fixes")
     CHECK_EQ(repairedQuestPendingState.pendingDialogueContext->sourceId, 1442u);
 
     OpenYAMM::Game::Party restoredTempleParty = makeScriptedRegressionParty();
-    restoredTempleParty.setQuestBit(1132, true);
+    restoredTempleParty.campaign().setQuestBit(1132, true);
     OpenYAMM::Game::EventRuntimeState restoredTempleState = {};
     REQUIRE(eventRuntime.executeEventById(
         localEventProgram,
@@ -7297,7 +7378,7 @@ TEST_CASE("mm6 New Sorpigal overlay repairs missing starting letter state withou
     OpenYAMM::Game::EventRuntime eventRuntime = {};
 
     OpenYAMM::Game::Party missingStartParty = makeScriptedRegressionParty();
-    missingStartParty.setQuestBit(1104, true);
+    missingStartParty.campaign().setQuestBit(1104, true);
     OpenYAMM::Game::EventRuntimeState missingStartState = {};
     REQUIRE(eventRuntime.buildOnLoadState(
         localEventProgram,
@@ -7305,14 +7386,14 @@ TEST_CASE("mm6 New Sorpigal overlay repairs missing starting letter state withou
         std::nullopt,
         missingStartState,
         &missingStartParty));
-    CHECK(missingStartParty.hasQuestBit(1105));
+    CHECK(missingStartParty.campaign().hasQuestBit(1105));
     CHECK(missingStartState.grantedItems.empty());
     CHECK(missingStartState.grantedItemIds.empty());
     CHECK_EQ(missingStartParty.inventoryItemCount(2125, 0), 1);
 
     OpenYAMM::Game::Party progressedParty = makeScriptedRegressionParty();
-    progressedParty.setQuestBit(1104, true);
-    progressedParty.setQuestBit(1106, true);
+    progressedParty.campaign().setQuestBit(1104, true);
+    progressedParty.campaign().setQuestBit(1106, true);
     OpenYAMM::Game::EventRuntimeState progressedState = {};
     REQUIRE(eventRuntime.buildOnLoadState(
         localEventProgram,
@@ -7320,7 +7401,7 @@ TEST_CASE("mm6 New Sorpigal overlay repairs missing starting letter state withou
         std::nullopt,
         progressedState,
         &progressedParty));
-    CHECK_FALSE(progressedParty.hasQuestBit(1105));
+    CHECK_FALSE(progressedParty.campaign().hasQuestBit(1105));
     CHECK(progressedState.grantedItems.empty());
     CHECK(progressedState.grantedItemIds.empty());
     CHECK_EQ(progressedParty.inventoryItemCount(2125), 0);
@@ -7445,7 +7526,7 @@ TEST_CASE("mm6 remaining mmmerge delta overlays port map event fixes")
         OpenYAMM::Game::EventRuntimeState runtimeState = {};
         OpenYAMM::Game::EventRuntime eventRuntime = {};
         REQUIRE(eventRuntime.executeEventById(localEventProgram, std::nullopt, 61, runtimeState, &party));
-        CHECK(party.hasQuestBit(1300));
+        CHECK(party.campaign().hasQuestBit(1300));
         CHECK_EQ(runtimeState.textureOverrides[OpenYAMM::Game::EventRuntime::indoorFaceReferenceKey(2912)], "trekscon");
         REQUIRE_FALSE(runtimeState.messages.empty());
         CHECK(
@@ -7558,8 +7639,8 @@ TEST_CASE("mm6 remaining mmmerge delta overlays port map event fixes")
         OpenYAMM::Game::EventRuntimeState noKeyState = {};
         REQUIRE(eventRuntime.executeEventById(localEventProgram, std::nullopt, 16, noKeyState, &noKeyParty));
         CHECK_EQ(noKeyState.mapVars[4], 1u);
-        CHECK(noKeyParty.hasQuestBit(1035));
-        CHECK(noKeyParty.hasQuestBit(1223));
+        CHECK(noKeyParty.campaign().hasQuestBit(1035));
+        CHECK(noKeyParty.campaign().hasQuestBit(1223));
         REQUIRE_FALSE(noKeyState.openedChestIds.empty());
         CHECK_EQ(noKeyState.openedChestIds.back(), 1u);
 
@@ -7568,8 +7649,8 @@ TEST_CASE("mm6 remaining mmmerge delta overlays port map event fixes")
         OpenYAMM::Game::EventRuntimeState keyState = {};
         REQUIRE(eventRuntime.executeEventById(localEventProgram, std::nullopt, 16, keyState, &keyParty));
         CHECK_EQ(keyState.mapVars[4], 1u);
-        CHECK(keyParty.hasQuestBit(1035));
-        CHECK(keyParty.hasQuestBit(1223));
+        CHECK(keyParty.campaign().hasQuestBit(1035));
+        CHECK(keyParty.campaign().hasQuestBit(1223));
         REQUIRE_FALSE(keyState.openedChestIds.empty());
         CHECK_EQ(keyState.openedChestIds.back(), 6u);
 
@@ -7636,7 +7717,7 @@ TEST_CASE("mm6 remaining mmmerge delta overlays port map event fixes")
         CHECK_EQ(party.member(0)->personality, 16);
         CHECK_EQ(party.member(1)->personality, 17);
         CHECK_EQ(party.member(2)->personality, 13);
-        CHECK(party.hasQuestBit(1047));
+        CHECK(party.campaign().hasQuestBit(1047));
         CHECK_EQ(runtimeState.textureOverrides[OpenYAMM::Game::EventRuntime::indoorFaceReferenceKey(949)], "d6flora");
 
         OpenYAMM::Game::PartySeed mapVarPartySeed = {};
@@ -7898,7 +7979,7 @@ TEST_CASE("mm6 remaining mmmerge delta overlays port map event fixes")
         OpenYAMM::Game::EventRuntime eventRuntime = {};
         OpenYAMM::Game::Party firstMateParty = makeScriptedRegressionParty();
         firstMateParty.grantItem(2158);
-        firstMateParty.setQuestBit(1253, true);
+        firstMateParty.campaign().setQuestBit(1253, true);
         OpenYAMM::Game::EventRuntimeState firstMateState = {};
         REQUIRE(eventRuntime.executeNpcTopicEventById(
             localEventProgram,
@@ -7909,12 +7990,12 @@ TEST_CASE("mm6 remaining mmmerge delta overlays port map event fixes")
             nullptr,
             9));
         CHECK_EQ(firstMateState.mapVars[10], 1u);
-        CHECK_FALSE(firstMateParty.hasQuestBit(1253));
+        CHECK_FALSE(firstMateParty.campaign().hasQuestBit(1253));
         CHECK_EQ(firstMateParty.inventoryItemCount(2158), 0);
 
         OpenYAMM::Game::Party allCodesParty = makeScriptedRegressionParty();
         allCodesParty.grantItem(2162);
-        allCodesParty.setQuestBit(1254, true);
+        allCodesParty.campaign().setQuestBit(1254, true);
         OpenYAMM::Game::EventRuntimeState allCodesState = {};
         allCodesState.mapVars[10] = 1;
         allCodesState.mapVars[11] = 1;
@@ -7933,7 +8014,7 @@ TEST_CASE("mm6 remaining mmmerge delta overlays port map event fixes")
 
         OpenYAMM::Game::Party captainParty = makeScriptedRegressionParty();
         captainParty.grantItem(2157);
-        captainParty.setQuestBit(1255, true);
+        captainParty.campaign().setQuestBit(1255, true);
         OpenYAMM::Game::EventRuntimeState captainState = {};
         captainState.mapVars[27] = 1;
         REQUIRE(eventRuntime.executeNpcTopicEventById(
@@ -7949,7 +8030,7 @@ TEST_CASE("mm6 remaining mmmerge delta overlays port map event fixes")
         CHECK_EQ(
             captainState.mechanisms.at(1).state,
             static_cast<uint16_t>(OpenYAMM::Game::EvtMechanismState::Closing));
-        CHECK_FALSE(captainParty.hasQuestBit(1255));
+        CHECK_FALSE(captainParty.campaign().hasQuestBit(1255));
         CHECK_EQ(captainParty.inventoryItemCount(2157), 0);
 
         OpenYAMM::Game::EventRuntimeState bookState = {};
@@ -8028,24 +8109,24 @@ TEST_CASE("mm6 remaining mmmerge delta overlays port map event fixes")
             queenState,
             &party));
         CHECK_EQ(queenState.namedMapVars["HiveQueenKilled"], 1);
-        CHECK(party.hasQuestBit(1226));
+        CHECK(party.campaign().hasQuestBit(1226));
 
         OpenYAMM::Game::Party endingParty = makeScriptedRegressionParty();
         endingParty.grantItem(2164);
-        endingParty.setQuestBit(1222, true);
+        endingParty.campaign().setQuestBit(1222, true);
         OpenYAMM::Game::EventRuntimeState endingState = {};
         endingState.namedMapVars["HiveReactorKilled"] = 1;
         endingState.namedMapVars["HiveQueenKilled"] = 1;
         REQUIRE(eventRuntime.executeOnLeaveEvents(localEventProgram, std::nullopt, endingState, &endingParty));
         REQUIRE(endingState.pendingMovie.has_value());
         CHECK_EQ(endingState.pendingMovie->movieName, "mm6end1");
-        CHECK(endingParty.hasQuestBit(784));
-        CHECK_FALSE(endingParty.hasQuestBit(1222));
+        CHECK(endingParty.campaign().hasQuestBit(784));
+        CHECK_FALSE(endingParty.campaign().hasQuestBit(1222));
         REQUIRE(endingParty.member(0) != nullptr);
         CHECK(endingParty.member(0)->awards.contains(78));
 
         OpenYAMM::Game::Party completedWithoutScrollParty = makeScriptedRegressionParty();
-        completedWithoutScrollParty.setQuestBit(784, true);
+        completedWithoutScrollParty.campaign().setQuestBit(784, true);
         OpenYAMM::Game::EventRuntimeState completedWithoutScrollState = {};
         completedWithoutScrollState.namedMapVars["HiveReactorKilled"] = 1;
         completedWithoutScrollState.namedMapVars["HiveQueenKilled"] = 1;
@@ -8076,7 +8157,7 @@ TEST_CASE("mm6 remaining mmmerge delta overlays port map event fixes")
         CHECK_EQ(lockedExitState.statusMessages.back(), "The door is locked");
 
         OpenYAMM::Game::EventRuntimeState openExitState = {};
-        party.setQuestBit(1226, true);
+        party.campaign().setQuestBit(1226, true);
         RecordingGameplayWorldContext openExitContext = {};
         openExitContext.setIndoorMap(true);
         REQUIRE(eventRuntime.executeEventById(
@@ -8201,7 +8282,7 @@ TEST_CASE("mm6 ironfist sword removal updates its decoration and restores from q
     OpenYAMM::Game::Party party = makeScriptedRegressionParty();
     OpenYAMM::Game::EventRuntimeState weakState = {};
     REQUIRE(eventRuntime.executeEventById(localEventProgram, std::nullopt, 225, weakState, &party));
-    CHECK_FALSE(party.hasQuestBit(1327));
+    CHECK_FALSE(party.campaign().hasQuestBit(1327));
     CHECK(weakState.grantedItems.empty());
     CHECK(weakState.spriteOverrides.empty());
 
@@ -8213,7 +8294,7 @@ TEST_CASE("mm6 ironfist sword removal updates its decoration and restores from q
     party.member(0)->might = 40;
     OpenYAMM::Game::EventRuntimeState removalState = {};
     REQUIRE(eventRuntime.executeEventById(localEventProgram, std::nullopt, 225, removalState, &party));
-    CHECK(party.hasQuestBit(1327));
+    CHECK(party.campaign().hasQuestBit(1327));
     REQUIRE_EQ(removalState.grantedItems.size(), 1u);
     CHECK_EQ(removalState.grantedItems.front().objectDescriptionId, 1609u);
     REQUIRE(removalState.spriteOverrides.contains(swordKey));
@@ -8295,7 +8376,7 @@ TEST_CASE("mm7 castle harmondale repair sprite override targets map sprite index
     REQUIRE_MESSAGE(localEventProgram.has_value(), error.c_str());
 
     OpenYAMM::Game::Party party = makeScriptedRegressionParty();
-    party.setQuestBit(610, true);
+    party.campaign().setQuestBit(610, true);
     OpenYAMM::Game::EventRuntimeState runtimeState = {};
     OpenYAMM::Game::EventRuntime eventRuntime = {};
     REQUIRE(eventRuntime.executeEventById(localEventProgram, std::nullopt, 1, runtimeState, &party));
@@ -8415,7 +8496,7 @@ TEST_CASE("d19 blv MoveNPC updates party global npc house overrides")
     party.setClassMultiplierTable(&mapLoader.gameDataLoader.getClassMultiplierTable());
     party.setClassSkillTable(&mapLoader.gameDataLoader.getClassSkillTable());
     party.seed(createRegressionPartySeed());
-    party.setQuestBit(19, true);
+    party.campaign().setQuestBit(19, true);
 
     OpenYAMM::Game::EventRuntimeState runtimeState = {};
     OpenYAMM::Game::EventRuntime eventRuntime = {};
@@ -8471,7 +8552,7 @@ TEST_CASE("d16 on-leave events move allied dragon hunters before map exit")
     party.setClassMultiplierTable(&mapLoader.gameDataLoader.getClassMultiplierTable());
     party.setClassSkillTable(&mapLoader.gameDataLoader.getClassSkillTable());
     party.seed(createRegressionPartySeed());
-    party.setQuestBit(21, true);
+    party.campaign().setQuestBit(21, true);
 
     OpenYAMM::Game::EventRuntimeState runtimeState = {};
     OpenYAMM::Game::EventRuntime eventRuntime = {};
@@ -9898,7 +9979,8 @@ TEST_CASE("the journal's Arcomage notes list every tavern per continent and the 
     party.recordArcomageWin(228, 0, 0);
 
     const std::vector<std::string> texts = OpenYAMM::Game::buildArcomageTavernTexts(
-        mapLoader.gameDataLoader.getHouseTable(), mapLoader.gameDataLoader.getMapStats(), party);
+        mapLoader.gameDataLoader.getHouseTable(), mapLoader.gameDataLoader.getMapStats(),
+        &mapLoader.gameDataLoader.getTrainerDirectory(), party);
 
     REQUIRE(!texts.empty());
     CHECK(std::find(texts.begin(), texts.end(), "Jadame: 1 of 11 taverns won.") != texts.end());
@@ -9911,4 +9993,68 @@ TEST_CASE("the journal's Arcomage notes list every tavern per continent and the 
     CHECK(std::find(texts.begin(), texts.end(), "The Vampyre Lounge, The Pit: not won yet") != texts.end());
     CHECK(std::count_if(texts.begin(), texts.end(), [](const std::string &text) { return text.ends_with(": won"); })
         == 1);
+}
+
+TEST_CASE("topic programs read the current map's name: Xeen's Ambrose offers his flight on the map he is not over")
+{
+    // evt.GetCurrentMapName gives the map_stats name of the map the party is on, both in a topic's CanShowTopic
+    // handler and in the topic's program. Xeen.onMap (xeen_common.lua) compares it: Ambrose's "Fly to Blackfang"
+    // (41254) shows off Castle Blackfang, "Fly us out" (41352) only there (D-52; A6's D6 walk).
+    const std::filesystem::path sourceRoot = OPENYAMM_SOURCE_DIR;
+    const std::optional<std::string> supportLua =
+        readSourceTextFile(sourceRoot / "assets_dev/engine/scripts/common/event_support.lua");
+    REQUIRE(supportLua.has_value());
+    std::string source = *supportLua + "\n\n"
+        "RegisterGlobalEvent(9020, \"Where am I\", function()\n"
+        "    evt.SetMessage(evt.GetCurrentMapName())\n"
+        "end)\n"
+        "RegisterCanShowTopic(9020, function()\n"
+        "    return evt.GetCurrentMapName() == \"The Forbidden Zone\"\n"
+        "end)\n";
+    const std::filesystem::path xeenCommon = sourceRoot / "assets_dev/worlds/xeen/events/common";
+    const bool haveXeen = std::filesystem::is_regular_file(xeenCommon / "xeen_quests.lua");
+
+    if (haveXeen)
+    {
+        for (const char *pName : {"xeen_common.lua", "xeen_quests.lua"})
+        {
+            const std::optional<std::string> text = readSourceTextFile(xeenCommon / pName);
+            REQUIRE(text.has_value());
+            source += "\n\n" + *text;
+        }
+    }
+
+    std::string error;
+    const std::optional<OpenYAMM::Game::ScriptedEventProgram> program =
+        OpenYAMM::Game::ScriptedEventProgram::loadFromLuaText(
+            source, "@map_name_topic_test.lua", OpenYAMM::Game::ScriptedEventScope::Global, error);
+    REQUIRE_MESSAGE(program.has_value(), error.c_str());
+
+    OpenYAMM::Game::EventRuntime eventRuntime = {};
+    OpenYAMM::Game::Party party = makeScriptedRegressionParty();
+    RecordingGameplayWorldContext world;
+    world.setMapName("The Forbidden Zone");
+    OpenYAMM::Game::EventRuntimeState runtimeState = {};
+
+    CHECK(eventRuntime.canShowTopic(program, 9020, runtimeState, &party, &world));
+    REQUIRE(eventRuntime.executeEventById(std::nullopt, program, 9020, runtimeState, &party, &world));
+    REQUIRE_FALSE(runtimeState.messages.empty());
+    CHECK_EQ(runtimeState.messages.back(), "The Forbidden Zone");
+    // No world (a dialogue built without one): the name is empty, not an error.
+    CHECK_FALSE(eventRuntime.canShowTopic(program, 9020, runtimeState, &party, nullptr));
+
+    if (!haveXeen)
+    {
+        MESSAGE("skipped the Xeen half: the Xeen world is not in assets_dev");
+        return;
+    }
+
+    // m25.done is qbit 111503 (xeen_quests.lua).
+    runtimeState.variables[111503] = 1;
+    party.campaign().setQuestBit(111503, true);
+    CHECK(eventRuntime.canShowTopic(program, 41254, runtimeState, &party, &world));
+    CHECK_FALSE(eventRuntime.canShowTopic(program, 41352, runtimeState, &party, &world));
+    world.setMapName("Castle Blackfang");
+    CHECK_FALSE(eventRuntime.canShowTopic(program, 41254, runtimeState, &party, &world));
+    CHECK(eventRuntime.canShowTopic(program, 41352, runtimeState, &party, &world));
 }

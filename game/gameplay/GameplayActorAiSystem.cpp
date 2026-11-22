@@ -16,6 +16,12 @@ namespace OpenYAMM::Game
 {
 namespace
 {
+// The party an actor deals with: its own (a co-op session's nearest player) or the frame's.
+const ActorPartyFacts &partyFor(const ActorAiFacts &actor, const ActorAiFrameFacts &frame)
+{
+    return actor.party ? *actor.party : frame.party;
+}
+
 constexpr float ActorAiTicksPerSecond = 128.0f;
 constexpr float ActorAiUpdateStepSeconds = 1.0f / ActorAiTicksPerSecond;
 constexpr float Pi = 3.14159265358979323846f;
@@ -1473,10 +1479,10 @@ bool resolvePartyProximity(
 {
     return actorService.partyIsVeryNearActor(
         actor.movement.distanceToParty,
-        frame.party.position.z - actor.movement.position.z,
+        partyFor(actor, frame).position.z - actor.movement.position.z,
         actor.stats.radius,
         actor.stats.height,
-        frame.party.collisionRadius);
+        partyFor(actor, frame).collisionRadius);
 }
 
 ActorEngagementState resolveActorEngagement(
@@ -1493,13 +1499,14 @@ ActorEngagementState resolveActorEngagement(
     result.hasCombatTarget = combatTarget.kind != ActorAiTargetKind::None;
     result.targetIsParty = combatTarget.kind == ActorAiTargetKind::Party;
     result.targetIsActor = combatTarget.kind == ActorAiTargetKind::Actor;
-    const bool invisiblePartyTarget = result.targetIsParty && frame.party.invisible;
+    const bool invisiblePartyTarget = result.targetIsParty && partyFor(actor, frame).invisible;
     result.shouldEngageTarget = result.hasCombatTarget && combatTarget.canSense && !invisiblePartyTarget;
     result.inMeleeRange =
         combatTarget.edgeDistance <= meleeRangeForTarget(actor, &frame)
         && combatTarget.attackLineOfSight
         && (!result.targetIsParty || GameplayActorService::meleeReachesVertically(frame.meleeVerticalReach,
-            actor.movement.position.z, float(actor.stats.height), frame.party.position.z, frame.party.collisionHeight));
+            actor.movement.position.z, float(actor.stats.height), partyFor(actor, frame).position.z,
+            partyFor(actor, frame).collisionHeight));
 
     if (result.targetIsActor)
     {
@@ -2768,7 +2775,7 @@ std::optional<ActorTargetCandidateFacts> chooseTarget(const ActorAiFacts &actor,
         target.currentHp = actor.target.currentHp;
         target.position =
             actor.target.currentKind == ActorAiTargetKind::Party
-            ? frame.party.position
+            ? partyFor(actor, frame).position
             : actor.target.currentPosition;
         target.audioPosition = actor.target.currentAudioPosition;
         target.hasLineOfSight = actor.target.currentHasAttackLineOfSight;
@@ -3608,8 +3615,8 @@ void skirmishTargetVelocity(const ActorAiFacts &actor, const ActorAiFrameFacts &
     float &velocityY)
 {
     const bool party = actor.target.currentKind == ActorAiTargetKind::Party;
-    velocityX = party ? frame.party.velocityX : actor.target.currentVelocityX;
-    velocityY = party ? frame.party.velocityY : actor.target.currentVelocityY;
+    velocityX = party ? partyFor(actor, frame).velocityX : actor.target.currentVelocityX;
+    velocityY = party ? partyFor(actor, frame).velocityY : actor.target.currentVelocityY;
 }
 
 bool skirmishTargetMoving(const ActorAiFacts &actor, const ActorAiFrameFacts &frame)
@@ -4639,7 +4646,8 @@ ActorAiDecision mm9Decision(ActorAiDecisionKind kind, ActorAiTargetKind targetKi
 // Its edge distance to its target as MM9 measures it: edge to edge, so the party's radius too.
 float mm9EdgeDistance(const ActorAiFacts &actor, const ActorAiFrameFacts &frame)
 {
-    const float partyRadius = actor.target.currentKind == ActorAiTargetKind::Party ? frame.party.collisionRadius : 0.0f;
+    const float partyRadius =
+        actor.target.currentKind == ActorAiTargetKind::Party ? partyFor(actor, frame).collisionRadius : 0.0f;
     return std::max(0.0f, actor.target.currentEdgeDistance - partyRadius);
 }
 
@@ -4676,9 +4684,9 @@ std::optional<GameplayActorAttackAbility> mm9RangedAbility(
     }
 
     const bool spell1 = actor.stats.hasSpell1 && actor.stats.spell1CastSupported && actor.stats.spell1UseChance > 0
-        && monsterSpellIsOkToCast(actor.stats.spell1Name, actor.stats, actor.status, frame.party);
+        && monsterSpellIsOkToCast(actor.stats.spell1Name, actor.stats, actor.status, partyFor(actor, frame));
     const bool spell2 = actor.stats.hasSpell2 && actor.stats.spell2CastSupported && actor.stats.spell2UseChance > 0
-        && monsterSpellIsOkToCast(actor.stats.spell2Name, actor.stats, actor.status, frame.party);
+        && monsterSpellIsOkToCast(actor.stats.spell2Name, actor.stats, actor.status, partyFor(actor, frame));
     const int spellSlot = mm9RangedSpellSlot(
         spell1 ? actor.stats.spell1UseChance : 0, spell2 ? actor.stats.spell2UseChance : 0, spellRoll);
 
@@ -9552,11 +9560,22 @@ void appendActorUpdate(ActorAiFrameResult &result, const ActorAiUpdate &update)
     }
 }
 
+// A post's leash travels with the step to the world (keepStepOnLeash), which steers last; a script's walk is free of it.
+void attachPostLeash(const ActorAiFacts &actor, ActorAiUpdate &update)
+{
+    if (actor.tactics.holdPost && actor.tactics.postLeashRadius > 0.0f && !actor.movement.scriptedMoveTarget)
+    {
+        update.movementIntent.leashRadius = actor.tactics.postLeashRadius;
+        update.movementIntent.leashHome = actor.movement.homePosition;
+    }
+}
+
 void updateBackgroundActors(const ActorAiFrameFacts &facts, ActorAiFrameResult &result)
 {
     for (const ActorAiFacts &actor : facts.backgroundActors)
     {
         ActorAiUpdate update = updateBackgroundActor(actor, facts);
+        attachPostLeash(actor, update);
 
         // A dead MM9 monster asks to be raised (AI_Mm9Corpse); a spawned one may spawn its successor.
         if (mm9LoopActive(actor, &facts) && isDeadOrDying(actor))
@@ -9574,7 +9593,9 @@ void updateActiveActors(const ActorAiFrameFacts &facts, ActorAiFrameResult &resu
     for (const ActorAiFacts &actor : facts.activeActors)
     {
         result.activeActorIndices.push_back(actor.actorIndex);
-        appendActorUpdate(result, updateActor(actor, facts));
+        ActorAiUpdate update = updateActor(actor, facts);
+        attachPostLeash(actor, update);
+        appendActorUpdate(result, update);
     }
 }
 
@@ -9638,5 +9659,27 @@ ActorAiFrameResult GameplayActorAiSystem::updateActors(const ActorAiFrameFacts &
 ActorAiUpdate GameplayActorAiSystem::updateActorAfterWorldMovement(const ActorAiFacts &facts) const
 {
     return updateActorAfterWorldMovementInternal(facts);
+}
+
+void keepStepOnLeash(float leashRadius, const GameplayWorldPoint &home, float positionX, float positionY,
+    float &directionX, float &directionY)
+{
+    if (leashRadius <= 0.0f)
+    {
+        return;
+    }
+
+    const float fromHomeX = positionX - home.x;
+    const float fromHomeY = positionY - home.y;
+    const float fromHomeSquared = fromHomeX * fromHomeX + fromHomeY * fromHomeY;
+    const float outward = fromHomeX * directionX + fromHomeY * directionY;
+
+    if (fromHomeSquared < leashRadius * leashRadius || outward <= 0.0f)
+    {
+        return;
+    }
+
+    directionX -= fromHomeX * outward / fromHomeSquared;
+    directionY -= fromHomeY * outward / fromHomeSquared;
 }
 }

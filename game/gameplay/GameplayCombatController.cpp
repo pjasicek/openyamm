@@ -380,13 +380,14 @@ uint32_t animationTicks(const GameplayScreenRuntime *pRuntime)
 
 int incomingAttackArmorClass(
     const Character &member,
-    const GameplayScreenRuntime *pRuntime)
+    const GameplayScreenRuntime *pRuntime,
+    const Party &party)
 {
-    const ItemTable *pItemTable = pRuntime != nullptr ? pRuntime->itemTable() : nullptr;
+    const ItemTable *pItemTable = pRuntime != nullptr ? pRuntime->itemTable() : party.itemTable();
     const StandardItemEnchantTable *pStandardItemEnchantTable =
-        pRuntime != nullptr ? pRuntime->standardItemEnchantTable() : nullptr;
+        pRuntime != nullptr ? pRuntime->standardItemEnchantTable() : party.standardItemEnchantTable();
     const SpecialItemEnchantTable *pSpecialItemEnchantTable =
-        pRuntime != nullptr ? pRuntime->specialItemEnchantTable() : nullptr;
+        pRuntime != nullptr ? pRuntime->specialItemEnchantTable() : party.specialItemEnchantTable();
     const CharacterSheetSummary summary = GameMechanics::buildCharacterSheetSummary(
         member,
         pItemTable,
@@ -470,11 +471,11 @@ MonsterAttackOnCharacter monsterAttackOnCharacter(
 {
     MonsterAttackOnCharacter attack = {};
     attack.pCharacter = &member;
-    attack.pItemTable = context.pRuntime != nullptr ? context.pRuntime->itemTable() : nullptr;
-    attack.pStandardItemEnchantTable =
-        context.pRuntime != nullptr ? context.pRuntime->standardItemEnchantTable() : nullptr;
-    attack.pSpecialItemEnchantTable =
-        context.pRuntime != nullptr ? context.pRuntime->specialItemEnchantTable() : nullptr;
+    attack.pItemTable = context.pRuntime != nullptr ? context.pRuntime->itemTable() : context.party.itemTable();
+    attack.pStandardItemEnchantTable = context.pRuntime != nullptr
+        ? context.pRuntime->standardItemEnchantTable() : context.party.standardItemEnchantTable();
+    attack.pSpecialItemEnchantTable = context.pRuntime != nullptr
+        ? context.pRuntime->specialItemEnchantTable() : context.party.specialItemEnchantTable();
     attack.type = event.damageType;
     attack.melee = event.type == GameplayCombatController::CombatEventType::MonsterMeleeImpact;
     attack.spellId = event.spellId;
@@ -503,7 +504,7 @@ MonsterImpactHitCheck resolveMonsterImpactHitCheck(
         return result;
     }
 
-    result.baseArmorClass = incomingAttackArmorClass(*pMember, context.pRuntime);
+    result.baseArmorClass = incomingAttackArmorClass(*pMember, context.pRuntime, context.party);
 
     if (event.spellId != 0)
     {
@@ -646,11 +647,11 @@ int adjustedIncomingDamageForMember(
     hit.amount = incomingDamage;
     hit.type = event.damageType;
     hit.pCharacter = &member;
-    hit.pItemTable = context.pRuntime != nullptr ? context.pRuntime->itemTable() : nullptr;
-    hit.pStandardItemEnchantTable =
-        context.pRuntime != nullptr ? context.pRuntime->standardItemEnchantTable() : nullptr;
-    hit.pSpecialItemEnchantTable =
-        context.pRuntime != nullptr ? context.pRuntime->specialItemEnchantTable() : nullptr;
+    hit.pItemTable = context.pRuntime != nullptr ? context.pRuntime->itemTable() : context.party.itemTable();
+    hit.pStandardItemEnchantTable = context.pRuntime != nullptr
+        ? context.pRuntime->standardItemEnchantTable() : context.party.standardItemEnchantTable();
+    hit.pSpecialItemEnchantTable = context.pRuntime != nullptr
+        ? context.pRuntime->specialItemEnchantTable() : context.party.specialItemEnchantTable();
     hit.monsterAttack = true;
     hit.physicalProjectile = isPhysicalProjectile;
     hit.missile = event.type == GameplayCombatController::CombatEventType::PartyProjectileImpact;
@@ -2375,7 +2376,7 @@ void GameplayCombatController::clear()
 
 void GameplayCombatController::recordMonsterMeleeImpact(uint32_t sourceId, int damage)
 {
-    m_pendingCombatEvents.push_back(
+    queueCombatEvent(
         buildMonsterMeleeImpactEvent(
             sourceId,
             damage,
@@ -2386,7 +2387,7 @@ void GameplayCombatController::recordMonsterMeleeImpact(uint32_t sourceId, int d
 
 void GameplayCombatController::recordMonsterMeleeImpact(uint32_t sourceId, int damage, int attackBonus)
 {
-    m_pendingCombatEvents.push_back(
+    queueCombatEvent(
         buildMonsterMeleeImpactEvent(
             sourceId,
             damage,
@@ -2402,7 +2403,7 @@ void GameplayCombatController::recordMonsterMeleeImpact(
     CombatDamageType damageType,
     GameplayActorAttackAbility ability)
 {
-    m_pendingCombatEvents.push_back(
+    queueCombatEvent(
         buildMonsterMeleeImpactEvent(sourceId, damage, attackBonus, damageType, ability));
 }
 
@@ -2418,7 +2419,7 @@ void GameplayCombatController::recordMonsterRangedRelease(
     int damage,
     CombatDamageType damageType)
 {
-    m_pendingCombatEvents.push_back(buildMonsterRangedReleaseEvent(sourceId, damage, damageType));
+    queueCombatEvent(buildMonsterRangedReleaseEvent(sourceId, damage, damageType));
 }
 
 void GameplayCombatController::recordPartyProjectileImpact(
@@ -2468,7 +2469,7 @@ void GameplayCombatController::recordPartyProjectileImpact(
     GameplayActorAttackAbility ability,
     float firedDistance)
 {
-    m_pendingCombatEvents.push_back(
+    queueCombatEvent(
         buildPartyProjectileImpactEvent(sourceId, damage, attackBonus, spellId, affectsAllParty, damageType, ability));
     m_pendingCombatEvents.back().firedDistance = firedDistance;
 }
@@ -2484,7 +2485,7 @@ void GameplayCombatController::recordPartyProjectileActorImpact(
     bool critical,
     std::shared_ptr<bool> hitCredit)
 {
-    m_pendingCombatEvents.push_back(
+    queueCombatEvent(
         buildPartyProjectileActorImpactEvent(
             sourceId,
             sourcePartyMemberIndex,
@@ -2511,5 +2512,65 @@ void GameplayCombatController::handleAndClearPendingCombatEvents(PendingCombatEv
 {
     handlePendingCombatEvents(context, m_pendingCombatEvents);
     m_pendingCombatEvents.clear();
+}
+
+void GameplayCombatController::handleAndClearPendingCombatEvents(
+    const std::function<Party *(PlayerId)> &partyOf,
+    IGameplayWorldRuntime *pWorldRuntime,
+    GameplayScreenRuntime *pLocalRuntime)
+{
+    const std::vector<CombatEvent> events = std::move(m_pendingCombatEvents);
+    m_pendingCombatEvents.clear();
+    std::vector<PlayerId> players;
+
+    for (const CombatEvent &event : events)
+    {
+        if (std::find(players.begin(), players.end(), event.player) == players.end())
+        {
+            players.push_back(event.player);
+        }
+    }
+
+    for (PlayerId player : players)
+    {
+        Party *pParty = partyOf(player);
+
+        if (pParty == nullptr)
+        {
+            continue;
+        }
+
+        // With several players a party that is down is out of the fight until a friend brings it back or it
+        // returns to the arrival point (2026-11-21): no missile, blast, death explosion or charge hurts it further,
+        // so that a heal is still enough and a friend's Fireball beside it is no punishment for the rescue.
+        if (!pParty->hasActableMember())
+        {
+            continue;
+        }
+
+        std::vector<CombatEvent> playerEvents;
+        std::copy_if(events.begin(), events.end(), std::back_inserter(playerEvents),
+            [player](const CombatEvent &event) { return event.player == player; });
+        PendingCombatEventContext context{
+            .party = *pParty,
+            .pWorldRuntime = pWorldRuntime,
+            .pRuntime = player == LocalPlayer ? pLocalRuntime : nullptr,
+        };
+        handlePendingCombatEvents(context, playerEvents);
+    }
+
+    // As the one-party form: nothing recorded while events were handled is kept.
+    m_pendingCombatEvents.clear();
+}
+
+void GameplayCombatController::setRecordingPlayer(PlayerId player)
+{
+    m_recordingPlayer = player;
+}
+
+void GameplayCombatController::queueCombatEvent(CombatEvent event)
+{
+    event.player = m_recordingPlayer;
+    m_pendingCombatEvents.push_back(std::move(event));
 }
 } // namespace OpenYAMM::Game

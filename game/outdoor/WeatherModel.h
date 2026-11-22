@@ -149,7 +149,7 @@ struct WeatherMapSettings
     bool snowEnabled = false;
     float rainChancePercent = 0.0f;
     float snowChancePercent = 0.0f;
-    // Ash is enabled by its own weather.yml map entry, independent of bolster_maps.txt.
+    // Ash is enabled by its own weather.yml map entry or the map's scene, independent of bolster_maps.txt.
     bool ashEnabled = false;
     float ashChancePercent = 0.0f;
     // The map's own ash look (weather.yml ash_look); unset: the rules' ash flakes.
@@ -163,8 +163,9 @@ struct WeatherMapSettings
     std::array<float, 3> fogChancePercent = {};
 };
 
+// sceneAshPercent: the map's scene's own ash chance, used when weather.yml gives the map none.
 WeatherMapSettings resolveWeatherMapSettings(const WeatherRules &rules, uint32_t mapId,
-    const std::string &mapFileName, bool rainEnabled, bool snowEnabled);
+    const std::string &mapFileName, bool rainEnabled, bool snowEnabled, float sceneAshPercent = 0.0f);
 
 // One day's rolled weather: an optional rain, snow or ash spell starting that day, plus the day's calm wind.
 struct WeatherDayPlan

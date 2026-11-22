@@ -1,5 +1,6 @@
 add_executable(openyamm_unit_tests
     AssetFileSystemTests.cpp
+    CoopRulesTests.cpp
     UserDataPathsTests.cpp
     LogFileTests.cpp
     AssetPackIndexTests.cpp
@@ -23,6 +24,7 @@ add_executable(openyamm_unit_tests
     RulesetTests.cpp
     NamedModsTests.cpp
     MapLayoutIdentityTests.cpp
+    WorldScriptSourcesTests.cpp
     PlaythroughStatisticsTests.cpp
     BattleOrdersTests.cpp
     QuickItemSlotTests.cpp
@@ -360,6 +362,7 @@ add_executable(openyamm_unit_tests
     ../game/items/ItemRuntime.cpp
     ../game/items/WorldItemShape.cpp
     ../game/party/Party.cpp
+    ../game/party/CampaignState.cpp
     ../game/party/BattleOrders.cpp
     ../game/party/PlaythroughNames.cpp
     ../game/party/PlaythroughStatistics.cpp
@@ -571,6 +574,7 @@ add_executable(openyamm_runtime_tests
     StealingInputRuntimeTests.cpp
     MapStateResetRuntimeTests.cpp
     MawMm9ShopRuntimeTests.cpp
+    CoopNetTests.cpp
 )
 
 target_include_directories(openyamm_runtime_tests PRIVATE

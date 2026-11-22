@@ -338,7 +338,7 @@ TEST_CASE("MAW bounty texts name the spawned boss and its map note goes with it 
     note.id = 9999;
     note.mapFileName = "map_b.odm";
     note.text = "Bounty";
-    party.setJournalMapNote(note);
+    party.campaign().setJournalMapNote(note);
 
     const BountyHuntInteractionResult hunt = performBountyHuntInteraction(world, &party, true);
     REQUIRE_EQ(hunt.messages.size(), 1u);
@@ -348,12 +348,12 @@ TEST_CASE("MAW bounty texts name the spawned boss and its map note goes with it 
     ActorRulesetFacts other;
     other.bossAffix = uint8_t(MawBossAffix::Swift);
     markRuntimeBountyHuntMonsterKilled(world, int16_t(monsterId), nullptr, other);
-    CHECK(party.findJournalMapNote("map_b.odm", 9999) != nullptr);
+    CHECK(party.campaign().findJournalMapNote("map_b.odm", 9999) != nullptr);
     state.namedGlobalVars["MMerge.BountyHunt.map_b.odm.Done"] = 0;
     ActorRulesetFacts target;
     target.bossAffix = uint8_t(MawBossAffix::Omnipotent);
     markRuntimeBountyHuntMonsterKilled(world, int16_t(monsterId), nullptr, target);
-    CHECK(party.findJournalMapNote("map_b.odm", 9999) == nullptr);
+    CHECK(party.campaign().findJournalMapNote("map_b.odm", 9999) == nullptr);
 
     const BountyHuntInteractionResult reward = performBountyHuntInteraction(world, &party, true);
     REQUIRE_EQ(reward.messages.size(), 1u);

@@ -114,6 +114,13 @@ public:
         bool allowWorldInput = true,
         bool allowWorldSimulation = true,
         bool preparingResources = false);
+    // The map's own simulation for one frame: the clock, timers, face triggers, doors and lifts, and the door
+    // geometry that moved with them. render() runs it for a drawn frame; a co-op session's world also takes it for a
+    // frame this game does not draw (IndoorGameView::render behind a full HUD screen,
+    // GameApplication::advanceWorldBehindScreens).
+    // updateDoorGeometry false is for a frame that is not presented (a window with no drawable): the doors that moved
+    // are noted and their geometry follows at the next step that updates it, so no buffer update queues up unseen.
+    void advanceWorldSimulation(GameSession &gameSession, float deltaSeconds, bool updateDoorGeometry = true);
     void updateWorldMovement(
         const GameplayInputFrame &input,
         float deltaSeconds,
@@ -651,6 +658,9 @@ private:
         uint16_t viewId,
         const GameplayContextActionState *pContextActionState);
     void renderFxSegmentProjectiles(uint16_t viewId, const float *pViewMatrix);
+    // Smoke from the decorations whose row emits it (decoration_data Flags EmitSmoke, the engine's `smoke`, sprite
+    // 0) in the visible sectors, as outdoors (D-51: XD-16's trap tell). No MM6-MM9 BLV places one.
+    void emitDecorationSmoke(const std::vector<uint8_t> &visibleSectorMask);
     bgfx::TextureHandle ensureBloodSplatTexture();
     void ensureBloodSplatVertexBuffer();
     void renderBloodSplats(
@@ -883,6 +893,8 @@ private:
     bool m_isInitialized;
     bool m_isRenderable;
     bool m_worldTimeHeld = false;
+    // Doors that moved in steps which left their geometry alone (advanceWorldSimulation).
+    std::vector<uint32_t> m_doorIdsAwaitingGeometry;
     std::optional<MapStatsEntry> m_map;
     std::optional<MonsterTable> m_monsterTable;
     std::optional<ObjectTable> m_objectTable;
@@ -930,6 +942,9 @@ private:
     bgfx::UniformHandle m_surfaceDetailSamplerHandle = BGFX_INVALID_HANDLE;
     bgfx::UniformHandle m_surfaceMaterialUniformHandle = BGFX_INVALID_HANDLE;
     bool m_surfaceMaterialsEnabled = false;
+    // The map's maps are normal maps alone, loaded for their glow (D-55, MapCompanionLoadOptions::surfaceGlowWorlds):
+    // the material program handles hold the glow variants (fs_indoor_textured_{lit,baked}_glow{,_fog}).
+    bool m_surfaceGlowOnly = false;
     // Scene terrain (IndoorMapData::terrain, devdocs/INDOOR_OPEN_SKY.md "Terrain"): its blended ground materials,
     // smooth surface and programs, and per face of the map nonzero for a terrain face; empty for every other map.
     TerrainMaterialSet m_terrainMaterials;
@@ -987,6 +1002,10 @@ private:
     // The screen tint under water (vs_screen_color/fs_cubes), only on a map with water volumes.
     bgfx::ProgramHandle m_waterTintProgramHandle = BGFX_INVALID_HANDLE;
     bgfx::ProgramHandle m_indoorBakedTranslucentProgramHandle = BGFX_INVALID_HANDLE;
+    // Their glow variants on a glow-only map (D-55): vertex-lit, baked, then the same with fog; for the faces whose
+    // texture has a glow map.
+    std::array<bgfx::ProgramHandle, 4> m_indoorTranslucentGlowProgramHandles = {{
+        BGFX_INVALID_HANDLE, BGFX_INVALID_HANDLE, BGFX_INVALID_HANDLE, BGFX_INVALID_HANDLE}};
     bgfx::UniformHandle m_indoorTranslucencyUniformHandle = BGFX_INVALID_HANDLE;
     // Scene fog (IndoorMapData::fog, devdocs/INDOOR_FOG.md) and, only for a map that has it, the fog variants of the
     // face programs: vertex-lit plain, materials, translucent, then baked plain, materials, translucent.
@@ -1039,9 +1058,16 @@ private:
     // outdoor view's m_outdoorSkyFog carries too.
     MapMist m_mist;
     MistWisps m_mistWisps;
+    // The smoke decorations' time to their next puff, by billboard, and the time of the last emission pass.
+    std::vector<float> m_decorationSmokeCooldowns;
+    uint32_t m_decorationSmokeSequence = 0;
+    float m_lastDecorationSmokeTime = -1.0f;
     // The player's video.mist this frame.
     bool m_mistSetting = true;
     float m_mistStrengthSetting = 1.0f;
+    // The map script's share of the mist (evt.SetMist), faded, and this frame's.
+    MistScriptFade m_mistScriptFade;
+    float m_frameScriptedMist = 1.0f;
     // What the mist takes of the scene's daylight this frame (1 without one).
     std::array<float, 3> m_frameMistLight = {1.0f, 1.0f, 1.0f};
     SkySurroundings m_frameSurroundings = {};

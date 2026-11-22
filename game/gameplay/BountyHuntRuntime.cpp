@@ -248,7 +248,7 @@ bool markRuntimeBountyHuntMonsterKilled(
     {
         if (Party *pParty = worldRuntime.party())
         {
-            pParty->removeJournalMapNote(lowercaseMapName(pEventRuntimeState->mapFileName), BountyMapNoteId);
+            pParty->campaign().removeJournalMapNote(lowercaseMapName(pEventRuntimeState->mapFileName), BountyMapNoteId);
         }
 
         if (!killedByParty && gameRulesFor(worldRuntime.party()).monsters.bountyCancelledByOtherKill())
@@ -393,7 +393,7 @@ void placeBountyHuntTarget(IGameplayWorldRuntime &worldRuntime, Party *pParty, B
         note.y = int32_t(std::lround(spawnPoint.y));
         note.mapFileName = lowercaseMapName(pEventRuntimeState->mapFileName);
         note.text = target->mapNote;
-        pParty->setJournalMapNote(note);
+        pParty->campaign().setJournalMapNote(note);
     }
 }
 }
@@ -654,7 +654,7 @@ void applyBountyHuntClaimResult(
 
         if (result.bountyTotalDelta > 0)
         {
-            pParty->addEventVariableValue(
+            pParty->campaign().addEventVariableValue(
                 static_cast<uint16_t>(EvtVariable::NumBounties),
                 static_cast<int32_t>(result.bountyTotalDelta));
             pParty->addAward(44);

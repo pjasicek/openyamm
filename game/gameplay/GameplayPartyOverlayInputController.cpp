@@ -12,6 +12,7 @@
 #include "game/gameplay/GameplayItemService.h"
 #include "game/gameplay/GameplayScreenRuntime.h"
 #include "game/gameplay/AwardRuntime.h"
+#include "game/gameplay/PlayerCommands.h"
 #include "game/app/KeyboardBindings.h"
 #include "game/items/InventoryBags.h"
 #include "game/ui/GameplayBattleOrders.h"
@@ -49,10 +50,6 @@ namespace
 constexpr uint64_t PartyPortraitDoubleClickWindowMs = 500;
 constexpr uint64_t CharacterDismissConfirmWindowMs = 2000;
 constexpr float MaxUiScale = 8.0f;
-constexpr uint32_t DaderossLetterDeliveredQBit = 4;
-constexpr uint32_t EmeraldIslandFinishedQBit = 519;
-// MM9 key 28 (raw key + 90000): the Isle of Ashes cinema has sailed the party to Sturmford.
-constexpr uint32_t IsleOfAshesLeftQBit = 90028;
 
 void latchGameplayMenuEscape(GameplayScreenRuntime &context)
 {
@@ -190,16 +187,6 @@ struct CharacterSkillUiData
     std::vector<CharacterSkillUiRow> armorRows;
     std::vector<CharacterSkillUiRow> miscRows;
     std::vector<CharacterSkillUiRow> techRows;
-};
-
-struct DimensionDoorLanding
-{
-    std::string mapName;
-    int32_t x = 0;
-    int32_t y = 0;
-    int32_t z = 0;
-    std::optional<int32_t> directionDegrees;
-    bool useMapStartPosition = false;
 };
 
 bool isJewelryOverlayEquipmentSlot(EquipmentSlot slot)
@@ -345,7 +332,7 @@ bool isTownPortalDestinationUnlocked(
         return false;
     }
 
-    return pParty->hasQuestBit(destination.unlockQBitId);
+    return pParty->campaign().hasQuestBit(destination.unlockQBitId);
 }
 
 bool isTownPortalOverlayMode(GameplayUiController::UtilitySpellOverlayMode mode)
@@ -368,111 +355,27 @@ void applyDimensionDoorCastOverrides(PartySpellCastRequest &request)
     request.utilityMapMoveUseFullscreenLoading = true;
 }
 
-std::optional<DimensionDoorLanding> resolveDimensionDoorLanding(
-    const Party *pParty,
-    const GameplayTownPortalDestination &destination)
-{
-    if (destination.id == "TPGlobal:0")
-    {
-        if (pParty != nullptr && pParty->hasQuestBit(DaderossLetterDeliveredQBit))
-        {
-            return DimensionDoorLanding{
-                "out02.odm",
-                10296,
-                -12283,
-                1,
-                0,
-                false};
-        }
-
-        return DimensionDoorLanding{
-            "out01.odm",
-            0,
-            0,
-            0,
-            std::nullopt,
-            true};
-    }
-
-    if (destination.id == "TPGlobal:2")
-    {
-        if (pParty != nullptr && pParty->hasQuestBit(EmeraldIslandFinishedQBit))
-        {
-            return DimensionDoorLanding{
-                "7out02.odm",
-                -16832,
-                12512,
-                372,
-                0,
-                false};
-        }
-
-        return DimensionDoorLanding{
-            "7out01.odm",
-            12552,
-            800,
-            193,
-            90,
-            false};
-    }
-
-    if (destination.id == "TPGlobal:4")
-    {
-        return DimensionDoorLanding{
-            "oute3.odm",
-            -9728,
-            -11319,
-            160,
-            90,
-            false};
-    }
-
-    // Chedian: once the party has left the Isle of Ashes, beside Sturmford City's dimensional travel pedestal
-    // (level_generation/projects/mm9r_sturmfordcity), facing it; before that, Ravensford's new-game start
-    // (continent_settings.txt, Chedian's start map).
-    if (destination.id == "TPGlobal:6")
-    {
-        if (pParty != nullptr && pParty->hasQuestBit(IsleOfAshesLeftQBit))
-        {
-            return DimensionDoorLanding{
-                "sturmfordcity.blv",
-                1752,
-                54,
-                19703,
-                180,
-                false};
-        }
-
-        return DimensionDoorLanding{
-            "bootcamp.blv",
-            323,
-            -8494,
-            1291,
-            269,
-            false};
-    }
-
-    return std::nullopt;
-}
-
+// A Dimension Door's landing for this party: its first QBit landing whose QBit the party has, else its own.
 void applyDimensionDoorLandingOverride(
     PartySpellCastRequest &request,
     const Party *pParty,
     const GameplayTownPortalDestination &destination)
 {
-    const std::optional<DimensionDoorLanding> landing = resolveDimensionDoorLanding(pParty, destination);
-
-    if (!landing.has_value())
+    for (const GameplayTownPortalDestination::QBitLanding &landing : destination.qbitLandings)
     {
+        if (pParty == nullptr || !pParty->campaign().hasQuestBit(landing.qbit))
+        {
+            continue;
+        }
+
+        request.utilityMapMoveMapName = landing.mapName;
+        request.utilityMapMoveX = landing.x;
+        request.utilityMapMoveY = landing.y;
+        request.utilityMapMoveZ = landing.z;
+        request.utilityMapMoveDirectionDegrees = landing.directionDegrees;
+        request.utilityMapMoveUseMapStartPosition = landing.useMapStartPosition;
         return;
     }
-
-    request.utilityMapMoveMapName = landing->mapName;
-    request.utilityMapMoveX = landing->x;
-    request.utilityMapMoveY = landing->y;
-    request.utilityMapMoveZ = landing->z;
-    request.utilityMapMoveDirectionDegrees = landing->directionDegrees;
-    request.utilityMapMoveUseMapStartPosition = landing->useMapStartPosition;
 }
 
 std::optional<std::pair<int, int>> computeHeldInventoryPlacement(
@@ -958,8 +861,7 @@ void GameplayPartyOverlayInputController::handleUtilitySpellOverlayInput(
 
                 const size_t continentCount = context.townPortalContinents().size();
 
-                for (size_t index = 0; continentCount > 1 && index < continentCount
-                     && index < TownPortalContinentButtonCount; ++index)
+                for (size_t index = 0; continentCount > 1 && index < continentCount; ++index)
                 {
                     const std::string buttonId = townPortalContinentButtonId(index);
                     const GameplayScreenRuntime::HudLayoutElement *pButtonLayout =
@@ -2240,7 +2142,7 @@ bool GameplayPartyOverlayInputController::togglePouchTab(GameplayScreenRuntime &
 {
     const Party *pParty = context.partyReadOnly();
 
-    if (pParty == nullptr || !gameRulesFor(pParty).items.hasPouches() || !context.characterScreenReadOnly().open
+    if (pParty == nullptr || !pParty->hasPouch(pouch) || !context.characterScreenReadOnly().open
         || context.characterScreenReadOnly().page != GameplayUiController::CharacterPage::Inventory
         || context.isAdventurersInnCharacterSourceActive())
     {
@@ -2919,13 +2821,12 @@ void GameplayPartyOverlayInputController::handleCharacterOverlayInput(
                 }
 #endif
 
-                const bool hasPouches = pParty != nullptr && gameRulesFor(pParty).items.hasPouches();
 
                 for (const auto &[pPouchId, pouch] : {std::pair("CharacterInventoryCraftingTag", ItemPouch::Crafting),
                          std::pair("CharacterInventoryAlchemyTag", ItemPouch::Alchemy),
                          std::pair("CharacterInventoryQuestTag", ItemPouch::Quest)})
                 {
-                    GameplayCharacterPointerTarget pouchTarget = hasPouches
+                    GameplayCharacterPointerTarget pouchTarget = pParty != nullptr && pParty->hasPouch(pouch)
                         ? resolveCharacterButtonTarget(
                               pPouchId, GameplayCharacterPointerTargetType::InventoryPouchButton)
                         : GameplayCharacterPointerTarget{};
@@ -4156,7 +4057,7 @@ void GameplayPartyOverlayInputController::handleCharacterOverlayInput(
 
                 if (useAction != InventoryItemUseAction::None && useAction != InventoryItemUseAction::Equip)
                 {
-                    context.itemService().tryUseHeldItemOnPartyMember(context, memberIndex, true);
+                    context.playerCommands().useHeldItemOnMember(LocalPlayer, context, memberIndex, true);
                     return;
                 }
 
@@ -4242,7 +4143,7 @@ void GameplayPartyOverlayInputController::handleCharacterOverlayInput(
 
                 if (useAction != InventoryItemUseAction::None && useAction != InventoryItemUseAction::Equip)
                 {
-                    context.itemService().tryUseHeldItemOnPartyMember(context, memberIndex, true);
+                    context.playerCommands().useHeldItemOnMember(LocalPlayer, context, memberIndex, true);
                     return;
                 }
 

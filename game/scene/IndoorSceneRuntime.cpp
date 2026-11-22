@@ -85,6 +85,24 @@ std::optional<uint16_t> indoorPressurePlateEventId(
     return face.cogTriggered;
 }
 
+// A wall the party walked into that runs its event by touch: the touch bit, an event, and not a pressure plate (whose
+// faces the studio gives the touch bit as well, and which run by being stood on).
+bool indoorTouchFaceRuns(
+    const IndoorMapData &indoorMapData,
+    const std::optional<MapDeltaData> &mapDeltaData,
+    size_t faceIndex)
+{
+    if (faceIndex >= indoorMapData.faces.size())
+    {
+        return false;
+    }
+
+    const IndoorFace &face = indoorMapData.faces[faceIndex];
+    const uint32_t attributes = effectiveIndoorSceneFaceAttributes(face, mapDeltaData, faceIndex);
+    return face.cogTriggered != 0 && hasFaceAttribute(attributes, FaceAttribute::TriggerByTouch)
+        && !hasFaceAttribute(attributes, FaceAttribute::PressurePlate);
+}
+
 std::string uppercaseCopy(const std::string &value)
 {
     std::string result = value;
@@ -304,7 +322,8 @@ IndoorSceneRuntime::IndoorSceneRuntime(
     const NpcDialogTable *pNpcDialogTable,
     const MapItemSourceData *pItemSourceData,
     const Mm9MapTransitionTable *pMm9MapTransitionTable,
-    const Mm9TeacherScheduleTable *pMm9TeacherScheduleTable)
+    const Mm9TeacherScheduleTable *pMm9TeacherScheduleTable,
+    const MergedNpcProfessionTable *pNpcProfessionTable)
     : m_map(map)
     , m_mapFileName(mapFileName)
     , m_pIndoorMapData(&indoorMapData)
@@ -334,6 +353,7 @@ IndoorSceneRuntime::IndoorSceneRuntime(
     m_partyRuntime.setParty(*m_pSessionParty);
     m_partyRuntime.party().setStatistics(m_pSessionParty->statistics());
     m_worldRuntime.setBolsterMonstersEnabled(bolsterMonstersEnabled);
+    m_worldRuntime.setActorNpcNames({pNpcDialogTable, pNpcProfessionTable});
     m_worldRuntime.initialize(
         map,
         monsterTable,
@@ -394,7 +414,8 @@ IndoorSceneRuntime::IndoorSceneRuntime(
     const NpcDialogTable *pNpcDialogTable,
     const MapItemSourceData *pItemSourceData,
     const Mm9MapTransitionTable *pMm9MapTransitionTable,
-    const Mm9TeacherScheduleTable *pMm9TeacherScheduleTable)
+    const Mm9TeacherScheduleTable *pMm9TeacherScheduleTable,
+    const MergedNpcProfessionTable *pNpcProfessionTable)
     : m_map(map)
     , m_mapFileName(mapFileName)
     , m_pIndoorMapData(&indoorMapData)
@@ -424,6 +445,7 @@ IndoorSceneRuntime::IndoorSceneRuntime(
     m_partyRuntime.setParty(*m_pSessionParty);
     m_partyRuntime.party().setStatistics(m_pSessionParty->statistics());
     m_worldRuntime.setBolsterMonstersEnabled(bolsterMonstersEnabled);
+    m_worldRuntime.setActorNpcNames({pNpcDialogTable, pNpcProfessionTable});
     m_worldRuntime.initialize(
         map,
         monsterTable,
@@ -622,12 +644,17 @@ void IndoorSceneRuntime::restoreSnapshot(const Snapshot &snapshot)
     m_resetLegacyTimersOnInitialize = false;
     m_lastProcessedPartyMoveStateForFaceTriggers = snapshot.lastProcessedPartyMoveStateForFaceTriggers;
     m_lastPartyFloorFaceForPressurePlateTriggers = snapshot.lastPartyFloorFaceForPressurePlateTriggers;
-    if (!m_lastPartyFloorFaceForPressurePlateTriggers
-        && m_lastProcessedPartyMoveStateForFaceTriggers
-        && hasIndoorPressurePlateSupportFace(*m_lastProcessedPartyMoveStateForFaceTriggers))
+    // A save keeps the party's last processed movement state, not the face it last stood on: the face it stands on
+    // does not run again. A party saved in the air (walking down a stair is a run of short falls) stood on no plate,
+    // so the first floor it lands on runs (no face index), as it would have without the save; only a party that has
+    // just arrived skips the face it arrives on (no movement state at all). DD-12's statue hall at the stair's foot
+    // never spoke after a load on the stair (A3, 2026-11-21).
+    if (!m_lastPartyFloorFaceForPressurePlateTriggers && m_lastProcessedPartyMoveStateForFaceTriggers)
     {
         m_lastPartyFloorFaceForPressurePlateTriggers =
-            m_lastProcessedPartyMoveStateForFaceTriggers->supportFaceIndex;
+            hasIndoorPressurePlateSupportFace(*m_lastProcessedPartyMoveStateForFaceTriggers)
+            ? m_lastProcessedPartyMoveStateForFaceTriggers->supportFaceIndex
+            : static_cast<size_t>(-1);
     }
     m_mechanismAudioStates.clear();
     m_mechanismSoundStates.clear();
@@ -666,6 +693,14 @@ bool IndoorSceneRuntime::advanceSimulation(float deltaMilliseconds, bool advance
 
     bool stateChanged = false;
 
+    // A co-op guest's replica (IGameplayWorldRuntime::replica): the host runs the clock, the timers and the events,
+    // and is told what the party steps on. Doors still move here, from the state the host sent.
+    if (m_worldRuntime.replica())
+    {
+        updatePartyFaceTriggers();
+        return advanceMechanisms(deltaMilliseconds);
+    }
+
     // Turn-based combat moves the clock once per completed turn (advanceTurnBasedGameMinutes); the party's steps still
     // press plates and take exits.
     if (advanceGameTime)
@@ -695,15 +730,21 @@ bool IndoorSceneRuntime::advanceSimulation(float deltaMilliseconds, bool advance
         stateChanged = true;
         // An exit that does not ask is a voyage (Ravensford's ship to the Isle of Ashes, its boat on to Sturmford):
         // the days pass, but only a walk between regions, which always asks, eats food.
-        if (!activation->pTransition->askPlayer
-            && applyTravelDaysSideEffects(
-                m_partyRuntime.party(),
-                &m_worldRuntime,
-                activation->pTransition->travelDays,
-                0)
-            && m_eventRuntimeState->pendingMapMove)
+        // With other players in the world the voyage waits for their agreement, and its days pass then.
+        if (!activation->pTransition->askPlayer && m_eventRuntimeState->pendingMapMove)
         {
-            m_eventRuntimeState->pendingMapMove->travelTimeApplied = true;
+            TravelCost cost;
+            cost.travelDays = std::max(0, activation->pTransition->travelDays);
+
+            if (m_worldRuntime.sharedWithOtherPlayers())
+            {
+                m_eventRuntimeState->pendingMapMove->unpaidCost =
+                    cost.any() ? std::optional<TravelCost>(cost) : std::nullopt;
+            }
+            else if (applyTravelCost(m_partyRuntime.party(), {}, &m_worldRuntime, cost))
+            {
+                m_eventRuntimeState->pendingMapMove->travelTimeApplied = true;
+            }
         }
     }
 
@@ -1329,6 +1370,29 @@ bool IndoorSceneRuntime::updatePartyFaceTriggers()
         executed = enterPartyFloorFace(floorFaceIndex) || executed;
     }
 
+    // Walls the party came into contact with (a map whose touch faces run; nothing on any other map).
+    m_partyRuntime.takeNewTouchFaces(m_partyTouchFaces);
+
+    for (size_t faceIndex : m_partyTouchFaces)
+    {
+        if (m_pIndoorMapData == nullptr || !indoorTouchFaceRuns(*m_pIndoorMapData, m_mapDeltaData, faceIndex))
+        {
+            continue;
+        }
+
+        if (m_worldRuntime.replica())
+        {
+            m_worldRuntime.noteReplicaPositionTrigger(ReplicaPositionTrigger{
+                .kind = ReplicaPositionTrigger::Kind::IndoorTouchFace,
+                .first = uint32_t(faceIndex),
+            });
+            continue;
+        }
+
+        executed = m_worldRuntime.executeFaceTriggeredEvent(faceIndex, FaceAttribute::TriggerByTouch, false)
+            || executed;
+    }
+
     return executed;
 }
 
@@ -1356,6 +1420,19 @@ bool IndoorSceneRuntime::enterPartyFloorFace(size_t floorFaceIndex)
 
     if (previousPressureEvent && currentPressureEvent && *previousPressureEvent == *currentPressureEvent)
     {
+        return false;
+    }
+
+    if (m_worldRuntime.replica())
+    {
+        if (currentPressureEvent)
+        {
+            m_worldRuntime.noteReplicaPositionTrigger(ReplicaPositionTrigger{
+                .kind = ReplicaPositionTrigger::Kind::IndoorFace,
+                .first = uint32_t(floorFaceIndex),
+            });
+        }
+
         return false;
     }
 
@@ -1458,6 +1535,9 @@ bool IndoorSceneRuntime::activateEvent(
         return true;
     }
 
+    // The party the event runs for: the world's, which is the acting player's while another player's command runs
+    // (IGameplayWorldRuntime::swapActingParty) and this scene's own at every other moment.
+    Party &eventParty = m_worldRuntime.party() != nullptr ? *m_worldRuntime.party() : m_partyRuntime.party();
     m_eventRuntimeState->activeDecorationContext = activeDecorationContext;
 
     const bool allowGlobalFallback = activeDecorationContext.has_value();
@@ -1465,14 +1545,14 @@ bool IndoorSceneRuntime::activateEvent(
     const std::optional<ScriptedEventProgram> &effectiveLocalEventProgram =
         allowGlobalFallback ? emptyLocalProgram : m_localEventProgram;
     const std::vector<int64_t> statsBefore =
-        activeDecorationContext ? partyBaseStatSnapshot(m_partyRuntime.party()) : std::vector<int64_t>{};
+        activeDecorationContext ? partyBaseStatSnapshot(eventParty) : std::vector<int64_t>{};
 
     const bool executed = m_eventRuntime.executeEventById(
         effectiveLocalEventProgram,
         m_globalEventProgram,
         eventId,
         *m_eventRuntimeState,
-        &m_partyRuntime.party(),
+        &eventParty,
         &m_worldRuntime,
         std::nullopt,
         allowGlobalFallback
@@ -1482,7 +1562,7 @@ bool IndoorSceneRuntime::activateEvent(
     if (executed && activeDecorationContext)
     {
         reportDecorationStatGain(
-            m_partyRuntime.party(), *m_eventRuntimeState, activeDecorationContext->decorVarIndex, statsBefore);
+            eventParty, *m_eventRuntimeState, activeDecorationContext->decorVarIndex, statsBefore);
     }
 
     if (!executed)
@@ -1492,7 +1572,7 @@ bool IndoorSceneRuntime::activateEvent(
     }
 
     m_worldRuntime.applyEventRuntimeState();
-    m_partyRuntime.party().applyEventRuntimeState(*m_eventRuntimeState, false);
+    eventParty.applyEventRuntimeState(*m_eventRuntimeState, false);
     m_eventRuntimeState->lastActivationResult = "event " + std::to_string(eventId) + " executed";
     return true;
 }

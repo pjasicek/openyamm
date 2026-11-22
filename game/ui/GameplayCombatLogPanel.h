@@ -21,6 +21,8 @@ enum class CombatLogFilter : uint8_t
     All,
     Dealt,
     Taken,
+    // What the players of a co-op session said; its chip shows once something was said.
+    Chat,
 };
 
 // The docked combat log (devdocs/maw/GAPS.md H.3, level_generation/ui/maw_combat_log_20261024/, layout A): a titled
@@ -34,6 +36,7 @@ class GameplayCombatLogPanel
 public:
     bool open() const;
     void toggle();
+    void setOpen(bool open);
     // Mouse wheel over the panel: older hits up, newer down.
     void scroll(int lines, const CombatLog &log);
     // A click on a hit opens its damage steps; a second click closes them.
@@ -54,6 +57,7 @@ private:
         size_t scroll = 0;
         uint32_t openEntry = 0;
         CombatLogFilter filter = CombatLogFilter::All;
+        bool chatOnly = false;
         float x = 0;
         float y = 0;
         float width = 0;
@@ -69,6 +73,9 @@ private:
     void appendGlyph(GameplayScreenRuntime &context, const char *pName, float x, float y, float size, uint32_t tint);
 
     bool m_open = false;
+    // The log itself is not shown (the Standard ruleset, MM9) and the panel is only a co-op session's chat: what
+    // was said, with no filters.
+    bool m_chatOnly = false;
     size_t m_scroll = 0;
     uint32_t m_openEntry = 0;
     CombatLogFilter m_filter = CombatLogFilter::All;

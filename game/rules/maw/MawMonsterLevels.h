@@ -131,7 +131,8 @@ struct MawMonsterFamily
 // Without a monster table a world's row is a family of its own.
 MawMonsterFamily mawMonsterFamily(const MonsterTable *pMonsterTable, int monsterId);
 
-// The arenas (MAW's d42, 7d05 and zarena, and MM9's thearena: each picks its fighters by the party's level), whose
+// The arenas (MAW's d42, 7d05 and zarena, MM9's thearena and Xeen's Warzone: each picks its fighters by the party's
+// level), whose
 // monsters get no bolster and whose kills in Beyond Madness pay nothing.
 bool mawArenaMap(const std::string &mapFileName);
 

@@ -211,6 +211,8 @@ struct ActorBehaviorActorFacts
     bool dead = false;
     bool hostileToParty = false;
     GameplayWorldPoint position;
+    // The feet of the party it fights (IGameplayWorldRuntime::actorPartyFeet).
+    GameplayWorldPoint partyPosition;
     float height = 0.0f;
     ActorAiAnimationState animationState = ActorAiAnimationState::Standing;
     float yawRadians = 0.0f;

@@ -715,7 +715,22 @@ bool loadRegressionGameData(RegressionGameData &data, std::string &failure)
         return false;
     }
 
-    if (!data.houseTable.applyHouseRules(houseRules, transportLocations, mapStats))
+    std::vector<std::vector<std::string>> transportIndexRows;
+
+    if (!loadTextTableRows(assetFileSystem, engineDataTablePath("transport_index.txt"), transportIndexRows, failure))
+    {
+        return false;
+    }
+
+    Game::MergedTransportIndexTable transportIndex = {};
+
+    if (!transportIndex.loadFromRows(transportIndexRows))
+    {
+        failure = "could not load merged transport index for regression tests";
+        return false;
+    }
+
+    if (!data.houseTable.applyHouseRules(houseRules, transportIndex, transportLocations, mapStats))
     {
         failure = "could not apply merged house rules for regression tests";
         return false;

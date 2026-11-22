@@ -729,9 +729,11 @@ uint64_t GameAudioSystem::playAssetInstance(
     float pitch,
     float innerRadius,
     float outerRadius,
-    bool pan)
+    bool pan,
+    float startFraction)
 {
     Engine::AudioSystem::PlaybackOptions options = {};
+    options.startFraction = startFraction;
     options.volume = playbackGroupVolume(group) * volume;
     options.positional = position.has_value();
     options.pan = pan;
@@ -745,7 +747,11 @@ uint64_t GameAudioSystem::playAssetInstance(
         options.y = position->y;
         options.z = position->z;
     }
-    return m_audioSystem.playClip(virtualPath, options);
+    const uint64_t instanceId = m_audioSystem.playClip(virtualPath, options);
+    // Placed ambient sounds, weather, named effects and monster clips come through here.
+    logAudioTraceResolvedSound("play", "assetInstance", 0, virtualPath, group, position, loop, instanceId,
+        instanceId != 0 ? "started" : "failed");
+    return instanceId;
 }
 
 bool GameAudioSystem::playLoopingSound(
@@ -780,6 +786,11 @@ uint64_t GameAudioSystem::playResolvedSound(
     uint32_t soundId,
     const char *pSource)
 {
+    if (m_playbackHeld)
+    {
+        return 0;
+    }
+
     if (isExclusiveGroup(group))
     {
         const std::unordered_map<PlaybackGroup, uint64_t>::const_iterator activeIt =
@@ -930,7 +941,7 @@ bool GameAudioSystem::playSpeech(const Character &character, SpeechId speechId, 
 {
     const SpeechReactionEntry *pReaction = m_speechReactionTable.find(speechId);
 
-    if (pReaction == nullptr)
+    if (pReaction == nullptr || m_playbackHeld)
     {
         return false;
     }

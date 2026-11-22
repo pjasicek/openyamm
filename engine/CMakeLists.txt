@@ -9,6 +9,14 @@ add_library(openyamm_engine
     update/AppUpdater.cpp
     update/HttpTransport.cpp
     update/ReleaseManifest.cpp
+    net/ByteStream.cpp
+    net/EnetTransport.cpp
+    net/LanDiscovery.cpp
+    net/LoopbackTransport.cpp
+    net/NetCompression.cpp
+    net/RendezvousClient.cpp
+    net/RendezvousProtocol.cpp
+    net/RendezvousServer.cpp
     FontAsset.cpp
     ImageAssetLoader.cpp
     ImageMipmaps.cpp
@@ -61,6 +69,7 @@ target_link_libraries(openyamm_engine
         freetype
         libzstd_static
         openyamm_monocypher
+        openyamm_enet
 )
 
 if (WIN32)

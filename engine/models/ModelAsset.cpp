@@ -1,11 +1,101 @@
 #include "engine/models/ModelAsset.h"
 
+#include "engine/ImageMipmaps.h"
+
 #include <algorithm>
 #include <cmath>
 #include <limits>
 
 namespace OpenYAMM::Engine
 {
+namespace
+{
+// Hue in turns, saturation and value of a display colour.
+std::array<float, 3> displayHsv(const std::array<float, 3> &color)
+{
+    const float high = std::max({color[0], color[1], color[2]});
+    const float low = std::min({color[0], color[1], color[2]});
+    const float span = high - low;
+    float hue = 0.0f;
+
+    if (span > 0.0f)
+    {
+        if (high == color[0])
+        {
+            hue = std::fmod((color[1] - color[2]) / span + 6.0f, 6.0f);
+        }
+        else if (high == color[1])
+        {
+            hue = (color[2] - color[0]) / span + 2.0f;
+        }
+        else
+        {
+            hue = (color[0] - color[1]) / span + 4.0f;
+        }
+    }
+
+    return {hue / 6.0f, high > 0.0f ? span / high : 0.0f, high};
+}
+
+std::array<float, 3> displayColor(float hue, float saturation, float value)
+{
+    const float sector = hue * 6.0f;
+    const float chroma = value * saturation;
+    const float second = chroma * (1.0f - std::fabs(std::fmod(sector, 2.0f) - 1.0f));
+    const float base = value - chroma;
+
+    switch (int(sector) % 6)
+    {
+        case 0:
+            return {base + chroma, base + second, base};
+
+        case 1:
+            return {base + second, base + chroma, base};
+
+        case 2:
+            return {base, base + chroma, base + second};
+
+        case 3:
+            return {base, base + second, base + chroma};
+
+        case 4:
+            return {base + second, base, base + chroma};
+
+        default:
+            return {base + chroma, base, base + second};
+    }
+}
+}
+
+ModelColorRamp recoloredModelRamp(const ModelColorRamp &ramp, const std::array<float, 3> &srgbColor)
+{
+    const std::array<float, 3> target = displayHsv({std::clamp(srgbColor[0], 0.0f, 1.0f),
+        std::clamp(srgbColor[1], 0.0f, 1.0f), std::clamp(srgbColor[2], 0.0f, 1.0f)});
+    std::array<std::array<float, 3>, ModelColorRampStops> stops = {};
+    float brightest = 0.0f;
+
+    for (size_t stop = 0; stop < ModelColorRampStops; ++stop)
+    {
+        stops[stop] = displayHsv({linearToSrgb(std::clamp(ramp.colors[stop][0], 0.0f, 1.0f)),
+            linearToSrgb(std::clamp(ramp.colors[stop][1], 0.0f, 1.0f)),
+            linearToSrgb(std::clamp(ramp.colors[stop][2], 0.0f, 1.0f))});
+        brightest = std::max(brightest, stops[stop][2]);
+    }
+
+    const float gain = std::clamp(target[2] / std::max(brightest, 0.01f), 1.0f, ModelRecolorMaxGain);
+    ModelColorRamp recolored = ramp;
+
+    for (size_t stop = 0; stop < ModelColorRampStops; ++stop)
+    {
+        const float saturation = std::min(target[1], std::max(stops[stop][1], ModelRecolorMinSaturation));
+        const std::array<float, 3> color =
+            displayColor(target[0], saturation, std::min(stops[stop][2] * gain, 1.0f));
+        recolored.colors[stop] = {srgbToLinear(color[0]), srgbToLinear(color[1]), srgbToLinear(color[2])};
+    }
+
+    return recolored;
+}
+
 std::optional<uint32_t> ModelAsset::findMaterialVariant(const std::string &name) const
 {
     const auto iterator = std::find(materialVariants.begin(), materialVariants.end(), name);

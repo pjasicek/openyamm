@@ -4,6 +4,7 @@
 #include "game/party/SkillData.h"
 #include "game/party/CharacterState.h"
 #include "game/tables/MergedBaseTables.h"
+#include "game/tables/MonsterTable.h"
 #include <charconv>
 #include "game/StringUtils.h"
 
@@ -22,6 +23,38 @@
 
 namespace OpenYAMM::Game
 {
+uint32_t itemSlayingKindFlag(const std::string &flag)
+{
+    static const std::array<std::pair<const char *, MonsterKind>, 7> Kinds = {{
+        {"SlayingDemon", MonsterKind::Demon}, {"SlayingUndead", MonsterKind::Undead},
+        {"SlayingDragon", MonsterKind::Dragon}, {"SlayingOgre", MonsterKind::Ogre},
+        {"SlayingElemental", MonsterKind::Elemental}, {"SlayingElf", MonsterKind::Elf},
+        {"SlayingTitan", MonsterKind::Titan},
+    }};
+
+    for (const auto &[pName, kind] : Kinds)
+    {
+        if (flag == pName)
+        {
+            return monsterKindFlag(kind);
+        }
+    }
+
+    return 0;
+}
+
+uint32_t itemSlayingKindFlags(const ItemContentEffect &effect)
+{
+    uint32_t kinds = 0;
+
+    for (const std::string &flag : effect.flags)
+    {
+        kinds |= itemSlayingKindFlag(flag);
+    }
+
+    return kinds;
+}
+
 namespace
 {
 std::string trimCopy(const std::string &value)
@@ -116,6 +149,7 @@ float parseFloat(const std::string &value)
 bool isSupportedContentEffectFlag(const std::string &flag)
 {
     static const std::unordered_set<std::string> SupportedFlags = {
+        "AgingImmunity",
         "AllConditionImmunity",
         "Amelioration",
         "BreakAfterFirstAttack",
@@ -162,6 +196,11 @@ bool isSupportedContentEffectFlag(const std::string &flag)
         "NullFieldCasting50",
     };
     if (SupportedFlags.contains(flag))
+    {
+        return true;
+    }
+    // x2 damage against a kind of monster (Xeen's Slayer Sword: SlayingDemon; D-2.3).
+    if (itemSlayingKindFlag(flag) != 0)
     {
         return true;
     }
@@ -821,6 +860,49 @@ std::string ItemTable::lootPoolForWorld(const std::string &worldId) const
 
     const std::string world = toLowerCopy(worldId);
     return m_itemPackageIds.contains(world) ? world : std::string("engine");
+}
+
+std::vector<std::string> ItemTable::lootPoolsForWorld(const std::string &worldId) const
+{
+    std::vector<std::string> pools;
+
+    if (worldId.empty())
+    {
+        return pools;
+    }
+
+    pools.push_back(lootPoolForWorld(worldId));
+    const auto found = m_worldDependencies.find(toLowerCopy(worldId));
+
+    if (found != m_worldDependencies.end())
+    {
+        for (const std::string &dependency : found->second)
+        {
+            const std::string pool = lootPoolForWorld(dependency);
+
+            if (std::find(pools.begin(), pools.end(), pool) == pools.end())
+            {
+                pools.push_back(pool);
+            }
+        }
+    }
+
+    return pools;
+}
+
+void ItemTable::setWorldDependencies(std::unordered_map<std::string, std::vector<std::string>> dependenciesByWorld)
+{
+    m_worldDependencies.clear();
+
+    for (auto &[worldId, dependencies] : dependenciesByWorld)
+    {
+        std::vector<std::string> &lowered = m_worldDependencies[toLowerCopy(worldId)];
+
+        for (const std::string &dependency : dependencies)
+        {
+            lowered.push_back(toLowerCopy(dependency));
+        }
+    }
 }
 
 void ItemTable::setChestArtifactsOnlyWorlds(std::unordered_set<std::string> worldIds)

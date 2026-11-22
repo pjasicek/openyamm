@@ -12,6 +12,7 @@
 
 #include <algorithm>
 #include <cmath>
+#include <optional>
 
 namespace OpenYAMM::Game
 {
@@ -24,10 +25,30 @@ constexpr float MaxFlyWheelStepsPerFrame = 4.0f;
 
 void OutdoorGameplayInputController::updateCameraFromInput(
     OutdoorGameView &view,
-    const GameplayInputFrame &input,
+    const GameplayInputFrame &rawInput,
     float deltaSeconds,
     GameplayWorldMovementFrameDiagnostics *pPerformanceDiagnostics)
 {
+    const GameplaySharedInputFrameResult &sharedInputFrameResult = view.m_gameSession.sharedInputFrameResult();
+    // A screen of this game over the world (inventory, a dialogue, the journal) holds this game's input. Alone that
+    // stops the frame here, as the original stops the world. In a co-op session the world is not this game's to stop:
+    // the frame runs on with nothing held, so the party's physics, its timers and the clock go on.
+    const bool localScreenHoldsInput =
+        sharedInputFrameResult.journalInputConsumed || sharedInputFrameResult.worldInputBlocked;
+    const bool worldRunsUnderScreens = view.m_gameSession.coopSession();
+    std::optional<GameplayInputFrame> nothingHeld;
+
+    if (localScreenHoldsInput && worldRunsUnderScreens)
+    {
+        nothingHeld.emplace();
+        nothingHeld->screenWidth = rawInput.screenWidth;
+        nothingHeld->screenHeight = rawInput.screenHeight;
+        nothingHeld->pointerX = rawInput.pointerX;
+        nothingHeld->pointerY = rawInput.pointerY;
+        nothingHeld->cameraDeltaSeconds = rawInput.cameraDeltaSeconds;
+    }
+
+    const GameplayInputFrame &input = nothingHeld ? *nothingHeld : rawInput;
     const float displayDeltaSeconds = std::max(deltaSeconds, 0.000001f);
     const float instantaneousFramesPerSecond = 1.0f / displayDeltaSeconds;
     view.m_framesPerSecond = (view.m_framesPerSecond == 0.0f)
@@ -59,15 +80,9 @@ void OutdoorGameplayInputController::updateCameraFromInput(
         pWindow = SDL_GetKeyboardFocus();
     }
 
-    const GameplaySharedInputFrameResult &sharedInputFrameResult = view.m_gameSession.sharedInputFrameResult();
     view.syncGameplayMouseLookMode(pWindow, sharedInputFrameResult.mouseLookPolicy.mouseLookActive);
 
-    if (sharedInputFrameResult.journalInputConsumed)
-    {
-        return;
-    }
-
-    if (sharedInputFrameResult.worldInputBlocked)
+    if (localScreenHoldsInput && !worldRunsUnderScreens)
     {
         return;
     }
@@ -133,8 +148,10 @@ void OutdoorGameplayInputController::updateCameraFromInput(
     const bool lookDownPressed = input.action(KeyboardAction::LookDown).held;
     const bool centerViewPressed = input.action(KeyboardAction::CenterView).held;
 
-    const bool allowWorldSimulation = !hasActiveLootView && !hasPendingSpellCast && !input.rightMouseButton.held;
-    const bool allowCameraMovementInput = allowWorldSimulation && !gameplayMouseLookState.cursorModeActive;
+    const bool localWorldInputFree = !hasActiveLootView && !hasPendingSpellCast && !input.rightMouseButton.held;
+    const bool allowWorldSimulation = worldRunsUnderScreens || localWorldInputFree;
+    const bool allowCameraMovementInput =
+        localWorldInputFree && !localScreenHoldsInput && !gameplayMouseLookState.cursorModeActive;
     const float keyboardYawSpeed = 1.75f;
 
     if (classicControls && allowCameraMovementInput)

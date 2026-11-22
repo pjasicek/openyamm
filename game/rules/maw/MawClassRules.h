@@ -42,8 +42,8 @@ public:
     // The counters MAW prints over the portraits (zzClasses.lua:640-650, 693-702), shown as gems: five for the
     // Assassin's combo points, ten for the Elementalist's stacks (at 10 the cast delay is back to normal).
     PortraitCounter portraitCounter(const Character &member) const override;
-    // A final step promoted on two worlds reads "Elder", on three "Ultimate" (zzClasses.lua:96-104), on all four
-    // "Supreme" (ours: Chedian is MAW's fourth world).
+    // A final step promoted on two worlds reads "Elder", on three "Ultimate" (zzClasses.lua:96-104), on four or five
+    // "Supreme" (ours: Chedian is MAW's fourth world, Xeen its fifth).
     std::string displayName(const Party &party, const Character &member) const override;
     // A kind's promotion completed on any world promotes every member of that kind to its final step (one of
     // several final classes, picked once per character from the save's seed); MAW's own kinds also take the mid step

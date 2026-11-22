@@ -116,10 +116,10 @@ int main(int argc, char **argv)
     result["game_minutes"] = save->savedGameMinutes;
     result["gold"] = save->party.gold;
     result["food"] = save->party.food;
-    result["house_stock_seed"] = save->party.houseStockSeed;
+    result["house_stock_seed"] = save->party.campaign.houseStockSeed;
     result["held_item_active"] = save->heldInventoryItemActive;
     result["held_item_id"] = save->heldInventoryItem.objectDescriptionId;
-    const std::set<uint32_t> questBits(save->party.questBits.begin(), save->party.questBits.end());
+    const std::set<uint32_t> questBits(save->party.campaign.questBits.begin(), save->party.campaign.questBits.end());
     result["quest_bits"] = YAML::Node(YAML::NodeType::Sequence);
     result["quest_bits"].SetStyle(YAML::EmitterStyle::Flow);
     for (const uint32_t questBit : questBits)
@@ -134,7 +134,7 @@ int main(int argc, char **argv)
         entry["inventory"] = itemsNode(member.inventory);
         result["party"].push_back(entry);
     }
-    for (const Party::HouseStockState &stock : save->party.houseStockStates)
+    for (const CampaignState::HouseStockState &stock : save->party.campaign.houseStockStates)
     {
         YAML::Node entry;
         entry["house_id"] = stock.houseId;

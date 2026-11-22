@@ -229,7 +229,7 @@ TEST_CASE("MM9 RUDE topics retain source ordering and use mapped QBit conditions
     CHECK(table.npcName(436) == "Grandpa");
     CHECK(table.topBlurb(436) == "Welcome.");
 
-    party.setQuestBit(90474, true);
+    party.campaign().setQuestBit(90474, true);
     topics = table.visibleRows(436, 436, party);
     REQUIRE(topics.size() == 2);
     CHECK(topics[0]->choiceSlot == 1);
@@ -270,12 +270,12 @@ TEST_CASE("MM9 promotions open second-tier quests and name the promoters' standi
     CHECK(table.visibleRows(61, 13, party).size() == 1);
     // The added row: on his first page once the three hand-ins are done, gone once it is (key 26).
     CHECK(table.visibleRows(61, 61, party).size() == 1);
-    party.setQuestBit(90218, true);
-    party.setQuestBit(90219, true);
-    party.setQuestBit(90220, true);
+    party.campaign().setQuestBit(90218, true);
+    party.campaign().setQuestBit(90219, true);
+    party.campaign().setQuestBit(90220, true);
     REQUIRE(table.visibleRows(61, 61, party).size() == 2);
     CHECK(table.visibleRows(61, 61, party)[1]->prompt == "Labours done.");
-    party.setQuestBit(90026, true);
+    party.campaign().setQuestBit(90026, true);
     CHECK(table.visibleRows(61, 61, party).size() == 1);
     const OpenYAMM::Game::Mm9PromotionService *pService = table.promotionService(61);
     REQUIRE(pService != nullptr);
@@ -330,7 +330,7 @@ TEST_CASE("MM9 Keith Bloodaxe quest acceptance grants the Yobboe quest key befor
         findVisibleRow(table, 89, 3, party, "We will accept this task.");
     REQUIRE(pAccept != nullptr);
     OpenYAMM::Game::applyMm9RudeRowActions(*pAccept, party);
-    CHECK(party.hasQuestBit(90128));
+    CHECK(party.campaign().hasQuestBit(90128));
 
     const OpenYAMM::Game::Mm9RudeRow *pGoodbye = findVisibleRow(table, 89, 998, party, "Goodbye");
     REQUIRE(pGoodbye != nullptr);
@@ -364,30 +364,30 @@ TEST_CASE("MM9 RUDE ordinary rows apply all key groups while service payloads re
     REQUIRE(table.loadDialogueText("NPC200.rude", text));
 
     OpenYAMM::Game::Party party;
-    party.setQuestBit(90010, true);
-    party.setQuestBit(90011, true);
-    party.setQuestBit(90012, true);
-    party.setQuestBit(90040, true);
-    party.setQuestBit(90041, true);
+    party.campaign().setQuestBit(90010, true);
+    party.campaign().setQuestBit(90011, true);
+    party.campaign().setQuestBit(90012, true);
+    party.campaign().setQuestBit(90040, true);
+    party.campaign().setQuestBit(90041, true);
 
     std::vector<const OpenYAMM::Game::Mm9RudeRow *> rows = table.visibleRows(200, 200, party);
     REQUIRE(rows.size() == 2);
     const OpenYAMM::Game::Mm9RudeRow *pAdvance = findVisibleRow(table, 200, 200, party, "Advance");
     REQUIRE(pAdvance != nullptr);
     OpenYAMM::Game::applyMm9RudeRowActions(*pAdvance, party);
-    CHECK(party.hasQuestBit(90020));
-    CHECK(party.hasQuestBit(90021));
-    CHECK_FALSE(party.hasQuestBit(90040));
-    CHECK_FALSE(party.hasQuestBit(90041));
-    CHECK_FALSE(party.hasQuestBit(90050));
+    CHECK(party.campaign().hasQuestBit(90020));
+    CHECK(party.campaign().hasQuestBit(90021));
+    CHECK_FALSE(party.campaign().hasQuestBit(90040));
+    CHECK_FALSE(party.campaign().hasQuestBit(90041));
+    CHECK_FALSE(party.campaign().hasQuestBit(90050));
 
-    party.setQuestBit(90030, true);
+    party.campaign().setQuestBit(90030, true);
     CHECK(findVisibleRow(table, 200, 200, party, "Advance") == nullptr);
 
     const OpenYAMM::Game::Mm9RudeRow *pService = findVisibleRow(table, 200, 200, party, "Train");
     REQUIRE(pService != nullptr);
     OpenYAMM::Game::applyMm9RudeRowActions(*pService, party);
-    CHECK_FALSE(party.hasQuestBit(92073));
+    CHECK_FALSE(party.campaign().hasQuestBit(92073));
 }
 
 TEST_CASE("MM9 RUDE hire and dismiss rows apply their quest key columns")
@@ -403,19 +403,19 @@ TEST_CASE("MM9 RUDE hire and dismiss rows apply their quest key columns")
     const OpenYAMM::Game::Mm9RudeRow *pHire = findVisibleRow(table, 2, 2, party, "Welcome Aboard.");
     REQUIRE(pHire != nullptr);
     OpenYAMM::Game::applyMm9RudeRowActions(*pHire, party);
-    CHECK(party.hasQuestBit(90029));
-    CHECK(party.hasQuestBit(90371));
+    CHECK(party.campaign().hasQuestBit(90029));
+    CHECK(party.campaign().hasQuestBit(90371));
 
-    party.setQuestBit(90455, true);
+    party.campaign().setQuestBit(90455, true);
     const OpenYAMM::Game::Mm9RudeRow *pDismiss = findVisibleRow(table, 2, 2, party, "You're fired.");
     REQUIRE(pDismiss != nullptr);
     OpenYAMM::Game::applyMm9RudeRowActions(*pDismiss, party);
-    CHECK_FALSE(party.hasQuestBit(90455));
+    CHECK_FALSE(party.campaign().hasQuestBit(90455));
 
     const OpenYAMM::Game::Mm9RudeRow *pTravel = findVisibleRow(table, 2, 2, party, "Passage");
     REQUIRE(pTravel != nullptr);
     OpenYAMM::Game::applyMm9RudeRowActions(*pTravel, party);
-    CHECK_FALSE(party.hasQuestBit(95017));
+    CHECK_FALSE(party.campaign().hasQuestBit(95017));
 }
 
 TEST_CASE("MM9 RUDE trainer topics list each skill, then a lesson row per party member")
@@ -869,7 +869,7 @@ TEST_CASE("MM9 RUDE quest-key actions queue shared quest presentation when an ov
     REQUIRE(pRow != nullptr);
 
     OpenYAMM::Game::applyMm9RudeRowActions(*pRow, party, &runtimeState);
-    CHECK(party.hasQuestBit(90473));
+    CHECK(party.campaign().hasQuestBit(90473));
     REQUIRE_EQ(runtimeState.portraitFxRequests.size(), 1u);
     CHECK_EQ(runtimeState.portraitFxRequests.front().kind, OpenYAMM::Game::PortraitFxEventKind::QuestComplete);
     REQUIRE_EQ(runtimeState.pendingSounds.size(), 1u);
@@ -897,7 +897,7 @@ TEST_CASE("MM9 Old Man RUDE progression exposes departure and records its comple
         findVisibleRow(table, 436, 4, party, "Why?");
     REQUIRE(pTrainingComplete != nullptr);
     OpenYAMM::Game::applyMm9RudeRowActions(*pTrainingComplete, party);
-    CHECK(party.hasQuestBit(90474));
+    CHECK(party.campaign().hasQuestBit(90474));
     CHECK(findVisibleRow(table, 436, 436, party, "We'd like to start our training.") == nullptr);
 
     const OpenYAMM::Game::Mm9RudeRow *pReady =
@@ -907,7 +907,7 @@ TEST_CASE("MM9 Old Man RUDE progression exposes departure and records its comple
         findVisibleRow(table, 436, 5, party, "Why?");
     REQUIRE(pDepartureComplete != nullptr);
     OpenYAMM::Game::applyMm9RudeRowActions(*pDepartureComplete, party);
-    CHECK(party.hasQuestBit(90475));
+    CHECK(party.campaign().hasQuestBit(90475));
 }
 
 TEST_CASE("MM9 Old Man exit callback grants canonically mapped reward items")
@@ -935,13 +935,13 @@ TEST_CASE("MM9 Old Man exit callback grants canonically mapped reward items")
     REQUIRE(program->hasEvent(50207));
 
     OpenYAMM::Game::Party party;
-    party.setQuestBit(90475, true);
+    party.campaign().setQuestBit(90475, true);
     OpenYAMM::Game::EventRuntimeState runtimeState = {};
     runtimeState.mapFileName = "bootcamp.odm";
     const OpenYAMM::Game::EventRuntime eventRuntime;
     REQUIRE(eventRuntime.executeEventById(program, std::nullopt, 50207, runtimeState, &party));
 
-    CHECK(party.hasQuestBit(90496));
+    CHECK(party.campaign().hasQuestBit(90496));
     CHECK(runtimeState.statusMessages.empty());
     const auto grantedItemId = [&runtimeState](uint32_t itemId)
     {
@@ -1015,7 +1015,7 @@ TEST_CASE("MM9 hire dialogue swaps hire and dismiss topics through ordinary RUDE
     REQUIRE(findVisibleRow(table, 43, 43, party, "What do you mean?") != nullptr);
     CHECK(findVisibleRow(table, 43, 43, party, "We will no longer be needing your services.") == nullptr);
 
-    party.setQuestBit(90451, true);
+    party.campaign().setQuestBit(90451, true);
     CHECK(findVisibleRow(table, 43, 43, party, "What do you mean?") == nullptr);
     REQUIRE(findVisibleRow(table, 43, 43, party, "We will no longer be needing your services.") != nullptr);
 }
@@ -1724,7 +1724,7 @@ TEST_CASE("MM9 world data loads transitions trainers and source monster gameplay
         *pSturmfordWeaponVendor,
         0.0f,
         OpenYAMM::Game::HouseStockMode::ShopStandard);
-    OpenYAMM::Game::Party::HouseStockState *pMigrationState = migrationParty.houseStockState(30053);
+    OpenYAMM::Game::CampaignState::HouseStockState *pMigrationState = migrationParty.campaign().houseStockState(30053);
     REQUIRE(pMigrationState != nullptr);
     pMigrationState->generationVersion = 99;
     pMigrationState->nextRefreshGameMinutes = 100.0f;
@@ -1799,7 +1799,8 @@ TEST_CASE("MM9 world data loads transitions trainers and source monster gameplay
         *pFrosgardWeaponVendor,
         0.0f,
         OpenYAMM::Game::HouseStockMode::ShopStandard);
-    OpenYAMM::Game::Party::HouseStockState *pFrosgardStockState = frosgardParty.houseStockState(30200);
+    OpenYAMM::Game::CampaignState::HouseStockState *pFrosgardStockState =
+        frosgardParty.campaign().houseStockState(30200);
     REQUIRE(pFrosgardStockState != nullptr);
     CHECK_EQ(pFrosgardStockState->refreshSequence, 1);
     OpenYAMM::Game::HouseServiceRuntime::ensureStock(
@@ -1851,7 +1852,8 @@ TEST_CASE("MM9 world data loads transitions trainers and source monster gameplay
         buyStatus,
         &buyResult));
     CHECK(buyResult == OpenYAMM::Game::HouseServiceRuntime::ShopItemServiceResult::Success);
-    const OpenYAMM::Game::Party::HouseStockState *pBuyerStockState = buyerParty.houseStockState(30053);
+    const OpenYAMM::Game::CampaignState::HouseStockState *pBuyerStockState =
+        buyerParty.campaign().houseStockState(30053);
     REQUIRE(pBuyerStockState != nullptr);
     CHECK_EQ(pBuyerStockState->standardStock[0].objectDescriptionId, 0);
     const std::vector<OpenYAMM::Game::InventoryItem> &soldOutStock =
@@ -1930,13 +1932,13 @@ TEST_CASE("MM9 world data loads transitions trainers and source monster gameplay
     std::filesystem::remove(vendorSavePath);
     REQUIRE(loadedVendorSave.has_value());
     const auto loadedStockIt = std::find_if(
-        loadedVendorSave->party.houseStockStates.begin(),
-        loadedVendorSave->party.houseStockStates.end(),
-        [](const OpenYAMM::Game::Party::HouseStockState &state)
+        loadedVendorSave->party.campaign.houseStockStates.begin(),
+        loadedVendorSave->party.campaign.houseStockStates.end(),
+        [](const OpenYAMM::Game::CampaignState::HouseStockState &state)
         {
             return state.houseId == 30053;
         });
-    REQUIRE(loadedStockIt != loadedVendorSave->party.houseStockStates.end());
+    REQUIRE(loadedStockIt != loadedVendorSave->party.campaign.houseStockStates.end());
     CHECK_EQ(loadedStockIt->generationVersion, 7);
     REQUIRE_EQ(loadedStockIt->standardStock.size(), secondStock.size());
     CHECK_EQ(loadedStockIt->standardStock[0].objectDescriptionId, secondStock[0].objectDescriptionId);
@@ -2264,7 +2266,11 @@ TEST_CASE("MM9 world quest overlay augments the shared journal without replacing
         CHECK_FALSE(pUniqueItem->effectProfile.empty());
     }
 
-    REQUIRE_EQ(dataLoader.getItemTable().setBonuses().size(), 4);
+    // MM9's own sets (other mounted worlds, such as Xeen while it is built, add theirs).
+    const std::vector<OpenYAMM::Game::ItemSetBonusDefinition> &setBonuses = dataLoader.getItemTable().setBonuses();
+    REQUIRE_EQ(std::count_if(setBonuses.begin(), setBonuses.end(),
+                   [](const OpenYAMM::Game::ItemSetBonusDefinition &bonus) { return bonus.setId.starts_with("mm9:"); }),
+        4);
     OpenYAMM::Game::Party setParty = {};
     setParty.setItemTable(&dataLoader.getItemTable());
     setParty.seed(OpenYAMM::Tests::createSpellRegressionPartySeed());
@@ -2376,7 +2382,7 @@ TEST_CASE("MM9 world quest overlay augments the shared journal without replacing
     REQUIRE_FALSE(visibleQuests.empty());
     CHECK(visibleQuests.front().starts_with("Complete your training."));
 
-    party.setQuestBit(90473, true);
+    party.campaign().setQuestBit(90473, true);
     visibleQuests = OpenYAMM::Game::buildCurrentQuestTexts(questTable, party);
     CHECK(std::any_of(
         visibleQuests.begin(),

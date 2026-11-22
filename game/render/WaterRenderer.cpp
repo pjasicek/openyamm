@@ -20,6 +20,15 @@ namespace OpenYAMM::Game
 {
 namespace
 {
+// A mirror farther than this takes no reflection (fs_mirror.sc fades its reflection out before it).
+constexpr float MirrorReflectionDistance = 4096.0f;
+
+// Two mirror surfaces of one plane (indoor batches split a face's plane by sector and texture) share a capture.
+bool sameMirrorPlane(const ReflectionPlane &a, const ReflectionPlane &b)
+{
+    return a[0] * b[0] + a[1] * b[1] + a[2] * b[2] > 0.9999f && std::abs(a[3] - b[3]) < 0.5f;
+}
+
 bgfx::VertexLayout waterVertexLayout()
 {
     bgfx::VertexLayout layout;
@@ -170,6 +179,7 @@ bool WaterRenderer::updateGeometry(std::vector<WaterSurfaceGeometry> geometry, b
         Surface surface;
         surface.building = buildings;
         surface.height = source.height;
+        surface.plane = source.liquid == LiquidKind::Mirror ? source.plane : waterReflectionPlane(source.height);
         surface.planar = source.planar;
         surface.liquid = source.liquid;
         surface.reflects = source.reflects;
@@ -181,6 +191,17 @@ bool WaterRenderer::updateGeometry(std::vector<WaterSurfaceGeometry> geometry, b
         surface.buffer = bgfx::createVertexBuffer(
             bgfx::copy(source.vertices.data(), uint32_t(source.vertices.size() * sizeof(WaterVertex))), layout);
         m_surfaces.push_back(std::move(surface));
+    }
+    if (!bgfx::isValid(m_mirrorProgram) && std::any_of(m_surfaces.begin(), m_surfaces.end(), [](const Surface &surface)
+            { return surface.liquid == LiquidKind::Mirror; }))
+    {
+        m_mirrorProgram = loadRuntimeProgram("vs_water", m_indoor && m_indoorFog.enabled ? "fs_indoor_mirror_fog"
+            : m_indoor ? "fs_indoor_mirror" : "fs_mirror");
+        if (!bgfx::isValid(m_mirrorProgram))
+        {
+            std::cerr << "Cannot load the mirror program.\n";
+            return false;
+        }
     }
     return std::all_of(m_surfaces.begin(), m_surfaces.end(), [](const Surface &surface)
         { return bgfx::isValid(surface.buffer); });
@@ -197,8 +218,24 @@ bool WaterRenderer::isReady() const
         && bgfx::isValid(m_sunColor) && bgfx::isValid(m_skyColor) && bgfx::isValid(m_reflectionMatrix)
         && (!m_indoor || (bgfx::isValid(m_cameraPosition) && bgfx::isValid(m_indoorLightPositions)
             && bgfx::isValid(m_indoorLightColors) && bgfx::isValid(m_indoorLightParams)))
-        && std::all_of(m_surfaces.begin(), m_surfaces.end(), [](const Surface &surface)
-            { return bgfx::isValid(surface.buffer); });
+        && std::all_of(m_surfaces.begin(), m_surfaces.end(), [this](const Surface &surface)
+            { return bgfx::isValid(surface.buffer)
+                && (surface.liquid != LiquidKind::Mirror || bgfx::isValid(m_mirrorProgram)); });
+}
+
+bool WaterRenderer::reflectsFrom(const Surface &surface, const bx::Vec3 &camera) const
+{
+    if (!surface.visible || !surface.planar || !surface.reflects || !liquidReflects(surface.liquid))
+    {
+        return false;
+    }
+    if (surface.liquid == LiquidKind::Mirror)
+    {
+        // Its front side only, and near enough to show detail: a mirror facing away or far takes no capture.
+        return reflectionPlaneDistance(surface.plane, camera) > 1.0f
+            && surface.distanceSquared < MirrorReflectionDistance * MirrorReflectionDistance;
+    }
+    return camera.z > surface.height;
 }
 
 bool WaterRenderer::resizeReflection(size_t index, uint16_t size)
@@ -306,9 +343,7 @@ void WaterRenderer::prepare(const ViewFrustum &frustum, const bx::Vec3 &camera, 
         Surface *pNearest = nullptr;
         for (Surface &surface : m_surfaces)
         {
-            if (surface.visible && surface.planar && surface.reflects && liquidReflects(surface.liquid)
-                && surface.reflection < 0
-                && camera.z > surface.height
+            if (surface.reflection < 0 && reflectsFrom(surface, camera)
                 && (pNearest == nullptr || surface.distanceSquared < pNearest->distanceSquared))
             {
                 pNearest = &surface;
@@ -322,18 +357,28 @@ void WaterRenderer::prepare(const ViewFrustum &frustum, const bx::Vec3 &camera, 
         const int16_t startSectorId = reflectionSectorId >= 0 ? reflectionSectorId : pNearest->sectorId;
         const bool sectorChanged = target.sectorId != startSectorId;
         target.sectorId = startSectorId;
-        target.height = pNearest->height;
+        target.plane = pNearest->plane;
+        const bool mirror = pNearest->liquid == LiquidKind::Mirror;
+        // The surfaces this capture serves: those of the nearest one's plane (indoors, of its sector too).
+        const auto serves = [&](const Surface &surface)
+        {
+            return surface.visible && surface.planar && surface.reflects && liquidReflects(surface.liquid)
+                && (surface.liquid == LiquidKind::Mirror) == mirror
+                && (mirror ? sameMirrorPlane(surface.plane, target.plane) && reflectsFrom(surface, camera)
+                    : surface.height == pNearest->height)
+                && (reflectionSectorId >= 0 || surface.sectorId == target.sectorId);
+        };
         if (sectorChanged)
         {
             m_reflectionUpdates[index] = {};
         }
-        const bx::Vec3 reflectedCamera = reflectWaterPoint(camera, target.height);
+        const bx::Vec3 reflectedCamera = reflectPlanePoint(camera, target.plane);
         target.skyView = uint16_t(FirstWaterReflectionView + index * 2);
         target.worldView = target.skyView + 1;
         float reflectedView[16];
         float captureProjection[16];
         float captureViewProjection[16];
-        waterReflectionView(reflectedView, pView, target.height);
+        reflectionPlaneView(reflectedView, pView, target.plane);
         const uint16_t captureSize = m_indoor
             ? waterReflectionCaptureSize(size, bgfx::getCaps()->limits.maxTextureSize) : size;
         const float captureScale = float(captureSize) / size;
@@ -347,8 +392,28 @@ void WaterRenderer::prepare(const ViewFrustum &frustum, const bx::Vec3 &camera, 
             std::copy_n(pProjection, 16, captureProjection);
         }
         bx::mtxMul(captureViewProjection, reflectedView, captureProjection);
-        const WaterReflectionScissor scissor =
-            waterReflectionScissor(captureViewProjection, reflectedCamera, captureSize);
+        WaterReflectionScissor scissor = waterReflectionScissor(captureViewProjection, reflectedCamera, captureSize,
+            {target.plane[0], target.plane[1], target.plane[2]});
+        if (mirror)
+        {
+            // A mirror fills a small part of the view: render only the capture's pixels its faces can sample (they
+            // sample it through the capture's own matrix, so a reused capture still holds them).
+            bx::Vec3 low = {std::numeric_limits<float>::max(), std::numeric_limits<float>::max(),
+                std::numeric_limits<float>::max()};
+            bx::Vec3 high = bx::mul(low, -1.0f);
+            for (const Surface &surface : m_surfaces)
+            {
+                if (serves(surface))
+                {
+                    for (const std::array<bx::Vec3, 2> &patch : surface.patches)
+                    {
+                        low = bx::min(low, patch[0]);
+                        high = bx::max(high, patch[1]);
+                    }
+                }
+            }
+            scissor = waterReflectionBoundsScissor(captureViewProjection, low, high, captureSize, scissor);
+        }
         if (scissor.width == 0 || scissor.height == 0)
         {
             break;
@@ -367,9 +432,7 @@ void WaterRenderer::prepare(const ViewFrustum &frustum, const bx::Vec3 &camera, 
         target.waterSectorIds.clear();
         for (Surface &surface : m_surfaces)
         {
-            if (surface.visible && surface.planar && surface.reflects && liquidReflects(surface.liquid)
-                && surface.height == target.height
-                && (reflectionSectorId >= 0 || surface.sectorId == target.sectorId))
+            if (serves(surface))
             {
                 surface.reflection = int(index);
                 if (surface.sectorId >= 0 && std::find(target.waterSectorIds.begin(), target.waterSectorIds.end(),
@@ -382,12 +445,12 @@ void WaterRenderer::prepare(const ViewFrustum &frustum, const bx::Vec3 &camera, 
         ++m_reflectionCount;
         const bool hidden = std::none_of(m_surfaces.begin(), m_surfaces.end(), [index](const Surface &surface)
             { return surface.reflection == int(index) && !surface.occluded; });
-        if (hidden && m_reflectionUpdates[index].holds(target.height, captureSize))
+        if (hidden && m_reflectionUpdates[index].holds(target.plane, captureSize))
         {
             target.update = false;
             continue;
         }
-        target.update = m_reflectionUpdates[index].prepare(captureViewProjection, target.height, captureSize,
+        target.update = m_reflectionUpdates[index].prepare(captureViewProjection, target.plane, captureSize,
             seconds, visualRevision, buildings, viewCovered, billboards);
         if (!target.update)
         {
@@ -452,9 +515,11 @@ void WaterRenderer::render(uint16_t viewId, float seconds,
             // Reflect flowing faces without sampling the target currently being written.
             const ViewFrustum frustum(pReflection->view.data(), pReflection->projection.data(),
                 bgfx::getCaps()->homogeneousDepth);
-            if (!surface.building || surface.planar
+            // Mirrors show in other captures too, without a reflection of their own.
+            if (!surface.building || (surface.planar && surface.liquid != LiquidKind::Mirror)
                 || !std::any_of(surface.patches.begin(), surface.patches.end(), [&](const auto &patch)
-                    { return patch[1].z >= pReflection->height && frustum.intersectsBounds(patch[0], patch[1]); }))
+                    { return reflectionPlaneBoundsInFront(pReflection->plane, patch[0], patch[1])
+                        && frustum.intersectsBounds(patch[0], patch[1]); }))
             {
                 continue;
             }
@@ -487,9 +552,11 @@ void WaterRenderer::renderIndoor(uint16_t viewId, float seconds, const IndoorLig
         {
             const ViewFrustum frustum(pReflection->view.data(), pReflection->projection.data(),
                 bgfx::getCaps()->homogeneousDepth);
-            if (surface.planar || !indoorGeometrySectorsVisible(visibleSectors, surface.sectorId, surface.backSectorId)
+            if ((surface.planar && surface.liquid != LiquidKind::Mirror)
+                || !indoorGeometrySectorsVisible(visibleSectors, surface.sectorId, surface.backSectorId)
                 || !std::any_of(surface.patches.begin(), surface.patches.end(), [&](const auto &patch)
-                    { return patch[1].z >= pReflection->height && frustum.intersectsBounds(patch[0], patch[1]); }))
+                    { return reflectionPlaneBoundsInFront(pReflection->plane, patch[0], patch[1])
+                        && frustum.intersectsBounds(patch[0], patch[1]); }))
             {
                 continue;
             }
@@ -593,7 +660,8 @@ void WaterRenderer::prepareRippleResources(const WaterRippleRuntime *pRipples)
 void WaterRenderer::submitSurface(Surface &surface, uint16_t viewId, float seconds, float rainIntensity,
     const WaterRippleRuntime *pRipples, bool mainView)
 {
-    const bool reflected = surface.reflection >= 0;
+    // A capture pass draws a surface without a reflection of its own (it may be the target being written).
+    const bool reflected = surface.reflection >= 0 && mainView;
     // Every wave speed is an integer multiple of 1/1000; wrapping here keeps phase continuous.
     const float reflectionScale = reflected ? 1.0f / m_reflections[size_t(surface.reflection)].projectionScale : 0.0f;
     const std::array<float, 4> params = {m_indoor ? seconds : std::fmod(seconds, 1000.0f),
@@ -633,7 +701,8 @@ void WaterRenderer::submitSurface(Surface &surface, uint16_t viewId, float secon
     }
     const bool query = mainView && bgfx::isValid(surface.occlusionQuery);
     surface.queried = surface.queried || query;
-    const bgfx::ProgramHandle program = ripples.count != 0 ? m_rippleProgram : m_program;
+    const bgfx::ProgramHandle program = surface.liquid == LiquidKind::Mirror ? m_mirrorProgram
+        : ripples.count != 0 ? m_rippleProgram : m_program;
     if (ripples.count != 0)
     {
         const std::array<float, 4> params = {float(ripples.count), 0.0f, 0.0f, 0.0f};
@@ -689,6 +758,11 @@ void WaterRenderer::shutdown()
         bgfx::destroy(m_rippleProgram);
     }
     m_rippleProgram = BGFX_INVALID_HANDLE;
+    if (rendererAvailable && bgfx::isValid(m_mirrorProgram))
+    {
+        bgfx::destroy(m_mirrorProgram);
+    }
+    m_mirrorProgram = BGFX_INVALID_HANDLE;
     if (bgfx::isValid(m_program))
     {
         if (rendererAvailable)

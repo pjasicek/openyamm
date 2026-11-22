@@ -1806,6 +1806,51 @@ std::optional<GameSettings> parseGameSettingsDocument(const IniDocument &documen
         settings.startupSaveFile = trimCopy(*value);
     }
 
+    if (const std::optional<std::string> value = getIniValue(document, "coop", "session_name"))
+    {
+        settings.coopSessionName = trimCopy(*value);
+    }
+
+    if (const std::optional<std::string> value = getIniValue(document, "coop", "lobby_address"))
+    {
+        settings.coopLobbyAddress = trimCopy(*value);
+    }
+
+    if (const std::optional<std::string> value = getIniValue(document, "coop", "local_network_only"))
+    {
+        parseBoolValue(*value, settings.coopLocalNetworkOnly);
+    }
+
+    if (const std::optional<std::string> value = getIniValue(document, "coop", "host_address"))
+    {
+        settings.coopHostAddress = trimCopy(*value);
+    }
+
+    if (const std::optional<std::string> value = getIniValue(document, "coop", "host_password"))
+    {
+        settings.coopHostPassword = trimCopy(*value);
+    }
+
+    if (const std::optional<std::string> value = getIniValue(document, "coop", "join_tab"))
+    {
+        parseBoolValue(*value, settings.coopJoinTab);
+    }
+
+    if (const std::optional<std::string> value = getIniValue(document, "coop", "avatar_member"))
+    {
+        int member = 1;
+
+        if (parseIntValue(*value, member))
+        {
+            settings.coopAvatarMember = std::clamp(member, 1, 255) - 1;
+        }
+    }
+
+    if (const std::optional<std::string> value = getIniValue(document, "coop", "test_commands"))
+    {
+        parseBoolValue(*value, settings.coopTestCommands);
+    }
+
     if (const std::optional<std::string> value = getIniValue(document, "startup", "start_in_main_menu"))
     {
         bool parsed = settings.startInMainMenu;
@@ -2711,6 +2756,14 @@ std::vector<SettingsEntry> serializeGameSettings(const GameSettings &settings)
     serializer.section("startup");
     serializer.add("start_in_main_menu", boolValue(settings.startInMainMenu));
     serializer.add("save_file", settings.startupSaveFile);
+    serializer.section("coop");
+    serializer.add("session_name", settings.coopSessionName);
+    serializer.add("lobby_address", settings.coopLobbyAddress);
+    serializer.add("local_network_only", boolValue(settings.coopLocalNetworkOnly));
+    serializer.add("host_address", settings.coopHostAddress);
+    serializer.add("join_tab", boolValue(settings.coopJoinTab));
+    serializer.add("host_password", settings.coopHostPassword);
+    serializer.add("avatar_member", settings.coopAvatarMember + 1);
     serializer.section("features");
     serializer.add("bolster_monsters", boolValue(settings.bolsterMonsters));
     serializer.add("indoor_pathfinding", boolValue(settings.indoorPathfinding));

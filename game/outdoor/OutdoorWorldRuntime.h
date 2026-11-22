@@ -1,5 +1,6 @@
 #pragma once
 
+#include "game/gameplay/GuestPartyVelocities.h"
 #include "game/gameplay/ActorBehaviorRuntime.h"
 #include "game/gameplay/ActorInspectPreviewAnimation.h"
 #include "game/gameplay/ArmageddonSpell.h"
@@ -17,9 +18,11 @@
 #include "game/gameplay/GameplayCombatController.h"
 #include "game/gameplay/GameplayProjectileService.h"
 #include "game/gameplay/GameplayRuntimeInterfaces.h"
+#include "game/gameplay/WaitingPlayerViews.h"
 #include "game/gameplay/MonsterDeathExplosion.h"
 #include "game/gameplay/SearchableLootPropRuntime.h"
 #include "game/gameplay/WorldItemSpotter.h"
+#include "game/data/ActorNameResolver.h"
 #include "game/maps/ActorModelManifest.h"
 #include "game/maps/MapAssetLoader.h"
 #include "game/maps/MapDeltaData.h"
@@ -226,6 +229,12 @@ public:
     struct MapActorState
     {
         uint32_t actorId = 0;
+        // The player whose party this monster deals with: the nearest one that can still act
+        // (assignActorPartyPlayers, each AI step). Always the local player in a game of one party; not saved.
+        PlayerId partyPlayer = LocalPlayer;
+        // Who last hurt it and until when it fights that player for it (chooseMonsterTarget); a co-op host's.
+        PlayerId threatPlayer = LocalPlayer;
+        float threatUntilGameMinutes = 0.0f;
         // The monster that last hit it; it fights that one back (not saved).
         std::optional<uint32_t> lastActorAttackerId;
         int16_t monsterId = 0;
@@ -474,6 +483,8 @@ public:
         size_t actorIndex = static_cast<size_t>(-1);
         size_t faceIndex = static_cast<size_t>(-1);
         bool waterTerrainImpact = false;
+        // For a hit on a party: the player whose party it is.
+        PlayerId partyPlayer = LocalPlayer;
     };
 
 
@@ -489,6 +500,8 @@ public:
         ProjectileState::SourceKind sourceKind = ProjectileState::SourceKind::Party;
         uint32_t sourceId = 0;
         uint32_t sourcePartyMemberIndex = 0;
+        // Whose character laid it, in a co-op host's game.
+        PlayerId sourcePlayer = LocalPlayer;
         int16_t sourceMonsterId = 0;
         bool fromSummonedMonster = false;
         MonsterAttackAbility ability = MonsterAttackAbility::Attack1;
@@ -650,6 +663,8 @@ public:
         // The map's layout this state belongs to (MapAssetInfo::layoutIdentity), stamped by GameSession when it is
         // captured; 0 in saves before version 160. Entering a map of another layout resets its state.
         uint64_t mapLayoutIdentity = 0;
+        // The number of players the monsters are sized for (MonsterRules::playerHealthFactor).
+        uint8_t monsterHealthPlayerCount = 1;
     };
 
     void initialize(
@@ -690,6 +705,8 @@ public:
     // Recomputes hiddenDecorationEntities for this frame's actor movement and returns it.
     const std::vector<bool> &refreshHiddenDecorationEntities();
     void setBolsterMonstersEnabled(bool enabled);
+    // The NPC tables that name an actor with an NPC id (resolveMapDeltaActorName); set before initialize.
+    void setActorNpcNames(const ActorNpcNameTables &npcNames);
     void setPartyCollisionDimensions(float radius, float height);
     void bindInteractionView(OutdoorGameView *pView);
     void bindEventPrograms(
@@ -726,7 +743,7 @@ public:
     const MergedBolsterMonsterTable *mergedBolsterMonsterTable() const override;
     GameplayWorldPoint chooseBountyHuntSpawnPoint(uint32_t seed) const override;
     bool isIndoorMap() const override;
-    bool isUnderwaterMap() const;
+    bool isUnderwaterMap() const override;
     bool allowsLloydsBeacon() const override;
     bool allowsTownPortal() const override;
     bool allowsRest() const override;
@@ -736,6 +753,34 @@ public:
     void stampLastVisitTime();
     void applyMapReentryReset() override;
     void refreshRulesetMonsters() override;
+    size_t monsterHealthPlayerCount() const override;
+    void resizeMonstersForPlayers(size_t playerCount) override;
+    void setReplica(bool replica) override
+    {
+        m_replica = replica;
+    }
+    bool replica() const override
+    {
+        return m_replica;
+    }
+    bool captureReplicaActorPose(size_t actorIndex, ReplicaActorPose &pose) const override;
+    uint64_t replicaActorSignature(size_t actorIndex) const override;
+    std::vector<uint8_t> encodeReplicaActor(size_t actorIndex) const override;
+    bool applyReplicaActor(size_t actorIndex, std::span<const uint8_t> record) override;
+    void applyReplicaActorPose(const ReplicaActorPose &pose) override;
+    std::vector<uint8_t> encodeReplicaWorldItems() const override;
+    bool applyReplicaWorldItems(std::span<const uint8_t> bytes) override;
+    void setReplicaLootViews(
+        std::optional<GameplayChestViewState> chestView,
+        std::optional<GameplayCorpseViewState> corpseView) override;
+    void setReplicaGameMinutes(float gameMinutes) override;
+    std::optional<GameplayPlayerBody> takeActingBodyOrder() override;
+    std::vector<std::vector<uint8_t>> takeReplicaWorldCalls() override;
+    void setReplicaDryRun(bool dryRun) override;
+    std::vector<ReplicaPositionTrigger> takeReplicaPositionTriggers() override;
+    bool executeReplicaPositionTrigger(const ReplicaPositionTrigger &trigger, const GameplayPlayerBody &body) override;
+    // A replica's party stepped on a place that runs an event: kept for the host (takeReplicaPositionTriggers).
+    void noteReplicaPositionTrigger(const ReplicaPositionTrigger &trigger);
     float currentGameMinutes() const override;
     float gameMinutes() const override;
     int currentHour() const override;
@@ -854,7 +899,8 @@ public:
         ShieldAttackTier shieldTier,
         const ShieldHitModifiers &shieldModifiers = {},
         bool critical = false,
-        bool hitReaction = true) override;
+        bool hitReaction = true,
+        uint32_t weaponItemId = 0) override;
     void applyPartyAttackMeleeEffects(
         size_t actorIndex,
         const CharacterAttackResult &attack,
@@ -910,6 +956,7 @@ public:
         bool critical = false);
     bool healMapActor(size_t actorIndex, int amount) override;
     ActorRulesetFacts *mutableActorRulesetFacts(size_t actorIndex) override;
+    bool addActorHitMarks(size_t actorIndex, const ActorHitMarks &marks) override;
     bool resurrectMapActor(size_t actorIndex, int health, bool friendlyToParty);
     bool clearMapActorSpellEffects(size_t actorIndex);
     int effectiveMapActorArmorClass(size_t actorIndex) const;
@@ -1007,6 +1054,8 @@ public:
     );
     void collectWorldItemPresentationStates(
         std::vector<GameplayWorldItemPresentationState> &items) const override;
+    std::optional<uint32_t> worldItemKey(size_t worldItemIndex) const override;
+    std::optional<size_t> worldItemIndexOfKey(uint32_t key) const override;
     // The model a world item is drawn and picked with: a loot container is a bag of loot, not one of the items.
     static const ItemModelBinding &worldItemModel(const ItemTable &itemTable, const WorldItemState &worldItem);
     void collectFireSpikeTrapPresentationStates(
@@ -1065,6 +1114,9 @@ public:
 
     Party *party() override;
     const Party *party() const override;
+    void setGuestBodies(std::vector<GameplayGuestBody> bodies) override;
+    bool sharedWithOtherPlayers() const override;
+    Party *swapActingParty(Party *pParty) override;
     const std::vector<uint8_t> *journalMapFullyRevealedCells() const override;
     const std::vector<uint8_t> *journalMapPartiallyRevealedCells() const override;
     int restFoodRequired() const override;
@@ -1075,6 +1127,7 @@ public:
     float partyEyeZ() const override;
     float partyEngagementRange() const override;
     float partyHitReach() const override;
+    GameplayWorldPoint actorPartyFeet(size_t actorIndex) const override;
     float gameplayCameraYawRadians() const override;
     float gameplayCameraPitchRadians() const override;
     float gameplayViewAspectRatio() const override;
@@ -1150,6 +1203,8 @@ public:
         return this;
     }
     const EventRuntimeState *eventRuntimeState() const override;
+    // The scene's ambient_sounds (E9: an outdoor map's beds and loops), or none.
+    const std::vector<WorldAmbientSound> *ambientSounds() const override;
     bool scriptedChestOpens(uint32_t chestId) const override;
     // evt.DamageDestructible and the rest (ISceneEventContext): an outdoor destructible by its source object index.
     bool damageDestructible(uint32_t id, int damage) override;
@@ -1533,7 +1588,9 @@ private:
     // An attack role's timing: the actor's sprite's, or its 3D model's clip where that times it
     // (resolveActorAttackTiming).
     ActorAttackTiming mapActorAttackTiming(const MapActorState &actor, ActorModelManifest::AttackRole role) const;
-    static std::array<float, 3> mapActorBodyLaunchPoint(const MapActorState &actor);
+    // The body launch point: max(24, 0.7 x height) above the feet, the height capped by the drawn model's top while
+    // models are on (actorLaunchHeight).
+    std::array<float, 3> mapActorBodyLaunchPoint(const MapActorState &actor) const;
     bool castSpellFromMapActor(
         const MapActorState &actor,
         const MonsterTable::MonsterStatsEntry &stats,
@@ -1641,6 +1698,8 @@ private:
         const bx::Vec3 &end,
         std::vector<size_t> &candidateFaceIndices) const;
     void updateImmolation(float deltaSeconds);
+    // One tick of that player's aura on the monsters near where the player stands.
+    void burnWithImmolation(PlayerId player, const Party &party, float partyX, float partyY, float partyZ);
     // Spots the ground items the party passes (ItemRules::worldItemSpotting, WorldItemSpotter).
     void updateWorldItemSpotting(float deltaSeconds);
     void updateFireSpikeTraps(float deltaSeconds, float partyX, float partyY, float partyZ);
@@ -1787,12 +1846,26 @@ private:
     std::vector<bool> m_openedChests;
     std::vector<std::optional<ChestViewState>> m_materializedChestViews;
     std::optional<ChestViewState> m_activeChestView;
+    // The chest and corpse the other players have open, and the player whose are in the members now.
+    WaitingPlayerViews m_waitingPlayerViews;
+    PlayerId m_actingPlayer = LocalPlayer;
     std::optional<GameplayWorldPoint> m_pendingEventSourcePoint;
     std::optional<EventRuntimeState> m_eventRuntimeState;
     mutable ActorInspectPreviewAnimation m_actorInspectPreviewAnimation = {};
     const ItemTable *m_pItemTable = nullptr;
     Party *m_pParty = nullptr;
     OutdoorPartyRuntime *m_pPartyRuntime = nullptr;
+    const Party *missileParty(const GameplayProjectileService::ProjectileState &projectile) const;
+    // That player's party in this map: the world's own for the local player, a guest's for its player.
+    Party *playerParty(PlayerId player) const;
+    // Who the world is acting for now (a co-op host's game carrying out a guest's command), for what outlives it.
+    PlayerId actingPlayer() const;
+    void noteActorThreat(size_t actorIndex, PlayerId player);
+    // The player whose party stands nearest to a place (whom a charging monster ran into).
+    PlayerId nearestPartyPlayer(float x, float y) const;
+    std::vector<GameplayGuestBody> m_guestBodies;
+    // Whether any monster may be turned to a guest, so that a game back to one party resets them once.
+    bool m_actorPartyPlayersAssigned = false;
     const StandardItemEnchantTable *m_pStandardItemEnchantTable = nullptr;
     const SpecialItemEnchantTable *m_pSpecialItemEnchantTable = nullptr;
     MapItemSourceData m_itemSourceData;
@@ -1814,6 +1887,28 @@ private:
     std::vector<GameplayMinimapLineState> m_cachedEnclosedMinimapLines;
     const SpellTable *m_pSpellTable = nullptr;
     bool m_bolsterMonstersEnabled = false;
+    ActorNpcNameTables m_actorNpcNames;
+    size_t m_monsterHealthPlayerCount = 1;
+    // Where the acting party stands while it is another player's (swapActingParty): partyX, partyY, partyFootZ,
+    // partyEyeZ and the camera's yaw answer with it, so that what that player does happens where that player is.
+    std::optional<GameplayPlayerBody> m_actingBody;
+    // Where what the acting player did put its party (a teleport), for its game to take.
+    std::optional<GameplayPlayerBody> m_actingBodyOrder;
+    // A co-op guest's replica of the host's map (IGameplayWorldRuntime::setReplica).
+    bool m_replica = false;
+    std::vector<ReplicaActorSmoothing> m_replicaActorSmoothing;
+    std::vector<ReplicaPositionTrigger> m_replicaPositionTriggers;
+    std::vector<std::vector<uint8_t>> m_replicaWorldCalls;
+    bool m_replicaDryRun = false;
+    // Keeps a call for the host (takeReplicaWorldCalls); true, as the call it stands for would answer when done.
+    bool replicaWorldCall(std::vector<uint8_t> call);
+    // Shows a blow of the local player at once: its number over the monster and the health it takes, which the
+    // host's next message confirms or puts right.
+    void predictReplicaMeleeDamage(size_t actorIndex, int damage, bool critical);
+    // A replica's monsters move on between the host's messages and their animations run.
+    void updateReplicaActors(float deltaSeconds);
+    // The player count the actor's health is sized for: 1 for what a player summoned, which is never sized.
+    size_t healthPlayerCountFor(const MapActorState &actor) const;
     GameplayActorService *m_pGameplayActorService = nullptr;
     GameplayProjectileService *m_pGameplayProjectileService = nullptr;
     GameplayProjectileService m_fallbackGameplayProjectileService;
@@ -1821,6 +1916,7 @@ private:
     // The AI arena's decision trace (GameApplication owns it), null while off.
     ActorAiTrace *m_pActorAiTrace = nullptr;
     ActorPartyVelocityTracker m_actorAiPartyVelocity;
+    GuestPartyVelocities m_guestPartyVelocities;
     GameplayActorHitFeedback m_actorHitFeedback;
     GameplayActorShields m_actorShields;
     GameplayActorModifiers m_actorModifiers;
@@ -1830,6 +1926,10 @@ private:
     std::vector<bool> m_hiddenDecorationEntities;
     // MonsterRelationAddOns::revision() last applied to the actors; UINT64_MAX after a load.
     uint64_t m_appliedRelationRevision = UINT64_MAX;
+    // Each conditional faction's relation to the party when the rules were last applied (by its relation monster id):
+    // a switch resets only the factions whose relation changed (A8: a struck Gettlewaithe stays hostile when another
+    // faction's rule switches). Empty after a load, when every conditional faction takes its rule.
+    std::unordered_map<int16_t, bool> m_appliedConditionalHostility;
     GameplayCombatController *m_pGameplayCombatController = nullptr;
     GameplayFxService *m_pGameplayFxService = nullptr;
     const std::optional<ScriptedEventProgram> *m_pLocalEventProgram = nullptr;
@@ -1975,6 +2075,29 @@ private:
         MapActorState &actor,
         const std::optional<ActorAttackRequest> &attackRequest);
     bool outdoorActorCanApplyPartyMeleeImpact(const MapActorState &actor) const;
+    // A player's party as a monster meets it: the local party at the position the AI step was given, or a guest's.
+    struct ActorPartyBody
+    {
+        PlayerId player = LocalPlayer;
+        Party *pParty = nullptr;
+        float x = 0.0f;
+        float y = 0.0f;
+        float footZ = 0.0f;
+        bool flying = false;
+    };
+    ActorPartyBody actorPartyBody(const MapActorState &actor, float partyX, float partyY, float partyZ) const;
+    // The same with the local party where it stands now.
+    ActorPartyBody actorPartyBody(const MapActorState &actor) const;
+    // D-36's outdoor water facts (MM9's swimmer rule, BaseSwim.inc): an actor on an MM9 swimmer profile; whether an
+    // actor or a party body is in water (over a water tile, not flying, at its surface). Only swimmers ask.
+    bool isOutdoorSwimmer(const MapActorState &actor) const;
+    bool outdoorActorInWater(const MapActorState &actor) const;
+    bool outdoorPartyBodyInWater(const ActorPartyBody &party) const;
+    // A kill's experience: to the party that made it, and in full to every other player's party in the map (the
+    // co-op rule; one party in a game of one). Returns what the first party was given.
+    uint32_t grantKillExperienceToPlayers(const MonsterKillReward &reward);
+    // Gives every monster the player whose party it deals with (MapActorState::partyPlayer).
+    void assignActorPartyPlayers(float partyX, float partyY);
     void applyOutdoorActorTerminalUpdate(size_t actorIndex, MapActorState &actor, const ActorAiUpdate &update);
     void syncOutdoorActorIntegerPosition(MapActorState &actor) const;
     void activateOutdoorActorCorpsePhysics(size_t actorIndex);
@@ -2004,6 +2127,8 @@ private:
         const GameplayWorldPoint &targetPosition,
         float targetEdgeDistance,
         bool targetHasAttackLineOfSight,
+        float leashRadius,
+        const GameplayWorldPoint &leashHome,
         const GameplayActorAiSystem &actorAiSystem,
         ActorAiState &nextAiState,
         ActorAnimation &nextAnimation,

@@ -1,0 +1,48 @@
+# An event's evt.GiveItem with full packs and an item on the cursor (A1, merge point 32): the given item comes to the
+# cursor and the held one falls before the party, as in MM6-MM8 (the originals put a displaced cursor item in the
+# packs or drop it). Nothing is lost. Two of MM6's own events give the items: Castle Ironfist's dungeon (6d03 event 26,
+# a ring) and 6d12 event 24. The packs are filled by giving Potion Bottles (220) until they overflow to the ground.
+id: mm6.given_item_full_packs
+title: "evt.GiveItem with full packs: the given item comes to the cursor, the held one falls to the ground"
+world: mm6
+mode: faithful
+tags: [mm6, items, events, regression]
+steps:
+  - new_game_flow: {start_map: oute3.odm}
+  - load_map: {map: 6d03.blv}
+  - advance_runtime: {seconds: 1}
+  - lua_event: {source: "for i = 1, 200 do evt.GiveItem(220) end"}
+  - advance_runtime: {seconds: 2}
+  - play_lua:
+      source: |
+        stow()
+        if held() ~= 220 then error("the packs are not full: held " .. held()) end
+        remember('packed', item_count(220)); remember('ground', ground_items(220))
+  - execute_event: {id: 26}
+  - advance_runtime: {seconds: 2}
+  - play_lua:
+      source: |
+        local ring = held()
+        log('6d03 event 26 gave ' .. ring)
+        if ring == 0 or ring == 220 then error("the ring is not on the cursor: held " .. ring) end
+        if item_count(220) ~= recall('packed') then error("the packs changed") end
+        if ground_items(220) ~= recall('ground') + 1 then
+          error("the held bottle did not fall: " .. ground_items(220) .. " on the ground, " .. recall('ground') .. " before")
+        end
+        remember('ring', ring)
+  - load_map: {map: 6d12.blv}
+  - advance_runtime: {seconds: 1}
+  - play_lua:
+      source: |
+        if held() ~= recall('ring') then error("the ring did not stay on the cursor over the map change") end
+        remember('ring_kept', ground_items(recall('ring')) + item_count(recall('ring')))
+  - execute_event: {id: 24}
+  - advance_runtime: {seconds: 2}
+  - play_lua:
+      source: |
+        local given = held()
+        log('6d12 event 24 gave ' .. given)
+        if given == 0 or given == recall('ring') then error("the item is not on the cursor: held " .. given) end
+        -- A ring fits a one-cell gap the bottles left: it goes there or falls, never away.
+        local kept = ground_items(recall('ring')) + item_count(recall('ring'))
+        if kept ~= recall('ring_kept') + 1 then error("the held ring went neither to the packs nor to the ground") end

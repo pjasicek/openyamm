@@ -3,6 +3,8 @@
 #include "game/content/ContentManifest.h"
 #include "game/content/ContentTableComposer.h"
 #include "game/gameplay/GameplayActorService.h"
+#include "game/tables/MapStats.h"
+#include "game/tables/MergedBaseTables.h"
 
 #include <doctest/doctest.h>
 
@@ -517,6 +519,38 @@ TEST_CASE("keyed table contributions can use a non-leading item id column")
     CHECK_EQ(composedRows.back()[1], "10086");
 }
 
+TEST_CASE("map-keyed table contributions add only the world's own new maps")
+{
+    const std::vector<std::vector<std::string>> baseRows = {
+        {"Key map", "Up", "Side"},
+        {"7out02.odm", "7out04.odm", "down"},
+    };
+
+    OpenYAMM::Game::MapKeyedTableContributionRows xeen = {};
+    xeen.packageId = "xeen";
+    xeen.mapFileNames = {"xeen_x1.odm", "xeen_x2.odm"};
+    xeen.rows = {
+        {"Key map", "Up", "Side"},
+        {"Xeen_X1.odm", "xeen_x2.odm", "down"},
+    };
+
+    std::vector<std::vector<std::string>> composedRows;
+    std::string error;
+    REQUIRE(OpenYAMM::Game::composeMapKeyedAppendTableRows(baseRows, {xeen}, 0, composedRows, error));
+    REQUIRE_EQ(composedRows.size(), 3);
+    CHECK_EQ(composedRows.back()[0], "Xeen_X1.odm");
+
+    OpenYAMM::Game::MapKeyedTableContributionRows foreign = xeen;
+    foreign.rows = {{"7out02.odm", "xeen_x1.odm", "up"}};
+    CHECK_FALSE(OpenYAMM::Game::composeMapKeyedAppendTableRows(baseRows, {foreign}, 0, composedRows, error));
+    CHECK(error.find("not a map of package") != std::string::npos);
+
+    OpenYAMM::Game::MapKeyedTableContributionRows repeated = xeen;
+    repeated.rows.push_back({"xeen_x1.odm", "xeen_x2.odm", "left"});
+    CHECK_FALSE(OpenYAMM::Game::composeMapKeyedAppendTableRows(baseRows, {repeated}, 0, composedRows, error));
+    CHECK(error.find("already has a row") != std::string::npos);
+}
+
 TEST_CASE("item table contributions reject id and range collisions")
 {
     std::vector<std::string> firstRow(34);
@@ -544,4 +578,106 @@ TEST_CASE("item table contributions reject id and range collisions")
     first.idRange = OpenYAMM::Game::ContentIdRangeDefinition{"items", 10001, 10001};
     CHECK_FALSE(OpenYAMM::Game::composeItemTableRows({}, {first}, composedRows, error));
     CHECK(error.find("outside") != std::string::npos);
+}
+
+TEST_CASE("a world's own continents show their continent_settings loading pages")
+{
+    const auto continentRow = [](const std::string &id, const std::string &pictures)
+    {
+        return std::vector<std::string>{id, "Note", "", "", "", "", "x", "0.9", "1.0", "losegame", "", "x1.odm", "0",
+            "0", "0", "0", "x1.odm", "0", "0", "0", "0", "sky", pictures};
+    };
+    OpenYAMM::Game::MergedContinentSettingTable continents;
+    REQUIRE(continents.loadFromRows({{"#"}, continentRow("2", "7load1.pcx,7load2.pcx"),
+        continentRow("6", "xeenloadc1,xeenloadc2"), continentRow("7", "xeenloadd1.pcx"), continentRow("8", "")}));
+
+    OpenYAMM::Game::WorldManifest world;
+    world.loadingScreens = {"worldpage"};
+    // No continent range: the world's own list, whatever the map's continent.
+    CHECK(OpenYAMM::Game::worldLoadingPages(world, continents, 2u) == std::vector<std::string>{"worldpage"});
+
+    world.idRanges.push_back({"continents", 6, 8});
+    CHECK(OpenYAMM::Game::worldLoadingPages(world, continents, 6u)
+        == std::vector<std::string>{"xeenloadc1", "xeenloadc2"});
+    CHECK(OpenYAMM::Game::worldLoadingPages(world, continents, 7u) == std::vector<std::string>{"xeenloadd1"});
+    // A continent of the world that names no pages, or a continent outside the world (an engine one), or none.
+    CHECK(OpenYAMM::Game::worldLoadingPages(world, continents, 8u) == std::vector<std::string>{"worldpage"});
+    CHECK(OpenYAMM::Game::worldLoadingPages(world, continents, 2u) == std::vector<std::string>{"worldpage"});
+    CHECK(OpenYAMM::Game::worldLoadingPages(world, continents, 0u) == std::vector<std::string>{"worldpage"});
+    // The map is not known yet: any of the world's continents' pages.
+    CHECK(OpenYAMM::Game::worldLoadingPages(world, continents, std::nullopt)
+        == std::vector<std::string>{"xeenloadc1", "xeenloadc2", "xeenloadd1"});
+}
+
+TEST_CASE("a world's edge spans send one map edge to two maps, by where the party meets it")
+{
+    using OpenYAMM::Game::MapBoundaryEdge;
+    using OpenYAMM::Game::MapEdgeTransition;
+    const auto mapRow = [](const std::string &id, const std::string &file, const std::string &world)
+    {
+        return std::vector<std::string>{id, "Map " + id, file, "0", "0", "0", "672", "0", "1", "0", "0", "0", "10",
+            "0", "100", "0", "", "", "1", " 2-5", "", "", "1", " 1-3", "", "", "1", " 1-3", "4", "FOREST", "", "", "",
+            "", world};
+    };
+    OpenYAMM::Game::MapStats maps;
+    REQUIRE(maps.loadFromRows({{"#"}, mapRow("1", "out01.odm", "mm7"), mapRow("9102", "xeen_x2.odm", "xeen"),
+        mapRow("9103", "xeen_x3.odm", "xeen"), mapRow("9104", "xeen_x4.odm", "xeen")}));
+    std::string error;
+    REQUIRE(maps.applyEdgeSpans("xeen",
+        "edge_spans:\n"
+        "  - {map: xeen_x4.odm, edge: south, from: -32768, to: 0, to_map: xeen_x3.odm, side: up, days: 5,"
+        " at: [-7168, 22016, 1120], facing: 1536}\n"
+        "  - {map: xeen_x4.odm, edge: south, from: 0, to: 32768, to_map: XEEN_X2.ODM, side: up, days: 5}\n",
+        error));
+
+    const OpenYAMM::Game::MapStatsEntry &x4 = *maps.findByFileName("xeen_x4.odm");
+    uint32_t sourceId = 99;
+    // West of x 0: X3, at its own arrival, facing 270 degrees (1536 of 2048).
+    const std::optional<MapEdgeTransition> *pWest = x4.edgeTransitionAt(MapBoundaryEdge::South, -100.0f, 22000.0f,
+        sourceId);
+    REQUIRE(pWest != nullptr);
+    REQUIRE(pWest->has_value());
+    CHECK((*pWest)->destinationMapFileName == "xeen_x3.odm");
+    CHECK_FALSE((*pWest)->useMapStartPosition);
+    CHECK((*pWest)->arrivalX == -7168);
+    CHECK((*pWest)->arrivalY == 22016);
+    CHECK((*pWest)->arrivalZ == 1120);
+    CHECK((*pWest)->directionDegrees == 270);
+    CHECK((*pWest)->travelDays == 5);
+    CHECK(sourceId == 5u);
+    CHECK(x4.mapTransitionAtSource(sourceId) == pWest);
+    CHECK(OpenYAMM::Game::mapTransitionSourceEdge(sourceId) == MapBoundaryEdge::South);
+
+    // East of it: X2 (its file as map_stats spells it), at its north start.
+    const std::optional<MapEdgeTransition> *pEast = x4.edgeTransitionAt(MapBoundaryEdge::South, 0.0f, 22000.0f,
+        sourceId);
+    REQUIRE(pEast != nullptr);
+    REQUIRE(pEast->has_value());
+    CHECK((*pEast)->destinationMapFileName == "xeen_x2.odm");
+    CHECK((*pEast)->useMapStartPosition);
+    CHECK((*pEast)->arrivalSide == MapBoundaryEdge::North);
+    CHECK_FALSE((*pEast)->directionDegrees.has_value());
+    CHECK(sourceId == 9u);
+    CHECK(x4.mapTransitionAtSource(9u) == pEast);
+
+    // An edge without spans is the edge's own way; source ids naming no span name nothing.
+    CHECK(x4.edgeTransitionAt(MapBoundaryEdge::North, 0.0f, -22000.0f, sourceId) == &x4.northTransition);
+    CHECK(sourceId == 0u);
+    CHECK(x4.mapTransitionAtSource(1u) == &x4.southTransition);
+    CHECK(x4.mapTransitionAtSource(13u) == nullptr);
+    CHECK(x4.mapTransitionAtSource(6u) == nullptr);
+
+    // Refused: another world's map, overlapping spans, an unknown destination, no arrival at all.
+    CHECK_FALSE(maps.applyEdgeSpans("xeen",
+        "edge_spans: [{map: out01.odm, edge: west, from: 0, to: 10, to_map: xeen_x2.odm, side: up}]", error));
+    CHECK(error.find("not a map of world xeen") != std::string::npos);
+    CHECK_FALSE(maps.applyEdgeSpans("xeen",
+        "edge_spans: [{map: xeen_x4.odm, edge: south, from: -10, to: 10, to_map: xeen_x2.odm, side: up}]", error));
+    CHECK(error.find("overlap") != std::string::npos);
+    CHECK_FALSE(maps.applyEdgeSpans("xeen",
+        "edge_spans: [{map: xeen_x3.odm, edge: north, from: 0, to: 10, to_map: xeen_x9.odm, side: down}]", error));
+    CHECK(error.find("no known map") != std::string::npos);
+    CHECK_FALSE(maps.applyEdgeSpans("xeen",
+        "edge_spans: [{map: xeen_x3.odm, edge: north, from: 0, to: 10, to_map: xeen_x4.odm}]", error));
+    CHECK(error.find("neither at nor a side") != std::string::npos);
 }

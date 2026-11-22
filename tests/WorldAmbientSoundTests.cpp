@@ -3,9 +3,17 @@
 #include "game/audio/WorldAmbientSounds.h"
 #include "game/events/EventRuntime.h"
 #include "game/maps/IndoorSceneYml.h"
+#include "game/maps/OutdoorSceneYml.h"
+#include "game/outdoor/OutdoorMapData.h"
 
+#include <algorithm>
 #include <array>
+#include <filesystem>
+#include <fstream>
+#include <iterator>
+#include <sstream>
 #include <optional>
+#include <random>
 #include <string>
 #include <unordered_map>
 #include <vector>
@@ -144,4 +152,98 @@ TEST_CASE("indoor scene ambient sounds parse")
     CHECK_FALSE(parseIndoorSceneAmbientSounds("- {key: 1, sound: a.wav, position: [0, 0, 0], outer_radius: 5, "
                                               "wait: [3, 1]}", sounds, error));
     CHECK_FALSE(parseIndoorSceneAmbientSounds("- {key: 1, position: [0, 0, 0], outer_radius: 5}", sounds, error));
+}
+
+TEST_CASE("outdoor scene ambient sounds parse, an overlay's replace the base scene's, and reach the map data (E9)")
+{
+    std::ifstream file(std::filesystem::path(OPENYAMM_SOURCE_DIR) / "assets_dev/worlds/mm8/maps/out04.scene.yml");
+    REQUIRE(file.good());
+    std::ostringstream text;
+    text << file.rdbuf();
+    const OutdoorSceneYmlLoader loader = {};
+    std::string error;
+
+    // The shipped scene has none.
+    const std::optional<OutdoorSceneData> plain = loader.loadFromText(text.str(), error);
+    REQUIRE_MESSAGE(plain.has_value(), error);
+    CHECK(plain->ambientSounds.empty());
+
+    // A base scene's list.
+    std::optional<OutdoorSceneData> scene = loader.loadFromText(text.str()
+        + "\nambient_sounds:\n  - {key: 1, sound: ambient/wind.wav, position: [100, 200, 300], inner_radius: 2000, "
+          "outer_radius: 9000, volume: 0.5}\n", error);
+    REQUIRE_MESSAGE(scene.has_value(), error);
+    REQUIRE(scene->ambientSounds.size() == 1);
+    CHECK(scene->ambientSounds[0].sound == "ambient/wind.wav");
+    CHECK(scene->ambientSounds[0].outerRadius == doctest::Approx(9000.0f));
+
+    // An overlay's list replaces it.
+    REQUIRE_MESSAGE(loader.applyOverlayFromText(*scene, "format_version: 1\nkind: \"outdoor_scene_overlay\"\n"
+        "source:\n  geometry_file: \"out04.odm\"\nambient_sounds:\n"
+        "  - {key: 7, sound: ambient/sandfall.wav, position: [0, 0, 0], outer_radius: 3000, wait: [1, 2]}\n"
+        "  - {key: 8, sound: ambient/sandfall.wav, position: [9, 9, 9], outer_radius: 3000, night_only: true}\n", error),
+        error);
+    REQUIRE(scene->ambientSounds.size() == 2);
+    CHECK(scene->ambientSounds[0].key == 7);
+    CHECK(scene->ambientSounds[1].nightOnly);
+
+    // A bad entry stops the load with the reason.
+    CHECK_FALSE(loader.loadFromText(text.str() + "\nambient_sounds:\n  - {key: 1, position: [0, 0, 0], "
+        "outer_radius: 5}\n", error).has_value());
+
+    std::ifstream geometryFile(std::filesystem::path(OPENYAMM_SOURCE_DIR) / "assets_dev/worlds/mm8/maps/out04.odm",
+        std::ios::binary);
+    REQUIRE(geometryFile.good());
+    const std::vector<uint8_t> geometryBytes(
+        (std::istreambuf_iterator<char>(geometryFile)), std::istreambuf_iterator<char>());
+    std::optional<OutdoorMapData> map = OutdoorMapDataLoader{}.loadFromBytes(geometryBytes);
+    REQUIRE(map);
+    MapDeltaData state;
+    REQUIRE_MESSAGE(buildOutdoorMapStateFromScene(*scene, *map, state, error), error);
+    CHECK(map->ambientSounds.size() == 2);
+}
+
+TEST_CASE("D-48: a placed sound pans only when its world's rules and its own `pan` both say so")
+{
+    std::vector<WorldAmbientSound> sounds;
+    std::string error;
+    REQUIRE_MESSAGE(parseIndoorSceneAmbientSounds("- {key: 1, sound: a.wav, position: [0, 0, 0], outer_radius: 500, "
+        "pan: false}\n- {key: 2, sound: a.wav, position: [0, 0, 0], outer_radius: 500}\n", sounds, error), error);
+    REQUIRE(sounds.size() == 2);
+    CHECK_FALSE(sounds[0].pan);
+    CHECK(sounds[1].pan);
+    WorldAmbientSoundRules rules;
+    CHECK_FALSE(worldAmbientSoundPans(sounds[0], rules));
+    CHECK(worldAmbientSoundPans(sounds[1], rules));
+    rules.pan = false;
+    CHECK_FALSE(worldAmbientSoundPans(sounds[1], rules));
+}
+
+TEST_CASE("D-48: a loop without a wait starts anywhere in its clip; one-shots and waiting sounds at its start")
+{
+    std::mt19937 rng(7u);
+    WorldAmbientSound loop;
+    loop.loop = true;
+    float lowest = 1.0f;
+    float highest = 0.0f;
+
+    for (int index = 0; index < 200; ++index)
+    {
+        const float fraction = worldAmbientSoundStartFraction(loop, rng);
+        CHECK(fraction >= 0.0f);
+        CHECK(fraction < 1.0f);
+        lowest = std::min(lowest, fraction);
+        highest = std::max(highest, fraction);
+    }
+
+    // Spread over the clip, not all at one place.
+    CHECK(lowest < 0.1f);
+    CHECK(highest > 0.9f);
+    WorldAmbientSound once;
+    once.loop = false;
+    CHECK(worldAmbientSoundStartFraction(once, rng) == 0.0f);
+    WorldAmbientSound waves = loop;
+    waves.waitMinSeconds = 2.0f;
+    waves.waitMaxSeconds = 6.0f;
+    CHECK(worldAmbientSoundStartFraction(waves, rng) == 0.0f);
 }

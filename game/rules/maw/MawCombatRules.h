@@ -12,6 +12,7 @@
 
 namespace OpenYAMM::Game
 {
+struct GameplayWorldPoint;
 class MawRules;
 struct RulesetOptions;
 struct MawClassSpell;
@@ -85,6 +86,7 @@ public:
     // while an enemy is in melee range and, with the preference on, dismiss a member left below -10 x full HP
     // (SP:3849-3857, DM:1923-1932).
     void updateCombat(Party &party, IGameplayWorldRuntime &world, float deltaSeconds) const override;
+    void observeRemoteParty(const Party &party, const IGameplayWorldRuntime &world, float x, float y) const override;
     // A poisoning sets the poison's time to 25 seconds, or adds 5 up to 50.
     void characterConditionApplied(Party &party, size_t memberIndex, CharacterCondition condition) const override;
     void characterDamaged(Party &party, size_t memberIndex) const override;
@@ -137,10 +139,13 @@ private:
         size_t actorIndex = 0;
     };
 
+    // partyFeet: the party the summoner fights (halfway to it the new monster appears).
     void summonBossFamilyMember(IGameplayWorldRuntime &world, const GameplayRuntimeActorState &summoner,
-        std::mt19937 &rng) const;
+        const GameplayWorldPoint &partyFeet, std::mt19937 &rng) const;
     // MAW's artifact effects on the regeneration tick (every 5 game minutes) and its 2-second buff refresh.
     void updateArtifacts(Party &party, IGameplayWorldRuntime &world) const;
+    // Counts the living hostile monsters around a place for the party in play (MawPartyRuntime).
+    void countMonstersNear(const IGameplayWorldRuntime &world, float x, float y) const;
     // The full HP the Nightmare death thresholds count in: the member's, or Legendary 30's SP x Mana Shield efficiency.
     int deathThreshold(const Character &member) const;
     int legendaryProtection(Party &party, size_t memberIndex, int damage) const;

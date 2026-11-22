@@ -227,8 +227,8 @@ TEST_CASE("the trainer directory follows the party's scripted topics and houses"
     CHECK(&directory.forParty(party) == &directory);
 
     // A map-load script gives Ed Grand Master Sword (as MMMerge's Enroth Grand Masters) and takes Bob's lesson.
-    party.setNpcTopicOverride(5, 3, 13);
-    party.setNpcTopicOverride(2, 0, 0);
+    party.campaign().setNpcTopicOverride(5, 3, 13);
+    party.campaign().setNpcTopicOverride(2, 0, 0);
     const TrainerDirectory &scripted = directory.forParty(party);
     CHECK(&scripted != &directory);
     CHECK_EQ(names((*scripted.find("Sword"))[2]), "Ed@102");
@@ -237,8 +237,8 @@ TEST_CASE("the trainer directory follows the party's scripted topics and houses"
     CHECK(&directory.forParty(party) == &scripted);
 
     // A moved NPC teaches from its new house; one gone for good teaches nowhere.
-    party.setNpcHouseOverride(4, 101);
-    party.setNpcUnavailable(3, true);
+    party.campaign().setNpcHouseOverride(4, 101);
+    party.campaign().setNpcUnavailable(3, true);
     const TrainerDirectory &moved = directory.forParty(party);
     CHECK_EQ(names((*moved.find("Bow"))[0]), "Ann@101,Ann@104,Di@101");
     CHECK((*moved.find("Bow"))[1].empty());
@@ -253,7 +253,7 @@ TEST_CASE("a trainer is known by its note, its map pin or the continent's ledger
     CHECK_FALSE(trainerKnown(ann, party));
     CHECK_FALSE(trainerKnown(bob, party));
 
-    party.setAutonote(501, true);
+    party.campaign().setAutonote(501, true);
     CHECK(trainerKnown(ann, party));
 
     // Bob has no note: talking to him pins the lesson on the map he stood on (continent 3, Expert, skill 1).
@@ -262,7 +262,7 @@ TEST_CASE("a trainer is known by its note, its map pin or the continent's ledger
     JournalMapNote pin;
     pin.id = 3101;
     pin.mapFileName = "out02.odm";
-    party.setJournalMapNote(pin);
+    party.campaign().setJournalMapNote(pin);
     CHECK(trainerKnown(bob, party));
 
     Party ledger;
@@ -307,10 +307,10 @@ TEST_CASE("the Ledger of Teachers takes its price and names the continent's teac
     REQUIRE(buyTeacherLedger(party, plain, 1));
     CHECK_EQ(party.gold(), 0);
     CHECK(party.hasTeacherLedger(1));
-    CHECK(party.hasAutonote(501));
-    CHECK(party.hasAutonote(502));
+    CHECK(party.campaign().hasAutonote(501));
+    CHECK(party.campaign().hasAutonote(502));
     // Another continent's notes stay unfound, and a second ledger of the same continent is not sold.
-    CHECK_FALSE(party.hasAutonote(503));
+    CHECK_FALSE(party.campaign().hasAutonote(503));
     party.addGold(5000);
     CHECK_FALSE(buyTeacherLedger(party, plain, 1));
     CHECK_EQ(party.gold(), 5000);
@@ -345,7 +345,7 @@ TEST_CASE("MAW trainer hints name only the teachers the party knows")
         " No trainer known yet: a tavern sells the Ledger of Teachers.");
 
     // Di's note names Di, though Ann stands nearer.
-    party.setAutonote(503, true);
+    party.campaign().setAutonote(503, true);
     info = mawExplainTrainerHint(directory, query);
     REQUIRE(info->trainers);
     REQUIRE_EQ(info->trainers->size(), 1u);
@@ -487,7 +487,7 @@ TEST_CASE("Chedian journal teachers have painted locations, discovery and a tave
     olderSave.recordChosenMm9RudeRow(114, 0);
     CHECK(trainerKnown(*bow, olderSave));
     // Party-specific directory rebuilds must retain actor teachers.
-    party.setNpcTopicOverride(1, 0, 300);
+    party.campaign().setNpcTopicOverride(1, 0, 300);
     const auto *rebuilt = directory.forParty(party).find("Bow");
     REQUIRE(rebuilt != nullptr);
     CHECK(std::any_of((*rebuilt)[0].begin(), (*rebuilt)[0].end(), [](const auto &entry) { return entry.rudeId == 114; }));

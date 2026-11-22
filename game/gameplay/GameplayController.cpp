@@ -84,6 +84,9 @@ void GameplayController::synchronizeSessionFromRuntime()
 
     m_pSession->setCurrentMapFileName(m_pRuntime->currentMapFileName());
     m_pSession->setPartyState(m_pRuntime->party());
+    // The session's campaign now holds what the map's party had. From here on the map's party plays in it too, so the
+    // two never differ again while the map is loaded.
+    m_pRuntime->party().bindCampaign(&m_pSession->campaign());
 }
 
 bool GameplayController::advanceGameMinutes(float minutes)

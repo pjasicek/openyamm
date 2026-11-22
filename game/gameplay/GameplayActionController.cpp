@@ -1252,6 +1252,14 @@ AttackOrderFacts attackOrderFacts(
         config.pWorldRuntime != nullptr && config.pWorldRuntime->partyBreathFraction().has_value();
     facts.situation = battleOrderSituation(party, memberIndex,
         facts.target ? std::optional<float>(facts.targetDistance) : std::nullopt, config.pWorldRuntime);
+
+    // "An ally below X %" counts the other players' characters within reach as well (a co-op session).
+    if (config.pSpellService != nullptr)
+    {
+        facts.situation.lowestAllyHealthShare =
+            std::min(facts.situation.lowestAllyHealthShare, config.pSpellService->coopLowestOtherHealthShare());
+    }
+
     return facts;
 }
 
@@ -1864,7 +1872,8 @@ GameplayActionController::PartyAttackExecutionResult GameplayActionController::e
                     attack.shieldTier,
                     attack.shieldModifiers,
                     attack.criticalDamage,
-                    !config.talentNoHitReaction);
+                    !config.talentNoHitReaction,
+                    pAttacker->equipment.mainHand != 0 ? pAttacker->equipment.mainHand : pAttacker->equipment.offHand);
 
             if (attacked)
             {
@@ -2424,8 +2433,10 @@ GameplayActionController::PartyUpkeepResult GameplayActionController::executePar
     for (const size_t memberIndex : casters)
     {
         const Character &member = party.members()[memberIndex];
-        const BattleOrderSituation situation = battleOrderSituation(party, memberIndex, std::nullopt,
+        BattleOrderSituation situation = battleOrderSituation(party, memberIndex, std::nullopt,
             config.pWorldRuntime);
+        situation.lowestAllyHealthShare =
+            std::min(situation.lowestAllyHealthShare, config.pSpellService->coopLowestOtherHealthShare());
 
         for (const BattleOrder &order : member.upkeepOrders)
         {
@@ -2504,8 +2515,21 @@ GameplayActionController::PartyUpkeepResult GameplayActionController::executePar
                 continue;
             }
 
-            const std::optional<PartySpellSystem::UpkeepNeed> need = PartySpellSystem::upkeepNeed(
+            std::optional<PartySpellSystem::UpkeepNeed> need = PartySpellSystem::upkeepNeed(
                 party, memberIndex, spellId, config.pSpellTable, order.renewBelowMinutes);
+            std::optional<PlayerId> needPlayer;
+
+            // In a co-op session a heal, cure or raising is due for whoever near needs it most, another player's
+            // character too.
+            if (PartySpellSystem::hasQuickCastCharacterTarget(spellId))
+            {
+                if (const std::optional<GameplaySpellService::CoopCharacterTarget> target =
+                        config.pSpellService->coopCharacterTarget(*config.pRuntime, memberIndex, spellId, false))
+                {
+                    need = PartySpellSystem::UpkeepNeed{target->memberIndex};
+                    needPlayer = target->player;
+                }
+            }
 
             if (!need)
             {
@@ -2527,6 +2551,7 @@ GameplayActionController::PartyUpkeepResult GameplayActionController::executePar
             party.setActiveMemberIndex(memberIndex);
             GameplaySpellService::TargetQueries targetQueries = {};
             targetQueries.characterTargetIndex = need->targetCharacterIndex;
+            targetQueries.characterTargetPlayer = needPlayer;
             const GameplaySpellService::MemberSpellCastResolution cast = config.pSpellService->castSpellFromMember(
                 *config.pRuntime, memberIndex, spellId, pSpellEntry->name, true, &targetQueries);
             result.attempted = true;
@@ -2589,6 +2614,14 @@ GameplayActionController::GatherLootResult GameplayActionController::gatherLoot(
 
     if (!gathering)
     {
+        return result;
+    }
+
+    // In a guest's game the corpses and what lies about are copies of the host's: gathering them here would give
+    // the guest things that still lie in the host's world. No command asks the host for it yet.
+    if (worldRuntime.replica())
+    {
+        result.statusText = Engine::tr("Only the host can gather the loot of a co-op world");
         return result;
     }
 

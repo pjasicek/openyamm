@@ -6,7 +6,9 @@
 #include "game/outdoor/OutdoorMovementDriver.h"
 #include "game/party/ActionBarSlot.h"
 #include "game/party/BattleOrders.h"
+#include "game/party/CampaignState.h"
 #include "game/party/CharacterRulesetState.h"
+#include "game/party/PartyRulesetState.h"
 #include "game/party/CharacterState.h"
 #include "game/party/InventoryItem.h"
 #include "game/party/PlaythroughStatisticsTypes.h"
@@ -49,24 +51,6 @@ struct Mm9Hireling;
 struct Mm9HirelingPassives;
 class Mm9HirelingTable;
 enum class Mm9HirelingKind : uint8_t;
-
-// A pin on the journal map of mapFileName (lowercase); ids are unique within one map.
-struct JournalMapNote
-{
-    uint32_t id = 0;
-    int32_t x = 0;
-    int32_t y = 0;
-    std::string mapFileName;
-    std::string text;
-    // Teacher pins without an autonote of their own also appear in the journal's trainer notes.
-    bool listedWithTrainerNotes = false;
-    // The player's own note (right click on the journal map): editable and removable there, ids from
-    // PersonalJournalMapNoteIdBase.
-    bool personal = false;
-};
-
-// Personal journal map notes take ids from here up, clear of event and quest pins.
-constexpr uint32_t PersonalJournalMapNoteIdBase = 1000000;
 
 struct LloydBeacon
 {
@@ -433,19 +417,6 @@ struct CharacterBuffState
     }
 };
 
-// A story the party finished (world.yml completion; "grand" for every world of the grand certificate), recorded once
-// when its certificate is given.
-struct WorldCompletionRecord
-{
-    std::string certificateId;
-    float gameMinutes = 0.0f;
-    uint64_t score = 0;
-    // Real time of the completion, seconds since 1970.
-    int64_t completedAtUnixSeconds = 0;
-    // False for a story finished before the game kept these records: no time, score or certificate.
-    bool timed = true;
-};
-
 // An MM9 hireling with the party (devdocs/mm9/MM9_HIRELINGS_PLAN.md). Kept apart from Party::members(), so MM6-MM8
 // code never sees hirelings; the systems that include them opt in.
 struct Mm9PartyHireling
@@ -488,20 +459,10 @@ public:
     // formulas (armour from speed, saves and resistance rolls from luck) add nothing to its row's values.
     static constexpr uint32_t Mm9HirelingPrimaryStat = 13;
 
-    struct HouseStockState
-    {
-        uint32_t houseId = 0;
-        float nextRefreshGameMinutes = 0.0f;
-        uint32_t refreshSequence = 0;
-        uint32_t generationVersion = 0;
-        std::vector<InventoryItem> standardStock;
-        std::vector<InventoryItem> specialStock;
-        // A guild's shelves, one per school it teaches (HouseServiceRuntime::spellbookShelfSchools), one after another.
-        std::vector<InventoryItem> spellbookStock;
-    };
-
     struct Snapshot
     {
+        // The game's own record (Party::campaign), saved with the party.
+        CampaignState::Snapshot campaign;
         std::vector<Character> members;
         std::vector<AdventurersInnMember> adventurersInnMembers;
         size_t activeMemberIndex = 0;
@@ -517,40 +478,18 @@ public:
         uint32_t landingSoundCount = 0;
         uint32_t hardLandingSoundCount = 0;
         uint32_t monsterTargetSelectionCounter = 0;
-        uint32_t houseStockSeed = 0;
         float itemEffectElapsedGameSeconds = 0.0f;
         uint32_t itemWeeklyEffectSequence = 0;
         float lastFallDamageDistance = 0.0f;
         int daysWithoutRest = 0;
         std::optional<int> awakeDayIndex;
-        std::unordered_set<uint32_t> foundArtifactItems;
-        std::unordered_set<uint32_t> arcomageWonHouseIds;
-        std::vector<WorldCompletionRecord> worldCompletions;
-        // A save from before the completion records: the stories it already finished get untimed records, no
-        // certificate (CompletionCertificates::recordNewCompletions).
-        bool worldCompletionsUntracked = false;
         uint32_t arcomageWinCount = 0;
         uint32_t arcomageLossCount = 0;
-        std::vector<HouseStockState> houseStockStates;
         std::unordered_set<uint32_t> everOwnedItemIds;
         // MM9 talk rows the party has chosen (rude id << 32 | row index): the conversation bar's visited marks.
         std::unordered_set<uint64_t> chosenMm9RudeRows;
         // The continents whose Ledger of Teachers the party bought in a tavern (TrainerDirectory.h).
         std::unordered_set<uint32_t> teacherLedgers;
-        std::unordered_map<uint32_t, int32_t> continentReputations;
-        std::unordered_set<uint32_t> questBits;
-        std::unordered_set<uint32_t> autonotes;
-        // History entry id -> game minute it was recorded, per history continent.
-        std::unordered_map<uint32_t, std::unordered_map<uint32_t, int32_t>> historyEventTimesByContinent;
-        std::vector<JournalMapNote> journalMapNotes;
-        std::unordered_map<uint16_t, int32_t> eventVariables;
-        std::unordered_map<uint32_t, std::unordered_map<uint32_t, uint32_t>> npcTopicOverrides;
-        std::unordered_map<uint32_t, uint32_t> npcGroupNews;
-        std::unordered_map<uint32_t, uint32_t> npcGreetingOverrides;
-        std::unordered_map<uint32_t, uint32_t> npcGreetingDisplayCounts;
-        std::unordered_map<uint32_t, uint32_t> npcHouseOverrides;
-        std::unordered_map<uint32_t, uint32_t> npcItemOverrides;
-        std::unordered_set<uint32_t> unavailableNpcIds;
         std::vector<HiredNpcFollower> hiredNpcFollowers;
         std::vector<Mm9PartyHireling> mm9Hirelings;
         // The members' formation cells (Party::formationCell), one per member; older saves have none (defaults).
@@ -561,7 +500,12 @@ public:
         std::unordered_set<uint64_t> explosiveMixes;
         // The shared pouches' items (Party::pouchItems), by ItemPouch; older saves have none and gather theirs when
         // loaded (Party::gatherPouchItems).
+        // The party's own two; the quest pouch is the campaign's (campaign.questPouch) and its place here stays empty.
         std::array<std::vector<InventoryItem>, ItemPouchCount> pouches;
+        // What the ruleset keeps for the party (Party::rulesetState). A save holds it inside the ruleset's state.
+        PartyRulesetState rulesetState;
+        // Items an event gave that found no room yet (Party::waitingGivenItems); older saves have none.
+        std::vector<InventoryItem> waitingGivenItems;
     };
 
     struct PendingAudioRequest
@@ -632,15 +576,9 @@ public:
     const StandardItemEnchantTable *standardItemEnchantTable() const;
     const SpecialItemEnchantTable *specialItemEnchantTable() const;
     size_t equippedItemSetPieceCount(size_t memberIndex, const std::string &setId) const;
-    int32_t eventVariableValue(uint16_t variableId) const;
-    void setEventVariableValue(uint16_t variableId, int32_t value);
-    void addEventVariableValue(uint16_t variableId, int32_t value);
-    void subtractEventVariableValue(uint16_t variableId, int32_t value);
     int fineGold() const;
     void addFineGold(int amount);
     void clearFineGold();
-    int32_t continentReputation(uint32_t continentId) const;
-    void setContinentReputation(uint32_t continentId, int32_t value);
     void setClassMultiplierTable(const ClassMultiplierTable *pClassMultiplierTable);
     const ClassMultiplierTable *classMultiplierTable() const;
     void setClassSkillTable(const ClassSkillTable *pClassSkillTable);
@@ -672,8 +610,36 @@ public:
     // Every skill teacher (the journal's trainer finder, the Ledger of Teachers, the trainer hints).
     void setTrainerDirectory(const TrainerDirectory *pTrainerDirectory);
     const TrainerDirectory *trainerDirectory() const;
+    // The game this party plays in: quest progress, the journal, what events and NPCs remember, shop stock. It is the
+    // session's once the session has bound it (bindCampaign), so that every party of one game reads and writes the
+    // same state; until then it is the party's own.
+    CampaignState &campaign();
+    const CampaignState &campaign() const;
+    // Makes the party play in this campaign, owned by the caller, which outlives the party. The party's own campaign
+    // state is dropped: whoever binds has taken it over first where it matters (GameSession::setPartyState).
+    void bindCampaign(CampaignState *pCampaign);
+    bool campaignBoundTo(const CampaignState *pCampaign) const;
     Snapshot snapshot() const;
+    // The same without the campaign (quest bits, notes, every shop's stock), which is left empty: for what is
+    // made many times a second and does not carry it (a co-op character on the wire).
+    Snapshot characterSnapshot() const;
     void restoreSnapshot(const Snapshot &snapshot);
+    // A co-op guest's party in its own game: a mirror of the party the host keeps for it. Its recovery and timed
+    // states do not run here: the host runs them, and applyMirror brings the result. What the player does with the
+    // party is done here and sent to the host (game/coop/CoopSession.h).
+    void setMirror(bool mirror);
+    bool mirror() const;
+    // What the ruleset keeps for this party (MAW: its auras, held food and deaths); empty under Standard. Part of the
+    // snapshot, so it is saved, and travels with the party to another game.
+    PartyRulesetState &rulesetState();
+    const PartyRulesetState &rulesetState() const;
+    // Takes the party's own state from a snapshot and leaves the campaign, what the members' portraits show and what
+    // waits to be heard as they are: a co-op guest's game keeps its party the same as the host's this way, many times
+    // a second (game/coop/CoopSession.h).
+    void applyMirror(const Snapshot &snapshot);
+    // Every member's Unconscious and Dead as its hit points make them (as a hit sets them): for a mirror whose
+    // hit points were set from outside.
+    void refreshIncapacitatedConditions();
     void reset();
     void seed(const PartySeed &seed);
     const std::string &lastOutdoorMapFileName() const;
@@ -726,7 +692,6 @@ public:
     void requestSound(SoundId soundId);
     void requestDamageImpactSoundForMember(size_t memberIndex);
     void requestSpeech(size_t memberIndex, SpeechId speechId);
-    bool hasQuestBit(uint32_t questBitId) const;
     // The Hum where the party is (world.yml hum, set on each map load): its nodes' QBits and shares, and the map's own
     // share if it has one (0: a null field). spellDamagePercentFor: the caster's share of a damage spell's damage
     // (the Hum, raised by its Hum points to at most 100); castingBlockedFor: a null field without a Null Damper II.
@@ -739,27 +704,11 @@ public:
     size_t objectivesDone() const;
     int spellDamagePercentFor(const Character &caster) const;
     bool castingBlockedFor(const Character &caster) const;
-    void setQuestBit(uint32_t questBitId, bool value);
-    bool hasAutonote(uint32_t autonoteId) const;
-    void setAutonote(uint32_t autonoteId, bool value);
-    const std::unordered_map<uint32_t, int32_t> &historyEventTimes(uint32_t continentId) const;
-    void recordHistoryEvent(uint32_t continentId, uint32_t historyId, int32_t gameMinutes);
-    void clearHistoryEvent(uint32_t continentId, uint32_t historyId);
-    const std::vector<JournalMapNote> &journalMapNotes() const;
-    const JournalMapNote *findJournalMapNote(const std::string &mapFileName, uint32_t noteId) const;
-    // Adds the note, or replaces the one with the same map and id.
-    void setJournalMapNote(const JournalMapNote &note);
-    // Removes the note with this map and id; false when there is none.
-    bool removeJournalMapNote(const std::string &mapFileName, uint32_t noteId);
+    // Changes whenever something a dialogue's conditions may read has changed: the party's own state or the campaign's
+    // quest bits.
     uint64_t dialogueEligibilityRevision() const;
+    // The campaign's NPC state (CampaignState::applyNpcStateTo) and the party's followers, over a map's event state.
     void applyGlobalNpcStateTo(EventRuntimeState &runtimeState) const;
-    void setNpcTopicOverride(uint32_t npcId, uint32_t topicSlotIndex, uint32_t topicId);
-    void setNpcGroupNews(uint32_t groupId, uint32_t newsId);
-    void setNpcGreetingOverride(uint32_t npcId, uint32_t greetingId);
-    void setNpcHouseOverride(uint32_t npcId, uint32_t houseId);
-    void clearNpcHouseOverride(uint32_t npcId);
-    void setNpcItemOverride(uint32_t npcId, uint32_t itemId);
-    void setNpcUnavailable(uint32_t npcId, bool unavailable);
     void addHiredNpcFollower(const HiredNpcFollower &follower);
     void removeHiredNpcFollower(uint32_t npcId);
     void setHiredNpcFollowerAbilityUsedDay(uint32_t npcId, uint32_t day);
@@ -816,6 +765,9 @@ public:
     // of one that nobody joins, with hirelings who take no combat actions. Not saved.
     void setSoloRun(bool soloRun);
     bool soloRun() const;
+    // The world is shared with other players' parties (a co-op session): the comforts a lone adventurer is given
+    // for being alone (the day-long scroll buffs, the day's least of timed potions) are not given there.
+    bool worldShared() const;
     bool canSelectCombatantInGameplay(size_t combatantIndex) const;
     // A hireling's recovery after its attack or spell: the row's recovery_seconds less what haste takes off a
     // member's attack (attackRecoveryReductionTicks), at least a melee blow's minimum.
@@ -858,6 +810,18 @@ public:
     // above and the placements below put such an item into its pouch whatever bag they were asked for, and refuse
     // anything else a place in a pouch.
     std::optional<ItemPouch> pouchFor(const InventoryItem &item) const;
+    // Whether the party has this pouch: all of them under a ruleset with pouches (MAW), and the quest pouch alone in
+    // a world shared with other players, where quest items are the world's under any ruleset
+    // (CampaignState::questPouchShared). A quest pouch that still holds something is there too, so nothing in it is
+    // out of reach.
+    bool hasPouch(ItemPouch pouch) const;
+    bool hasPouches() const;
+    // After a shared world's session, under a ruleset without pouches: the quest pouch's items go back into the
+    // members' bags. What finds no room stays in the pouch, which then stays (hasPouch). Returns how many moved.
+    size_t returnQuestPouchToBags();
+    // Takes the quest items out of the members' bags for good: a character that comes into another world brings
+    // none of its own world's along (they stayed there). Returns how many went.
+    size_t dropQuestItemsFromBags();
     // A pouch's items, each at its cell of the pouch's grid (InventoryBags::PouchColumns). While a member has the
     // pouch open for an operation (InventoryBags::withBagOpen) they are that member's inventory.
     const std::vector<InventoryItem> &pouchItems(ItemPouch pouch) const;
@@ -934,14 +898,15 @@ public:
     // The continent's Ledger of Teachers, bought in one of its taverns.
     bool hasTeacherLedger(uint32_t continent) const;
     void addTeacherLedger(uint32_t continent);
-    const std::unordered_map<uint32_t, std::unordered_map<uint32_t, uint32_t>> &npcTopicOverrides() const;
-    const std::unordered_map<uint32_t, uint32_t> &npcHouseOverrides() const;
-    const std::unordered_set<uint32_t> &unavailableNpcIds() const;
     void recordExplosiveMix(uint32_t targetItemId, uint32_t heldItemId);
     bool isExplosiveMixKnown(uint32_t targetItemId, uint32_t heldItemId) const;
     void setHeldItemForQueries(const InventoryItem &item);
     uint32_t heldItemIdForQueries() const;
     void clearHeldItemForQueries();
+    // Items an event gave that found no room yet: GameplayHeldItemController::applyGrantedEventItemsToHeldInventory
+    // hands them on when there is room. The party's, so they go with it from map to map and into the save.
+    std::vector<InventoryItem> &waitingGivenItems();
+    const std::vector<InventoryItem> &waitingGivenItems() const;
     bool hasItemAnywhere(uint32_t objectDescriptionId) const;
     bool grantItemToMember(size_t memberIndex, uint32_t objectDescriptionId, uint32_t quantity = 1);
     bool removeItemFromMember(size_t memberIndex, uint32_t objectDescriptionId, uint32_t quantity = 1);
@@ -1130,27 +1095,13 @@ public:
     int gold() const;
     int bankGold() const;
     int food() const;
-    uint32_t houseStockSeed() const;
-    bool hasFoundArtifactItem(uint32_t itemId) const;
-    void markArtifactItemFound(uint32_t itemId);
-    void clearFoundArtifactItems();
-    bool hasArcomageWinAt(uint32_t houseId) const;
     // Whether winning at this tavern counts toward Arcomage Champion: MM7's Emerald Island tavern (between the MM8
     // and MM7 ranges) does not, as in the original (OY-308).
     static bool arcomageTavernCountsForChampion(uint32_t houseId);
     void recordArcomageWin(uint32_t houseId, int goldReward, uint32_t firstWinAwardId);
     void recordArcomageLoss();
     uint32_t arcomageWinCount() const;
-    const std::vector<WorldCompletionRecord> &worldCompletions() const;
-    const WorldCompletionRecord *findWorldCompletion(const std::string &certificateId) const;
-    void addWorldCompletion(const WorldCompletionRecord &record);
-    bool worldCompletionsUntracked() const;
-    void clearWorldCompletionsUntracked();
     uint32_t arcomageLossCount() const;
-    HouseStockState *houseStockState(uint32_t houseId);
-    const HouseStockState *houseStockState(uint32_t houseId) const;
-    HouseStockState &ensureHouseStockState(uint32_t houseId);
-    void clearHouseStockStates();
     size_t inventoryItemCount() const;
     size_t usedInventoryCells() const;
     size_t inventoryCapacity() const;
@@ -1163,6 +1114,8 @@ public:
     const std::string &lastStatus() const;
     const std::vector<PendingAudioRequest> &pendingAudioRequests() const;
     void clearPendingAudioRequests();
+    // Adds what another game queued for this party (a co-op guest's mirror hears what the host's copy would say).
+    void addPendingAudioRequests(const std::vector<PendingAudioRequest> &requests);
     const std::vector<ExpiringPotionEffect> &expiringPotionEffects() const;
     void clearExpiringPotionEffects();
     void rebuildMagicalBonusesFromBuffs();
@@ -1229,11 +1182,46 @@ private:
     };
 
     StatisticsBinding m_statistics;
+
+    // The party's campaign: one bound by its owner, else its own. A copy of a party is never bound: it owns a copy of
+    // the campaign's state, so a trial party or a checkpoint keeps what the game was and changes nothing in it.
+    // Assigning a party over another writes the campaign's state into the target's campaign and leaves the target's
+    // binding as it was. Together these keep a party a value, as it was while it held the campaign itself.
+    struct CampaignLink
+    {
+        CampaignLink() = default;
+        CampaignLink(const CampaignLink &other)
+            : own(other.get())
+        {
+        }
+        CampaignLink &operator=(const CampaignLink &other)
+        {
+            if (&get() != &other.get())
+            {
+                get() = other.get();
+            }
+
+            return *this;
+        }
+
+        CampaignState &get()
+        {
+            return pBound != nullptr ? *pBound : own;
+        }
+        const CampaignState &get() const
+        {
+            return pBound != nullptr ? *pBound : own;
+        }
+
+        CampaignState own;
+        CampaignState *pBound = nullptr;
+    };
     void recordConditionStatistics(size_t memberIndex, CharacterCondition condition);
     ExperienceReason m_experienceReasonScope = ExperienceReason::Other;
     std::optional<std::pair<StatDamageTakenKind, std::string>> m_incomingDamageSource;
     // The last thing that hurt each member (by statistics identity), named in the death log.
     std::unordered_map<uint64_t, std::string> m_lastDamageCause;
+    CampaignLink m_campaign;
     std::vector<Character> m_members;
     std::vector<AdventurersInnMember> m_adventurersInnMembers;
     size_t m_activeMemberIndex = 0;
@@ -1249,7 +1237,6 @@ private:
     uint32_t m_landingSoundCount = 0;
     uint32_t m_hardLandingSoundCount = 0;
     uint32_t m_monsterTargetSelectionCounter = 0;
-    uint32_t m_houseStockSeed = 0;
     float m_periodicEffectElapsedGameSeconds = 0.0f;
     float m_gameMinutes = 0.0f;
     uint32_t m_itemWeeklyEffectSequence = 0;
@@ -1257,20 +1244,21 @@ private:
     int m_daysWithoutRest = 0;
     std::optional<int> m_awakeDayIndex;
     std::string m_lastStatus;
-    std::unordered_set<uint32_t> m_foundArtifactItems;
-    std::unordered_set<uint32_t> m_arcomageWonHouseIds;
-    std::vector<WorldCompletionRecord> m_worldCompletions;
-    bool m_worldCompletionsUntracked = false;
     std::unordered_set<uint32_t> m_everOwnedItemIds;
+    // The crafting and alchemy pouches. The quest pouch is the campaign's (CampaignState::questPouch): its place here
+    // stays empty.
     std::array<std::vector<InventoryItem>, ItemPouchCount> m_pouches;
+    PartyRulesetState m_rulesetState;
+    bool m_mirror = false;
+    // The snapshot's fields that are the party's own, as they are: what restoreSnapshot and applyMirror share.
+    void assignSnapshotFields(const Snapshot &snapshot);
+    // Where each pouch's items are kept, in ItemPouch order.
+    std::array<std::vector<InventoryItem> *, ItemPouchCount> pouchStorages();
+    std::array<const std::vector<InventoryItem> *, ItemPouchCount> pouchStorages() const;
     std::unordered_set<uint64_t> m_chosenMm9RudeRows;
     std::unordered_set<uint32_t> m_teacherLedgers;
     std::unordered_set<uint64_t> m_explosiveMixes;
-    std::unordered_map<uint32_t, int32_t> m_continentReputations;
-    std::unordered_set<uint32_t> m_questBits;
-    std::unordered_set<uint32_t> m_autonotes;
-    std::unordered_map<uint32_t, std::unordered_map<uint32_t, int32_t>> m_historyEventTimesByContinent;
-    std::vector<JournalMapNote> m_journalMapNotes;
+    std::vector<InventoryItem> m_waitingGivenItems;
     uint64_t m_dialogueEligibilityRevision = 1;
     uint32_t m_arcomageWinCount = 0;
     uint32_t m_arcomageLossCount = 0;
@@ -1280,15 +1268,6 @@ private:
     float m_spellMovementMultiplier = 1.0f;
     float m_talentMovementMultiplier = 1.0f;
     bool m_debugUnlimitedMana = false;
-    std::unordered_map<uint32_t, HouseStockState> m_houseStockStates;
-    std::unordered_map<uint16_t, int32_t> m_eventVariables;
-    std::unordered_map<uint32_t, std::unordered_map<uint32_t, uint32_t>> m_npcTopicOverrides;
-    std::unordered_map<uint32_t, uint32_t> m_npcGroupNews;
-    std::unordered_map<uint32_t, uint32_t> m_npcGreetingOverrides;
-    std::unordered_map<uint32_t, uint32_t> m_npcGreetingDisplayCounts;
-    std::unordered_map<uint32_t, uint32_t> m_npcHouseOverrides;
-    std::unordered_map<uint32_t, uint32_t> m_npcItemOverrides;
-    std::unordered_set<uint32_t> m_unavailableNpcIds;
     std::vector<HiredNpcFollower> m_hiredNpcFollowers;
     // World configuration like m_pRules: not saved, not reset.
     bool m_npcFollowersActive = true;

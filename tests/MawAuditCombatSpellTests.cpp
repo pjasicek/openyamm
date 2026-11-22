@@ -971,7 +971,7 @@ TEST_CASE("A released Preservation aura ends for every member but one whose own 
     Party party = auditParty(rules, {cleric, drinker, auditMember("Knight", 20)});
     const SpellRules &spells = rules.gameRules().spells;
 
-    rules.state().auraHolders[50] = 0;
+    party.rulesetState().auraHolders[50] = 0;
     spells.updateAuras(party, 0.5f);
 
     for (size_t memberIndex = 0; memberIndex < 3; ++memberIndex)
@@ -979,7 +979,7 @@ TEST_CASE("A released Preservation aura ends for every member but one whose own 
         CHECK(party.characterBuff(memberIndex, CharacterBuffId::Preservation) != nullptr);
     }
 
-    rules.state().auraHolders.erase(50);
+    party.rulesetState().auraHolders.erase(50);
     spells.updateAuras(party, 0.5f);
     CHECK(party.characterBuff(0, CharacterBuffId::Preservation) == nullptr);
     CHECK(party.characterBuff(1, CharacterBuffId::Preservation) != nullptr);
@@ -1797,7 +1797,7 @@ TEST_CASE("Skill popups show the numbers the rules use (TXT-2-5, TXT-2-6, TXT-2-
     cleric.skills["SpiritMagic"] = {"SpiritMagic", 20, SkillMastery::Master};
     cleric.maxSpellPoints = 1000;
     const std::string free = plainText(popup(0, "Meditation").description);
-    rules.state().auraHolders[46] = 0;
+    party.rulesetState().auraHolders[46] = 0;
     REQUIRE_GT(rules.gameRules().spells.reservedSpellPoints(party, 0), 0);
     CHECK_NE(plainText(popup(0, "Meditation").description), free);
 }

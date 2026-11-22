@@ -125,7 +125,7 @@ TEST_CASE("MM9 hire charges the fee, sets the hire key and keeps MM9's limits")
 
     CHECK(OpenYAMM::Game::hireMm9Hireling(party, tesar) == Mm9HireOutcome::Hired);
     CHECK_EQ(party.gold(), 4500);
-    CHECK(party.hasQuestBit(90451));
+    CHECK(party.campaign().hasQuestBit(90451));
     REQUIRE(party.findHireling(43) != nullptr);
     // Already along: refused, nothing charged.
     CHECK(OpenYAMM::Game::hireMm9Hireling(party, tesar) == Mm9HireOutcome::Refused);
@@ -136,10 +136,10 @@ TEST_CASE("MM9 hire charges the fee, sets the hire key and keeps MM9's limits")
     CHECK_EQ(party.gold(), 2500);
     // A third paid retainer is refused (two at most); the third slot is a story companion's, free.
     CHECK(OpenYAMM::Game::hireMm9Hireling(party, row(42)) == Mm9HireOutcome::Refused);
-    CHECK_FALSE(party.hasQuestBit(90450));
+    CHECK_FALSE(party.campaign().hasQuestBit(90450));
     CHECK(OpenYAMM::Game::hireMm9Hireling(party, row(2)) == Mm9HireOutcome::Hired);
     CHECK_EQ(party.gold(), 2500);
-    CHECK(party.hasQuestBit(90029));
+    CHECK(party.campaign().hasQuestBit(90029));
     CHECK_EQ(party.hirelings().size(), 3u);
 }
 
@@ -149,7 +149,7 @@ TEST_CASE("MM9 hire without the fee leaves the party as it was")
     CHECK(OpenYAMM::Game::hireMm9Hireling(party, row(43)) == Mm9HireOutcome::NotEnoughGold);
     CHECK_EQ(party.gold(), 499);
     CHECK(party.hirelings().empty());
-    CHECK_FALSE(party.hasQuestBit(90451));
+    CHECK_FALSE(party.campaign().hasQuestBit(90451));
 }
 
 TEST_CASE("MM9 dismissal always clears the hire key, so the retainer can be hired again")
@@ -158,7 +158,7 @@ TEST_CASE("MM9 dismissal always clears the hire key, so the retainer can be hire
     REQUIRE(OpenYAMM::Game::hireMm9Hireling(party, row(43)) == Mm9HireOutcome::Hired);
     CHECK(OpenYAMM::Game::dismissMm9Hireling(party, row(43)));
     CHECK(party.hirelings().empty());
-    CHECK_FALSE(party.hasQuestBit(90451));
+    CHECK_FALSE(party.campaign().hasQuestBit(90451));
     CHECK_FALSE(OpenYAMM::Game::dismissMm9Hireling(party, row(43)));
     // Rehiring charges the fee again.
     CHECK(OpenYAMM::Game::hireMm9Hireling(party, row(43)) == Mm9HireOutcome::Hired);
@@ -334,8 +334,8 @@ TEST_CASE("MM9 unpaid wage empties the purse and that retainer leaves, in MM9's 
     CHECK(party.findHireling(126) == nullptr);
     CHECK(party.findHireling(43) != nullptr);
     // Unlike MM9, the key goes, so Edina can be hired again.
-    CHECK_FALSE(party.hasQuestBit(90456));
-    CHECK(party.hasQuestBit(90451));
+    CHECK_FALSE(party.campaign().hasQuestBit(90456));
+    CHECK(party.campaign().hasQuestBit(90451));
     CHECK(spoke(party, SpeechId::NotEnoughGold));
 }
 
@@ -351,7 +351,7 @@ TEST_CASE("MM9 story companions join free, take no wage, and come and go by scri
 
     // Forad leaves at the council by script (RemoveNPC 2): key 29 stays, as in MM9.
     CHECK(party.removeHireling(2));
-    CHECK(party.hasQuestBit(90029));
+    CHECK(party.campaign().hasQuestBit(90029));
     // Tamur joins by script (AddNPC 309) even beside two paid retainers.
     party.addGold(5000);
     REQUIRE(OpenYAMM::Game::hireMm9Hireling(party, row(43)) == Mm9HireOutcome::Hired);

@@ -132,14 +132,14 @@ TEST_CASE("MAW aura holders follow their members when one is dismissed (A7.3)")
     Party party;
     party.seed(seed);
     party.setRules(&rules.gameRules());
-    rules.state().auraHolders = {{5, 0}, {17, 1}, {38, 2}};
+    party.rulesetState().auraHolders = {{5, 0}, {17, 1}, {38, 2}};
     rules.classRuntime(*party.member(2)).comboPoints = 3;
 
     REQUIRE(party.dismissMemberToAdventurersInn(1));
     REQUIRE_EQ(party.members().size(), 2u);
     CHECK_EQ(party.member(1)->name, "Cedric");
     // Brom took Shield along; Cedric keeps Stone Skin and his combo points in his new slot.
-    CHECK_EQ(rules.state().auraHolders, std::unordered_map<uint32_t, uint32_t>{{5, 0}, {38, 1}});
+    CHECK_EQ(party.rulesetState().auraHolders, std::unordered_map<uint32_t, uint32_t>{{5, 0}, {38, 1}});
     CHECK_EQ(rules.classRuntime(*party.member(1)).comboPoints, 3);
 }
 
@@ -182,16 +182,16 @@ TEST_CASE("MAW scroll, pedestal and temple buffs hold fixed auras until the map 
     rules.setCurrentMap("outd3.odm");
     spells.updateAuras(party, 0.5f);
     CHECK(party.partyBuff(PartyBuffId::FireResistance) == nullptr);
-    CHECK(rules.state().auraHolders.empty());
-    CHECK(rules.state().fixedAuraMaps.empty());
+    CHECK(party.rulesetState().auraHolders.empty());
+    CHECK(party.rulesetState().fixedAuraMaps.empty());
 
     // A member's own hold is not taken by a scroll, and a member takes a scroll's aura over by casting it.
     REQUIRE(spells.castSourceBuff(party, 3, BuffSource::Scroll));
     REQUIRE(spells.castAura(party, 0, 3) == AuraCastResult::Held);
-    CHECK_EQ(rules.state().auraHolders.at(3), 0u);
-    CHECK(rules.state().fixedAuraMaps.empty());
+    CHECK_EQ(party.rulesetState().auraHolders.at(3), 0u);
+    CHECK(party.rulesetState().fixedAuraMaps.empty());
     REQUIRE(spells.castSourceBuff(party, 3, BuffSource::Scroll));
-    CHECK_EQ(rules.state().auraHolders.at(3), 0u);
+    CHECK_EQ(party.rulesetState().auraHolders.at(3), 0u);
 
     CHECK_FALSE(standardGameRules().spells.castSourceBuff(party, 3, BuffSource::Scroll));
 }
@@ -224,14 +224,14 @@ TEST_CASE("a MAW solo run's scroll auras last a game day on any map")
 
     // A pedestal's aura keeps MAW's end with the map.
     REQUIRE(tryApplyEventSpellBuffs(party, 14, 10, 3));
-    CHECK_FALSE(rules.state().fixedAuraEndMinutes.contains(14));
+    CHECK_FALSE(party.rulesetState().fixedAuraEndMinutes.contains(14));
 
     // A day later the scroll's aura is gone.
     party.setGameMinutes(1000.0f + 24 * 60 + 1);
     spells.updateAuras(party, 0.5f);
     CHECK(party.partyBuff(PartyBuffId::FireResistance) == nullptr);
-    CHECK_FALSE(rules.state().auraHolders.contains(3));
-    CHECK(rules.state().fixedAuraEndMinutes.empty());
+    CHECK_FALSE(party.rulesetState().auraHolders.contains(3));
+    CHECK(party.rulesetState().fixedAuraEndMinutes.empty());
 }
 
 TEST_CASE("MAW auras on members reach MM9 hirelings and end with them (OY-559)")
@@ -292,7 +292,7 @@ TEST_CASE("the Regeneration aura and spell heal MM9 hirelings, in real time and 
         world.bindParty(&party);
         rules.setCurrentMap("oute3.odm");
         // Brom holds the Regeneration aura.
-        rules.state().auraHolders[71] = 1;
+        party.rulesetState().auraHolders[71] = 1;
         rules.gameRules().spells.updateAuras(party, 0.5f);
         REQUIRE(party.characterBuff(hirelingIndex, CharacterBuffId::Regeneration) != nullptr);
 
@@ -318,7 +318,7 @@ TEST_CASE("the Regeneration aura and spell heal MM9 hirelings, in real time and 
         CHECK(hireling.health > realTimeHealth);
 
         // No aura, no healing: a hireling has no Regeneration skill or items of its own.
-        rules.state().auraHolders.clear();
+        party.rulesetState().auraHolders.clear();
         rules.gameRules().spells.updateAuras(party, 0.5f);
         const int withoutAura = hireling.health;
         skills.updateRegeneration(party, world, 10.0f);

@@ -1,0 +1,42 @@
+id: mm7.monster_relation_stays_with_map
+title: "A map's monster relation rows stay with that map: set in a dungeon, not carried outdoors, there on return"
+world: mm7
+mode: faithful
+tags: [mm7, actors, regression]
+steps:
+  - note:
+      text: >-
+        evt.SetMonsterRelation rows live in the map's event state and are saved with it (D-25: Hobstadt's trolls made
+        friendly in a Darkside dungeon must not make Winterkill's trolls friendly). The row makes Wimpy Pirate Warriors
+        (181) friendly in The Hall under the Hill; outdoors on Emerald Island a pirate stays hostile; back in the
+        dungeon the row still holds. A no-op event after each spawn re-applies the map's rows to its actors.
+  - new_game_flow: {start_map: 7out01.odm}
+  - load_map: {map: 7d25.blv}
+  - advance_runtime: {seconds: 1}
+  - spawn_actor: {monster_id: 181, near_party: true}
+  - lua_event: {source: "evt.SetMapVar('relation_probe', 1)"}
+  - advance_runtime: {seconds: 0.5}
+  - assert:
+      actor_visible: {actor_index: last, hostile_to_party: true}
+  - lua_event: {source: "evt.SetMonsterRelation(181, 0, 0)"}
+  - advance_runtime: {seconds: 0.5}
+  - assert:
+      actor_visible: {actor_index: last, hostile_to_party: false}
+
+  # Another map: no row there.
+  - load_map: {map: 7out01.odm}
+  - advance_runtime: {seconds: 1}
+  - spawn_actor: {monster_id: 181, near_party: true}
+  - lua_event: {source: "evt.SetMapVar('relation_probe', 1)"}
+  - advance_runtime: {seconds: 0.5}
+  - assert:
+      actor_visible: {actor_index: last, hostile_to_party: true}
+
+  # Back in the dungeon: its row still makes a new pirate friendly.
+  - load_map: {map: 7d25.blv}
+  - advance_runtime: {seconds: 1}
+  - spawn_actor: {monster_id: 181, near_party: true}
+  - lua_event: {source: "evt.SetMapVar('relation_probe', 1)"}
+  - advance_runtime: {seconds: 0.5}
+  - assert:
+      actor_visible: {actor_index: last, hostile_to_party: false}

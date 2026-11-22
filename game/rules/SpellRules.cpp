@@ -62,6 +62,15 @@ void SpellRules::updateAuras(Party &, float) const
 {
 }
 
+std::vector<LentAura> SpellRules::aurasToLend(const Party &) const
+{
+    return {};
+}
+
+void SpellRules::setLentAuras(const std::vector<LentAura> &) const
+{
+}
+
 int SpellRules::reservedSpellPoints(const Party &, size_t) const
 {
     return 0;
@@ -116,7 +125,7 @@ bool SpellRules::shareLife(Party &, int) const
     return false;
 }
 
-void SpellRules::memberLeaving(const Party &, size_t) const
+void SpellRules::memberLeaving(Party &, size_t) const
 {
 }
 

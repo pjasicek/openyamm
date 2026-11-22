@@ -27,6 +27,14 @@ enum class HouseStockMode : uint8_t
     GuildSpellbooks
 };
 
+// What a player does with a slot of a shop's stock (the slot is unused for Reroll).
+enum class HouseStockAction : uint8_t
+{
+    Buy = 0,
+    Steal,
+    Reroll
+};
+
 class HouseServiceRuntime
 {
 public:

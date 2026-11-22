@@ -759,6 +759,65 @@ bool MergedCharacterSelectionTable::loadFromRows(const std::vector<std::vector<s
     return !m_characterSelectionAllowedClassesByRaceId.empty() && !m_characterSelectionContinents.empty();
 }
 
+namespace
+{
+bool parseNewGameContinent(
+    const YAML::Node &continentNode,
+    MergedCharacterSelectionContinent &continent,
+    std::string &errorMessage)
+{
+    const std::optional<uint32_t> continentId = parseOptionalYamlUnsigned(continentNode["id"]);
+    continent.id = continentId.value_or(0);
+    continent.key = yamlStringOrEmpty(continentNode["key"]);
+    continent.name = yamlStringOrEmpty(continentNode["name"]);
+
+    if (continent.name.empty())
+    {
+        errorMessage = "new_game_continents entry is missing name";
+        return false;
+    }
+
+    if (!yamlUnsignedSequence(continentNode["available_class_ids"], continent.availableClassIds))
+    {
+        errorMessage = "new_game_continents entry has invalid available_class_ids sequence";
+        return false;
+    }
+
+    if (!yamlUnsignedSequence(continentNode["available_race_ids"], continent.availableRaceIds))
+    {
+        errorMessage = "new_game_continents entry has invalid available_race_ids sequence";
+        return false;
+    }
+
+    if (const YAML::Node portraitExceptionsNode = continentNode["portrait_exceptions"])
+    {
+        if (!yamlStringSequence(portraitExceptionsNode, continent.portraitExceptions))
+        {
+            errorMessage = "new_game_continents entry has invalid portrait_exceptions sequence";
+            return false;
+        }
+    }
+
+    if (const YAML::Node cardNode = continentNode["card"])
+    {
+        continent.hasCard = true;
+        continent.cardOrder = parseOptionalYamlUnsigned(cardNode["order"]).value_or(0);
+        continent.cardTitle = yamlStringOrEmpty(cardNode["title"]);
+        continent.cardSubtitle = yamlStringOrEmpty(cardNode["subtitle"]);
+        continent.cardCaption = yamlStringOrEmpty(cardNode["caption"]);
+        continent.cardPicture = yamlStringOrEmpty(cardNode["picture"]);
+
+        if (continent.cardTitle.empty() || continent.cardPicture.empty())
+        {
+            errorMessage = "new_game_continents entry " + continent.key + " has a card without title or picture";
+            return false;
+        }
+    }
+
+    return true;
+}
+}
+
 bool MergedCharacterSelectionTable::loadFromYaml(const std::string &yamlText, std::string &errorMessage)
 {
     m_characterSelectionAllowedClassesByRaceId.clear();
@@ -819,36 +878,10 @@ bool MergedCharacterSelectionTable::loadFromYaml(const std::string &yamlText, st
     for (const YAML::Node &continentNode : continentsNode)
     {
         MergedCharacterSelectionContinent continent = {};
-        const std::optional<uint32_t> continentId = parseOptionalYamlUnsigned(continentNode["id"]);
-        continent.id = continentId.value_or(0);
-        continent.key = yamlStringOrEmpty(continentNode["key"]);
-        continent.name = yamlStringOrEmpty(continentNode["name"]);
 
-        if (continent.name.empty())
+        if (!parseNewGameContinent(continentNode, continent, errorMessage))
         {
-            errorMessage = "new_game_continents entry is missing name";
             return false;
-        }
-
-        if (!yamlUnsignedSequence(continentNode["available_class_ids"], continent.availableClassIds))
-        {
-            errorMessage = "new_game_continents entry has invalid available_class_ids sequence";
-            return false;
-        }
-
-        if (!yamlUnsignedSequence(continentNode["available_race_ids"], continent.availableRaceIds))
-        {
-            errorMessage = "new_game_continents entry has invalid available_race_ids sequence";
-            return false;
-        }
-
-        if (const YAML::Node portraitExceptionsNode = continentNode["portrait_exceptions"])
-        {
-            if (!yamlStringSequence(portraitExceptionsNode, continent.portraitExceptions))
-            {
-                errorMessage = "new_game_continents entry has invalid portrait_exceptions sequence";
-                return false;
-            }
         }
 
         m_characterSelectionContinents.push_back(std::move(continent));
@@ -861,6 +894,265 @@ bool MergedCharacterSelectionTable::loadFromYaml(const std::string &yamlText, st
     }
 
     return true;
+}
+
+bool MergedCharacterSelectionTable::appendNewGameContinentsFromYaml(
+    const std::string &yamlText,
+    uint32_t firstId,
+    uint32_t lastId,
+    std::string &errorMessage)
+{
+    try
+    {
+        const YAML::Node continentsNode = YAML::Load(yamlText)["new_game_continents"];
+
+        if (!continentsNode || !continentsNode.IsSequence())
+        {
+            errorMessage = "missing new_game_continents sequence";
+            return false;
+        }
+
+        for (const YAML::Node &continentNode : continentsNode)
+        {
+            MergedCharacterSelectionContinent continent = {};
+
+            if (!parseNewGameContinent(continentNode, continent, errorMessage))
+            {
+                return false;
+            }
+
+            const bool taken = std::any_of(
+                m_characterSelectionContinents.begin(),
+                m_characterSelectionContinents.end(),
+                [&continent](const MergedCharacterSelectionContinent &other)
+                {
+                    return other.id == continent.id || other.key == continent.key;
+                });
+
+            if (continent.id < firstId || continent.id > lastId || continent.key.empty() || taken)
+            {
+                errorMessage = "new_game_continents entry " + std::to_string(continent.id)
+                    + " needs a new id in the world's continents range and a new key";
+                return false;
+            }
+
+            m_characterSelectionContinents.push_back(std::move(continent));
+        }
+    }
+    catch (const YAML::Exception &exception)
+    {
+        errorMessage = exception.what();
+        return false;
+    }
+
+    return true;
+}
+
+namespace
+{
+bool yamlIntRect(const YAML::Node &node, std::array<int32_t, 4> &rect)
+{
+    if (!node || !node.IsSequence() || node.size() != 4)
+    {
+        return false;
+    }
+
+    for (size_t index = 0; index < 4; ++index)
+    {
+        rect[index] = node[index].as<int32_t>();
+    }
+
+    return true;
+}
+}
+
+bool MergedDimensionDoorTable::loadFromYaml(const std::string &yamlText, std::string &errorMessage)
+{
+    m_doors.clear();
+    m_screens.clear();
+    return append(yamlText, errorMessage);
+}
+
+bool MergedDimensionDoorTable::appendFromYaml(const std::string &yamlText, std::string &errorMessage)
+{
+    return append(yamlText, errorMessage);
+}
+
+bool MergedDimensionDoorTable::append(const std::string &yamlText, std::string &errorMessage)
+{
+    try
+    {
+        const YAML::Node root = YAML::Load(yamlText);
+
+        for (const YAML::Node &screenNode : root["screens"])
+        {
+            MergedDimensionDoorScreen screen;
+            screen.backdrop = yamlStringOrEmpty(screenNode["backdrop"]);
+
+            for (const YAML::Node &placeNode : screenNode["places"])
+            {
+                MergedDimensionDoorPlace place;
+
+                if (!yamlIntRect(placeNode["picture"], place.picture) || !yamlIntRect(placeNode["hover"], place.hover))
+                {
+                    errorMessage = "a dimension door place needs picture and hover rects [x, y, width, height]";
+                    return false;
+                }
+
+                if (placeNode["label"])
+                {
+                    std::array<int32_t, 4> label = {};
+
+                    if (!yamlIntRect(placeNode["label"], label))
+                    {
+                        errorMessage = "a dimension door place's label is a rect [x, y, width, height]";
+                        return false;
+                    }
+
+                    place.label = label;
+                }
+
+                screen.places.push_back(place);
+            }
+
+            const bool taken = std::any_of(m_screens.begin(), m_screens.end(),
+                [&screen](const MergedDimensionDoorScreen &other)
+                {
+                    return other.places.size() == screen.places.size();
+                });
+
+            if (screen.backdrop.empty() || screen.places.empty() || taken)
+            {
+                errorMessage = "a dimension door screen needs a backdrop and places, and a door count of its own";
+                return false;
+            }
+
+            m_screens.push_back(std::move(screen));
+        }
+
+        for (const YAML::Node &doorNode : root["doors"])
+        {
+            MergedDimensionDoor door;
+            door.key = yamlStringOrEmpty(doorNode["key"]);
+            door.label = yamlStringOrEmpty(doorNode["label"]);
+            door.place = parseOptionalYamlUnsigned(doorNode["place"]).value_or(0);
+
+            for (const auto &picture : doorNode["pictures"])
+            {
+                door.pictures[picture.first.as<uint32_t>()] = picture.second.as<std::string>();
+            }
+
+            // A known door with only pictures: its lit door on the screens of new door counts (a world's five-door
+            // screen shows the engine's doors too); a count it has a picture for already stays.
+            const std::vector<MergedDimensionDoor>::iterator known = std::find_if(m_doors.begin(), m_doors.end(),
+                [&door](const MergedDimensionDoor &other)
+                {
+                    return other.key == door.key;
+                });
+
+            if (known != m_doors.end() && !doorNode["place"] && !doorNode["landings"] && !doorNode["label"])
+            {
+                for (const std::pair<const uint32_t, std::string> &picture : door.pictures)
+                {
+                    if (!known->pictures.emplace(picture.first, picture.second).second)
+                    {
+                        errorMessage = "dimension door '" + door.key + "' has a picture for "
+                            + std::to_string(picture.first) + " doors already";
+                        return false;
+                    }
+                }
+
+                continue;
+            }
+
+            for (const YAML::Node &landingNode : doorNode["landings"])
+            {
+                MergedDimensionDoorLanding landing;
+                landing.qbit = parseOptionalYamlUnsigned(landingNode["qbit"]).value_or(0);
+                landing.mapFileName = yamlStringOrEmpty(landingNode["map"]);
+
+                if (const YAML::Node at = landingNode["at"])
+                {
+                    if (!at.IsSequence() || at.size() != 3)
+                    {
+                        errorMessage = "dimension door " + door.key + ": `at` is [x, y, z]";
+                        return false;
+                    }
+
+                    landing.position = std::array<int32_t, 3>{at[0].as<int32_t>(), at[1].as<int32_t>(),
+                                                              at[2].as<int32_t>()};
+                }
+
+                if (landingNode["direction"])
+                {
+                    landing.directionDegrees = landingNode["direction"].as<int32_t>();
+                }
+
+                if (landing.mapFileName.empty())
+                {
+                    errorMessage = "dimension door " + door.key + " has a landing without a map";
+                    return false;
+                }
+
+                door.landings.push_back(std::move(landing));
+            }
+
+            const bool taken = std::any_of(m_doors.begin(), m_doors.end(),
+                [&door](const MergedDimensionDoor &other)
+                {
+                    return other.key == door.key || other.place == door.place;
+                });
+
+            if (door.key.empty() || door.place == 0 || taken || door.landings.empty()
+                || door.landings.back().qbit != 0)
+            {
+                errorMessage = "dimension door '" + door.key
+                    + "' needs a new key and place, and landings that end with one without a qbit";
+                return false;
+            }
+
+            m_doors.push_back(std::move(door));
+        }
+    }
+    catch (const YAML::Exception &exception)
+    {
+        errorMessage = exception.what();
+        return false;
+    }
+
+    std::sort(m_doors.begin(), m_doors.end(),
+              [](const MergedDimensionDoor &left, const MergedDimensionDoor &right)
+              {
+                  return left.place < right.place;
+              });
+    return true;
+}
+
+const std::vector<MergedDimensionDoor> &MergedDimensionDoorTable::doors() const
+{
+    return m_doors;
+}
+
+const MergedDimensionDoorScreen *MergedDimensionDoorTable::screen() const
+{
+    const size_t needed = m_doors.size();
+    const MergedDimensionDoorScreen *pFitting = nullptr;
+    const MergedDimensionDoorScreen *pLargest = nullptr;
+
+    for (const MergedDimensionDoorScreen &screen : m_screens)
+    {
+        if (screen.places.size() >= needed && (pFitting == nullptr || screen.places.size() < pFitting->places.size()))
+        {
+            pFitting = &screen;
+        }
+
+        if (pLargest == nullptr || screen.places.size() > pLargest->places.size())
+        {
+            pLargest = &screen;
+        }
+    }
+
+    return pFitting != nullptr ? pFitting : pLargest;
 }
 
 bool MergedRaceSkillTable::loadFromRows(const std::vector<std::vector<std::string>> &rows)
@@ -2573,6 +2865,14 @@ bool MergedTownPortalSwitchTable::loadFromRows(const std::vector<std::vector<std
                 return false;
             }
 
+            group.label = row.size() > 3 ? trimCopy(row[3]) : std::string();
+            const std::string continentCell = row.size() > 4 ? trimCopy(row[4]) : std::string();
+
+            if (!continentCell.empty() && !parseUnsigned(continentCell, group.continentId))
+            {
+                return false;
+            }
+
             m_groups.push_back(std::move(group));
             pCurrentGroup = &m_groups.back();
             continue;
@@ -2697,6 +2997,11 @@ bool MergedTransportLocationTable::loadFromRows(const std::vector<std::vector<st
             || !parseUnsigned(row[14], entry.qbit))
         {
             return false;
+        }
+
+        if (row.size() > 15)
+        {
+            entry.name = trimCopy(row[15]);
         }
 
         m_entries.push_back(std::move(entry));

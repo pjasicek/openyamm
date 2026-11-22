@@ -1,4 +1,5 @@
 #include "game/maps/OutdoorSceneYml.h"
+#include "game/maps/IndoorSceneYml.h"
 #include "game/maps/MistYml.h"
 
 #include "game/FaceEnums.h"
@@ -678,6 +679,50 @@ bool parseOutdoorPerceptionFace(
     {
         errorMessage = "perception face difficulty must be in the 0-20 range";
         return false;
+    }
+
+    return true;
+}
+
+// `bmodel_faces.translucent_faces`: entries of {bmodel_index, face_index}, added to `faces` once each.
+bool parseOutdoorTranslucentFaces(
+    const YAML::Node &bmodelFacesNode,
+    std::vector<std::pair<size_t, size_t>> &faces,
+    std::string &errorMessage)
+{
+    const YAML::Node translucentFacesNode = bmodelFacesNode["translucent_faces"];
+
+    if (!translucentFacesNode)
+    {
+        return true;
+    }
+
+    if (!translucentFacesNode.IsSequence())
+    {
+        errorMessage = "bmodel_faces.translucent_faces must be a sequence";
+        return false;
+    }
+
+    for (const YAML::Node &faceNode : translucentFacesNode)
+    {
+        std::pair<size_t, size_t> face = {0, 0};
+
+        if (!faceNode.IsMap())
+        {
+            errorMessage = "translucent face entry must be a map";
+            return false;
+        }
+
+        if (!readScalarNode(faceNode, "bmodel_index", face.first, errorMessage)
+            || !readScalarNode(faceNode, "face_index", face.second, errorMessage))
+        {
+            return false;
+        }
+
+        if (std::find(faces.begin(), faces.end(), face) == faces.end())
+        {
+            faces.push_back(face);
+        }
     }
 
     return true;
@@ -1371,6 +1416,17 @@ bool parseWeatherConfig(
         return false;
     }
 
+    if (!readScalarNode(weatherNode, "ash_chance", weatherConfig.ashChance, errorMessage, false))
+    {
+        return false;
+    }
+
+    if (weatherConfig.ashChance < 0.0f || weatherConfig.ashChance > 100.0f)
+    {
+        errorMessage = "environment.weather.ash_chance must be from 0 to 100";
+        return false;
+    }
+
     if (dailyFogNode)
     {
         if (!dailyFogNode.IsMap())
@@ -1892,6 +1948,12 @@ std::optional<OutdoorSceneData> OutdoorSceneYmlLoader::loadFromText(
         return std::nullopt;
     }
 
+    if (const YAML::Node ambientNode = rootNode["ambient_sounds"];
+        ambientNode && !parseSceneAmbientSoundsNode(ambientNode, sceneData.ambientSounds, errorMessage))
+    {
+        return std::nullopt;
+    }
+
     const YAML::Node sourceNode = rootNode["source"];
 
     if (!sourceNode || !sourceNode.IsMap())
@@ -2206,6 +2268,11 @@ std::optional<OutdoorSceneData> OutdoorSceneYmlLoader::loadFromText(
 
             sceneData.perceptionFaces.push_back(face);
         }
+    }
+
+    if (!parseOutdoorTranslucentFaces(bmodelFacesNode, sceneData.translucentFaces, errorMessage))
+    {
+        return std::nullopt;
     }
 
     const YAML::Node mechanismsNode = rootNode["mechanisms"];
@@ -2627,9 +2694,15 @@ bool OutdoorSceneYmlLoader::applyOverlayFromText(
         return false;
     }
 
-    // An overlay's mist replaces the base scene's.
+    // An overlay's mist replaces the base scene's, as its ambient sounds do.
     if (const YAML::Node mistNode = rootNode["mist"];
         mistNode && !parseSceneMistNode(mistNode, sceneData.mist, errorMessage))
+    {
+        return false;
+    }
+
+    if (const YAML::Node ambientNode = rootNode["ambient_sounds"];
+        ambientNode && !parseSceneAmbientSoundsNode(ambientNode, sceneData.ambientSounds, errorMessage))
     {
         return false;
     }
@@ -2923,6 +2996,11 @@ bool OutdoorSceneYmlLoader::applyOverlayFromText(
 
                 mergeOutdoorPerceptionFace(sceneData, face);
             }
+        }
+
+        if (!parseOutdoorTranslucentFaces(bmodelFacesNode, sceneData.translucentFaces, errorMessage))
+        {
+            return false;
         }
     }
 
@@ -3252,6 +3330,7 @@ bool buildOutdoorMapStateFromScene(
     outdoorMapData.lightmapBrightnessScale = sceneData.lighting.lightmapBrightnessScale;
     outdoorMapData.flightCeiling = sceneData.movement.flightCeiling;
     outdoorMapData.mist = sceneData.mist;
+    outdoorMapData.ambientSounds = sceneData.ambientSounds;
     outdoorMapData.viewDistanceScale = sceneData.rendering.viewDistanceScale.value_or(
         sceneData.sceneProfile == OutdoorSceneProfile::BModelWorld
                 && sceneData.environment.locationType == OutdoorLocationType::Enclosed
@@ -3416,6 +3495,18 @@ bool buildOutdoorMapStateFromScene(
             errorMessage = "scene named interactive face bmodel was not found: " + interactiveFace.bmodelName;
             return false;
         }
+    }
+
+    for (const auto &[bmodelIndex, faceIndex] : sceneData.translucentFaces)
+    {
+        if (bmodelIndex >= outdoorMapData.bmodels.size()
+            || faceIndex >= outdoorMapData.bmodels[bmodelIndex].faces.size())
+        {
+            errorMessage = "scene translucent face index is out of bounds";
+            return false;
+        }
+
+        outdoorMapData.bmodels[bmodelIndex].faces[faceIndex].translucent = true;
     }
 
     for (const OutdoorScenePerceptionFace &perceptionFace : sceneData.perceptionFaces)

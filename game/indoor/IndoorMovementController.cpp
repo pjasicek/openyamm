@@ -1631,6 +1631,15 @@ IndoorMoveState IndoorMovementController::initializeStateFromEyePosition(
     const std::vector<uint8_t> &mechanismBlockingFaceMask = runtimeCache.mechanismBlockingFaceMask;
     const std::vector<uint8_t> &collisionFaceMask = runtimeCache.collisionFaceMask;
 
+    // The sector the eye is in, as a movement step finds it: a floor face's own sector can lie below the eye (a lift deck
+    // filling a floor hole belongs to the shaft under it), and the view is drawn from the eye's sector.
+    auto eyeSectorAt = [&](float candidateX, float candidateY, float footZ, int16_t floorSectorId)
+    {
+        return findIndoorSectorForPoint(
+            *m_pIndoorMapData, vertices, {candidateX, candidateY, footZ + body.height}, &geometryCache, false)
+            .value_or(floorSectorId);
+    };
+
     auto buildGroundedState = [&](float candidateX, float candidateY, float candidateEyeZ) -> std::optional<IndoorMoveState>
     {
         IndoorFloorSample floor = sampleSupportedFloor(
@@ -1702,7 +1711,7 @@ IndoorMoveState IndoorMovementController::initializeStateFromEyePosition(
         candidateState.eyeHeight = body.height;
         candidateState.footZ = floor.height;
         candidateState.sectorId = floor.sectorId;
-        candidateState.eyeSectorId = floor.sectorId;
+        candidateState.eyeSectorId = eyeSectorAt(candidateX, candidateY, floor.height, floor.sectorId);
         candidateState.supportFaceIndex = floor.faceIndex;
         candidateState.grounded = true;
         candidateState.fallStartZ = candidateState.footZ;
@@ -1750,7 +1759,7 @@ IndoorMoveState IndoorMovementController::initializeStateFromEyePosition(
         {
             candidateState.footZ = floor.height;
             candidateState.sectorId = floor.sectorId;
-            candidateState.eyeSectorId = floor.sectorId;
+            candidateState.eyeSectorId = eyeSectorAt(candidateX, candidateY, floor.height, floor.sectorId);
             candidateState.supportFaceIndex = floor.faceIndex;
             candidateState.grounded = true;
             candidateState.fallStartZ = candidateState.footZ;

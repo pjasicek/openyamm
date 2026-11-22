@@ -1199,6 +1199,9 @@ struct ActorAiFacts
     ActorStatsFacts stats = {};
     ActorRuntimeFacts runtime = {};
     ActorStatusFacts status = {};
+    // The party this actor deals with when it is not the frame's (ActorAiFrameFacts::party): in a co-op session each
+    // monster turns to the player's party nearest to it. Unset in a game of one party.
+    std::optional<ActorPartyFacts> party;
     ActorTargetFacts target = {};
     ActorMovementFacts movement = {};
     ActorWorldFacts world = {};
@@ -1274,6 +1277,10 @@ struct ActorMovementIntent
     // A map script's walk (AI_ScriptedMove) ends once the actor's centre is this close to targetPosition (level): its
     // route may end anywhere that close (0: it reaches the point).
     float targetArrivalDistance = 0.0f;
+    // A post's leash (ActorTacticsFacts::postLeashRadius, 0: none) and its home: the world keeps the step it finally
+    // takes, after its own path and crowd steering, from going further out once at the leash (keepStepOnLeash).
+    float leashRadius = 0.0f;
+    GameplayWorldPoint leashHome = {};
     bool targetHasAttackLineOfSight = false;
     bool updateYaw = false;
     // The actor keeps yawRadians while it moves instead of turning to its movement (tactics' back-off: it steps back

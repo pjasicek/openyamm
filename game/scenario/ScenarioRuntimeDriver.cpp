@@ -1,5 +1,10 @@
 #include "game/scenario/ScenarioRuntimeDriver.h"
 
+#include "game/gameplay/HouseInteraction.h"
+
+#include "engine/net/LoopbackTransport.h"
+#include "game/coop/CoopSession.h"
+
 #include "game/events/EventRuntime.h"
 #include "game/events/ScriptedEventProgram.h"
 #include "game/gameplay/GameplayMonsterSpawn.h"
@@ -422,6 +427,17 @@ struct ScenarioGameApplicationAccess
         return application.m_aiArenaTrace;
     }
 
+    // A co-op session between games (game/coop/CoopSession.h), and its frame's part as the game's frame takes it.
+    static CoopSession &coopSession(GameApplication &application)
+    {
+        return *application.m_pCoopSession;
+    }
+
+    static void updateCoopSession(GameApplication &application, float deltaSeconds)
+    {
+        application.updateCoopSession(deltaSeconds);
+    }
+
     // Poses the actors' 3D models as a frame of the game does (headless: the animation trace's presentation).
     static bool syncActorModels(GameApplication &application, IGameplayWorldRuntime &world, float deltaSeconds)
     {
@@ -481,6 +497,17 @@ std::string lowerAscii(std::string text)
 {
     std::transform(text.begin(), text.end(), text.begin(), [](unsigned char c) { return char(std::tolower(c)); });
     return text;
+}
+
+// A move that keeps the party on its map: no map named ("0" is the current map), or the current map itself.
+bool pendingMapMoveStaysOnMap(const EventRuntimeState::PendingMapMove &move, const std::string &currentMapFileName)
+{
+    if (!move.mapName || move.mapName->empty() || *move.mapName == "0" || *move.mapName == "0.")
+    {
+        return true;
+    }
+
+    return !move.useMapStartPosition && !move.instanceId && lowerAscii(*move.mapName) == lowerAscii(currentMapFileName);
 }
 
 GameplayInputFrame buildMovementInputFrame(const ScenarioMovementCommand &command)
@@ -552,6 +579,7 @@ ScenarioRuntimeDriver::ScenarioRuntimeDriver(
 
 ScenarioRuntimeDriver::~ScenarioRuntimeDriver()
 {
+    ScenarioGameApplicationAccess::gameSession(m_application).gameplayUiController().setStatusBarEventLog(nullptr);
     ScenarioGameApplicationAccess::shutdownRenderer(m_application);
 }
 
@@ -579,6 +607,8 @@ bool ScenarioRuntimeDriver::initialize(std::string &failure)
         return false;
     }
 
+    ScenarioGameApplicationAccess::gameSession(m_application).gameplayUiController().setStatusBarEventLog(
+        &m_statusLines);
     m_initialized = true;
     return true;
 }
@@ -697,6 +727,18 @@ bool ScenarioRuntimeDriver::holdGameplayAction(KeyboardAction action, float seco
         }
         button.pressed = false;
         remaining -= deltaSeconds;
+
+        // A move within the map that a step asked for (a plate's ride) happens in the frame, as the game's loop does
+        // it after every world step, and the held key walks on from there. A move to another map waits for a step
+        // that follows map moves.
+        const EventRuntimeState *pEventRuntimeState = eventRuntimeState();
+        if (pEventRuntimeState != nullptr && pEventRuntimeState->pendingMapMove
+            && pendingMapMoveStaysOnMap(*pEventRuntimeState->pendingMapMove, currentMapFileName())
+            && !processPendingMapMove(failure))
+        {
+            session.bindCurrentGameplayInputFrame(nullptr);
+            return false;
+        }
     }
     button.held = false;
     button.released = true;
@@ -737,7 +779,16 @@ bool ScenarioRuntimeDriver::selectPartyMember(size_t memberIndex, std::string &f
     session.bindCurrentGameplayInputFrame(nullptr);
     if (party()->activeMemberIndex() != memberIndex)
     {
-        failure = "shared character-selection input did not select the requested member";
+        // What the live selection refuses on: the state a flaky refusal needs to be read from (A8, DD-21).
+        const GameplayScreenRuntime &runtime = session.gameplayScreenRuntime();
+        failure = "shared character-selection input did not select the requested member (active "
+            + std::to_string(party()->activeMemberIndex()) + "; held item "
+            + (runtime.heldInventoryItem().active ? "yes" : "no") + ", event dialog "
+            + (runtime.activeEventDialog().isActive ? "open" : "closed") + ", character screen "
+            + (runtime.characterScreenReadOnly().open ? "open" : "closed") + ", turn-based "
+            + (runtime.turnBasedCombatRuntime().active() ? "on" : "off") + ", member can act "
+            + (party()->canSelectMemberInGameplay(memberIndex) ? "yes" : "no") + ", health "
+            + std::to_string(party()->member(memberIndex)->health) + ")";
         return false;
     }
     return true;
@@ -824,6 +875,12 @@ bool ScenarioRuntimeDriver::processPendingMapMove(std::string &failure)
 
     if (!ScenarioGameApplicationAccess::processPendingMapMove(m_application))
     {
+        // A co-op session's move to another map waits for the other players' answers.
+        if (ScenarioGameApplicationAccess::gameSession(m_application).travelProposal())
+        {
+            return true;
+        }
+
         failure = "no pending scenario map move could be processed";
         return false;
     }
@@ -888,9 +945,13 @@ bool ScenarioRuntimeDriver::openMapTransitionPrompt(uint32_t sourceId, std::stri
         ScenarioGameApplicationAccess::gameDataLoader(m_application)
             .getMapStats()
             .findByFileName(currentMapFileName());
-    const MapBoundaryEdge edge = static_cast<MapBoundaryEdge>(sourceId);
-    const std::optional<MapEdgeTransition> *pTransition =
-        pCurrentMap != nullptr ? pCurrentMap->edgeTransition(edge) : nullptr;
+    // An edge (0-3) leads where the party stands along it (a span of edge_spans, else the edge's own way); a span's
+    // source id names that span.
+    const MapBoundaryEdge edge = mapTransitionSourceEdge(sourceId);
+    const IGameplayWorldRuntime *pPartyWorld = worldRuntime();
+    const std::optional<MapEdgeTransition> *pTransition = pCurrentMap == nullptr ? nullptr
+        : sourceId < 4 ? pCurrentMap->edgeTransitionAt(edge, pPartyWorld->partyX(), pPartyWorld->partyY(), sourceId)
+        : pCurrentMap->mapTransitionAtSource(sourceId);
 
     EventRuntimeState::PendingDialogueContext context = {};
     context.kind = DialogueContextKind::MapTransition;
@@ -1229,12 +1290,14 @@ bool ScenarioRuntimeDriver::simulateMovementSegment(
     float remainingSeconds = command.durationSeconds;
     float elapsedSeconds = 0.0f;
     pWorldRuntime->setScenarioPartyActorCollisionEnabled(command.actorCollision);
+    // Once an event has moved the party (a plate's ride), the facing is the event's: the replay stops steering.
+    bool eventMovedParty = false;
 
     while (remainingSeconds > 0.0f)
     {
         const float deltaSeconds = std::min(RuntimeStepSeconds, remainingSeconds);
 
-        if (command.endYawRadians || command.endPitchRadians)
+        if ((command.endYawRadians || command.endPitchRadians) && !eventMovedParty)
         {
             const float ratio = command.durationSeconds > 0.0f
                 ? std::clamp(elapsedSeconds / command.durationSeconds, 0.0f, 1.0f)
@@ -1268,6 +1331,7 @@ bool ScenarioRuntimeDriver::simulateMovementSegment(
                     return false;
                 }
 
+                eventMovedParty = true;
                 pWorldRuntime = worldRuntime();
                 if (pWorldRuntime == nullptr)
                 {
@@ -1279,7 +1343,7 @@ bool ScenarioRuntimeDriver::simulateMovementSegment(
         }
     }
 
-    if (command.endYawRadians || command.endPitchRadians)
+    if ((command.endYawRadians || command.endPitchRadians) && !eventMovedParty)
     {
         const float yawRadians = command.endYawRadians ? *command.endYawRadians : command.startPose.yawRadians;
         const float pitchRadians = command.endPitchRadians ? *command.endPitchRadians : command.startPose.pitchRadians;
@@ -1439,7 +1503,11 @@ std::vector<ScenarioPose> ScenarioRuntimeDriver::planWalkRoute(
     return route;
 }
 
-bool ScenarioRuntimeDriver::killHostilesNear(float radius, size_t &killed, std::string &failure)
+bool ScenarioRuntimeDriver::killHostilesNear(
+    float radius,
+    std::optional<float> height,
+    size_t &killed,
+    std::string &failure)
 {
     killed = 0;
     IGameplayWorldRuntime *pWorldRuntime = worldRuntime();
@@ -1450,6 +1518,9 @@ bool ScenarioRuntimeDriver::killHostilesNear(float radius, size_t &killed, std::
         return false;
     }
 
+    const bool storeyBand = pWorldRuntime->isIndoorMap() && radius < MapClearHostilesRadius;
+    const float heightBand = height.value_or(storeyBand ? std::min(radius, DefaultClearHostilesHeight) : radius);
+
     for (size_t actorIndex = 0; actorIndex < pWorldRuntime->mapActorCount(); ++actorIndex)
     {
         GameplayRuntimeActorState state = {};
@@ -1457,7 +1528,7 @@ bool ScenarioRuntimeDriver::killHostilesNear(float radius, size_t &killed, std::
         if (!pWorldRuntime->actorRuntimeState(actorIndex, state) || state.isDead || state.isInvisible
             || !state.hostileToParty
             || std::hypot(state.preciseX - pWorldRuntime->partyX(), state.preciseY - pWorldRuntime->partyY()) > radius
-            || std::abs(state.preciseZ - pWorldRuntime->partyFootZ()) > radius)
+            || std::abs(state.preciseZ - pWorldRuntime->partyFootZ()) > heightBand)
         {
             continue;
         }
@@ -2087,7 +2158,8 @@ bool ScenarioRuntimeDriver::walkTo(const ScenarioWalkRequest &request, ScenarioW
             sinceSweep = 0.0f;
             size_t killed = 0;
 
-            if (killHostilesNear(request.clearHostilesRadius, killed, failure) && killed > 0)
+            if (killHostilesNear(request.clearHostilesRadius, request.clearHostilesHeight, killed, failure)
+                && killed > 0)
             {
                 result.hostilesKilled += killed;
                 log("killed " + std::to_string(killed) + " hostile(s) near " + formatPose(currentPose()));
@@ -2214,6 +2286,14 @@ bool ScenarioRuntimeDriver::walkTo(const ScenarioWalkRequest &request, ScenarioW
                     if (nearest < 512.0f)
                     {
                         why << "; nearest actor " << nearestIndex << " at " << std::lround(nearest);
+
+                        // Within its radius and the friendly margin: the actor itself may stop the party (a big
+                        // monster's radius reaches far), not the geometry.
+                        if (nearest <= float(nearestState.radius) + FriendlyBlockMargin)
+                        {
+                            why << ", in the party's way (its radius " << nearestState.radius
+                                << (nearestState.hostileToParty ? ", hostile: clear_hostiles" : "") << ")";
+                        }
                     }
 
                     log(why.str());
@@ -2525,7 +2605,9 @@ bool ScenarioRuntimeDriver::partyAttack(
     const ScenarioPartyAttackRequest &request, ScenarioPartyAttackResult &result, std::string &failure)
 {
     IGameplayWorldRuntime *pWorldRuntime = worldRuntime();
-    Party *pParty = party();
+    Party *pParty = request.player == LocalPlayer
+        ? party()
+        : ScenarioGameApplicationAccess::gameSession(m_application).partyOfPlayer(request.player);
     GameplayRuntimeActorState state = {};
 
     if (pWorldRuntime == nullptr || pParty == nullptr || pParty->member(request.memberIndex) == nullptr
@@ -2584,7 +2666,7 @@ bool ScenarioRuntimeDriver::partyAttack(
         }
         // Within reach of a blow, one step off the actor.
         const GameplayActionController::PartyAttackExecutionResult outcome =
-            GameplayActionController::executePartyAttack(GameplayActionController::PartyAttackConfig{
+            screenRuntime.playerCommands().attack(request.player, GameplayActionController::PartyAttackConfig{
                 .pRuntime = request.attackSpell ? &screenRuntime : nullptr,
                 .pSpellService = request.attackSpell ? &screenRuntime.spellService() : nullptr,
                 .pWorldRuntime = pWorldRuntime,
@@ -2601,6 +2683,13 @@ bool ScenarioRuntimeDriver::partyAttack(
         pWorldRuntime->actorRuntimeState(request.actorIndex, after);
         const int lost = std::max(0, state.currentHp - after.currentHp);
 
+        if (request.kill && (after.isDead || after.currentHp <= 0))
+        {
+            member.conditions = conditionsBefore;
+            restoreOrders();
+            return true;
+        }
+
         // A blow that kills cannot be healed away: the run needs a sturdier target.
         if (after.isDead || after.currentHp <= 0)
         {
@@ -2611,7 +2700,8 @@ bool ScenarioRuntimeDriver::partyAttack(
             return false;
         }
 
-        if (lost > 0)
+        // Each blow is measured against the same health; blows meant to kill are left to add up.
+        if (lost > 0 && !request.kill)
         {
             pWorldRuntime->healMapActor(request.actorIndex, lost);
         }
@@ -2753,7 +2843,7 @@ bool ScenarioRuntimeDriver::executeCombatLoot(
     if (inspectState.isDead)
     {
         const GameplayWorldHit actorHit = buildScenarioActorHit(actorIndex, inspectState);
-        result.corpseActivated = pWorldRuntime->activateWorldHit(actorHit);
+        result.corpseActivated = playerCommands().activateWorldHit(LocalPlayer, actorHit);
 
         if (request.expectedItemId == 0 || scenarioPartyHasItem(party(), request.expectedItemId))
         {
@@ -2814,7 +2904,7 @@ ScenarioInteractionResult ScenarioRuntimeDriver::activateActor(size_t actorIndex
 
     result.hit = buildScenarioActorHit(actorIndex, inspectState);
     result.picked = true;
-    result.activated = pWorldRuntime->activateWorldHit(result.hit);
+    result.activated = playerCommands().activateWorldHit(LocalPlayer, result.hit);
 
     if (!result.activated)
     {
@@ -2864,7 +2954,7 @@ ScenarioInteractionResult ScenarioRuntimeDriver::activateWorldItem(
     }
 
     result.picked = true;
-    result.activated = pWorldRuntime->activateWorldHit(result.hit);
+    result.activated = playerCommands().activateWorldHit(LocalPlayer, result.hit);
 
     if (!result.activated)
     {
@@ -3136,7 +3226,7 @@ bool ScenarioRuntimeDriver::writeExitPose(const std::filesystem::path &path, std
     return true;
 }
 
-bool ScenarioRuntimeDriver::setRulesetBanks(const std::array<double, 4> &levels, std::string &failure)
+bool ScenarioRuntimeDriver::setRulesetBanks(const std::array<double, 5> &levels, std::string &failure)
 {
     MawRules *pMawRules = ScenarioGameApplicationAccess::gameSession(m_application).mawRules();
 
@@ -3213,11 +3303,12 @@ std::optional<BagItemRef> findCarriedItem(const Party &party, size_t memberIndex
 
     std::vector<uint8_t> bags = {pMember->rulesetState.currentBag};
 
-    if (party.rules().items.hasPouches())
+    for (const ItemPouch pouch : {ItemPouch::Alchemy, ItemPouch::Crafting, ItemPouch::Quest})
     {
-        bags.push_back(InventoryBags::AlchemyPouchBag);
-        bags.push_back(InventoryBags::CraftingPouchBag);
-        bags.push_back(InventoryBags::QuestPouchBag);
+        if (party.hasPouch(pouch))
+        {
+            bags.push_back(InventoryBags::pouchBag(pouch));
+        }
     }
 
     for (const uint8_t bag : bags)
@@ -3274,7 +3365,7 @@ bool ScenarioRuntimeDriver::useInventoryItem(size_t memberIndex, uint32_t itemId
     }
 
     const InventoryItem before = runtime.heldInventoryItem().item;
-    runtime.itemService().tryUseHeldItemOnPartyMember(runtime, memberIndex, false);
+    runtime.playerCommands().useHeldItemOnMember(LocalPlayer, runtime, memberIndex, false);
     used = !runtime.heldInventoryItem().active || !(runtime.heldInventoryItem().item == before);
 
     // A bottle with drinks left, or a refused item, goes back to the pack; so does an item that travels, as the
@@ -3292,6 +3383,53 @@ bool ScenarioRuntimeDriver::useInventoryItem(size_t memberIndex, uint32_t itemId
     {
         used = true;
         return processPendingMapMove(failure);
+    }
+
+    return true;
+}
+
+bool ScenarioRuntimeDriver::equipCarriedItem(
+    size_t memberIndex,
+    uint32_t itemId,
+    EquipmentSlot slot,
+    std::string &failure)
+{
+    Party *pParty = party();
+
+    if (pParty == nullptr || pParty->member(memberIndex) == nullptr)
+    {
+        failure = "equip_item needs a party member " + std::to_string(memberIndex);
+        return false;
+    }
+
+    std::optional<BagItemRef> found = findCarriedItem(*pParty, memberIndex, itemId);
+
+    for (size_t carrier = 0; !found && carrier < pParty->memberCount(); ++carrier)
+    {
+        found = findCarriedItem(*pParty, carrier, itemId);
+    }
+
+    InventoryItem item;
+    const int bagCount = pParty->rules().items.bagCount(*pParty);
+
+    if (!found
+        || !InventoryBags::takeFromBag(*pParty, found->memberIndex, found->bag, bagCount, found->gridX, found->gridY,
+            item))
+    {
+        failure = "equip_item: no member carries item " + std::to_string(itemId);
+        return false;
+    }
+
+    // What the slot held goes to the packs (autoStoreDisplacedItem), as the inventory screen's equip does.
+    std::optional<InventoryItem> held;
+
+    if (!pParty->tryEquipItemOnMember(memberIndex, slot, item, std::nullopt, true, held))
+    {
+        std::optional<InventoryItem> replaced;
+        InventoryBags::placeInBag(
+            *pParty, found->memberIndex, found->bag, bagCount, item, found->gridX, found->gridY, replaced);
+        failure = "equip_item: member " + std::to_string(memberIndex) + " cannot wear item " + std::to_string(itemId);
+        return false;
     }
 
     return true;
@@ -3483,10 +3621,11 @@ bool ScenarioRuntimeDriver::partyCharge(
 bool ScenarioRuntimeDriver::castSpell(
     const ScenarioSpellCastRequest &request,
     PartySpellCastStatus &status,
+    std::string &statusText,
     std::string &failure)
 {
     IGameplayWorldRuntime *pWorldRuntime = worldRuntime();
-    Party *pParty = party();
+    Party *pParty = playerCommands().party(request.player);
     Character *pMember = pParty != nullptr ? pParty->member(request.memberIndex) : nullptr;
     const SpellTable &spellTable = ScenarioGameApplicationAccess::gameDataLoader(m_application).getSpellTable();
 
@@ -3523,6 +3662,17 @@ bool ScenarioRuntimeDriver::castSpell(
         castRequest.targetZ = (*request.targetPoint)[2];
     }
 
+    if (request.telekinesisChest)
+    {
+        GameplayWorldHit hit;
+        hit.hasHit = true;
+        hit.kind = GameplayWorldHitKind::Chest;
+        hit.container = GameplayContainerTargetHit{};
+        hit.container->sourceKind = GameplayWorldContainerSourceKind::Chest;
+        hit.container->sourceIndex = *request.telekinesisChest;
+        castRequest.telekinesisTarget = hit;
+    }
+
     if (request.scroll)
     {
         castRequest.skillLevelOverride = std::max(request.skill, 1u);
@@ -3532,9 +3682,10 @@ bool ScenarioRuntimeDriver::castSpell(
         castRequest.spendMana = false;
     }
 
-    const PartySpellCastResult result = PartySpellSystem::castSpell(*pParty, *pWorldRuntime, spellTable, castRequest);
-    pWorldRuntime->applyPendingSpellCastWorldEffects(result);
+    const PartySpellCastResult result =
+        playerCommands().castSpellDirect(request.player, spellTable, castRequest, request.targetPlayer);
     status = result.status;
+    statusText = result.statusText;
     pMember->recoverySecondsRemaining = 0;
     return true;
 }
@@ -3886,6 +4037,34 @@ ScenarioInteractionResult ScenarioRuntimeDriver::pressKeyboardInteractWithEventT
     return actorlessResult;
 }
 
+std::string ScenarioRuntimeDriver::takeStatusLines()
+{
+    if (EventRuntimeState *pState = eventRuntimeState(); pState != nullptr && !pState->statusMessages.empty())
+    {
+        GameplayScreenRuntime &screenRuntime =
+            ScenarioGameApplicationAccess::gameSession(m_application).gameplayScreenRuntime();
+
+        for (size_t index = 0; index < pState->statusMessages.size(); ++index)
+        {
+            screenRuntime.setStatusBarEvent(pState->statusMessages[index], statusMessageSeconds(*pState, index),
+                GameplayUiController::StatusBarEventPriority::High);
+        }
+
+        pState->statusMessages.clear();
+        pState->statusMessageSeconds.clear();
+    }
+
+    std::string text;
+
+    for (size_t index = std::min(m_statusLinesTaken, m_statusLines.size()); index < m_statusLines.size(); ++index)
+    {
+        text += (text.empty() ? "" : " | ") + m_statusLines[index];
+    }
+
+    m_statusLinesTaken = m_statusLines.size();
+    return text;
+}
+
 bool ScenarioRuntimeDriver::executeMapEvent(uint16_t eventId, std::string &failure)
 {
     IGameplayWorldRuntime *pWorldRuntime = worldRuntime();
@@ -3919,7 +4098,55 @@ bool ScenarioRuntimeDriver::executeMapEvent(uint16_t eventId, std::string &failu
     return true;
 }
 
-bool ScenarioRuntimeDriver::runLuaEvent(const std::string &source, std::string &failure)
+bool ScenarioRuntimeDriver::healAtTemple(
+    uint32_t houseId, size_t &healed, std::vector<std::string> &lines, std::string &failure)
+{
+    IMapSceneRuntime *pSceneRuntime = ScenarioGameApplicationAccess::mapSceneRuntime(m_application);
+    GameDataLoader &data = ScenarioGameApplicationAccess::gameDataLoader(m_application);
+    const HouseEntry *pHouse = data.getHouseTable().get(houseId);
+    healed = 0;
+
+    if (pSceneRuntime == nullptr)
+    {
+        failure = "heal_at_temple needs an active map";
+        return false;
+    }
+
+    if (pHouse == nullptr || !pHouse->templeCanHeal)
+    {
+        failure = "house " + std::to_string(houseId) + " is no temple that heals";
+        return false;
+    }
+
+    Party &party = pSceneRuntime->party();
+    const size_t activeMember = party.activeMemberIndex();
+    HouseActionOption option = {};
+    option.id = HouseActionId::TempleHeal;
+    option.enabled = true;
+
+    for (size_t memberIndex = 0; memberIndex < party.members().size(); ++memberIndex)
+    {
+        party.setActiveMemberIndex(memberIndex);
+
+        if (!party.activeMemberNeedsHealing())
+        {
+            continue;
+        }
+
+        const int goldBefore = party.gold();
+        const HouseActionResult result = performHouseAction(
+            option, *pHouse, party, &data.getClassSkillTable(), worldRuntime(), &data.getNpcDialogTable());
+        const bool treated = party.gold() < goldBefore || !party.activeMemberNeedsHealing();
+        healed += treated ? 1 : 0;
+        lines.push_back("member " + std::to_string(memberIndex) + " (" + party.members()[memberIndex].name + "): "
+            + (result.messages.empty() ? std::string(treated ? "healed" : "not healed") : result.messages.front()));
+    }
+
+    party.setActiveMemberIndex(activeMember);
+    return true;
+}
+
+bool ScenarioRuntimeDriver::runLuaEvent(const std::string &source, PlayerId player, std::string &failure)
 {
     IMapSceneRuntime *pSceneRuntime = ScenarioGameApplicationAccess::mapSceneRuntime(m_application);
     EventRuntimeState *pEventRuntimeState = eventRuntimeState();
@@ -3949,14 +4176,45 @@ bool ScenarioRuntimeDriver::runLuaEvent(const std::string &source, std::string &
     GameDataLoader &data = ScenarioGameApplicationAccess::gameDataLoader(m_application);
     EventRuntime eventRuntime(&data.getHouseTable(), &data.getNpcDialogTable());
 
-    if (!eventRuntime.executeEventById(std::nullopt, program, ScenarioLuaEventId, *pEventRuntimeState,
-            &pSceneRuntime->party(), pSceneRuntime->sceneEventContext()))
+    if (player == LocalPlayer)
     {
-        failure = "scenario Lua event failed (a Lua error)";
+        if (!eventRuntime.executeEventById(std::nullopt, program, ScenarioLuaEventId, *pEventRuntimeState,
+                &pSceneRuntime->party(), pSceneRuntime->sceneEventContext()))
+        {
+            failure = "scenario Lua event failed (a Lua error)";
+            return false;
+        }
+
+        // As after a map event: the world takes what the event changed (hostility, relation rows, faces ...).
+        if (IGameplayWorldRuntime *pWorldRuntime = worldRuntime())
+        {
+            pWorldRuntime->applyEventRuntimeState();
+        }
+
+        return true;
+    }
+
+    // Another player of a co-op session: the event runs for that player's party.
+    if (playerCommands().party(player) == nullptr)
+    {
+        failure = "lua_event: player " + std::to_string(player) + " is not in the session";
         return false;
     }
 
-    return true;
+    const bool executed = playerCommands().runEvent(
+        player,
+        [&](Party &party)
+        {
+            return eventRuntime.executeEventById(std::nullopt, program, ScenarioLuaEventId, *pEventRuntimeState,
+                &party, pSceneRuntime->sceneEventContext());
+        });
+
+    if (!executed)
+    {
+        failure = "scenario Lua event failed (a Lua error)";
+    }
+
+    return executed;
 }
 
 bool ScenarioRuntimeDriver::selectDialogAction(size_t actionIndex, std::string &failure)
@@ -4121,8 +4379,10 @@ bool ScenarioRuntimeDriver::closeDialog(std::string &failure)
         ScenarioGameApplicationAccess::gameSession(m_application).gameplayScreenRuntime();
     IGameplayWorldRuntime *pWorldRuntime = worldRuntime();
 
+    // An event's window over a loot view is on top: it closes first, as Escape closes it in play.
     if (pWorldRuntime != nullptr
-        && (pWorldRuntime->activeChestView() != nullptr || pWorldRuntime->activeCorpseView() != nullptr))
+        && (pWorldRuntime->activeChestView() != nullptr || pWorldRuntime->activeCorpseView() != nullptr)
+        && !screenRuntime.activeEventDialog().isActive)
     {
         // Chests/corpses are loot overlays, not EventDialogContent. Exercise the shared Escape input path.
         std::array<bool, SDL_SCANCODE_COUNT> keyboardState = {};
@@ -4135,6 +4395,14 @@ bool ScenarioRuntimeDriver::closeDialog(std::string &failure)
         keyboardState[SDL_SCANCODE_ESCAPE] = false;
         GameplayInputController::handleStandardUiHotkeys(screenRuntime, config);
         screenRuntime.updatePreviousKeyboardStateSnapshot(keyboardState.data());
+        return true;
+    }
+
+    // The Adventurer's Inn's roster (a house that opens it, or a character viewed from it) is a character screen
+    // over the world, not a dialogue: closed as its Exit button closes it. A house dialogue under it stays open.
+    if (screenRuntime.isAdventurersInnCharacterSourceActive())
+    {
+        screenRuntime.closeCharacterScreen();
         return true;
     }
 
@@ -4207,6 +4475,7 @@ ScenarioDialogSnapshot ScenarioRuntimeDriver::activeDialogSnapshot() const
     ScenarioDialogSnapshot snapshot = {};
     snapshot.active = dialog.isActive;
     snapshot.houseDialog = dialog.isHouseDialog;
+    snapshot.adventurersInn = screenRuntime.isAdventurersInnCharacterSourceActive();
     snapshot.sourceId = dialog.sourceId;
     snapshot.title = dialog.title;
     snapshot.houseTitle = dialog.houseTitle;
@@ -4245,6 +4514,7 @@ std::string ScenarioRuntimeDriver::activeDialogSummary() const
     std::ostringstream stream;
     stream << "dialog active=" << (dialog.isActive ? "true" : "false")
            << " house_dialog=" << (dialog.isHouseDialog ? "true" : "false")
+           << (screenRuntime.isAdventurersInnCharacterSourceActive() ? " adventurers_inn=true" : "")
            << " source_id=" << dialog.sourceId
            << " action_count=" << dialog.actions.size();
 
@@ -4316,7 +4586,8 @@ bool ScenarioRuntimeDriver::advanceRuntime(float seconds, std::string &failure, 
         if (const EventRuntimeState *pPendingState = eventRuntimeState();
             followMapMove
             && ((pPendingState != nullptr && pPendingState->pendingMapMove.has_value())
-                || session.pendingMapMove().has_value()))
+                || session.pendingMapMove().has_value()
+                || session.travelProposalPassed()))
         {
             if (!processPendingMapMove(failure))
             {
@@ -4333,12 +4604,36 @@ bool ScenarioRuntimeDriver::advanceRuntime(float seconds, std::string &failure, 
         }
 
         const float deltaSeconds = std::min(RuntimeStepSeconds, remaining);
+        // A co-op session between games: this game's part of the frame, then the other game's whole frame, so the
+        // two run side by side. A guest's game may load the host's map here.
+        if (Engine::LoopbackTransport *pEnd = coopLoopbackEnd())
+        {
+            pEnd->advanceClock(deltaSeconds);
+        }
+
+        ScenarioGameApplicationAccess::updateCoopSession(m_application, deltaSeconds);
+
+        if (m_pPeer != nullptr)
+        {
+            m_pPeer->advancePeerFrame(deltaSeconds);
+        }
+
+        pWorldRuntime = worldRuntime();
+
+        if (pWorldRuntime == nullptr)
+        {
+            failure = "the co-op session left no active world runtime";
+            return false;
+        }
+
         session.updateGameplay(input, deltaSeconds, false);
         ScenarioGameApplicationAccess::applyTurnBasedGameTime(m_application);
         session.bindCurrentGameplayInputFrame(nullptr);
-        if (session.sharedInputFrameResult().worldInputBlocked
-            || session.sharedWorldInteractionBlockedThisFrame()
-            || session.gameplayScreenState().pendingSpellTarget().active)
+        // As the game's frame: a screen over the world stops the world of a single-player game only.
+        if (!session.coopSession()
+            && (session.sharedInputFrameResult().worldInputBlocked
+                || session.sharedWorldInteractionBlockedThisFrame()
+                || session.gameplayScreenState().pendingSpellTarget().active))
         {
             remaining -= deltaSeconds;
             continue;
@@ -4387,6 +4682,108 @@ bool ScenarioRuntimeDriver::advanceRuntime(float seconds, std::string &failure, 
     }
 
     return true;
+}
+
+void ScenarioRuntimeDriver::setPeer(ScenarioRuntimeDriver *pPeer)
+{
+    m_pPeer = pPeer;
+}
+
+CoopSession &ScenarioRuntimeDriver::coopSession()
+{
+    return ScenarioGameApplicationAccess::coopSession(m_application);
+}
+
+bool ScenarioRuntimeDriver::joinCoopHost(ScenarioRuntimeDriver &host, std::string &failure)
+{
+    if (host.worldRuntime() == nullptr || worldRuntime() == nullptr)
+    {
+        failure = "a co-op join needs both games in a map";
+        return false;
+    }
+
+    if (!host.coopSession().hosting())
+    {
+        std::unique_ptr<Engine::LoopbackTransport> pHostEnd = std::make_unique<Engine::LoopbackTransport>();
+        pHostEnd->setFaults(host.m_coopNetworkFaults);
+        host.m_pCoopHostTransport = pHostEnd.get();
+        host.coopSession().hostOn(std::move(pHostEnd));
+    }
+
+    std::unique_ptr<Engine::LoopbackTransport> pGuestEnd = std::make_unique<Engine::LoopbackTransport>();
+    pGuestEnd->setFaults(m_coopNetworkFaults);
+    m_pCoopGuestTransport = pGuestEnd.get();
+    host.m_pCoopHostTransport->accept(*pGuestEnd);
+    // The first connection of a new end is its peer 0.
+    coopSession().joinOn(std::move(pGuestEnd), 0);
+    return true;
+}
+
+Engine::LoopbackTransport *ScenarioRuntimeDriver::coopLoopbackEnd()
+{
+    CoopSession &session = coopSession();
+
+    if (session.hosting())
+    {
+        return m_pCoopHostTransport;
+    }
+
+    return session.joining() || session.joined() ? m_pCoopGuestTransport : nullptr;
+}
+
+void ScenarioRuntimeDriver::setCoopNetworkFaults(const Engine::NetFaults &faults)
+{
+    m_coopNetworkFaults = faults;
+
+    if (Engine::LoopbackTransport *pEnd = coopLoopbackEnd())
+    {
+        pEnd->setFaults(faults);
+    }
+}
+
+void ScenarioRuntimeDriver::advancePeerFrame(float deltaSeconds)
+{
+    if (Engine::LoopbackTransport *pEnd = coopLoopbackEnd())
+    {
+        pEnd->advanceClock(deltaSeconds);
+    }
+
+    ScenarioGameApplicationAccess::updateCoopSession(m_application, deltaSeconds);
+    IGameplayWorldRuntime *pWorldRuntime = worldRuntime();
+
+    if (pWorldRuntime == nullptr)
+    {
+        return;
+    }
+
+    GameSession &session = ScenarioGameApplicationAccess::gameSession(m_application);
+
+    // What the game's frame does with a move it owes: a travel the players agreed on happens here.
+    if (const EventRuntimeState *pPendingState = eventRuntimeState();
+        (pPendingState != nullptr && pPendingState->pendingMapMove.has_value())
+        || session.pendingMapMove().has_value()
+        || session.travelProposalPassed())
+    {
+        std::string failure;
+        processPendingMapMove(failure);
+        pWorldRuntime = worldRuntime();
+
+        if (pWorldRuntime == nullptr)
+        {
+            return;
+        }
+    }
+
+    GameplayInputFrame input = {};
+    input.screenWidth = ScenarioViewWidth;
+    input.screenHeight = ScenarioViewHeight;
+    input.pointerX = ScenarioViewWidth * 0.5f;
+    input.pointerY = ScenarioViewHeight * 0.5f;
+    session.updateGameplay(input, deltaSeconds, false);
+    session.bindCurrentGameplayInputFrame(nullptr);
+    pWorldRuntime->updateWorld(deltaSeconds);
+    session.gameplayScreenRuntime().ensurePendingEventDialogPresented(true);
+    advanceIndoorScene(deltaSeconds);
 }
 
 const TurnBasedCombatRuntime &ScenarioRuntimeDriver::turnBasedCombat() const
@@ -4598,6 +4995,18 @@ const EventRuntimeState *ScenarioRuntimeDriver::eventRuntimeState() const
 {
     const IMapSceneRuntime *pSceneRuntime = ScenarioGameApplicationAccess::mapSceneRuntime(m_application);
     return pSceneRuntime != nullptr ? pSceneRuntime->eventRuntimeState() : nullptr;
+}
+
+std::optional<GameplayPlayerBody> ScenarioRuntimeDriver::guestPlayerBody(PlayerId player)
+{
+    const GameSession::GuestPlayer *pGuest =
+        ScenarioGameApplicationAccess::gameSession(m_application).guestPlayer(player);
+    return pGuest != nullptr ? std::optional<GameplayPlayerBody>(pGuest->body) : std::nullopt;
+}
+
+PlayerCommands &ScenarioRuntimeDriver::playerCommands()
+{
+    return ScenarioGameApplicationAccess::gameSession(m_application).playerCommands();
 }
 
 IGameplayWorldRuntime *ScenarioRuntimeDriver::worldRuntime()

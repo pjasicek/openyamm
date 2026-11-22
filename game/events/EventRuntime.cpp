@@ -27,6 +27,7 @@
 #include "game/tables/NpcDialogTable.h"
 
 #include <algorithm>
+#include <array>
 #include <cctype>
 #include <cmath>
 #include <cstdio>
@@ -162,13 +163,13 @@ void synchronizeLegacyHistoryMirror(EventRuntimeState &runtimeState)
 bool partyHasHistoryEntry(const Party &party, const EventRuntimeState &runtimeState, uint32_t historyId)
 {
     const uint32_t continentId = normalizedHistoryContinent(runtimeState.activeHistoryContinentId);
-    return party.historyEventTimes(continentId).contains(historyId)
+    return party.campaign().historyEventTimes(continentId).contains(historyId)
         || forwardHistoryEntryTime(continentId, historyId).has_value();
 }
 
 void recordPartyHistoryEntry(Party &party, const EventRuntimeState &runtimeState, uint32_t historyId)
 {
-    party.recordHistoryEvent(
+    party.campaign().recordHistoryEvent(
         normalizedHistoryContinent(runtimeState.activeHistoryContinentId),
         historyId,
         std::max(1, currentGameMinutesFromRuntimeState(runtimeState)));
@@ -1133,6 +1134,12 @@ void appendRemovedInventoryItemsInRange(
     for (uint32_t itemId = minimumItemId; itemId <= maximumItemId && remainingQuantity > 0; ++itemId)
     {
         int32_t itemCount = EventRuntime::getInventoryItemCount(runtimeState, pParty, itemId, std::nullopt);
+
+        // Only the packs give up items to a range: the cursor's item is taken by a single item's Subtract.
+        if (pParty != nullptr && pParty->heldItemIdForQueries() == itemId)
+        {
+            itemCount = std::max(0, itemCount - 1);
+        }
 
         while (itemCount > 0 && remainingQuantity > 0)
         {
@@ -2398,7 +2405,7 @@ int32_t EventRuntime::getVariableValue(
     {
         if (pParty != nullptr && variable.index != 0)
         {
-            return pParty->hasAutonote(variable.index) ? 1 : 0;
+            return pParty->campaign().hasAutonote(variable.index) ? 1 : 0;
         }
 
         const std::unordered_map<uint32_t, int32_t>::const_iterator iterator = runtimeState.variables.find(variable.rawId);
@@ -2729,12 +2736,12 @@ int32_t EventRuntime::getVariableValue(
             && pParty != nullptr)
         {
             const uint32_t rosterId = variable.rawId - 400;
-            return (pParty->hasQuestBit(variable.rawId) || pParty->hasRosterMember(rosterId)) ? 1 : 0;
+            return (pParty->campaign().hasQuestBit(variable.rawId) || pParty->hasRosterMember(rosterId)) ? 1 : 0;
         }
 
         if (variable.kind == VariableKind::QBits && pParty != nullptr)
         {
-            return pParty->hasQuestBit(variable.rawId) ? 1 : 0;
+            return pParty->campaign().hasQuestBit(variable.rawId) ? 1 : 0;
         }
 
         const std::unordered_map<uint32_t, int32_t>::const_iterator iterator = runtimeState.variables.find(variable.rawId);
@@ -2806,7 +2813,7 @@ int32_t EventRuntime::getVariableValue(
             case EvtVariable::Counter8:
             case EvtVariable::Counter9:
             case EvtVariable::Counter10:
-                return pParty != nullptr ? pParty->eventVariableValue(variable.tag) : 0;
+                return pParty != nullptr ? pParty->campaign().eventVariableValue(variable.tag) : 0;
 
             case EvtVariable::ReputationInCurrentLocation:
                 return runtimeState.currentLocationReputation;
@@ -2819,7 +2826,7 @@ int32_t EventRuntime::getVariableValue(
             case EvtVariable::ArenaWinsSquire:
             case EvtVariable::ArenaWinsKnight:
             case EvtVariable::ArenaWinsLord:
-                return pParty != nullptr ? pParty->eventVariableValue(variable.tag) : 0;
+                return pParty != nullptr ? pParty->campaign().eventVariableValue(variable.tag) : 0;
 
             case EvtVariable::Invisible:
                 return pParty != nullptr && pParty->hasPartyBuff(PartyBuffId::Invisibility) ? 1 : 0;
@@ -2831,7 +2838,7 @@ int32_t EventRuntime::getVariableValue(
 
     if (pParty != nullptr)
     {
-        const int32_t partyValue = pParty->eventVariableValue(variable.tag);
+        const int32_t partyValue = pParty->campaign().eventVariableValue(variable.tag);
 
         if (partyValue != 0)
         {
@@ -2961,7 +2968,7 @@ void EventRuntime::setVariableValue(
 
         if (pParty != nullptr && variable.index != 0)
         {
-            pParty->setAutonote(variable.index, normalizedValue != 0);
+            pParty->campaign().setAutonote(variable.index, normalizedValue != 0);
         }
         else
         {
@@ -2988,7 +2995,7 @@ void EventRuntime::setVariableValue(
             }
             else if (normalizedValue == 0)
             {
-                pParty->clearHistoryEvent(
+                pParty->campaign().clearHistoryEvent(
                     normalizedHistoryContinent(runtimeState.activeHistoryContinentId), variable.index);
             }
 
@@ -3503,7 +3510,7 @@ void EventRuntime::setVariableValue(
 
         if ((variableId >= EvtVariable::Counter1 && variableId <= EvtVariable::Counter10) && pParty != nullptr)
         {
-            pParty->setEventVariableValue(variable.tag, currentGameMinutesFromRuntimeState(runtimeState));
+            pParty->campaign().setEventVariableValue(variable.tag, currentGameMinutesFromRuntimeState(runtimeState));
             return;
         }
 
@@ -3535,7 +3542,7 @@ void EventRuntime::setVariableValue(
                 pParty->requestSpeech(pParty->activeMemberIndex(), SpeechId::InPrison);
             }
 
-            pParty->setEventVariableValue(variable.tag, value);
+            pParty->campaign().setEventVariableValue(variable.tag, value);
             return;
         }
     }
@@ -3546,7 +3553,7 @@ void EventRuntime::setVariableValue(
 
         if (variable.kind == VariableKind::QBits && pParty != nullptr)
         {
-            pParty->setQuestBit(variable.rawId, normalizedValue != 0);
+            pParty->campaign().setQuestBit(variable.rawId, normalizedValue != 0);
         }
         else
         {
@@ -3574,7 +3581,7 @@ void EventRuntime::setVariableValue(
             }
             else if (normalizedValue == 0)
             {
-                pParty->clearHistoryEvent(
+                pParty->campaign().clearHistoryEvent(
                     normalizedHistoryContinent(runtimeState.activeHistoryContinentId), variable.index);
             }
 
@@ -3619,11 +3626,29 @@ void EventRuntime::setVariableValue(
 
     if (pParty != nullptr)
     {
-        pParty->setEventVariableValue(variable.tag, value);
+        pParty->campaign().setEventVariableValue(variable.tag, value);
         return;
     }
 
     runtimeState.variables[variable.rawId] = value;
+}
+
+namespace
+{
+// The Age variable's Add and Subtract change the age a member has gained or lost by magic (Character::ageModifier, the
+// originals' age modifier) by the amount; a member immune to aging (an AgingImmunity item, D-2.4) gains none (D-27).
+void changeMagicalAge(Party *pParty, const std::vector<size_t> &targetMemberIndices, int32_t amount)
+{
+    for (size_t memberIndex : targetMemberIndices)
+    {
+        Character *pMember = pParty != nullptr ? pParty->member(memberIndex) : nullptr;
+
+        if (pMember != nullptr && (amount < 0 || !pMember->agingImmune))
+        {
+            pMember->ageModifier += amount;
+        }
+    }
+}
 }
 
 void EventRuntime::addVariableValue(
@@ -3738,6 +3763,22 @@ void EventRuntime::addVariableValue(
                 queuePortraitFxRequest(runtimeState, PortraitFxEventKind::QuestComplete, pParty, changedMemberIndices);
             }
 
+            if (value > 0)
+            {
+                // A co-op session's other players get the award too.
+                for (Party *pOtherParty : runtimeState.coopParties)
+                {
+                    for (size_t memberIndex = 0; pOtherParty != pParty && memberIndex < pOtherParty->memberCount();
+                         ++memberIndex)
+                    {
+                        if (!pOtherParty->hasAward(memberIndex, variable.index))
+                        {
+                            pOtherParty->addAward(memberIndex, variable.index);
+                        }
+                    }
+                }
+            }
+
             return;
         }
 
@@ -3756,7 +3797,7 @@ void EventRuntime::addVariableValue(
 
         if (pParty != nullptr && variable.index != 0)
         {
-            pParty->setAutonote(variable.index, updatedValue != 0);
+            pParty->campaign().setAutonote(variable.index, updatedValue != 0);
         }
         else
         {
@@ -3818,6 +3859,19 @@ void EventRuntime::addVariableValue(
         for (size_t memberIndex : targetMemberIndices)
         {
             pParty->addExperienceToMember(memberIndex, experience, ExperienceReason::Event);
+        }
+
+        if (experience > 0)
+        {
+            // A co-op session's other players earn it too, each member the same amount.
+            for (Party *pOtherParty : runtimeState.coopParties)
+            {
+                for (size_t memberIndex = 0; pOtherParty != pParty && memberIndex < pOtherParty->memberCount();
+                     ++memberIndex)
+                {
+                    pOtherParty->addExperienceToMember(memberIndex, experience, ExperienceReason::Event);
+                }
+            }
         }
 
         if (experience > 0)
@@ -3890,6 +3944,16 @@ void EventRuntime::addVariableValue(
         if (pParty != nullptr)
         {
             pParty->addGold(value, GoldReason::Event);
+
+            // Gold an event gives is a reward for every player of a co-op session; gold it takes is the acting
+            // party's to pay.
+            for (Party *pOtherParty : runtimeState.coopParties)
+            {
+                if (value > 0 && pOtherParty != pParty)
+                {
+                    pOtherParty->addGold(value, GoldReason::Event);
+                }
+            }
         }
         else
         {
@@ -3986,6 +4050,12 @@ void EventRuntime::addVariableValue(
             );
         }
 
+        return;
+    }
+
+    if (variable.kind == VariableKind::Age)
+    {
+        changeMagicalAge(pParty, targetMemberIndices, value);
         return;
     }
 
@@ -4096,7 +4166,7 @@ void EventRuntime::addVariableValue(
     {
         if ((variableId >= EvtVariable::Counter1 && variableId <= EvtVariable::Counter10) && pParty != nullptr)
         {
-            pParty->setEventVariableValue(variable.tag, currentGameMinutesFromRuntimeState(runtimeState));
+            pParty->campaign().setEventVariableValue(variable.tag, currentGameMinutesFromRuntimeState(runtimeState));
             return;
         }
 
@@ -4138,7 +4208,7 @@ void EventRuntime::addVariableValue(
                 pParty->requestSpeech(pParty->activeMemberIndex(), SpeechId::InPrison);
             }
 
-            pParty->addEventVariableValue(variable.tag, value);
+            pParty->campaign().addEventVariableValue(variable.tag, value);
             return;
         }
     }
@@ -4149,7 +4219,7 @@ void EventRuntime::addVariableValue(
 
         if (variable.kind == VariableKind::QBits && pParty != nullptr)
         {
-            pParty->setQuestBit(variable.rawId, normalizedValue != 0);
+            pParty->campaign().setQuestBit(variable.rawId, normalizedValue != 0);
         }
         else
         {
@@ -4252,7 +4322,7 @@ void EventRuntime::subtractVariableValue(
         {
             if (pParty != nullptr && variable.index != 0)
             {
-                pParty->setAutonote(variable.index, false);
+                pParty->campaign().setAutonote(variable.index, false);
             }
             else
             {
@@ -4267,7 +4337,8 @@ void EventRuntime::subtractVariableValue(
     {
         if (value > 0 && pParty != nullptr)
         {
-            pParty->clearHistoryEvent(normalizedHistoryContinent(runtimeState.activeHistoryContinentId), variable.index);
+            pParty->campaign().clearHistoryEvent(
+                normalizedHistoryContinent(runtimeState.activeHistoryContinentId), variable.index);
         }
         else if (value > 0)
         {
@@ -4465,6 +4536,12 @@ void EventRuntime::subtractVariableValue(
         return;
     }
 
+    if (variable.kind == VariableKind::Age)
+    {
+        changeMagicalAge(pParty, targetMemberIndices, -value);
+        return;
+    }
+
     if (variable.kind == VariableKind::MapPersistent)
     {
         if (variable.index < runtimeState.mapVars.size())
@@ -4566,7 +4643,7 @@ void EventRuntime::subtractVariableValue(
     {
         if ((variableId >= EvtVariable::Counter1 && variableId <= EvtVariable::Counter10) && pParty != nullptr)
         {
-            pParty->setEventVariableValue(variable.tag, 0);
+            pParty->campaign().setEventVariableValue(variable.tag, 0);
             return;
         }
 
@@ -4599,7 +4676,7 @@ void EventRuntime::subtractVariableValue(
 
         if (pParty != nullptr)
         {
-            pParty->subtractEventVariableValue(variable.tag, value);
+            pParty->campaign().subtractEventVariableValue(variable.tag, value);
             return;
         }
     }
@@ -4608,7 +4685,7 @@ void EventRuntime::subtractVariableValue(
     {
         if (variable.kind == VariableKind::QBits && pParty != nullptr)
         {
-            pParty->setQuestBit(variable.rawId, false);
+            pParty->campaign().setQuestBit(variable.rawId, false);
         }
         else
         {
@@ -4649,8 +4726,8 @@ void EventRuntime::setQuestBitValue(
     bool value,
     const std::vector<size_t> &targetMemberIndices)
 {
-    const bool wasSet = party.hasQuestBit(qbitId);
-    party.setQuestBit(qbitId, value);
+    const bool wasSet = party.campaign().hasQuestBit(qbitId);
+    party.campaign().setQuestBit(qbitId, value);
 
     if (shouldQueueQuestBitFx(&party, qbitId, wasSet ? 1 : 0, value ? 1 : 0))
     {
@@ -5085,7 +5162,7 @@ int luaHasQuestBit(lua_State *pLuaState)
 {
     const Party *pParty = readableParty(pLuaState);
     const uint32_t qbitId = static_cast<uint32_t>(luaL_checkinteger(pLuaState, 1));
-    lua_pushboolean(pLuaState, pParty != nullptr && pParty->hasQuestBit(qbitId));
+    lua_pushboolean(pLuaState, pParty != nullptr && pParty->campaign().hasQuestBit(qbitId));
     return 1;
 }
 
@@ -6420,6 +6497,10 @@ int luaGetHookContext(lua_State *pLuaState)
     lua_setfield(pLuaState, -2, "damageType");
     lua_pushboolean(pLuaState, pContext->byParty);
     lua_setfield(pLuaState, -2, "byParty");
+    lua_pushstring(pLuaState, pContext->attackKind.c_str());
+    lua_setfield(pLuaState, -2, "attack");
+    lua_pushinteger(pLuaState, pContext->weaponItemId);
+    lua_setfield(pLuaState, -2, "weaponItemId");
     lua_pushinteger(pLuaState, pContext->houseId);
     lua_setfield(pLuaState, -2, "houseId");
     lua_pushinteger(pLuaState, pContext->houseServiceType);
@@ -6717,7 +6798,7 @@ int luaMoveNpc(lua_State *pLuaState)
 
     if (pExecutionContext->pParty != nullptr)
     {
-        pExecutionContext->pParty->setNpcHouseOverride(npcId, houseId);
+        pExecutionContext->pParty->campaign().setNpcHouseOverride(npcId, houseId);
     }
 
     return 0;
@@ -6953,6 +7034,25 @@ int luaClearFog(lua_State *pLuaState)
     fog.seconds = static_cast<float>(std::max<lua_Number>(0.0, luaL_optnumber(pLuaState, 1, 0.0)));
     fog.revision = pRuntimeState->scriptedFog.revision + 1;
     pRuntimeState->scriptedFog = fog;
+    return 0;
+}
+
+// evt.SetMist(amount [, seconds]): the share of the map's scene mist drawn, 0 (lifted) to 1 (as authored), faded
+// from the share shown over `seconds` (real time). Not saved: the map's Lua sets it again on load.
+int luaSetMist(lua_State *pLuaState)
+{
+    EventRuntimeState *pRuntimeState = writableRuntimeState(pLuaState);
+
+    if (pRuntimeState == nullptr)
+    {
+        return 0;
+    }
+
+    EventRuntimeState::ScriptedMist mist = {};
+    mist.amount = static_cast<float>(std::clamp<lua_Number>(luaL_checknumber(pLuaState, 1), 0.0, 1.0));
+    mist.seconds = static_cast<float>(std::max<lua_Number>(0.0, luaL_optnumber(pLuaState, 2, 0.0)));
+    mist.revision = pRuntimeState->scriptedMist.revision + 1;
+    pRuntimeState->scriptedMist = mist;
     return 0;
 }
 
@@ -7429,8 +7529,27 @@ int luaMoveToMap(lua_State *pLuaState)
         lua_pop(pLuaState, 1);
     }
 
-    if (transitionTextId != 0 || transitionImageId != 0
-        || (!direct && moveToMapLeavesIndoorDungeon(pExecutionContext, move)))
+    const bool confirmationRequired = transitionTextId != 0 || transitionImageId != 0
+        || (!direct && moveToMapLeavesIndoorDungeon(pExecutionContext, move));
+
+    // A move to another map is a transition request, as a house's or a map edge's is (scenarios assert on it).
+    if (move.mapName.has_value())
+    {
+        EventRuntimeState::MapTransitionTrace trace = {};
+        trace.sourceKind = "lua_event";
+        trace.eventId = move.traceEventId;
+        trace.confirmationRequired = confirmationRequired;
+        trace.destinationMap = *move.mapName;
+        trace.destinationName = move.traceDestinationName;
+        trace.useStartPosition = move.useMapStartPosition;
+        trace.x = move.x;
+        trace.y = move.y;
+        trace.z = move.z;
+        trace.directionDegrees = move.directionDegrees;
+        pRuntimeState->lastMapTransitionRequested = std::move(trace);
+    }
+
+    if (confirmationRequired)
     {
         EventRuntimeState::PendingDialogueContext context = {};
         context.kind = DialogueContextKind::MapTransition;
@@ -7453,6 +7572,7 @@ int luaMoveToMap(lua_State *pLuaState)
             + "," + std::to_string(move.z) + ")"
             + " direction_degrees="
             + (move.directionDegrees.has_value() ? std::to_string(*move.directionDegrees) : std::string("none")));
+        move.forced = true;
         pRuntimeState->pendingMapMove = std::move(move);
     }
 
@@ -7870,7 +7990,7 @@ int luaSetNpcGreeting(lua_State *pLuaState)
 
     if (pExecutionContext->pParty != nullptr)
     {
-        pExecutionContext->pParty->setNpcGreetingOverride(npcId, greetingId);
+        pExecutionContext->pParty->campaign().setNpcGreetingOverride(npcId, greetingId);
     }
 
     return 0;
@@ -7950,7 +8070,7 @@ int luaSetNpcItem(lua_State *pLuaState)
 
     if (pExecutionContext->pParty != nullptr)
     {
-        pExecutionContext->pParty->setNpcItemOverride(npcId, isGive ? itemId : 0);
+        pExecutionContext->pParty->campaign().setNpcItemOverride(npcId, isGive ? itemId : 0);
     }
 
     return 0;
@@ -8135,7 +8255,7 @@ int luaRemoveFollowerProfession(lua_State *pLuaState)
         if (pParty != nullptr)
         {
             pParty->removeHiredNpcFollower(npcId);
-            pParty->setNpcUnavailable(npcId, false);
+            pParty->campaign().setNpcUnavailable(npcId, false);
         }
 
         lua_pushboolean(pLuaState, 1);
@@ -8224,7 +8344,7 @@ int luaAddFollowerNpc(lua_State *pLuaState)
     if (pParty != nullptr)
     {
         pParty->addHiredNpcFollower(follower);
-        pParty->setNpcUnavailable(npcId, true);
+        pParty->campaign().setNpcUnavailable(npcId, true);
     }
 
     lua_pushboolean(pLuaState, 1);
@@ -8262,7 +8382,7 @@ int luaRemoveFollowerNpc(lua_State *pLuaState)
     if (pParty != nullptr)
     {
         pParty->removeHiredNpcFollower(npcId);
-        pParty->setNpcUnavailable(npcId, false);
+        pParty->campaign().setNpcUnavailable(npcId, false);
     }
 
     lua_pushboolean(pLuaState, removed ? 1 : 0);
@@ -8373,7 +8493,7 @@ int luaGetPartyVariable(lua_State *pLuaState)
 {
     const Party *pParty = readableParty(pLuaState);
     const uint16_t variableId = static_cast<uint16_t>(luaL_checkinteger(pLuaState, 1));
-    lua_pushinteger(pLuaState, pParty != nullptr ? pParty->eventVariableValue(variableId) : 0);
+    lua_pushinteger(pLuaState, pParty != nullptr ? pParty->campaign().eventVariableValue(variableId) : 0);
     return 1;
 }
 
@@ -8385,7 +8505,7 @@ int luaSetPartyVariable(lua_State *pLuaState)
 
     if (pParty != nullptr)
     {
-        pParty->setEventVariableValue(variableId, value);
+        pParty->campaign().setEventVariableValue(variableId, value);
     }
 
     return 0;
@@ -8861,7 +8981,7 @@ int luaIsTotalBountyInRange(lua_State *pLuaState)
 {
     const Party *pParty = readableParty(pLuaState);
     const int32_t totalBounty = pParty != nullptr
-        ? pParty->eventVariableValue(static_cast<uint16_t>(EvtVariable::NumBounties))
+        ? pParty->campaign().eventVariableValue(static_cast<uint16_t>(EvtVariable::NumBounties))
         : 0;
     const int32_t minValue = static_cast<int32_t>(luaL_checkinteger(pLuaState, 1));
     const int32_t maxValue = static_cast<int32_t>(luaL_checkinteger(pLuaState, 2));
@@ -9578,6 +9698,44 @@ int luaApplyPartyPrimaryStatBuff(lua_State *pLuaState)
     return 0;
 }
 
+// evt.RemovePartyBuff("Fly"): ends a party buff by its name (PartyBuffId's names: Fly, Levitate, WaterWalk,
+// FeatherFall, ...). Returns whether it was on. D-36's bat storm beats a flying party out of the sky with it.
+int luaRemovePartyBuff(lua_State *pLuaState)
+{
+    static constexpr std::array<std::pair<const char *, PartyBuffId>, PartyBuffCount> Names = {{
+        {"TorchLight", PartyBuffId::TorchLight}, {"WizardEye", PartyBuffId::WizardEye},
+        {"FeatherFall", PartyBuffId::FeatherFall}, {"DetectLife", PartyBuffId::DetectLife},
+        {"WaterWalk", PartyBuffId::WaterWalk}, {"Fly", PartyBuffId::Fly},
+        {"Invisibility", PartyBuffId::Invisibility}, {"Stoneskin", PartyBuffId::Stoneskin},
+        {"DayOfGods", PartyBuffId::DayOfGods}, {"ProtectionFromMagic", PartyBuffId::ProtectionFromMagic},
+        {"FireResistance", PartyBuffId::FireResistance}, {"WaterResistance", PartyBuffId::WaterResistance},
+        {"AirResistance", PartyBuffId::AirResistance}, {"EarthResistance", PartyBuffId::EarthResistance},
+        {"MindResistance", PartyBuffId::MindResistance}, {"BodyResistance", PartyBuffId::BodyResistance},
+        {"Shield", PartyBuffId::Shield}, {"Heroism", PartyBuffId::Heroism}, {"Haste", PartyBuffId::Haste},
+        {"Immolation", PartyBuffId::Immolation}, {"Glamour", PartyBuffId::Glamour},
+        {"Levitate", PartyBuffId::Levitate}, {"FleetFoot", PartyBuffId::FleetFoot},
+    }};
+    const std::string name = luaL_checkstring(pLuaState, 1);
+    const auto found = std::find_if(Names.begin(), Names.end(),
+        [&name](const std::pair<const char *, PartyBuffId> &entry) { return name == entry.first; });
+
+    if (found == Names.end())
+    {
+        return luaL_error(pLuaState, "RemovePartyBuff: unknown party buff '%s'", name.c_str());
+    }
+
+    Party *pParty = writableParty(pLuaState);
+    const bool wasOn = pParty != nullptr && pParty->hasPartyBuff(found->second);
+
+    if (wasOn)
+    {
+        pParty->clearPartyBuff(found->second);
+    }
+
+    lua_pushboolean(pLuaState, wasOn ? 1 : 0);
+    return 1;
+}
+
 int luaGiveItem(lua_State *pLuaState)
 {
     EventRuntimeState *pRuntimeState = writableRuntimeState(pLuaState);
@@ -10127,7 +10285,7 @@ int luaSetNpcTopic(lua_State *pLuaState)
 
     if (pExecutionContext->pParty != nullptr)
     {
-        pExecutionContext->pParty->setNpcTopicOverride(npcId, topicSlotIndex, topicId);
+        pExecutionContext->pParty->campaign().setNpcTopicOverride(npcId, topicSlotIndex, topicId);
     }
 
     return 0;
@@ -10143,7 +10301,7 @@ int luaSetNpcGroupNews(lua_State *pLuaState)
 
     if (pExecutionContext->pParty != nullptr)
     {
-        pExecutionContext->pParty->setNpcGroupNews(groupId, newsId);
+        pExecutionContext->pParty->campaign().setNpcGroupNews(groupId, newsId);
     }
 
     return 0;
@@ -10395,6 +10553,7 @@ void registerEventBindings(LuaSessionCache &session)
         "SetPersistentItemMechanismVariant",
         luaSetPersistentItemMechanismVariant);
     registerLuaFunction(pLuaState, "ApplyPartyPrimaryStatBuff", luaApplyPartyPrimaryStatBuff);
+    registerLuaFunction(pLuaState, "RemovePartyBuff", luaRemovePartyBuff);
     registerLuaFunction(pLuaState, "FaceExpression", luaFaceExpression);
     registerLuaFunction(pLuaState, "DamagePlayer", luaDamagePlayer);
     registerLuaFunction(pLuaState, "SetSnow", luaSetSnow);
@@ -10424,6 +10583,7 @@ void registerEventBindings(LuaSessionCache &session)
     registerLuaFunction(pLuaState, "SpinMover", luaSpinMover);
     registerLuaFunction(pLuaState, "SetFog", luaSetFog);
     registerLuaFunction(pLuaState, "ClearFog", luaClearFog);
+    registerLuaFunction(pLuaState, "SetMist", luaSetMist);
     registerLuaFunction(pLuaState, "RegisterOutdoorModelMechanism", luaRegisterOutdoorModelMechanism);
     registerLuaFunction(pLuaState, "SetOutdoorModelMechanismState", luaSetOutdoorModelMechanismState);
     registerLuaFunction(pLuaState, "Add", luaAdd);
@@ -10955,6 +11115,82 @@ void clearTransientEventRuntimeState(EventRuntimeState &runtimeState)
     runtimeState.pendingSounds.clear();
     runtimeState.lastAffectedMechanismIds.clear();
     runtimeState.lastActivationResult.reset();
+}
+
+void keepTransientEventRuntimeState(EventRuntimeState &runtimeState, const EventRuntimeState &source)
+{
+    // The fields clearTransientEventRuntimeState clears, one for one.
+    runtimeState.actorHostilityRequests = source.actorHostilityRequests;
+    runtimeState.actorGroupHostilityRequests = source.actorGroupHostilityRequests;
+    runtimeState.dialogueState = source.dialogueState;
+    runtimeState.activeDecorationContext = source.activeDecorationContext;
+    runtimeState.activeHookContext = source.activeHookContext;
+    runtimeState.messages = source.messages;
+    runtimeState.statusMessages = source.statusMessages;
+    runtimeState.statusMessageSeconds = source.statusMessageSeconds;
+    runtimeState.openedChestIds = source.openedChestIds;
+    runtimeState.openedChestRequests = source.openedChestRequests;
+    runtimeState.activeEventOpenedByTelekinesis = source.activeEventOpenedByTelekinesis;
+    runtimeState.activeEventSpellId = source.activeEventSpellId;
+    runtimeState.grantedItems = source.grantedItems;
+    runtimeState.grantedItemIds = source.grantedItemIds;
+    runtimeState.clearHeldItemRequest = source.clearHeldItemRequest;
+    runtimeState.takenHeldItemId = source.takenHeldItemId;
+    runtimeState.removedItemIds = source.removedItemIds;
+    runtimeState.grantedAwardIds = source.grantedAwardIds;
+    runtimeState.removedAwardIds = source.removedAwardIds;
+    runtimeState.portraitFxRequests = source.portraitFxRequests;
+    runtimeState.spellFxRequests = source.spellFxRequests;
+    runtimeState.pendingDialogueContext = source.pendingDialogueContext;
+    runtimeState.pendingMapMove = source.pendingMapMove;
+    runtimeState.pendingMovie = source.pendingMovie;
+    runtimeState.pendingCinematic = source.pendingCinematic;
+    runtimeState.pendingCinematicSkip = source.pendingCinematicSkip;
+    runtimeState.cameraShakeRequests = source.cameraShakeRequests;
+    runtimeState.pendingReturnToMainMenu = source.pendingReturnToMainMenu;
+    runtimeState.pendingInputPrompt = source.pendingInputPrompt;
+    runtimeState.pendingArcomageGame = source.pendingArcomageGame;
+    runtimeState.pendingSounds = source.pendingSounds;
+    runtimeState.lastAffectedMechanismIds = source.lastAffectedMechanismIds;
+    runtimeState.lastActivationResult = source.lastActivationResult;
+}
+
+void swapTransientEventRuntimeState(EventRuntimeState &first, EventRuntimeState &second)
+{
+    // The fields clearTransientEventRuntimeState clears, one for one.
+    std::swap(first.actorHostilityRequests, second.actorHostilityRequests);
+    std::swap(first.actorGroupHostilityRequests, second.actorGroupHostilityRequests);
+    std::swap(first.dialogueState, second.dialogueState);
+    std::swap(first.activeDecorationContext, second.activeDecorationContext);
+    std::swap(first.activeHookContext, second.activeHookContext);
+    std::swap(first.messages, second.messages);
+    std::swap(first.statusMessages, second.statusMessages);
+    std::swap(first.statusMessageSeconds, second.statusMessageSeconds);
+    std::swap(first.openedChestIds, second.openedChestIds);
+    std::swap(first.openedChestRequests, second.openedChestRequests);
+    std::swap(first.activeEventOpenedByTelekinesis, second.activeEventOpenedByTelekinesis);
+    std::swap(first.activeEventSpellId, second.activeEventSpellId);
+    std::swap(first.grantedItems, second.grantedItems);
+    std::swap(first.grantedItemIds, second.grantedItemIds);
+    std::swap(first.clearHeldItemRequest, second.clearHeldItemRequest);
+    std::swap(first.takenHeldItemId, second.takenHeldItemId);
+    std::swap(first.removedItemIds, second.removedItemIds);
+    std::swap(first.grantedAwardIds, second.grantedAwardIds);
+    std::swap(first.removedAwardIds, second.removedAwardIds);
+    std::swap(first.portraitFxRequests, second.portraitFxRequests);
+    std::swap(first.spellFxRequests, second.spellFxRequests);
+    std::swap(first.pendingDialogueContext, second.pendingDialogueContext);
+    std::swap(first.pendingMapMove, second.pendingMapMove);
+    std::swap(first.pendingMovie, second.pendingMovie);
+    std::swap(first.pendingCinematic, second.pendingCinematic);
+    std::swap(first.pendingCinematicSkip, second.pendingCinematicSkip);
+    std::swap(first.cameraShakeRequests, second.cameraShakeRequests);
+    std::swap(first.pendingReturnToMainMenu, second.pendingReturnToMainMenu);
+    std::swap(first.pendingInputPrompt, second.pendingInputPrompt);
+    std::swap(first.pendingArcomageGame, second.pendingArcomageGame);
+    std::swap(first.pendingSounds, second.pendingSounds);
+    std::swap(first.lastAffectedMechanismIds, second.lastAffectedMechanismIds);
+    std::swap(first.lastActivationResult, second.lastActivationResult);
 }
 
 float statusMessageSeconds(const EventRuntimeState &runtimeState, size_t index)
@@ -11843,6 +12079,12 @@ int32_t EventRuntime::getInventoryItemCount(
 {
     int32_t itemCount = pParty != nullptr ? pParty->inventoryItemCount(objectDescriptionId, memberIndex) : 0;
 
+    // The originals' Cmp of an inventory item finds the one on the cursor too, whoever is asked.
+    if (pParty != nullptr && objectDescriptionId != 0 && pParty->heldItemIdForQueries() == objectDescriptionId)
+    {
+        ++itemCount;
+    }
+
     if (!memberIndex)
     {
         for (const InventoryItem &item : runtimeState.grantedItems)
@@ -11858,6 +12100,18 @@ int32_t EventRuntime::getInventoryItemCount(
             if (grantedItemId == objectDescriptionId)
             {
                 itemCount += 1;
+            }
+        }
+
+        // Given items that wait for room are the party's already.
+        if (pParty != nullptr)
+        {
+            for (const InventoryItem &item : pParty->waitingGivenItems())
+            {
+                if (item.objectDescriptionId == objectDescriptionId)
+                {
+                    itemCount += static_cast<int32_t>(std::max<uint32_t>(1, item.quantity));
+                }
             }
         }
 

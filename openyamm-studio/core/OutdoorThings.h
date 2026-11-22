@@ -76,6 +76,11 @@ struct OutdoorActorPlan
     bool hostile = false;
     // Not there until an event shows its group (`hidden: true`; the effect show_actors).
     bool hidden = false;
+    // Its home radius (`leash`, the scene's leash_radius), 0 for none.
+    int leash = 0;
+    // The item it carries (`carries: <item number>`, the scene's carried_item_id): left in its corpse or dropped where
+    // it dies, as a quest item a monster holds (F15); 0 for none.
+    int carriedItem = 0;
     // What the monster tables give it.
     int hitPoints = 0;
     int height = 0;
@@ -99,6 +104,8 @@ struct OutdoorThings
     std::vector<bool> decorationHidden;
     std::vector<OutdoorChestPlan> chests;
     std::vector<OutdoorActorPlan> actors;
+    // sketch.yml `items`: items that lie on the ground from the start (the scene's sprite objects).
+    std::vector<LoweredItem> items;
     // Events the game runs when the map is entered.
     std::vector<int> onLoad;
     // Events the game runs when the party leaves the map (`trigger: leave`).
@@ -122,13 +129,15 @@ struct OutdoorThings
     // what the build's hostility check reads.
     std::set<int> peacefulGroups;
     std::vector<MonsterRelationRow> relations;
+    // sketch.yml `sounds` (E9): the scene's placed ambient sounds, as objects.yml's indoors.
+    std::vector<LoweredAmbientSound> sounds;
 };
 
 // Reads the sketch's `structures`, `actors` and `events` and raises what they describe. Event, chest and
 // container numbers come from `ids` (ids.lock.yml), which takes the new ones; what the events test and do is
 // written by `words`. `assetRoot` is where the monster
 // and decoration tables are read from; empty when there is none (what needs a table is then left out, with a
-// warning). False with issues when the sketch asks for what cannot be built.
+// warning). `mountRoot`, read in front of it, and it hold the installed maps whose arrivals `into` names. False with issues when the sketch asks for what cannot be built.
 bool raiseOutdoorThings(
     const Project &project,
     const LoweredOutdoorMap &lowered,
@@ -137,5 +146,6 @@ bool raiseOutdoorThings(
     OutdoorEventWords &words,
     OutdoorThings &things,
     std::vector<ProjectIssue> &issues,
-    std::vector<std::string> &warnings);
+    std::vector<std::string> &warnings,
+    const std::filesystem::path &mountRoot = std::filesystem::path());
 }

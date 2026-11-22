@@ -1,0 +1,17 @@
+# F4-R1 (2026-11-22): a 3D-model monster without a release socket launches from its body at 0.7 x min(collision
+# height, drawn model top). MM6's Air Elemental (row 525, ElemAir C) is 240 tall; its model is drawn 197 tall (ElemAir
+# A's 148 times the sprites' scale_reference ratio 0.8 / 0.6). Its bolt left 168 above its feet, near the top of the
+# model, and now leaves 0.7 x 197 = 138.
+id: mm6.air_elemental_launch_height
+title: 'MM6: the Air Elemental fires from inside its model, not from near its top (F4-R1)'
+world: mm6
+mode: faithful
+steps:
+- new_game_flow:
+    start_map: oute3.odm
+- setup_shortcut: {kind: immortal, value: true}
+- spawn_actor: {monster_id: 525, near_party: true}
+- advance_runtime: {seconds: 0.5}
+- console: {line: "projectile actor last attack1 at_party", expect_contains: "Projectile fired"}
+- assert:
+    projectiles: {source_monster_id: 525, source_actor_index: last, max_source_rise: 139, min_count: 1, report: true}

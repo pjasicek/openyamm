@@ -1,5 +1,6 @@
 #include "doctest/doctest.h"
 
+#include "game/events/EventDialogContent.h"
 #include "game/gameplay/GameplayDialogController.h"
 #include "game/maps/MapRegistry.h"
 #include "game/mm9/Mm9MapTransition.h"
@@ -308,4 +309,212 @@ TEST_CASE("MM9 region walk needs days on the road and two top-level areas")
     CHECK_FALSE(OpenYAMM::Game::mm9RegionWalk(1, &mapEntries, "sturmford.blv", "anskramkeep.blv"));
     CHECK_FALSE(OpenYAMM::Game::mm9RegionWalk(2, &mapEntries, "sturmford.blv", "missing.blv"));
     CHECK_FALSE(OpenYAMM::Game::mm9RegionWalk(2, nullptr, "sturmford.blv", "drangheim.blv"));
+}
+
+namespace
+{
+// A dungeon map's event whose step 2 leaves for an ODM: the move asks first, as evt.MoveToMap does indoors.
+class LeavingChoiceTestWorldRuntime : public OpenYAMM::Tests::PartySpellTestWorldRuntime
+{
+public:
+    bool executeMapEvent(
+        uint16_t eventId,
+        size_t &previousMessageCount,
+        std::optional<uint8_t> continueStep = std::nullopt) override
+    {
+        (void)previousMessageCount;
+        executedStep = continueStep.value_or(0);
+
+        if (eventId == 11 && continueStep == 2)
+        {
+            OpenYAMM::Game::EventRuntimeState::PendingDialogueContext context = {};
+            context.kind = OpenYAMM::Game::DialogueContextKind::MapTransition;
+            OpenYAMM::Game::EventRuntimeState::PendingMapMove move = {};
+            move.mapName = "outside.odm";
+            context.transitionMapMove = std::move(move);
+            eventRuntimeState()->pendingDialogueContext = std::move(context);
+        }
+
+        return true;
+    }
+
+    uint8_t executedStep = 0;
+};
+}
+
+TEST_CASE("a choice answer that leaves a dungeon for an outdoor map shows the leave window next")
+{
+    // A button of AskChoiceWithAnswerSteps (a mirror's destinations) whose step moves out of a dungeon to an ODM: the
+    // move's window shows next, as after a typed answer; it was dropped with the choice box (decider D-24's check).
+    OpenYAMM::Game::Party party;
+    party.seed(OpenYAMM::Tests::createSpellRegressionPartySeed());
+    LeavingChoiceTestWorldRuntime worldRuntime;
+    worldRuntime.bindParty(&party);
+    OpenYAMM::Game::EventRuntimeState eventRuntimeState;
+    worldRuntime.bindEventRuntimeState(&eventRuntimeState);
+
+    OpenYAMM::Game::EventRuntimeState::PendingInputPrompt prompt = {};
+    prompt.kind = OpenYAMM::Game::EventRuntimeState::PendingInputPrompt::Kind::Choice;
+    prompt.eventId = 11;
+    prompt.continueStep = 1;
+    prompt.answers = {"Yes"};
+    prompt.answerContinueSteps = {2};
+    eventRuntimeState.pendingInputPrompt = prompt;
+    OpenYAMM::Game::EventRuntimeState::PendingDialogueContext eventContext = {};
+    eventContext.kind = OpenYAMM::Game::DialogueContextKind::MapEvent;
+    eventRuntimeState.pendingDialogueContext = eventContext;
+
+    OpenYAMM::Game::GameplayUiController uiController;
+    OpenYAMM::Game::EventDialogContent &dialog = uiController.eventDialog().content;
+    size_t &selectionIndex = uiController.eventDialog().selectionIndex;
+    dialog.isActive = true;
+    dialog.actions.push_back({.kind = OpenYAMM::Game::EventDialogActionKind::EventChoice, .id = 0, .label = "Yes"});
+    selectionIndex = 0;
+    OpenYAMM::Game::GameplayDialogController::Context context = {
+        .uiController = uiController,
+        .eventRuntimeState = eventRuntimeState,
+        .activeEventDialog = dialog,
+        .selectionIndex = selectionIndex,
+        .pParty = &party,
+        .pWorldRuntime = &worldRuntime,
+    };
+    const OpenYAMM::Game::GameplayDialogController controller;
+    const OpenYAMM::Game::GameplayDialogController::Result result = controller.executeActiveDialogAction(context);
+    CHECK_EQ(worldRuntime.executedStep, 2);
+    CHECK(result.shouldOpenPendingEventDialog);
+    CHECK_FALSE(result.shouldCloseActiveDialog);
+    REQUIRE(eventRuntimeState.pendingDialogueContext.has_value());
+    CHECK(eventRuntimeState.pendingDialogueContext->kind == OpenYAMM::Game::DialogueContextKind::MapTransition);
+    REQUIRE(eventRuntimeState.pendingDialogueContext->transitionMapMove.has_value());
+    CHECK(eventRuntimeState.pendingDialogueContext->transitionMapMove->mapName == std::optional<std::string>(
+        "outside.odm"));
+}
+
+namespace
+{
+// A conversation's topic 45401 whose step 1 answers: the world runs the topic, not a map event.
+class TopicChoiceTestWorldRuntime : public OpenYAMM::Tests::PartySpellTestWorldRuntime
+{
+public:
+    bool executeNpcTopicEvent(
+        uint16_t eventId,
+        size_t &previousMessageCount,
+        std::optional<uint8_t> continueStep = std::nullopt) override
+    {
+        previousMessageCount = eventRuntimeState()->messages.size();
+        topicEventId = eventId;
+        executedStep = continueStep.value_or(0);
+        eventRuntimeState()->messages.push_back("Sold.");
+        return true;
+    }
+
+    bool executeMapEvent(uint16_t, size_t &, std::optional<uint8_t> = std::nullopt) override
+    {
+        mapEventRan = true;
+        return true;
+    }
+
+    uint16_t topicEventId = 0;
+    uint8_t executedStep = 0;
+    bool mapEventRan = false;
+};
+}
+
+TEST_CASE("a topic's choice shows its answers as buttons and continues the topic in the conversation")
+{
+    // Cyrano's sale (Xeen DD-26): AskChoiceWithAnswerSteps in an NPC topic gives Yes/No buttons in place of the
+    // topics, and a click continues the topic at the answer's step with the conversation kept (A1, merge point 28).
+    OpenYAMM::Game::Party party;
+    party.seed(OpenYAMM::Tests::createSpellRegressionPartySeed());
+    TopicChoiceTestWorldRuntime worldRuntime;
+    worldRuntime.bindParty(&party);
+    OpenYAMM::Game::EventRuntimeState eventRuntimeState;
+    worldRuntime.bindEventRuntimeState(&eventRuntimeState);
+
+    OpenYAMM::Game::EventRuntimeState::PendingInputPrompt prompt = {};
+    prompt.kind = OpenYAMM::Game::EventRuntimeState::PendingInputPrompt::Kind::Choice;
+    prompt.eventId = 45401;
+    prompt.continueStep = 2;
+    prompt.answers = {"Yes", "No"};
+    prompt.answerContinueSteps = {1, 2};
+    eventRuntimeState.pendingInputPrompt = prompt;
+    eventRuntimeState.messages.push_back("Only 25,000 gold. What do you say?");
+    OpenYAMM::Game::EventRuntimeState::PendingDialogueContext talk = {};
+    talk.kind = OpenYAMM::Game::DialogueContextKind::NpcTalk;
+    talk.sourceId = 5614;
+    eventRuntimeState.pendingDialogueContext = talk;
+
+    OpenYAMM::Game::GameplayUiController uiController;
+    OpenYAMM::Game::EventDialogContent &dialog = uiController.eventDialog().content;
+    dialog = OpenYAMM::Game::buildEventDialogContent(eventRuntimeState, 0, true, nullptr, nullptr, nullptr, nullptr,
+        nullptr, nullptr, nullptr, &party, &worldRuntime, 0.0f, nullptr, nullptr, nullptr, nullptr, nullptr);
+    REQUIRE(dialog.isActive);
+    REQUIRE_EQ(dialog.actions.size(), 2u);
+    CHECK(dialog.actions[0].kind == OpenYAMM::Game::EventDialogActionKind::EventChoice);
+    CHECK_EQ(dialog.actions[0].label, "Yes");
+    CHECK_EQ(dialog.actions[1].label, "No");
+
+    size_t &selectionIndex = uiController.eventDialog().selectionIndex;
+    selectionIndex = 0;
+    OpenYAMM::Game::GameplayDialogController::Context context = {
+        .uiController = uiController,
+        .eventRuntimeState = eventRuntimeState,
+        .activeEventDialog = dialog,
+        .selectionIndex = selectionIndex,
+        .pParty = &party,
+        .pWorldRuntime = &worldRuntime,
+    };
+    const OpenYAMM::Game::GameplayDialogController controller;
+    const OpenYAMM::Game::GameplayDialogController::Result result = controller.executeActiveDialogAction(context);
+    CHECK_FALSE(worldRuntime.mapEventRan);
+    CHECK_EQ(worldRuntime.topicEventId, 45401);
+    CHECK_EQ(worldRuntime.executedStep, 1);
+    CHECK(result.shouldOpenPendingEventDialog);
+    CHECK_FALSE(result.shouldCloseActiveDialog);
+    CHECK_FALSE(eventRuntimeState.pendingInputPrompt.has_value());
+    REQUIRE(eventRuntimeState.pendingDialogueContext.has_value());
+    CHECK(eventRuntimeState.pendingDialogueContext->kind == OpenYAMM::Game::DialogueContextKind::NpcTalk);
+    CHECK_EQ(eventRuntimeState.pendingDialogueContext->sourceId, 5614u);
+}
+
+TEST_CASE("escape from a topic's unanswered choice drops its buttons before the dialog goes back")
+{
+    // A resident's topic asks Yes/No (AskChoiceWithAnswerSteps); Escape back to the house's menu used to keep the
+    // pending choice, and its buttons replaced the menu's topics there (A1, merge point 29).
+    OpenYAMM::Game::Party party;
+    party.seed(OpenYAMM::Tests::createSpellRegressionPartySeed());
+    TopicChoiceTestWorldRuntime worldRuntime;
+    worldRuntime.bindParty(&party);
+    OpenYAMM::Game::EventRuntimeState eventRuntimeState;
+    worldRuntime.bindEventRuntimeState(&eventRuntimeState);
+
+    OpenYAMM::Game::EventRuntimeState::PendingInputPrompt prompt = {};
+    prompt.kind = OpenYAMM::Game::EventRuntimeState::PendingInputPrompt::Kind::Choice;
+    prompt.eventId = 45401;
+    prompt.continueStep = 2;
+    prompt.answers = {"Yes", "No"};
+    prompt.answerContinueSteps = {1, 2};
+    eventRuntimeState.pendingInputPrompt = prompt;
+    eventRuntimeState.dialogueState.menuStack.push_back({});
+
+    OpenYAMM::Game::GameplayUiController uiController;
+    OpenYAMM::Game::EventDialogContent &dialog = uiController.eventDialog().content;
+    dialog.isActive = true;
+    dialog.sourceId = 7;
+    dialog.actions.push_back({.kind = OpenYAMM::Game::EventDialogActionKind::EventChoice, .id = 0, .label = "Yes"});
+    size_t &selectionIndex = uiController.eventDialog().selectionIndex;
+    OpenYAMM::Game::GameplayDialogController::Context context = {
+        .uiController = uiController,
+        .eventRuntimeState = eventRuntimeState,
+        .activeEventDialog = dialog,
+        .selectionIndex = selectionIndex,
+        .pParty = &party,
+        .pWorldRuntime = &worldRuntime,
+    };
+    const OpenYAMM::Game::GameplayDialogController controller;
+    const OpenYAMM::Game::GameplayDialogController::CloseDialogRequestResult result =
+        controller.handleDialogueCloseRequest(context);
+    CHECK(result.shouldOpenPendingEventDialog);
+    CHECK_FALSE(eventRuntimeState.pendingInputPrompt.has_value());
+    CHECK_EQ(worldRuntime.executedStep, 0);
 }

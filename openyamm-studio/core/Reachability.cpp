@@ -2274,6 +2274,24 @@ SolveResult solveMap(const LoadedMap &map, const std::string &eventFlowJson, Wal
         }
     }
 
+    // A destructible's `on_destroyed` runs when the party breaks it (a blow or a missile): from the sector whose floor
+    // lies under its centre.
+    for (const Game::IndoorDestructible &thing :
+        map.indoorScene ? map.indoorScene->destructibles : std::vector<Game::IndoorDestructible>())
+    {
+        if (thing.destroyedEvent == 0)
+        {
+            continue;
+        }
+
+        const Game::PathFloorSample under = startMap.floorAt({thing.center[0], thing.center[1], thing.center[2]});
+
+        if (under.hasFloor && under.facetIndex < startMap.facets().size())
+        {
+            const std::set<size_t> sectors = sectorsOf(indoor, {startMap.facets()[under.facetIndex].sourceId});
+            sectorsByEvent[thing.destroyedEvent].insert(sectors.begin(), sectors.end());
+        }
+    }
     // Events the engine runs by itself.
     std::set<int> always;
 

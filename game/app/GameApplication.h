@@ -54,6 +54,7 @@ namespace OpenYAMM::Game
 {
 class HeadlessGameplayDiagnostics;
 struct MawTestPartyCatalog;
+class CoopSession;
 struct ScenarioGameApplicationAccess;
 struct GameApplicationTestAccess;
 
@@ -61,6 +62,7 @@ class GameApplication
 {
 public:
     explicit GameApplication(const Engine::ApplicationConfig &config);
+    ~GameApplication();
 
     int run();
 
@@ -170,6 +172,7 @@ private:
 
     friend class HeadlessGameplayDiagnostics;
     friend struct ScenarioGameApplicationAccess;
+    friend class CoopSession;
     friend struct GameApplicationTestAccess;
 
     bool loadGameData(Engine::AssetFileSystem &assetFileSystem);
@@ -270,6 +273,10 @@ private:
     void restoreSavedOutdoorWorldStateForSelectedMap();
     void updateQuickSaveInput();
     void updateDoubleSpeedInput();
+    // A co-op session's chat and pointing: the keys that open the line to type and point at the place looked at,
+    // what the others said into the log, and the line being typed on the status bar.
+    void updateCoopChat(int width, int height);
+    bool handleCoopChatSdlEvent(const SDL_Event &event);
     float gameplaySpeed() const;
     void updateGameplayTraceSnapshotHotkeys();
     bool processPendingQuickSaveInput();
@@ -280,12 +287,36 @@ private:
         const std::string &saveName = "",
         const std::vector<uint8_t> &previewBmp = {});
     bool quickLoadFromPath(const std::filesystem::path &path, bool initializeView);
+    // Puts the game on the state of a save that was read: its ruleset, world, map and party. pPath names the file it
+    // came from; null for a world a co-op host sent, which has no file and no playthrough here.
+    bool loadSaveData(GameSaveData &loadedData, bool initializeView, const std::filesystem::path *pPath);
+    // A co-op session between games (game/coop/CoopSession.h): the frame's part of it, and what the host sends a
+    // guest's game to load: a save of this game as it stands, cut down to the map being played and holding the
+    // guest's character in place of the host's.
+    void updateCoopSession(float realDeltaSeconds);
+    // What a co-op session asks this game's player: another player's travel proposal (the map transition dialogue,
+    // OK or Cancel) and, with the party down long enough, the return to where the players arrived (the Use key).
+    void updateCoopPrompts(float realDeltaSeconds);
+    // The other players' bodies in the world and the names above them.
+    void syncCoopPlayerBodies(WorldFxSystem &worldFx, float deltaSeconds);
+    // The host's world as a save with that guest's character in it. The one map everyone is on for a guest's game to
+    // load when it joins or the map changes; with `wholeWorld` every map's state, for a copy the guest keeps.
+    std::optional<GameSaveData> buildCoopWorldState(PlayerId guest, bool wholeWorld = false);
+    // What two games must have alike to play one world, a line each: the content packages with their schemas, the
+    // named mods in the order they mount, the ruleset. A co-op host compares a joining game's lines with its own
+    // (coopContentDifference) before it lets it in.
+    std::vector<std::string> coopContentIdentity() const;
+    // Whether the map the last load built had a saved state of another layout, which was reset (a co-op guest's copy
+    // of the host's map is not the host's).
+    bool lastMapLoadResetState() const;
     // What saving costs in food at the party's place now (MAW from Nightmare), zero without a party.
     SaveFoodCost saveFoodCost();
     void openMainMenuScreen();
     void openMenuScreen(bool paused);
     void openPauseMenuScreen();
     void openSaveGameScreen();
+    // The game menu's Multiplayer screen: hosting, joining and the session.
+    void openCoopMenuScreen();
     void resumeMenuGameplay();
     bool applyMenuSettings(const GameSettings &settings, bool persist, std::string &error);
     void openLoadGameScreen(bool returnToGameplayMenu = false, const std::string &source = "main_menu");
@@ -301,14 +332,18 @@ private:
         const NewGameOptions &options,
         bool initializeView);
     bool loadSessionFromPath(const std::filesystem::path &path);
+    // mapFileName: the map being loaded, for its continent's loading pages; empty when not known yet.
     void beginLoadingOverlay(
-        LoadingOverlayScreen::Presentation presentation = LoadingOverlayScreen::Presentation::Fullscreen);
+        LoadingOverlayScreen::Presentation presentation = LoadingOverlayScreen::Presentation::Fullscreen,
+        const std::string &mapFileName = {});
+    std::vector<std::string> loadingPagesForMap(const std::string &mapFileName);
     void drawLoadingOverlay();
     uint32_t renderLoadingOverlayProgress(int progressPercent);
     void prepareGameplayRendering();
     void pumpLoadingOverlayAnimation();
     void completeLoadingOverlay();
     void cancelLoadingOverlay();
+    // keepLootView: a move inside the map leaves an open chest or corpse open, and an event's message window too.
     void closeTransientGameplayUiForMapMove(bool keepLootView);
     std::filesystem::path settingsFilePath() const;
     bool saveSettings(const GameSettings &settings, std::string &error) const;
@@ -333,6 +368,39 @@ private:
     std::vector<std::string> resolvePendingInputAnswers(
         const EventRuntimeState::PendingInputPrompt &prompt) const;
     void renderFrame(int width, int height, float mouseWheelDelta, float deltaSeconds);
+    // How a frame shows a co-op session's world that this game is not playing in front.
+    enum class HiddenWorldFrame
+    {
+        // Drawn behind a screen that leaves it visible (the game menu): the indoor map's own simulation runs when it
+        // is drawn, as in any drawn frame.
+        DrawnBehindScreen,
+        // Not drawn, behind a screen that covers it (a card game).
+        CoveredByScreen,
+        // Nothing is presented at all: the window has no drawable.
+        NotPresented,
+    };
+    // A co-op session's world for one frame this game does not play in front: the gameplay update with nothing held,
+    // the map's update and, where the frame does not draw it, the indoor map's own simulation. Nothing in a
+    // single-player game, and nothing under a screen that holds the session's world (IScreen::holdsCoopWorld).
+    void advanceWorldBehindScreens(int width, int height, float deltaSeconds, HiddenWorldFrame frame);
+    // The frame of a window without a drawable (EngineApplication::setUndrawnFrameCallback), and of the console's
+    // `render undrawn on`.
+    void advanceUndrawnFrame(float deltaSeconds);
+    // A downed player's return ("A downed player" in the co-op design): after GameSession::DownedReturnSeconds its
+    // party stands up where the players arrived on the map and pays the defeat's price alone. False with the reason
+    // when it may not.
+    bool returnDownedPlayer(PlayerId player, std::string &message);
+    // A host's game, for testing: every player is put beside `around` (the host when LocalPlayer), or only `only`
+    // is. False with the reason when there is no such player or map.
+    bool coopSyncPlayers(PlayerId around, std::optional<PlayerId> only, std::string &message);
+    bool coopTestCommandsAllowed() const;
+    // Which member of the party stands for this player in the other players' games (GameSettings::coopAvatarMember,
+    // 0 the first): kept in the settings, and a host this game has joined is told.
+    void setCoopAvatarMember(size_t member);
+    // What a frame shows of the world besides its geometry: effects, decoration and actor poses, music, actor sounds
+    // and models, ambient sounds. worldDeltaSeconds is 0 for a held world. False when a needed resource failed to
+    // load, which ends the frame.
+    bool presentWorldFrame(IGameplayWorldRuntime &worldRuntime, float worldDeltaSeconds, float frameDeltaSeconds);
     void updateScreenshotCaptureFrame();
     bool applyScreenshotTourShotPose(const ScreenshotTourShot &shot);
     // Sets up an AI arena on the current map (game/debug/AiArena.h): its map must be loaded. logPath: where the trace
@@ -372,6 +440,46 @@ private:
     GameAudioSystem m_gameAudioSystem;
     WorldAmbientSoundRuntime m_worldAmbientSounds;
     GameSession m_gameSession;
+    std::unique_ptr<CoopSession> m_pCoopSession;
+    // Counts the maps loaded, so that a co-op host knows when its guests need another map's state.
+    uint32_t m_mapLoadSerial = 0;
+    // The travel proposal this game's player was last asked about, and when the downed player was last told of the
+    // return.
+    // The travel vote's window as it was last drawn (what it said, in one number), and the trip it is about.
+    uint64_t m_coopVoteKey = 0;
+    EventRuntimeState::PendingMapMove m_coopVoteMove;
+    float m_coopReturnHintSeconds = 0.0f;
+    // How long this game's own party has been down in a co-op session, for the prompt's countdown.
+    float m_coopDownSeconds = 0.0f;
+    // This machine's address on its network as the Multiplayer screen shows it, asked of the system every few
+    // seconds and not on every frame the screen is drawn.
+    uint32_t m_coopLocalAddressHost = 0;
+    uint32_t m_coopLocalAddressAtMs = 0;
+    bool m_coopLocalAddressKnown = false;
+    // The body each other player is drawn with, found once per player and looks (CoopBodies.h: a search of the
+    // model table by class, race and sex).
+    struct CoopBodyChoice
+    {
+        PlayerId player = LocalPlayer;
+        uint32_t raceId = 0;
+        uint32_t sexId = 0;
+        std::string className;
+        std::string descriptor;
+    };
+    std::vector<CoopBodyChoice> m_coopBodyChoices;
+    // A party's hit points at its last `coop mark` (the console's test command), for `coop check <p> hp_lost`.
+    std::vector<std::pair<PlayerId, long long>> m_coopHealthMarks;
+    // The title menu's Multiplayer was chosen: its screen opens when the game it continues or starts is running.
+    bool m_openCoopMenuInGame = false;
+    // The gameplay tables and scripts of this installation as one number (coopContentIdentity), worked out once.
+    mutable std::optional<uint64_t> m_coopGameplayDigest;
+    // The line the player is typing to the others; none while not typing.
+    std::optional<std::string> m_coopChatEntry;
+    // The session's count of lines said, as of the last one put into the log.
+    uint32_t m_coopChatShownSerial = 0;
+    // Whether this session's first line of chat has opened the log panel yet.
+    bool m_coopChatOpenedPanel = false;
+    float m_coopRestHintSeconds = 0.0f;
     GameInputSystem m_gameInputSystem;
     // The gameplay HUD's screen when the last frame's input was read: a window that opened from play since then is
     // given the click guard (GameInputSystem::guardClicksAfterWindowOpened).
@@ -394,6 +502,8 @@ private:
     bool m_renderHud = true;
     bool m_renderInstancing = true;
     bool m_renderFreezeWorld = false;
+    // The console's `render undrawn`: frames are taken as a window without a drawable takes them.
+    bool m_renderUndrawnFrames = false;
     // The portal debug view's timings averaged over the last second, and the running sums of the current one.
     struct PortalDebugAverages
     {
@@ -473,6 +583,7 @@ private:
     // The status notice of a map whose saved state was reset when it was entered (resetSavedMapStateOfAnotherLayout),
     // shown once its view is up: building the view clears the status bar.
     std::string m_mapStateResetNotice;
+    bool m_lastMapLoadResetState = false;
     FramePerformanceDiagnostics m_framePerformanceDiagnostics;
     GameplayUiRuntime::HudDrawListStats m_loggedHudDrawListStats;
     uint32_t m_lastFramePerformanceLogTick = 0;

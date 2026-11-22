@@ -30,6 +30,10 @@ std::optional<LiquidKind> parseKind(const std::string &value)
     {
         return LiquidKind::Lava;
     }
+    if (normalizedValue == "mirror")
+    {
+        return LiquidKind::Mirror;
+    }
     return std::nullopt;
 }
 
@@ -125,7 +129,7 @@ bool LiquidTable::loadFromYaml(const std::string &yamlText, std::string &errorMe
             ? parseKind(liquidNode["kind"].as<std::string>()) : std::nullopt;
         if (!kind)
         {
-            errorMessage = context + ": kind must be water, tar or lava";
+            errorMessage = context + ": kind must be water, tar, lava or mirror";
             return false;
         }
         liquid.kind = *kind;
@@ -204,6 +208,13 @@ bool LiquidTable::loadFromYaml(const std::string &yamlText, std::string &errorMe
         if (liquid.opacity < 1.0f && (liquid.kind == LiquidKind::Lava || liquid.appliesToTerrain))
         {
             errorMessage = context + ": opacity below 1 needs a water or tar liquid of faces only";
+            return false;
+        }
+
+        if (liquid.kind == LiquidKind::Mirror && (liquid.appliesToTerrain || liquid.opacity < 1.0f || liquid.shallow
+            || !liquid.reflects))
+        {
+            errorMessage = context + ": a mirror is an opaque, reflecting liquid of faces only";
             return false;
         }
 

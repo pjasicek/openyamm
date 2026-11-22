@@ -177,8 +177,9 @@ std::string mawClassLine(const std::string &className)
 
 double MawClassRules::promotionFactor(const ClassMultiplierEntry &entry) const
 {
-    // Two or three worlds' promotions completed make the kind's final classes Elder or Ultimate (CL:62-108); all four
-    // (Chedian's too) make them Supreme, x1.75 (ours, the user 2026-11-09: DEVIATIONS 183).
+    // Two or three worlds' promotions completed make the kind's final classes Elder or Ultimate (CL:62-108); four
+    // (Chedian's too) make them Supreme, x1.75 (ours, the user 2026-11-09: DEVIATIONS 183). Xeen is a fifth world: any
+    // four of the five make Supreme, and the fifth adds nothing (devdocs/maw/XEEN_SUPPORT.md).
     const int worlds = entry.promotionStep == 2 ? std::min(m_rules.promotionWorlds(entry.classKind), 4) : 0;
     return worlds >= 2 ? 0.75 + 0.25 * worlds : 1.0;
 }
@@ -325,12 +326,6 @@ void MawClassRules::applyClassBonuses(Character &member) const
     {
         const CharacterSkill *pAssassination = member.findSkill("EarthMagic");
         member.magicalBonuses.maxSpellPoints = 10 * (pAssassination != nullptr ? int(pAssassination->mastery) : 0);
-    }
-
-    // A solo run's early monster cut (devdocs/solo_action/POWER_CURVE_DIRECTION.md §8).
-    if (m_rules.options().soloRun)
-    {
-        m_rules.setSoloMonsterCut(MawSoloTalents::earlyMonsterCut(member));
     }
 }
 
@@ -691,7 +686,7 @@ void MawClassRules::updatePromotions(Party &party) const
 
     const auto hasQuestBit = [&party](uint32_t bit)
     {
-        return party.hasQuestBit(bit);
+        return party.campaign().hasQuestBit(bit);
     };
     const auto hasAward = [&party](uint32_t award)
     {

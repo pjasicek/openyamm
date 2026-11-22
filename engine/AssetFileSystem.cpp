@@ -106,6 +106,9 @@ constexpr const char *VideosDirectoryName = "videos";
 constexpr const char *MapsDirectoryName = "maps";
 constexpr const char *EventsDirectoryName = "events";
 constexpr const char *TexturesDirectoryName = "textures";
+// The surface material maps beside each world's textures (devdocs/SURFACE_MATERIALS_PLAN.md), merged like them so a
+// map that lays another world's texture finds its maps too (A6, D4's hkm3elw).
+constexpr const char *SurfaceMaterialsDirectoryName = "surface_materials";
 constexpr const char *SpritesDirectoryName = "sprites";
 
 // PhysFS paths and the log are UTF-8, with forward slashes.
@@ -610,10 +613,15 @@ bool AssetFileSystem::initialize(
             return false;
         }
 
-        if (!mountExtraDevelopmentRoot(m_installedContentOptions.extraMountRoot))
+        // Mounted last is found first: the first folder given goes last.
+        for (auto extraRoot = m_installedContentOptions.extraMountRoots.rbegin();
+             extraRoot != m_installedContentOptions.extraMountRoots.rend(); ++extraRoot)
         {
-            shutdown();
-            return false;
+            if (!mountExtraDevelopmentRoot(*extraRoot))
+            {
+                shutdown();
+                return false;
+            }
         }
     }
 
@@ -858,6 +866,7 @@ bool AssetFileSystem::mountDevelopmentOverlayRoot(const std::filesystem::path &e
     if (textureTier != AssetScaleTier::X1)
     {
         mergedDirectoryNames.push_back(TexturesDirectoryName + assetScaleTierDirectorySuffix(textureTier));
+        mergedDirectoryNames.push_back(SurfaceMaterialsDirectoryName + assetScaleTierDirectorySuffix(textureTier));
     }
 
     for (const std::filesystem::path &worldRoot : worldRoots)
@@ -1688,6 +1697,11 @@ bool AssetFileSystem::mountMergedWorldMapRuntimeRoots(
             activeWorldId,
             TexturesDirectoryName,
             assetScaleTierForCategory(m_assetScaleProfile, AssetScaleCategory::Textures))
+        && mountMergedWorldScaledPackageRoots(
+            assetRoot,
+            activeWorldId,
+            SurfaceMaterialsDirectoryName,
+            assetScaleTierForCategory(m_assetScaleProfile, AssetScaleCategory::Textures))
         && mountMergedWorldPackageRoots(assetRoot, activeWorldId, LegacyDirectoryName);
 }
 
@@ -1778,7 +1792,8 @@ std::optional<AssetFileInfo> AssetFileSystem::fileInfo(const std::string &virtua
     const char *pRoot = PHYSFS_getRealDir(path->c_str());
     const auto mount = std::find_if(m_searchMounts.begin(), m_searchMounts.end(),
         [pRoot](const SearchMount &entry) { return pRoot != nullptr && entry.root.string() == pRoot; });
-    return AssetFileInfo{uint64_t(stat.filesize), stat.modtime, mount != m_searchMounts.end() && mount->archive};
+    return AssetFileInfo{uint64_t(stat.filesize), stat.modtime, mount != m_searchMounts.end() && mount->archive,
+        pRoot != nullptr ? std::filesystem::path(pRoot) : std::filesystem::path()};
 }
 
 std::vector<std::string> AssetFileSystem::enumerate(const std::string &virtualPath) const

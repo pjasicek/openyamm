@@ -129,7 +129,8 @@ inline std::vector<WaterVertex> buildSpriteWaterGeometry(const BillboardQuad &qu
     return vertices;
 }
 
-// Partition horizontal levels so a waterfall or a stepped pool cannot acquire an incorrect planar reflection, and
+// Partition horizontal levels so a waterfall or a stepped pool cannot acquire an incorrect planar reflection (and
+// mirrors by their planes), and
 // liquids so each draws as its own kind, opaque ones with the solid scene and see-through ones (a tint alpha below
 // 255: liquids.yml opacity) blended after it.
 inline std::vector<WaterSurfaceGeometry> buildWaterFaceGeometry(std::span<const WaterVertex> vertices,
@@ -147,20 +148,36 @@ inline std::vector<WaterSurfaceGeometry> buildWaterFaceGeometry(std::span<const 
         {
             continue;
         }
-        const bool planar = normal.z > 0.0f && std::abs(a.z - b.z) < 0.01f && std::abs(a.z - c.z) < 0.01f;
-        const float height = a.z;
+        const bx::Vec3 unitNormal = bx::normalize(normal);
         const LiquidKind liquid = liquidFromShaderValue(a.liquid);
+        // A mirror reflects about its own plane, whatever its orientation: one surface per plane and side.
+        const bool mirror = liquid == LiquidKind::Mirror;
+        const bool planar = mirror
+            || (normal.z > 0.0f && std::abs(a.z - b.z) < 0.01f && std::abs(a.z - c.z) < 0.01f);
+        const float height = a.z;
+        const ReflectionPlane plane = mirror
+            ? ReflectionPlane{unitNormal.x, unitNormal.y, unitNormal.z, -bx::dot(unitNormal, bx::Vec3{a.x, a.y, a.z})}
+            : waterReflectionPlane(height);
         const bool seeThrough = (a.colorAbgr >> 24) != 0xffu;
         std::vector<WaterSurfaceGeometry>::iterator found = std::find_if(geometry.begin(), geometry.end(),
             [&](const WaterSurfaceGeometry &surface)
             {
-                return surface.planar == planar && surface.liquid == liquid && surface.seeThrough == seeThrough
-                    && (!planar || std::abs(surface.height - height) < 0.01f);
+                if (surface.planar != planar || surface.liquid != liquid || surface.seeThrough != seeThrough)
+                {
+                    return false;
+                }
+                if (mirror)
+                {
+                    return surface.plane[0] * plane[0] + surface.plane[1] * plane[1] + surface.plane[2] * plane[2]
+                        > 0.9999f && std::abs(surface.plane[3] - plane[3]) < 0.5f;
+                }
+                return !planar || std::abs(surface.height - height) < 0.01f;
             });
         if (found == geometry.end())
         {
             WaterSurfaceGeometry surface;
             surface.height = height;
+            surface.plane = plane;
             surface.planar = planar;
             surface.liquid = liquid;
             surface.seeThrough = seeThrough;
@@ -170,7 +187,6 @@ inline std::vector<WaterSurfaceGeometry> buildWaterFaceGeometry(std::span<const 
             geometry.push_back(std::move(surface));
             found = geometry.end() - 1;
         }
-        const bx::Vec3 unitNormal = bx::normalize(normal);
         for (size_t corner = 0; corner < 3; ++corner)
         {
             WaterVertex vertex = vertices[index + corner];

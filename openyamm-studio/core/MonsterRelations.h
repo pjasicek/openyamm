@@ -6,6 +6,7 @@
 
 #include <array>
 #include <functional>
+#include <map>
 #include <optional>
 #include <set>
 #include <string>
@@ -56,6 +57,36 @@ std::vector<MonsterRelationRow> readMonsterRelations(
 // The event's lines: evt.SetMonsterRelation(<of>, <toward>, <relation>) for each row.
 std::vector<std::string> monsterRelationLines(const std::vector<MonsterRelationRow> &rows);
 
+// The lines of the build's own load event that makes the groups with `hostile: false` peaceful: once per fill of the
+// map (its map variable `studio_peaceful_groups`, which a refill clears), since the saved state keeps the bits and a
+// group an event made hostile since must stay so over a reload.
+std::vector<std::string> peacefulGroupsBody(const std::vector<int> &groups);
+
+// A world's relations.yml (schema openyamm.monsterRelations.v1, devdocs/ENERGY_SHIELDS_AND_RELATIONS.md) as a new game
+// has it: its factions and the rules in force then (a rule with after_qbit waits for its QBit and is left out).
+struct WorldMonsterRelations
+{
+    std::map<int, std::string> factionOf;
+
+    struct Rule
+    {
+        std::vector<std::string> from;
+        bool party = false;
+        bool any = false;
+        std::vector<std::string> to;
+        int relation = 0;
+    };
+
+    std::vector<Rule> rules;
+
+    // The relation of a monster kind toward another (0: the party) the last rule that covers the pair gives; none
+    // where no rule does (the game then takes hostile.txt's).
+    std::optional<int> relation(int of, int toward) const;
+};
+
+// Nothing for an empty or unreadable text.
+WorldMonsterRelations readWorldMonsterRelations(const std::string &yamlText);
+
 // The monsters of a map as the hostility check sees them.
 struct MapMonsters
 {
@@ -89,6 +120,8 @@ struct MapMonsters
     // Groups the project makes peaceful (`hostile: false`).
     std::set<int> peacefulGroups;
     std::vector<MonsterRelationRow> relations;
+    // The world's own relations, which say what they cover (no warning for those).
+    WorldMonsterRelations world;
 };
 
 // Fills `monsters.slots` and `shippedSlots` from project.yml (`card`) and engine/data_tables/map_stats.txt's rows.

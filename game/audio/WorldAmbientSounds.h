@@ -32,6 +32,9 @@ struct WorldAmbientSound
     // Not 0: on while the decoration of this cog is shown, as evt.SetSprite switches it (a fire's crackle); before
     // any SetSprite of it, startOn.
     uint32_t spriteCog = 0;
+    // false: kept centred (its distance falloff still heard), as a world whose rules say pan: false plays all of its
+    // sounds (D-48: a bed under the whole map, a sound overhead). Heard panned only when the rules and this both say so.
+    bool pan = true;
 };
 
 // The world's rules for its ambient sounds (world.yml ambientSounds): the day's hours and whether they pan.
@@ -44,6 +47,13 @@ struct WorldAmbientSoundRules
 
 // Whether the game time is day under the rules (dayStartHour inclusive, dayEndHour exclusive).
 bool worldAmbientSoundDaytime(float gameMinutes, const WorldAmbientSoundRules &rules);
+
+// Whether a sound pans: the world's rules and its own field both say so (D-48).
+bool worldAmbientSoundPans(const WorldAmbientSound &source, const WorldAmbientSoundRules &rules);
+
+// Where in its clip a sound starts, a share of the clip's length in [0, 1): a loop without a wait anywhere (rng), so
+// a bed's emitters that come into reach together do not play in step (D-48); a one-shot or a sound with a wait at 0.
+float worldAmbientSoundStartFraction(const WorldAmbientSound &source, std::mt19937 &rng);
 
 // Whether the sound should be heard: switched on (its map script's switch, else StartOn), in its time of day and
 // within its outer radius (a playing one keeps going to AmbientSoundStopMargin x that, so it does not flicker at the

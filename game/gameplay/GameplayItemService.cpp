@@ -10,6 +10,7 @@
 #include "game/items/CraftingRuntime.h"
 #include "game/items/ItemRuntime.h"
 #include "game/gameplay/GameplayScreenRuntime.h"
+#include "game/gameplay/PlayerCommands.h"
 #include "game/items/InventoryItemMixingRuntime.h"
 #include "game/items/InventoryItemUseRuntime.h"
 #include "game/items/InventoryBags.h"
@@ -217,6 +218,7 @@ InventoryItemUseContext buildInventoryItemUseContext(const GameplayScreenRuntime
     if (pWorldRuntime != nullptr)
     {
         context.spellcastingForbidden = !pWorldRuntime->allowsSpellcasting();
+        context.underwater = pWorldRuntime->isUnderwaterMap();
         context.gameMinutes = pWorldRuntime->gameMinutes();
         context.enemiesNear = partyHasYellowAlert(*pWorldRuntime);
     }
@@ -279,7 +281,7 @@ std::optional<BagItemRef> findCarriedTravelItem(const Party &party, const Invent
         }
     }
 
-    if (party.members().empty() || !party.rules().items.hasPouches())
+    if (party.members().empty() || !party.hasPouches())
     {
         return std::nullopt;
     }
@@ -863,7 +865,7 @@ bool GameplayItemService::useCarriedItem(
     heldItem.active = true;
     heldItem.item = item;
     pParty->setHeldItemForQueries(item);
-    const bool used = tryUseHeldItemOnPartyMember(runtime, memberIndex, true);
+    const bool used = m_session.playerCommands().useHeldItemOnMember(LocalPlayer, runtime, memberIndex, true);
 
     // A refused item, or a bottle with drinks left, goes back where it lay (else anywhere in its carrier's bags).
     if (heldItem.active)

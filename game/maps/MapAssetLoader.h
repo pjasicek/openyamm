@@ -5,6 +5,7 @@
 #include "engine/render/CookedTexture.h"
 #include "game/events/ScriptedEventProgram.h"
 #include "game/events/EventRuntime.h"
+#include "game/data/ActorNameResolver.h"
 #include "game/maps/MapDeltaData.h"
 #include "game/maps/MapItemSourceData.h"
 #include "game/maps/OutdoorTerrainTiles.h"
@@ -58,7 +59,8 @@ struct OutdoorBitmapTexture
     // A cooked world surface texture (GPU blocks with its mip chain) replaces pixels; see loadCookedSurfaceTexture.
     std::shared_ptr<const Engine::CookedTexture> cookedTexture;
     // Its surface material maps (devdocs/SURFACE_MATERIALS_PLAN.md), cooked beside it: the normal map (tangent-space
-    // x and y, glow) and the detail map (occlusion, roughness, metal, height). Both or neither.
+    // x and y, glow) and the detail map (occlusion, roughness, metal, height). Both or neither, but for the normal map
+    // alone of a glowing texture in a world whose glow is content (MapCompanionLoadOptions::surfaceGlowWorlds).
     std::shared_ptr<const Engine::CookedTexture> materialNormal;
     std::shared_ptr<const Engine::CookedTexture> materialDetail;
     // Explicit source identity for map-local art that overrides a shared sprite name.
@@ -89,6 +91,9 @@ struct DecorationBillboard
     // Indoors: the map light beside this torch lights further, so the decoration leaves the lighting to it
     // (resolveDuplicateTorchLights).
     bool litByMapLight = false;
+    // Indoors: the map's invisible flag (MM LEVEL_DECORATION_INVISIBLE): hidden, dark and not solid until an
+    // evt.SetSprite shows it.
+    bool startsHidden = false;
     std::string name;
 
     uint32_t spriteOverrideKey() const
@@ -224,6 +229,12 @@ struct MapCompanionLoadOptions
     // Whether face textures load their surface material maps (video.surface_materials); off, nothing of them is read
     // or kept.
     bool surfaceMaterials = false;
+    // With surfaceMaterials off, on a map of a world whose glow is content (world.yml surfaceGlowContent, D-55): the
+    // mounted worlds whose glow lists (surface_materials<tier>/glow_<world>.txt, tools/surface_materials.py) name the
+    // face textures that load their normal map alone, for its glow channel. Empty: none (every other world).
+    std::vector<std::string> surfaceGlowWorlds;
+    // The NPC tables that name the actor previews of actors with NPC ids (resolveMapDeltaActorName).
+    ActorNpcNameTables actorNpcNames;
 };
 
 struct MapAssetBitmapPixelsResult
@@ -293,6 +304,11 @@ void resolveDuplicateTorchLights(const IndoorMapData &indoorMapData, DecorationB
 // Whether any of a map's face textures carries surface material maps: they load only with video.surface_materials
 // on, and the renderers load the material programs only for such a map.
 bool hasSurfaceMaterialMaps(const std::vector<OutdoorBitmapTexture> &textures);
+// Whether a map's face textures came with normal maps alone (MapCompanionLoadOptions::surfaceGlowWorlds): the
+// renderers then draw them with the glow variants of the ordinary programs (SURFACE_GLOW_ONLY).
+bool hasSurfaceGlowOnlyMaps(const std::vector<OutdoorBitmapTexture> &textures);
+// A glow list's stems (glow_<world>.txt: one per line, '#' comments), lowercase.
+std::vector<std::string> parseSurfaceGlowList(const std::string &text);
 // A world surface texture (Data/bitmaps) whose best match in the active scale tier is its cooked file
 // (tools/cook_surface_textures.py): GPU blocks with the runtime's mip chain and the source's statistics, so nothing is
 // decoded, keyed or filtered at load. Empty when the best match is a source image. Throws on a corrupt cooked file
@@ -305,10 +321,12 @@ std::optional<OutdoorBitmapTexture> loadCookedSurfaceTexture(
     Engine::BinaryAssetCache *pBinaryFilesByPath);
 // A world surface texture (Data/bitmaps) loaded by name after the map: its cooked file when the active tier has one,
 // else its source image. Empty when neither exists. For a face whose texture an event swaps in (evt.SetTexture) and
-// no face of the map uses.
+// no face of the map uses. Its surface material maps as a map's faces would load them with these options
+// (surfaceMaterials, surfaceGlowWorlds); by default none.
 std::optional<OutdoorBitmapTexture> loadSurfaceTexture(
     const Engine::AssetFileSystem &assetFileSystem,
-    const std::string &textureName);
+    const std::string &textureName,
+    const MapCompanionLoadOptions &materialOptions = {});
 // A summoned monster's frames, and those of the tier its model is sized from (pActorModels: scale_reference).
 bool ensureMonsterSpriteFramesLoaded(
     const Engine::AssetFileSystem &assetFileSystem,

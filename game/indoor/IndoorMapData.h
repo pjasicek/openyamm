@@ -403,6 +403,10 @@ struct IndoorMapData
     // Scene `party_movement: {steep_slopes: block}`: the party climbs no floor steeper than a monster can (an MM9
     // open-air map's cliffs); false keeps MM6-MM8's party, which climbs any slope.
     bool partySteepSlopesBlock = false;
+    // Scene `party_movement: {touch_faces: run}`: a wall face with the touch bit (FaceAttribute::TriggerByTouch, not a
+    // pressure plate) runs its event when the party walks into it, once per contact (Map Studio's `touch`). Off, as
+    // in MM6-MM8, whose engines never ran it (MM8's chests carry the bit).
+    bool partyTouchFacesRun = false;
     // Scene `actor_barriers: {faces: [...]}`: invisible, untouchable faces that block monsters' movement only (MM9's
     // AIBarrier brushes along bridges and ledges). Nothing else collides with them.
     std::vector<uint16_t> actorBarrierFaceIds;

@@ -188,6 +188,7 @@ TEST_CASE("MAW reads a world's monster families by picture and gives them map le
     CHECK(mawArenaMap("D42.blv"));
     CHECK(mawArenaMap("7d05.blv"));
     CHECK(mawArenaMap("thearena.blv"));
+    CHECK(mawArenaMap("xeen_xd20.blv"));
     CHECK_FALSE(mawArenaMap("isleofashes.blv"));
 }
 
@@ -372,6 +373,19 @@ TEST_CASE("MAW level banks follow the experience curve and the continent it was 
     CHECK(state.totalLevel() == doctest::Approx(10));
     CHECK(state.levelOutside(1) == doctest::Approx(8));
     CHECK(state.levelOutside(7) == doctest::Approx(10));
+
+    // The World of Xeen's two faces (continents 6 and 7) bank into one fifth bank: a face's monsters ignore what was
+    // earned on either face and grow with the other worlds' levels; the other worlds' grow with Xeen's.
+    MawGameState xeen = state;
+    xeen.addBankedExperience(196000, 6);
+    const double cloudside = xeen.continentLevels[4];
+    CHECK(cloudside > 0);
+    xeen.addBankedExperience(200000, 7);
+    CHECK(xeen.continentLevels[4] > cloudside);
+    CHECK(xeen.continentLevels[0] == doctest::Approx(2));
+    CHECK(xeen.levelOn(6) == doctest::Approx(xeen.levelOn(7)));
+    CHECK(xeen.levelOutside(7) == doctest::Approx(10));
+    CHECK(xeen.levelOutside(1) == doctest::Approx(8 + xeen.continentLevels[4]));
 
     MawRules rules(RulesetOptions{}, MawMapLevels{});
     CHECK_EQ(rules.gameRules().experience.experienceForNextLevel(1), 1000u);

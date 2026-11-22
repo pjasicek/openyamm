@@ -3,6 +3,7 @@
 #include "game/gameplay/CinematicLibrary.h"
 #include "game/gameplay/GameplayRuntimeInterfaces.h"
 
+#include <array>
 #include <cstddef>
 #include <cstdint>
 #include <optional>
@@ -112,6 +113,8 @@ public:
     // Black bars, 0 none to 1 full (bars that leave a 2:1 picture); black over the screen, 0 to 1.
     float letterboxAmount() const;
     float fadeAmount() const;
+    // The veil's colour: the last fade cue's (black by default).
+    std::array<uint8_t, 3> fadeColorRgb() const;
     const std::string &subtitle() const;
 
     CameraShake &shake();
@@ -149,6 +152,7 @@ private:
     float m_fadeStartSeconds = 0.0f;
     float m_fadeSeconds = 0.0f;
     float m_fadeAmount = 0.0f;
+    std::array<uint8_t, 3> m_fadeColorRgb = {0, 0, 0};
     float m_letterboxFrom = 0.0f;
     float m_letterboxTo = 0.0f;
     float m_letterboxStartSeconds = 0.0f;

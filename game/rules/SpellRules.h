@@ -3,6 +3,7 @@
 #include "game/party/EventSpellBuffs.h"
 #include "game/rules/AuraReport.h"
 #include "game/rules/CombatRules.h"
+#include "game/rules/LentAura.h"
 
 #include <array>
 #include <cstdint>
@@ -126,6 +127,11 @@ public:
     virtual bool castsAsAura(const Party &party, size_t casterIndex, uint32_t spellId) const;
     // Each frame of play: re-applies the auras the party holds and keeps the mana they reserve. Standard: nothing.
     virtual void updateAuras(Party &party, float deltaSeconds) const;
+    // With several players (co-op): the auras this party holds that reach the other players' parties near it, and
+    // the ones those lend the party in play now (the strongest of each; all of them, replacing the last list).
+    // Standard: none, nothing.
+    virtual std::vector<LentAura> aurasToLend(const Party &party) const;
+    virtual void setLentAuras(const std::vector<LentAura> &auras) const;
     // The spell points the member's auras reserve. Standard: none.
     virtual int reservedSpellPoints(const Party &party, size_t memberIndex) const;
     // The hit points the member's auras reserve instead of spell points. Standard: none.
@@ -139,7 +145,7 @@ public:
     virtual bool shareLife(Party &party, int heal) const;
     // A member is about to leave the party (dismissed to the inn); the members after it will move up a slot.
     // Standard: nothing.
-    virtual void memberLeaving(const Party &party, size_t memberIndex) const;
+    virtual void memberLeaving(Party &party, size_t memberIndex) const;
     // What a buff's popup shows instead of its time left while a member holds it as an aura (MAW: "Held by Name").
     // Standard: nothing, buffs run out.
     virtual std::optional<std::string> heldBuffText(const Party &party, uint32_t spellId) const;

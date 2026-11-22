@@ -59,6 +59,9 @@ public:
         float pitch = 1.0f;
         float innerRadius = -1.0f;
         float outerRadius = -1.0f;
+        // Where in the clip it starts, a share of its length in [0, 1) (a looping bed that does not play in step with
+        // its neighbours).
+        float startFraction = 0.0f;
     };
 
     AudioSystem();

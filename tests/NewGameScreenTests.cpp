@@ -132,6 +132,17 @@ struct NewGameScreenTestAccess
         }
     }
 
+    static bool continentOffered(const NewGameScreen &screen, const std::string &key)
+    {
+        return screen.continentOffered(key);
+    }
+
+    static size_t candidateCountFor(NewGameScreen &screen, const std::string &key)
+    {
+        screen.selectContinent(key);
+        return screen.m_candidates.size();
+    }
+
     static void checkPartySheet(NewGameScreen &screen)
     {
         screen.selectContinent("antagarich");
@@ -212,4 +223,37 @@ TEST_CASE("party creation sheet adds, removes and edits adventurers")
     data.bind(loader);
     NewGameScreen screen(assets, nullptr, data, false, false, false, {}, {}, {});
     NewGameScreenTestAccess::checkPartySheet(screen);
+}
+
+// A mounted world's continent with a card (devdocs/xeen/lanes/TABLES.md, new-game continents): on the screen and
+// chosen. Runs where the git-ignored Xeen world is installed in assets_dev.
+TEST_CASE("the new-game screen offers a mounted world's own continent card")
+{
+    using namespace OpenYAMM::Game;
+    const std::filesystem::path sourceRoot = OPENYAMM_SOURCE_DIR;
+
+    if (!std::filesystem::exists(sourceRoot / "assets_dev/worlds/xeen/data_tables/new_game_continents.yml"))
+    {
+        MESSAGE("no Xeen world in assets_dev");
+        return;
+    }
+
+    OpenYAMM::Engine::AssetFileSystem assets;
+    REQUIRE(assets.initialize(sourceRoot, sourceRoot / "assets_dev", OpenYAMM::Engine::AssetScaleTier::X1, "xeen"));
+    GameDataLoader loader;
+    REQUIRE(loader.loadForHeadlessGameplay(assets));
+    GameDataRepository data;
+    data.bind(loader);
+    const MergedCharacterSelectionContinent *pXeen = nullptr;
+
+    for (const MergedCharacterSelectionContinent &continent : data.mergedCharacterSelectionTable().continents())
+    {
+        pXeen = continent.key == "xeen" ? &continent : pXeen;
+    }
+
+    REQUIRE(pXeen != nullptr);
+    CHECK(pXeen->hasCard);
+    NewGameScreen screen(assets, nullptr, data, false, false, false, {}, {}, {});
+    CHECK(NewGameScreenTestAccess::continentOffered(screen, "xeen"));
+    CHECK_GT(NewGameScreenTestAccess::candidateCountFor(screen, "xeen"), 0u);
 }

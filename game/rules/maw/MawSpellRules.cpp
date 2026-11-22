@@ -909,9 +909,9 @@ bool MawSpellRules::shareLife(Party &party, int heal) const
     return true;
 }
 
-void MawSpellRules::memberLeaving(const Party &party, size_t memberIndex) const
+void MawSpellRules::memberLeaving(Party &party, size_t memberIndex) const
 {
-    std::unordered_map<uint32_t, uint32_t> &holders = m_rules.state().auraHolders;
+    std::unordered_map<uint32_t, uint32_t> &holders = party.rulesetState().auraHolders;
 
     for (auto it = holders.begin(); it != holders.end();)
     {
@@ -952,7 +952,7 @@ int MawSpellRules::reservedPoints(const Party &party, size_t memberIndex, bool h
     double percent = 0;
     int flat = 0;
 
-    for (const auto &[spellId, holder] : m_rules.state().auraHolders)
+    for (const auto &[spellId, holder] : party.rulesetState().auraHolders)
     {
         const MawAura *pAura = mawAura(spellId);
 
@@ -1010,14 +1010,14 @@ AuraReservationCost MawSpellRules::auraCost(const Party &party, size_t memberInd
     return cost;
 }
 
-std::vector<uint32_t> MawSpellRules::heldAurasWithoutBuffSlot(const Party &) const
+std::vector<uint32_t> MawSpellRules::heldAurasWithoutBuffSlot(const Party &party) const
 {
     // Empower Magic and Meditation drive no engine buff slot.
     std::vector<uint32_t> auras;
 
     for (const uint32_t spellId : {28u, 56u})
     {
-        if (m_rules.state().auraHolders.contains(spellId))
+        if (party.rulesetState().auraHolders.contains(spellId))
         {
             auras.push_back(spellId);
         }
@@ -1028,22 +1028,22 @@ std::vector<uint32_t> MawSpellRules::heldAurasWithoutBuffSlot(const Party &) con
 
 std::optional<std::string> MawSpellRules::heldBuffText(const Party &party, uint32_t spellId) const
 {
-    const auto held = m_rules.state().auraHolders.find(spellId);
+    const auto held = party.rulesetState().auraHolders.find(spellId);
 
-    if (held != m_rules.state().auraHolders.end() && held->second == MawGameState::FixedAuraHolder)
+    if (held != party.rulesetState().auraHolders.end() && held->second == MawGameState::FixedAuraHolder)
     {
         // A solo run's scroll aura shows the time its buff has left.
-        if (m_rules.state().fixedAuraEndMinutes.contains(spellId))
+        if (party.rulesetState().fixedAuraEndMinutes.contains(spellId))
         {
             return std::nullopt;
         }
 
-        const auto fixed = m_rules.state().fixedAuraMaps.find(spellId);
-        const bool temple = fixed != m_rules.state().fixedAuraMaps.end() && fixed->second.empty();
+        const auto fixed = party.rulesetState().fixedAuraMaps.find(spellId);
+        const bool temple = fixed != party.rulesetState().fixedAuraMaps.end() && fixed->second.empty();
         return Engine::tr(temple ? "Temple blessing" : "Blessing of this place");
     }
 
-    const Character *pHolder = held != m_rules.state().auraHolders.end() ? party.member(held->second) : nullptr;
+    const Character *pHolder = held != party.rulesetState().auraHolders.end() ? party.member(held->second) : nullptr;
 
     if (pHolder == nullptr)
     {
@@ -1082,7 +1082,7 @@ bool MawSpellRules::castSourceBuff(Party &party, uint32_t spellId, BuffSource so
         return true;
     }
 
-    MawGameState &state = m_rules.state();
+    PartyRulesetState &state = party.rulesetState();
     const auto held = state.auraHolders.find(spellId);
 
     if (held != state.auraHolders.end() && held->second != MawGameState::FixedAuraHolder)
@@ -1093,7 +1093,9 @@ bool MawSpellRules::castSourceBuff(Party &party, uint32_t spellId, BuffSource so
     // A temple's blessing comes through its map event too; it stays the temple's.
     const auto fixed = state.fixedAuraMaps.find(spellId);
 
-    if (source == BuffSource::MapEvent && held != state.auraHolders.end() && fixed != state.fixedAuraMaps.end()
+    if (source == BuffSource::MapEvent
+        && held != state.auraHolders.end()
+        && fixed != state.fixedAuraMaps.end()
         && fixed->second.empty())
     {
         return true;
@@ -1102,7 +1104,7 @@ bool MawSpellRules::castSourceBuff(Party &party, uint32_t spellId, BuffSource so
     state.auraHolders[spellId] = MawGameState::FixedAuraHolder;
     state.fixedAuraMaps[spellId] = source == BuffSource::Temple ? std::string() : m_rules.currentMap();
 
-    if (source == BuffSource::Scroll && m_rules.options().soloRun)
+    if (source == BuffSource::Scroll && m_rules.options().soloRun && !party.worldShared())
     {
         state.fixedAuraEndMinutes[spellId] = double(party.gameMinutes()) + SoloScrollAuraMinutes;
     }
@@ -1214,7 +1216,7 @@ std::optional<AuraCastResult> MawSpellRules::castAura(Party &party, size_t caste
         return std::nullopt;
     }
 
-    std::unordered_map<uint32_t, uint32_t> &holders = m_rules.state().auraHolders;
+    std::unordered_map<uint32_t, uint32_t> &holders = party.rulesetState().auraHolders;
     const auto held = holders.find(spellId);
 
     if (held != holders.end() && held->second == casterIndex)
@@ -1244,9 +1246,124 @@ std::optional<AuraCastResult> MawSpellRules::castAura(Party &party, size_t caste
 
     // A member takes over a scroll's, pedestal's or temple's aura.
     holders[spellId] = uint32_t(casterIndex);
-    m_rules.state().fixedAuraMaps.erase(spellId);
-    m_rules.state().fixedAuraEndMinutes.erase(spellId);
+    party.rulesetState().fixedAuraMaps.erase(spellId);
+    party.rulesetState().fixedAuraEndMinutes.erase(spellId);
     return AuraCastResult::Held;
+}
+
+namespace
+{
+// The game seconds a fixed aura with an end has left (a solo run's scroll aura); nothing for one without an end.
+std::optional<float> fixedAuraSecondsLeft(const Party &party, uint32_t spellId)
+{
+    const std::unordered_map<uint32_t, double> &ends = party.rulesetState().fixedAuraEndMinutes;
+    const auto end = ends.find(spellId);
+    return end != ends.end()
+        ? std::optional<float>(float((end->second - double(party.gameMinutes())) * 60.0))
+        : std::nullopt;
+}
+}
+
+std::unordered_map<uint32_t, MawAuraSource> MawSpellRules::auraSources(const Party &party) const
+{
+    std::unordered_map<uint32_t, MawAuraSource> sources = ownAuraSources(party);
+
+    // What another player's party near this one lends, where nobody here holds the aura or holds it weaker. Like
+    // a scroll's or temple's it has no holder in this party (member 1 stands for it) and reserves nothing.
+    for (const auto &[spellId, lent] : m_rules.partyRuntime().lentAuras)
+    {
+        const auto own = sources.find(spellId);
+
+        if (own == sources.end() || lent.skill > own->second.skill)
+        {
+            sources[spellId] = lent;
+        }
+    }
+
+    return sources;
+}
+
+std::vector<LentAura> MawSpellRules::aurasToLend(const Party &party) const
+{
+    constexpr uint32_t ImmolationSpell = 8;
+    std::vector<LentAura> lends;
+
+    for (const auto &[spellId, source] : ownAuraSources(party))
+    {
+        if (spellId != ImmolationSpell)
+        {
+            lends.push_back(LentAura{spellId, float(source.skill), uint8_t(source.mastery), float(source.level)});
+        }
+    }
+
+    return lends;
+}
+
+void MawSpellRules::setLentAuras(const std::vector<LentAura> &auras) const
+{
+    std::unordered_map<uint32_t, MawAuraSource> &lent = m_rules.partyRuntime().lentAuras;
+    lent.clear();
+
+    for (const LentAura &aura : auras)
+    {
+        if (mawAura(aura.spellId) != nullptr)
+        {
+            lent[aura.spellId] = MawAuraSource{double(aura.skill), int(aura.mastery), double(aura.level), 0, 0.0f};
+        }
+    }
+}
+
+std::unordered_map<uint32_t, MawAuraSource> MawSpellRules::ownAuraSources(const Party &party) const
+{
+    const PartyRulesetState &state = party.rulesetState();
+    std::unordered_map<uint32_t, MawAuraSource> sources;
+
+    for (const auto &[spellId, holderIndex] : state.auraHolders)
+    {
+        // A scroll, pedestal or temple holds its aura at skill 7, Master, level 40 (getSpecialBuffSkill).
+        if (holderIndex == MawGameState::FixedAuraHolder)
+        {
+            const std::optional<float> secondsLeft = fixedAuraSecondsLeft(party, spellId);
+
+            if (state.fixedAuraMaps.contains(spellId) && (!secondsLeft || *secondsLeft > 0))
+            {
+                sources[spellId] = MawAuraSource{7, 3, 40, 0, secondsLeft.value_or(0.0f)};
+            }
+
+            continue;
+        }
+
+        const Character *pHolder = party.member(holderIndex);
+        const MawAura *pAura = mawAura(spellId);
+
+        // An unconscious holder's aura is off but keeps its reservation.
+        if (pHolder != nullptr && pAura != nullptr && memberConscious(*pHolder))
+        {
+            const std::string school = mawSpellSchoolSkill(spellId);
+            const CharacterSkill *pSkill = pHolder->findSkill(school);
+            MawAuraSource source;
+            source.skill = std::min(pSkill != nullptr ? double(pSkill->level) : 0.0, pAura->skillCap);
+            source.mastery = pSkill != nullptr ? int(pSkill->mastery) : 0;
+            source.level = pHolder->level;
+            source.holder = holderIndex;
+            sources[spellId] = source;
+        }
+    }
+
+    return sources;
+}
+
+int MawSpellRules::staffResistance(const Party &party) const
+{
+    // Each member's staff resists for the whole party (zzMaw-Items.lua:3294-3316).
+    int resistance = 0;
+
+    for (const Character &member : party.members())
+    {
+        resistance += party.itemTable() != nullptr ? mawStaffPartyResistance(m_rules, member, *party.itemTable()) : 0;
+    }
+
+    return resistance;
 }
 
 void MawSpellRules::updateAuras(Party &party, float deltaSeconds) const
@@ -1254,30 +1371,30 @@ void MawSpellRules::updateAuras(Party &party, float deltaSeconds) const
     // MAW applies its auras on a half-second timer (mawBuffApply, zzMaw-Timers.lua:95); a zero step (a cast, a toggle,
     // a pedestal) applies them at once.
     constexpr float AuraTickSeconds = 0.5f;
+    MawPartyRuntime &runtime = m_rules.partyRuntime();
 
     if (deltaSeconds > 0.0f)
     {
-        m_auraSeconds += deltaSeconds;
+        runtime.auraSeconds += deltaSeconds;
 
-        if (m_auraSeconds < AuraTickSeconds)
+        if (runtime.auraSeconds < AuraTickSeconds)
         {
             return;
         }
     }
 
-    m_auraSeconds = 0.0f;
-    std::unordered_map<uint32_t, uint32_t> &holders = m_rules.state().auraHolders;
-    std::unordered_map<uint32_t, std::string> &fixedMaps = m_rules.state().fixedAuraMaps;
-    std::unordered_map<uint32_t, double> &fixedEnds = m_rules.state().fixedAuraEndMinutes;
-    std::unordered_map<uint32_t, MawAuraSource> sources;
+    runtime.auraSeconds = 0.0f;
+    std::unordered_map<uint32_t, uint32_t> &holders = party.rulesetState().auraHolders;
+    std::unordered_map<uint32_t, std::string> &fixedMaps = party.rulesetState().fixedAuraMaps;
+    std::unordered_map<uint32_t, double> &fixedEnds = party.rulesetState().fixedAuraEndMinutes;
 
     // A new map ends the temple's auras, and an outdoor one the scroll and pedestal auras of other maps (SP:2693-2730).
-    if (m_rules.currentMap() != m_auraMap)
+    if (m_rules.currentMap() != runtime.auraMap)
     {
-        const bool firstUpdate = m_auraMap.empty();
+        const bool firstUpdate = runtime.auraMap.empty();
         const std::string &map = m_rules.currentMap();
         const bool outdoor = m_rules.outdoorMap(map);
-        m_auraMap = map;
+        runtime.auraMap = map;
 
         for (auto it = fixedMaps.begin(); it != fixedMaps.end() && !firstUpdate;)
         {
@@ -1293,53 +1410,28 @@ void MawSpellRules::updateAuras(Party &party, float deltaSeconds) const
         }
     }
 
+    // A fixed aura whose source is gone or whose time is up ends, and a holder who left the party takes the aura
+    // along.
     for (auto it = holders.begin(); it != holders.end();)
     {
-        // A scroll, pedestal or temple holds its aura at skill 7, Master, level 40 (getSpecialBuffSkill).
+        bool ended = it->second >= party.members().size();
+
         if (it->second == MawGameState::FixedAuraHolder)
         {
-            const auto end = fixedEnds.find(it->first);
-            const float secondsLeft =
-                end != fixedEnds.end() ? float((end->second - double(party.gameMinutes())) * 60.0) : 0.0f;
+            const std::optional<float> secondsLeft = fixedAuraSecondsLeft(party, it->first);
+            ended = !fixedMaps.contains(it->first) || (secondsLeft && *secondsLeft <= 0);
 
-            if (!fixedMaps.contains(it->first) || (end != fixedEnds.end() && secondsLeft <= 0))
+            if (ended)
             {
                 fixedMaps.erase(it->first);
                 fixedEnds.erase(it->first);
-                it = holders.erase(it);
-                continue;
             }
-
-            sources[it->first] = MawAuraSource{7, 3, 40, 0, secondsLeft};
-            ++it;
-            continue;
         }
 
-        // A holder who left the party takes the aura along.
-        if (it->second >= party.members().size())
-        {
-            it = holders.erase(it);
-            continue;
-        }
-
-        const Character &holder = *party.member(it->second);
-        const MawAura *pAura = mawAura(it->first);
-
-        // An unconscious holder's aura is off but keeps its reservation.
-        if (pAura != nullptr && memberConscious(holder))
-        {
-            const std::string school = mawSpellSchoolSkill(it->first);
-            const CharacterSkill *pSkill = holder.findSkill(school);
-            MawAuraSource source;
-            source.skill = std::min(pSkill != nullptr ? double(pSkill->level) : 0.0, pAura->skillCap);
-            source.mastery = pSkill != nullptr ? int(pSkill->mastery) : 0;
-            source.level = holder.level;
-            source.holder = it->second;
-            sources[it->first] = source;
-        }
-
-        ++it;
+        it = ended ? holders.erase(it) : std::next(it);
     }
+
+    const std::unordered_map<uint32_t, MawAuraSource> sources = auraSources(party);
 
     // The rules know the held auras before any buff below is applied: applying one rebuilds the members' stats, and
     // Day of the Gods and the stat auras read the sources there (MawSkillRules::applyStatBonuses).
@@ -1583,7 +1675,7 @@ void MawSpellRules::updateAuras(Party &party, float deltaSeconds) const
         appliedCharacterBuffs.push_back(uint32_t(CharacterBuffId::Preservation));
 
         // A released aura ends at once for every member that no potion of their own keeps (SP:2877-2888, FSPS-2-7).
-        if (m_preservationAuraApplied)
+        if (runtime.preservationAuraApplied)
         {
             for (size_t memberIndex = 0; memberIndex < party.members().size(); ++memberIndex)
             {
@@ -1595,9 +1687,9 @@ void MawSpellRules::updateAuras(Party &party, float deltaSeconds) const
         }
     }
 
-    m_preservationAuraApplied = preservationAura;
+    runtime.preservationAuraApplied = preservationAura;
 
-    for (uint32_t buffId : m_appliedPartyBuffs)
+    for (uint32_t buffId : runtime.appliedPartyBuffs)
     {
         if (std::find(appliedPartyBuffs.begin(), appliedPartyBuffs.end(), buffId) == appliedPartyBuffs.end())
         {
@@ -1605,7 +1697,7 @@ void MawSpellRules::updateAuras(Party &party, float deltaSeconds) const
         }
     }
 
-    for (uint32_t buffId : m_appliedCharacterBuffs)
+    for (uint32_t buffId : runtime.appliedCharacterBuffs)
     {
         if (std::find(appliedCharacterBuffs.begin(), appliedCharacterBuffs.end(), buffId)
             == appliedCharacterBuffs.end())
@@ -1617,20 +1709,10 @@ void MawSpellRules::updateAuras(Party &party, float deltaSeconds) const
         }
     }
 
-    m_appliedPartyBuffs = std::move(appliedPartyBuffs);
-    m_appliedCharacterBuffs = std::move(appliedCharacterBuffs);
+    runtime.appliedPartyBuffs = std::move(appliedPartyBuffs);
+    runtime.appliedCharacterBuffs = std::move(appliedCharacterBuffs);
 
-    // Each member's staff resists for the whole party (zzMaw-Items.lua:3294-3316).
-    int staffResistance = 0;
-
-    for (const Character &member : party.members())
-    {
-        staffResistance += party.itemTable() != nullptr
-            ? mawStaffPartyResistance(m_rules, member, *party.itemTable())
-            : 0;
-    }
-
-    m_rules.setPartyStaffResistance(staffResistance);
+    m_rules.setPartyStaffResistance(staffResistance(party));
 
     // Mana (or HP) stays below each holder's unreserved pool.
     for (size_t memberIndex = 0; memberIndex < party.members().size(); ++memberIndex)
@@ -1710,11 +1792,11 @@ std::optional<float> MawSpellRules::crowdControlSeconds(const CrowdControlCast &
         cast.targetKey, pSpell->group, cast.nowSeconds, minutes * 2, cast.boss));
 }
 
-std::optional<std::string> MawSpellRules::removeAllBuffs(Party &) const
+std::optional<std::string> MawSpellRules::removeAllBuffs(Party &party) const
 {
-    m_rules.state().auraHolders.clear();
-    m_rules.state().fixedAuraMaps.clear();
-    m_rules.state().fixedAuraEndMinutes.clear();
+    party.rulesetState().auraHolders.clear();
+    party.rulesetState().fixedAuraMaps.clear();
+    party.rulesetState().fixedAuraEndMinutes.clear();
     return Engine::tr("All buffs have been removed");
 }
 

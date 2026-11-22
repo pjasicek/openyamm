@@ -62,6 +62,8 @@ struct OutdoorWeatherProfile
     bool mergedWeatherEnabled = false;
     // Rain and snow chances for MMerge weather maps (bolster_maps.txt and weather.yml).
     WeatherMapSettings weatherMap = {};
+    // The scene's own ash chance (percent; environment.weather.ash_chance), used where weather.yml gives none.
+    float sceneAshChancePercent = 0.0f;
     WeatherRules weatherRules = {};
     std::string mergedCustomSkyTextureName;
     std::vector<std::string> mergedSkyTextureNames;

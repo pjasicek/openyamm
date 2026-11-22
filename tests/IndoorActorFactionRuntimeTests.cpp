@@ -8,6 +8,9 @@
 #include "game/gameplay/GameplayActorService.h"
 #include "game/indoor/IndoorPartyRuntime.h"
 #include "game/indoor/IndoorWorldRuntime.h"
+#include "game/items/ItemEnchantRuntime.h"
+#include "game/tables/ItemTable.h"
+#include "game/tables/MonsterTable.h"
 #include "game/maps/IndoorSceneYml.h"
 #include "tests/RegressionGameData.h"
 
@@ -337,4 +340,80 @@ TEST_CASE("mm6 maps load their own faction relations into the monster table and 
     CHECK_FALSE(monsters.isHostileToParty(631));
     CHECK(monsters.getRelationBetweenMonsters(631, 517) == 2);
     CHECK(monsters.getRelationBetweenMonsters(517, 631) == 1);
+}
+
+TEST_CASE("E11: an indoor MonsterDamage hook sees how the hit came and the striking member's weapon")
+{
+    GoblinwatchFactionFixture fixture;
+    IndoorWorldRuntime &world = fixture.world;
+    // XD-19's rule as the studio writes a `trigger: monster_damage` event: only a blow of item 12500 hurts.
+    std::ifstream supportStream(
+        std::filesystem::path(OPENYAMM_SOURCE_DIR) / "assets_dev/engine/scripts/common/event_support.lua");
+    REQUIRE(supportStream.good());
+    const std::string source = std::string(std::istreambuf_iterator<char>(supportStream),
+        std::istreambuf_iterator<char>()) + "\n"
+        "RegisterMonsterDamageHook(65000, \"Lord Xeen\", function(hook)\n"
+        "    if not (hook.attack == \"melee\" and hook.weaponItemId == 12500) then evt.SetHookDamage(0) end\n"
+        "end)\n";
+    std::string error;
+    const std::optional<ScriptedEventProgram> hook =
+        ScriptedEventProgram::loadFromLuaText(source, "@e11_hook_test.lua", ScriptedEventScope::Map, error);
+    REQUIRE_MESSAGE(hook.has_value(), error.c_str());
+    const std::optional<ScriptedEventProgram> noGlobal;
+    EventRuntime eventRuntime = {};
+    world.bindEventExecution(&eventRuntime, &hook, &noGlobal);
+
+    const GameplayWorldPoint party = {1356.65f, 4589.76f, 96.0f};
+    const int hp = fixture.delta->actors[0].hp;
+    REQUIRE_GT(hp, 3);
+    world.applyPartyAttackMeleeDamage(0, 1, party, ShieldAttackTier::Physical);
+    world.applyPartyAttackMeleeDamage(0, 1, party, ShieldAttackTier::Physical, {}, false, true, 12499);
+    world.applyPartyAttackMeleeDamage(0, 1, CombatDamageType::Physical, party, ShieldAttackTier::Physical, {}, false,
+        true, "missile", 12500);
+    world.applyPartyAttackMeleeDamage(0, 1, CombatDamageType::Fire, party, ShieldAttackTier::Spell, {}, false, true,
+        "spell", 12500);
+    CHECK_EQ(fixture.delta->actors[0].hp, hp);
+
+    world.applyPartyAttackMeleeDamage(0, 1, party, ShieldAttackTier::Physical, {}, false, true, 12500);
+    CHECK_EQ(fixture.delta->actors[0].hp, hp - 1);
+}
+
+TEST_CASE("D-2.3: an item's SlayingDemon effect flag doubles its blows against demons only")
+{
+    CHECK_EQ(itemSlayingKindFlag("SlayingDemon"), monsterKindFlag(MonsterKind::Demon));
+    CHECK_EQ(itemSlayingKindFlag("SlayingTitan"), monsterKindFlag(MonsterKind::Titan));
+    CHECK_EQ(itemSlayingKindFlag("Slaying"), 0u);
+    CHECK_EQ(itemSlayingKindFlag("Vampiric"), 0u);
+
+    std::vector<std::string> swordRow(26);
+    swordRow[0] = "60001";
+    swordRow[1] = "missing_test_icon";
+    swordRow[2] = "Test Slayer Sword";
+    swordRow[3] = "100";
+    swordRow[4] = "Weapon2";
+    swordRow[5] = "Sword";
+    swordRow[6] = "3d10";
+    swordRow[17] = "test";
+    swordRow[18] = "test:item/60001";
+    swordRow[19] = "60001";
+    swordRow[25] = "test:item_effect/slayer";
+    std::vector<std::string> effectRow(30);
+    effectRow[0] = "60001";
+    effectRow[1] = "test:item_effect/slayer";
+    effectRow[29] = "SlayingDemon";
+    OpenYAMM::Engine::AssetFileSystem assetFileSystem;
+    const std::filesystem::path sourceRoot = OPENYAMM_SOURCE_DIR;
+    REQUIRE(assetFileSystem.initialize(sourceRoot, sourceRoot / "assets_dev", OpenYAMM::Engine::AssetScaleTier::X1));
+    ItemTable items;
+    REQUIRE(items.load(assetFileSystem, {swordRow}, {}));
+    std::string error;
+    REQUIRE_MESSAGE(items.loadContentEffectRows({effectRow}, error), error);
+    REQUIRE(items.get(60001) != nullptr);
+
+    Character member;
+    member.equipment.mainHand = 60001;
+    CHECK_EQ(ItemEnchantRuntime::characterAttackDamageMultiplierAgainstMonster(
+        member, CharacterAttackMode::Melee, &items, nullptr, monsterKindFlag(MonsterKind::Demon)), 2);
+    CHECK_EQ(ItemEnchantRuntime::characterAttackDamageMultiplierAgainstMonster(
+        member, CharacterAttackMode::Melee, &items, nullptr, monsterKindFlag(MonsterKind::Undead)), 1);
 }

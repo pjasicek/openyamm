@@ -1,0 +1,27 @@
+id: mm7.hidden_monsters_not_killed
+title: "A kill check counts hidden monsters as defeated only with InvisibleAsDead (Castle Harmondale's and Harmondale's mercenaries)"
+world: mm7
+mode: faithful
+tags: [mm7, events, regression]
+steps:
+  - note:
+      text: >-
+        evt.CheckMonstersKilled's fourth argument is MM8's InvisibleAsDead (MMMerge's MM7 events carry 0): a hidden
+        actor is defeated only when it is true. Until merge point 31 of the Xeen lanes a hidden actor always counted as
+        defeated, so Castle Kalindra's liches (Xeen DD-03) were "slain" on the first visit while still hidden. On a new
+        game Castle Harmondale's mercenaries (group 60, 62 placed) and Harmondale's (group 60) are hidden by the maps'
+        load events. A1.
+  - new_game_flow: {start_map: 7out01.odm}
+  - load_map: {map: 7d29.blv}
+  - advance_runtime: {seconds: 1}
+  - lua_event:
+      source: |
+        if evt.CheckMonstersKilled(ActorKillCheck.Group, 60, 0, false) then error("hidden mercenaries counted as killed indoors") end
+        if not evt.CheckMonstersKilled(ActorKillCheck.Group, 60, 0, true) then error("hidden mercenaries not counted as killed with InvisibleAsDead indoors") end
+        if not evt.CheckMonstersKilled(ActorKillCheck.Group, 60, 62, true) then error("not all 62 hidden mercenaries counted with InvisibleAsDead") end
+  - load_map: {map: 7out02.odm}
+  - advance_runtime: {seconds: 1}
+  - lua_event:
+      source: |
+        if evt.CheckMonstersKilled(ActorKillCheck.Group, 60, 0, false) then error("hidden mercenaries counted as killed outdoors") end
+        if not evt.CheckMonstersKilled(ActorKillCheck.Group, 60, 0, true) then error("hidden mercenaries not counted as killed with InvisibleAsDead outdoors") end

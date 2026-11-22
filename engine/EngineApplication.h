@@ -19,6 +19,7 @@ public:
     using EventCallback = std::function<void(const SDL_Event &)>;
     using ShutdownCallback = std::function<void()>;
     using TextInputActiveCallback = std::function<bool()>;
+    using UndrawnFrameCallback = std::function<void(float)>;
 
     EngineApplication(
         const ApplicationConfig &config,
@@ -38,6 +39,9 @@ public:
     // Above 0 every frame advances by exactly this many seconds whatever the wall clock says (a video capture's
     // frame step); 0 returns to real time.
     void setFixedFrameSeconds(float seconds);
+    // Called with the frame's seconds for every frame the window has no drawable for (a zero size: Android in the
+    // background, some desktops while minimized), in place of the render callback. Nothing is drawn or presented.
+    void setUndrawnFrameCallback(UndrawnFrameCallback callback);
 
   private:
     bool initializeAssetFileSystem(AssetFileSystem &assetFileSystem) const;
@@ -52,6 +56,7 @@ public:
     RenderFrameCallback m_renderFrameCallback;
     ShutdownCallback m_shutdownCallback;
     TextInputActiveCallback m_textInputActiveCallback;
+    UndrawnFrameCallback m_undrawnFrameCallback;
     float m_fixedFrameSeconds = 0.0f;
 };
 }

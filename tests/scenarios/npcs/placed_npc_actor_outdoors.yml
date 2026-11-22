@@ -1,0 +1,16 @@
+id: npcs.placed_npc_actor_outdoors
+title: "An outdoor actor placed with an NPC (the scene's npc_id) talks as that NPC, also when used without picking"
+world: mm7
+mode: faithful
+tags: [npcs, regression]
+steps:
+  - new_game_flow:
+      start_map: 7out03.odm
+  - assert: {map: 7out03.odm}
+  # Roberta Theben (NPC 755), the scene's actor 5 in Erathia: her own topics, not a street peasant's news.
+  - set_pose: {map: 7out03.odm, x: -5344, y: 1720, z: 960, yaw: 1.5708, pitch: 0.0}
+  - interact_actor: {actor_index: 5}
+  - assert:
+      dialog: {active: true, source_id: 755}
+  - select_topic: {match_label: Expert Teachers}
+  - press_action: {action: cancel_dialog}

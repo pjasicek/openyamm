@@ -2,6 +2,7 @@
 
 #include "game/render/BillboardGeometry.h"
 #include "game/render/ViewFrustum.h"
+#include "game/render/WaterMath.h"
 
 #include <algorithm>
 #include <cmath>
@@ -28,9 +29,14 @@ inline uint32_t waterBillboardColor(uint32_t colorAbgr, float distanceSquared)
     return (colorAbgr & 0x00ffffffu) | (alpha << 24);
 }
 
-inline bool waterBillboardVisible(const BillboardQuad &quad, const ViewFrustum &frustum, float height)
+// Some part of the quad lies in front of the reflecting plane (WaterMath.h) and in the reflection's frustum.
+inline bool waterBillboardVisible(const BillboardQuad &quad, const ViewFrustum &frustum, const ReflectionPlane &plane)
 {
-    return quad.center.z + std::abs(quad.right.z) + std::abs(quad.up.z) > height
+    const auto along = [&plane](const bx::Vec3 &vector)
+    {
+        return plane[0] * vector.x + plane[1] * vector.y + plane[2] * vector.z;
+    };
+    return reflectionPlaneDistance(plane, quad.center) + std::abs(along(quad.right)) + std::abs(along(quad.up)) > 0.0f
         && frustum.intersectsQuad(quad.center, quad.right, quad.up);
 }
 

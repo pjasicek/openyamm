@@ -453,13 +453,16 @@ int itemTreasureWeightForSpecialStock(const ItemDefinition &entry, int tier)
     return 0;
 }
 
-std::mt19937 createStockRng(const Party &party, const HouseEntry &houseEntry, const Party::HouseStockState &state)
+std::mt19937 createStockRng(
+    const Party &party,
+    const HouseEntry &houseEntry,
+    const CampaignState::HouseStockState &state)
 {
     const uint32_t houseSeed = houseEntry.id != 0 ? houseEntry.id : 1;
     const uint32_t mixedSeed =
         houseSeed * 1103515245u
         + state.refreshSequence * 12345u
-        + party.houseStockSeed() * 2654435761u
+        + party.campaign().houseStockSeed() * 2654435761u
         + 0x4f1bbcdc;
     return std::mt19937(mixedSeed);
 }
@@ -485,6 +488,9 @@ std::vector<InventoryItem> generateStockItems(
     };
 
     std::vector<Candidate> candidates;
+    // A shop keeps its world's pools (devdocs/LOOT_POOL.md): a candidate from outside them would be refused below and
+    // sold as a plain copy.
+    const std::vector<std::string> worldPools = itemTable.lootPoolsForWorld(houseEntry.worldId);
 
     for (const ItemDefinition &entry : itemTable.entries())
     {
@@ -492,6 +498,7 @@ std::vector<InventoryItem> generateStockItems(
             || entry.name.empty()
             || entry.hasContentFlag("NoShop")
             || !entry.availableInWorld(houseEntry.worldId)
+            || !ItemGenerator::shopPoolAllows(entry, worldPools)
             || !predicate(entry))
         {
             continue;
@@ -1045,7 +1052,7 @@ std::vector<InventoryItem> deterministicStockItems(
     return result;
 }
 
-Party::HouseStockState &ensureHouseStockGenerated(
+CampaignState::HouseStockState &ensureHouseStockGenerated(
     Party &party,
     const ItemTable &itemTable,
     const StandardItemEnchantTable &standardItemEnchantTable,
@@ -1053,7 +1060,7 @@ Party::HouseStockState &ensureHouseStockGenerated(
     const HouseEntry &houseEntry,
     float gameMinutes)
 {
-    Party::HouseStockState &state = party.ensureHouseStockState(houseEntry.id);
+    CampaignState::HouseStockState &state = party.campaign().ensureHouseStockState(houseEntry.id);
     const float refreshMinutes = static_cast<float>(std::max(1, houseEntry.stockRefreshDays)) * MinutesPerDay;
     const bool needsRefresh =
         state.standardStock.empty()
@@ -1162,7 +1169,7 @@ Party::HouseStockState &ensureHouseStockGenerated(
     return state;
 }
 
-std::vector<InventoryItem> *selectStockVector(Party::HouseStockState &state, HouseStockMode mode)
+std::vector<InventoryItem> *selectStockVector(CampaignState::HouseStockState &state, HouseStockMode mode)
 {
     switch (mode)
     {
@@ -1200,7 +1207,7 @@ void takeOneFromStockSlot(InventoryItem &slot)
     }
 }
 
-const std::vector<InventoryItem> *selectStockVector(const Party::HouseStockState &state, HouseStockMode mode)
+const std::vector<InventoryItem> *selectStockVector(const CampaignState::HouseStockState &state, HouseStockMode mode)
 {
     switch (mode)
     {
@@ -1529,7 +1536,7 @@ const std::vector<InventoryItem> &HouseServiceRuntime::ensureStock(
     float gameMinutes,
     HouseStockMode mode)
 {
-    Party::HouseStockState &state = ensureHouseStockGenerated(
+    CampaignState::HouseStockState &state = ensureHouseStockGenerated(
         party,
         itemTable,
         standardItemEnchantTable,
@@ -1771,7 +1778,7 @@ bool HouseServiceRuntime::tryBuyStockItem(
         *pResult = ShopItemServiceResult::None;
     }
 
-    Party::HouseStockState &state = ensureHouseStockGenerated(
+    CampaignState::HouseStockState &state = ensureHouseStockGenerated(
         party,
         itemTable,
         standardItemEnchantTable,
@@ -1880,7 +1887,7 @@ bool HouseServiceRuntime::tryRerollStock(
     }
 
     party.addGold(-*cost, GoldReason::Guild);
-    Party::HouseStockState &state = party.ensureHouseStockState(houseEntry.id);
+    CampaignState::HouseStockState &state = party.campaign().ensureHouseStockState(houseEntry.id);
     state.standardStock.clear();
     state.specialStock.clear();
     state.spellbookStock.clear();
@@ -1922,7 +1929,7 @@ bool HouseServiceRuntime::tryStealStockItem(
         *pResult = ShopItemServiceResult::None;
     }
 
-    Party::HouseStockState &state = ensureHouseStockGenerated(
+    CampaignState::HouseStockState &state = ensureHouseStockGenerated(
         party,
         itemTable,
         standardItemEnchantTable,

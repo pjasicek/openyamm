@@ -696,6 +696,16 @@ void GameplayUiController::setStatusBarEvent(
     state.statusBar.eventText = Engine::localize(text);
     state.statusBar.eventRemainingSeconds = std::max(0.0f, durationSeconds);
     state.statusBar.eventPriority = priority;
+
+    if (m_pStatusBarEventLog != nullptr)
+    {
+        m_pStatusBarEventLog->push_back(state.statusBar.eventText);
+    }
+}
+
+void GameplayUiController::setStatusBarEventLog(std::vector<std::string> *pLog)
+{
+    m_pStatusBarEventLog = pLog;
 }
 
 bool GameplayUiController::statusBarEventActive() const

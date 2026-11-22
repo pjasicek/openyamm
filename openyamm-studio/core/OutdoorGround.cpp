@@ -109,7 +109,9 @@ const std::vector<TileSetEntry> &tileSetsOf(const std::string &world)
         {126, "7wtrtyl", true, false, false}, {162, "7sand", false, false, false}, {198, "7snow", false, false, false},
         {234, "7sand", false, false, false}, {270, "7swtyl", false, false, false},
         {306, "7wastetile", false, false, false}, {342, "7snow", false, false, false},
-        {378, "wtrtyl", true, false, false}, {414, "7drsrcros", false, true, true}};
+        {378, "wtrtyl", true, false, false}, {414, "7drsrcros", false, true, true},
+        // MM8's lava set in the MM7 table's unused rows (decision D-40, Xeen's X7: no MM7 map uses rows past 449).
+        {450, "lavtyl", true, false, false}};
     static const std::vector<TileSetEntry> Mm6 = {{90, "6grastyl", false, false, false},
         {126, "6wtrtyl", true, false, false}, {162, "crktyl", false, false, false}, {198, "6voltyl", false, false, false},
         {234, "6sandtyl", false, false, false}, {270, "swmtyl", false, false, false},
@@ -714,12 +716,12 @@ std::string outdoorGroundKindNames(const std::string &world)
 
 bool layOutdoorGround(const Project &project, LoweredOutdoorMap &lowered, std::vector<ProjectIssue> &issues)
 {
-    const WorldGround *pWorld = worldGroundOf(lowered.world);
+    const WorldGround *pWorld = worldGroundOf(lowered.styleWorld);
 
     if (pWorld == nullptr)
     {
         issues.push_back({"project.yml", "world", "oymap build knows the ground tiles of mm6, mm7 and mm8 only; no "
-            "outdoor map can be built for the world " + lowered.world + " yet", "unsupported"});
+            "outdoor map can be built for the world " + lowered.styleWorld + " yet", "unsupported"});
         return false;
     }
 
@@ -733,8 +735,8 @@ bool layOutdoorGround(const Project &project, LoweredOutdoorMap &lowered, std::v
     std::string dirtName;
     uint16_t waterRow = pWorld->waterRow;
     uint16_t roadRow = pWorld->roadRow;
-    bool roadDiagonals = tileSetAt(lowered.world, pWorld->roadRow) == nullptr
-        || tileSetAt(lowered.world, pWorld->roadRow)->diagonals;
+    bool roadDiagonals = tileSetAt(lowered.styleWorld, pWorld->roadRow) == nullptr
+        || tileSetAt(lowered.styleWorld, pWorld->roadRow)->diagonals;
 
     if (const std::string dirt = textOf(tileSetsNode, "dirt"); !dirt.empty())
     {
@@ -743,7 +745,7 @@ bool layOutdoorGround(const Project &project, LoweredOutdoorMap &lowered, std::v
         {
             return static_cast<char>(std::tolower(character));
         });
-        const std::vector<DirtSet> &dirts = dirtSetsOf(lowered.world);
+        const std::vector<DirtSet> &dirts = dirtSetsOf(lowered.styleWorld);
         const std::vector<DirtSet>::const_iterator found = std::find_if(dirts.begin(), dirts.end(),
             [&wanted](const DirtSet &entry)
             {
@@ -759,7 +761,7 @@ bool layOutdoorGround(const Project &project, LoweredOutdoorMap &lowered, std::v
                 names += (names.empty() ? "" : ", ") + std::string(entry.pName);
             }
 
-            issues.push_back({SketchFile, "tile_sets.dirt", "the plain ground of a " + lowered.world + " map is one "
+            issues.push_back({SketchFile, "tile_sets.dirt", "the plain ground of a " + lowered.styleWorld + " map is one "
                 "of " + names + " (the game shifts the tiles under every other kind by the map's master tile in "
                 "MM8 only)", "ground"});
         }
@@ -772,12 +774,12 @@ bool layOutdoorGround(const Project &project, LoweredOutdoorMap &lowered, std::v
 
     if (const std::string water = textOf(tileSetsNode, "water"); !water.empty())
     {
-        const TileSetEntry *pSet = findTileSet(lowered.world, water, SetUse::Water);
+        const TileSetEntry *pSet = findTileSet(lowered.styleWorld, water, SetUse::Water);
 
         if (pSet == nullptr)
         {
-            issues.push_back({SketchFile, "tile_sets.water", "the world " + lowered.world + " has no liquid set `"
-                + water + "`; its liquid sets are " + tileSetNames(lowered.world, SetUse::Water), "ground"});
+            issues.push_back({SketchFile, "tile_sets.water", "the world " + lowered.styleWorld + " has no liquid set `"
+                + water + "`; its liquid sets are " + tileSetNames(lowered.styleWorld, SetUse::Water), "ground"});
         }
         else
         {
@@ -787,12 +789,12 @@ bool layOutdoorGround(const Project &project, LoweredOutdoorMap &lowered, std::v
 
     if (const std::string road = textOf(tileSetsNode, "road"); !road.empty())
     {
-        const TileSetEntry *pSet = findTileSet(lowered.world, road, SetUse::Road);
+        const TileSetEntry *pSet = findTileSet(lowered.styleWorld, road, SetUse::Road);
 
         if (pSet == nullptr)
         {
-            issues.push_back({SketchFile, "tile_sets.road", "the world " + lowered.world + " has no road set `"
-                + road + "`; its road sets are " + tileSetNames(lowered.world, SetUse::Road), "ground"});
+            issues.push_back({SketchFile, "tile_sets.road", "the world " + lowered.styleWorld + " has no road set `"
+                + road + "`; its road sets are " + tileSetNames(lowered.styleWorld, SetUse::Road), "ground"});
         }
         else
         {
@@ -823,11 +825,11 @@ bool layOutdoorGround(const Project &project, LoweredOutdoorMap &lowered, std::v
             }
         }
 
-        const TileSetEntry *pSet = findTileSet(lowered.world, kind, liquidOnly ? SetUse::Water : SetUse::Ground);
+        const TileSetEntry *pSet = findTileSet(lowered.styleWorld, kind, liquidOnly ? SetUse::Water : SetUse::Ground);
 
         if (pSet == nullptr && !liquidOnly)
         {
-            pSet = findTileSet(lowered.world, kind, SetUse::Water);
+            pSet = findTileSet(lowered.styleWorld, kind, SetUse::Water);
         }
 
         if (pSet == nullptr)
@@ -928,11 +930,11 @@ bool layOutdoorGround(const Project &project, LoweredOutdoorMap &lowered, std::v
 
         if (kind.empty())
         {
-            issues.push_back({SketchFile, path + ".material", "the world " + lowered.world + " has no ground "
-                "of the kind `" + material + "`; its kinds are " + outdoorGroundKindNames(lowered.world)
+            issues.push_back({SketchFile, path + ".material", "the world " + lowered.styleWorld + " has no ground "
+                "of the kind `" + material + "`; its kinds are " + outdoorGroundKindNames(lowered.styleWorld)
                 + " (or a material of the terrain library that is drawn for one of them: grass_meadow, "
                 "soil, rock_layered, sand_ripples, gravel_volcanic), or one of its tile sets by name or row: "
-                + tileSetNames(lowered.world, SetUse::Ground), "ground"});
+                + tileSetNames(lowered.styleWorld, SetUse::Ground), "ground"});
             continue;
         }
 
@@ -1006,7 +1008,7 @@ bool layOutdoorGround(const Project &project, LoweredOutdoorMap &lowered, std::v
         if (kind.empty())
         {
             issues.push_back({SketchFile, "water", "a water body's or river's `tile_set` is a liquid set of the "
-                "world " + lowered.world + " other than its water: " + tileSetNames(lowered.world, SetUse::Water)
+                "world " + lowered.styleWorld + " other than its water: " + tileSetNames(lowered.styleWorld, SetUse::Water)
                 + "; `" + lowered.waterSets[shape] + "` is none", "ground"});
             continue;
         }
@@ -1025,7 +1027,7 @@ bool layOutdoorGround(const Project &project, LoweredOutdoorMap &lowered, std::v
 
     for (const uint16_t row : rows)
     {
-        const TileSetEntry *pSet = tileSetAt(lowered.world, row);
+        const TileSetEntry *pSet = tileSetAt(lowered.styleWorld, row);
         liquidKind.push_back(pSet != nullptr && pSet->liquid);
     }
 

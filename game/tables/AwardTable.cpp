@@ -143,10 +143,69 @@ bool AwardTable::loadFromRows(const std::vector<std::vector<std::string>> &award
         m_entries.push_back(std::move(entry));
     }
 
+    m_loadedTexts.clear();
+
     if (hasValidationError || m_entries.empty())
     {
         m_entries.clear();
         return false;
+    }
+
+    for (const AwardDisplayEntry &entry : m_entries)
+    {
+        m_loadedTexts.emplace_back(entry.text, entry.priority);
+    }
+
+    return true;
+}
+
+bool AwardTable::applyTextOverrides(const std::vector<std::vector<std::string>> &rows, std::string &errorMessage)
+{
+    for (size_t index = 0; index < m_entries.size() && index < m_loadedTexts.size(); ++index)
+    {
+        m_entries[index].text = m_loadedTexts[index].first;
+        m_entries[index].priority = m_loadedTexts[index].second;
+    }
+
+    for (size_t rowIndex = 0; rowIndex < rows.size(); ++rowIndex)
+    {
+        const std::vector<std::string> &row = rows[rowIndex];
+
+        if (row.empty() || row[0].empty() || row[0][0] == '#' || row[0] == "A Bit")
+        {
+            continue;
+        }
+
+        uint32_t awardId = 0;
+        int priority = 0;
+        const bool hasPriority = !getCell(row, 2).empty();
+
+        if (!parseUnsigned(row[0], awardId) || getCell(row, 1).empty()
+            || (hasPriority && !parseInt(getCell(row, 2), priority)))
+        {
+            errorMessage = "invalid award text override row " + std::to_string(rowIndex + 1);
+            return false;
+        }
+
+        const std::string key = "award." + std::to_string(awardId);
+        bool found = false;
+
+        for (AwardDisplayEntry &entry : m_entries)
+        {
+            if (entry.key == key)
+            {
+                entry.text = getCell(row, 1);
+                entry.priority = hasPriority ? priority : entry.priority;
+                found = true;
+                break;
+            }
+        }
+
+        if (!found)
+        {
+            errorMessage = "award text override row " + std::to_string(rowIndex + 1) + " names no award " + row[0];
+            return false;
+        }
     }
 
     return true;

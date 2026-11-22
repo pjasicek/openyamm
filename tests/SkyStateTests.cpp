@@ -547,6 +547,38 @@ TEST_CASE("sky repository presets load and alias every selectable sky name")
     CHECK(dagger.value(SkyValue::Horizon)[0] > dagger.value(SkyValue::Horizon)[2] * 1.5f);
 }
 
+TEST_CASE("a world adds its own skies to the library and redefines none")
+{
+    const std::string engineText = readSourceFile("assets_dev/engine/rendering/sky/sky.yml");
+    const std::string worldText =
+        "version: 1\n"
+        "aliases: {worldsky1: world_day}\n"
+        "presets:\n"
+        "  world_day: {inherits: base}\n"
+        "maps: {world_x1.odm: scorched}\n";
+    std::string composed;
+    std::string error;
+    REQUIRE(composeSkyLibraryYaml(engineText, {{"world", worldText}}, composed, error));
+    SkyPresetLibrary library;
+    REQUIRE(library.loadFromYaml(composed, error));
+    CHECK(library.presetForSkyName("WorldSky1") == "world_day");
+    CHECK(library.find("world_day") != nullptr);
+    REQUIRE(library.themeForMap("World_X1.odm") != nullptr);
+
+    CHECK_FALSE(composeSkyLibraryYaml(
+        engineText, {{"world", "version: 1\npresets:\n  base: {inherits: base}\n"}}, composed, error));
+    CHECK(error.find("defined already") != std::string::npos);
+    CHECK_FALSE(composeSkyLibraryYaml(engineText, {{"world", "version: 1\nfallback: base\n"}}, composed, error));
+
+    const std::string xeenText = readSourceFile("assets_dev/worlds/xeen/rendering/sky/sky.yml");
+    if (!xeenText.empty())
+    {
+        REQUIRE(composeSkyLibraryYaml(engineText, {{"xeen", xeenText}}, composed, error));
+        CHECK(library.loadFromYaml(composed, error));
+        CHECK(library.presetForSkyName("xeendark1") == "xeen_darkside_day");
+    }
+}
+
 TEST_CASE("sky repository themes name real outdoor maps")
 {
     const SkyPresetLibrary library = loadRepositoryLibrary();
@@ -781,4 +813,59 @@ TEST_CASE("sky orbit lights cross the sky at their own pace and fade with the st
     CHECK(night.orbitRing.opacity == doctest::Approx(0.5f));
     CHECK(night.orbitRing.lightBrightness == doctest::Approx(2.0f));
     CHECK(night.orbitLightAngles[0] == doctest::Approx(skyOrbitLightAngle(night.orbitRing, 0, 18.0 * 60.0)));
+}
+
+TEST_CASE("sky theme rim glow blends day to night by the star weight and fades in haze")
+{
+    // The test library with more themes (its maps line comes last).
+    const auto withThemes = [](const std::string &themes)
+    {
+        std::string text = TestLibraryYaml;
+        text.insert(text.find("maps: {OUT04"), themes);
+        return text;
+    };
+    const std::string text = withThemes(
+        "  rim: {rim_glow: {direction_deg: 90, width_deg: 80, height_deg: 10, color: [1, 0.9, 0.7], day: 0.2,"
+        " night: 1.0}}\n"
+        "  rimhazy: {haze: 0.5, rim_glow: {day: 0.2, night: 1.0}}\n");
+    SkyPresetLibrary library;
+    std::string error;
+    REQUIRE_MESSAGE(library.loadFromYaml(text, error), error);
+    const SkyTheme *pTheme = library.findTheme("rim");
+    REQUIRE(pTheme != nullptr);
+    REQUIRE(pTheme->rimGlow.has_value());
+    CHECK(pTheme->rimGlow->widthDegrees == doctest::Approx(80.0f));
+    CHECK(pTheme->rimGlow->belowDegrees == doctest::Approx(2.0f));
+
+    SkyStateModel model;
+    model.setLibrary(&library);
+    SkyInputs inputs = {};
+    inputs.mapFileName = "out02.odm";
+    inputs.gameMinutes = 6.0f * 60.0f;
+    CHECK(model.update(inputs, 0.016f).rimGlowStrength == 0.0f);
+    CHECK(packSkyRimUniform(model.frame())[1][0] == 0.0f);
+
+    // Stars 0 at 06:00 (day), 1 at 18:00 (night): the strength follows them.
+    inputs.forcedTheme = std::string("rim");
+    model.snap();
+    CHECK(model.update(inputs, 0.016f).rimGlowStrength == doctest::Approx(0.2f));
+    inputs.gameMinutes = 18.0f * 60.0f;
+    model.snap();
+    const SkyFrameState &night = model.update(inputs, 0.016f);
+    CHECK(night.rimGlowStrength == doctest::Approx(1.0f));
+    const SkyRimUniformValues rim = packSkyRimUniform(night);
+    // East: +X; half the width; colour times strength.
+    CHECK(rim[0][0] == doctest::Approx(1.0f));
+    CHECK(rim[0][1] == doctest::Approx(0.0f).epsilon(0.001));
+    CHECK(rim[0][2] == doctest::Approx(40.0f * 3.14159265f / 180.0f));
+    CHECK(rim[1][1] == doctest::Approx(0.9f));
+
+    // The theme's haze dims it as it dims the sun's glow.
+    inputs.forcedTheme = std::string("rimhazy");
+    model.snap();
+    CHECK(model.update(inputs, 0.016f).rimGlowStrength == doctest::Approx(1.0f * (1.0f - 0.5f * 0.85f)));
+
+    // Unknown keys are refused.
+    SkyPresetLibrary refused;
+    CHECK_FALSE(refused.loadFromYaml(withThemes("  bad: {rim_glow: {glow: 1}}\n"), error));
 }

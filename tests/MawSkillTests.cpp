@@ -451,7 +451,7 @@ TEST_CASE("MAW shows monster resistances as its damage reads them and held auras
     Party party;
     party.seed(seed);
     CHECK_FALSE(rules.gameRules().spells.heldBuffText(party, 86).has_value());
-    rules.state().auraHolders[86] = 0;
+    party.rulesetState().auraHolders[86] = 0;
     CHECK_EQ(rules.gameRules().spells.heldBuffText(party, 86).value_or(""), "Held by Ann");
     CHECK_FALSE(standardGameRules().spells.heldBuffText(party, 86).has_value());
 }

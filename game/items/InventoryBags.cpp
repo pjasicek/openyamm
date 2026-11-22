@@ -702,11 +702,12 @@ std::vector<uint8_t> carriedBags(const Party &party, int bagCount, bool withPouc
         bags.push_back(uint8_t(bag));
     }
 
-    if (withPouches && party.rules().items.hasPouches())
+    for (const ItemPouch pouch : {ItemPouch::Alchemy, ItemPouch::Crafting, ItemPouch::Quest})
     {
-        bags.push_back(AlchemyPouchBag);
-        bags.push_back(CraftingPouchBag);
-        bags.push_back(QuestPouchBag);
+        if (withPouches && party.hasPouch(pouch))
+        {
+            bags.push_back(pouchBag(pouch));
+        }
     }
 
     return bags;

@@ -959,6 +959,9 @@ public:
         float durationSeconds = 2.0f,
         StatusBarEventPriority priority = StatusBarEventPriority::Normal);
     bool statusBarEventActive() const;
+    // Every status bar event shown from now on is also appended to this list (a scenario's status() reads it); null
+    // keeps none.
+    void setStatusBarEventLog(std::vector<std::string> *pLog);
     void setStatusBarHoverText(const std::string &text, bool fromWorld = false);
     void clearStatusBarHoverText();
     // Clears the hover text when the world's hover set it, and the hovered ground item's label.
@@ -973,5 +976,6 @@ private:
 
     State m_state;
     State *m_pExternalState = nullptr;
+    std::vector<std::string> *m_pStatusBarEventLog = nullptr;
 };
 }

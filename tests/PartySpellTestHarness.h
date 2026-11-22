@@ -987,8 +987,9 @@ public:
 
     bool applyPartyAttackMeleeDamage(size_t actorIndex, int damage, const Game::GameplayWorldPoint &source,
         Game::ShieldAttackTier shieldTier, const Game::ShieldHitModifiers &shieldModifiers = {},
-        bool critical = false, bool hitReaction = true) override
+        bool critical = false, bool hitReaction = true, uint32_t weaponItemId = 0) override
     {
+        (void)weaponItemId;
         (void)actorIndex;
         (void)damage;
         (void)source;

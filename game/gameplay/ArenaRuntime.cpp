@@ -201,7 +201,7 @@ bool interactWithArena(IGameplayWorldRuntime &world, uint32_t npcId)
     const int32_t reward = arenaVariable(*pState, RewardVariable);
     pState->namedMapVars[ClaimedVariable] = 1;
     pParty->addGold(reward, GoldReason::Event);
-    pParty->addEventVariableValue(uint16_t(EvtVariable::ArenaWinsPage) + difficulty - 1, 1);
+    pParty->campaign().addEventVariableValue(uint16_t(EvtVariable::ArenaWinsPage) + difficulty - 1, 1);
     pParty->addAward(45 + difficulty);
     pState->messages.push_back(Engine::tr("Congratulations! You have won {gold} gold.", {{"gold", reward}}));
     EventRuntimeState::PendingSound sound = {};

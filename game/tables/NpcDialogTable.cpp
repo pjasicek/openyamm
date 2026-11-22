@@ -1,5 +1,7 @@
 #include "game/tables/NpcDialogTable.h"
 
+#include "engine/Localization.h"
+#include "game/tables/MergedBaseTables.h"
 #include "game/tables/RosterTable.h"
 
 #include <algorithm>
@@ -554,6 +556,19 @@ bool NpcDialogTable::loadNpcRows(const std::vector<std::vector<std::string>> &ro
             entry.topicIds.pop_back();
         }
 
+        constexpr size_t TitleColumn = 17;
+
+        if (row.size() > TitleColumn)
+        {
+            const std::string &title = row[TitleColumn];
+            const size_t first = title.find_first_not_of(" \t\r");
+
+            if (first != std::string::npos)
+            {
+                entry.title = title.substr(first, title.find_last_not_of(" \t\r") - first + 1);
+            }
+        }
+
         m_npcs[entry.id] = std::move(entry);
     }
 
@@ -865,5 +880,30 @@ std::optional<NpcDialogTable::ResolvedTopic> NpcDialogTable::getTopicById(uint32
     }
 
     return topic;
+}
+
+std::string npcNameAndTitle(const NpcEntry &npc, const MergedNpcProfessionTable *pProfessionTable)
+{
+    if (npc.name.empty())
+    {
+        return {};
+    }
+
+    if (!npc.title.empty())
+    {
+        return Engine::tr("{name}, {title}", {{"name", Engine::localize(npc.name)},
+                                              {"title", Engine::localize(npc.title)}});
+    }
+
+    const MergedNpcProfessionEntry *pProfession =
+        pProfessionTable != nullptr && npc.professionId != 0 ? pProfessionTable->get(npc.professionId) : nullptr;
+
+    if (pProfession != nullptr && !pProfession->profession.empty())
+    {
+        return Engine::tr("{name} the {profession}", {{"name", Engine::localize(npc.name)},
+                                                      {"profession", Engine::localize(pProfession->profession)}});
+    }
+
+    return Engine::localize(npc.name);
 }
 }

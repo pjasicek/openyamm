@@ -1,5 +1,6 @@
 #pragma once
 
+#include "game/gameplay/PlayerId.h"
 #include "game/party/SkillData.h"
 
 #include <cstddef>
@@ -28,6 +29,9 @@ struct ArmageddonState
     uint32_t skillLevel = 0;
     SkillMastery skillMastery = SkillMastery::None;
     uint32_t casterMemberIndex = 0;
+    // Whose character cast it (a co-op host's game casts for its guests): its party's skill sets the damage, and the
+    // kills are that player's.
+    PlayerId sourcePlayer = LocalPlayer;
     uint32_t shakeStepsRemaining = 0;
     uint32_t shakeSequence = 0;
     float cameraShakeYawRadians = 0.0f;

@@ -2556,26 +2556,62 @@ void NewGameScreen::drawContinentSelection(float deltaSeconds)
     drawDesign();
     drawRulesetSwitch();
     std::string chosenContinent;
-    for (const std::string key : {"enroth", "antagarich", "jadame", "chedian"})
+    // A card for each new-game continent with a card (character_selection.yml and the worlds' own), by its order:
+    // copies of the layout's card template spread evenly over the card band, shrunk alike when they do not fit.
+    std::vector<const MergedCharacterSelectionContinent *> cards;
+    if (m_pGameData != nullptr)
     {
-        std::string name = key;
-        name[0] = char(std::toupper(name[0]));
-        const std::string prefix = "ContinentSelection" + name;
-        const bool available = continentOffered(key);
-        const Rect rect = designRect(prefix + "Button");
-        if (button(prefix, rect, "", "world_card", available, available && pointerInside(rect)))
+        for (const MergedCharacterSelectionContinent &continent :
+             m_pGameData->mergedCharacterSelectionTable().continents())
         {
-            chosenContinent = key;
+            if (continent.hasCard)
+            {
+                cards.push_back(&continent);
+            }
+        }
+    }
+    std::stable_sort(cards.begin(), cards.end(),
+                     [](const MergedCharacterSelectionContinent *pLeft, const MergedCharacterSelectionContinent *pRight)
+                     {
+                         return pLeft->cardOrder < pRight->cardOrder;
+                     });
+    const Rect band = designRect("ContinentSelectionCards");
+    const Rect card = designRect("ContinentSelectionCardButton");
+    const float gap = designRect("ContinentSelectionCardGap").width;
+    const float count = float(cards.size());
+    const float rowWidth = count * card.width + std::max(0.0f, count - 1) * gap;
+    const float cardScale = rowWidth > 0 ? std::min(1.0f, band.width / rowWidth) : 1.0f;
+    const float rowX = band.x + (band.width - rowWidth * cardScale) / 2;
+    const float rowY = band.y + (band.height - card.height * cardScale) / 2;
+    for (size_t index = 0; index < cards.size(); ++index)
+    {
+        const MergedCharacterSelectionContinent &continent = *cards[index];
+        const float cardX = rowX + float(index) * (card.width + gap) * cardScale;
+        // A template element's rect moved onto this card and scaled with it.
+        const auto placed = [&](const std::string &id)
+        {
+            const Rect rect = designRect(id);
+            return Rect{cardX + (rect.x - card.x) * cardScale, rowY + (rect.y - card.y) * cardScale,
+                        rect.width * cardScale, rect.height * cardScale};
+        };
+        const bool available = continentOffered(continent.key);
+        const Rect rect = placed("ContinentSelectionCardButton");
+        if (button("ContinentSelection-" + continent.key, rect, "", "world_card", available,
+                   available && pointerInside(rect)))
+        {
+            chosenContinent = continent.key;
         }
         // Cards draw their pictures and lettering above their blank selectable skin.
         // A card that cannot be chosen is dimmed: faded picture, grey lettering.
-        const UiLayoutManager::LayoutElement *pImage = m_designLayouts.findElement(prefix + "Illustration");
-        drawTextureColor(pImage->primaryAsset, designRect(prefix + "Illustration"),
+        drawTextureColor(continent.cardPicture, placed("ContinentSelectionCardIllustration"),
                          available ? 0xffffffffu : 0x70a0a0a0u);
         const uint32_t textColor = available ? 0 : RulesDisabledText;
-        label(prefix + "Name", Engine::localize(name), textColor);
-        label(prefix + "Game", m_designLayouts.findElement(prefix + "Game")->labelText, textColor);
-        label(prefix + "Start", m_designLayouts.findElement(prefix + "Start")->labelText, textColor);
+        labelIn("ContinentSelectionCardName", placed("ContinentSelectionCardName"),
+                Engine::localize(continent.cardTitle), textColor, cardScale);
+        labelIn("ContinentSelectionCardGame", placed("ContinentSelectionCardGame"),
+                Engine::localize(continent.cardSubtitle), textColor, cardScale);
+        labelIn("ContinentSelectionCardStart", placed("ContinentSelectionCardStart"),
+                Engine::localize(continent.cardCaption), textColor, cardScale);
     }
     if (action("ContinentSelectionCancelButton") || m_escapePressed)
     {

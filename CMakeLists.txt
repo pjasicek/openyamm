@@ -82,6 +82,7 @@ include(BgfxRuntime)
 
 openyamm_configure_lua()
 openyamm_configure_monocypher()
+openyamm_configure_enet()
 include(PlaythroughStatisticsKey)
 openyamm_generate_playthrough_statistics_key("${CMAKE_BINARY_DIR}/generated/PlaythroughStatisticsKey.h")
 include(SpriteAtlasCodecs)

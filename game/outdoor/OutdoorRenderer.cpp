@@ -1100,10 +1100,11 @@ void OutdoorRenderer::ensureSunShadowPrograms(OutdoorGameView &view)
                 "fs_outdoor_textured_fog_array_shadow");
             if (baked && view.m_surfaceMaterialMaps)
             {
+                const char *pVariant = view.m_surfaceGlowOnly ? "_glow" : "_materials";
                 view.m_outdoorBModelMaterialShadowProgramHandle = loadProgramHandle("vs_outdoor_bmodel_lightmap",
-                    "fs_outdoor_bmodel_baked_shadow_materials");
-                view.m_outdoorBModelMaterialShadowArrayProgramHandle = loadProgramHandle(
-                    "vs_outdoor_bmodel_lightmap", "fs_outdoor_bmodel_baked_array_shadow_materials");
+                    (std::string("fs_outdoor_bmodel_baked_shadow") + pVariant).c_str());
+                view.m_outdoorBModelMaterialShadowArrayProgramHandle = loadProgramHandle("vs_outdoor_bmodel_lightmap",
+                    (std::string("fs_outdoor_bmodel_baked_array_shadow") + pVariant).c_str());
                 if (!bgfx::isValid(view.m_outdoorBModelMaterialShadowProgramHandle)
                     || !bgfx::isValid(view.m_outdoorBModelMaterialShadowArrayProgramHandle))
                 {
@@ -1656,7 +1657,8 @@ void OutdoorRenderer::rebuildResolvedBModelDrawGroups(OutdoorGameView &view)
 
     for (const OutdoorGameView::TexturedBModelBatch &batch : view.m_texturedBModelBatches)
     {
-        if (outdoorBModelHasRuntimeMechanism(pEventRuntimeState, batch.bModelIndex))
+        // A translucent face draws on its own, sorted, after the opaque world (renderBModels' second pass).
+        if (outdoorBModelHasRuntimeMechanism(pEventRuntimeState, batch.bModelIndex) || batch.translucent)
         {
             continue;
         }
@@ -2936,8 +2938,11 @@ void OutdoorRenderer::createBModelTextureBatches(
             {
                 animationHandle.materialNormal =
                     createCookedTexture2D(*pFrameTexture->materialNormal, TextureFilterProfile::BModel);
-                animationHandle.materialDetail =
-                    createCookedTexture2D(*pFrameTexture->materialDetail, TextureFilterProfile::BModel);
+                if (pFrameTexture->materialDetail != nullptr)
+                {
+                    animationHandle.materialDetail =
+                        createCookedTexture2D(*pFrameTexture->materialDetail, TextureFilterProfile::BModel);
+                }
             }
         }
 
@@ -2972,8 +2977,11 @@ void OutdoorRenderer::createBModelTextureBatches(
                 {
                     animation.materialNormal =
                         createCookedTexture2D(*pTexture->materialNormal, TextureFilterProfile::BModel);
-                    animation.materialDetail =
-                        createCookedTexture2D(*pTexture->materialDetail, TextureFilterProfile::BModel);
+                    if (pTexture->materialDetail != nullptr)
+                    {
+                        animation.materialDetail =
+                            createCookedTexture2D(*pTexture->materialDetail, TextureFilterProfile::BModel);
+                    }
                 }
                 continue;
             }
@@ -3024,19 +3032,30 @@ void OutdoorRenderer::createBModelTextureBatches(
                 {
                     view.m_bmodelTextureAnimations[animationIndex].materialLayer = int32_t(normalLayers.size());
                     normalLayers.push_back(pTexture->materialNormal.get());
-                    detailLayers.push_back(pTexture->materialDetail.get());
+                    // A glow-only load (D-55) has normal maps alone.
+                    if (pTexture->materialDetail != nullptr)
+                    {
+                        detailLayers.push_back(pTexture->materialDetail.get());
+                    }
                 }
             }
             if (normalLayers.size() == 1)
             {
                 normalLayers.push_back(normalLayers.front());
-                detailLayers.push_back(detailLayers.front());
+                if (!detailLayers.empty())
+                {
+                    detailLayers.push_back(detailLayers.front());
+                }
             }
             if (!normalLayers.empty())
             {
                 array.materialNormal = createCookedTexture2DArray(normalLayers, TextureFilterProfile::BModel);
-                array.materialDetail = createCookedTexture2DArray(detailLayers, TextureFilterProfile::BModel);
-                if (!bgfx::isValid(array.materialNormal) || !bgfx::isValid(array.materialDetail))
+                if (!detailLayers.empty())
+                {
+                    array.materialDetail = createCookedTexture2DArray(detailLayers, TextureFilterProfile::BModel);
+                }
+                if (!bgfx::isValid(array.materialNormal)
+                    || (!detailLayers.empty() && !bgfx::isValid(array.materialDetail)))
                 {
                     throw std::runtime_error("Cannot create bmodel surface material arrays");
                 }
@@ -3139,7 +3158,8 @@ void OutdoorRenderer::createBModelTextureBatches(
             batch.boundsMin = batchBounds.min;
             batch.boundsMax = batchBounds.max;
             batch.hasBounds = batchBounds.valid;
-            batch.translucent = bmodelWorld && dynamicRenderFaceIt->second;
+            // MM9's BModel world: the render sidecar's flag; a classic map: the scene's `translucent_faces`.
+            batch.translucent = bmodelWorld ? dynamicRenderFaceIt->second : face.translucent;
             const auto animationIndexIterator = animationIndexByTextureName.find(batch.textureName);
 
             if (animationIndexIterator != animationIndexByTextureName.end())
@@ -3147,6 +3167,7 @@ void OutdoorRenderer::createBModelTextureBatches(
                 batch.defaultAnimationIndex = animationIndexIterator->second;
             }
 
+            view.m_hasTranslucentBModelBatches = view.m_hasTranslucentBModelBatches || batch.translucent;
             view.m_texturedBModelBatches.push_back(std::move(batch));
         }
     }
@@ -3659,6 +3680,8 @@ bool OutdoorRenderer::initializeWorldRenderResources(
         loadProgramHandle("vs_outdoor_textured_fog", "fs_outdoor_textured_fog");
     view.m_surfaceMaterialMaps =
         outdoorBModelTextureSet && hasSurfaceMaterialMaps(outdoorBModelTextureSet->textures);
+    view.m_surfaceGlowOnly =
+        view.m_surfaceMaterialMaps && hasSurfaceGlowOnlyMaps(outdoorBModelTextureSet->textures);
     if (view.m_gameSettings.lightmaps && outdoorMapData.lightingData)
     {
         view.m_outdoorBModelLightmapProgramHandle =
@@ -3673,10 +3696,12 @@ bool OutdoorRenderer::initializeWorldRenderResources(
             loadProgramHandle("vs_outdoor_textured_fog", "fs_outdoor_textured_fog_array");
         if (outdoorMapData.lightingData->hasBakedSources() && view.m_surfaceMaterialMaps)
         {
-            view.m_outdoorBModelMaterialProgramHandle =
-                loadProgramHandle("vs_outdoor_bmodel_lightmap", "fs_outdoor_bmodel_baked_materials");
-            view.m_outdoorBModelMaterialArrayProgramHandle =
-                loadProgramHandle("vs_outdoor_bmodel_lightmap", "fs_outdoor_bmodel_baked_array_materials");
+            // The glow variants of the ordinary programs when the maps came for their glow alone (D-55).
+            const char *pVariant = view.m_surfaceGlowOnly ? "_glow" : "_materials";
+            view.m_outdoorBModelMaterialProgramHandle = loadProgramHandle("vs_outdoor_bmodel_lightmap",
+                (std::string("fs_outdoor_bmodel_baked") + pVariant).c_str());
+            view.m_outdoorBModelMaterialArrayProgramHandle = loadProgramHandle("vs_outdoor_bmodel_lightmap",
+                (std::string("fs_outdoor_bmodel_baked_array") + pVariant).c_str());
             if (!bgfx::isValid(view.m_outdoorBModelMaterialProgramHandle)
                 || !bgfx::isValid(view.m_outdoorBModelMaterialArrayProgramHandle))
             {
@@ -4140,19 +4165,21 @@ void OutdoorRenderer::bindLightGrid(OutdoorGameView &view, bool mainCamera)
     view.m_lightGridBinding.bind(mainCamera ? &view.m_lightGrid : nullptr, Engine::LightGridModeFull);
 }
 
-bool OutdoorRenderer::bindSurfaceMaterial(OutdoorGameView &view, const OutdoorGameView::ResolvedBModelDrawGroup &group,
+bool OutdoorRenderer::bindSurfaceMaterial(OutdoorGameView &view, int32_t arrayIndex, uint16_t lightmapPageIndex,
     const OutdoorGameView::BModelTextureAnimationHandle *pAnimation, size_t frameIndex, uint16_t viewId)
 {
-    if (!view.m_gameSettings.surfaceMaterials || !bgfx::isValid(view.m_surfaceMaterialUniformHandle)
-        || view.m_pOutdoorMapData->lightingData->directSunPagesRle.empty())
+    // A glow-only map (D-55) draws its glow whatever the setting; the material shading needs the direct-sun page.
+    const bool glowOnly = view.m_surfaceGlowOnly;
+    if ((!view.m_gameSettings.surfaceMaterials && !glowOnly) || !bgfx::isValid(view.m_surfaceMaterialUniformHandle)
+        || (!glowOnly && view.m_pOutdoorMapData->lightingData->directSunPagesRle.empty()))
     {
         return false;
     }
     bgfx::TextureHandle normal = BGFX_INVALID_HANDLE;
     bgfx::TextureHandle detail = BGFX_INVALID_HANDLE;
-    if (group.arrayIndex >= 0)
+    if (arrayIndex >= 0)
     {
-        const OutdoorGameView::BModelTextureArray &array = view.m_bmodelTextureArrays[group.arrayIndex];
+        const OutdoorGameView::BModelTextureArray &array = view.m_bmodelTextureArrays[arrayIndex];
         normal = array.materialNormal;
         detail = array.materialDetail;
     }
@@ -4166,11 +4193,18 @@ bool OutdoorRenderer::bindSurfaceMaterial(OutdoorGameView &view, const OutdoorGa
         return false;
     }
     bindTexture(7, view.m_surfaceNormalSamplerHandle, normal, TextureFilterProfile::BModel);
+    if (glowOnly)
+    {
+        // Only the night factor counts for the glow.
+        const std::array<float, 4> values = {0.0f, view.m_surfaceNightGlow, 0.0f, 0.0f};
+        bgfx::setUniform(view.m_surfaceMaterialUniformHandle, values.data());
+        return true;
+    }
     bindTexture(8, view.m_surfaceDetailSamplerHandle, detail, TextureFilterProfile::BModel);
     // Without mesh shadows the direct-only sun page is not bound yet; the relighting needs it.
     if (!view.m_modelRenderer.hasSunShadows())
     {
-        bindTexture(5, view.m_bakedSunDirectSamplerHandle, bakedSunDirectTexture(view, group.lightmapPageIndex),
+        bindTexture(5, view.m_bakedSunDirectSamplerHandle, bakedSunDirectTexture(view, lightmapPageIndex),
             TextureFilterProfile::Lightmap);
     }
     // Parallax only in the main view: reflections are small and blurred.
@@ -4235,7 +4269,8 @@ void OutdoorRenderer::submitResolvedBModelDrawGroup(OutdoorGameView &view,
         view.m_modelRenderer.bindSunShadows();
     }
     bgfx::ProgramHandle program = BGFX_INVALID_HANDLE;
-    if (group.usesStaticLighting && bindSurfaceMaterial(view, group, pAnimation, frameIndex, viewId))
+    if (group.usesStaticLighting
+        && bindSurfaceMaterial(view, group.arrayIndex, group.lightmapPageIndex, pAnimation, frameIndex, viewId))
     {
         const bgfx::ProgramHandle lit = arrayed
             ? view.m_outdoorBModelMaterialArrayProgramHandle : view.m_outdoorBModelMaterialProgramHandle;
@@ -4671,8 +4706,7 @@ void OutdoorRenderer::renderWaterReflections(OutdoorGameView &view, const float 
         applyOutdoorFogUniforms(view.m_outdoorFogColorUniformHandle, view.m_outdoorFogDensitiesUniformHandle,
             view.m_outdoorFogDistancesUniformHandle, view.m_outdoorCameraPositionUniformHandle, reflection.camera, fog);
         applyOutdoorSurfaceUniforms(view);
-        const std::array<float, 4> clip = {0.0f, 0.0f, 1.0f, -reflection.height};
-        bgfx::setUniform(view.m_worldClipPlaneUniformHandle, clip.data());
+        bgfx::setUniform(view.m_worldClipPlaneUniformHandle, reflection.plane.data());
         float identity[16];
         bx::mtxIdentity(identity);
         const uint32_t transform = bgfx::setTransform(identity);
@@ -4699,8 +4733,8 @@ void OutdoorRenderer::renderWaterReflections(OutdoorGameView &view, const float 
             {
                 size_t frame = 0;
                 if (group.waterSurface || !bgfx::isValid(group.vertexBufferHandle) || group.vertexCount == 0
-                    || (group.hasBounds && (group.boundsMax.z < reflection.height
-                        || !frustum.intersectsBounds(group.boundsMin, group.boundsMax)))
+                    || (group.hasBounds && (!reflectionPlaneBoundsInFront(reflection.plane, group.boundsMin,
+                        group.boundsMax) || !frustum.intersectsBounds(group.boundsMin, group.boundsMax)))
                     || !resolvedBModelGroupFrame(view, group, ticks, frame))
                 {
                     continue;
@@ -4752,14 +4786,15 @@ void OutdoorRenderer::renderWaterReflections(OutdoorGameView &view, const float 
                 }, scene.sky ? &*scene.sky : nullptr,
                 [&](const Engine::ModelBounds &bounds)
                 {
-                    return bounds.max[2] >= reflection.height && modelFrustum.intersectsBounds(
+                    return reflectionPlaneBoundsInFront(reflection.plane, {bounds.min[0], bounds.min[1], bounds.min[2]},
+                        {bounds.max[0], bounds.max[1], bounds.max[2]}) && modelFrustum.intersectsBounds(
                         {bounds.min[0], bounds.min[1], bounds.min[2]}, {bounds.max[0], bounds.max[1], bounds.max[2]});
                 },
                 view.m_gameSettings.modelLods ? std::abs(reflection.projection[5]) * float(size) * 0.5f : 0.0f,
                 view.m_elapsedTime);
             // Recover the ordinary camera basis so bottom-anchored sprites remain above the water.
             float billboardView[16];
-            waterReflectionView(billboardView, reflection.view.data(), reflection.height);
+            reflectionPlaneView(billboardView, reflection.view.data(), reflection.plane);
             const ViewFrustum spriteFrustum(reflection.view.data(), reflection.projection.data(),
                 bgfx::getCaps()->homogeneousDepth);
             OutdoorBillboardRenderer::renderActorPreviewBillboards(
@@ -5167,7 +5202,8 @@ void OutdoorRenderer::renderWorldPasses(OutdoorGameView &view, uint16_t viewWidt
                 bgfx::isValid(view.m_outdoorFxLightParamsUniformHandle) &&
                 bgfx::isValid(view.m_secretPulseParamsUniformHandle))
             {
-                const size_t bmodelRenderPassCount = bmodelWorld ? 2 : 1;
+                // A classic map draws a second pass only for the scene's translucent faces.
+                const size_t bmodelRenderPassCount = bmodelWorld || view.m_hasTranslucentBModelBatches ? 2 : 1;
                 for (size_t renderPass = 0; renderPass < bmodelRenderPassCount; ++renderPass)
                 {
                     const bool translucentPass = renderPass == 1;
@@ -5296,7 +5332,7 @@ void OutdoorRenderer::renderWorldPasses(OutdoorGameView &view, uint16_t viewWidt
                         }
                     }
 
-                    if (!bmodelWorld)
+                    if (!bmodelWorld && !translucentPass)
                     {
                         for (const OutdoorGameView::ResolvedBModelDrawGroup &group : view.m_resolvedBModelDrawGroups)
                         {
@@ -5325,11 +5361,42 @@ void OutdoorRenderer::renderWorldPasses(OutdoorGameView &view, uint16_t viewWidt
                         }
                     }
 
-                    for (const OutdoorGameView::TexturedBModelBatch &batch : view.m_texturedBModelBatches)
+                    // A classic map's translucent faces: back to front by the distance from the eye to their
+                    // centre (the transparent view draws in order), as indoors.
+                    std::vector<size_t> batchOrder;
+                    batchOrder.reserve(view.m_texturedBModelBatches.size());
+
+                    for (size_t batchIndex = 0; batchIndex < view.m_texturedBModelBatches.size(); ++batchIndex)
                     {
-                        if (!outdoorBModelUsesRuntimeDraw(
-                                pEventRuntimeState, view.m_pOutdoorWorldRuntime, batch.bModelIndex) ||
-                            batch.vertices.empty() || (bmodelWorld && batch.translucent != translucentPass) ||
+                        if (!translucentPass || bmodelWorld || view.m_texturedBModelBatches[batchIndex].translucent)
+                        {
+                            batchOrder.push_back(batchIndex);
+                        }
+                    }
+
+                    if (translucentPass && !bmodelWorld)
+                    {
+                        const auto eyeDistanceSquared = [&](const OutdoorGameView::TexturedBModelBatch &batch)
+                        {
+                            const bx::Vec3 offset = {(batch.boundsMin.x + batch.boundsMax.x) * 0.5f - cameraPosition.x,
+                                                     (batch.boundsMin.y + batch.boundsMax.y) * 0.5f - cameraPosition.y,
+                                                     (batch.boundsMin.z + batch.boundsMax.z) * 0.5f - cameraPosition.z};
+                            return bx::dot(offset, offset);
+                        };
+                        std::stable_sort(batchOrder.begin(), batchOrder.end(), [&](size_t left, size_t right)
+                            {
+                                return eyeDistanceSquared(view.m_texturedBModelBatches[left])
+                                    > eyeDistanceSquared(view.m_texturedBModelBatches[right]);
+                            });
+                    }
+
+                    for (const size_t batchIndex : batchOrder)
+                    {
+                        const OutdoorGameView::TexturedBModelBatch &batch = view.m_texturedBModelBatches[batchIndex];
+
+                        if (!(batch.translucent || outdoorBModelUsesRuntimeDraw(
+                                pEventRuntimeState, view.m_pOutdoorWorldRuntime, batch.bModelIndex)) ||
+                            batch.vertices.empty() || batch.translucent != translucentPass ||
                             outdoorFaceHiddenByEventRuntime(batch.faceId, batch.baseAttributes, pMapDeltaData,
                                                             pEventRuntimeState))
                         {
@@ -5413,10 +5480,9 @@ void OutdoorRenderer::renderWorldPasses(OutdoorGameView &view, uint16_t viewWidt
                         {
                             continue;
                         }
-                        const bool blendPartialAlpha =
-                            bmodelWorld ? batch.translucent
-                                        : (frameIndex < animation.frameHasPartialAlphaPixels.size() &&
-                                           animation.frameHasPartialAlphaPixels[frameIndex]);
+                        const bool blendPartialAlpha = batch.translucent
+                            || (!bmodelWorld && frameIndex < animation.frameHasPartialAlphaPixels.size()
+                                && animation.frameHasPartialAlphaPixels[frameIndex]);
 
                         uint32_t effectiveAttributes = batch.baseAttributes;
 
@@ -5571,7 +5637,7 @@ void OutdoorRenderer::renderWorldPasses(OutdoorGameView &view, uint16_t viewWidt
                         }
 
                         uint64_t state = BGFX_STATE_WRITE_RGB | BGFX_STATE_WRITE_A | BGFX_STATE_DEPTH_TEST_LEQUAL;
-                        if (!bmodelWorld || !batch.translucent)
+                        if (!batch.translucent)
                         {
                             state |= BGFX_STATE_WRITE_Z;
                         }
@@ -5585,10 +5651,27 @@ void OutdoorRenderer::renderWorldPasses(OutdoorGameView &view, uint16_t viewWidt
                             view.m_modelRenderer.bindSunShadows();
                         }
                         bindLightGrid(view, true);
-                        bgfx::submit(batchView,
-                                     usesStaticLighting ? (arrayedTexture ? bModelArrayProgram : bModelProgram)
-                                                        : (arrayedTexture ? texturedArrayProgram : texturedProgram),
-                                     0, BGFX_DISCARD_ALL);
+                        bgfx::ProgramHandle program = usesStaticLighting
+                            ? (arrayedTexture ? bModelArrayProgram : bModelProgram)
+                            : (arrayedTexture ? texturedArrayProgram : texturedProgram);
+
+                        // The surface material maps as the static groups draw them (D-55's glow: D5's Barrier
+                        // curtain), for a studio map's translucent faces and, on a glow-only map, every face drawn
+                        // here (moving ones too). MM6-MM9 draw none of these with materials: unchanged.
+                        if (usesStaticLighting && (view.m_surfaceGlowOnly || (batch.translucent && !bmodelWorld))
+                            && bgfx::isValid(view.m_outdoorBModelMaterialProgramHandle)
+                            && bindSurfaceMaterial(view, arrayedTexture ? animation.arrayIndex : -1,
+                                batch.lightmapPageIndex, &animation, frameIndex, batchView))
+                        {
+                            const bool meshShadows = view.m_modelRenderer.hasSunShadows();
+                            program = arrayedTexture
+                                ? (meshShadows ? view.m_outdoorBModelMaterialShadowArrayProgramHandle
+                                               : view.m_outdoorBModelMaterialArrayProgramHandle)
+                                : (meshShadows ? view.m_outdoorBModelMaterialShadowProgramHandle
+                                               : view.m_outdoorBModelMaterialProgramHandle);
+                        }
+
+                        bgfx::submit(batchView, program, 0, BGFX_DISCARD_ALL);
                     }
                 }
             }

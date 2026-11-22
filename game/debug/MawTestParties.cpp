@@ -683,9 +683,10 @@ bool MawTestPartyCatalog::loadFromYaml(const std::string &text, std::string &err
                 return false;
             }
 
-            if (!stageEntry.banks.empty() && stageEntry.banks.size() != MawGameState::ContinentCount)
+            if (!stageEntry.banks.empty() && stageEntry.banks.size() != 4
+                && stageEntry.banks.size() != MawGameState::ContinentCount)
             {
-                errorMessage = "stage " + stageEntry.id + ": banks are MM8, MM7, MM6 and MM9";
+                errorMessage = "stage " + stageEntry.id + ": banks are MM8, MM7, MM6, MM9 and optionally Xeen";
                 return false;
             }
 
@@ -951,7 +952,7 @@ std::string applyMawTestParty(
 
     for (uint32_t questBit : stage.questBits)
     {
-        party.setQuestBit(questBit, true);
+        party.campaign().setQuestBit(questBit, true);
     }
 
     const MawRarity rarity = parseRarity(stage.gear.rarity).value_or(MawRarity::Common);

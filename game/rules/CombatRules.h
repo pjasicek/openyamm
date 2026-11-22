@@ -406,6 +406,10 @@ public:
     virtual void characterDamaged(Party &party, size_t memberIndex) const;
     // Each frame of play: combat state that lapses with time (MAW's Retaliation stacks). Standard: none.
     virtual void updateCombat(Party &party, IGameplayWorldRuntime &world, float deltaSeconds) const;
+    // A party whose own game runs the rules for it (another player's on a co-op host, standing at x, y): what the
+    // host's world reads of it when it does something to it (a monster's hit) is worked out here, and nothing of the
+    // party is changed. The caller has made it the party in play.
+    virtual void observeRemoteParty(const Party &party, const IGameplayWorldRuntime &world, float x, float y) const;
     // A condition landed on a member (again or for the first time). Standard: nothing.
     virtual void characterConditionApplied(Party &party, size_t memberIndex, CharacterCondition condition) const;
     // What else a monster's hit does to the party after its damage landed (MAW boss affixes); the attacker's actor id

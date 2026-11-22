@@ -111,6 +111,7 @@ private:
     bgfx::UniformHandle m_paramsUniform = BGFX_INVALID_HANDLE;
     bgfx::UniformHandle m_cloudsUniform = BGFX_INVALID_HANDLE;
     bgfx::UniformHandle m_orbitUniform = BGFX_INVALID_HANDLE;
+    bgfx::UniformHandle m_rimUniform = BGFX_INVALID_HANDLE;
     std::array<bgfx::UniformHandle, 7> m_samplers;
     bgfx::TextureHandle m_emptyTexture = BGFX_INVALID_HANDLE;
     bgfx::TextureHandle m_moonFallbackTexture = BGFX_INVALID_HANDLE;

@@ -22,7 +22,7 @@ $input v_texcoord0, v_worldPosition, v_texcoord1, v_screenspace, v_flowInfo, v_c
 #include "world_clip.sh"
 #include "light_grid.sh"
 #include "sky_common.sh"
-#if SURFACE_MATERIALS
+#if SURFACE_MATERIALS || SURFACE_GLOW_ONLY
 #include "surface_material.sh"
 #endif
 #if INDOOR_TERRAIN
@@ -351,6 +351,10 @@ void main()
     SurfacePoint material = surfacePoint(texture2D(s_surfaceNormal, texcoord), texture2D(s_surfaceDetail, texcoord),
         faceNormal, gradientU, gradientV, u_surfaceMaterial.y);
 #endif
+#if SURFACE_GLOW_ONLY
+    // Read before any discard, in uniform control flow (implicit derivatives).
+    float glowSample = texture2D(s_surfaceNormal, texcoord).b;
+#endif
     vec4 textureColor = texture2D(s_texColor, texcoord);
 
     // A face of the scene's `opaque_faces`: its texture's alpha is no cut-out (MM9's window glass without its
@@ -376,6 +380,10 @@ void main()
     vec3 faceLighting = getIndoorLighting(v_worldPosition, indoorFlatNormal(v_worldPosition),
         indoorVertexLight(v_color0), v_lightmapUv, v_faceInfo);
     vec3 color = textureColor.rgb * faceLighting;
+#if SURFACE_GLOW_ONLY
+    // Glass is lit from outside at any hour (u_surfaceMaterial.y is 1 indoors).
+    color = surfaceGlowOnlyColor(color, textureColor.rgb, surfaceGlowStrength(glowSample, u_surfaceMaterial.y));
+#endif
 #if INDOOR_FOG
     vec3 fogLight = faceLighting;
 #endif

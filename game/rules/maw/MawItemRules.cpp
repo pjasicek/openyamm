@@ -1300,7 +1300,7 @@ std::optional<std::string> MawItemRules::sellRefusal(const Party &party, const I
     }
 
     const bool done = std::any_of(quest->questBits.begin(), quest->questBits.end(),
-                          [&party](uint32_t bit) { return party.hasQuestBit(bit); })
+                          [&party](uint32_t bit) { return party.campaign().hasQuestBit(bit); })
         || std::any_of(quest->awards.begin(), quest->awards.end(),
             [&party](uint32_t award) { return party.hasAward(award); });
     return done ? std::nullopt
@@ -1324,7 +1324,7 @@ void MawItemRules::itemSold(Party &party, const InventoryItem &item) const
     // The seer would hand it out again while this bit is set.
     if (once->second != 0)
     {
-        party.setQuestBit(once->second, false);
+        party.campaign().setQuestBit(once->second, false);
     }
 }
 
@@ -1376,7 +1376,7 @@ void MawItemRules::rollEnchantments(
 
                 if (pParty != nullptr)
                 {
-                    pParty->markArtifactItemFound(artifactId);
+                    pParty->campaign().markArtifactItemFound(artifactId);
                 }
 
                 return;
@@ -2906,8 +2906,13 @@ std::optional<int> MawItemRules::shopRerollCost(const Party &, const HouseEntry 
         return std::nullopt;
     }
 
-    // MMMerge's continents: Jadame (MM8) 1, Antagarich (MM7) 2, Enroth (MM6) 3; MAW's Chedian (MM9) 5.
-    const uint32_t continent = house.worldId == "mm7" ? 2 : house.worldId == "mm6" ? 3 : house.worldId == "mm9" ? 5 : 1;
+    // MMMerge's continents: Jadame (MM8) 1, Antagarich (MM7) 2, Enroth (MM6) 3; MAW's Chedian (MM9) 5 and the World
+    // of Xeen 6 (its Darkside's 7 shares the bank).
+    const uint32_t continent = house.worldId == "mm7" ? 2
+        : house.worldId == "mm6"                       ? 3
+        : house.worldId == "mm9"                       ? 5
+        : house.worldId == "xeen"                      ? 6
+                                                       : 1;
     const MawGameState &state = m_rules.state();
     const double ownLevel = state.levelOn(continent);
     const double partyLevel = state.totalLevel() - std::min(ownLevel / 2, 54.0);
@@ -3336,20 +3341,7 @@ std::optional<ItemPouch> MawItemRules::pouch(const ItemDefinition &definition) c
         return ItemPouch::Alchemy;
     }
 
-    // Quest items are what is worth nothing (the user, 2026-11-17): keys, letters, message scrolls, trophies. What
-    // is worn or wielded stays with the gear, whatever it is worth (blasters, the Wetsuit); a pile of gold is no item
-    // of a bag.
-    static constexpr std::array<std::string_view, 15> Gear = {
-        "Weapon", "Weapon2", "Weapon1or2", "Missile", "WeaponW", "Armor", "Shield", "Helm", "Belt", "Cloak",
-        "Gauntlets", "Boots", "Ring", "Amulet", "Gold"};
-
-    if (definition.itemId != 0 && definition.value == 0 && !definition.name.empty()
-        && std::find(Gear.begin(), Gear.end(), definition.equipStat) == Gear.end())
-    {
-        return ItemPouch::Quest;
-    }
-
-    return std::nullopt;
+    return questItem(definition) ? std::optional<ItemPouch>(ItemPouch::Quest) : std::nullopt;
 }
 
 std::optional<std::string> MawItemRules::chestOpenRefusal(const Party &party, int mapLock) const

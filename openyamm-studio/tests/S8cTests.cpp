@@ -8,6 +8,7 @@
 #include "core/MapLoad.h"
 #include "core/Project.h"
 #include "core/Reachability.h"
+#include "game/events/ScriptedEventProgram.h"
 #include "game/indoor/IndoorMapData.h"
 #include "game/maps/IndoorSceneYml.h"
 
@@ -17,6 +18,7 @@
 #include <iterator>
 #include <map>
 #include <random>
+#include <set>
 #include <string>
 #include <vector>
 
@@ -403,6 +405,10 @@ TEST_CASE("a new dungeon without an arrival text is warned of; a timer's window 
     const std::string loadWindow = "format: 0\nevents:\n  - {id: evt:arrive, preset: script, trigger: load, "
                                    "effects: [{message: \"The mayor sent you here.\"}]}\n";
     CHECK(warned(card("map_code: XD-09\n"), loadWindow) == 1);
+    // A world's quest hook called from a timer shows its own arrival text.
+    const std::string hook = "format: 0\nevents:\n  - {id: evt:arrive, preset: script, trigger: timer, every: 1, "
+                             "once: true, effects: [{lua: \"XeenQuests.hook(\\\"m21.arrival\\\")\"}]}\n";
+    CHECK(warned(card("map_code: XD-09\n"), hook) == 0);
 }
 
 TEST_CASE("an opening's `lintel` lays the doorway's top in a surface of its own")
@@ -658,4 +664,105 @@ TEST_CASE("a face whose event runs on a step, without the clickable bit, is no c
     std::string error;
     REQUIRE(exploreEventHandlers(built.loaded, flow, error));
     CHECK(auditSilentClicks(built.loaded, flow).empty());
+}
+
+TEST_CASE("a destructible's on_destroyed and on_damaged events are run by the game, not unbound handlers")
+{
+    const std::string rooms = std::string(PlainRoom)
+        + "    platforms:\n      - {id: platform:boards, at: [512, 512], size: [64, 256], rise: 256}\n";
+    const std::string objects = std::string(PlainStart)
+        + "destructibles:\n  - {id: destructible:boards, of: platform:boards, hp: 5, material: wood, "
+          "on_destroyed: evt:broken, on_damaged: evt:struck}\n";
+    const std::string wiring = "format: 0\nevents:\n"
+                               "  - {id: evt:broken, preset: text, trigger: call, text: The boards give way.}\n"
+                               "  - {id: evt:struck, preset: text, trigger: call, text: The boards creak.}\n"
+                               "  - {id: evt:stray, preset: text, trigger: call, text: Nothing calls this.}\n";
+    const S8cBuilt built = buildS8c({{"rooms.yml", rooms}, {"objects.yml", objects}, {"wiring.yml", wiring}});
+    INFO(built.issueText());
+    REQUIRE(built.built);
+    LoadedMap loaded = built.loaded;
+    std::string scriptError;
+    loaded.events = OpenYAMM::Game::ScriptedEventProgram::loadFromLuaText(
+        loaded.fullScriptSource, "@testmap.lua", OpenYAMM::Game::ScriptedEventScope::Map, scriptError);
+    REQUIRE_MESSAGE(loaded.events, scriptError);
+    std::vector<std::string> unbound;
+
+    for (const AuditFinding &finding : auditWiring(loaded))
+    {
+        if (finding.code == "event.unbound")
+        {
+            unbound.push_back(finding.message);
+        }
+    }
+
+    // Only the handler nothing runs (the third, after the destructible's two).
+    REQUIRE(unbound.size() == 1);
+    CHECK(unbound[0].find("event 3 ") != std::string::npos);
+    CHECK(unbound[0].find("by a destructible") != std::string::npos);
+}
+
+TEST_CASE("a new dungeon's arrival text may wait on the quest's stage, not on an event of the visit")
+{
+    const std::string card = "format: 0\nid: testmap\nworld: mm7\nkind: indoor\nmap_code: XD-99\n";
+    const auto arrivalWarnings = [&card](const std::string &condition)
+    {
+        const std::string wiring = "format: 0\nevents:\n"
+                                   "  - {id: evt:arrive, preset: script, trigger: timer, every: 1, once: true, "
+                                   "condition: " + condition + ", effects: [{message: Why you are here.}]}\n"
+                                   "variables: [stepped]\n";
+        const S8cBuilt built = buildS8c({{"project.yml", card}, {"rooms.yml", PlainRoom}, {"objects.yml", PlainStart},
+            {"wiring.yml", wiring}});
+        INFO(built.issueText());
+        REQUIRE(built.built);
+        return built.warned("nothing tells the player on arrival");
+    };
+
+    // The first-arrival guard and the quest's stages (XD-13: ruin, keep, dungeon): bits only.
+    CHECK(arrivalWarnings("{not: {qbit: 1001}}") == 0);
+    CHECK(arrivalWarnings("{all: [{qbit: 1001}, {not: {qbit: 1002}}]}") == 0);
+    CHECK(arrivalWarnings("{not: {any: [{qbit: 1001}, {player_bit: 7}]}}") == 0);
+    // A death or a map variable is something that happens in the visit: not an arrival.
+    CHECK(arrivalWarnings("{map_var: stepped}") == 1);
+    CHECK(arrivalWarnings("{all: [{qbit: 1001}, {map_var: stepped}]}") == 1);
+}
+
+TEST_CASE("a trapdoor (lifts[].trap) is no ride: the ride check asks for no switch at its stops")
+{
+    const std::string rooms =
+        "rooms:\n"
+        "  - id: room:a\n"
+        "    outline: [[0, 0], [1024, 0], [1024, 1024], [0, 1024]]\n"
+        "    floor: 0\n"
+        "    ceiling: 640\n"
+        "    levels:\n"
+        "      - {outline: [[768, 0], [1024, 0], [1024, 1024], [768, 1024]], floor: 256}\n"
+        "  - {id: room:b, outline: [[-544, 384], [-32, 384], [-32, 640], [-544, 640]], floor: 0, ceiling: 384}\n";
+    const std::string objects = "format: 0\nstart: {room: room:a, at: [128, 128]}\n"
+                                "lifts:\n  - {id: lift:l, room: room:a, at: [704, 832], size: [128, 128], travel: 256, "
+                                "trap: true}\n"
+                                "switches:\n  - {id: switch:s, room: room:b, at: [-34, 512]}\n";
+    const std::string wiring =
+        "format: 0\nevents:\n  - {id: evt:s, preset: switch, source: switch:s, toggles: [lift:l]}\n";
+    const S8cBuilt built = buildS8c({{"rooms.yml", rooms}, {"objects.yml", objects},
+        {"project.yml", "format: 0\nid: testmap\nworld: mm6\nkind: indoor\n"}, {"wiring.yml", wiring}});
+    INFO(built.issueText());
+    REQUIRE(built.built);
+    std::string flow;
+    std::string error;
+    REQUIRE(exploreEventHandlers(built.loaded, flow, error));
+    // Without the word the lift is judged as a ride (its switch is behind a wall); as a trapdoor it is not.
+    CHECK(auditRides(built.loaded, flow).size() == 1);
+    CHECK(auditRides(built.loaded, flow, {}, {1}).empty());
+
+    // The project's word reaches the audit by the lock's door number (and so the installed map's studio file).
+    Project project;
+    for (const std::pair<const char *, const char *> file : {std::pair<const char *, const char *>{"ids.lock.yml",
+             "doors:\n  lift:l: 1\n  lift:m: 2\n"}, {"objects.yml", "lifts:\n  - {id: lift:l, trap: true}\n"
+             "  - {id: lift:m}\n"}, {"rooms.yml", "rooms: []\n"}})
+    {
+        project.files[file.first].name = file.first;
+        project.files[file.first].document = YAML::Load(file.second);
+    }
+    CHECK(projectDressingFacts(project).traps == std::set<int>{1});
+    CHECK(studioFileDressingFacts(YAML::Load("trap_doors: [1, 4]\n")).traps == std::set<int>{1, 4});
 }

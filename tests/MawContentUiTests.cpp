@@ -772,14 +772,14 @@ TEST_CASE("MAW spellbook keys: R releases every aura, Tab turns the school (A7.1
 {
     MawRules rules(RulesetOptions{}, MawMapLevels{});
     Party party;
-    rules.state().auraHolders[5] = 0;
-    rules.state().auraHolders[83] = MawGameState::FixedAuraHolder;
-    rules.state().fixedAuraMaps[83] = "oute3.odm";
+    party.rulesetState().auraHolders[5] = 0;
+    party.rulesetState().auraHolders[83] = MawGameState::FixedAuraHolder;
+    party.rulesetState().fixedAuraMaps[83] = "oute3.odm";
     const std::optional<std::string> status = rules.gameRules().spells.removeAllBuffs(party);
     REQUIRE(status.has_value());
     CHECK_EQ(*status, "All buffs have been removed");
-    CHECK(rules.state().auraHolders.empty());
-    CHECK(rules.state().fixedAuraMaps.empty());
+    CHECK(party.rulesetState().auraHolders.empty());
+    CHECK(party.rulesetState().fixedAuraMaps.empty());
     CHECK(rules.gameRules().spells.tabCyclesSpellbookSchools());
     CHECK_FALSE(standardGameRules().spells.removeAllBuffs(party).has_value());
     CHECK_FALSE(standardGameRules().spells.tabCyclesSpellbookSchools());
@@ -1168,7 +1168,7 @@ TEST_CASE("MAW's pouches survive a save (saves 192 and 193)")
     potion.standardEnchantPower = 44;
     save.party.pouches[size_t(ItemPouch::Alchemy)] = {potion};
     save.party.pouches[size_t(ItemPouch::Crafting)] = {packItem(1041, 1, 1), packItem(1042, 1, 1)};
-    save.party.pouches[size_t(ItemPouch::Quest)] = {packItem(620, 1, 2), packItem(732, 1, 1), packItem(733, 1, 1)};
+    save.party.campaign.questPouch = {packItem(620, 1, 2), packItem(732, 1, 1), packItem(733, 1, 1)};
 
     std::string error;
     const std::optional<GameSaveData> restored = roundTrip(save, error);
@@ -1176,7 +1176,7 @@ TEST_CASE("MAW's pouches survive a save (saves 192 and 193)")
     REQUIRE_EQ(restored->party.pouches[size_t(ItemPouch::Alchemy)].size(), 1u);
     CHECK(restored->party.pouches[size_t(ItemPouch::Alchemy)][0] == potion);
     CHECK_EQ(restored->party.pouches[size_t(ItemPouch::Crafting)].size(), 2u);
-    CHECK_EQ(restored->party.pouches[size_t(ItemPouch::Quest)].size(), 3u);
+    CHECK_EQ(restored->party.campaign.questPouch.size(), 3u);
 }
 
 TEST_CASE("MAW's quest pouch takes what is worth nothing and is no gear; quests find it there")

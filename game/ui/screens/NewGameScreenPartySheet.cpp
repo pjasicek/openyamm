@@ -1602,22 +1602,46 @@ void NewGameScreen::drawPortraitPicker()
         }
     }
 
-    // World filter: the worlds whose portraits are offered here, by their continents.
+    // World filter: the worlds whose portraits are offered here, named after their new-game cards (a world's card
+    // is the continent whose start map is in it), in the cards' order.
     struct PortraitWorld
     {
-        const char *pWorldId;
-        const char *pLabel;
-        float width;
+        std::string worldId;
+        std::string label;
     };
-    constexpr std::array<PortraitWorld, 5> worlds = {{{"", Engine::trNoop("All worlds").data(), 132},
-        {"mm6", Engine::trNoop("Enroth").data(), 104}, {"mm7", Engine::trNoop("Antagarich").data(), 134},
-        {"mm8", Engine::trNoop("Jadame").data(), 108}, {"mm9", Engine::trNoop("Chedian").data(), 112}}};
+    std::vector<PortraitWorld> worlds = {{"", Engine::tr("All worlds")}};
+    std::vector<const MergedCharacterSelectionContinent *> cards;
+    for (const MergedCharacterSelectionContinent &continent : m_pGameData->mergedCharacterSelectionTable().continents())
+    {
+        if (continent.hasCard)
+        {
+            cards.push_back(&continent);
+        }
+    }
+    std::stable_sort(cards.begin(), cards.end(),
+                     [](const MergedCharacterSelectionContinent *pLeft, const MergedCharacterSelectionContinent *pRight)
+                     {
+                         return pLeft->cardOrder < pRight->cardOrder;
+                     });
+    for (const MergedCharacterSelectionContinent *pCard : cards)
+    {
+        const MergedContinentSettingEntry *pSetting =
+            m_pGameData->mergedContinentSettingTable().findById(pCard->id);
+        const MapStatsEntry *pMap =
+            pSetting != nullptr ? m_pGameData->mapStats().findByFileName(pSetting->deathMap1) : nullptr;
+        const bool known = pMap == nullptr || std::any_of(worlds.begin(), worlds.end(),
+            [pMap](const PortraitWorld &world) { return world.worldId == pMap->worldId; });
+        if (!known && !pMap->worldId.empty())
+        {
+            worlds.push_back({pMap->worldId, Engine::localize(pCard->cardTitle)});
+        }
+    }
     float worldX = X + 676;
     sheetText(sheetRect(X + 620, Y + 38, 50, 34), upperCase(Engine::tr("World")), "menu_lucida", 11, CaptionText);
 
     for (const PortraitWorld &world : worlds)
     {
-        const std::string worldId = world.pWorldId;
+        const std::string &worldId = world.worldId;
         bool offered = worldId.empty();
 
         for (size_t index = 0; index < candidateCount() && !offered; ++index)
@@ -1632,9 +1656,13 @@ void NewGameScreen::drawPortraitPicker()
             continue;
         }
 
-        const Rect rect = sheetRect(worldX, Y + 38, world.width, 34);
+        // The button fits its label: Fondamento at the button's 13.87 logical size, plus its padding.
+        const float textWidth = measureTextWidth("fondamento", world.label,
+                                                 designScale() * 13.8667f / std::max(1, fontHeight("fondamento")));
+        const float width = std::max(104.0f, textWidth / sheetPx(1) + 30);
+        const Rect rect = sheetRect(worldX, Y + 38, width, 34);
 
-        if (button(std::string("world-") + world.pLabel, rect, Engine::tr(world.pLabel), "button_small"))
+        if (button("world-" + (worldId.empty() ? std::string("all") : worldId), rect, world.label, "button_small"))
         {
             m_portraitWorldFilter = worldId;
             m_popupScroll = 0;
@@ -1645,7 +1673,7 @@ void NewGameScreen::drawPortraitPicker()
             outline(rect, Gold);
         }
 
-        worldX += world.width + 8;
+        worldX += width + 8;
     }
 
     sheetText(sheetRect(X + 44, Y + 74, 760, 16),

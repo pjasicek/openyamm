@@ -137,6 +137,37 @@ public:
     // it turns to face the party and finishes its pose blend; every other model holds still.
     void syncActorModels(const IGameplayWorldRuntime &world, float deltaSeconds = 0.0f,
         std::optional<size_t> liveActorIndex = std::nullopt, float liveDeltaSeconds = 0.0f);
+    // The bodies of a co-op session's other players: one creature model each, placed where the player stands, eased
+    // between the places the session reports, walking or running by the ground it covers and lying down while the
+    // player is down. A body missing from the list goes. `descriptor` names an actors.yml binding (bindsActorModel).
+    struct PlayerBody
+    {
+        uint32_t key = 0;
+        std::string descriptor;
+        float x = 0.0f;
+        float y = 0.0f;
+        float z = 0.0f;
+        float yawRadians = 0.0f;
+        bool down = false;
+        // What the character last began to do (a count of its blows, shots and casts; which of the three: 0, 1,
+        // 2; the recovery it began with): a new count plays the model's attack or cast clip once, fitted to that
+        // recovery and never slower than the clip. A model without a cast clip shows its ranged attack.
+        uint8_t actionSerial = 0;
+        uint8_t actionKind = 0;
+        float actionSeconds = 0.0f;
+        // How good what the player's party wears is (coopPartyGearTier): from 2 on the body glows gold, stronger
+        // with each tier.
+        uint8_t gearTier = 0;
+        // How tall the body is drawn, to the top of its standing pose (coopBodyHeight); 0 keeps the model's own
+        // size.
+        float height = 0.0f;
+    };
+    // The other players' bodies: each a monster's or townsman's model in the players' own colour (its colour regions
+    // turned to PlayerBodyColor, a variant no monster has), with a glow by its gear.
+    void syncPlayerBodies(std::span<const PlayerBody> bodies, float deltaSeconds);
+    bool bindsActorModel(const std::string &descriptor) const;
+    // Where the body's head is drawn, for the name above it. False without a drawn body of that key.
+    bool playerBodyHead(uint32_t key, float &x, float &y, float &z) const;
     // Animation tracing (an AI arena's `trace_animation`): syncActorModels reports each traced actor's clips, rate and
     // crossfades to the trace. Null (the default) reports nothing.
     void setAnimationTrace(ActorAiTrace *pTrace)
@@ -685,6 +716,31 @@ private:
     std::map<std::tuple<const Engine::ModelAsset *, uint32_t, uint32_t>, std::shared_ptr<const Engine::ModelAsset>>
         m_corpseAssets;
     std::unordered_map<size_t, ActorModelInstance> m_actorModels;
+    struct PlayerBodyModel
+    {
+        Engine::ModelInstanceHandle handle;
+        const ActorModelBinding *pBinding = nullptr;
+        std::string descriptor;
+        float x = 0.0f;
+        float y = 0.0f;
+        float z = 0.0f;
+        float yaw = 0.0f;
+        // The scale it is drawn at: its binding's, or the one that gives the body its height.
+        float scale = 1.0f;
+        float speed = 0.0f;
+        float gaitPhase = 0.0f;
+        float standSeconds = 0.0f;
+        float downSeconds = 0.0f;
+        ActorModelGait gait = ActorModelGait::Walk;
+        bool seen = false;
+        // The action being shown: the count it was started for, its clip, how long it is played over and how far
+        // it is. No clip while none is shown.
+        uint8_t actionSerial = 0;
+        uint32_t actionClip = UINT32_MAX;
+        float actionDuration = 0.0f;
+        float actionElapsed = 0.0f;
+    };
+    std::unordered_map<uint32_t, PlayerBodyModel> m_playerBodies;
     uint32_t m_actorModelSyncPass = 0;
     std::vector<ActorClipSoundCue> m_actorClipSoundCues;
     std::vector<std::pair<float, float>> m_actorCameraShakes;

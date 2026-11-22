@@ -1,7 +1,10 @@
 #include "core/OutdoorThings.h"
 
+#include "core/ChestKinds.h"
+
 #include "core/CoreMath.h"
 #include "core/Json.h"
+#include "core/MapLoad.h"
 #include "core/MonsterRelations.h"
 #include "core/OutdoorModel.h"
 #include "core/OutdoorWaysIn.h"
@@ -9,6 +12,7 @@
 #include "core/SketchRead.h"
 #include "core/TableNames.h"
 
+#include "engine/ImageAssetLoader.h"
 #include "game/FaceEnums.h"
 
 #include <algorithm>
@@ -223,6 +227,11 @@ std::vector<OutdoorModelPoint> outdoorFacing(std::vector<OutdoorModelPoint> poin
 class ThingRaiser
 {
 public:
+    void setMountRoot(const std::filesystem::path &mountRoot)
+    {
+        m_mountRoot = mountRoot;
+    }
+
     ThingRaiser(
         const Project &project,
         const LoweredOutdoorMap &loweredMap,
@@ -243,7 +252,7 @@ public:
     {
         for (const WorldLook &look : WorldLooks)
         {
-            if (m_lowered.world == look.pWorld)
+            if (m_lowered.styleWorld == look.pWorld)
             {
                 m_pLook = &look;
             }
@@ -460,6 +469,8 @@ public:
 
         m_pModel = nullptr;
         raiseActors(childOf(sketch, "actors"));
+        raiseItems(childOf(sketch, "items"));
+        raiseSounds(childOf(sketch, "sounds"));
         raiseEvents(childOf(sketch, "events"));
 
         if (unbuilt != 0)
@@ -469,18 +480,14 @@ public:
 
         if (!m_peacefulGroups.empty())
         {
-            // The scene cannot say a group is peaceful; an event on entering the map does.
+            // The scene cannot say a group is peaceful; an event on entering the map does, once per fill
+            // (peacefulGroupsBody), before the project's own load events, which may change it.
             OutdoorEventPlan event;
             event.id = "evt:studio_peaceful_groups";
             event.number = static_cast<uint16_t>(IdsLock::number(m_ids.events, event.id, 1));
-
-            for (const int group : m_peacefulGroups)
-            {
-                event.body.push_back("evt.SetMonGroupBit(" + std::to_string(group) + ", MonsterBits.Hostile, 0)");
-            }
-
+            event.body = peacefulGroupsBody(std::vector<int>(m_peacefulGroups.begin(), m_peacefulGroups.end()));
             m_things.events.push_back(event);
-            m_things.onLoad.push_back(event.number);
+            m_things.onLoad.insert(m_things.onLoad.begin(), event.number);
         }
 
         m_things.peacefulGroups = m_peacefulGroups;
@@ -505,8 +512,7 @@ private:
 
         std::string monsterText;
 
-        if (m_assetRoot.empty() || !readTextFile(m_assetRoot / "engine" / "data_tables" / "monster_data.txt",
-                monsterText))
+        if (!readWorldTable(m_assetRoot, m_lowered.world, "monster_data.txt", "monster_data", monsterText))
         {
             m_warnings.push_back("relations: " + std::to_string(relations.size()) + " entries are left out: naming "
                 "monsters needs the monster tables of an asset root (--assets)");
@@ -590,6 +596,28 @@ private:
             OutdoorNodeCount / 2 - world[1] / OutdoorCellSize);
     }
 
+    // The game's ground at a place in world units (its cells' two triangles: `groundHeightAt`), what things stood
+    // on the land stand on.
+    double nativeGroundAt(const Point2 &world) const
+    {
+        return m_lowered.groundHeightAt(world[0] / OutdoorCellSize + OutdoorNodeCount / 2,
+            OutdoorNodeCount / 2 - world[1] / OutdoorCellSize);
+    }
+
+    // The lowest of the game's ground under an outline's corners: where a chest or a crate stands, so no corner
+    // floats (the higher side sinks into the slope).
+    double lowestGroundUnder(const std::vector<Point2> &outline) const
+    {
+        double lowest = 1.0e30;
+
+        for (const Point2 &corner : outline)
+        {
+            lowest = std::min(lowest, nativeGroundAt(corner));
+        }
+
+        return lowest;
+    }
+
     // A role's texture: a name, or {texture, liquid: water | lava, flow: up | down | left | right} for a liquid
     // face (core/OutdoorModel `outdoorLiquidBits`: Hermit's Isle's lava temple, the Plane of Fire's lava streams).
     // The liquid's bits are laid on the thing's faces of that texture once it stands.
@@ -604,7 +632,7 @@ private:
 
         const std::string name = textOf(entry, "texture", textOf(entry, "name", pFallback == nullptr ? ""
             : pFallback));
-        const uint32_t bits = outdoorLiquidBits(textOf(entry, "liquid"), textOf(entry, "flow"), m_lowered.world);
+        const uint32_t bits = outdoorLiquidBits(textOf(entry, "liquid"), textOf(entry, "flow"), m_lowered.styleWorld);
 
         if (name.empty() || bits == UINT32_MAX)
         {
@@ -826,6 +854,7 @@ private:
             const std::string map = textOf(into, "map");
             const YAML::Node at = childOf(into, "at");
             int arrival[3] = {0, 0, 0};
+            int facing = static_cast<int>(numberOr(into, "facing", 0.0));
 
             for (size_t axis = 0; at.IsDefined() && at.IsSequence() && axis < 3 && axis < at.size(); ++axis)
             {
@@ -838,23 +867,46 @@ private:
                 return 0;
             }
 
-            const YAML::Node screen = childOf(into, "screen");
-            const double screenHouse = numberOr(screen, "house", 0.0);
-            const double screenPicture = numberOr(screen, "picture", screen.IsDefined() ? 1.0 : 0.0);
-
-            if (screen.IsDefined() && (!screen.IsMap() || screenHouse < 1.0 || screenHouse != std::floor(screenHouse)
-                || screenPicture < 0.0 || screenPicture != std::floor(screenPicture)))
+            // A named arrival of the map (D-4): its place and facing from the installed map's <stem>.studio.yml.
+            if (const std::string named = textOf(into, "arrival"); !named.empty())
             {
-                add(m_path + ".into.screen", "the screen before the map is `{house: <the house row whose \"Enter "
-                    "...?\" text it shows>, picture: <its picture, 1 when left out>}`, whole numbers");
+                MapArrival found;
+                std::string warning;
+
+                if (at.IsDefined())
+                {
+                    add(m_path + ".into", "into takes `at` or `arrival`, not both");
+                    return 0;
+                }
+
+                if (!resolveMapArrival(m_assetRoot, m_mountRoot, m_lowered.world, map, named, found, warning))
+                {
+                    add(m_path + ".into.arrival", warning);
+                    return 0;
+                }
+
+                if (!warning.empty())
+                {
+                    m_warnings.push_back(m_path + ".into.arrival: " + warning);
+                }
+
+                std::copy(std::begin(found.at), std::end(found.at), arrival);
+                facing = childOf(into, "facing").IsDefined() ? facing : found.facing;
+            }
+
+            MoveScreen screen;
+            std::string screenError;
+
+            if (!readMoveScreen(childOf(into, "screen"), map, screen, screenError))
+            {
+                add(m_path + ".into.screen", screenError);
                 return 0;
             }
 
             event.body.push_back("evt.MoveToMap(" + std::to_string(arrival[0]) + ", " + std::to_string(arrival[1])
                 + ", " + std::to_string(arrival[2]) + ", "
-                + std::to_string(static_cast<int>(numberOr(into, "facing", 0.0))) + ", 0, 0, "
-                + std::to_string(static_cast<int>(screenHouse)) + ", " + std::to_string(static_cast<int>(screenPicture))
-                + ", " + luaQuote(map) + ")");
+                + std::to_string(facing) + ", 0, 0, " + std::to_string(screen.text) + ", "
+                + std::to_string(screen.picture) + ", " + luaQuote(map) + moveScreenOptions(screen) + ")");
         }
 
         if (chest)
@@ -1198,7 +1250,10 @@ private:
         decoration.listId = found->second;
         decoration.x = static_cast<int>(std::lround(world[0]));
         decoration.y = static_cast<int>(std::lround(world[1]));
-        decoration.z = static_cast<int>(std::lround(ground));
+        // On the game's ground (`raise` over it).
+        decoration.z = static_cast<int>(std::lround(nativeGroundAt(world) + numberOr(node, "raise", 0.0)));
+        // `turn`: degrees clockwise seen from above; the ODM keeps degrees counter-clockwise.
+        decoration.facing = ((static_cast<int>(std::lround(0.0 - numberOr(node, "turn", 0.0))) % 360) + 360) % 360;
         m_things.decorations.push_back(decoration);
         m_things.decorationEvents.push_back(m_event);
         m_things.decorationIds.push_back(m_id);
@@ -1223,7 +1278,7 @@ private:
         m_decorationsLoaded = true;
         std::string text;
 
-        if (m_assetRoot.empty() || !readTextFile(m_assetRoot / "engine" / "data_tables" / "decoration_data.txt", text))
+        if (!readWorldTable(m_assetRoot, m_lowered.world, "decoration_data.txt", "decorations", text))
         {
             return false;
         }
@@ -1376,6 +1431,13 @@ private:
             }
         }
 
+        // `raise`: the whole wall stands that much higher (on a deck, a terrace's rim) or lower than the land: its
+        // foot, top, batter and gates alike.
+        const double lift = numberOr(node, "raise", 0.0);
+        const auto landAt = [this, lift](const Point2 &point)
+        {
+            return groundAt(point) + lift;
+        };
         std::vector<Point2> left;
         std::vector<Point2> right;
         sidesOf(line, closed, thickness * 0.5, left, right);
@@ -1391,14 +1453,14 @@ private:
 
             for (int step = 0; step <= steps; ++step)
             {
-                const double ground = groundAt({from[0] + (to[0] - from[0]) * step / steps,
+                const double ground = landAt({from[0] + (to[0] - from[0]) * step / steps,
                     from[1] + (to[1] - from[1]) * step / steps});
                 highest = std::max(highest, ground);
                 lowest = std::min(lowest, ground);
             }
         }
 
-        const double top = highest + height + numberOr(node, "raise", 0.0);
+        const double top = highest + height;
         const double foot = lowest - 64.0;
         // Batch O-H: `passage_along`: a way through the wall along its line from end to end, its floor at `floor`
         // (map units), `width` across, `height` to a flat ceiling (Erathia's Fort Riverstride: the road at 1088 east
@@ -1508,7 +1570,7 @@ private:
             const Point2 &stretchFrom = line[gate.stretch];
             const Point2 &stretchTo = line[(gate.stretch + 1) % line.size()];
             const double middle = (gate.from + gate.to) * 0.5 / lengthOf(stretchFrom, stretchTo);
-            const double sill = groundAt({stretchFrom[0] + (stretchTo[0] - stretchFrom[0]) * middle,
+            const double sill = landAt({stretchFrom[0] + (stretchTo[0] - stretchFrom[0]) * middle,
                 stretchFrom[1] + (stretchTo[1] - stretchFrom[1]) * middle});
             const double ceiling = passage.given ? passage.floor - 32.0 : top;
 
@@ -1556,12 +1618,12 @@ private:
             const auto ground = [&](double along)
             {
                 const double share = along / length;
-                return groundAt({line[index][0] + (line[next][0] - line[index][0]) * share,
+                return landAt({line[index][0] + (line[next][0] - line[index][0]) * share,
                     line[index][1] + (line[next][1] - line[index][1]) * share});
             };
             const auto topAt = [&](double along)
             {
-                return follow ? ground(along) + height + numberOr(node, "raise", 0.0) : top;
+                return follow ? ground(along) + height : top;
             };
             // A side's point (0 right, 1 left) at a height, drawn in by the batter there.
             const auto sideAt = [&](double along, int side, double z)
@@ -1755,7 +1817,7 @@ private:
                 if (gate < own.size())
                 {
                     // The lintel over the gate.
-                    const double sill = groundAt({(across(own[gate].from)[0][0] + across(own[gate].to)[1][0]) * 0.5,
+                    const double sill = landAt({(across(own[gate].from)[0][0] + across(own[gate].to)[1][0]) * 0.5,
                         (across(own[gate].from)[0][1] + across(own[gate].to)[1][1]) * 0.5});
 
                     const double apex = sill + own[gate].height;
@@ -1913,8 +1975,8 @@ private:
 
         const std::string stone = textureOf(node, "wall", m_pLook != nullptr ? m_pLook->pStone : nullptr);
         const std::string water = textureOf(node, "water", m_pLook != nullptr ? m_pLook->pWater : nullptr);
-        const std::string dark = textureOf(node, "door", m_lowered.world == "mm6" ? "solid10"
-            : m_lowered.world == "mm7" ? "7solid01" : "solid01");
+        const std::string dark = textureOf(node, "door", m_lowered.styleWorld == "mm6" ? "solid10"
+            : m_lowered.styleWorld == "mm7" ? "7solid01" : "solid01");
         const auto place = [&](double across, double back, double up)
         {
             const Point2 point = turned(middle, across, back, turn);
@@ -3178,7 +3240,11 @@ private:
         }
     }
 
-    // A chest as the shipped maps' chest models are: a box 96 by 64 with a lid that slopes to a flat top, 80 high.
+    // A chest as the shipped maps' chest models are (F6-R1, 2026-11-22): the faces of a chest kind (core/ChestKinds,
+    // as indoors), `chest_kind` or the style world's (mm8 gt002, mm7 and Xeen 7gt002: MM7's 7out01 `chest_N`, 19
+    // faces; mm6 ch1), its front (the sloping lid's own picture) to the north before `turn`. A chest given its own
+    // `textures` (wall, top) is the plain box of before, with a warning. A crate is a box `size` on a side. Both stand
+    // at the lowest of the game's ground under their corners (F6-R2), so no corner floats; `raise` lifts them.
     void raiseChest(const YAML::Node &node, OutdoorModelBuilder &builder, bool crate)
     {
         Point2 middle = {0.0, 0.0};
@@ -3190,6 +3256,7 @@ private:
         }
 
         const double turn = numberOr(node, "turn", 0.0);
+        const double raise = numberOr(node, "raise", 0.0);
         const std::string side = textureOf(node, "wall", m_pLook == nullptr ? nullptr
             : (crate ? m_pLook->pCrate : m_pLook->pChestSide));
         const std::string lid = textureOf(node, "top", m_pLook == nullptr ? nullptr
@@ -3198,11 +3265,77 @@ private:
         if (crate)
         {
             const double size = numberOr(node, "size", 64.0);
-            builder.addPrism(turnedBox(middle, size, size, turn), ground, ground + size, side, lid, "", m_event);
+            const std::vector<Point2> outline = turnedBox(middle, size, size, turn);
+            ground = lowestGroundUnder(outline) + raise;
+            builder.addPrism(outline, ground, ground + size, side, lid, "", m_event);
             return;
         }
 
         const std::vector<Point2> body = turnedBox(middle, 96.0, 64.0, turn);
+        ground = lowestGroundUnder(body) + raise;
+        const YAML::Node own = childOf(node, "textures");
+
+        if (own.IsDefined() && (childOf(own, "wall").IsDefined() || childOf(own, "top").IsDefined()))
+        {
+            if (childOf(node, "chest_kind").IsDefined())
+            {
+                add(m_path + ".chest_kind", "a chest is either a shipped chest (`chest_kind`) or a box of its own "
+                    "`textures` (wall, top): leave out one of them");
+                return;
+            }
+
+            m_warnings.push_back(m_path + (m_id.empty() ? "" : " (" + m_id + ")") + ": a chest with its own "
+                "`textures` is a plain box, not a shipped chest (leave them out for the world's own chest, or say "
+                "`chest_kind`)");
+            raisePlainChest(body, middle, turn, ground, side, lid, builder);
+            return;
+        }
+
+        const std::string kindName = textOf(node, "chest_kind", defaultChestKind(m_lowered.styleWorld));
+        const std::optional<ChestKind> kind = chestKindOf(kindName);
+
+        if (!kind)
+        {
+            add(m_path + ".chest_kind", "there is no chest kind " + kindName + ": " + chestKindList());
+            return;
+        }
+
+        for (const ChestFace &face : chestKindFaces(*kind, kind->size, ground, ground + kind->size[2]))
+        {
+            std::vector<OutdoorModelPoint> points;
+            std::vector<std::array<double, 2>> texels = face.texels;
+
+            for (const std::array<double, 3> &corner : face.corners)
+            {
+                const Point2 at = turned(middle, corner[0], corner[1], turn);
+                points.push_back({at[0], at[1], corner[2]});
+            }
+
+            // Counter-clockwise seen from outside, as the builder stores faces: turned round when the kind's corner
+            // order runs the other way about its outward normal.
+            const Point2 normalAt = turned({0.0, 0.0}, face.normal[0], face.normal[1], turn);
+            const std::array<double, 3> first = {points[1][0] - points[0][0], points[1][1] - points[0][1],
+                points[1][2] - points[0][2]};
+            const std::array<double, 3> second = {points[2][0] - points[0][0], points[2][1] - points[0][1],
+                points[2][2] - points[0][2]};
+            const double facing = (first[1] * second[2] - first[2] * second[1]) * normalAt[0]
+                + (first[2] * second[0] - first[0] * second[2]) * normalAt[1]
+                + (first[0] * second[1] - first[1] * second[0]) * face.normal[2];
+
+            if (facing < 0.0)
+            {
+                std::reverse(points.begin(), points.end());
+                std::reverse(texels.begin(), texels.end());
+            }
+
+            builder.addFace(points, face.texture, texels, m_event);
+        }
+    }
+
+    // The plain chest of a chest with its own textures: a box 96 by 64 with a lid that slopes to a flat top, 80 high.
+    void raisePlainChest(const std::vector<Point2> &body, const Point2 &middle, double turn, double ground,
+        const std::string &side, const std::string &lid, OutdoorModelBuilder &builder)
+    {
         const std::vector<Point2> crown = turnedBox(middle, 96.0, 32.0, turn);
         builder.addPrism(body, ground, ground + 64.0, side, "", "", m_event);
 
@@ -3284,13 +3417,14 @@ private:
         const std::vector<Point2> outline = turnedBox(middle, width, board != wood ? 18.0 : 16.0, turn);
         builder.addPrism(outline, ground + height - boardHeight, ground + height, wood, wood, wood, m_event);
         const size_t boardTo = faceCount();
-        // The two faces of the board wear the board's own picture, fitted once.
+        // The two faces of the board wear the board's own picture, fitted once at its own size.
         const auto picture = [&](const Point2 &left, const Point2 &right)
         {
+            const std::array<double, 2> size = pictureSizeOf(board);
             builder.addFace({{left[0], left[1], ground + height - boardHeight},
                 {right[0], right[1], ground + height - boardHeight}, {right[0], right[1], ground + height},
-                {left[0], left[1], ground + height}}, board, {{0.0, 64.0}, {64.0, 64.0}, {64.0, 0.0}, {0.0, 0.0}},
-                m_event);
+                {left[0], left[1], ground + height}}, board,
+                {{0.0, size[1]}, {size[0], size[1]}, {size[0], 0.0}, {0.0, 0.0}}, m_event);
         };
         const std::vector<Point2> front = turnedBox(middle, width, 18.0, turn);
 
@@ -3419,9 +3553,10 @@ private:
                     // Left then right as seen from outside the face.
                     const Point2 left = side > 0.0 ? corner(start, side) : corner(reach, side);
                     const Point2 right = side > 0.0 ? corner(reach, side) : corner(start, side);
+                    const std::array<double, 2> size = pictureSizeOf(armBoard);
                     builder.addFace({{left[0], left[1], low}, {right[0], right[1], low}, {right[0], right[1], high},
-                        {left[0], left[1], high}}, armBoard, {{0.0, 64.0}, {64.0, 64.0}, {64.0, 0.0}, {0.0, 0.0}},
-                        event.number);
+                        {left[0], left[1], high}}, armBoard,
+                        {{0.0, size[1]}, {size[0], size[1]}, {size[0], 0.0}, {0.0, 0.0}}, event.number);
                 }
 
                 builder.hideUnder(boardFrom, boardTo, boardTo, faceCount());
@@ -4209,37 +4344,82 @@ private:
 
         const std::string arch = textOf(node, "arch");
         const size_t doorFrom = faceCount();
+        // The door's outline as [across from its middle, up], counter-clockwise seen from outside; with an arched
+        // head the picture's top corners are cut away and the frame shows there.
+        std::vector<std::array<double, 2>> outline = {{-width * 0.5, 0.0}, {width * 0.5, 0.0}};
 
         if (arch == "round" || arch == "pointed" || arch == "segment")
         {
-            // The door's head as an arch: the picture's top corners are cut away, the frame shows there.
-            std::vector<OutdoorModelPoint> points;
-            std::vector<std::array<double, 2>> texels;
-            const auto corner = [&](double across, double up)
-            {
-                const Point2 place = turned(middle, across, -34.0, turn);
-                points.push_back({place[0], place[1], ground + up});
-                texels.push_back({(across + width * 0.5) * 128.0 / width, 256.0 - up * 256.0 / height});
-            };
-            corner(-width * 0.5, 0.0);
-            corner(width * 0.5, 0.0);
             const std::vector<std::array<double, 2>> head =
                 outdoorArchHead(width, height, arch, static_cast<int>(numberOr(node, "sides", 6.0)));
 
             for (size_t index = head.size(); index-- > 0;)
             {
-                corner(head[index][0], head[index][1]);
+                outline.push_back(head[index]);
             }
-
-            builder.addFace(points, door, texels, m_event);
         }
         else
         {
-            const Point2 left = turned(middle, -width * 0.5, -34.0, turn);
-            const Point2 right = turned(middle, width * 0.5, -34.0, turn);
-            builder.addFace({{left[0], left[1], ground}, {right[0], right[1], ground},
-                {right[0], right[1], ground + height}, {left[0], left[1], ground + height}}, door,
-                {{0.0, 256.0}, {128.0, 256.0}, {128.0, 0.0}, {0.0, 0.0}}, m_event);
+            outline.push_back({width * 0.5, height});
+            outline.push_back({-width * 0.5, height});
+        }
+
+        // The part of the outline between `low` and `high` across, its picture stretched over [low, high] once
+        // (mirrored: from `high` back to `low`): 128 texels across, or a door picture's own width when the texture
+        // classes know it (F2: a 256-wide door picture whole, not its left half).
+        std::string doorName = door;
+        std::transform(doorName.begin(), doorName.end(), doorName.begin(),
+            [](unsigned char character) { return static_cast<char>(std::tolower(character)); });
+        const OutdoorDoorPictures::const_iterator known = m_lowered.doorPictures.find(doorName);
+        const double across = known != m_lowered.doorPictures.end() && known->second.size[0] >= 32
+            ? known->second.size[0] : 128.0;
+        const auto leafFace = [&](double low, double high, bool mirrored)
+        {
+            std::vector<std::array<double, 2>> kept;
+
+            for (size_t index = 0; index < outline.size(); ++index)
+            {
+                const std::array<double, 2> &a = outline[index];
+                const std::array<double, 2> &b = outline[(index + 1) % outline.size()];
+
+                if (a[0] >= low - 1.0e-6 && a[0] <= high + 1.0e-6)
+                {
+                    kept.push_back(a);
+                }
+
+                for (const double edge : {low, high})
+                {
+                    if ((a[0] - edge) * (b[0] - edge) < 0.0)
+                    {
+                        const double share = (edge - a[0]) / (b[0] - a[0]);
+                        kept.push_back({edge, a[1] + (b[1] - a[1]) * share});
+                    }
+                }
+            }
+
+            std::vector<OutdoorModelPoint> points;
+            std::vector<std::array<double, 2>> texels;
+
+            for (const std::array<double, 2> &corner : kept)
+            {
+                const Point2 place = turned(middle, corner[0], -34.0, turn);
+                const double share = (corner[0] - low) / (high - low);
+                points.push_back({place[0], place[1], ground + corner[1]});
+                texels.push_back({across * (mirrored ? 1.0 - share : share), 256.0 - corner[1] * 256.0 / height});
+            }
+
+            builder.addFace(points, door, texels, m_event);
+        };
+
+        // `leaves: 2`: a double door, the picture once on each half, mirrored on the right (a castle gate's wings).
+        if (numberOr(node, "leaves", 1.0) >= 2.0)
+        {
+            leafFace(-width * 0.5, 0.0, false);
+            leafFace(0.0, width * 0.5, true);
+        }
+        else
+        {
+            leafFace(-width * 0.5, width * 0.5, false);
         }
 
         markUsed(doorFrom);
@@ -4356,7 +4536,7 @@ private:
 
         if (radius < 32.0 || radius > 2048.0 || ring < 8.0 || ring > 512.0 || depth < 16.0 || depth > 512.0
             || sidesNumber < 6.0 || sidesNumber > 16.0 || sidesNumber != std::floor(sidesNumber)
-            || (flow != "none" && outdoorLiquidBits("", flow, m_lowered.world) == UINT32_MAX))
+            || (flow != "none" && outdoorLiquidBits("", flow, m_lowered.styleWorld) == UINT32_MAX))
         {
             add(m_path, "a portal is a ring of 6 to 16 `sides` (12) round a membrane: `radius` to its inside 32 to "
                 "2048 (128), `ring` 8 to 512 wide (32), `depth` 16 to 512 thick (32); its membrane's `flow` is none, "
@@ -4408,7 +4588,7 @@ private:
 
         if (flow != "none" && (!membraneNode.IsDefined() || membraneNode.IsScalar()))
         {
-            m_liquidTextures[membrane] |= outdoorLiquidBits("", flow, m_lowered.world);
+            m_liquidTextures[membrane] |= outdoorLiquidBits("", flow, m_lowered.styleWorld);
         }
 
         const auto at = [&](double east, double north, double z) -> OutdoorModelPoint
@@ -5682,12 +5862,13 @@ private:
         }
     }
 
-    // A shipped outdoor map of the world, read once: where `kind: model` takes its models from. Null when the
-    // asset root has no such map.
-    const Game::OutdoorMapData *sourceMap(const std::string &file)
+    // A shipped outdoor map of a world (the project's, or `from.world`), read once: where `kind: model` takes its
+    // models from. Null when the asset root has no such map.
+    const Game::OutdoorMapData *sourceMap(const std::string &world, const std::string &file)
     {
+        const std::string key = world + "/" + file;
         const std::map<std::string, std::optional<Game::OutdoorMapData>>::const_iterator known =
-            m_sourceMaps.find(file);
+            m_sourceMaps.find(key);
 
         if (known != m_sourceMaps.end())
         {
@@ -5698,12 +5879,12 @@ private:
         std::optional<Game::OutdoorMapData> map;
 
         if (file.find('/') == std::string::npos && file.find("..") == std::string::npos
-            && readTextFile(m_assetRoot / "worlds" / m_lowered.world / "maps" / file, bytes))
+            && readTextFile(m_assetRoot / "worlds" / world / "maps" / file, bytes))
         {
             map = Game::OutdoorMapDataLoader().loadFromBytes(std::vector<uint8_t>(bytes.begin(), bytes.end()));
         }
 
-        const std::optional<Game::OutdoorMapData> &kept = m_sourceMaps.emplace(file, std::move(map)).first->second;
+        const std::optional<Game::OutdoorMapData> &kept = m_sourceMaps.emplace(key, std::move(map)).first->second;
         return kept ? &*kept : nullptr;
     }
 
@@ -5713,6 +5894,7 @@ private:
         const YAML::Node from = childOf(node, "from");
         const std::string file = lowerCase(textOf(from, "map"));
         const YAML::Node names = childOf(from, "models");
+        const std::string world = textOf(from, "world").empty() ? m_lowered.world : textOf(from, "world");
 
         if (file.empty() || !names.IsDefined() || !names.IsSequence() || names.size() == 0)
         {
@@ -5729,12 +5911,19 @@ private:
             return;
         }
 
-        const Game::OutdoorMapData *pSource = sourceMap(file);
+        if (world.find_first_not_of("abcdefghijklmnopqrstuvwxyz0123456789_") != std::string::npos)
+        {
+            add(m_path + ".from.world", "a world is named by its folder under worlds/ (mm7)");
+            return;
+        }
+
+        const Game::OutdoorMapData *pSource = sourceMap(world, file);
 
         if (pSource == nullptr)
         {
-            add(m_path + ".from.map", "there is no outdoor map " + file + " in worlds/" + m_lowered.world
-                + "/maps of the asset root (a model is taken from a map of the project's own world)");
+            add(m_path + ".from.map", "there is no outdoor map " + file + " in worlds/" + world
+                + "/maps of the asset root (a model is taken from a map of the project's own world, or of "
+                "`from.world`)");
             return;
         }
 
@@ -5953,10 +6142,9 @@ private:
         std::string monsterText;
         std::string descriptorText;
 
-        const std::filesystem::path tables = m_assetRoot / "engine" / "data_tables";
-
-        if (m_assetRoot.empty() || !readTextFile(tables / "monster_data.txt", monsterText)
-            || !readTextFile(tables / "monster_descriptors.txt", descriptorText))
+        if (!readWorldTable(m_assetRoot, m_lowered.world, "monster_data.txt", "monster_data", monsterText)
+            || !readWorldTable(
+                m_assetRoot, m_lowered.world, "monster_descriptors.txt", "monster_descriptors", descriptorText))
         {
             m_warnings.push_back("actors: " + std::to_string(actors.size()) + " entries are left out: placing "
                 "people needs the monster tables of an asset root (--assets)");
@@ -6033,6 +6221,20 @@ private:
                 continue;
             }
 
+            if (const YAML::Node carries = childOf(node, "carries"); carries.IsDefined())
+            {
+                const double item = numberOr(node, "carries", 0.0);
+
+                if (!carries.IsScalar() || item < 1.0 || item != std::floor(item))
+                {
+                    add(m_path + ".carries", "`carries` is the number of the item the actor carries (a row of "
+                        "items.txt): the game leaves it in the corpse");
+                    continue;
+                }
+
+                actor.carriedItem = static_cast<int>(item);
+            }
+
             const int count = static_cast<int>(numberOr(node, "count", 1.0));
             const double spread = numberOr(node, "spread", 1.0);
 
@@ -6068,11 +6270,12 @@ private:
                 OutdoorActorPlan placed = actor;
                 placed.x = static_cast<int>(std::lround(world[0]));
                 placed.y = static_cast<int>(std::lround(world[1]));
-                placed.z = static_cast<int>(std::lround(m_lowered.storedHeightAt(at[0], at[1])));
+                placed.z = static_cast<int>(std::lround(m_lowered.groundHeightAt(at[0], at[1])));
                 placed.npc = static_cast<int>(numberOr(node, "npc", 0.0));
                 placed.group = static_cast<int>(numberOr(node, "group", 0.0));
                 placed.hostile = flagOf(node, "hostile");
                 placed.hidden = flagOf(node, "hidden");
+                placed.leash = static_cast<int>(std::lround(numberOr(node, "leash", 0.0)));
                 placed.hitPoints = hitPoints;
                 placed.height = height;
                 placed.radius = radius;
@@ -6082,9 +6285,237 @@ private:
         }
     }
 
+    // sketch.yml `items` (D-90's bare finds, 2026-11-22): items that lie on the ground from the start, as objects.yml's
+    // `items` indoors and the shipped outdoor maps' sprite objects (MM7 out11 holds 63): `item` by number or name,
+    // `at` in cells, `height` over the game's ground there (default 0: on the ground; a key on a barrel's lid stands
+    // the lid's height up), `gold` for a heap of gold.
+    void raiseItems(const YAML::Node &items)
+    {
+        if (!items.IsDefined() || !items.IsSequence() || items.size() == 0)
+        {
+            return;
+        }
+
+        std::string itemText;
+        std::string objectText;
+
+        if (!readWorldTable(m_assetRoot, m_lowered.world, "items.txt", "items", itemText)
+            || !readWorldTable(m_assetRoot, m_lowered.world, "object_list.txt", "object_list", objectText))
+        {
+            m_warnings.push_back("items: " + std::to_string(items.size()) + " entries are left out: an item on the "
+                "ground needs the item tables of an asset root (--assets)");
+            return;
+        }
+
+        const std::vector<std::vector<std::string>> itemRows = parseTableRows(itemText);
+        const std::vector<std::vector<std::string>> objectRows = parseTableRows(objectText);
+        std::set<std::string> ids;
+
+        for (size_t index = 0; index < items.size(); ++index)
+        {
+            const YAML::Node node = items[index];
+            m_path = "items[" + std::to_string(index) + "]";
+            const std::string id = textOf(node, "id");
+            Point2 cell = {0.0, 0.0};
+
+            if (id.empty() || !ids.insert(id).second)
+            {
+                add(m_path + ".id", "an item on the ground has an `id` of its own (item:<name>)");
+                continue;
+            }
+
+            if (!pointOf(childOf(node, "at"), cell) || cell[0] < 0.0 || cell[1] < 0.0 || cell[0] > OutdoorNodeCount - 1
+                || cell[1] > OutdoorNodeCount - 1)
+            {
+                add(m_path + ".at", "`at` is where the item lies, [x, y] in cells (fractions allowed), inside the map");
+                continue;
+            }
+
+            const std::vector<std::string> *pRow = namedTableRow(itemRows, childOf(node, "item"), {2}, std::nullopt,
+                nullptr, "item", "items.txt", SketchFile, m_path + ".item", m_issues);
+
+            if (pRow == nullptr)
+            {
+                continue;
+            }
+
+            LoweredItem item;
+            item.id = id;
+
+            if (!groundItemObjectOf(*pRow, objectRows, item))
+            {
+                add(m_path + ".item", "the item " + (*pRow)[0] + " (" + ((*pRow).size() > 2 ? (*pRow)[2] : "")
+                    + ") cannot lie on the ground: no row of object_list.txt draws its sprite index (items.txt column "
+                    "12). Choose another item, or put it in a chest");
+                continue;
+            }
+
+            const bool goldHeap = pRow->size() > 4 && lowerCase((*pRow)[4]) == "gold";
+
+            if (childOf(node, "gold").IsDefined() != goldHeap || (goldHeap && numberOr(node, "gold", 0.0) < 1.0))
+            {
+                add(m_path + ".gold", goldHeap ? "a heap of gold needs `gold`, the amount the party picks up (1 or "
+                    "more)" : "`gold` is the amount of a heap of gold; the item " + (*pRow)[0]
+                    + " is no heap of gold (items.txt Equip Stat Gold)");
+                continue;
+            }
+
+            item.gold = goldHeap ? static_cast<int>(numberOr(node, "gold", 0.0)) : 0;
+            const double height = numberOr(node, "height", 0.0);
+
+            if (height < 0.0 || height > 2048.0)
+            {
+                add(m_path + ".height", "`height` is how far above the ground the item lies (0 to 2048: on a "
+                    "barrel's lid, a table, a ledge)");
+                continue;
+            }
+
+            const Point2 world = toWorld(cell);
+            item.position = {std::round(world[0]), std::round(world[1]),
+                std::round(m_lowered.groundHeightAt(cell[0], cell[1]) + height)};
+
+            // The game settles a resting item onto the ground or onto a model's top under it
+            // (OutdoorWorldRuntime::settleRestingWorldItems); a decoration (a barrel, a table sprite) is no floor.
+            if (height > 0.0 && !structureTopAt(world, item.position[2]))
+            {
+                m_warnings.push_back(m_path + " (" + id + "): no structure's top lies " + std::to_string(
+                    static_cast<int>(height)) + " over the ground here, so the game lets the item down onto the "
+                    "ground (a decoration such as a barrel is no floor for items): lay it on the ground, or on a "
+                    "structure (a crate, a platform, a deck)");
+            }
+
+            m_things.items.push_back(item);
+        }
+    }
+
+    // Whether a top of a structure raised so far (a face that looks up) lies under `at` within 24 of `z`.
+    bool structureTopAt(const Point2 &at, double z) const
+    {
+        for (const Game::OutdoorBModel &model : m_things.models)
+        {
+            if (at[0] < model.minX || at[0] > model.maxX || at[1] < model.minY || at[1] > model.maxY)
+            {
+                continue;
+            }
+
+            for (const Game::OutdoorBModelFace &face : model.faces)
+            {
+                if (face.planeNormalZ < 39322 || face.vertexIndices.size() < 3)
+                {
+                    continue;
+                }
+
+                std::vector<Point2> outline;
+
+                for (const uint16_t vertex : face.vertexIndices)
+                {
+                    if (vertex < model.vertices.size())
+                    {
+                        outline.push_back({double(model.vertices[vertex].x), double(model.vertices[vertex].y)});
+                    }
+                }
+
+                if (!pointInOrOnPolygon(outline, at))
+                {
+                    continue;
+                }
+
+                const double top = -(double(face.planeNormalX) * at[0] + double(face.planeNormalY) * at[1]
+                    + double(face.planeDistance)) / double(face.planeNormalZ);
+
+                if (std::abs(top - z) <= 24.0)
+                {
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    }
+
+    // sketch.yml `sounds` (E9: the beds of wind, sea and birds, X6's sand-falls): the scene's ambient sounds, read as
+    // objects.yml's indoors (devdocs/AMBIENT_SOUNDS.md): `at` in cells, `height` over the ground (default 64),
+    // `radius` and `inner_radius` in game units, `volume`, `loop`, `wait`, `day_only`, `night_only`, `on`.
+    void raiseSounds(const YAML::Node &sounds)
+    {
+        if (!sounds.IsDefined() || !sounds.IsSequence())
+        {
+            return;
+        }
+
+        const std::set<std::string> known = knownWorldSoundNames(m_assetRoot, m_mountRoot, m_lowered.world);
+
+        for (size_t index = 0; index < sounds.size(); ++index)
+        {
+            const YAML::Node node = sounds[index];
+            m_path = "sounds[" + std::to_string(index) + "]";
+            const std::string id = textOf(node, "id");
+            Point2 cell = {0.0, 0.0};
+
+            if (id.empty())
+            {
+                add(m_path + ".id", "a sound has an `id` (sound:<name>): a script switches it by its number");
+                continue;
+            }
+
+            if (!pointOf(childOf(node, "at"), cell) || cell[0] < 0.0 || cell[1] < 0.0 || cell[0] > OutdoorNodeCount - 1
+                || cell[1] > OutdoorNodeCount - 1)
+            {
+                add(m_path + ".at", "`at` is where the sound is, [x, y] in cells (fractions allowed), inside the map");
+                continue;
+            }
+
+            LoweredAmbientSound sound;
+            sound.sound = textOf(node, "sound");
+            sound.outerRadius = numberOr(node, "radius", 0.0);
+            sound.innerRadius = numberOr(node, "inner_radius", std::floor(sound.outerRadius / 4.0));
+            sound.volume = numberOr(node, "volume", 1.0);
+            sound.loop = textOf(node, "loop") != "false";
+            sound.startOn = textOf(node, "on") != "false";
+            sound.dayOnly = flagOf(node, "day_only");
+            sound.nightOnly = flagOf(node, "night_only");
+            sound.pan = textOf(node, "pan") != "false";
+
+            if (const YAML::Node wait = childOf(node, "wait"); wait.IsDefined())
+            {
+                sound.wait = {wait.IsSequence() && wait.size() == 2 ? wait[0].as<double>(-1.0) : -1.0,
+                    wait.IsSequence() && wait.size() == 2 ? wait[1].as<double>(-1.0) : -1.0};
+            }
+
+            if (sound.sound.empty() || sound.outerRadius <= sound.innerRadius || sound.innerRadius < 0.0
+                || sound.volume < 0.0 || sound.volume > 1.0
+                || (sound.wait && ((*sound.wait)[0] < 0.0 || (*sound.wait)[1] < (*sound.wait)[0])))
+            {
+                add(m_path, "a sound needs `sound` (a sound file of the world) and `radius` (how far it is heard, "
+                    "game units); `inner_radius` (full volume within it, default a quarter of `radius`) is smaller "
+                    "than `radius`, `volume` lies between 0 and 1, and `wait` is [shortest, longest] seconds between "
+                    "two plays");
+                continue;
+            }
+
+            std::string soundName = lowerCase(sound.sound);
+
+            if (!known.empty() && !known.contains(soundName))
+            {
+                add(m_path + ".sound", "the world " + m_lowered.world + " has no sound file " + sound.sound
+                    + " (looked in worlds/" + m_lowered.world + "/audio and engine/audio of the asset root"
+                    + (m_mountRoot.empty() ? std::string() : " and of the mount") + ", with and without .wav): name a "
+                    ".wav file of those folders");
+                continue;
+            }
+
+            const Point2 world = toWorld(cell);
+            sound.position = {world[0], world[1], m_lowered.storedHeightAt(cell[0], cell[1])
+                + numberOr(node, "height", 64.0)};
+            sound.key = IdsLock::number(m_ids.sounds, id, 1);
+            m_things.sounds.push_back(sound);
+        }
+    }
+
     const Project &m_project;
     const LoweredOutdoorMap &m_lowered;
     const std::filesystem::path m_assetRoot;
+    std::filesystem::path m_mountRoot;
     IdsLock &m_ids;
     OutdoorEventWords &m_words;
     OutdoorThings &m_things;
@@ -6104,6 +6535,50 @@ private:
     std::map<std::string, std::optional<Game::OutdoorMapData>> m_sourceMaps;
     bool m_decorationsLoaded = false;
     std::map<std::string, int> m_decorations;
+    // Pictures' sizes in texels as the game resolves them (a sign's board laid once at its own size), read through
+    // an asset session opened on the first sign with a picture.
+    std::optional<AssetSession> m_pictureSession;
+    std::map<std::string, std::array<double, 2>> m_pictureSizes;
+
+    // A picture's size in texels, or 64 x 64 (the shipped sign boards) with a warning when the game has none.
+    std::array<double, 2> pictureSizeOf(const std::string &texture)
+    {
+        if (const auto known = m_pictureSizes.find(texture); known != m_pictureSizes.end())
+        {
+            return known->second;
+        }
+
+        std::array<double, 2> size = {64.0, 64.0};
+        std::string error;
+
+        if (!m_pictureSession)
+        {
+            m_pictureSession.emplace();
+
+            if (!m_pictureSession->open(m_assetRoot, m_lowered.world, error))
+            {
+                m_warnings.push_back("sign pictures are laid at 64 x 64: " + error);
+            }
+        }
+
+        Engine::DirectoryAssetPathCache directoryCache;
+        Engine::AssetPathLookupCache pathCache;
+
+        if (const std::optional<std::array<int, 2>> found = !m_pictureSession->world().empty()
+                ? Engine::findSurfaceTextureLogicalSize(m_pictureSession->files(), lowerCase(texture), directoryCache,
+                      pathCache)
+                : std::nullopt)
+        {
+            size = {double((*found)[0]), double((*found)[1])};
+        }
+        else
+        {
+            m_warnings.push_back(m_path + ": the game has no texture " + texture + "; its picture is laid at 64 x 64");
+        }
+
+        m_pictureSizes.emplace(texture, size);
+        return size;
+    }
 };
 }
 
@@ -6115,7 +6590,8 @@ bool raiseOutdoorThings(
     OutdoorEventWords &words,
     OutdoorThings &things,
     std::vector<ProjectIssue> &issues,
-    std::vector<std::string> &warnings)
+    std::vector<std::string> &warnings,
+    const std::filesystem::path &mountRoot)
 {
     if (!project.has("sketch.yml"))
     {
@@ -6123,6 +6599,7 @@ bool raiseOutdoorThings(
     }
 
     ThingRaiser raiser(project, lowered, assetRoot, ids, words, things, issues, warnings);
+    raiser.setMountRoot(mountRoot);
     return raiser.raise();
 }
 }

@@ -453,6 +453,11 @@ void MainMenuScreen::drawHome()
         {
             m_actions.loadGame();
         }
+        if (action("MenuButtonMultiplayer") && m_actions.multiplayer)
+        {
+            m_actions.multiplayer();
+            return;
+        }
         if (action("MenuButtonSettings"))
         {
             settings();
@@ -500,6 +505,21 @@ void MainMenuScreen::drawHome()
         if (action("MainMenuLoadGameButton", m_latestSave.has_value()))
         {
             m_actions.loadGame();
+        }
+        if (action("MainMenuMultiplayerButton") && m_actions.multiplayer)
+        {
+            // Hosting and joining are done with a game in progress: the latest adventure, or a new one, and the
+            // Multiplayer screen opens when it runs.
+            m_actions.multiplayer();
+
+            if (!m_latestSave)
+            {
+                newGame();
+            }
+            else if (!m_actions.continueGame(*m_latestSave))
+            {
+                m_status = Engine::tr("The saved adventure could not be loaded.");
+            }
         }
         if (action("MainMenuSettingsButton"))
         {

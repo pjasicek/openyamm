@@ -2,6 +2,7 @@
 #include "engine/Localization.h"
 
 #include "engine/BgfxContext.h"
+#include "game/coop/CoopBodies.h"
 #include "game/debug/AiArena.h"
 #include "game/app/GameSession.h"
 #include "game/debug/GameplayDebugTrace.h"
@@ -1175,11 +1176,13 @@ void IndoorGameView::render(int width, int height, const GameplayInputFrame &inp
             && !sharedInputFrameResult.journalInputConsumed
             && !sharedInputFrameResult.worldInputBlocked
             && !pendingSpellTargetActive;
+        // A co-op session's world is not this game's to stop (GameSession::coopSession).
         const bool allowWorldSimulation =
-            !sharedInputFrameResult.journalInputConsumed
-            && !sharedInputFrameResult.worldInputBlocked
-            && !pendingSpellTargetActive
-            && !input.rightMouseButton.held;
+            (m_gameSession.coopSession() && deltaSeconds > 0.0f)
+            || (!sharedInputFrameResult.journalInputConsumed
+                && !sharedInputFrameResult.worldInputBlocked
+                && !pendingSpellTargetActive
+                && !input.rightMouseButton.held);
         m_pIndoorRenderer->render(
             width,
             height,
@@ -1191,6 +1194,12 @@ void IndoorGameView::render(int width, int height, const GameplayInputFrame &inp
     }
     else if (!renderWorldThisFrame)
     {
+        // A HUD screen hides the whole world: nothing is drawn, but a co-op session's world still goes on.
+        if (m_pIndoorRenderer != nullptr && m_gameSession.coopSession())
+        {
+            m_pIndoorRenderer->advanceWorldSimulation(m_gameSession, deltaSeconds);
+        }
+
         const uint16_t viewWidth = static_cast<uint16_t>(std::max(width, 1));
         const uint16_t viewHeight = static_cast<uint16_t>(std::max(height, 1));
         bgfx::setViewRect(MainViewId, 0, 0, viewWidth, viewHeight);
@@ -1257,6 +1266,15 @@ void IndoorGameView::renderCombatFeedbackOverlay(int width, int height)
         {
             return m_pIndoorRenderer->projectGameplayWorldPointToScreen(point, width, height, screenX, screenY);
         });
+
+    if (!m_gameSession.coopPlayerLabels().empty())
+    {
+        renderCoopPlayerLabels(screenRuntime, m_gameSession.coopPlayerLabels(),
+            [this, width, height](const bx::Vec3 &point, float &screenX, float &screenY)
+            {
+                return m_pIndoorRenderer->projectGameplayWorldPointToScreen(point, width, height, screenX, screenY);
+            });
+    }
 
     const ActorAiTrace *pAiTrace = m_pIndoorSceneRuntime->worldRuntime().actorAiTrace();
 
@@ -2312,7 +2330,8 @@ std::optional<std::vector<uint8_t>> IndoorGameView::readCachedBinaryFile(const s
 
 GameplayDialogController::Context IndoorGameView::buildDialogContext(EventRuntimeState &eventRuntimeState)
 {
-    Party *pParty = partyRuntime() != nullptr ? &partyRuntime()->party() : nullptr;
+    // The world's party: the player's own, or in a co-op host's game the player's the host acts for.
+    Party *pParty = worldRuntime() != nullptr ? worldRuntime()->party() : nullptr;
     GameplayScreenRuntime &screenRuntime = m_gameSession.gameplayScreenRuntime();
 
     return buildGameplayDialogContext(

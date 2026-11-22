@@ -1976,7 +1976,7 @@ std::optional<ItemPouch> GameplayHudOverlaySupport::inventoryPouchShown(const Ga
         && !(context.utilitySpellOverlayReadOnly().active
             && context.utilitySpellOverlayReadOnly().mode
                 == GameplayUiController::UtilitySpellOverlayMode::InventoryTarget)
-        && gameRulesFor(pParty).items.hasPouches();
+        && pParty->hasPouch(*screen.inventoryPouch.shown);
     return shown ? screen.inventoryPouch.shown : std::nullopt;
 }
 
@@ -1985,7 +1985,7 @@ std::optional<ItemPouch> GameplayHudOverlaySupport::nestedPouchShown(const Gamep
     const Party *pParty = context.partyReadOnly();
     const GameplayUiController::InventoryNestedOverlayState &overlay = context.inventoryNestedOverlay();
     const bool shown = pParty != nullptr && overlay.active && overlay.pouch.shown
-        && gameRulesFor(pParty).items.hasPouches();
+        && pParty->hasPouch(*overlay.pouch.shown);
     return shown ? overlay.pouch.shown : std::nullopt;
 }
 

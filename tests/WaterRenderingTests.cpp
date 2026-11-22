@@ -201,7 +201,7 @@ TEST_CASE("water reflection reuse refreshes animation and immediately invalidate
     const auto prepare = [&](float seconds, float height = 0.0f, uint16_t size = 512,
         uint64_t revision = 7, bool buildings = true)
     {
-        return state.prepare(matrix, height, size, seconds, revision, buildings);
+        return state.prepare(matrix, waterReflectionPlane(height), size, seconds, revision, buildings);
     };
     CHECK(prepare(10.0f));
     for (int frame = 1; frame < 100; ++frame)
@@ -229,13 +229,13 @@ TEST_CASE("water reflection camera refreshes are capped while time runs")
     WaterReflectionUpdate state;
     float matrix[16];
     bx::mtxIdentity(matrix);
-    CHECK(state.prepare(matrix, 0.0f, 512, 10.0f, 7, true));
+    CHECK(state.prepare(matrix, waterReflectionPlane(0.0f), 512, 10.0f, 7, true));
     matrix[12] = 1.0f;
-    CHECK_FALSE(state.prepare(matrix, 0.0f, 512, 10.001f, 7, true)); // Moving at 1000 FPS: within 1/120 s.
-    CHECK(state.prepare(matrix, 0.0f, 512, 10.009f, 7, true));
+    CHECK_FALSE(state.prepare(matrix, waterReflectionPlane(0.0f), 512, 10.001f, 7, true)); // Moving at 1000 FPS: within 1/120 s.
+    CHECK(state.prepare(matrix, waterReflectionPlane(0.0f), 512, 10.009f, 7, true));
     matrix[12] = 2.0f;
-    CHECK(state.prepare(matrix, 0.0f, 512, 10.009f, 7, true)); // Paused: immediate.
-    CHECK(state.prepare(matrix, 0.0f, 512, 10.0095f, 8, true)); // Content change: immediate.
+    CHECK(state.prepare(matrix, waterReflectionPlane(0.0f), 512, 10.009f, 7, true)); // Paused: immediate.
+    CHECK(state.prepare(matrix, waterReflectionPlane(0.0f), 512, 10.0095f, 8, true)); // Content change: immediate.
 }
 
 TEST_CASE("water covered rotations still refresh animation, content and capture quality")
@@ -243,19 +243,19 @@ TEST_CASE("water covered rotations still refresh animation, content and capture 
     WaterReflectionUpdate state;
     float matrix[16];
     bx::mtxIdentity(matrix);
-    CHECK(state.prepare(matrix, 100.0f, 576, 1.0f, 7, true, true));
+    CHECK(state.prepare(matrix, waterReflectionPlane(100.0f), 576, 1.0f, 7, true, true));
     matrix[0] = 0.99f;
-    CHECK_FALSE(state.prepare(matrix, 100.0f, 576, 1.001f, 7, true, true));
-    CHECK_FALSE(state.prepare(matrix, 100.0f, 576, 1.001f, 7, true, true)); // Paused rotation.
-    CHECK(state.prepare(matrix, 100.0f, 576, 1.001f, 8, true, true)); // Door/light changes.
-    CHECK(state.prepare(matrix, 100.0f, 1152, 1.001f, 8, true, true));
-    CHECK(state.prepare(matrix, 110.0f, 1152, 1.001f, 8, true, true));
-    CHECK(state.prepare(matrix, 110.0f, 1152, 1.001f, 8, false, true));
-    CHECK(state.prepare(matrix, 110.0f, 1152, 1.04f, 8, false, true));
-    CHECK(state.prepare(matrix, 110.0f, 1152, 0.0f, 8, false, true)); // Reload/time reset.
+    CHECK_FALSE(state.prepare(matrix, waterReflectionPlane(100.0f), 576, 1.001f, 7, true, true));
+    CHECK_FALSE(state.prepare(matrix, waterReflectionPlane(100.0f), 576, 1.001f, 7, true, true)); // Paused rotation.
+    CHECK(state.prepare(matrix, waterReflectionPlane(100.0f), 576, 1.001f, 8, true, true)); // Door/light changes.
+    CHECK(state.prepare(matrix, waterReflectionPlane(100.0f), 1152, 1.001f, 8, true, true));
+    CHECK(state.prepare(matrix, waterReflectionPlane(110.0f), 1152, 1.001f, 8, true, true));
+    CHECK(state.prepare(matrix, waterReflectionPlane(110.0f), 1152, 1.001f, 8, false, true));
+    CHECK(state.prepare(matrix, waterReflectionPlane(110.0f), 1152, 1.04f, 8, false, true));
+    CHECK(state.prepare(matrix, waterReflectionPlane(110.0f), 1152, 0.0f, 8, false, true)); // Reload/time reset.
     matrix[0] = 0.97f;
-    CHECK_FALSE(state.prepare(matrix, 110.0f, 1152, 0.0f, 8, false, true));
-    CHECK(state.prepare(matrix, 110.0f, 1152, 0.0f, 8, false)); // Beyond the capture margin.
+    CHECK_FALSE(state.prepare(matrix, waterReflectionPlane(110.0f), 1152, 0.0f, 8, false, true));
+    CHECK(state.prepare(matrix, waterReflectionPlane(110.0f), 1152, 0.0f, 8, false)); // Beyond the capture margin.
 }
 
 TEST_CASE("water billboard setting refreshes cached reflections even while paused")
@@ -263,11 +263,11 @@ TEST_CASE("water billboard setting refreshes cached reflections even while pause
     WaterReflectionUpdate state;
     float matrix[16];
     bx::mtxIdentity(matrix);
-    CHECK(state.prepare(matrix, 0.0f, 512, 1.0f, 1, true, true, false));
-    CHECK_FALSE(state.prepare(matrix, 0.0f, 512, 1.0f, 1, true, true, false));
-    CHECK(state.prepare(matrix, 0.0f, 512, 1.0f, 1, true, true, true));
-    CHECK_FALSE(state.prepare(matrix, 0.0f, 512, 1.0f, 1, true, true, true));
-    CHECK(state.prepare(matrix, 0.0f, 512, 1.0f, 1, true, true, false));
+    CHECK(state.prepare(matrix, waterReflectionPlane(0.0f), 512, 1.0f, 1, true, true, false));
+    CHECK_FALSE(state.prepare(matrix, waterReflectionPlane(0.0f), 512, 1.0f, 1, true, true, false));
+    CHECK(state.prepare(matrix, waterReflectionPlane(0.0f), 512, 1.0f, 1, true, true, true));
+    CHECK_FALSE(state.prepare(matrix, waterReflectionPlane(0.0f), 512, 1.0f, 1, true, true, true));
+    CHECK(state.prepare(matrix, waterReflectionPlane(0.0f), 512, 1.0f, 1, true, true, false));
 }
 
 TEST_CASE("water billboard budget keeps nearby objects and fades before the distance cutoff")
@@ -325,8 +325,8 @@ TEST_CASE("water billboards use reflection visibility without inverting their wo
         const ViewFrustum mainFrustum(view, projection, homogeneousDepth);
         const ViewFrustum reflectionFrustum(reflected, projection, homogeneousDepth);
         CHECK_FALSE(mainFrustum.intersectsQuad(above.center, above.right, above.up));
-        CHECK(waterBillboardVisible(above, reflectionFrustum, 0.0f));
-        CHECK_FALSE(waterBillboardVisible(below, reflectionFrustum, 0.0f));
+        CHECK(waterBillboardVisible(above, reflectionFrustum, waterReflectionPlane(0.0f)));
+        CHECK_FALSE(waterBillboardVisible(below, reflectionFrustum, waterReflectionPlane(0.0f)));
     }
 }
 
@@ -478,6 +478,92 @@ TEST_CASE("water reflection preserves surface projection and mirrors geometry ac
         CHECK(cameraOrigin.y == doctest::Approx(0.0f).epsilon(0.001).scale(1.0));
         CHECK(cameraOrigin.z == doctest::Approx(0.0f).epsilon(0.001).scale(1.0));
     }
+}
+
+TEST_CASE("a mirror reflects about its own vertical plane, front side only")
+{
+    // A mirror facing south-east (the plane through (500, 300, 0)), the camera in front of it.
+    const bx::Vec3 normal = bx::normalize(bx::Vec3{1.0f, -1.0f, 0.0f});
+    const ReflectionPlane plane = {normal.x, normal.y, normal.z, -bx::dot(normal, bx::Vec3{500.0f, 300.0f, 0.0f})};
+    const bx::Vec3 eye = {900.0f, -200.0f, 180.0f};
+    CHECK(reflectionPlaneDistance(plane, eye) > 0.0f);
+    float view[16];
+    float reflected[16];
+    bx::mtxLookAt(view, eye, {500.0f, 300.0f, 150.0f}, {0.0f, 0.0f, 1.0f}, bx::Handedness::Right);
+    reflectionPlaneView(reflected, view, plane);
+    for (const bx::Vec3 &point : {bx::Vec3{500.0f, 300.0f, 100.0f}, bx::Vec3{1200.0f, 0.0f, 40.0f},
+             bx::Vec3{0.0f, 0.0f, 0.0f}})
+    {
+        const bx::Vec3 expected = bx::mul(reflectPlanePoint(point, plane), view);
+        const bx::Vec3 actual = bx::mul(point, reflected);
+        CHECK(actual.x == doctest::Approx(expected.x).epsilon(0.0001).scale(1.0));
+        CHECK(actual.y == doctest::Approx(expected.y).epsilon(0.0001).scale(1.0));
+        CHECK(actual.z == doctest::Approx(expected.z).epsilon(0.0001).scale(1.0));
+    }
+    // The mirrored eye is as far behind the plane as the eye is in front, at the same height.
+    const bx::Vec3 mirrorEye = reflectPlanePoint(eye, plane);
+    CHECK(reflectionPlaneDistance(plane, mirrorEye) == doctest::Approx(-reflectionPlaneDistance(plane, eye)));
+    CHECK(mirrorEye.z == doctest::Approx(eye.z));
+    const bx::Vec3 up = reflectPlaneDirection({0.0f, 0.0f, 1.0f}, plane);
+    CHECK(up.z == doctest::Approx(1.0f));
+    // Water's plane gives the old height reflection.
+    const bx::Vec3 below = reflectPlanePoint({10.0f, 20.0f, 150.0f}, waterReflectionPlane(100.0f));
+    CHECK(below.z == doctest::Approx(50.0f));
+    // A box behind the plane is culled from the capture; one reaching through it is kept.
+    CHECK_FALSE(reflectionPlaneBoundsInFront(plane, {0.0f, 400.0f, 0.0f}, {100.0f, 600.0f, 100.0f}));
+    CHECK(reflectionPlaneBoundsInFront(plane, {0.0f, 0.0f, 0.0f}, {700.0f, 600.0f, 100.0f}));
+}
+
+TEST_CASE("mirror faces form one planar surface per plane and side, whatever their orientation")
+{
+    const float mirror = liquidShaderValue(LiquidKind::Mirror);
+    CHECK(liquidFromShaderValue(mirror) == LiquidKind::Mirror);
+    CHECK(liquidReflects(LiquidKind::Mirror));
+    const auto vertex = [mirror](float x, float z)
+    {
+        return WaterVertex{x, 200.0f, z, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f, -1.0f, 0.0f, 0xffe8d8ceu, mirror};
+    };
+    // A portal's membrane: a vertical quad in the plane y = 200, one face for each side.
+    std::vector<WaterVertex> vertices = {vertex(0.0f, 0.0f), vertex(256.0f, 0.0f), vertex(256.0f, 256.0f),
+        vertex(0.0f, 0.0f), vertex(256.0f, 256.0f), vertex(0.0f, 256.0f),
+        vertex(0.0f, 0.0f), vertex(256.0f, 256.0f), vertex(256.0f, 0.0f)};
+    const std::vector<WaterSurfaceGeometry> surfaces = buildWaterFaceGeometry(vertices, -1, -1);
+    REQUIRE(surfaces.size() == 2);
+    CHECK(surfaces[0].vertices.size() == 6);
+    CHECK(surfaces[1].vertices.size() == 3);
+    for (const WaterSurfaceGeometry &surface : surfaces)
+    {
+        CHECK(surface.planar);
+        CHECK(surface.liquid == LiquidKind::Mirror);
+        CHECK(std::abs(surface.plane[1]) == doctest::Approx(1.0f));
+        CHECK(surface.plane[1] * 200.0f + surface.plane[3] == doctest::Approx(0.0f).scale(1.0));
+        CHECK(surface.vertices.front().normalY == doctest::Approx(surface.plane[1]));
+    }
+    CHECK(surfaces[0].plane[1] == doctest::Approx(-surfaces[1].plane[1]));
+}
+
+TEST_CASE("a mirror's capture scissor keeps to its projected bounds")
+{
+    float view[16];
+    float projection[16];
+    float viewProjection[16];
+    bx::mtxLookAt(view, {0.0f, -1000.0f, 0.0f}, {0.0f, 0.0f, 0.0f}, {0.0f, 0.0f, 1.0f}, bx::Handedness::Right);
+    bx::mtxProj(projection, 60.0f, 1.0f, 10.0f, 10000.0f, false, bx::Handedness::Right);
+    bx::mtxMul(viewProjection, view, projection);
+    const WaterReflectionScissor full = {0, 0, 512, 512};
+    const WaterReflectionScissor small = waterReflectionBoundsScissor(viewProjection, {-50.0f, -1.0f, -50.0f},
+        {50.0f, 1.0f, 50.0f}, 512, full);
+    CHECK(small.width > 0);
+    CHECK(small.width < 128);
+    CHECK(small.height < 128);
+    CHECK(small.x + small.width / 2 == doctest::Approx(256).epsilon(0.02));
+    // A box reaching behind the eye keeps the whole scissor; one wholly off the scissor leaves nothing.
+    const WaterReflectionScissor behind = waterReflectionBoundsScissor(viewProjection, {-50.0f, -2000.0f, -50.0f},
+        {50.0f, 1.0f, 50.0f}, 512, full);
+    CHECK(behind.width == 512);
+    const WaterReflectionScissor offside = waterReflectionBoundsScissor(viewProjection, {-50.0f, -1.0f, -50.0f},
+        {50.0f, 1.0f, 50.0f}, 512, {0, 0, 64, 64});
+    CHECK(offside.width == 0);
 }
 
 TEST_CASE("water reflection scissor covers visible water and distorted samples across cameras and depth conventions")

@@ -379,3 +379,66 @@ TEST_CASE("S8g: maps installed into one mount keep each other's rows, and the mo
     CHECK(again.find("xeen_x2.odm") != std::string::npos);
     std::filesystem::remove_all(scratch);
 }
+
+TEST_CASE("arena (XD-20): objects.yml `arena` writes the scene's arena block and MM7's arena restrictions")
+{
+    const std::map<std::string, std::string> monsters = {
+        {"engine/data_tables/monster_data.txt", "#\tName\n11010\tGoblin\n11011\tOrc\n"}};
+    const std::string head = "format: 0\nstart: {room: room:a, at: [128, 128]}\narena:\n";
+    const std::string party = "  party: {room: room:a, at: [512, 200], facing: north}\n";
+    // Four marks by hand and sixteen on a ring round the room's middle: 20.
+    const std::string marks = "  ring: {room: room:a, radius: 320, count: 16}\n"
+                              "  marks:\n"
+                              "    - {room: room:a, at: [100, 900]}\n"
+                              "    - {room: room:a, at: [900, 900]}\n"
+                              "    - {room: room:a, at: [100, 100]}\n"
+                              "    - {room: room:a, offset: [400, -400]}\n";
+
+    const S8gBuilt built = buildS8g(
+        {{"rooms.yml", S8gRoom}, {"objects.yml", head + "  monsters: [11010, 11699]\n" + party + marks}}, monsters);
+    REQUIRE(built.built);
+    REQUIRE(built.scene);
+    REQUIRE(built.scene->arena);
+    CHECK(built.scene->runtimeRestrictions.isArena);
+    CHECK_FALSE(built.scene->runtimeRestrictions.allowSaveGame);
+    CHECK_FALSE(built.scene->runtimeRestrictions.allowLloydsBeacon);
+    CHECK(built.scene->runtimeRestrictions.allowRest);
+    CHECK(built.scene->runtimeRestrictions.allowSpellcasting);
+    const OpenYAMM::Game::MapArenaDefinition &arena = *built.scene->arena;
+    CHECK(arena.minimumMonsterId == 11010);
+    CHECK(arena.maximumMonsterId == 11699);
+    CHECK(arena.partyPosition.x == 512);
+    CHECK(arena.partyPosition.y == 200);
+    CHECK(arena.partyPosition.z == 0);
+    CHECK(arena.partyDirectionDegrees == 90);
+    REQUIRE(arena.monsterPositions.size() == 20);
+    // The hand-placed marks first, then the ring's: its first east of the middle, its fifth north of it.
+    CHECK(arena.monsterPositions[0].x == 100);
+    CHECK(arena.monsterPositions[0].y == 900);
+    CHECK(arena.monsterPositions[3].x == 912);
+    CHECK(arena.monsterPositions[3].y == 112);
+    CHECK(arena.monsterPositions[4].x == 832);
+    CHECK(arena.monsterPositions[4].y == 512);
+    CHECK(arena.monsterPositions[8].x == 512);
+    CHECK(arena.monsterPositions[8].y == 832);
+
+    // Too few marks, a range with no monster row, a mark outside its room: refused with the reason.
+    const S8gBuilt few = buildS8g({{"rooms.yml", S8gRoom}, {"objects.yml", head + "  monsters: [11010, 11699]\n"
+        + party + "  ring: {room: room:a, radius: 320, count: 19}\n"}}, monsters);
+    CHECK_FALSE(few.built);
+    CHECK(few.issued("at least 20 marks"));
+    const S8gBuilt empty = buildS8g(
+        {{"rooms.yml", S8gRoom}, {"objects.yml", head + "  monsters: [12000, 12010]\n" + party + marks}}, monsters);
+    CHECK_FALSE(empty.built);
+    CHECK(empty.issued("no monster from 12000 to 12010"));
+    const S8gBuilt outside = buildS8g({{"rooms.yml", S8gRoom}, {"objects.yml", head + "  monsters: [11010, 11699]\n"
+        + party + "  ring: {room: room:a, radius: 600, count: 20}\n"}}, monsters);
+    CHECK_FALSE(outside.built);
+    CHECK(outside.issued("is not inside room room:a"));
+
+    // No arena: no restrictions written.
+    const S8gBuilt plain = buildS8g({{"rooms.yml", S8gRoom}, {"objects.yml", "format: 0\nstart: {room: room:a}\n"}});
+    REQUIRE(plain.built);
+    CHECK_FALSE(plain.scene->arena);
+    CHECK_FALSE(plain.scene->runtimeRestrictions.isArena);
+}

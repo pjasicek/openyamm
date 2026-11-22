@@ -290,6 +290,10 @@ void CombatRules::characterDamaged(Party &, size_t) const
 {
 }
 
+void CombatRules::observeRemoteParty(const Party &, const IGameplayWorldRuntime &, float, float) const
+{
+}
+
 void CombatRules::updateCombat(Party &, IGameplayWorldRuntime &, float) const
 {
 }

@@ -2952,6 +2952,48 @@ TEST_CASE("actor tactics leash a post: it stops moving away from home but keeps 
     CHECK(free.movementIntent.applyMovement);
 }
 
+TEST_CASE("D-54: a post's leash travels with every step and holds the step the world finally takes")
+{
+    ActorAiFacts actor = makeTacticRangedActor(4000.0f, 0.0f, 3940.0f);
+    actor.tactics.holdPost = true;
+    actor.tactics.postLeashRadius = 500.0f;
+    actor.movement.homePosition = {-600.0f, 0.0f, 0.0f};
+    const OpenYAMM::Game::ActorAiUpdate update = updateOne(actor);
+    CHECK(update.movementIntent.leashRadius == doctest::Approx(500.0f));
+    CHECK(update.movementIntent.leashHome.x == doctest::Approx(-600.0f));
+
+    // A script's walk is free of it.
+    actor.movement.scriptedMoveTarget = OpenYAMM::Game::GameplayWorldPoint{2000.0f, 0.0f, 0.0f};
+    CHECK(updateOne(actor).movementIntent.leashRadius == doctest::Approx(0.0f));
+
+    using OpenYAMM::Game::keepStepOnLeash;
+    const OpenYAMM::Game::GameplayWorldPoint home = {1000.0f, 1000.0f, 0.0f};
+
+    // Beyond the leash: the outward part goes, a sideways part stays (it slides along the circle).
+    float directionX = 0.6f;
+    float directionY = 0.8f;
+    keepStepOnLeash(1024.0f, home, 1000.0f + 1100.0f, 1000.0f, directionX, directionY);
+    CHECK(directionX == doctest::Approx(0.0f));
+    CHECK(directionY == doctest::Approx(0.8f));
+
+    // Straight out: it stands.
+    directionX = 1.0f;
+    directionY = 0.0f;
+    keepStepOnLeash(1024.0f, home, 1000.0f + 1024.0f, 1000.0f, directionX, directionY);
+    CHECK(directionX == doctest::Approx(0.0f));
+    CHECK(directionY == doctest::Approx(0.0f));
+
+    // Back toward home, inside the leash, or without one: unchanged.
+    directionX = -1.0f;
+    keepStepOnLeash(1024.0f, home, 1000.0f + 1100.0f, 1000.0f, directionX, directionY);
+    CHECK(directionX == doctest::Approx(-1.0f));
+    directionX = 1.0f;
+    keepStepOnLeash(1024.0f, home, 1000.0f + 900.0f, 1000.0f, directionX, directionY);
+    CHECK(directionX == doctest::Approx(1.0f));
+    keepStepOnLeash(0.0f, home, 1000.0f + 5000.0f, 1000.0f, directionX, directionY);
+    CHECK(directionX == doctest::Approx(1.0f));
+}
+
 TEST_CASE("actor tactics ease a traverse onto its target instead of stopping dead")
 {
     ActorAiFacts actor = makeTacticTurret(0.0f, 1500.0f);

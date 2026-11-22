@@ -227,6 +227,35 @@ size_t lightCarryingDecorations(const Game::IndoorMapData &indoor, const std::st
     return count;
 }
 
+void writeCaveShape(const Game::IndoorMapData &indoor, JsonWriter &writer)
+{
+    const CaveShape shape = caveShapeOf(indoor);
+    const auto rounded = [](double value, double scale) { return std::round(value * scale) / scale; };
+    writer.key("cave_shape");
+    writer.beginObject();
+    writer.field("floor_uneven_share", rounded(shape.floorUnevenShare, 1000.0));
+    writer.field("ceiling_spread", rounded(shape.ceilingSpread, 1.0));
+    writer.field("ceiling_uneven_share", rounded(shape.ceilingUnevenShare, 1000.0));
+    writer.field("wall_rough_share", rounded(shape.wallRoughShare, 1000.0));
+    writer.key("rooms");
+    writer.beginArray();
+
+    for (const CaveShapeRoom &room : shape.rooms)
+    {
+        writer.beginObject();
+        writer.field("sector", static_cast<uint64_t>(room.sector));
+        writer.field("floor_area_thousands", rounded(room.floorArea / 1000.0, 1.0));
+        writer.field("floor_uneven_share", rounded(room.floorUnevenShare, 1000.0));
+        writer.field("ceiling_spread", rounded(room.ceilingSpread, 1.0));
+        writer.field("ceiling_uneven_share", rounded(room.ceilingUnevenShare, 1000.0));
+        writer.field("wall_rough_share", rounded(room.wallRoughShare, 1000.0));
+        writer.endObject();
+    }
+
+    writer.endArray();
+    writer.endObject();
+}
+
 void writeIndoor(const LoadedMap &map, const MetricsOptions &options, JsonWriter &writer)
 {
     const Game::IndoorMapData &indoor = *map.indoor;
@@ -461,6 +490,7 @@ void writeIndoor(const LoadedMap &map, const MetricsOptions &options, JsonWriter
     writer.field("decorations_per_area", perArea(indoor.entities.size()));
     writer.endObject();
 
+    writeCaveShape(indoor, writer);
     writer.key("palette");
     writer.beginObject();
     writer.field("textures", static_cast<uint64_t>(textureAreas.size()));
@@ -639,6 +669,200 @@ void writeOutdoor(const LoadedMap &map, JsonWriter &writer)
     writeTopNames(writer, "tiles_by_cells", tiles, 8);
     writer.endObject();
 }
+}
+
+CaveShape caveShapeOf(const Game::IndoorMapData &indoor)
+{
+    // One face's area, the up component of its normal (unit), its plan direction's distance from the 45-degree grid
+    // (degrees) and its middle's height.
+    struct Piece
+    {
+        double area = 0.0;
+        double upward = 0.0;
+        double offGrid = 0.0;
+        double height = 0.0;
+    };
+    struct Sector
+    {
+        std::vector<Piece> floors;
+        std::vector<Piece> ceilings;
+        std::vector<Piece> walls;
+    };
+    std::map<size_t, Sector> sectors;
+
+    for (const Game::IndoorFace &face : indoor.faces)
+    {
+        if (face.isPortal || face.vertexIndices.size() < 3 || face.roomNumber == 0)
+        {
+            continue;
+        }
+
+        double normalX = 0.0;
+        double normalY = 0.0;
+        double normalZ = 0.0;
+        double sumZ = 0.0;
+
+        for (size_t index = 0; index < face.vertexIndices.size(); ++index)
+        {
+            const Game::IndoorVertex &current = indoor.vertices[face.vertexIndices[index]];
+            const Game::IndoorVertex &next =
+                indoor.vertices[face.vertexIndices[(index + 1) % face.vertexIndices.size()]];
+            normalX += (static_cast<double>(current.y) - next.y) * (static_cast<double>(current.z) + next.z);
+            normalY += (static_cast<double>(current.z) - next.z) * (static_cast<double>(current.x) + next.x);
+            normalZ += (static_cast<double>(current.x) - next.x) * (static_cast<double>(current.y) + next.y);
+            sumZ += current.z;
+        }
+
+        const double length = std::sqrt(normalX * normalX + normalY * normalY + normalZ * normalZ);
+
+        if (length <= 0.0)
+        {
+            continue;
+        }
+
+        Piece piece;
+        piece.area = length / 2.0;
+        piece.upward = normalZ / length;
+        piece.height = sumZ / static_cast<double>(face.vertexIndices.size());
+        const double degrees = std::atan2(normalY, normalX) * 180.0 / 3.14159265358979323846;
+        const double inStep = std::fmod(std::fmod(degrees, 45.0) + 45.0, 45.0);
+        piece.offGrid = std::min(inStep, 45.0 - inStep);
+        Sector &sector = sectors[face.roomNumber];
+
+        if (piece.upward > 0.7)
+        {
+            sector.floors.push_back(piece);
+        }
+        else if (piece.upward < -0.7)
+        {
+            sector.ceilings.push_back(piece);
+        }
+        else
+        {
+            sector.walls.push_back(piece);
+        }
+    }
+
+    // A surface's main height: the area-weighted median of its level pieces (all its pieces when none is level).
+    const auto mainHeight = [](const std::vector<Piece> &pieces)
+    {
+        std::vector<std::pair<double, double>> levels;
+
+        for (const Piece &piece : pieces)
+        {
+            if (std::abs(piece.upward) >= 0.995)
+            {
+                levels.push_back({piece.height, piece.area});
+            }
+        }
+
+        if (levels.empty())
+        {
+            for (const Piece &piece : pieces)
+            {
+                levels.push_back({piece.height, piece.area});
+            }
+        }
+
+        std::sort(levels.begin(), levels.end());
+        double total = 0.0;
+
+        for (const std::pair<double, double> &level : levels)
+        {
+            total += level.second;
+        }
+
+        double running = 0.0;
+
+        for (const std::pair<double, double> &level : levels)
+        {
+            running += level.second;
+
+            if (running >= total / 2.0)
+            {
+                return level.first;
+            }
+        }
+
+        return levels.empty() ? 0.0 : levels.back().first;
+    };
+    // The area of a surface not level with its main height, and its area-weighted distance from it.
+    const auto uneven = [&](const std::vector<Piece> &pieces, double &area, double &unevenArea, double &distance)
+    {
+        const double main = mainHeight(pieces);
+
+        for (const Piece &piece : pieces)
+        {
+            area += piece.area;
+            distance += std::abs(piece.height - main) * piece.area;
+            unevenArea += std::abs(piece.upward) < 0.995 || std::abs(piece.height - main) > 16.0 ? piece.area : 0.0;
+        }
+    };
+
+    CaveShape shape;
+    double floorArea = 0.0;
+    double floorUneven = 0.0;
+    double ceilingArea = 0.0;
+    double ceilingUneven = 0.0;
+    double ceilingDistance = 0.0;
+    double wallArea = 0.0;
+    double wallRough = 0.0;
+
+    for (const auto &[number, sector] : sectors)
+    {
+        CaveShapeRoom room;
+        room.sector = number;
+        double unusedDistance = 0.0;
+        double floorUnevenArea = 0.0;
+        uneven(sector.floors, room.floorArea, floorUnevenArea, unusedDistance);
+        double roomCeilingArea = 0.0;
+        double roomCeilingUneven = 0.0;
+        double roomCeilingDistance = 0.0;
+        uneven(sector.ceilings, roomCeilingArea, roomCeilingUneven, roomCeilingDistance);
+        double roomWallArea = 0.0;
+        double roomWallRough = 0.0;
+
+        for (const Piece &piece : sector.walls)
+        {
+            roomWallArea += piece.area;
+            roomWallRough += std::abs(piece.upward) > 0.087 || piece.offGrid > 5.0 ? piece.area : 0.0;
+        }
+
+        room.floorUnevenShare = room.floorArea > 0.0 ? floorUnevenArea / room.floorArea : 0.0;
+        room.ceilingSpread = roomCeilingArea > 0.0 ? roomCeilingDistance / roomCeilingArea : 0.0;
+        room.ceilingUnevenShare = roomCeilingArea > 0.0 ? roomCeilingUneven / roomCeilingArea : 0.0;
+        room.wallRoughShare = roomWallArea > 0.0 ? roomWallRough / roomWallArea : 0.0;
+        floorArea += room.floorArea;
+        floorUneven += floorUnevenArea;
+        ceilingArea += roomCeilingArea;
+        ceilingUneven += roomCeilingUneven;
+        ceilingDistance += roomCeilingDistance;
+        wallArea += roomWallArea;
+        wallRough += roomWallRough;
+
+        if (room.floorArea >= 256.0 * 256.0)
+        {
+            shape.rooms.push_back(room);
+        }
+    }
+
+    shape.floorUnevenShare = floorArea > 0.0 ? floorUneven / floorArea : 0.0;
+    shape.ceilingSpread = ceilingArea > 0.0 ? ceilingDistance / ceilingArea : 0.0;
+    shape.ceilingUnevenShare = ceilingArea > 0.0 ? ceilingUneven / ceilingArea : 0.0;
+    shape.wallRoughShare = wallArea > 0.0 ? wallRough / wallArea : 0.0;
+    std::sort(shape.rooms.begin(), shape.rooms.end(),
+        [](const CaveShapeRoom &left, const CaveShapeRoom &right) { return left.floorArea > right.floorArea; });
+    return shape;
+}
+
+CaveShapeTargets caveShapeTargets()
+{
+    // The lowest of MM8's Dragon Cave (d17), Ogre Fortress (d12) and Troll Home (d13) and MM7's Thunderfist Mountain
+    // (7d07) and Stone City (7d08), a little under (2026-11-22, output/xeen_a1/mp40/cave): floor 0.345 (7d07),
+    // ceiling 84 (d13, 7d07), walls 0.193 (d13). Built boxes measure floor 0.04-0.30, ceiling 15-72, walls 0.03-0.17
+    // (MM8 d01, d27, d35; MM7 7d29, 7d13; MM6 6d16, sewer). MM6's mines lie on the grid (6d05 walls 0.063, 6d09
+    // 0.066) and fall below: Xeen's caves are held to MM7 and MM8's.
+    return {0.30, 80.0, 0.18};
 }
 
 void writeMetricsJson(const LoadedMap &map, const MetricsOptions &options, JsonWriter &writer)

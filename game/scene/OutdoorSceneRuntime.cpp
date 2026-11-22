@@ -110,7 +110,7 @@ bool transitionQuestRequirementsMet(const Party &party, const MapEdgeTransition 
 
     for (uint32_t qbit : transition.requiredQuestBitsAny)
     {
-        if (party.hasQuestBit(qbit))
+        if (party.campaign().hasQuestBit(qbit))
         {
             return true;
         }
@@ -236,6 +236,14 @@ const std::string &OutdoorSceneRuntime::currentMapFileName() const
     return m_mapFileName;
 }
 
+Party &OutdoorSceneRuntime::eventParty()
+{
+    // The party an event runs for: the world's, which is the acting player's while another player's command runs
+    // (IGameplayWorldRuntime::swapActingParty) and this scene's own at every other moment.
+    Party *pWorldParty = m_pWorldRuntime != nullptr ? m_pWorldRuntime->party() : nullptr;
+    return pWorldParty != nullptr ? *pWorldParty : m_pPartyRuntime->party();
+}
+
 Party &OutdoorSceneRuntime::party()
 {
     return m_pPartyRuntime->party();
@@ -356,23 +364,30 @@ OutdoorSceneRuntime::AdvanceFrameResult OutdoorSceneRuntime::advanceFrame(
 
     EventRuntimeState *pEventRuntimeState = m_pWorldRuntime->eventRuntimeState();
 
-    applyMm9TeacherScheduleActivations(
-        m_mm9TeacherScheduleRuntime.update(m_pWorldRuntime->gameMinutes()),
-        *m_pWorldRuntime,
-        *m_pWorldRuntime);
+    // A co-op guest's replica (IGameplayWorldRuntime::replica): the host runs the map's schedules, timers and
+    // events. What the party steps on here is named to the host, which runs its event for this player.
+    const bool replica = m_pWorldRuntime->replica();
+
+    if (!replica)
+    {
+        applyMm9TeacherScheduleActivations(
+            m_mm9TeacherScheduleRuntime.update(m_pWorldRuntime->gameMinutes()),
+            *m_pWorldRuntime,
+            *m_pWorldRuntime);
+    }
 
     if (pEventRuntimeState != nullptr)
     {
         result.previousMessageCount = pEventRuntimeState->messages.size();
     }
 
-    result.shouldOpenEventDialog = processMonsterKilledEvents();
+    result.shouldOpenEventDialog = !replica && processMonsterKilledEvents();
 
     // Turn-based walking and falling take no game time: the clock and its timers advance once per completed turn
     // (advanceTurnBasedGameMinutes), as indoors.
     const bool turnBasedStep = movementInput.turnBasedMovementStep || movementInput.turnBasedPhysicsStep;
 
-    if (m_pWorldRuntime->updateTimers(
+    if (!replica && m_pWorldRuntime->updateTimers(
             turnBasedStep ? 0.0f : deltaSeconds,
             m_eventRuntime,
             m_localEventProgram,
@@ -416,7 +431,16 @@ OutdoorSceneRuntime::AdvanceFrameResult OutdoorSceneRuntime::advanceFrame(
                 && m_localEventProgram
                 && m_localEventProgram->isLevitateSensitivePressurePlate(face.cogTriggeredNumber, face.attributes);
 
-            if (hasFaceAttribute(face.attributes, FaceAttribute::PressurePlate)
+            if (replica && hasFaceAttribute(face.attributes, FaceAttribute::PressurePlate)
+                && face.cogTriggeredNumber != 0 && !bypassedByLevitate)
+            {
+                m_pWorldRuntime->noteReplicaPositionTrigger(ReplicaPositionTrigger{
+                    .kind = ReplicaPositionTrigger::Kind::OutdoorFace,
+                    .first = uint32_t(moveState.supportBModelIndex),
+                    .second = uint32_t(moveState.supportFaceIndex),
+                });
+            }
+            else if (hasFaceAttribute(face.attributes, FaceAttribute::PressurePlate)
                 && face.cogTriggeredNumber != 0 && !bypassedByLevitate)
             {
                 pEventRuntimeState->lastPressurePlateTrigger = EventRuntimeState::PressurePlateTrigger{
@@ -445,7 +469,7 @@ OutdoorSceneRuntime::AdvanceFrameResult OutdoorSceneRuntime::advanceFrame(
                     m_globalEventProgram,
                     face.cogTriggeredNumber,
                     *pEventRuntimeState,
-                    &m_pPartyRuntime->party(),
+                    &eventParty(),
                     m_pWorldRuntime,
                     std::nullopt,
                     false
@@ -454,7 +478,7 @@ OutdoorSceneRuntime::AdvanceFrameResult OutdoorSceneRuntime::advanceFrame(
                 if (executed)
                 {
                     m_pWorldRuntime->applyEventRuntimeState();
-                    m_pPartyRuntime->applyEventRuntimeState(*pEventRuntimeState, false);
+                    eventParty().applyEventRuntimeState(*pEventRuntimeState, false);
                     result.shouldOpenEventDialog = result.shouldOpenEventDialog
                         || pEventRuntimeState->pendingDialogueContext.has_value()
                         || pEventRuntimeState->messages.size() > result.previousMessageCount;
@@ -472,7 +496,7 @@ OutdoorSceneRuntime::AdvanceFrameResult OutdoorSceneRuntime::advanceFrame(
         pPerformanceDiagnostics->pressurePlateNanoseconds += SDL_GetTicksNS() - stageBeginTickCount;
     }
 
-    if (pEventRuntimeState != nullptr)
+    if (pEventRuntimeState != nullptr && !replica)
     {
         const std::optional<Mm9PositionedTransitionActivation> activation =
             m_mm9PositionedTransitionRuntime.update(
@@ -486,15 +510,21 @@ OutdoorSceneRuntime::AdvanceFrameResult OutdoorSceneRuntime::advanceFrame(
                 || activation->pTransition->askPlayer;
             // An exit that does not ask is a voyage (Ravensford's ship to the Isle of Ashes, its boat on to Sturmford):
             // the days pass, but only a walk between regions, which always asks, eats food.
-            if (!activation->pTransition->askPlayer
-                && applyTravelDaysSideEffects(
-                    m_pPartyRuntime->party(),
-                    m_pWorldRuntime,
-                    activation->pTransition->travelDays,
-                    0)
-                && pEventRuntimeState->pendingMapMove)
+            // With other players in the world the voyage waits for their agreement, and its days pass then.
+            if (!activation->pTransition->askPlayer && pEventRuntimeState->pendingMapMove)
             {
-                pEventRuntimeState->pendingMapMove->travelTimeApplied = true;
+                TravelCost cost;
+                cost.travelDays = std::max(0, activation->pTransition->travelDays);
+
+                if (m_pWorldRuntime != nullptr && m_pWorldRuntime->sharedWithOtherPlayers())
+                {
+                    pEventRuntimeState->pendingMapMove->unpaidCost =
+                        cost.any() ? std::optional<TravelCost>(cost) : std::nullopt;
+                }
+                else if (applyTravelCost(eventParty(), {}, m_pWorldRuntime, cost))
+                {
+                    pEventRuntimeState->pendingMapMove->travelTimeApplied = true;
+                }
             }
         }
     }
@@ -505,8 +535,9 @@ OutdoorSceneRuntime::AdvanceFrameResult OutdoorSceneRuntime::advanceFrame(
         && !pEventRuntimeState->pendingMapMove.has_value()
         && m_pPartyRuntime->movementEvents().blockedBoundaryEdge.has_value())
     {
-        const std::optional<MapEdgeTransition> *pTransition =
-            m_mapEntry.edgeTransition(*m_pPartyRuntime->movementEvents().blockedBoundaryEdge);
+        uint32_t transitionSourceId = 0;
+        const std::optional<MapEdgeTransition> *pTransition = m_mapEntry.edgeTransitionAt(
+            *m_pPartyRuntime->movementEvents().blockedBoundaryEdge, moveState.x, moveState.y, transitionSourceId);
 
         if (pTransition != nullptr
             && pTransition->has_value()
@@ -518,7 +549,7 @@ OutdoorSceneRuntime::AdvanceFrameResult OutdoorSceneRuntime::advanceFrame(
             const MapBoundaryEdge edge = *m_pPartyRuntime->movementEvents().blockedBoundaryEdge;
             EventRuntimeState::PendingDialogueContext context = {};
             context.kind = DialogueContextKind::MapTransition;
-            context.sourceId = static_cast<uint32_t>(edge);
+            context.sourceId = transitionSourceId;
             context.boundaryTravel = true;
             const EventRuntimeState::PendingMapMove transitionMove = buildBoundaryTravelMapMove(
                 **pTransition,
@@ -570,7 +601,11 @@ OutdoorSceneRuntime::AdvanceFrameResult OutdoorSceneRuntime::advanceFrame(
     // step (shield regeneration and modifier cooldowns for the whole walk).
     m_pWorldRuntime->queueActorAiUpdate(
         turnBasedStep ? 0.0f : deltaSeconds, moveState.x, moveState.y, moveState.footZ);
-    notifyFriendlyActorContacts(*m_pWorldRuntime, moveState, m_pPartyRuntime->movementEvents());
+
+    if (!replica)
+    {
+        notifyFriendlyActorContacts(*m_pWorldRuntime, moveState, m_pPartyRuntime->movementEvents());
+    }
 
     if (pPerformanceDiagnostics != nullptr)
     {
@@ -608,14 +643,14 @@ bool OutdoorSceneRuntime::executeEventById(
     const std::optional<ScriptedEventProgram> &effectiveLocalEventProgram =
         activeDecorationContext.has_value() && allowGlobalFallback ? emptyLocalProgram : localEventProgram;
     const std::vector<int64_t> statsBefore =
-        activeDecorationContext ? partyBaseStatSnapshot(m_pPartyRuntime->party()) : std::vector<int64_t>{};
+        activeDecorationContext ? partyBaseStatSnapshot(eventParty()) : std::vector<int64_t>{};
 
     const bool executed = m_eventRuntime.executeEventById(
         effectiveLocalEventProgram,
         m_globalEventProgram,
         eventId,
         *pEventRuntimeState,
-        &m_pPartyRuntime->party(),
+        &eventParty(),
         m_pWorldRuntime,
         std::nullopt,
         allowGlobalFallback
@@ -625,7 +660,7 @@ bool OutdoorSceneRuntime::executeEventById(
     if (executed && activeDecorationContext)
     {
         reportDecorationStatGain(
-            m_pPartyRuntime->party(), *pEventRuntimeState, activeDecorationContext->decorVarIndex, statsBefore);
+            eventParty(), *pEventRuntimeState, activeDecorationContext->decorVarIndex, statsBefore);
     }
 
     if (!executed)
@@ -634,7 +669,7 @@ bool OutdoorSceneRuntime::executeEventById(
     }
 
     m_pWorldRuntime->applyEventRuntimeState();
-    m_pPartyRuntime->applyEventRuntimeState(*pEventRuntimeState, false);
+    eventParty().applyEventRuntimeState(*pEventRuntimeState, false);
     return true;
 }
 
@@ -657,7 +692,7 @@ bool OutdoorSceneRuntime::executeNpcTopicEventById(
         m_globalEventProgram,
         eventId,
         *pEventRuntimeState,
-        &m_pPartyRuntime->party(),
+        &eventParty(),
         m_pWorldRuntime,
         continueStep
     );
@@ -668,7 +703,7 @@ bool OutdoorSceneRuntime::executeNpcTopicEventById(
     }
 
     m_pWorldRuntime->applyEventRuntimeState();
-    m_pPartyRuntime->applyEventRuntimeState(*pEventRuntimeState, false);
+    eventParty().applyEventRuntimeState(*pEventRuntimeState, false);
     return true;
 }
 
@@ -691,7 +726,7 @@ bool OutdoorSceneRuntime::executeMapEventById(
         m_globalEventProgram,
         eventId,
         *pEventRuntimeState,
-        &m_pPartyRuntime->party(),
+        &eventParty(),
         m_pWorldRuntime,
         continueStep
     );
@@ -702,7 +737,7 @@ bool OutdoorSceneRuntime::executeMapEventById(
     }
 
     m_pWorldRuntime->applyEventRuntimeState();
-    m_pPartyRuntime->applyEventRuntimeState(*pEventRuntimeState, false);
+    eventParty().applyEventRuntimeState(*pEventRuntimeState, false);
     return true;
 }
 
@@ -720,7 +755,7 @@ bool OutdoorSceneRuntime::executeEventHooks(EventRuntimeHookKind kind)
         m_globalEventProgram,
         kind,
         *pEventRuntimeState,
-        &m_pPartyRuntime->party(),
+        &eventParty(),
         m_pWorldRuntime);
 
     if (!executed)
@@ -729,7 +764,7 @@ bool OutdoorSceneRuntime::executeEventHooks(EventRuntimeHookKind kind)
     }
 
     m_pWorldRuntime->applyEventRuntimeState();
-    m_pPartyRuntime->applyEventRuntimeState(*pEventRuntimeState, false);
+    eventParty().applyEventRuntimeState(*pEventRuntimeState, false);
     return true;
 }
 

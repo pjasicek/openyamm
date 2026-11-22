@@ -37,6 +37,7 @@ tests/run_rewire.sh        # the two rewire overlays play the same as the shippe
 oymap export <map.odm|map.blv | project> [--world <w> --assets <asset root> [--mount <folder>]] [--summary] [--pretty] [--out <file>]
                                                                          a map as JSON; with a world and a root also its door records
 oymap audit <map file> --world <w> --assets <asset root> [--reach] [--solve] [--json] [--original <map>] [--strict]
+            [--dressing]
                                                                          a map as the game reads it, checked
 oymap metrics <map file> --world <w> --assets <asset root> [--reach] [--out <file>]   comparison metrics as JSON
 oymap flow <map file> --world <w> --assets <asset root> [--event <n>]   what each handler tests and does
@@ -148,7 +149,11 @@ there). `oymap build` makes a classic ODM with its scene and script:
   and `decoration` (one decoration of the game's table by name). What a click does is said with the structure:
   `title`, `house`, `into`, `chest` (level, random_items, items), `effects` (text, gold, add, subtract, set,
   autonote, qbit, clear_qbit, give_item, teleport, lua), `once`, `lua`. `actors` place townsfolk and guards by
-  their monster row (`monster`, `at`, `count`, `spread`, `group`, `hostile`).
+  their monster row (`monster`, `at`, `count`, `spread`, `group`, `hostile`). Any structure may say
+  `translucent: true` (Xeen merge point 23, D5's Barrier curtain): its faces draw see-through, blended by their
+  texture's own alpha and sorted back to front, and stay solid; the build lists them in the scene's
+  `bmodel_faces.translucent_faces` (devdocs/INDOOR_TRANSLUCENT_FACES.md, "Outdoor BModel faces"). No opacity number
+  outdoors: give the texture a graded alpha.
 - **What things do** (`core/OutdoorEvents`; measured with `oymap flow` on both towns, told at the file's top): a
   plot's door, a door of `doors`, a part of a building and a structure say what a click does with the indoor
   wiring's words: `condition` (qbit, item, map_var, award, gold, stat, season, kills, lua, not, any, all; names from
@@ -160,7 +165,13 @@ there). `oymap build` makes a classic ODM with its scene and script:
   one can stand on run the event). What events change: `{show: id}`, `{hide: id}` (a structure or a plot's building;
   `hidden: true` starts it hidden), `{set_sprite: {of, to}}` (a decoration's picture: a picked tree),
   `{set_texture: {of, from, to}}` (a model's faces of one texture), `{show_actors: group}` (`actors[].hidden`).
-  The numbers events name things by are kept in ids.lock.yml `cogs`.
+  The numbers events name things by are kept in ids.lock.yml `cogs`. As indoors (Xeen, 2026-11-20): `{player_bit:
+  n}` as a condition and an effect (`clear_player_bit`), the bit of the member who clicks; `question: {ask, answers,
+  message, wrong_text, wrong_effects}` asked after `once` and the lock, the rest running on a right answer, the
+  `wrong_effects` (effect words, as indoors) on any other; and in any of the
+  handler's Lua `ShowThing("thing:x")` / `HideThing("thing:x")`, written as the calls `{show}` and `{hide}` write
+  (statements), so a Lua branch changes what is drawn at once. A world without kits of its own (Xeen) may name any
+  shipped world's texture, as the game mounts them all.
 - **Spawn points and decorations** (`core/OutdoorPlaces`): encounter `areas` become spawn points of a monster slot
   (`count` markers, half a cell apart); `scatter` places decorations by kind and number over an area, clear of
   water, roads, buildings, structures and ground too steep to walk (`steep: true` allows it), evenly or in
@@ -174,6 +185,20 @@ there). `oymap build` makes a classic ODM with its scene and script:
   **west** start (S8g: before 2026-11-16 the studio wrote `left` for a west arrival, so every east-west way arrived
   on the wrong side, or at the party start). The square the party can
   walk is the game's own (23143 units from the middle), not `frame.playable`.
+  A side that leads to two maps (Xeen's X4 south edge, D-11.6) gives each neighbour a `span: [from, to]` (units along
+  the side: x for north and south, y for east and west) and its `arrival` and `direction`: such a neighbour is no
+  travel table row (one map per side); the game reads it from a world's `edge_spans` table (`map, edge, from, to,
+  to_map, side, days, at, facing`: `game/tables/MapStats.h` `MapEdgeSpan`), which the world's generator writes. The
+  party meeting the side inside a span goes the span's way, elsewhere the side's own row's.
+- **Named arrivals** (D-4: a dungeon with several mouths): every build lists the map's arrivals in build.json
+  (`named_arrivals`): `start`, and each plan.yml entrance of kind arrival or both (outdoors where its sketch point
+  stands; indoors at its objects.yml `arrivals` entry `{entrance, room, at, facing}`, else at the start when the
+  start's room realises the entrance's space, else in the middle of such a room). `oymap install` writes them into the
+  map's `<stem>.studio.yml` (`arrivals`). A door of another map names one with `into: {map: xeen_xd10.blv, arrival:
+  entrance:x5_south}` (instead of `at`; its facing too unless `facing` is given), an indoor exit with its neighbour's
+  `arrival: entrance:<id>` (instead of `[x, y, z]`; its facing unless `direction` is given). The build looks the name
+  up in the installed map (the mount first): a map not installed yet gives its start with a warning, an installed map
+  without the name is an error listing the names it has. Build the target map and install it first.
 - **Air** (`atmosphere.yml`): `sky`, `fog`, `precipitation` (rain, snow), `daily_fog`, `fog_tint` go into the
   scene's environment. **The sky's paintings, the fog's colour and the weather by chance are not in the scene:** the
   game takes them from the map's row of `engine/data_tables/bolster_maps.txt`, keyed by the map's number, whose
@@ -225,7 +250,8 @@ there). `oymap build` makes a classic ODM with its scene and script:
 - **Things no form says** (`kind: model`): models of a shipped outdoor map of the project's world, taken as they
   are by name (`from: {map: out02.odm, models: [Boat3RTex_Etr]}`), to `at` (or where they stood), with the
   structure's words on all their faces: ships, wagons, the crystal, cannons, tents, a crane. The smallest building
-  import: the project's own world, no turning, heights as in the source map (`raise` moves them).
+  import: heights as in the source map (`raise` moves them). `from.world` takes them from another world's map
+  (`from: {world: mm7, map: 7out03.odm, models: [...]}`: Nystor's ship on Xeen's X2); otherwise the project's own.
 - **A waterfall** (`kind: waterfall`, `core/OutdoorFalls`, the shipped falls measured at its top: Alvar's on out03,
   2,880 down a sheer cliff, and Emerald Island's chutes on 7out01): `line` gives the lip's middle and the way the
   water falls, `top` the stream's level at the lip, `foot` the pool's; `width` comes from the river at the lip. The
@@ -323,7 +349,10 @@ dais, a corridor drawn as a path, a flight of steps, a lift, a closet behind a h
 
 Rooms (`oymap schema rooms`): an `outline` of any simple shape or a corridor `path` with a `width`; `slope: {to,
 toward, steps}` for a ramp or a flight of stairs; `pillars`, `platforms`, and `walls` for single walls with their
-own surface. Doors (`oymap schema objects`) slide (`slide_up`, `slide_down`) or swing (`kind: hinged`); `lifts` are
+own surface. Doors (`oymap schema objects`) slide (`slide_up`, `slide_down`) or swing (`kind: hinged`); a wide door
+that reads as double-winged (great hall doors, a castle gate) is `kind: hinged, leaves: 2`: two leaves on the two jambs
+swinging apart from the middle, its `surface` one wing (mirrored on the right leaf) or `pictures` one per leaf
+(`leaves: 2` on a sliding kind parts the halves sideways or up and down); `lifts` are
 blocks of floor an event raises and lowers. Rooms joined by an opening have facing parallel walls 0 to 512 apart; that gap is the wall's thickness.
 Tunnels: a `path` room with a `section` (its cross-section as an outline of [across, up] points, carried along the
 path and mitred at bends: six-sided, with banks, walls and chamfers, as the shipped tunnels), path points
@@ -339,7 +368,10 @@ unless the room says `steep_floor: true`.
 Wiring events (`oymap schema wiring`): presets with a `condition` (item, qbit, map_var, gold, stat, award, autonote,
 kills, lua, not, any, all), `effects` and `else_effects` (gold, add, subtract, set, autonote, qbit, items, text,
 damage, cast, summon, teleport, lights_on, lights_off, lua); events without a clicked object (`trigger: step |
-timer | load`).
+timer | load`). A room's step event also runs on the tops of its low platforms (standing on its floor, at most 50
+high: the game's step up) that run no step event of their own, so a landing on a heap in the room runs it (A7's
+DD-11B, Xeen merge point 31); a higher or hanging platform and a level need `sources` (a sky map's clouds and XD-12's
+balcony stand in rooms whose floor is the fall below).
 
 Words added since 2026-11-12 (each is described in its schema, has a unit case in `tests/CoreTests.cpp` and stands
 in `examples/shapes_gallery`):
@@ -355,10 +387,13 @@ in `examples/shapes_gallery`):
   on platforms and raised levels; a raised level over an uneven floor (a loft over a floor that sags); a flight
   that ends in a doorway (`to` on a wall, `to_height` the sill); a ridge (`top_scale: [1, 0]`) over chamfered
   corners; a tunnel section with a single highest point.
-- **Objects** (`oymap schema objects`): `monsters` (placed, with `group`, `hostile`, `immobile`, and for a boss
-  `hp` and `name`) and `items`; `movers` (with `parts`, `block`, riders via `rides`); `plates`, `floors` (lava,
-  water); `ladders`; `sounds`; lights with `on: false` and `pulse`; `secret: true` on a door; platforms and wall
-  panels with an `id` as click sources.
+- **Objects** (`oymap schema objects`): `monsters` (placed, with `group`, `hostile`, `immobile` or `leash` (a home
+  radius, the scene's `leash_radius`), `above_floor` (a flyer, or a swimmer in a `water` volume, starts that high over
+  its floor), and for a boss `hp` and `name`) and `items`; `decorations` of the engine's table
+  and of the project's world's (its `decorations` contribution, with the world's `models/indoor_decorations.yml`);
+  `movers` (with `parts`, `block`, riders via `rides`); `plates`, `floors` (lava, water); `ladders`; `sounds`;
+  lights with `on: false` and `pulse`; `secret: true` on a door; platforms and wall panels with an `id` as click
+  sources.
 - **ids.lock.yml** also keeps `lights` (the numbers `evt.SetLight` switches lights by) and `sounds`.
 - **project.yml `migrated`**: answers a warning about a rule that changed (the warning names the word to add).
 - **Tools**: `oymap metrics` counts `decoration_lights` and `light_sources` (torches); `oymap assets` says for each
@@ -369,7 +404,7 @@ in `examples/shapes_gallery`):
   records do; effects `show_actors`, `hide_actors`, `set_texture: {of, to}`, `passable`, `solid`, `show`, `hide`
   (faces of a door, or of a platform or wall panel with an `id`, by a cog number the lock keeps); wiring `side` (a
   door's event for one side of its leaf; a second event for the other side); `question` (an answer the handler
-  reads); `trigger: leave`; a decoration as an event's source; `once` on doors, texts, teleports and scripts. A
+  reads; `wrong_effects`, effect words run on a wrong answer, since 2026-11-20); `trigger: leave`; a decoration as an event's source; `once` on doors, texts, teleports and scripts. A
   surface may leave out `size` for a liquid; a chest's `items` refuses a roll written as a negative number;
   `ids.lock.yml` forgets removed ids; a `path` takes 64 points. `solve` and `audit --reach`: a kill test waits until
   its monsters are reached, steps onto and off a ramp's end, ladders, sectors too low to stand in are niches;
@@ -441,7 +476,8 @@ in `examples/shapes_gallery`):
 - **Indoor code batch eleven (2026-11-14)**, the words most indoor projects' notes asked for, each in its schema with
   unit cases: atmosphere.yml `mist` indoors (the scene's `mist` block, checked by the game's parser: the Lab's
   `d20_mist.scene.yml` exactly); `neighbours[].screen: {house, picture}` (MoveToMap's seventh and eighth numbers: the
-  MM8 dungeons' exits `{picture: 1}`); effects `leave: <neighbour>` (an exit from any event), `shake: {strength,
+  MM8 dungeons' exits `{picture: 1}`); effects `leave: <neighbour>` (an exit from any event; since decider D-24 `leave` moves at once; ask with
+  `question`, or use the `exit` preset for the game's window), `shake: {strength,
   seconds[, at, radius]}` (evt.CameraShake), `player_bit`/`clear_player_bit` and the condition `player_bit` (once per
   character: the Forge's event 91), `give_item: {level, kind}` (a random item: the Fortress's GiveItem(6, 25));
   objects.yml `relations` (a map's own monster relations, set by the build's load event `evt:studio_relations`).
@@ -491,6 +527,64 @@ rows). S8g: an install into a mount that has these tables starts from the mount'
 rows it lacks, so several maps installed into one mount keep each other's rows (X1 and X2); a row the root changed
 since is not taken: remove the mount's table to start afresh. `--root <scratch asset root>` (a hard-link copy:
 `cp -al assets_dev output/my_root`) still works for tools that take an asset root and nothing else.
+
+A world that declares its own map ids (`world.yml` `idRanges.maps`, as Xeen does) owns its maps' table rows: its
+generator writes them and the game reads them through `tableContributions` (`devdocs/xeen/lanes/TABLES.md`). `oymap
+install <project> --root <root>` then copies only the map's files into `worlds/<world>/` (map, scene, script,
+`.studio.yml`, cinematics, ground files) and writes no `map_stats`, travel, bolster or sky row; such a world's maps may
+install straight into `assets_dev` (`--root assets_dev`), since every file lands in the world's own folder. `--mount <folder> --assets <root>` writes no engine tables into the mount either (the root's world.yml decides).
+
+`oymap audit` checks that light fixtures hang where they belong (`lights.*`; `core/Audit.h` `auditLightFixtures`,
+numbers in `devdocs/xeen/formats/LIGHTS.md`) on Xeen's indoor maps, and on any other indoor map with `--lights`
+(`--lights-measure` adds each fixture's numbers). A fixture's mount comes from `engine/models/light_fixtures.yml` (and a
+world's `models/light_fixtures.yml`), else its model binding (`swing`: hung, `mount: wall`: on a wall), else its row's
+hint: a hung lamp's top reaches the ceiling and its foot stays clear of the floor and of openings; a wall fixture has
+a wall within 64 of its middle (the game's own search), not a door leaf, not inside an opening; a standing one rests
+on the floor or on a decoration; no fixture, map light or decoration light lies in the rock. The shipped maps'
+findings are the calibration (`output/xeen_a1/lights_mm678.txt`).
+
+`oymap audit` checks door leaves and their pictures (`doors.tiled`, `doors.half_wing`, `doors.wing_unmirrored`;
+`core/Audit.h` `auditDoorTextures`, numbers in `devdocs/xeen/formats/DOORS.md`) on every Xeen map, indoor and outdoor,
+and on any other map with `--doors` (`--doors-measure` adds each leaf's numbers): a door picture shown more than once
+across its leaf, one wing of a double door on a single wide leaf, a pair of leaves showing one wing the same way round;
+outdoors also `doors.lone_wing`, `doors.part_picture`, `doors.narrow_pair` and `doors.off_steps` (merge point 41).
+What each texture is comes from `engine/models/texture_classes.yml` (and a world's `models/texture_classes.yml`),
+written by `tools/xeen/texture_classes.py`.
+
+`oymap audit` checks that pictures fit their faces (`textures.feature_repeated`, `textures.feature_cut`,
+`textures.trim_tiled`; `textures.storey_stacked` by the texture's `storey_stack`, D-41; warnings
+`textures.tile_seams`, `textures.feature_border`, `textures.family_switch`; `core/Audit.h` `auditTextureFit`, numbers in `devdocs/xeen/formats/TEXTURE_FIT.md`) on every
+Xeen map and on any other map with `--textures`: a picture meant once (a window, a sign, a panel) repeated or cut off, a
+band tiled up its face, a texture whose edges do not meet repeated over a large face, a picture whose border is unlike
+the wall it is set into, two unlike wall textures side by side. It judges surfaces: the touching faces of one texture
+in one plane whose pictures continue each other. `--textures-measure` prints every surface's copies and the pairs of
+neighbouring surfaces. Building parts lay a picture once per bay with `textures.<role>: {texture, fit: true, size: [w,
+h]}` (only in the lowest row unless `upper_walls` names the role); an open part's posts in the `trim` lay it on its end.
+
+`oymap audit` checks the props' dressing (`dressing.door`, `dressing.doorway`, `dressing.walking_line`, `dressing.wall`,
+`dressing.clump`; `core/Audit.h` `auditDressing`, numbers in `devdocs/xeen/formats/DRESSING.md` and decision D-7.1) on
+Xeen's maps, and on any other map with `--dressing`. A room with `store: true` in rooms.yml is a storeroom (clumps and
+a second row allowed), as is any room with 8 or more containers. What the audit cannot read from a built map, the
+storerooms and the decorations that hang, it takes from the project when given one, and from the installed map's
+`<stem>.studio.yml` (`storerooms`, `hanging_decorations`, `trap_doors`, written by `oymap install`) when given the map.
+Outdoors the same classes are judged by the houses: a house door is a model's faces whose event enters a house
+(`dressing.door`: a container 320 in front or 192 beside, anything else of radius 24+ within its radius and 128 before
+it), containers within 512 of a model's wall keep within 240 of it (`dressing.wall`), the walking line runs from 64
+before one house door to 64 before another, at most 2048 apart with no wall between (`dressing.walking_line`; a prop
+within its radius and 64 of a model's wall is off the line, but must still leave 128 free beside it), and no prop's
+body comes within 64 of a road's middle line away from a wall (`dressing.road`); an info line (`dressing.outdoor`)
+counts the props, doors and lines checked. The classes (decision D-14): containers are barrels, kegs, casks, sacks,
+bags, crates, boxes, buckets, firewood and log piles (hint `wood`); set pieces are any decoration with an event, trees,
+statues, pillars, columns, altars, hearths, fires, braziers, cauldrons, vats, fountains, pedestals, shrines, obelisks,
+stalls, rocks and boulders; the rest (hay among them) are other props.
+
+With the dressing (Xeen's maps; others with `--dressing`) the audit checks what props and chests stand on and the
+chests' looks, the checks of `tools/xeen/check_props_support.py` with its numbers (`core/Audit.h` `auditPropSupport`):
+`support.floating` (nothing within 24 under a prop's middle), `support.overhang` (part of its footprint more than 24
+over the ground or floor), `support.edge` (a drop of more than 64 within 48 of it; set pieces warnings, plants and
+natural rocks not judged), `chest.look` (a chest that is none of the shipped ones), `chest.entrance` (a chest in front
+of a house door, an exit, a door, a teleport or a cave mouth) and `chest.title` (a warning: a hover title naming a
+place). The ground outdoors is the game's terrain triangles, split north-west to south-east.
 
 ## Editing a project: transactions and history
 
@@ -648,8 +742,87 @@ studio writes what they read since S8a, below).
   `hp`, `damage`, `trigger_only`, `material`, `sound`, `effect_scale`, `on_destroyed`, `on_damaged`), effects
   `destroy`, `damage_destructible`, `breakable`, `unbreakable`, condition `destroyed`; events run by them take
   `trigger: call` (no source).
+- **Translucent surfaces** (any surface's `translucent`: an opacity, or `{opacity, tint, two_sided}`): the faces laid
+  with it go into the scene's `translucent_faces` (devdocs/INDOOR_TRANSLUCENT_FACES.md), drawn blended over what lies
+  behind and still solid (they collide and block sight, missiles and clicks). A paper screen that breaks (XD-22,
+  D-25): a door in an opening between two rooms, with no event, `surface: {texture: ..., translucent: 0.6}`, and a
+  destructible `of` it; the opening's portal lets the rooms behind draw, and breaking the leaf opens the way. The
+  build warns of translucent faces it cannot find in the compiled map.
+- **Touch events** (wiring `touch: true` on a clicked event whose source is a door, wall panel, platform, switch or
+  exit): the source's faces also run the event when the party walks into them, once per contact (leaning on it does
+  not run it again; `once: true` for one time only). Xeen's mirages (XD-10, D-4): `{preset: door, source:
+  door:mirage, action: open, touch: true, text: ...}` instead of a plate before the wall. The build gives the faces the
+  touch bit beside the click bit and writes the scene's `party_movement: {touch_faces: run}`, without which the game
+  runs no touch face (devdocs/INDOOR_OPEN_SKY.md "Party movement").
+- **Arenas** (objects.yml `arena`, XD-20; MM7's 7d05 keeps the same in a hand-made `7d05_1.scene.yml`): `{monsters:
+  [11010, 11699], party: {room, at, facing}, marks: [{room, at}, ...], ring: {room, at, radius, count}}`. The build
+  writes the scene's `arena` block (`marks` and the ring's marks, at least 20, each on the highest floor at its place
+  as the start is) and the arena's `runtime_restrictions` (`arena: true`, `allow_save_game: false`,
+  `allow_lloyds_beacon: false`: no saving, no Lloyd's Beacon, the fight refilled on each visit). The opponents are the
+  world's monster rows in the range, less NoArena and peasant rows (NoArena from `bolster_monsters`); a range with no
+  monster_data row is an error. The arena master is any NPC with topic 704 (the four difficulties, the gold, awards
+  46-49): `evt.SpeakNPC(<npc>)` from a booth, or a placed NPC. Not in an overlay project.
+- **Outdoor sounds** (sketch.yml `sounds`, E9): the scene's `ambient_sounds` outdoors, as objects.yml's indoors:
+  `{id: sound:surf, at: [40, 88], sound: waves.wav, radius: 6000, inner_radius: 2500, volume: 0.6}` (`at` in cells,
+  `height` over the ground, default 64; radii in game units; `wait`, `loop`, `day_only`, `night_only`, `on: false`
+  for a sound a script switches on by `AmbientSound<number>`; `pan: false` for one heard centred, as objects.yml's and
+  an overlay's sounds take it too, D-48). The game plays them as indoors
+  (devdocs/AMBIENT_SOUNDS.md).
+- **Damage hooks** (XD-19, DD-16): a wiring event with `trigger: monster_damage` (no `source`; `monsters: [<monster
+  ids>]` and/or `actors: [<placed monster ids>]` to act on those only) is the map's MonsterDamage hook, registered on load (`RegisterMonsterDamageHook`)
+  and run before each hit on a monster lands; `{set_damage: 0}` makes the hit do nothing, and a `lua` effect reads the
+  hit as `hook` (`hook.monsterId`, `hook.damage`, `hook.attack`: melee, missile, spell or other, `hook.weaponItemId`,
+  `hook.byParty`; E11). Indoors only.
+- **Decorations shown by an event** (DD-13): objects.yml `decorations[].hidden: true` starts the decoration away (the
+  BLV entity's invisible flag and the scene's `decoration_flags`: not drawn, not solid, its light dark), and the
+  wiring effects `{show: deco:x}` / `{hide: deco:x}` bring it and take it (`evt.SetSprite(<its number>, 1 | 0)`). A
+  block resting on three or more leg blocks round its middle (a table top on four legs) rests on them. A block's
+  `end_surface` takes `fit: false` to lie at its size instead of stretched.
+- **Chests shown by an event** (merge point 25, P5's wedding gift): objects.yml `chests[].hidden: true` starts the
+  chest's box away (its faces Invisible and Untouchable: not drawn, not solid, not clicked), and `{show: chest:x}` /
+  `{hide: chest:x}` bring it and take it whole (`evt.SetFacetBit(<its cog>, Invisible | Untouchable, 0 | 1)`); the map's
+  saved state keeps the face bits. Indoors; the build warns when no event shows a hidden chest.
+- **Outdoor arrivals on a structure** (merge point 25, A6): a named arrival (and an edge arrival point) whose sketch
+  point lies on a structure's walkable top stands on that top (D6's `entrance:dd16_hatch` on the cooled crust, 26 over
+  the lava): from the land up, while the first face above within 192 looks up and can be stood on, the point goes up
+  onto it; a face looking down (a roof's underside) ends it. A structure that starts hidden counts; one never solid
+  does not. Lifted more than 64, the build warns (a point in the middle of a cave mouth's mound, not in front of it).
+- **Indoor smoke** (merge point 25, D-51): a decoration of the engine's `smoke` row (decoration_data Flags EmitSmoke,
+  no sprite) puffs smoke indoors too, as outdoors (`{id: deco:wisp, room: ..., decoration: smoke, at: [...]}`); hidden
+  (`hidden: true`, `{hide: deco:x}`) it stops.
+- **Merge point 22 (2026-11-21)**: a door in an opening `in: floor` is a **trapdoor**: one hinged leaf filling a
+  rectangular hole, its top flush with the upper floor (`surface`, the picture once over the leaf; `back_surface`
+  under it, `edge_surface` round it), `hinge: north|south|east|west` (the side of the hole it turns on), `swing` 1 to
+  120 down into the room below (about the underside's edge) or -1 to -120 up into the room above (about the top's
+  edge), `thickness` (16, at most the floor's), `speed`, `auto_close_seconds`; the scene's rotating mover with a level
+  axis, the same way for whoever opens it (no `side`). A wall panel with `cover: true` (and an `id`) stands 2 in front
+  of a wall built whole behind it, so a destructible `of` it burns or breaks away to the wall (DD-13's hides); since
+  merge point 24 it may stand in front of another panel (a hall wall that is one whole-wall panel for a burn's
+  `set_texture`), which is then built whole behind it, as are the wall's bands (two covers may not overlap). Indoor
+  `monsters[].npc: <npc id>` writes the scene actor's `npc_id`: clicked while peaceful it talks as that NPC (outdoor
+  actors already took `npc`). `ActorIndex("monster:x")` in any wiring Lua becomes the placed monster's actor index.
+  `oymap audit` counts a cinematic's `event` cues as run (no `event.unbound`). A neighbour's named arrival keeps its
+  facing on every exit that names it (it reached only the first).
+- **Trapdoors** (objects.yml `lifts[].trap: true`): a lift that drops the party into the room below is no ride, so
+  `oymap audit` asks for no switch at its stops (`ride.no_switch`); install lists it in `<stem>.studio.yml`
+  (`trap_doors`). A destructible's `on_destroyed` and `on_damaged` events count as run by the game (no
+  `event.unbound`). A new dungeon's arrival text may wait on quest and player bits (`{not: {qbit: arrived_once}}`,
+  XD-13's stages), not on a map variable or a death.
 - **Water volumes** (`objects.yml water`: `of` a room or level, or an `outline`, with `top`, `bottom`, `liquid`,
-  `tint`, `current`): the party swims there; the surface the player sees is a platform with `solid: false`.
+  `tint`, `current`, `fog`): the party swims there; the surface the player sees is a platform with `solid: false`.
+  `tint` multiplies the view by mix(1, tint, 0.6) while the eye is under; `fog` (`color_rgb` 0-255, `near_distance`,
+  `far_distance`, optional `sky`) replaces the map's fog there; with `sky` above 0 the outdoor view's haze and sky colour
+  give way to it too (`sky: 1` for a sea seen from inside).
+- **Turning movers** (merge point 30, A8's levers): a mover with `turn: {pivot: [x, y, height], axis: x|y|z, degrees}`
+  in place of `travel` turns about that line from its start to its end (the scene's rotating mover, `mover.rotation`,
+  eased; `speed` in degrees per second, default 90), its parts with it: a lever's arm and grip as one mover (FD-01's
+  two linear movers per lever). The pivot's height is measured as `bottom` is; every corner stays in the room and
+  under its ceiling all the way round; nothing rides it.
+- **Two warnings** (merge point 30, A7): a ladder that climbs through a hole in a floor and stands less than 10 inside
+  the hole's edge (its rails pass through the rim; edges on the ladder room's walls do not count); a wall panel over
+  part of a doorway in its wall, or a `fit` panel over a whole one (the doorway cuts its picture).
+- **Ways out** (`exits`, a door's `into`, the `exit` preset): the game asks "leave?" only when the party leaves a
+  dungeon (BLV) for an outdoor map; from an outdoor map the move is immediate (D-72).
 - **Ladders** take `grab_in_air`; **sounds** `day_only` and `night_only`; a **surface** `sky: true` (the faces where an
   open sky shows); atmosphere.yml's scene blocks above also build into a new map's scene.
 - **Cinematics** (`wiring.yml cinematics`: shots with a camera `at` and `look_at` (a point or an object's id) or
@@ -708,7 +881,7 @@ S8a (the game's G1, G2, G5 written by overlay projects; devdocs/map_studio/S8_PL
   `reach`, `exit`, `grab_at_top`, `grab_in_air`; `scene.removals` takes one out. The scene overlay's `ladders` is the
   base list with these, then the overlay's own (the game replaces the list).
 - **Monsters and floor items in an overlay** (`scene.monsters`: `position`, `monster`, `facing`, `hostile: true`,
-  `group`, `hp`, `name`, `immobile`, `hidden`, `carries`; `scene.items`: `position`, `item`, `gold`): the records a new
+  `group`, `hp`, `name`, `immobile`, `leash`, `hidden`, `carries`; `scene.items`: `position`, `item`, `gold`): the records a new
   map's `monsters` and `items` make, written as the overlay's `authored_content.actors` and `sprite_objects`, each in
   the base map's sector at its place. The game appends them after the base scene's (and earlier overlays'), so the base
   map's actor numbers stay and the overlay's follow: the build counts the base scene's actors and those of the world's
@@ -808,6 +981,141 @@ Defects and words from the Act II maps (devdocs/xeen/ACT2_BUILD.md; each map's N
   both_ways: true}`); kinds of a `reference` row's own slots are left as shipped, so rebuilt shipped maps stay quiet.
   The build reads `hostile.txt` and `map_stats.txt` beside `monster_data.txt` (none: no check). Unit cases in
   `tests/MonsterRelationsTests.cpp`, `OutdoorTests.cpp` and `CoreTests.cpp`.
+
+## Xeen feedback words (merge point 40, 2026-11-22)
+
+From the user's play feedback of 2026-11-21 (`devdocs/xeen/reviews/USER_FEEDBACK_20261121.md`). Unit cases in
+`tests/OutdoorTests.cpp` and `tests/CoreTests.cpp` ("F16: ...").
+
+- **The entrance window into a dungeon (F16)** (`readMoveScreen`, core/Project): every way into a .blv (an outdoor
+  door's or structure's `into`, a `teleport` with `map`, an indoor `exit` toward a neighbour) shows the MM6-MM8
+  entrance window by default: the map's name, the stairs picture, "Do you wish to enter X?", OK and Close
+  (evt.MoveToMap's seventh and eighth numbers `0, 1`). `screen: none` moves directly (`{direct = true}`: a fall, a
+  throw, an answered question); `screen: {text: <row>, picture: <n>}` shows the line of that row of trans.txt in
+  place of the question (a world adds its own rows: `data_tables/english/trans.txt`, below); `house` is the older
+  name of `text`. Into an outdoor map nothing is shown (leaving a dungeon, the game asks itself). The `leave` effect
+  stays a direct move (D-24). Before, every studio move into a dungeon was direct and maps asked their own Yes/No.
+- **A world's entrance lines** (decision D-90): the game reads a world's `data_tables/english/trans.txt` (columns `id`,
+  `Transition Description`, `Note`; a header row first) through world.yml `tableContributions` (`{table: trans,
+  idDomain: <its range>, mode: append, path: data_tables/english/trans.txt}`); the ids must lie in the world's
+  declared range and clear of the engine's 1-1593 (Xeen: `transitions` 5001-5999). `tools/l10n.py` collects the
+  lines.
+- **`oymap audit`, entrance windows** (Xeen's maps; others with `--dressing`): `entrance.no_window` (warning) for a
+  move into another .blv with text and picture 0 and no `{direct = true}`; `entrance.question` (error) for a handler
+  that asks Yes or No (evt.AskQuestion, AskChoiceWithAnswerSteps) and moves into a .blv: the window asks.
+- **`carries`** on an outdoor sketch actor: the number of an item it carries (its corpse holds it), as objects.yml's
+  monsters indoors.
+- **A platform's fitted top** (rooms.yml blocks, objects.yml platforms: `top_surface: {texture, size, fit: true}`):
+  the picture is stretched once over the whole top (a lectern's book, a desk's papers); before, `fit` was ignored on
+  tops and a small top showed a piece of the picture.
+- **An exit's default surface** (objects.yml `exits[]` without `surface`): the black face MM7 and MM8 draw at their
+  dungeon exits, `7solid01` (MM7 style) or `solid01` (MM8 style, Xeen's maps by their `terrainTileset`); MM6's keep the
+  room's door picture.
+- **`identity`** (project.yml, decision D-89): `{shape: cave | mine | tower | temple | castle | sewer | ship | hall,
+  family: <the shipped BLV it is laid as>, seen: [three things the party must see]}`. `oymap install` copies `shape`
+  into the map's `<stem>.studio.yml`; the audit of a cave or a mine checks its cave shape (below).
+- **Cave shape** (`oymap metrics`: `cave_shape`, per map and per room of at least 256 x 256 of floor; core/Metrics
+  `caveShapeOf`): `floor_uneven_share` (floor area not level with its room's main floor: sloped, or a level piece more
+  than 16 above or below), `ceiling_spread` (the mean distance of the ceiling from its room's main ceiling height),
+  `ceiling_uneven_share`, and `wall_rough_share` (wall area leaning more than 5 degrees or running more than 5 degrees
+  off the 45-degree grid). Measured (2026-11-22, floor / ceiling / walls): MM8 d17 0.61 / 291 / 0.98, d12 0.35 / 194 /
+  0.39, d13 0.54 / 84 / 0.19; MM7 7d07 0.35 / 84 / 0.66, 7d08 0.42 / 223 / 0.71; MM6 6d05 0.31 / 74 / 0.06, 6d09
+  0.12 / 13 / 0.07 (MM6's mines are cut on the grid). Built halls: MM8 d01 0.15 / 65 / 0.08, d27 0.30 / 72 / 0.16, d35
+  0.07 / 15 / 0.03; MM7 7d29 0.17 / 71 / 0.11, 7d13 0.56 / 43 / 0.17 (stairs); MM6 6d16 0.10 / 35 / 0.06, sewer
+  0.04 / 61 / 0.09. **Targets** (`caveShapeTargets`, just under the lowest of the MM7 and MM8 caves): floor 0.30,
+  ceiling 80, walls 0.18. Xeen's caves on 2026-11-22: XD-18 0.09 / 24 / 0.12, XD-05 0.27 / 357 / 0.13, XD-10
+  0.29 / 488 / 0.13, XD-16 0.23 / 17 / 0.41, DD-10A 0.05 / 119 / 0.35, DD-11A 0.20 / 111 / 0.27, XD-02 0.20 / 83 /
+  0.30, XD-03 0.24 / 298 / 0.18.
+- **`oymap audit`, cave shape**: `identity.cave_shape` (warning) for each of the three numbers below its target on a
+  map whose `identity.shape` is `cave` or `mine`.
+
+## Xeen feedback words (merge point 41, 2026-11-22)
+
+From the user's play feedback of 2026-11-21 (`devdocs/xeen/reviews/USER_FEEDBACK_20261121.md`, F6/F3 and F2/F8).
+Unit cases in `tests/OutdoorTests.cpp` ("chests outdoors", "the ground things stand on") and `tests/CoreTests.cpp`.
+
+- **Outdoor chests are the shipped chest (F6-R1)**: a sketch structure `kind: chest` is built of a chest kind's faces
+  (core/ChestKinds, shared with the indoor chests), MM7's 7out01 `chest_N` for `7gt002`: 96 x 64, a body 64 high, a
+  lid sloping at 45 degrees to a top 32 deep at 80, 19 faces (end 16, middle 64, end 16 on the long sides and the
+  lid; one picture on each short end, a strip above it). `chest_kind` (`ch1` to `ch5`, `7gt002`, `gt002`, `ch001` to
+  `ch006`) picks the kind; left out, the style world's: mm8 `gt002`, mm7 and Xeen `7gt002`, mm6 `ch1`. Its front (the
+  lid's own picture, `7gt002e`) looks **north** before `turn` (degrees clockwise: `turn: 180` faces south). A chest
+  with its own `textures` (`wall`, `top`) stays the plain 9-face box of before, with a warning; crates are unchanged.
+  Before, every outdoor chest was the 9-face box with one plank picture tiled over its sides.
+- **Things stand on the game's ground (F6-R2)**: the game's outdoor ground is two flat triangles per cell, split from
+  the north-west to the south-east corner (`outdoorNativeTerrainHeight`); the studio stood things on a bilinear
+  height, up to about 32 off on uneven cells. Decorations (`kind: decoration` and scattered), actors and spawn points
+  now stand on `LoweredOutdoorMap::groundHeightAt`; a chest or a crate stands at the lowest of it under its four
+  footprint corners (the higher side sinks into the slope). Structures keep the stored height.
+- **Scatter keeps to level spots (F6-R3)**: a scattered decoration on walkable ground (not `steep: true`) refuses a
+  spot where the game's ground within its radius (decoration_data.txt's Radius) varies by more than 48.
+- **Indoor chests: `facing` is the long axis (F6-R5)**: an indoor chest's `facing` is the direction its width runs
+  (east by default); its **front** (the lock, the sloping lid's own picture) is the side 90 degrees anticlockwise of
+  it, so `facing: east` shows the front to the north. A chest standing in a room's south-west corner with its back
+  to the south wall: `facing: east`; against the north wall: `facing: west`. The build warns `chest.front` when a
+  chest of a kind has its front within 64 of its room's wall (it shows the room its back or an end).
+- **A wing door is a double door (F2)**: an outdoor building door that says no `leaves` and whose picture is one wing
+  of a double door (texture_classes.yml `door: wing`: MM7's `7hhr1d2`, MM8's `t06a03`, `t09a03a`, `chb1dl` ...) is
+  built as two leaves (`leaves: 2`), the first showing the left wing (of the picture and its `twin` the first by
+  name: `7hhr1d1`, `t06a03`), the second it mirrored; what `tools/xeen/house_doors.py`'s `double_doors_sketch` wrote
+  into each sketch. `leaves: 1` keeps a wing alone; on a listed door bay under 192 wide it stays alone, with a
+  warning. The classes are read from the build's asset root (`readOutdoorDoorPictures`; without one nothing changes).
+- **`leaves: 2` on a wall whose bays are not listed (F2)**: the wall is laid out round one door bay 256 wide (two
+  leaves of 128) centred where the door's bay was, the stretches beside it in bays of about 128 (a window next to the
+  door and every second bay out, posts at the ends), one window over the pair's middle in the rows above. Before,
+  the pair shared one bay of about 128 (64-wide leaves). A listed wall keeps its bays, byte for byte.
+- **A leaf shows its picture whole (D-91 §3)**: each leaf of a pair (a building door, a door cut into the roof, a
+  `doorway`'s halves, a single `doorway` too) lays its picture once across at the picture's own width from the
+  texture classes, the second leaf mirrored: X6's 256-wide `egydrlgl` and D6's `swdoora` whole on each leaf instead
+  of half of it. A 128 wing is laid as before; a picture the classes do not know keeps 128. To fit a picture without
+  squeezing it, make each leaf as wide as the picture (a `[door, 512]` bay for a 256 picture).
+- **Cave mouths buried in their hill (F8)**: a `cave_mouth` that is not `free` no longer pulls the land under its
+  side edges to the floor: a hill there stays, and the nodes on and one cell beyond its sides and back rise to the
+  shell near them, as far as the land in its mouth and tunnel stays within 32 of the floor; only the front stays at
+  the floor. The build warns `caves.wings` where the shell beside the rim stands more than 64 over the land beside
+  it (make the footprint as wide as the mouth and its rim, as `house_doors.bury_mouths_sketch` does) and
+  `caves.dome` where it stands more than 64 over the land behind it. Hatches are unchanged.
+- **`form: shelter | blocked` on a cave mouth with no `into` (D-91 §2)**: `shelter` is a shallow open overhang
+  (`mouth.depth` 160 when left out, the back narrowing only to 0.95) whose back and tunnel are the shell's rock (or
+  `textures.door`), its floor the lit land; put its light (a fire, a brazier: `kind: decoration`) and contents under
+  it. `blocked` fills the mouth at its face with a heap of rubble in the shell's rock (or `textures.door`) whose crown
+  stands out before it; give it a click line (`effects: [{text: The adit has fallen in.}]`). Neither goes with `into`
+  or `mouth.form: door`. A cave mouth with no `into` and no form is a dark way in that leads nowhere: the build warns
+  `caves.blind_mouth`, `oymap install` lists it in `<stem>.studio.yml` (`blind_mouths`), and `oymap audit` of the
+  project or the installed map says `caves.blind_mouth` (error).
+- **`oymap audit`, door rules of `tools/xeen/door_check.py` (F2)**, on outdoor door faces beside `doors.tiled`,
+  `doors.half_wing` and `doors.wing_unmirrored`: `doors.lone_wing` (a wing alone on a leaf 96 or more wide),
+  `doors.part_picture` (a door picture, single or wing, shown less than 0.75 times across its leaf; a single picture
+  split half and half over a pair is one, no exemption), `doors.narrow_pair` (two leaves under 192 together),
+  `doors.off_steps` (a door more than 32 along its wall from the middle of a model named `..._steps` or `..._stairs`
+  reaching within 128 of its wall before it). Errors on Xeen's maps; warnings on the others (`--doors`), where the
+  203 shipped maps have 5 lone wings (MM8 elemf `gnecdr4l` x4, MM7 7out02 `hhm1d2`), 2 parts of a picture and 3
+  narrow pairs (MM7 7out13's portal, MM6 outd2). Indoor leaves are not judged by them (their texels are measured off
+  the stored pose, which reads a slice on many shipped doors).
+
+## Merge point 42 (2026-11-22)
+
+Unit cases: `tests/OutdoorTests.cpp` "D-90: items lie on the ground outdoors", `tests/CoreTests.cpp` "a chest without
+a kind or surface is its style world's chest", "a platform's fitted top is laid once over its underside too".
+
+- **Items on the ground outdoors (sketch.yml `items`, D-90's bare finds)**: `{id: item:<name>, item: <number or
+  name>, at: [x, y], height: <over the ground>, gold: <amount, heaps only>}`, written into the scene's starting
+  `sprite_objects` as the shipped outdoor maps hold theirs (MM7 out11 has 63) and as objects.yml `items` indoors;
+  `item` names a row of the engine's or the world's items.txt (a name only where one row has it), drawn by the
+  object_list.txt row of its sprite index (refused when none draws it). The item stands on the game's ground at `at`
+  (`groundHeightAt`), `height` higher. The game lets a resting item down onto the terrain or a model's top under it
+  (`settleRestingWorldItems`), and **a decoration is no floor**: a key "on a barrel's lid" (a `kind: decoration`
+  barrel) ends inside the barrel, on the ground. The build warns when `height` is above 0 and no structure's top lies
+  within 24 of it there; put such an item on the ground beside the barrel, or on a structure (a `crate`, a
+  `platform`, a `deck`). Checked in X1 (a scratch build, `output/xeen_a1/mp42/x1items/`): both keys load and are
+  picked up (`pick_up`).
+- **Indoor default chest by style world**: an objects.yml chest without `kind` or `surface` is its style world's
+  chest, as outdoors (`defaultChestKind(studioStyleWorld(...))`): mm8 `gt002`, mm7 and Xeen (MM7's tiles) `7gt002`,
+  mm6, MM9 and other worlds `ch1`. Before, Xeen's maps got MM6's `ch1`. MM6-MM9 projects unchanged.
+- **A platform's underside follows a fitted top**: a platform whose `top_surface` has `fit: true` (and no
+  `bottom_surface`) lays the picture once over its underside too, as over the top; before, the underside took the
+  room's texel size and the audit counted it `textures.feature_repeated` (P1-P4's vents, 1.5 times). `size` is the
+  picture's own size in texels (left out: 128), not the face's.
 
 ## The hosted page (S5c)
 

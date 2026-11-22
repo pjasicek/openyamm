@@ -290,9 +290,41 @@ public:
         return true;
     }
 
+    bool applyRimGlow(const YAML::Node &node, SkyTheme &theme, const std::string &where)
+    {
+        if (!node)
+        {
+            return true;
+        }
+
+        if (!node.IsMap())
+        {
+            return fail(where + " must be a map");
+        }
+
+        SkyRimGlow glow = {};
+
+        if (!checkKeys(node, {"direction_deg", "width_deg", "height_deg", "below_deg", "color", "day", "night"}, where)
+            || !readOptionalFloat(node, "direction_deg", glow.directionDegrees, -360.0f, 360.0f, where)
+            || !readOptionalFloat(node, "width_deg", glow.widthDegrees, 1.0f, 360.0f, where)
+            || !readOptionalFloat(node, "height_deg", glow.heightDegrees, 0.5f, 90.0f, where)
+            || !readOptionalFloat(node, "below_deg", glow.belowDegrees, 0.0f, 10.0f, where)
+            || !readOptionalTint(node, "color", glow.color, where)
+            || !readOptionalFloat(node, "day", glow.dayStrength, 0.0f, 4.0f, where)
+            || !readOptionalFloat(node, "night", glow.nightStrength, 0.0f, 4.0f, where))
+        {
+            return false;
+        }
+
+        theme.rimGlow = glow;
+        return true;
+    }
+
     bool applyTheme(const YAML::Node &node, SkyTheme &theme, const std::string &where)
     {
-        return checkKeys(node, {"preset", "sky_tint", "sun_tint", "cloud_tint", "saturation", "haze", "stars"}, where)
+        return checkKeys(node, {"preset", "sky_tint", "sun_tint", "cloud_tint", "saturation", "haze", "stars",
+                   "rim_glow"}, where)
+            && applyRimGlow(node["rim_glow"], theme, where + ".rim_glow")
             && readOptionalString(node, "preset", theme.preset, where)
             && readOptionalTint(node, "sky_tint", theme.skyTint, where)
             && readOptionalTint(node, "sun_tint", theme.sunTint, where)
@@ -861,5 +893,115 @@ std::vector<std::string> SkyPresetLibrary::textureNames() const
 bool SkyPresetLibrary::empty() const
 {
     return m_presets.empty();
+}
+
+bool composeSkyLibraryYaml(
+    const std::string &engineText,
+    const std::vector<std::pair<std::string, std::string>> &worldTexts,
+    std::string &composed,
+    std::string &errorMessage)
+{
+    if (worldTexts.empty())
+    {
+        composed = engineText;
+        return true;
+    }
+
+    try
+    {
+        YAML::Node library = YAML::Load(engineText);
+
+        for (const auto &[worldId, worldText] : worldTexts)
+        {
+            const YAML::Node world = YAML::Load(worldText);
+            const std::string owner = "worlds/" + worldId + "/rendering/sky/sky.yml";
+
+            if (!world.IsMap() || world["version"].as<int>(0) != library["version"].as<int>(0))
+            {
+                errorMessage = owner + " must be a map with the engine library's version";
+                return false;
+            }
+
+            for (const auto &entry : world)
+            {
+                const std::string section = entry.first.as<std::string>();
+
+                if (section == "version")
+                {
+                    continue;
+                }
+
+                if (section != "aliases" && section != "presets" && section != "themes" && section != "maps")
+                {
+                    errorMessage = owner + ": a world adds only aliases, presets, themes and maps, not " + section;
+                    return false;
+                }
+
+                if (!entry.second.IsMap())
+                {
+                    errorMessage = owner + ": " + section + " must be a map";
+                    return false;
+                }
+
+                YAML::Node target = library[section];
+
+                for (const auto &item : entry.second)
+                {
+                    const std::string name = item.first.as<std::string>();
+
+                    if (target[name])
+                    {
+                        errorMessage = owner + ": " + section + " " + name + " is defined already";
+                        return false;
+                    }
+
+                    target[name] = item.second;
+                }
+            }
+        }
+
+        YAML::Emitter emitter;
+        emitter << library;
+        composed = emitter.c_str();
+        return true;
+    }
+    catch (const std::exception &exception)
+    {
+        errorMessage = std::string("could not compose the sky library: ") + exception.what();
+        return false;
+    }
+}
+
+std::optional<std::string> readSkyLibraryYaml(const Engine::AssetFileSystem &assets, std::string &errorMessage)
+{
+    const std::optional<std::string> engineText = assets.readTextFile("engine/rendering/sky/sky.yml");
+
+    if (!engineText)
+    {
+        errorMessage = "missing engine/rendering/sky/sky.yml";
+        return std::nullopt;
+    }
+
+    std::vector<std::pair<std::string, std::string>> worldTexts;
+    std::vector<std::string> worldIds = assets.enumerate("worlds");
+    std::sort(worldIds.begin(), worldIds.end());
+
+    for (const std::string &worldId : worldIds)
+    {
+        if (const std::optional<std::string> text =
+                assets.readTextFile("worlds/" + worldId + "/rendering/sky/sky.yml"))
+        {
+            worldTexts.emplace_back(worldId, *text);
+        }
+    }
+
+    std::string composed;
+
+    if (!composeSkyLibraryYaml(*engineText, worldTexts, composed, errorMessage))
+    {
+        return std::nullopt;
+    }
+
+    return composed;
 }
 }

@@ -6,6 +6,7 @@
 #include "game/gameplay/GameplayInputFrame.h"
 #include "game/gameplay/GameplayOverlayInputController.h"
 #include "game/gameplay/GameplayScreenController.h"
+#include "game/gameplay/TrainerDirectory.h"
 #include "game/items/InventoryBags.h"
 #include "game/items/ItemRuntime.h"
 #include "game/party/Party.h"
@@ -24,7 +25,72 @@
 #include <filesystem>
 #include <string>
 
-TEST_CASE("dimensional travel shows four portals with a column of the screen as each one's hover region")
+TEST_CASE("the journal's continents are the new-game cards in their order, a world's other continents in its card")
+{
+    // The Quests and Notes owner tabs, the Trainers tabs, the Ledgers of Teachers and the Arcomage notes (the user,
+    // 2026-11-22: a Xeen section, in the new-game screen's order).
+    using namespace OpenYAMM;
+    const std::filesystem::path sourceRoot = OPENYAMM_SOURCE_DIR;
+    Engine::AssetFileSystem assets;
+    REQUIRE(assets.initialize(sourceRoot, sourceRoot / "assets_dev", Engine::AssetScaleTier::X1));
+    Game::GameDataLoader loader;
+    REQUIRE(loader.loadForHeadlessGameplay(assets));
+    const Game::TrainerDirectory &directory = loader.getTrainerDirectory();
+    const bool xeen = Game::isWorldPackageMounted(assets, "xeen");
+
+    std::vector<std::string> names;
+    for (const Game::TrainerContinent &continent : directory.continents())
+    {
+        names.push_back(continent.name);
+    }
+    std::vector<std::string> expected = {"Enroth", "Antagarich", "Jadame", "Chedian"};
+    if (xeen)
+    {
+        expected.insert(expected.begin(), "Xeen");
+    }
+    CHECK_EQ(names, expected);
+    CHECK_EQ(directory.continentName(3), "Enroth");
+    CHECK_EQ(directory.continentName(5), "Chedian");
+    // MMerge's Between Time (4) is a new-game continent without a card: no tab of its own, none of Jadame's.
+    CHECK_FALSE(directory.cardContinent(4).has_value());
+
+    if (xeen)
+    {
+        // Xeen's Darkside (continent 7, no card) is Xeen's, the Cloudside card's (6): one tab, one Ledger of Teachers.
+        CHECK_EQ(directory.cardContinent(7), std::optional<uint32_t>(6));
+        CHECK_EQ(directory.continentName(7), "Xeen");
+        const Game::MapStatsEntry *pDarkside = loader.getMapStats().findByFileName("xeen_d1.odm");
+        REQUIRE(pDarkside != nullptr);
+        CHECK_EQ(directory.mapContinent(uint32_t(pDarkside->id)), std::optional<uint32_t>(6));
+
+        // Xeen's quests and notes have the Owner its tab shows, and its teachers are listed under it.
+        const auto ownedByXeen = [](const auto &entry) { return entry.owner == "Xeen"; };
+        CHECK(std::any_of(loader.getJournalQuestTable().entries().begin(),
+            loader.getJournalQuestTable().entries().end(), ownedByXeen));
+        CHECK(std::any_of(loader.getJournalAutonoteTable().entries().begin(),
+            loader.getJournalAutonoteTable().entries().end(), ownedByXeen));
+        size_t xeenTeachers = 0;
+        for (const auto &[skill, masteries] : directory.skills())
+        {
+            for (const std::vector<Game::TrainerEntry> &teachers : masteries)
+            {
+                xeenTeachers += size_t(std::count_if(teachers.begin(), teachers.end(),
+                    [](const Game::TrainerEntry &entry) { return entry.continent == std::optional<uint32_t>(6); }));
+            }
+        }
+        CHECK_GT(xeenTeachers, 0u);
+    }
+
+    // Every quest and note owner is a tab: a card's title or Shared (empty).
+    for (const Game::JournalQuestEntry &entry : loader.getJournalQuestTable().entries())
+    {
+        CHECK_MESSAGE((entry.owner.empty() || entry.owner == "Shared"
+                          || std::find(names.begin(), names.end(), entry.owner) != names.end()),
+            entry.qbitId, " ", entry.owner);
+    }
+}
+
+TEST_CASE("dimensional travel shows a portal per continent with a column of the screen as each one's hover region")
 {
     using namespace OpenYAMM;
     const std::filesystem::path sourceRoot = OPENYAMM_SOURCE_DIR;
@@ -38,15 +104,19 @@ TEST_CASE("dimensional travel shows four portals with a column of the screen as 
     ui.bindDataRepository(&data);
     ui.bindAssetFileSystem(&assets);
     REQUIRE(ui.ensureDimensionDoorDestinationsLoaded());
-    // Chedian's portal is offered only with the MM9 world installed (1.22 ships without it).
+    // Chedian's portal is offered only with the MM9 world installed (1.22 ships without it); a mounted world that adds
+    // a door (Xeen's dimension_doors contribution, git-ignored while it is built) brings the five-door screen.
     const bool mm9Mounted = Game::isWorldPackageMounted(assets, "mm9");
-    REQUIRE_EQ(ui.townPortalDestinations().size(), mm9Mounted ? 4 : 3);
+    REQUIRE(data.mergedDimensionDoorTable().screen() != nullptr);
+    const bool fiveDoors = data.mergedDimensionDoorTable().screen()->places.size() == 5;
+    REQUIRE_EQ(ui.townPortalDestinations().size(), (mm9Mounted ? 4 : 3) + (fiveDoors ? 1 : 0));
 
-    // tpglobal4 (level_generation/ui/mm9_world_menu_study_20261106) is drawn at x2 into the 640x480 screen.
+    // tpglobal4 (level_generation/ui/mm9_world_menu_study_20261106) and Xeen's tpglobal5 are drawn at x2 into the
+    // 640x480 screen. A world's pictures name their package: this session has no active world.
     Engine::BinaryAssetCache images;
     const std::optional<Engine::ImagePixelsBgra> background =
         Engine::loadImageAssetPixelsBgra(assets, ui.townPortalBackgroundTextureName() + ".png", images);
-    REQUIRE(background.has_value());
+    REQUIRE_MESSAGE(background.has_value(), ui.townPortalBackgroundTextureName());
     CHECK_EQ(background->width, 1280);
     CHECK_EQ(background->height, 960);
 
@@ -56,15 +126,33 @@ TEST_CASE("dimensional travel shows four portals with a column of the screen as 
         const char *pMapName;
         int32_t hitX;
         int32_t iconX;
+        int32_t iconY;
     };
-    const std::array<ExpectedDestination, 4> expected = {{
-        {"Jadame", "out01.odm", 0, 17},
-        {"Enroth", "oute3.odm", 160, 177},
-        {"Antagarich", "7out01.odm", 320, 337},
-        {"Chedian", "isleofashes.blv", 480, 498},
+    // The doors stand in the new-game screen's card order (the user, 2026-11-22).
+    const std::array<ExpectedDestination, 5> fourDoorScreen = {{
+        {"Enroth", "oute3.odm", 0, 17, 92},
+        {"Antagarich", "7out01.odm", 160, 177, 92},
+        {"Jadame", "out01.odm", 320, 337, 92},
+        {"Chedian", "bootcamp.blv", 480, 498, 92},
+        {nullptr, nullptr, 0, 0, 0},
     }};
-    for (const ExpectedDestination &entry : expected)
+    // devdocs/xeen/lanes/TABLES.md, "Dimension Door".
+    const std::array<ExpectedDestination, 5> fiveDoorScreen = {{
+        {"Xeen", "xeen_x1.odm", 0, 17, 100},
+        {"Enroth", "oute3.odm", 128, 146, 99},
+        {"Antagarich", "7out01.odm", 256, 266, 99},
+        {"Jadame", "out01.odm", 384, 386, 99},
+        {"Chedian", "bootcamp.blv", 512, 516, 99},
+    }};
+    const uint32_t hitWidth = fiveDoors ? 128u : 160u;
+    const uint32_t iconWidth = fiveDoors ? 107u : 126u;
+    const uint32_t iconHeight = fiveDoors ? 136u : 151u;
+    for (const ExpectedDestination &entry : fiveDoors ? fiveDoorScreen : fourDoorScreen)
     {
+        if (entry.pLabel == nullptr)
+        {
+            continue;
+        }
         const auto destination = std::find_if(ui.townPortalDestinations().begin(), ui.townPortalDestinations().end(),
             [&entry](const Game::GameplayTownPortalDestination &candidate) { return candidate.label == entry.pLabel; });
         if (!mm9Mounted && std::string(entry.pLabel) == "Chedian")
@@ -75,18 +163,34 @@ TEST_CASE("dimensional travel shows four portals with a column of the screen as 
         REQUIRE(destination != ui.townPortalDestinations().end());
         CHECK_EQ(destination->mapName, entry.pMapName);
         CHECK_EQ(destination->hitX, entry.hitX);
-        CHECK_EQ(destination->hitWidth, 160u);
+        CHECK_EQ(destination->hitWidth, hitWidth);
         CHECK_EQ(destination->hitY, 0);
         CHECK_EQ(destination->hitHeight, 480);
         CHECK_EQ(destination->iconX, entry.iconX);
-        CHECK_EQ(destination->iconY, 92);
-        CHECK_EQ(destination->iconWidth, 126u);
-        CHECK_EQ(destination->iconHeight, 151u);
+        CHECK_EQ(destination->iconY, entry.iconY);
+        CHECK_EQ(destination->iconWidth, iconWidth);
+        CHECK_EQ(destination->iconHeight, iconHeight);
+        // No name under the portal (the user removed them on 2026-11-22): the hovered door's name is on the status
+        // line.
+        CHECK_EQ(destination->nameWidth, 0u);
+        CHECK_EQ(destination->nameHeight, 0u);
         const std::optional<Engine::ImagePixelsBgra> icon =
             Engine::loadImageAssetPixelsBgra(assets, destination->iconTextureName + ".png", images);
-        REQUIRE(icon.has_value());
-        CHECK(std::abs(icon->width - 2 * 126) <= 1);
+        REQUIRE_MESSAGE(icon.has_value(), destination->iconTextureName);
+        CHECK(std::abs(icon->width - 2 * int(iconWidth)) <= 1);
     }
+    // dimension_doors.yml's landings: Jadame's map start, or Ravenshore once Dadeross's letter is delivered (QBit 4).
+    const auto jadameDestination = std::find_if(ui.townPortalDestinations().begin(),
+        ui.townPortalDestinations().end(),
+        [](const Game::GameplayTownPortalDestination &candidate) { return candidate.label == "Jadame"; });
+    REQUIRE(jadameDestination != ui.townPortalDestinations().end());
+    const Game::GameplayTownPortalDestination &jadame = *jadameDestination;
+    CHECK(jadame.useMapStartPosition);
+    REQUIRE_EQ(jadame.qbitLandings.size(), 1u);
+    CHECK_EQ(jadame.qbitLandings[0].qbit, 4u);
+    CHECK_EQ(jadame.qbitLandings[0].mapName, "out02.odm");
+    CHECK_EQ(jadame.qbitLandings[0].x, 10296);
+    CHECK_FALSE(jadame.qbitLandings[0].useMapStartPosition);
 
     // Portrait sets carry their world for the party creation picker's world filter; a world that is not installed
     // contributes none (MM9's portraits without MM9).
@@ -122,9 +226,14 @@ TEST_CASE("town portal loads every continent's map and starts on the current map
     const bool mm9Mounted = Game::isWorldPackageMounted(assets, "mm9");
 
     // New Sorpigal (Enroth): the continents in the order the worlds came out, Chedian only with MM9 installed.
+    // A mounted Xeen adds its Cloudside page (Vertigo), and its Darkside page once Castleview's map (D1) has its row.
+    const bool xeenMounted = Game::isWorldPackageMounted(assets, "xeen")
+        && data.mapStats().findByFileName("xeen_x1.odm") != nullptr;
+    const bool darksideMounted = xeenMounted && data.mapStats().findByFileName("xeen_d1.odm") != nullptr;
     REQUIRE(ui.ensureTownPortalDestinationsLoaded("oute3.odm", ""));
     const std::vector<Game::GameplayTownPortalContinent> &continents = ui.townPortalContinents();
-    REQUIRE_EQ(continents.size(), mm9Mounted ? 4u : 3u);
+    REQUIRE_EQ(continents.size(),
+        3u + (mm9Mounted ? 1u : 0u) + (xeenMounted ? 1u : 0u) + (darksideMounted ? 1u : 0u));
     CHECK_EQ(continents[0].label, "Enroth");
     CHECK_EQ(continents[1].label, "Antagarich");
     CHECK_EQ(continents[2].label, "Jadame");
@@ -152,6 +261,18 @@ TEST_CASE("town portal loads every continent's map and starts on the current map
     REQUIRE(ui.ensureTownPortalDestinationsLoaded("out01.odm", ""));
     CHECK_EQ(ui.townPortalBackgroundTextureName(), "townport");
     CHECK_EQ(ui.townPortalContinentIndex(), ui.townPortalHomeContinentIndex());
+
+    // From Vertigo Meadows Xeen's Cloudside page is home: A4's page picture and Vertigo, unlocked by its mirror.
+    if (xeenMounted)
+    {
+        REQUIRE(ui.ensureTownPortalDestinationsLoaded("xeen_x1.odm", ""));
+        CHECK_EQ(ui.townPortalContinents()[ui.townPortalHomeContinentIndex()].label, "Cloudside");
+        CHECK_EQ(ui.townPortalBackgroundTextureName(), "tpcloudside");
+        REQUIRE_FALSE(ui.townPortalDestinations().empty());
+        CHECK_EQ(ui.townPortalDestinations()[0].label, "Vertigo");
+        CHECK_EQ(ui.townPortalDestinations()[0].mapName, "xeen_x1.odm");
+        CHECK_EQ(ui.townPortalDestinations()[0].unlockQBitId, 119001u);
+    }
 }
 
 TEST_CASE("the press that opens a chest or dialogue is consumed before the overlay reacts to it")

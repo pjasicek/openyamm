@@ -563,7 +563,7 @@ MawMonsterRules::MawMonsterRules(MawRules &rules)
 {
 }
 
-GameplayMonsterBolsterResult MawMonsterRules::resolveMonster(
+GameplayMonsterBolsterResult MawMonsterRules::resolveMonsterByRules(
     const GameplayBolsterRuntimeContext &context,
     const MonsterTable::MonsterStatsEntry &stats,
     const MonsterEntry *pMonsterEntry) const
@@ -571,7 +571,7 @@ GameplayMonsterBolsterResult MawMonsterRules::resolveMonster(
     // MMMerge's bolster is off under MAW: start from the table row.
     GameplayBolsterRuntimeContext tableContext = context;
     tableContext.bolsterMonstersEnabled = false;
-    GameplayMonsterBolsterResult result = MonsterRules::resolveMonster(tableContext, stats, pMonsterEntry);
+    GameplayMonsterBolsterResult result = MonsterRules::resolveMonsterByRules(tableContext, stats, pMonsterEntry);
 
     if (context.pMap == nullptr || context.pMonsterTable == nullptr || stats.id <= 0)
     {
@@ -1936,7 +1936,7 @@ void MawMonsterRules::capInsanityFood(IGameplayWorldRuntime &world) const
         return;
     }
 
-    MawGameState &state = m_rules.state();
+    PartyRulesetState &state = pParty->rulesetState();
 
     if (world.isOpenAirMap())
     {
@@ -2004,7 +2004,7 @@ void MawMonsterRules::updateMonsters(IGameplayWorldRuntime &world, float deltaSe
     }
 
     // Beyond Madness's death ledger, with enemies near as the detector shows them (yellow or red).
-    if (const Party *pParty = world.party();
+    if (Party *pParty = world.party();
         pParty != nullptr && m_rules.options().challengeMode == RulesetChallengeMode::BeyondMadness)
     {
         m_rules.updateMadnessLedger(*pParty, world.gameMinutes(), partyHasYellowAlert(world));

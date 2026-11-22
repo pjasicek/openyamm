@@ -2343,10 +2343,9 @@ void OutdoorBillboardRenderer::renderActorPreviewBillboards(
     };
     if (pReflection != nullptr)
     {
-        cameraForward.z = -cameraForward.z;
+        cameraForward = reflectPlaneDirection(cameraForward, pReflection->plane);
     }
-    const std::array<float, 4> clip = pReflection != nullptr
-        ? std::array<float, 4>{0.0f, 0.0f, 1.0f, -pReflection->height} : std::array<float, 4>{};
+    const std::array<float, 4> clip = pReflection != nullptr ? pReflection->plane : std::array<float, 4>{};
     bgfx::setUniform(view.m_worldClipPlaneUniformHandle, clip.data());
     const uint32_t animationTimeTicks = currentAnimationTicks();
     const bool collectRenderDiagnostics =
@@ -2403,7 +2402,7 @@ void OutdoorBillboardRenderer::renderActorPreviewBillboards(
         // Highlight outlines extend beyond the sprite itself. Keep the selected
         // sprite conservatively; picking and attached overlays remain independent.
         drawItem.visible = pReflection != nullptr
-            ? waterBillboardVisible(drawItem.quad, frustum, pReflection->height)
+            ? waterBillboardVisible(drawItem.quad, frustum, pReflection->plane)
             : drawItem.hovered || frustum.intersectsQuad(drawItem.quad.center, drawItem.quad.right, drawItem.quad.up);
     };
 

@@ -114,11 +114,134 @@ int facingUnitsOf(const std::string &compass)
     return 0;
 }
 
+// Where the party stands at a point of the land: on the land, or, where a structure covers the land there (D6's
+// cooled crust over the lava, 26 above it), on that structure's top. From the land upwards: while the first face
+// above within the party's height (192) looks up and can be stood on, the point is inside the structure and goes up
+// onto that face; a face that looks down (an underside, a roof over a porch seen from below) or none ends it. A
+// structure that starts hidden (D6's crust, shown when the lava cools) counts: an arrival named on it is for when it
+// stands there; one that is never solid (`solid: false`) does not.
+// The height and the structure stood on (empty: the land).
+struct StandingPlace
+{
+    double height = 0.0;
+    std::string model;
+};
+
+StandingPlace standingPlaceOnModels(const std::vector<Game::OutdoorBModel> &models, double x, double y, double ground)
+{
+    constexpr double PartyHeight = 192.0;
+    // A face one can stand on looks up more than sideways (the game's 45 degrees, 46340 of 65536).
+    constexpr int32_t StandableNormal = 46340;
+    const uint32_t portal = Game::faceAttributeBit(Game::FaceAttribute::IsPortal);
+    const uint32_t invisible = Game::faceAttributeBit(Game::FaceAttribute::Invisible);
+    const uint32_t untouchable = Game::faceAttributeBit(Game::FaceAttribute::Untouchable);
+    StandingPlace place;
+    place.height = ground;
+
+    for (int guard = 0; guard < 16; ++guard)
+    {
+        std::optional<double> nearest;
+        // Of the faces at that height: whether one looks down (a thin roof's underside under its top ends the
+        // climb) and whether one can be stood on.
+        bool nearestDown = false;
+        bool nearestStandable = false;
+        std::string nearestModel;
+
+        for (const Game::OutdoorBModel &model : models)
+        {
+            for (const Game::OutdoorBModelFace &face : model.faces)
+            {
+                // Upright faces cover no ground; nor do faces nothing ever touches.
+                if (std::abs(face.planeNormalZ) < 3277 || (face.attributes & portal) != 0
+                    || (face.attributes & (invisible | untouchable)) == untouchable || face.vertexIndices.size() < 3)
+                {
+                    continue;
+                }
+
+                bool inside = false;
+
+                for (size_t index = 0, previous = face.vertexIndices.size() - 1; index < face.vertexIndices.size();
+                     previous = index++)
+                {
+                    const Game::OutdoorBModelVertex &a = model.vertices[face.vertexIndices[index]];
+                    const Game::OutdoorBModelVertex &b = model.vertices[face.vertexIndices[previous]];
+
+                    if ((a.y > y) != (b.y > y)
+                        && x < a.x + (b.x - a.x) * (y - a.y) / static_cast<double>(b.y - a.y))
+                    {
+                        inside = !inside;
+                    }
+                }
+
+                if (!inside)
+                {
+                    continue;
+                }
+
+                // The face's plane over the point, from its first corner (its stored distance may not fit far out).
+                const Game::OutdoorBModelVertex &corner = model.vertices[face.vertexIndices[0]];
+                const double z = corner.z - (static_cast<double>(face.planeNormalX) * (x - corner.x)
+                    + static_cast<double>(face.planeNormalY) * (y - corner.y)) / face.planeNormalZ;
+
+                // (A unit of rounding past the party's height: a thin roof's two faces there go together.)
+                if (z <= place.height + 0.5 || z > place.height + PartyHeight + 1.0)
+                {
+                    continue;
+                }
+
+                if (!nearest || z < *nearest - 1.0)
+                {
+                    nearest = z;
+                    nearestDown = false;
+                    nearestStandable = false;
+                }
+                else if (z > *nearest + 1.0)
+                {
+                    continue;
+                }
+
+                nearestDown = nearestDown || face.planeNormalZ < 0;
+
+                if (face.planeNormalZ > StandableNormal && !nearestStandable)
+                {
+                    nearestStandable = true;
+                    nearestModel = model.name;
+                }
+            }
+        }
+
+        if (!nearest || nearestDown || !nearestStandable)
+        {
+            break;
+        }
+
+        place.height = *nearest;
+        place.model = nearestModel;
+    }
+
+    return place;
+}
+
+// An arrival placed on a structure's top far over the land (a point sketched in the middle of a cave mouth's mound,
+// not in front of it): said, as the party then stands up there.
+void warnHighArrival(
+    const std::string &name, double ground, const StandingPlace &place, std::vector<std::string> *pWarnings)
+{
+    if (pWarnings != nullptr && !place.model.empty() && place.height - ground > 64.0)
+    {
+        pWarnings->push_back("sketch.yml: " + name + " lies within " + place.model + ", whose top over it is "
+            + std::to_string(static_cast<int>(std::lround(place.height - ground))) + " over the land: the party "
+            "arrives standing on that top. Move the point off the structure where the party should stand on the "
+            "land (in front of a cave mouth or a door, not in its middle)");
+    }
+}
+
 // The arrival points: for every edge neighbour of the project, the plan entrance that names it (kind arrival or
 // both) where the sketch places it. `missing` gets the sides that lead somewhere and have no such entrance.
 std::vector<ArrivalPoint> arrivalPoints(
     const Project &project,
     const LoweredOutdoorMap &lowered,
+    const std::vector<Game::OutdoorBModel> &models,
     std::vector<std::string> &missing)
 {
     std::vector<ArrivalPoint> points;
@@ -165,7 +288,9 @@ std::vector<ArrivalPoint> arrivalPoints(
                 arrival.entrance = textOf(entrance, "id", "");
                 arrival.x = static_cast<int>(std::lround((x - OutdoorNodeCount / 2) * OutdoorCellSize));
                 arrival.y = static_cast<int>(std::lround((OutdoorNodeCount / 2 - y) * OutdoorCellSize));
-                arrival.z = static_cast<int>(std::lround(lowered.storedHeightAt(x, y)));
+                const StandingPlace place =
+                    standingPlaceOnModels(models, arrival.x, arrival.y, lowered.storedHeightAt(x, y));
+                arrival.z = static_cast<int>(std::lround(place.height));
                 arrival.facing = facingUnitsOf(textOf(node, "facing", textOf(entrance, "facing", "")));
                 points.push_back(arrival);
                 found = true;
@@ -180,6 +305,67 @@ std::vector<ArrivalPoint> arrivalPoints(
     }
 
     return points;
+}
+
+// The named arrivals (D-4): `start`, and every plan entrance of kind arrival or both where the sketch places it,
+// standing on the land or on the top of a structure that covers it there, facing as the point (else the entrance)
+// says.
+std::vector<MapArrival> namedArrivals(
+    const Project &project,
+    const LoweredOutdoorMap &lowered,
+    const std::vector<Game::OutdoorBModel> &models,
+    std::vector<std::string> *pWarnings = nullptr)
+{
+    std::vector<MapArrival> named;
+
+    if (lowered.start)
+    {
+        MapArrival start;
+        start.name = "start";
+        start.at[0] = static_cast<int>(std::lround(lowered.start->x));
+        start.at[1] = static_cast<int>(std::lround(lowered.start->y));
+        start.at[2] = static_cast<int>(std::lround(lowered.start->z));
+        start.facing = lowered.start->facing;
+        named.push_back(start);
+    }
+
+    const YAML::Node entrances = childOf(project.document("plan.yml"), "entrances");
+    const YAML::Node placed = childOf(project.document("sketch.yml"), "points");
+
+    for (size_t index = 0; entrances.IsDefined() && entrances.IsSequence() && index < entrances.size(); ++index)
+    {
+        const YAML::Node entrance = entrances[index];
+        const std::string kind = textOf(entrance, "kind", "both");
+        const std::string id = textOf(entrance, "id", "");
+
+        for (size_t point = 0; kind != "exit" && !id.empty() && placed.IsDefined() && placed.IsSequence()
+             && point < placed.size(); ++point)
+        {
+            const YAML::Node node = placed[point];
+            const YAML::Node at = childOf(node, "at");
+
+            if (textOf(node, "id", "") != id || !at.IsDefined() || !at.IsSequence() || at.size() != 2)
+            {
+                continue;
+            }
+
+            const double x = at[0].as<double>(0.0);
+            const double y = at[1].as<double>(0.0);
+            MapArrival arrival;
+            arrival.name = id;
+            arrival.at[0] = static_cast<int>(std::lround((x - OutdoorNodeCount / 2) * OutdoorCellSize));
+            arrival.at[1] = static_cast<int>(std::lround((OutdoorNodeCount / 2 - y) * OutdoorCellSize));
+            const double ground = lowered.storedHeightAt(x, y);
+            const StandingPlace place = standingPlaceOnModels(models, arrival.at[0], arrival.at[1], ground);
+            arrival.at[2] = static_cast<int>(std::lround(place.height));
+            warnHighArrival(id, ground, place, pWarnings);
+            arrival.facing = facingUnitsOf(textOf(node, "facing", textOf(entrance, "facing", "")));
+            named.push_back(arrival);
+            break;
+        }
+    }
+
+    return named;
 }
 
 std::string hexOf(const std::vector<uint8_t> &bytes)
@@ -199,6 +385,7 @@ std::string hexOf(const std::vector<uint8_t> &bytes)
 std::string writeSceneText(
     const LoweredOutdoorMap &lowered,
     const std::vector<DoorFace> &doors,
+    const std::vector<std::pair<size_t, size_t>> &translucentFaces,
     const OutdoorPlaces &places,
     const OutdoorThings &things,
     const std::vector<ArrivalPoint> &arrivals,
@@ -261,12 +448,19 @@ std::string writeSceneText(
     const std::string precipitation = textOf(atmosphere, "precipitation", "");
     const YAML::Node dailyFog = childOf(atmosphere, "daily_fog");
     const YAML::Node tint = childOf(atmosphere, "fog_tint");
+    // D-40: the map's own chance of ash fall (percent of days), read by the game as weather.yml's `ash` for the map.
+    const YAML::Node ash = childOf(atmosphere, "ash");
 
-    if (!precipitation.empty() || dailyFog.IsDefined() || tint.IsDefined())
+    if (!precipitation.empty() || dailyFog.IsDefined() || tint.IsDefined() || ash.IsDefined())
     {
         YAML::Node weather(YAML::NodeType::Map);
         weather["fog_mode"] = dailyFog.IsDefined() ? "daily_random" : "static";
         weather["precipitation"] = precipitation.empty() ? "none" : precipitation;
+
+        if (ash.IsDefined() && ash.IsScalar())
+        {
+            weather["ash_chance"] = ash.as<int>(0);
+        }
 
         if (tint.IsDefined() && tint.IsSequence() && tint.size() == 3)
         {
@@ -301,10 +495,69 @@ std::string writeSceneText(
         scene["runtime_restrictions"]["allow_spellcasting"] = false;
     }
 
+    // atmosphere.yml `view_distance`: the map's far clip and draw distances scaled (A6's D4: the castle across the
+    // lake); the scene's rendering.view_distance_scale, 1 when left out.
+    if (const YAML::Node viewDistance = childOf(atmosphere, "view_distance"); viewDistance.IsDefined()
+        && viewDistance.IsScalar())
+    {
+        scene["rendering"]["view_distance_scale"] = viewDistance.as<double>(1.0);
+    }
+
     // Ground mist as atmosphere.yml gives it (checked by the game's parser in checkOutdoorMist).
     if (const YAML::Node mist = childOf(atmosphere, "mist"); mist.IsDefined() && mist.IsMap())
     {
         scene["mist"] = YAML::Clone(mist);
+    }
+
+    // sketch.yml `sounds` (E9): the scene's placed ambient sounds, as an indoor build writes them.
+    for (const LoweredAmbientSound &sound : things.sounds)
+    {
+        const auto number = [](double value)
+        {
+            const double rounded = std::round(value * 1000.0) / 1000.0;
+            return rounded == std::round(rounded) ? YAML::Node(static_cast<long long>(std::llround(rounded)))
+                                                  : YAML::Node(rounded);
+        };
+        YAML::Node node(YAML::NodeType::Map);
+        node["key"] = sound.key;
+        node["sound"] = textNode(sound.sound);
+        node["position"].SetStyle(YAML::EmitterStyle::Flow);
+
+        for (const double axis : sound.position)
+        {
+            node["position"].push_back(number(axis));
+        }
+
+        node["inner_radius"] = number(sound.innerRadius);
+        node["outer_radius"] = number(sound.outerRadius);
+        node["volume"] = number(sound.volume);
+        node["loop"] = sound.loop;
+
+        if (sound.wait)
+        {
+            node["wait"].SetStyle(YAML::EmitterStyle::Flow);
+            node["wait"].push_back(number((*sound.wait)[0]));
+            node["wait"].push_back(number((*sound.wait)[1]));
+        }
+
+        node["start_on"] = sound.startOn;
+
+        if (sound.dayOnly)
+        {
+            node["day_only"] = true;
+        }
+
+        if (sound.nightOnly)
+        {
+            node["night_only"] = true;
+        }
+
+        if (!sound.pan)
+        {
+            node["pan"] = false;
+        }
+
+        scene["ambient_sounds"].push_back(node);
     }
 
     scene["terrain"]["attribute_overrides"] = YAML::Node(YAML::NodeType::Sequence);
@@ -359,6 +612,23 @@ std::string writeSceneText(
 
     scene["bmodel_faces"]["interactive_faces"] = interactive;
 
+    // The faces of structures laid `translucent: true`: drawn blended by their texture's alpha.
+    if (!translucentFaces.empty())
+    {
+        YAML::Node translucent(YAML::NodeType::Sequence);
+
+        for (const auto &[model, face] : translucentFaces)
+        {
+            YAML::Node entry(YAML::NodeType::Map);
+            entry.SetStyle(YAML::EmitterStyle::Flow);
+            entry["bmodel_index"] = static_cast<int>(model);
+            entry["face_index"] = static_cast<int>(face);
+            translucent.push_back(entry);
+        }
+
+        scene["bmodel_faces"]["translucent_faces"] = translucent;
+    }
+
     YAML::Node start(YAML::NodeType::Map);
     start["entity_index"] = 0;
     start["name"] = textNode(PartyStartName);
@@ -387,7 +657,7 @@ std::string writeSceneText(
         entity["position"]["x"] = decoration.x;
         entity["position"]["y"] = decoration.y;
         entity["position"]["z"] = decoration.z;
-        entity["facing"] = 0;
+        entity["facing"] = decoration.facing;
         // The number events change its picture by (its scatter entry's `id` or `group`), 0 for none; the event a
         // click on it runs (the entry's `event`).
         entity["event_id_primary"] = decoration.number;
@@ -432,7 +702,7 @@ std::string writeSceneText(
         entity["position"]["x"] = decoration.x;
         entity["position"]["y"] = decoration.y;
         entity["position"]["z"] = decoration.z;
-        entity["facing"] = 0;
+        entity["facing"] = decoration.facing;
         // The number events change its picture by, and the map's flag of a decoration that starts hidden.
         entity["event_id_primary"] = index < things.decorationNumbers.size() ? things.decorationNumbers[index] : 0;
         entity["event_id_secondary"] = static_cast<int>(things.decorationEvents[index]);
@@ -496,15 +766,27 @@ std::string writeSceneText(
         node["sprite_ids"] = zeros(4);
         node["sector_id"] = 0;
         node["current_action_animation"] = 0;
-        node["carried_item_id"] = 0;
+        node["carried_item_id"] = actor.carriedItem;
         node["group"] = actor.group;
         node["ally"] = 0;
         node["unique_name_index"] = 0;
+        if (actor.leash > 0)
+        {
+            node["leash_radius"] = actor.leash;
+        }
         actors.push_back(node);
     }
 
     state["actors"] = actors;
-    state["sprite_objects"] = YAML::Node(YAML::NodeType::Sequence);
+    YAML::Node spriteObjects(YAML::NodeType::Sequence);
+
+    // sketch.yml `items`: items on the ground, as a shipped outdoor map's scene holds its sprite objects (sector 0).
+    for (const LoweredItem &item : things.items)
+    {
+        spriteObjects.push_back(sceneSpriteObjectNode(item, static_cast<int>(spriteObjects.size())));
+    }
+
+    state["sprite_objects"] = spriteObjects;
     // Chests as a shipped map's scene holds them: 140 item records of 36 bytes, an item's number in the first
     // four (a number below zero: something of that treasure level, chosen by the game on the first opening), and
     // the grid of what lies where, empty until then.
@@ -663,7 +945,19 @@ std::string writeLuaText(
         }
         else
         {
-            lua << "function()\n";
+            // A handler whose script reads continueStep (a `lua` effect continuing a dialogue the handler opened,
+            // such as Xeen's mirrors) takes it.
+            const bool continues = std::any_of(event.body.begin(), event.body.end(),
+                [](const std::string &line) { return line.find("continueStep") != std::string::npos; });
+            lua << (continues ? "function(continueStep)\n" : "function()\n");
+
+            // A `lua` effect that names eventId gets the handler's own number (Xeen.useMirror(id, eventId,
+            // continueStep)).
+            if (std::any_of(event.body.begin(), event.body.end(),
+                    [](const std::string &line) { return line.find("eventId") != std::string::npos; }))
+            {
+                lua << "    local eventId = " << event.number << "\n";
+            }
 
             for (const std::string &line : event.body)
             {
@@ -699,13 +993,15 @@ void warnOutdoorMonsterHostility(
     std::string relationText;
     std::string mapStatsText;
 
-    if (assetRoot.empty() || !readTextFile(tables / "monster_data.txt", monsterText)
+    const std::string world = textOf(project.document("project.yml"), "world", "");
+
+    if (!readWorldTable(assetRoot, world, "monster_data.txt", "monster_data", monsterText)
         || !readTextFile(tables / "hostile.txt", relationText))
     {
         return;
     }
 
-    readTextFile(tables / "map_stats.txt", mapStatsText);
+    readWorldTable(assetRoot, world, "map_stats.txt", "map_stats", mapStatsText);
     MapMonsters monsters;
     readMapSlots(project.document("project.yml"), parseTableRows(mapStatsText), monsters);
 
@@ -725,6 +1021,12 @@ void warnOutdoorMonsterHostility(
 
     monsters.peacefulGroups = things.peacefulGroups;
     monsters.relations = things.relations;
+    std::string worldRelationsText;
+
+    if (!world.empty() && readTextFile(assetRoot / "worlds" / world / "relations.yml", worldRelationsText))
+    {
+        monsters.world = readWorldMonsterRelations(worldRelationsText);
+    }
     const std::vector<std::string> found =
         monsterHostilityWarnings(monsters, parseTableRows(monsterText), parseTableRows(relationText), "sketch.yml");
     warnings.insert(warnings.end(), found.begin(), found.end());
@@ -991,6 +1293,16 @@ void writeBuildJson(
         writer.field("arrival_side", edge.arrivalSide);
         writer.field("days", edge.days);
         writer.field("way_back", !edge.oneWay);
+
+        if (edge.span)
+        {
+            writer.key("span");
+            writer.beginArray();
+            writer.value(edge.span->first);
+            writer.value(edge.span->second);
+            writer.endArray();
+        }
+
         writer.endObject();
     }
 
@@ -1013,6 +1325,7 @@ void writeBuildJson(
     }
 
     writer.endArray();
+    writeNamedArrivals(writer, result.arrivals);
     writer.key("warnings");
     writer.beginArray();
 
@@ -1190,9 +1503,20 @@ void checkOutdoorAir(const Project &project, const std::filesystem::path &assetR
     });
     std::string text;
 
+    // The engine's sky names and the world's own (worlds/<id>/rendering/sky/sky.yml, composed into the engine's).
+    std::string worldSky;
+    const std::string skyWorld = textOf(project.document("project.yml"), "world", "");
+    const bool hasWorldSky = !skyWorld.empty()
+        && readTextFile(assetRoot / "worlds" / skyWorld / "rendering" / "sky" / "sky.yml", worldSky);
+
     if (!sky.empty() && readTextFile(assetRoot / "engine" / "rendering" / "sky" / "sky.yml", text))
     {
-        const std::set<std::string> known = blockKeys(text, "aliases");
+        std::set<std::string> known = blockKeys(text, "aliases");
+
+        if (hasWorldSky)
+        {
+            known.merge(blockKeys(worldSky, "aliases"));
+        }
 
         if (!known.empty() && !known.contains(sky))
         {
@@ -1219,7 +1543,12 @@ void checkOutdoorAir(const Project &project, const std::filesystem::path &assetR
 
     if (!theme.empty() && readTextFile(assetRoot / "engine" / "rendering" / "sky" / "sky.yml", text))
     {
-        const std::set<std::string> themes = blockKeys(text, "themes");
+        std::set<std::string> themes = blockKeys(text, "themes");
+
+        if (hasWorldSky)
+        {
+            themes.merge(blockKeys(worldSky, "themes"));
+        }
 
         if (!themes.contains(theme))
         {
@@ -1254,7 +1583,10 @@ void checkOutdoorAir(const Project &project, const std::filesystem::path &assetR
             "continent_settings.txt), or the map is drawn under the game's fallback sky");
     }
 
-    if (row.continentGiven && readTextFile(assetRoot / "engine" / "data_tables" / "continent_settings.txt", text))
+    // The engine's continents and the world's own (its continent_settings contribution, Xeen's faces 6 and 7).
+    const std::string world = textOf(project.document("project.yml"), "world", "");
+
+    if (row.continentGiven && readWorldTable(assetRoot, world, "continent_settings.txt", "continent_settings", text))
     {
         std::istringstream lines(text);
         std::string line;
@@ -1283,7 +1615,8 @@ void checkOutdoorAir(const Project &project, const std::filesystem::path &assetR
         if (!found)
         {
             issues.push_back({"project.yml", "map_stats.continent", "there is no continent "
-                + std::to_string(row.continent) + " in engine/data_tables/continent_settings.txt; it has " + listed,
+                + std::to_string(row.continent) + " in engine/data_tables/continent_settings.txt or the world's; "
+                "they have " + listed,
                 "atmosphere"});
         }
     }
@@ -1412,8 +1745,15 @@ bool buildOutdoorProject(const Project &project, const BuildOptions &options, Bu
     }
 
     LoweredOutdoorMap lowered;
+    const std::string styleWorld =
+        studioStyleWorld(options.assetRoot, textOf(project.document("project.yml"), "world", ""));
 
-    if (!lowerOutdoorProject(project, lowered, result.issues, options.pLand) || !result.issues.empty()
+    // The texture classes' door pictures (F2: a wing door becomes a pair, a leaf shows its picture whole).
+    const OutdoorDoorPictures doorPictures =
+        readOutdoorDoorPictures(options.assetRoot, textOf(project.document("project.yml"), "world", ""));
+
+    if (!lowerOutdoorProject(project, lowered, result.issues, options.pLand, styleWorld, &doorPictures)
+        || !result.issues.empty()
         || !lowered.start)
     {
         return false;
@@ -1472,10 +1812,33 @@ bool buildOutdoorProject(const Project &project, const BuildOptions &options, Bu
             }
             else if (!door.toMap.empty())
             {
+                // A named arrival of that map (D-4), from its installed <stem>.studio.yml.
+                if (!door.arrivalName.empty())
+                {
+                    MapArrival found;
+                    std::string warning;
+
+                    if (!resolveMapArrival(options.assetRoot, options.mountRoot, lowered.world, door.toMap,
+                            door.arrivalName, found, warning))
+                    {
+                        result.issues.push_back({"sketch.yml", door.path + ".into.arrival", warning, "reference"});
+                        continue;
+                    }
+
+                    if (!warning.empty())
+                    {
+                        result.warnings.push_back(door.path + ".into.arrival: " + warning);
+                    }
+
+                    std::copy(std::begin(found.at), std::end(found.at), door.arrival);
+                    door.arrivalFacing = door.arrivalFacingGiven ? door.arrivalFacing : found.facing;
+                }
+
                 body.push_back("evt.MoveToMap(" + std::to_string(door.arrival[0]) + ", "
                     + std::to_string(door.arrival[1]) + ", " + std::to_string(door.arrival[2]) + ", "
-                    + std::to_string(door.arrivalFacing) + ", 0, 0, " + std::to_string(door.screenHouse) + ", "
-                    + std::to_string(door.screenPicture) + ", " + luaQuoted(door.toMap) + ")");
+                    + std::to_string(door.arrivalFacing) + ", 0, 0, " + std::to_string(door.screen.text) + ", "
+                    + std::to_string(door.screen.picture) + ", " + luaQuoted(door.toMap)
+                    + moveScreenOptions(door.screen) + ")");
             }
 
             words.actions(doorNode, door.path, body);
@@ -1672,7 +2035,7 @@ bool buildOutdoorProject(const Project &project, const BuildOptions &options, Bu
     }
 
     if (!raiseOutdoorThings(project, lowered, options.assetRoot, ids, words, things, result.issues,
-            result.warnings))
+            result.warnings, options.mountRoot))
     {
         return false;
     }
@@ -1717,7 +2080,21 @@ bool buildOutdoorProject(const Project &project, const BuildOptions &options, Bu
     if (!options.assetRoot.empty())
     {
         checkOutdoorAir(project, options.assetRoot, result.issues, result.warnings);
-        const std::set<std::string> known = outdoorTextureNames(options.assetRoot, lowered.world, options.mountRoot);
+        // The world's own textures; a world without kits of its own (Xeen, built in MM7's style) takes any shipped
+        // world's, as the game mounts every world's textures for its maps (MM6's royal walls, MM8's water).
+        std::set<std::string> known = outdoorTextureNames(options.assetRoot, lowered.world, options.mountRoot);
+        std::error_code worldsError;
+
+        for (std::filesystem::directory_iterator other(options.assetRoot / "worlds", worldsError), end;
+             lowered.styleWorld != lowered.world && !worldsError && other != end; other.increment(worldsError))
+        {
+            if (other->is_directory(worldsError))
+            {
+                known.merge(outdoorTextureNames(options.assetRoot, other->path().filename().string(),
+                    options.mountRoot));
+            }
+        }
+
         checkOutdoorBuildingTextures(lowered.buildings, known, lowered.world, result.issues);
         checkOutdoorModelTextures(things.models, known, lowered.world, result.issues);
 
@@ -1811,9 +2188,10 @@ bool buildOutdoorProject(const Project &project, const BuildOptions &options, Bu
     OutdoorPlaces places;
     std::string decorationTable;
 
+    // The engine's decorations and the world's own (world.yml `decorations`: Xeen's basalt boulders, A5 on X7).
     if (!options.assetRoot.empty())
     {
-        readTextFile(options.assetRoot / "engine" / "data_tables" / "decoration_data.txt", decorationTable);
+        readWorldTable(options.assetRoot, lowered.world, "decoration_data.txt", "decorations", decorationTable);
     }
 
     if (!placeOutdoorThings(project, lowered, decorationTable, places, result.issues, result.warnings,
@@ -1909,12 +2287,53 @@ bool buildOutdoorProject(const Project &project, const BuildOptions &options, Bu
         }
     }
 
+    // The structures laid `translucent: true` (D5's Barrier curtain): every face of the models named after them.
+    std::vector<std::pair<size_t, size_t>> translucentFaces;
+    const YAML::Node structureNodes = childOf(project.document("sketch.yml"), "structures");
+
+    for (size_t index = 0; structureNodes.IsDefined() && structureNodes.IsSequence() && index < structureNodes.size();
+         ++index)
+    {
+        const YAML::Node node = structureNodes[index];
+
+        if (textOf(node, "translucent", "false") != "true")
+        {
+            continue;
+        }
+
+        const std::string id = textOf(node, "id", "");
+        bool found = false;
+
+        for (size_t model = 0; model < models.size(); ++model)
+        {
+            if (models[model].name != id)
+            {
+                continue;
+            }
+
+            found = true;
+
+            for (size_t face = 0; face < models[model].faces.size(); ++face)
+            {
+                translucentFaces.emplace_back(model, face);
+            }
+        }
+
+        if (!found)
+        {
+            result.warnings.push_back("structures[" + std::to_string(index) + "].translucent: " + id
+                + " built no model of its own, so nothing is drawn see-through");
+        }
+    }
+
     std::sort(events.begin(), events.end(), [](const OutdoorEventPlan &left, const OutdoorEventPlan &right)
     {
         return left.number < right.number;
     });
     std::vector<std::string> sidesWithoutArrival;
-    const std::vector<ArrivalPoint> arrivals = arrivalPoints(project, lowered, sidesWithoutArrival);
+    const std::vector<ArrivalPoint> arrivals = arrivalPoints(project, lowered, models, sidesWithoutArrival);
+    // (Also for a dry build: what validate says.)
+    result.arrivals = namedArrivals(project, lowered, models, &result.warnings);
 
     if (!sidesWithoutArrival.empty())
     {
@@ -1964,7 +2383,7 @@ bool buildOutdoorProject(const Project &project, const BuildOptions &options, Bu
         return true;
     }
 
-    const std::string sceneText = writeSceneText(lowered, doors, places, things, arrivals,
+    const std::string sceneText = writeSceneText(lowered, doors, translucentFaces, places, things, arrivals,
         project.has("atmosphere.yml") ? project.document("atmosphere.yml") : YAML::Node(YAML::NodeType::Undefined),
         textOf(childOf(project.document("project.yml"), "rules"), "no_spells", "") == "true", sceneNode);
     const std::optional<Game::OutdoorSceneData> scene =

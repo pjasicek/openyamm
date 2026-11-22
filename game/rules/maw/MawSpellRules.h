@@ -10,6 +10,7 @@
 namespace OpenYAMM::Game
 {
 class MawRules;
+struct MawAuraSource;
 
 // MAW's spell costs, cast times and heals (devdocs/maw/CLASSES_SPELLS_SPEC.md §1-2): Ascension (the Learning skill)
 // makes damage, healing and crowd-control spells dearer and slower, its mastery and the caster's Personality make
@@ -80,7 +81,7 @@ public:
     // their hit points with the heal and share them back evenly up to each one's maximum.
     bool shareLife(Party &party, int heal) const override;
     // The leaving member's auras go with them; holders and class state after it move up a slot.
-    void memberLeaving(const Party &party, size_t memberIndex) const override;
+    void memberLeaving(Party &party, size_t memberIndex) const override;
     // The hit points a legendary 32 wearer's auras hold back (0 for everyone else).
     int reservedHitPoints(const Party &party, size_t memberIndex) const override;
     std::optional<std::string> heldBuffText(const Party &party, uint32_t spellId) const override;
@@ -103,6 +104,17 @@ public:
     bool quickCastSpreadsDebuff(uint32_t spellId) const override;
     size_t extraPermanentWisps(SkillMastery mastery) const override;
     bool protectionFromMagicRaisesResistances() const override;
+    // The auras a party has in effect now, by spell id: those of its conscious holders and its fixed ones with time
+    // left. Changes nothing (updateAuras ends the auras that are over).
+    // With the auras lent to the party in play by other players' parties near it, where those are the stronger.
+    std::unordered_map<uint32_t, MawAuraSource> auraSources(const Party &party) const;
+    // The party's own alone.
+    std::unordered_map<uint32_t, MawAuraSource> ownAuraSources(const Party &party) const;
+    // Every aura in effect but Immolation, which burns around its own party.
+    std::vector<LentAura> aurasToLend(const Party &party) const override;
+    void setLentAuras(const std::vector<LentAura> &auras) const override;
+    // What the party's staffs add to every member's resistances.
+    int staffResistance(const Party &party) const;
 
 private:
     // The cost before a solo run's talents change it.
@@ -117,14 +129,5 @@ private:
         const;
 
     MawRules &m_rules;
-    // The buff slots the auras set at the last update, to clear those no aura sets any more.
-    mutable std::vector<uint32_t> m_appliedPartyBuffs;
-    mutable std::vector<uint32_t> m_appliedCharacterBuffs;
-    // Whether the last update applied a held Preservation aura to every member.
-    mutable bool m_preservationAuraApplied = false;
-    // The map the last update ran on, to end the fixed auras a map change ends.
-    mutable std::string m_auraMap;
-    // Time since the last timed aura update.
-    mutable float m_auraSeconds = 0.0f;
 };
 }

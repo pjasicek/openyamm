@@ -743,6 +743,26 @@ TEST_CASE("MM9 swimmer land rule follows BaseSwim.inc and AISwimFly")
     CHECK(OpenYAMM::Game::mm9SwimmerCanTarget(false, false));
 }
 
+TEST_CASE("outdoor swimmers: water facts by water tile and height, steps kept on water and inside the home radius")
+{
+    using OpenYAMM::Game::outdoorBodyInWater;
+    using OpenYAMM::Game::outdoorSwimmerStepAllowed;
+    // On a water tile at its surface: in water; on land, flying, or on a jetty above it: not.
+    CHECK(outdoorBodyInWater(true, false, 100.0f, 100.0f));
+    CHECK(outdoorBodyInWater(true, false, 140.0f, 100.0f));
+    CHECK_FALSE(outdoorBodyInWater(false, false, 100.0f, 100.0f));
+    CHECK_FALSE(outdoorBodyInWater(true, true, 100.0f, 100.0f));
+    CHECK_FALSE(outdoorBodyInWater(true, false, 200.0f, 100.0f));
+    // A step onto land is refused; without a home radius any water step is taken.
+    CHECK_FALSE(outdoorSwimmerStepAllowed(false, 0.0f, 0.0f, 0.0f, 10.0f, 0.0f));
+    CHECK(outdoorSwimmerStepAllowed(true, 0.0f, 9000.0f, 0.0f, 9010.0f, 0.0f));
+    // With one: out past it is refused, inside it allowed, and back toward home allowed from beyond it.
+    CHECK(outdoorSwimmerStepAllowed(true, 2000.0f, 1990.0f, 0.0f, 1999.0f, 0.0f));
+    CHECK_FALSE(outdoorSwimmerStepAllowed(true, 2000.0f, 1995.0f, 0.0f, 2005.0f, 0.0f));
+    CHECK(outdoorSwimmerStepAllowed(true, 2000.0f, 2500.0f, 0.0f, 2490.0f, 0.0f));
+    CHECK_FALSE(outdoorSwimmerStepAllowed(true, 2000.0f, 2500.0f, 0.0f, 2510.0f, 0.0f));
+}
+
 namespace
 {
 // An MM9 flier (a Bird's numbers) holding the party 1 000 units ahead.

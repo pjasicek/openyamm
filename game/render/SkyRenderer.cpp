@@ -180,13 +180,12 @@ bool SkyRenderer::initialize(const Engine::AssetFileSystem &assets)
 {
     shutdown();
     m_pAssets = &assets;
-    const std::optional<std::string> yaml = assets.readTextFile(SkyLibraryPath);
     std::string error;
+    const std::optional<std::string> yaml = readSkyLibraryYaml(assets, error);
 
     if (!yaml || !m_library.loadFromYaml(*yaml, error))
     {
-        std::cerr << "[AssetLoadWarning] kind=sky_presets path=" << SkyLibraryPath
-                  << " error=" << (yaml ? error : std::string("missing")) << '\n';
+        std::cerr << "[AssetLoadWarning] kind=sky_presets path=" << SkyLibraryPath << " error=" << error << '\n';
         return false;
     }
 
@@ -200,6 +199,7 @@ bool SkyRenderer::initialize(const Engine::AssetFileSystem &assets)
     m_paramsUniform = bgfx::createUniform("u_skyParams", bgfx::UniformType::Vec4, 8);
     m_cloudsUniform = bgfx::createUniform("u_skyClouds", bgfx::UniformType::Vec4, 8);
     m_orbitUniform = bgfx::createUniform("u_skyOrbit", bgfx::UniformType::Vec4, SkyOrbitUniformVectors);
+    m_rimUniform = bgfx::createUniform("u_skyRim", bgfx::UniformType::Vec4, 2);
     const std::array<const char *, 7> samplerNames = {
         "s_skyCloud0", "s_skyCloud1", "s_skyCloud2", "s_skyCloud3", "s_skyRing", "s_skyStars", "s_skyMoon"};
 
@@ -250,7 +250,7 @@ void SkyRenderer::shutdown()
     }
 
     for (bgfx::UniformHandle *pUniform : {&m_fogUniform, &m_rayUniform, &m_paramsUniform, &m_cloudsUniform,
-             &m_orbitUniform, &m_imageSampler, &m_upscaleUniform})
+             &m_orbitUniform, &m_rimUniform, &m_imageSampler, &m_upscaleUniform})
     {
         if (bgfx::isValid(*pUniform))
         {
@@ -307,6 +307,7 @@ void SkyRenderer::abandonGpuResources()
     m_paramsUniform = BGFX_INVALID_HANDLE;
     m_cloudsUniform = BGFX_INVALID_HANDLE;
     m_orbitUniform = BGFX_INVALID_HANDLE;
+    m_rimUniform = BGFX_INVALID_HANDLE;
     m_samplers.fill(BGFX_INVALID_HANDLE);
     m_program = BGFX_INVALID_HANDLE;
     m_upscaleProgram = BGFX_INVALID_HANDLE;
@@ -326,6 +327,7 @@ bool SkyRenderer::isReady() const
 {
     return bgfx::isValid(m_program) && bgfx::isValid(m_fogUniform) && bgfx::isValid(m_rayUniform)
         && bgfx::isValid(m_paramsUniform) && bgfx::isValid(m_cloudsUniform) && bgfx::isValid(m_orbitUniform)
+        && bgfx::isValid(m_rimUniform)
         && bgfx::isValid(m_emptyTexture)
         && bgfx::isValid(m_moonFallbackTexture)
         && std::all_of(m_samplers.begin(), m_samplers.end(),
@@ -594,6 +596,8 @@ void SkyRenderer::render(uint16_t viewId, const float *pView, const float *pProj
     bgfx::setUniform(m_cloudsUniform, clouds.data(), uint16_t(clouds.size()));
     const SkyOrbitUniformValues orbit = packSkyOrbitUniform(frame);
     bgfx::setUniform(m_orbitUniform, orbit.data(), SkyOrbitUniformVectors);
+    const SkyRimUniformValues rim = packSkyRimUniform(frame);
+    bgfx::setUniform(m_rimUniform, rim.data(), uint16_t(rim.size()));
 
     bgfx::TransientVertexBuffer vertices;
     bgfx::allocTransientVertexBuffer(&vertices, 3, m_vertexLayout);

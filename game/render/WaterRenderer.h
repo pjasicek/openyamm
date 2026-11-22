@@ -44,6 +44,9 @@ struct WaterSurfaceGeometry
     // Bounds of individual patches prevent a whole-map ocean bounding box from defeating culling.
     std::vector<std::array<bx::Vec3, 2>> patches;
     float height = 0.0f;
+    // A mirror's own plane (its front side); a planar water surface reflects about its height instead.
+    ReflectionPlane plane = {0.0f, 0.0f, 1.0f, 0.0f};
+    // Horizontal (water, tar) or, for a mirror, any flat face: it can take a planar reflection.
     bool planar = true;
     LiquidKind liquid = LiquidKind::Water;
     // False for a liquid that never takes a planar reflection (liquids.yml reflections: false).
@@ -75,7 +78,8 @@ public:
         std::array<float, 16> sourceProjection = {};
         std::array<float, 16> viewProjection = {};
         bx::Vec3 camera = {0.0f, 0.0f, 0.0f};
-        float height = 0.0f;
+        // The reflecting plane, its normal toward the real camera: also the capture passes' world clip plane.
+        ReflectionPlane plane = {0.0f, 0.0f, 1.0f, 0.0f};
         float projectionScale = 1.0f;
         uint16_t skyView = FirstWaterReflectionView;
         uint16_t worldView = FirstWaterReflectionView + 1;
@@ -126,6 +130,7 @@ private:
         std::vector<std::array<bx::Vec3, 2>> patches;
         uint32_t vertexCount = 0;
         float height = 0.0f;
+        ReflectionPlane plane = {0.0f, 0.0f, 1.0f, 0.0f};
         float distanceSquared = 0.0f;
         bool planar = true;
         LiquidKind liquid = LiquidKind::Water;
@@ -144,6 +149,8 @@ private:
     };
 
     bool resizeReflection(size_t index, uint16_t size);
+    // A visible planar surface the camera sees from its reflecting side (a mirror only within its distance).
+    bool reflectsFrom(const Surface &surface, const bx::Vec3 &camera) const;
     void setFogUniforms();
     void prepareRippleResources(const WaterRippleRuntime *pRipples);
     void submitSurface(Surface &surface, uint16_t viewId, float seconds, float rainIntensity,
@@ -155,6 +162,8 @@ private:
     std::array<WaterReflectionUpdate, MaxWaterReflections> m_reflectionUpdates;
     size_t m_reflectionCount = 0;
     bgfx::ProgramHandle m_program = BGFX_INVALID_HANDLE;
+    // Loaded with the first mirror surface (fs_mirror.sc); a map without mirrors never has it.
+    bgfx::ProgramHandle m_mirrorProgram = BGFX_INVALID_HANDLE;
     bgfx::ProgramHandle m_rippleProgram = BGFX_INVALID_HANDLE;
     bgfx::UniformHandle m_rippleRings = BGFX_INVALID_HANDLE;
     bgfx::UniformHandle m_rippleParams = BGFX_INVALID_HANDLE;

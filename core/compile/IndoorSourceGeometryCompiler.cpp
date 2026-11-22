@@ -1175,6 +1175,7 @@ void compileEntityMarker(
         entity.eventIdPrimary = pEntityMetadata->eventIdPrimary;
         entity.eventIdSecondary = pEntityMetadata->eventIdSecondary;
         entity.facing = pEntityMetadata->facing;
+        entity.aiAttributes = pEntityMetadata->aiAttributes;
         entity.name = pEntityMetadata->id;
 
         if (entity.decorationListId == 0)

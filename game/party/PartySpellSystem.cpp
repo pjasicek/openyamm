@@ -1370,6 +1370,8 @@ PartySpellCastResult PartySpellSystem::castSpell(
 {
     PartySpellCastResult result = {};
     result.spellId = request.spellId;
+    // The party the spell's one target character is in: the caster's, or another player's in a co-op session.
+    Party &targetParty = request.pTargetParty != nullptr ? *request.pTargetParty : party;
 
     // A combatant: an MM9 hireling casts its row's spells here too, at the row's skill and mastery and without mana
     // (spendMana false, GameplayActionController's hireling attack).
@@ -1394,7 +1396,7 @@ PartySpellCastResult PartySpellSystem::castSpell(
             PartySpellCastStatus::Failed,
             PartySpellCastTargetKind::None,
             PartySpellCastEffectKind::Unsupported,
-            Engine::tr(UnderwaterText));
+            Engine::tr(spellcastingRefusalText(worldRuntime)));
     }
 
     if (spellIdFromValue(request.spellId) == SpellId::DivineIntervention
@@ -1557,9 +1559,9 @@ PartySpellCastResult PartySpellSystem::castSpell(
     // What the cast healed and how much of it went past full HP, for rules that reward overhealing (MAW).
     int healedTotal = 0;
     int overhealed = 0;
-    const auto healTracked = [&party, &healedTotal, &overhealed](size_t memberIndex, int amount)
+    const auto healTrackedIn = [&healedTotal, &overhealed](Party &healedParty, size_t memberIndex, int amount)
     {
-        const Character *pMember = party.member(memberIndex);
+        const Character *pMember = healedParty.member(memberIndex);
 
         if (pMember != nullptr && amount > 0)
         {
@@ -1567,7 +1569,19 @@ PartySpellCastResult PartySpellSystem::castSpell(
             overhealed += std::max(0, amount - std::max(0, Party::effectiveMaximumHealth(*pMember) - pMember->health));
         }
 
-        return party.healMember(memberIndex, amount);
+        return healedParty.healMember(memberIndex, amount);
+    };
+    const auto healTracked = [&party, &healTrackedIn](size_t memberIndex, int amount)
+    {
+        return healTrackedIn(party, memberIndex, amount);
+    };
+    // The affected members are the caster's party's (its portraits react); another player's character is not one.
+    const auto noteAffectedTarget = [&party, &targetParty, &request, &result]()
+    {
+        if (&targetParty == &party && request.targetCharacterIndex)
+        {
+            appendAffectedCharacterIndex(result.affectedCharacterIndices, *request.targetCharacterIndex);
+        }
     };
 
     if (spellIdFromValue(request.spellId) == SpellId::DispelMagic)
@@ -1751,7 +1765,7 @@ PartySpellCastResult PartySpellSystem::castSpell(
     else if (rule->targetKind == PartySpellCastTargetKind::Character)
     {
         // A character target is a combatant: a spell on an MM9 hireling (a heal wakes it, a buff is its own).
-        if (!request.targetCharacterIndex || party.combatant(*request.targetCharacterIndex) == nullptr)
+        if (!request.targetCharacterIndex || targetParty.combatant(*request.targetCharacterIndex) == nullptr)
         {
             return makeFailure(
                 request.spellId,
@@ -1764,7 +1778,7 @@ PartySpellCastResult PartySpellSystem::castSpell(
     else if (rule->targetKind == PartySpellCastTargetKind::CharacterOrWorldTarget)
     {
         const bool hasCharacterTarget =
-            request.targetCharacterIndex && party.combatant(*request.targetCharacterIndex) != nullptr;
+            request.targetCharacterIndex && targetParty.combatant(*request.targetCharacterIndex) != nullptr;
         const bool hasWorldTarget =
             request.targetWorldHit.has_value() && isStoneToFleshWorldTarget(*request.targetWorldHit);
 
@@ -1784,7 +1798,7 @@ PartySpellCastResult PartySpellSystem::castSpell(
         const bool hasActorTarget =
             request.targetActorIndex && worldRuntime.actorRuntimeState(*request.targetActorIndex, actor);
         const bool hasCharacterTarget =
-            request.targetCharacterIndex && party.combatant(*request.targetCharacterIndex) != nullptr;
+            request.targetCharacterIndex && targetParty.combatant(*request.targetCharacterIndex) != nullptr;
 
         if (!hasActorTarget && !hasCharacterTarget)
         {
@@ -1992,24 +2006,34 @@ PartySpellCastResult PartySpellSystem::castSpell(
             || spellId == SpellId::TravelersBoon
             || spellId == SpellId::Levitate)
         {
-            applyCompositePartyBuff(
-                party,
-                request.spellId,
-                skillLevel,
-                skillMastery,
-                static_cast<uint32_t>(request.casterMemberIndex),
-                soloScrollSeconds);
+            const auto applyTo = [&](Party &buffed)
+            {
+                applyCompositePartyBuff(
+                    buffed,
+                    request.spellId,
+                    skillLevel,
+                    skillMastery,
+                    static_cast<uint32_t>(request.casterMemberIndex),
+                    soloScrollSeconds);
+            };
+            applyTo(party);
+            std::for_each(request.aidParties.begin(), request.aidParties.end(), [&](Party *pAid) { applyTo(*pAid); });
         }
         else
         {
-            party.applyPartyBuff(
-                rule->partyBuffId,
-                durationSeconds,
-                power,
-                request.spellId,
-                skillLevel,
-                skillMastery,
-                static_cast<uint32_t>(request.casterMemberIndex));
+            const auto applyTo = [&](Party &buffed)
+            {
+                buffed.applyPartyBuff(
+                    rule->partyBuffId,
+                    durationSeconds,
+                    power,
+                    request.spellId,
+                    skillLevel,
+                    skillMastery,
+                    static_cast<uint32_t>(request.casterMemberIndex));
+            };
+            applyTo(party);
+            std::for_each(request.aidParties.begin(), request.aidParties.end(), [&](Party *pAid) { applyTo(*pAid); });
         }
 
         worldRuntime.syncSpellMovementStatesFromPartyBuffs();
@@ -2037,26 +2061,65 @@ PartySpellCastResult PartySpellSystem::castSpell(
                 castSucceeded = true;
                 appendAffectedCharacterIndex(result.affectedCharacterIndices, memberIndex);
             };
+        // A party-wide form: every combatant of the caster's party and of the other players' parties in reach.
+        const auto applyBuffToEveryone =
+            [&](CharacterBuffId buffId)
+            {
+                for (size_t memberIndex = 0; memberIndex < party.combatantCount(); ++memberIndex)
+                {
+                    applyBuffToMember(memberIndex, buffId);
+                }
+
+                for (Party *pAid : request.aidParties)
+                {
+                    for (size_t memberIndex = 0; memberIndex < pAid->combatantCount(); ++memberIndex)
+                    {
+                        pAid->applyCharacterBuff(
+                            memberIndex,
+                            buffId,
+                            durationSeconds,
+                            power,
+                            request.spellId,
+                            skillLevel,
+                            skillMastery,
+                            static_cast<uint32_t>(request.casterMemberIndex));
+                    }
+                }
+            };
+
+        // The spell's one target, who may be another player's character (PartySpellCastRequest::pTargetParty).
+        const auto applyBuffToTarget =
+            [&](CharacterBuffId buffId)
+            {
+                targetParty.applyCharacterBuff(
+                    *request.targetCharacterIndex,
+                    buffId,
+                    durationSeconds,
+                    power,
+                    request.spellId,
+                    skillLevel,
+                    skillMastery,
+                    static_cast<uint32_t>(request.casterMemberIndex));
+                castSucceeded = true;
+                noteAffectedTarget();
+            };
 
         if (spellId == SpellId::Bless)
         {
             if (skillMastery == SkillMastery::Normal)
             {
-                applyBuffToMember(*request.targetCharacterIndex, CharacterBuffId::Bless);
+                applyBuffToTarget(CharacterBuffId::Bless);
             }
             else
             {
-                for (size_t memberIndex = 0; memberIndex < party.combatantCount(); ++memberIndex)
-                {
-                    applyBuffToMember(memberIndex, CharacterBuffId::Bless);
-                }
+                applyBuffToEveryone(CharacterBuffId::Bless);
             }
         }
         else if (spellId == SpellId::Fate)
         {
             if (request.targetCharacterIndex)
             {
-                applyBuffToMember(*request.targetCharacterIndex, CharacterBuffId::Fate);
+                applyBuffToTarget(CharacterBuffId::Fate);
             }
             else if (request.targetActorIndex)
             {
@@ -2077,63 +2140,54 @@ PartySpellCastResult PartySpellSystem::castSpell(
         {
             if (skillMastery == SkillMastery::Master || skillMastery == SkillMastery::Grandmaster)
             {
-                for (size_t memberIndex = 0; memberIndex < party.combatantCount(); ++memberIndex)
-                {
-                    applyBuffToMember(memberIndex, CharacterBuffId::Preservation);
-                }
+                applyBuffToEveryone(CharacterBuffId::Preservation);
             }
             else if (request.targetCharacterIndex)
             {
-                applyBuffToMember(*request.targetCharacterIndex, CharacterBuffId::Preservation);
+                applyBuffToTarget(CharacterBuffId::Preservation);
             }
         }
         else if (spellId == SpellId::Regeneration)
         {
             if (request.targetCharacterIndex)
             {
-                applyBuffToMember(*request.targetCharacterIndex, CharacterBuffId::Regeneration);
+                applyBuffToTarget(CharacterBuffId::Regeneration);
             }
         }
         else if (spellId == SpellId::FireAura)
         {
             if (request.targetCharacterIndex)
             {
-                applyBuffToMember(*request.targetCharacterIndex, CharacterBuffId::FireAura);
+                applyBuffToTarget(CharacterBuffId::FireAura);
             }
         }
         else if (spellId == SpellId::Hammerhands)
         {
             if (skillMastery == SkillMastery::Grandmaster)
             {
-                for (size_t memberIndex = 0; memberIndex < party.combatantCount(); ++memberIndex)
-                {
-                    applyBuffToMember(memberIndex, CharacterBuffId::Hammerhands);
-                }
+                applyBuffToEveryone(CharacterBuffId::Hammerhands);
             }
             else if (request.targetCharacterIndex)
             {
-                applyBuffToMember(*request.targetCharacterIndex, CharacterBuffId::Hammerhands);
+                applyBuffToTarget(CharacterBuffId::Hammerhands);
             }
         }
         else if (spellId == SpellId::VampiricWeapon)
         {
             if (request.targetCharacterIndex)
             {
-                applyBuffToMember(*request.targetCharacterIndex, CharacterBuffId::VampiricWeapon);
+                applyBuffToTarget(CharacterBuffId::VampiricWeapon);
             }
         }
         else if (spellId == SpellId::PainReflection)
         {
             if (skillMastery == SkillMastery::Master || skillMastery == SkillMastery::Grandmaster)
             {
-                for (size_t memberIndex = 0; memberIndex < party.combatantCount(); ++memberIndex)
-                {
-                    applyBuffToMember(memberIndex, CharacterBuffId::PainReflection);
-                }
+                applyBuffToEveryone(CharacterBuffId::PainReflection);
             }
             else if (request.targetCharacterIndex)
             {
-                applyBuffToMember(*request.targetCharacterIndex, CharacterBuffId::PainReflection);
+                applyBuffToTarget(CharacterBuffId::PainReflection);
             }
         }
         else if (spellId == SpellId::Mistform)
@@ -2169,7 +2223,7 @@ PartySpellCastResult PartySpellSystem::castSpell(
             }
 
             // Below Grandmaster, Raise Dead leaves the eradicated under rules that keep the engine's limit (MAW).
-            const Character *pRestored = party.combatant(*request.targetCharacterIndex);
+            const Character *pRestored = targetParty.combatant(*request.targetCharacterIndex);
 
             if (spellId == SpellId::RaiseDead && skillMastery < SkillMastery::Grandmaster && pRestored != nullptr
                 && pRestored->conditions.test(size_t(CharacterCondition::Eradicated))
@@ -2188,37 +2242,38 @@ PartySpellCastResult PartySpellSystem::castSpell(
             {
                 // The ruleset's heal, with the spell's own cure (Remove Curse, Greater Heal) or revival; on a living
                 // target Resurrection only heals (MAW, SP:300-312).
-                const Character *pTarget = party.combatant(*request.targetCharacterIndex);
+                const Character *pTarget = targetParty.combatant(*request.targetCharacterIndex);
                 const bool targetDead = pTarget != nullptr
                     && (pTarget->conditions.test(size_t(CharacterCondition::Dead))
                         || pTarget->conditions.test(size_t(CharacterCondition::Eradicated)));
 
                 if (spellId == SpellId::Resurrection && !targetDead)
                 {
-                    healTracked(*request.targetCharacterIndex, *rulesetHeal);
+                    healTrackedIn(targetParty, *request.targetCharacterIndex, *rulesetHeal);
                 }
                 else if (spellId == SpellId::Resurrection)
                 {
-                    party.reviveMember(*request.targetCharacterIndex, std::max(1, *rulesetHeal), true);
+                    targetParty.reviveMember(*request.targetCharacterIndex, std::max(1, *rulesetHeal), true);
                 }
                 else
                 {
                     if (spellId != SpellId::Heal)
                     {
-                        applyCharacterRestoreSpell(party, request.spellId, *request.targetCharacterIndex, skillLevel);
+                        applyCharacterRestoreSpell(
+                            targetParty, request.spellId, *request.targetCharacterIndex, skillLevel);
                     }
 
-                    healTracked(*request.targetCharacterIndex, *rulesetHeal);
+                    healTrackedIn(targetParty, *request.targetCharacterIndex, *rulesetHeal);
                 }
             }
             else if (spellId == SpellId::Heal)
             {
-                party.healMember(*request.targetCharacterIndex, standardHealAmount(skillMastery, skillLevel));
+                targetParty.healMember(*request.targetCharacterIndex, standardHealAmount(skillMastery, skillLevel));
             }
             else
             {
                 applyCharacterRestoreSpell(
-                    party,
+                    targetParty,
                     request.spellId,
                     *request.targetCharacterIndex,
                     skillLevel);
@@ -2226,7 +2281,7 @@ PartySpellCastResult PartySpellSystem::castSpell(
 
             if (castSucceeded)
             {
-                appendAffectedCharacterIndex(result.affectedCharacterIndices, *request.targetCharacterIndex);
+                noteAffectedTarget();
             }
         }
     }
@@ -2911,7 +2966,7 @@ PartySpellCastResult PartySpellSystem::castSpell(
                 const float durationSeconds = soloScrollBuffSeconds(party, request)
                     .value_or(resolveCharacterBuffDurationSeconds(request.spellId, skillLevel, skillMastery));
                 const int power = resolveCharacterBuffPower(request.spellId, skillLevel, skillMastery);
-                party.applyCharacterBuff(
+                targetParty.applyCharacterBuff(
                     *request.targetCharacterIndex,
                     CharacterBuffId::Fate,
                     durationSeconds,
@@ -2921,28 +2976,28 @@ PartySpellCastResult PartySpellSystem::castSpell(
                     skillMastery,
                     static_cast<uint32_t>(request.casterMemberIndex));
                 castSucceeded = true;
-                appendAffectedCharacterIndex(result.affectedCharacterIndices, *request.targetCharacterIndex);
+                noteAffectedTarget();
             }
             else if (spellId == SpellId::Reanimate)
             {
-                Character *pTargetMember = party.member(*request.targetCharacterIndex);
+                Character *pTargetMember = targetParty.member(*request.targetCharacterIndex);
                 castSucceeded =
                     pTargetMember != nullptr
                     && pTargetMember->conditions.test(static_cast<size_t>(CharacterCondition::Dead));
 
                 if (castSucceeded)
                 {
-                    party.clearMemberCondition(*request.targetCharacterIndex, CharacterCondition::Unconscious);
-                    party.clearMemberCondition(*request.targetCharacterIndex, CharacterCondition::Dead);
-                    party.clearMemberCondition(*request.targetCharacterIndex, CharacterCondition::Petrified);
-                    party.clearMemberCondition(*request.targetCharacterIndex, CharacterCondition::Eradicated);
-                    party.applyMemberCondition(*request.targetCharacterIndex, CharacterCondition::Zombie);
+                    targetParty.clearMemberCondition(*request.targetCharacterIndex, CharacterCondition::Unconscious);
+                    targetParty.clearMemberCondition(*request.targetCharacterIndex, CharacterCondition::Dead);
+                    targetParty.clearMemberCondition(*request.targetCharacterIndex, CharacterCondition::Petrified);
+                    targetParty.clearMemberCondition(*request.targetCharacterIndex, CharacterCondition::Eradicated);
+                    targetParty.applyMemberCondition(*request.targetCharacterIndex, CharacterCondition::Zombie);
                     pTargetMember->health = std::max(1, static_cast<int>(skillLevel) * 20);
                 }
 
                 if (castSucceeded)
                 {
-                    appendAffectedCharacterIndex(result.affectedCharacterIndices, *request.targetCharacterIndex);
+                    noteAffectedTarget();
                 }
             }
         }
@@ -3878,6 +3933,11 @@ std::optional<PartyBuffId> PartySpellSystem::partyBuffOfSpell(const Party &party
     return rule && rule->effectKind == PartySpellCastEffectKind::PartyBuff
         ? std::optional<PartyBuffId>(rule->partyBuffId)
         : std::nullopt;
+}
+
+const char *PartySpellSystem::spellcastingRefusalText(const IGameplayWorldRuntime &worldRuntime)
+{
+    return worldRuntime.isUnderwaterMap() ? UnderwaterText : NoSpellsHereText;
 }
 
 std::optional<PartySpellDescriptor> PartySpellSystem::describeSpell(uint32_t spellId)

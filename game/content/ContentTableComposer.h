@@ -4,6 +4,7 @@
 
 #include <cstddef>
 #include <string>
+#include <unordered_set>
 #include <vector>
 
 namespace OpenYAMM::Game
@@ -22,6 +23,15 @@ struct KeyedTableContributionRows
     std::string packageId;
     ContentIdRangeDefinition idRange;
     size_t idColumn = 0;
+    std::vector<std::vector<std::string>> rows;
+};
+
+// Rows a package adds to a table keyed by a map file name (outdoor_travels, map_navigation, house_exits).
+struct MapKeyedTableContributionRows
+{
+    std::string packageId;
+    // The package's own maps (lowercase file names): its rows may key only these.
+    std::unordered_set<std::string> mapFileNames;
     std::vector<std::vector<std::string>> rows;
 };
 
@@ -73,5 +83,16 @@ bool composeKeyedAppendTableRows(
     std::vector<std::vector<std::string>> &composedRows,
     std::string &errorMessage,
     size_t baseIdColumn = 0
+);
+
+// Appends the contributions' rows to a table keyed by a map file name in keyColumn. A contributed row whose key names
+// an .odm or .blv map must name one of its package's maps that no base or earlier row keys (compared without case);
+// its other rows (headers, notes) are left out.
+bool composeMapKeyedAppendTableRows(
+    const std::vector<std::vector<std::string>> &baseRows,
+    const std::vector<MapKeyedTableContributionRows> &contributions,
+    size_t keyColumn,
+    std::vector<std::vector<std::string>> &composedRows,
+    std::string &errorMessage
 );
 }

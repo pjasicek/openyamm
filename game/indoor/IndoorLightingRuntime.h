@@ -211,6 +211,8 @@ private:
         size_t decorationDecorVarIndex = static_cast<size_t>(-1);
         uint8_t decorationClearedState = 0;
         bool hideDecorationWhenCleared = false;
+        // The map's invisible flag: dark until an evt.SetSprite shows the decoration.
+        bool decorationStartsHidden = false;
         IndoorLightReachList reach;
     };
 

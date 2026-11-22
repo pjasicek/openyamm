@@ -31,6 +31,9 @@ struct MonsterKillReward
     // A monster killed a monster and one of the two was charmed or berserk (gameplayActorMindControlled). Standard
     // gives nothing for it; MAW pays it as the party's own kill (DEVIATIONS 192).
     bool mindControlled = false;
+    // A kill in a co-op session pays every player's party in full, and the game's own records of it (MAW's level
+    // bank) are kept once: false for every party after the first.
+    bool banksExperience = true;
 };
 
 // How far the party has cleared the map it is on, counted after a kill.

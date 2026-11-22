@@ -55,6 +55,8 @@ enum class InventoryItemUseAction : uint8_t
 struct InventoryItemUseContext
 {
     bool spellcastingForbidden = false;
+    // Where casting is forbidden: under water (MM7's Shoals) or not (the refusal's text says which).
+    bool underwater = false;
     float gameMinutes = 0.0f;
     // Hostile monsters near the party (the yellow alert): drinking may then cost recovery.
     bool enemiesNear = false;

@@ -120,4 +120,80 @@ bool writeBinaryFileAtomically(
     const std::vector<uint8_t> &bytes,
     std::string &errorMessage);
 bool readTextFile(const std::filesystem::path &path, std::string &text);
+// The world whose kits, roofs, ground tile sets and default textures the studio builds a map of `world` with: MM6,
+// MM7, MM8 and MM9 their own; a world that has none of its own (Xeen) the base its world.yml names in terrainTileset
+// (mm6, mm7 or mm8), else itself.
+std::string studioStyleWorld(const std::filesystem::path &assetRoot, const std::string &world);
+// An engine table of the asset root (engine/data_tables/<fileName>) with the rows the world adds to it: its world.yml
+// tableContributions of tableName in mode append, as the game composes it. False when the engine table is missing.
+bool readWorldTable(
+    const std::filesystem::path &assetRoot,
+    const std::string &world,
+    const std::string &fileName,
+    const std::string &tableName,
+    std::string &text);
+
+// A named place where the party arrives on a map (D-4: a dungeon with several mouths): a plan entrance of kind
+// arrival or both, or `start`; `oymap install` writes the map's into its <stem>.studio.yml (`arrivals`), and a door
+// or exit of another map names one (`into: {map, arrival}`, a neighbour's `arrival: entrance:<id>`).
+struct MapArrival
+{
+    std::string name;
+    int at[3] = {0, 0, 0};
+    // The game's angle units: 2048 a turn, 0 east, 512 north.
+    int facing = 0;
+};
+
+enum class MapArrivalLookup
+{
+    Found,
+    // The map has no <stem>.studio.yml in the mount or the asset root (not installed yet).
+    NotInstalled,
+    // It has one, without that name (`known` lists the names it has).
+    Unknown
+};
+
+// `name` among the arrivals of the installed map `map` (its file name: xeen_xd10.blv) of `world`: the mount's
+// <stem>.studio.yml first, then the asset root's.
+MapArrivalLookup findMapArrival(
+    const std::filesystem::path &assetRoot,
+    const std::filesystem::path &mountRoot,
+    const std::string &world,
+    const std::string &map,
+    const std::string &name,
+    MapArrival &arrival,
+    std::string &known);
+
+// A door's or an exit's arrival by name: true with the arrival when the installed map has it; true with a warning in
+// `warning` and the map's start ([0, 0, 0], facing 0) when the map is not installed; false with the error in
+// `warning` when the installed map has no arrival of that name.
+bool resolveMapArrival(
+    const std::filesystem::path &assetRoot,
+    const std::filesystem::path &mountRoot,
+    const std::string &world,
+    const std::string &map,
+    const std::string &name,
+    MapArrival &arrival,
+    std::string &warning);
+
+// The window the game shows before a move to another map (MM6-MM8's entrance window: the map's name, a picture, the
+// question or a line, OK and Close): evt.MoveToMap's seventh number, the row of trans.txt whose line replaces "Do you
+// wish to enter X?" (0: that question; the shipped scripts call it the house), and its eighth, the picture (1 the
+// dungeon entrance's; 0 with text 0: no window). `direct`: no window at all, not even the engine's leave-the-dungeon
+// one (`{direct = true}`).
+struct MoveScreen
+{
+    int text = 0;
+    int picture = 0;
+    bool direct = false;
+};
+
+// `screen` under a door's, a thing's or a teleport's `into`, or under a neighbour (feedback F16, 2026-11-22): left
+// out, the standard entrance window into a dungeon (`map` a .blv: picture 1) and none to an outdoor map; `none`, a
+// direct move; `{text: <trans.txt row>, picture: <n, 1 when left out>}` (`house` is the older name of `text`). False
+// with `error` when it is none of these.
+bool readMoveScreen(const YAML::Node &screen, const std::string &map, MoveScreen &result, std::string &error);
+
+// The `, {direct = true}` evt.MoveToMap's options take for a direct move, else nothing.
+std::string moveScreenOptions(const MoveScreen &screen);
 }

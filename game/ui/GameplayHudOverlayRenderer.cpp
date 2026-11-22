@@ -231,7 +231,7 @@ void renderPartyBagButtons(GameplayScreenRuntime &view, int width, int height)
         const GameplayScreenRuntime::HudLayoutElement *pLayout = view.findHudLayoutElement(pId);
         const std::optional<GameplayScreenRuntime::ResolvedHudLayoutElement> button =
             pLayout != nullptr && pParty != nullptr && view.inventoryNestedOverlay().active
-                    && gameRulesFor(pParty).items.hasPouches()
+                    && pParty->hasPouch(pouch)
                 ? view.resolveHudLayoutElement(pId, width, height, pLayout->width, pLayout->height)
                 : std::nullopt;
 

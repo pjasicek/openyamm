@@ -123,6 +123,8 @@ struct EditorIndoorGeometryEntityMetadata
     uint16_t eventIdSecondary = 0;
     // Degrees, as the BLV entity stores it; a model decoration bound with yaw: facing turns by it.
     int facing = 0;
+    // The BLV entity's flags (0x20: invisible until an evt.SetSprite shows it).
+    uint16_t aiAttributes = 0;
     std::optional<size_t> runtimeEntityIndex = std::nullopt;
 };
 

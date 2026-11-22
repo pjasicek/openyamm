@@ -30,8 +30,9 @@ New Sorpigal. Position is in world units, yaw is in radians, and pitch is in deg
 in the console's `loc` output. Supply all three camera options together. Without them, retain the map/save camera.
 The normal movement system still resolves floors and collision; an invalid/below-ground position can be adjusted.
 
-Use `--binary build-vulkan/game/openyamm` to test a separate build. The selected executable performs both
-headless preparation and the desktop run; the default remains `build/game/openyamm`.
+Use `--binary build-vulkan/game/openyamm` to test a separate build, or set `OPENYAMM_GAME_BINARY` (both the plain
+and the `--isolated` runs read it; the Xeen lanes set it to `build-xeen/game/openyamm`). The selected executable
+performs both headless preparation and the desktop run; the default remains `build/game/openyamm`.
 
 Every invocation creates a unique `/tmp/openyamm-desktop-<name>-.../` directory and prints its path. It contains:
 
@@ -190,7 +191,8 @@ Supported steps are `click: [x, y]` in the menu's 1600×900 design coordinates, 
 name, `text: My party`, `wheel: -3`, `wait: 1.5` in seconds, and `capture: name` for a PNG. Clicks scale with the
 centred menu canvas. Text requires an active SDL text-input session and travels through the SDL event queue to the
 currently active field. `pointer_down`, `pointer_move` and `pointer_up` accept the same coordinate pair for dragging;
-`key_down` and `key_up` hold and release a key across frames. `expect: gameplay`, `expect: pause`,
+`key_down` and `key_up` hold and release a key across frames. `wait_until: 1795000000` waits until that second of the
+wall clock (Unix time), by which the tours of two games keep step (`tools/coop_two_machines/run.sh`). `expect: gameplay`, `expect: pause`,
 `expect: text_input` and `expect: menu_cursor` fail the run when their screen/input condition is not met.
 The cursor check verifies visibility and disabled relative mode on the game window, independently of desktop focus.
 For gameplay checks, `action: quest` (or another keyboard binding INI key) presses the native gameplay action.
@@ -275,7 +277,10 @@ shots:
 Outdoor heights are applied exactly, including airborne poses, without a Fly buff or floor snapping.
 Gameplay simulation is held during the tour so gravity, movement and combat cannot move the viewpoint.
 Indoors the clock, timers, face triggers and positioned transitions are held too; doors and lifts keep moving, as in
-turn-based mode. A shot's `time: "HH:MM"` moves the clock forward to that time (a full day when the clock is already
+turn-based mode (a shot's `commands: ["lua evt.SetDoorState(20, DoorAction.Open)"]` swings FD-01's lever before the
+next shot, 2026-11-21). Everything else the tour pauses: actors, timers and events that move the party or change maps.
+For a scene that needs the world running, use a menu-input tour (below: `console:` steps) and `render freeze on`,
+which holds the party where a teleport puts it. A shot's `time: "HH:MM"` moves the clock forward to that time (a full day when the clock is already
 past it); these jumps do not count as days without rest, so a long tour cannot weaken, starve or kill the party.
 Before 2026-11-01 the indoor clock ran on during the hold, so every shot at the same time as the last one jumped a
 day, and long BLV tours ended in the death video after four or more days without rest.

@@ -98,9 +98,10 @@ private:
     static void bindLightGrid(OutdoorGameView &view, bool mainCamera);
     static void submitResolvedBModelDrawGroup(OutdoorGameView &view,
         const OutdoorGameView::ResolvedBModelDrawGroup &group, uint16_t viewId, size_t frameIndex, uint32_t transform);
-    // Binds a lightmapped group's surface material maps and their uniforms; false when it draws without them (none,
-    // animated, or the setting is off).
-    static bool bindSurfaceMaterial(OutdoorGameView &view, const OutdoorGameView::ResolvedBModelDrawGroup &group,
+    // Binds a lightmapped group's (or a runtime batch's) surface material maps and their uniforms; false when it
+    // draws without them (none, animated, or the setting is off). `arrayIndex` >= 0: the faces' size array (layers
+    // per vertex); else the animation's own maps.
+    static bool bindSurfaceMaterial(OutdoorGameView &view, int32_t arrayIndex, uint16_t lightmapPageIndex,
         const OutdoorGameView::BModelTextureAnimationHandle *pAnimation, size_t frameIndex, uint16_t viewId);
     static void ensureTerrainDecorations(OutdoorGameView &view, const OutdoorMapData &outdoorMapData);
     // Builds the map's terrain from its materials once; false (with the error printed) when they cannot load.

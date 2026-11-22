@@ -450,8 +450,8 @@ bool render(GameplayScreenRuntime &context, const GameplayHouseShopLedgerView &v
 
     painter.text("DialogueShopLedgerFooter", layout.footer, forSale);
     const Party *pParty = context.partyReadOnly();
-    const Party::HouseStockState *pStockState =
-        pParty != nullptr ? pParty->houseStockState(view.pHouseEntry->id) : nullptr;
+    const CampaignState::HouseStockState *pStockState =
+        pParty != nullptr ? pParty->campaign().houseStockState(view.pHouseEntry->id) : nullptr;
 
     if (pStockState != nullptr && context.worldRuntime() != nullptr)
     {

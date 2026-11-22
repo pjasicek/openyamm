@@ -62,8 +62,8 @@ TEST_CASE("MAW's aura report: holders, reservations, strengths and the stronger 
     // Standard has no auras and no panel.
     CHECK_FALSE(standardGameRules().spells.auraReport(party).has_value());
 
-    rules.state().auraHolders = {{86, 1}, {38, 2}, {3, 2}, {5, 3}, {27, MawGameState::FixedAuraHolder}};
-    rules.state().fixedAuraMaps = {{27, "oute3.odm"}};
+    party.rulesetState().auraHolders = {{86, 1}, {38, 2}, {3, 2}, {5, 3}, {27, MawGameState::FixedAuraHolder}};
+    party.rulesetState().fixedAuraMaps = {{27, "oute3.odm"}};
     std::optional<AuraReport> report = spells.auraReport(party);
     REQUIRE(report.has_value());
 
@@ -176,7 +176,7 @@ TEST_CASE("MAW's aura report: Death Knights reserve nothing, utility auras reser
     party.setRules(&rules.gameRules());
     party.member(0)->className = "DeathKnight";
     party.member(0)->skills["BodyMagic"] = {"BodyMagic", 10, SkillMastery::Expert};
-    rules.state().auraHolders = {{69, 0}, {1, 2}};
+    party.rulesetState().auraHolders = {{69, 0}, {1, 2}};
     const std::optional<AuraReport> report = rules.gameRules().spells.auraReport(party);
     REQUIRE(report.has_value());
 
@@ -214,7 +214,7 @@ TEST_CASE("A quick-cast heal measures a legendary 32 wearer against the hit poin
     Character &cedric = *party.member(2);
     cedric.equipment.amulet = 1;
     cedric.equipmentRuntime.amulet.rulesetFields.legendaryAffixId = 32;
-    rules.state().auraHolders = {{38, 2}};
+    party.rulesetState().auraHolders = {{38, 2}};
     const int reserved = rules.gameRules().spells.reservedHitPoints(party, 2);
     REQUIRE_GT(reserved, 0);
     cedric.health = Party::effectiveMaximumHealth(cedric) - reserved;

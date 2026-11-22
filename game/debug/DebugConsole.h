@@ -60,6 +60,10 @@ public:
     // Told of every successful command that could change the game: not read-only by readOnly or readOnlyWith
     // (the playthrough statistics' "debug console" assist).
     using CommandObserver = std::function<void(const CommandDefinition &)>;
+    // Asked before a command runs: the reason it may not run now, or nothing (a co-op guest's console may not
+    // change the host's world: GameApplication).
+    using CommandGate =
+        std::function<std::optional<std::string>(const CommandDefinition &, const std::vector<std::string> &args)>;
 
     struct ItemOption
     {
@@ -87,6 +91,7 @@ public:
     };
 
     void setCommandObserver(CommandObserver observer);
+    void setCommandGate(CommandGate gate);
     void registerCommand(CommandDefinition definition);
     void clearCommands();
     void setItemOptions(std::vector<ItemOption> itemOptions);
@@ -143,6 +148,7 @@ private:
 
     std::unordered_map<std::string, CommandDefinition> m_commands;
     CommandObserver m_commandObserver;
+    CommandGate m_commandGate;
     std::vector<Message> m_messages;
     size_t m_totalMessageCount = 0;
     std::vector<std::string> m_history;

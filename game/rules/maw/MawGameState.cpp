@@ -26,6 +26,10 @@ std::optional<size_t> MawGameState::continentIndex(uint32_t continentId)
             return continentId - 1;
         case 5:
             return 3;
+        // The World of Xeen's two faces, Cloudside and Darkside, are one route and one bank.
+        case 6:
+        case 7:
+            return 4;
         default:
             return std::nullopt;
     }
@@ -35,7 +39,7 @@ void MawGameState::addBankedExperience(double experience, uint32_t continentId)
 {
     bankedExperience += experience;
     const double level = mawLevelForExperience(bankedExperience);
-    // Experience earned off the four continents (no map) goes to Jadame's bank, the map table's default continent.
+    // Experience earned off MAW's continents (no map) goes to Jadame's bank, the map table's default continent.
     continentLevels[continentIndex(continentId).value_or(0)] += level - bankedLevel;
     bankedLevel = level;
 }

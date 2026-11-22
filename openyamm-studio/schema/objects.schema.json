@@ -55,6 +55,211 @@
       },
       "additionalProperties": false
     },
+    "arrivals": {
+      "description": "Where a party arrives by each plan.yml entrance of kind arrival or both (D-4: a dungeon with several mouths), placed as `start` is. `oymap install` lists them in the map's <stem>.studio.yml with `start`; a door of another map names one with `into: {map, arrival: entrance:<id>}`, an exit with its neighbour's `arrival: entrance:<id>`. An entrance with no entry here arrives at the start when the start's room realises its space, else in the middle of the first room that does.",
+      "type": "array",
+      "items": {
+        "type": "object",
+        "x-flow": true,
+        "required": [
+          "entrance",
+          "room"
+        ],
+        "properties": {
+          "entrance": {
+            "$ref": "common.schema.json#/$defs/id",
+            "x-id-kinds": [
+              "entrance"
+            ]
+          },
+          "room": {
+            "$ref": "common.schema.json#/$defs/id",
+            "x-id-kinds": [
+              "room"
+            ]
+          },
+          "at": {
+            "$ref": "common.schema.json#/$defs/point2",
+            "x-geom": {
+              "shape": "point",
+              "space": "map"
+            }
+          },
+          "offset": {
+            "$ref": "common.schema.json#/$defs/point2",
+            "x-geom": {
+              "shape": "point",
+              "space": "room"
+            }
+          },
+          "floor_height": {
+            "type": "number",
+            "x-unit": "map"
+          },
+          "facing": {
+            "$ref": "#/$defs/facing"
+          },
+          "notes": {
+            "$ref": "common.schema.json#/$defs/notes"
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "arena": {
+      "description": "An arena as MM7's (XD-20): `oymap build` writes the scene's `arena` block and the restrictions of MM7's arena (`runtime_restrictions: {arena: true, allow_save_game: false, allow_lloyds_beacon: false}`: no saving, no Lloyd's Beacon, the fights refilled on each visit). The arena master is an NPC with topic 704 (the four difficulties; awards 46-49). Not in an overlay project.",
+      "type": "object",
+      "required": [
+        "monsters",
+        "party"
+      ],
+      "properties": {
+        "monsters": {
+          "description": "[first, last]: the monster ids the challenges draw from (the world's rows; the game leaves out NoArena and peasant rows, NoArena from bolster_monsters).",
+          "type": "array",
+          "items": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 32767
+          },
+          "minItems": 2,
+          "maxItems": 2
+        },
+        "party": {
+          "description": "Where a fight puts the party (and where a talk with the master during a fight sends it back), placed as `start` is.",
+          "type": "object",
+          "required": [
+            "room"
+          ],
+          "properties": {
+            "room": {
+              "$ref": "common.schema.json#/$defs/id",
+              "x-id-kinds": [
+                "room"
+              ]
+            },
+            "at": {
+              "$ref": "common.schema.json#/$defs/point2",
+              "x-geom": {
+                "shape": "point",
+                "space": "map"
+              }
+            },
+            "offset": {
+              "$ref": "common.schema.json#/$defs/point2",
+              "x-geom": {
+                "shape": "point",
+                "space": "room"
+              }
+            },
+            "floor_height": {
+              "type": "number",
+              "x-unit": "map"
+            },
+            "facing": {
+              "$ref": "#/$defs/facing"
+            },
+            "notes": {
+              "$ref": "common.schema.json#/$defs/notes"
+            }
+          },
+          "additionalProperties": false
+        },
+        "marks": {
+          "description": "Where the opponents appear, each placed as `start` is (on the highest floor at its place). With `ring`, at least 20 in all: a Lord's fight brings 20.",
+          "type": "array",
+          "items": {
+            "type": "object",
+            "x-flow": true,
+            "required": [
+              "room"
+            ],
+            "properties": {
+              "room": {
+                "$ref": "common.schema.json#/$defs/id",
+                "x-id-kinds": [
+                  "room"
+                ]
+              },
+              "at": {
+                "$ref": "common.schema.json#/$defs/point2",
+                "x-geom": {
+                  "shape": "point",
+                  "space": "map"
+                }
+              },
+              "offset": {
+                "$ref": "common.schema.json#/$defs/point2",
+                "x-geom": {
+                  "shape": "point",
+                  "space": "room"
+                }
+              },
+              "floor_height": {
+                "type": "number",
+                "x-unit": "map"
+              },
+              "notes": {
+                "$ref": "common.schema.json#/$defs/notes"
+              }
+            },
+            "additionalProperties": false
+          }
+        },
+        "ring": {
+          "description": "`count` marks on a circle of `radius` round its place (`at`, `offset` or the room's middle), the first east of it, then counter-clockwise; each must lie in the room.",
+          "type": "object",
+          "required": [
+            "room",
+            "radius",
+            "count"
+          ],
+          "properties": {
+            "room": {
+              "$ref": "common.schema.json#/$defs/id",
+              "x-id-kinds": [
+                "room"
+              ]
+            },
+            "at": {
+              "$ref": "common.schema.json#/$defs/point2",
+              "x-geom": {
+                "shape": "point",
+                "space": "map"
+              }
+            },
+            "offset": {
+              "$ref": "common.schema.json#/$defs/point2",
+              "x-geom": {
+                "shape": "point",
+                "space": "room"
+              }
+            },
+            "floor_height": {
+              "type": "number",
+              "x-unit": "map"
+            },
+            "radius": {
+              "type": "number",
+              "exclusiveMinimum": 0,
+              "x-unit": "map"
+            },
+            "count": {
+              "type": "integer",
+              "minimum": 1
+            },
+            "notes": {
+              "$ref": "common.schema.json#/$defs/notes"
+            }
+          },
+          "additionalProperties": false
+        },
+        "notes": {
+          "$ref": "common.schema.json#/$defs/notes"
+        }
+      },
+      "additionalProperties": false
+    },
     "doors": {
       "type": "array",
       "x-sort": "id",
@@ -92,7 +297,7 @@
             "x-kinds": "all"
           },
           "leaves": {
-            "description": "2: the door is two half leaves that part in the middle and close again together: sideways for slide_left and slide_right, up and down for slide_up and slide_down. Each half moves half as far, so it needs half the room in the wall. Events and clicks move both halves; the build numbers the second leaf `<id>.leaf2` in ids.lock.yml. Not for hinged doors. Default 1. Example: {id: door:bay, opening: open:bay, kind: slide_left, leaves: 2}.",
+            "description": "2: the door is two half leaves that part in the middle and close again together: sideways for slide_left and slide_right, up and down for slide_up and slide_down. Each half moves half as far, so it needs half the room in the wall. Events and clicks move both halves; the build numbers the second leaf `<id>.leaf2` in ids.lock.yml. hinged: a pair of leaves, each half the doorway wide, the left one (seen from the opening's `from` room) hung on the left jamb and the right one on the right jamb, swinging apart from the middle away from whoever opens them (great hall doors, a castle gate; MM9 hangs 282 such pairs); the door's `surface` is then one wing, shown on the left leaf and mirrored on the right, or `pictures` give each leaf its own (one row of two: [[{texture: wing_l, ...}, {texture: wing_r, ...}]]); `hinge` is refused. Default 1. Examples: {id: door:bay, opening: open:bay, kind: slide_left, leaves: 2}; {id: door:hall, opening: open:hall, kind: hinged, leaves: 2, surface: {texture: dwing, size: [128, 256]}}.",
             "enum": [
               1,
               2
@@ -101,7 +306,8 @@
               "slide_up",
               "slide_down",
               "slide_left",
-              "slide_right"
+              "slide_right",
+              "hinged"
             ]
           },
           "split": {
@@ -140,19 +346,23 @@
             ]
           },
           "hinge": {
-            "description": "hinged: the side of the doorway the hinge is on, seen from the opening's `from` room. Default left.",
+            "description": "hinged: the side of the doorway the hinge is on, seen from the opening's `from` room. Default left. Not for a hinged pair (`leaves: 2`), whose leaves hang on both jambs. A trapdoor (a door in an opening `in: floor`, a rectangular hole) turns on a side of its hole: north, south, east or west (required).",
             "enum": [
               "left",
-              "right"
+              "right",
+              "north",
+              "south",
+              "east",
+              "west"
             ],
             "x-kinds": [
               "hinged"
             ]
           },
           "swing": {
-            "description": "hinged: how far the leaf opens, in degrees. Default 90.",
+            "description": "hinged: how far the leaf opens, in degrees. Default 90. A trapdoor: 1 to 120, down into the room below; negative (-1 to -120) up into the room above.",
             "type": "number",
-            "exclusiveMinimum": 0,
+            "minimum": -120,
             "maximum": 180,
             "x-unit": "deg",
             "x-kinds": [
@@ -228,7 +438,7 @@
             ]
           },
           "pictures": {
-            "description": "Several pictures on the door's front (the side seen from the opening's `from` room) in place of the one `surface`: rows from the top down, each row a list of pictures from left to right as seen from that room. The rows share the doorway's height evenly and the pictures of a row share its width evenly, whatever the leaves: with `leaves: 2` two pictures in a row are one whole picture on each leaf, one picture in a row lies across both leaves, and two rows of two are the four quarters of a seal. Each picture is stretched over its part of the doorway; with `tile: true` (and always with `fold: true`) it lies at its own size instead. For sliding doors. Examples: one picture on each leaf: pictures: [[{texture: hvdord, size: [256, 256]}, {texture: hvdord, size: [256, 256]}]]; two textures side by side on one leaf: pictures: [[{texture: t65a05bl, size: [128, 256]}, {texture: t65a05br, size: [128, 256]}]]; the right leaf showing the left one's picture mirrored: pictures: [[{texture: swaled, size: [128, 256]}, {texture: swaled, size: [128, 256], mirror: true}]].",
+            "description": "Several pictures on the door's front (the side seen from the opening's `from` room) in place of the one `surface`: rows from the top down, each row a list of pictures from left to right as seen from that room. The rows share the doorway's height evenly and the pictures of a row share its width evenly, whatever the leaves: with `leaves: 2` two pictures in a row are one whole picture on each leaf, one picture in a row lies across both leaves, and two rows of two are the four quarters of a seal. Each picture is stretched over its part of the doorway; with `tile: true` (and always with `fold: true`) it lies at its own size instead. For sliding doors and hinged pairs (`kind: hinged, leaves: 2`; not a single hinged leaf). Examples: one picture on each leaf: pictures: [[{texture: hvdord, size: [256, 256]}, {texture: hvdord, size: [256, 256]}]]; two textures side by side on one leaf: pictures: [[{texture: t65a05bl, size: [128, 256]}, {texture: t65a05br, size: [128, 256]}]]; the right leaf showing the left one's picture mirrored: pictures: [[{texture: swaled, size: [128, 256]}, {texture: swaled, size: [128, 256], mirror: true}]].",
             "type": "array",
             "minItems": 1,
             "maxItems": 4,
@@ -245,7 +455,8 @@
               "slide_up",
               "slide_down",
               "slide_left",
-              "slide_right"
+              "slide_right",
+              "hinged"
             ]
           },
           "back_pictures": {
@@ -266,7 +477,8 @@
               "slide_up",
               "slide_down",
               "slide_left",
-              "slide_right"
+              "slide_right",
+              "hinged"
             ]
           },
           "tile": {
@@ -422,6 +634,10 @@
           "surface": {
             "$ref": "rooms.schema.json#/$defs/surface"
           },
+          "trap": {
+            "description": "A trapdoor (the floor drops the party into the room below): no ride, so `oymap audit` asks for no switch at its stops (`ride.no_switch`). `oymap install` lists it in the map's <stem>.studio.yml (`trap_doors`) for the audit of the installed map.",
+            "type": "boolean"
+          },
           "notes": {
             "$ref": "common.schema.json#/$defs/notes"
           }
@@ -472,8 +688,7 @@
         "required": [
           "id",
           "room",
-          "height",
-          "travel"
+          "height"
         ],
         "properties": {
           "id": {
@@ -557,8 +772,43 @@
             "x-geom": false,
             "x-unit": "map"
           },
+          "turn": {
+            "description": "Instead of `travel`: the mover turns about a line from its start (as drawn) to its end, as the engine's rotating mover (a lever's arm thrown from up to down, a flap, a valve), its parts with it. `pivot` is a point of the line, [x, y] on the plan and a height measured as `bottom` is (from the floor at the mover's middle); `axis` the line's direction (x and y level, z upright); `degrees` the signed angle from start to end, 1 to 360 (positive turns +y toward +z about x, +z toward +x about y, +x toward +y about z). `speed` is then in degrees per second (default 90); it eases in and out. Every corner stays inside the room and under its ceiling all the way round, and nothing rides it (no `rides`, no switch `block` on it). Example, a lever arm 176 tall on a pivot 248 up, thrown over toward the south (and down): {id: mover:lever_arm, room: room:levers, at: [-2874, 2496], size: [32, 32], bottom: 248, height: 176, turn: {pivot: [-2874, 2496, 248], axis: x, degrees: 180}, speed: 180}.",
+            "type": "object",
+            "required": [
+              "pivot",
+              "axis",
+              "degrees"
+            ],
+            "properties": {
+              "pivot": {
+                "type": "array",
+                "items": {
+                  "type": "number"
+                },
+                "minItems": 3,
+                "maxItems": 3,
+                "x-geom": false,
+                "x-unit": "map"
+              },
+              "axis": {
+                "enum": [
+                  "x",
+                  "y",
+                  "z"
+                ]
+              },
+              "degrees": {
+                "type": "number",
+                "minimum": -360,
+                "maximum": 360,
+                "x-unit": "deg"
+              }
+            },
+            "additionalProperties": false
+          },
           "speed": {
-            "description": "Units per second. Default 96.",
+            "description": "Units per second (degrees per second for a mover that turns: default 90). Default 96.",
             "type": "number",
             "exclusiveMinimum": 0,
             "x-unit": "units_per_second"
@@ -1167,6 +1417,10 @@
           "night_only": {
             "description": "Heard only outside the world's day hours (crickets, owls).",
             "type": "boolean"
+          },
+          "pan": {
+            "description": "false: heard centred, its distance falloff kept, not from one side (a bed under the whole map, a sound overhead; D-48). Default true. A world whose rules say pan: false (MM9) plays every sound centred.",
+            "type": "boolean"
           }
         },
         "additionalProperties": false,
@@ -1204,7 +1458,8 @@
               "wait",
               "on",
               "day_only",
-              "night_only"
+              "night_only",
+              "pan"
             ]
           ]
         ]
@@ -1666,6 +1921,10 @@
             },
             "x-unit": "none"
           },
+          "hidden": {
+            "description": "true: the chest is not there at the start: neither drawn, nor touched, nor clicked, until an event's {show: chest:x} brings it (an event's {hide: chest:x} takes it away again). Its faces carry both of the engine's flags (Invisible, Untouchable), which the map's saved state keeps. The build warns when no event shows it. Example: objects.yml {id: chest:gift, room: room:hall, at: [0, 512], hidden: true}; wiring.yml effects [{show: chest:gift}].",
+            "type": "boolean"
+          },
           "box_of": {
             "description": "In place of `room` and `at`: this chest has no box of its own. It is a second set of contents for the box of the chest named here, which an event opens with the effect `open_chest` (one chest of two, chosen by a condition: the Forge's chest holds the hourglass for one party and plain treasure for a party that already took it). Only the contents' fields go with it (`treasure_level`, `random_items`, `random_levels`, `gold`, `items`, `trap_level`). Example: objects.yml {id: chest:spent, box_of: chest:hoard, random_levels: [6, 5, 3, 1]}; wiring.yml {id: evt:hoard, preset: chest, source: chest:hoard, condition: {not: {qbit: hourglass_taken}}, else_effects: [{open_chest: chest:spent}], effects: [{qbit: hourglass_taken}]}.",
             "$ref": "common.schema.json#/$defs/id",
@@ -1720,6 +1979,7 @@
               "floor_height",
               "rides",
               "facing",
+              "hidden",
               "box_of"
             ]
           ],
@@ -1961,6 +2221,12 @@
             "type": "number",
             "x-unit": "map"
           },
+          "above_floor": {
+            "description": "A flyer, or a swimmer in a water volume (objects.yml `water`), starts this high over its floor (game units): P4's octopods in mid-sea instead of on the bed. The game keeps the height of both; a monster that neither flies nor swims (monster_data's Fly column: y flies, s swims) is refused, and so is a swimmer that does not fly whose middle (the raised foot plus half its height) is in no water. The ceiling must clear the raised monster.",
+            "type": "number",
+            "exclusiveMinimum": 0,
+            "x-unit": "map"
+          },
           "facing": {
             "description": "The way it looks at the start. Default east.",
             "$ref": "#/$defs/facing"
@@ -1991,9 +2257,22 @@
             "description": "true: the monster keeps its place: it neither wanders while it has nothing to fight nor walks after the party, and fights from where it stands (a guard at his post). Default false: it moves as its kind does.",
             "type": "boolean"
           },
+          "leash": {
+            "description": "A home radius in game units (the scene's leash_radius): the monster holds its place and fights within this distance of where it was placed, walking, flying or swimming back when nothing is in reach (D7's Megadragon on its roost). Not with `immobile`. 0 or left out: none.",
+            "type": "number",
+            "minimum": 0,
+            "maximum": 32768,
+            "x-unit": "map"
+          },
           "hidden": {
             "description": "true: the monster starts invisible (the actor record's Invisible bit, as the Lincoln's droids): it is neither drawn nor acts until a wiring effect shows its group ({show_actors: <group>}; {hide_actors: <group>} hides it again). Needs `group`; the build warns when no event shows the group. Default false.",
             "type": "boolean"
+          },
+          "npc": {
+            "description": "An NPC of the world's npc table the monster is (the scene actor's npc_id): clicked while it is not hostile, it talks as that NPC, with the NPC's name, portrait and topics (XD-17's Lacey and Stumpy, Felix, Corak). Keep it peaceful and out of the count; `immobile` keeps a standing figure in its place. Default 0: no NPC.",
+            "type": "integer",
+            "minimum": 0,
+            "x-unit": "index"
           },
           "carries": {
             "description": "An item the monster carries (an item id or a name of items.txt or of project.yml items): the game leaves it in the corpse, or drops it where the monster dies when its kind leaves no corpse (the Temple of the Moon's captain and his longbow: carries: 845). The actor record's carried item, as the shipped maps have it.",
@@ -2038,6 +2317,7 @@
               "at",
               "offset",
               "floor_height",
+              "above_floor",
               "facing",
               "inside"
             ]
@@ -2048,6 +2328,7 @@
               "hostile",
               "group",
               "immobile",
+              "leash",
               "hidden"
             ]
           ],
@@ -2194,6 +2475,10 @@
             "type": "number",
             "x-unit": "map"
           },
+          "hidden": {
+            "description": "true: the decoration is not there when the map starts (the map's invisible flag): not drawn, not solid, its light dark, until an event shows it with `show: <its id>` (and `hide: <its id>` takes it away again). A decoration shown by an event: a fallen roof's heaps after a fire, a ladder let down. Default false.",
+            "type": "boolean"
+          },
           "hangs": {
             "description": "true: the decoration hangs (from a chain, a hook, a rope) and needs nothing under it, though its kind does not say so (a bucket on a rope). Default false. A decoration that hangs from the roof by its kind (a cage or a chandelier whose dungeon model swings, or whose hint says hanging cage, chandelier, noose, stalactite; a standing cage such as `bonecage` stands) is hung by the build with its top (its model's height) 2 into the ceiling when it has no `height`; with one, its top must come within 8 of the ceiling or of a block's underside over it (the build warns of one that hangs from nothing).",
             "type": "boolean"
@@ -2315,7 +2600,7 @@
       "x-key": "id"
     },
     "exits": {
-      "description": "Clickable ways out of the map, on a wall. Each leads to a project.yml neighbour.",
+      "description": "Clickable ways out of the map, on a wall. Each leads to a project.yml neighbour. The game asks \"leave?\" only when the party leaves a dungeon (BLV) for an outdoor map; from an outdoor map the move is immediate (D-72).",
       "type": "array",
       "x-sort": "id",
       "items": {
@@ -2612,6 +2897,52 @@
             "x-unit": "none",
             "x-geom": false
           },
+          "fog": {
+            "description": "The view's fog while the eye is under this water (the scene's water-volume `fog`, devdocs/INDOOR_FOG.md: a colour and near and far distances, `sky`), checked by the game's parser. Without it the map's own fog.",
+            "type": "object",
+            "x-flow": true,
+            "required": [
+              "color_rgb",
+              "near_distance",
+              "far_distance"
+            ],
+            "additionalProperties": false,
+            "properties": {
+              "color_rgb": {
+                "description": "The fog's colour, [red, green, blue] 0 to 255.",
+                "type": "array",
+                "items": {
+                  "type": "number",
+                  "minimum": 0,
+                  "maximum": 255
+                },
+                "minItems": 3,
+                "maxItems": 3,
+                "x-flow": true,
+                "x-unit": "none",
+                "x-geom": false
+              },
+              "near_distance": {
+                "description": "Where the fog starts.",
+                "type": "number",
+                "minimum": 0,
+                "x-unit": "map"
+              },
+              "far_distance": {
+                "description": "Where the fog is full.",
+                "type": "number",
+                "minimum": 0,
+                "x-unit": "map"
+              },
+              "sky": {
+                "description": "0 to 1: the share of an open sky drawn in the fog's colour.",
+                "type": "number",
+                "minimum": 0,
+                "maximum": 1,
+                "x-unit": "ratio"
+              }
+            }
+          },
           "notes": {
             "$ref": "common.schema.json#/$defs/notes"
           }
@@ -2851,6 +3182,10 @@
                 "description": "Heard only outside the world's day hours.",
                 "type": "boolean"
               },
+              "pan": {
+                "description": "false: heard centred, its distance falloff kept, not from one side (a bed under the whole map, a sound overhead; D-48). Default true. A world whose rules say pan: false (MM9) plays every sound centred.",
+                "type": "boolean"
+              },
               "notes": {
                 "$ref": "common.schema.json#/$defs/notes"
               }
@@ -2881,7 +3216,8 @@
                   "wait",
                   "on",
                   "day_only",
-                  "night_only"
+                  "night_only",
+                  "pan"
                 ]
               ]
             ]
@@ -3200,6 +3536,52 @@
                 "x-unit": "none",
                 "x-geom": false
               },
+              "fog": {
+                "description": "The view's fog while the eye is under this water (the scene's water-volume `fog`, devdocs/INDOOR_FOG.md: a colour and near and far distances, `sky`), checked by the game's parser. Without it the map's own fog.",
+                "type": "object",
+                "x-flow": true,
+                "required": [
+                  "color_rgb",
+                  "near_distance",
+                  "far_distance"
+                ],
+                "additionalProperties": false,
+                "properties": {
+                  "color_rgb": {
+                    "description": "The fog's colour, [red, green, blue] 0 to 255.",
+                    "type": "array",
+                    "items": {
+                      "type": "number",
+                      "minimum": 0,
+                      "maximum": 255
+                    },
+                    "minItems": 3,
+                    "maxItems": 3,
+                    "x-flow": true,
+                    "x-unit": "none",
+                    "x-geom": false
+                  },
+                  "near_distance": {
+                    "description": "Where the fog starts.",
+                    "type": "number",
+                    "minimum": 0,
+                    "x-unit": "map"
+                  },
+                  "far_distance": {
+                    "description": "Where the fog is full.",
+                    "type": "number",
+                    "minimum": 0,
+                    "x-unit": "map"
+                  },
+                  "sky": {
+                    "description": "0 to 1: the share of an open sky drawn in the fog's colour.",
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1,
+                    "x-unit": "ratio"
+                  }
+                }
+              },
               "notes": {
                 "$ref": "common.schema.json#/$defs/notes"
               }
@@ -3417,9 +3799,22 @@
                 "description": "true: the monster keeps its place: it neither wanders while it has nothing to fight nor walks after the party, and fights from where it stands (a guard at his post). Default false: it moves as its kind does.",
                 "type": "boolean"
               },
+              "leash": {
+                "description": "A home radius in game units (the scene's leash_radius): the monster holds its place and fights within this distance of where it was placed, walking, flying or swimming back when nothing is in reach (D7's Megadragon on its roost). Not with `immobile`. 0 or left out: none.",
+                "type": "number",
+                "minimum": 0,
+                "maximum": 32768,
+                "x-unit": "map"
+              },
               "hidden": {
                 "description": "true: the monster starts invisible (the actor record's Invisible bit, as the Lincoln's droids): it is neither drawn nor acts until a wiring effect shows its group ({show_actors: <group>}; {hide_actors: <group>} hides it again). Needs `group`; the build warns when no event shows the group. Default false.",
                 "type": "boolean"
+              },
+              "npc": {
+                "description": "An NPC of the world's npc table the monster is (the scene actor's npc_id): clicked while it is not hostile, it talks as that NPC. Default 0: no NPC.",
+                "type": "integer",
+                "minimum": 0,
+                "x-unit": "index"
               },
               "carries": {
                 "description": "An item the monster carries (an item id or a name of items.txt or of project.yml items): the game leaves it in the corpse, or drops it where the monster dies when its kind leaves no corpse (the Temple of the Moon's captain and his longbow: carries: 845). The actor record's carried item, as the shipped maps have it.",
@@ -3461,6 +3856,7 @@
                   "hostile",
                   "group",
                   "immobile",
+                  "leash",
                   "hidden"
                 ]
               ],
@@ -3701,8 +4097,58 @@
                 "x-unit": "none",
                 "x-geom": false
               },
+              "fog": {
+                "description": "The view's fog while the eye is under this water (the scene's water-volume `fog`, devdocs/INDOOR_FOG.md: a colour and near and far distances, `sky`), checked by the game's parser. Without it the map's own fog.",
+                "type": "object",
+                "x-flow": true,
+                "required": [
+                  "color_rgb",
+                  "near_distance",
+                  "far_distance"
+                ],
+                "additionalProperties": false,
+                "properties": {
+                  "color_rgb": {
+                    "description": "The fog's colour, [red, green, blue] 0 to 255.",
+                    "type": "array",
+                    "items": {
+                      "type": "number",
+                      "minimum": 0,
+                      "maximum": 255
+                    },
+                    "minItems": 3,
+                    "maxItems": 3,
+                    "x-flow": true,
+                    "x-unit": "none",
+                    "x-geom": false
+                  },
+                  "near_distance": {
+                    "description": "Where the fog starts.",
+                    "type": "number",
+                    "minimum": 0,
+                    "x-unit": "map"
+                  },
+                  "far_distance": {
+                    "description": "Where the fog is full.",
+                    "type": "number",
+                    "minimum": 0,
+                    "x-unit": "map"
+                  },
+                  "sky": {
+                    "description": "0 to 1: the share of an open sky drawn in the fog's colour.",
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1,
+                    "x-unit": "ratio"
+                  }
+                }
+              },
               "notes": {
                 "$ref": "common.schema.json#/$defs/notes"
+              },
+              "pan": {
+                "description": "A sound: whether it pans (false: centred, with its falloff; D-48).",
+                "type": "boolean"
               },
               "sound_radius": {
                 "description": "A sound's new hearing distance (its `radius`).",
@@ -3777,7 +4223,8 @@
                   "inner_radius",
                   "volume",
                   "loop",
-                  "wait"
+                  "wait",
+                  "pan"
                 ]
               ],
               [

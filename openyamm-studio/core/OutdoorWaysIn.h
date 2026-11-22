@@ -30,9 +30,13 @@ struct OutdoorCavePlan
     std::string id;
     // structures[i], for messages.
     std::string path;
-    // cave_mouth or hatch; a hatch's form: wedge or pit.
+    // cave_mouth or hatch; a hatch's form: wedge or pit; a cave mouth's (D-91): empty (a way in), shelter (a
+    // shallow open overhang, its rock back and floor seen from the approach) or blocked (rubble fills the mouth at
+    // its face).
     std::string kind;
     std::string form;
+    // The sketch gives it a way in (`into`).
+    bool leadsIn = false;
     // The footprint's middle in world units and its turn (degrees clockwise; 0: the mouth looks south).
     double x = 0.0;
     double y = 0.0;
@@ -80,16 +84,21 @@ struct OutdoorCavePlan
     std::string doorTexture;
 };
 
-// The sketch's cave mouths and hatches, checked. Messages go to `issues`.
+// The sketch's cave mouths and hatches, checked. Messages go to `issues`. A cave mouth with no `into` must say its
+// `form` (shelter or blocked; D-91): the dark mouth that leads nowhere is refused only by the audit
+// (`caves.blind_mouth`), the build warns.
 std::vector<OutdoorCavePlan> readOutdoorCaves(
     const Project &project,
     const std::string &world,
     std::vector<ProjectIssue> &issues);
 
 // Sets the land under each: the floor under the mouth and the front, the back row to the crest, the nodes under the
-// shell below it (a free mound and a hatch's pit: level at the floor). `ground` per node (index y * 128 + x), map
-// units; `waterNode` the water's level, NaN where dry. Sets each plan's floor. Warns where the land behind a mouth
-// lies lower than its crest.
+// shell below it (a free mound and a hatch's pit: level at the floor). A cave mouth into a hill (F8): a hill over
+// its side edges stays, and the nodes on and one cell beyond its sides and back rise to the shell near them (as far
+// as the land in its mouth stays within 32 of the floor), so a hill covers the shell and only the front lies at the
+// floor. `ground` per node (index y * 128 + x), map units; `waterNode` the water's level, NaN where dry. Sets each
+// plan's floor. Warns (`caves.wings`, `caves.dome`) where the shell stands more than 64 over the land beside it or
+// behind it, and (`caves.blind_mouth`) for a dark mouth with no way in.
 void shapeOutdoorCaveLand(
     std::vector<OutdoorCavePlan> &caves,
     std::vector<double> &ground,

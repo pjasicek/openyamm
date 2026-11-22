@@ -65,5 +65,8 @@ int hiredNpcResistanceBonus(std::span<const HiredNpcFollower> followers, const s
 // pParty: MM9's Edina A'Mor adds 20 % to found gold (Party::mm9HirelingPassives); nullptr without a party.
 FoundGold resolveFoundGold(uint32_t goldAmount, const EventRuntimeState *pEventRuntimeState, const Party *pParty);
 std::string foundGoldStatusText(const FoundGold &foundGold);
+// Gives a party the gold it found. In a co-op session found gold is everyone's: every other player's party gets the
+// same amount (EventRuntimeState::coopParties, empty in a game of one party).
+void creditFoundGold(Party &finder, int partyAmount, GoldReason reason, const EventRuntimeState *pEventRuntimeState);
 bool hiredNpcCanRepairItemKind(std::span<const HiredNpcFollower> followers, const std::string &equipStat);
 }

@@ -2862,6 +2862,21 @@ OutdoorMoveState OutdoorMovementController::resolveMoveForBody(
         }
     }
 
+    if (!landedThisFrame
+        && finalFloor.hasFloor
+        && state.airborne
+        && partyInputSpeed.z <= 0.0f
+        && partyNewPosition.z <= finalGroundLevel + GroundSnapHeight)
+    {
+        // A falling step that ends within the snap height above the ground is no longer airborne (below), so it
+        // lands here; otherwise the fall ended without its landing and its damage, depending only on where the
+        // last step stopped (1 in about 11 falls of the same height).
+        landedThisFrame = true;
+        fallDistance = std::max(0.0f, fallStartZ - finalGroundLevel);
+        partyNewPosition.z = finalGroundLevel;
+        partyInputSpeed.z = 0.0f;
+    }
+
     OutdoorMoveState result = {};
     float clampedX = partyNewPosition.x;
     float clampedY = partyNewPosition.y;

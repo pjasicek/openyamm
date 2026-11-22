@@ -361,13 +361,13 @@ TEST_CASE("MAW promotions follow the quest bits of every world")
     const MawClassRules &classRules = static_cast<const MawClassRules &>(rules.gameRules().classes);
 
     // A Seraphim's mid step comes from the first-tier bits of the Cleric line.
-    party.setQuestBit(1607, true);
+    party.campaign().setQuestBit(1607, true);
     classRules.updatePromotions(party);
     CHECK_EQ(party.members()[0].className, "Cleric");
     CHECK_EQ(party.members()[1].className, "Angel");
 
     // The Cleric kind's promotion on one world makes both final, one of the Cleric's two final classes.
-    party.setQuestBit(1609, true);
+    party.campaign().setQuestBit(1609, true);
     classRules.updatePromotions(party);
     const std::string cleric = party.members()[0].className;
     CHECK((cleric == "PriestLight" || cleric == "PriestDark"));
@@ -375,7 +375,7 @@ TEST_CASE("MAW promotions follow the quest bits of every world")
     CHECK_EQ(rules.promotionWorlds(2), 1);
 
     // The pick is fixed per character; a second world makes the final classes Elder.
-    party.setQuestBit(1546, true);
+    party.campaign().setQuestBit(1546, true);
     classRules.updatePromotions(party);
     CHECK_EQ(party.members()[0].className, cleric);
     CHECK_EQ(rules.promotionWorlds(2), 2);
@@ -409,12 +409,12 @@ TEST_CASE("MAW counts Chedian's promotion quests as a fourth world")
     const MawClassRules &classRules = static_cast<const MawClassRules &>(rules.gameRules().classes);
 
     // MM9's Healer quest (key 213) is the Seraphim's first step, as MM6's and MM7's first tiers are.
-    party.setQuestBit(90213, true);
+    party.campaign().setQuestBit(90213, true);
     classRules.updatePromotions(party);
     CHECK_EQ(party.members()[1].className, "Angel");
 
     // MM9's Priest quest (key 261) is the Cleric kind's promotion on Chedian: both lines final, one world.
-    party.setQuestBit(90261, true);
+    party.campaign().setQuestBit(90261, true);
     classRules.updatePromotions(party);
     CHECK_EQ(party.members()[0].className, "PriestLight");
     CHECK_EQ(party.members()[1].className, "Archangel");
@@ -429,7 +429,7 @@ TEST_CASE("MAW counts Chedian's promotion quests as a fourth world")
     priest.manaPerLevel = 4;
     for (uint32_t bit : {1649u, 1609u})
     {
-        party.setQuestBit(bit, true);
+        party.campaign().setQuestBit(bit, true);
     }
     classRules.updatePromotions(party);
     const auto perLevel = [&classRules, &priest]()
@@ -441,9 +441,75 @@ TEST_CASE("MAW counts Chedian's promotion quests as a fourth world")
     };
     CHECK_EQ(rules.promotionWorlds(2), 3);
     CHECK_EQ(perLevel(), 6);
-    party.setQuestBit(1546, true);
+    party.campaign().setQuestBit(1546, true);
     classRules.updatePromotions(party);
     CHECK_EQ(rules.promotionWorlds(2), 4);
+    CHECK_EQ(perLevel(), 7);
+}
+
+TEST_CASE("MAW counts Xeen's promotion quests as a fifth world, Supreme from any four")
+{
+    MawPromotionData promotions;
+    std::string error;
+    REQUIRE_MESSAGE(promotions.loadFromYaml("kinds:\n"
+                                            "  2: {mm6: [1649], mm7: [1609], mm8: 1546, mm8_award: 31, mm9: [90261], "
+                                            "xeen: [113127, 113462]}\n"
+                                            "  17: {mm6: [1649], mm7: [1609], mm8: 1546, mm8_award: 31, mm9: [90261], "
+                                            "xeen: [113127, 113462], mid: [1647, 1607, 90213, 112201]}\n",
+                        error),
+        error);
+    MawRules rules(RulesetOptions{}, MawMapLevels{}, MawItemData{}, promotions);
+    ClassSkillTable classes;
+    REQUIRE(classes.loadClassMetadataFromRows({{"#", "Kind", "Step", "Note"}, {"4", "2", "0", "Cleric"},
+        {"5", "2", "1", "Priest"}, {"6", "2", "2", "Priest of the Light"}, {"53", "17", "0", "Seraphim"},
+        {"54", "17", "1", "Angel"}, {"55", "17", "2", "Archangel"}}));
+    PartySeed seed;
+    seed.members = {member("Cleric", 5), member("Seraphim", 5)};
+    Party party;
+    party.seed(seed);
+    party.setClassSkillTable(&classes);
+    const MawClassRules &classRules = static_cast<const MawClassRules &>(rules.gameRules().classes);
+
+    // Xeen's Seasons Relay (T1-C, q-c10.done) is the Seraphim's first step.
+    party.campaign().setQuestBit(112201, true);
+    classRules.updatePromotions(party);
+    CHECK_EQ(party.members()[0].className, "Cleric");
+    CHECK_EQ(party.members()[1].className, "Angel");
+
+    // Sandro's Heart (Priest of the Dark, q-d23.released) is the Cleric kind's promotion on Xeen: one world.
+    party.campaign().setQuestBit(113462, true);
+    classRules.updatePromotions(party);
+    CHECK_EQ(party.members()[0].className, "PriestLight");
+    CHECK_EQ(party.members()[1].className, "Archangel");
+    CHECK_EQ(rules.promotionWorlds(2), 1);
+
+    ClassMultiplierEntry priest = {};
+    priest.className = "PriestLight";
+    priest.classKind = 2;
+    priest.promotionStep = 2;
+    priest.healthPerLevel = 4;
+    priest.manaPerLevel = 4;
+    const auto perLevel = [&classRules, &priest]()
+    {
+        Character probe = member("PriestLight", 10);
+        const int at10 = *classRules.baseMaxHealth(probe, priest);
+        probe.level = 11;
+        return *classRules.baseMaxHealth(probe, priest) - at10;
+    };
+
+    // Any four of the five worlds make Supreme (x1.75): MM6, MM7, MM9 and Xeen without MM8.
+    for (uint32_t bit : {1649u, 1609u, 90261u})
+    {
+        party.campaign().setQuestBit(bit, true);
+    }
+    classRules.updatePromotions(party);
+    CHECK_EQ(rules.promotionWorlds(2), 4);
+    CHECK_EQ(perLevel(), 7);
+
+    // The fifth adds nothing: the factor stays x1.75.
+    party.campaign().setQuestBit(1546, true);
+    classRules.updatePromotions(party);
+    CHECK_EQ(rules.promotionWorlds(2), 5);
     CHECK_EQ(perLevel(), 7);
 }
 
@@ -619,7 +685,7 @@ TEST_CASE("MAW's Vampiric Aura and Fire Aura show on every member while held")
 
     // Empower Magic has no buff slot: the rules list it while it is held.
     CHECK(spells.heldAurasWithoutBuffSlot(party).empty());
-    rules.state().auraHolders[28] = 0;
+    party.rulesetState().auraHolders[28] = 0;
     CHECK_EQ(spells.heldAurasWithoutBuffSlot(party), std::vector<uint32_t>{28});
     CHECK(standardGameRules().spells.heldAurasWithoutBuffSlot(party).empty());
 }

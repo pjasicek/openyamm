@@ -394,6 +394,24 @@ FoundGold resolveFoundGold(uint32_t goldAmount, const EventRuntimeState *pEventR
     return foundGold;
 }
 
+void creditFoundGold(Party &finder, int partyAmount, GoldReason reason, const EventRuntimeState *pEventRuntimeState)
+{
+    finder.addGold(partyAmount, reason);
+
+    if (pEventRuntimeState == nullptr)
+    {
+        return;
+    }
+
+    for (Party *pOtherParty : pEventRuntimeState->coopParties)
+    {
+        if (pOtherParty != &finder)
+        {
+            pOtherParty->addGold(partyAmount, reason);
+        }
+    }
+}
+
 std::string foundGoldStatusText(const FoundGold &foundGold)
 {
     if (foundGold.followerShare > 0)

@@ -26,6 +26,9 @@ enum class CombatLogKind : uint8_t
     // A drop the loot filter turned into gold ("Filtered: Uncommon Longsword -> 312 gold"): `target` is the item,
     // `rarity` and `rarityColor` its rarity, `amount` the gold.
     Loot,
+    // A line a player of a co-op session said: `attacker` is who, `target` what. Kept whether or not the log
+    // records, so that nothing said is missed.
+    Chat,
 };
 
 // One logged hit, in the parts the panel words and colours (the study's "Gerrard shoots Goblin for 58 damage").

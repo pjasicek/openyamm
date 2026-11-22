@@ -437,6 +437,11 @@ void DebugConsole::setCommandObserver(CommandObserver observer)
     m_commandObserver = std::move(observer);
 }
 
+void DebugConsole::setCommandGate(CommandGate gate)
+{
+    m_commandGate = std::move(gate);
+}
+
 bool DebugConsole::dispatchCommand(const std::string &commandLine, bool reportSuccess)
 {
     const std::vector<std::string> tokens = tokenize(commandLine);
@@ -456,6 +461,17 @@ bool DebugConsole::dispatchCommand(const std::string &commandLine, bool reportSu
 
     CommandContext context = {};
     context.args.assign(tokens.begin() + 1, tokens.end());
+
+    // What the game does not let this console do now (a co-op guest's console and the host's world).
+    if (m_commandGate)
+    {
+        if (const std::optional<std::string> refusal = m_commandGate(commandIt->second, context.args))
+        {
+            addMessage(MessageKind::Error, *refusal);
+            return false;
+        }
+    }
+
     const CommandResult result = commandIt->second.callback(context);
 
     const CommandDefinition &command = commandIt->second;

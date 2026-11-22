@@ -989,7 +989,7 @@ int luaSelfQBit(lua_State *pLuaState)
     const ActorBehaviorRuntime::LuaCallContext &context = callContext(pLuaState);
     const lua_Integer qbit = luaL_checkinteger(pLuaState, 2);
     lua_pushboolean(pLuaState,
-        context.pParty != nullptr && qbit > 0 && context.pParty->hasQuestBit(uint32_t(qbit)) ? 1 : 0);
+        context.pParty != nullptr && qbit > 0 && context.pParty->campaign().hasQuestBit(uint32_t(qbit)) ? 1 : 0);
     return 1;
 }
 
@@ -1549,6 +1549,7 @@ ActorBehaviorFrameFacts ActorBehaviorRuntime::collectFrameFacts(
         actor.dead = state.isDead || (state.maxHp > 0 && state.currentHp <= 0);
         actor.hostileToParty = state.hostileToParty;
         actor.position = {state.preciseX, state.preciseY, state.preciseZ};
+        actor.partyPosition = world.actorPartyFeet(actorIndex);
         actor.height = static_cast<float>(state.bodyHeight > 0 ? state.bodyHeight : state.height);
         actor.animationState = state.animationState;
         actor.yawRadians = state.yawRadians;
@@ -1709,8 +1710,9 @@ void ActorBehaviorRuntime::applyFrameResult(IGameplayWorldRuntime &world, const 
                     break;
                 }
 
-                const float dx = (party ? world.partyX() : target.preciseX) - source.preciseX;
-                const float dy = (party ? world.partyY() : target.preciseY) - source.preciseY;
+                const GameplayWorldPoint partyFeet = world.actorPartyFeet(command.actorIndex);
+                const float dx = (party ? partyFeet.x : target.preciseX) - source.preciseX;
+                const float dy = (party ? partyFeet.y : target.preciseY) - source.preciseY;
                 const float length = std::sqrt(dx * dx + dy * dy);
 
                 if (length <= 0.001f)
@@ -1970,6 +1972,14 @@ void ActorBehaviorRuntime::applyMm9Script(InstanceRecord &record, ActorAiFacts &
     const bool party = mm9.targetKind == ActorAiTargetKind::Party;
     GameplayWorldPoint point = m_aiPartyPosition;
     float otherRadius = m_aiPartyRadius;
+
+    // The party it fights, which with several players need not be the local one.
+    if (actor.party)
+    {
+        point = {actor.party->position.x, actor.party->position.y,
+            actor.party->position.z + actor.party->collisionHeight * 0.5f};
+        otherRadius = actor.party->collisionRadius;
+    }
 
     for (const ActorBehaviorAiActorView &other : m_aiActors)
     {
@@ -2806,7 +2816,8 @@ bool ActorBehaviorRuntime::callPushedHandler(
     context.pState = &record.state;
     context.pActor = &actor;
     context.pResult = &result;
-    context.partyPosition = facts.partyPosition;
+    // The party this actor fights, which with several players need not be the local one.
+    context.partyPosition = actor.partyPosition;
     context.pParty = facts.pParty;
     context.pMm9 = &record.mm9;
     m_pActiveCall = &context;

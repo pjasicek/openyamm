@@ -59,7 +59,11 @@ std::string appendLuaGlobalScriptOverlays(
 
 std::vector<std::string> buildLuaSupportPathCandidates();
 
-std::vector<std::string> buildLuaWorldCommonPathCandidates(const std::string &worldId);
+// The common scripts of a map's world, all of its own folder (worlds/<world>/events/common/): world_common.lua and
+// common.lua, then <world>_common.lua, then its other <world>_*.lua by name (Xeen's generated xeen_quests.lua).
+std::vector<std::string> buildLuaWorldCommonPathCandidates(
+    const Engine::AssetFileSystem &assetFileSystem,
+    const std::string &worldId);
 
 std::string prependLuaSupport(
     const std::optional<std::string> &supportSource,

@@ -92,8 +92,16 @@ struct OpenedTarget
     std::filesystem::path previewFolder;
     std::map<int, std::string> sectorNames;
     CoplanarNames objectNames;
-    // A project's decorations (by entity number) that hang: `hangs: true` or on a wall (audit's thing.floating).
+    // A project's decorations (by entity number) that hang: `hangs: true` or on a wall (audit's thing.floating), and
+    // its storerooms (sectors of rooms with `store: true`); for an installed map from its <stem>.studio.yml.
     std::set<int> hangingDecorations;
+    std::set<int> storerooms;
+    // Door numbers of lifts that are trapdoors (objects.yml lifts[].trap), which the ride check leaves out.
+    std::set<int> trapDoors;
+    // project.yml identity.shape (D-89), for the cave-shape check.
+    std::string identityShape;
+    // D-91: the project's cave mouths that lead nowhere (DressingFacts::blindMouths).
+    std::vector<std::string> blindMouths;
 };
 
 bool openTarget(
@@ -702,6 +710,26 @@ bool openTarget(
             target = path.filename().string();
         }
 
+        // An installed map's <stem>.studio.yml (oymap install) carries what its project said of it.
+        const std::filesystem::path studioFile = (path.has_parent_path() ? path.parent_path()
+            : assetRoot / "worlds" / world / "maps") / (std::filesystem::path(target).stem().string() + ".studio.yml");
+
+        if (std::filesystem::is_regular_file(studioFile, error))
+        {
+            try
+            {
+                const DressingFacts facts = studioFileDressingFacts(YAML::LoadFile(studioFile.string()));
+                opened.hangingDecorations = facts.hanging;
+                opened.storerooms = facts.storerooms;
+                opened.trapDoors = facts.traps;
+                opened.identityShape = facts.identityShape;
+                opened.blindMouths = facts.blindMouths;
+            }
+            catch (const YAML::Exception &)
+            {
+            }
+        }
+
         return session.open(assetRoot, world, errorMessage);
     }
 
@@ -815,19 +843,12 @@ bool openTarget(
                 }
             }
 
-            const YAML::Node decorationNumbers = built.document("ids.lock.yml")["decorations"];
-
-            for (const YAML::Node &decoration : built.document("objects.yml")["decorations"])
-            {
-                const std::string id = decoration["id"] ? decoration["id"].Scalar() : std::string();
-                const bool hangs = (decoration["hangs"] && decoration["hangs"].Scalar() == "true")
-                    || decoration["wall"].IsDefined();
-
-                if (hangs && decorationNumbers.IsMap() && decorationNumbers[id])
-                {
-                    opened.hangingDecorations.insert(decorationNumbers[id].as<int>());
-                }
-            }
+            const DressingFacts facts = projectDressingFacts(built);
+            opened.hangingDecorations = facts.hanging;
+            opened.storerooms = facts.storerooms;
+            opened.trapDoors = facts.traps;
+            opened.identityShape = facts.identityShape;
+            opened.blindMouths = facts.blindMouths;
         }
     }
 
@@ -975,6 +996,64 @@ struct AuditOutcome
     std::optional<SolveOutcome> solve;
 };
 
+// What the texture checks read of a map: the logical size of every texture its faces (and models' faces) lay, as the
+// game resolves it, and the engine's and the world's texture_classes.yml.
+TextureFitData textureFitDataOf(
+    const AssetSession &session, const std::filesystem::path &assetRoot, const LoadedMap &map)
+{
+    TextureFitData data;
+    Engine::DirectoryAssetPathCache directoryCache;
+    Engine::AssetPathLookupCache pathCache;
+    const auto add = [&](std::string name)
+    {
+        std::transform(name.begin(), name.end(), name.begin(),
+            [](unsigned char character) { return static_cast<char>(std::tolower(character)); });
+
+        if (name.empty() || data.sizes.contains(name))
+        {
+            return;
+        }
+
+        if (const std::optional<std::array<int, 2>> size =
+                Engine::findSurfaceTextureLogicalSize(session.files(), name, directoryCache, pathCache))
+        {
+            data.sizes[name] = *size;
+        }
+    };
+
+    if (map.indoor)
+    {
+        for (const Game::IndoorFace &face : map.indoor->faces)
+        {
+            add(face.textureName);
+        }
+    }
+
+    if (map.outdoor)
+    {
+        for (const Game::OutdoorBModel &model : map.outdoor->bmodels)
+        {
+            for (const Game::OutdoorBModelFace &face : model.faces)
+            {
+                add(face.textureName);
+            }
+        }
+    }
+
+    for (const std::filesystem::path &folder : {assetRoot / "engine" / "models",
+             assetRoot / "worlds" / map.world / "models"})
+    {
+        std::string text;
+
+        if (readTextFile(folder / "texture_classes.yml", text))
+        {
+            data.classTexts.push_back(text);
+        }
+    }
+
+    return data;
+}
+
 bool auditTarget(const AuditRequest &request, AuditOutcome &outcome, ReadFailure &failure)
 {
     const ReadMountScope mountScope(request.read.mount);
@@ -1094,10 +1173,75 @@ bool auditTarget(const AuditRequest &request, AuditOutcome &outcome, ReadFailure
     findings.insert(findings.end(), coplanarFindings.begin(), coplanarFindings.end());
     const std::vector<AuditFinding> eyeFindings = auditEyeSectors(map);
     findings.insert(findings.end(), eyeFindings.begin(), eyeFindings.end());
+    // The engine's decoration rows and the world's own (its decorations range).
     std::string decorationTable;
-    readTextFile(assetRoot / "engine" / "data_tables" / "decoration_data.txt", decorationTable);
+    readWorldTable(assetRoot, map.world, "decoration_data.txt", "decorations", decorationTable);
     const std::vector<AuditFinding> lookFindings = auditLooks(map, decorationTable, opened.hangingDecorations);
     findings.insert(findings.end(), lookFindings.begin(), lookFindings.end());
+    // The dressing rules hold for the worlds built to them (decision D-7.2: Xeen); other maps on request.
+    if (request.dressing || map.world == "xeen")
+    {
+        // Outdoors, which cells are roads.
+        std::vector<uint8_t> cellKinds;
+
+        if (map.outdoor)
+        {
+            const std::optional<std::vector<Game::TerrainTileDescriptor>> tiles =
+                Game::loadTerrainTileDescriptors(session.files(), *map.outdoor);
+
+            if (tiles)
+            {
+                cellKinds = outdoorCellKinds(*map.outdoor, *tiles);
+            }
+        }
+
+        const std::vector<AuditFinding> dressingFindings =
+            auditDressing(map, decorationTable, opened.hangingDecorations, opened.storerooms, cellKinds);
+        findings.insert(findings.end(), dressingFindings.begin(), dressingFindings.end());
+    }
+
+    // The light fixtures' mounts, as the dressing: Xeen's maps by default, others on request.
+    if (map.indoor && (request.lights || request.lightsMeasure || map.world == "xeen"))
+    {
+        LightFixtureData lightData;
+        lightData.decorationTableText = decorationTable;
+
+        for (const std::filesystem::path &folder : {assetRoot / "engine" / "models",
+                 assetRoot / "worlds" / map.world / "models"})
+        {
+            std::string text;
+
+            if (readTextFile(folder / "indoor_decorations.yml", text))
+            {
+                lightData.bindingTexts.push_back(text);
+            }
+
+            if (readTextFile(folder / "light_fixtures.yml", text))
+            {
+                lightData.fixtureTexts.push_back(text);
+            }
+        }
+
+        const std::vector<AuditFinding> lightFindings =
+            auditLightFixtures(map, lightData, opened.hangingDecorations, request.lightsMeasure);
+        findings.insert(findings.end(), lightFindings.begin(), lightFindings.end());
+    }
+
+    // The door leaves' pictures, as the lights.
+    if (request.doors || request.doorsMeasure || map.world == "xeen")
+    {
+        const TextureFitData textureData = textureFitDataOf(session, assetRoot, map);
+        const std::vector<AuditFinding> doorFindings = auditDoorTextures(map, textureData, request.doorsMeasure);
+        findings.insert(findings.end(), doorFindings.begin(), doorFindings.end());
+    }
+
+    // The pictures' fit, as the doors.
+    if (request.textures || request.texturesMeasure || map.world == "xeen")
+    {
+        const TextureFitData textureData = textureFitDataOf(session, assetRoot, map);
+        const std::vector<AuditFinding> fitFindings = auditTextureFit(map, textureData, request.texturesMeasure);
+        findings.insert(findings.end(), fitFindings.begin(), fitFindings.end());
+    }
     ReachabilityResult &reach = outcome.reach;
     std::string flowJson;
     std::string flowError;
@@ -1143,8 +1287,25 @@ bool auditTarget(const AuditRequest &request, AuditOutcome &outcome, ReadFailure
     findings.insert(findings.end(), questionFindings.begin(), questionFindings.end());
     const std::vector<AuditFinding> silentFindings = auditSilentClicks(map, flowRead ? flowJson : std::string());
     findings.insert(findings.end(), silentFindings.begin(), silentFindings.end());
+
+    // The standard entrance window into a dungeon (F16): the maps built to it (Xeen's), others on request.
+    if (request.dressing || map.world == "xeen")
+    {
+        const std::vector<AuditFinding> entranceFindings = auditEntranceWindows(map);
+        findings.insert(findings.end(), entranceFindings.begin(), entranceFindings.end());
+        // What props and chests stand on and the chests' looks, as the dressing (they need what the things do).
+        const std::vector<AuditFinding> supportFindings = auditPropSupport(
+            map, decorationTable, flowRead ? flowJson : std::string(), opened.hangingDecorations);
+        findings.insert(findings.end(), supportFindings.begin(), supportFindings.end());
+    }
+
+    // A cave or a mine shaped as one (D-89).
+    const std::vector<AuditFinding> caveFindings = auditCaveShape(map, opened.identityShape);
+    findings.insert(findings.end(), caveFindings.begin(), caveFindings.end());
+    const std::vector<AuditFinding> mouthFindings = auditBlindMouths(opened.blindMouths);
+    findings.insert(findings.end(), mouthFindings.begin(), mouthFindings.end());
     const std::vector<AuditFinding> rideFindings =
-        auditRides(map, flowRead ? flowJson : std::string(), opened.objectNames);
+        auditRides(map, flowRead ? flowJson : std::string(), opened.objectNames, opened.trapDoors);
     findings.insert(findings.end(), rideFindings.begin(), rideFindings.end());
     const std::vector<AuditFinding> reachFindings = reachabilityFindings(reach);
     findings.insert(findings.end(), reachFindings.begin(), reachFindings.end());
@@ -1725,16 +1886,34 @@ int runAudit(const std::vector<std::string> &rawArguments)
     request.solve = takeFlag(arguments, "--solve");
     // Faces in one plane that the original does not have at the same place fail the audit.
     request.strict = takeFlag(arguments, "--strict");
+    // The props' dressing rules on a map of any world (they hold by default for Xeen's).
+    request.dressing = takeFlag(arguments, "--dressing");
+    // The light fixtures' mounts on a map of any world (they hold by default for Xeen's); --lights-measure also prints
+    // each fixture's numbers.
+    request.lights = takeFlag(arguments, "--lights");
+    request.lightsMeasure = takeFlag(arguments, "--lights-measure");
+    // The door leaves' pictures likewise; --doors-measure also prints each leaf's numbers.
+    request.doors = takeFlag(arguments, "--doors");
+    request.doorsMeasure = takeFlag(arguments, "--doors-measure");
+    // The pictures' fit likewise; --textures-measure also prints each surface's numbers and each pair of neighbours.
+    request.textures = takeFlag(arguments, "--textures");
+    request.texturesMeasure = takeFlag(arguments, "--textures-measure");
     takeOption(arguments, "--original", request.original);
     request.read.assetRoot = takeAssetRoot(arguments);
 
     if (!takeWorld(arguments, request.read.world) || arguments.size() != 1 || request.read.assetRoot.empty())
     {
         std::cerr << "usage: oymap audit <map file> --world <world> | <project> --assets <root> [--reach] [--solve] "
-                     "[--json] [--original <map>] [--strict]\n"
+                     "[--json] [--original <map>] [--strict] [--dressing] [--lights] [--lights-measure] [--doors]\n"
+                     "       [--doors-measure] [--textures] [--textures-measure]\n"
                      "  faces in one plane (geometry.coplanar) are matched against the original's at the same place:\n"
                      "  --original names it (a project's map_stats.reference or its base without it); --strict makes\n"
-                     "  every pair the original does not have an error, so the audit exits 1\n";
+                     "  every pair the original does not have an error, so the audit exits 1; --dressing checks the\n"
+                     "  props' dressing rules (devdocs/xeen/formats/DRESSING.md) on a map of any world, not only Xeen's;\n"
+                     "  --lights the light fixtures' mounts (devdocs/xeen/formats/LIGHTS.md) likewise, --lights-measure\n"
+                     "  with each fixture's numbers; --doors the door leaves' pictures (devdocs/xeen/formats/DOORS.md)\n"
+                     "  likewise, --doors-measure with each leaf's numbers; --textures the pictures' fit\n"
+                     "  (devdocs/xeen/formats/TEXTURE_FIT.md) likewise, --textures-measure with each surface's numbers\n";
         return 2;
     }
 

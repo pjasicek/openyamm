@@ -299,6 +299,10 @@ struct OutdoorPartPlan
     std::map<std::string, std::string> textures;
     // Textures of the part that are liquids (`textures.<role>: {texture, liquid, flow}`): their face bits.
     std::map<std::string, uint32_t> liquids;
+    // Roles laid once per bay (`textures.<role>: {texture, fit: true, size: [w, h]}`): the picture's size in texels,
+    // stretched once over each bay of the lowest row (a window bay wider than the picture shows it once, not 1.5
+    // times); the rows above lay such a bay as plain wall unless `upper_walls` names the role.
+    std::map<std::string, std::array<double, 2>> fitted;
     // What this part says when looked at, when it has a name of its own (a shop of a joined block); empty: the
     // building's.
     std::string title;
@@ -324,10 +328,12 @@ struct OutdoorDoorPlan
     std::string toMap;
     int arrival[3] = {0, 0, 0};
     int arrivalFacing = 0;
-    // The transition screen of `into.screen`: the house row whose "Enter ...?" text it shows and the picture; 0, 0
-    // for none.
-    int screenHouse = 0;
-    int screenPicture = 0;
+    // `into.arrival`: a named arrival of that map (D-4), which the build looks up in its <stem>.studio.yml; empty for
+    // `at` or the map's start. `arrivalFacingGiven`: `into.facing` was given, and wins over the arrival's.
+    std::string arrivalName;
+    bool arrivalFacingGiven = false;
+    // The entrance window of `into.screen` (readMoveScreen): the standard window into a dungeon unless `none`.
+    MoveScreen screen;
     // What the door says when looked at.
     std::string title;
     // `step`: a slab before the door, this deep and high, reaching `stepOverhang` past the door at each side; 0
@@ -352,8 +358,13 @@ struct OutdoorDoorPlan
     // or pointed, `archSides` segments; empty: square.
     std::string arch;
     int archSides = 6;
-    // Two leaves side by side, the second the first's picture mirrored; 1: one.
+    // Two leaves side by side, the second the first's picture mirrored; 1: one. `leavesGiven`: the sketch said
+    // `leaves`; else a door whose picture is one wing of a double door (the texture classes) becomes a pair (F2).
     int leaves = 1;
+    bool leavesGiven = false;
+    // Each leaf of a pair shows its picture once at this many texels across (the picture's own width, from the
+    // texture classes: a 256-wide `egydrlgl` or `swdoora` whole on each leaf); 0: 128, a wing's width.
+    double pictureWidth = 0.0;
     // A hood over the door: a slab at the door's top reaching this far out, on a cheek at each side; 0: none.
     double hood = 0.0;
     // Nested frames round the door: `frameSteps` rings, each `frameStep` wider and standing `frameStep` / 2 further
@@ -430,13 +441,36 @@ struct OutdoorBuildingPlan
     std::vector<std::string> faceParts;
 };
 
+// What the texture classes say of a door picture (texture_classes.yml, written by tools/xeen/texture_classes.py;
+// devdocs/xeen/formats/DOORS.md): its door role, its size in texels and a wing's twin.
+struct OutdoorDoorPicture
+{
+    // single, wing, pair or tile.
+    std::string door;
+    std::array<int, 2> size = {0, 0};
+    // The other wing of a double door (`twin`); empty: none known.
+    std::string twin;
+};
+
+// By texture name in lower case; only the pictures with a door role.
+using OutdoorDoorPictures = std::map<std::string, OutdoorDoorPicture>;
+
+// The door pictures of texture_classes.yml texts (the engine's first, then the world's: a later row wins).
+OutdoorDoorPictures parseOutdoorDoorPictures(const std::vector<std::string> &texts);
+
+// The door pictures of an asset root: engine/models/texture_classes.yml and worlds/<world>/models/'s. Empty without.
+OutdoorDoorPictures readOutdoorDoorPictures(const std::filesystem::path &assetRoot, const std::string &world);
+
 // The sketch's plots as buildings to raise, in the sketch's order. Plots with `form: none` and buildings without a
-// footprint in the plan are left out. `world` chooses the textures and the roof a plot does not name.
+// footprint in the plan are left out. `world` chooses the textures and the roof a plot does not name. With
+// `pDoorPictures` (the build's asset root's texture classes) a door whose picture is a wing becomes a double door and
+// each leaf of a pair shows its picture at its own width (F2, D-91).
 std::vector<OutdoorBuildingPlan> readOutdoorBuildings(
     const Project &project,
     const std::string &world,
     std::vector<ProjectIssue> &issues,
-    std::vector<std::string> &warnings);
+    std::vector<std::string> &warnings,
+    const OutdoorDoorPictures *pDoorPictures = nullptr);
 
 // Where the bays of a wall of a part begin and end, as fractions of the wall from its left end (seen from outside):
 // one more than the bays of that row (`upper`: the rows above the lowest).

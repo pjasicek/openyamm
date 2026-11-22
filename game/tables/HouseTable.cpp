@@ -10,6 +10,7 @@
 
 #include <algorithm>
 #include <cctype>
+#include <charconv>
 #include <cstdlib>
 #include <iostream>
 #include <optional>
@@ -615,6 +616,11 @@ std::string destinationNameForTransportLocation(
     const MergedTransportLocationEntry &location,
     const MapStats &mapStats)
 {
+    if (!location.name.empty())
+    {
+        return location.name;
+    }
+
     const MapStatsEntry *pMapStatsEntry = mapStats.findByFileName(location.mapName);
 
     if (pMapStatsEntry != nullptr && !pMapStatsEntry->name.empty())
@@ -772,6 +778,17 @@ bool HouseTable::loadFromRows(const std::vector<std::vector<std::string>> &rows)
         entry.stockRefreshDays = (row.size() > 15 && !row[15].empty()) ? std::atoi(row[15].c_str()) : 0;
         entry.openHour = (row.size() > 18 && !row[18].empty()) ? std::atoi(row[18].c_str()) : 0;
         entry.closeHour = (row.size() > 19 && !row[19].empty()) ? std::atoi(row[19].c_str()) : 0;
+        if (entry.type == "Training" && row.size() > 17)
+        {
+            // The original's "Max Lvl" (Notes(2)); a "Training halls" rule row, when one applies, overrides it.
+            int maxLevel = 0;
+            const std::string &cell = row[17];
+            const std::from_chars_result parsed = std::from_chars(cell.data(), cell.data() + cell.size(), maxLevel);
+            if (parsed.ec == std::errc() && parsed.ptr == cell.data() + cell.size() && maxLevel > 0)
+            {
+                entry.trainingMaxLevel = maxLevel;
+            }
+        }
         entry.rawExtraExitPictureIndex = row.size() > 20 ? parseUnsigned(row[20]) : 0;
         entry.rawExtraExitMapId = row.size() > 21 ? parseUnsigned(row[21]) : 0;
         entry.rawExtraExitRestriction = row.size() > 22 ? parseSigned(row[22]) : 0;
@@ -1383,6 +1400,7 @@ bool HouseTable::loadAnimationRows(
         {
             entry.videoName = normalizedVideoStem;
         }
+        entry.enterSoundName = row.size() > 5 ? row[5] : "";
         entry.roomSoundId = (row.size() > 6 && !row[6].empty()) ? std::strtoul(row[6].c_str(), nullptr, 10) : 0;
         entry.houseSoundBaseId = (row.size() > 7 && !row[7].empty()) ? std::strtoul(row[7].c_str(), nullptr, 10) : 0;
         if (row.size() > 8)
@@ -1437,6 +1455,7 @@ bool HouseTable::loadAnimationRows(
 
 bool HouseTable::applyHouseRules(
     const MergedHouseRuleTable &houseRules,
+    const MergedTransportIndexTable &transportIndex,
     const MergedTransportLocationTable &transportLocations,
     const MapStats &mapStats)
 {
@@ -1486,16 +1505,27 @@ bool HouseTable::applyHouseRules(
         const uint32_t routeRuleId = houseRuleId(entry);
         const std::vector<int32_t> *pRouteLocationRow = findHouseRuleRow(*pSection, routeRuleId);
 
-        if (pRouteLocationRow == nullptr)
+        std::vector<int32_t> locationIds;
+
+        if (pRouteLocationRow != nullptr)
         {
-            continue;
+            locationIds.assign(pRouteLocationRow->begin() + 1, pRouteLocationRow->end());
+        }
+        else
+        {
+            const auto indexEntry = std::find_if(transportIndex.entries().begin(), transportIndex.entries().end(),
+                [&entry](const MergedTransportIndexEntry &indexRow) { return indexRow.houseEventId == entry.id; });
+
+            if (indexEntry != transportIndex.entries().end())
+            {
+                locationIds = indexEntry->locationIndicesByPeriod;
+            }
         }
 
         std::vector<int32_t> addedLocationIds;
 
-        for (size_t columnIndex = 1; columnIndex < pRouteLocationRow->size(); ++columnIndex)
+        for (const int32_t locationId : locationIds)
         {
-            const int32_t locationId = (*pRouteLocationRow)[columnIndex];
 
             if (locationId < 0)
             {

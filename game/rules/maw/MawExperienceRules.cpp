@@ -169,7 +169,7 @@ uint32_t MawExperienceRules::grantKillExperience(Party &party, const MonsterKill
     }
 
     // The Endless Arena banks no levels (zzzMaw_Experience.lua:213-216).
-    if (lowercase(m_rules.currentMap()) != "d42.blv")
+    if (kill.banksExperience && lowercase(m_rules.currentMap()) != "d42.blv")
     {
         m_rules.state().addBankedExperience(bankedExperience / 5, kill.continentId);
     }

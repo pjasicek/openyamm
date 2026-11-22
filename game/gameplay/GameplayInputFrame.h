@@ -29,6 +29,10 @@ struct GameplayInputFrame
     float relativeMouseY = 0.0f;
     std::string textInput;
     bool mobileJoystickActive = false;
+    // A frame of a co-op session's world while this game shows a full screen over it or is not drawn at all
+    // (GameApplication::advanceWorldBehindScreens): nothing is held, the world takes no input from it and the mouse
+    // stays a cursor.
+    bool localInputHeld = false;
     bool turnBasedMovementStep = false;
     bool turnBasedPhysicsStep = false;
     // Real frame time for keyboard turning and looking, which the original allows even while turn-based movement

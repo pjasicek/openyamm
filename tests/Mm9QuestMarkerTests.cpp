@@ -125,13 +125,13 @@ TEST_CASE("MM9 quest marker resolver performs the full available in-progress "
 
     CHECK(resolver.markerFor(actor, party, journalTable, rudeTable, interactionTable) ==
           OpenYAMM::Game::Mm9QuestMarkerState::Available);
-    party.setQuestBit(90010, true);
+    party.campaign().setQuestBit(90010, true);
     CHECK(resolver.markerFor(actor, party, journalTable, rudeTable, interactionTable) ==
           OpenYAMM::Game::Mm9QuestMarkerState::InProgress);
-    party.setQuestBit(90030, true);
+    party.campaign().setQuestBit(90030, true);
     CHECK(resolver.markerFor(actor, party, journalTable, rudeTable, interactionTable) ==
           OpenYAMM::Game::Mm9QuestMarkerState::Ready);
-    party.setQuestBit(90020, true);
+    party.campaign().setQuestBit(90020, true);
     CHECK(resolver.markerFor(actor, party, journalTable, rudeTable, interactionTable) ==
           OpenYAMM::Game::Mm9QuestMarkerState::None);
 }
@@ -161,14 +161,14 @@ TEST_CASE("MM9 key interactions mark a journal-less quest by its quest keys")
     const auto marker = [&]() { return resolver.markerFor(actor, party, journalTable, rudeTable, interactionTable); };
 
     CHECK(marker() == OpenYAMM::Game::Mm9QuestMarkerState::Available);
-    party.setQuestBit(95006, true);
+    party.campaign().setQuestBit(95006, true);
     CHECK(marker() == OpenYAMM::Game::Mm9QuestMarkerState::None);
-    party.setQuestBit(95006, false);
-    party.setQuestBit(95004, true);
+    party.campaign().setQuestBit(95006, false);
+    party.campaign().setQuestBit(95004, true);
     CHECK(marker() == OpenYAMM::Game::Mm9QuestMarkerState::InProgress);
-    party.setQuestBit(90369, true);
+    party.campaign().setQuestBit(90369, true);
     CHECK(marker() == OpenYAMM::Game::Mm9QuestMarkerState::Ready);
-    party.setQuestBit(90370, true);
+    party.campaign().setQuestBit(90370, true);
     CHECK(marker() == OpenYAMM::Game::Mm9QuestMarkerState::None);
 }
 
@@ -188,7 +188,7 @@ TEST_CASE("MM9 quest marker resolver previews nested RUDE path effects without "
     CHECK(OpenYAMM::Game::Mm9QuestMarkerResolver().markerFor({"testmap", 7, 1, true}, party, journalTable, rudeTable,
                                                              interactionTable) ==
           OpenYAMM::Game::Mm9QuestMarkerState::Available);
-    CHECK_FALSE(party.hasQuestBit(90040));
+    CHECK_FALSE(party.campaign().hasQuestBit(90040));
     CHECK(party.dialogueEligibilityRevision() == revision);
 }
 
@@ -220,7 +220,7 @@ TEST_CASE("MM9 quest marker path search ignores keys that no row tests")
           OpenYAMM::Game::Mm9QuestMarkerState::Available);
     CHECK(std::chrono::steady_clock::now() - begin < std::chrono::milliseconds(200));
     // The tested keys still decide: the row forbids key 41, which no path removes.
-    party.setQuestBit(90041, true);
+    party.campaign().setQuestBit(90041, true);
     CHECK(OpenYAMM::Game::Mm9QuestMarkerResolver().markerFor(actor, party, journalTable, rudeTable,
                                                              interactionTable) ==
           OpenYAMM::Game::Mm9QuestMarkerState::None);
@@ -236,7 +236,7 @@ TEST_CASE("MM9 quest marker state priority and actor eligibility are centralized
                                                            interaction("handoff", 1, "[handoff]", "[]", "[90001]"))));
     OpenYAMM::Game::JournalQuestTable journalTable = questTable();
     OpenYAMM::Game::Party party;
-    party.setQuestBit(90010, true);
+    party.campaign().setQuestBit(90010, true);
     OpenYAMM::Game::Mm9QuestMarkerResolver resolver;
 
     CHECK(resolver.markerFor({"testmap", 7, 1, true}, party, journalTable, rudeTable, interactionTable) ==
@@ -252,13 +252,13 @@ TEST_CASE("Party dialogue eligibility revision changes only for actual "
 {
     OpenYAMM::Game::Party party;
     const uint64_t initial = party.dialogueEligibilityRevision();
-    party.setQuestBit(90010, false);
+    party.campaign().setQuestBit(90010, false);
     CHECK(party.dialogueEligibilityRevision() == initial);
-    party.setQuestBit(90010, true);
+    party.campaign().setQuestBit(90010, true);
     CHECK(party.dialogueEligibilityRevision() == initial + 1);
-    party.setQuestBit(90010, true);
+    party.campaign().setQuestBit(90010, true);
     CHECK(party.dialogueEligibilityRevision() == initial + 1);
-    party.setQuestBit(90010, false);
+    party.campaign().setQuestBit(90010, false);
     CHECK(party.dialogueEligibilityRevision() == initial + 2);
     party.addGold(0);
     CHECK(party.dialogueEligibilityRevision() == initial + 2);
@@ -274,20 +274,20 @@ TEST_CASE("MM9 pure SCR predicates distinguish incomplete and actionable handoff
     REQUIRE(interactionTable.loadText("test.yml", metadata(scrInteraction())));
     OpenYAMM::Game::JournalQuestTable journalTable = questTable();
     OpenYAMM::Game::Party party;
-    party.setQuestBit(90010, true);
+    party.campaign().setQuestBit(90010, true);
     OpenYAMM::Game::Mm9QuestMarkerResolver resolver;
     const OpenYAMM::Game::Mm9QuestActorIdentity actor = {"testmap", 7, 1, true};
 
     CHECK(resolver.markerFor(actor, party, journalTable, rudeTable, interactionTable) ==
           OpenYAMM::Game::Mm9QuestMarkerState::InProgress);
-    party.setQuestBit(90030, true);
+    party.campaign().setQuestBit(90030, true);
     party.addGold(499);
     CHECK(resolver.markerFor(actor, party, journalTable, rudeTable, interactionTable) ==
           OpenYAMM::Game::Mm9QuestMarkerState::InProgress);
     party.addGold(1);
     CHECK(resolver.markerFor(actor, party, journalTable, rudeTable, interactionTable) ==
           OpenYAMM::Game::Mm9QuestMarkerState::Ready);
-    party.setQuestBit(90040, true);
+    party.campaign().setQuestBit(90040, true);
     CHECK(resolver.markerFor(actor, party, journalTable, rudeTable, interactionTable) ==
           OpenYAMM::Game::Mm9QuestMarkerState::InProgress);
 }
@@ -397,19 +397,19 @@ TEST_CASE("MM9 authored key interactions mark the Drangheim cook, the Frosgard p
 
     CHECK(marker(cook) == OpenYAMM::Game::Mm9QuestMarkerState::Available);
     CHECK(marker(gudrun) == OpenYAMM::Game::Mm9QuestMarkerState::None);
-    party.setQuestBit(90265, true);   // the Green Man asks for pledges
+    party.campaign().setQuestBit(90265, true);   // the Green Man asks for pledges
     CHECK(marker(gudrun) == OpenYAMM::Game::Mm9QuestMarkerState::Ready);
     CHECK(marker(pules) == OpenYAMM::Game::Mm9QuestMarkerState::Ready);
-    party.setQuestBit(90270, true);   // Gudrun's slot, which Pules can also give
+    party.campaign().setQuestBit(90270, true);   // Gudrun's slot, which Pules can also give
     CHECK(marker(gudrun) == OpenYAMM::Game::Mm9QuestMarkerState::None);
     CHECK(marker(pules) == OpenYAMM::Game::Mm9QuestMarkerState::None);
 
     // Thronheim City's Erlend: the Scroll of Bad News goes to him while journal stage 660 (key 316) is open.
     const OpenYAMM::Game::Mm9QuestActorIdentity erlend = {"thronheimcity", 98, 246, true};
     CHECK(marker(erlend) == OpenYAMM::Game::Mm9QuestMarkerState::None);
-    party.setQuestBit(90316, true);
+    party.campaign().setQuestBit(90316, true);
     CHECK(marker(erlend) == OpenYAMM::Game::Mm9QuestMarkerState::Ready);
-    party.setQuestBit(90318, true);
+    party.campaign().setQuestBit(90318, true);
     CHECK(marker(erlend) == OpenYAMM::Game::Mm9QuestMarkerState::None);
 }
 
@@ -439,9 +439,9 @@ TEST_CASE("MM9 promotion quests are offered to any party, whatever its classes")
     CHECK(marker(scholar) == OpenYAMM::Game::Mm9QuestMarkerState::Available);
     CHECK(marker(healer) == OpenYAMM::Game::Mm9QuestMarkerState::Available);
     CHECK(marker(priest) == OpenYAMM::Game::Mm9QuestMarkerState::Available);
-    party.setQuestBit(90201, true);   // the scholar's task taken
-    party.setQuestBit(90206, true);   // the healer's task taken
-    party.setQuestBit(90250, true);   // the priest's three tasks taken
+    party.campaign().setQuestBit(90201, true);   // the scholar's task taken
+    party.campaign().setQuestBit(90206, true);   // the healer's task taken
+    party.campaign().setQuestBit(90250, true);   // the priest's three tasks taken
     CHECK(marker(scholar) == OpenYAMM::Game::Mm9QuestMarkerState::None);
     CHECK(marker(healer) == OpenYAMM::Game::Mm9QuestMarkerState::None);
     CHECK(marker(priest) == OpenYAMM::Game::Mm9QuestMarkerState::None);
@@ -490,8 +490,8 @@ TEST_CASE("MM9 loaded-location marker cache coalesces mutations and has no "
                              interactionTable));
     CHECK(cache.rebuildCount() == 1);
 
-    party.setQuestBit(90010, true);
-    party.setQuestBit(90030, true);
+    party.campaign().setQuestBit(90010, true);
+    party.campaign().setQuestBit(90030, true);
     CHECK(cache.rebuildCount() == 1);
     CHECK(cache.update(actors, {party.dialogueEligibilityRevision(), 1}, party, journalTable, rudeTable,
                        interactionTable));
@@ -535,8 +535,8 @@ TEST_CASE("MM9 marker cache rebuilds from restored party state and discards the 
     CHECK(cache.markerForActor(42) == OpenYAMM::Game::Mm9QuestMarkerState::Available);
 
     OpenYAMM::Game::Party::Snapshot restored = party.snapshot();
-    restored.questBits.insert(90010);
-    restored.questBits.insert(90030);
+    restored.campaign.questBits.insert(90010);
+    restored.campaign.questBits.insert(90030);
     party.restoreSnapshot(restored);
     REQUIRE(cache.update(
         actors,
@@ -606,7 +606,7 @@ TEST_CASE("MM9 trainer marker shows a lesson a member can take, gold aside, belo
 
     // A quest offer outranks the trainer; once taken, the trainer shows although the party has no gold.
     CHECK(marker() == Mm9QuestMarkerState::Available);
-    party.setQuestBit(90010, true);
+    party.campaign().setQuestBit(90010, true);
     CHECK(marker() == Mm9QuestMarkerState::Trainer);
     CHECK(resolver.markerFor(actor, party, journalTable, rudeTable, interactionTable) == Mm9QuestMarkerState::None);
 

@@ -1115,32 +1115,47 @@ bool parseDaylightNode(const YAML::Node &node, IndoorDaylight &daylight, std::st
     return true;
 }
 
-// `party_movement`: {steep_slopes: climb | block} (devdocs/INDOOR_OPEN_SKY.md "Party movement").
-bool parsePartyMovementNode(const YAML::Node &node, bool &steepSlopesBlock, std::string &errorMessage)
+// `party_movement`: {steep_slopes: climb | block, touch_faces: ignore | run} (devdocs/INDOOR_OPEN_SKY.md "Party
+// movement"); a key left out keeps its default.
+bool parsePartyMovementNode(const YAML::Node &node, IndoorSceneData &sceneData, std::string &errorMessage)
 {
     if (!node.IsMap())
     {
-        errorMessage = "party_movement must be a map of steep_slopes (climb or block)";
+        errorMessage = "party_movement must be a map of steep_slopes (climb or block) and touch_faces (ignore or run)";
         return false;
     }
-    bool parsed = false;
+    bool steepSlopesBlock = false;
+    bool touchFacesRun = false;
     for (const auto &pair : node)
     {
         const std::string key = pair.first.as<std::string>();
-        if (key != "steep_slopes")
+        const std::string value = pair.second.as<std::string>();
+        if (key == "steep_slopes")
+        {
+            if (value != "climb" && value != "block")
+            {
+                errorMessage = "party_movement steep_slopes must be climb or block";
+                return false;
+            }
+            steepSlopesBlock = value == "block";
+        }
+        else if (key == "touch_faces")
+        {
+            if (value != "ignore" && value != "run")
+            {
+                errorMessage = "party_movement touch_faces must be ignore or run";
+                return false;
+            }
+            touchFacesRun = value == "run";
+        }
+        else
         {
             errorMessage = "party_movement has an unknown key " + key;
             return false;
         }
-        const std::string value = pair.second.as<std::string>();
-        if (value != "climb" && value != "block")
-        {
-            errorMessage = "party_movement steep_slopes must be climb or block";
-            return false;
-        }
-        parsed = value == "block";
     }
-    steepSlopesBlock = parsed;
+    sceneData.partySteepSlopesBlock = steepSlopesBlock;
+    sceneData.partyTouchFacesRun = touchFacesRun;
     return true;
 }
 
@@ -1592,7 +1607,8 @@ bool parseAmbientSoundsNode(
 
                 if (key != "key" && key != "sound" && key != "position" && key != "inner_radius"
                     && key != "outer_radius" && key != "volume" && key != "loop" && key != "wait"
-                    && key != "day_only" && key != "night_only" && key != "start_on" && key != "sprite")
+                    && key != "day_only" && key != "night_only" && key != "start_on" && key != "sprite"
+                    && key != "pan")
                 {
                     errorMessage = "an ambient_sounds entry has an unknown key " + key;
                     return false;
@@ -1611,6 +1627,7 @@ bool parseAmbientSoundsNode(
                 || !readScalarNode(entryNode, "night_only", sound.nightOnly, errorMessage, false)
                 || !readScalarNode(entryNode, "start_on", sound.startOn, errorMessage, false)
                 || !readScalarNode(entryNode, "sprite", sound.spriteCog, errorMessage, false)
+                || !readScalarNode(entryNode, "pan", sound.pan, errorMessage, false)
                 || !parseFloatTriple(entryNode["position"], sound.position, errorMessage))
             {
                 errorMessage = "ambient sound: " + errorMessage;
@@ -2101,6 +2118,14 @@ bool parseIndoorSceneAmbientSounds(
     }
 }
 
+bool parseSceneAmbientSoundsNode(
+    const YAML::Node &node,
+    std::vector<WorldAmbientSound> &sounds,
+    std::string &errorMessage)
+{
+    return parseAmbientSoundsNode(node, sounds, errorMessage);
+}
+
 bool parseIndoorScenePulsingLights(
     const std::string &yamlText,
     std::vector<IndoorPulsingLight> &lights,
@@ -2537,8 +2562,8 @@ bool parseIndoorSceneSpriteObjectNode(
 }
 
 // The scene's actors as a ruleset overlay's pack reserve was made against them: FNV-1a 64 over
-// "monster_id,x,y,z;" of each of the first actorCount actors in order, in hex (tools/maw/mm9_pack_reserve.py writes
-// the same).
+// "monster_id,x,y,z;" of each of the first actorCount actors in order, in hex (tools/maw/pack_reserve.py, which each
+// world's <world>_pack_reserve.py uses, writes the same).
 std::string scenePackReserveCheck(const std::vector<MapDeltaActor> &actors, size_t actorCount)
 {
     uint64_t hash = 0xcbf29ce484222325ull;
@@ -2576,7 +2601,7 @@ bool applyScenePackReserve(const YAML::Node &node, IndoorSceneInitialState &init
             || check != scenePackReserveCheck(initialState.actors, sceneActorCount))
         {
             std::cerr << "Scene pack reserve not used: made for other scene actors (" << check
-                      << "); rerun tools/maw/mm9_pack_reserve.py\n";
+                      << "); rerun the world's pack reserve tool (tools/maw/<world>_pack_reserve.py)\n";
             return true;
         }
 
@@ -2965,7 +2990,7 @@ std::optional<IndoorSceneData> IndoorSceneYmlLoader::loadFromText(
     }
 
     if (const YAML::Node movementNode = rootNode["party_movement"];
-        movementNode && !parsePartyMovementNode(movementNode, sceneData.partySteepSlopesBlock, errorMessage))
+        movementNode && !parsePartyMovementNode(movementNode, sceneData, errorMessage))
     {
         return std::nullopt;
     }
@@ -3632,7 +3657,7 @@ bool IndoorSceneYmlLoader::applyOverlayFromText(
     }
 
     if (const YAML::Node movementNode = rootNode["party_movement"];
-        movementNode && !parsePartyMovementNode(movementNode, sceneData.partySteepSlopesBlock, errorMessage))
+        movementNode && !parsePartyMovementNode(movementNode, sceneData, errorMessage))
     {
         return false;
     }
@@ -3994,6 +4019,7 @@ bool buildIndoorMapStateFromScene(
         [](const IndoorAiDoor &left, const IndoorAiDoor &right) { return left.doorId < right.doorId; });
     std::sort(indoorMapData.aiDoorFaces.begin(), indoorMapData.aiDoorFaces.end());
     indoorMapData.partySteepSlopesBlock = sceneData.partySteepSlopesBlock;
+    indoorMapData.partyTouchFacesRun = sceneData.partyTouchFacesRun;
     indoorMapData.actorBarrierFaceIds = sceneData.actorBarrierFaceIds;
     indoorMapData.actorDropsFollow = sceneData.actorDropsFollow;
     indoorMapData.portalNearReach = sceneData.portalNearReach;

@@ -525,6 +525,10 @@ GameplayProjectileService::ProjectileSpawnResult GameplayProjectileService::spaw
         projectile.sourceKind = request.sourceKind;
         projectile.sourceId = request.sourceId;
         projectile.sourcePartyMemberIndex = request.sourcePartyMemberIndex;
+    projectile.sourcePlayer =
+        projectile.sourceKind == ProjectileState::SourceKind::Party ? m_spawningPlayer : LocalPlayer;
+        projectile.sourcePlayer =
+            projectile.sourceKind == ProjectileState::SourceKind::Party ? m_spawningPlayer : LocalPlayer;
         projectile.sourceMonsterId = request.sourceMonsterId;
         projectile.fromSummonedMonster = request.fromSummonedMonster;
         projectile.ability = request.ability;
@@ -588,6 +592,8 @@ GameplayProjectileService::ProjectileSpawnResult GameplayProjectileService::spaw
     projectile.sourceKind = request.sourceKind;
     projectile.sourceId = request.sourceId;
     projectile.sourcePartyMemberIndex = request.sourcePartyMemberIndex;
+    projectile.sourcePlayer =
+        projectile.sourceKind == ProjectileState::SourceKind::Party ? m_spawningPlayer : LocalPlayer;
     projectile.sourceMonsterId = request.sourceMonsterId;
     projectile.fromSummonedMonster = request.fromSummonedMonster;
     projectile.ability = request.ability;
@@ -2220,6 +2226,24 @@ bool GameplayProjectileService::steerHomingProjectile(
     return false;
 }
 
+bool GameplayProjectileService::areaImpactReachesParty(
+    const GameplayWorldPoint &partyFeet,
+    float partyCollisionRadius,
+    float partyCollisionHeight,
+    const GameplayWorldPoint &impact,
+    float impactRadius)
+{
+    return pointWithinExpandedCylinder(
+        partyFeet.x,
+        partyFeet.y,
+        partyFeet.z + partyCollisionHeight * 0.5f,
+        partyCollisionRadius,
+        impact.x,
+        impact.y,
+        impact.z,
+        impactRadius);
+}
+
 GameplayWorldPoint GameplayProjectileService::partyPositionAtStep(
     const GameplayWorldPoint &previousFrame,
     const GameplayWorldPoint &currentFrame,
@@ -2768,6 +2792,8 @@ GameplayProjectileService::ProjectileState GameplayProjectileService::buildFireS
     projectile.sourceKind = input.sourceKind;
     projectile.sourceId = input.sourceId;
     projectile.sourcePartyMemberIndex = input.sourcePartyMemberIndex;
+    projectile.sourcePlayer =
+        projectile.sourceKind == ProjectileState::SourceKind::Party ? m_spawningPlayer : LocalPlayer;
     projectile.sourceMonsterId = input.sourceMonsterId;
     projectile.fromSummonedMonster = input.fromSummonedMonster;
     projectile.ability = input.ability;

@@ -642,7 +642,7 @@ std::optional<float> WeatherRules::namedIntensity(const std::string &name) const
 }
 
 WeatherMapSettings resolveWeatherMapSettings(const WeatherRules &rules, uint32_t mapId,
-    const std::string &mapFileName, bool rainEnabled, bool snowEnabled)
+    const std::string &mapFileName, bool rainEnabled, bool snowEnabled, float sceneAshPercent)
 {
     WeatherMapSettings settings;
     settings.mapId = mapId;
@@ -650,12 +650,14 @@ WeatherMapSettings resolveWeatherMapSettings(const WeatherRules &rules, uint32_t
     settings.snowEnabled = snowEnabled;
     settings.rainChancePercent = rules.rainChancePercent;
     settings.snowChancePercent = rules.snowChancePercent;
+    settings.ashChancePercent = std::clamp(sceneAshPercent, 0.0f, 100.0f);
+    settings.ashEnabled = settings.ashChancePercent > 0.0f;
 
     if (const auto it = rules.maps.find(toLowerCopy(mapFileName)); it != rules.maps.end())
     {
         settings.rainChancePercent = it->second.rainPercent.value_or(settings.rainChancePercent);
         settings.snowChancePercent = it->second.snowPercent.value_or(settings.snowChancePercent);
-        settings.ashChancePercent = it->second.ashPercent.value_or(0.0f);
+        settings.ashChancePercent = it->second.ashPercent.value_or(settings.ashChancePercent);
         settings.ashEnabled = settings.ashChancePercent > 0.0f;
         settings.dryLightningPercent = it->second.dryLightningPercent.value_or(0.0f);
         settings.rainColor = it->second.rainColor.value_or(DefaultRainColor);

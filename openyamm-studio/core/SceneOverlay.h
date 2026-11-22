@@ -37,9 +37,10 @@ void lockBaseCinematics(const std::string &cinematicsText, YAML::Node &lock);
 // The names of the base map's own cinematics (its `<stem>.cinematics.yml` in the session's asset root), in order.
 std::vector<std::string> baseCinematicNames(const AssetSession &session, const std::string &stem);
 
-// The world's own rows of the tables an overlay's monsters and items are named in (its world.yml `tableContributions`
-// that append to monster_data, monster_descriptors and items), added to `options` after the engine's as the game
-// composes them, so that an overlay of an MM9 map places MM9's monsters (S8a). Read from the asset root's folders.
+// The world's own rows of the tables a project's monsters and items are named in (its world.yml `tableContributions`
+// that append to monster_data, monster_descriptors, items and map_stats), added to `options` after the engine's as the
+// game composes them, so that an overlay of an MM9 map places MM9's monsters (S8a) and a Xeen dungeon Xeen's; and the
+// world's relations.yml for the hostility check. Read from the asset root's folders.
 void addWorldTableRows(const std::filesystem::path &assetRoot, const std::string &world, LoweringOptions &options);
 
 // What an overlay project's lowering needs of its base map (LoweringOptions overlayFirstActor, overlayBaseGroups):

@@ -16,6 +16,8 @@ namespace OpenYAMM::Game
 {
 class HouseTable;
 class MapStats;
+class MergedCharacterSelectionTable;
+class MergedContinentSettingTable;
 class MergedTeacherAutonoteTable;
 class MergedTeacherTopicTable;
 class NpcDialogTable;
@@ -114,6 +116,24 @@ struct TrainerEntry
 };
 
 // What a directory is built from: the session's tables, or a test's.
+// A continent of the journal's tabs, the trainer finder and the Ledgers of Teachers: a new-game card's continent (its
+// id, its card's English title) and every continent with maps in the world of the card's start map that is no
+// new-game continent itself (Xeen's Darkside, continent 7, is Xeen's, the card continent 6).
+struct TrainerContinent
+{
+    uint32_t id = 0;
+    std::string name;
+    // The card continent and the others of its world.
+    std::vector<uint32_t> members;
+};
+
+// The cards' continents in the new-game screen's order (card.order); a card whose start map (continent_settings death
+// map 1) is unknown has only itself.
+std::vector<TrainerContinent> buildTrainerContinents(
+    const MergedCharacterSelectionTable &cards,
+    const MergedContinentSettingTable &settings,
+    const MapStats &maps);
+
 struct TrainerDirectorySource
 {
     struct Npc
@@ -154,7 +174,9 @@ struct TrainerDirectorySource
     // The ruleset's moved teachers: the houses where an NPC also teaches (MAW's npc_extra_houses.yml).
     std::unordered_map<uint32_t, std::vector<uint32_t>> extraHouses;
     std::unordered_map<uint32_t, House> houses;
+    // A map's continent is its card continent (TrainerContinent::members), else its own.
     std::unordered_map<uint32_t, Map> maps;
+    std::vector<TrainerContinent> continents;
     // (topic id << 32 | npc id) -> teacher autonote.
     std::unordered_map<uint64_t, uint32_t> autonotes;
     TrainerPlaceTable places;
@@ -218,7 +240,8 @@ public:
         const MapStats &maps,
         TrainerPlaceTable places,
         TeacherLedgerSettings ledger = {},
-        std::vector<TrainerEntry> actorTeachers = {});
+        std::vector<TrainerEntry> actorTeachers = {},
+        std::vector<TrainerContinent> continents = {});
 
     // [Expert, Master, Grandmaster] = where each mastery of the skill is taught. A skill some teacher topic names is
     // listed even when nobody teaches it.
@@ -231,6 +254,12 @@ public:
     // The teacher autonotes of the continent's teachers (not counting their extra houses elsewhere).
     std::vector<uint32_t> continentAutonotes(uint32_t continent) const;
     std::optional<uint32_t> mapContinent(uint32_t mapId) const;
+    // The cards' continents, in the new-game screen's order.
+    const std::vector<TrainerContinent> &continents() const;
+    // The card continent a continent belongs to (itself for a card's); nothing for one of no card's world.
+    std::optional<uint32_t> cardContinent(uint32_t continent) const;
+    // The English title of the continent's card ("Xeen" for 6 and 7); empty for none.
+    std::string continentName(uint32_t continent) const;
     // Lower-case map file name -> its name in map_stats.txt.
     std::string mapName(const std::string &mapFileName) const;
     const TrainerLinks &links() const;
@@ -262,6 +291,9 @@ struct PickedTrainer
     std::optional<TrainerLink> link;
     // A rank-0 teacher on the outdoor map the party came from rather than the one it stands on.
     bool outside = false;
+    // The English name of the teacher's continent (TrainerDirectory::continentName), for a hint to show; set by the
+    // caller that has the directory.
+    std::string continentName;
 };
 
 // The nearest teachers, best first: rank, then outdoor maps before indoor, continent (unknown last), map name, NPC
@@ -273,11 +305,6 @@ std::vector<PickedTrainer> pickTrainers(
     size_t limit,
     const TrainerNeighbours &neighbours,
     std::optional<uint32_t> referenceMap);
-
-// The continents with trainer lists, in the finder's order: 1 Jadame, 2 Antagarich, 3 Enroth.
-constexpr std::array<uint32_t, 4> TrainerContinents = {1, 2, 3, 5};
-// "Jadame", "Antagarich", "Enroth"; empty for any other continent.
-std::string trainerContinentName(uint32_t continent);
 
 // The journal map pin talking to a teacher without an autonote leaves (GameplayDialogController
 // tryAddRuntimeMapNote): continent * 1000 + mastery rank * 100 + skill id, on the map the party stood on.

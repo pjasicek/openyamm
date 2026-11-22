@@ -152,6 +152,8 @@ local function describe(entry)
         if what:find("^item") then return "take " .. what end
         return "subtract " .. what .. " - " .. tostring(a[2])
     end
+    -- A member's count of an item (PlayerItemCount, Xeen.itemCount): as a test on the item.
+    if name == "PartyMemberItemCount" and type(a[2]) == "number" then return "item " .. a[2] end
     if name == "SetDoorState" then
         return "door " .. tostring(a[1]) .. " " .. (doorActions[a[2]] or tostring(a[2]))
     end
@@ -206,8 +208,8 @@ for _, id in ipairs(ids) do
     local handler = evt.map[id]
     local paths = {}
     local truncated = false
-    -- Steps a question continues the handler at (AskQuestion's wrong and right answer, AskQuestionWithAnswerSteps'
-    -- fallback and answers): each is explored as a run of its own, after the first run's.
+    -- Steps a question continues the handler at (AskQuestion's wrong and right answer, AskQuestionWithAnswerSteps' and
+    -- AskChoiceWithAnswerSteps' fallback and answers): each is explored as a run of its own, after the first run's.
     local continued, continueOrder = {}, {}
     local function noteStep(step)
         if type(step) == "number" and not continued[step] then
@@ -232,7 +234,8 @@ for _, id in ipairs(ids) do
             if not entry.test and entry.name == "AskQuestion" and type(entry.args) == "table" then
                 noteStep(entry.args[2])
                 noteStep(entry.args[4])
-            elseif not entry.test and entry.name == "AskQuestionWithAnswerSteps" and type(entry.args) == "table" then
+            elseif not entry.test and (entry.name == "AskQuestionWithAnswerSteps"
+                    or entry.name == "AskChoiceWithAnswerSteps") and type(entry.args) == "table" then
                 noteStep(entry.args[2])
                 if type(entry.args[4]) == "table" then
                     for _, choice in ipairs(entry.args[4]) do

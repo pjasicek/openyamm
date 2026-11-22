@@ -6,6 +6,7 @@
 #include "game/maps/OutdoorSceneYml.h"
 #include "game/outdoor/OutdoorPathfindingBuilder.h"
 #include "game/outdoor/OutdoorWorldRuntime.h"
+#include "game/tables/NpcDialogTable.h"
 #include "game/ui/GameplayOverlayTypes.h"
 
 #include <algorithm>
@@ -319,4 +320,46 @@ TEST_CASE("classic outdoor rotating door moves collision and path geometry and s
     CHECK_EQ(doorCollisionCenter(restoredWorld).x, doctest::Approx(1008.0f));
     CHECK_FALSE(restoredWorld.hasClearOutdoorLineOfSight({900.0f, 0.0f, 96.0f}, {1120.0f, 0.0f, 96.0f}));
     CHECK(classicPathBlockedThroughDoorway(restoredWorld, *fixture.mapData));
+}
+
+TEST_CASE("a restored outdoor map names its actors with an NPC as their NPC, whatever name the save kept")
+{
+    // Saves from before actors took their NPC's name (F9-R2) kept the body's row: "Peasant" on the inspect title and
+    // the status line, while the talk named the NPC (the user, 2026-11-22, Vertigo's Plague Cult members).
+    ClassicDoorFixture fixture;
+    const NpcDialogTable &npcs = fixture.data.getNpcDialogTable();
+    const MergedNpcProfessionTable &professions = fixture.data.getMergedNpcProfessionTable();
+    uint32_t npcId = 0;
+    for (const NpcEntry &entry : npcs.entries())
+    {
+        if (entry.id > 0 && !entry.name.empty())
+        {
+            npcId = entry.id;
+            break;
+        }
+    }
+    REQUIRE(npcId > 0);
+    const std::string npcName = npcNameAndTitle(*npcs.getNpc(npcId), &professions);
+
+    OutdoorWorldRuntime world;
+    fixture.initialize(world);
+    OutdoorWorldRuntime::Snapshot snapshot = world.snapshot();
+    OutdoorWorldRuntime::MapActorState withNpc = {};
+    withNpc.npcId = int16_t(npcId);
+    withNpc.displayName = "Peasant";
+    OutdoorWorldRuntime::MapActorState unique = withNpc;
+    unique.uniqueNameId = 3;
+    unique.displayName = "Sir Pellinore";
+    OutdoorWorldRuntime::MapActorState plain = {};
+    plain.displayName = "Peasant";
+    snapshot.mapActors = {withNpc, unique, plain};
+
+    OutdoorWorldRuntime restoredWorld;
+    restoredWorld.setActorNpcNames({&npcs, &professions});
+    fixture.initialize(restoredWorld);
+    restoredWorld.restoreSnapshot(snapshot);
+    REQUIRE(restoredWorld.mapActorState(2) != nullptr);
+    CHECK_EQ(restoredWorld.mapActorState(0)->displayName, npcName);
+    CHECK_EQ(restoredWorld.mapActorState(1)->displayName, "Sir Pellinore");
+    CHECK_EQ(restoredWorld.mapActorState(2)->displayName, "Peasant");
 }

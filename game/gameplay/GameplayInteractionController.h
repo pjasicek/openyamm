@@ -20,6 +20,10 @@ struct GameplaySharedInputFrameResult;
 class GameplayInteractionController
 {
 public:
+    // A guest's game: the lying item its player asked the host for (IPlayerCommandRemote::takeWorldItem) arrived.
+    // It goes where a picked-up item goes: its gold counted, into the bags, into the hand.
+    static void receiveTakenWorldItem(GameplayScreenRuntime &runtime, const GameplayWorldItemInspectState &takenItem);
+
     struct HoverStateInput
     {
         bool allowHover = false;

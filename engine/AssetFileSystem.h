@@ -19,6 +19,8 @@ struct AssetFileInfo
     uint64_t size = 0;
     int64_t modified = 0;
     bool archived = false;
+    // The folder or archive the file is read from (the search root that provides it).
+    std::filesystem::path source;
 };
 
 class AssetReadStream

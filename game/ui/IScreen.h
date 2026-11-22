@@ -17,6 +17,13 @@ public:
     {
         return false;
     }
+    // A screen every player of a co-op session watches together (a movie, a story's end): the session's world waits
+    // while it shows. Any other screen is this game's own, and the session's world goes on behind it
+    // (GameSession::coopSession).
+    virtual bool holdsCoopWorld() const
+    {
+        return false;
+    }
     virtual bool textInputActive() const
     {
         return false;

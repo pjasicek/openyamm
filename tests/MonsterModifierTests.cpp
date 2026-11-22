@@ -52,7 +52,8 @@ TEST_CASE("monster modifiers load names, parameters with defaults and id ranges"
         "  10102: [{kites_party: {min_distance: 1024, max_distance: 3072}}]\n"
         "  10040: [{blink: {on_shield_break: true, cooldown_seconds: 8}}]\n"
         "  10066: [true_aim]\n"
-        "  10120: [indoor_meteor_shower]\n", error), error);
+        "  10120: [indoor_meteor_shower]\n"
+        "  10121: [{wander: {radius: 512}}]\n", error), error);
 
     const MonsterModifierSet *pTurret = table.find(10065);
     REQUIRE(pTurret != nullptr);
@@ -91,6 +92,11 @@ TEST_CASE("monster modifiers load names, parameters with defaults and id ranges"
     CHECK(table.hasBlink());
     CHECK(table.find(10053) == nullptr);
     CHECK(table.find(307) == nullptr);
+    // Lacey's well (A2): a placed-only row kept within 512 of its place.
+    REQUIRE(table.find(10121) != nullptr);
+    REQUIRE(table.find(10121)->wanderRadius);
+    CHECK(*table.find(10121)->wanderRadius == doctest::Approx(512.0f));
+    CHECK_FALSE(table.find(10120)->wanderRadius);
 }
 
 TEST_CASE("monster modifier errors name the file, the line and the problem")
@@ -144,7 +150,8 @@ TEST_CASE("the catalogue lists every modifier with its parameters and defaults")
     CHECK(findMonsterModifierInfo("spell_conditions") != nullptr);
     CHECK(findMonsterModifierInfo("reposition") != nullptr);
     CHECK(findMonsterModifierInfo("missile_blast") != nullptr);
-    CHECK(monsterModifierCatalogue().size() == 15);
+    CHECK(findMonsterModifierInfo("wander") != nullptr);
+    CHECK(monsterModifierCatalogue().size() == 16);
 }
 
 TEST_CASE("homing steering turns at most the turn rate, keeps the speed and settles on the target")

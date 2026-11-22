@@ -1,6 +1,7 @@
 #pragma once
 
 #include "game/content/RulesetOptions.h"
+#include "game/gameplay/PlayerId.h"
 #include "game/rules/GameRules.h"
 #include "game/rules/maw/MawBalanceModel.h"
 #include "game/rules/maw/MawClassRules.h"
@@ -52,6 +53,35 @@ struct MawAuraSource
     uint32_t holder = 0;
     // A solo run's scroll aura: the game seconds it has left; 0 for an aura without an end.
     float secondsLeft = 0;
+};
+
+// What the rules work out for one party while the game runs and keep until they work it out again; nothing of it is
+// saved. A game of several parties (co-op) has one for each, and the rules read the one of the party in play
+// (MawRules::setPartyInPlay).
+struct MawPartyRuntime
+{
+    // The auras in effect at the last update (holders conscious), by spell id.
+    std::unordered_map<uint32_t, MawAuraSource> activeAuras;
+    // The auras other players' parties near this one lend it now (co-op; SpellRules::setLentAuras), by spell id.
+    std::unordered_map<uint32_t, MawAuraSource> lentAuras;
+    // Living hostile monsters within 512 of the party (legendaries 21 and 22), and within the reach of the solo
+    // run's two pack talents.
+    int nearbyMonsters = 0;
+    int outnumberedMonsters = 0;
+    int battleFrenzyMonsters = 0;
+    bool shadowBossNearby = false;
+    // What the party's staffs add to every member's resistances.
+    int staffResistance = 0;
+    // A solo run's early monster cut for its character's level, for a hit that names no character.
+    double soloMonsterCut = 1.0;
+    // The aura update's own notes (MawSpellRules::updateAuras): the buff slots it set last time, to clear those no
+    // aura sets any more; whether it gave every member a held Preservation aura; the map it last ran on, to end the
+    // fixed auras a map change ends; the time since it last ran.
+    std::vector<uint32_t> appliedPartyBuffs;
+    std::vector<uint32_t> appliedCharacterBuffs;
+    bool preservationAuraApplied = false;
+    std::string auraMap;
+    float auraSeconds = 0.0f;
 };
 
 // The MAW ruleset of one game (devdocs/maw/HANDOFF.md phase 3): its options, its level banks and the rules objects
@@ -160,18 +190,30 @@ public:
     // Progress tab shows (mapLevelSummary), as traps read it.
     std::optional<double> mapMeanMonsterLevel() const;
     // The game's random root seed, for MAW's seeded rolls (bosses). In Beyond Madness it is also the run of the death
-    // ledger: setting it (new game or load) opens that run, and a run left pending counts a death.
+    // ledger: setting it (new game or load) opens that run, and a run left pending counts a death. `savedDeaths` is
+    // the count the local party carries (PartyRulesetState::madnessDeaths), for an installation whose ledger has no
+    // line for the run.
     uint64_t randomRootSeed() const;
-    void setRandomRootSeed(uint64_t rootSeed);
+    void setRandomRootSeed(uint64_t rootSeed, int savedDeaths = 0);
 
     // Beyond Madness's death ledger (P9.M8): idle in every other mode. The file defaults to saves/maw_madness_deaths.txt.
     const MawMadnessLedger &madnessLedger() const;
     void setMadnessLedgerFile(const std::filesystem::path &file);
     // A hit landed on a member: a monster's, a trap's, a fall (CHM-2).
     void markMadnessHit(double gameMinutes);
-    // Each frame: the party's deaths (its NumDeaths event variable) and the ledger's wait.
-    void updateMadnessLedger(const Party &party, double gameMinutes, bool enemiesNear);
+    // Each frame: the party's deaths (its NumDeaths event variable) and the ledger's wait; the party keeps the count.
+    void updateMadnessLedger(Party &party, double gameMinutes, bool enemiesNear);
     void leaveMadnessMap();
+
+    // The party whose runtime values the rules read and write (MawPartyRuntime): the local player's, except while a
+    // co-op host works something out for another player's party (a monster's hit on it, a command of its player,
+    // what it has around it). Whoever sets another player's sets the local one back.
+    PlayerId partyInPlay() const;
+    void setPartyInPlay(PlayerId player);
+    // A player left: its party's runtime values go.
+    void forgetParty(PlayerId player);
+    MawPartyRuntime &partyRuntime();
+    const MawPartyRuntime &partyRuntime() const;
 
     // The auras in effect at the last update (holders conscious), by spell id; runtime only.
     std::optional<MawAuraSource> activeAura(uint32_t spellId) const;
@@ -204,7 +246,8 @@ public:
     void setPartyStaffResistance(int resistance);
     // A solo run's early monster cut for its character's level now (MawSoloTalents::earlyMonsterCut): monsters' hits
     // on the party are divided by it and the party's hits on monsters multiplied by it. 1 outside a solo run and
-    // past the cut's last level; runtime only, set as the character's bonuses are applied and on every class update.
+    // past the cut's last level. A hit that names its character reads the cut of that character; this is the one of
+    // the party in play, for a hit that names none: runtime only, set on every class update.
     double soloMonsterCut() const;
     void setSoloMonsterCut(double cut);
     // The curve the characters train by: MAW's, or in a solo run MAW's with the solo table's experience surcharge
@@ -337,15 +380,12 @@ private:
     std::optional<int> m_madnessSeenDeaths;
     mutable std::map<int, MawBalanceModel> m_models;
     mutable MonsterLevelCache m_monsterLevels;
-    std::unordered_map<uint32_t, MawAuraSource> m_activeAuras;
-    int m_nearbyMonsters = 0;
-    int m_outnumberedMonsters = 0;
-    int m_battleFrenzyMonsters = 0;
-    bool m_shadowBossNearby = false;
+    // One per party of the game, by its player; the local player's is always there.
+    std::map<PlayerId, MawPartyRuntime> m_partyRuntimes;
+    PlayerId m_partyInPlay = LocalPlayer;
+    MawPartyRuntime *m_pPartyRuntime = nullptr;
     std::optional<int> m_bountyLevel;
     int m_arenaLevel = 0;
-    int m_partyStaffResistance = 0;
-    double m_soloMonsterCut = 1.0;
     // A solo run's character curve, built on first use and again when the options or the surcharge change.
     mutable std::optional<MawExperienceCurve> m_soloCharacterCurve;
     double m_unstuckReadyGameMinutes = 0;

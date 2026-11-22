@@ -25,6 +25,7 @@ class GameplayCombatController;
 class GameplayProjectileService;
 class MergedBolsterMapTable;
 class MergedBolsterMonsterTable;
+class MergedNpcProfessionTable;
 class MonsterProjectileTable;
 class NpcDialogTable;
 class Mm9MapTransitionTable;
@@ -79,7 +80,8 @@ public:
         const NpcDialogTable *pNpcDialogTable = nullptr,
         const MapItemSourceData *pItemSourceData = nullptr,
         const Mm9MapTransitionTable *pMm9MapTransitionTable = nullptr,
-        const Mm9TeacherScheduleTable *pMm9TeacherScheduleTable = nullptr
+        const Mm9TeacherScheduleTable *pMm9TeacherScheduleTable = nullptr,
+        const MergedNpcProfessionTable *pNpcProfessionTable = nullptr
     );
     IndoorSceneRuntime(
         const std::string &mapFileName,
@@ -103,7 +105,8 @@ public:
         const NpcDialogTable *pNpcDialogTable = nullptr,
         const MapItemSourceData *pItemSourceData = nullptr,
         const Mm9MapTransitionTable *pMm9MapTransitionTable = nullptr,
-        const Mm9TeacherScheduleTable *pMm9TeacherScheduleTable = nullptr
+        const Mm9TeacherScheduleTable *pMm9TeacherScheduleTable = nullptr,
+        const MergedNpcProfessionTable *pNpcProfessionTable = nullptr
     );
 
     SceneKind kind() const override;
@@ -191,6 +194,7 @@ private:
     std::optional<IndoorMoveState> m_lastProcessedPartyMoveStateForFaceTriggers;
     std::optional<size_t> m_lastPartyFloorFaceForPressurePlateTriggers;
     std::vector<size_t> m_partyFloorFacesForPressurePlateTriggers;
+    std::vector<size_t> m_partyTouchFaces;
     std::unordered_map<uint32_t, MechanismAudioState> m_mechanismAudioStates;
     std::unordered_map<uint32_t, MechanismSoundState> m_mechanismSoundStates;
     float m_mechanismAccumulatorMilliseconds = 0.0f;

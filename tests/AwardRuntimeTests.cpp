@@ -72,8 +72,8 @@ TEST_CASE("visible awards combine character awards with qbit and autonote aliase
     party.seed(OpenYAMM::Tests::createSpellRegressionPartySeed());
     party.addAward(0, 18);
     party.addAward(0, 54);
-    party.setQuestBit(1549, true);
-    party.setQuestBit(1552, true);
+    party.campaign().setQuestBit(1549, true);
+    party.campaign().setQuestBit(1552, true);
 
     OpenYAMM::Game::EventRuntimeState runtimeState = {};
     runtimeState.variables[(492u << 16) | AutonoteVariableTag] = 1;
@@ -105,7 +105,7 @@ TEST_CASE("party award aliases are projected without changing character award bi
 
     OpenYAMM::Game::Party party = {};
     party.seed(OpenYAMM::Tests::createSpellRegressionPartySeed());
-    party.setQuestBit(1549, true);
+    party.campaign().setQuestBit(1549, true);
 
     const OpenYAMM::Game::Character *pCharacter = party.member(0);
     REQUIRE(pCharacter != nullptr);
@@ -183,4 +183,42 @@ TEST_CASE("MM7 tavern Arcomage wins show as awards and only one continent's tave
     }
 
     CHECK(pCharacter->awards.contains(41));
+}
+
+TEST_CASE("a world's award text overrides reword engine awards and a world switch restores them")
+{
+    OpenYAMM::Game::AwardTable table = {};
+    REQUIRE(table.loadFromRows(loadEnglishTableRows("awards.txt"), loadEnglishTableRows("award_display_aliases.txt")));
+
+    OpenYAMM::Game::Party party = {};
+    party.seed(OpenYAMM::Tests::createSpellRegressionPartySeed());
+    party.addAward(0, 46);
+    party.campaign().addEventVariableValue(uint16_t(OpenYAMM::Game::EvtVariable::ArenaWinsPage), 3);
+    const OpenYAMM::Game::Character *pCharacter = party.member(0);
+    REQUIRE(pCharacter != nullptr);
+
+    const auto pageAwardText = [&]() {
+        for (const OpenYAMM::Game::VisibleAward &award :
+             OpenYAMM::Game::buildVisibleAwards(table, *pCharacter, party, {}))
+        {
+            if (award.key == "award.46")
+            {
+                return award.text;
+            }
+        }
+        return std::string();
+    };
+
+    CHECK_EQ(pageAwardText(), "Won 3 Page Arena Victories.");
+
+    std::string error;
+    REQUIRE(table.applyTextOverrides(
+        {{"A Bit", "Awards", "Sort", "Notes"}, {"46", "Won %u Page battles in the Warzone.", "", ""}}, error));
+    CHECK_EQ(pageAwardText(), "Won 3 Page battles in the Warzone.");
+
+    REQUIRE(table.applyTextOverrides({}, error));
+    CHECK_EQ(pageAwardText(), "Won 3 Page Arena Victories.");
+
+    CHECK_FALSE(table.applyTextOverrides({{"9999", "No such award", "", ""}}, error));
+    CHECK(error.find("9999") != std::string::npos);
 }

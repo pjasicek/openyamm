@@ -187,12 +187,30 @@ std::string TeacherLedgerSettings::fill(const std::string &text, const std::stri
     return result;
 }
 
+namespace
+{
+// The card continent whose members hold the continent.
+std::optional<uint32_t> cardContinentOf(const std::vector<TrainerContinent> &continents, uint32_t continent)
+{
+    for (const TrainerContinent &entry : continents)
+    {
+        if (std::find(entry.members.begin(), entry.members.end(), continent) != entry.members.end())
+        {
+            return entry.id;
+        }
+    }
+
+    return std::nullopt;
+}
+}
+
 TrainerNpcState TrainerNpcState::of(const Party &party)
 {
     TrainerNpcState state;
-    state.topicOverrides = party.npcTopicOverrides();
-    state.houseOverrides = party.npcHouseOverrides();
-    state.unavailableNpcIds.assign(party.unavailableNpcIds().begin(), party.unavailableNpcIds().end());
+    state.topicOverrides = party.campaign().npcTopicOverrides();
+    state.houseOverrides = party.campaign().npcHouseOverrides();
+    const std::unordered_set<uint32_t> &unavailableNpcIds = party.campaign().unavailableNpcIds();
+    state.unavailableNpcIds.assign(unavailableNpcIds.begin(), unavailableNpcIds.end());
     std::sort(state.unavailableNpcIds.begin(), state.unavailableNpcIds.end());
     return state;
 }
@@ -507,9 +525,11 @@ TrainerDirectory TrainerDirectory::build(
     const MapStats &maps,
     TrainerPlaceTable places,
     TeacherLedgerSettings ledger,
-    std::vector<TrainerEntry> actorTeachers)
+    std::vector<TrainerEntry> actorTeachers,
+    std::vector<TrainerContinent> continents)
 {
     TrainerDirectorySource source;
+    source.continents = std::move(continents);
     const auto addTopic = [&](uint32_t topicId)
     {
         if (source.topics.contains(topicId))
@@ -573,7 +593,8 @@ TrainerDirectory TrainerDirectory::build(
 
     for (const MapStatsEntry &map : maps.getEntries())
     {
-        source.maps[uint32_t(map.id)] = {map.name, map.fileName, map.mergedContinentId};
+        source.maps[uint32_t(map.id)] = {map.name, map.fileName,
+            cardContinentOf(source.continents, map.mergedContinentId).value_or(map.mergedContinentId)};
 
         for (const MapBoundaryEdge edge :
             {MapBoundaryEdge::North, MapBoundaryEdge::South, MapBoundaryEdge::East, MapBoundaryEdge::West})
@@ -582,6 +603,17 @@ TrainerDirectory TrainerDirectory::build(
             const MapStatsEntry *pTarget = pTransition != nullptr && pTransition->has_value()
                 ? maps.findByFileName((*pTransition)->destinationMapFileName)
                 : nullptr;
+
+            if (pTarget != nullptr)
+            {
+                links.addWalk(uint32_t(map.id), uint32_t(pTarget->id));
+            }
+        }
+
+        for (const MapEdgeSpan &span : map.edgeSpans)
+        {
+            const MapStatsEntry *pTarget =
+                span.transition ? maps.findByFileName(span.transition->destinationMapFileName) : nullptr;
 
             if (pTarget != nullptr)
             {
@@ -769,21 +801,91 @@ std::vector<PickedTrainer> pickTrainers(
     return picked;
 }
 
-std::string trainerContinentName(uint32_t continent)
+std::vector<TrainerContinent> buildTrainerContinents(
+    const MergedCharacterSelectionTable &cards,
+    const MergedContinentSettingTable &settings,
+    const MapStats &maps)
 {
-    switch (continent)
+    std::vector<const MergedCharacterSelectionContinent *> carded;
+
+    for (const MergedCharacterSelectionContinent &continent : cards.continents())
     {
-        case 1:
-            return "Jadame";
-        case 2:
-            return "Antagarich";
-        case 3:
-            return "Enroth";
-        case 5:
-            return "Chedian";
-        default:
-            return {};
+        if (continent.hasCard)
+        {
+            carded.push_back(&continent);
+        }
     }
+
+    std::stable_sort(carded.begin(), carded.end(),
+        [](const MergedCharacterSelectionContinent *pLeft, const MergedCharacterSelectionContinent *pRight)
+        {
+            return pLeft->cardOrder < pRight->cardOrder;
+        });
+    std::vector<TrainerContinent> result;
+
+    for (const MergedCharacterSelectionContinent *pCard : carded)
+    {
+        TrainerContinent continent;
+        continent.id = pCard->id;
+        continent.name = pCard->cardTitle;
+        continent.members.push_back(pCard->id);
+        const MergedContinentSettingEntry *pSetting = settings.findById(pCard->id);
+        const MapStatsEntry *pStart = pSetting != nullptr ? maps.findByFileName(pSetting->deathMap1) : nullptr;
+
+        // The other continents of the start map's world that are no new-game continent of their own (Xeen's Darkside;
+        // not MMerge's Between Time, continent 4, which keeps the Shared tab).
+        for (const MapStatsEntry &map : maps.getEntries())
+        {
+            const uint32_t member = map.mergedContinentId;
+
+            if (pStart == nullptr || pStart->worldId.empty() || map.worldId != pStart->worldId
+                || std::find(continent.members.begin(), continent.members.end(), member) != continent.members.end())
+            {
+                continue;
+            }
+
+            const bool ownContinent = std::any_of(cards.continents().begin(), cards.continents().end(),
+                [member](const MergedCharacterSelectionContinent &other)
+                {
+                    return other.id == member;
+                });
+
+            if (!ownContinent)
+            {
+                continent.members.push_back(member);
+            }
+        }
+
+        result.push_back(std::move(continent));
+    }
+
+    return result;
+}
+
+const std::vector<TrainerContinent> &TrainerDirectory::continents() const
+{
+    static const std::vector<TrainerContinent> None;
+    return m_pSource != nullptr ? m_pSource->continents : None;
+}
+
+std::optional<uint32_t> TrainerDirectory::cardContinent(uint32_t continent) const
+{
+    return cardContinentOf(continents(), continent);
+}
+
+std::string TrainerDirectory::continentName(uint32_t continent) const
+{
+    const std::optional<uint32_t> card = cardContinent(continent);
+
+    for (const TrainerContinent &entry : continents())
+    {
+        if (card && entry.id == *card)
+        {
+            return entry.name;
+        }
+    }
+
+    return {};
 }
 
 uint32_t teacherMapNoteId(uint32_t continent, SkillMastery mastery, uint32_t skillId)
@@ -800,7 +902,7 @@ bool trainerKnown(const TrainerEntry &entry, const Party &party)
 
     if (entry.rudeId != 0)
     {
-        if (party.findJournalMapNote(entry.mapFileName, 90000 + entry.rudeId) != nullptr)
+        if (party.campaign().findJournalMapNote(entry.mapFileName, 90000 + entry.rudeId) != nullptr)
             return true;
         // Older saves already remember dialogue choices, including teacher offers.
         for (size_t row = 0; row < entry.dialogueRowCount; ++row)
@@ -810,11 +912,12 @@ bool trainerKnown(const TrainerEntry &entry, const Party &party)
     }
     if (entry.autonoteId)
     {
-        return party.hasAutonote(*entry.autonoteId);
+        return party.campaign().hasAutonote(*entry.autonoteId);
     }
 
     return entry.continent
-        && party.findJournalMapNote(entry.mapFileName, teacherMapNoteId(*entry.continent, entry.mastery, entry.skillId))
+        && party.campaign().findJournalMapNote(
+               entry.mapFileName, teacherMapNoteId(*entry.continent, entry.mastery, entry.skillId))
             != nullptr;
 }
 
@@ -827,7 +930,7 @@ void discoverActorTeacher(Party &party, uint32_t rudeId)
             for (const TrainerEntry &entry : entries)
             {
                 if (entry.rudeId != rudeId || !entry.place
-                    || party.findJournalMapNote(entry.mapFileName, 90000 + rudeId) != nullptr)
+                    || party.campaign().findJournalMapNote(entry.mapFileName, 90000 + rudeId) != nullptr)
                     continue;
                 JournalMapNote note;
                 note.id = 90000 + rudeId;
@@ -835,7 +938,7 @@ void discoverActorTeacher(Party &party, uint32_t rudeId)
                 note.x = entry.place->x;
                 note.y = entry.place->y;
                 note.text = entry.name;
-                party.setJournalMapNote(note);
+                party.campaign().setJournalMapNote(note);
             }
 }
 
@@ -880,7 +983,7 @@ bool buyTeacherLedger(Party &party, const TrainerDirectory &directory, uint32_t 
 
     for (uint32_t autonoteId : directory.forParty(party).continentAutonotes(continent))
     {
-        party.setAutonote(autonoteId, true);
+        party.campaign().setAutonote(autonoteId, true);
     }
 
     return true;

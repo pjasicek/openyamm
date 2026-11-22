@@ -44,7 +44,7 @@ TEST_CASE("MM9 transport service keeps NPC 209 source quest gate")
     OpenYAMM::Game::Party party;
 
     CHECK(rudeTable.visibleRows(209, 209, party).empty());
-    party.setQuestBit(90073, true);
+    party.campaign().setQuestBit(90073, true);
     const std::vector<const OpenYAMM::Game::Mm9RudeRow *> visibleRows =
         rudeTable.visibleRows(209, 209, party);
     REQUIRE_EQ(visibleRows.size(), 1);
@@ -115,7 +115,7 @@ TEST_CASE("MM9 transport route conditions use mounted raw-key QBits")
     OpenYAMM::Game::Party party;
 
     CHECK_FALSE(OpenYAMM::Game::mm9TransportRouteConditionsSatisfied(*pRoute, party));
-    party.setQuestBit(90073, true);
+    party.campaign().setQuestBit(90073, true);
     CHECK(OpenYAMM::Game::mm9TransportRouteConditionsSatisfied(*pRoute, party));
     // The calendar's week starts on Monday (day 0), MM9's schedule order on Saturday: Monday is its day 2.
     CHECK_EQ(OpenYAMM::Game::mm9TransportDayIndex(0.0f), 2);
@@ -148,7 +148,7 @@ TEST_CASE("MM9 dock schedule lists the week's boats the party may take")
     CHECK_EQ(schedule.routes[0].travelDays, 4);
     CHECK_GT(schedule.fare, 0);
 
-    party.setQuestBit(90073, true);
+    party.campaign().setQuestBit(90073, true);
     schedule = OpenYAMM::Game::buildMm9TransportSchedule(table, 18, &party, nullptr);
     CHECK_EQ(schedule.routes.size(), 2);
     CHECK(OpenYAMM::Game::buildMm9TransportSchedule(table, 60, &party, nullptr).routes.empty());
@@ -175,7 +175,7 @@ TEST_CASE("MM9 RUDE transport route charges advances time and queues an exact ar
     REQUIRE(routeTable.loadFromRows({header(), row()}, mapRegistry(), rudeTable));
     OpenYAMM::Game::Party party;
     party.seed(OpenYAMM::Tests::createSpellRegressionPartySeed());
-    party.setQuestBit(90073, true);
+    party.campaign().setQuestBit(90073, true);
     OpenYAMM::Tests::PartySpellTestWorldRuntime worldRuntime;
     worldRuntime.bindParty(&party);
     // Day 0 is a Monday, the route's weekday; the party boards at 15:30.
@@ -230,7 +230,7 @@ TEST_CASE("MM9 RUDE transport rejects unavailable and unaffordable routes withou
     REQUIRE(routeTable.loadFromRows({header(), row()}, mapRegistry(), rudeTable));
     OpenYAMM::Game::Party party;
     party.seed(OpenYAMM::Tests::createSpellRegressionPartySeed());
-    party.setQuestBit(90073, true);
+    party.campaign().setQuestBit(90073, true);
     OpenYAMM::Tests::PartySpellTestWorldRuntime worldRuntime;
     worldRuntime.bindParty(&party);
     // A Tuesday: no boat today, the week's Monday boat in the Schedule.
@@ -283,7 +283,7 @@ TEST_CASE("MM9 dock Schedule opens the popup and a later departure waits for its
     REQUIRE(routeTable.loadFromRows({header(), row()}, mapRegistry(), rudeTable));
     OpenYAMM::Game::Party party;
     party.seed(OpenYAMM::Tests::createSpellRegressionPartySeed());
-    party.setQuestBit(90073, true);
+    party.campaign().setQuestBit(90073, true);
     OpenYAMM::Tests::PartySpellTestWorldRuntime worldRuntime;
     worldRuntime.bindParty(&party);
     // A Saturday at 3:00: the Monday boat is two days away.

@@ -1,5 +1,6 @@
 #pragma once
 
+#include "game/gameplay/PlayerId.h"
 #include "game/gameplay/GameplayRuntimeInterfaces.h"
 
 #include <cstddef>
@@ -27,6 +28,18 @@ class SpriteFrameTable;
 class GameplayProjectileService
 {
 public:
+    // The player a party's missiles belong to that are spawned from now on (ProjectileState::sourcePlayer): a
+    // co-op host's game sets it while it acts for a guest.
+    void setSpawningPlayer(PlayerId player)
+    {
+        m_spawningPlayer = player;
+    }
+
+    PlayerId spawningPlayer() const
+    {
+        return m_spawningPlayer;
+    }
+
     enum class MonsterAttackAbility
     {
         Attack1,
@@ -79,6 +92,9 @@ public:
         SourceKind sourceKind = SourceKind::Actor;
         uint32_t sourceId = 0;
         uint32_t sourcePartyMemberIndex = 0;
+        // The player whose party shot it (a party's missile). It lands frames after it was shot, when the host's
+        // game no longer acts for that player: the hit, its numbers and its kill are worked out for this player.
+        PlayerId sourcePlayer = LocalPlayer;
         int16_t sourceMonsterId = 0;
         bool fromSummonedMonster = false;
         MonsterAttackAbility ability = MonsterAttackAbility::Attack1;
@@ -498,6 +514,8 @@ public:
         // A destructible decoration the missile struck (an indoor entity index; kind World, no face).
         size_t worldEntityIndex = static_cast<size_t>(-1);
         size_t actorIndex = static_cast<size_t>(-1);
+        // For a hit on a party: the player whose party it is.
+        PlayerId partyPlayer = LocalPlayer;
         uint32_t actorId = 0;
         int targetArmorClass = 0;
         int damageMultiplier = 1;
@@ -853,6 +871,14 @@ public:
     // stepIndex (from 0) sees the party that far from its position at the previous frame to its position now, so a
     // missile homing on it steers the same at any frame rate (a lock tested per step would otherwise see two steps'
     // movement in one at 30 fps).
+    // Whether an area impact reaches a party standing at the point (its feet), as buildProjectileAreaImpact tests the
+    // world's own party: for a co-op session's other parties.
+    static bool areaImpactReachesParty(
+        const GameplayWorldPoint &partyFeet,
+        float partyCollisionRadius,
+        float partyCollisionHeight,
+        const GameplayWorldPoint &impact,
+        float impactRadius);
     static GameplayWorldPoint partyPositionAtStep(
         const GameplayWorldPoint &previousFrame,
         const GameplayWorldPoint &currentFrame,
@@ -1052,6 +1078,7 @@ private:
         const ProjectileHoming &homing,
         const std::function<bool(const ProjectileState &)> &fromSource);
 
+    PlayerId m_spawningPlayer = LocalPlayer;
     uint32_t m_nextProjectileId = 1;
     uint32_t m_nextProjectileImpactId = 1;
     uint32_t m_nextFireSpikeTrapId = 1;

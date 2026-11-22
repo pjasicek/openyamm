@@ -1,0 +1,26 @@
+id: mm6.same_map_boat_closes_dialog
+title: "MM6 Bootleg Bay (outd2): the Tsunami's boat to the bay's own isle closes the house dialogue on arrival"
+world: mm6
+mode: faithful
+tags: [mm6, houses, transport, regression]
+steps:
+  - note:
+      text: >-
+        Bootleg Bay's Tsunami (house 505) sails on Monday and Wednesday to a place on its own map (transport location
+        94). A ride inside the map once left the house dialogue open on arrival (merge point 18 kept an event's
+        message window through a move inside the map); a move the dialogue's choice asked for closes it, as a ride to
+        another map does.
+  - new_game_flow:
+      start_map: outd2.odm
+      party:
+        gold: 5000
+        food: 10
+        members:
+          - {name: Hilda, class: Knight, level: 1, skills: [], equipment: {}}
+  - setup_shortcut: {kind: immortal}
+  - execute_event: {id: 17, game_minutes: 600}
+  - assert: {dialog: {house_dialog: true, house_title: "Tsunami", title: "Ismael, Captain"}}
+  - select_topic: {match_label: "1 day to Bootleg Bay for 150 gold"}
+  - advance_runtime: {seconds: 2, follow_map_move: true}
+  - assert: {party_position: {x: 875, y: 3945, radius: 128}}
+  - assert: {dialog: {active: false}}

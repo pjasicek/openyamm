@@ -363,7 +363,7 @@ struct HeldSource
 
 std::optional<AuraReport> MawSpellRules::auraReport(const Party &party) const
 {
-    const MawGameState &state = m_rules.state();
+    const PartyRulesetState &state = party.rulesetState();
     const double buffScale = m_rules.buffScale();
     const size_t memberCount = party.members().size();
     std::unordered_map<uint32_t, HeldSource> held;

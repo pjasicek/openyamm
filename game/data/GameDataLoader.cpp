@@ -19,6 +19,7 @@
 #include "game/StringUtils.h"
 
 #include <algorithm>
+#include <charconv>
 #include <chrono>
 #include <cctype>
 #include <cstdlib>
@@ -188,13 +189,14 @@ std::string normalizedTableTextureName(const std::string &value)
     return toLowerCopy(trimCopy(value));
 }
 
-// The legacy sky names the enhanced sky knows (engine/rendering/sky/sky.yml aliases): every name the data can select.
+// The legacy sky names the enhanced sky knows (the sky library's aliases, the worlds' included): every name the data
+// can select.
 // MMerge sky names resolve to the first of their world-prefixed candidates the library knows.
 std::unordered_set<std::string> buildKnownSkyNameSet(const Engine::AssetFileSystem &assetFileSystem)
 {
-    const std::optional<std::string> text = assetFileSystem.readTextFile("engine/rendering/sky/sky.yml");
-    SkyPresetLibrary library;
     std::string error;
+    const std::optional<std::string> text = readSkyLibraryYaml(assetFileSystem, error);
+    SkyPresetLibrary library;
     if (!text || !library.loadFromYaml(*text, error))
     {
         throw std::runtime_error("Cannot load the sky library for sky name resolution: " + error);
@@ -1287,6 +1289,7 @@ bool GameDataLoader::loadInternal(
     bool loadInitialMap)
 {
     m_activeWorldId = normalizeWorldId(assetFileSystem.getActiveWorldId());
+    m_mountedWorldManifests.reset();
     m_loadedTables.clear();
     m_selectedMap.reset();
     m_selectedMapRenderSourcePixelsReleased = false;
@@ -1448,6 +1451,40 @@ bool GameDataLoader::loadInternal(
     if (!applyMergedRuntimeTables())
     {
         return false;
+    }
+
+    // The mounted worlds' map edges that lead to more than one map (tableContributions `edge_spans`, mode append).
+    const std::vector<WorldManifest> *pEdgeSpanManifests = mountedWorldManifests(assetFileSystem);
+
+    if (pEdgeSpanManifests == nullptr)
+    {
+        return false;
+    }
+
+    for (const WorldManifest &manifest : *pEdgeSpanManifests)
+    {
+        for (const TableContributionDefinition &contribution : manifest.tableContributions)
+        {
+            if (contribution.table != "edge_spans")
+            {
+                continue;
+            }
+
+            const std::string path = "worlds/" + manifest.id + "/" + contribution.path;
+            const std::optional<std::string> text = assetFileSystem.readTextFile(path);
+            std::string error = contribution.mode != TableContributionMode::Append ? "must be mode append"
+                                                                                    : "cannot read " + path;
+
+            if (contribution.mode != TableContributionMode::Append || !text
+                || !m_mapStats.applyEdgeSpans(manifest.id, *text, error))
+            {
+                std::cerr << "edge_spans contribution of world '" << manifest.id << "': " << error << '\n';
+                return false;
+            }
+
+            // The registry holds copies of the entries (applyMergedRuntimeTables): they take the spans too.
+            m_mapRegistry.initialize(m_mapStats.getEntries());
+        }
     }
 
     if (!loadTrainerDirectory(assetFileSystem))
@@ -1940,7 +1977,8 @@ bool GameDataLoader::loadTrainerDirectory(const Engine::AssetFileSystem &assetFi
     }
     m_trainerDirectory = TrainerDirectory::build(m_npcDialogTable, m_mergedTeacherTopicTable,
         m_mergedTeacherAutonoteTable, m_houseTable, m_mapStats, std::move(places), std::move(ledger),
-        std::move(actorTeachers));
+        std::move(actorTeachers),
+        buildTrainerContinents(m_mergedCharacterSelectionTable, m_mergedContinentSettingTable, m_mapStats));
     return true;
 }
 
@@ -2082,6 +2120,11 @@ const MergedTownPortalSwitchTable &GameDataLoader::getMergedTownPortalSwitchTabl
     return m_mergedTownPortalSwitchTable;
 }
 
+const MergedDimensionDoorTable &GameDataLoader::getMergedDimensionDoorTable() const
+{
+    return m_mergedDimensionDoorTable;
+}
+
 const MergedTransportIndexTable &GameDataLoader::getMergedTransportIndexTable() const
 {
     return m_mergedTransportIndexTable;
@@ -2188,8 +2231,14 @@ bool GameDataLoader::loadMapStats(const Engine::AssetFileSystem &assetFileSystem
         rows.push_back(parsedTable->getRow(rowIndex));
     }
 
-    // The ruleset's map changes (treasure levels, encounter monsters and counts; audit DAT-1).
-    if (!applyActiveRulesetTable(assetFileSystem, mapStatsPath, rows) || !m_mapStats.loadFromRows(rows, DefaultWorldId))
+    // The ruleset's map changes (treasure levels, encounter monsters and counts; audit DAT-1), then the mounted worlds'
+    // own maps (a world's rows belong to it unless their world_id column says otherwise).
+    constexpr size_t MapStatsIdColumn = 0;
+    constexpr size_t MapStatsWorldIdColumn = 34;
+
+    if (!applyActiveRulesetTable(assetFileSystem, mapStatsPath, rows)
+        || !appendWorldTableRows(assetFileSystem, "map_stats", MapStatsIdColumn, rows, MapStatsWorldIdColumn)
+        || !m_mapStats.loadFromRows(rows, DefaultWorldId))
     {
         return false;
     }
@@ -2230,7 +2279,8 @@ bool GameDataLoader::loadMapStats(const Engine::AssetFileSystem &assetFileSystem
             navigationRows.push_back(navigationTable->getRow(rowIndex));
         }
 
-        if (!m_mapStats.applyOutdoorNavigationRows(navigationRows))
+        if (!appendWorldMapKeyedTableRows(assetFileSystem, "map_navigation", 0, navigationRows)
+            || !m_mapStats.applyOutdoorNavigationRows(navigationRows))
         {
             return false;
         }
@@ -2394,7 +2444,9 @@ bool GameDataLoader::loadMonsterTable(const Engine::AssetFileSystem &assetFileSy
 
     const std::string placeMonPath = engineEnglishDataTablePath("place_mon.txt");
 
-    if (!loadTextTableRows(assetFileSystem, placeMonPath, placedMonsterRows))
+    // A world adds its placed monsters' own names (the `place_mon` contribution, id domain `placed_monster_names`).
+    if (!loadTextTableRows(assetFileSystem, placeMonPath, placedMonsterRows)
+        || !appendWorldTableRows(assetFileSystem, "place_mon", 0, placedMonsterRows))
     {
         return false;
     }
@@ -2488,7 +2540,8 @@ bool GameDataLoader::loadHouseTable(const Engine::AssetFileSystem &assetFileSyst
     std::vector<std::vector<std::string>> rows;
     const std::string sourcePath = dataTablePath("house_data.txt");
 
-    if (!loadTextTableRows(assetFileSystem, sourcePath, rows))
+    if (!loadTextTableRows(assetFileSystem, sourcePath, rows)
+        || !appendWorldTableRows(assetFileSystem, "house_data", 0, rows))
     {
         return false;
     }
@@ -2634,10 +2687,20 @@ bool GameDataLoader::loadHouseTable(const Engine::AssetFileSystem &assetFileSyst
 
     if (loadTextTableRows(assetFileSystem, dataTablePath("house_animations.txt"), animationRows))
     {
+        if (!appendWorldTableRows(assetFileSystem, "house_animations", 0, animationRows))
+        {
+            return false;
+        }
+
         std::vector<std::vector<std::string>> movieRows;
 
         if (loadTextTableRows(assetFileSystem, dataTablePath("house_movies.txt"), movieRows))
         {
+            if (!appendWorldTableRows(assetFileSystem, "house_movies", 0, movieRows))
+            {
+                return false;
+            }
+
             m_houseTable.loadAnimationRows(animationRows, movieRows);
         }
         else
@@ -2667,7 +2730,8 @@ bool GameDataLoader::loadNpcDialogTable(const Engine::AssetFileSystem &assetFile
     if (!loadFirstTextTableRows(
             assetFileSystem,
             {engineDataTablePath("npc_greet.txt")},
-            greetingRows))
+            greetingRows)
+        || !appendWorldTableRows(assetFileSystem, "npc_greet", 0, greetingRows))
     {
         return false;
     }
@@ -2677,7 +2741,8 @@ bool GameDataLoader::loadNpcDialogTable(const Engine::AssetFileSystem &assetFile
     if (!loadFirstTextTableRows(
             assetFileSystem,
             {engineDataTablePath("npc_topic_text.txt")},
-            textRows))
+            textRows)
+        || !appendWorldTableRows(assetFileSystem, "npc_topic_text", 0, textRows))
     {
         return false;
     }
@@ -2687,7 +2752,8 @@ bool GameDataLoader::loadNpcDialogTable(const Engine::AssetFileSystem &assetFile
     if (!loadFirstTextTableRows(
             assetFileSystem,
             {engineDataTablePath("npc_topic.txt")},
-            topicRows))
+            topicRows)
+        || !appendWorldTableRows(assetFileSystem, "npc_topic", 0, topicRows))
     {
         return false;
     }
@@ -2697,7 +2763,8 @@ bool GameDataLoader::loadNpcDialogTable(const Engine::AssetFileSystem &assetFile
     if (!loadFirstTextTableRows(
             assetFileSystem,
             {engineDataTablePath("npc.txt")},
-            npcRows))
+            npcRows)
+        || !appendWorldTableRows(assetFileSystem, "npc", 0, npcRows))
     {
         return false;
     }
@@ -2707,7 +2774,8 @@ bool GameDataLoader::loadNpcDialogTable(const Engine::AssetFileSystem &assetFile
     if (!loadFirstTextTableRows(
             assetFileSystem,
             {engineDataTablePath("npc_news.txt")},
-            newsRows))
+            newsRows)
+        || !appendWorldTableRows(assetFileSystem, "npc_news", 0, newsRows))
     {
         return false;
     }
@@ -2738,15 +2806,64 @@ bool GameDataLoader::loadNpcDialogTable(const Engine::AssetFileSystem &assetFile
 
 bool GameDataLoader::loadWorldScopedTables(const Engine::AssetFileSystem &assetFileSystem)
 {
-    // The tables only the MM9 world has (each is empty in another world). A world switch loads them again for the
-    // new world: GameApplication::activateWorldForMap.
-    return loadMm9MapTransitionTable(assetFileSystem)
-        && loadMm9TeacherScheduleTable(assetFileSystem)
+    // The active world's own tables, empty in a world without them. Map transitions, teacher schedules, transport
+    // routes and hirelings are world.yml `distribution` contributions any world may declare (MM9 must); the RUDE
+    // dialogue, its skill trainers and the quest interactions are MM9's own formats. A world switch loads them again
+    // for the new world: GameApplication::activateWorldForMap.
+    std::string manifestError;
+    const WorldManifest manifest = loadActiveWorldManifestOrDefault(assetFileSystem, m_activeWorldId, manifestError);
+
+    if (!manifestError.empty() || (m_activeWorldId == "mm9" && !manifest.loadedFromFile))
+    {
+        std::cerr << "Failed to resolve the world tables of " << m_activeWorldId << ": " << manifestError << '\n';
+        return false;
+    }
+
+    return loadWorldAwardTextOverrides(assetFileSystem, manifest)
+        && loadMm9MapTransitionTable(assetFileSystem, manifest)
+        && loadMm9TeacherScheduleTable(assetFileSystem, manifest)
         && loadMm9RudeDialogueTable(assetFileSystem)
-        && loadMm9TransportRouteTable(assetFileSystem)
+        && loadMm9TransportRouteTable(assetFileSystem, manifest)
         && loadMm9SkillTrainerTable(assetFileSystem)
-        && loadMm9HirelingTable(assetFileSystem)
+        && loadMm9HirelingTable(assetFileSystem, manifest)
         && loadMm9QuestInteractionTable(assetFileSystem);
+}
+
+namespace
+{
+// A world's one distribution-mode contribution of `table`: null when the world declares none. MM9 must declare it; a
+// table given twice or in another mode stops the load.
+bool worldDistributionContribution(
+    const WorldManifest &manifest,
+    const std::string &table,
+    const TableContributionDefinition *&pContribution)
+{
+    pContribution = nullptr;
+
+    for (const TableContributionDefinition &contribution : manifest.tableContributions)
+    {
+        if (contribution.table != table)
+        {
+            continue;
+        }
+
+        if (pContribution != nullptr || contribution.mode != TableContributionMode::Distribution)
+        {
+            std::cerr << "World " << manifest.id << " needs one distribution-mode " << table << " contribution\n";
+            return false;
+        }
+
+        pContribution = &contribution;
+    }
+
+    if (pContribution == nullptr && manifest.id == "mm9")
+    {
+        std::cerr << "MM9 world manifest has no " << table << " contribution\n";
+        return false;
+    }
+
+    return true;
+}
 }
 
 bool GameDataLoader::loadMm9RudeDialogueTable(const Engine::AssetFileSystem &assetFileSystem)
@@ -2863,41 +2980,22 @@ std::shared_ptr<Mm9SkillTrainerTable> GameDataLoader::readMm9SkillTrainerTable(
     return pTable;
 }
 
-bool GameDataLoader::loadMm9HirelingTable(const Engine::AssetFileSystem &assetFileSystem)
+bool GameDataLoader::loadMm9HirelingTable(
+    const Engine::AssetFileSystem &assetFileSystem,
+    const WorldManifest &manifest)
 {
     m_pMm9HirelingTable.reset();
-    if (m_activeWorldId != "mm9")
-    {
-        return true;
-    }
+    const TableContributionDefinition *pHirelingContribution = nullptr;
 
-    std::string manifestError;
-    const WorldManifest manifest =
-        loadActiveWorldManifestOrDefault(assetFileSystem, m_activeWorldId, manifestError);
-    if (!manifestError.empty() || !manifest.loadedFromFile)
+    if (!worldDistributionContribution(manifest, "hirelings", pHirelingContribution))
     {
-        std::cerr << "Failed to resolve MM9 hireling contribution: " << manifestError << '\n';
         return false;
     }
 
-    const TableContributionDefinition *pHirelingContribution = nullptr;
-    for (const TableContributionDefinition &contribution : manifest.tableContributions)
-    {
-        if (contribution.table != "hirelings")
-        {
-            continue;
-        }
-        if (pHirelingContribution != nullptr || contribution.mode != TableContributionMode::Distribution)
-        {
-            std::cerr << "MM9 requires one distribution-mode hirelings contribution\n";
-            return false;
-        }
-        pHirelingContribution = &contribution;
-    }
+    // A world that declares no such table reads nothing.
     if (pHirelingContribution == nullptr)
     {
-        std::cerr << "MM9 world manifest has no hirelings contribution\n";
-        return false;
+        return true;
     }
 
     m_pMm9HirelingTable = std::make_shared<Mm9HirelingTable>();
@@ -2915,41 +3013,22 @@ bool GameDataLoader::loadMm9HirelingTable(const Engine::AssetFileSystem &assetFi
     return true;
 }
 
-bool GameDataLoader::loadMm9TransportRouteTable(const Engine::AssetFileSystem &assetFileSystem)
+bool GameDataLoader::loadMm9TransportRouteTable(
+    const Engine::AssetFileSystem &assetFileSystem,
+    const WorldManifest &manifest)
 {
     m_pMm9TransportRouteTable.reset();
-    if (m_activeWorldId != "mm9")
-    {
-        return true;
-    }
+    const TableContributionDefinition *pRouteContribution = nullptr;
 
-    std::string manifestError;
-    const WorldManifest manifest =
-        loadActiveWorldManifestOrDefault(assetFileSystem, m_activeWorldId, manifestError);
-    if (!manifestError.empty() || !manifest.loadedFromFile)
+    if (!worldDistributionContribution(manifest, "transport_routes", pRouteContribution))
     {
-        std::cerr << "Failed to resolve MM9 transport-route contribution: " << manifestError << '\n';
         return false;
     }
 
-    const TableContributionDefinition *pRouteContribution = nullptr;
-    for (const TableContributionDefinition &contribution : manifest.tableContributions)
-    {
-        if (contribution.table != "transport_routes")
-        {
-            continue;
-        }
-        if (pRouteContribution != nullptr || contribution.mode != TableContributionMode::Distribution)
-        {
-            std::cerr << "MM9 requires one distribution-mode transport_routes contribution\n";
-            return false;
-        }
-        pRouteContribution = &contribution;
-    }
+    // A world that declares no such table reads nothing.
     if (pRouteContribution == nullptr)
     {
-        std::cerr << "MM9 world manifest has no transport_routes contribution\n";
-        return false;
+        return true;
     }
 
     m_pMm9TransportRouteTable = std::make_shared<Mm9TransportRouteTable>();
@@ -2988,41 +3067,22 @@ bool GameDataLoader::loadMm9QuestInteractionTable(const Engine::AssetFileSystem 
     return true;
 }
 
-bool GameDataLoader::loadMm9MapTransitionTable(const Engine::AssetFileSystem &assetFileSystem)
+bool GameDataLoader::loadMm9MapTransitionTable(
+    const Engine::AssetFileSystem &assetFileSystem,
+    const WorldManifest &manifest)
 {
     m_pMm9MapTransitionTable.reset();
-    if (m_activeWorldId != "mm9")
-    {
-        return true;
-    }
+    const TableContributionDefinition *pTransitionContribution = nullptr;
 
-    std::string manifestError;
-    const WorldManifest manifest =
-        loadActiveWorldManifestOrDefault(assetFileSystem, m_activeWorldId, manifestError);
-    if (!manifestError.empty() || !manifest.loadedFromFile)
+    if (!worldDistributionContribution(manifest, "map_transitions", pTransitionContribution))
     {
-        std::cerr << "Failed to resolve MM9 map transition contribution: " << manifestError << '\n';
         return false;
     }
 
-    const TableContributionDefinition *pTransitionContribution = nullptr;
-    for (const TableContributionDefinition &contribution : manifest.tableContributions)
-    {
-        if (contribution.table != "map_transitions")
-        {
-            continue;
-        }
-        if (pTransitionContribution != nullptr || contribution.mode != TableContributionMode::Distribution)
-        {
-            std::cerr << "MM9 requires one distribution-mode map_transitions contribution\n";
-            return false;
-        }
-        pTransitionContribution = &contribution;
-    }
+    // A world that declares no such table reads nothing.
     if (pTransitionContribution == nullptr)
     {
-        std::cerr << "MM9 world manifest has no map_transitions contribution\n";
-        return false;
+        return true;
     }
 
     m_pMm9MapTransitionTable = std::make_shared<Mm9MapTransitionTable>();
@@ -3041,41 +3101,22 @@ bool GameDataLoader::loadMm9MapTransitionTable(const Engine::AssetFileSystem &as
     return true;
 }
 
-bool GameDataLoader::loadMm9TeacherScheduleTable(const Engine::AssetFileSystem &assetFileSystem)
+bool GameDataLoader::loadMm9TeacherScheduleTable(
+    const Engine::AssetFileSystem &assetFileSystem,
+    const WorldManifest &manifest)
 {
     m_pMm9TeacherScheduleTable.reset();
-    if (m_activeWorldId != "mm9")
-    {
-        return true;
-    }
+    const TableContributionDefinition *pScheduleContribution = nullptr;
 
-    std::string manifestError;
-    const WorldManifest manifest =
-        loadActiveWorldManifestOrDefault(assetFileSystem, m_activeWorldId, manifestError);
-    if (!manifestError.empty() || !manifest.loadedFromFile)
+    if (!worldDistributionContribution(manifest, "teacher_schedules", pScheduleContribution))
     {
-        std::cerr << "Failed to resolve MM9 teacher schedule contribution: " << manifestError << '\n';
         return false;
     }
 
-    const TableContributionDefinition *pScheduleContribution = nullptr;
-    for (const TableContributionDefinition &contribution : manifest.tableContributions)
-    {
-        if (contribution.table != "teacher_schedules")
-        {
-            continue;
-        }
-        if (pScheduleContribution != nullptr || contribution.mode != TableContributionMode::Distribution)
-        {
-            std::cerr << "MM9 requires one distribution-mode teacher_schedules contribution\n";
-            return false;
-        }
-        pScheduleContribution = &contribution;
-    }
+    // A world that declares no such table reads nothing.
     if (pScheduleContribution == nullptr)
     {
-        std::cerr << "MM9 world manifest has no teacher_schedules contribution\n";
-        return false;
+        return true;
     }
 
     m_pMm9TeacherScheduleTable = std::make_shared<Mm9TeacherScheduleTable>();
@@ -3099,7 +3140,8 @@ bool GameDataLoader::loadAwardTable(const Engine::AssetFileSystem &assetFileSyst
     std::vector<std::vector<std::string>> awardRows;
     std::vector<std::vector<std::string>> aliasRows;
 
-    if (!loadFirstTextTableRows(assetFileSystem, {engineEnglishDataTablePath("awards.txt")}, awardRows))
+    if (!loadFirstTextTableRows(assetFileSystem, {engineEnglishDataTablePath("awards.txt")}, awardRows)
+        || !appendWorldTableRows(assetFileSystem, "awards", 0, awardRows))
     {
         std::cerr << "Failed to read award table\n";
         return false;
@@ -3117,6 +3159,46 @@ bool GameDataLoader::loadAwardTable(const Engine::AssetFileSystem &assetFileSyst
     if (!m_awardTable.loadFromRows(awardRows, aliasRows))
     {
         std::cerr << "Failed to parse award tables\n";
+        return false;
+    }
+
+    return true;
+}
+
+bool GameDataLoader::loadWorldAwardTextOverrides(
+    const Engine::AssetFileSystem &assetFileSystem,
+    const WorldManifest &manifest)
+{
+    // The active world's wording of engine award rows (Xeen's arena awards 46-49, D-39): `award_texts` contributions in
+    // mode override. Every other world, and a world switch away, shows the loaded texts again.
+    std::vector<std::vector<std::string>> rows;
+
+    for (const TableContributionDefinition &contribution : manifest.tableContributions)
+    {
+        if (contribution.table != "award_texts")
+        {
+            continue;
+        }
+
+        const std::string path = "worlds/" + manifest.id + "/" + contribution.path;
+        std::vector<std::vector<std::string>> contributionRows;
+
+        if (contribution.mode != TableContributionMode::Override
+            || !loadTextTableRows(assetFileSystem, path, contributionRows))
+        {
+            std::cerr << "World " << manifest.id << ": award_texts must be mode override with a readable file: " << path
+                      << '\n';
+            return false;
+        }
+
+        rows.insert(rows.end(), contributionRows.begin(), contributionRows.end());
+    }
+
+    std::string errorMessage;
+
+    if (!m_awardTable.applyTextOverrides(rows, errorMessage))
+    {
+        std::cerr << "World " << manifest.id << ": " << errorMessage << '\n';
         return false;
     }
 
@@ -3170,6 +3252,11 @@ bool GameDataLoader::loadJournalTables(const Engine::AssetFileSystem &assetFileS
         }
     }
 
+    if (!appendWorldTableRows(assetFileSystem, "quests", 0, questRows))
+    {
+        return false;
+    }
+
     std::vector<std::vector<std::string>> historyRows;
 
     if (!loadFirstTextTableRows(assetFileSystem, {engineEnglishDataTablePath("history.txt")}, historyRows))
@@ -3180,7 +3267,8 @@ bool GameDataLoader::loadJournalTables(const Engine::AssetFileSystem &assetFileS
 
     std::vector<std::vector<std::string>> autonoteRows;
 
-    if (!loadFirstTextTableRows(assetFileSystem, {engineEnglishDataTablePath("autonote.txt")}, autonoteRows))
+    if (!loadFirstTextTableRows(assetFileSystem, {engineEnglishDataTablePath("autonote.txt")}, autonoteRows)
+        || !appendWorldTableRows(assetFileSystem, "autonote", 0, autonoteRows))
     {
         std::cerr << "Failed to read journal autonote table\n";
         return false;
@@ -3300,7 +3388,8 @@ bool GameDataLoader::loadRosterTable(const Engine::AssetFileSystem &assetFileSys
 
     const std::string rosterPath = engineDataTablePath("roster.txt");
 
-    if (!loadTextTableRows(assetFileSystem, rosterPath, rows))
+    if (!loadTextTableRows(assetFileSystem, rosterPath, rows)
+        || !appendWorldTableRows(assetFileSystem, "roster", 0, rows))
     {
         return false;
     }
@@ -3556,6 +3645,13 @@ bool GameDataLoader::loadTransitionTable(const Engine::AssetFileSystem &assetFil
         return false;
     }
 
+    // A world's entrance texts (its data_tables/english/trans.txt, ids in its declared range): the line a MoveToMap
+    // with that id shows in the entrance window in place of "Do you wish to enter X?".
+    if (!appendWorldTableRows(assetFileSystem, "trans", 0, rows))
+    {
+        return false;
+    }
+
     if (!m_transitionTable.loadFromRows(rows))
     {
         std::cerr << "Failed to parse transition table.\n";
@@ -3567,15 +3663,6 @@ bool GameDataLoader::loadTransitionTable(const Engine::AssetFileSystem &assetFil
 
 bool GameDataLoader::loadMergedBaseTables(const Engine::AssetFileSystem &assetFileSystem)
 {
-    std::vector<WorldManifest> mountedWorlds;
-    std::string manifestError;
-
-    if (!loadMountedWorldManifests(assetFileSystem, mountedWorlds, manifestError))
-    {
-        std::cerr << "Failed to resolve merged table contributions: " << manifestError << '\n';
-        return false;
-    }
-
     const auto loadBaseTable =
         [this, &assetFileSystem](const char *pFileName, auto &table, const char *pDisplayName) -> bool
         {
@@ -3597,8 +3684,10 @@ bool GameDataLoader::loadMergedBaseTables(const Engine::AssetFileSystem &assetFi
             return true;
         };
 
+    // A base table with the rows the mounted worlds add to it (appendWorldTableRows), keyed by an id in
+    // contributionIdColumn.
     const auto loadComposedKeyedTable =
-        [this, &assetFileSystem, &mountedWorlds](
+        [this, &assetFileSystem](
             const char *pFileName,
             const char *pContributionName,
             size_t contributionIdColumn,
@@ -3606,73 +3695,20 @@ bool GameDataLoader::loadMergedBaseTables(const Engine::AssetFileSystem &assetFi
             const char *pDisplayName) -> bool
         {
             const std::string tablePath = engineDataTablePath(pFileName);
-            std::vector<std::vector<std::string>> baseRows;
+            std::vector<std::vector<std::string>> rows;
 
-            if (!loadTextTableRows(assetFileSystem, tablePath, baseRows))
+            if (!loadTextTableRows(assetFileSystem, tablePath, rows))
             {
                 std::cerr << "Failed to read merged base table: " << tablePath << '\n';
                 return false;
             }
 
-            std::vector<KeyedTableContributionRows> contributions;
-
-            for (const WorldManifest &manifest : mountedWorlds)
+            if (!appendWorldTableRows(assetFileSystem, pContributionName, contributionIdColumn, rows))
             {
-                for (const TableContributionDefinition &contribution : manifest.tableContributions)
-                {
-                    if (contribution.table != pContributionName)
-                    {
-                        continue;
-                    }
-
-                    if (contribution.mode != TableContributionMode::Append)
-                    {
-                        std::cerr << "Unsupported " << pContributionName << " contribution mode in package '"
-                                  << manifest.id << "'\n";
-                        return false;
-                    }
-
-                    const ContentIdRangeDefinition *pIdRange = manifest.findIdRange(contribution.idDomain);
-
-                    if (pIdRange == nullptr)
-                    {
-                        std::cerr << pContributionName << " contribution from package '" << manifest.id
-                                  << "' has no declared id range\n";
-                        return false;
-                    }
-
-                    KeyedTableContributionRows contributionRows = {};
-                    contributionRows.packageId = manifest.id;
-                    contributionRows.idRange = *pIdRange;
-                    contributionRows.idColumn = contributionIdColumn;
-                    const std::string contributionPath = "worlds/" + manifest.id + "/" + contribution.path;
-
-                    if (!loadTextTableRows(assetFileSystem, contributionPath, contributionRows.rows))
-                    {
-                        std::cerr << "Failed to read " << pContributionName << " contribution from package '"
-                                  << manifest.id << "': " << contributionPath << '\n';
-                        return false;
-                    }
-
-                    contributions.push_back(std::move(contributionRows));
-                }
-            }
-
-            std::vector<std::vector<std::string>> composedRows;
-            std::string compositionError;
-
-            if (!composeKeyedAppendTableRows(
-                baseRows,
-                contributions,
-                composedRows,
-                compositionError,
-                contributionIdColumn))
-            {
-                std::cerr << "Failed to compose " << pContributionName << ": " << compositionError << '\n';
                 return false;
             }
 
-            if (!table.loadFromRows(composedRows))
+            if (!table.loadFromRows(rows))
             {
                 std::cerr << "Failed to parse merged base table: " << pDisplayName << '\n';
                 return false;
@@ -3680,6 +3716,205 @@ bool GameDataLoader::loadMergedBaseTables(const Engine::AssetFileSystem &assetFi
 
             return true;
         };
+
+    // The same for a table keyed by a map file name in its first column (appendWorldMapKeyedTableRows).
+    const auto loadComposedMapKeyedTable =
+        [this, &assetFileSystem](
+            const char *pFileName,
+            const char *pContributionName,
+            auto &table,
+            const char *pDisplayName) -> bool
+        {
+            const std::string tablePath = engineDataTablePath(pFileName);
+            std::vector<std::vector<std::string>> rows;
+
+            if (!loadTextTableRows(assetFileSystem, tablePath, rows)
+                || !appendWorldMapKeyedTableRows(assetFileSystem, pContributionName, 0, rows))
+            {
+                std::cerr << "Failed to read merged base table: " << tablePath << '\n';
+                return false;
+            }
+
+            if (!table.loadFromRows(rows))
+            {
+                std::cerr << "Failed to parse merged base table: " << pDisplayName << '\n';
+                return false;
+            }
+
+            return true;
+        };
+
+    // The new-game continents the mounted worlds add (tableContributions `new_game_continents`, mode append, ids in
+    // the world's `continents` range): a world's card on the new-game screen.
+    const auto appendWorldNewGameContinents = [this, &assetFileSystem]() -> bool
+    {
+        const std::vector<WorldManifest> *pManifests = mountedWorldManifests(assetFileSystem);
+
+        if (pManifests == nullptr)
+        {
+            return false;
+        }
+
+        for (const WorldManifest &manifest : *pManifests)
+        {
+            for (const TableContributionDefinition &contribution : manifest.tableContributions)
+            {
+                if (contribution.table != "new_game_continents")
+                {
+                    continue;
+                }
+
+                const ContentIdRangeDefinition *pIdRange = manifest.findIdRange(contribution.idDomain);
+                const std::string path = "worlds/" + manifest.id + "/" + contribution.path;
+                const bool declared = contribution.mode == TableContributionMode::Append && pIdRange != nullptr;
+                // A ruleset may put its own card in place of the world's (MAW's Xeen card with its new class lines).
+                const std::optional<std::string> text = readRulesetDataFile(assetFileSystem, path);
+                std::string error = !declared ? "must be mode append with a declared id range" : "cannot read " + path;
+
+                if (!declared || !text
+                    || !m_mergedCharacterSelectionTable.appendNewGameContinentsFromYaml(
+                        *text, pIdRange->begin, pIdRange->end, error))
+                {
+                    std::cerr << "new_game_continents contribution of world '" << manifest.id << "': " << error
+                              << '\n';
+                    return false;
+                }
+            }
+        }
+
+        return true;
+    };
+
+    // town_portal_switch.txt with the mounted worlds' own groups (tableContributions `town_portal_switch`, mode
+    // append): whole groups, each from its "@" row, with a new name and a continent in the world's range of the
+    // contribution's idDomain (continents).
+    const auto loadTownPortalTable = [this, &assetFileSystem]() -> bool
+    {
+        std::vector<std::vector<std::string>> rows;
+        const std::vector<WorldManifest> *pManifests = mountedWorldManifests(assetFileSystem);
+
+        if (pManifests == nullptr
+            || !loadTextTableRows(assetFileSystem, engineDataTablePath("town_portal_switch.txt"), rows))
+        {
+            return false;
+        }
+
+        std::unordered_set<std::string> groupNames;
+
+        for (const std::vector<std::string> &row : rows)
+        {
+            if (row.size() > 1 && trimCopy(row[0]) == "@")
+            {
+                groupNames.insert(toLowerCopy(trimCopy(row[1])));
+            }
+        }
+
+        for (const WorldManifest &manifest : *pManifests)
+        {
+            for (const TableContributionDefinition &contribution : manifest.tableContributions)
+            {
+                if (contribution.table != "town_portal_switch")
+                {
+                    continue;
+                }
+
+                const ContentIdRangeDefinition *pIdRange = manifest.findIdRange(contribution.idDomain);
+                std::vector<std::vector<std::string>> worldRows;
+
+                const std::string path = "worlds/" + manifest.id + "/" + contribution.path;
+
+                if (contribution.mode != TableContributionMode::Append || pIdRange == nullptr
+                    || !loadTextTableRows(assetFileSystem, path, worldRows))
+                {
+                    std::cerr << "town_portal_switch contribution of world '" << manifest.id
+                              << "' must be mode append with a declared continent range and a readable file\n";
+                    return false;
+                }
+
+                bool inGroup = false;
+
+                for (const std::vector<std::string> &row : worldRows)
+                {
+                    const std::string firstCell = row.empty() ? std::string() : trimCopy(row[0]);
+
+                    if (firstCell == "@")
+                    {
+                        uint32_t continentId = 0;
+                        const std::string name = row.size() > 1 ? toLowerCopy(trimCopy(row[1])) : std::string();
+                        const std::string continentCell = row.size() > 4 ? trimCopy(row[4]) : std::string();
+                        const auto [pEnd, parseError] = std::from_chars(
+                            continentCell.data(), continentCell.data() + continentCell.size(), continentId);
+
+                        if (name.empty() || !groupNames.insert(name).second || parseError != std::errc()
+                            || pEnd != continentCell.data() + continentCell.size()
+                            || continentId < pIdRange->begin || continentId > pIdRange->end)
+                        {
+                            std::cerr << "town_portal_switch group '" << name << "' of world '" << manifest.id
+                                      << "' needs a new name and a continent in the world's range\n";
+                            return false;
+                        }
+
+                        inGroup = true;
+                    }
+                    else if (!inGroup || firstCell.empty() || !std::isdigit(static_cast<unsigned char>(firstCell[0])))
+                    {
+                        continue;
+                    }
+
+                    rows.push_back(row);
+                }
+            }
+        }
+
+        if (!m_mergedTownPortalSwitchTable.loadFromRows(rows))
+        {
+            std::cerr << "Failed to parse merged base table: TownPortalSwitch.txt\n";
+            return false;
+        }
+
+        return true;
+    };
+
+    // dimension_doors.yml with the mounted worlds' doors and screens (tableContributions `dimension_doors`, mode
+    // append): new keys, places and door counts.
+    const auto loadDimensionDoorTable = [this, &assetFileSystem]() -> bool
+    {
+        const std::string enginePath = engineDataTablePath("dimension_doors.yml");
+        const std::optional<std::string> engineText = readRulesetDataFile(assetFileSystem, enginePath);
+        const std::vector<WorldManifest> *pManifests = mountedWorldManifests(assetFileSystem);
+        std::string error = "cannot read " + enginePath;
+
+        if (!engineText || pManifests == nullptr || !m_mergedDimensionDoorTable.loadFromYaml(*engineText, error))
+        {
+            std::cerr << "Failed to load dimension_doors.yml: " << error << '\n';
+            return false;
+        }
+
+        for (const WorldManifest &manifest : *pManifests)
+        {
+            for (const TableContributionDefinition &contribution : manifest.tableContributions)
+            {
+                if (contribution.table != "dimension_doors")
+                {
+                    continue;
+                }
+
+                const std::string path = "worlds/" + manifest.id + "/" + contribution.path;
+                const std::optional<std::string> text = assetFileSystem.readTextFile(path);
+                error = contribution.mode != TableContributionMode::Append ? "must be mode append"
+                                                                            : "cannot read " + path;
+
+                if (contribution.mode != TableContributionMode::Append || !text
+                    || !m_mergedDimensionDoorTable.appendFromYaml(*text, error))
+                {
+                    std::cerr << "dimension_doors contribution of world '" << manifest.id << "': " << error << '\n';
+                    return false;
+                }
+            }
+        }
+
+        return true;
+    };
 
     const auto loadBaseYamlTable =
         [this, &assetFileSystem](const char *pFileName, auto &table, const char *pDisplayName) -> bool
@@ -3712,12 +3947,15 @@ bool GameDataLoader::loadMergedBaseTables(const Engine::AssetFileSystem &assetFi
             "character_selection.yml",
             m_mergedCharacterSelectionTable,
             "character_selection.yml")
+        && appendWorldNewGameContinents()
         && loadBaseYamlTable(
             "race_skills.yml",
             m_mergedRaceSkillTable,
             "race_skills.yml")
-        && loadBaseTable(
+        && loadComposedKeyedTable(
             "teacher_topics.txt",
+            "teacher_topics",
+            0,
             m_mergedTeacherTopicTable,
             "Teacher topics.txt")
         && loadBaseTable(
@@ -3768,12 +4006,16 @@ bool GameDataLoader::loadMergedBaseTables(const Engine::AssetFileSystem &assetFi
             "bolster_formulas.txt",
             m_mergedBolsterFormulaTable,
             "Bolster - formulas.txt")
-        && loadBaseTable(
+        && loadComposedKeyedTable(
             "bolster_maps.txt",
+            "bolster_maps",
+            0,
             m_mergedBolsterMapTable,
             "Bolster - maps.txt")
-        && loadBaseTable(
+        && loadComposedKeyedTable(
             "bolster_monsters.txt",
+            "bolster_monsters",
+            0,
             m_mergedBolsterMonsterTable,
             "Bolster - monsters.txt")
         && loadBaseTable(
@@ -3794,16 +4036,19 @@ bool GameDataLoader::loadMergedBaseTables(const Engine::AssetFileSystem &assetFi
             1,
             m_mergedComplexItemPictureTable,
             "Complex item pictures.txt")
-        && loadBaseTable(
+        && loadComposedKeyedTable(
             "continent_settings.txt",
+            "continent_settings",
+            0,
             m_mergedContinentSettingTable,
             "Continent settings.txt")
         && loadBaseTable(
             "hw_water_textures.txt",
             m_mergedHardwareWaterTextureTable,
             "HW water textures.txt")
-        && loadBaseTable(
+        && loadComposedMapKeyedTable(
             "house_exits.txt",
+            "house_exits",
             m_mergedHouseExitTable,
             "House exits.txt")
         && loadBaseTable(
@@ -3814,24 +4059,27 @@ bool GameDataLoader::loadMergedBaseTables(const Engine::AssetFileSystem &assetFi
             "english/mm7_history.txt",
             m_mergedMm7HistoryTable,
             "MM7history.txt")
-        && loadBaseTable(
+        && loadComposedMapKeyedTable(
             "outdoor_travels.txt",
+            "outdoor_travels",
             m_mergedOutdoorTravelTable,
             "Outdoor travels.txt")
         && loadBaseTable(
             "overlay.txt",
             m_mergedOverlayTable,
             "Overlay.txt")
-        && loadBaseTable(
-            "town_portal_switch.txt",
-            m_mergedTownPortalSwitchTable,
-            "TownPortalSwitch.txt")
-        && loadBaseTable(
+        && loadTownPortalTable()
+        && loadDimensionDoorTable()
+        && loadComposedKeyedTable(
             "transport_index.txt",
+            "transport_index",
+            0,
             m_mergedTransportIndexTable,
             "Transport Index.txt")
-        && loadBaseTable(
+        && loadComposedKeyedTable(
             "transport_locations.txt",
+            "transport_locations",
+            0,
             m_mergedTransportLocationTable,
             "Transport Locations.txt")
         && loadPotionEffects(assetFileSystem)
@@ -4069,6 +4317,7 @@ bool GameDataLoader::applyMergedRuntimeTables()
 
     if (!m_houseTable.applyHouseRules(
             m_mergedHouseRuleTable,
+            m_mergedTransportIndexTable,
             m_mergedTransportLocationTable,
             m_mapStats))
     {
@@ -4714,6 +4963,25 @@ bool GameDataLoader::loadItemTable(const Engine::AssetFileSystem &assetFileSyste
     m_itemTable.setChestArtifactsOnlyWorlds(std::move(chestArtifactsOnlyWorlds));
     m_itemTable.setGroundGoldByItemTierWorlds(std::move(groundGoldByItemTierWorlds));
 
+    // The worlds a world borrows from (world.yml dependencies naming mounted worlds) lend it their loot pools.
+    std::unordered_map<std::string, std::vector<std::string>> worldDependencies;
+
+    for (const WorldManifest &manifest : mountedWorlds)
+    {
+        for (const std::string &dependency : manifest.dependencies)
+        {
+            const bool mountedWorld = std::any_of(mountedWorlds.begin(), mountedWorlds.end(),
+                [&dependency](const WorldManifest &other) { return other.id == dependency; });
+
+            if (mountedWorld && dependency != manifest.id)
+            {
+                worldDependencies[manifest.id].push_back(dependency);
+            }
+        }
+    }
+
+    m_itemTable.setWorldDependencies(std::move(worldDependencies));
+
     ItemModelBindings groundModels;
     std::string groundModelError;
 
@@ -4816,6 +5084,184 @@ bool GameDataLoader::loadChestTable(const Engine::AssetFileSystem &assetFileSyst
         return false;
     }
 
+    return true;
+}
+
+const std::vector<WorldManifest> *GameDataLoader::mountedWorldManifests(
+    const Engine::AssetFileSystem &assetFileSystem)
+{
+    if (!m_mountedWorldManifests)
+    {
+        std::vector<WorldManifest> manifests;
+        std::string manifestError;
+
+        if (!loadMountedWorldManifests(assetFileSystem, manifests, manifestError))
+        {
+            std::cerr << "Failed to resolve world table contributions: " << manifestError << '\n';
+            return nullptr;
+        }
+
+        m_mountedWorldManifests = std::move(manifests);
+    }
+
+    return &*m_mountedWorldManifests;
+}
+
+bool GameDataLoader::appendWorldTableRows(
+    const Engine::AssetFileSystem &assetFileSystem,
+    const std::string &tableName,
+    size_t idColumn,
+    std::vector<std::vector<std::string>> &rows,
+    size_t worldIdColumn)
+{
+    const std::vector<WorldManifest> *pManifests = mountedWorldManifests(assetFileSystem);
+
+    if (pManifests == nullptr)
+    {
+        return false;
+    }
+
+    std::vector<KeyedTableContributionRows> contributions;
+
+    for (const WorldManifest &manifest : *pManifests)
+    {
+        for (const TableContributionDefinition &contribution : manifest.tableContributions)
+        {
+            if (contribution.table != tableName)
+            {
+                continue;
+            }
+
+            const ContentIdRangeDefinition *pIdRange = manifest.findIdRange(contribution.idDomain);
+
+            if (contribution.mode != TableContributionMode::Append || pIdRange == nullptr)
+            {
+                std::cerr << tableName << " contribution of world '" << manifest.id
+                          << "' must be mode append with a declared id range\n";
+                return false;
+            }
+
+            KeyedTableContributionRows contributionRows = {};
+            contributionRows.packageId = manifest.id;
+            contributionRows.idRange = *pIdRange;
+            contributionRows.idColumn = idColumn;
+            const std::string path = "worlds/" + manifest.id + "/" + contribution.path;
+
+            if (!loadTextTableRows(assetFileSystem, path, contributionRows.rows))
+            {
+                std::cerr << "Failed to read " << tableName << " contribution of world '" << manifest.id << "'\n";
+                return false;
+            }
+
+            if (worldIdColumn != SIZE_MAX)
+            {
+                for (std::vector<std::string> &row : contributionRows.rows)
+                {
+                    if (row.size() <= worldIdColumn)
+                    {
+                        row.resize(worldIdColumn + 1);
+                    }
+
+                    if (row[worldIdColumn].empty())
+                    {
+                        row[worldIdColumn] = manifest.id;
+                    }
+                }
+            }
+
+            contributions.push_back(std::move(contributionRows));
+        }
+    }
+
+    if (contributions.empty())
+    {
+        return true;
+    }
+
+    std::vector<std::vector<std::string>> composedRows;
+    std::string compositionError;
+
+    if (!composeKeyedAppendTableRows(rows, contributions, composedRows, compositionError, idColumn))
+    {
+        std::cerr << "Failed to compose " << tableName << ": " << compositionError << '\n';
+        return false;
+    }
+
+    rows = std::move(composedRows);
+    return true;
+}
+
+bool GameDataLoader::appendWorldMapKeyedTableRows(
+    const Engine::AssetFileSystem &assetFileSystem,
+    const std::string &tableName,
+    size_t keyColumn,
+    std::vector<std::vector<std::string>> &rows)
+{
+    const std::vector<WorldManifest> *pManifests = mountedWorldManifests(assetFileSystem);
+
+    if (pManifests == nullptr)
+    {
+        return false;
+    }
+
+    std::vector<MapKeyedTableContributionRows> contributions;
+
+    for (const WorldManifest &manifest : *pManifests)
+    {
+        for (const TableContributionDefinition &contribution : manifest.tableContributions)
+        {
+            if (contribution.table != tableName)
+            {
+                continue;
+            }
+
+            const ContentIdRangeDefinition *pIdRange = manifest.findIdRange(contribution.idDomain);
+
+            if (contribution.mode != TableContributionMode::Append || pIdRange == nullptr)
+            {
+                std::cerr << tableName << " contribution of world '" << manifest.id
+                          << "' must be mode append with a declared map id range\n";
+                return false;
+            }
+
+            MapKeyedTableContributionRows contributionRows = {};
+            contributionRows.packageId = manifest.id;
+
+            for (const MapStatsEntry &entry : m_mapStats.getEntries())
+            {
+                if (entry.id >= 0 && uint32_t(entry.id) >= pIdRange->begin && uint32_t(entry.id) <= pIdRange->end)
+                {
+                    contributionRows.mapFileNames.insert(toLowerCopy(entry.fileName));
+                }
+            }
+
+            const std::string path = "worlds/" + manifest.id + "/" + contribution.path;
+
+            if (!loadTextTableRows(assetFileSystem, path, contributionRows.rows))
+            {
+                std::cerr << "Failed to read " << tableName << " contribution of world '" << manifest.id << "'\n";
+                return false;
+            }
+
+            contributions.push_back(std::move(contributionRows));
+        }
+    }
+
+    if (contributions.empty())
+    {
+        return true;
+    }
+
+    std::vector<std::vector<std::string>> composedRows;
+    std::string compositionError;
+
+    if (!composeMapKeyedAppendTableRows(rows, contributions, keyColumn, composedRows, compositionError))
+    {
+        std::cerr << "Failed to compose " << tableName << ": " << compositionError << '\n';
+        return false;
+    }
+
+    rows = std::move(composedRows);
     return true;
 }
 
@@ -5044,6 +5490,15 @@ bool GameDataLoader::loadSelectedMap(
     {
         return false;
     }
+    // D-55: a world whose glow is content draws it with Surface materials off.
+    std::vector<std::string> surfaceGlowWorlds;
+    if (!m_surfaceMaterials)
+    {
+        if (const std::vector<WorldManifest> *pWorlds = mountedWorldManifests(assetFileSystem))
+        {
+            surfaceGlowWorlds = surfaceGlowListWorlds(*pWorlds, selectedMap->worldId, m_surfaceMaterials);
+        }
+    }
     const MapAssetLoader mapAssetLoader;
     std::optional<MapAssetInfo> loadedMap = mapAssetLoader.load(
         assetFileSystem,
@@ -5051,7 +5506,9 @@ bool GameDataLoader::loadSelectedMap(
         m_monsterTable,
         m_objectTable,
         mapLoadPurpose,
-        MapCompanionLoadOptions{.rulesetRoot = activeRulesetRoot(), .surfaceMaterials = m_surfaceMaterials},
+        MapCompanionLoadOptions{.rulesetRoot = activeRulesetRoot(), .surfaceMaterials = m_surfaceMaterials,
+            .surfaceGlowWorlds = surfaceGlowWorlds,
+            .actorNpcNames = {&m_npcDialogTable, &m_mergedNpcProfessionTable}},
         progressPump,
         &m_mapAssetLoadSharedCache,
         m_pActorModelManifest);
@@ -5081,7 +5538,7 @@ bool GameDataLoader::loadSelectedMap(
     std::string resolvedWorldCommonLuaPath;
     const std::optional<std::string> worldCommonLuaSource = readExistingTexts(
         assetFileSystem,
-        buildLuaWorldCommonPathCandidates(selectedMap->worldId),
+        buildLuaWorldCommonPathCandidates(assetFileSystem, selectedMap->worldId),
         resolvedWorldCommonLuaPath);
     const std::vector<std::filesystem::path> localLuaSidecarCandidates =
         buildLuaScriptSidecarPathCandidates(
@@ -5517,7 +5974,7 @@ void GameDataLoader::applyMergedContinentSettingsToSelectedMap(const Engine::Ass
         // weather.yml alone decides ash; rain and snow need a bolster_maps.txt row (below).
         m_selectedMap->outdoorWeatherProfile->weatherMap = resolveWeatherMapSettings(
             m_selectedMap->outdoorWeatherProfile->weatherRules, static_cast<uint32_t>(m_selectedMap->map.id),
-            m_selectedMap->map.fileName, false, false);
+            m_selectedMap->map.fileName, false, false, m_selectedMap->outdoorWeatherProfile->sceneAshChancePercent);
     }
 
     const MergedBolsterMapEntry *pBolsterMap =
@@ -5564,7 +6021,7 @@ void GameDataLoader::applyMergedContinentSettingsToSelectedMap(const Engine::Ass
     profile.weatherRules = weatherRules(assetFileSystem);
     profile.weatherMap = resolveWeatherMapSettings(profile.weatherRules, profile.mergedMapId,
         m_selectedMap->map.fileName, pBolsterMap->weather && pBolsterMap->rain,
-        pBolsterMap->weather && pBolsterMap->snow);
+        pBolsterMap->weather && pBolsterMap->snow, profile.sceneAshChancePercent);
     profile.mergedCustomSkyTextureName = resolveMergedSkyTextureNameCached(pBolsterMap->customSky);
     profile.mergedSkyTextureNames.clear();
 

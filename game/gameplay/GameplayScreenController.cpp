@@ -221,7 +221,7 @@ void handleNestedInventoryBagButtons(GameplayScreenRuntime &context, const Gamep
              std::pair("ChestInventoryAlchemyPouch", ItemPouch::Alchemy),
              std::pair("ChestInventoryQuestPouch", ItemPouch::Quest)})
     {
-        if (overlay.active && pParty->rules().items.hasPouches() && pressed(pId))
+        if (overlay.active && pParty->hasPouch(pouch) && pressed(pId))
         {
             overlay.pouch.thumbDragOffset.reset();
             overlay.pouch.shown = overlay.pouch.shown == pouch ? std::nullopt : std::optional<ItemPouch>(pouch);

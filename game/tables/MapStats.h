@@ -64,6 +64,16 @@ struct MapEdgeTransition
     std::vector<uint32_t> requiredQuestBitsAny;
 };
 
+// A stretch of one map edge that leads somewhere else than the rest of it (a world's edge_spans): from `from` to `to`
+// in map units along the edge (x for north and south, y for east and west).
+struct MapEdgeSpan
+{
+    MapBoundaryEdge edge = MapBoundaryEdge::North;
+    int from = 0;
+    int to = 0;
+    std::optional<MapEdgeTransition> transition;
+};
+
 struct MapStatsEntry
 {
     int id;
@@ -92,6 +102,7 @@ struct MapStatsEntry
     std::optional<MapEdgeTransition> southTransition;
     std::optional<MapEdgeTransition> eastTransition;
     std::optional<MapEdgeTransition> westTransition;
+    std::vector<MapEdgeSpan> edgeSpans;
     MapRuntimeRestrictions runtimeRestrictions = {};
     std::optional<MapArenaDefinition> arena;
     // A BLV its world declares open to the sky (world.yml openAirMaps): spells follow the outdoor rules there
@@ -102,7 +113,16 @@ struct MapStatsEntry
 
     const std::optional<MapEdgeTransition> *edgeTransition(MapBoundaryEdge edge) const;
     std::optional<MapEdgeTransition> *edgeTransition(MapBoundaryEdge edge);
+    // The transition a party meets where it reaches the edge at (x, y): the span's that covers the point, else the
+    // edge's own. sourceId names it for the map-transition dialogue (mapTransitionAtSource).
+    const std::optional<MapEdgeTransition> *edgeTransitionAt(
+        MapBoundaryEdge edge, float x, float y, uint32_t &sourceId) const;
+    // The transition a map-transition dialogue's source id names: an edge (0-3), or a span (edge + 4 * (index + 1)).
+    const std::optional<MapEdgeTransition> *mapTransitionAtSource(uint32_t sourceId) const;
 };
+
+// The edge a map-transition dialogue's source id names (its span left out).
+MapBoundaryEdge mapTransitionSourceEdge(uint32_t sourceId);
 
 // The start decoration a party entering from the given side uses ("north start", ...); empty without a side.
 std::string mapStartPointName(std::optional<MapBoundaryEdge> side);
@@ -117,6 +137,10 @@ public:
     bool applyMergedBolsterMaps(const MergedBolsterMapTable &bolsterMaps);
     bool applyOutdoorNavigationRows(const std::vector<std::vector<std::string>> &rows);
     bool applyMergedOutdoorTravels(const MergedOutdoorTravelTable &outdoorTravels);
+    // A world's edge_spans.yml (`edge_spans:` list of {map, edge, from, to, to_map, side, days, at, facing}): spans of
+    // the world's own maps' edges, each to a known map, not overlapping on one edge. `at` [x, y, z] and `facing`
+    // (0-2047) give the arrival, else the destination's start point of `side`.
+    bool applyEdgeSpans(const std::string &worldId, const std::string &yamlText, std::string &errorMessage);
     // Assigns each map without an explicit world column to the world package that ships its file
     // (pairs of world id and file name found under worlds/<world>/maps). A file shipped by two worlds is an error.
     bool applyWorldOwnership(const std::vector<std::pair<std::string, std::string>> &worldMapFiles);

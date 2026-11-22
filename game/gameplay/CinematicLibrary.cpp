@@ -411,7 +411,7 @@ public:
 
         if (!onlyKeys(node, where, {"at", "fade", "letterbox", "sound", "subtitle", "event", "actor", "action", "to",
                 "look_at", "look_at_actor", "look_at_party", "clip", "loop", "decoration", "offset", "shake", "seconds",
-                "note"}))
+                "color", "note"}))
         {
             return false;
         }
@@ -475,6 +475,11 @@ public:
                 return true;
             };
 
+        if (node["color"] && !node["fade"])
+        {
+            return fail(where, "'color' belongs to a fade cue only");
+        }
+
         if (const YAML::Node fade = node["fade"])
         {
             std::string direction;
@@ -486,7 +491,28 @@ public:
 
             if (direction != "in" && direction != "out")
             {
-                return fail(where, "fade must be in (from black) or out (to black)");
+                return fail(where, "fade must be in (from its colour) or out (to its colour)");
+            }
+
+            // color: [r, g, b] (0-255) the screen fades to or from; black by default.
+            if (const YAML::Node color = node["color"])
+            {
+                if (!color.IsSequence() || color.size() != 3)
+                {
+                    return fail(where, "color must be [r, g, b], each 0-255");
+                }
+
+                for (size_t channel = 0; channel < 3; ++channel)
+                {
+                    float value = 0.0f;
+
+                    if (!number(color[channel], where + " color", 0.0f, 255.0f, value))
+                    {
+                        return false;
+                    }
+
+                    cue.colorRgb[channel] = uint8_t(std::lround(value));
+                }
             }
 
             cue.kind = direction == "out" ? CinematicCueKind::FadeOut : CinematicCueKind::FadeIn;

@@ -1,6 +1,7 @@
 #include "doctest/doctest.h"
 
 #include "game/audio/SoundIds.h"
+#include "game/data/ActorNameResolver.h"
 #include "game/events/EvtEnums.h"
 #include "game/events/ISceneEventContext.h"
 #include "game/gameplay/GenericActorDialog.h"
@@ -778,7 +779,7 @@ TEST_CASE("dread pirate stanley false report keeps multiline npc text")
     CHECK_EQ(freshDialog.title, "Dread Pirate Stanley");
     CHECK_FALSE(dialogHasActionLabel(freshDialog, "Report!"));
 
-    harness.party().setQuestBit(DeliverFalseReportQBitId, true);
+    harness.party().campaign().setQuestBit(DeliverFalseReportQBitId, true);
     REQUIRE(harness.party().grantItemToMember(0, FalseReportItemId));
 
     const OpenYAMM::Game::EventDialogContent questDialog =
@@ -791,7 +792,7 @@ TEST_CASE("dread pirate stanley false report keeps multiline npc text")
     CHECK(dialogContainsText(resultDialog, "Tell Arion Hunter"));
     CHECK(dialogContainsText(resultDialog, "Give me the reports"));
     CHECK(dialogContainsText(resultDialog, "You make me sick!"));
-    CHECK_FALSE(harness.party().hasQuestBit(DeliverFalseReportQBitId));
+    CHECK_FALSE(harness.party().campaign().hasQuestBit(DeliverFalseReportQBitId));
     CHECK_EQ(harness.party().inventoryItemCount(FalseReportItemId), 0);
 }
 
@@ -1734,6 +1735,97 @@ TEST_CASE("mm7 temple swordsmen resolve generic guard news")
     CHECK(!dialog.lines.empty());
 }
 
+TEST_CASE("a proprietor who is also a resident is one person with his services and his talk")
+{
+    // Xeen's talking proprietors (feedback F1, 2026-11-21): a resident NPC with the house's proprietor portrait.
+    const auto houseRow = [](const std::string &id, const std::string &type, const std::string &name,
+                             const std::string &owner, const std::string &title, const std::string &picture)
+    {
+        std::vector<std::string> row(25, "0");
+        row[0] = id;
+        row[2] = type;
+        row[4] = "";
+        row[5] = name;
+        row[6] = owner;
+        row[7] = title;
+        row[8] = picture;
+        row[17] = "";
+        row[23] = "";
+        row[24] = "";
+        return row;
+    };
+    const auto npcRow = [](const std::string &id, const std::string &name, const std::string &picture,
+                           const std::string &house)
+    {
+        return std::vector<std::string>{id, name, picture, "0", "0", "0", house, "0", "0", "0", "0", "0", "0", "0",
+            "0", "0", "Notes"};
+    };
+    OpenYAMM::Game::HouseTable houses;
+    REQUIRE(houses.loadFromRows({houseRow("4006", "Bank", "Bank of Vertigo", "Mortimer", "Banker", "901"),
+        houseRow("4005", "Tavern", "Lady Geraldine's Tavern", "Lady Geraldine", "Innkeeper", "902"),
+        houseRow("4008", "Bank", "Plain Bank", "Clerk", "", "904")}));
+    OpenYAMM::Game::NpcDialogTable npcs;
+    REQUIRE(npcs.loadNpcRows({{"#", "Name"}, npcRow("5006", "Mortimer", "901", "4006"),
+        npcRow("5005", "Lady Geraldine", "902", "4005"), npcRow("5010", "Dudley", "903", "4005"),
+        npcRow("5008", "Visitor", "905", "4008")}));
+
+    OpenYAMM::Game::EventRuntimeState emptyState = {};
+    CHECK_EQ(OpenYAMM::Game::houseProprietorResidentNpcId(*houses.get(4006), npcs, emptyState), 5006u);
+    CHECK_EQ(OpenYAMM::Game::houseProprietorResidentNpcId(*houses.get(4005), npcs, emptyState), 5005u);
+    CHECK_FALSE(OpenYAMM::Game::houseProprietorResidentNpcId(*houses.get(4008), npcs, emptyState).has_value());
+
+    const auto open = [&](uint32_t houseId, bool fromProprietorPortrait)
+    {
+        OpenYAMM::Game::EventRuntimeState state = {};
+        OpenYAMM::Game::EventRuntimeState::PendingDialogueContext context = {};
+        context.kind = OpenYAMM::Game::DialogueContextKind::HouseService;
+        context.sourceId = houseId;
+        context.hostHouseId = houseId;
+        state.pendingDialogueContext = context;
+        state.dialogueState.hostHouseId = houseId;
+
+        if (fromProprietorPortrait)
+        {
+            state.dialogueState.menuStack.push_back(OpenYAMM::Game::DialogueMenuId::HouseServiceRoot);
+        }
+
+        return OpenYAMM::Game::buildEventDialogContent(state, 0, true, nullptr, &houses, nullptr, &npcs, nullptr,
+            nullptr, nullptr, nullptr, nullptr, 600.0f);
+    };
+    const auto countKind = [](const OpenYAMM::Game::EventDialogContent &dialog,
+                              OpenYAMM::Game::EventDialogActionKind kind)
+    {
+        return std::count_if(dialog.actions.begin(), dialog.actions.end(),
+            [kind](const OpenYAMM::Game::EventDialogAction &action) { return action.kind == kind; });
+    };
+
+    // The only resident is the proprietor: the house opens on his talk, with the bank's services and his title.
+    const OpenYAMM::Game::EventDialogContent bank = open(4006, false);
+    CHECK_FALSE(bank.isHouseDialog);
+    CHECK_EQ(bank.sourceId, 5006u);
+    CHECK_EQ(bank.title, "Mortimer, Banker");
+    CHECK(countKind(bank, OpenYAMM::Game::EventDialogActionKind::HouseService) > 0);
+    CHECK_EQ(countKind(bank, OpenYAMM::Game::EventDialogActionKind::HouseResident), 0);
+
+    // Another resident lives there: the lobby lists the proprietor once (his portrait) and the other resident.
+    const OpenYAMM::Game::EventDialogContent lobby = open(4005, false);
+    CHECK(lobby.isHouseDialog);
+    CHECK_EQ(countKind(lobby, OpenYAMM::Game::EventDialogActionKind::HouseProprietor), 1);
+    REQUIRE_EQ(countKind(lobby, OpenYAMM::Game::EventDialogActionKind::HouseResident), 1);
+    CHECK(dialogHasActionLabel(lobby, "Dudley"));
+    CHECK_FALSE(dialogHasActionLabel(lobby, "Lady Geraldine"));
+
+    // His portrait leads to his talk with the tavern's services.
+    const OpenYAMM::Game::EventDialogContent proprietor = open(4005, true);
+    CHECK_EQ(proprietor.sourceId, 5005u);
+    CHECK(countKind(proprietor, OpenYAMM::Game::EventDialogActionKind::HouseService) > 0);
+
+    // A resident with another portrait is a separate person, as in MM6-MM8.
+    const OpenYAMM::Game::EventDialogContent plain = open(4008, false);
+    CHECK(plain.isHouseDialog);
+    CHECK(dialogHasActionLabel(plain, "Visitor"));
+}
+
 TEST_CASE("single resident auto open")
 {
     const OpenYAMM::Tests::RegressionGameData &gameData = requireRegressionGameData();
@@ -1792,7 +1884,7 @@ TEST_CASE("merged house exits without explicit entrance coordinates use destinat
 {
     const OpenYAMM::Tests::RegressionGameData &gameData = requireRegressionGameData();
     OpenYAMM::Tests::HouseDialogueTestHarness harness(gameData);
-    harness.party().setQuestBit(1193, true);
+    harness.party().campaign().setQuestBit(1193, true);
 
     const OpenYAMM::Game::HouseEntry *pHouse = gameData.houseTable.get(OracleHouseId);
     REQUIRE(pHouse != nullptr);
@@ -2153,7 +2245,7 @@ TEST_CASE("a map's saved unavailable flag does not hide a resident the party has
     REQUIRE(pHouse != nullptr);
 
     OpenYAMM::Game::Party party = {};
-    party.setNpcHouseOverride(QuixoteNpcId, QuixoteResidenceHouseId);
+    party.campaign().setNpcHouseOverride(QuixoteNpcId, QuixoteResidenceHouseId);
     OpenYAMM::Game::EventRuntimeState erathiaState = {};
     erathiaState.unavailableNpcIds.insert(QuixoteNpcId);
     party.applyGlobalNpcStateTo(erathiaState);
@@ -2664,7 +2756,7 @@ TEST_CASE("free haven high council is not a generic town hall service")
     CHECK_FALSE(findHouseActionById(lockedActions, OpenYAMM::Game::HouseActionId::TownHallBountyHunt).has_value());
     CHECK_FALSE(findHouseActionById(lockedActions, OpenYAMM::Game::HouseActionId::ExtraExit).has_value());
 
-    harness.party().setQuestBit(1191, true);
+    harness.party().campaign().setQuestBit(1191, true);
     const std::vector<OpenYAMM::Game::HouseActionOption> unlockedActions =
         OpenYAMM::Game::buildHouseActionOptions(
             *pHouse,
@@ -2692,7 +2784,7 @@ TEST_CASE("free haven high council is not a generic town hall service")
     }
 
     OpenYAMM::Tests::HouseDialogueTestHarness exposedHarness(gameData);
-    exposedHarness.party().setQuestBit(1191, true);
+    exposedHarness.party().campaign().setQuestBit(1191, true);
     exposedHarness.eventRuntimeState().npcHouseOverrides[SlickerSilvertongueNpcId] = 0;
     const OpenYAMM::Game::EventDialogContent &exposedDialog =
         exposedHarness.openHouseDialog(FreeHavenHighCouncilHouseId);
@@ -2771,7 +2863,7 @@ TEST_CASE("throne room sentence clears fines without hiding residents by default
 
     CHECK_EQ(harness.party().fineGold(), 0);
     CHECK_EQ(
-        harness.party().eventVariableValue(
+        harness.party().campaign().eventVariableValue(
             static_cast<uint16_t>(OpenYAMM::Game::EvtVariable::PrisonTerms)),
         1);
     CHECK(harness.party().hasAward(87));
@@ -3057,7 +3149,8 @@ TEST_CASE("house service shop sells a stacked slot one item at a time")
         *pHouseEntry,
         harness.worldRuntime().gameMinutes(),
         OpenYAMM::Game::HouseStockMode::ShopStandard);
-    std::vector<OpenYAMM::Game::InventoryItem> &stock = harness.party().ensureHouseStockState(1).standardStock;
+    std::vector<OpenYAMM::Game::InventoryItem> &stock =
+        harness.party().campaign().ensureHouseStockState(1).standardStock;
     const auto stockIt =
         std::find_if(stock.begin(), stock.end(), [](const OpenYAMM::Game::InventoryItem &item)
     {
@@ -4455,7 +4548,7 @@ TEST_CASE("dwi guild skill learning")
 
     REQUIRE(harness.party().setActiveMemberIndex(3));
     harness.party().addGold(2000);
-    harness.party().setEventVariableValue(AirGuildMembershipVariable, 1);
+    harness.party().campaign().setEventVariableValue(AirGuildMembershipVariable, 1);
 
     const OpenYAMM::Game::EventDialogContent &rootDialog = harness.openHouseDialog(ElementalGuildHouseId);
 
@@ -4574,7 +4667,7 @@ TEST_CASE("mm6 and mm7 magic guilds require membership; mm8 and mm7 light/dark d
     CHECK_EQ(soundType(DaggerWoundElementalGuildHouseId), OpenYAMM::Game::HouseSoundType::GeneralGreeting);
     CHECK_EQ(soundType(BuccaneersLairHouseId), OpenYAMM::Game::HouseSoundType::GeneralGreeting);
 
-    harness.party().setEventVariableValue(ElementalGuildMembershipVariable, 1);
+    harness.party().campaign().setEventVariableValue(ElementalGuildMembershipVariable, 1);
     CHECK_FALSE(isGated(NewSorpigalElementalGuildHouseId));
     CHECK_EQ(soundType(NewSorpigalElementalGuildHouseId), OpenYAMM::Game::HouseSoundType::GeneralGreeting);
     CHECK(isGated(EmeraldIslandFireGuildHouseId));
@@ -4620,7 +4713,7 @@ TEST_CASE("mm6 skill guilds require membership and expose their original skills"
         "You must be a member of this guild to study here.") != nonMemberLines.end());
     CHECK_FALSE(findHouseActionById(nonMemberActions, OpenYAMM::Game::HouseActionId::GuildBuySpellbooks).has_value());
 
-    harness.party().setEventVariableValue(BuccaneersLairMembershipVariable, 1);
+    harness.party().campaign().setEventVariableValue(BuccaneersLairMembershipVariable, 1);
     const std::vector<OpenYAMM::Game::HouseActionOption> memberActions =
         OpenYAMM::Game::buildHouseActionOptions(
             *pBuccaneersLair,
@@ -5201,7 +5294,7 @@ TEST_CASE("transport routes filter by weekday and qbit")
 
     REQUIRE(pSmugglerHouse != nullptr);
     REQUIRE(pQBitHouse != nullptr);
-    harness.party().setQuestBit(10, true);
+    harness.party().campaign().setQuestBit(10, true);
 
     const std::vector<OpenYAMM::Game::HouseActionOption> mondayActions = OpenYAMM::Game::buildHouseActionOptions(
         *pSmugglerHouse,
@@ -5223,7 +5316,7 @@ TEST_CASE("transport routes filter by weekday and qbit")
     CHECK(houseActionsContainDestination(tuesdayActions, "Ravenshore"));
     CHECK_FALSE(houseActionsContainDestination(tuesdayActions, "Ravage Roaming"));
 
-    harness.party().setQuestBit(10, false);
+    harness.party().campaign().setQuestBit(10, false);
 
     const std::vector<OpenYAMM::Game::HouseActionOption> lockedActions = OpenYAMM::Game::buildHouseActionOptions(
         *pQBitHouse,
@@ -5238,7 +5331,7 @@ TEST_CASE("transport routes filter by weekday and qbit")
     CHECK_EQ(lockedActions.back().label, "Sorry, come back another day");
     CHECK_FALSE(lockedActions.back().enabled);
 
-    harness.party().setQuestBit(10, true);
+    harness.party().campaign().setQuestBit(10, true);
 
     const std::vector<OpenYAMM::Game::HouseActionOption> unlockedActions = OpenYAMM::Game::buildHouseActionOptions(
         *pQBitHouse,
@@ -5266,7 +5359,7 @@ TEST_CASE("transport schedule lists the week and a scheduled trip waits for its 
     REQUIRE_EQ(locked.routes.size(), 1u);
     CHECK_EQ(locked.routes[0].destinationName, "Ravenshore");
 
-    harness.party().setQuestBit(10, true);
+    harness.party().campaign().setQuestBit(10, true);
     const OpenYAMM::Game::TransportSchedule schedule =
         OpenYAMM::Game::buildTransportSchedule(*pHouseEntry, &harness.party(), &harness.worldRuntime());
     REQUIRE_EQ(schedule.routes.size(), 2u);
@@ -5370,7 +5463,7 @@ TEST_CASE("mastery teacher not enough gold")
     CHECK_EQ(dialog.actions.front().label, "You don't have enough gold!");
 
     constexpr uint32_t MergedMasterIdentifyItemAutonoteId = 162;
-    CHECK(harness.party().hasAutonote(MergedMasterIdentifyItemAutonoteId));
+    CHECK(harness.party().campaign().hasAutonote(MergedMasterIdentifyItemAutonoteId));
 }
 
 TEST_CASE("teacher topic with explicit autonote also creates merged teacher map note")
@@ -5388,11 +5481,11 @@ TEST_CASE("teacher topic with explicit autonote also creates merged teacher map 
     CHECK(dialogHasActionLabel(dialog, "Master Identify Item"));
 
     constexpr uint32_t MergedMasterIdentifyItemAutonoteId = 162;
-    CHECK(harness.party().hasAutonote(MergedMasterIdentifyItemAutonoteId));
+    CHECK(harness.party().campaign().hasAutonote(MergedMasterIdentifyItemAutonoteId));
 
     constexpr uint32_t MasterIdentifyItemMapNoteId = 2224;
     const OpenYAMM::Game::JournalMapNote *pNote =
-        harness.party().findJournalMapNote("7out01.odm", MasterIdentifyItemMapNoteId);
+        harness.party().campaign().findJournalMapNote("7out01.odm", MasterIdentifyItemMapNoteId);
     REQUIRE(pNote != nullptr);
     CHECK_EQ(pNote->text, "Identify Item - Master");
     // The autonote already lists this teacher with the trainer notes.
@@ -5890,7 +5983,7 @@ TEST_CASE("vanilla mm8 blaster teacher gap remains a mastery teacher")
     REQUIRE_FALSE(offerDialog.actions.empty());
     CHECK_EQ(offerDialog.actions.front().label, "Become Expert in Blaster for 2000 gold");
 
-    CHECK(harness.party().hasAutonote(344u));
+    CHECK(harness.party().campaign().hasAutonote(344u));
 }
 
 TEST_CASE("teacher topic without explicit autonote creates merged teacher map note")
@@ -5910,7 +6003,7 @@ TEST_CASE("teacher topic without explicit autonote creates merged teacher map no
 
     constexpr uint32_t BodyMagicExpertMapNoteId = 1118;
     const OpenYAMM::Game::JournalMapNote *pNote =
-        harness.party().findJournalMapNote("out01.odm", BodyMagicExpertMapNoteId);
+        harness.party().campaign().findJournalMapNote("out01.odm", BodyMagicExpertMapNoteId);
     REQUIRE(pNote != nullptr);
     CHECK_EQ(pNote->text, "Body Magic - Expert");
     CHECK(pNote->listedWithTrainerNotes);
@@ -5943,9 +6036,9 @@ TEST_CASE("mm6 guild membership topic opens native guild offer")
 
     CHECK_FALSE(dialogContainsText(resultDialog, "That topic does not have an event yet."));
     CHECK_EQ(harness.party().gold(), initialGold - 100);
-    CHECK_EQ(harness.party().eventVariableValue(ElementalGuildMembershipVariable), 1);
+    CHECK_EQ(harness.party().campaign().eventVariableValue(ElementalGuildMembershipVariable), 1);
 
-    CHECK(harness.party().hasAutonote(ElementalGuildAutonoteId));
+    CHECK(harness.party().campaign().hasAutonote(ElementalGuildAutonoteId));
 }
 
 TEST_CASE("mm7 guild membership topic opens native guild offer")
@@ -5970,7 +6063,7 @@ TEST_CASE("mm7 guild membership topic opens native guild offer")
     const OpenYAMM::Game::EventDialogContent &resultDialog = harness.executeAndPresent(*joinIndex);
 
     CHECK_FALSE(dialogContainsText(resultDialog, "That topic does not have an event yet."));
-    CHECK_EQ(harness.party().eventVariableValue(FireGuildMembershipVariable), 1);
+    CHECK_EQ(harness.party().campaign().eventVariableValue(FireGuildMembershipVariable), 1);
 }
 
 TEST_CASE("mm6 smuggler guild membership topic opens native guild offer")
@@ -5998,9 +6091,9 @@ TEST_CASE("mm6 smuggler guild membership topic opens native guild offer")
 
     CHECK_FALSE(dialogContainsText(resultDialog, "That topic does not have an event yet."));
     CHECK_EQ(harness.party().gold(), initialGold - 50);
-    CHECK_EQ(harness.party().eventVariableValue(SmugglerGuildMembershipVariable), 1);
+    CHECK_EQ(harness.party().campaign().eventVariableValue(SmugglerGuildMembershipVariable), 1);
 
-    CHECK(harness.party().hasAutonote(SmugglerGuildAutonoteId));
+    CHECK(harness.party().campaign().hasAutonote(SmugglerGuildAutonoteId));
 }
 
 TEST_CASE("mm6 blades end guild membership topic opens native guild offer")
@@ -6028,9 +6121,9 @@ TEST_CASE("mm6 blades end guild membership topic opens native guild offer")
 
     CHECK_FALSE(dialogContainsText(resultDialog, "That topic does not have an event yet."));
     CHECK_EQ(harness.party().gold(), initialGold - 25);
-    CHECK_EQ(harness.party().eventVariableValue(BladesEndGuildMembershipVariable), 1);
+    CHECK_EQ(harness.party().campaign().eventVariableValue(BladesEndGuildMembershipVariable), 1);
 
-    CHECK(harness.party().hasAutonote(BladesEndGuildAutonoteId));
+    CHECK(harness.party().campaign().hasAutonote(BladesEndGuildAutonoteId));
 }
 
 TEST_CASE("actual roster join rohani")
@@ -6140,7 +6233,7 @@ TEST_CASE("overdune quest completion unlocks roster join")
     const OpenYAMM::Tests::RegressionGameData &gameData = requireRegressionGameData();
     OpenYAMM::Tests::HouseDialogueTestHarness harness(gameData);
 
-    harness.party().setQuestBit(62, true);
+    harness.party().campaign().setQuestBit(62, true);
     REQUIRE(harness.executeGlobalEvent(46));
 
     const OpenYAMM::Game::EventDialogContent &dialog = harness.openNpcDialogue(OverduneNpcId);
@@ -6235,8 +6328,8 @@ TEST_CASE("blazen cure unlocks roster entry in ravenshore inn")
 
     REQUIRE(harness.executeGlobalEvent(54));
 
-    CHECK(harness.party().hasQuestBit(435));
-    CHECK(harness.party().hasQuestBit(RescuedBlazenQBitId));
+    CHECK(harness.party().campaign().hasQuestBit(435));
+    CHECK(harness.party().campaign().hasQuestBit(RescuedBlazenQBitId));
     CHECK_FALSE(harness.eventRuntimeState().npcHouseOverrides.contains(BlazenJoinNpcId));
     CHECK_EQ(harness.party().inventoryItemCount(GemOfRestorationItemId), 0);
 
@@ -6706,7 +6799,7 @@ TEST_CASE("transport action spends gold advances time and queues map move")
     CHECK_EQ(pActiveMember->recoverySecondsRemaining, doctest::Approx(0.0f));
     CHECK_EQ(pActiveMember->levelModifier, 0);
     CHECK_EQ(pActiveMember->armorClassModifier, 0);
-    CHECK_EQ(pActiveMember->ageModifier, 0);
+    CHECK_EQ(pActiveMember->ageModifier, 5);
     CHECK_EQ(pActiveMember->magicalBonuses.might, 0);
     CHECK_FALSE(harness.party().hasPartyBuff(OpenYAMM::Game::PartyBuffId::TorchLight));
 
@@ -6886,7 +6979,7 @@ TEST_CASE("merged transport tables drive mm8 boat routes")
     CHECK_EQ(pHouseEntry->transportRoutes[0].mapFileName, "Out08.odm");
     CHECK_EQ(pHouseEntry->transportRoutes[0].travelDays, 4u);
     CHECK_EQ(pHouseEntry->transportRoutes[0].requiredQBit, 10u);
-    harness.party().setQuestBit(10, true);
+    harness.party().campaign().setQuestBit(10, true);
 
     std::vector<OpenYAMM::Game::HouseActionOption> actions = OpenYAMM::Game::buildHouseActionOptions(
         *pHouseEntry,
@@ -6973,7 +7066,7 @@ TEST_CASE("mm6 loretta price fixing appears as a stable house action")
 
     CHECK_FALSE(findHouseActionById(actions, OpenYAMM::Game::HouseActionId::LorettaPriceFixing).has_value());
 
-    harness.party().setQuestBit(1140, true);
+    harness.party().campaign().setQuestBit(1140, true);
     actions = OpenYAMM::Game::buildHouseActionOptions(
         *pStableHouse,
         &harness.party(),
@@ -6998,8 +7091,8 @@ TEST_CASE("mm6 loretta price fixing appears as a stable house action")
     CHECK(priceFixingResult.succeeded);
     REQUIRE_FALSE(priceFixingResult.messages.empty());
     CHECK(priceFixingResult.messages.front().find("Loretta's got a new scheme") != std::string::npos);
-    CHECK(harness.party().hasQuestBit(1523));
-    CHECK_FALSE(harness.party().hasQuestBit(1141));
+    CHECK(harness.party().campaign().hasQuestBit(1523));
+    CHECK_FALSE(harness.party().campaign().hasQuestBit(1141));
 
     actions = OpenYAMM::Game::buildHouseActionOptions(
         *pStableHouse,
@@ -7198,7 +7291,7 @@ TEST_CASE("transport route quest bit gates show unavailable fallback until unloc
     CHECK_EQ(actions.back().label, "Sorry, come back another day");
     CHECK_FALSE(actions.back().enabled);
 
-    harness.party().setQuestBit(10, true);
+    harness.party().campaign().setQuestBit(10, true);
     actions = OpenYAMM::Game::buildHouseActionOptions(
         *pHouseEntry,
         &harness.party(),
@@ -7773,7 +7866,7 @@ TEST_CASE("empty house after departure")
 
     // As a departure does: the party's set is the one the map's state is rebuilt from.
     harness.eventRuntimeState().unavailableNpcIds.insert(FredrickNpcId);
-    harness.party().setNpcUnavailable(FredrickNpcId, true);
+    harness.party().campaign().setNpcUnavailable(FredrickNpcId, true);
 
     REQUIRE(harness.executeOut01LocalEvent(37));
 
@@ -7955,7 +8048,7 @@ TEST_CASE("promotion champion event primary knight")
     const OpenYAMM::Tests::RegressionGameData &gameData = requireRegressionGameData();
     OpenYAMM::Tests::HouseDialogueTestHarness harness(gameData);
 
-    harness.party().setQuestBit(1541, true);
+    harness.party().campaign().setQuestBit(1541, true);
 
     REQUIRE(harness.executeGlobalEvent(735));
 
@@ -7968,7 +8061,7 @@ TEST_CASE("promotion champion event primary knight")
     CHECK_EQ(pMember0->maxHealth, 43);
     CHECK_EQ(pMember0->health, pMember0->maxHealth);
     CHECK_EQ(pMember1->className, "Cleric");
-    CHECK(harness.party().hasQuestBit(1540));
+    CHECK(harness.party().campaign().hasQuestBit(1540));
 }
 
 TEST_CASE("promotion champion event multiple member indices")
@@ -7979,7 +8072,7 @@ TEST_CASE("promotion champion event multiple member indices")
     REQUIRE(harness.party().setMemberClassName(0, "Cleric"));
     REQUIRE(harness.party().setMemberClassName(1, "Knight"));
     REQUIRE(harness.party().setMemberClassName(2, "Knight"));
-    harness.party().setQuestBit(1541, true);
+    harness.party().campaign().setQuestBit(1541, true);
 
     REQUIRE(harness.executeGlobalEvent(735));
 
@@ -7996,7 +8089,7 @@ TEST_CASE("promotion champion event multiple member indices")
     CHECK_EQ(pMember1->className, "Champion");
     CHECK_EQ(pMember2->className, "Champion");
     CHECK_NE(pMember3->className, "Champion");
-    CHECK(harness.party().hasQuestBit(1540));
+    CHECK(harness.party().campaign().hasQuestBit(1540));
 }
 
 TEST_CASE("promote dragons includes first member and suppresses repeated no-op fx")
@@ -8006,7 +8099,7 @@ TEST_CASE("promote dragons includes first member and suppresses repeated no-op f
 
     REQUIRE(harness.party().setMemberClassName(0, "Dragon"));
     REQUIRE(harness.party().setMemberClassName(1, "Dragon"));
-    harness.party().setQuestBit(1544, true);
+    harness.party().campaign().setQuestBit(1544, true);
 
     REQUIRE(harness.executeGlobalEvent(736));
 
@@ -8017,7 +8110,7 @@ TEST_CASE("promote dragons includes first member and suppresses repeated no-op f
     REQUIRE(pMember1 != nullptr);
     CHECK_EQ(pMember0->className, "GreatWyrm");
     CHECK_EQ(pMember1->className, "GreatWyrm");
-    CHECK(harness.party().hasQuestBit(1543));
+    CHECK(harness.party().campaign().hasQuestBit(1543));
     CHECK(portraitFxContainsMember(
         harness.eventRuntimeState(),
         OpenYAMM::Game::PortraitFxEventKind::AwardGain,
@@ -8076,7 +8169,7 @@ TEST_CASE("repeat promotion events include first member")
         }
         else
         {
-            harness.party().setQuestBit(testCase.prerequisiteId, true);
+            harness.party().campaign().setQuestBit(testCase.prerequisiteId, true);
         }
 
         if (testCase.eventId == 738)
@@ -8117,7 +8210,7 @@ TEST_CASE("repeat promotion events include first member")
             }
         }
 
-        CHECK(harness.party().hasQuestBit(testCase.completionQBit));
+        CHECK(harness.party().campaign().hasQuestBit(testCase.completionQBit));
         CHECK(portraitFxContainsMember(
             harness.eventRuntimeState(),
             OpenYAMM::Game::PortraitFxEventKind::AwardGain,
@@ -8144,7 +8237,7 @@ TEST_CASE("mm8 pure speed ingredient turn-in consumes full reagent counts")
         pMember->inventory.clear();
     }
 
-    harness.party().setQuestBit(PureSpeedAcceptedQBitId, true);
+    harness.party().campaign().setQuestBit(PureSpeedAcceptedQBitId, true);
     harness.party().grantItem(RedReagentItemId, 4);
     harness.party().grantItem(BlueReagentItemId, 2);
     harness.party().grantItem(YellowReagentItemId, 1);
@@ -8155,8 +8248,8 @@ TEST_CASE("mm8 pure speed ingredient turn-in consumes full reagent counts")
     CHECK_EQ(harness.party().inventoryItemCount(BlueReagentItemId), 0);
     CHECK_EQ(harness.party().inventoryItemCount(YellowReagentItemId), 0);
     CHECK_EQ(harness.party().inventoryItemCount(PureSpeedItemId), 1);
-    CHECK_FALSE(harness.party().hasQuestBit(PureSpeedAcceptedQBitId));
-    CHECK(harness.party().hasQuestBit(PureSpeedCompletedQBitId));
+    CHECK_FALSE(harness.party().campaign().hasQuestBit(PureSpeedAcceptedQBitId));
+    CHECK(harness.party().campaign().hasQuestBit(PureSpeedCompletedQBitId));
 }
 
 TEST_CASE("mm8 Balthazar axe completion promotes minotaurs through Tessalar topic")
@@ -8178,8 +8271,8 @@ TEST_CASE("mm8 Balthazar axe completion promotes minotaurs through Tessalar topi
     REQUIRE(harness.party().setMemberClassName(1, "Knight"));
     REQUIRE(harness.party().grantItemToMember(0, BalthazarAxeItemId));
     REQUIRE(harness.party().grantItemToMember(0, AuthenticationCertificateItemId));
-    harness.party().setQuestBit(FindBalthazarsAxeQBit, true);
-    harness.party().setNpcTopicOverride(TessalarNpcId, 0, TessalarQuestEventId);
+    harness.party().campaign().setQuestBit(FindBalthazarsAxeQBit, true);
+    harness.party().campaign().setNpcTopicOverride(TessalarNpcId, 0, TessalarQuestEventId);
     harness.eventRuntimeState().npcTopicOverrides[TessalarNpcId][0] = TessalarQuestEventId;
 
     const OpenYAMM::Game::EventDialogContent &dialog = harness.openNpcDialogue(TessalarNpcId);
@@ -8201,9 +8294,9 @@ TEST_CASE("mm8 Balthazar axe completion promotes minotaurs through Tessalar topi
     CHECK_EQ(pKnight->className, "Knight");
     CHECK_EQ(pMinotaur->experience, 35000u);
     CHECK_EQ(pKnight->experience, 25000u);
-    CHECK(harness.party().hasQuestBit(MinotaurLordPromotionQBit));
-    CHECK(harness.party().hasQuestBit(BalthazarAxeCompletedQBit));
-    CHECK_FALSE(harness.party().hasQuestBit(FindBalthazarsAxeQBit));
+    CHECK(harness.party().campaign().hasQuestBit(MinotaurLordPromotionQBit));
+    CHECK(harness.party().campaign().hasQuestBit(BalthazarAxeCompletedQBit));
+    CHECK_FALSE(harness.party().campaign().hasQuestBit(FindBalthazarsAxeQBit));
     CHECK(harness.party().hasAward(1, RecoveredBalthazarsAxeAward));
     CHECK_EQ(harness.party().inventoryItemCount(BalthazarAxeItemId), 0);
     CHECK_EQ(harness.party().inventoryItemCount(AuthenticationCertificateItemId), 0);
@@ -8278,7 +8371,7 @@ TEST_CASE("MM8 promotion sidecars exclude promoted and opposite classes on initi
             REQUIRE(harness.party().setMemberClassName(3, "Archer"));
             if (repeat)
             {
-                harness.party().setQuestBit(test.completionBit, true);
+                harness.party().campaign().setQuestBit(test.completionBit, true);
             }
             else
             {
@@ -8295,7 +8388,7 @@ TEST_CASE("MM8 promotion sidecars exclude promoted and opposite classes on initi
             CHECK_EQ(harness.party().member(0)->className, test.pTarget);
             CHECK_EQ(harness.party().member(1)->className, test.pTarget);
             CHECK_EQ(harness.party().member(2)->className, test.pOtherBranch);
-            CHECK(harness.party().hasQuestBit(test.completionBit));
+            CHECK(harness.party().campaign().hasQuestBit(test.completionBit));
             CHECK_EQ(harness.party().inventoryItemCount(628), 0);
             for (uint32_t item : test.questItems)
             {
@@ -8331,7 +8424,7 @@ TEST_CASE("Lathean promotes a new Necromancer with Nathaniel still present and v
         REQUIRE(harness.party().setMemberClassName(1, "Necromancer"));
         REQUIRE(harness.party().setMemberClassName(2, missingJar ? "Necromancer" : "Archer"));
         REQUIRE(harness.party().setMemberClassName(3, "Archer"));
-        harness.party().setQuestBit(1548, true);
+        harness.party().campaign().setQuestBit(1548, true);
         REQUIRE(harness.party().grantItemToMember(1, 628));
         // A jar on an unrelated member cannot satisfy another Necromancer's requirement.
         REQUIRE(harness.party().grantItemToMember(3, 628));
@@ -8366,7 +8459,7 @@ TEST_CASE("MM8 permanent first character retains honorary completion for later N
     REQUIRE(harness.party().grantItemToMember(0, 611));
     REQUIRE(harness.executeGlobalEvent(89));
     CHECK(harness.party().hasAward(0, 35));
-    CHECK_FALSE(harness.party().hasQuestBit(1548));
+    CHECK_FALSE(harness.party().campaign().hasQuestBit(1548));
     CHECK_EQ(harness.party().inventoryItemCount(611), 0);
     const uint32_t mainCharacterExperience = harness.party().member(0)->experience;
 
@@ -8392,7 +8485,7 @@ TEST_CASE("MM6 Crusader turn-in dismisses Melody Silver and repairs already comp
     harness.party().applyGlobalNpcStateTo(harness.eventRuntimeState());
     REQUIRE(harness.executeGlobalEvent(1326));
     REQUIRE(harness.executeGlobalEvent(1344));
-    REQUIRE(harness.party().hasQuestBit(1699));
+    REQUIRE(harness.party().campaign().hasQuestBit(1699));
     REQUIRE_EQ(harness.party().snapshot().hiredNpcFollowers.size(), 2u);
     const int initialGold = harness.party().gold();
     const uint32_t initialExperience = harness.party().member(0)->experience;
@@ -8405,9 +8498,9 @@ TEST_CASE("MM6 Crusader turn-in dismisses Melody Silver and repairs already comp
     CHECK_EQ(harness.party().member(0)->className, "Crusader");
     CHECK_EQ(harness.party().gold(), initialGold + 5000);
     CHECK_EQ(harness.party().member(0)->experience, initialExperience + 15000);
-    CHECK(harness.party().hasQuestBit(1635));
-    CHECK_FALSE(harness.party().hasQuestBit(1699));
-    CHECK_FALSE(harness.party().hasQuestBit(1112));
+    CHECK(harness.party().campaign().hasQuestBit(1635));
+    CHECK_FALSE(harness.party().campaign().hasQuestBit(1699));
+    CHECK_FALSE(harness.party().campaign().hasQuestBit(1112));
     for (const std::vector<HiredNpcFollower> &followers :
         {harness.eventRuntimeState().hiredNpcFollowers, harness.party().snapshot().hiredNpcFollowers})
     {
@@ -8472,7 +8565,7 @@ TEST_CASE("MM6 promotion sidecars keep both stages reachable for later recruits 
         REQUIRE(harness.party().setMemberClassName(3, "Vampire"));
         if (test.firstCondition != 0)
         {
-            harness.party().setQuestBit(test.firstCondition, true);
+            harness.party().campaign().setQuestBit(test.firstCondition, true);
         }
         if (test.firstItem != 0)
         {
@@ -8484,7 +8577,7 @@ TEST_CASE("MM6 promotion sidecars keep both stages reachable for later recruits 
         CHECK_EQ(harness.party().member(2)->className, test.pOtherBranch);
         if (test.secondCondition != 0)
         {
-            harness.party().setQuestBit(test.secondCondition, true);
+            harness.party().campaign().setQuestBit(test.secondCondition, true);
         }
         if (test.secondItem != 0)
         {
@@ -8494,7 +8587,7 @@ TEST_CASE("MM6 promotion sidecars keep both stages reachable for later recruits 
         {
             for (uint32_t bit = 1180; bit <= 1185; ++bit)
             {
-                harness.party().setQuestBit(bit, true);
+                harness.party().campaign().setQuestBit(bit, true);
             }
         }
         REQUIRE(harness.executeGlobalEvent(test.secondEvent));
@@ -8556,16 +8649,16 @@ TEST_CASE("MM7 Hero and Villain turn-ins dismiss Alice on first and restored rep
         REQUIRE(harness.executeGlobalEvent(test.eventId));
         CHECK_EQ(harness.party().member(0)->className, "Crusader");
         CHECK_EQ(harness.party().member(0)->experience, initialExperience);
-        CHECK_FALSE(harness.party().hasQuestBit(test.completionBit));
+        CHECK_FALSE(harness.party().campaign().hasQuestBit(test.completionBit));
         CHECK_EQ(harness.party().snapshot().hiredNpcFollowers.size(), 2u);
 
-        harness.party().setQuestBit(1685, true);
+        harness.party().campaign().setQuestBit(1685, true);
         REQUIRE(harness.executeGlobalEvent(test.eventId));
         CHECK_EQ(harness.party().member(0)->className, test.pTarget);
         CHECK_EQ(harness.party().member(0)->experience, initialExperience + 80000);
         CHECK_EQ(harness.party().member(1)->className, test.pOpposite);
-        CHECK(harness.party().hasQuestBit(test.completionBit));
-        CHECK_FALSE(harness.party().hasQuestBit(1685));
+        CHECK(harness.party().campaign().hasQuestBit(test.completionBit));
+        CHECK_FALSE(harness.party().campaign().hasQuestBit(1685));
         for (const std::vector<HiredNpcFollower> &followers :
             {harness.eventRuntimeState().hiredNpcFollowers, harness.party().snapshot().hiredNpcFollowers})
         {
@@ -8583,7 +8676,7 @@ TEST_CASE("MM7 Hero and Villain turn-ins dismiss Alice on first and restored rep
         const uint32_t recruitExperience = restored.party().member(3)->experience;
         const uint32_t veteranExperience = restored.party().member(0)->experience;
         const int gold = restored.party().gold();
-        const int32_t reputation = restored.party().continentReputation(1);
+        const int32_t reputation = restored.party().campaign().continentReputation(1);
         const EventDialogContent &dialog = restored.openNpcDialogue(test.npcId);
         const std::optional<size_t> action = findActionIndexByKindAndId(
             dialog, EventDialogActionKind::NpcTopic, test.eventId);
@@ -8594,7 +8687,7 @@ TEST_CASE("MM7 Hero and Villain turn-ins dismiss Alice on first and restored rep
         CHECK_EQ(restored.party().member(0)->experience, veteranExperience);
         CHECK_EQ(restored.party().member(1)->className, test.pOpposite);
         CHECK_EQ(restored.party().gold(), gold);
-        CHECK_EQ(restored.party().continentReputation(1), reputation);
+        CHECK_EQ(restored.party().campaign().continentReputation(1), reputation);
         for (const std::vector<HiredNpcFollower> &followers :
             {restored.eventRuntimeState().hiredNpcFollowers, restored.party().snapshot().hiredNpcFollowers})
         {
@@ -8655,7 +8748,7 @@ TEST_CASE("MM7 promotion sidecars still accept later recruits alongside promoted
     CHECK_EQ(harness.party().inventoryItemCount(1417), 0);
 
     // Priest quest was completed earlier; the old unique quest item is no longer needed.
-    harness.party().setQuestBit(1607, true);
+    harness.party().campaign().setQuestBit(1607, true);
     REQUIRE(harness.executeGlobalEvent(839));
     CHECK_EQ(harness.party().member(2)->className, "PriestDark");
     CHECK_EQ(harness.party().member(3)->className, "Priest");
@@ -8680,7 +8773,7 @@ TEST_CASE("mm8 lich promotion only requires jars from necromancers")
     CHECK_EQ(pNecromancer->className, "Lich");
     CHECK_EQ(harness.party().inventoryItemCount(611), 0);
     CHECK_EQ(harness.party().inventoryItemCount(628), 0);
-    CHECK(harness.party().hasQuestBit(1548));
+    CHECK(harness.party().campaign().hasQuestBit(1548));
 }
 
 TEST_CASE("deftclaw visible topics do not depend on active member refresh")
@@ -8689,8 +8782,8 @@ TEST_CASE("deftclaw visible topics do not depend on active member refresh")
     OpenYAMM::Tests::HouseDialogueTestHarness harness(gameData);
 
     constexpr uint32_t DeftclawNpcId = 17;
-    harness.party().setQuestBit(17, true);
-    harness.party().setQuestBit(75, true);
+    harness.party().campaign().setQuestBit(17, true);
+    harness.party().campaign().setQuestBit(75, true);
     harness.eventRuntimeState().npcTopicOverrides[DeftclawNpcId][1] = 61;
     REQUIRE(harness.party().setActiveMemberIndex(3));
 
@@ -8747,7 +8840,7 @@ TEST_CASE("event palm tree requires perception skill")
         OpenYAMM::Game::SkillMastery::Normal) != nullptr);
 
     REQUIRE(blockedHarness.executeOut01LocalEvent(494));
-    CHECK_FALSE(blockedHarness.party().hasQuestBit(270));
+    CHECK_FALSE(blockedHarness.party().campaign().hasQuestBit(270));
 
     OpenYAMM::Tests::HouseDialogueTestHarness rewardHarness(gameData);
     OpenYAMM::Game::Character *pRewardMember = rewardHarness.party().activeMember();
@@ -8760,7 +8853,7 @@ TEST_CASE("event palm tree requires perception skill")
         OpenYAMM::Game::SkillMastery::Normal) != nullptr);
 
     REQUIRE(rewardHarness.executeOut01LocalEvent(494));
-    CHECK(rewardHarness.party().hasQuestBit(270));
+    CHECK(rewardHarness.party().campaign().hasQuestBit(270));
 }
 
 TEST_CASE("long tail tobersk buy topic remains available after purchase")
@@ -8846,7 +8939,7 @@ TEST_CASE("event teacher hint sets autonote and note fx")
 
     REQUIRE(harness.executeGlobalEvent(430));
 
-    CHECK(harness.party().hasAutonote(102u));
+    CHECK(harness.party().campaign().hasAutonote(102u));
 
     bool sawAutoNoteFx = false;
 
@@ -9019,4 +9112,79 @@ TEST_CASE("hireling walking reduction changes both the transition prompt and ela
     CHECK_EQ(harness.worldRuntime().gameMinutes(), doctest::Approx(before + 2 * 24 * 60));
     REQUIRE(harness.eventRuntimeState().lastMapTransitionConfirmed.has_value());
     CHECK_EQ(harness.eventRuntimeState().lastMapTransitionConfirmed->travelDays, 2u);
+}
+
+TEST_CASE("a talk with a titled NPC reads its title; untitled rows keep the profession or the name")
+{
+    const auto npcRow = [](const std::string &id, const std::string &name, const std::string &profession)
+    {
+        return std::vector<std::string>{id, name, "1", "0", "0", "0", "0", profession, id, "0", "0", "0", "0", "0", "0",
+            "0", "Notes"};
+    };
+    std::vector<std::string> titled = npcRow("4152", "Medin", "0");
+    titled.push_back(" Ferryman ");
+    OpenYAMM::Game::NpcDialogTable npcs;
+    REQUIRE(npcs.loadNpcRows({{"#", "Name"}, titled, npcRow("1", "Brekish Onefang", "0"),
+        npcRow("2", "Tor Sullen", "8")}));
+    CHECK_EQ(npcs.getNpc(4152)->title, "Ferryman");
+    CHECK(npcs.getNpc(1)->title.empty());
+    OpenYAMM::Game::MergedNpcProfessionTable professions;
+    REQUIRE(professions.loadFromRows({{"#", "Profession"}, {"8", "Sailor", "0", "1", "100", "", "0", "", "", "0", "0"}}));
+
+    const auto titleOf = [&](uint32_t npcId)
+    {
+        OpenYAMM::Game::EventRuntimeState state = {};
+        OpenYAMM::Game::EventRuntimeState::PendingDialogueContext context = {};
+        context.kind = OpenYAMM::Game::DialogueContextKind::NpcTalk;
+        context.sourceId = npcId;
+        state.pendingDialogueContext = context;
+        return OpenYAMM::Game::buildEventDialogContent(state, 0, true, nullptr, nullptr, nullptr, &npcs, nullptr,
+            nullptr, nullptr, nullptr, nullptr, 0.0f, &professions).title;
+    };
+    CHECK_EQ(titleOf(4152), "Medin, Ferryman");
+    CHECK_EQ(titleOf(1), "Brekish Onefang");
+    CHECK_EQ(titleOf(2), "Tor Sullen the Sailor");
+}
+
+TEST_CASE("an actor with an NPC id is named as its NPC's talk title names it, after its unique name (F9-R2)")
+{
+    const auto npcRow = [](const std::string &id, const std::string &name, const std::string &profession)
+    {
+        return std::vector<std::string>{
+            id, name, "1", "0", "0", "0", "0", profession, id, "0", "0", "0", "0", "0", "0", "0", "Notes"};
+    };
+    std::vector<std::string> derek = npcRow("4046", "Derek", "0");
+    derek.push_back("Ranger");
+    OpenYAMM::Game::NpcDialogTable npcs;
+    REQUIRE(npcs.loadNpcRows({{"#", "Name"}, derek, npcRow("2", "Tor Sullen", "8"), npcRow("3", "", "0")}));
+    OpenYAMM::Game::MergedNpcProfessionTable professions;
+    REQUIRE(professions.loadFromRows(
+        {{"#", "Profession"}, {"8", "Sailor", "0", "1", "100", "", "0", "", "", "0", "0"}}));
+    OpenYAMM::Game::MonsterTable monsters;
+    REQUIRE(monsters.loadDisplayNamesFromRows({{"371", "Peasant", "PMan A"}}));
+    REQUIRE(monsters.loadUniqueNamesFromRows({{"5", "Sir Pellinore"}}));
+    const OpenYAMM::Game::ActorNpcNameTables names = {&npcs, &professions};
+
+    OpenYAMM::Game::MapDeltaActor actor = {};
+    actor.monsterInfoId = 371;
+    actor.name = "Peasant";
+    CHECK_EQ(OpenYAMM::Game::resolveMapDeltaActorName(monsters, actor, names), "Peasant");
+
+    // The NPC's title, then its profession, as the talk's title shows them.
+    actor.npcId = 4046;
+    CHECK_EQ(OpenYAMM::Game::resolveMapDeltaActorName(monsters, actor, names), "Derek, Ranger");
+    actor.npcId = 2;
+    CHECK_EQ(OpenYAMM::Game::resolveMapDeltaActorName(monsters, actor, names), "Tor Sullen the Sailor");
+    CHECK_EQ(OpenYAMM::Game::npcNameAndTitle(*npcs.getNpc(2), &professions), "Tor Sullen the Sailor");
+
+    // A unique name comes first; an NPC without a name, an unknown NPC or no tables keep the row's name.
+    actor.uniqueNameIndex = 5;
+    CHECK_EQ(OpenYAMM::Game::resolveMapDeltaActorName(monsters, actor, names), "Sir Pellinore");
+    actor.uniqueNameIndex = 0;
+    actor.npcId = 3;
+    CHECK_EQ(OpenYAMM::Game::resolveMapDeltaActorName(monsters, actor, names), "Peasant");
+    actor.npcId = 999;
+    CHECK_EQ(OpenYAMM::Game::resolveMapDeltaActorName(monsters, actor, names), "Peasant");
+    actor.npcId = 4046;
+    CHECK_EQ(OpenYAMM::Game::resolveMapDeltaActorName(monsters, actor, {}), "Peasant");
 }

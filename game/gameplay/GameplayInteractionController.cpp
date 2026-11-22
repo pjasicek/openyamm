@@ -20,6 +20,7 @@
 #include "game/gameplay/GameplayWorldItemInteraction.h"
 #include "game/gameplay/GameplayWorldItemPolicy.h"
 #include "game/gameplay/NpcFollowerRuntime.h"
+#include "game/gameplay/PlayerCommands.h"
 #include "game/gameplay/TurnBasedCombatRuntime.h"
 #include "game/debug/GameplayDebugTrace.h"
 #include "game/events/ScriptedEventProgram.h"
@@ -673,10 +674,30 @@ std::string gameplayTraceWorldContext(const IGameplayWorldRuntime *pWorldRuntime
     return out.str();
 }
 
-bool tryActivateWorldItem(
+// Where a lying item would go for the party now: its gold, the bags, the hand, or nowhere (bags full, hand taken).
+GameplayWorldItemPickupDecision decideWorldItemPickup(
+    GameplayScreenRuntime &runtime,
+    Party &party,
+    const GameplayWorldItemInspectState &worldItemState,
+    bool &canStoreInInventory)
+{
+    canStoreInInventory =
+        !worldItemState.isGold && canStoreWorldItemInInventory(party, worldItemState.item, runtime.itemTable());
+    return GameplayWorldItemInteraction::decidePickupDestination(
+        GameplayWorldItemPickupDecisionInput{
+            .isGold = worldItemState.isGold,
+            .goldAmount = worldItemState.goldAmount,
+            .canStoreInInventory = canStoreInInventory,
+            .heldItemActive = runtime.heldInventoryItem().active,
+        });
+}
+
+// The taken item to the party: its gold counted, the item into the bags or the hand.
+bool giveTakenWorldItem(
     GameplayScreenRuntime &runtime,
     IGameplayWorldRuntime &worldRuntime,
-    size_t worldItemIndex)
+    const GameplayWorldItemInspectState &removedItemState,
+    const GameplayWorldItemPickupDecision &pickupDecision)
 {
     Party *pParty = runtime.party();
 
@@ -685,42 +706,7 @@ bool tryActivateWorldItem(
         return false;
     }
 
-    GameplayWorldItemInspectState worldItemState = {};
-
-    if (!worldRuntime.worldItemInspectState(worldItemIndex, worldItemState))
-    {
-        return false;
-    }
-
     GameplayUiController::HeldInventoryItemState &heldItem = runtime.heldInventoryItem();
-    const bool canStoreInInventory =
-        !worldItemState.isGold && canStoreWorldItemInInventory(*pParty, worldItemState.item, runtime.itemTable());
-    const GameplayWorldItemPickupDecision pickupDecision =
-        GameplayWorldItemInteraction::decidePickupDestination(
-            GameplayWorldItemPickupDecisionInput{
-                .isGold = worldItemState.isGold,
-                .goldAmount = worldItemState.goldAmount,
-                .canStoreInInventory = canStoreInInventory,
-                .heldItemActive = heldItem.active,
-            });
-
-    if (pickupDecision.destination == GameplayWorldItemPickupDestination::None)
-    {
-        if (!worldItemState.isGold && !canStoreInInventory && heldItem.active)
-        {
-            runtime.setStatusBarEvent(Engine::tr("Pack is Full!"));
-            runtime.playSpeechReaction(pParty->activeMemberIndex(), SpeechId::InventoryRoom, true);
-        }
-
-        return false;
-    }
-
-    GameplayWorldItemInspectState removedItemState = {};
-
-    if (!worldRuntime.takeWorldItemInspectState(worldItemIndex, removedItemState))
-    {
-        return false;
-    }
 
     if (pickupDecision.destination == GameplayWorldItemPickupDestination::Gold)
     {
@@ -728,7 +714,11 @@ bool tryActivateWorldItem(
             static_cast<uint32_t>(std::max(0, pickupDecision.goldAmount)),
             worldRuntime.eventRuntimeState(),
             pParty);
-        pParty->addGold(static_cast<int>(foundGold.partyAmount), GoldReason::LootGround);
+        creditFoundGold(
+            *pParty,
+            static_cast<int>(foundGold.partyAmount),
+            GoldReason::LootGround,
+            worldRuntime.eventRuntimeState());
         pParty->requestSound(SoundId::Gold);
         runtime.setStatusBarEvent(foundGoldStatusText(foundGold));
         recordWorldItemActivationResult(
@@ -753,7 +743,6 @@ bool tryActivateWorldItem(
             "item_received destination=inventory source=world_item item_id="
             + std::to_string(removedItemState.item.objectDescriptionId)
             + gameplayDebugTraceItemSummary(removedItemState.item.objectDescriptionId, runtime.itemTable())
-            + " world_item_index=" + std::to_string(worldItemIndex)
             + " member_index=" + std::to_string(stored->memberIndex));
         pParty->requestSound(SoundId::Gold);
         runtime.playSpeechReaction(stored->memberIndex, SpeechId::FoundItem, true);
@@ -767,13 +756,71 @@ bool tryActivateWorldItem(
     GAMEPLAY_DEBUG_TRACE(
         "item_received destination=held source=world_item item_id="
         + std::to_string(removedItemState.item.objectDescriptionId)
-        + gameplayDebugTraceItemSummary(removedItemState.item.objectDescriptionId, runtime.itemTable())
-        + " world_item_index=" + std::to_string(worldItemIndex));
+        + gameplayDebugTraceItemSummary(removedItemState.item.objectDescriptionId, runtime.itemTable()));
     pParty->requestSound(SoundId::Gold);
     runtime.playSpeechReaction(pParty->activeMemberIndex(), SpeechId::FoundItem, true);
     runtime.setStatusBarEvent(formatFoundItemStatusText(itemName));
     recordWorldItemActivationResult(worldRuntime, "picked up " + itemName + " into hand");
     return true;
+}
+
+bool tryActivateWorldItem(
+    GameplayScreenRuntime &runtime,
+    IGameplayWorldRuntime &worldRuntime,
+    size_t worldItemIndex)
+{
+    Party *pParty = runtime.party();
+
+    if (pParty == nullptr)
+    {
+        return false;
+    }
+
+    GameplayWorldItemInspectState worldItemState = {};
+
+    if (!worldRuntime.worldItemInspectState(worldItemIndex, worldItemState))
+    {
+        return false;
+    }
+
+    bool canStoreInInventory = false;
+    const GameplayWorldItemPickupDecision pickupDecision =
+        decideWorldItemPickup(runtime, *pParty, worldItemState, canStoreInInventory);
+
+    if (pickupDecision.destination == GameplayWorldItemPickupDestination::None)
+    {
+        if (!worldItemState.isGold && !canStoreInInventory && runtime.heldInventoryItem().active)
+        {
+            runtime.setStatusBarEvent(Engine::tr("Pack is Full!"));
+            runtime.playSpeechReaction(pParty->activeMemberIndex(), SpeechId::InventoryRoom, true);
+        }
+
+        return false;
+    }
+
+    // A guest's game asks the host for the item, whose world it lies in; it comes back through
+    // receiveTakenWorldItem, or not at all when another player was quicker.
+    if (IPlayerCommandRemote *pRemote = runtime.playerCommands().remote(); pRemote != nullptr)
+    {
+        const std::optional<uint32_t> itemKey = worldRuntime.worldItemKey(worldItemIndex);
+
+        if (!itemKey)
+        {
+            return false;
+        }
+
+        pRemote->takeWorldItem(*itemKey);
+        return true;
+    }
+
+    GameplayWorldItemInspectState removedItemState = {};
+
+    if (!worldRuntime.takeWorldItemInspectState(worldItemIndex, removedItemState))
+    {
+        return false;
+    }
+
+    return giveTakenWorldItem(runtime, worldRuntime, removedItemState, pickupDecision);
 }
 
 bool tryActivateWorldHit(
@@ -811,7 +858,7 @@ bool tryActivateWorldHit(
             && tryActivateWorldItem(*pRuntime, *pWorldRuntime, hit.worldItem->worldItemIndex);
     }
 
-    return pWorldRuntime->activateWorldHit(hit);
+    return pRuntime != nullptr && pRuntime->playerCommands().activateWorldHit(LocalPlayer, hit);
 }
 
 void clearWorldHover(IGameplayWorldRuntime *pWorldRuntime)
@@ -1231,7 +1278,8 @@ GameplayActionController::PartyAttackExecutionResult executePartyAttack(
             : std::nullopt;
 
     const GameplayActionController::PartyAttackExecutionResult attackResult =
-        GameplayActionController::executePartyAttack(
+        runtime.playerCommands().attack(
+        LocalPlayer,
         GameplayActionController::PartyAttackConfig{
             .pRuntime = &runtime,
             .pSpellService = &spellService,
@@ -2344,6 +2392,9 @@ GameplayInteractionController::updateWorldInteractionFrame(
             && overlayInteractionState.gameplayHudPressedContextActionActive;
 #endif
         clearWorldInteractionFrameState(screenState, overlayInteractionState, runtime);
+        // The Trigger key held while a screen has the keys was that screen's (Space closing a message): it acts again
+        // only once let go, not on the screen's object in the first frame of play.
+        worldInteractionInputState.keyboardUseLatch = keyboardUsePressed;
 #if defined(__ANDROID__) || defined(OPENYAMM_IOS)
         if (preserveHeldItemDropAction)
         {
@@ -3249,5 +3300,35 @@ bool GameplayInteractionController::isSameActivationTarget(
     }
 
     return false;
+}
+void GameplayInteractionController::receiveTakenWorldItem(
+    GameplayScreenRuntime &runtime,
+    const GameplayWorldItemInspectState &takenItem)
+{
+    IGameplayWorldRuntime *pWorldRuntime = runtime.worldRuntime();
+    Party *pParty = runtime.party();
+
+    if (pWorldRuntime == nullptr || pParty == nullptr)
+    {
+        return;
+    }
+
+    bool canStoreInInventory = false;
+    const GameplayWorldItemPickupDecision pickupDecision =
+        decideWorldItemPickup(runtime, *pParty, takenItem, canStoreInInventory);
+
+    if (pickupDecision.destination != GameplayWorldItemPickupDestination::None)
+    {
+        giveTakenWorldItem(runtime, *pWorldRuntime, takenItem, pickupDecision);
+        return;
+    }
+
+    // The bags filled and the hand was taken between the asking and the answer: the item goes back to the ground
+    // at the party's feet, as a dropped one.
+    if (std::optional<GameplayHeldItemDropRequest> dropRequest = pWorldRuntime->buildHeldItemDropRequest())
+    {
+        dropRequest->item = takenItem.item;
+        pWorldRuntime->dropHeldItemToWorld(*dropRequest);
+    }
 }
 } // namespace OpenYAMM::Game

@@ -302,8 +302,17 @@ std::vector<CaveFace> caveFaces(const OutdoorCavePlan &cave)
     {
         for (size_t index = 0; index + 1 < count; ++index)
         {
-            addFacing(faces, {front[index], front[index + 1], inner[index + 1]}, {0.0, -1.0, 0.0}, 1);
-            addFacing(faces, {front[index], inner[index + 1], inner[index]}, {0.0, -1.0, 0.0}, 1);
+            // Mirrored diagonals on the left half, as the mound's.
+            if (front[index][0] + front[index + 1][0] < 0.0)
+            {
+                addFacing(faces, {front[index], front[index + 1], inner[index]}, {0.0, -1.0, 0.0}, 1);
+                addFacing(faces, {front[index + 1], inner[index + 1], inner[index]}, {0.0, -1.0, 0.0}, 1);
+            }
+            else
+            {
+                addFacing(faces, {front[index], front[index + 1], inner[index + 1]}, {0.0, -1.0, 0.0}, 1);
+                addFacing(faces, {front[index], inner[index + 1], inner[index]}, {0.0, -1.0, 0.0}, 1);
+            }
         }
     }
 
@@ -317,13 +326,41 @@ std::vector<CaveFace> caveFaces(const OutdoorCavePlan &cave)
             const double middleZ = (inner[index][2] + inner[index + 1][2]) * 0.5;
             const double middleU = (inner[index][0] + inner[index + 1][0]) * 0.5;
             const Point3 in = {-middleU, 0.0, axis - middleZ};
-            addFacing(faces, {inner[index], inner[index + 1], far[index + 1]}, in, 2);
-            addFacing(faces, {inner[index], far[index + 1], far[index]}, in, 2);
+            if (middleU < 0.0)
+            {
+                addFacing(faces, {inner[index], inner[index + 1], far[index]}, in, 2);
+                addFacing(faces, {inner[index + 1], far[index + 1], far[index]}, in, 2);
+            }
+            else
+            {
+                addFacing(faces, {inner[index], inner[index + 1], far[index + 1]}, in, 2);
+                addFacing(faces, {inner[index], far[index + 1], far[index]}, in, 2);
+            }
         }
     }
 
-    // The dark face (or the door slab) at the tunnel's end.
-    addFacing(faces, cave.mouthDepth > 0.5 ? far : inner, {0.0, -1.0, 0.0}, 3);
+    if (cave.form == "blocked")
+    {
+        // D-91: the mouth fallen in: a heap of rubble filling it at its face, from the mouth's outline to a crown
+        // standing out before it at a third of its height, the heap's foot spilling out onto the floor.
+        const std::vector<Point3> &face = cave.mouthDepth > 0.5 ? far : inner;
+        const Point3 crown = {0.0, face[0][1] - std::min(96.0, cave.rimDepth + back + 32.0),
+            up + cave.mouthHeight * 0.35};
+        const Point3 spill = {0.0, std::max(0.0, face[0][1] - 128.0), 0.0};
+
+        for (size_t index = 0; index + 1 < count; ++index)
+        {
+            addFacing(faces, {face[index], face[index + 1], crown}, {0.0, -1.0, 0.0}, 3);
+        }
+
+        addFacing(faces, {face.back(), spill, crown}, {1.0, -1.0, 0.0}, 3);
+        addFacing(faces, {spill, face.front(), crown}, {-1.0, -1.0, 0.0}, 3);
+    }
+    else
+    {
+        // The dark face (or the door slab, a shelter's rock back) at the tunnel's end.
+        addFacing(faces, cave.mouthDepth > 0.5 ? far : inner, {0.0, -1.0, 0.0}, 3);
+    }
 
     // The mound: from the rim's front outline to the footprint's edge, cut at the same shares of their length.
     const std::vector<Point3> edge = footprintEdge(cave);
@@ -409,8 +446,19 @@ std::vector<CaveFace> caveFaces(const OutdoorCavePlan &cave)
                 return Point3{(p[0] + q[0] + r[0]) / 3.0 * 0.5, (p[1] + q[1] + r[1]) / 3.0 - cave.depth * 0.5,
                     (p[2] + q[2] + r[2]) / 3.0 + cave.depth};
             };
-            addFacing(faces, {a, b, c}, outward(a, b, c), 0);
-            addFacing(faces, {a, c, d}, outward(a, c, d), 0);
+            // The left half splits its quads on the mirrored diagonal, so both ends of the front close alike: one
+            // diagonal everywhere gave the right end an upright cheek and laid a left-end triangle along the land's
+            // front edge and through the hill at the jamb (X1's shaft-head hatch).
+            if (grid[0][index][0] + grid[0][index + 1][0] < 0.0)
+            {
+                addFacing(faces, {a, b, d}, outward(a, b, d), 0);
+                addFacing(faces, {b, c, d}, outward(b, c, d), 0);
+            }
+            else
+            {
+                addFacing(faces, {a, b, c}, outward(a, b, c), 0);
+                addFacing(faces, {a, c, d}, outward(a, c, d), 0);
+            }
         }
     }
 
@@ -450,6 +498,41 @@ double shellOver(const std::vector<CaveFace> &faces, double u, double v)
     }
 
     return lowest;
+}
+
+// The shell's highest point over a place of the footprint (its top seen from above); -infinity where none.
+double shellTop(const std::vector<CaveFace> &faces, double u, double v)
+{
+    double highest = -std::numeric_limits<double>::infinity();
+
+    for (const CaveFace &face : faces)
+    {
+        if (face.role > 1 || face.points.size() != 3)
+        {
+            continue;
+        }
+
+        const Point3 &a = face.points[0];
+        const Point3 &b = face.points[1];
+        const Point3 &c = face.points[2];
+        const double area = (b[0] - a[0]) * (c[1] - a[1]) - (c[0] - a[0]) * (b[1] - a[1]);
+
+        if (std::fabs(area) < 1.0)
+        {
+            continue;
+        }
+
+        const double wb = ((u - a[0]) * (c[1] - a[1]) - (c[0] - a[0]) * (v - a[1])) / area;
+        const double wc = ((b[0] - a[0]) * (v - a[1]) - (u - a[0]) * (b[1] - a[1])) / area;
+        const double wa = 1.0 - wb - wc;
+
+        if (wa >= -1.0e-6 && wb >= -1.0e-6 && wc >= -1.0e-6)
+        {
+            highest = std::max(highest, wa * a[2] + wb * b[2] + wc * c[2]);
+        }
+    }
+
+    return highest;
 }
 }
 
@@ -637,6 +720,8 @@ std::vector<OutdoorCavePlan> readOutdoorCaves(
         }
 
         cave.mouthForm = textOf(mouth, "form", "arch");
+        cave.form = textOf(node, "form");
+        cave.leadsIn = childOf(node, "into").IsDefined();
 
         if (cave.mouthForm != "arch" && cave.mouthForm != "door")
         {
@@ -644,20 +729,35 @@ std::vector<OutdoorCavePlan> readOutdoorCaves(
             continue;
         }
 
+        // D-91: a mouth that leads nowhere is a shelter (a shallow open overhang, its back and floor in sight) or
+        // blocked (rubble fills it at its face).
+        if ((!cave.form.empty() && cave.form != "shelter" && cave.form != "blocked")
+            || (!cave.form.empty() && (cave.leadsIn || cave.mouthForm == "door")))
+        {
+            add(".form", "a cave mouth's `form` is shelter (a shallow open overhang, its rock back lit) or blocked "
+                "(rubble fills the mouth at its face), for a mouth that leads nowhere: not with `into` or a door "
+                "slab (`mouth.form: door`)");
+            continue;
+        }
+
         const bool door = cave.mouthForm == "door";
+        const bool shelter = cave.form == "shelter";
+        const bool blocked = cave.form == "blocked";
         cave.mouthWidth = numberOr(mouth, "width", door ? 192.0 : 512.0);
         cave.mouthHeight = numberOr(mouth, "height", door ? 320.0 : 384.0);
-        cave.mouthDepth = numberOr(mouth, "depth", door ? 16.0 : 256.0);
+        cave.mouthDepth = numberOr(mouth, "depth", door ? 16.0 : shelter ? 160.0 : blocked ? 0.0 : 256.0);
         cave.mouthSides = static_cast<int>(numberOr(mouth, "sides", door ? 0.0 : 6.0));
         cave.rim = numberOr(mouth, "rim", door ? 128.0 : 72.0);
         cave.rimDepth = door ? 0.0 : std::min(72.0, cave.rim);
-        cave.narrow = door ? 1.0 : 0.85;
+        cave.narrow = door ? 1.0 : shelter ? 0.95 : 0.85;
         cave.setback = numberOr(mouth, "setback", 0.0);
         cave.ledge = numberOr(mouth, "ledge", 0.0);
         cave.ledgeTexture = textOf(childOf(node, "textures"), "ledge", ground);
         cave.crest = numberOr(node, "crest", cave.mouthHeight + cave.rim + cave.ledge + 64.0);
         cave.roughness = numberOr(node, "roughness", 0.5);
-        cave.doorTexture = textOf(childOf(node, "textures"), "door", door ? carved : dark);
+        // A shelter's back and a blocked mouth's rubble are the shell's rock unless `textures.door` says.
+        cave.doorTexture = textOf(childOf(node, "textures"), "door", door ? carved : shelter || blocked
+            ? cave.shellTexture : dark);
 
         if (cave.width < 256.0 || cave.width > 8192.0 || cave.depth < 256.0 || cave.depth > 8192.0)
         {
@@ -768,6 +868,50 @@ void shapeOutdoorCaveLand(
         }
 
         const std::vector<CaveFace> faces = caveFaces(cave);
+        // F8: a cave mouth into a hill is covered by the land round its sides and back.
+        const bool buried = cave.kind == "cave_mouth" && !cave.free;
+        const double tunnelEnd = cave.setback + cave.rimDepth + cave.mouthDepth;
+
+        // The highest a node may stand over the floor so that the land in the mouth (and its tunnel) stays within
+        // a step of the floor: the ground of a cell is two triangles of its corners, so a corner weighs at most
+        // 1 - min(across, along) / Cell at a place of the cell.
+        const auto capAt = [&cave, tunnelEnd](double u, double v)
+        {
+            double cap = std::numeric_limits<double>::infinity();
+
+            for (double pu = -cave.mouthWidth * 0.5; pu <= cave.mouthWidth * 0.5 + 0.5; pu += Step)
+            {
+                for (double pv = 0.0; pv <= tunnelEnd + 0.5; pv += Step)
+                {
+                    const double across = std::fabs(pu - u) / Cell;
+                    const double along = std::fabs(pv - v) / Cell;
+                    const double weight = across < 1.0 && along < 1.0 ? 1.0 - std::min(across, along) : 0.0;
+
+                    if (weight > 1.0e-3)
+                    {
+                        cap = std::min(cap, Step / weight);
+                    }
+                }
+            }
+
+            return cap;
+        };
+        // The shell's highest point over the cells round a node.
+        const auto coverAt = [&cave, &faces, half](double u, double v)
+        {
+            double cover = 0.0;
+
+            for (double su = std::max(-half, u - Cell); su <= std::min(half, u + Cell) + 0.5; su += 64.0)
+            {
+                for (double sv = std::max(0.0, v - Cell); sv <= std::min(cave.depth, v + Cell) + 0.5; sv += 64.0)
+                {
+                    const double top = shellTop(faces, std::clamp(su, -half, half), std::min(sv, cave.depth));
+                    cover = std::isfinite(top) ? std::max(cover, top) : cover;
+                }
+            }
+
+            return std::min(cover, cave.crest);
+        };
         size_t lowBehind = 0;
         double lowest = std::numeric_limits<double>::infinity();
         size_t wet = 0;
@@ -791,7 +935,7 @@ void shapeOutdoorCaveLand(
                 const double v = local[1];
                 constexpr double Near = 1.0;
 
-                if (!pit && !cave.free && std::fabs(u) <= half + Near && v > cave.depth + Cell - Near
+                if (!pit && !buried && !cave.free && std::fabs(u) <= half + Near && v > cave.depth + Cell - Near
                     && v < cave.depth + Cell + Near && ground[node] < cave.floor + cave.crest - 64.0)
                 {
                     ++lowBehind;
@@ -800,6 +944,14 @@ void shapeOutdoorCaveLand(
 
                 if (std::fabs(u) > half + Near || v < -Near || v > cave.depth + Near)
                 {
+                    // F8: one cell beyond the sides and the back the land rises to the shell near it.
+                    if (buried && std::isnan(waterNode[node]) && v > Near && std::fabs(u) < half + Cell + Near
+                        && v < cave.depth + Cell + Near)
+                    {
+                        const double cover = std::min(coverAt(u, v), capAt(u, v));
+                        ground[node] = std::max(ground[node], cave.floor + std::floor(cover / Step) * Step);
+                    }
+
                     continue;
                 }
 
@@ -836,6 +988,19 @@ void shapeOutdoorCaveLand(
 
                     height = std::max(0.0, std::min(std::max(rise, land), shell - 32.0));
                 }
+                else if (buried && v > Near)
+                {
+                    // F8: the side and back edges: a hill over the profile stays, and the land rises to the shell
+                    // near it, as far as the mouth's floor allows.
+                    const double cap = capAt(u, v);
+                    height = std::max(height, std::min(ground[node] - cave.floor, cap));
+                    height = std::max(height, std::floor(std::min(coverAt(u, v), cap) / Step) * Step);
+
+                    if (ground[node] >= cave.floor + height - 0.5 && ground[node] <= cave.floor + cap + 0.5)
+                    {
+                        continue;
+                    }
+                }
                 else if (height > 0.5 && ground[node] > cave.floor + height)
                 {
                     // The rising side and back edges: a hill higher than the profile stays.
@@ -844,6 +1009,60 @@ void shapeOutdoorCaveLand(
 
                 ground[node] = cave.floor + std::round(height / Step) * Step;
             }
+        }
+
+        // F8: how far the shell stands over the land beside it (its wings beside the rim) and behind it (its dome),
+        // and D-91: a dark mouth that leads nowhere.
+        if (buried)
+        {
+            const double rimHalf = cave.mouthWidth * 0.5 + cave.rim;
+            double wings = 0.0;
+            double dome = 0.0;
+
+            for (double u = -half; u <= half + 0.5; u += 64.0)
+            {
+                for (double v = 0.0; v <= cave.depth + 0.5; v += 64.0)
+                {
+                    const double top = shellTop(faces, std::min(u, half), std::min(v, cave.depth));
+
+                    if (!std::isfinite(top))
+                    {
+                        continue;
+                    }
+
+                    if (std::fabs(u) > rimHalf + 16.0 && v <= std::min(cave.shoulder, cave.depth))
+                    {
+                        wings = std::max(wings, top - (landAt(u < 0.0 ? -half - 64.0 : half + 64.0, v) - cave.floor));
+                    }
+
+                    if (v > tunnelEnd + 32.0)
+                    {
+                        dome = std::max(dome, top - (landAt(u, cave.depth + 64.0) - cave.floor));
+                    }
+                }
+            }
+
+            if (wings > 64.0)
+            {
+                warnings.push_back(cave.path + ": caves.wings: the shell of " + cave.id + " stands "
+                    + formatNumber(std::round(wings)) + " over the land beside it, rock wings beside its rim: make "
+                    "the footprint as wide as the mouth and its rim (`size` " + formatNumber(rimHalf * 2.0)
+                    + " across) or raise the land beside it");
+            }
+
+            if (dome > 64.0)
+            {
+                warnings.push_back(cave.path + ": caves.dome: the shell of " + cave.id + " stands "
+                    + formatNumber(std::round(dome)) + " over the land behind it: raise the land behind it, lower "
+                    "`crest`, or say `free: true` for a mound on level land");
+            }
+        }
+
+        if (cave.kind == "cave_mouth" && !cave.leadsIn && cave.form.empty())
+        {
+            warnings.push_back(cave.path + ": caves.blind_mouth: " + cave.id + " shows a dark way in that leads "
+                "nowhere: give it `into`, or `form: shelter` (an open overhang with its back lit) or `form: blocked` "
+                "(rubble fills it) and a click line (D-91)");
         }
 
         if (lowBehind != 0)

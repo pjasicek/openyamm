@@ -101,6 +101,7 @@ public:
     const FaceAnimationTable &faceAnimationTable() const;
     const TransitionTable &transitionTable() const;
     const MergedTownPortalSwitchTable &mergedTownPortalSwitchTable() const;
+    const MergedDimensionDoorTable &mergedDimensionDoorTable() const;
     const MergedCharacterSelectionTable &mergedCharacterSelectionTable() const;
     const MergedNewsTopicTable &mergedNewsAreaTopicTable() const;
     const MergedNewsTopicTable &mergedNewsContinentTopicTable() const;
@@ -172,6 +173,7 @@ private:
     const FaceAnimationTable *m_pFaceAnimationTable = nullptr;
     const TransitionTable *m_pTransitionTable = nullptr;
     const MergedTownPortalSwitchTable *m_pMergedTownPortalSwitchTable = nullptr;
+    const MergedDimensionDoorTable *m_pMergedDimensionDoorTable = nullptr;
     const MergedCharacterSelectionTable *m_pMergedCharacterSelectionTable = nullptr;
     const MergedNewsTopicTable *m_pMergedNewsAreaTopicTable = nullptr;
     const MergedNewsTopicTable *m_pMergedNewsContinentTopicTable = nullptr;

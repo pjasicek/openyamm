@@ -271,6 +271,14 @@ float mm9TurretShotChance(bool clearShot);
 // only what is in water while it is in water itself.
 bool mm9SwimmerRunsFrom(bool targetInWater);
 bool mm9SwimmerCanTarget(bool selfInWater, bool targetInWater);
+// The same rule on an outdoor map (D-36): a body is in water when it is over a water tile, not flying and its feet
+// within OutdoorSwimDepth of the water there (a party on a jetty or bridge above it is not).
+constexpr float OutdoorSwimDepth = 48.0f;
+bool outdoorBodyInWater(bool overWaterTile, bool flying, float footZ, float surfaceZ);
+// A swimmer's step outdoors: its centre stays over water tiles and, with a home radius (0: none), within it of home,
+// measured level; a swimmer already beyond it may take a step that brings it nearer.
+bool outdoorSwimmerStepAllowed(bool candidateOverWater, float leashRadius, float fromHomeX, float fromHomeY,
+    float candidateFromHomeX, float candidateFromHomeY);
 
 // The layers every MM9 archetype shares (MM9_MONSTER_AI_PLAN.md phase 4a): BaseWander.inc, BaseRun.inc, AICommon.inc's
 // alerts, help calls and resurrection chain, and BaseDoor.inc.

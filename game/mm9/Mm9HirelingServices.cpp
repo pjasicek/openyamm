@@ -28,7 +28,7 @@ void setHireKey(Party &party, const Mm9Hireling &row, bool value)
 {
     if (row.hireQBit != 0)
     {
-        party.setQuestBit(row.hireQBit, value);
+        party.campaign().setQuestBit(row.hireQBit, value);
     }
 }
 

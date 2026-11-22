@@ -174,6 +174,8 @@ TEST_CASE("a saved map state is kept only on its own layout; older saves keep on
     CHECK_EQ(judgeSavedMapState(0, 43, "mm8"), SavedMapStateVerdict::Keep);
     CHECK_EQ(judgeSavedMapState(0, 43, "mm9"), SavedMapStateVerdict::ResetUnknown);
     CHECK_EQ(judgeSavedMapState(0, 43, "hesper"), SavedMapStateVerdict::ResetUnknown);
+    CHECK_EQ(judgeSavedMapState(0, 43, "xeen"), SavedMapStateVerdict::ResetUnknown);
+    CHECK_EQ(judgeSavedMapState(7, 7, "xeen"), SavedMapStateVerdict::Keep);
 }
 
 TEST_CASE("a save keeps each map state's layout identity")

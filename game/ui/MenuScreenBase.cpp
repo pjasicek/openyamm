@@ -1322,7 +1322,8 @@ bgfx::TextureHandle MenuScreenBase::ensureDynamicTexture(
 
 std::optional<std::string> MenuScreenBase::resolveTexturePath(const std::string &textureName)
 {
-    if (textureName.starts_with("hud_x2/"))
+    // Menu art, and art a package names by its own path (a world's new-game card: "worlds/<id>/ui/...").
+    if (textureName.starts_with("hud_x2/") || textureName.starts_with("worlds/") || textureName.starts_with("engine/"))
     {
         return m_pAssetFileSystem->resolveExistingFilePath(textureName);
     }

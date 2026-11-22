@@ -53,9 +53,10 @@ bool isPooledEquipment(const ItemDefinition &entry)
 
 }
 
-bool ItemGenerator::shopPoolAllows(const ItemDefinition &entry, const std::string &worldPool)
+bool ItemGenerator::shopPoolAllows(const ItemDefinition &entry, const std::vector<std::string> &worldPools)
 {
-    if (worldPool.empty() || toLowerCopy(entry.packageId) == worldPool)
+    if (worldPools.empty()
+        || std::find(worldPools.begin(), worldPools.end(), toLowerCopy(entry.packageId)) != worldPools.end())
     {
         return true;
     }
@@ -93,7 +94,7 @@ std::optional<uint32_t> chooseRandomRareItem(
             continue;
         }
 
-        if (pParty != nullptr && pParty->hasFoundArtifactItem(entry.itemId))
+        if (pParty != nullptr && pParty->campaign().hasFoundArtifactItem(entry.itemId))
         {
             continue;
         }
@@ -249,13 +250,18 @@ std::optional<InventoryItem> ItemGenerator::generateRandomInventoryItem(
     // A boss's drop (rulesets that flag it, MAW) is always equipment that takes enchantments. A world with loot of
     // its own (loot.yml) rolls only the items it lists.
     const WorldLootTable *pWorldLoot = itemTable.worldLoot(request.worldId);
-    // Random loot rolls from one pool of every mounted world's items; a shop keeps its world's own equipment, and so
-    // does loot on the merged MM6-MM8 base's maps with the Gameplay setting "MM9 loot in MM6-MM8" off
-    // (Party::mm9LootInOlderWorlds, the default).
-    const std::string worldPool = itemTable.lootPoolForWorld(request.worldId);
+    // Random loot rolls from one pool of every mounted world's items (MM9's maps); a shop keeps to its world's pools
+    // (ItemTable::lootPoolsForWorld), and so does random loot of a world that borrows others' through its world.yml
+    // dependencies (Xeen: xeen and the merged base, whatever the setting, D-80). MM6-MM8's maps, whose own pool is the
+    // merged base, keep to it while the Gameplay setting "MM9 loot in MM6-MM8" is off (Party::mm9LootInOlderWorlds,
+    // the default).
+    const std::vector<std::string> worldPools = itemTable.lootPoolsForWorld(request.worldId);
+    const bool borrowsPools = worldPools.size() > 1;
+    const bool baseWorld = !worldPools.empty() && worldPools.front() == "engine";
     const bool ownWorldOnly = request.mode == ItemGenerationMode::Shop
-        || (pParty != nullptr && !pParty->mm9LootInOlderWorlds() && worldPool == "engine");
-    const std::string shopPool = ownWorldOnly ? worldPool : std::string();
+        || borrowsPools
+        || (pParty != nullptr && !pParty->mm9LootInOlderWorlds() && baseWorld);
+    const std::vector<std::string> shopPool = ownWorldOnly ? worldPools : std::vector<std::string>();
     const std::function<bool(const ItemDefinition &)> filter =
         [&request, &callerFilter, pWorldLoot, &shopPool](const ItemDefinition &entry)
         {
@@ -295,7 +301,7 @@ std::optional<InventoryItem> ItemGenerator::generateRandomInventoryItem(
 
         if (pParty != nullptr)
         {
-            pParty->markArtifactItemFound(*rareItemId);
+            pParty->campaign().markArtifactItemFound(*rareItemId);
         }
 
         return item;
@@ -313,7 +319,7 @@ std::optional<InventoryItem> ItemGenerator::generateRandomInventoryItem(
 
             if (pParty != nullptr)
             {
-                pParty->markArtifactItemFound(*rareItemId);
+                pParty->campaign().markArtifactItemFound(*rareItemId);
             }
 
             return item;

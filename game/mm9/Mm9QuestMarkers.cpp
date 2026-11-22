@@ -57,7 +57,7 @@ bool keyStateHolds(const Mm9QuestKeyState &state, const Party &party)
 {
     const auto partyHasQBit = [&party](uint32_t qbitId)
     {
-        return party.hasQuestBit(qbitId);
+        return party.campaign().hasQuestBit(qbitId);
     };
     return state.present && std::all_of(state.requiredQBits.begin(), state.requiredQBits.end(), partyHasQBit)
         && std::none_of(state.forbiddenQBits.begin(), state.forbiddenQBits.end(), partyHasQBit);
@@ -119,7 +119,7 @@ bool scrPredicatePasses(const Mm9QuestInteraction &interaction, const Party &par
 {
     const auto partyHasQBit = [&party](uint32_t qbitId)
     {
-        return party.hasQuestBit(qbitId);
+        return party.campaign().hasQuestBit(qbitId);
     };
     if (!std::all_of(interaction.requiredQBits.begin(), interaction.requiredQBits.end(), partyHasQBit)
         || !std::none_of(interaction.forbiddenQBits.begin(), interaction.forbiddenQBits.end(), partyHasQBit)
@@ -150,7 +150,7 @@ struct PreviewQuestKeys
     bool has(uint32_t qbitId) const
     {
         const std::unordered_map<uint32_t, bool>::const_iterator iterator = changes.find(qbitId);
-        return iterator != changes.end() ? iterator->second : pParty->hasQuestBit(qbitId);
+        return iterator != changes.end() ? iterator->second : pParty->campaign().hasQuestBit(qbitId);
     }
 };
 

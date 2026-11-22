@@ -36,6 +36,14 @@ add_library(openyamm_game STATIC
     debug/MenuInputTour.cpp
     data/GameDataRepository.cpp
     app/GameSession.cpp
+    coop/CharacterFile.cpp
+    coop/CoopBodies.cpp
+    coop/CoopCharacter.cpp
+    coop/CoopInvitation.cpp
+    coop/CoopLobbyBrowser.cpp
+    coop/CoopCodec.cpp
+    coop/CoopSession.cpp
+    coop/ReplicaWorldCalls.cpp
     audio/GameAudioSystem.cpp
     audio/WorldAmbientSounds.cpp
     audio/MusicStream.cpp
@@ -112,6 +120,7 @@ add_library(openyamm_game STATIC
     gameplay/GameplayInputController.cpp
     gameplay/GameplayInteractionController.cpp
     gameplay/GameplayItemService.cpp
+    gameplay/PlayerCommands.cpp
     gameplay/GameplayWorldItemInteraction.cpp
     gameplay/InteractiveDecorationRules.cpp
     gameplay/MonsterSpellSupport.cpp
@@ -295,6 +304,7 @@ add_library(openyamm_game STATIC
     outdoor/WeatherModel.cpp
     outdoor/WeatherPresentation.cpp
     party/Party.cpp
+    party/CampaignState.cpp
     party/BattleOrders.cpp
     party/EventSpellBuffs.cpp
     party/LloydsBeaconRuntime.cpp
@@ -388,6 +398,7 @@ add_library(openyamm_game STATIC
     ui/screens/MainMenuScreen.cpp
     ui/screens/ArcomageScreen.cpp
     ui/screens/CutsceneVideoScreen.cpp
+    ui/screens/CoopMenuScreen.cpp
     ui/screens/LoadGameScreen.cpp
     ui/screens/LoadingOverlayScreen.cpp
     ui/screens/NewGameScreen.cpp

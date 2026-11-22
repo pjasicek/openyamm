@@ -1,0 +1,17 @@
+# Magical age stays over rest and travel (A1 merge point 33): in MM6-MM8 an ageing monster's or event's years last
+# until a Rejuvenation potion or an event takes them away; rest clears only the temporary event bonuses (Party.cpp
+# clearTemporaryEventBonuses). Before merge point 33 every rest and travel day cleared it (Xeen Q-C1's ISSUE).
+#   ./build/game/openyamm --headless-run-scenario tests/scenarios/mm7/magical_age_survives_rest.yml
+id: mm7.magical_age_survives_rest
+title: "MM7: magical age stays over travel days and rest"
+world: mm7
+mode: faithful
+tags: [mm7, party]
+steps:
+  - new_game_flow:
+      start_map: 7out01.odm
+  - assert: {runtime_event_variable: {id: 11, member_index: 0, value: 20}}
+  - lua_event: {source: "evt.ForPlayer(Players.All); AddValue(Age, 10)"}
+  - assert: {runtime_event_variable: {id: 11, member_index: 0, value: 30}}
+  - travel: {map: 7out01.odm, days: 3}
+  - assert: {runtime_event_variable: {id: 11, member_index: 0, value: 30}}

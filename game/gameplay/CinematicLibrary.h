@@ -2,6 +2,7 @@
 
 #include "game/gameplay/GameplayWorldPoint.h"
 
+#include <array>
 #include <cstddef>
 #include <cstdint>
 #include <optional>
@@ -55,8 +56,8 @@ struct CinematicShot
 
 enum class CinematicCueKind : uint8_t
 {
-    FadeOut,        // to black over seconds
-    FadeIn,         // from black over seconds
+    FadeOut,        // to its colour (colorRgb, black by default) over seconds
+    FadeIn,         // from its colour over seconds
     Letterbox,      // bars on (amount 1) or off (0) over seconds
     Sound,          // text: a sound name as evt.PlaySoundName takes it
     Subtitle,       // text, shown for seconds
@@ -87,6 +88,8 @@ struct CinematicCue
     size_t aimActorIndex = 0;
     bool loop = false;
     uint32_t decorationKey = 0;
+    // FadeOut, FadeIn: the colour of the veil (D-56's fade to white); black by default.
+    std::array<uint8_t, 3> colorRgb = {0, 0, 0};
 };
 
 struct CinematicDefinition

@@ -44,7 +44,7 @@ bool houseExtraExitIsAvailable(const HouseEntry &houseEntry, const Party *pParty
 {
     return houseEntry.extraExit.has_value()
         && (houseEntry.extraExit->requiredQuestBit == 0
-            || (pParty != nullptr && pParty->hasQuestBit(houseEntry.extraExit->requiredQuestBit)));
+            || (pParty != nullptr && pParty->campaign().hasQuestBit(houseEntry.extraExit->requiredQuestBit)));
 }
 
 bool shouldUseResidentOnlyHouseLobby(
@@ -591,22 +591,7 @@ const std::optional<MapEdgeTransition> *currentMapTransitionForContext(
         return nullptr;
     }
 
-    switch (static_cast<MapBoundaryEdge>(context.sourceId))
-    {
-        case MapBoundaryEdge::North:
-            return &pCurrentMap->northTransition;
-
-        case MapBoundaryEdge::South:
-            return &pCurrentMap->southTransition;
-
-        case MapBoundaryEdge::East:
-            return &pCurrentMap->eastTransition;
-
-        case MapBoundaryEdge::West:
-            return &pCurrentMap->westTransition;
-    }
-
-    return nullptr;
+    return pCurrentMap->mapTransitionAtSource(context.sourceId);
 }
 
 std::vector<std::string> wrapDialogText(const std::string &text, size_t width)
@@ -841,6 +826,29 @@ std::vector<uint32_t> collectSelectableResidentNpcIds(
     return collectSelectableResidentNpcIdsImpl(houseEntry, npcDialogTable, eventRuntimeState);
 }
 
+std::optional<uint32_t> houseProprietorResidentNpcId(
+    const HouseEntry &houseEntry,
+    const NpcDialogTable &npcDialogTable,
+    const EventRuntimeState &eventRuntimeState)
+{
+    if (houseEntry.proprietorPictureId == 0 || resolveHouseServiceType(houseEntry) == HouseServiceType::None)
+    {
+        return std::nullopt;
+    }
+
+    for (uint32_t npcId : collectSelectableResidentNpcIdsImpl(houseEntry, npcDialogTable, eventRuntimeState))
+    {
+        const std::optional<NpcEntry> resident = runtimeNpcEntryIfExists(&npcDialogTable, eventRuntimeState, npcId);
+
+        if (resident && resident->pictureId == houseEntry.proprietorPictureId)
+        {
+            return npcId;
+        }
+    }
+
+    return std::nullopt;
+}
+
 namespace
 {
 // The line every hireling's description ends with. The table holds it only joined to each profession's own first
@@ -1014,6 +1022,32 @@ bool npcProfessionActionUsedToday(
         && variableIt->second == static_cast<int32_t>(currentDay);
 }
 
+namespace
+{
+// An event's choice box (AskChoiceWithAnswerSteps): one button per answer of the pending choice, if any.
+void appendEventChoiceActions(const EventRuntimeState &eventRuntimeState, std::vector<EventDialogAction> &actions)
+{
+    if (!eventRuntimeState.pendingInputPrompt
+        || eventRuntimeState.pendingInputPrompt->kind != EventRuntimeState::PendingInputPrompt::Kind::Choice)
+    {
+        return;
+    }
+
+    const std::vector<std::string> &answers = eventRuntimeState.pendingInputPrompt->answers;
+
+    for (size_t answerIndex = 0; answerIndex < answers.size(); ++answerIndex)
+    {
+        EventDialogAction choiceAction = {};
+        choiceAction.kind = EventDialogActionKind::EventChoice;
+        choiceAction.id = uint32_t(answerIndex);
+        // The answer stays English in the prompt (saved, compared); its button shows the translation.
+        choiceAction.label =
+            Engine::localize(answers[answerIndex], Engine::mapTextContext(eventRuntimeState.mapFileName));
+        actions.push_back(std::move(choiceAction));
+    }
+}
+}
+
 EventDialogContent buildEventDialogContent(
     EventRuntimeState &eventRuntimeState,
     size_t previousMessageCount,
@@ -1071,11 +1105,21 @@ EventDialogContent buildEventDialogContent(
                 npcRuntimeState
             );
 
-            if (residentNpcId && houseActions.empty())
+            // A proprietor who is also a resident (the same portrait) is one person: his menu is his talk with the
+            // house's services first. The house opens on it when he is the only resident, and the lobby's proprietor
+            // portrait (the HouseServiceRoot menu) leads to it otherwise.
+            const std::optional<uint32_t> proprietorNpcId =
+                houseProprietorResidentNpcId(*pHouseEntry, *pNpcDialogTable, npcRuntimeState);
+            const DialogueMenuId menuId = currentDialogueMenuId(eventRuntimeState);
+            const bool openProprietorTalk = proprietorNpcId
+                && currentHouseServiceMenuId(eventRuntimeState) == DialogueMenuId::None
+                && (menuId == DialogueMenuId::HouseServiceRoot || residentNpcId == proprietorNpcId);
+
+            if ((residentNpcId && houseActions.empty()) || openProprietorTalk)
             {
                 EventRuntimeState::PendingDialogueContext context = {};
                 context.kind = DialogueContextKind::NpcTalk;
-                context.sourceId = *residentNpcId;
+                context.sourceId = openProprietorTalk ? *proprietorNpcId : *residentNpcId;
                 context.hostHouseId = pHouseEntry->id;
                 eventRuntimeState.pendingDialogueContext = std::move(context);
             }
@@ -1122,22 +1166,40 @@ EventDialogContent buildEventDialogContent(
             dialog.title = Engine::localizeKnown(*context.titleOverride);
         }
 
-        // An event's choice box: one button per answer.
-        if (eventRuntimeState.pendingInputPrompt
-            && eventRuntimeState.pendingInputPrompt->kind == EventRuntimeState::PendingInputPrompt::Kind::Choice)
+        // An event's choice box: one button per answer. The game's own question (a co-op travel vote) is one too,
+        // with its own lines in the place of the script's messages.
+        if (context.ownQuestion)
         {
-            const std::vector<std::string> &answers = eventRuntimeState.pendingInputPrompt->answers;
+            eventMessageLines.clear();
 
-            for (size_t answerIndex = 0; answerIndex < answers.size(); ++answerIndex)
+            if (!context.ownQuestion->travelMapFile.empty())
+            {
+                dialog.participantVisual = EventDialogParticipantVisual::MapIcon;
+                dialog.participantPictureId = 0;
+                dialog.participantTextureName =
+                    lowerMapFileName(context.ownQuestion->travelMapFile).find(".blv") != std::string::npos
+                        ? defaultDungeonTransitionImageName()
+                        : defaultOutdoorTransitionImageName();
+            }
+
+            for (const std::string &line : context.ownQuestion->lines)
+            {
+                const std::vector<std::string> wrapped = wrapDialogText(line, MaxLineWidth);
+                eventMessageLines.insert(eventMessageLines.end(), wrapped.begin(), wrapped.end());
+            }
+
+            for (size_t choice = 0; choice < context.ownQuestion->choices.size(); ++choice)
             {
                 EventDialogAction choiceAction = {};
                 choiceAction.kind = EventDialogActionKind::EventChoice;
-                choiceAction.id = uint32_t(answerIndex);
-                // The answer stays English in the prompt (saved, compared); its button shows the translation.
-                choiceAction.label =
-                    Engine::localize(answers[answerIndex], Engine::mapTextContext(eventRuntimeState.mapFileName));
+                choiceAction.id = uint32_t(choice);
+                choiceAction.label = context.ownQuestion->choices[choice];
                 dialog.actions.push_back(std::move(choiceAction));
             }
+        }
+        else
+        {
+            appendEventChoiceActions(eventRuntimeState, dialog.actions);
         }
     }
     else if (context.kind == DialogueContextKind::MapTransition)
@@ -1231,7 +1293,32 @@ EventDialogContent buildEventDialogContent(
         const int edgeTravelDays = pTransition != nullptr && pTransition->has_value()
             ? (*pTransition)->travelDays
             : 0;
-        if (edgeTravelDays > 0 || context.transitionTravelDays > 0)
+        // Another player's trip that waits for this player's answer: what it will cost everyone.
+        const std::optional<TravelCost> proposedCost =
+            context.transitionMapMove ? context.transitionMapMove->unpaidCost : std::nullopt;
+
+        if (proposedCost)
+        {
+            const int days = proposedCost->waitDays + proposedCost->travelDays;
+
+            if (proposedCost->fareGold > 0)
+            {
+                dialog.lines.push_back(Engine::trn(
+                    "Another player wants to travel to {place}: {days} day, and {gold} gold from each player.",
+                    "Another player wants to travel to {place}: {days} days, and {gold} gold from each player.",
+                    uint64_t(std::max(days, 0)),
+                    {{"days", days}, {"gold", proposedCost->fareGold}, {"place", dialog.title}}));
+            }
+            else
+            {
+                dialog.lines.push_back(Engine::trn(
+                    "Another player wants to travel to {place}: {days} day, and {food} food from each player.",
+                    "Another player wants to travel to {place}: {days} days, and {food} food from each player.",
+                    uint64_t(std::max(days, 0)),
+                    {{"days", days}, {"food", proposedCost->travelFood}, {"place", dialog.title}}));
+            }
+        }
+        else if (edgeTravelDays > 0 || context.transitionTravelDays > 0)
         {
             const int baseDays = edgeTravelDays > 0 ? edgeTravelDays : context.transitionTravelDays;
             const int travelDays = edgeTravelDays > 0 || mm9RegionWalkTransition
@@ -1369,7 +1456,11 @@ EventDialogContent buildEventDialogContent(
 
                 if (pNpcDialogTable != nullptr)
                 {
-                    appendHouseResidentActions(dialog, *pNpcDialogTable, eventRuntimeState, residentNpcIds);
+                    const std::optional<uint32_t> proprietorNpcId =
+                        houseProprietorResidentNpcId(*pHouseEntry, *pNpcDialogTable, npcRuntimeState);
+                    std::vector<uint32_t> otherResidentNpcIds = residentNpcIds;
+                    std::erase_if(otherResidentNpcIds, [&](uint32_t npcId) { return npcId == proprietorNpcId; });
+                    appendHouseResidentActions(dialog, *pNpcDialogTable, eventRuntimeState, otherResidentNpcIds);
                 }
 
                 return dialog;
@@ -1472,14 +1563,7 @@ EventDialogContent buildEventDialogContent(
         }
         else if (pNpc != nullptr && !pNpc->name.empty())
         {
-            const MergedNpcProfessionEntry *pTitleProfession =
-                pNpcProfessionTable != nullptr && pNpc->professionId != 0
-                ? pNpcProfessionTable->get(pNpc->professionId)
-                : nullptr;
-            dialog.title = pTitleProfession != nullptr && !pTitleProfession->profession.empty()
-                ? Engine::tr("{name} the {profession}", {{"name", Engine::localize(pNpc->name)},
-                                                         {"profession", Engine::localize(pTitleProfession->profession)}})
-                : Engine::localize(pNpc->name);
+            dialog.title = npcNameAndTitle(*pNpc, pNpcProfessionTable);
         }
         else if (pGreeting != nullptr && !pGreeting->owner.empty())
         {
@@ -1497,6 +1581,25 @@ EventDialogContent buildEventDialogContent(
             if (dialog.participantPictureId == 0 && context.participantPictureId != 0)
             {
                 dialog.participantPictureId = context.participantPictureId;
+            }
+        }
+
+        // The house's proprietor talking in his own house (houseProprietorResidentNpcId): his menu starts with the
+        // house's services, under the house's name and title for him.
+        const HouseEntry *pProprietorHouse = nullptr;
+
+        if (context.kind == DialogueContextKind::NpcTalk
+            && context.hostHouseId != 0
+            && pHouseTable != nullptr
+            && pNpcDialogTable != nullptr)
+        {
+            const HouseEntry *pHostHouse = pHouseTable->get(context.hostHouseId);
+
+            if (pHostHouse != nullptr
+                && houseProprietorResidentNpcId(*pHostHouse, *pNpcDialogTable, npcRuntimeState) == dialog.sourceId)
+            {
+                pProprietorHouse = pHostHouse;
+                dialog.title = buildHouseParticipantTitle(*pHostHouse);
             }
         }
 
@@ -1642,6 +1745,23 @@ EventDialogContent buildEventDialogContent(
             }
             else
             {
+                if (pProprietorHouse != nullptr)
+                {
+                    for (const HouseActionOption &houseAction : buildHouseActionOptions(
+                             *pProprietorHouse, pParty, pClassSkillTable, pWorldRuntime, currentGameMinutes,
+                             DialogueMenuId::None))
+                    {
+                        EventDialogAction action = {};
+                        action.kind = EventDialogActionKind::HouseService;
+                        action.id = static_cast<uint32_t>(houseAction.id);
+                        action.label = houseAction.label;
+                        action.argument = houseAction.argument;
+                        action.enabled = houseAction.enabled;
+                        action.disabledReason = houseAction.disabledReason;
+                        dialog.actions.push_back(std::move(action));
+                    }
+                }
+
                 const bool isGeneratedMercenary =
                     npcRuntimeState.generatedMercenaryRecruitsByNpcId.contains(dialog.sourceId)
                     && !npcRuntimeState.unavailableNpcIds.contains(dialog.sourceId);
@@ -1961,6 +2081,15 @@ EventDialogContent buildEventDialogContent(
         {
             eventMessageLines = wrapDialogText(Engine::localize(*hireText), MaxLineWidth);
         }
+    }
+
+    // A topic's choice box (a conversation's or a house's): its answers stand in for the topics until one is chosen.
+    if ((context.kind == DialogueContextKind::NpcTalk || context.kind == DialogueContextKind::HouseService)
+        && eventRuntimeState.pendingInputPrompt
+        && eventRuntimeState.pendingInputPrompt->kind == EventRuntimeState::PendingInputPrompt::Kind::Choice)
+    {
+        dialog.actions.clear();
+        appendEventChoiceActions(eventRuntimeState, dialog.actions);
     }
 
     if (context.kind == DialogueContextKind::MapTransition)

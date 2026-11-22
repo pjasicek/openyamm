@@ -1316,6 +1316,26 @@ export type CheckAuditParams = {
    * check). Left out when the map is outdoor or its event handlers could not be read.
    */
   solve?: boolean;
+  /**
+   * Also the props' dressing rules (devdocs/xeen/formats/DRESSING.md) on a map of any world; a Xeen map always
+   * has them.
+   */
+  dressing?: boolean;
+  /**
+   * Also the light fixtures' mounts (devdocs/xeen/formats/LIGHTS.md) on an indoor map of any world; a Xeen map
+   * always has them.
+   */
+  lights?: boolean;
+  /**
+   * Also the door leaves' pictures (devdocs/xeen/formats/DOORS.md: tiled, half wings, unmirrored pairs) on a map
+   * of any world; a Xeen map always has them.
+   */
+  doors?: boolean;
+  /**
+   * Also the pictures' fit (devdocs/xeen/formats/TEXTURE_FIT.md: pictures meant once repeated or cut, bands
+   * tiled up a face, seams, unlike borders and walls) on a map of any world; a Xeen map always has it.
+   */
+  textures?: boolean;
 };
 export type CheckAuditResult = {
   map: string;

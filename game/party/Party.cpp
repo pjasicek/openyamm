@@ -331,12 +331,13 @@ bool characterNeedsTempleHealing(const Character &member)
     return false;
 }
 
+// Rest clears the bonuses events give until the next rest. Magical age (ageModifier) is not one of them: as in
+// MM6-MM8 it stays until a Rejuvenation potion or an event (the Age variable) takes it away.
 void clearTemporaryEventBonuses(Character &member)
 {
     member.temporaryEventBonuses = {};
     member.armorClassModifier = 0;
     member.levelModifier = 0;
-    member.ageModifier = 0;
 }
 
 uint32_t primaryStatWithMagicalBonus(uint32_t baseValue, int magicalBonus)
@@ -588,15 +589,6 @@ std::string normalizePartyClassName(const std::string &className, const ClassSki
         pClassSkillTable->classNameForId(static_cast<uint32_t>(classId));
 
     return resolvedClassName ? canonicalClassName(*resolvedClassName) : canonicalName;
-}
-
-uint32_t generateHouseStockSeed()
-{
-    std::random_device randomDevice;
-    const uint32_t first = static_cast<uint32_t>(randomDevice());
-    const uint32_t second = static_cast<uint32_t>(randomDevice());
-    const uint32_t mixed = first ^ (second * 1664525u) ^ 0x9e3779b9u;
-    return mixed != 0 ? mixed : 1u;
 }
 
 template <size_t N>
@@ -2596,43 +2588,6 @@ size_t Party::equippedItemSetPieceCount(size_t memberIndex, const std::string &s
         }));
 }
 
-int32_t Party::eventVariableValue(uint16_t variableId) const
-{
-    const auto iterator = m_eventVariables.find(variableId);
-    return iterator != m_eventVariables.end() ? iterator->second : 0;
-}
-
-void Party::setEventVariableValue(uint16_t variableId, int32_t value)
-{
-    if (value == 0)
-    {
-        m_eventVariables.erase(variableId);
-        return;
-    }
-
-    m_eventVariables[variableId] = value;
-}
-
-void Party::addEventVariableValue(uint16_t variableId, int32_t value)
-{
-    if (value == 0)
-    {
-        return;
-    }
-
-    setEventVariableValue(variableId, eventVariableValue(variableId) + value);
-}
-
-void Party::subtractEventVariableValue(uint16_t variableId, int32_t value)
-{
-    if (value == 0)
-    {
-        return;
-    }
-
-    setEventVariableValue(variableId, eventVariableValue(variableId) - value);
-}
-
 int Party::fineGold() const
 {
     return m_fineGold;
@@ -2651,22 +2606,6 @@ void Party::addFineGold(int amount)
 void Party::clearFineGold()
 {
     m_fineGold = 0;
-}
-
-int32_t Party::continentReputation(uint32_t continentId) const
-{
-    const std::unordered_map<uint32_t, int32_t>::const_iterator it = m_continentReputations.find(continentId);
-    return it != m_continentReputations.end() ? it->second : 0;
-}
-
-void Party::setContinentReputation(uint32_t continentId, int32_t value)
-{
-    if (continentId == 0)
-    {
-        return;
-    }
-
-    m_continentReputations[continentId] = clampReputation(value);
 }
 
 void Party::setClassSkillTable(const ClassSkillTable *pClassSkillTable)
@@ -2745,6 +2684,13 @@ const ClassMultiplierTable *Party::classMultiplierTable() const
 
 Party::Snapshot Party::snapshot() const
 {
+    Snapshot snapshot = characterSnapshot();
+    snapshot.campaign = campaign().snapshot();
+    return snapshot;
+}
+
+Party::Snapshot Party::characterSnapshot() const
+{
     Snapshot snapshot = {};
     snapshot.members = m_members;
     snapshot.adventurersInnMembers = m_adventurersInnMembers;
@@ -2763,14 +2709,9 @@ Party::Snapshot Party::snapshot() const
     snapshot.landingSoundCount = m_landingSoundCount;
     snapshot.hardLandingSoundCount = m_hardLandingSoundCount;
     snapshot.monsterTargetSelectionCounter = m_monsterTargetSelectionCounter;
-    snapshot.houseStockSeed = m_houseStockSeed;
     snapshot.itemEffectElapsedGameSeconds = m_periodicEffectElapsedGameSeconds;
     snapshot.itemWeeklyEffectSequence = m_itemWeeklyEffectSequence;
     snapshot.lastFallDamageDistance = m_lastFallDamageDistance;
-    snapshot.foundArtifactItems = m_foundArtifactItems;
-    snapshot.arcomageWonHouseIds = m_arcomageWonHouseIds;
-    snapshot.worldCompletions = m_worldCompletions;
-    snapshot.worldCompletionsUntracked = m_worldCompletionsUntracked;
     snapshot.arcomageWinCount = m_arcomageWinCount;
     snapshot.arcomageLossCount = m_arcomageLossCount;
     snapshot.everOwnedItemIds = m_everOwnedItemIds;
@@ -2778,94 +2719,20 @@ Party::Snapshot Party::snapshot() const
     snapshot.teacherLedgers = m_teacherLedgers;
     snapshot.explosiveMixes = m_explosiveMixes;
     snapshot.pouches = m_pouches;
-    snapshot.continentReputations = m_continentReputations;
-    snapshot.questBits = m_questBits;
-    snapshot.autonotes = m_autonotes;
-    snapshot.historyEventTimesByContinent = m_historyEventTimesByContinent;
-    snapshot.journalMapNotes = m_journalMapNotes;
-    snapshot.eventVariables = m_eventVariables;
-    snapshot.npcTopicOverrides = m_npcTopicOverrides;
-    snapshot.npcGroupNews = m_npcGroupNews;
-    snapshot.npcGreetingOverrides = m_npcGreetingOverrides;
-    snapshot.npcGreetingDisplayCounts = m_npcGreetingDisplayCounts;
-    snapshot.npcHouseOverrides = m_npcHouseOverrides;
-    snapshot.npcItemOverrides = m_npcItemOverrides;
-    snapshot.unavailableNpcIds = m_unavailableNpcIds;
+    snapshot.rulesetState = m_rulesetState;
     snapshot.hiredNpcFollowers = m_hiredNpcFollowers;
     snapshot.mm9Hirelings = m_mm9HirelingsAlong ? m_mm9Hirelings : m_mm9HirelingsBehind;
     snapshot.memberFormationCells = m_memberFormationCells;
     snapshot.lastOutdoorMapFileName = m_lastOutdoorMapFileName;
-
-    for (const auto &[houseId, state] : m_houseStockStates)
-    {
-        (void)houseId;
-        snapshot.houseStockStates.push_back(state);
-    }
-
+    snapshot.waitingGivenItems = m_waitingGivenItems;
     return snapshot;
 }
 
 void Party::restoreSnapshot(const Snapshot &snapshot)
 {
-    m_members = snapshot.members;
-    m_adventurersInnMembers = snapshot.adventurersInnMembers;
-    m_activeMemberIndex = snapshot.activeMemberIndex;
-    m_partyBuffs = snapshot.partyBuffs;
-    m_characterBuffs = snapshot.characterBuffs;
-    m_gold = snapshot.gold;
-    m_bankGold = snapshot.bankGold;
-    m_food = snapshot.food;
-    m_daysWithoutRest = snapshot.daysWithoutRest;
-    m_awakeDayIndex = snapshot.awakeDayIndex;
-    m_fineGold = snapshot.fineGold;
-    m_waterDamageTicks = snapshot.waterDamageTicks;
-    m_burningDamageTicks = snapshot.burningDamageTicks;
-    m_splashCount = snapshot.splashCount;
-    m_landingSoundCount = snapshot.landingSoundCount;
-    m_hardLandingSoundCount = snapshot.hardLandingSoundCount;
-    m_monsterTargetSelectionCounter = snapshot.monsterTargetSelectionCounter;
-    m_houseStockSeed = snapshot.houseStockSeed;
-    m_periodicEffectElapsedGameSeconds = snapshot.itemEffectElapsedGameSeconds;
-    m_itemWeeklyEffectSequence = snapshot.itemWeeklyEffectSequence;
-    m_lastFallDamageDistance = snapshot.lastFallDamageDistance;
-    m_foundArtifactItems = snapshot.foundArtifactItems;
-    m_arcomageWonHouseIds = snapshot.arcomageWonHouseIds;
-    m_worldCompletions = snapshot.worldCompletions;
-    m_worldCompletionsUntracked = snapshot.worldCompletionsUntracked;
-    m_arcomageWinCount = snapshot.arcomageWinCount;
-    m_arcomageLossCount = snapshot.arcomageLossCount;
-    m_everOwnedItemIds = snapshot.everOwnedItemIds;
-    m_chosenMm9RudeRows = snapshot.chosenMm9RudeRows;
-    m_teacherLedgers = snapshot.teacherLedgers;
-    m_explosiveMixes = snapshot.explosiveMixes;
-    m_pouches = snapshot.pouches;
-    m_continentReputations = snapshot.continentReputations;
-    m_questBits = snapshot.questBits;
-    m_autonotes = snapshot.autonotes;
-    m_historyEventTimesByContinent = snapshot.historyEventTimesByContinent;
-    m_journalMapNotes = snapshot.journalMapNotes;
-    m_eventVariables = snapshot.eventVariables;
-    m_npcTopicOverrides = snapshot.npcTopicOverrides;
-    m_npcGroupNews = snapshot.npcGroupNews;
-    m_npcGreetingOverrides = snapshot.npcGreetingOverrides;
-    m_npcGreetingDisplayCounts = snapshot.npcGreetingDisplayCounts;
-    m_npcHouseOverrides = snapshot.npcHouseOverrides;
-    m_npcItemOverrides = snapshot.npcItemOverrides;
-    m_unavailableNpcIds = snapshot.unavailableNpcIds;
-    m_hiredNpcFollowers = snapshot.hiredNpcFollowers;
-    m_mm9Hirelings.clear();
-    m_mm9HirelingsBehind.clear();
-    (m_mm9HirelingsAlong ? m_mm9Hirelings : m_mm9HirelingsBehind) = snapshot.mm9Hirelings;
-    m_activeHirelingIndex.reset();
-    m_memberFormationCells = snapshot.memberFormationCells;
-    m_lastOutdoorMapFileName = snapshot.lastOutdoorMapFileName;
-    normalizeFormationCells();
-    m_houseStockStates.clear();
-
-    for (const HouseStockState &state : snapshot.houseStockStates)
-    {
-        m_houseStockStates[state.houseId] = state;
-    }
+    assignSnapshotFields(snapshot);
+    campaign().restoreSnapshot(snapshot.campaign);
+    m_waitingGivenItems = snapshot.waitingGivenItems;
 
     for (Character &member : m_members)
     {
@@ -2903,6 +2770,93 @@ void Party::restoreSnapshot(const Snapshot &snapshot)
     ++m_dialogueEligibilityRevision;
 }
 
+void Party::refreshIncapacitatedConditions()
+{
+    for (size_t memberIndex = 0; memberIndex < m_members.size(); ++memberIndex)
+    {
+        const bool preservationActive = memberIndex < m_characterBuffs.size()
+            && m_characterBuffs[memberIndex][static_cast<size_t>(CharacterBuffId::Preservation)].active();
+        updateMemberIncapacitatedCondition(m_members[memberIndex], preservationActive, m_gameMinutes);
+    }
+}
+
+void Party::applyMirror(const Snapshot &snapshot)
+{
+    // What a member shows on its portrait is this game's; the rest is the snapshot's.
+    const std::vector<Character> shownMembers = m_members;
+    const int shownGold = m_gold;
+    assignSnapshotFields(snapshot);
+
+    for (size_t memberIndex = 0; memberIndex < m_members.size(); ++memberIndex)
+    {
+        Character &member = m_members[memberIndex];
+        applyCharacterIdentityFromDollTable(member, m_pCharacterDollTable);
+        member.synchronizeInnateAbilitySpells();
+        initializePortraitRuntimeState(member);
+
+        if (memberIndex < shownMembers.size()
+            && shownMembers[memberIndex].portraitPictureId == member.portraitPictureId)
+        {
+            const Character &shown = shownMembers[memberIndex];
+            member.portraitState = shown.portraitState;
+            member.portraitElapsedTicks = shown.portraitElapsedTicks;
+            member.portraitDurationTicks = shown.portraitDurationTicks;
+            member.portraitSequenceCounter = shown.portraitSequenceCounter;
+            member.portraitImageIndex = shown.portraitImageIndex;
+        }
+    }
+
+    m_activeMemberIndex = m_members.empty() ? 0 : std::min(m_activeMemberIndex, m_members.size() - 1);
+    recordEverOwnedItemsFromCurrentState();
+    rebuildMagicalBonusesFromBuffs();
+
+    // What dialogue offers depends on the party's gold among other things (dialogueEligibilityRevision).
+    if (m_gold != shownGold)
+    {
+        ++m_dialogueEligibilityRevision;
+    }
+}
+
+void Party::assignSnapshotFields(const Snapshot &snapshot)
+{
+    m_members = snapshot.members;
+    m_adventurersInnMembers = snapshot.adventurersInnMembers;
+    m_activeMemberIndex = snapshot.activeMemberIndex;
+    m_partyBuffs = snapshot.partyBuffs;
+    m_characterBuffs = snapshot.characterBuffs;
+    m_gold = snapshot.gold;
+    m_bankGold = snapshot.bankGold;
+    m_food = snapshot.food;
+    m_daysWithoutRest = snapshot.daysWithoutRest;
+    m_awakeDayIndex = snapshot.awakeDayIndex;
+    m_fineGold = snapshot.fineGold;
+    m_waterDamageTicks = snapshot.waterDamageTicks;
+    m_burningDamageTicks = snapshot.burningDamageTicks;
+    m_splashCount = snapshot.splashCount;
+    m_landingSoundCount = snapshot.landingSoundCount;
+    m_hardLandingSoundCount = snapshot.hardLandingSoundCount;
+    m_monsterTargetSelectionCounter = snapshot.monsterTargetSelectionCounter;
+    m_periodicEffectElapsedGameSeconds = snapshot.itemEffectElapsedGameSeconds;
+    m_itemWeeklyEffectSequence = snapshot.itemWeeklyEffectSequence;
+    m_lastFallDamageDistance = snapshot.lastFallDamageDistance;
+    m_arcomageWinCount = snapshot.arcomageWinCount;
+    m_arcomageLossCount = snapshot.arcomageLossCount;
+    m_everOwnedItemIds = snapshot.everOwnedItemIds;
+    m_chosenMm9RudeRows = snapshot.chosenMm9RudeRows;
+    m_teacherLedgers = snapshot.teacherLedgers;
+    m_explosiveMixes = snapshot.explosiveMixes;
+    m_pouches = snapshot.pouches;
+    m_rulesetState = snapshot.rulesetState;
+    m_hiredNpcFollowers = snapshot.hiredNpcFollowers;
+    m_mm9Hirelings.clear();
+    m_mm9HirelingsBehind.clear();
+    (m_mm9HirelingsAlong ? m_mm9Hirelings : m_mm9HirelingsBehind) = snapshot.mm9Hirelings;
+    m_activeHirelingIndex.reset();
+    m_memberFormationCells = snapshot.memberFormationCells;
+    m_lastOutdoorMapFileName = snapshot.lastOutdoorMapFileName;
+    normalizeFormationCells();
+}
+
 void Party::seed(const PartySeed &seed)
 {
     // A new party plays by Standard rules until its owner installs a ruleset's; the rules of a party it replaces may
@@ -2918,35 +2872,22 @@ void Party::seed(const PartySeed &seed)
     m_food = std::max(0, seed.food);
     m_fineGold = 0;
     m_monsterTargetSelectionCounter = 0;
-    m_houseStockSeed = generateHouseStockSeed();
     m_periodicEffectElapsedGameSeconds = 0.0f;
     m_itemWeeklyEffectSequence = 0;
-    m_foundArtifactItems.clear();
     m_everOwnedItemIds.clear();
     m_chosenMm9RudeRows.clear();
     m_teacherLedgers.clear();
     m_explosiveMixes.clear();
+    m_waitingGivenItems.clear();
     m_pouches = {};
-    m_continentReputations.clear();
-    m_questBits.clear();
-    m_autonotes.clear();
-    m_historyEventTimesByContinent.clear();
-    m_journalMapNotes.clear();
-    m_eventVariables.clear();
-    m_npcTopicOverrides.clear();
-    m_npcGroupNews.clear();
-    m_npcGreetingOverrides.clear();
-    m_npcGreetingDisplayCounts.clear();
-    m_npcHouseOverrides.clear();
-    m_npcItemOverrides.clear();
-    m_unavailableNpcIds.clear();
+    m_rulesetState = {};
     m_hiredNpcFollowers.clear();
     m_mm9Hirelings.clear();
     m_mm9HirelingsBehind.clear();
     m_activeHirelingIndex.reset();
     m_memberFormationCells.clear();
     m_lastOutdoorMapFileName.clear();
-    m_houseStockStates.clear();
+    campaign().resetForNewParty();
     ++m_dialogueEligibilityRevision;
 
     for (Character &member : m_members)
@@ -3081,6 +3022,26 @@ void Party::seed(const PartySeed &seed)
     normalizeFormationCells();
     recordEverOwnedItemsFromCurrentState();
     rebuildMagicalBonusesFromBuffs();
+}
+
+void Party::setMirror(bool mirror)
+{
+    m_mirror = mirror;
+}
+
+bool Party::mirror() const
+{
+    return m_mirror;
+}
+
+PartyRulesetState &Party::rulesetState()
+{
+    return m_rulesetState;
+}
+
+const PartyRulesetState &Party::rulesetState() const
+{
+    return m_rulesetState;
 }
 
 void Party::applyMovementEffects(const OutdoorMovementEffects &effects)
@@ -3275,7 +3236,7 @@ void Party::applyEventRuntimeState(const EventRuntimeState &runtimeState, bool g
     {
         if (follower.npcId != 0)
         {
-            m_unavailableNpcIds.insert(follower.npcId);
+            campaign().setNpcUnavailable(follower.npcId, true);
         }
     }
     if (followersChanged)
@@ -3851,7 +3812,7 @@ std::optional<size_t> Party::chooseMonsterAttackTarget(uint32_t attackPreference
 void Party::addGold(int amount, GoldReason reason)
 {
     const int previousGold = m_gold;
-    m_gold = std::max(0, m_gold + amount);
+    m_gold = int(std::clamp<int64_t>(int64_t(m_gold) + amount, 0, std::numeric_limits<int>::max()));
 
     if (m_gold != previousGold)
     {
@@ -4093,7 +4054,58 @@ bool Party::tryGrantInventoryItemToMember(size_t memberIndex, const InventoryIte
 std::optional<ItemPouch> Party::pouchFor(const InventoryItem &item) const
 {
     const ItemDefinition *pDefinition = m_pItemTable != nullptr ? m_pItemTable->get(item.objectDescriptionId) : nullptr;
-    return pDefinition != nullptr ? rules().items.pouch(*pDefinition) : std::nullopt;
+    if (pDefinition == nullptr)
+    {
+        return std::nullopt;
+    }
+
+    if (const std::optional<ItemPouch> pouch = rules().items.pouch(*pDefinition))
+    {
+        return pouch;
+    }
+
+    // In a world shared with other players a quest item is the world's whatever the ruleset.
+    return campaign().questPouchShared() && ItemRules::questItem(*pDefinition)
+        ? std::optional<ItemPouch>(ItemPouch::Quest)
+        : std::nullopt;
+}
+
+bool Party::hasPouch(ItemPouch pouch) const
+{
+    return rules().items.hasPouches()
+        || (pouch == ItemPouch::Quest && (campaign().questPouchShared() || !campaign().questPouch().empty()));
+}
+
+bool Party::hasPouches() const
+{
+    return hasPouch(ItemPouch::Quest);
+}
+
+size_t Party::returnQuestPouchToBags()
+{
+    if (rules().items.hasPouches() || campaign().questPouchShared())
+    {
+        return 0;
+    }
+
+    // Taken out first: a grant puts an item where it belongs, which is a bag now.
+    std::vector<InventoryItem> items = std::move(campaign().questPouch());
+    campaign().questPouch().clear();
+    size_t moved = 0;
+
+    for (const InventoryItem &item : items)
+    {
+        if (tryGrantInventoryItem(item))
+        {
+            ++moved;
+        }
+        else
+        {
+            campaign().questPouch().push_back(item);
+        }
+    }
+
+    return moved;
 }
 
 const std::vector<InventoryItem> &Party::pouchItems(ItemPouch pouch) const
@@ -4108,7 +4120,17 @@ const std::vector<InventoryItem> &Party::pouchItems(ItemPouch pouch) const
         }
     }
 
-    return m_pouches[size_t(pouch)];
+    return pouch == ItemPouch::Quest ? campaign().questPouch() : m_pouches[size_t(pouch)];
+}
+
+std::array<std::vector<InventoryItem> *, ItemPouchCount> Party::pouchStorages()
+{
+    return {&m_pouches[size_t(ItemPouch::Crafting)], &m_pouches[size_t(ItemPouch::Alchemy)], &campaign().questPouch()};
+}
+
+std::array<const std::vector<InventoryItem> *, ItemPouchCount> Party::pouchStorages() const
+{
+    return {&m_pouches[size_t(ItemPouch::Crafting)], &m_pouches[size_t(ItemPouch::Alchemy)], &campaign().questPouch()};
 }
 
 std::vector<InventoryItem> &Party::pouchItemsMutable(ItemPouch pouch)
@@ -4138,9 +4160,34 @@ bool Party::addToPouch(ItemPouch pouch, const InventoryItem &item)
     return true;
 }
 
+size_t Party::dropQuestItemsFromBags()
+{
+    size_t dropped = 0;
+    const auto drop = [this, &dropped](std::vector<InventoryItem> &items)
+    {
+        dropped += std::erase_if(items,
+            [this](const InventoryItem &item) { return pouchFor(item) == ItemPouch::Quest; });
+    };
+
+    for (Character &member : m_members)
+    {
+        if (!InventoryBags::isPouchBag(member.rulesetState.currentBag))
+        {
+            drop(member.inventory);
+        }
+
+        for (auto &[bag, items] : member.rulesetState.storedBags)
+        {
+            drop(items);
+        }
+    }
+
+    return dropped;
+}
+
 size_t Party::gatherPouchItems()
 {
-    if (m_pItemTable == nullptr || !rules().items.hasPouches())
+    if (m_pItemTable == nullptr || (!rules().items.hasPouches() && !campaign().questPouchShared()))
     {
         return 0;
     }
@@ -4345,9 +4392,9 @@ bool Party::removeItem(uint32_t objectDescriptionId, uint32_t quantity)
     }
 
     // The pouches' own storage: one open for an operation is a member's inventory, counted above.
-    for (const std::vector<InventoryItem> &items : m_pouches)
+    for (const std::vector<InventoryItem> *pItems : pouchStorages())
     {
-        for (const InventoryItem &item : items)
+        for (const InventoryItem &item : *pItems)
         {
             if (item.objectDescriptionId == objectDescriptionId)
             {
@@ -4363,9 +4410,9 @@ bool Party::removeItem(uint32_t objectDescriptionId, uint32_t quantity)
 
     uint32_t removedCount = 0;
 
-    for (std::vector<InventoryItem> &items : m_pouches)
+    for (std::vector<InventoryItem> *pItems : pouchStorages())
     {
-        while (removedCount < quantity && removeOneFrom(items, objectDescriptionId))
+        while (removedCount < quantity && removeOneFrom(*pItems, objectDescriptionId))
         {
             removedCount += 1;
         }
@@ -5183,137 +5230,35 @@ bool Party::hasRosterMember(uint32_t rosterId) const
     return false;
 }
 
-bool Party::hasQuestBit(uint32_t questBitId) const
+CampaignState &Party::campaign()
 {
-    return questBitId != 0 && m_questBits.contains(questBitId);
+    return m_campaign.get();
 }
 
-void Party::setQuestBit(uint32_t questBitId, bool value)
+const CampaignState &Party::campaign() const
 {
-    if (questBitId == 0)
-    {
-        return;
-    }
+    return m_campaign.get();
+}
 
-    if (value)
+void Party::bindCampaign(CampaignState *pCampaign)
+{
+    m_campaign.pBound = pCampaign;
+
+    if (pCampaign != nullptr)
     {
-        const bool inserted = m_questBits.insert(questBitId).second;
-        if (inserted)
-        {
-            ++m_dialogueEligibilityRevision;
-            GAMEPLAY_DEBUG_TRACE("qbit_set id=" + std::to_string(questBitId));
-        }
-    }
-    else
-    {
-        const size_t erased = m_questBits.erase(questBitId);
-        if (erased != 0)
-        {
-            ++m_dialogueEligibilityRevision;
-            GAMEPLAY_DEBUG_TRACE("qbit_cleared id=" + std::to_string(questBitId));
-        }
+        m_campaign.own = {};
     }
 }
 
-bool Party::hasAutonote(uint32_t autonoteId) const
+bool Party::campaignBoundTo(const CampaignState *pCampaign) const
 {
-    return autonoteId != 0 && m_autonotes.contains(autonoteId);
-}
-
-void Party::setAutonote(uint32_t autonoteId, bool value)
-{
-    if (autonoteId == 0)
-    {
-        return;
-    }
-
-    if (value)
-    {
-        m_autonotes.insert(autonoteId);
-    }
-    else
-    {
-        m_autonotes.erase(autonoteId);
-    }
-}
-
-const std::unordered_map<uint32_t, int32_t> &Party::historyEventTimes(uint32_t continentId) const
-{
-    static const std::unordered_map<uint32_t, int32_t> EmptyHistory;
-    const auto continentIt = m_historyEventTimesByContinent.find(continentId);
-    return continentIt != m_historyEventTimesByContinent.end() ? continentIt->second : EmptyHistory;
-}
-
-void Party::recordHistoryEvent(uint32_t continentId, uint32_t historyId, int32_t gameMinutes)
-{
-    if (historyId != 0)
-    {
-        m_historyEventTimesByContinent[continentId].try_emplace(historyId, gameMinutes);
-    }
-}
-
-void Party::clearHistoryEvent(uint32_t continentId, uint32_t historyId)
-{
-    const auto continentIt = m_historyEventTimesByContinent.find(continentId);
-
-    if (continentIt != m_historyEventTimesByContinent.end())
-    {
-        continentIt->second.erase(historyId);
-    }
-}
-
-const std::vector<JournalMapNote> &Party::journalMapNotes() const
-{
-    return m_journalMapNotes;
-}
-
-const JournalMapNote *Party::findJournalMapNote(const std::string &mapFileName, uint32_t noteId) const
-{
-    for (const JournalMapNote &note : m_journalMapNotes)
-    {
-        if (note.id == noteId && note.mapFileName == mapFileName)
-        {
-            return &note;
-        }
-    }
-
-    return nullptr;
-}
-
-void Party::setJournalMapNote(const JournalMapNote &note)
-{
-    for (JournalMapNote &existing : m_journalMapNotes)
-    {
-        if (existing.id == note.id && existing.mapFileName == note.mapFileName)
-        {
-            existing = note;
-            return;
-        }
-    }
-
-    m_journalMapNotes.push_back(note);
-}
-
-bool Party::removeJournalMapNote(const std::string &mapFileName, uint32_t noteId)
-{
-    const auto note = std::find_if(m_journalMapNotes.begin(), m_journalMapNotes.end(),
-        [&mapFileName, noteId](const JournalMapNote &existing)
-        {
-            return existing.id == noteId && existing.mapFileName == mapFileName;
-        });
-
-    if (note == m_journalMapNotes.end())
-    {
-        return false;
-    }
-
-    m_journalMapNotes.erase(note);
-    return true;
+    return m_campaign.pBound == pCampaign;
 }
 
 uint64_t Party::dialogueEligibilityRevision() const
 {
-    return m_dialogueEligibilityRevision;
+    // Both only count up, so the sum changes whenever either does.
+    return m_dialogueEligibilityRevision + campaign().questRevision();
 }
 
 void Party::applyGlobalNpcStateTo(EventRuntimeState &runtimeState) const
@@ -5341,42 +5286,7 @@ void Party::applyGlobalNpcStateTo(EventRuntimeState &runtimeState) const
 
     runtimeState.hiredNpcFollowers.erase(staleFollowerIt, runtimeState.hiredNpcFollowers.end());
 
-    for (const auto &[npcId, topicOverrides] : m_npcTopicOverrides)
-    {
-        for (const auto &[topicSlotIndex, topicId] : topicOverrides)
-        {
-            runtimeState.npcTopicOverrides[npcId][topicSlotIndex] = topicId;
-        }
-    }
-
-    for (const auto &[groupId, newsId] : m_npcGroupNews)
-    {
-        runtimeState.npcGroupNews[groupId] = newsId;
-    }
-
-    for (const auto &[npcId, greetingId] : m_npcGreetingOverrides)
-    {
-        runtimeState.npcGreetingOverrides[npcId] = greetingId;
-    }
-
-    for (const auto &[npcId, displayCount] : m_npcGreetingDisplayCounts)
-    {
-        runtimeState.npcGreetingDisplayCounts[npcId] = displayCount;
-    }
-
-    for (const auto &[npcId, houseId] : m_npcHouseOverrides)
-    {
-        runtimeState.npcHouseOverrides[npcId] = houseId;
-    }
-
-    for (const auto &[npcId, itemId] : m_npcItemOverrides)
-    {
-        runtimeState.npcItemOverrides[npcId] = itemId;
-    }
-
-    // The party's set replaces the map's: a map's saved state can keep an NPC unavailable after the party let them go
-    // elsewhere (Sir Charles Quixote, hidden from his residence after the Crusader promotion in Wromthrax's cave).
-    runtimeState.unavailableNpcIds = m_unavailableNpcIds;
+    campaign().applyNpcStateTo(runtimeState);
 
     for (const HiredNpcFollower &follower : followers)
     {
@@ -5419,49 +5329,6 @@ void Party::applyGlobalNpcStateTo(EventRuntimeState &runtimeState) const
     }
 }
 
-void Party::setNpcTopicOverride(uint32_t npcId, uint32_t topicSlotIndex, uint32_t topicId)
-{
-    m_npcTopicOverrides[npcId][topicSlotIndex] = topicId;
-}
-
-void Party::setNpcGroupNews(uint32_t groupId, uint32_t newsId)
-{
-    m_npcGroupNews[groupId] = newsId;
-}
-
-void Party::setNpcGreetingOverride(uint32_t npcId, uint32_t greetingId)
-{
-    m_npcGreetingOverrides[npcId] = greetingId;
-    m_npcGreetingDisplayCounts[npcId] = 0;
-}
-
-void Party::setNpcHouseOverride(uint32_t npcId, uint32_t houseId)
-{
-    m_npcHouseOverrides[npcId] = houseId;
-}
-
-void Party::clearNpcHouseOverride(uint32_t npcId)
-{
-    m_npcHouseOverrides.erase(npcId);
-}
-
-void Party::setNpcItemOverride(uint32_t npcId, uint32_t itemId)
-{
-    m_npcItemOverrides[npcId] = itemId;
-}
-
-void Party::setNpcUnavailable(uint32_t npcId, bool unavailable)
-{
-    if (unavailable)
-    {
-        m_unavailableNpcIds.insert(npcId);
-    }
-    else
-    {
-        m_unavailableNpcIds.erase(npcId);
-    }
-}
-
 void Party::addHiredNpcFollower(const HiredNpcFollower &follower)
 {
     if (follower.npcId == 0)
@@ -5490,7 +5357,7 @@ void Party::addHiredNpcFollower(const HiredNpcFollower &follower)
         *followerIt = follower;
     }
 
-    m_unavailableNpcIds.insert(follower.npcId);
+    campaign().setNpcUnavailable(follower.npcId, true);
     rebuildMagicalBonusesFromBuffs();
 }
 
@@ -5807,6 +5674,11 @@ void Party::setSoloRun(bool soloRun)
 bool Party::soloRun() const
 {
     return m_soloRun;
+}
+
+bool Party::worldShared() const
+{
+    return campaign().questPouchShared();
 }
 
 bool Party::canSelectCombatantInGameplay(size_t combatantIndex) const
@@ -6229,9 +6101,9 @@ int Party::inventoryItemCount(uint32_t objectDescriptionId, std::optional<size_t
     };
 
     // The party's pouches are every member's (their own storage: one open for an operation is a member's inventory).
-    for (const std::vector<InventoryItem> &items : m_pouches)
+    for (const std::vector<InventoryItem> *pItems : pouchStorages())
     {
-        for (const InventoryItem &item : items)
+        for (const InventoryItem &item : *pItems)
         {
             if (item.objectDescriptionId == objectDescriptionId)
             {
@@ -6305,21 +6177,6 @@ void Party::addTeacherLedger(uint32_t continent)
     m_teacherLedgers.insert(continent);
 }
 
-const std::unordered_map<uint32_t, std::unordered_map<uint32_t, uint32_t>> &Party::npcTopicOverrides() const
-{
-    return m_npcTopicOverrides;
-}
-
-const std::unordered_map<uint32_t, uint32_t> &Party::npcHouseOverrides() const
-{
-    return m_npcHouseOverrides;
-}
-
-const std::unordered_set<uint32_t> &Party::unavailableNpcIds() const
-{
-    return m_unavailableNpcIds;
-}
-
 void Party::recordExplosiveMix(uint32_t targetItemId, uint32_t heldItemId)
 {
     m_explosiveMixes.insert((static_cast<uint64_t>(targetItemId) << 32) | heldItemId);
@@ -6354,7 +6211,7 @@ size_t Party::objectivesDone() const
     return size_t(std::count_if(m_objectiveQBits.begin(), m_objectiveQBits.end(),
         [this](uint32_t qbit)
         {
-            return hasQuestBit(qbit);
+            return campaign().hasQuestBit(qbit);
         }));
 }
 
@@ -6372,7 +6229,7 @@ int Party::spellDamagePercentFor(const Character &caster) const
 
         for (const uint32_t qbit : m_humQBits)
         {
-            down += hasQuestBit(qbit) ? 1 : 0;
+            down += campaign().hasQuestBit(qbit) ? 1 : 0;
         }
 
         percent = m_humPercents[std::min(down, m_humPercents.size() - 1)];
@@ -6401,6 +6258,16 @@ void Party::setHeldItemForQueries(const InventoryItem &item)
 uint32_t Party::heldItemIdForQueries() const
 {
     return m_heldItemIdForQueries;
+}
+
+std::vector<InventoryItem> &Party::waitingGivenItems()
+{
+    return m_waitingGivenItems;
+}
+
+const std::vector<InventoryItem> &Party::waitingGivenItems() const
+{
+    return m_waitingGivenItems;
 }
 
 void Party::clearHeldItemForQueries()
@@ -6453,11 +6320,13 @@ bool Party::removeItemFromMember(size_t memberIndex, uint32_t objectDescriptionI
     for (uint32_t itemIndex = 0; itemIndex < quantity; ++itemIndex)
     {
         // The party's pouches are every member's.
+        const std::array<std::vector<InventoryItem> *, ItemPouchCount> pouches = pouchStorages();
+
         if (removeFromAnyBag(*pMember, objectDescriptionId)
-            || std::any_of(m_pouches.begin(), m_pouches.end(),
-                [objectDescriptionId](std::vector<InventoryItem> &items)
+            || std::any_of(pouches.begin(), pouches.end(),
+                [objectDescriptionId](std::vector<InventoryItem> *pItems)
                 {
-                    return removeOneFrom(items, objectDescriptionId);
+                    return removeOneFrom(*pItems, objectDescriptionId);
                 }))
         {
             continue;
@@ -8130,7 +7999,7 @@ void Party::applyWeeklyItemEffects()
 
 void Party::advanceTimedStates(float deltaSeconds)
 {
-    if (deltaSeconds <= 0.0f)
+    if (deltaSeconds <= 0.0f || m_mirror)
     {
         return;
     }
@@ -8390,7 +8259,7 @@ void Party::advanceTimedStates(float deltaSeconds)
 
 void Party::updateRecovery(float deltaSeconds, float progressScale)
 {
-    if (deltaSeconds <= 0.0f)
+    if (deltaSeconds <= 0.0f || m_mirror)
     {
         return;
     }
@@ -9037,44 +8906,16 @@ int Party::food() const
     return m_food;
 }
 
-uint32_t Party::houseStockSeed() const
-{
-    return m_houseStockSeed;
-}
-
-bool Party::hasFoundArtifactItem(uint32_t itemId) const
-{
-    return itemId != 0 && m_foundArtifactItems.contains(itemId);
-}
-
-void Party::markArtifactItemFound(uint32_t itemId)
-{
-    if (itemId != 0)
-    {
-        m_foundArtifactItems.insert(itemId);
-    }
-}
-
-void Party::clearFoundArtifactItems()
-{
-    m_foundArtifactItems.clear();
-}
-
 bool Party::arcomageTavernCountsForChampion(uint32_t houseId)
 {
     return houseId <= LastMm8ArcomageHouseId || houseId >= FirstMm7ArcomageHouseId;
-}
-
-bool Party::hasArcomageWinAt(uint32_t houseId) const
-{
-    return houseId != 0 && m_arcomageWonHouseIds.contains(houseId);
 }
 
 void Party::recordArcomageWin(uint32_t houseId, int goldReward, uint32_t firstWinAwardId)
 {
     ++m_arcomageWinCount;
 
-    if (houseId != 0 && m_arcomageWonHouseIds.insert(houseId).second)
+    if (campaign().markArcomageWinAt(houseId))
     {
         if (goldReward > 0)
         {
@@ -9086,8 +8927,8 @@ void Party::recordArcomageWin(uint32_t houseId, int goldReward, uint32_t firstWi
             addAward(firstWinAwardId);
         }
 
-        const bool wonAllMm8Taverns = hasWonAllMm8ArcomageTaverns(m_arcomageWonHouseIds);
-        const bool wonAllMm7Taverns = hasWonAllMm7ArcomageTaverns(m_arcomageWonHouseIds);
+        const bool wonAllMm8Taverns = hasWonAllMm8ArcomageTaverns(campaign().arcomageWonHouseIds());
+        const bool wonAllMm7Taverns = hasWonAllMm7ArcomageTaverns(campaign().arcomageWonHouseIds());
 
         // Every tavern of one continent, not wins counted across continents.
         if (wonAllMm8Taverns || wonAllMm7Taverns)
@@ -9097,12 +8938,12 @@ void Party::recordArcomageWin(uint32_t houseId, int goldReward, uint32_t firstWi
 
         if (wonAllMm8Taverns)
         {
-            setQuestBit(Mm8ArcomageChampionQBit, true);
+            campaign().setQuestBit(Mm8ArcomageChampionQBit, true);
         }
 
         if (wonAllMm7Taverns)
         {
-            setQuestBit(Mm7ArcomageChampionQBit, true);
+            campaign().setQuestBit(Mm7ArcomageChampionQBit, true);
         }
     }
 }
@@ -9117,69 +8958,9 @@ uint32_t Party::arcomageWinCount() const
     return m_arcomageWinCount;
 }
 
-const std::vector<WorldCompletionRecord> &Party::worldCompletions() const
-{
-    return m_worldCompletions;
-}
-
-const WorldCompletionRecord *Party::findWorldCompletion(const std::string &certificateId) const
-{
-    for (const WorldCompletionRecord &record : m_worldCompletions)
-    {
-        if (record.certificateId == certificateId)
-        {
-            return &record;
-        }
-    }
-
-    return nullptr;
-}
-
-void Party::addWorldCompletion(const WorldCompletionRecord &record)
-{
-    if (findWorldCompletion(record.certificateId) == nullptr)
-    {
-        m_worldCompletions.push_back(record);
-    }
-}
-
-bool Party::worldCompletionsUntracked() const
-{
-    return m_worldCompletionsUntracked;
-}
-
-void Party::clearWorldCompletionsUntracked()
-{
-    m_worldCompletionsUntracked = false;
-}
-
 uint32_t Party::arcomageLossCount() const
 {
     return m_arcomageLossCount;
-}
-
-Party::HouseStockState *Party::houseStockState(uint32_t houseId)
-{
-    const std::unordered_map<uint32_t, HouseStockState>::iterator stateIt = m_houseStockStates.find(houseId);
-    return stateIt != m_houseStockStates.end() ? &stateIt->second : nullptr;
-}
-
-const Party::HouseStockState *Party::houseStockState(uint32_t houseId) const
-{
-    const std::unordered_map<uint32_t, HouseStockState>::const_iterator stateIt = m_houseStockStates.find(houseId);
-    return stateIt != m_houseStockStates.end() ? &stateIt->second : nullptr;
-}
-
-Party::HouseStockState &Party::ensureHouseStockState(uint32_t houseId)
-{
-    HouseStockState &state = m_houseStockStates[houseId];
-    state.houseId = houseId;
-    return state;
-}
-
-void Party::clearHouseStockStates()
-{
-    m_houseStockStates.clear();
 }
 
 size_t Party::inventoryItemCount() const
@@ -9261,6 +9042,11 @@ const std::vector<Party::PendingAudioRequest> &Party::pendingAudioRequests() con
 void Party::clearPendingAudioRequests()
 {
     m_pendingAudioRequests.clear();
+}
+
+void Party::addPendingAudioRequests(const std::vector<PendingAudioRequest> &requests)
+{
+    m_pendingAudioRequests.insert(m_pendingAudioRequests.end(), requests.begin(), requests.end());
 }
 
 const std::vector<Party::ExpiringPotionEffect> &Party::expiringPotionEffects() const
@@ -9802,9 +9588,9 @@ void Party::rebuildMagicalBonusesFromBuffs()
             }
         }
 
-        for (const std::vector<InventoryItem> &items : m_pouches)
+        for (const std::vector<InventoryItem> *pItems : pouchStorages())
         {
-            applyCarriedEffects(items);
+            applyCarriedEffects(*pItems);
         }
 
         const bool partyEndurancePenalty = std::any_of(
@@ -10026,7 +9812,7 @@ void Party::markArtifactItemFoundIfRelevant(const InventoryItem &item)
 
     if (item.artifactId != 0)
     {
-        markArtifactItemFound(item.artifactId);
+        campaign().markArtifactItemFound(item.artifactId);
         return;
     }
 
@@ -10042,7 +9828,7 @@ void Party::markArtifactItemFoundIfRelevant(const InventoryItem &item)
         return;
     }
 
-    markArtifactItemFound(pItemDefinition->itemId);
+    campaign().markArtifactItemFound(pItemDefinition->itemId);
 }
 
 void Party::recordEverOwnedItemIfRelevant(const InventoryItem &item)
@@ -10088,9 +9874,9 @@ void Party::recordEverOwnedItemsFromCurrentState()
         }
     }
 
-    for (const std::vector<InventoryItem> &items : m_pouches)
+    for (const std::vector<InventoryItem> *pItems : pouchStorages())
     {
-        for (const InventoryItem &item : items)
+        for (const InventoryItem &item : *pItems)
         {
             recordEverOwnedItemIfRelevant(item);
         }

@@ -98,6 +98,50 @@ std::optional<Engine::ModelShieldShell> actorShieldShell(const GameplayActorShie
     return shell;
 }
 
+// The colour of the other players' bodies (display colour): the cloth a monster's tiers recolour, in a gold none of
+// them has.
+constexpr std::array<float, 3> PlayerBodyColor = {0.92f, 0.71f, 0.15f};
+
+// The glow of another player's body by its gear tier (coopGearTier): none below 2, then weak, strong and
+// strongest, in one gold (linear RGB; the user, 2026-11-21). The shell grows a little thicker with it.
+constexpr std::array<float, 3> PlayerGearGlowColor = {1.0f, 0.58f, 0.08f};
+
+struct PlayerGearGlow
+{
+    float strength;
+    // The shell's distance from the skin as a share of the body's height.
+    float thickness;
+};
+
+constexpr std::array<PlayerGearGlow, 3> PlayerGearGlows = {{
+    {0.3f, 0.012f},
+    {0.6f, 0.016f},
+    {0.95f, 0.02f},
+}};
+
+// The shell that glows over another player's body, none for plain gear. It never ripples, flickers or breaks.
+std::optional<Engine::ModelShieldShell> playerGearShell(uint8_t gearTier, float footZ, float bodyHeight,
+    float seconds)
+{
+    if (gearTier < 2)
+    {
+        return std::nullopt;
+    }
+    const PlayerGearGlow &glow = PlayerGearGlows[std::min<size_t>(gearTier - 2, PlayerGearGlows.size() - 1)];
+    Engine::ModelShieldShell shell;
+    shell.color = PlayerGearGlowColor;
+    shell.strength = glow.strength;
+    shell.seconds = seconds;
+    shell.footZ = footZ;
+    shell.bodyHeight = std::max(bodyHeight, 1.0f);
+    shell.thickness = std::clamp(bodyHeight * glow.thickness, 1.5f, 8.0f);
+    for (std::array<float, 4> &hit : shell.hits)
+    {
+        hit = {0.0f, 0.0f, 0.0f, -1.0f};
+    }
+    return shell;
+}
+
 constexpr float ParticleUpdateStepSeconds = 1.0f / 30.0f;
 constexpr float MaxParticleUpdateAccumulationSeconds = 0.25f;
 constexpr float DefaultProjectileTrailCooldownSeconds = 1.0f / 30.0f;
@@ -580,6 +624,7 @@ void WorldFxSystem::reset()
         portrait.reset();
     }
     m_actorModels.clear();
+    m_playerBodies.clear();
     m_actorModelBindings.clear();
     m_pActorModelManifest.reset();
     m_failedActorModelBindings.clear();
@@ -2848,6 +2893,202 @@ const WorldFxSystem::CorpseSatchel *WorldFxSystem::goneCorpse(size_t actorIndex)
 {
     const auto found = m_corpseSatchelStates.find(actorIndex);
     return found != m_corpseSatchelStates.end() && found->second.gone ? &found->second : nullptr;
+}
+
+bool WorldFxSystem::bindsActorModel(const std::string &descriptor) const
+{
+    return m_pActorModelManifest != nullptr && m_pActorModelManifest->binds(descriptor)
+        && !m_failedActorModelBindings.contains(descriptor);
+}
+
+void WorldFxSystem::syncPlayerBodies(std::span<const PlayerBody> bodies, float deltaSeconds)
+{
+    // Farther than this between two reports is a teleport, not a walk.
+    constexpr float SnapDistance = 512.0f;
+    // How fast the drawn body closes on the reported place (1/s): reports come ten to twenty times a second.
+    constexpr float FollowRate = 14.0f;
+    constexpr float MovingSpeed = 12.0f;
+    for (auto &[key, model] : m_playerBodies)
+    {
+        model.seen = false;
+    }
+    for (const PlayerBody &body : bodies)
+    {
+        const ActorModelBinding *pBinding = actorModelBinding(body.descriptor);
+        if (pBinding == nullptr)
+        {
+            continue;
+        }
+        const ActorModelBinding &binding = *pBinding;
+        auto found = m_playerBodies.find(body.key);
+        if (found != m_playerBodies.end()
+            && (found->second.descriptor != body.descriptor || !m_models.contains(found->second.handle)))
+        {
+            m_models.destroy(found->second.handle);
+            m_playerBodies.erase(found);
+            found = m_playerBodies.end();
+        }
+        const bool created = found == m_playerBodies.end();
+        if (created)
+        {
+            PlayerBodyModel model;
+            model.handle = m_models.create(binding.asset);
+            model.pBinding = pBinding;
+            model.descriptor = body.descriptor;
+            m_models.setMaterialVariant(model.handle, binding.materialVariant);
+            m_models.setRegionRecolor(model.handle, &PlayerBodyColor);
+            m_models.setAttachments(model.handle, binding.attachments);
+            // What the character was doing before it was seen is not played.
+            model.actionSerial = body.actionSerial;
+            found = m_playerBodies.emplace(body.key, std::move(model)).first;
+        }
+        PlayerBodyModel &model = found->second;
+        model.seen = true;
+        const float previousX = model.x;
+        const float previousY = model.y;
+        const float offsetX = body.x - model.x;
+        const float offsetY = body.y - model.y;
+        const float offsetZ = body.z - model.z;
+        const bool snapped = created
+            || offsetX * offsetX + offsetY * offsetY + offsetZ * offsetZ > SnapDistance * SnapDistance;
+        if (snapped)
+        {
+            model.x = body.x;
+            model.y = body.y;
+            model.z = body.z;
+            model.yaw = body.yawRadians;
+            model.speed = 0.0f;
+        }
+        else if (deltaSeconds > 0.0f)
+        {
+            const float share = 1.0f - std::exp(-FollowRate * deltaSeconds);
+            model.x += offsetX * share;
+            model.y += offsetY * share;
+            model.z += offsetZ * share;
+            model.yaw =
+                advanceActorModelYaw(model.yaw, body.yawRadians, deltaSeconds, 3.0f * std::numbers::pi_v<float>);
+        }
+        const float travelled = snapped ? 0.0f : std::hypot(model.x - previousX, model.y - previousY);
+        if (deltaSeconds > 0.0f)
+        {
+            model.speed = travelled / deltaSeconds;
+        }
+        // One height for a race and a sex, whatever the monster's own size.
+        const float scale = body.height > 0.0f && binding.standingHeight > 0.0f
+            ? body.height / binding.standingHeight : binding.scale;
+        model.scale = scale;
+        const auto clipSeconds = [&binding](uint32_t clip)
+        {
+            return clip < binding.asset->clips.size() ? binding.asset->clips[clip].durationSeconds : 0.0f;
+        };
+        uint32_t clip = binding.clips[size_t(ActorAiAnimationState::Standing)];
+        float time = 0.0f;
+        // A new blow, shot or cast: the model's clip for it, once. A cast is the cast clip, or the ranged attack
+        // where the model has none; a model whose attack is only its standing or walking clip shows nothing.
+        if (body.actionSerial != model.actionSerial)
+        {
+            model.actionSerial = body.actionSerial;
+            const uint32_t melee = binding.clips[size_t(ActorAiAnimationState::AttackMelee)];
+            const uint32_t ranged = binding.clips[size_t(ActorAiAnimationState::AttackRanged)];
+            const uint32_t wanted = body.actionKind == 2 ? (binding.castClip != UINT32_MAX ? binding.castClip : ranged)
+                : body.actionKind == 1 ? ranged
+                : melee;
+            const float seconds = clipSeconds(wanted);
+            const bool shows = seconds > 0.0f && wanted != clip
+                && wanted != binding.clips[size_t(ActorAiAnimationState::Walking)];
+            model.actionClip = shows ? wanted : UINT32_MAX;
+            // Over the recovery the character began with, and never slower than the clip itself.
+            model.actionDuration = shows ? std::min(std::max(body.actionSeconds, 0.3f), seconds) : 0.0f;
+            model.actionElapsed = 0.0f;
+        }
+        const bool actionStarted = model.actionClip != UINT32_MAX && model.actionElapsed == 0.0f;
+        if (model.actionClip != UINT32_MAX)
+        {
+            model.actionElapsed += deltaSeconds;
+            if (model.actionElapsed >= model.actionDuration || body.down)
+            {
+                model.actionClip = UINT32_MAX;
+            }
+        }
+        const float actionTime = model.actionClip != UINT32_MAX
+            ? model.actionElapsed / model.actionDuration * clipSeconds(model.actionClip)
+            : 0.0f;
+        const bool moving = model.speed > MovingSpeed && binding.strideLength > 0.0f && scale > 0.0f;
+        Engine::ModelAnimationLayer layer;
+        if (body.down)
+        {
+            // Falls once, then lies.
+            clip = binding.clips[size_t(ActorAiAnimationState::Dying)];
+            model.downSeconds += deltaSeconds;
+            time = std::min(model.downSeconds, std::max(clipSeconds(clip) - 0.01f, 0.0f));
+        }
+        else if (model.actionClip != UINT32_MAX && !(moving && binding.upperBodyMask != nullptr))
+        {
+            // Standing, or a model whose legs cannot walk under the blow: the whole body plays it.
+            model.downSeconds = 0.0f;
+            clip = model.actionClip;
+            time = actionTime;
+        }
+        else if (moving)
+        {
+            // On the move the blow is the upper body's, over the gait.
+            if (model.actionClip != UINT32_MAX)
+            {
+                layer = Engine::ModelAnimationLayer{model.actionClip, actionTime, 1.0f, binding.upperBodyMask};
+            }
+            model.downSeconds = 0.0f;
+            model.gait = actorModelGait(model.speed / scale, binding.gaitSpeeds, false, model.gait);
+            if (binding.gaitClip(model.gait) == UINT32_MAX || !(binding.gaitStride(model.gait) > 0.0f))
+            {
+                model.gait = ActorModelGait::Walk;
+            }
+            clip = binding.gaitClip(model.gait);
+            const float cycleDistance = binding.gaitStride(model.gait) * scale;
+            model.gaitPhase = advanceActorModelGait(model.gaitPhase, actorModelGaitDistance(travelled, cycleDistance,
+                deltaSeconds, clipSeconds(clip), 0.0f, binding.maxGaitRate), cycleDistance);
+            time = model.gaitPhase * clipSeconds(clip);
+        }
+        else
+        {
+            model.downSeconds = 0.0f;
+            model.standSeconds += deltaSeconds;
+            const float seconds = clipSeconds(clip);
+            time = seconds > 0.0f ? std::fmod(model.standSeconds, seconds) : 0.0f;
+        }
+        const Engine::ModelTransform transform = Engine::gltfModelPlacement(
+            {model.x, model.y, model.z + binding.zOffset}, model.yaw + binding.yawOffset, scale);
+        m_models.sampleBlended(model.handle, clip, time, transform, deltaSeconds, snapped ? 0.0f : 0.15f, layer,
+            actionStarted);
+        const std::optional<Engine::ModelShieldShell> gearShell = playerGearShell(body.down ? 0 : body.gearTier,
+            model.z, binding.standingHeight * scale, m_shieldDomeTimeSeconds);
+        m_models.setShieldShell(model.handle, gearShell ? &*gearShell : nullptr);
+    }
+    for (auto iterator = m_playerBodies.begin(); iterator != m_playerBodies.end();)
+    {
+        if (!iterator->second.seen)
+        {
+            m_models.destroy(iterator->second.handle);
+            iterator = m_playerBodies.erase(iterator);
+        }
+        else
+        {
+            ++iterator;
+        }
+    }
+}
+
+bool WorldFxSystem::playerBodyHead(uint32_t key, float &x, float &y, float &z) const
+{
+    const auto found = m_playerBodies.find(key);
+    if (found == m_playerBodies.end() || found->second.pBinding == nullptr)
+    {
+        return false;
+    }
+    const PlayerBodyModel &model = found->second;
+    x = model.x;
+    y = model.y;
+    z = model.z + model.pBinding->standingHeight * model.scale;
+    return true;
 }
 
 void WorldFxSystem::setActorModelVisibility(const std::function<bool(size_t actorIndex)> &visible)

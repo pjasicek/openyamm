@@ -688,7 +688,7 @@ TEST_CASE("item generator unique rare item marks party and does not repeat")
     CHECK_EQ(firstRare->objectDescriptionId, 519u);
     CHECK_EQ(firstRare->artifactId, 519u);
     CHECK(firstRare->rarity == OpenYAMM::Game::ItemRarity::Artifact);
-    CHECK(party.hasFoundArtifactItem(519));
+    CHECK(party.campaign().hasFoundArtifactItem(519));
 
     for (int attempt = 0; attempt < 256; ++attempt)
     {
@@ -1060,7 +1060,7 @@ TEST_CASE("artifact ring of planes applies resistance bonuses")
     CHECK_EQ(pMember->magicalBonuses.resistances.air, 40);
     CHECK_EQ(pMember->magicalBonuses.resistances.water, 40);
     CHECK_EQ(pMember->magicalBonuses.resistances.earth, 40);
-    CHECK(party.hasFoundArtifactItem(519));
+    CHECK(party.campaign().hasFoundArtifactItem(519));
 }
 
 TEST_CASE("artifact shield blocks condition application")

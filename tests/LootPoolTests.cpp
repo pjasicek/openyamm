@@ -1,5 +1,8 @@
 #include "engine/AssetFileSystem.h"
+#include "game/content/ContentManifest.h"
 #include "game/content/ContentTableComposer.h"
+#include "game/data/GameDataLoader.h"
+#include "game/gameplay/HouseServiceRuntime.h"
 #include "game/items/ItemEnchantTables.h"
 #include "game/items/ItemGenerator.h"
 #include "game/party/Party.h"
@@ -47,7 +50,8 @@ std::vector<std::string> weightRow(const std::string &id, int level3Weight)
     return {id, "item" + id, "0", "0", std::to_string(level3Weight), "0", "0", "0"};
 }
 
-// Engine (merged MM6-MM8) items 1-2 and 5-6, MM9 items 3-4. Artifacts carry their world (World:<id>).
+// Engine (merged MM6-MM8) items 1-2 and 5-6, MM9 items 3-4, a Xeen quest item 7 and sword 8. Artifacts carry their
+// world (World:<id>).
 const std::vector<std::vector<std::string>> ItemRows = {
     itemRow("1", "Engine Sword", "Weapon", "0", ""),
     itemRow("2", "Engine Potion", "Bottle", "0", ""),
@@ -55,6 +59,8 @@ const std::vector<std::vector<std::string>> ItemRows = {
     itemRow("4", "MM9 Artifact", "Weapon", "Artifact", "mm9", "World:mm9"),
     itemRow("5", "MM7 Artifact", "Weapon", "Artifact", "", "World:mm7"),
     itemRow("6", "MM6 Relic", "Weapon", "Relic", "", "World:mm6"),
+    itemRow("7", "Xeen Key", "N / A", "0", "xeen", "Quest|NoRandom"),
+    itemRow("8", "Xeen Sword", "Weapon", "0", "xeen"),
 };
 
 ItemTable loadTable(const std::vector<std::vector<std::string>> &randomRows)
@@ -103,7 +109,7 @@ TEST_CASE("a shop stocks its world's own equipment and artifacts, everything els
         std::set<uint32_t> ids;
         for (uint32_t id = 1; id <= 6; ++id)
         {
-            if (ItemGenerator::shopPoolAllows(*table.get(id), table.lootPoolForWorld(world)))
+            if (ItemGenerator::shopPoolAllows(*table.get(id), table.lootPoolsForWorld(world)))
             {
                 ids.insert(id);
             }
@@ -216,4 +222,169 @@ TEST_CASE("an artifact or relic rolls only in its own world")
     CHECK(rolled("mm7") == std::set<uint32_t>{5});
     CHECK(rolled("mm6") == std::set<uint32_t>{6});
     CHECK(rolled("mm8").empty());
+}
+
+TEST_CASE("a world that depends on MM6-MM8 draws on the merged base's pool and rolls no MM9 equipment")
+{
+    // Xeen (world.yml dependencies: engine, mm6, mm7, mm8): its own items and the merged base's, never MM9's, whatever
+    // "MM9 loot in MM6-MM8" says: the setting is MM6-MM8's (D-80). MM9 (dependencies: engine) keeps every world's.
+    ItemTable table = loadTable({weightRow("1", 10), weightRow("3", 10), weightRow("8", 10)});
+    table.setWorldDependencies({{"Xeen", {"mm6", "mm7", "mm8"}}});
+    CHECK(table.lootPoolsForWorld("xeen") == std::vector<std::string>{"xeen", "engine"});
+    CHECK(table.lootPoolsForWorld("mm9") == std::vector<std::string>{"mm9"});
+    CHECK(table.lootPoolsForWorld("mm7") == std::vector<std::string>{"engine"});
+
+    const StandardItemEnchantTable standardEnchants;
+    const SpecialItemEnchantTable specialEnchants;
+    std::mt19937 rng(3);
+    Party party;
+    party.setItemTable(&table);
+
+    const auto rolled = [&](ItemGenerationMode mode, const std::string &world)
+    {
+        std::set<uint32_t> ids;
+        for (int roll = 0; roll < 300; ++roll)
+        {
+            const std::optional<InventoryItem> item = ItemGenerator::generateRandomInventoryItem(
+                table, standardEnchants, specialEnchants,
+                ItemGenerationRequest{.treasureLevel = 3, .mode = mode, .allowRareItems = false, .worldId = world},
+                &party, rng);
+            if (item)
+            {
+                ids.insert(item->objectDescriptionId);
+            }
+        }
+        return ids;
+    };
+
+    CHECK(rolled(ItemGenerationMode::MonsterLoot, "xeen") == std::set<uint32_t>{1, 8});
+    CHECK(rolled(ItemGenerationMode::ChestLoot, "xeen") == std::set<uint32_t>{1, 8});
+    CHECK(rolled(ItemGenerationMode::Shop, "xeen") == std::set<uint32_t>{1, 8});
+    CHECK(rolled(ItemGenerationMode::MonsterLoot, "mm7") == std::set<uint32_t>{1});
+    CHECK(rolled(ItemGenerationMode::MonsterLoot, "mm9") == std::set<uint32_t>{1, 3, 8});
+    CHECK(rolled(ItemGenerationMode::Shop, "mm9") == std::set<uint32_t>{3});
+    party.setMm9LootInOlderWorlds(true);
+    CHECK(rolled(ItemGenerationMode::MonsterLoot, "xeen") == std::set<uint32_t>{1, 8});
+    CHECK(rolled(ItemGenerationMode::ChestLoot, "xeen") == std::set<uint32_t>{1, 8});
+    CHECK(rolled(ItemGenerationMode::Shop, "xeen") == std::set<uint32_t>{1, 8});
+    // MM7 rolls every world's with it on (Xeen's own sword too; the real Xeen has no random equipment, U-1).
+    CHECK(rolled(ItemGenerationMode::MonsterLoot, "mm7") == std::set<uint32_t>{1, 3, 8});
+    // Without a party (no setting to read) Xeen keeps to its pools all the same.
+    std::set<uint32_t> partyless;
+    for (int roll = 0; roll < 300; ++roll)
+    {
+        const std::optional<InventoryItem> item = ItemGenerator::generateRandomInventoryItem(
+            table, standardEnchants, specialEnchants,
+            ItemGenerationRequest{
+                .treasureLevel = 3, .mode = ItemGenerationMode::MonsterLoot, .allowRareItems = false,
+                .worldId = "xeen"},
+            nullptr, rng);
+        if (item)
+        {
+            partyless.insert(item->objectDescriptionId);
+        }
+    }
+    CHECK(partyless == std::set<uint32_t>{1, 8});
+}
+
+TEST_CASE("the installed worlds' loot pools follow their world.yml dependencies")
+{
+    const std::filesystem::path root = OPENYAMM_SOURCE_DIR;
+    Engine::AssetFileSystem assets;
+    REQUIRE(assets.initialize(root, root / "assets_dev", Engine::AssetScaleTier::X1));
+    GameDataLoader data;
+    REQUIRE(data.loadForHeadlessGameplay(assets));
+    const ItemTable &table = data.getItemTable();
+
+    CHECK(table.lootPoolsForWorld("mm7") == std::vector<std::string>{"engine"});
+
+    if (isWorldPackageMounted(assets, "mm9"))
+    {
+        CHECK(table.lootPoolsForWorld("mm9") == std::vector<std::string>{"mm9"});
+    }
+
+    if (isWorldPackageMounted(assets, "xeen"))
+    {
+        CHECK(table.lootPoolsForWorld("xeen") == std::vector<std::string>{"xeen", "engine"});
+    }
+}
+
+TEST_CASE("the installed worlds' shops stock no equipment from outside their pools")
+{
+    // MM6-MM8 (engine), Xeen (xeen, engine) and MM9 (mm9; its vendors load with MM9 active) shops on the real tables:
+    // a weapon, armour or jewellery slot never holds another package's piece, plain or enchanted (D-80).
+    const std::filesystem::path root = OPENYAMM_SOURCE_DIR;
+    Engine::AssetFileSystem assets;
+    REQUIRE(assets.initialize(root, root / "assets_dev", Engine::AssetScaleTier::X1, "mm8"));
+    const auto checkShops = [&assets](std::set<std::string> worlds)
+    {
+        if (worlds.erase("xeen") != 0 && isWorldPackageMounted(assets, "xeen"))
+        {
+            worlds.insert("xeen");
+        }
+        GameDataLoader data;
+        REQUIRE(data.loadForHeadlessGameplay(assets));
+        const ItemTable &table = data.getItemTable();
+        Party party;
+        party.setItemTable(&table);
+        party.setItemEnchantTables(&data.getStandardItemEnchantTable(), &data.getSpecialItemEnchantTable());
+
+        std::set<std::string> worldsWithStock;
+        size_t houses = 0;
+        size_t stockedModes = 0;
+        for (const auto &[houseId, house] : data.getHouseTable().entries())
+        {
+            // MM9's vendors (house_vendors) are on no map: their package names the world, as their stock rolls do.
+            const std::string world = house.worldId.empty() ? house.packageId : house.worldId;
+            if (!worlds.contains(world))
+            {
+                continue;
+            }
+
+            ++houses;
+            const std::vector<std::string> pools = table.lootPoolsForWorld(world);
+            for (const HouseStockMode mode : {HouseStockMode::ShopStandard, HouseStockMode::ShopSpecial})
+            {
+                if (HouseServiceRuntime::slotCountForStockMode(house, mode) == 0)
+                {
+                    continue;
+                }
+
+                ++stockedModes;
+                const std::vector<InventoryItem> &stock = HouseServiceRuntime::ensureStock(
+                    party, table, data.getStandardItemEnchantTable(), data.getSpecialItemEnchantTable(), house, 0.0f,
+                    mode);
+                for (const InventoryItem &item : stock)
+                {
+                    const ItemDefinition *pDefinition = item.objectDescriptionId != 0
+                        ? table.get(item.objectDescriptionId) : nullptr;
+                    if (pDefinition == nullptr)
+                    {
+                        continue;
+                    }
+
+                    worldsWithStock.insert(world);
+                    CHECK_MESSAGE(ItemGenerator::shopPoolAllows(*pDefinition, pools),
+                        world << " house " << houseId << " (" << house.type << ") stocks "
+                            << pDefinition->itemId << " " << pDefinition->name << " of " << pDefinition->packageId);
+                }
+            }
+        }
+
+        std::string stocked;
+        for (const std::string &world : worldsWithStock)
+        {
+            stocked += world + " ";
+        }
+        CHECK_MESSAGE(worldsWithStock == worlds, "worlds with shop stock: " << stocked << "(" << houses << " houses, "
+            << stockedModes << " stocks)");
+    };
+
+    checkShops({"mm6", "mm7", "mm8", "xeen"});
+
+    if (isWorldPackageMounted(assets, "mm9"))
+    {
+        REQUIRE(assets.switchActiveWorld("mm9"));
+        checkShops({"mm9"});
+    }
 }

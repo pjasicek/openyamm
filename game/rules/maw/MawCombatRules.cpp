@@ -1112,7 +1112,10 @@ MawCombatRules::MawCombatRules(MawRules &rules)
             // A solo run's early monster cut, the HP half: the party's hits count for more, which is the monster's HP
             // divided by the cut without touching its HP, experience or loot (POWER_CURVE_DIRECTION.md §8). Last, so
             // it scales everything the other stages added.
-            const double cut = m_rules.options().soloRun ? m_rules.soloMonsterCut() : 1.0;
+            const Character *pAttacker = hit.pMeleeAttacker != nullptr ? hit.pMeleeAttacker : hit.pMissileAttacker;
+            const double cut = !m_rules.options().soloRun ? 1.0
+                : pAttacker != nullptr ? MawSoloTalents::earlyMonsterCut(*pAttacker)
+                : m_rules.soloMonsterCut();
 
             if (cut > 1.0 && hit.attackerFacts.level <= 0 && hit.amount > 0)
             {
@@ -1175,7 +1178,9 @@ MawCombatRules::MawCombatRules(MawRules &rules)
         {
             // A solo run's early monster cut, the damage half: a monster's hit is divided before armour, resistances
             // and the class's flat cut see it, as if the monster were that much weaker. Falls and traps are not cut.
-            const double cut = m_rules.options().soloRun ? m_rules.soloMonsterCut() : 1.0;
+            const double cut = !m_rules.options().soloRun ? 1.0
+                : hit.pCharacter != nullptr ? MawSoloTalents::earlyMonsterCut(*hit.pCharacter)
+                : m_rules.soloMonsterCut();
 
             if (cut > 1.0 && mawMonsterHit(hit) && hit.amount > 0)
             {
@@ -2553,7 +2558,8 @@ int MawCombatRules::trapDamage(
 }
 
 void MawCombatRules::summonBossFamilyMember(
-    IGameplayWorldRuntime &world, const GameplayRuntimeActorState &summonerState, std::mt19937 &rng) const
+    IGameplayWorldRuntime &world, const GameplayRuntimeActorState &summonerState,
+    const GameplayWorldPoint &partyFeet, std::mt19937 &rng) const
 {
     if (summonerState.monsterId <= 0)
     {
@@ -2566,9 +2572,9 @@ void MawCombatRules::summonBossFamilyMember(
     // Halfway to the party, at MAW's summon speed 350.
     GameplayMonsterSpawnRequest request;
     request.monsterId = monsterId;
-    request.x = (summonerState.preciseX + world.partyX()) / 2;
-    request.y = (summonerState.preciseY + world.partyY()) / 2;
-    request.z = (summonerState.preciseZ + world.partyFootZ()) / 2;
+    request.x = (summonerState.preciseX + partyFeet.x) / 2;
+    request.y = (summonerState.preciseY + partyFeet.y) / 2;
+    request.z = (summonerState.preciseZ + partyFeet.z) / 2;
     request.radius = 1.0f;
     request.moveSpeed = 350;
     request.seed = rng();
@@ -3024,10 +3030,8 @@ void MawCombatRules::updateArtifacts(Party &party, IGameplayWorldRuntime &world)
     }
 }
 
-void MawCombatRules::updateCombat(Party &party, IGameplayWorldRuntime &world, float deltaSeconds) const
+void MawCombatRules::countMonstersNear(const IGameplayWorldRuntime &world, float x, float y) const
 {
-    m_gameMinutes = world.gameMinutes();
-    updateArtifacts(party, world);
     int nearbyMonsters = 0;
     // The solo run's pack talents count by their own reach (talents.yml), wider than the legendaries' 512.
     const bool solo = m_rules.options().soloRun;
@@ -3045,8 +3049,7 @@ void MawCombatRules::updateCombat(Party &party, IGameplayWorldRuntime &world, fl
             continue;
         }
 
-        const float distance =
-            std::hypot(state.preciseX - world.partyX(), state.preciseY - world.partyY()) - state.radius;
+        const float distance = std::hypot(state.preciseX - x, state.preciseY - y) - state.radius;
         nearbyMonsters += distance <= 512 ? 1 : 0;
         outnumberedMonsters += solo && distance <= outnumberedReach ? 1 : 0;
         battleFrenzyMonsters += solo && distance <= battleFrenzyReach ? 1 : 0;
@@ -3054,6 +3057,20 @@ void MawCombatRules::updateCombat(Party &party, IGameplayWorldRuntime &world, fl
 
     m_rules.setNearbyMonsters(nearbyMonsters);
     m_rules.setSoloPackMonsters(outnumberedMonsters, battleFrenzyMonsters);
+}
+
+void MawCombatRules::observeRemoteParty(const Party &party, const IGameplayWorldRuntime &world, float x, float y) const
+{
+    countMonstersNear(world, x, y);
+    m_rules.setActiveAuras(m_rules.spellRules().auraSources(party));
+    m_rules.setPartyStaffResistance(m_rules.spellRules().staffResistance(party));
+}
+
+void MawCombatRules::updateCombat(Party &party, IGameplayWorldRuntime &world, float deltaSeconds) const
+{
+    m_gameMinutes = world.gameMinutes();
+    updateArtifacts(party, world);
+    countMonstersNear(world, world.partyX(), world.partyY());
     EventRuntimeState *pRuntimeState = world.eventRuntimeState();
 
     // Real-time poison, once a second.
@@ -3301,13 +3318,10 @@ void MawCombatRules::applyPartyHitEffects(Party &party, const PartyHitOnMonster 
 
             if (const float percent = MawSoloTalents::exposeWeaknessPercent(member); percent > 0.0f)
             {
-                if (ActorRulesetFacts *pFacts = hit.pWorld->mutableActorRulesetFacts(*hit.targetActorIndex))
-                {
-                    const bool running = m_gameMinutes < pFacts->exposedUntilGameMinutes;
-                    pFacts->exposedPercent = running ? std::max(pFacts->exposedPercent, percent) : percent;
-                    pFacts->exposedUntilGameMinutes =
-                        m_gameMinutes + MawSoloTalents::exposeWeaknessSeconds() * GameMinutesPerSecond;
-                }
+                ActorHitMarks marks;
+                marks.exposedPercent = percent;
+                marks.exposedGameMinutes = MawSoloTalents::exposeWeaknessSeconds() * GameMinutesPerSecond;
+                hit.pWorld->addActorHitMarks(*hit.targetActorIndex, marks);
             }
 
             if (const float percent = MawSoloTalents::hamstringPercent(member); percent > 0.0f)
@@ -3322,9 +3336,11 @@ void MawCombatRules::applyPartyHitEffects(Party &party, const PartyHitOnMonster 
     if (hit.melee && hit.type == CombatDamageType::Physical && hit.pWorld != nullptr && hit.targetActorIndex
         && party.itemTable() != nullptr)
     {
-        if (ActorRulesetFacts *pFacts = hit.pWorld->mutableActorRulesetFacts(*hit.targetActorIndex))
+        if (const float stack = float(spearStack(m_rules, *pMember, *party.itemTable())); stack > 0.0f)
         {
-            pFacts->spearDamageTaken += float(spearStack(m_rules, *pMember, *party.itemTable()));
+            ActorHitMarks marks;
+            marks.spearDamage = stack;
+            hit.pWorld->addActorHitMarks(*hit.targetActorIndex, marks);
         }
     }
 
@@ -3332,10 +3348,9 @@ void MawCombatRules::applyPartyHitEffects(Party &party, const PartyHitOnMonster 
     // FCOR-2-6).
     if (hasAffix(*hit.pTarget, MawBossAffix::Regenerating) && hit.pWorld != nullptr && hit.targetActorIndex)
     {
-        if (ActorRulesetFacts *pFacts = hit.pWorld->mutableActorRulesetFacts(*hit.targetActorIndex))
-        {
-            pFacts->regeneratingHits = uint16_t(std::min(pFacts->regeneratingHits + 1, 65535));
-        }
+        ActorHitMarks marks;
+        marks.regeneratingHits = 1;
+        hit.pWorld->addActorHitMarks(*hit.targetActorIndex, marks);
     }
 
     // A dragon's bite throws its target along the blow once Dragon Ability reaches Fangs: 800 × fang / level^0.75
@@ -3377,10 +3392,9 @@ void MawCombatRules::applyPartyHitEffects(Party &party, const PartyHitOnMonster 
     if (mawWearsLegendaryAffix(*pMember, LegendaryDamageTaken) && hit.pWorld != nullptr && hit.targetActorIndex
         && (!isAreaSpell(hit.spellId) || unitDraw(m_legendaryRng) < 0.4))
     {
-        if (ActorRulesetFacts *pFacts = hit.pWorld->mutableActorRulesetFacts(*hit.targetActorIndex))
-        {
-            pFacts->legendaryDamageTaken += 1;
-        }
+        ActorHitMarks marks;
+        marks.legendaryDamage = 1.0f;
+        hit.pWorld->addActorHitMarks(*hit.targetActorIndex, marks);
     }
 
     // Snake and Finality cast Slow on the monster they strike, at the wielder's Sword skill (zzzMaw_Artifacts.lua:124-138).
@@ -3981,7 +3995,11 @@ void MawCombatRules::applyMonsterHitEffects(
     if (hasAffix(attacker, MawBossAffix::Summoner) && attackerIndex
         && (type == CombatDamageType::Physical || std::uniform_real_distribution<double>(0, 1)(rng) < 0.4))
     {
-        summonBossFamilyMember(*pWorld, attackerState, rng);
+        // The party the boss fights, which with several players need not be the local one.
+        summonBossFamilyMember(*pWorld, attackerState,
+            attackerIndex ? pWorld->actorPartyFeet(*attackerIndex)
+                          : GameplayWorldPoint{pWorld->partyX(), pWorld->partyY(), pWorld->partyFootZ()},
+            rng);
     }
 
     if (hasAffix(attacker, MawBossAffix::Venomous) && special)
@@ -4012,13 +4030,17 @@ void MawCombatRules::applyMonsterHitEffects(
 
     // A Swapper trades places with the party; a Puller jumps the party at itself (evt.Jump: ZAngle 128 of a 2048-step
     // turn, speed 1000).
-    if (hasAffix(attacker, MawBossAffix::Swapper) && attackerIndex)
+    // Both move the body of the party that was struck. In a co-op host's game that is the host's own body only:
+    // another player's is its own game's to move, and struck there the host's party is not moved in its place.
+    const bool ownBodyStruck = pWorld->party() == &party;
+
+    if (hasAffix(attacker, MawBossAffix::Swapper) && attackerIndex && ownBodyStruck)
     {
         pWorld->swapActorPlaces(*attackerIndex, std::nullopt);
         pWorld->actorRuntimeState(*attackerIndex, attackerState);
     }
 
-    if (hasAffix(attacker, MawBossAffix::Puller) && attackerIndex)
+    if (hasAffix(attacker, MawBossAffix::Puller) && attackerIndex && ownBodyStruck)
     {
         constexpr float PullSpeed = 1000.0f;
         constexpr float PullElevation = 128.0f / 2048.0f * 2.0f * 3.14159265f;

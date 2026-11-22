@@ -104,7 +104,10 @@ bool isEscapeNewlyPressed(GameplayScreenRuntime &context, const bool *pKeyboardS
 
 bool closeActiveLootViewFromEscape(GameplayScreenRuntime &context, IGameplayWorldRuntime &worldRuntime)
 {
-    if (worldRuntime.activeChestView() == nullptr && worldRuntime.activeCorpseView() == nullptr)
+    // An event's window over the loot view (a chest whose event also says something) is drawn on top: it takes the
+    // Escape, and the chest stays open under it.
+    if ((worldRuntime.activeChestView() == nullptr && worldRuntime.activeCorpseView() == nullptr)
+        || context.activeEventDialog().isActive)
     {
         return false;
     }
@@ -676,11 +679,7 @@ void GameplayInputController::handleSharedGameplayHotkeys(
     GameplayScreenRuntime &context,
     const GameplaySharedGameplayHotkeyConfig &config)
 {
-    if (config.pKeyboardState == nullptr
-        || GameplayUiController::characterScreenSearchActive(context.characterScreenReadOnly())
-        || GameplayUiController::journalSearchActive(context.journalScreenStateReadOnly())
-        || GameplayUiController::spellbookSearchActive(context.spellbookReadOnly())
-        || GameplaySoloBarSelector::isOpen(context))
+    if (config.pKeyboardState == nullptr)
     {
         context.interactionState().alwaysRunToggleLatch = false;
         context.interactionState().adventurersInnToggleLatch = false;
@@ -689,11 +688,37 @@ void GameplayInputController::handleSharedGameplayHotkeys(
         return;
     }
 
+    // The keypad's Enter toggles too while the key is the default Enter; a rebound key replaces both.
+    const InputBinding combatBinding = context.settingsSnapshot().keyboard.binding(KeyboardAction::Combat);
+    const bool combatOnEnter =
+        combatBinding.kind == InputBindingKind::Keyboard && combatBinding.scancode == SDL_SCANCODE_RETURN;
+    const bool combatKeyHeld =
+        isActionHeld(context, KeyboardAction::Combat, config.pInputFrame, config.pKeyboardState)
+        || (combatOnEnter && isScancodeHeld(SDL_SCANCODE_KP_ENTER, config.pInputFrame, config.pKeyboardState));
+    const bool yellKeyHeld = isActionHeld(context, KeyboardAction::Yell, config.pInputFrame, config.pKeyboardState);
+    const bool alwaysRunKeyHeld =
+        isActionHeld(context, KeyboardAction::AlwaysRun, config.pInputFrame, config.pKeyboardState);
+    const bool adventurersInnKeyHeld = config.pKeyboardState[SDL_SCANCODE_P];
+
+    // A key held while a search field or a screen over play has the keys was pressed for that field or screen (Return
+    // closing a message, a letter typed into a search): its toggle stays latched until the key is let go, so the press
+    // that closes the screen is not also a toggle in play.
+    if (GameplayUiController::characterScreenSearchActive(context.characterScreenReadOnly())
+        || GameplayUiController::journalSearchActive(context.journalScreenStateReadOnly())
+        || GameplayUiController::spellbookSearchActive(context.spellbookReadOnly())
+        || GameplaySoloBarSelector::isOpen(context))
+    {
+        context.interactionState().alwaysRunToggleLatch = alwaysRunKeyHeld;
+        context.interactionState().adventurersInnToggleLatch = adventurersInnKeyHeld;
+        context.interactionState().turnBasedToggleLatch = combatKeyHeld;
+        context.interactionState().yellLatch = yellKeyHeld;
+        return;
+    }
+
     // Yell: nearby villagers flee for two seconds and the party drops Invisibility; not in turn-based combat
     // (OE Party::yell, Io/KeyboardInputHandler). The active member yells again only once the last yell has finished;
     // each yell restarts the face animation.
-    if (config.canToggleAlwaysRun
-        && isActionHeld(context, KeyboardAction::Yell, config.pInputFrame, config.pKeyboardState))
+    if (config.canToggleAlwaysRun && yellKeyHeld)
     {
         if (!context.interactionState().yellLatch)
         {
@@ -721,11 +746,10 @@ void GameplayInputController::handleSharedGameplayHotkeys(
     }
     else
     {
-        context.interactionState().yellLatch = false;
+        context.interactionState().yellLatch = yellKeyHeld;
     }
 
-    if (config.canToggleAlwaysRun
-        && isActionHeld(context, KeyboardAction::AlwaysRun, config.pInputFrame, config.pKeyboardState))
+    if (config.canToggleAlwaysRun && alwaysRunKeyHeld)
     {
         if (!context.interactionState().alwaysRunToggleLatch)
         {
@@ -743,16 +767,9 @@ void GameplayInputController::handleSharedGameplayHotkeys(
     }
     else
     {
-        context.interactionState().alwaysRunToggleLatch = false;
+        context.interactionState().alwaysRunToggleLatch = alwaysRunKeyHeld;
     }
 
-    // The keypad's Enter toggles too while the key is the default Enter; a rebound key replaces both.
-    const InputBinding combatBinding = context.settingsSnapshot().keyboard.binding(KeyboardAction::Combat);
-    const bool combatOnEnter =
-        combatBinding.kind == InputBindingKind::Keyboard && combatBinding.scancode == SDL_SCANCODE_RETURN;
-    const bool combatKeyHeld =
-        isActionHeld(context, KeyboardAction::Combat, config.pInputFrame, config.pKeyboardState)
-        || (combatOnEnter && isScancodeHeld(SDL_SCANCODE_KP_ENTER, config.pInputFrame, config.pKeyboardState));
     const bool combatPressed =
         config.canToggleAlwaysRun
         && combatKeyHeld;
@@ -782,7 +799,7 @@ void GameplayInputController::handleSharedGameplayHotkeys(
         context.interactionState().turnBasedToggleLatch = false;
     }
 
-    if (config.canToggleAdventurersInn && config.pKeyboardState[SDL_SCANCODE_P]
+    if (config.canToggleAdventurersInn && adventurersInnKeyHeld
         && !(isActionHeld(context, KeyboardAction::SkillCover, config.pInputFrame, config.pKeyboardState)
             && GameplayPartyOverlayInputController::skillSwitchForAction(context, KeyboardAction::SkillCover)))
     {
@@ -816,7 +833,7 @@ void GameplayInputController::handleSharedGameplayHotkeys(
     }
     else
     {
-        context.interactionState().adventurersInnToggleLatch = false;
+        context.interactionState().adventurersInnToggleLatch = adventurersInnKeyHeld;
     }
 }
 
@@ -885,6 +902,16 @@ GameplaySharedInputFrameResult GameplayInputController::updateSharedGameplayInpu
                 .hasPendingSpellCast = hasPendingSpellCast,
                 .hasHeldItem = heldInventoryItem.active,
                 .blockOnHeldItem = true,
+            });
+    // The gate as the frame begins, before the screens take their keys: a key that closes a screen this frame (Return
+    // on a message) was that screen's, and the toggles in play below must not take the same press.
+    const bool gameplayActionAllowedBeforeUiInput =
+        GameplayScreenController::canRunStandardGameplayAction(
+            context,
+            GameplayStandardGameplayActionGateConfig{
+                .hasActiveLootView = hasActiveLootView,
+                .hasPendingSpellCast = hasPendingSpellCast,
+                .blockOnCharacterScreen = true,
             });
 
     if (config.processStandardUiInput)
@@ -1006,7 +1033,7 @@ GameplaySharedInputFrameResult GameplayInputController::updateSharedGameplayInpu
             GameplaySharedGameplayHotkeyConfig{
                 .pKeyboardState = config.pKeyboardState,
                 .pInputFrame = config.pInputFrame,
-                .canToggleAlwaysRun = canRunStandardGameplayAction,
+                .canToggleAlwaysRun = canRunStandardGameplayAction && gameplayActionAllowedBeforeUiInput,
                 .canToggleAdventurersInn = canToggleAdventurersInn,
             });
     }

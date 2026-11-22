@@ -523,6 +523,30 @@ void IndoorPartyRuntime::update(
             m_movementController.indoorMapData()->vertices, m_movementController.runtimeVertices());
     }
 
+    // A map whose touch faces run their events (scene `party_movement: {touch_faces: run}`): the wall each step was
+    // stopped by, for IndoorTouchContacts. Other maps (MM8's chests carry the touch bit, which its engine ignored) skip
+    // the bookkeeping.
+    const bool touchFacesRun = m_movementController.indoorMapData() != nullptr
+        && m_movementController.indoorMapData()->partyTouchFacesRun;
+    std::vector<size_t> touchedFaces;
+    const auto noteTouchedWall = [&](const IndoorMoveDebugInfo *pInfo)
+    {
+        if (!touchFacesRun)
+        {
+            return;
+        }
+
+        touchedFaces.clear();
+
+        if (pInfo != nullptr && pInfo->primaryBlockKind == IndoorMoveBlockKind::Wall
+            && pInfo->hitFaceIndex != static_cast<size_t>(-1))
+        {
+            touchedFaces.push_back(pInfo->hitFaceIndex);
+        }
+
+        m_touchContacts.step(touchedFaces, m_newTouchFaces);
+    };
+
     while (m_movementAccumulatorSeconds >= IndoorMovementStepSeconds)
     {
         m_collisionTraceClockSeconds += IndoorMovementStepSeconds;
@@ -534,6 +558,7 @@ void IndoorPartyRuntime::update(
                 body,
                 contactedActorIndices))
         {
+            noteTouchedWall(nullptr);
             m_movementAccumulatorSeconds = std::max(0.0f, m_movementAccumulatorSeconds - IndoorMovementStepSeconds);
             continue;
         }
@@ -542,6 +567,7 @@ void IndoorPartyRuntime::update(
             && stepInWater(m_movementSpeedMultiplier * m_party.movementMultiplier(), body, contactedActorIndices))
         {
             recordSteppedFloorFace(m_steppedFloorFaces, m_movementState);
+            noteTouchedWall(nullptr);
             m_pendingJumpRequested = false;
             m_pendingJumpVelocity.reset();
             m_pendingJumpLift = DefaultJumpLift;
@@ -568,7 +594,7 @@ void IndoorPartyRuntime::update(
         const float jumpVelocityThisStep = m_pendingJumpVelocity.value_or(DefaultJumpVelocity);
         const float jumpLiftThisStep = m_pendingJumpLift;
         IndoorMoveDebugInfo debugInfo = {};
-        IndoorMoveDebugInfo *pDebugInfo = m_collisionTraceEnabled ? &debugInfo : nullptr;
+        IndoorMoveDebugInfo *pDebugInfo = m_collisionTraceEnabled || touchFacesRun ? &debugInfo : nullptr;
         const bool dashing = m_dashSeconds > 0.0f;
         m_dashSeconds = std::max(0.0f, m_dashSeconds - IndoorMovementStepSeconds);
         m_movementState = m_movementController.resolveMove(
@@ -604,6 +630,7 @@ void IndoorPartyRuntime::update(
             m_jumpCarryVelocityY = 0.0f;
         }
         recordSteppedFloorFace(m_steppedFloorFaces, m_movementState);
+        noteTouchedWall(pDebugInfo);
         if (m_collisionTraceEnabled)
         {
             const IndoorCollisionTraceInfo traceInfo =
@@ -1125,6 +1152,12 @@ void IndoorPartyRuntime::takeSteppedFloorFaces(std::vector<size_t> &faces)
     std::swap(faces, m_steppedFloorFaces);
 }
 
+void IndoorPartyRuntime::takeNewTouchFaces(std::vector<size_t> &faces)
+{
+    faces.clear();
+    std::swap(faces, m_newTouchFaces);
+}
+
 const Party &IndoorPartyRuntime::party() const
 {
     return m_party;
@@ -1178,6 +1211,8 @@ void IndoorPartyRuntime::restoreSnapshot(const Snapshot &snapshot)
 {
     m_movementState = snapshot.movementState;
     m_steppedFloorFaces.clear();
+    m_touchContacts.clear();
+    m_newTouchFaces.clear();
     m_movementAccumulatorSeconds = snapshot.movementAccumulatorSeconds;
     m_pendingJumpRequested = snapshot.pendingJumpRequested;
     m_pendingImpulseVelocityX = snapshot.pendingImpulseVelocityX;

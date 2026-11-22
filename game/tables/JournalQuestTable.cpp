@@ -185,12 +185,12 @@ bool JournalQuestTable::isVisible(const JournalQuestEntry &entry, const Party &p
 {
     if (!entry.usesExplicitConditions)
     {
-        return party.hasQuestBit(entry.qbitId);
+        return party.campaign().hasQuestBit(entry.qbitId);
     }
 
     for (uint32_t qbitId : entry.requiredQBitIds)
     {
-        if (!party.hasQuestBit(qbitId))
+        if (!party.campaign().hasQuestBit(qbitId))
         {
             return false;
         }
@@ -198,7 +198,7 @@ bool JournalQuestTable::isVisible(const JournalQuestEntry &entry, const Party &p
 
     for (uint32_t qbitId : entry.forbiddenQBitIds)
     {
-        if (party.hasQuestBit(qbitId))
+        if (party.campaign().hasQuestBit(qbitId))
         {
             return false;
         }

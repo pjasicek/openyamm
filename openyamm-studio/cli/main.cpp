@@ -39,7 +39,7 @@ const Command Commands[] = {
         OpenYAMM::Studio::runExport},
     {"audit",
         "audit <map file> --world <world> --assets <asset root> [--reach] [--solve] [--json] [--original <map>] "
-        "[--strict]",
+        "[--strict] [--dressing]",
         "a shipped or installed map as the game reads it: overview and wiring checks", OpenYAMM::Studio::runAudit},
     {"things", "things <map file> --world <world> | <project> --assets <asset root> [--json]",
         "every interactive thing of an indoor or outdoor map: kind, textures, what it changes, where a player uses "

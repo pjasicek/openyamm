@@ -18,4 +18,4 @@ if [[ "${1-}" == "--visible" ]]; then
 else
     export OPENYAMM_START_MINIMIZED="${OPENYAMM_START_MINIMIZED:-1}"
 fi
-exec ./build/game/openyamm "$@"
+exec "${OPENYAMM_GAME_BINARY:-./build/game/openyamm}" "$@"

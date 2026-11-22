@@ -391,8 +391,8 @@ TEST_CASE("autonotes are party state that survive map changes and save round tri
         &party,
         targetMembers);
 
-    CHECK(party.hasAutonote(ObeliskOneNoteId));
-    CHECK(party.hasAutonote(ObeliskTwoNoteId));
+    CHECK(party.campaign().hasAutonote(ObeliskOneNoteId));
+    CHECK(party.campaign().hasAutonote(ObeliskTwoNoteId));
     CHECK(firstMapState.variables.empty());
     CHECK(secondMapState.variables.empty());
     CHECK_EQ(
@@ -416,8 +416,8 @@ TEST_CASE("autonotes are party state that survive map changes and save round tri
     std::filesystem::remove(savePath);
 
     REQUIRE(loaded.has_value());
-    CHECK(loaded->party.autonotes.contains(ObeliskOneNoteId));
-    CHECK(loaded->party.autonotes.contains(ObeliskTwoNoteId));
+    CHECK(loaded->party.campaign.autonotes.contains(ObeliskOneNoteId));
+    CHECK(loaded->party.campaign.autonotes.contains(ObeliskTwoNoteId));
 }
 
 TEST_CASE("history entries are party state shared by every map of the continent")
@@ -436,7 +436,7 @@ TEST_CASE("history entries are party state shared by every map of the continent"
 
     OpenYAMM::Game::EventRuntime::addVariableValue(firstMapState, historySeven, 0, &party, {0});
 
-    CHECK_EQ(party.historyEventTimes(2u).at(7u), 360);
+    CHECK_EQ(party.campaign().historyEventTimes(2u).at(7u), 360);
     CHECK_EQ(OpenYAMM::Game::EventRuntime::getVariableValue(secondMapState, historySeven, &party), 1);
 
     // The opening entries count as known without being stored.
@@ -464,7 +464,7 @@ TEST_CASE("legacy saves move history entries from every map state into the party
 
     OpenYAMM::Game::migrateLegacyMapHistory(saveData, 88);
 
-    const auto &history = saveData.party.historyEventTimesByContinent;
+    const auto &history = saveData.party.campaign.historyEventTimesByContinent;
     CHECK_EQ(history.at(2u).at(1u), 1);
     CHECK_EQ(history.at(2u).at(7u), 360);
     CHECK_EQ(history.at(2u).at(9u), 2000);
@@ -478,8 +478,8 @@ TEST_CASE("older saves move history pages recorded two pages late to their own p
     OpenYAMM::Game::GameSaveData saveData = {};
     // Castle Harmondale rebuilt (page 5 recorded as 7), the Emerald Island pages 1 and 2 (recorded as 3 and 4) beside
     // the forward page 1, and an MM8 page.
-    saveData.party.historyEventTimesByContinent[2u] = {{1u, 1}, {3u, 500}, {4u, 500}, {7u, 900}};
-    saveData.party.historyEventTimesByContinent[1u] = {{8u, 50}};
+    saveData.party.campaign.historyEventTimesByContinent[2u] = {{1u, 1}, {3u, 500}, {4u, 500}, {7u, 900}};
+    saveData.party.campaign.historyEventTimesByContinent[1u] = {{8u, 50}};
     saveData.outdoorWorld.eventRuntimeState.emplace();
     saveData.outdoorWorld.eventRuntimeState->historyEventTimesByContinent[2u] = {{2u, 2}, {8u, 1200}};
 
@@ -487,7 +487,7 @@ TEST_CASE("older saves move history pages recorded two pages late to their own p
 
     OpenYAMM::Game::migrateLegacyHistoryNumbering(saveData, 140);
 
-    const auto &history = saveData.party.historyEventTimesByContinent;
+    const auto &history = saveData.party.campaign.historyEventTimesByContinent;
     CHECK_EQ(history.at(2u).size(), 3u);
     CHECK_EQ(history.at(2u).at(1u), 1);
     CHECK_EQ(history.at(2u).at(2u), 500);
@@ -501,7 +501,7 @@ TEST_CASE("older saves move history pages recorded two pages late to their own p
 
     // A current save is already numbered by the tables.
     OpenYAMM::Game::migrateLegacyHistoryNumbering(currentSave, 141);
-    CHECK_EQ(currentSave.party.historyEventTimesByContinent.at(2u).at(7u), 900);
+    CHECK_EQ(currentSave.party.campaign.historyEventTimesByContinent.at(2u).at(7u), 900);
 }
 
 TEST_CASE("legacy saves move journal map notes from every map state into the party")
@@ -526,7 +526,7 @@ TEST_CASE("legacy saves move journal map notes from every map state into the par
     OpenYAMM::Game::migrateLegacyMapJournalNotes(saveData, 88);
 
     // The same teacher topic on two maps keeps both pins.
-    const std::vector<OpenYAMM::Game::JournalMapNote> &notes = saveData.party.journalMapNotes;
+    const std::vector<OpenYAMM::Game::JournalMapNote> &notes = saveData.party.campaign.journalMapNotes;
     REQUIRE_EQ(notes.size(), 2u);
     const auto hasNote = [&notes](const std::string &mapFileName)
     {
@@ -555,18 +555,18 @@ TEST_CASE("personal journal map notes survive a save")
 
     OpenYAMM::Game::GameSaveData save;
     save.mapFileName = "oute3.odm";
-    save.party.journalMapNotes = {eventPin, personal};
+    save.party.campaign.journalMapNotes = {eventPin, personal};
     const std::filesystem::path path = std::filesystem::temp_directory_path() / "openyamm_personal_map_notes.oysav";
     std::string error;
     REQUIRE_MESSAGE(OpenYAMM::Game::saveGameDataToPath(path, save, error), error.c_str());
     const std::optional<OpenYAMM::Game::GameSaveData> restored = OpenYAMM::Game::loadGameDataFromPath(path, error);
     std::filesystem::remove(path);
     REQUIRE_MESSAGE(restored.has_value(), error.c_str());
-    REQUIRE_EQ(restored->party.journalMapNotes.size(), 2u);
-    CHECK_FALSE(restored->party.journalMapNotes[0].personal);
-    CHECK(restored->party.journalMapNotes[1].personal);
-    CHECK_EQ(restored->party.journalMapNotes[1].text, "Hidden cache behind the well");
-    CHECK_EQ(restored->party.journalMapNotes[1].x, -1200);
+    REQUIRE_EQ(restored->party.campaign.journalMapNotes.size(), 2u);
+    CHECK_FALSE(restored->party.campaign.journalMapNotes[0].personal);
+    CHECK(restored->party.campaign.journalMapNotes[1].personal);
+    CHECK_EQ(restored->party.campaign.journalMapNotes[1].text, "Hidden cache behind the well");
+    CHECK_EQ(restored->party.campaign.journalMapNotes[1].x, -1200);
 }
 
 TEST_CASE("legacy saves move autonotes from every map state into the party")
@@ -583,7 +583,7 @@ TEST_CASE("legacy saves move autonotes from every map state into the party")
 
     OpenYAMM::Game::migrateLegacyMapAutonotes(saveData, 88);
 
-    CHECK(saveData.party.autonotes == std::unordered_set<uint32_t>{442u, 443u, 444u});
+    CHECK(saveData.party.campaign.autonotes == std::unordered_set<uint32_t>{442u, 443u, 444u});
     CHECK_EQ(saveData.outdoorWorld.eventRuntimeState->variables.size(), 1u);
     CHECK(saveData.outdoorWorld.eventRuntimeState->variables.contains(0x1234u));
     CHECK(saveData.outdoorWorldStates.at("mm6:outa1.odm").eventRuntimeState->variables.empty());
@@ -601,9 +601,9 @@ TEST_CASE("current quest journal entries come from party qbits and non-empty que
 
     OpenYAMM::Game::Party party = {};
     party.seed(createRegressionPartySeed());
-    party.setQuestBit(1, true);
-    party.setQuestBit(3, true);
-    party.setQuestBit(999, true);
+    party.campaign().setQuestBit(1, true);
+    party.campaign().setQuestBit(3, true);
+    party.campaign().setQuestBit(999, true);
 
     const std::vector<std::string> questTexts =
         OpenYAMM::Game::buildCurrentQuestTexts(questTable, party);
@@ -641,12 +641,12 @@ TEST_CASE("the price fixing quest lists the stables that have not yet agreed")
     };
 
     CHECK_EQ(stableLines(), 0);
-    party.setQuestBit(1140, true);
+    party.campaign().setQuestBit(1140, true);
     CHECK_EQ(stableLines(), 9);
-    party.setQuestBit(1515, true);
-    party.setQuestBit(1523, true);
+    party.campaign().setQuestBit(1515, true);
+    party.campaign().setQuestBit(1523, true);
     CHECK_EQ(stableLines(), 7);
-    party.setQuestBit(1140, false);
+    party.campaign().setQuestBit(1140, false);
     CHECK_EQ(stableLines(), 0);
 }
 
@@ -686,19 +686,19 @@ TEST_CASE("conditional journal quest overlays use required and forbidden qbits")
     party.seed(createRegressionPartySeed());
     CHECK(OpenYAMM::Game::buildCurrentQuestTexts(questTable, party) == std::vector<std::string>{"Complete training."});
 
-    party.setQuestBit(90473, true);
+    party.campaign().setQuestBit(90473, true);
     CHECK(questTable.qbitChangeRevealsQuest(90473, false, true, party));
     CHECK(OpenYAMM::Game::buildCurrentQuestTexts(questTable, party) == std::vector<std::string>{"Search the island."});
 
-    party.setQuestBit(90474, true);
+    party.campaign().setQuestBit(90474, true);
     CHECK(questTable.qbitChangeRevealsQuest(90474, false, true, party));
     CHECK(OpenYAMM::Game::buildCurrentQuestTexts(questTable, party)
         == std::vector<std::string>{"Search the island.", "Find a boat."});
 
-    party.setQuestBit(90480, true);
+    party.campaign().setQuestBit(90480, true);
     CHECK(OpenYAMM::Game::buildCurrentQuestTexts(questTable, party) == std::vector<std::string>{"Find a boat."});
 
-    party.setQuestBit(90480, false);
+    party.campaign().setQuestBit(90480, false);
     CHECK(questTable.qbitChangeRevealsQuest(90480, true, false, party));
 }
 
@@ -706,8 +706,8 @@ TEST_CASE("party quest bits survive save data round trip")
 {
     OpenYAMM::Game::Party party = {};
     party.seed(createRegressionPartySeed());
-    party.setQuestBit(6, true);
-    party.setQuestBit(36, true);
+    party.campaign().setQuestBit(6, true);
+    party.campaign().setQuestBit(36, true);
 
     OpenYAMM::Game::GameSaveData saveData = {};
     saveData.mapFileName = "quest_roundtrip.odm";
@@ -728,9 +728,9 @@ TEST_CASE("party quest bits survive save data round trip")
     restoredParty.seed(createRegressionPartySeed());
     restoredParty.restoreSnapshot(loaded->party);
 
-    CHECK(restoredParty.hasQuestBit(6));
-    CHECK(restoredParty.hasQuestBit(36));
-    CHECK_FALSE(restoredParty.hasQuestBit(37));
+    CHECK(restoredParty.campaign().hasQuestBit(6));
+    CHECK(restoredParty.campaign().hasQuestBit(36));
+    CHECK_FALSE(restoredParty.campaign().hasQuestBit(37));
 }
 
 TEST_CASE("held cursor item survives save data round trip")
@@ -781,8 +781,8 @@ TEST_CASE("party continent reputations survive save data round trip")
 {
     OpenYAMM::Game::Party party = {};
     party.seed(createRegressionPartySeed());
-    party.setContinentReputation(3, 28);
-    party.setContinentReputation(4, -11);
+    party.campaign().setContinentReputation(3, 28);
+    party.campaign().setContinentReputation(4, -11);
 
     OpenYAMM::Game::GameSaveData saveData = {};
     saveData.mapFileName = "reputation_roundtrip.odm";
@@ -803,8 +803,8 @@ TEST_CASE("party continent reputations survive save data round trip")
     restoredParty.seed(createRegressionPartySeed());
     restoredParty.restoreSnapshot(loaded->party);
 
-    CHECK_EQ(restoredParty.continentReputation(3), 28);
-    CHECK_EQ(restoredParty.continentReputation(4), -11);
+    CHECK_EQ(restoredParty.campaign().continentReputation(3), 28);
+    CHECK_EQ(restoredParty.campaign().continentReputation(4), -11);
 }
 
 TEST_CASE("named runtime globals survive save data round trip")
@@ -992,17 +992,17 @@ TEST_CASE("party records mm7 arcomage champion qbit after all antagarich taverns
     party.seed(createRegressionPartySeed());
 
     party.recordArcomageWin(239, 0, 0);
-    CHECK_FALSE(party.hasQuestBit(750));
+    CHECK_FALSE(party.campaign().hasQuestBit(750));
 
     for (uint32_t houseId = 240; houseId < 252; ++houseId)
     {
         party.recordArcomageWin(houseId, 0, 0);
     }
 
-    CHECK_FALSE(party.hasQuestBit(750));
+    CHECK_FALSE(party.campaign().hasQuestBit(750));
 
     party.recordArcomageWin(252, 0, 0);
-    CHECK(party.hasQuestBit(750));
+    CHECK(party.campaign().hasQuestBit(750));
 }
 
 TEST_CASE("party records mm8 arcomage champion qbit after all jadame taverns")
@@ -1011,17 +1011,17 @@ TEST_CASE("party records mm8 arcomage champion qbit after all jadame taverns")
     party.seed(createRegressionPartySeed());
 
     party.recordArcomageWin(227, 0, 0);
-    CHECK_FALSE(party.hasQuestBit(174));
+    CHECK_FALSE(party.campaign().hasQuestBit(174));
 
     for (uint32_t houseId = 228; houseId < 238; ++houseId)
     {
         party.recordArcomageWin(houseId, 0, 0);
     }
 
-    CHECK_FALSE(party.hasQuestBit(174));
+    CHECK_FALSE(party.campaign().hasQuestBit(174));
 
     party.recordArcomageWin(238, 0, 0);
-    CHECK(party.hasQuestBit(174));
+    CHECK(party.campaign().hasQuestBit(174));
 }
 
 TEST_CASE("party item ownership queries include the held item")
@@ -2254,14 +2254,14 @@ TEST_CASE("journal ownership filters quest continents without changing quest con
     }));
     Party party;
     for (uint32_t bit : {1u, 3u, 4u, 90002u})
-        party.setQuestBit(bit, true);
+        party.campaign().setQuestBit(bit, true);
     CHECK(buildCurrentQuestTexts(table, party, "Jadame") == std::vector<std::string>{"Jadame quest"});
     CHECK(buildCurrentQuestTexts(table, party, "Enroth") == std::vector<std::string>{"Enroth quest"});
     CHECK(buildCurrentQuestTexts(table, party, "Shared") == std::vector<std::string>{"Shared quest"});
     CHECK(buildCurrentQuestTexts(table, party, "Chedian") == std::vector<std::string>{"Chedian quest"});
     CHECK(buildCurrentQuestTexts(table, party, "Antagarich").empty());
     CHECK_EQ(buildCurrentQuestTexts(table, party).size(), 4);
-    party.setQuestBit(2, true);
+    party.campaign().setQuestBit(2, true);
     CHECK(buildCurrentQuestTexts(table, party, "Jadame").empty());
     CHECK_EQ(buildCurrentQuestTexts(table, party).size(), 3);
 }

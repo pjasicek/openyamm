@@ -171,7 +171,21 @@ class MonsterRules
 public:
     virtual ~MonsterRules() = default;
 
-    virtual GameplayMonsterBolsterResult resolveMonster(
+    // A monster as the rules make it for this map and party, its health raised for a co-op session's players
+    // (playerHealthFactor). What each ruleset decides is resolveMonsterByRules.
+    GameplayMonsterBolsterResult resolveMonster(
+        const GameplayBolsterRuntimeContext &context,
+        const MonsterTable::MonsterStatsEntry &stats,
+        const MonsterEntry *pMonsterEntry) const;
+    // The factor on monster health for a co-op session's number of players. 1 whatever the number since
+    // 2026-11-21 (it was half as much again per extra player; see the definition). A map keeps the count its
+    // monsters are sized for (IGameplayWorldRuntime::monsterHealthPlayerCount) and gives it in the context.
+    static float playerHealthFactor(size_t playerCount);
+    static int healthForPlayers(size_t playerCount, int maxHp);
+    // A monster's maximum health as the ruleset made it, without the players' share: what experience and other rules
+    // that compare a monster's health must read.
+    static int healthWithoutPlayers(size_t playerCount, int maxHp);
+    virtual GameplayMonsterBolsterResult resolveMonsterByRules(
         const GameplayBolsterRuntimeContext &context,
         const MonsterTable::MonsterStatsEntry &stats,
         const MonsterEntry *pMonsterEntry) const;

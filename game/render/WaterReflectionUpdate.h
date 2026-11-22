@@ -12,7 +12,7 @@ namespace OpenYAMM::Game
 class WaterReflectionUpdate
 {
 public:
-    bool prepare(const float *pViewProjection, float height, uint16_t size, float seconds,
+    bool prepare(const float *pViewProjection, const std::array<float, 4> &plane, uint16_t size, float seconds,
         uint64_t visualRevision, bool buildings, bool viewCovered = false, bool billboards = false)
     {
         constexpr float AnimationInterval = 1.0f / 30.0f;
@@ -20,14 +20,14 @@ public:
         const bool cameraMoved = !viewCovered
             && !std::equal(m_viewProjection.begin(), m_viewProjection.end(), pViewProjection);
         const bool update = m_seconds < 0.0f || seconds < m_seconds || seconds - m_seconds >= AnimationInterval
-            || m_height != height || m_size != size || m_visualRevision != visualRevision || m_buildings != buildings
+            || m_plane != plane || m_size != size || m_visualRevision != visualRevision || m_buildings != buildings
             || m_billboards != billboards
             || (cameraMoved && (seconds == m_seconds || seconds - m_seconds >= CameraInterval));
         if (update)
         {
             std::copy_n(pViewProjection, m_viewProjection.size(), m_viewProjection.begin());
             m_seconds = seconds;
-            m_height = height;
+            m_plane = plane;
             m_size = size;
             m_visualRevision = visualRevision;
             m_buildings = buildings;
@@ -37,15 +37,15 @@ public:
     }
 
     // The last capture shows this plane at this size (its own matrix keeps it registered with the world).
-    bool holds(float height, uint16_t size) const
+    bool holds(const std::array<float, 4> &plane, uint16_t size) const
     {
-        return m_seconds >= 0.0f && m_height == height && m_size == size;
+        return m_seconds >= 0.0f && m_plane == plane && m_size == size;
     }
 
 private:
     std::array<float, 16> m_viewProjection = {};
     float m_seconds = -1.0f;
-    float m_height = 0.0f;
+    std::array<float, 4> m_plane = {};
     uint64_t m_visualRevision = 0;
     uint16_t m_size = 0;
     bool m_buildings = false;

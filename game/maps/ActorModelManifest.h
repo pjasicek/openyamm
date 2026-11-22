@@ -136,6 +136,11 @@ private:
 // otherwise; pSpriteFrames resolves a binding's scale_reference (the map's actor sprite frames).
 float actorTargetHeight(const MonsterTable &monsters, const SpriteFrameTable *pSpriteFrames, int16_t monsterId,
     uint16_t height, uint16_t bodyHeight, float drawScale, float visualScale);
+// The height above a monster's feet where it launches a missile or spell from its body (no release socket): factor
+// of its height, or of its 3D model's top when that is lower (GameMechanics::actorLaunchHeight), the model measured
+// as actorTargetHeight measures it and only while models are on.
+float actorLaunchHeight(const MonsterTable &monsters, const SpriteFrameTable *pSpriteFrames, int16_t monsterId,
+    uint16_t height, uint16_t bodyHeight, float drawScale, float visualScale, float factor);
 
 // One attack role of a monster: the timing of its sprite (the native action's length and its contact frame, 0 without
 // one) unless its 3D model's clip times it (resolveActorAttackTiming; pModels null: models off).

@@ -54,10 +54,12 @@ void CombatLog::recordStages(bool onCharacter, int finalAmount, const std::vecto
 
 void CombatLog::add(CombatLogEntry entry, bool takeStages)
 {
-    if (!m_recording)
+    if (!m_recording && entry.kind != CombatLogKind::Chat)
     {
         return;
     }
+
+    takeStages = takeStages && entry.kind != CombatLogKind::Chat;
 
     entry.id = m_nextId++;
     entry.gameMinutes = m_gameMinutes;

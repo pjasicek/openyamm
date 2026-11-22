@@ -2,6 +2,7 @@
 
 #include "game/StringUtils.h"
 #include "game/maps/MapIdentity.h"
+#include "game/tables/MergedBaseTables.h"
 
 #include <yaml-cpp/yaml.h>
 
@@ -698,6 +699,17 @@ bool parseManifestRoot(const YAML::Node &root, WorldManifest &manifest, std::str
         manifest.combatLog = combatLogNode.as<bool>();
     }
 
+    if (const YAML::Node glowNode = root["surfaceGlowContent"])
+    {
+        if (!glowNode.IsScalar())
+        {
+            errorMessage = "world.yml surfaceGlowContent must be true or false";
+            return false;
+        }
+
+        manifest.surfaceGlowContent = glowNode.as<bool>();
+    }
+
     if (const YAML::Node chestArtifactsNode = root["chestArtifactsOnly"])
     {
         if (!chestArtifactsNode.IsScalar())
@@ -923,6 +935,28 @@ bool isWorldPackageMounted(const Engine::AssetFileSystem &assetFileSystem, const
     return !normalizedWorldId.empty() && assetFileSystem.exists("worlds/" + normalizedWorldId + "/world.yml");
 }
 
+std::vector<std::string> surfaceGlowListWorlds(
+    const std::vector<WorldManifest> &mountedWorlds,
+    const std::string &mapWorldId,
+    bool surfaceMaterials)
+{
+    const std::string worldId = normalizeWorldId(mapWorldId);
+    const bool declared = !surfaceMaterials && std::any_of(mountedWorlds.begin(), mountedWorlds.end(),
+        [&worldId](const WorldManifest &world)
+        {
+            return world.id == worldId && world.surfaceGlowContent;
+        });
+    std::vector<std::string> worlds;
+    if (declared)
+    {
+        for (const WorldManifest &world : mountedWorlds)
+        {
+            worlds.push_back(world.id);
+        }
+    }
+    return worlds;
+}
+
 bool loadMountedWorldManifests(
     const Engine::AssetFileSystem &assetFileSystem,
     std::vector<WorldManifest> &manifests,
@@ -1088,5 +1122,34 @@ std::optional<std::string> overlappingContentIdRange(
     }
 
     return std::nullopt;
+}
+
+std::vector<std::string> worldLoadingPages(
+    const WorldManifest &world,
+    const MergedContinentSettingTable &continents,
+    std::optional<uint32_t> mapContinentId)
+{
+    std::vector<std::string> pages;
+    const ContentIdRangeDefinition *pRange = world.findIdRange("continents");
+
+    if (pRange != nullptr)
+    {
+        for (const MergedContinentSettingEntry &continent : continents.entries())
+        {
+            const bool worldContinent = continent.id >= pRange->begin && continent.id <= pRange->end;
+
+            if (!worldContinent || (mapContinentId && *mapContinentId != continent.id))
+            {
+                continue;
+            }
+
+            for (const std::string &picture : continent.loadingPictures)
+            {
+                pages.push_back(std::filesystem::path(picture).stem().string());
+            }
+        }
+    }
+
+    return pages.empty() ? world.loadingScreens : pages;
 }
 }

@@ -3426,6 +3426,12 @@ float GameMechanics::actorTargetHeight(uint16_t actorHeight, float modelBottom, 
     return std::min(target, bottom + (modelTop - bottom) * 0.6f);
 }
 
+float GameMechanics::actorLaunchHeight(uint16_t actorHeight, float factor, float modelTop)
+{
+    const float height = static_cast<float>(actorHeight);
+    return factor * (modelTop > 0.0f ? std::min(height, modelTop) : height);
+}
+
 std::optional<float> GameMechanics::clearPartyShotAimHeight(
     float targetHeight, uint16_t actorHeight, const std::function<bool(float)> &lineClear)
 {

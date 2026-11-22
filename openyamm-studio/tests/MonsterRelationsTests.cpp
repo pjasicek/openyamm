@@ -211,3 +211,39 @@ TEST_CASE("the build warns of two of the map's hostile kinds the table sets on e
     CHECK(warningsOf(monsters).empty());
     CHECK(issues.empty());
 }
+
+TEST_CASE("a world's relations.yml says what it covers: its factions toward the party and each other")
+{
+    // The Archers (4-6) a faction hostile to the party, the Golems (10-12) one that leaves the Eyes alone; a rule that
+    // waits for a QBit is not in force in a new game.
+    const WorldMonsterRelations world = readWorldMonsterRelations(
+        "schema: openyamm.monsterRelations.v1\n"
+        "factions:\n  archers: {monsters: [4-6]}\n  golems: {monsters: [10-12]}\n  eyes: {monsters: [7-9]}\n"
+        "relations:\n"
+        "  - {from: archers, to: party, relation: long}\n"
+        "  - {from: archers, to: party, relation: friendly, after_qbit: 100}\n"
+        "  - {from: golems, to: any, relation: short}\n"
+        "  - {from: golems, to: eyes, relation: friendly}\n");
+    CHECK(world.relation(5, 0) == 4);
+    CHECK(world.relation(11, 8) == 0);
+    CHECK(world.relation(11, 2) == 2);
+    CHECK_FALSE(world.relation(11, 0).has_value());
+    CHECK_FALSE(world.relation(2, 0).has_value());
+    CHECK(readWorldMonsterRelations("factions: [").factionOf.empty());
+
+    // The Archers of slot 2: hostile by the world, so no "peaceful, unsaid" warning.
+    MapMonsters monsters = slotsOf({"Goblin", "Archer", ""});
+    monsters.spawns = {{"spawn:a", 1, '\0', 0}, {"spawn:b", 2, '\0', 0}};
+    REQUIRE(warningsOf(monsters).size() == 1);
+    monsters.world = world;
+    CHECK(warningsOf(monsters).empty());
+
+    // Golems made hostile beside the Eyes: the world keeps the Golems off the Eyes, but hostile.txt still sets the
+    // Eyes on the Golems (the Eyes have no rule toward them).
+    MapMonsters fight = slotsOf({"Golem", "Eye", ""});
+    fight.spawns = {{"spawn:a", 1, '\0', 0}, {"spawn:b", 2, '\0', 0}};
+    std::vector<ProjectIssue> issues;
+    fight.relations = relationsOf("- {of: [10, 11, 12], toward: party, relation: hostile}\n", issues);
+    fight.world = world;
+    CHECK(anyWarning(warningsOf(fight), "(4 and 0)"));
+}

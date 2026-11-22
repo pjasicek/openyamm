@@ -49,18 +49,6 @@ constexpr int32_t MergedYawUnitsPerTurn = 2048;
 constexpr int32_t DegreesPerTurn = 360;
 constexpr size_t MaxPerformanceAssetLoadEvents = 32;
 constexpr std::string_view EagerGameplayHudScreen = "outdoorhud";
-struct TownPortalDestinationOverride
-{
-    uint32_t mapId = 0;
-    std::string iconName;
-    bool useMapStartPosition = false;
-    bool clearUnlockQBit = false;
-    bool clearDirection = false;
-    int32_t hitX = 0;
-    int32_t hitY = 0;
-    uint32_t hitWidth = 0;
-    uint32_t hitHeight = 0;
-};
 
 int32_t directionDegreesFromMergedYawUnits(int32_t yawUnits)
 {
@@ -119,56 +107,17 @@ const MapStatsEntry *findMapEntryById(const std::vector<MapStatsEntry> &mapEntri
     return nullptr;
 }
 
-const MergedTownPortalSwitchGroup *findTownPortalGroup(
-    const MergedTownPortalSwitchTable &townPortalSwitchTable,
-    const std::string &groupName)
+// A portal into a world this installation lacks (Chedian without MM9), or one the party's ruleset does not play in
+// (MAW's `worlds`), is not offered.
+bool destinationMapOffered(
+    const MapStatsEntry *pMap,
+    const Engine::AssetFileSystem *pAssetFileSystem,
+    const GameDataRepository *pDataRepository)
 {
-    const std::string normalizedGroupName = toLowerCopy(groupName);
-
-    for (const MergedTownPortalSwitchGroup &group : townPortalSwitchTable.groups())
-    {
-        if (toLowerCopy(group.name) == normalizedGroupName)
-        {
-            return &group;
-        }
-    }
-
-    return nullptr;
-}
-
-// The continents the Town Portal screen can switch between, in the order the worlds came out.
-struct TownPortalContinentGroup
-{
-    std::string_view groupName;
-    std::string_view label;
-};
-
-constexpr std::array<TownPortalContinentGroup, 4> TownPortalContinentGroups = {{
-    {"TPEnroth", Engine::trNoop("Enroth")},
-    {"Antagrich", Engine::trNoop("Antagarich")},
-    {"townport", Engine::trNoop("Jadame")},
-    {"TPChedian", Engine::trNoop("Chedian")},
-}};
-
-std::string townPortalGroupNameForMap(const MapStatsEntry &mapEntry)
-{
-    if (mapEntry.id >= 62 && mapEntry.id <= 136)
-    {
-        return "Antagrich";
-    }
-
-    if (mapEntry.id >= 137 && mapEntry.id <= 203)
-    {
-        return "TPEnroth";
-    }
-
-    // MM9 (Chedian): map_stats rows 9001-9080
-    if (mapEntry.id >= 9001 && mapEntry.id <= 9099)
-    {
-        return "TPChedian";
-    }
-
-    return "townport";
+    return pMap != nullptr
+        && (pMap->worldId.empty()
+            || ((pAssetFileSystem == nullptr || isWorldPackageMounted(*pAssetFileSystem, pMap->worldId))
+                && (pDataRepository == nullptr || pDataRepository->rulesetSupportsWorld(pMap->worldId))));
 }
 
 bool appendTownPortalDestination(
@@ -177,31 +126,18 @@ bool appendTownPortalDestination(
     const MergedTownPortalDestination &sourceDestination,
     const std::vector<MapStatsEntry> &mapEntries,
     const Engine::AssetFileSystem *pAssetFileSystem,
-    const GameDataRepository *pDataRepository,
-    const TownPortalDestinationOverride *pOverride = nullptr)
+    const GameDataRepository *pDataRepository)
 {
-    const std::string &iconName =
-        pOverride != nullptr && !pOverride->iconName.empty() ? pOverride->iconName : sourceDestination.iconName;
+    const std::string &iconName = sourceDestination.iconName;
 
     if (iconName.empty() || toLowerCopy(iconName) == "none")
     {
         return false;
     }
 
-    const uint32_t mapId =
-        pOverride != nullptr && pOverride->mapId != 0 ? pOverride->mapId : sourceDestination.mapId;
-    const MapStatsEntry *pDestinationMap = findMapEntryById(mapEntries, mapId);
+    const MapStatsEntry *pDestinationMap = findMapEntryById(mapEntries, sourceDestination.mapId);
 
-    if (pDestinationMap == nullptr)
-    {
-        return false;
-    }
-
-    // A portal into a world this installation lacks (Chedian without MM9), or one the party's ruleset does not play
-    // in (MAW's `worlds`), is not offered.
-    if (!pDestinationMap->worldId.empty()
-        && ((pAssetFileSystem != nullptr && !isWorldPackageMounted(*pAssetFileSystem, pDestinationMap->worldId))
-            || (pDataRepository != nullptr && !pDataRepository->rulesetSupportsWorld(pDestinationMap->worldId))))
+    if (!destinationMapOffered(pDestinationMap, pAssetFileSystem, pDataRepository))
     {
         return false;
     }
@@ -215,71 +151,18 @@ bool appendTownPortalDestination(
     destination.x = sourceDestination.x;
     destination.y = sourceDestination.y;
     destination.z = sourceDestination.z;
-    if (pOverride == nullptr || !pOverride->clearDirection)
-    {
-        destination.directionDegrees = directionDegreesFromMergedYawUnits(sourceDestination.direction);
-    }
-    destination.useMapStartPosition = pOverride != nullptr && pOverride->useMapStartPosition;
-    destination.unlockQBitId =
-        pOverride != nullptr && pOverride->clearUnlockQBit ? 0 : sourceDestination.qbitIndex;
+    destination.directionDegrees = directionDegreesFromMergedYawUnits(sourceDestination.direction);
+    destination.unlockQBitId = sourceDestination.qbitIndex;
     destination.iconX = sourceDestination.iconX;
     destination.iconY = sourceDestination.iconY;
     destination.iconWidth = sourceDestination.iconWidth.value_or(0);
     destination.iconHeight = sourceDestination.iconHeight.value_or(0);
-    destination.hitX = pOverride != nullptr && pOverride->hitWidth != 0
-        ? pOverride->hitX
-        : destination.iconX;
-    destination.hitY = pOverride != nullptr && pOverride->hitHeight != 0
-        ? pOverride->hitY
-        : destination.iconY;
-    destination.hitWidth = pOverride != nullptr && pOverride->hitWidth != 0
-        ? pOverride->hitWidth
-        : destination.iconWidth;
-    destination.hitHeight = pOverride != nullptr && pOverride->hitHeight != 0
-        ? pOverride->hitHeight
-        : destination.iconHeight;
+    destination.hitX = destination.iconX;
+    destination.hitY = destination.iconY;
+    destination.hitWidth = destination.iconWidth;
+    destination.hitHeight = destination.iconHeight;
     destinations.push_back(std::move(destination));
     return true;
-}
-
-bool resolveDimensionDoorDestinationOverride(
-    const MergedTownPortalDestination &sourceDestination,
-    TownPortalDestinationOverride &destinationOverride)
-{
-    const std::string description = toLowerCopy(sourceDestination.description);
-
-    destinationOverride = {};
-    destinationOverride.clearUnlockQBit = true;
-    destinationOverride.clearDirection = true;
-    destinationOverride.iconName = "ui/gameplay/dimensional_travel/" + toLowerCopy(sourceDestination.iconName);
-
-    // Four portals in a row (tpglobal4, 2026-11-06), each with a column of the screen as its hover zone:
-    // Jadame, Enroth, Antagarich, Chedian; the map is a valid one of the continent, the landing comes from
-    // resolveDimensionDoorLanding.
-    struct Door
-    {
-        const char *pDescription;
-        uint32_t mapId;
-        int32_t column;
-    };
-    constexpr std::array<Door, 4> doors = {{{"jadame", 1, 0}, {"enroth", 151, 1}, {"antagarich", 62, 2},
-                                            {"chedian", 9021, 3}}};
-    constexpr uint32_t ColumnWidth = 160;
-
-    for (const Door &door : doors)
-    {
-        if (description == door.pDescription)
-        {
-            destinationOverride.mapId = door.mapId;
-            destinationOverride.hitX = door.column * int32_t(ColumnWidth);
-            destinationOverride.hitY = 0;
-            destinationOverride.hitWidth = ColumnWidth;
-            destinationOverride.hitHeight = 480;
-            return true;
-        }
-    }
-
-    return false;
 }
 
 uint32_t currentAnimationTicks()
@@ -745,24 +628,22 @@ bool GameplayUiRuntime::ensureTownPortalDestinationsLoaded(
         return false;
     }
 
-    const std::string homeGroupName = toLowerCopy(townPortalGroupNameForMap(*pCurrentMap));
     const std::vector<MapStatsEntry> &mapEntries = m_pDataRepository->mapEntries();
     bool homeFound = false;
 
-    for (const TownPortalContinentGroup &continentGroup : TownPortalContinentGroups)
+    // Each continent's page (town_portal_switch.txt groups with a continent, in the table's order: the worlds in the
+    // order they came out, then the worlds' own); the party's map's continent is home.
+    for (const MergedTownPortalSwitchGroup &group : m_pDataRepository->mergedTownPortalSwitchTable().groups())
     {
-        const MergedTownPortalSwitchGroup *pGroup = findTownPortalGroup(
-            m_pDataRepository->mergedTownPortalSwitchTable(),
-            std::string(continentGroup.groupName));
-
-        if (pGroup == nullptr)
+        if (group.continentId == 0)
         {
             continue;
         }
 
+        const MergedTownPortalSwitchGroup *pGroup = &group;
         GameplayTownPortalContinent continent = {};
         continent.groupName = pGroup->name;
-        continent.label = continentGroup.label;
+        continent.label = pGroup->label;
         continent.backgroundTextureName = townPortalIconTextureName(pGroup->name);
 
         for (const MergedTownPortalDestination &sourceDestination : pGroup->destinations)
@@ -771,7 +652,7 @@ bool GameplayUiRuntime::ensureTownPortalDestinationsLoaded(
                 continent.destinations, *pGroup, sourceDestination, mapEntries, m_pAssetFileSystem, m_pDataRepository);
         }
 
-        const bool isHome = toLowerCopy(pGroup->name) == homeGroupName;
+        const bool isHome = pGroup->continentId == pCurrentMap->mergedContinentId;
 
         // A continent this installation or ruleset has no towns of (Chedian without MM9) gets no button.
         if (!isHome && continent.destinations.empty())
@@ -819,33 +700,81 @@ bool GameplayUiRuntime::ensureDimensionDoorDestinationsLoaded()
         return false;
     }
 
-    const MergedTownPortalSwitchGroup *pGroup = findTownPortalGroup(
-        m_pDataRepository->mergedTownPortalSwitchTable(),
-        "TPGlobal");
+    // One door per continent (dimension_doors.yml and the worlds' own) on the screen with a place for each; a door
+    // into a world this installation or ruleset lacks stays dark.
+    const MergedDimensionDoorTable &doorTable = m_pDataRepository->mergedDimensionDoorTable();
+    const MergedDimensionDoorScreen *pScreen = doorTable.screen();
 
-    if (pGroup == nullptr)
+    if (pScreen == nullptr)
     {
         return false;
     }
 
+    const uint32_t doorCount = uint32_t(pScreen->places.size());
     GameplayTownPortalContinent continent = {};
-    continent.groupName = pGroup->name;
-    continent.backgroundTextureName = "ui/gameplay/dimensional_travel/tpglobal4";
-    const std::vector<MapStatsEntry> &mapEntries = m_pDataRepository->mapEntries();
+    continent.groupName = "DimensionDoor";
+    continent.backgroundTextureName = pScreen->backdrop;
 
-    for (const MergedTownPortalDestination &sourceDestination : pGroup->destinations)
+    // The doors take the screen's places in their order (the new-game card order); a dark door keeps its place.
+    for (size_t doorIndex = 0; doorIndex < doorTable.doors().size() && doorIndex < doorCount; ++doorIndex)
     {
-        TownPortalDestinationOverride destinationOverride = {};
-        const bool hasOverride =
-            resolveDimensionDoorDestinationOverride(sourceDestination, destinationOverride);
-        appendTownPortalDestination(
-            continent.destinations,
-            *pGroup,
-            sourceDestination,
-            mapEntries,
-            m_pAssetFileSystem,
-            m_pDataRepository,
-            hasOverride ? &destinationOverride : nullptr);
+        const MergedDimensionDoor &door = doorTable.doors()[doorIndex];
+        const auto picture = door.pictures.find(doorCount);
+        const MergedDimensionDoorLanding &home = door.landings.back();
+        const MapStatsEntry *pMap = m_pDataRepository->mapStats().findByFileName(home.mapFileName);
+
+        if (picture == door.pictures.end() || !destinationMapOffered(pMap, m_pAssetFileSystem, m_pDataRepository))
+        {
+            continue;
+        }
+
+        const MergedDimensionDoorPlace &place = pScreen->places[doorIndex];
+        const auto toLanding = [](const MergedDimensionDoorLanding &landing)
+        {
+            GameplayTownPortalDestination::QBitLanding result;
+            result.qbit = landing.qbit;
+            result.mapName = landing.mapFileName;
+            result.x = landing.position ? (*landing.position)[0] : 0;
+            result.y = landing.position ? (*landing.position)[1] : 0;
+            result.z = landing.position ? (*landing.position)[2] : 0;
+            result.directionDegrees = landing.directionDegrees;
+            result.useMapStartPosition = !landing.position;
+            return result;
+        };
+        const GameplayTownPortalDestination::QBitLanding homeLanding = toLanding(home);
+        GameplayTownPortalDestination destination = {};
+        destination.id = "DimensionDoor:" + door.key;
+        destination.label = door.label;
+        destination.iconTextureName = toLowerCopy(picture->second);
+        destination.mapName = pMap->fileName;
+        destination.x = homeLanding.x;
+        destination.y = homeLanding.y;
+        destination.z = homeLanding.z;
+        destination.directionDegrees = homeLanding.directionDegrees;
+        destination.useMapStartPosition = homeLanding.useMapStartPosition;
+        destination.iconX = place.picture[0];
+        destination.iconY = place.picture[1];
+        destination.iconWidth = uint32_t(place.picture[2]);
+        destination.iconHeight = uint32_t(place.picture[3]);
+        destination.hitX = place.hover[0];
+        destination.hitY = place.hover[1];
+        destination.hitWidth = uint32_t(place.hover[2]);
+        destination.hitHeight = uint32_t(place.hover[3]);
+
+        if (place.label.has_value())
+        {
+            destination.nameX = (*place.label)[0];
+            destination.nameY = (*place.label)[1];
+            destination.nameWidth = uint32_t((*place.label)[2]);
+            destination.nameHeight = uint32_t((*place.label)[3]);
+        }
+
+        for (size_t index = 0; index + 1 < door.landings.size(); ++index)
+        {
+            destination.qbitLandings.push_back(toLanding(door.landings[index]));
+        }
+
+        continent.destinations.push_back(std::move(destination));
     }
 
     m_townPortalContinents.push_back(std::move(continent));
@@ -2809,6 +2738,17 @@ GameplayPortraitPresentationState &GameplayUiRuntime::portraitPresentationState(
 const GameplayPortraitPresentationState &GameplayUiRuntime::portraitPresentationState() const
 {
     return m_portraitPresentationState;
+}
+
+std::string GameplayUiRuntime::portraitTextureNameForPicture(uint32_t pictureId)
+{
+    return portraitTextureNameForPictureFrame(pictureId, 1);
+}
+
+std::string GameplayUiRuntime::restingPortraitTextureName(const std::string &portraitTextureName, uint32_t pictureId)
+{
+    const std::string ownArt = portraitTextureNameForTextureFrame(portraitTextureName, 1);
+    return !ownArt.empty() ? ownArt : portraitTextureNameForPictureFrame(pictureId, 1);
 }
 
 std::string GameplayUiRuntime::resolvePortraitTextureName(const Character &character) const

@@ -117,6 +117,24 @@ void applySkyTheme(const SkyTheme &theme, SkyFrameState &frame)
 }
 }
 
+SkyRimUniformValues packSkyRimUniform(const SkyFrameState &frame)
+{
+    SkyRimUniformValues values = {};
+
+    if (frame.rimGlowStrength <= 0.0f)
+    {
+        return values;
+    }
+
+    const SkyRimGlow &glow = frame.rimGlow;
+    const float bearing = glow.directionDegrees * (Pi / 180.0f);
+    values[0] = {std::sin(bearing), std::cos(bearing), glow.widthDegrees * 0.5f * (Pi / 180.0f),
+        glow.heightDegrees * (Pi / 180.0f)};
+    values[1] = {glow.color[0] * frame.rimGlowStrength, glow.color[1] * frame.rimGlowStrength,
+        glow.color[2] * frame.rimGlowStrength, glow.belowDegrees * (Pi / 180.0f)};
+    return values;
+}
+
 std::array<float, 3> skySunDirection(float gameMinutes)
 {
     const float angle = (minuteOfDay(gameMinutes) - 300.0f) * Pi / 960.0f;
@@ -371,6 +389,14 @@ const SkyFrameState &SkyStateModel::update(const SkyInputs &inputs, float realDe
 
     if (pTheme != nullptr && !inputs.underwater)
     {
+        if (pTheme->rimGlow)
+        {
+            // The preset's own star weight (before the theme scales the stars): 0 by day, 1 at night.
+            const float night = std::clamp(frame.scalar(SkyValue::Stars), 0.0f, 1.0f);
+            frame.rimGlow = *pTheme->rimGlow;
+            frame.rimGlowStrength = lerp(frame.rimGlow.dayStrength, frame.rimGlow.nightStrength, night);
+        }
+
         applySkyTheme(*pTheme, frame);
         frame.fogAmount = pTheme->haze;
     }
@@ -469,6 +495,9 @@ const SkyFrameState &SkyStateModel::update(const SkyInputs &inputs, float realDe
         // No sky to match (underwater): the world keeps its flat fog colour.
         frame.skyMix = 0.0f;
     }
+
+    // The rim glow fades in haze and fog as the sun's glow does.
+    frame.rimGlowStrength *= (1.0f - frame.fogAmount * 0.85f) * (1.0f - fogCover);
 
     // The ring and its lights shine like the stars: full at night, a pale ghost by day, gone in fog.
     frame.orbitRing.opacity *= frame.scalar(SkyValue::Stars);

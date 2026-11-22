@@ -28,6 +28,8 @@ class MenuDesignScreen : public MenuScreenBase
     // offsetY and offsetX move the element's text, in design units (a repeated or indented row).
     void label(const std::string &id, const std::string &text, uint32_t color = 0, float offsetY = 0,
                float offsetX = 0);
+    // The element's text in another rect (pixels), its type and padding scaled by scale (a placed copy of a template).
+    void labelIn(const std::string &id, Rect rect, const std::string &text, uint32_t color = 0, float scale = 1);
     void textInRect(const Rect &rect, const std::string &text, const std::string &font = "menu_arrus",
                     float logicalSize = 12, uint32_t color = 0xffc6dfeau, bool centered = false);
     // The height in pixels of text word-wrapped to width (pixels), laid out as textInRect does.

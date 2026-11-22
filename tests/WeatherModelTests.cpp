@@ -375,6 +375,12 @@ TEST_CASE("ash falls only on maps weather.yml gives it and leaves every other ro
     const WeatherMapSettings ashland = resolveWeatherMapSettings(rules, 63, "AshLand.odm", true, true);
     REQUIRE(ashland.ashEnabled);
     CHECK(ashland.ashChancePercent == doctest::Approx(60.0f));
+    // D-40: a map's scene may give its own ash chance (a studio map's atmosphere.yml `ash`); weather.yml's wins.
+    const WeatherMapSettings sceneAsh = resolveWeatherMapSettings(rules, 7, "xeen_x7.odm", false, false, 40.0f);
+    CHECK(sceneAsh.ashEnabled);
+    CHECK(sceneAsh.ashChancePercent == doctest::Approx(40.0f));
+    CHECK(resolveWeatherMapSettings(rules, 63, "AshLand.odm", true, true, 40.0f).ashChancePercent
+        == doctest::Approx(60.0f));
     WeatherMapSettings withoutAsh = ashland;
     withoutAsh.ashEnabled = false;
     int ashDays = 0;

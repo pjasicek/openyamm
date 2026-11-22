@@ -36,10 +36,17 @@ struct JournalTrainerTarget
     size_t index = 0;
 };
 
+// The Quests and Notes pages' owner tabs: the new-game cards' continents in the cards' order (Xeen, Enroth,
+// Antagarich, Jadame, Chedian with every world mounted), then Shared. A tab's target is its card continent's id, or
+// JournalSharedOwner; 0 is the party's continent.
+constexpr uint32_t JournalSharedOwner = 0xffffffffu;
+
 bool journalOwnerTabsShown(const GameplayUiController::JournalScreenState &journal);
+// The owner the page shows: a quests.txt / autonote.txt Owner, its card's English title, or "Shared".
 std::string journalOwner(const GameplayScreenRuntime &context,
     const GameplayUiController::JournalScreenState &journal);
-uint32_t journalOwnerTargetAt(const GameplayResolvedHudLayoutElement &page, float x, float y);
+uint32_t journalOwnerTargetAt(const GameplayScreenRuntime &context, const GameplayResolvedHudLayoutElement &page,
+    float x, float y);
 void renderJournalOwners(GameplayScreenRuntime &context, const GameplayUiController::JournalScreenState &journal,
     const GameplayResolvedHudLayoutElement &page, float x, float y);
 

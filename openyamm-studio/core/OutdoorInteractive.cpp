@@ -123,8 +123,8 @@ std::vector<InteractiveThing> listOutdoorInteractiveThings(
         }
 
         thing.safeToUse = thing.kind != "chest" && thing.kind != "exit" && thing.kind != "teleport"
-            && thing.kind != "house" && !effectStarts("AskQuestion") && !effectStarts("MoveToMap")
-            && !effectStarts("EnterHouse");
+            && thing.kind != "house" && !effectStarts("AskQuestion") && !effectStarts("AskChoice")
+            && !effectStarts("MoveToMap") && !effectStarts("EnterHouse");
     };
 
     // The models' faces by event.

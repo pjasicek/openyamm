@@ -1,0 +1,24 @@
+id: playthrough_tools.heal_at_temple
+title: "heal_at_temple: a temple's Heal for every member it can treat, each selected in turn, at its prices"
+world: mm8
+mode: faithful
+steps:
+  - note:
+      text: >-
+        A playthrough segment whose party came out of its fights Weak or Petrified heals it before going on (A3's
+        --reload chain). Two members need the temple, the third is well; the active member is kept.
+  - new_game_flow:
+      start_map: out01.odm
+      party:
+        gold: 5000
+        members:
+          - {name: Knight, class: Knight, level: 1, skills: [{name: Sword, level: 1, mastery: 1}], equipment: {}}
+          - {name: Cleric, class: Cleric, level: 1, skills: [{name: Mace, level: 1, mastery: 1}], equipment: {}}
+          - {name: Archer, class: Archer, level: 1, skills: [{name: Bow, level: 1, mastery: 1}], equipment: {}}
+  - advance_runtime: {seconds: 1}
+  - setup_shortcut: {kind: set_condition, member_index: 1, condition: weak}
+  - setup_shortcut: {kind: set_condition, member_index: 2, condition: petrified}
+  - assert: {condition: {name: petrified, present: true, member_index: 2}}
+  - heal_at_temple: {house: 303, min: 2}
+  - assert: {condition: {name: weak, present: false, member_index: 1}}
+  - assert: {condition: {name: petrified, present: false, member_index: 2}}

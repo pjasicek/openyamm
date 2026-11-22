@@ -16,6 +16,7 @@ class StandardItemEnchantTable;
 class SpecialItemEnchantTable;
 class MergedHouseExitTable;
 class MergedHouseRuleTable;
+class MergedTransportIndexTable;
 class MergedTransportLocationTable;
 
 enum class VendorStockProfile : uint8_t
@@ -129,6 +130,9 @@ struct HouseEntry
     uint32_t mapId = 0;
     uint32_t proprietorPictureId = 0;
     uint32_t roomSoundId = 0;
+    // house_animations' Enter Sound: a sounds.txt name played on entering (a world's own sound, else the engine's;
+    // empty in every MM6-MM8 row).
+    std::string enterSoundName;
     uint32_t houseSoundBaseId = 0;
     std::string type;
     std::string name;
@@ -216,8 +220,12 @@ public:
     size_t removeSpecialEnchantsTheRulesetDoesNotRoll(
         const ItemTable &itemTable,
         const SpecialItemEnchantTable &specialItemEnchantTable);
+    // House rules by the house's rule id (type index, else map id). A stable or boat house with no row in its
+    // transport section takes its routes from its own transport_index row (a world's houses); a training hall with
+    // no row keeps the maximum level of its house_data row (column 17, "Max Lvl").
     bool applyHouseRules(
         const MergedHouseRuleTable &houseRules,
+        const MergedTransportIndexTable &transportIndex,
         const MergedTransportLocationTable &transportLocations,
         const MapStats &mapStats
     );

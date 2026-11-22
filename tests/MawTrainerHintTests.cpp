@@ -6,6 +6,7 @@
 #include "tests/RegressionGameData.h"
 
 #include <algorithm>
+#include <array>
 #include <string>
 #include <vector>
 
@@ -110,6 +111,9 @@ PickedTrainer trainer(const std::string &name, const std::string &houseName, con
     picked.entry.houseName = houseName;
     picked.entry.mapName = mapName;
     picked.entry.continent = continent;
+    // mawExplainTrainerHint names the continent from the trainer directory (its new-game card's title).
+    const std::array<const char *, 6> continentNames = {"", "Jadame", "Antagarich", "Enroth", "", "Chedian"};
+    picked.continentName = continent && *continent < continentNames.size() ? continentNames[*continent] : "";
     picked.rank = rank;
     picked.link = link;
     picked.outside = outside;

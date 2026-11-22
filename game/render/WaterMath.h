@@ -7,6 +7,7 @@
 #include <cmath>
 #include <cstddef>
 #include <cstdint>
+#include <limits>
 
 namespace OpenYAMM::Game
 {
@@ -173,8 +174,9 @@ struct WaterReflectionScissor
     uint16_t height = 0;
 };
 
+// normal: the reflecting plane's normal toward the real camera (water: up).
 inline WaterReflectionScissor waterReflectionScissor(const float *pViewProjection,
-    const bx::Vec3 &reflectedCamera, uint16_t size)
+    const bx::Vec3 &reflectedCamera, uint16_t size, const bx::Vec3 &normal = {0.0f, 0.0f, 1.0f})
 {
     float inverse[16];
     bx::mtxInverse(inverse, pViewProjection);
@@ -186,7 +188,8 @@ inline WaterReflectionScissor waterReflectionScissor(const float *pViewProjectio
         const float clip[] = {corners[index][0], corners[index][1], 1.0f, 1.0f};
         float world[4];
         bx::vec4MulMtx(world, clip, inverse);
-        rayHeights[index] = world[2] - reflectedCamera.z * world[3];
+        rayHeights[index] = bx::dot(normal, bx::sub(bx::Vec3{world[0], world[1], world[2]},
+            bx::mul(reflectedCamera, world[3])));
     }
     float minX = 1.0f;
     float minY = 1.0f;
@@ -199,7 +202,7 @@ inline WaterReflectionScissor waterReflectionScissor(const float *pViewProjectio
         maxX = std::max(maxX, x);
         maxY = std::max(maxY, y);
     };
-    // The reflected camera is below the surface: only ascending rays can reach water.
+    // The reflected camera is behind the surface: only rays heading toward its front can reach it.
     // Clip the screen rectangle against that horizon before taking its pixel bounds.
     for (size_t index = 0; index < corners.size(); ++index)
     {
@@ -224,6 +227,46 @@ inline WaterReflectionScissor waterReflectionScissor(const float *pViewProjectio
     const int top = std::clamp(int(std::floor((1.0f - maxY) * 0.5f * size)) - margin, 0, int(size));
     const int right = std::clamp(int(std::ceil((maxX + 1.0f) * 0.5f * size)) + margin, 0, int(size));
     const int bottom = std::clamp(int(std::ceil((1.0f - minY) * 0.5f * size)) + margin, 0, int(size));
+    return {uint16_t(left), uint16_t(top), uint16_t(right - left), uint16_t(bottom - top)};
+}
+
+// The part of a capture's scissor (above) where a box's faces can sample it: its projected corners plus the distortion
+// margin. A box that reaches behind the capture's eye keeps the whole scissor.
+inline WaterReflectionScissor waterReflectionBoundsScissor(const float *pViewProjection, const bx::Vec3 &min,
+    const bx::Vec3 &max, uint16_t size, const WaterReflectionScissor &scissor)
+{
+    if (min.x > max.x || min.y > max.y || min.z > max.z)
+    {
+        return {};
+    }
+    float minX = std::numeric_limits<float>::max();
+    float minY = std::numeric_limits<float>::max();
+    float maxX = -std::numeric_limits<float>::max();
+    float maxY = -std::numeric_limits<float>::max();
+    for (size_t corner = 0; corner < 8; ++corner)
+    {
+        const float world[] = {(corner & 1) != 0 ? max.x : min.x, (corner & 2) != 0 ? max.y : min.y,
+            (corner & 4) != 0 ? max.z : min.z, 1.0f};
+        float clip[4];
+        bx::vec4MulMtx(clip, world, pViewProjection);
+        if (clip[3] <= 0.001f)
+        {
+            return scissor;
+        }
+        minX = std::min(minX, clip[0] / clip[3]);
+        minY = std::min(minY, clip[1] / clip[3]);
+        maxX = std::max(maxX, clip[0] / clip[3]);
+        maxY = std::max(maxY, clip[1] / clip[3]);
+    }
+    const int margin = int(std::ceil(size * WaterReflectionDistortion)) + 2;
+    const int left = std::max(int(std::floor((minX + 1.0f) * 0.5f * size)) - margin, int(scissor.x));
+    const int top = std::max(int(std::floor((1.0f - maxY) * 0.5f * size)) - margin, int(scissor.y));
+    const int right = std::min(int(std::ceil((maxX + 1.0f) * 0.5f * size)) + margin, scissor.x + scissor.width);
+    const int bottom = std::min(int(std::ceil((1.0f - minY) * 0.5f * size)) + margin, scissor.y + scissor.height);
+    if (right <= left || bottom <= top)
+    {
+        return {};
+    }
     return {uint16_t(left), uint16_t(top), uint16_t(right - left), uint16_t(bottom - top)};
 }
 
@@ -294,17 +337,62 @@ constexpr std::array<uint16_t, FirstPersonViewModelView + 1> worldRenderViewOrde
     return order;
 }
 
+// A reflecting plane: unit normal (x, y, z) toward the side that sees it and w = -dot(normal, point on it), so a point
+// p is in front where dot(normal, p) + w > 0. It is also the reflection passes' world clip plane.
+using ReflectionPlane = std::array<float, 4>;
+
+inline ReflectionPlane waterReflectionPlane(float height)
+{
+    return {0.0f, 0.0f, 1.0f, -height};
+}
+
+inline float reflectionPlaneDistance(const ReflectionPlane &plane, const bx::Vec3 &point)
+{
+    return plane[0] * point.x + plane[1] * point.y + plane[2] * point.z + plane[3];
+}
+
+inline bx::Vec3 reflectPlanePoint(const bx::Vec3 &point, const ReflectionPlane &plane)
+{
+    const float twice = 2.0f * reflectionPlaneDistance(plane, point);
+    return {point.x - twice * plane[0], point.y - twice * plane[1], point.z - twice * plane[2]};
+}
+
+inline bx::Vec3 reflectPlaneDirection(const bx::Vec3 &direction, const ReflectionPlane &plane)
+{
+    const float twice = 2.0f * (plane[0] * direction.x + plane[1] * direction.y + plane[2] * direction.z);
+    return {direction.x - twice * plane[0], direction.y - twice * plane[1], direction.z - twice * plane[2]};
+}
+
+// Some part of the box lies in front of the plane (its corner farthest along the normal).
+inline bool reflectionPlaneBoundsInFront(const ReflectionPlane &plane, const bx::Vec3 &min, const bx::Vec3 &max)
+{
+    return reflectionPlaneDistance(plane, {plane[0] >= 0.0f ? max.x : min.x, plane[1] >= 0.0f ? max.y : min.y,
+        plane[2] >= 0.0f ? max.z : min.z}) >= 0.0f;
+}
+
 inline bx::Vec3 reflectWaterPoint(const bx::Vec3 &point, float height)
 {
-    return {point.x, point.y, 2.0f * height - point.z};
+    return reflectPlanePoint(point, waterReflectionPlane(height));
+}
+
+// The view of the world mirrored in the plane: world points are reflected first, then seen through pView.
+inline void reflectionPlaneView(float *pResult, const float *pView, const ReflectionPlane &plane)
+{
+    float mirror[16];
+    bx::mtxIdentity(mirror);
+    for (size_t row = 0; row < 3; ++row)
+    {
+        for (size_t column = 0; column < 3; ++column)
+        {
+            mirror[row * 4 + column] -= 2.0f * plane[row] * plane[column];
+        }
+        mirror[12 + row] = -2.0f * plane[3] * plane[row];
+    }
+    bx::mtxMul(pResult, mirror, pView);
 }
 
 inline void waterReflectionView(float *pResult, const float *pView, float height)
 {
-    float mirror[16];
-    bx::mtxIdentity(mirror);
-    mirror[10] = -1.0f;
-    mirror[14] = 2.0f * height;
-    bx::mtxMul(pResult, mirror, pView);
+    reflectionPlaneView(pResult, pView, waterReflectionPlane(height));
 }
 }

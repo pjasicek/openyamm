@@ -1,5 +1,6 @@
 #include "core/IndoorLowering.h"
 
+#include "core/ChestKinds.h"
 #include "core/CoreMath.h"
 #include "core/Polygon.h"
 #include "core/Looks.h"
@@ -8,6 +9,7 @@
 
 #include "core/Json.h"
 
+#include "game/maps/IndoorSceneYml.h"
 #include "game/maps/MistYml.h"
 
 #include <algorithm>
@@ -16,6 +18,7 @@
 #include <optional>
 #include <charconv>
 #include <cmath>
+#include <regex>
 #include <set>
 #include <sstream>
 
@@ -28,8 +31,10 @@ constexpr double Epsilon = 1.0e-6;
 // far from its size when its density is this many times its own (or that many times less).
 constexpr double StretchRatio = 1.6;
 constexpr double StretchDensity = 3.0;
-// A switch plate, an exit face and other panels stand this far in front of their wall.
+// A switch plate, an exit face, a covering wall panel and other panels stand this far in front of their wall.
 constexpr double PanelOffset = 2.0;
+// The BLV entity flag of a decoration that is not there until an event shows it (MM LEVEL_DECORATION_INVISIBLE).
+constexpr uint16_t DecorationStartsHidden = 0x0020;
 constexpr double MaximumWallThickness = 512.0;
 // A torch or sconce hung on a wall (`wall`) without `height`: the shipped maps' commonest height over the floor.
 constexpr double WallTorchHeight = 128.0;
@@ -151,150 +156,6 @@ std::optional<size_t> sideOnRoomWall(const LoweredRoom &room, const std::array<d
     return std::nullopt;
 }
 
-// A family of chest textures (`chests[].kind`), as the shipped chests are laid (measured on 2026-11-13 in Gharik's
-// Forge and Castle Darkmoor for MM6, the Temple of the Moon, Celeste and the Tularean caves for MM7, the Abandoned
-// Temple and others for MM8). The long sides show a left end 16 wide, a middle and a right end 16 wide (the end as
-// seen from in front of that side on its left); the top the same, its left-end piece at the right as seen from in
-// front of the chest (the picture runs on from the front over the top edge); the two short ends one picture. MM6's
-// chests are a box 96 by 64 and 64 high with a flat lid, their ends their own textures 16 wide. MM7's and MM8's are a
-// box 96 by 64 and 64 high with a lid 16 high whose front and back slope at 45 degrees up to a top 32 deep; their
-// ends are the first and the last 16 columns of one texture 64 wide.
-struct ChestKind
-{
-    std::string frontLeft;
-    std::string frontMiddle;
-    std::string frontRight;
-    std::string side;
-    std::string topLeft;
-    std::string topMiddle;
-    std::string topRight;
-    // A sloping lid: the front slope's middle and the upper strip of the short ends (the back slope and the top
-    // take the front's middle and ends).
-    bool sloped = false;
-    std::string slopeMiddle;
-    std::string sideTop;
-    std::array<double, 3> size = {96.0, 64.0, 64.0};
-    // MM6's "v" lid (`lid: v`): pictures turned a quarter, laid as the shipped chests lay them (the Forge's chest at
-    // (-1440, 6704), faces 1910 to 1913): across the lid from the front (u 0) to the back, and along it from the left
-    // end seen from the front (the +width end: the left end strip, the middle, the right end strip, each picture's
-    // rows starting at its +width edge), the end strips 64 across and 16 along.
-    bool lidAcross = false;
-};
-
-std::optional<ChestKind> chestKindOf(const std::string &name)
-{
-    ChestKind kind;
-
-    if (name == "ch1" || name == "ch2" || name == "ch3" || name == "ch4" || name == "ch5")
-    {
-        kind.frontLeft = name + "frle";
-        kind.frontMiddle = name + (name == "ch5" ? "frnt" : "frntb");
-        kind.frontRight = name + "frre";
-        kind.side = name + "side";
-        kind.topLeft = name + (name == "ch5" ? "toplb" : "tople");
-        kind.topMiddle = name + (name == "ch4" ? "top" : "topb");
-        kind.topRight = name + (name == "ch5" ? "toprb" : "topre");
-        return kind;
-    }
-
-    const bool gt = name == "7gt002" || name == "gt002";
-    const bool numbered = name.size() == 5 && name.starts_with("ch00") && name[4] >= '1' && name[4] <= '6';
-
-    if (!gt && !numbered)
-    {
-        return std::nullopt;
-    }
-
-    // 7gt002 and gt002 by the letters a (middle), b (ends), c (short ends), e (front slope), g (short ends' upper
-    // strip); the ch001 to ch006 families each one letter on (b, c, d, f, h).
-    const auto letter = [&name, gt](char gtLetter)
-    {
-        return name + std::string(1, static_cast<char>(gt ? gtLetter : gtLetter + 1));
-    };
-
-    kind.frontLeft = letter('b');
-    kind.frontMiddle = letter('a');
-    kind.frontRight = kind.frontLeft;
-    kind.side = letter('c');
-    kind.topLeft = kind.frontLeft;
-    kind.topMiddle = kind.frontMiddle;
-    kind.topRight = kind.frontLeft;
-    kind.sloped = true;
-    kind.slopeMiddle = letter('e');
-    kind.sideTop = letter('g');
-    kind.size = {96.0, 64.0, 80.0};
-    return kind;
-}
-
-std::string chestKindList()
-{
-    return "the kinds are ch1, ch2, ch3, ch4 and ch5 (MM6's flat-lidded chests), 7gt002 (MM7's), gt002 (MM8's) and "
-        "ch001 to ch006 (chests with a sloping lid)";
-}
-
-// The kind whose front middle a texture is (`ch3frntB` is ch3's): a surface that names one stretches it over the
-// whole chest.
-std::string chestFamilyOfMiddle(const std::string &texture)
-{
-    std::string lower = texture;
-    std::transform(lower.begin(), lower.end(), lower.begin(), [](unsigned char c)
-    {
-        return static_cast<char>(std::tolower(c));
-    });
-
-    for (const char *pName : {"ch1", "ch2", "ch3", "ch4", "ch5", "7gt002", "gt002", "ch001", "ch002", "ch003",
-             "ch004", "ch005", "ch006"})
-    {
-        const std::optional<ChestKind> kind = chestKindOf(pName);
-
-        if (kind && (lower == kind->frontMiddle || (!kind->sloped && lower == std::string(pName) + "frnt")))
-        {
-            return pName;
-        }
-    }
-
-    return {};
-}
-
-// Whether a texture is one of the shipped chests' pictures (a chest kind's family: ch1 to ch5, 7gt002, gt002, ch001
-// to ch006), which the player reads as a chest.
-bool isChestTexture(const std::string &texture)
-{
-    std::string lower = texture;
-    std::transform(lower.begin(), lower.end(), lower.begin(), [](unsigned char c)
-    {
-        return static_cast<char>(std::tolower(c));
-    });
-
-    // The kinds' own pictures (chestKindOf), and MM6's lid and back variants (ch3tpbv, ch1bkre).
-    for (const char *pName : {"ch1", "ch2", "ch3", "ch4", "ch5", "7gt002", "gt002", "ch001", "ch002", "ch003",
-             "ch004", "ch005", "ch006"})
-    {
-        const std::optional<ChestKind> kind = chestKindOf(pName);
-
-        for (const std::string &picture : {kind->frontLeft, kind->frontMiddle, kind->frontRight, kind->side,
-                 kind->topLeft, kind->topMiddle, kind->topRight, kind->slopeMiddle, kind->sideTop})
-        {
-            if (!picture.empty() && lower == picture)
-            {
-                return true;
-            }
-        }
-
-        const std::string family = pName;
-
-        const std::string rest = lower.size() > 3 ? lower.substr(3) : std::string();
-
-        if (family.size() == 3 && lower.starts_with(family)
-            && (rest.starts_with("fr") || rest.starts_with("tp") || rest.starts_with("top") || rest.starts_with("bk")
-                || rest.starts_with("side")))
-        {
-            return true;
-        }
-    }
-
-    return false;
-}
 
 // How far a point lies across the room toward one of its walls: 0 at the side away from the wall, 1 at the wall.
 double fractionToward(const LoweredRoom &room, size_t edge, double x, double y)
@@ -1465,6 +1326,15 @@ public:
             }
         }
 
+        for (const std::string &id : m_hiddenChestIds)
+        {
+            if (!m_shownChestIds.contains(id))
+            {
+                m_lowered.warnings.push_back(id + " starts hidden (`hidden: true`) and no event shows it ({show: "
+                    + id + "}): it stays away unless a `lua` text does it");
+            }
+        }
+
         warnMissingArrivalText();
         warnMonsterHostility();
 
@@ -1631,32 +1501,57 @@ private:
 
     // A surface may leave out its `size` only for a liquid (engine/liquids/liquids.yml: the game's liquid shader
     // draws water, tar or lava on a face of that texture name, from no picture). Without the table (no asset root)
-    // nothing is checked and a missing size is 128 x 128.
+    // a missing size is not checked and is 128 x 128.
+    // One texture given two sizes in a map is a warning: the build keeps one size per texture for the whole map, so
+    // the other uses come out stretched or repeated (XD-09's exit door: hdr1dl at 224 x 384 with `fit` made the
+    // hinged pair's leaves show it 1.75 times across).
     void checkSurfaceSizes()
     {
-        if (m_options.liquidTableText.empty())
-        {
-            return;
-        }
-
-        const LiquidTextures liquids =
-            readLiquidTextures(m_options.liquidTableText, textOr(m_project.document("project.yml"), "world", ""));
+        const bool checkMissing = !m_options.liquidTableText.empty();
+        const LiquidTextures liquids = checkMissing
+            ? readLiquidTextures(m_options.liquidTableText, textOr(m_project.document("project.yml"), "world", ""))
+            : LiquidTextures{};
         const auto isLiquid = [&liquids](const std::string &texture)
         {
             return liquids.matches(texture);
         };
-        const auto walk = [this, &isLiquid](const auto &self, const char *pFile, const YAML::Node &node,
-                              const std::string &path) -> void
+        // Each texture's first declared size and where.
+        std::map<std::string, std::pair<std::string, std::string>> sizes;
+        const auto walk = [this, &isLiquid, &sizes, checkMissing](const auto &self, const char *pFile,
+                              const YAML::Node &node, const std::string &path) -> void
         {
             if (node.IsMap())
             {
                 const YAML::Node texture = node["texture"];
+                const YAML::Node size = node["size"];
 
-                if (texture && texture.IsScalar() && !node["size"] && !isLiquid(texture.Scalar()))
+                if (checkMissing && texture && texture.IsScalar() && !size && !isLiquid(texture.Scalar()))
                 {
                     issue(pFile, path, "the surface " + texture.Scalar() + " needs `size`, its [width, height] in "
                         "texels (`oymap assets " + texture.Scalar() + "` gives them); only a liquid, which the game "
                         "draws with no picture, may leave it out", "schema");
+                }
+
+                if (texture && texture.IsScalar() && size && size.IsSequence() && size.size() == 2)
+                {
+                    std::string name = texture.Scalar();
+                    std::transform(name.begin(), name.end(), name.begin(), [](unsigned char character)
+                    {
+                        return static_cast<char>(std::tolower(character));
+                    });
+                    const std::string declared = "[" + formatNumber(scalarNumber(size[0])) + ", "
+                        + formatNumber(scalarNumber(size[1])) + "]";
+                    const std::string where = std::string(pFile) + " " + path;
+                    const auto [found, inserted] = sizes.emplace(name, std::make_pair(declared, where));
+
+                    if (!inserted && found->second.first != declared)
+                    {
+                        m_lowered.warnings.push_back(where + ": " + texture.Scalar() + " is given size " + declared
+                            + " here and " + found->second.first + " at " + found->second.second + "; the build "
+                            "keeps one size per texture in a map, so one of them comes out stretched or repeated. "
+                            "Give every use the picture's own size (`oymap assets " + texture.Scalar() + "`) and use "
+                            "`scale` or `fit` to fit it.");
+                    }
                 }
 
                 for (YAML::const_iterator entry = node.begin(); entry != node.end(); ++entry)
@@ -1729,6 +1624,31 @@ private:
             : flow == "right" ? FaceFlowRight : 0u;
         // Where an open sky shows (S6 item S: the game's IndoorSky bit, devdocs/INDOOR_OPEN_SKY.md).
         surface.faceBits |= textOr(node, "sky", "false") == "true" ? FaceIndoorSky : 0u;
+        // Drawn see-through (the scene's `translucent_faces`): an opacity, or {opacity, tint, two_sided}.
+        const YAML::Node translucent = node["translucent"];
+
+        if (translucent && translucent.IsScalar())
+        {
+            surface.translucency = GlbFaceTranslucency{std::clamp(scalarNumber(translucent), 0.0, 1.0)};
+        }
+        else if (translucent && translucent.IsMap())
+        {
+            GlbFaceTranslucency translucency;
+            translucency.opacity = std::clamp(numberOr(translucent, "opacity", 1.0), 0.0, 1.0);
+            const YAML::Node tint = translucent["tint"];
+
+            if (tint && tint.IsSequence() && tint.size() == 3)
+            {
+                for (size_t channel = 0; channel < 3; ++channel)
+                {
+                    translucency.tint[channel] = std::max(0.0, scalarNumber(tint[channel]));
+                }
+            }
+
+            translucency.twoSided = textOr(translucent, "two_sided", "false") == "true";
+            surface.translucency = translucency;
+        }
+
         return surface;
     }
 
@@ -3726,6 +3646,13 @@ private:
                     const LoweredWallPanel &second = room.wallPanels[panel];
                     const double lowest = -1.0e9;
                     const double highest = 1.0e9;
+
+                    // A covering panel lies in front of the wall and may cover another panel; two covers may not
+                    // share wall.
+                    if (first.cover != second.cover)
+                    {
+                        continue;
+                    }
 
                     if (first.edge == second.edge && first.low < second.high - Epsilon
                         && second.low < first.high - Epsilon
@@ -6026,6 +5953,22 @@ private:
             }
         }
 
+        // A covering panel (`cover: true`, DD-13's hides): the wall is built whole behind it and the panel is a part
+        // of its own 2 in front, so breaking it leaves the wall.
+        if (panelNode["cover"] && panelNode["cover"].Scalar() == "true")
+        {
+            if (panel.id.empty())
+            {
+                issue("rooms.yml", panelPath + ".cover", "a covering panel needs an `id` (its faces are a part of "
+                    "their own, in front of the wall)", "schema");
+            }
+            else
+            {
+                panel.cover = true;
+                m_clickedPanels.emplace(panel.id, 0);
+            }
+        }
+
         room.wallPanels.push_back(panel);
     }
 
@@ -7944,6 +7887,58 @@ private:
                 }
             }
         }
+
+        // A wall panel (`panels`) over part of a doorway (A7, DD-06's gong over its stair door): the doorway cuts the
+        // panel's picture and the rest shows round it. A panel that holds the whole doorway with a tiled surface is a
+        // stretch of wall with the doorway in it, as the wall itself would be.
+        for (size_t roomIndex = 0; roomIndex < m_lowered.rooms.size(); ++roomIndex)
+        {
+            const LoweredRoom &room = m_lowered.rooms[roomIndex];
+
+            for (const LoweredWallPanel &panel : room.wallPanels)
+            {
+                // (The corner strips of `ends` are the wall's own.)
+                if (panel.path.find(".panels[") == std::string::npos)
+                {
+                    continue;
+                }
+
+                for (const Hole &hole : holesOf(roomIndex, panel.edge))
+                {
+                    const double from = panel.bottom.value_or(-1.0e9);
+                    const double to = panel.top.value_or(1.0e9);
+                    const double along = std::min(panel.high, hole.high) - std::max(panel.low, hole.low);
+
+                    if (along <= Epsilon || to <= hole.bottom + Epsilon || from >= hole.apex - Epsilon)
+                    {
+                        continue;
+                    }
+
+                    const bool holdsIt = panel.low <= hole.low + Epsilon && panel.high >= hole.high - Epsilon
+                        && from <= hole.bottom + Epsilon && to >= hole.apex - Epsilon;
+
+                    if (holdsIt && !panel.surface.fit)
+                    {
+                        continue;
+                    }
+
+                    const std::string heights = panel.bottom || panel.top
+                        ? ", z " + (panel.bottom ? formatNumber(*panel.bottom) : std::string("from the wall's foot"))
+                            + " to " + (panel.top ? formatNumber(*panel.top) : std::string("its top"))
+                        : std::string();
+                    m_lowered.warnings.push_back("rooms.yml: " + panel.path + ": "
+                        + (panel.id.empty() ? std::string("the panel") : panel.id) + " stands over "
+                        + formatNumber(std::round(along)) + " of the " + formatNumber(std::round(hole.high - hole.low))
+                        + " of " + m_lowered.openings[hole.opening].id + " in wall " + std::to_string(panel.edge)
+                        + " of " + room.id + " (the panel " + formatNumber(std::round(panel.low)) + " to "
+                        + formatNumber(std::round(panel.high)) + " along the wall" + heights + ", the doorway "
+                        + formatNumber(std::round(hole.low)) + " to " + formatNumber(std::round(hole.high)) + ", z "
+                        + formatNumber(hole.bottom) + " to " + formatNumber(hole.apex) + "): the doorway cuts "
+                        + (holdsIt ? "the picture meant once (`fit`)" : "the panel's picture") + " and the rest "
+                        "shows round it. Move the panel off the doorway (`offset`, `length`, `bottom`, `height`)");
+                }
+            }
+        }
     }
 
     // An opening in a floor (`in: floor`): a hole in the floor of the `from` room onto the `to` room under it.
@@ -8714,7 +8709,12 @@ private:
                 continue;
             }
 
-            // (A block that stretches stands at its start as drawn.)
+            // (A block that stretches stands at its start as drawn. One that starts turned has no level top.)
+            if (mover.turning && mover.atEnd)
+            {
+                continue;
+            }
+
             const bool moved = mover.atEnd && !m_lowered.lifts[mover.lift].stretch;
             const Vec3 shift = moved ? mover.travel : Vec3{};
             const Point2 back = {point[0] - shift.x, point[1] - shift.y};
@@ -8838,6 +8838,9 @@ private:
         // it is a node of its own, whose faces carry the engine's flag, and the floor runs on under it.
         bool unseen = false;
         bool passable = false;
+        // A chest with `hidden: true`: neither drawn nor touched (nor clicked) until an effect's `show` (P5's wedding
+        // gift): both of the engine's flags at the start.
+        bool startsHidden = false;
         // The cog number of its faces when an effect changes them (set_texture, passable, solid, show, hide): it is
         // then a node of its own.
         int cog = 0;
@@ -8853,6 +8856,35 @@ private:
         // Drawn as water (the engine's fluid flag); the party walks on it as on any floor.
         bool water = false;
     };
+
+    // What the top of a level or platform (or the floor of a sunken level) in a room runs: its own step event, lava
+    // and water; with `takesRoomStep` (a block that stands on the room's floor and rises less than a step from it)
+    // also the room's step event when it runs none of its own: a landing on a heap in the room is a step in the room
+    // (A7's DD-11B clay drop). Not a higher platform, a hanging one or a level: a sky map's clouds and XD-12's
+    // balcony stand in rooms whose floor is the fall below. Empty for plain floor.
+    std::optional<FloorPart> featureFloorPart(
+        const std::string &featureId, const std::string &roomId, bool takesRoomStep) const
+    {
+        std::optional<FloorPart> part;
+        const std::map<std::string, FloorPart>::const_iterator own =
+            featureId.empty() ? m_floorParts.end() : m_floorParts.find(featureId);
+
+        if (own != m_floorParts.end())
+        {
+            part = own->second;
+        }
+
+        const std::map<std::string, FloorPart>::const_iterator roomPart = m_floorParts.find(roomId);
+
+        if (takesRoomStep && (!part || part->eventId <= 0) && roomPart != m_floorParts.end()
+            && roomPart->second.eventId > 0)
+        {
+            part = part.value_or(FloorPart());
+            part->eventId = roomPart->second.eventId;
+        }
+
+        return part;
+    }
 
     // A region of a room's floor that lies lower, or of its ceiling that lies higher.
     struct Recess
@@ -9031,6 +9063,12 @@ private:
         Vec3 travel;
         double speed = 96.0;
         bool atEnd = false;
+        // `turn`: it turns about a line through `pivot` (absolute) along x, y or z (`turnAxis` 0, 1, 2) by `degrees`
+        // instead of travelling; `travel` is then nothing.
+        bool turning = false;
+        Vec3 pivot;
+        int turnAxis = 0;
+        double degrees = 0.0;
         LoweredSurface surface;
         LoweredSurface topSurface;
         std::optional<LoweredSurface> endSurface;
@@ -9445,6 +9483,13 @@ private:
             {
                 issue("objects.yml", path, id + " stretches (`stretch: true`): only its end face moves, so nothing "
                     "can ride on it. Put the object on a mover that moves whole, or on a wall", "geometry");
+                return std::nullopt;
+            }
+
+            if (mover.turning)
+            {
+                issue("objects.yml", path, id + " turns (`turn`), and the game carries nothing on a turning mover: "
+                    "put the object on a mover that travels, or beside it", "geometry");
                 return std::nullopt;
             }
 
@@ -10306,7 +10351,42 @@ private:
             }
         }
 
-        return result;
+        return actorIndicesIn(result, path);
+    }
+
+    // `ActorIndex("monster:x")` in the project's Lua: the placed monster's actor index (the scene's actors in
+    // objects.yml's order), for the game's calls that take one (evt.SetActorTarget, the actor hooks).
+    std::string actorIndicesIn(const std::string &text, const std::string &path)
+    {
+        static const std::regex call("ActorIndex\\(\\s*[\"']([^\"']+)[\"']\\s*\\)");
+        std::string expanded;
+        size_t last = 0;
+
+        for (std::sregex_iterator match(text.begin(), text.end(), call), end; match != end; ++match)
+        {
+            const std::string actorId = (*match)[1].str();
+            const std::vector<LoweredMonster>::const_iterator placed = std::find_if(m_lowered.monsters.begin(),
+                m_lowered.monsters.end(), [&actorId](const LoweredMonster &monster)
+                {
+                    return monster.id == actorId;
+                });
+            expanded += text.substr(last, static_cast<size_t>(match->position()) - last);
+
+            if (placed == m_lowered.monsters.end())
+            {
+                issue("wiring.yml", path, "the Lua names the placed monster " + actorId + " (ActorIndex), which is "
+                    "not in objects.yml `monsters`", "reference");
+                expanded += match->str();
+            }
+            else
+            {
+                expanded += std::to_string(placed - m_lowered.monsters.begin());
+            }
+
+            last = static_cast<size_t>(match->position() + match->length());
+        }
+
+        return expanded + text.substr(last);
     }
 
     int mapVarIndex(const std::string &name, const std::string &path, bool declared)
@@ -11091,6 +11171,23 @@ private:
                 body.push_back(indent + "evt.SetMonGroupBit(" + std::to_string(group) + ", MonsterBits.Invisible, "
                     + (key == "show_actors" ? "0" : "1") + ")");
             }
+            else if (key == "set_damage")
+            {
+                // In a damage hook (`trigger: monster_damage`): the hit's damage instead ({set_damage: 0} makes the
+                // monster take nothing). The hook's `lua` reads the hit as `hook`: hook.monsterId, hook.damage,
+                // hook.attack ("melee", "missile", "spell", "other"), hook.weaponItemId, hook.byParty.
+                const int amount = value.IsScalar() && classifyScalar(value) == ScalarKind::Integer
+                    ? static_cast<int>(scalarNumber(value)) : -1;
+
+                if (amount < 0)
+                {
+                    issue("wiring.yml", effectPath + ".set_damage", "set_damage is the hit's new damage, a whole "
+                        "number from 0, in a damage hook (`trigger: monster_damage`)", "schema");
+                    continue;
+                }
+
+                body.push_back(indent + "evt.SetHookDamage(" + std::to_string(amount) + ")");
+            }
             else if (key == "set_sprite")
             {
                 // {set_sprite: {of: deco:crystal, to: crysdisc}}: a decoration's picture, by its number in the built
@@ -11223,6 +11320,19 @@ private:
                     continue;
                 }
 
+                // A decoration of objects.yml: {show: deco:roof_heaps}, {hide: deco:hides} (evt.SetSprite by its
+                // number; a decoration with `hidden: true` starts away).
+                if (key == "show" || key == "hide")
+                {
+                    if (const std::map<std::string, int>::const_iterator number = m_lowered.ids.decorations.find(target);
+                        number != m_lowered.ids.decorations.end())
+                    {
+                        body.push_back(indent + "evt.SetSprite(" + std::to_string(number->second) + ", "
+                            + (key == "show" ? "1" : "0") + ")");
+                        continue;
+                    }
+                }
+
                 const int cog = faceCogOf(target, effectPath + "." + key);
 
                 if (cog == 0)
@@ -11240,6 +11350,18 @@ private:
                     const bool on = key == "passable" || key == "hide";
                     body.push_back(indent + "evt.SetFacetBit(" + std::to_string(cog) + ", FaceAttribute."
                         + (untouchable ? "Untouchable" : "Invisible") + ", " + (on ? "1" : "0") + ")");
+
+                    // A chest shown or hidden comes or goes whole: touched and clicked as it is drawn.
+                    if ((key == "show" || key == "hide") && m_chestIndexById.contains(target))
+                    {
+                        body.push_back(indent + "evt.SetFacetBit(" + std::to_string(cog)
+                            + ", FaceAttribute.Untouchable, " + (on ? "1" : "0") + ")");
+
+                        if (key == "show")
+                        {
+                            m_shownChestIds.insert(target);
+                        }
+                    }
                 }
             }
             else if (key == "player_bit" || key == "clear_player_bit")
@@ -11354,10 +11476,28 @@ private:
                     + (at ? ", " + *at + ", " + formatNumber(scalarNumber(radius[0])) + ", "
                         + formatNumber(scalarNumber(radius[1])) : std::string()) + ")");
             }
+            else if (key == "exit")
+            {
+                // {exit: <a neighbour of project.yml>}: the `exit` preset's move (the game's leave window) from any
+                // event: a platform's or a wall panel's click (X9's gate, A5).
+                if (!value.IsScalar() || value.Scalar().empty())
+                {
+                    issue("wiring.yml", effectPath + ".exit", "exit names a neighbour of project.yml by its `id`",
+                        "schema");
+                    continue;
+                }
+
+                if (const std::optional<std::string> move = moveToNeighbour(value.Scalar(), "wiring.yml",
+                        effectPath + ".exit"))
+                {
+                    body.push_back(indent + *move);
+                }
+            }
             else if (key == "leave")
             {
-                // {leave: <a neighbour of project.yml>}: the party leaves the map there, as an exit does, from any
-                // event (a cart at the end of its line, a cage at the top of its shaft).
+                // {leave: <a neighbour of project.yml>}: the party leaves the map there at once, from any event that
+                // has decided (an answered question, a throw, a fall, a cart at the end of its line): no screen and no
+                // "leave?" window, to an ODM or a BLV (decider D-24). The game's window is the `exit` preset's.
                 if (!value.IsScalar() || value.Scalar().empty())
                 {
                     issue("wiring.yml", effectPath + ".leave", "leave names a neighbour of project.yml by its `id`",
@@ -11366,7 +11506,7 @@ private:
                 }
 
                 if (const std::optional<std::string> move = moveToNeighbour(value.Scalar(), "wiring.yml",
-                        effectPath + ".leave"))
+                        effectPath + ".leave", true))
                 {
                     body.push_back(indent + *move);
                 }
@@ -11375,9 +11515,9 @@ private:
             {
                 issue("wiring.yml", effectPath, "there is no effect '" + key + "' (gold, add, subtract, set, autonote, "
                     "qbit, clear_qbit, award, clear_award, player_bit, clear_player_bit, give_item, take_item, text, "
-                    "message, damage, cast, summon, teleport, leave, shake, lights_on, lights_off, open_chest, "
-                    "show_actors, hide_actors, set_texture, set_sprite, passable, solid, show, hide, secret, "
-                    "clear_secret, lua)", "schema");
+                    "message, damage, cast, summon, teleport, leave, exit, shake, lights_on, lights_off, "
+                    "open_chest, show_actors, hide_actors, set_texture, set_sprite, set_damage, passable, solid, show, "
+                    "hide, secret, clear_secret, lua)", "schema");
             }
         }
     }
@@ -11421,8 +11561,45 @@ private:
         {
             saysSomething = saysSomething || (effect.IsMap() && (effect["text"] || effect["message"]
                 || effect["open_chest"] || effect["teleport"] || effect["give_item"] || effect["damage"]
-                || effect["leave"] || effect["shake"]));
+                || effect["leave"] || effect["exit"] || effect["shake"]));
+
+            // Lua that shows a line or a message (XD-09's great lock), or a world's quest hook that does.
+            if (effect.IsMap() && effect["lua"] && effect["lua"].IsScalar())
+            {
+                const std::string &lua = effect["lua"].Scalar();
+                saysSomething = saysSomething || lua.find("SimpleMessage") != std::string::npos
+                    || lua.find("StatusText") != std::string::npos || lua.find(".hook(") != std::string::npos;
+            }
         }
+
+        // A condition that calls a world's quest hook (`lua: XeenQuests.hook(...)`, DD-06's and DD-07's roof
+        // trapdoors): the hook says its own line when it refuses.
+        const std::function<bool(const YAML::Node &)> callsHook = [&callsHook](const YAML::Node &part)
+        {
+            if (part.IsScalar())
+            {
+                return false;
+            }
+
+            for (const auto &entry : part)
+            {
+                const YAML::Node value = part.IsMap() ? entry.second : YAML::Node(entry);
+
+                if (part.IsMap() && entry.first.Scalar() == "lua" && value.IsScalar()
+                    && value.Scalar().find(".hook(") != std::string::npos)
+                {
+                    return true;
+                }
+
+                if (callsHook(value))
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        };
+        saysSomething = saysSomething || callsHook(condition);
 
         if (!saysSomething && textOr(node, "trigger", "click") == "click" && node["source"])
         {
@@ -11572,6 +11749,69 @@ private:
 
     // Reads how a sliding door is drawn (`surface`, `back_surface`, `pictures`, `back_pictures`, `tile`) and checks
     // it against the door's leaves; false when it was refused.
+    // Whether a door can lie in a hole of a floor as a trapdoor: a rectangle along the axes, one leaf hinged along
+    // one of its sides (`hinge`: north, south, east or west), no thicker than the floor; the words of sliding and
+    // wall doors are refused.
+    bool hatchFits(const YAML::Node &node, const std::string &path, const LoweredOpening &hole)
+    {
+        std::string refused;
+
+        for (const char *pKey : {"kind", "leaves", "split", "fold", "travel", "tile", "bars", "pictures",
+                 "back_pictures", "step", "shift"})
+        {
+            if (node[pKey] && !(std::string(pKey) == "kind" && textOr(node, "kind", "") == "hinged"))
+            {
+                refused += (refused.empty() ? "`" : ", `") + std::string(pKey) + "`";
+            }
+        }
+
+        if (!refused.empty())
+        {
+            issue("objects.yml", path, refused + " is for doors in walls; a trapdoor (a door in a hole of a floor) "
+                "is one hinged leaf: give it `hinge` (north, south, east or west: the side of the hole it turns "
+                "on), `swing` (90: down into the room below; -90: up into the room above), `surface`, "
+                "`back_surface`, `edge_surface`, `thickness`, `speed` and `auto_close_seconds`", "schema");
+            return false;
+        }
+
+        const std::string hinge = textOr(node, "hinge", "");
+
+        if (hinge != "north" && hinge != "south" && hinge != "east" && hinge != "west")
+        {
+            issue("objects.yml", path + ".hinge", "a trapdoor turns on one side of its hole: `hinge` is north, "
+                "south, east or west", "schema");
+            return false;
+        }
+
+        const std::vector<std::array<double, 2>> &outline = hole.outline;
+        bool rectangle = outline.size() == 4 && !hole.wholeCeiling;
+
+        for (size_t corner = 0; rectangle && corner < 4; ++corner)
+        {
+            const std::array<double, 2> &first = outline[corner];
+            const std::array<double, 2> &second = outline[(corner + 1) % 4];
+            rectangle = std::abs(first[0] - second[0]) < Epsilon || std::abs(first[1] - second[1]) < Epsilon;
+        }
+
+        if (!rectangle)
+        {
+            issue("objects.yml", path, "a trapdoor lies in a rectangular hole along the map's axes (four corners); "
+                + hole.id + " is not one", "geometry");
+            return false;
+        }
+
+        const double swing = numberOr(node, "swing", 90.0);
+
+        if (std::abs(swing) < 1.0 || std::abs(swing) > 120.0)
+        {
+            issue("objects.yml", path + ".swing", "a trapdoor turns 1 to 120 degrees: positive down into the room "
+                "below, negative up into the room above", "schema");
+            return false;
+        }
+
+        return true;
+    }
+
     bool readDoorDrawing(
         const YAML::Node &node,
         const std::string &path,
@@ -11962,6 +12202,99 @@ private:
         return ceilingAt(m_lowered.rooms[room], centre.x, centre.y);
     }
 
+    // A ladder that climbs through a hole in a floor stands at least 10 inside the hole's edge (A7, DD-16's hatch
+    // ladder 8 outside it): nearer, its rails and rungs pass through the floor's rim. Edges of the hole that lie on
+    // a wall of the ladder's room do not count (a ladder against the wall of a shaft open above).
+    void warnLadderAtHoleEdge(const std::string &id, const std::string &path, size_t room, const Vec2 &foot,
+        const Vec2 &lean, const Vec2 &across, double bottom, double rise, double width)
+    {
+        const auto segmentDistance = [](const Point2 &point, const Point2 &from, const Point2 &to)
+        {
+            const double dx = to[0] - from[0];
+            const double dy = to[1] - from[1];
+            const double length = dx * dx + dy * dy;
+            const double share = length > 0.0
+                ? std::clamp(((point[0] - from[0]) * dx + (point[1] - from[1]) * dy) / length, 0.0, 1.0) : 0.0;
+            return std::hypot(point[0] - from[0] - share * dx, point[1] - from[1] - share * dy);
+        };
+        const std::vector<Point2> &walls = m_lowered.rooms[room].outline;
+
+        for (const LoweredOpening &hole : m_lowered.openings)
+        {
+            if (!hole.inFloor || hole.wholeCeiling || hole.toRoom != room || hole.outline.size() < 3
+                || hole.top < bottom + 32.0 || hole.top > bottom + rise + 16.0)
+            {
+                continue;
+            }
+
+            // The ladder's line where it passes the upper floor (a leaning ladder's is on its way to `top_at`).
+            const double share = std::clamp((hole.top - bottom) / rise, 0.0, 1.0);
+            const Point2 middle = {foot.x + lean.x * share, foot.y + lean.y * share};
+            const double half = width / 2.0;
+            // How far inside the hole a point stands from its edges off the room's walls (negative: outside it).
+            const auto inside = [&](const Point2 &point)
+            {
+                double nearest = 1.0e18;
+                const bool within = pointInOrOnPolygon(hole.outline, point);
+
+                for (size_t edge = 0; edge < hole.outline.size(); ++edge)
+                {
+                    const Point2 &from = hole.outline[edge];
+                    const Point2 &to = hole.outline[(edge + 1) % hole.outline.size()];
+                    bool onWall = false;
+
+                    for (size_t wall = 0; within && wall < walls.size() && !onWall; ++wall)
+                    {
+                        const Point2 &first = walls[wall];
+                        const Point2 &second = walls[(wall + 1) % walls.size()];
+                        onWall = segmentDistance(from, first, second) < 0.5 && segmentDistance(to, first, second) < 0.5;
+                    }
+
+                    if (!onWall)
+                    {
+                        nearest = std::min(nearest, segmentDistance(point, from, to));
+                    }
+                }
+
+                return within ? nearest : -nearest;
+            };
+            const double atMiddle = inside(middle);
+
+            // A ladder that climbs beside the hole, not through it.
+            if (atMiddle < -64.0)
+            {
+                continue;
+            }
+
+            double least = atMiddle;
+            Point2 worst = middle;
+
+            for (const double side : {-half, half})
+            {
+                const Point2 end = {middle[0] + across.x * side, middle[1] + across.y * side};
+                const double distance = inside(end);
+
+                if (distance < least)
+                {
+                    least = distance;
+                    worst = end;
+                }
+            }
+
+            if (least >= 10.0 - Epsilon)
+            {
+                continue;
+            }
+
+            m_lowered.warnings.push_back("objects.yml: " + path + ": " + id + " climbs through " + hole.id
+                + " (the hole in the floor of " + m_lowered.rooms[hole.fromRoom].id + " at "
+                + formatNumber(hole.top) + ") and stands " + formatNumber(std::abs(std::round(least)))
+                + (least < 0.0 ? " outside" : " inside") + " its edge at [" + formatNumber(std::round(worst[0])) + ", "
+                + formatNumber(std::round(worst[1])) + "]: its rails and rungs pass through the floor's rim. Stand "
+                "it at least 10 inside the hole's edge (`at`, `width`), or make the hole larger");
+        }
+    }
+
     // Movers of objects.yml: blocks that travel along a line. Each is a door to the engine (closed at its start,
     // open at its end), so events move it through the same lists as doors and lifts.
     void readMovers(
@@ -12070,19 +12403,32 @@ private:
             }
 
             const YAML::Node travel = node["travel"];
+            const YAML::Node turn = node["turn"];
 
-            if (!travel || !travel.IsSequence() || travel.size() != 3)
+            if (travel && turn)
             {
-                issue("objects.yml", path, "a mover needs `travel: [x, y, z]`: how far it moves from its start (as "
-                    "drawn) to its end, for example [0, 0, 256] for a block that rises 256", "schema");
+                issue("objects.yml", path, "a mover travels along a line (`travel`) or turns about one (`turn`), not "
+                    "both", "schema");
                 continue;
             }
 
-            mover.travel = {std::round(scalarNumber(travel[0])), std::round(scalarNumber(travel[1])),
-                std::round(scalarNumber(travel[2]))};
+            if (!turn && (!travel || !travel.IsSequence() || travel.size() != 3))
+            {
+                issue("objects.yml", path, "a mover needs `travel: [x, y, z]`: how far it moves from its start (as "
+                    "drawn) to its end, for example [0, 0, 256] for a block that rises 256; or `turn` for one that "
+                    "turns about a line (a lever's arm)", "schema");
+                continue;
+            }
+
+            if (travel)
+            {
+                mover.travel = {std::round(scalarNumber(travel[0])), std::round(scalarNumber(travel[1])),
+                    std::round(scalarNumber(travel[2]))};
+            }
+
             const double travelLength = std::sqrt(dot(mover.travel, mover.travel));
 
-            if (travelLength < 1.0)
+            if (!turn && travelLength < 1.0)
             {
                 issue("objects.yml", path + ".travel", "the travel is nothing: give at least one of x, y and z a "
                     "whole number other than 0. For a block that is clicked and does not move, do not use a mover: "
@@ -12147,6 +12493,40 @@ private:
             }
 
             const bool stretch = textOr(node, "stretch", "false") == "true";
+
+            // A mover that turns (a lever's arm thrown from up to down): the engine's rotating mover, about a line
+            // along x, y or z.
+            if (turn)
+            {
+                const YAML::Node pivot = turn.IsMap() ? turn["pivot"] : YAML::Node();
+                const std::string axis = turn.IsMap() ? textOr(turn, "axis", "") : std::string();
+                const double degrees = turn.IsMap() ? numberOr(turn, "degrees", 0.0) : 0.0;
+
+                if (!pivot || !pivot.IsSequence() || pivot.size() != 3
+                    || (axis != "x" && axis != "y" && axis != "z") || std::abs(degrees) < 1.0
+                    || std::abs(degrees) > 360.0)
+                {
+                    issue("objects.yml", path + ".turn", "a turning mover needs `turn: {pivot: [x, y, height], axis: "
+                        "x|y|z, degrees: d}`: a point of the line it turns about (its height measured as `bottom` "
+                        "is, from the floor at the mover's middle), the line's direction, and the angle from its "
+                        "start to its end, 1 to 360 either way (positive turns +y toward +z about x, +z toward +x "
+                        "about y, +x toward +y about z)", "schema");
+                    continue;
+                }
+
+                if (stretch)
+                {
+                    issue("objects.yml", path + ".stretch", "a turning mover turns whole: drop `stretch`", "schema");
+                    continue;
+                }
+
+                mover.turning = true;
+                mover.pivot = {scalarNumber(pivot[0]), scalarNumber(pivot[1]), floor + scalarNumber(pivot[2])};
+                mover.turnAxis = axis == "x" ? 0 : axis == "y" ? 1 : 2;
+                mover.degrees = degrees;
+                mover.speed = numberOr(node, "speed", 90.0);
+            }
+
             const int axes = (mover.travel.x != 0.0 ? 1 : 0) + (mover.travel.y != 0.0 ? 1 : 0)
                 + (mover.travel.z != 0.0 ? 1 : 0);
 
@@ -12474,6 +12854,86 @@ private:
                 continue;
             }
 
+            // A turning mover: its start pose was checked above (as a mover that does not travel); along its turn
+            // every corner stays in the room and under the ceiling, and at its end no face looking up lies in the
+            // floor's plane.
+            if (mover.turning)
+            {
+                const auto turned = [&mover](const Vec3 &point, double angle, bool direction)
+                {
+                    const double radians = angle * 3.14159265358979323846 / 180.0;
+                    const double c = std::cos(radians);
+                    const double s = std::sin(radians);
+                    const Vec3 p = direction ? point : subtract(point, mover.pivot);
+                    const Vec3 r = mover.turnAxis == 0 ? Vec3{p.x, p.y * c - p.z * s, p.y * s + p.z * c}
+                        : mover.turnAxis == 1          ? Vec3{p.x * c + p.z * s, p.y, p.z * c - p.x * s}
+                                                       : Vec3{p.x * c - p.y * s, p.x * s + p.y * c, p.z};
+                    return direction ? r : Vec3{r.x + mover.pivot.x, r.y + mover.pivot.y, r.z + mover.pivot.z};
+                };
+                const int steps = std::max(2, static_cast<int>(std::ceil(std::abs(mover.degrees) / 15.0)));
+
+                for (int step = 1; step <= steps && !refused; ++step)
+                {
+                    const double angle = mover.degrees * step / steps;
+
+                    for (size_t blockIndex = 0; blockIndex < blocks.size() && !refused; ++blockIndex)
+                    {
+                        for (const Point2 &corner : blocks[blockIndex].footprint)
+                        {
+                            for (const double z : {blocks[blockIndex].bottom, blocks[blockIndex].top})
+                            {
+                                const Vec3 at = turned({corner[0], corner[1], z}, angle, false);
+                                const bool inside = pointInOrOnPolygon(room.outline, {at.x, at.y});
+
+                                if (refused || (inside && at.z <= ceilingOver(moverRoom, at.x, at.y) + Epsilon))
+                                {
+                                    continue;
+                                }
+
+                                issue("objects.yml", path + (blockIndex == 0 ? std::string(".turn")
+                                    : ".parts[" + std::to_string(blockIndex - 1) + "]"), "turned "
+                                    + formatNumber(std::round(angle)) + " of its " + formatNumber(mover.degrees)
+                                    + " degrees, the mover's corner comes to [" + formatNumber(std::round(at.x)) + ", "
+                                    + formatNumber(std::round(at.y)) + ", " + formatNumber(std::round(at.z)) + "], "
+                                    + (inside ? "above the ceiling of " + room.id : "outside " + room.id) + ": a "
+                                    "turning mover stays in its room and under its ceiling all the way. Move the "
+                                    "`pivot`, make the block smaller or turn it less", "geometry");
+                                refused = true;
+                            }
+                        }
+                    }
+                }
+
+                for (size_t blockIndex = 0; blockIndex < blocks.size() && !refused; ++blockIndex)
+                {
+                    for (const bool lid : {true, false})
+                    {
+                        const Vec3 normal = turned({0.0, 0.0, lid ? 1.0 : -1.0}, mover.degrees, true);
+                        bool inFloor = normal.z > 0.99;
+
+                        for (const Point2 &corner : blocks[blockIndex].footprint)
+                        {
+                            const Vec3 at = turned({corner[0], corner[1],
+                                lid ? blocks[blockIndex].top : blocks[blockIndex].bottom}, mover.degrees, false);
+                            inFloor = inFloor && std::abs(at.z - floorAt(room, at.x, at.y)) < 1.0 - Epsilon;
+                        }
+
+                        if (inFloor && !refused)
+                        {
+                            issue("objects.yml", path + ".turn", "at the end of its turn a face of the mover looks up "
+                                "in the plane of the floor of " + room.id + " and would flicker with it: let it end "
+                                "2 below the floor or at least 2 above it (`pivot`, `bottom`, `height`)", "geometry");
+                            refused = true;
+                        }
+                    }
+                }
+
+                if (refused)
+                {
+                    continue;
+                }
+            }
+
             if (mover.travel.z > 0.0 && !stretch
                 && mover.top + mover.travel.z + 200.0
                     > ceilingAt(room, centre.x + mover.travel.x, centre.y + mover.travel.y) + Epsilon
@@ -12500,6 +12960,17 @@ private:
             lowered.mover = true;
             lowered.autoReturnSeconds = numberOr(node, "auto_return_seconds", 0.0);
             lowered.stretch = stretch;
+
+            if (mover.turning)
+            {
+                lowered.turning = true;
+                lowered.pivot = {mover.pivot.x, mover.pivot.y, mover.pivot.z};
+                lowered.axis = {mover.turnAxis == 0 ? 1.0 : 0.0, mover.turnAxis == 1 ? 1.0 : 0.0,
+                    mover.turnAxis == 2 ? 1.0 : 0.0};
+                lowered.degrees = mover.degrees;
+                lowered.turnSpeed = mover.speed;
+            }
+
             mover.lift = m_lowered.lifts.size();
             m_movers.push_back(mover);
             m_lowered.lifts.push_back(lowered);
@@ -12554,7 +13025,8 @@ private:
 
     // What every preset may add after its own lines: a texture change, extra Lua, state, a line of text.
     // An event that asks a question (`question`): what the event does (its body from `actionStart` on: the preset's
-    // work, effects, Lua) runs only when the answer is one of `answers`; a wrong answer shows `wrong_text`, if any.
+    // work, effects, Lua) runs only when the answer is one of `answers`; a wrong answer shows `wrong_text`, if any,
+    // and runs `wrong_effects` (the event's effect words: a trap's damage, a quest hook's Lua).
     // As the shipped scripts do it: the game runs the handler again with the step AskQuestion names for the answer.
     bool lowerQuestion(const YAML::Node &question, const std::string &path, size_t actionStart, LoweredEvent &event)
     {
@@ -12564,8 +13036,9 @@ private:
         if (ask.empty() || !answers || !answers.IsSequence() || answers.size() == 0)
         {
             issue("wiring.yml", path, "question is {ask: \"Steal (Yes/No)?\", answers: [Yes, Y]} (the answers that "
-                "count as right, matched without regard to case), with `message` (a message window shown with it) "
-                "and `wrong_text` (a status line on any other answer) if wanted", "schema");
+                "count as right, matched without regard to case), with `message` (a message window shown with it), "
+                "`wrong_text` (a status line on any other answer) and `wrong_effects` (effects run on any other "
+                "answer) if wanted", "schema");
             return false;
         }
 
@@ -12592,6 +13065,11 @@ private:
         if (const std::string wrong = textOr(question, "wrong_text", ""); !wrong.empty())
         {
             body.push_back("    " + statusLine(wrong));
+        }
+
+        if (const YAML::Node wrongEffects = question["wrong_effects"])
+        {
+            appendEffects(wrongEffects, path + ".wrong_effects", "    ", body);
         }
 
         body.push_back("    return");
@@ -12623,12 +13101,15 @@ private:
 
         const bool isPlate = m_platePaths.contains(id);
         const bool isRegion = m_regionPaths.contains(id);
+        // A chest with a box of its own (not `box_of`).
+        const bool isChest = m_chestIndexById.contains(id) && !m_chestBoxOf.contains(id);
 
-        if (door == m_doorIndexById.end() && !isBlock && !m_panelPaths.contains(id) && !isPlate && !isRegion)
+        if (door == m_doorIndexById.end() && !isBlock && !m_panelPaths.contains(id) && !isPlate && !isRegion
+            && !isChest)
         {
             if (!m_refusedIds.contains(id))
             {
-                issue("wiring.yml", path, "the faces an effect changes are those of a door or a plate of "
+                issue("wiring.yml", path, "the faces an effect changes are those of a door, a chest or a plate of "
                     "objects.yml, or of a platform, a wall panel or a floor or ceiling region (`floor_surfaces`, "
                     "`ceiling_surfaces`) of rooms.yml that has an `id`; " + (id.empty() ? std::string("none") : id)
                     + " is none of them", "reference");
@@ -12661,6 +13142,12 @@ private:
             {
                 box.cog = cog;
                 box.nodeName = box.nodeName.starts_with("TRIGGER_") ? box.nodeName : "TRIGGER_part_" + box.nodeName;
+            }
+
+            // A chest's box is a node of its own already (its click, or a ride's door record).
+            if (isChest && !box.partOfRoom && box.owner == id)
+            {
+                box.cog = cog;
             }
         }
 
@@ -12822,7 +13309,7 @@ private:
 
                 // A timer, a load, a leave and a called event have no source; several of them do not share one.
                 if (source.empty() && (trigger == "timer" || trigger == "load" || trigger == "leave"
-                        || trigger == "call"))
+                        || trigger == "call" || trigger == "monster_damage"))
                 {
                     wiringEvents.push_back(event);
                     continue;
@@ -12994,10 +13481,9 @@ private:
 
                 door.opening = opening->second;
 
-                if (m_lowered.openings[door.opening].inFloor)
+                // A door in a hole of a floor is a trapdoor: one hinged leaf over a rectangular hole.
+                if (m_lowered.openings[door.opening].inFloor && !hatchFits(node, path, m_lowered.openings[door.opening]))
                 {
-                    issue("objects.yml", path, "a door leaf needs an opening in a wall; " + openingId
-                        + " is a hole in a floor (leave it open; a hatch is not built yet)", "geometry");
                     continue;
                 }
 
@@ -13035,21 +13521,41 @@ private:
                 const int leafCount = static_cast<int>(numberOr(node, "leaves", 1.0));
                 std::vector<DoorLeaf> leaves;
 
-                if (kind == "hinged" && leafCount > 1)
+                if (kind == "hinged" && leafCount > 1 && node["hinge"])
                 {
-                    issue("objects.yml", path + ".leaves", "a hinged door has one leaf (two hinged leaves are not "
-                        "built): use `kind: slide_left` with `leaves: 2` for a door that parts in the middle, or "
-                        "drop `leaves`", "schema");
+                    issue("objects.yml", path + ".hinge", "a hinged pair (`leaves: 2`) hangs one leaf on each jamb "
+                        "and they swing apart from the middle: drop `hinge`", "schema");
                     continue;
                 }
 
                 DoorDrawing drawing;
 
-                if (kind == "hinged")
+                if (m_lowered.openings[door.opening].inFloor)
                 {
-                    std::string slidingOnly;
+                    door.hinged = true;
+                    door.hatch = true;
+                }
+                else if (kind == "hinged")
+                {
+                    // North, south, east, west and a negative swing are a trapdoor's words.
+                    if (const std::string hinge = textOr(node, "hinge", "left");
+                        (hinge != "left" && hinge != "right") || numberOr(node, "swing", 90.0) <= 0.0)
+                    {
+                        issue("objects.yml", path, "a door in a wall hangs on its `hinge` left or right and opens a "
+                            "`swing` above 0 degrees; a side of the map and a negative swing are for a trapdoor (a "
+                            "door in an opening `in: floor`)", "schema");
+                        continue;
+                    }
 
-                    for (const char *pKey : {"split", "fold", "travel", "pictures", "back_pictures", "tile", "bars"})
+                    std::string slidingOnly;
+                    // A pair's leaves bear their own pictures (a wing each); a single leaf turns one stretched
+                    // picture.
+                    const std::vector<const char *> refused = leafCount > 1
+                        ? std::vector<const char *>{"split", "fold", "travel", "tile", "bars"}
+                        : std::vector<const char *>{"split", "fold", "travel", "pictures", "back_pictures", "tile",
+                              "bars"};
+
+                    for (const char *pKey : refused)
                     {
                         if (node[pKey])
                         {
@@ -13059,10 +13565,52 @@ private:
 
                     if (!slidingOnly.empty())
                     {
-                        issue("objects.yml", path, slidingOnly + " is for sliding doors; a hinged leaf is one slab "
-                            "with one stretched `surface` (and `back_surface`) that turns whole. Drop it, or give "
-                            "the door a sliding `kind`", "schema");
+                        issue("objects.yml", path, slidingOnly + " is for sliding doors; a hinged leaf is a slab "
+                            "with stretched pictures that turns whole. Drop it, or give the door a sliding `kind`",
+                            "schema");
                         continue;
+                    }
+
+                    if (leafCount > 1)
+                    {
+                        // Two leaves, one on each jamb, meeting in the middle; the first is the left one seen from
+                        // the `from` room (the high end of the hole), as for halves that part sideways.
+                        const LoweredOpening &doorway = m_lowered.openings[door.opening];
+                        leaves = doorLeaves(doorway, "slide_left", 2, false, false, std::nullopt);
+
+                        for (DoorLeaf &leaf : leaves)
+                        {
+                            leaf.shiftAlong = 0.0;
+                        }
+
+                        if (!readDoorDrawing(node, path, door, doorway, leaves, drawing))
+                        {
+                            continue;
+                        }
+
+                        // Without pictures each leaf shows the door's `surface` as one wing: the left leaf as it
+                        // is, the right one mirrored (the shipped double doors' halves), and the same from the
+                        // other side with `back_surface`.
+                        const auto wings = [](const DoorPicture &wing)
+                        {
+                            DoorPicture mirrored = wing;
+                            mirrored.mirror = !wing.mirror;
+                            return std::vector<std::vector<DoorPicture>>{{wing, mirrored}};
+                        };
+
+                        if (!node["pictures"])
+                        {
+                            drawing.front = wings(drawing.front[0][0]);
+                        }
+
+                        if (!node["back_pictures"] && node["back_surface"])
+                        {
+                            drawing.back = wings(drawing.back[0][0]);
+                        }
+                        else if (!node["back_pictures"])
+                        {
+                            drawing.back = drawing.front;
+                        }
                     }
                 }
                 else
@@ -13155,6 +13703,13 @@ private:
                     }
                 }
 
+                if (door.hatch && door.sided)
+                {
+                    issue("wiring.yml", "events", "a trapdoor (" + door.id + ") is opened from above and below by "
+                        "one event: drop `side`", "schema");
+                    continue;
+                }
+
                 for (size_t leafIndex = 0; leafIndex < leaves.size(); ++leafIndex)
                 {
                     leaves[leafIndex].nodeName = "MECH_" + door.name + (leafIndex == 0 ? "" : ".leaf2");
@@ -13196,8 +13751,35 @@ private:
                         lowered.position = {position->x, position->y, *floor};
                         lowered.directionDegrees = static_cast<int>(facingDegrees(start["facing"]).value_or(0.0));
                         m_lowered.start = lowered;
+                        m_startRoom = *room;
                     }
                 }
+            }
+
+            // The places of the plan's entrances where a party arrives (D-4), placed as the start is.
+            index = 0;
+
+            for (const YAML::Node &node : objects["arrivals"])
+            {
+                const std::string path = "arrivals[" + std::to_string(index++) + "]";
+                const std::optional<size_t> room = findRoom(textOr(node, "room", ""), "objects.yml", path + ".room");
+                const std::optional<Vec2> position =
+                    room ? placement(m_lowered.rooms[*room], node, "objects.yml", path) : std::nullopt;
+                const std::optional<double> floor =
+                    position ? standingFloor(m_lowered.rooms[*room], node, *position, path) : std::nullopt;
+
+                if (floor)
+                {
+                    LoweredStart lowered;
+                    lowered.position = {position->x, position->y, *floor};
+                    lowered.directionDegrees = static_cast<int>(facingDegrees(node["facing"]).value_or(0.0));
+                    m_placedArrivals[textOr(node, "entrance", "")] = {lowered, path};
+                }
+            }
+
+            if (const YAML::Node arena = objects["arena"])
+            {
+                readArena(arena);
             }
 
             index = 0;
@@ -13306,7 +13888,20 @@ private:
                 panel.owner = id;
                 panel.nodeName = "TRIGGER_" + idName(id);
                 panel.room = *room;
-                panel.surface = readSurface(node["surface"], m_lowered.rooms[*room].door);
+                // Without a surface of its own an exit is the black face MM7 and MM8 draw at nearly every dungeon
+                // exit (7solid01 at 51 of MM7's 100 exit faces, solid01 at 28 of MM8's 61: F12, 2026-11-22); MM6's
+                // maps and a world of none of these keep the room's door picture.
+                LoweredSurface exitSurface = m_lowered.rooms[*room].door;
+                const std::string styleWorld = studioStyleWorld(m_options.assetRoot,
+                    textOr(m_project.document("project.yml"), "world", ""));
+
+                if (styleWorld == "mm7" || styleWorld == "mm8")
+                {
+                    exitSurface = LoweredSurface{};
+                    exitSurface.texture = styleWorld == "mm7" ? "7solid01" : "solid01";
+                }
+
+                panel.surface = readSurface(node["surface"], exitSurface);
                 panel.surface.fit = true;
                 double width = 192.0;
                 double height = 256.0;
@@ -13570,11 +14165,13 @@ private:
                 }
 
                 // A chest of a kind (the shipped chests' families of textures), or without a surface of its own the
-                // world's plain chest: laid end, middle and end as the originals are (chestKindOf).
+                // world's plain chest: laid end, middle and end as the originals are (chestKindOf). The world's chest
+                // is its style world's, as outdoors (mm8 gt002, mm7 and a world on MM7's tiles such as Xeen 7gt002,
+                // else ch1).
                 const std::string worldId = textOr(m_project.document("project.yml"), "world", "mm6");
                 const std::string kindName = node["kind"] ? node["kind"].Scalar()
-                    : node["surface"] ? std::string() : worldId == "mm8" ? "gt002" : worldId == "mm7" ? "7gt002"
-                    : "ch1";
+                    : node["surface"] ? std::string()
+                    : defaultChestKind(studioStyleWorld(m_options.assetRoot, worldId));
 
                 // Whether it looks like a chest: a kind, or a chest family's picture on its front.
                 m_chestLooks[id] = !kindName.empty() || isChestTexture(box.surface.texture);
@@ -13681,6 +14278,27 @@ private:
                               "its middle), turn it a quarter (`facing`) or make it smaller (`size`)", "geometry");
                         continue;
                     }
+
+                    // `chest.front` (F6-R5): a chest's `facing` is its long axis, and its front (the lock, the lid's
+                    // own picture) is the side 90 degrees anticlockwise of it. A front within 64 of a wall shows the
+                    // room the chest's back or an end.
+                    if (box.chestKind)
+                    {
+                        const double frontRadians = box.degrees * 3.14159265358979323846 / 180.0;
+                        const double reach = box.size[1] / 2.0 + 63.0;
+                        const Point2 probe = {position->x - oy::sin(frontRadians) * reach,
+                            position->y + oy::cos(frontRadians) * reach};
+
+                        if (!pointInOrOnPolygon(chestRoom.outline, probe))
+                        {
+                            m_lowered.warnings.push_back("objects.yml: " + path + ": chest.front: " + id
+                                + "'s front (the side 90 degrees anticlockwise of its `facing` "
+                                + formatNumber(box.degrees) + ", where its lock and lid picture are) is within 64 of "
+                                "a wall of " + chestRoom.id + ": turn it to `facing` "
+                                + formatNumber(std::fmod(box.degrees + 180.0, 360.0)) + " (its back to the wall) or "
+                                "move it");
+                        }
+                    }
                 }
 
                 // On a moving part the whole chest stands on its top, and fits under the ceiling where the part ends.
@@ -13730,6 +14348,14 @@ private:
                 }
 
                 box.eventId = eventIdOf(id);
+
+                // Not there until an event shows it (`hidden: true`, {show: chest:x}): its faces start invisible and
+                // untouchable, and the effects turn both (faceCogOf gives the box its number).
+                if (textOr(node, "hidden", "false") == "true")
+                {
+                    box.startsHidden = true;
+                    m_hiddenChestIds.insert(id);
+                }
 
                 // On a level, a platform or a step the chest stands on its top, not on the room's floor under it.
                 if (deck
@@ -14268,6 +14894,7 @@ private:
                 ladder.grabAtTop = textOr(node, "grab_at_top", "true") != "false";
                 ladder.grabInAir = textOr(node, "grab_in_air", "false") == "true";
                 m_lowered.ladders.push_back(ladder);
+                warnLadderAtHoleEdge(id, path, *room, *foot, lean, across, *bottom, rise, width);
 
                 if (textOr(node, "rungs", "true") == "false")
                 {
@@ -14375,6 +15002,7 @@ private:
                 sound.startOn = textOr(node, "on", "true") != "false";
                 sound.dayOnly = textOr(node, "day_only", "false") == "true";
                 sound.nightOnly = textOr(node, "night_only", "false") == "true";
+                sound.pan = textOr(node, "pan", "true") != "false";
                 sound.position = {position->x, position->y, *soundFloor + numberOr(node, "height", 64.0)};
 
                 if (const YAML::Node wait = node["wait"])
@@ -14543,9 +15171,40 @@ private:
                     continue;
                 }
 
+                // `above_floor`: a flyer, or a swimmer in a water volume, starts that high over its floor; the game
+                // keeps the height of both (any other monster it drops to the floor). Monster_data's Fly column: y
+                // flies, s swims. A swimmer's water is checked once objects.yml `water` is read (readWater).
+                if (const YAML::Node above = node["above_floor"])
+                {
+                    const std::string fly = lowerText((*pRow).size() > 9 ? (*pRow)[9] : std::string());
+                    const double rise = scalarNumber(above);
+
+                    if (!(rise > 0.0))
+                    {
+                        issue("objects.yml", path + ".above_floor", "`above_floor` is a height over the monster's "
+                            "floor in game units, more than 0", "schema");
+                        continue;
+                    }
+
+                    if (fly.find('y') == std::string::npos && fly.find('s') == std::string::npos)
+                    {
+                        issue("objects.yml", path + ".above_floor", "the monster " + (*pRow)[1] + " neither flies "
+                            "nor swims (monster_data's Fly column is \"" + (*pRow)[9] + "\"): the game stands it on "
+                            "its floor. Drop `above_floor`", "schema");
+                        continue;
+                    }
+
+                    monster.position[2] = *monsterFloor + rise;
+
+                    if (fly.find('y') == std::string::npos)
+                    {
+                        m_swimmerStarts.push_back({id, path, monster.position, monster.height});
+                    }
+                }
+
                 // The monster stands under the ceiling. (Near a wall the game moves an actor clear by itself, as it
                 // does in the shipped maps, so its radius is not checked.)
-                const double clear = ceilingOver(*room, position->x, position->y) - *monsterFloor;
+                const double clear = ceilingOver(*room, position->x, position->y) - monster.position[2];
 
                 if (clear < monster.height)
                 {
@@ -14699,6 +15358,14 @@ private:
                 const LoweredRoom &decorationRoom = m_lowered.rooms[*room];
                 Vec3 position;
                 double degrees = facingDegrees(node["facing"]).value_or(0.0);
+
+                if (node["facing"] && decorationShape(textOr(node, "decoration", "")).randomYaw)
+                {
+                    m_lowered.warnings.push_back(id + ": `facing` is not used in the game: the 3D model of "
+                        + textOr(node, "decoration", "") + " (engine/models/indoor_decorations.yml, no `yaw`: random) "
+                        "is turned by a hash of where it stands. Bind it with `yaw: facing`, or move it a few units "
+                        "until it faces the way wanted");
+                }
 
                 if (node["wall"])
                 {
@@ -14905,6 +15572,8 @@ private:
                 // Clicked: the event a wiring event with this decoration as its source gives (the BLV entity's
                 // second event field, which the game runs when the decoration is used: the Hive's keg).
                 entity.eventIdSecondary = static_cast<uint16_t>(eventIdOf(id));
+                // Not there at the start: the map's invisible flag, until an event's `show` (evt.SetSprite).
+                entity.aiAttributes = textOr(node, "hidden", "") == "true" ? DecorationStartsHidden : 0;
                 m_lowered.ids.decorations[id] = static_cast<int>(m_lowered.metadata.entities.size());
                 m_lowered.metadata.entities.push_back(entity);
             }
@@ -14994,6 +15663,8 @@ private:
                 "entrances whose space a room realises", "project");
         }
 
+        lowerArrivals();
+
         // A platform or a wall panel of rooms.yml that has an `id` may be clicked like an object: an event that is
         // not a step event makes the whole block (its sides, top and underside) or the panel run it.
         for (const std::pair<const std::string, std::string> &feature : m_featureKinds)
@@ -15074,6 +15745,25 @@ private:
                 continue;
             }
 
+            // Also run by walking into the source's faces (D-4's mirages): the faces get the touch flag beside the
+            // click flag (addSurface), the scene the party's touch rule.
+            if (node["touch"] && node["touch"].Scalar() == "true")
+            {
+                if (trigger != "click" || sourceKind->second == "chest" || sourceKind->second == "decoration"
+                    || sourceKind->second == "light" || sourceKind->second == "spawn"
+                    || sourceKind->second == "monster" || sourceKind->second == "item")
+                {
+                    issue("wiring.yml", wiringEvent.path + ".touch", "`touch` runs a clicked event when the party "
+                        "walks into its source's faces: a door, a wall panel, a platform, a switch or an exit; "
+                        + source + " is " + (trigger != "click" ? "not clicked" : "a " + sourceKind->second),
+                        "reference");
+                    continue;
+                }
+
+                m_touchEventIds.insert(wiringEvent.eventId);
+                m_lowered.touchFaces = true;
+            }
+
             if (node["side"] && (trigger != "click" || sourceKind->second != "door"))
             {
                 issue("wiring.yml", wiringEvent.path + ".side", "`side` binds a clicked door's event to one side of "
@@ -15149,6 +15839,41 @@ private:
                 }
             }
             event.everySeconds = trigger == "timer" ? static_cast<int>(numberOr(node, "every", 0.0)) : 0;
+
+            // A damage hook's monsters: monster_data ids (Lord Xeen 11634, Corak's row).
+            for (const YAML::Node &monster : node["monsters"])
+            {
+                if (!monster.IsScalar() || classifyScalar(monster) != ScalarKind::Integer
+                    || scalarNumber(monster) < 1 || scalarNumber(monster) > 65535)
+                {
+                    issue("wiring.yml", wiringEvent.path + ".monsters", "`monsters` lists monster ids "
+                        "(monster_data rows), whole numbers from 1", "schema");
+                    continue;
+                }
+
+                event.hookMonsters.push_back(static_cast<int>(scalarNumber(monster)));
+            }
+
+            // ... and its placed monsters, by id (their actor index: the scene's actors in objects.yml's order).
+            for (const YAML::Node &actor : node["actors"])
+            {
+                const std::string actorId = actor.IsScalar() ? actor.Scalar() : "";
+                const std::vector<LoweredMonster>::const_iterator placed = std::find_if(m_lowered.monsters.begin(),
+                    m_lowered.monsters.end(), [&actorId](const LoweredMonster &monster)
+                    {
+                        return monster.id == actorId;
+                    });
+
+                if (placed == m_lowered.monsters.end())
+                {
+                    issue("wiring.yml", wiringEvent.path + ".actors", "there is no placed monster " + actorId
+                        + " in objects.yml `monsters`", "reference");
+                    continue;
+                }
+
+                event.hookActors.push_back(static_cast<int>(placed - m_lowered.monsters.begin()));
+            }
+
             const YAML::Node condition = node["condition"];
             std::string onceVariable;
 
@@ -15380,7 +16105,10 @@ private:
         }
 
         // Monster groups the project has peaceful (`hostile: false`): one event of the build's own on entering the
-        // map clears their Hostile bit, as the shipped maps' scripts do for theirs.
+        // map clears their Hostile bit, as the shipped maps' scripts do for theirs. Once per fill of the map (a map
+        // variable of its own, which a refill clears): the saved state keeps the bits, so a group a script made hostile
+        // stays hostile over a reload (D7's refused tolls). It runs before the project's own load events
+        // (writeLuaText), which may change it.
         if (!m_peacefulGroups.empty())
         {
             LoweredEvent event;
@@ -15398,17 +16126,14 @@ private:
 
             event.eventId = IdsLock::number(m_lowered.ids.events, event.id, 1);
             event.trigger = "load";
-
-            for (const int group : m_peacefulGroups)
-            {
-                event.body.push_back("evt.SetMonGroupBit(" + std::to_string(group) + ", MonsterBits.Hostile, 0)");
-            }
+            event.body = peacefulGroupsBody(m_peacefulGroups);
 
             m_lowered.events.push_back(event);
         }
 
         readDestructibles();
         readWater();
+        checkSwimmerStarts();
         appendRelationsEvent();
 
         std::sort(
@@ -15636,7 +16361,63 @@ private:
                 }
             }
 
+            // The volume's own fog, checked with the game's parser on a one-piece volume of the same block.
+            if (const YAML::Node fog = childOf(node, "fog"); fog.IsDefined())
+            {
+                YAML::Node probe(YAML::NodeType::Map);
+                probe["id"] = "probe";
+                YAML::Node piece(YAML::NodeType::Map);
+                piece["polygon"].push_back(std::vector<double>{0.0, 0.0});
+                piece["polygon"].push_back(std::vector<double>{1.0, 0.0});
+                piece["polygon"].push_back(std::vector<double>{0.0, 1.0});
+                piece["bottom"] = 0.0;
+                piece["top"] = 1.0;
+                probe["pieces"].push_back(piece);
+                probe["fog"] = YAML::Clone(fog);
+                YAML::Node volumes(YAML::NodeType::Sequence);
+                volumes.push_back(probe);
+                YAML::Emitter emitter;
+                emitter << volumes;
+                std::vector<Game::IndoorWaterVolume> parsed;
+                std::string fogError;
+
+                if (!fog.IsMap() || !Game::parseIndoorSceneWaterVolumes(emitter.c_str(), parsed, fogError))
+                {
+                    issue("objects.yml", path + ".fog", "the game refuses this fog: " + (fog.IsMap() ? fogError
+                        : std::string("it is a map of `color_rgb`, `near_distance`, `far_distance` and `sky`")),
+                        "schema");
+                }
+                else
+                {
+                    water.fog = YAML::Clone(fog);
+                }
+            }
+
             m_lowered.water.push_back(water);
+        }
+    }
+
+    // A swimmer raised with `above_floor` swims only where its middle lies in water (the game's test at the start);
+    // elsewhere it would stand on its floor.
+    void checkSwimmerStarts()
+    {
+        for (const SwimmerStart &start : m_swimmerStarts)
+        {
+            const double middle = start.position[2] + start.height * 0.5;
+            const bool inWater = std::any_of(m_lowered.water.begin(), m_lowered.water.end(),
+                [&start, middle](const LoweredWater &water)
+                {
+                    return middle >= water.bottom && middle < water.top
+                        && pointInOrOnPolygon(water.outline, {start.position[0], start.position[1]});
+                });
+
+            if (!inWater)
+            {
+                issue("objects.yml", start.path + ".above_floor", start.id + " swims and does not fly: raised to "
+                    + formatNumber(start.position[2]) + ", its middle (" + formatNumber(middle) + ") is in no water "
+                    "of objects.yml `water`, and the game would stand it on its floor. Lower it into the water (its "
+                    "middle between a volume's `bottom` and `top`) or drop `above_floor`", "geometry");
+            }
         }
     }
 
@@ -15717,6 +16498,7 @@ private:
 
         monsters.peacefulGroups.insert(m_peacefulGroups.begin(), m_peacefulGroups.end());
         monsters.relations = m_relationRows;
+        monsters.world = tables().worldRelations;
 
         for (const std::string &warning :
             monsterHostilityWarnings(monsters, tables().monsterRows, tables().relationRows, "objects.yml"))
@@ -15757,13 +16539,28 @@ private:
             return false;
         }
 
-        if (trigger == "timer" || trigger == "load" || trigger == "leave" || trigger == "call")
+        if (node["actors"] && trigger != "monster_damage")
+        {
+            issue("wiring.yml", path + ".actors", "`actors` belongs to a damage hook (`trigger: monster_damage`)",
+                "schema");
+            return false;
+        }
+
+        if (node["monsters"] && trigger != "monster_damage")
+        {
+            issue("wiring.yml", path + ".monsters", "`monsters` belongs to a damage hook (`trigger: monster_damage`)",
+                "schema");
+            return false;
+        }
+
+        if (trigger == "timer" || trigger == "load" || trigger == "leave" || trigger == "call"
+            || trigger == "monster_damage")
         {
             if (!source.empty())
             {
                 issue("wiring.yml", path + ".source", std::string(trigger == "timer" ? "a timer"
                         : trigger == "load" ? "a load event" : trigger == "call" ? "a called event"
-                        : "a leave event")
+                        : trigger == "monster_damage" ? "a damage hook" : "a leave event")
                     + " runs by itself and has no `source`: remove it (to act only while the party stands "
                     "somewhere, let a step event set a map variable and give this event a `condition` on it)",
                     "schema");
@@ -15848,11 +16645,274 @@ private:
         }
     }
 
+    // The named arrivals (D-4): each plan entrance of kind arrival or both at its objects.yml `arrivals` place; else
+    // at the start, where the start's room realises the entrance's space; else in the middle of the first room that
+    // realises it. An `arrivals` entry that names no such entrance is an issue.
+    // objects.yml `arena` (XD-20): an arena as MM7's 7d05 is one. `monsters: [first, last]` are the monster ids the
+    // challenges draw from (the game leaves out NoArena and peasant rows); `party` is where a fight puts the party,
+    // placed as the start is; `marks` (each placed as the start is) and `ring` (`count` marks on a circle of `radius`
+    // round its place) are where the opponents appear, at least 20 (a Lord's fight has 20).
+    void readArena(const YAML::Node &arena)
+    {
+        if (m_overlay)
+        {
+            issue("objects.yml", "arena", "`arena` is written into a new map's scene; an overlay project writes no "
+                "scene of its map", "schema");
+            return;
+        }
+
+        LoweredArena lowered;
+        bool good = true;
+        const YAML::Node range = arena["monsters"];
+
+        if (range && range.IsSequence() && range.size() == 2 && classifyScalar(range[0]) == ScalarKind::Integer
+            && classifyScalar(range[1]) == ScalarKind::Integer)
+        {
+            lowered.minimumMonsterId = static_cast<int>(scalarNumber(range[0]));
+            lowered.maximumMonsterId = static_cast<int>(scalarNumber(range[1]));
+        }
+
+        if (lowered.minimumMonsterId <= 0 || lowered.maximumMonsterId < lowered.minimumMonsterId
+            || lowered.maximumMonsterId > 32767)
+        {
+            issue("objects.yml", "arena.monsters", "an arena's `monsters` are [first, last]: two monster ids, the "
+                "first at least 1, the last at least the first and at most 32767", "schema");
+            good = false;
+        }
+        else if (!tables().monsterRows.empty())
+        {
+            int rows = 0;
+
+            for (const std::vector<std::string> &row : tables().monsterRows)
+            {
+                char *pEnd = nullptr;
+                const long id = row.empty() ? 0 : std::strtol(row[0].c_str(), &pEnd, 10);
+
+                if (pEnd != nullptr && *pEnd == '\0' && !row[0].empty() && id >= lowered.minimumMonsterId
+                    && id <= lowered.maximumMonsterId)
+                {
+                    ++rows;
+                }
+            }
+
+            if (rows == 0)
+            {
+                issue("objects.yml", "arena.monsters", "monster_data.txt (with the world's rows) has no monster from "
+                    + std::to_string(lowered.minimumMonsterId) + " to " + std::to_string(lowered.maximumMonsterId)
+                    + ": the arena would find no opponent", "reference");
+                good = false;
+            }
+        }
+
+        // One place on a floor, as the start is placed.
+        const auto place = [&](const YAML::Node &node, const std::string &path) -> std::optional<std::array<double, 3>>
+        {
+            const std::optional<size_t> room = findRoom(textOr(node, "room", ""), "objects.yml", path + ".room");
+            const std::optional<Vec2> position =
+                room ? placement(m_lowered.rooms[*room], node, "objects.yml", path) : std::nullopt;
+            const std::optional<double> floor =
+                position ? standingFloor(m_lowered.rooms[*room], node, *position, path) : std::nullopt;
+
+            if (!floor)
+            {
+                return std::nullopt;
+            }
+
+            return std::array<double, 3>{position->x, position->y, *floor};
+        };
+
+        const YAML::Node party = arena["party"];
+
+        if (!party || !party.IsMap())
+        {
+            issue("objects.yml", "arena.party", "an arena names where a fight puts the party: `party: {room, at, "
+                "facing}`", "schema");
+            good = false;
+        }
+        else if (const std::optional<std::array<double, 3>> at = place(party, "arena.party"))
+        {
+            lowered.party.position = *at;
+            lowered.party.directionDegrees = static_cast<int>(facingDegrees(party["facing"]).value_or(0.0));
+        }
+        else
+        {
+            good = false;
+        }
+
+        size_t index = 0;
+
+        for (const YAML::Node &mark : arena["marks"])
+        {
+            const std::string path = "arena.marks[" + std::to_string(index++) + "]";
+
+            if (const std::optional<std::array<double, 3>> at = place(mark, path))
+            {
+                lowered.marks.push_back(*at);
+            }
+            else
+            {
+                good = false;
+            }
+        }
+
+        if (const YAML::Node ring = arena["ring"])
+        {
+            const std::optional<size_t> room = findRoom(textOr(ring, "room", ""), "objects.yml", "arena.ring.room");
+            const YAML::Node radiusNode = ring["radius"];
+            const YAML::Node countNode = ring["count"];
+            const double radius = radiusNode && radiusNode.IsScalar() ? scalarNumber(radiusNode) : 0.0;
+            const int count = countNode && classifyScalar(countNode) == ScalarKind::Integer
+                ? static_cast<int>(scalarNumber(countNode)) : 0;
+
+            if (radius <= 0.0 || count <= 0)
+            {
+                issue("objects.yml", "arena.ring", "a ring of marks has a `radius` over 0 and a whole `count` over "
+                    "0", "schema");
+                good = false;
+            }
+            else if (room)
+            {
+                // Round the ring's place (`at`, `offset` or the room's middle), the first mark east of it, then
+                // counter-clockwise.
+                const std::optional<Vec2> centre = placement(m_lowered.rooms[*room], ring, "objects.yml", "arena.ring");
+
+                for (int mark = 0; centre && mark < count; ++mark)
+                {
+                    const double angle = 2.0 * 3.14159265358979323846 * mark / count;
+                    YAML::Node node(YAML::NodeType::Map);
+                    node["room"] = textOr(ring, "room", "");
+                    node["at"].push_back(centre->x + radius * oy::cos(angle));
+                    node["at"].push_back(centre->y + radius * oy::sin(angle));
+
+                    if (ring["floor_height"])
+                    {
+                        node["floor_height"] = ring["floor_height"];
+                    }
+
+                    if (const std::optional<std::array<double, 3>> at =
+                            place(node, "arena.ring (mark " + std::to_string(mark) + ")"))
+                    {
+                        lowered.marks.push_back(*at);
+                    }
+                    else
+                    {
+                        good = false;
+                    }
+                }
+
+                good = good && centre.has_value();
+            }
+            else
+            {
+                good = false;
+            }
+        }
+
+        if (good && lowered.marks.size() < 20)
+        {
+            issue("objects.yml", "arena", "an arena has at least 20 marks for its opponents (`marks` and `ring` "
+                "together; a Lord's fight brings 20), not " + std::to_string(lowered.marks.size()), "schema");
+            good = false;
+        }
+
+        if (good)
+        {
+            // An opponent appearing on the party's mark would stand in it.
+            for (size_t mark = 0; mark < lowered.marks.size(); ++mark)
+            {
+                const double dx = lowered.marks[mark][0] - lowered.party.position[0];
+                const double dy = lowered.marks[mark][1] - lowered.party.position[1];
+
+                if (dx * dx + dy * dy < 256.0 * 256.0)
+                {
+                    m_lowered.warnings.push_back("arena mark " + std::to_string(mark) + " lies within 256 of the "
+                        "party's place: an opponent appears on the party there");
+                }
+            }
+
+            m_lowered.arena = lowered;
+        }
+    }
+
+    void lowerArrivals()
+    {
+        const YAML::Node entrances = childOf(m_project.document("plan.yml"), "entrances");
+        const YAML::Node roomList = childOf(m_project.document("rooms.yml"), "rooms");
+        std::set<std::string> named;
+
+        for (const YAML::Node &entrance : entrances.IsDefined() && entrances.IsSequence() ? entrances : YAML::Node())
+        {
+            const std::string id = textOr(entrance, "id", "");
+            const std::string kind = textOr(entrance, "kind", "both");
+            const std::string space = textOr(entrance, "space", "");
+
+            if (id.empty() || kind == "exit")
+            {
+                continue;
+            }
+
+            named.insert(id);
+            const auto placed = m_placedArrivals.find(id);
+
+            if (placed != m_placedArrivals.end())
+            {
+                m_lowered.arrivals.emplace_back(id, placed->second.first);
+                continue;
+            }
+
+            std::optional<size_t> realising;
+
+            for (const YAML::Node &roomNode : roomList.IsDefined() ? roomList : YAML::Node())
+            {
+                const std::string roomId = textOr(roomNode, "id", "");
+                const auto room = m_roomIndexById.find(roomId);
+
+                if (room == m_roomIndexById.end() || textOr(roomNode, "space", roomId) != space)
+                {
+                    continue;
+                }
+
+                if (m_startRoom && *m_startRoom == room->second && m_lowered.start)
+                {
+                    realising = room->second;
+                    break;
+                }
+
+                realising = realising ? realising : std::optional<size_t>(room->second);
+            }
+
+            if (realising && m_startRoom && *m_startRoom == *realising && m_lowered.start)
+            {
+                m_lowered.arrivals.emplace_back(id, *m_lowered.start);
+            }
+            else if (realising)
+            {
+                const LoweredRoom &room = m_lowered.rooms[*realising];
+                const Vec2 centre = roomCentre(room);
+                LoweredStart lowered;
+                lowered.position = {std::round(centre.x), std::round(centre.y), floorAt(room, centre.x, centre.y)};
+                lowered.directionDegrees = static_cast<int>(facingDegrees(childOf(entrance, "facing")).value_or(0.0));
+                m_lowered.arrivals.emplace_back(id, lowered);
+            }
+        }
+
+        for (const std::pair<const std::string, std::pair<LoweredStart, std::string>> &placed : m_placedArrivals)
+        {
+            if (!named.contains(placed.first))
+            {
+                issue("objects.yml", placed.second.second + ".entrance", "`" + placed.first + "` is no plan.yml "
+                    "entrance of kind arrival or both: an arrival's `entrance` names the plan entrance a party "
+                    "arrives by", "reference");
+            }
+        }
+    }
+
     // The evt.MoveToMap line that takes the party to a neighbour of project.yml: its arrival and direction, and the
-    // screen shown before the map loads (`screen: {house, picture}`: the shipped scripts' seventh and eighth
-    // numbers, the MM8 dungeons' exits 0 and 1). Nothing, with an issue, when the neighbour cannot be reached.
+    // window shown before the map loads (the neighbour's `screen`, readMoveScreen: the shipped scripts' seventh and
+    // eighth numbers, the MM8 dungeons' exits 0 and 1). `direct`: no window and no leave-the-dungeon window
+    // (`{direct = true}`), for a `leave` effect. Nothing, with an issue, when the neighbour cannot be reached.
     std::optional<std::string> moveToNeighbour(
-        const std::string &neighbourId, const std::string &file, const std::string &path)
+        const std::string &neighbourId, const std::string &file, const std::string &path, bool direct = false)
     {
         const YAML::Node neighbours = childOf(m_project.document("project.yml"), "neighbours");
 
@@ -15863,7 +16923,40 @@ private:
                 continue;
             }
 
-            const YAML::Node arrival = neighbour["arrival"];
+            // A copy: assigning to a node taken from the document would rewrite the neighbour's `arrival` itself,
+            // and the next exit naming it would find coordinates and lose the named arrival's facing.
+            YAML::Node arrival = YAML::Clone(neighbour["arrival"]);
+            std::optional<int> namedFacing;
+
+            // A named arrival of the neighbour's map (D-4: `arrival: entrance:<id>` or `start`), from its installed
+            // <stem>.studio.yml; the map's start, with a warning, while it is not installed.
+            if (arrival && arrival.IsScalar())
+            {
+                MapArrival found;
+                std::string warning;
+                const std::string world = textOr(m_project.document("project.yml"), "world", "");
+
+                if (!resolveMapArrival(m_options.assetRoot, m_options.mountRoot, world, textOr(neighbour, "to", ""),
+                        arrival.Scalar(), found, warning))
+                {
+                    issue("project.yml", "neighbours." + neighbourId + ".arrival", warning, "reference");
+                    return std::nullopt;
+                }
+
+                if (!warning.empty())
+                {
+                    m_lowered.warnings.push_back("project.yml neighbours." + neighbourId + ".arrival: " + warning);
+                }
+
+                arrival = YAML::Node(YAML::NodeType::Sequence);
+
+                for (const int value : found.at)
+                {
+                    arrival.push_back(value);
+                }
+
+                namedFacing = found.facing;
+            }
 
             if (!arrival || !arrival.IsSequence() || arrival.size() < 3)
             {
@@ -15875,31 +16968,52 @@ private:
                 return std::nullopt;
             }
 
-            const YAML::Node screen = neighbour["screen"];
-            double house = 0.0;
-            double picture = 0.0;
+            // The entrance window (readMoveScreen): the standard one toward a dungeon (F16), none toward an outdoor
+            // map (the engine asks to leave the dungeon itself); a `leave` effect moves directly.
+            MoveScreen screen;
+            std::string screenError;
 
-            if (screen)
+            if (direct)
             {
-                house = screen.IsMap() ? numberOr(screen, "house", 0.0) : -1.0;
-                picture = screen.IsMap() ? numberOr(screen, "picture", 1.0) : -1.0;
-
-                if (house < 0.0 || picture < 0.0 || house != std::floor(house) || picture != std::floor(picture))
-                {
-                    issue("project.yml", "neighbours." + neighbourId + ".screen", "screen is {house: <a row of the "
-                        "house table whose text the screen shows, default 0>, picture: <its picture, default 1>}: "
-                        "the MM8 dungeons' exits show {picture: 1}", "schema");
-                    return std::nullopt;
-                }
+                screen.direct = true;
+            }
+            else if (!readMoveScreen(neighbour["screen"], textOr(neighbour, "to", ""), screen, screenError))
+            {
+                issue("project.yml", "neighbours." + neighbourId + ".screen", screenError, "schema");
+                return std::nullopt;
             }
 
-            // Yaw in the engine's 2048 units per turn.
-            const int direction = static_cast<int>(
+            // `keep_height`: the party arrives at the arrival's height and falls from there (XD-07's throne throw);
+            // else it stands on the ground under the arrival.
+            std::vector<std::string> options;
+
+            if (screen.direct)
+            {
+                options.push_back("direct = true");
+            }
+
+            if (neighbour["keep_height"] && neighbour["keep_height"].IsScalar()
+                && neighbour["keep_height"].as<bool>(false))
+            {
+                options.push_back("keepHeight = true");
+            }
+
+            std::string moveOptions;
+
+            for (size_t index = 0; index < options.size(); ++index)
+            {
+                moveOptions += (index == 0 ? ", {" : ", ") + options[index];
+            }
+
+            moveOptions += options.empty() ? "" : "}";
+
+            // Yaw in the engine's 2048 units per turn; a named arrival's own unless `direction` is given.
+            const int direction = namedFacing && !neighbour["direction"] ? *namedFacing : static_cast<int>(
                 std::lround(numberOr(neighbour, "direction", 0.0) * 2048.0 / 360.0)) % 2048;
             return "evt.MoveToMap(" + formatNumber(scalarNumber(arrival[0])) + ", "
                 + formatNumber(scalarNumber(arrival[1])) + ", " + formatNumber(scalarNumber(arrival[2])) + ", "
-                + std::to_string(direction) + ", 0, 0, " + formatNumber(house) + ", " + formatNumber(picture) + ", "
-                + luaQuote(textOr(neighbour, "to", "")) + ")";
+                + std::to_string(direction) + ", 0, 0, " + std::to_string(screen.text) + ", "
+                + std::to_string(screen.picture) + ", " + luaQuote(textOr(neighbour, "to", "")) + moveOptions + ")";
         }
 
         issue(file, path, "the exit leads to " + neighbourId + ", which is not in project.yml neighbours",
@@ -15907,8 +17021,40 @@ private:
         return std::nullopt;
     }
 
+    // A condition made only of quest and player bits (`qbit`, `player_bit`, under `not`, `any` and `all`): the
+    // quest's stage or a first-arrival guard, which a map's arrival text may depend on (XD-13's three arrivals by
+    // Newcastle's stage), not an event of the visit (`kills`, an item, a map variable).
+    static bool stageCondition(const YAML::Node &condition)
+    {
+        if (!condition.IsMap() || condition.size() != 1)
+        {
+            return false;
+        }
+
+        const std::string key = condition.begin()->first.as<std::string>("");
+        const YAML::Node value = condition.begin()->second;
+
+        if (key == "qbit" || key == "player_bit")
+        {
+            return true;
+        }
+
+        if (key == "not")
+        {
+            return stageCondition(value);
+        }
+
+        if ((key == "any" || key == "all") && value.IsSequence() && value.size() > 0)
+        {
+            return std::all_of(value.begin(), value.end(), [](const YAML::Node &part) { return stageCondition(part); });
+        }
+
+        return false;
+    }
+
     // A new dungeon (project.yml `new: true`, or a `map_code` of a new world's map without `new: false`) opens with
-    // its errand: a text shown on arrival, from a timer event without a condition (`every: 1`, `once`) or a load
+    // its errand: a text shown on arrival, from a timer event (`every: 1`, `once`) without a condition or with one of
+    // quest and player bits only (a first-arrival guard `{not: {qbit: arrived_once}}`, the quest's stage), or a load
     // event's status line (the user's walk through XD-02: "I don't know the intention of it, what quest was there").
     // A load event's message window is not shown in the game, so it does not count.
     void warnMissingArrivalText()
@@ -15927,8 +17073,9 @@ private:
         for (const YAML::Node &event : m_project.document("wiring.yml")["events"])
         {
             const std::string trigger = textOr(event, "trigger", "");
+            const YAML::Node condition = event["condition"];
 
-            if ((trigger != "timer" && trigger != "load") || event["condition"])
+            if ((trigger != "timer" && trigger != "load") || (condition && !stageCondition(condition)))
             {
                 continue;
             }
@@ -15945,7 +17092,9 @@ private:
                 {
                     const std::string &lua = effect["lua"].Scalar();
                     status = status || lua.find("StatusText") != std::string::npos;
-                    window = window || lua.find("SimpleMessage") != std::string::npos;
+                    // A world's quest hook (`XeenQuests.hook("m21.arrival")`) shows its own text, as a message.
+                    window = window || lua.find("SimpleMessage") != std::string::npos
+                        || lua.find(".hook(") != std::string::npos;
                 }
             }
 
@@ -16151,6 +17300,49 @@ private:
                 held += under || over ? 1 : 0;
             }
 
+            // On legs: three or more blocks under its footprint whose tops meet its bottom, standing round its middle
+            // (a table top on four leg blocks at its corners, DD-13's long table).
+            if (held * 2 < samples.size())
+            {
+                std::vector<Point2> legs;
+                std::vector<Point2> footprint;
+
+                for (const Vec2 &point : shape.first)
+                {
+                    footprint.push_back({point.x, point.y});
+                }
+
+                for (const BoxObject &other : m_boxes)
+                {
+                    if (&other != &box && !other.plate && pointInOrOnPolygon(footprint, {other.centre.x,
+                            other.centre.y}) && blockTopAt(other.centre.x, other.centre.y, bottom, 2.0, &box))
+                    {
+                        legs.push_back({other.centre.x, other.centre.y});
+                    }
+                }
+
+                if (legs.size() >= 3)
+                {
+                    Point2 mean = {0.0, 0.0};
+
+                    for (const Point2 &leg : legs)
+                    {
+                        mean[0] += leg[0] / static_cast<double>(legs.size());
+                        mean[1] += leg[1] / static_cast<double>(legs.size());
+                    }
+
+                    std::sort(legs.begin(), legs.end(), [&mean](const Point2 &a, const Point2 &b)
+                    {
+                        return std::atan2(a[1] - mean[1], a[0] - mean[0]) < std::atan2(b[1] - mean[1], b[0] - mean[0]);
+                    });
+
+                    if (pointInOrOnPolygon(legs, {box.centre.x, box.centre.y}))
+                    {
+                        held = samples.size();
+                    }
+                }
+            }
+
             if (held * 2 < samples.size())
             {
                 m_lowered.warnings.push_back((box.sourcePath.empty() ? box.nodeName : box.sourcePath) + " in "
@@ -16171,6 +17363,9 @@ private:
         double top = 0.0;
         double radius = 0.0;
         bool swings = false;
+        // Its model stands turned by a hash of its position (`yaw: random`, the default, on the ground): the game
+        // ignores the placement's facing (game/maps/DecorationModelSet.cpp).
+        bool randomYaw = false;
     };
 
     DecorationShape decorationShape(const std::string &name) const
@@ -16191,37 +17386,50 @@ private:
             return shape;
         }
 
-        const YAML::Node &bindings = tables().modelBindings;
+        // The engine's bindings, then the project's world's own (worlds/<world>/models/indoor_decorations.yml); a
+        // binding for this map (its `maps`) before one for every dungeon, the first of equal rank.
+        std::vector<YAML::Node> bindingSets = {tables().modelBindings};
+        const std::map<std::string, YAML::Node>::const_iterator worldBindings =
+            tables().worldModelBindings.find(textOr(m_project.document("project.yml"), "world", ""));
 
-        // A binding for this map (its `maps`) before one for every dungeon.
+        if (worldBindings != tables().worldModelBindings.end())
+        {
+            bindingSets.push_back(worldBindings->second);
+        }
+
         const std::string mapFile = lowerText(m_lowered.mapStem + ".blv");
         int bestRank = 0;
 
-        for (const YAML::Node &binding : bindings["decorations"])
+        for (const YAML::Node &bindings : bindingSets)
         {
-            if (lowerText(textOr(binding, "name", "")) != wanted || !binding["height"])
+            for (const YAML::Node &binding : bindings["decorations"])
             {
-                continue;
-            }
-
-            int rank = 1;
-
-            if (const YAML::Node maps = binding["maps"])
-            {
-                rank = 0;
-
-                for (const YAML::Node &map : maps)
+                if (lowerText(textOr(binding, "name", "")) != wanted || !binding["height"])
                 {
-                    rank = lowerText(map.Scalar()) == mapFile ? 2 : rank;
+                    continue;
                 }
-            }
 
-            if (rank > bestRank)
-            {
-                bestRank = rank;
-                shape.bottom = numberOr(binding, "z_offset", 0.0);
-                shape.top = shape.bottom + numberOr(binding, "height", 0.0);
-                shape.swings = static_cast<bool>(binding["swing"]);
+                int rank = 1;
+
+                if (const YAML::Node maps = binding["maps"])
+                {
+                    rank = 0;
+
+                    for (const YAML::Node &map : maps)
+                    {
+                        rank = lowerText(map.Scalar()) == mapFile ? 2 : rank;
+                    }
+                }
+
+                if (rank > bestRank)
+                {
+                    bestRank = rank;
+                    shape.bottom = numberOr(binding, "z_offset", 0.0);
+                    shape.top = shape.bottom + numberOr(binding, "height", 0.0);
+                    shape.swings = static_cast<bool>(binding["swing"]);
+                    shape.randomYaw =
+                        textOr(binding, "yaw", "random") == "random" && textOr(binding, "mount", "") != "wall";
+                }
             }
         }
 
@@ -16248,7 +17456,9 @@ private:
             const LoweredRoom &room = m_lowered.rooms[box.room];
             PlacedBody body;
             body.room = box.room;
-            body.id = box.sourcePath.empty() ? box.nodeName : box.sourcePath;
+            // A platform or block with an `id` by that id (so `inside` can name it), else by its place in the file.
+            body.id = !box.featureId.empty() ? box.featureId
+                : box.sourcePath.empty() ? box.nodeName : box.sourcePath;
 
             for (const std::pair<const std::string, bool> &chest : m_chestLooks)
             {
@@ -16787,6 +17997,36 @@ private:
         monster.yawUnits = ((static_cast<int>(std::lround(degrees * 2048.0 / 360.0)) % 2048) + 2048) % 2048;
         monster.group = static_cast<int>(numberOr(node, "group", 0.0));
         monster.immobile = textOr(node, "immobile", "false") == "true";
+        monster.leash = static_cast<int>(std::lround(numberOr(node, "leash", 0.0)));
+
+        if (monster.leash < 0 || monster.leash > 32768)
+        {
+            issue("objects.yml", path + ".leash", "`leash` is a home radius in game units, 0 to 32768", "schema");
+            return false;
+        }
+
+        // The game lets a leashed monster move within its circle whatever `immobile` says.
+        if (monster.leash > 0 && monster.immobile)
+        {
+            issue("objects.yml", path + ".leash", "`leash` and `immobile` both hold the monster: a leashed one moves "
+                "and fights within its circle, an immobile one never leaves its place. Keep one", "schema");
+            return false;
+        }
+
+        monster.npc = static_cast<int>(numberOr(node, "npc", 0.0));
+
+        if (monster.npc < 0)
+        {
+            issue("objects.yml", path + ".npc", "`npc` is a row of the world's npc table (the NPC the monster talks "
+                "as), or 0", "schema");
+            return false;
+        }
+
+        if (monster.npc > 0 && textOr(node, "hostile", "false") == "true")
+        {
+            m_lowered.warnings.push_back(id + " is NPC " + std::to_string(monster.npc) + " but `hostile`: a hostile "
+                "monster does not talk when clicked");
+        }
 
         // Invisible from the start (the game's Invisible bit): neither drawn nor acting until an event
         // shows its group ({show_actors: <group>}).
@@ -16818,25 +18058,9 @@ private:
     {
         item.id = id;
         item.name = idName(id);
-        item.itemId = cellNumber(itemRow, 0).value_or(0);
-        // What draws an item on the ground: the row of object_list.txt whose object number (column 2) is the
-        // item's sprite index (items.txt column 11). The game numbers the rows from 0 and lets the last row
-        // of a number win.
         const std::optional<int> spriteIndex = cellNumber(itemRow, 11);
-        int rowNumber = 0;
 
-        for (const std::vector<std::string> &row : objectRows)
-        {
-            if (spriteIndex && *spriteIndex > 0 && cellNumber(row, 2) == spriteIndex)
-            {
-                item.objectDescriptionId = rowNumber;
-                item.spriteId = cellNumber(row, 7).value_or(0);
-            }
-
-            ++rowNumber;
-        }
-
-        if (item.objectDescriptionId == 0)
+        if (!groundItemObjectOf(itemRow, objectRows, item))
         {
             issue("objects.yml", path + ".item", "the item " + itemRow[0] + " (" + itemRow[2] + ") cannot lie "
                 "on the floor: " + (objectRows.empty() ? "the build needs object_list.txt (pass --assets "
@@ -16968,6 +18192,97 @@ private:
     // A door whose events are bound to one side each: the faces of its leaf node that face `outward` (the opening's
     // `to` room) go to a node of their own, `<node>.back`, which takes the back event; the rest (the front and the
     // edges) stay. Pushes the node(s) owned by `room`.
+    // A trapdoor's leaf: a slab filling its hole, its top flush with the upper floor (`surface`, the picture once
+    // over the leaf), its underside (`back_surface`) and its four sides (`edge_surface`, default the room's reveal).
+    // It turns about its hinge side: down (positive `swing`) about the underside's edge, so it hangs inside the hole
+    // and the room below, or up about the top's edge, standing over the hole's side. Owned by the upper room.
+    void addTrapdoor(size_t doorIndex)
+    {
+        LoweredDoor &door = m_lowered.doors[doorIndex];
+        const YAML::Node &doorNode = m_doorNodes[doorIndex];
+        const LoweredOpening &opening = m_lowered.openings[door.opening];
+        const LoweredRoom &room = m_lowered.rooms[opening.fromRoom];
+        double minX = opening.outline[0][0];
+        double maxX = minX;
+        double minY = opening.outline[0][1];
+        double maxY = minY;
+
+        for (const std::array<double, 2> &corner : opening.outline)
+        {
+            minX = std::min(minX, corner[0]);
+            maxX = std::max(maxX, corner[0]);
+            minY = std::min(minY, corner[1]);
+            maxY = std::max(maxY, corner[1]);
+        }
+
+        const double thickness = numberOr(doorNode, "thickness", 16.0);
+        const double top = opening.top;
+        const double bottom = top - thickness;
+        LoweredSurface surface = readSurface(doorNode["surface"], room.door);
+        LoweredSurface backSurface = readSurface(doorNode["back_surface"], surface);
+        const LoweredSurface edgeSurface = readSurface(doorNode["edge_surface"], revealOf(opening));
+        GlbNode node;
+        node.name = "MECH_" + door.name;
+
+        // The top and the underside, each with its picture once over the leaf (or at its texel size without one).
+        const auto addLevel = [&](const LoweredSurface &levelSurface, double height, bool up)
+        {
+            std::vector<Vec3> points = {{minX, minY, height}, {maxX, minY, height}, {maxX, maxY, height},
+                {minX, maxY, height}};
+
+            if (!up)
+            {
+                std::reverse(points.begin(), points.end());
+            }
+
+            std::vector<std::array<double, 2>> texels;
+
+            for (const Vec3 &point : points)
+            {
+                const double u = levelSurface.width > 0
+                    ? (point.x - minX) / (maxX - minX) * levelSurface.width : point.x / levelSurface.scale;
+                const double v = levelSurface.height > 0
+                    ? (maxY - point.y) / (maxY - minY) * levelSurface.height : -point.y / levelSurface.scale;
+                texels.push_back({up ? u : (levelSurface.width > 0 ? levelSurface.width - u : -u), v});
+            }
+
+            addFace(node, levelSurface, points, texels, {0.0, 0.0, up ? 1.0 : -1.0});
+        };
+        addLevel(surface, top, true);
+        addLevel(backSurface, bottom, false);
+        const std::array<Vec2, 4> footprint = {{{minX, minY}, {maxX, minY}, {maxX, maxY}, {minX, maxY}}};
+
+        for (size_t side = 0; side < 4; ++side)
+        {
+            const Vec2 &first = footprint[side];
+            const Vec2 &second = footprint[(side + 1) % 4];
+            WallFrame frame;
+            frame.origin = first;
+            const double dx = second.x - first.x;
+            const double dy = second.y - first.y;
+            frame.length = std::sqrt(dx * dx + dy * dy);
+            frame.along = {dx / frame.length, dy / frame.length};
+            frame.outward = {frame.along.y, -frame.along.x};
+            addWallRectangle(
+                node, edgeSurface, frame, 0.0, frame.length, bottom, top, 0.0,
+                {frame.outward.x, frame.outward.y, 0.0}, top);
+        }
+
+        // The hinge side's outward direction n; the axis n x up turns the free side down for positive angles.
+        const std::string hinge = textOr(doorNode, "hinge", "west");
+        const Vec2 outward = hinge == "west" ? Vec2{-1.0, 0.0} : hinge == "east" ? Vec2{1.0, 0.0}
+            : hinge == "south" ? Vec2{0.0, -1.0} : Vec2{0.0, 1.0};
+        const double swing = numberOr(doorNode, "swing", 90.0);
+        const double pivotX = outward.x < 0.0 ? minX : outward.x > 0.0 ? maxX : (minX + maxX) / 2.0;
+        const double pivotY = outward.y < 0.0 ? minY : outward.y > 0.0 ? maxY : (minY + maxY) / 2.0;
+        door.pivot = {pivotX, pivotY, swing > 0.0 ? bottom : top};
+        door.axis = {outward.y, -outward.x, 0.0};
+        door.openDegrees = swing;
+        door.turnSpeed = numberOr(doorNode, "speed", 60.0);
+        door.autoCloseSeconds = numberOr(doorNode, "auto_close_seconds", 0.0);
+        pushDoorNode(std::move(node), door, {0.0, 0.0}, opening.fromRoom);
+    }
+
     void pushDoorNode(GlbNode node, const LoweredDoor &door, const Vec2 &outward, size_t room)
     {
         GlbNode back;
@@ -17011,8 +18326,8 @@ private:
     }
 
     // A chest of a kind (ChestKind): its front (+depth side) and back as left end, middle and right end, its short
-    // ends one picture each, its lid flat or sloping, each part from the kind unless the chest's own surface says
-    // otherwise (`kindFront`, `kindEnds`, `kindTop`).
+    // ends one picture each, its lid flat or sloping (core/ChestKinds `chestKindFaces`), each part from the kind
+    // unless the chest's own surface says otherwise (`kindFront`, `kindEnds`, `kindTop`).
     void addChestFaces(GlbNode &node, const BoxObject &box, double bottom, double top)
     {
         const ChestKind &kind = *box.chestKind;
@@ -17022,44 +18337,36 @@ private:
         const double halfWidth = box.size[0] / 2.0;
         const double halfDepth = box.size[1] / 2.0;
         const double body = kind.sloped ? top - 16.0 : top;
-        // MM6's ends are textures 16 wide of their own; MM7's and MM8's the first and last 16 columns of one 64 wide.
-        const int endWidth = kind.sloped ? 64 : 16;
         const auto at = [&box, &widthAxis, &depthAxis](double across, double deep, double z) -> Vec3
         {
             return {std::round(box.centre.x + widthAxis.x * across + depthAxis.x * deep),
                 std::round(box.centre.y + widthAxis.y * across + depthAxis.y * deep), z};
         };
-        const auto surfaceOf = [](const std::string &texture, int width)
+        const std::vector<ChestFace> faces = chestKindFaces(kind, box.size, bottom, top);
+        // The kind's faces of one part and side, each with its own picture or `pSurface`.
+        const auto lay = [&](ChestPart part, double sign, const LoweredSurface *pSurface)
         {
-            LoweredSurface surface;
-            surface.texture = texture;
-            surface.width = width;
-            surface.height = 64;
-            return surface;
-        };
-        // A strip across the chest's width: left end, middle and right end, from `leftAcross` (where the viewer of
-        // this face has the left end) to the other side. `corner(across, 0)` is on the strip's edge where the
-        // picture's rows are `vFrom`, `corner(across, 1)` on the other edge (`vTo`).
-        const auto addStrip = [&](const std::function<Vec3(double, int)> &corner, double leftAcross,
-                                  const Vec3 &normal, const std::string &left, const std::string &middle,
-                                  const std::string &right, double vFrom, double vTo)
-        {
-            const double direction = leftAcross > 0.0 ? -1.0 : 1.0;
-            const double full = box.size[0];
-            const std::array<std::tuple<double, double, std::string, double, int>, 3> pieces = {{
-                {0.0, 16.0, left, 0.0, endWidth},
-                {16.0, full - 16.0, middle, 0.0, 64},
-                {full - 16.0, full, right, kind.sloped ? 48.0 : 0.0, endWidth}}};
-
-            for (const std::tuple<double, double, std::string, double, int> &piece : pieces)
+            for (const ChestFace &face : faces)
             {
-                const double from = leftAcross + direction * std::get<0>(piece);
-                const double to = leftAcross + direction * std::get<1>(piece);
-                const double uFrom = std::get<3>(piece);
-                const double uTo = uFrom + std::get<1>(piece) - std::get<0>(piece);
-                addFace(node, surfaceOf(std::get<2>(piece), std::get<4>(piece)),
-                    {corner(from, 0), corner(to, 0), corner(to, 1), corner(from, 1)},
-                    {{uFrom, vFrom}, {uTo, vFrom}, {uTo, vTo}, {uFrom, vTo}}, normal);
+                if (face.part != part || face.sign != sign)
+                {
+                    continue;
+                }
+
+                LoweredSurface surface;
+                surface.texture = face.texture;
+                surface.width = face.width;
+                surface.height = 64;
+                std::vector<Vec3> points;
+
+                for (const std::array<double, 3> &corner : face.corners)
+                {
+                    points.push_back(at(corner[0], corner[1], corner[2]));
+                }
+
+                addFace(node, pSurface != nullptr ? *pSurface : surface, points, face.texels,
+                    {widthAxis.x * face.normal[0] + depthAxis.x * face.normal[1],
+                        widthAxis.y * face.normal[0] + depthAxis.y * face.normal[1], face.normal[2]});
             }
         };
         // A side as any block's is laid (a surface of the chest's own).
@@ -17078,15 +18385,9 @@ private:
         // The front (+depth) and the back.
         for (const double sign : {1.0, -1.0})
         {
-            const Vec3 normal = {depthAxis.x * sign, depthAxis.y * sign, 0.0};
-
             if (box.kindFront)
             {
-                addStrip([&at, sign, halfDepth, body, bottom](double across, int edge)
-                    {
-                        return at(across, sign * halfDepth, edge == 0 ? body : bottom);
-                    }, sign * halfWidth, normal, kind.frontLeft, kind.frontMiddle, kind.frontRight, 0.0,
-                    body - bottom);
+                lay(ChestPart::Side, sign, nullptr);
             }
             else
             {
@@ -17096,83 +18397,35 @@ private:
             }
         }
 
-        // The short ends (+width and -width).
+        // The short ends (+width and -width), and the upper strip under the lid's slopes.
         for (const double sign : {1.0, -1.0})
         {
-            // Seen from outside this end, its left is toward -depth at the +width end.
-            const Vec3 left = at(sign * halfWidth, -sign * halfDepth, bottom);
-            const Vec3 right = at(sign * halfWidth, sign * halfDepth, bottom);
             const LoweredSurface ends = box.endSurface ? *box.endSurface : box.surface;
 
             if (box.kindEnds)
             {
-                addFace(node, surfaceOf(kind.side, 64),
-                    {{left.x, left.y, body}, {right.x, right.y, body}, {right.x, right.y, bottom},
-                        {left.x, left.y, bottom}},
-                    {{0.0, 0.0}, {box.size[1], 0.0}, {box.size[1], body - bottom}, {0.0, body - bottom}},
-                    {widthAxis.x * sign, widthAxis.y * sign, 0.0});
+                lay(ChestPart::End, sign, nullptr);
             }
             else
             {
-                plainSide(left, right, bottom, body, ends);
+                plainSide(at(sign * halfWidth, -sign * halfDepth, bottom), at(sign * halfWidth, sign * halfDepth,
+                    bottom), bottom, body, ends);
             }
 
-            if (kind.sloped)
-            {
-                // The upper strip under the lid's slopes: a trapezoid.
-                const Vec3 leftHigh = at(sign * halfWidth, -sign * (halfDepth - 16.0), top);
-                const Vec3 rightHigh = at(sign * halfWidth, sign * (halfDepth - 16.0), top);
-                addFace(node, box.kindEnds ? surfaceOf(kind.sideTop, 64) : ends,
-                    {{left.x, left.y, body}, {right.x, right.y, body}, rightHigh, leftHigh},
-                    {{0.0, 64.0}, {box.size[1], 64.0}, {box.size[1] - 16.0, 48.0}, {16.0, 48.0}},
-                    {widthAxis.x * sign, widthAxis.y * sign, 0.0});
-            }
+            lay(ChestPart::EndTop, sign, box.kindEnds ? nullptr : &ends);
         }
 
         // The lid.
-        const double topDepth = kind.sloped ? halfDepth - 16.0 : halfDepth;
+        lay(ChestPart::Slope, 1.0, nullptr);
+        lay(ChestPart::Slope, -1.0, nullptr);
 
-        if (kind.sloped)
+        if (box.kindTop)
         {
-            for (const double sign : {1.0, -1.0})
-            {
-                addStrip([&at, sign, halfDepth, body, top](double across, int edge)
-                    {
-                        return edge == 0 ? at(across, sign * (halfDepth - 16.0), top)
-                                         : at(across, sign * halfDepth, body);
-                    }, sign * halfWidth, {depthAxis.x * sign, depthAxis.y * sign, 1.0}, kind.frontLeft,
-                    sign > 0.0 ? kind.slopeMiddle : kind.frontMiddle, kind.frontRight, 48.0, 64.0);
-            }
-        }
-
-        if (box.kindTop && kind.lidAcross)
-        {
-            // From the +width end: left end, middle, right end; u from the front (+depth) to the back, v along.
-            const std::array<std::tuple<double, double, std::string>, 3> pieces = {{
-                {halfWidth, halfWidth - 16.0, kind.topLeft},
-                {halfWidth - 16.0, 16.0 - halfWidth, kind.topMiddle},
-                {16.0 - halfWidth, -halfWidth, kind.topRight}}};
-
-            for (const std::tuple<double, double, std::string> &piece : pieces)
-            {
-                const double from = std::get<0>(piece);
-                const double to = std::get<1>(piece);
-                const double along = from - to;
-                addFace(node, surfaceOf(std::get<2>(piece), 64),
-                    {at(from, topDepth, top), at(from, -topDepth, top), at(to, -topDepth, top), at(to, topDepth, top)},
-                    {{0.0, 0.0}, {2.0 * topDepth, 0.0}, {2.0 * topDepth, along}, {0.0, along}}, {0.0, 0.0, 1.0});
-            }
-        }
-        else if (box.kindTop)
-        {
-            addStrip([&at, topDepth, top](double across, int edge)
-                {
-                    return at(across, edge == 0 ? topDepth : -topDepth, top);
-                }, -halfWidth, {0.0, 0.0, 1.0}, kind.topLeft, kind.topMiddle, kind.topRight,
-                kind.sloped ? 64.0 - 2.0 * topDepth : 0.0, kind.sloped ? 64.0 : 2.0 * topDepth);
+            lay(ChestPart::Top, 0.0, nullptr);
         }
         else
         {
+            const double topDepth = kind.sloped ? halfDepth - 16.0 : halfDepth;
             addHorizontal(node, box.lidSurface ? *box.lidSurface : box.surface,
                 {at(-halfWidth, -topDepth, top), at(halfWidth, -topDepth, top), at(halfWidth, topDepth, top),
                     at(-halfWidth, topDepth, top)}, true);
@@ -17404,6 +18657,7 @@ private:
         GlbFace face;
         face.material = surface.texture;
         face.attributes = surface.faceBits;
+        face.translucency = surface.translucency;
         face.owner = m_owner;
 
         for (size_t index = 0; index < count; ++index)
@@ -17647,18 +18901,44 @@ private:
         addFace(node, surface, points, texels, normal);
     }
 
+    // `pFitBounds`: the whole top a piece belongs to; a surface with `fit` is stretched once over its extent (a
+    // lectern's open book, a desk's papers: F12, 2026-11-22), else laid at its size from the map's origin.
     void addHorizontal(
         GlbNode &node,
         const LoweredSurface &surface,
         const std::vector<Vec3> &points,
         bool facingUp,
-        bool sloped = false)
+        bool sloped = false,
+        const std::vector<Vec3> *pFitBounds = nullptr)
     {
         std::vector<std::array<double, 2>> texels;
+        double minX = 0.0;
+        double maxX = 0.0;
+        double minY = 0.0;
+        double maxY = 0.0;
+        const bool fitted = surface.fit && pFitBounds != nullptr && !pFitBounds->empty() && surface.width > 0
+            && surface.height > 0;
+
+        for (size_t index = 0; fitted && index < pFitBounds->size(); ++index)
+        {
+            const Vec3 &point = (*pFitBounds)[index];
+            minX = index == 0 ? point.x : std::min(minX, point.x);
+            maxX = index == 0 ? point.x : std::max(maxX, point.x);
+            minY = index == 0 ? point.y : std::min(minY, point.y);
+            maxY = index == 0 ? point.y : std::max(maxY, point.y);
+        }
 
         for (const Vec3 &point : points)
         {
-            texels.push_back({point.x / surface.scale, -point.y / surface.scale});
+            if (fitted)
+            {
+                texels.push_back({(point.x - minX) / std::max(1.0, maxX - minX) * surface.width,
+                    (maxY - point.y) / std::max(1.0, maxY - minY) * surface.height});
+            }
+            else
+            {
+                texels.push_back({point.x / surface.scale, -point.y / surface.scale});
+            }
         }
 
         if (sloped)
@@ -18813,12 +20093,10 @@ private:
             // Floors that run a step event or burn are nodes of their own beside the room's: the room's own floor
             // and the floors of its sunken levels.
             std::vector<GlbNode> partNodes;
-            const auto partNode = [this, &partNodes, roomIndex](const std::string &id, const std::string &name)
-                -> GlbNode *
+            const auto partNode = [this, &partNodes, roomIndex](const std::optional<FloorPart> &part,
+                                      const std::string &name) -> GlbNode *
             {
-                const std::map<std::string, FloorPart>::const_iterator part = m_floorParts.find(id);
-
-                if (id.empty() || part == m_floorParts.end())
+                if (!part)
                 {
                     return nullptr;
                 }
@@ -18826,13 +20104,15 @@ private:
                 GlbNode built;
                 built.name = name;
                 partNodes.push_back(built);
-                m_floorPartNodes.push_back({name, part->second});
+                m_floorPartNodes.push_back({name, *part});
                 m_ownedNodes[roomIndex].push_back(name);
                 return &partNodes.back();
             };
             // Reserved before any pointer into it is taken: the room's floor and one for each of its levels.
             partNodes.reserve(m_recesses.size() + 1);
-            GlbNode *pOwnFloor = partNode(room.id, "TRIGGER_floor_" + room.name);
+            const std::map<std::string, FloorPart>::const_iterator ownPart = m_floorParts.find(room.id);
+            GlbNode *pOwnFloor = partNode(ownPart != m_floorParts.end() ? std::optional<FloorPart>(ownPart->second)
+                    : std::nullopt, "TRIGGER_floor_" + room.name);
             // Wall panels that are clicked, by their id: each a node of its own beside the room's.
             std::map<std::string, GlbNode> panelNodes;
             // Parts of an uneven floor or ceiling that are objects (an `id`, `secret`), by node name.
@@ -18881,6 +20161,9 @@ private:
                     // The wall panel the face belongs to (a place in the room's list); -1: none. A panel takes
                     // the place of the bands over its area.
                     int panel = -1;
+                    // The covering panel (`cover: true`) standing in front of the face; -1: none. The face behind
+                    // stays the wall's, its band's or another panel's.
+                    int cover = -1;
                     // Where a band's texture hangs from: the band face's top before panels cut it.
                     double anchor = 0.0;
 
@@ -19125,7 +20408,22 @@ private:
                     // them is the panel's.
                     bool panelled = false;
 
-                    for (size_t panelIndex = 0; panelIndex < room.wallPanels.size(); ++panelIndex)
+                    // The plain panels cut the faces first; a covering panel then marks the faces it stands in
+                    // front of, whatever they are.
+                    std::vector<size_t> panelOrder;
+
+                    for (const bool covers : {false, true})
+                    {
+                        for (size_t panelIndex = 0; panelIndex < room.wallPanels.size(); ++panelIndex)
+                        {
+                            if (room.wallPanels[panelIndex].cover == covers)
+                            {
+                                panelOrder.push_back(panelIndex);
+                            }
+                        }
+                    }
+
+                    for (const size_t panelIndex : panelOrder)
                     {
                         const LoweredWallPanel &panel = room.wallPanels[panelIndex];
 
@@ -19146,7 +20444,8 @@ private:
                             const double topMin = std::min(span.top, span.topAt(true));
                             const double topMax = std::max(span.top, span.topAt(true));
 
-                            if (span.panel >= 0 || to <= bottomMin + Epsilon || from >= topMax - Epsilon)
+                            if ((panel.cover ? span.cover >= 0 : span.panel >= 0) || to <= bottomMin + Epsilon
+                                || from >= topMax - Epsilon)
                             {
                                 cut.push_back(span);
                                 continue;
@@ -19199,8 +20498,16 @@ private:
                             }
 
                             Span part = span;
-                            part.panel = static_cast<int>(panelIndex);
-                            part.band = -1;
+
+                            if (panel.cover)
+                            {
+                                part.cover = static_cast<int>(panelIndex);
+                            }
+                            else
+                            {
+                                part.panel = static_cast<int>(panelIndex);
+                                part.band = -1;
+                            }
 
                             if (below)
                             {
@@ -19215,7 +20522,8 @@ private:
                             }
 
                             // One face for the whole panel where the bands cut it into several.
-                            if (!cut.empty() && cut.back().panel == part.panel && !cut.back().raked
+                            if (!cut.empty() && cut.back().panel == part.panel && cut.back().cover == part.cover
+                                && cut.back().band == part.band && !cut.back().raked
                                 && std::abs(cut.back().top - part.bottomLow) < Epsilon
                                 && std::abs(cut.back().top - part.bottomHigh) < Epsilon)
                             {
@@ -19400,11 +20708,11 @@ private:
                         extraAtLow.erase(std::unique(extraAtLow.begin(), extraAtLow.end()), extraAtLow.end());
                         extraAtHigh.erase(std::unique(extraAtHigh.begin(), extraAtHigh.end()), extraAtHigh.end());
 
-                        if (span.panel >= 0)
+                        // A panel's texture begins at the panel's own left side (seen from inside) and hangs from
+                        // its top; a fitted one is drawn out once over the whole panel. A covering panel stands
+                        // PanelOffset in front of the wall.
+                        const auto addPanelFace = [&](const LoweredWallPanel &panel, double offset)
                         {
-                            // A panel's texture begins at the panel's own left side (seen from inside) and hangs
-                            // from its top; a fitted one is drawn out once over the whole panel.
-                            const LoweredWallPanel &panel = room.wallPanels[static_cast<size_t>(span.panel)];
                             const Vec3 panelLow = frame.point(panel.low, 0.0, 0.0);
                             const Vec3 panelHigh = frame.point(panel.high, 0.0, 0.0);
                             const WallTextureBox box = {
@@ -19419,9 +20727,21 @@ private:
                             const bool clicked = !panel.id.empty() && m_clickedPanels.contains(panel.id);
                             addWallRectangle(
                                 clicked ? panelNodes[panel.id] : node, panel.surface, frame, low, high,
-                                span.bottomLow, span.top, 0.0,
-                                frame.inward(), box.top, extraAtLow, extraAtHigh, span.bottomHigh,
-                                span.raked ? std::optional<double>(span.topHigh) : std::nullopt, &box);
+                                span.bottomLow, span.top, offset, frame.inward(), box.top, extraAtLow, extraAtHigh,
+                                span.bottomHigh, span.raked ? std::optional<double>(span.topHigh) : std::nullopt,
+                                &box);
+                        };
+
+                        // A covering panel (DD-13's hides): its own faces in front, and behind them the wall goes on
+                        // as it would without it (its band, or the panel it covers).
+                        if (span.cover >= 0)
+                        {
+                            addPanelFace(room.wallPanels[static_cast<size_t>(span.cover)], -PanelOffset);
+                        }
+
+                        if (span.panel >= 0)
+                        {
+                            addPanelFace(room.wallPanels[static_cast<size_t>(span.panel)], 0.0);
                             continue;
                         }
 
@@ -19713,8 +21033,9 @@ private:
                         node, recess.edge, frame, 0.0, frame.length, low, high, 0.0, frame.inward(), high);
                 }
 
-                GlbNode *pLevelFloor = recess.isCeiling
-                    ? nullptr : partNode(recess.featureId, "TRIGGER_level_" + idName(recess.featureId));
+                GlbNode *pLevelFloor = recess.isCeiling ? nullptr
+                    : partNode(featureFloorPart(recess.featureId, room.id, false),
+                          "TRIGGER_level_" + idName(recess.featureId));
 
                 for (const std::vector<size_t> &piece : convexPieces(recess.outline, MaximumFaceVertices))
                 {
@@ -20515,6 +21836,13 @@ private:
             if (box.chestKind)
             {
                 addChestFaces(node, box, bottom, top);
+
+                if (box.startsHidden)
+                {
+                    m_nodeFlags[node.name].push_back("invisible");
+                    m_nodeFlags[node.name].push_back("untouchable");
+                }
+
                 m_lowered.nodes.push_back(node);
                 m_ownedNodes[box.room].push_back(node.name);
                 continue;
@@ -20688,14 +22016,16 @@ private:
                             points.push_back(underside[index]);
                         }
 
-                        addHorizontal(node, undersideSurface, points, false);
+                        addHorizontal(node, undersideSurface, points, false, false, &underside);
                     }
                 }
                 else
                 {
+                    // A fitted surface (the top's `fit: true`, which the underside takes without a `bottom_surface`)
+                    // is laid once over the underside as over the top, not at the room's texel size (P1's vents).
                     addHorizontal(
                         node, undersideSurface, underside, false,
-                        box.bottomEnd.has_value() || !box.bottomHeights.empty());
+                        box.bottomEnd.has_value() || !box.bottomHeights.empty(), &underside);
                 }
             }
 
@@ -20709,6 +22039,12 @@ private:
                     if (box.unseen || box.passable)
                     {
                         m_nodeFlags[built.name].push_back(box.unseen ? "invisible" : "untouchable");
+                    }
+
+                    if (box.startsHidden)
+                    {
+                        m_nodeFlags[built.name].push_back("invisible");
+                        m_nodeFlags[built.name].push_back("untouchable");
                     }
 
                     m_lowered.nodes.push_back(built);
@@ -20743,14 +22079,19 @@ private:
             }
 
             // The top of a level or platform that runs a step event or burns is a node of its own; a plate is one
-            // already.
+            // already. So is the top of a low block on the floor of a room that runs a step event (featureFloorPart).
             const std::map<std::string, FloorPart>::const_iterator part =
                 box.featureId.empty() ? m_floorParts.end() : m_floorParts.find(box.featureId);
+            // (The game steps the party up at most 50, IndoorMovementController's MaximumRise.)
+            const bool lowOnFloor = !box.hasBottom && top - standing <= 50.0 && floorKind(box.featureId) != "level";
+            const std::optional<FloorPart> lidPart = box.plate ? std::nullopt
+                : featureFloorPart(box.featureId, room.id, box.partOfRoom && !box.passable && lowOnFloor);
             // (Or whose top alone an effect changes: `set_texture` with `face: top`.)
-            const bool partLid = part != m_floorParts.end() && !box.plate;
+            const bool partLid = lidPart.has_value();
             const bool ownLid = partLid || (box.topCog > 0 && !box.plate);
             GlbNode lidNode;
-            lidNode.name = partLid ? "TRIGGER_" + floorKind(box.featureId) + "_" + idName(box.featureId)
+            lidNode.name = partLid && box.featureId.empty() ? "TRIGGER_roomtop_" + box.nodeName
+                : partLid ? "TRIGGER_" + floorKind(box.featureId) + "_" + idName(box.featureId)
                 : ownLid ? "TRIGGER_top_" + idName(box.featureId) : "";
             GlbNode &lidTarget = ownLid ? lidNode : node;
 
@@ -20768,13 +22109,13 @@ private:
                         points.push_back(lid[index]);
                     }
 
-                    addHorizontal(lidTarget, *box.lidSurface, points, true, !box.topHeights.empty());
+                    addHorizontal(lidTarget, *box.lidSurface, points, true, !box.topHeights.empty(), &lid);
                 }
             }
             else if (box.lidSurface)
             {
-                addHorizontal(
-                    lidTarget, *box.lidSurface, lid, true, box.bottomEnd.has_value() || !box.topHeights.empty());
+                addHorizontal(lidTarget, *box.lidSurface, lid, true,
+                    box.bottomEnd.has_value() || !box.topHeights.empty(), &lid);
             }
             else
             {
@@ -20793,7 +22134,7 @@ private:
 
                 if (partLid)
                 {
-                    m_floorPartNodes.push_back({lidNode.name, part->second});
+                    m_floorPartNodes.push_back({lidNode.name, *lidPart});
                 }
             }
             else if (box.plate)
@@ -20813,6 +22154,13 @@ private:
             const YAML::Node &doorNode = m_doorNodes[doorIndex];
             const LoweredOpening &opening = m_lowered.openings[door.opening];
             const LoweredRoom &room = m_lowered.rooms[opening.fromRoom];
+
+            if (door.hatch)
+            {
+                addTrapdoor(doorIndex);
+                continue;
+            }
+
             const WallFrame frame = wallFrame(room, opening.fromEdge);
             const std::array<double, 2> place = leafPlace(doorNode, opening);
             const double near = place[0];
@@ -20876,8 +22224,26 @@ private:
 
             if (m_doorDrawings[doorIndex].slabs)
             {
-                // Leaves that slide sideways, part, pass each other, fold or bear several pictures: each a slab of
-                // its own, the door's pictures laid over the whole doorway, closed where a leaf shows an edge.
+                if (textOr(doorNode, "kind", "slide_up") == "hinged")
+                {
+                    // A hinged pair: the left leaf (seen from the `from` room: the high end of the hole) hangs on the
+                    // left jamb, the right one on the right jamb, and both swing away from whoever opens them.
+                    const double swing = numberOr(doorNode, "swing", 90.0);
+                    LoweredDoor &hingedDoor = m_lowered.doors[doorIndex];
+                    const Vec3 leftPivot = frame.point(opening.fromHigh, (near + far) / 2.0, opening.bottom);
+                    const Vec3 rightPivot = frame.point(opening.fromLow, (near + far) / 2.0, opening.bottom);
+                    hingedDoor.hinged = true;
+                    hingedDoor.pivot = {leftPivot.x, leftPivot.y, leftPivot.z};
+                    hingedDoor.openDegrees = -swing;
+                    hingedDoor.secondPivot = {rightPivot.x, rightPivot.y, rightPivot.z};
+                    hingedDoor.secondOpenDegrees = swing;
+                    hingedDoor.turnSpeed = numberOr(doorNode, "speed", 60.0);
+                    hingedDoor.autoCloseSeconds = numberOr(doorNode, "auto_close_seconds", 0.0);
+                }
+
+                // Leaves that slide sideways, part, pass each other, fold, swing as a pair or bear several
+                // pictures: each a slab of its own, the door's pictures laid over the whole doorway, closed where a
+                // leaf shows an edge.
                 for (const DoorLeaf &leaf : leaves)
                 {
                     GlbNode leafNode;
@@ -20894,7 +22260,14 @@ private:
                         addLeafLevel(leafNode, leaf.low, leaf.high, height, up);
                     };
 
-                    if (std::abs(leaf.shiftAlong) > Epsilon)
+                    if (door.hinged)
+                    {
+                        // A leaf of a hinged pair swings: both its upright ends and its top show.
+                        addEnd(leaf.low, true);
+                        addEnd(leaf.high, false);
+                        addLevel(leaf.top, true);
+                    }
+                    else if (std::abs(leaf.shiftAlong) > Epsilon)
                     {
                         // A leaf that folds shows only its free end: the other stays against the jamb.
                         // A whole leaf that slides into the wall as far as the jamb ends with its trailing end in the
@@ -21049,8 +22422,10 @@ private:
             const auto inWall = [this, &moverRoom, &mover](
                                     const Point2 &first, const Point2 &second, const Vec2 &outward)
             {
-                const std::optional<size_t> wall = std::abs(mover.travel.x * outward.x + mover.travel.y * outward.y)
-                        <= Epsilon ? sideOnRoomWall(moverRoom, first, second, outward) : std::nullopt;
+                // (A turning mover's sides leave their planes.)
+                const std::optional<size_t> wall = !mover.turning
+                        && std::abs(mover.travel.x * outward.x + mover.travel.y * outward.y) <= Epsilon
+                    ? sideOnRoomWall(moverRoom, first, second, outward) : std::nullopt;
                 return wall && holesOf(mover.room, *wall).empty()
                     && mover.top + mover.kerbHeight + std::max(mover.travel.z, 0.0)
                         <= ceilingAt(moverRoom, (first[0] + second[0]) / 2.0, (first[1] + second[1]) / 2.0) + Epsilon;
@@ -21222,7 +22597,7 @@ private:
             metadata.portals.push_back(portal);
         }
 
-        const auto addSurface = [&metadata](const std::string &nodeName, int eventId, int cog)
+        const auto addSurface = [this, &metadata](const std::string &nodeName, int eventId, int cog)
         {
             Editor::EditorIndoorGeometrySurfaceMetadata surface;
             surface.id = nodeName.substr(nodeName.find('_') + 1);
@@ -21232,6 +22607,11 @@ private:
             {
                 surface.trigger =
                     Editor::EditorIndoorGeometrySurfaceTriggerMetadata{static_cast<uint16_t>(eventId), "click"};
+
+                if (m_touchEventIds.contains(eventId))
+                {
+                    surface.flags.push_back("touch");
+                }
             }
 
             surface.cogNumber = static_cast<uint16_t>(cog);
@@ -21420,6 +22800,16 @@ private:
                     leafMechanism.name = name;
                     leafMechanism.sourceNodeNames = {leaf.nodeName};
                     leafMechanism.doorId = static_cast<uint32_t>(leaf.doorId);
+
+                    // A leaf of a hinged pair turns: it keeps the plain leaf's record, which the build makes a
+                    // rotating mover (IndoorBuild).
+                    if (length < Epsilon)
+                    {
+                        addDoorSurfaces(leaf.nodeName, leafMechanism, door, doorNode);
+                        metadata.mechanisms.push_back(leafMechanism);
+                        continue;
+                    }
+
                     leafMechanism.moveAxis = std::array<float, 3>{
                         static_cast<float>(0.0 - shift.x / length), static_cast<float>(0.0 - shift.y / length),
                         static_cast<float>(0.0 - shift.z / length)};
@@ -21470,10 +22860,11 @@ private:
             // (from open to closed) runs against the travel.
             mechanism.initialState = mover.atEnd ? "open" : "closed";
             mechanism.sourcePose = "closed";
-            mechanism.moveAxis = std::array<float, 3>{
+            // A turning mover keeps a plain record, which the build makes a rotating mover (IndoorBuild).
+            mechanism.moveAxis = mover.turning ? std::array<float, 3>{0.0f, 0.0f, -1.0f} : std::array<float, 3>{
                 static_cast<float>(0.0 - mover.travel.x / length), static_cast<float>(0.0 - mover.travel.y / length),
                 static_cast<float>(0.0 - mover.travel.z / length)};
-            mechanism.moveLength = static_cast<uint32_t>(std::lround(length));
+            mechanism.moveLength = mover.turning ? 1u : static_cast<uint32_t>(std::lround(length));
             mechanism.openSpeed = static_cast<float>(mover.speed);
             mechanism.closeSpeed = static_cast<float>(mover.speed);
             metadata.mechanisms.push_back(mechanism);
@@ -21534,6 +22925,7 @@ private:
             {
                 nodeCogs[box.nodeName] = box.cog;
                 nodeCogs["TRIGGER_" + floorKind(box.featureId) + "_" + idName(box.featureId)] = box.cog;
+                nodeCogs["TRIGGER_roomtop_" + box.nodeName] = box.cog;
             }
 
             // A top changed alone has a number of its own.
@@ -21598,6 +22990,16 @@ private:
     std::optional<std::set<std::string>> m_soundNames;
     // Monster groups of objects.yml `monsters` whose Hostile bit an event of the build clears on entering the map.
     std::vector<int> m_peacefulGroups;
+    // The swimmers that do not fly raised with `above_floor` (checkSwimmerStarts).
+    struct SwimmerStart
+    {
+        std::string id;
+        std::string path;
+        std::array<double, 3> position = {};
+        int height = 0;
+    };
+
+    std::vector<SwimmerStart> m_swimmerStarts;
     // The placed monsters as the hostility check reads them: id, kind, group and `hostile` word.
     struct PlacedMonsterWord
     {
@@ -21622,6 +23024,9 @@ private:
     // Groups of placed monsters that start hidden (`hidden`), and the groups a `show_actors` effect shows.
     std::set<int> m_hiddenMonsterGroups;
     std::set<int> m_shownMonsterGroups;
+    // Chests that start hidden (`hidden: true`), and the chests a `show` effect shows.
+    std::set<std::string> m_hiddenChestIds;
+    std::set<std::string> m_shownChestIds;
     // The `<node>.back` nodes of doors whose events are bound to one side each (pushDoorNode).
     std::set<std::string> m_doorBackNodes;
     // Wall panels whose faces an effect changes: id to the cog number they carry.
@@ -21656,6 +23061,8 @@ private:
     };
     std::vector<PlacedBody> m_bodies;
     std::map<std::string, int> m_clickedPanels;
+    // Clicked events also run by walking into their faces (wiring `touch: true`).
+    std::set<int> m_touchEventIds;
     std::vector<std::pair<std::string, int>> m_clickedPanelNodes;
     // By a moving part's place in m_lowered.lifts: the nodes of the objects that ride with it (a chest on its top, a
     // switch on its side), which its door record moves too.
@@ -21666,6 +23073,9 @@ private:
     std::map<std::string, size_t> m_openingIndexById;
     // Ids of openings and objects that were refused with an issue of their own.
     std::set<std::string> m_refusedIds;
+    // The room of objects.yml `start`, and objects.yml `arrivals` by entrance id with their paths.
+    std::optional<size_t> m_startRoom;
+    std::map<std::string, std::pair<LoweredStart, std::string>> m_placedArrivals;
 
     // A flight that ends in a doorway (`to` on a wall, `to_height` the sill there): the wall, the flight's stretch
     // along it and the sill's height, checked against the wall's openings once they are read.
@@ -22074,6 +23484,32 @@ bool lowerOverlayProject(
     return lowering.runOverlay();
 }
 
+bool groundItemObjectOf(
+    const std::vector<std::string> &itemRow,
+    const std::vector<std::vector<std::string>> &objectRows,
+    LoweredItem &item)
+{
+    item.itemId = cellNumber(itemRow, 0).value_or(0);
+    item.objectDescriptionId = 0;
+    item.spriteId = 0;
+    // The game numbers the rows from 0 and lets the last row of a number win.
+    const std::optional<int> spriteIndex = cellNumber(itemRow, 11);
+    int rowNumber = 0;
+
+    for (const std::vector<std::string> &row : objectRows)
+    {
+        if (spriteIndex && *spriteIndex > 0 && cellNumber(row, 2) == spriteIndex)
+        {
+            item.objectDescriptionId = rowNumber;
+            item.spriteId = cellNumber(row, 7).value_or(0);
+        }
+
+        ++rowNumber;
+    }
+
+    return item.objectDescriptionId != 0;
+}
+
 std::vector<std::vector<std::string>> parseTableRows(const std::string &text)
 {
     std::vector<std::vector<std::string>> rows;
@@ -22172,6 +23608,7 @@ std::shared_ptr<const LoweringTables> parseLoweringTables(const LoweringOptions 
     tables->uniqueNameRows = parseTableRows(options.uniqueNameTableText);
     tables->relationRows = parseTableRows(options.relationTableText);
     tables->mapStatsRows = parseTableRows(options.mapStatsTableText);
+    tables->worldRelations = readWorldMonsterRelations(options.worldRelationsText);
 
     if (!options.indoorModelBindingsText.empty())
     {
@@ -22270,5 +23707,11 @@ std::shared_ptr<const LoweringTables> parseLoweringTables(const LoweringOptions 
     }
 
     return tables;
+}
+
+std::set<std::string> knownWorldSoundNames(
+    const std::filesystem::path &assetRoot, const std::filesystem::path &mountRoot, const std::string &world)
+{
+    return worldSoundNames(assetRoot, mountRoot, world);
 }
 }

@@ -525,7 +525,7 @@ const JournalMapNote *findVisibleRuntimeMapNote(
         return nullptr;
     }
 
-    for (const JournalMapNote &note : pParty->journalMapNotes())
+    for (const JournalMapNote &note : pParty->campaign().journalMapNotes())
     {
         if (note.id == noteId && runtimeMapNoteMatchesMap(note, normalizedCurrentMapFileName))
         {
@@ -629,7 +629,7 @@ void renderRuntimeMapNotes(
         journalScreen.hoveredMapNoteId != 0 ? journalScreen.hoveredMapNoteId : journalScreen.selectedMapNoteId;
     std::vector<const JournalMapNote *> notes;
 
-    for (const JournalMapNote &note : pParty->journalMapNotes())
+    for (const JournalMapNote &note : pParty->campaign().journalMapNotes())
     {
         if (runtimeMapNoteMatchesMap(note, normalizedCurrentMapFileName))
         {
@@ -1089,7 +1089,7 @@ std::vector<JournalStoryPage> buildJournalStoryPages(
         static_cast<size_t>(std::floor(pageHeightPixels / std::max(1.0f, static_cast<float>(font.fontHeight) * fontScale))));
     const uint32_t historyContinentId = context.activeHistoryContinentId();
     const std::unordered_map<uint32_t, int32_t> &historyEventTimes =
-        pParty->historyEventTimes(normalizedHistoryContinentId(historyContinentId));
+        pParty->campaign().historyEventTimes(normalizedHistoryContinentId(historyContinentId));
 
     for (const JournalHistoryEntry &entry : historyTable.entriesForContinent(historyContinentId))
     {
@@ -1196,7 +1196,7 @@ bool isUtilityTownPortalDestinationUnlocked(
         return false;
     }
 
-    return pParty->hasQuestBit(destination.unlockQBitId);
+    return pParty->campaign().hasQuestBit(destination.unlockQBitId);
 }
 
 size_t utilityOverlayMaxLloydBeaconSlots(const Character *pCharacter)
@@ -5055,7 +5055,7 @@ void GameplayPartyOverlayRenderer::renderJournalOverlay(GameplayScreenRuntime &c
             {
                 for (const JournalAutonoteEntry &entry : pJournalAutonoteTable->entries())
                 {
-                    if (!pParty->hasAutonote(entry.id)
+                    if (!pParty->campaign().hasAutonote(entry.id)
                         || (entry.owner.empty() ? "Shared" : entry.owner) != owner)
                     {
                         continue;
@@ -5092,7 +5092,8 @@ void GameplayPartyOverlayRenderer::renderJournalOverlay(GameplayScreenRuntime &c
             if (pParty != nullptr && context.houseTable() != nullptr
                 && journalScreen.notesCategory == GameplayUiController::JournalNotesCategory::Arcomage)
             {
-                for (const std::string &text : buildArcomageTavernTexts(*context.houseTable(), context.mapStats(), *pParty))
+                for (const std::string &text : buildArcomageTavernTexts(*context.houseTable(), context.mapStats(),
+                         pParty->trainerDirectory(), *pParty))
                 {
                     if (search.empty() || Engine::Utf8::lower(text).find(search) != std::string::npos)
                     {
@@ -5293,11 +5294,34 @@ void GameplayPartyOverlayRenderer::renderUtilitySpellOverlay(GameplayScreenRunti
             context.submitHudTexturedQuad(*texture, drawResolved.x, drawResolved.y, drawResolved.width, drawResolved.height);
         }
 
+        // Dimension Door's names under the portals, at all times, after every picture (one font run); the text style is
+        // TownPortalDoorName's, the place is the door's (dimension_doors.yml `label`). A dark door is no destination.
+        const GameplayScreenRuntime::HudLayoutElement *pDoorNameLayout =
+            context.findHudLayoutElement("TownPortalDoorName");
+
+        for (size_t index = 0; pDoorNameLayout != nullptr && pDoorNameLayout->visible
+             && index < context.townPortalDestinations().size(); ++index)
+        {
+            const GameplayTownPortalDestination &destination = context.townPortalDestinations()[index];
+
+            if (destination.nameWidth == 0 || !isUtilityTownPortalDestinationUnlocked(pParty, destination))
+            {
+                continue;
+            }
+
+            const GameplayScreenRuntime::ResolvedHudLayoutElement nameResolved = {
+                backgroundResolved->x + static_cast<float>(destination.nameX) * townPortalScale,
+                backgroundResolved->y + static_cast<float>(destination.nameY) * townPortalScale,
+                static_cast<float>(destination.nameWidth) * townPortalScale,
+                static_cast<float>(destination.nameHeight) * townPortalScale,
+                townPortalScale};
+            context.renderLayoutLabel(*pDoorNameLayout, nameResolved, Engine::localize(destination.label));
+        }
+
         // Every continent this installation has towns on; Dimension Door's single map has no buttons.
         const std::vector<GameplayTownPortalContinent> &continents = context.townPortalContinents();
 
-        for (size_t index = 0; continents.size() > 1 && index < continents.size()
-             && index < TownPortalContinentButtonCount; ++index)
+        for (size_t index = 0; continents.size() > 1 && index < continents.size(); ++index)
         {
             const std::string label = Engine::localize(continents[index].label);
             GameplayUiSkin::renderButton(
@@ -10135,8 +10159,7 @@ void GameplayPartyOverlayRenderer::renderCharacterOverlay(
                 : normalizedLayoutId == "characterinventoryalchemytag"                 ? ItemPouch::Alchemy
                                                                                         : ItemPouch::Quest;
 
-            if (!context.isAdventurersInnCharacterSourceActive() && pCharacter != nullptr
-                && gameRulesFor(&party).items.hasPouches())
+            if (!context.isAdventurersInnCharacterSourceActive() && pCharacter != nullptr && party.hasPouch(pouch))
             {
                 GameplayUiSkin::renderButton(context, pLayout->id, width, height,
                     GameplayHudOverlaySupport::inventoryPouchShown(context) == pouch, true);

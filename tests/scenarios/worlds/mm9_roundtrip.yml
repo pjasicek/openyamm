@@ -1,0 +1,18 @@
+# A1's world regression (devdocs/xeen/lanes/A1.md): MM9 starts, changes map, saves and loads back, and Town Portal
+# opens its window. Cast from a scroll, so no member needs the mana.
+#   ./build/game/openyamm --headless-run-scenario tests/scenarios/worlds/mm9_roundtrip.yml
+id: worlds.mm9_roundtrip
+title: "MM9: start, map change, save, load and Town Portal"
+world: mm9
+mode: faithful
+tags: [mm9, worlds]
+steps:
+  - new_game_flow:
+      start_map: bootcamp.blv
+  - load_map: {map: guberland.blv}
+  - save_game: worlds_mm9
+  - load_map: {map: thjorgard.blv}
+  - assert: {map: thjorgard.blv}
+  - load_game: worlds_mm9
+  - assert: {map: guberland.blv}
+  - cast_spell: {member_index: 0, spell_id: 31, skill: 10, mastery: 4, scroll: true, expect: refused, expect_status: needs_window}

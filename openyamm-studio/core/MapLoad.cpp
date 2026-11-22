@@ -50,7 +50,10 @@ bool AssetSession::open(const std::filesystem::path &assetRoot, const std::strin
     profile.textures = Engine::AssetScaleTier::X4;
 
     Engine::InstalledContentOptions content;
-    content.extraMountRoot = extraMount();
+    if (!extraMount().empty())
+    {
+        content.extraMountRoots.push_back(extraMount());
+    }
 
     if (!m_files.initialize(assetRoot.parent_path(), assetRoot, Engine::AssetScaleTier::X1, profile, world, content))
     {
@@ -80,7 +83,7 @@ std::string loadScriptSupport(const AssetSession &session)
     const std::optional<std::string> support =
         Game::readFirstExistingText(session.files(), Game::buildLuaSupportPathCandidates(), supportPath);
     const std::optional<std::string> worldCommon = Game::readExistingTexts(
-        session.files(), Game::buildLuaWorldCommonPathCandidates(session.world()), worldCommonPath);
+        session.files(), Game::buildLuaWorldCommonPathCandidates(session.files(), session.world()), worldCommonPath);
     return Game::prependLuaSupport(support, worldCommon, "");
 }
 
@@ -229,7 +232,7 @@ bool loadMap(const AssetSession &session, const std::string &fileName, LoadedMap
         Game::readFirstExistingText(files, Game::buildLuaSupportPathCandidates(), supportPath);
     // Every common script of the world that exists, joined, as the game does.
     const std::optional<std::string> worldCommon =
-        Game::readExistingTexts(files, Game::buildLuaWorldCommonPathCandidates(map.world), worldCommonPath);
+        Game::readExistingTexts(files, Game::buildLuaWorldCommonPathCandidates(files, map.world), worldCommonPath);
     const std::string source = Game::prependLuaSupport(support, worldCommon, map.scriptText);
     map.fullScriptSource = source;
     std::string scriptError;

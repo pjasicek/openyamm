@@ -1730,7 +1730,10 @@ TEST_CASE("a hole in a floor opens onto the room below, and a stair room may be 
     CHECK(refused("floor: 256, ceiling: 640}", "floor: 256, ceiling: 640, platforms: [{at: [256, 384], size: [128, "
         "128], rise: 32}]}", start).find("under a level, a platform or a flight") != std::string::npos);
     CHECK(refused("in: floor}", "in: floor}", start + "doors:\n  - {id: door:hatch, opening: open:well}\n")
-        .find("a door leaf needs an opening in a wall") != std::string::npos);
+        .find("a trapdoor turns on one side of its hole") != std::string::npos);
+    // A stairwell (the lower room's whole ceiling) is no rectangle a leaf can fill.
+    CHECK(refused("in: floor}", "in: floor}", start + "doors:\n  - {id: door:hatch, opening: open:well, hinge: west}\n")
+        .find("rectangular hole") != std::string::npos);
 }
 
 TEST_CASE("the bridge to a hole keeps off the place of a hole that is cut after it")
@@ -1939,6 +1942,56 @@ TEST_CASE("a plate, a room's floor, a level and a platform run step events; a fl
         "    end\n    evt.SetDoorState(1, DoorAction.Open)\n    SetValue(MapVar(0), 1)\nend, nil)")
         != std::string::npos);
     CHECK(built.lua.find("SetMapMetadata({onLoad = {}, onLeave = {}, openedChestIds = {}})\n") != std::string::npos);
+}
+
+TEST_CASE("DD-11B: a room's step event runs on its low platforms that run none of their own, not on high ones")
+{
+    // A7's clay drop: the party lands on a heap in the room and the room's landing line must run. The named dais (16)
+    // and an unnamed platform (24) take the room's; a platform higher than a step (64) and one that hangs (`base`) do
+    // not (a sky map's clouds, XD-12's balcony over the fall); the stage runs its own event.
+    const std::string rooms = std::string(TriggerRooms).replace(std::string(TriggerRooms).find("    levels:\n"), 0,
+        "      - {at: [640, 384], size: [128, 128], rise: 24}\n"
+        "      - {at: [640, 160], size: [96, 96], rise: 64}\n"
+        "      - {at: [512, 576], size: [96, 96], rise: 16, base: 96}\n");
+    const std::string wiring =
+        "format: 0\n"
+        "events:\n"
+        "  - {id: evt:e1_room, preset: text, trigger: step, source: room:a, text: Landed.}\n"
+        "  - {id: evt:e2_stage, preset: text, trigger: step, source: level:stage, text: Stage.}\n";
+    const BuiltTriggers built = buildTriggers(rooms,
+        "format: 0\nstart: {room: room:a, at: [512, 64]}\nfloors:\n  - {id: floor:pit, of: level:pit, kind: lava}\n",
+        wiring);
+    INFO(issueText(built.rooms));
+    REQUIRE(built.rooms.built);
+    const auto topAt = [&built](double x, double y, int height)
+    {
+        const OpenYAMM::Game::IndoorFace *pTop = nullptr;
+
+        for (const OpenYAMM::Game::IndoorFace *pFace : built.floorsOver(1, x, y))
+        {
+            if (built.rooms.heights(*pFace)[0] == height)
+            {
+                pTop = pFace;
+            }
+        }
+
+        REQUIRE(pTop != nullptr);
+        return pTop;
+    };
+    CHECK(topAt(512, 700, 0)->cogTriggered == 1);
+    const OpenYAMM::Game::IndoorFace *pDais = topAt(832, 160, 16);
+    CHECK(pDais->cogTriggered == 1);
+    CHECK((pDais->attributes & (StepFlags | LavaFlag)) == StepFlags);
+    CHECK(topAt(640, 384, 24)->cogTriggered == 1);
+    CHECK(topAt(640, 160, 64)->cogTriggered == 0);
+    CHECK(topAt(512, 576, 112)->cogTriggered == 0);
+    CHECK(topAt(192, 576, 32)->cogTriggered == 2);
+    // A level is a place of its own: the pit burns and runs nothing.
+    const OpenYAMM::Game::IndoorFace *pPit = topAt(192, 192, -32);
+    CHECK(pPit->cogTriggered == 0);
+    CHECK((pPit->attributes & (StepFlags | LavaFlag)) == LavaFlag);
+    // The room's floor itself does not burn.
+    CHECK((topAt(512, 700, 0)->attributes & LavaFlag) == 0);
 }
 
 TEST_CASE("timer and load events are written as the shipped scripts declare them, with the new effects")
@@ -3114,8 +3167,212 @@ TEST_CASE("a door slides sideways into the wall beside its doorway, or parts in 
     CHECK(up.direction(1) == std::array<int, 3>{0, 0, -65536});
     CHECK(up.door(1)["move_length"].as<int>() == 192);
 
-    CHECK(issueText(buildMoving(DoorRooms, doorObjects("kind: hinged, leaves: 2"), DoorWiring).rooms)
-        .find("a hinged door has one leaf") != std::string::npos);
+    // A hinged pair (great hall doors): two rotating leaves, the left one (north, seen from room a) on the north jamb
+    // and the right one on the south jamb, swinging apart; one event moves both.
+    const BuiltMoving hingedPair = buildMoving(DoorRooms,
+        doorObjects("kind: hinged, leaves: 2, surface: {texture: t1door, size: [64, 192]}"), DoorWiring);
+    INFO(issueText(hingedPair.rooms));
+    REQUIRE(hingedPair.rooms.built);
+    REQUIRE(hingedPair.doors.size() == 2);
+    const YAML::Node leftLeaf = hingedPair.door(1)["mover"]["rotation"];
+    const YAML::Node rightLeaf = hingedPair.door(2)["mover"]["rotation"];
+    REQUIRE(leftLeaf.IsMap());
+    REQUIRE(rightLeaf.IsMap());
+    CHECK(leftLeaf["pivot"][1].as<double>() == doctest::Approx(320.0));
+    CHECK(rightLeaf["pivot"][1].as<double>() == doctest::Approx(192.0));
+    CHECK(leftLeaf["open_degrees"].as<double>() == doctest::Approx(-90.0));
+    CHECK(rightLeaf["open_degrees"].as<double>() == doctest::Approx(90.0));
+    CHECK(hingedPair.door(2)["move_length"].as<int>() == 900);
+    CHECK(hingedPair.lua.find("evt.SetDoorState(1, DoorAction.Trigger)") != std::string::npos);
+    CHECK(hingedPair.lua.find("evt.SetDoorState(2, DoorAction.Trigger)") != std::string::npos);
+    CHECK_FALSE(hingedPair.walks({256.0f, 256.0f, 0.0f}, {672.0f, 256.0f, 0.0f}, false));
+
+    // The wing picture lies on the left leaf as it is and mirrored on the right: the texels of the two leaves'
+    // fronts run opposite ways along the wall.
+    {
+        const OpenYAMM::Game::IndoorMapData &map = *hingedPair.loaded.indoor;
+        std::array<double, 2> uSlope = {0.0, 0.0};
+
+        for (size_t leafIndex = 0; leafIndex < 2; ++leafIndex)
+        {
+            for (const uint16_t faceId : hingedPair.door(int(leafIndex) + 1)["face_ids"].as<std::vector<uint16_t>>())
+            {
+                const OpenYAMM::Game::IndoorFace &face = map.faces[faceId];
+
+                // A front: a face of the leaf facing room a (-x), full height.
+                if (face.vertexIndices.size() != 4 || face.textureName != "t1door" || face.textureUs.size() != 4)
+                {
+                    continue;
+                }
+
+                double lowY = 1e9;
+                double highY = -1e9;
+                double uAtLow = 0.0;
+                double uAtHigh = 0.0;
+                double x = 0.0;
+
+                for (size_t corner = 0; corner < 4; ++corner)
+                {
+                    const OpenYAMM::Game::IndoorVertex &vertex = map.vertices[face.vertexIndices[corner]];
+                    x = vertex.x;
+
+                    if (vertex.y < lowY)
+                    {
+                        lowY = vertex.y;
+                        uAtLow = face.textureUs[corner];
+                    }
+
+                    if (vertex.y > highY)
+                    {
+                        highY = vertex.y;
+                        uAtHigh = face.textureUs[corner];
+                    }
+                }
+
+                if (x < 528.0 && highY - lowY > 32.0)
+                {
+                    uSlope[leafIndex] = uAtHigh - uAtLow;
+                }
+            }
+        }
+
+        CHECK(uSlope[0] != doctest::Approx(0.0));
+        CHECK(uSlope[0] * uSlope[1] < 0.0);
+    }
+
+    CHECK(issueText(buildMoving(DoorRooms, doorObjects("kind: hinged, leaves: 2, hinge: right"), DoorWiring).rooms)
+        .find("drop `hinge`") != std::string::npos);
+    CHECK(issueText(buildMoving(DoorRooms, doorObjects("kind: hinged, leaves: 2, tile: true"), DoorWiring).rooms)
+        .find("is for sliding doors") != std::string::npos);
+    CHECK(issueText(buildMoving(DoorRooms, doorObjects("kind: hinged, pictures: [[{texture: t1door, size: [64, 192]}]]"), DoorWiring)
+        .rooms).find("is for sliding doors") != std::string::npos);
+}
+
+TEST_CASE("door pictures: a wing alone on a wide leaf, a pair of unmirrored wings, a door picture tiled")
+{
+    const std::string rooms =
+        "rooms:\n"
+        "  - {id: room:a, outline: [[0, 0], [512, 0], [512, 512], [0, 512]], floor: 0, ceiling: 384}\n"
+        "  - {id: room:b, outline: [[544, 64], [800, 64], [800, 448], [544, 448]], floor: 0, ceiling: 256}\n"
+        "openings:\n"
+        "  - {id: open:ab, from: room:a, to: room:b, width: 256, height: 192}\n";
+    const std::string wiring = "format: 0\nevents:\n  - {id: evt:door, preset: door, source: door:ab}\n";
+    TextureFitData data;
+    data.sizes = {{"wingl", {128, 256}}, {"wingr", {128, 256}}, {"plain", {64, 128}}};
+    data.classTexts = {"textures:\n  wingl: {class: feature, door: wing, twin: wingr, mirror: 0.2}\n"
+        "  wingr: {class: feature, door: wing, twin: wingl, mirror: 0.2}\n"
+        "  plain: {class: feature, door: single, mirror: 0.6}\n"};
+    const auto codes = [&](const std::string &fields)
+    {
+        const BuiltMoving built = buildMoving(rooms, doorObjects(fields), wiring);
+        INFO(issueText(built.rooms));
+        REQUIRE(built.rooms.built);
+        std::vector<std::string> found;
+
+        for (const AuditFinding &finding : auditDoorTextures(built.loaded, data))
+        {
+            found.push_back(finding.code);
+        }
+
+        return found;
+    };
+
+    // One wing stretched over the whole 256-wide opening.
+    CHECK(codes("kind: slide_up, surface: {texture: wingl, size: [128, 256]}")
+        == std::vector<std::string>{"doors.half_wing"});
+    // A hinged pair of the wing: the right leaf mirrored, nothing to say.
+    CHECK(codes("kind: hinged, leaves: 2, surface: {texture: wingl, size: [128, 256]}").empty());
+    // Two leaves showing the wing the same way round.
+    CHECK(codes("kind: hinged, leaves: 2, pictures: [[{texture: wingl, size: [128, 256]}, {texture: wingl, "
+        "size: [128, 256]}]]") == std::vector<std::string>{"doors.wing_unmirrored"});
+    // The left and right wings, one on each leaf: right.
+    CHECK(codes("kind: slide_left, leaves: 2, pictures: [[{texture: wingl, size: [128, 256]}, {texture: wingr, "
+        "size: [128, 256]}]]").empty());
+    // A door picture laid at its own size: four times across the opening.
+    CHECK(codes("kind: slide_up, tile: true, surface: {texture: plain, size: [64, 128]}")
+        == std::vector<std::string>{"doors.tiled"});
+}
+
+TEST_CASE("texture fit: a window tiled or cut, a band up a wall, a tile with seams, unlike borders and walls")
+{
+    LoadedMap map;
+    map.world = "xeen";
+    map.indoor.emplace();
+    OpenYAMM::Game::IndoorMapData &indoor = *map.indoor;
+    // A face upright in the plane y = `y` from x0 to x1 and z0 to z1, its texels u0..u1 left to right, v0 at the top.
+    const auto quad = [&indoor](int y, int x0, int x1, int z0, int z1, const std::string &texture, int u0, int u1,
+                          int v0, int v1)
+    {
+        OpenYAMM::Game::IndoorFace face;
+        const uint16_t first = static_cast<uint16_t>(indoor.vertices.size());
+        indoor.vertices.push_back({x0, y, z0});
+        indoor.vertices.push_back({x1, y, z0});
+        indoor.vertices.push_back({x1, y, z1});
+        indoor.vertices.push_back({x0, y, z1});
+        face.vertexIndices = {first, uint16_t(first + 1), uint16_t(first + 2), uint16_t(first + 3)};
+        face.textureUs = {int16_t(u0), int16_t(u1), int16_t(u1), int16_t(u0)};
+        face.textureVs = {int16_t(v1), int16_t(v1), int16_t(v0), int16_t(v0)};
+        face.textureName = texture;
+        indoor.faces.push_back(face);
+    };
+    TextureFitData data;
+    data.sizes = {{"stone", {128, 128}}, {"win", {128, 128}}, {"band", {128, 32}}, {"seamy", {128, 128}},
+        {"redwin", {128, 128}}, {"grey", {128, 128}}, {"blue", {128, 128}}, {"panel", {128, 256}},
+        {"eaves", {128, 256}}, {"timber", {128, 256}}};
+    data.classTexts = {"textures:\n"
+        "  stone: {class: tile, tiles: [true, true], border: [100, 100, 100]}\n"
+        "  win: {class: feature, tiles: [true, true], border: [100, 100, 100]}\n"
+        "  band: {class: trim_u, tiles: [true, false], border: [100, 100, 100]}\n"
+        "  seamy: {class: tile, tiles: [false, true], border: [100, 100, 100]}\n"
+        "  redwin: {class: feature, tiles: [true, true], border: [200, 0, 0]}\n"
+        "  grey: {class: tile, tiles: [true, true], border: [100, 100, 100]}\n"
+        "  blue: {class: tile, tiles: [true, true], border: [20, 20, 200]}\n"
+        "  panel: {class: trim_u, tiles: [true, false], border: [100, 100, 100]}\n"
+        "  eaves: {class: trim_u, tiles: [true, false], border: [100, 100, 100], storey_stack: edge}\n"
+        "  timber: {class: trim_u, tiles: [true, false], border: [100, 100, 100], storey_stack: module}\n"};
+    // A plain wall: four by two copies, nothing to say.
+    quad(0, 0, 512, 0, 256, "stone", 0, 512, 0, 256);
+    // A window laid along a 512-wide face: four copies.
+    quad(1000, 0, 512, 0, 128, "win", 0, 512, 0, 128);
+    // A window whose picture starts in its middle: two halves.
+    quad(2000, 0, 128, 0, 128, "win", 64, 192, 0, 128);
+    // A window split over two faces that continue its picture: whole.
+    quad(3000, 0, 64, 0, 128, "win", 0, 64, 0, 128);
+    quad(3000, 64, 128, 0, 128, "win", 64, 128, 0, 128);
+    // A band laid up a 128-high face: four times.
+    quad(4000, 0, 128, 0, 128, "band", 0, 128, 0, 128);
+    // A tile whose sides do not meet laid four times across.
+    quad(5000, 0, 512, 0, 128, "seamy", 0, 512, 0, 128);
+    // A red-framed window between grey wall, and the grey wall meeting a blue one side by side.
+    quad(6000, 0, 128, 0, 128, "grey", 0, 128, 0, 128);
+    quad(6000, 128, 256, 0, 128, "redwin", 0, 128, 0, 128);
+    quad(6000, 256, 384, 0, 128, "grey", 0, 128, 0, 128);
+    quad(6000, 384, 512, 0, 128, "blue", 0, 128, 0, 128);
+    // A storey panel stacked whole on two storeys: a warning; shifted half a storey: a band cut, an error.
+    quad(7000, 0, 128, 0, 512, "panel", 0, 128, 0, 512);
+    quad(8000, 0, 128, 0, 512, "panel", 0, 128, 128, 640);
+    // D-41: an eaves panel stacked so is an error; a half-timber module stacked so is right.
+    quad(9000, 0, 128, 0, 512, "eaves", 0, 128, 0, 512);
+    quad(10000, 0, 128, 0, 512, "timber", 0, 128, 0, 512);
+    std::multiset<std::string> found;
+    std::multiset<std::string> stackedSeverities;
+
+    for (const AuditFinding &finding : auditTextureFit(map, data))
+    {
+        INFO(finding.message);
+        found.insert(finding.code);
+
+        if (finding.code == "textures.storey_stacked")
+        {
+            stackedSeverities.insert(finding.severity);
+        }
+    }
+
+    CHECK(stackedSeverities == std::multiset<std::string>{"warning", "error"});
+
+    CHECK(found == std::multiset<std::string>{"textures.feature_repeated", "textures.feature_cut",
+        "textures.trim_tiled", "textures.trim_tiled", "textures.tile_seams", "textures.feature_border",
+        "textures.family_switch", "textures.storey_stacked", "textures.storey_stacked"});
 }
 
 TEST_CASE("an open leaf that would stand in another opening or in a room is refused with the ways out")
@@ -5819,9 +6076,12 @@ BuiltPlaced buildPlaced(
         std::ofstream(root / "project" / "atmosphere.yml", std::ios::binary) << atmosphere;
     }
 
+    // A table's name may lead out of data_tables (`../../worlds/mm6/maps/<stem>.studio.yml`, an installed map).
     for (const std::pair<std::string, std::string> &table : tables)
     {
-        std::ofstream(root / "assets" / "engine" / "data_tables" / table.first, std::ios::binary) << table.second;
+        const std::filesystem::path path = root / "assets" / "engine" / "data_tables" / table.first;
+        std::filesystem::create_directories(path.parent_path());
+        std::ofstream(path, std::ios::binary) << table.second;
     }
 
     BuiltPlaced built;
@@ -5977,6 +6237,17 @@ TEST_CASE("placed monsters and items on the floor become the scene's actors and 
     // The peaceful group: one event of the build's own on entering the map.
     CHECK(built.lua.find("evt.SetMonGroupBit(54, MonsterBits.Hostile, 0)") != std::string::npos);
     CHECK(built.lua.find("SetMapMetadata({onLoad = {1}") != std::string::npos);
+    // Once per fill of the map (a refill clears the variable): a group an event made hostile since stays so over a
+    // reload (D7's refused tolls).
+    CHECK(built.lua.find("    if evt.GetMapVar(\"studio_peaceful_groups\", 0) ~= 0 then\n        return\n    end\n"
+        "    evt.SetMapVar(\"studio_peaceful_groups\", 1)\n    evt.SetMonGroupBit(54") != std::string::npos);
+    // Before the project's own load events, which may change a group.
+    const BuiltPlaced withLoad = buildPlaced(PlacedRooms, objects, PlacedTables, card,
+        "format: 0\nevents:\n  - {id: evt:angry, preset: script, trigger: load, lua: \"evt.SetMonGroupBit(54, "
+        "MonsterBits.Hostile, 1)\"}\n");
+    INFO(issueText(withLoad));
+    REQUIRE(withLoad.built);
+    CHECK(withLoad.lua.find("SetMapMetadata({onLoad = {2, 1}") != std::string::npos);
 
     const std::vector<OpenYAMM::Game::MapDeltaSpriteObject> &items = built.scene->initialState.spriteObjects;
     REQUIRE(items.size() == 3);
@@ -6035,6 +6306,73 @@ TEST_CASE("placed monsters and items on the floor become the scene's actors and 
         != std::string::npos);
     CHECK(refused("item: 1}", "item: 1, at: [5000, 0]}").find("is not inside room room:b") != std::string::npos);
     CHECK(refused("item: 1}", "item: 1}", false).find("pass --assets") != std::string::npos);
+}
+
+TEST_CASE("P4: a flyer, or a swimmer in water, starts `above_floor` over its floor")
+{
+    const std::string monsters = std::string(MonsterTableText)
+        + "10\tOctopod\tOctopod A\t10\t40\t12\t200\t0\t1\tS\tShort\tNormal\t4\t220\t100\n";
+    const std::string descriptors = std::string(MonsterDescriptorText) + "9\tGhost A\t100\t30\t200\n"
+        + "10\tOctopod A\t100\t40\t200\n";
+    const std::vector<std::pair<std::string, std::string>> tables = {
+        {"monster_data.txt", monsters}, {"monster_descriptors.txt", descriptors}, {"items.txt", ItemTableText},
+        {"object_list.txt", ObjectTableText}};
+    const std::string objects =
+        "format: 0\nstart: {room: room:a, at: [100, 100]}\n"
+        "monsters:\n"
+        "  - {id: monster:ghost, room: room:a, monster: Ghost, at: [600, 256], above_floor: 120}\n"
+        "  - {id: monster:octopod, room: room:a, monster: Octopod, at: [256, 256], above_floor: 50}\n"
+        "water:\n"
+        "  - {id: water:pool, outline: [[0, 0], [512, 0], [512, 512], [0, 512]], bottom: 0, top: 300}\n";
+    const BuiltPlaced built = buildPlaced(PlacedRooms, objects, tables);
+    INFO(issueText(built));
+    REQUIRE(built.built);
+    const std::vector<OpenYAMM::Game::MapDeltaActor> &actors = built.scene->initialState.actors;
+    REQUIRE(actors.size() == 2);
+    CHECK(actors[0].z == 120);
+    CHECK(actors[1].z == 50);
+
+    const auto refused = [&objects, &tables](const std::string &from, const std::string &to)
+    {
+        std::string changed = objects;
+        REQUIRE(changed.find(from) != std::string::npos);
+        changed.replace(changed.find(from), from.size(), to);
+        const BuiltPlaced result = buildPlaced(PlacedRooms, changed, tables);
+        CHECK_FALSE(result.built);
+        return issueText(result);
+    };
+    // A swimmer out of the water, or with its middle over the surface; a walker; a flyer under the ceiling (384).
+    CHECK(refused("at: [256, 256], above_floor: 50", "at: [900, 256], above_floor: 50").find("is in no water")
+        != std::string::npos);
+    CHECK(refused("at: [256, 256], above_floor: 50", "at: [256, 256], above_floor: 260").find("is in no water")
+        != std::string::npos);
+    CHECK(refused("monster: Ghost,", "monster: Swordsman,").find("neither flies nor swims") != std::string::npos);
+    CHECK(refused("above_floor: 120", "above_floor: 300").find("100 high and the ceiling") != std::string::npos);
+    refused("above_floor: 120", "above_floor: 0");
+}
+
+TEST_CASE("a click whose condition calls a world's quest hook says something when it fails (DD-06's trapdoor)")
+{
+    std::string rooms = PlacedRooms;
+    const std::string platform = "      - {at: [768, 256], size: [128, 128], rise: 64}\n";
+    REQUIRE(rooms.find(platform) != std::string::npos);
+    rooms.replace(rooms.find(platform), platform.size(),
+        "      - {id: platform:hatch, at: [768, 256], size: [128, 128], rise: 64}\n");
+    const std::string objects = "format: 0\nstart: {room: room:a, at: [100, 100]}\n";
+    const auto silent = [&rooms, &objects](const std::string &condition)
+    {
+        const BuiltPlaced built = buildPlaced(rooms, objects, PlacedTables, CardText,
+            "format: 0\nevents:\n  - {id: evt:hatch, preset: script, source: platform:hatch, condition: " + condition
+                + ", lua: \"evt.StatusText('Up')\"}\n");
+        INFO(issueText(built));
+        REQUIRE(built.built);
+        return std::any_of(built.warnings.begin(), built.warnings.end(), [](const std::string &warning)
+        {
+            return warning.find("does nothing the player sees") != std::string::npos;
+        });
+    };
+    CHECK(silent("{qbit: 5}"));
+    CHECK_FALSE(silent("{all: [{lua: 'XeenQuests.hook(\"d7.roof_dd06\")'}, {qbit: 5}]}"));
 }
 
 TEST_CASE("a platform and a wall panel with an id are clicked, and a mover that does not move says so")
@@ -7979,6 +8317,20 @@ TEST_CASE("the lock keeps removed ids until a prune, a chest refuses a roll writ
     // Without the table (no asset root) nothing is checked.
     options.liquidTableText.clear();
     CHECK(sizeIssues(withFloor("{texture: floor}")) == 0);
+    // One texture given two sizes in a map (the floor as the wall's texture at another size): a warning, the build
+    // keeping one size per texture.
+    const auto sizeWarnings = [&options](const Project &sizedProject)
+    {
+        std::vector<ProjectIssue> found;
+        LoweredIndoorMap sizedLowered;
+        lowerIndoorProject(sizedProject, options, sizedLowered, found);
+        return std::count_if(sizedLowered.warnings.begin(), sizedLowered.warnings.end(), [](const std::string &text)
+        {
+            return text.find("is given size [64, 256] here and [128, 128]") != std::string::npos;
+        });
+    };
+    CHECK(sizeWarnings(withFloor("{texture: wall, size: [64, 256]}")) == 1);
+    CHECK(sizeWarnings(withFloor("{texture: wall, size: [128, 128]}")) == 0);
 }
 
 TEST_CASE("a monster starts hidden and carries an item, its record repeats its kind's experience, and a door runs "
@@ -8197,7 +8549,8 @@ TEST_CASE("a decoration is clicked, an event runs on leaving the map, effects ch
         "  - {id: evt:paint, preset: script, trigger: load, effects: [{set_texture: {of: platform:cube, to: cfb1}},\n"
         "     {passable: platform:cube}, {hide: door:ab}]}\n"
         "  - {id: evt:ask, preset: script, source: platform:cube, effects: [{open_chest: chest:c}],\n"
-        "     question: {message: \"Open it?\", ask: \"Open (Yes/No)?\", answers: [Yes, Y], wrong_text: Not now.}}\n";
+        "     question: {message: \"Open it?\", ask: \"Open (Yes/No)?\", answers: [Yes, Y], wrong_text: Not now.,\n"
+        "     wrong_effects: [{lua: Xeen.wrongAnswer()}]}}\n";
     const std::vector<std::pair<std::string, std::string>> tables = {
         {"decoration_data.txt",
             "Decoration Data\t\t\tDescriptor\n"
@@ -8255,6 +8608,12 @@ TEST_CASE("a decoration is clicked, an event runs on leaving the map, effects ch
     CHECK(ask.find("function(continueStep)") != std::string::npos);
     CHECK(ask.find("if continueStep == 2 then\n        evt.OpenChest(") != std::string::npos);
     CHECK(ask.find("evt.StatusText(\"Not now.\")") != std::string::npos);
+    // A wrong answer runs `wrong_effects` after its line, inside the wrong answer's branch.
+    const size_t wrongAt = ask.find("Xeen.wrongAnswer()");
+    REQUIRE(wrongAt != std::string::npos);
+    CHECK(wrongAt > ask.find("if continueStep ~= nil then"));
+    CHECK(wrongAt > ask.find("evt.StatusText(\"Not now.\")"));
+    CHECK(wrongAt < ask.find("evt.SetMessage(\"Open it?\")"));
     CHECK(ask.find("evt.SetMessage(\"Open it?\")") != std::string::npos);
     CHECK(ask.find("evt.AskQuestion(" + std::to_string(askId) + ", 1, 0, 2, \"Open (Yes/No)?\", {\"Yes\", \"Y\"})")
         != std::string::npos);
@@ -8275,6 +8634,19 @@ TEST_CASE("a decoration is clicked, an event runs on leaving the map, effects ch
     CHECK(json.find("answered: continued at step 2") != std::string::npos);
     CHECK(json.find("open chest 3") != std::string::npos);
 
+    // A Yes/No prompt's buttons (AskChoiceWithAnswerSteps, which event_support.lua's helper calls as evt.) continue it
+    // the same way: the Yes branch is explored.
+    map.fullScriptSource =
+        "evt.map[6] = function(continueStep)\n"
+        "    if continueStep == 1 then evt.OpenChest(4) return end\n"
+        "    if continueStep ~= nil then return end\n"
+        "    evt.AskChoiceWithAnswerSteps(6, 3, 'Open?', {{Answer = 'Yes', Step = 1}, {Answer = 'No', Step = 2}})\n"
+        "end\n";
+    REQUIRE(exploreEventHandlers(map, json, errorMessage));
+    CHECK(YAML::Load(json)[0]["paths"].size() == 4);
+    CHECK(json.find("answered: continued at step 1") != std::string::npos);
+    CHECK(json.find("open chest 4") != std::string::npos);
+
     // What cannot be built says so.
     const auto refused = [&rooms, &objects, &tables](const std::string &wiringText)
     {
@@ -8282,8 +8654,9 @@ TEST_CASE("a decoration is clicked, an event runs on leaving the map, effects ch
     };
     CHECK(refused("  - {id: evt:c, preset: chest, source: chest:c, once: true}\n").find("`once` belongs to")
         != std::string::npos);
-    CHECK(refused("  - {id: evt:p, preset: script, trigger: load, effects: [{passable: chest:c}]}\n")
-        .find("chest:c is none of them") != std::string::npos);
+    // (A chest's faces are a target since merge point 25: P5's hidden chest; a decoration's are not.)
+    CHECK(refused("  - {id: evt:p, preset: script, trigger: load, effects: [{passable: deco:keg}]}\n")
+        .find("deco:keg is none of them") != std::string::npos);
     CHECK(refused("  - {id: evt:p, preset: script, trigger: load, effects: [{set_texture: {of: door:ab}}]}\n")
         .find("set_texture is {of:") != std::string::npos);
     CHECK(refused("  - {id: evt:q, preset: script, source: deco:keg, question: {ask: \"Why?\", answers: []}}\n")
@@ -8548,6 +8921,70 @@ TEST_CASE("a chest of a kind is laid end, middle and end on its long sides and t
     {
         return warning.find("Say `kind: ch3`") != std::string::npos;
     }));
+}
+
+TEST_CASE("a platform's fitted top is laid once over its underside too (P1's vents)")
+{
+    const BuiltPlaced built = buildPlaced("rooms:\n  - id: room:a\n    outline: [[0, 0], [1024, 0], [1024, 768], [0, 768]]\n"
+        "    floor: 0\n    ceiling: 512\n    platforms:\n"
+        "      - {id: platform:vent, at: [512, 384], size: [192, 192], rise: 4, base: 40, "
+        "top_surface: {texture: ventpic, fit: true}}\n",
+        "format: 0\nstart: {room: room:a, at: [128, 128]}\n", {});
+    INFO(issueText(built));
+    REQUIRE(built.built);
+    int vents = 0;
+
+    for (const OpenYAMM::Game::IndoorFace &face : built.map.faces)
+    {
+        if (face.textureName != "ventpic")
+        {
+            continue;
+        }
+
+        ++vents;
+        const auto [lowU, highU] = std::minmax_element(face.textureUs.begin(), face.textureUs.end());
+        const auto [lowV, highV] = std::minmax_element(face.textureVs.begin(), face.textureVs.end());
+        CHECK(*highU - *lowU == 128);
+        CHECK(*highV - *lowV == 128);
+    }
+
+    CHECK(vents >= 1);
+}
+
+TEST_CASE("a chest without a kind or surface is its style world's chest (Xeen on MM7's tiles: 7gt002)")
+{
+    const auto textures = [](const std::string &world, const std::string &tileset)
+    {
+        std::vector<std::pair<std::string, std::string>> tables;
+
+        if (!tileset.empty())
+        {
+            tables.push_back({"../../worlds/" + world + "/world.yml", "terrainTileset: " + tileset + "\n"});
+        }
+
+        const BuiltPlaced built = buildPlaced(HandleRooms, "format: 0\nstart: {room: room:a, at: [128, 128]}\n"
+            "chests:\n  - {id: chest:c, room: room:a, at: [256, 600], facing: e}\n", tables,
+            "format: 0\nid: testmap\nworld: " + world + "\nkind: indoor\n",
+            "format: 0\nevents:\n  - {id: evt:c, preset: chest, source: chest:c}\n");
+        INFO(issueText(built));
+        REQUIRE(built.built);
+        std::set<std::string> names;
+
+        for (const OpenYAMM::Game::IndoorFace &face : built.map.faces)
+        {
+            if (face.cogTriggered == 1)
+            {
+                names.insert(face.textureName);
+            }
+        }
+
+        return names;
+    };
+
+    CHECK(textures("mm6", "").contains("ch1frntb"));
+    CHECK(textures("mm8", "").contains("gt002a"));
+    CHECK(textures("xeen", "mm7").contains("7gt002e"));
+    CHECK(textures("hesper", "").contains("ch1frntb"));
 }
 
 TEST_CASE("what stands over a lift or a mover stands on its top as the part stands at the map's start")
@@ -8991,6 +9428,50 @@ TEST_CASE("what the player sees: things in the air, squashed pictures, chests na
     CHECK(warned("are MM6's: this dungeon is mm7's") == 1);
 }
 
+TEST_CASE("D7: a dungeon monster's `leash` and a decoration of the project's world's own table")
+{
+    const std::string objects =
+        "format: 0\nstart: {room: room:a, at: [100, 100]}\n"
+        "monsters:\n"
+        "  - {id: monster:dragon, room: room:a, monster: 1, at: [256, 256], leash: 1024}\n"
+        "  - {id: monster:free, room: room:a, monster: 1, at: [512, 384]}\n"
+        "decorations:\n"
+        "  - {id: deco:lamp, room: room:a, decoration: xw_lamp, at: [400, 100]}\n";
+    std::vector<std::pair<std::string, std::string>> tables = PlacedTables;
+    tables.push_back({"decoration_data.txt",
+        "Decoration Data\t\t\tDescriptor\n"
+        "#\tInternalName\tHint\tType\tRadius\tHeight\tLightRadius\tLightRed\tLightGreen\tLightBlue\tSoundId\t"
+        "Flags\tSpriteId\n\n"
+        "1\tnull\tnull\t0\t8\t8\t0\t0\t0\t0\t0\t0\t0\n"});
+    tables.push_back({"../../worlds/xw/world.yml",
+        "id: xw\ntableContributions:\n"
+        "  - {table: decorations, idDomain: decorations, mode: append, path: models/decoration_data.txt}\n"});
+    tables.push_back({"../../worlds/xw/models/decoration_data.txt",
+        "4021\txw_lamp\tgenie lamp\t0\t20\t23\t0\t0\t0\t0\t0\t0\t0\n"});
+    const std::string card = "format: 0\nid: testmap\nworld: xw\nkind: indoor\n";
+    const BuiltPlaced built = buildPlaced(PlacedRooms, objects, tables, card);
+    INFO(issueText(built));
+    REQUIRE(built.built);
+    const std::vector<OpenYAMM::Game::MapDeltaActor> &actors = built.scene->initialState.actors;
+    REQUIRE(actors.size() == 2);
+    CHECK(actors[0].leashRadius == 1024);
+    CHECK_FALSE(actors[0].immobile);
+    CHECK(actors[1].leashRadius == 0);
+    // The world's row 4021: the BLV stores the row less one.
+    const std::vector<OpenYAMM::Game::IndoorEntity> &entities = built.map.entities;
+    CHECK(std::count_if(entities.begin(), entities.end(),
+        [](const OpenYAMM::Game::IndoorEntity &entity) { return entity.decorationListId == 4020; }) == 1);
+
+    // A leash and `immobile` together hold the monster two ways: refused.
+    const std::string both =
+        "format: 0\nstart: {room: room:a, at: [100, 100]}\n"
+        "monsters:\n"
+        "  - {id: monster:dragon, room: room:a, monster: 1, at: [256, 256], leash: 1024, immobile: true}\n";
+    const BuiltPlaced refused = buildPlaced(PlacedRooms, both, tables, card);
+    CHECK_FALSE(refused.built);
+    CHECK(issueText(refused).find("`leash` and `immobile` both hold the monster") != std::string::npos);
+}
+
 TEST_CASE("a chest's other lid, a platform's top changed alone, a decoration's picture by its id, a secret panel")
 {
     const std::string rooms =
@@ -9075,6 +9556,541 @@ TEST_CASE("a chest's other lid, a platform's top changed alone, a decoration's p
         .find("there is no decoration deco:none") != std::string::npos);
 }
 
+TEST_CASE("DD-13: a decoration with `hidden: true` starts away, and `show`/`hide` with its id bring it and take it")
+{
+    const std::string rooms =
+        "rooms:\n  - {id: room:a, outline: [[0, 0], [1024, 0], [1024, 1024], [0, 1024]], floor: 0, ceiling: 384}\n";
+    const std::string objects =
+        "format: 0\nstart: {room: room:a, at: [128, 128]}\n"
+        "decorations:\n"
+        "  - {id: deco:first, room: room:a, decoration: smlbarel, at: [200, 600]}\n"
+        "  - {id: deco:heap, room: room:a, decoration: smlbarel, at: [600, 600], hidden: true}\n";
+    const std::string wiring =
+        "format: 0\nevents:\n"
+        "  - {id: evt:burn, preset: script, source: deco:first, title: Fire, effects: [{show: deco:heap}, "
+        "{hide: deco:first}]}\n";
+    const std::vector<std::pair<std::string, std::string>> tables = {
+        {"decoration_data.txt",
+            "Decoration Data\t\t\tDescriptor\n"
+            "#\tInternalName\tHint\tType\tRadius\tHeight\tLightRadius\tLightRed\tLightGreen\tLightBlue\tSoundId\t"
+            "Flags\tSpriteId\n\n"
+            "1\tnull\tnull\t0\t8\t8\t0\t0\t0\t0\t0\t0\t0\n"
+            "157\tsmlbarel\tkeg\t0\t30\t40\t0\t0\t0\t0\t0\t0\t17789\n"}};
+    const BuiltPlaced built = buildPlaced(rooms, objects, tables, CardText, wiring);
+    INFO(issueText(built));
+    REQUIRE(built.built);
+    REQUIRE(built.map.entities.size() >= 2);
+    // The heap is entity 1: the map's invisible flag on it, the first decoration without.
+    size_t heap = built.map.entities.size();
+    size_t first = built.map.entities.size();
+
+    for (size_t index = 0; index < built.map.entities.size(); ++index)
+    {
+        if (built.map.entities[index].name == "heap")
+        {
+            heap = index;
+        }
+
+        if (built.map.entities[index].name == "first")
+        {
+            first = index;
+        }
+    }
+
+    REQUIRE(heap == 1);
+    REQUIRE(first == 0);
+    CHECK(built.map.entities[heap].aiAttributes == 0x20);
+    CHECK(built.map.entities[first].aiAttributes == 0);
+    REQUIRE(built.scene);
+    REQUIRE(built.scene->initialState.decorationFlags.size() == 1);
+    CHECK(built.scene->initialState.decorationFlags[0].entityIndex == 1);
+    CHECK(built.scene->initialState.decorationFlags[0].flag == 0x20);
+    CHECK(built.lua.find("evt.SetSprite(1, 1)") != std::string::npos);
+    CHECK(built.lua.find("evt.SetSprite(0, 0)") != std::string::npos);
+}
+
+TEST_CASE("P5: a chest with `hidden: true` starts away, and `show`/`hide` with its id bring it and take it whole")
+{
+    const std::string rooms =
+        "rooms:\n  - {id: room:a, outline: [[0, 0], [1024, 0], [1024, 1024], [0, 1024]], floor: 0, ceiling: 384}\n";
+    const std::string objects =
+        "format: 0\nstart: {room: room:a, at: [128, 128]}\n"
+        "chests:\n"
+        "  - {id: chest:gift, room: room:a, at: [600, 600], hidden: true, gold: 100}\n"
+        "  - {id: chest:plain, room: room:a, at: [300, 600], gold: 5}\n"
+        "plates:\n  - {id: plate:step, room: room:a, at: [512, 300], size: [64, 64]}\n";
+    const std::string wiring =
+        "format: 0\nevents:\n"
+        "  - {id: evt:gift, preset: chest, source: chest:gift}\n"
+        "  - {id: evt:plain, preset: chest, source: chest:plain}\n"
+        "  - {id: evt:step, preset: script, trigger: step, source: plate:step,\n"
+        "     effects: [{show: chest:gift}, {hide: chest:plain}]}\n";
+    const BuiltPlaced built = buildPlaced(rooms, objects, {}, CardText, wiring);
+    INFO(issueText(built));
+    REQUIRE(built.built);
+    const uint32_t invisible = OpenYAMM::Game::faceAttributeBit(OpenYAMM::Game::FaceAttribute::Invisible);
+    const uint32_t untouchable = OpenYAMM::Game::faceAttributeBit(OpenYAMM::Game::FaceAttribute::Untouchable);
+    // Each chest's faces (above the floor, within its footprint) and the flags and cogs they carry.
+    const auto chestFaces = [&built, invisible, untouchable](double x)
+    {
+        std::set<std::pair<uint32_t, uint32_t>> flagsAndCogs;
+
+        for (const OpenYAMM::Game::IndoorFace &face : built.map.faces)
+        {
+            bool inChest = !face.isPortal;
+            bool raised = false;
+
+            for (const uint16_t vertex : face.vertexIndices)
+            {
+                const OpenYAMM::Game::IndoorVertex &point = built.map.vertices[vertex];
+                inChest = inChest && std::abs(point.x - x) <= 64 && std::abs(point.y - 600) <= 64 && point.z >= 0
+                    && point.z <= 100;
+                raised = raised || point.z > 0;
+            }
+
+            if (inChest && raised)
+            {
+                flagsAndCogs.insert({face.attributes & (invisible | untouchable), face.cogNumber});
+            }
+        }
+
+        return flagsAndCogs;
+    };
+    const std::set<std::pair<uint32_t, uint32_t>> gift = chestFaces(600);
+    const std::set<std::pair<uint32_t, uint32_t>> plain = chestFaces(300);
+    REQUIRE(gift.size() == 1);
+    REQUIRE(plain.size() == 1);
+    CHECK(gift.begin()->first == (invisible | untouchable));
+    CHECK(plain.begin()->first == 0);
+    const std::string giftCog = std::to_string(gift.begin()->second);
+    const std::string plainCog = std::to_string(plain.begin()->second);
+    CHECK(gift.begin()->second > 0);
+    CHECK(plain.begin()->second > 0);
+    CHECK(built.lua.find("evt.SetFacetBit(" + giftCog + ", FaceAttribute.Invisible, 0)") != std::string::npos);
+    CHECK(built.lua.find("evt.SetFacetBit(" + giftCog + ", FaceAttribute.Untouchable, 0)") != std::string::npos);
+    CHECK(built.lua.find("evt.SetFacetBit(" + plainCog + ", FaceAttribute.Invisible, 1)") != std::string::npos);
+    CHECK(built.lua.find("evt.SetFacetBit(" + plainCog + ", FaceAttribute.Untouchable, 1)") != std::string::npos);
+    CHECK(built.lua.find("evt.OpenChest(") != std::string::npos);
+
+    // A hidden chest no event shows is warned of.
+    const BuiltPlaced unshown = buildPlaced(rooms, objects, {}, CardText,
+        "format: 0\nevents:\n  - {id: evt:gift, preset: chest, source: chest:gift}\n");
+    REQUIRE(unshown.built);
+    CHECK(std::any_of(unshown.warnings.begin(), unshown.warnings.end(), [](const std::string &warning)
+    {
+        return warning.find("chest:gift starts hidden") != std::string::npos;
+    }));
+}
+
+TEST_CASE("XD-19, DD-16: a `trigger: monster_damage` event is the map's damage hook, for its monsters only")
+{
+    const std::string rooms =
+        "rooms:\n  - {id: room:a, outline: [[0, 0], [1024, 0], [1024, 1024], [0, 1024]], floor: 0, ceiling: 384}\n";
+    const std::string objects = "format: 0\nstart: {room: room:a, at: [128, 128]}\n";
+    const std::string wiring =
+        "format: 0\nevents:\n"
+        "  - {id: evt:corak, preset: script, trigger: monster_damage, monsters: [11690, 11691], "
+        "effects: [{set_damage: 0}]}\n"
+        "  - {id: evt:xeen, preset: script, trigger: monster_damage, monsters: [11634], effects: [{lua: "
+        "\"if not (hook.attack == 'melee' and hook.weaponItemId == 12500) then evt.SetHookDamage(0) end\"}]}\n";
+    const BuiltPlaced built = buildPlaced(rooms, objects, {}, CardText, wiring);
+    INFO(issueText(built));
+    REQUIRE(built.built);
+    CHECK(built.lua.find("RegisterMonsterDamageHook(") != std::string::npos);
+    CHECK(built.lua.find("local monsters = {[11690] = true, [11691] = true}") != std::string::npos);
+    CHECK(built.lua.find("if not monsters[hook.monsterId] then return end") != std::string::npos);
+    CHECK(built.lua.find("evt.SetHookDamage(0)") != std::string::npos);
+    CHECK(built.lua.find("hook.weaponItemId == 12500") != std::string::npos);
+    CHECK(built.lua.find("RegisterEvent(") == std::string::npos);
+    // A hook naming a placed monster acts on its actor index (the scene's actors in objects.yml's order).
+    const std::string placedObjects = objects + "monsters:\n"
+        "  - {id: monster:guard, room: room:a, at: [600, 600], monster: 1}\n"
+        "  - {id: monster:xeen, room: room:a, at: [700, 700], monster: 2}\n";
+    const BuiltPlaced placed = buildPlaced(rooms, placedObjects, PlacedTables, CardText, "format: 0\nevents:\n"
+        "  - {id: evt:xeen, preset: script, trigger: monster_damage, actors: [monster:xeen], "
+        "effects: [{set_damage: 0}]}\n");
+    INFO(issueText(placed));
+    CHECK(placed.lua.find("local actors = {[1] = true}") != std::string::npos);
+    CHECK(placed.lua.find("if not actors[hook.actorIndex] then return end") != std::string::npos);
+    // A hook has no source, and `monsters` belongs to a hook alone.
+    CHECK(issueText(buildPlaced(rooms, objects, {}, CardText, "format: 0\nevents:\n"
+        "  - {id: evt:x, preset: script, trigger: load, monsters: [1], effects: [{set_damage: 0}]}\n"))
+        .find("`monsters` belongs to a damage hook") != std::string::npos);
+}
+
+TEST_CASE("DD-13: a door in a hole of a floor is a trapdoor that turns down about its hinge side, or up")
+{
+    // The floor-hole rooms above: the hole x 160-352, y 256-512 in a floor 32 thick (256 over the ceiling at 224).
+    const std::string rooms =
+        "rooms:\n"
+        "  - {id: room:a, outline: [[0, 0], [1024, 0], [1024, 768], [0, 768]], floor: 256, ceiling: 640}\n"
+        "  - {id: room:b, outline: [[64, 64], [448, 64], [448, 704], [64, 704]], floor: -64, ceiling: 224}\n"
+        "openings:\n"
+        "  - {id: open:hole, from: room:a, to: room:b, in: floor, at: [256, 384], size: [192, 256]}\n";
+    const std::string wiring = "format: 0\nevents:\n  - {id: evt:trap, preset: door, source: door:trap}\n";
+    const auto trapdoor = [&rooms, &wiring](const std::string &fields)
+    {
+        return buildMoving(rooms, "format: 0\nstart: {room: room:a, at: [512, 64]}\ndoors:\n  - {id: door:trap, "
+            "opening: open:hole, " + fields + "}\n", wiring);
+    };
+    const BuiltMoving down = trapdoor("hinge: west, surface: {texture: trapd, size: [64, 64]}");
+    INFO(issueText(down.rooms));
+    REQUIRE(down.rooms.built);
+    REQUIRE(down.doors.size() == 1);
+    const YAML::Node rotation = down.door(1)["mover"]["rotation"];
+    REQUIRE(rotation.IsMap());
+    // The hinge line along the west side at the leaf's underside (16 under the floor); the axis turns the free east
+    // side down; the same way for whoever opens it.
+    CHECK(rotation["pivot"][0].as<double>() == doctest::Approx(160.0));
+    CHECK(rotation["pivot"][1].as<double>() == doctest::Approx(384.0));
+    CHECK(rotation["pivot"][2].as<double>() == doctest::Approx(240.0));
+    CHECK(rotation["axis"][0].as<double>() == doctest::Approx(0.0));
+    CHECK(rotation["axis"][1].as<double>() == doctest::Approx(1.0));
+    CHECK(rotation["axis"][2].as<double>() == doctest::Approx(0.0));
+    CHECK(rotation["open_degrees"].as<double>() == doctest::Approx(90.0));
+    CHECK_FALSE(rotation["open_away"].as<bool>());
+    CHECK(down.door(1)["move_length"].as<int>() == 900);
+    CHECK(down.lua.find("evt.SetDoorState(1, DoorAction.Trigger)") != std::string::npos);
+    // The leaf: its top lies flush with the upper floor, over the whole hole, with the trapdoor's picture once.
+    size_t tops = 0;
+
+    for (const OpenYAMM::Game::IndoorFace &face : down.loaded.indoor->faces)
+    {
+        if (face.textureName == "trapd" && down.rooms.heights(face) == std::array<int, 2>{256, 256})
+        {
+            ++tops;
+        }
+    }
+
+    CHECK(tops >= 1);
+
+    // Up into the room above: about the top's edge on the east side.
+    const BuiltMoving up = trapdoor("hinge: east, swing: -90");
+    INFO(issueText(up.rooms));
+    REQUIRE(up.rooms.built);
+    const YAML::Node upRotation = up.door(1)["mover"]["rotation"];
+    CHECK(upRotation["pivot"][0].as<double>() == doctest::Approx(352.0));
+    CHECK(upRotation["pivot"][2].as<double>() == doctest::Approx(256.0));
+    CHECK(upRotation["axis"][1].as<double>() == doctest::Approx(-1.0));
+    CHECK(upRotation["open_degrees"].as<double>() == doctest::Approx(-90.0));
+
+    // Sliding words, a leaf thicker than the floor and a swing past 120 are refused.
+    CHECK(issueText(trapdoor("hinge: west, travel: 64").rooms).find("for doors in walls") != std::string::npos);
+    CHECK(issueText(trapdoor("hinge: west, thickness: 48").rooms).find("only 32 thick") != std::string::npos);
+    CHECK(issueText(trapdoor("hinge: west, swing: 170").rooms).find("1 to 120 degrees") != std::string::npos);
+}
+
+TEST_CASE("FD-01: a mover with `turn` is the scene's rotating mover, its parts with it, and stays in its room")
+{
+    const std::string rooms =
+        "rooms:\n  - {id: room:a, outline: [[0, 0], [1024, 0], [1024, 1024], [0, 1024]], floor: 0, ceiling: 512}\n";
+    const std::string wiring =
+        "format: 0\nevents:\n  - {id: evt:lever, preset: switch, source: mover:arm, opens: [mover:arm]}\n";
+    const auto lever = [&rooms, &wiring](const std::string &fields)
+    {
+        return buildMoving(rooms, "format: 0\nstart: {room: room:a, at: [128, 128]}\nmovers:\n  - {id: mover:arm, "
+            "room: room:a, at: [512, 512], size: [32, 32], bottom: 248, height: 176, " + fields + "}\n", wiring);
+    };
+    // The arm stands up from its pivot with the grip on its top and is thrown over to hang down.
+    const BuiltMoving thrown = lever("turn: {pivot: [512, 512, 248], axis: x, degrees: 180}, speed: 180, "
+        "parts: [{at: [512, 512], size: [48, 48], height: 48}]");
+    INFO(issueText(thrown.rooms));
+    REQUIRE(thrown.rooms.built);
+    REQUIRE(thrown.doors.size() == 1);
+    const YAML::Node door = thrown.door(1);
+    const YAML::Node rotation = door["mover"]["rotation"];
+    REQUIRE(rotation.IsMap());
+    CHECK(rotation["pivot"][0].as<double>() == doctest::Approx(512.0));
+    CHECK(rotation["pivot"][1].as<double>() == doctest::Approx(512.0));
+    CHECK(rotation["pivot"][2].as<double>() == doctest::Approx(248.0));
+    CHECK(rotation["axis"][0].as<double>() == doctest::Approx(1.0));
+    CHECK(rotation["axis"][1].as<double>() == doctest::Approx(0.0));
+    CHECK(rotation["axis"][2].as<double>() == doctest::Approx(0.0));
+    CHECK(rotation["open_degrees"].as<double>() == doctest::Approx(180.0));
+    CHECK_FALSE(rotation["open_away"].as<bool>());
+    CHECK(door["move_length"].as<int>() == 1800);
+    CHECK(door["open_speed"].as<int>() == 1800);
+    CHECK(door["direction"][2].as<int>() == 0);
+    CHECK_FALSE(door["mover"]["carry"].IsDefined());
+    // The record's pose is the drawn one (the start): arm and grip from 248 up to 472.
+    int lowest = 1 << 20;
+    int highest = -(1 << 20);
+
+    for (const YAML::Node &z : door["z_offsets"])
+    {
+        lowest = std::min(lowest, z.as<int>());
+        highest = std::max(highest, z.as<int>());
+    }
+
+    CHECK(lowest == 248);
+    CHECK(highest == 472);
+    // The game's own scene parser takes the record (it checks the rotating mover's numbers).
+    REQUIRE(thrown.loaded.indoorScene.has_value());
+
+    // Turned half over about a pivot at 400, the arm's foot comes to 552, above the ceiling (512); `travel` with
+    // `turn`, a turn without its axis, and a ride on a turning mover are refused.
+    CHECK(issueText(lever("turn: {pivot: [512, 512, 400], axis: x, degrees: 180}").rooms)
+              .find("above the ceiling of room:a") != std::string::npos);
+    CHECK(issueText(lever("turn: {pivot: [512, 512, 248], axis: x, degrees: 180}, travel: [0, 0, 8]").rooms)
+              .find("not both") != std::string::npos);
+    CHECK_FALSE(lever("turn: {pivot: [512, 512, 248], degrees: 90}").rooms.built);
+    // Upright about z: a quarter turn of the arm stays in the room.
+    CHECK(lever("turn: {pivot: [496, 496, 248], axis: z, degrees: -90}").rooms.built);
+}
+
+TEST_CASE("DD-16: a ladder through a hole in a floor stands at least 10 inside the hole's edge")
+{
+    // The hole x 160-352, y 256-512 in the floor of room:a (256) over room:b (ceiling 224).
+    const std::string rooms =
+        "rooms:\n"
+        "  - {id: room:a, outline: [[0, 0], [1024, 0], [1024, 768], [0, 768]], floor: 256, ceiling: 640}\n"
+        "  - {id: room:b, outline: [[64, 64], [448, 64], [448, 704], [64, 704]], floor: -64, ceiling: 224}\n"
+        "openings:\n"
+        "  - {id: open:hole, from: room:a, to: room:b, in: floor, at: [256, 384], size: [192, 256]}\n";
+    const auto warned = [&rooms](const std::string &at)
+    {
+        const BuiltPlaced built = buildPlaced(rooms, "format: 0\nstart: {room: room:a, at: [512, 64]}\nladders:\n"
+            "  - {id: ladder:hatch, room: room:b, at: " + at + ", facing: n, height: 320}\n", {});
+        INFO(issueText(built));
+        REQUIRE(built.built);
+        return std::any_of(built.warnings.begin(), built.warnings.end(), [](const std::string &warning)
+        {
+            return warning.find("ladder:hatch climbs through open:hole") != std::string::npos;
+        });
+    };
+    // 4 outside the north edge, 6 inside it, 22 inside; a ladder 64 wide 8 from the east edge.
+    CHECK(warned("[256, 516]"));
+    CHECK(warned("[256, 506]"));
+    CHECK_FALSE(warned("[256, 490]"));
+    CHECK(warned("[312, 490], width: 64"));
+}
+
+TEST_CASE("DD-06: a wall panel over part of a doorway, or a picture meant once over a whole one, warns")
+{
+    // Room a's east wall (wall 1, 0 to 512 along it) has open:ab from 192 to 320, 0 to 128 high.
+    const auto warned = [](const std::string &panel)
+    {
+        const std::string rooms =
+            "rooms:\n"
+            "  - id: room:a\n"
+            "    outline: [[0, 0], [1024, 0], [1024, 512], [0, 512]]\n"
+            "    floor: 0\n"
+            "    ceiling: 384\n"
+            "    walls: [{wall: east, panels: [" + panel + "]}]\n"
+            "  - {id: room:b, outline: [[1056, 128], [1312, 128], [1312, 384], [1056, 384]], floor: 0, ceiling: 160}\n"
+            "openings:\n"
+            "  - {id: open:ab, from: room:a, to: room:b, width: 128, height: 128}\n";
+        const BuiltPlaced built = buildPlaced(rooms, "format: 0\nstart: {room: room:a, at: [100, 100]}\n", {});
+        INFO(issueText(built));
+        REQUIRE(built.built);
+        return std::any_of(built.warnings.begin(), built.warnings.end(), [](const std::string &warning)
+        {
+            return warning.find("of open:ab in wall 1 of room:a") != std::string::npos;
+        });
+    };
+    CHECK(warned("{id: panel:gong, offset: 256, length: 128, bottom: 64, height: 96, "
+        "surface: {texture: gong, size: [128, 96], fit: true}}"));
+    CHECK_FALSE(warned("{offset: 336, length: 128, surface: {texture: gong, size: [128, 96]}}"));
+    CHECK_FALSE(warned("{offset: 256, length: 128, bottom: 160, height: 96, surface: {texture: gong, size: [128, 96]}}"));
+    CHECK_FALSE(warned("{offset: 0, length: 512, surface: {texture: hall, size: [128, 128]}}"));
+    CHECK(warned("{offset: 0, length: 512, surface: {texture: hall, size: [128, 128], fit: true}}"));
+}
+
+TEST_CASE("DD-13: a covering wall panel stands 2 in front of the wall, which is built whole behind it")
+{
+    const std::string rooms =
+        "rooms:\n  - {id: room:a, outline: [[0, 0], [1024, 0], [1024, 1024], [0, 1024]], floor: 0, ceiling: 384,\n"
+        "     walls: [{wall: 0, panels: [{id: panel:hide, offset: 256, length: 256, bottom: 64, height: 192,\n"
+        "       cover: true, surface: {texture: hide, size: [128, 128]}},\n"
+        "      {offset: 640, length: 128, surface: {texture: pan, size: [64, 64]}}]}]}\n";
+    const std::string objects =
+        "format: 0\nstart: {room: room:a, at: [512, 512]}\n"
+        "destructibles:\n  - {id: destructible:hide, of: panel:hide, hp: 5, material: wood}\n";
+    const BuiltPlaced built = buildPlaced(rooms, objects, {});
+    INFO(issueText(built));
+    REQUIRE(built.built);
+    // Wall 0 runs along y = 0 and the room lies north of it. The hide's faces stand at y = 2; the wall goes on at
+    // y = 0 behind them (its faces cover x 256-512 between 64 and 256); a plain panel is cut into the wall.
+    size_t hideFaces = 0;
+    size_t wallBehind = 0;
+    size_t plainPanel = 0;
+
+    for (const OpenYAMM::Game::IndoorFace &face : built.map.faces)
+    {
+        int minX = 1 << 20;
+        int maxX = -(1 << 20);
+        int minY = 1 << 20;
+        int maxY = -(1 << 20);
+
+        for (const uint16_t vertexId : face.vertexIndices)
+        {
+            const OpenYAMM::Game::IndoorVertex &vertex = built.map.vertices[vertexId];
+            minX = std::min(minX, int(vertex.x));
+            maxX = std::max(maxX, int(vertex.x));
+            minY = std::min(minY, int(vertex.y));
+            maxY = std::max(maxY, int(vertex.y));
+        }
+
+        if (face.textureName == "hide")
+        {
+            ++hideFaces;
+            CHECK(minY == 2);
+            CHECK(maxY == 2);
+        }
+        else if (face.textureName == "wall" && maxY == 0 && minX < 384 && maxX > 384)
+        {
+            ++wallBehind;
+        }
+        else if (face.textureName == "pan")
+        {
+            ++plainPanel;
+            CHECK(maxY == 0);
+        }
+    }
+
+    CHECK(hideFaces >= 1);
+    CHECK(wallBehind >= 1);
+    CHECK(plainPanel >= 1);
+    // Without an id it cannot be a part of its own.
+    std::string anonymous = rooms;
+    anonymous.replace(anonymous.find("id: panel:hide, "), 16, "");
+    CHECK(issueText(buildPlaced(anonymous, "format: 0\nstart: {room: room:a, at: [512, 512]}\n", {}))
+        .find("a covering panel needs an `id`") != std::string::npos);
+}
+
+TEST_CASE("DD-13: a covering panel may stand in front of another panel, which stays whole behind it")
+{
+    // The hall wall is one whole-wall panel (the burn's set_texture target); the hide covers part of it.
+    const std::string rooms =
+        "rooms:\n  - {id: room:a, outline: [[0, 0], [1024, 0], [1024, 1024], [0, 1024]], floor: 0, ceiling: 384,\n"
+        "     walls: [{wall: 0, panels: [{id: panel:hall, offset: 0, length: 1024,\n"
+        "       surface: {texture: hall, size: [128, 128]}},\n"
+        "      {id: panel:hide, offset: 256, length: 256, bottom: 64, height: 192, cover: true,\n"
+        "       surface: {texture: hide, size: [128, 128]}}]}]}\n";
+    const std::string objects =
+        "format: 0\nstart: {room: room:a, at: [512, 512]}\n"
+        "destructibles:\n  - {id: destructible:hide, of: panel:hide, hp: 5, material: wood}\n";
+    const BuiltPlaced built = buildPlaced(rooms, objects, {});
+    INFO(issueText(built));
+    REQUIRE(built.built);
+    CHECK(issueText(built).find("overlaps another") == std::string::npos);
+    size_t hideFaces = 0;
+    size_t hallBehind = 0;
+    size_t wallFaces = 0;
+
+    for (const OpenYAMM::Game::IndoorFace &face : built.map.faces)
+    {
+        int minX = 1 << 20;
+        int maxX = -(1 << 20);
+        int minY = 1 << 20;
+        int maxY = -(1 << 20);
+
+        for (const uint16_t vertexId : face.vertexIndices)
+        {
+            const OpenYAMM::Game::IndoorVertex &vertex = built.map.vertices[vertexId];
+            minX = std::min(minX, int(vertex.x));
+            maxX = std::max(maxX, int(vertex.x));
+            minY = std::min(minY, int(vertex.y));
+            maxY = std::max(maxY, int(vertex.y));
+        }
+
+        if (face.textureName == "hide")
+        {
+            ++hideFaces;
+            CHECK(minY == 2);
+            CHECK(maxY == 2);
+        }
+        else if (face.textureName == "hall" && maxY == 0 && minX < 384 && maxX > 384)
+        {
+            ++hallBehind;
+        }
+        else if (face.textureName == "wall" && maxY == 0 && minY == 0 && maxX > minX)
+        {
+            ++wallFaces;
+        }
+    }
+
+    CHECK(hideFaces >= 1);
+    CHECK(hallBehind >= 1);
+    // The hall panel takes the whole wall: no bare wall shows on it, behind the hide either.
+    CHECK(wallFaces == 0);
+    // Two covers may not share wall.
+    std::string twoCovers = rooms;
+    twoCovers.replace(twoCovers.find("surface: {texture: hall"), 0, "cover: true, ");
+    CHECK(issueText(buildPlaced(twoCovers, objects, {})).find("overlaps another") != std::string::npos);
+}
+
+TEST_CASE("an indoor monster with `npc` talks as that NPC, and wiring Lua names a placed monster by ActorIndex")
+{
+    const std::string rooms =
+        "rooms:\n  - {id: room:a, outline: [[0, 0], [1024, 0], [1024, 1024], [0, 1024]], floor: 0, ceiling: 384}\n";
+    const std::string objects =
+        "format: 0\nstart: {room: room:a, at: [128, 128]}\n"
+        "switches:\n  - {id: switch:call, room: room:a, wall: north}\n"
+        "monsters:\n"
+        "  - {id: monster:guard, room: room:a, monster: 1, at: [300, 600]}\n"
+        "  - {id: monster:lacey, room: room:a, monster: 1, at: [700, 600], npc: 5320, immobile: true}\n";
+    const std::string wiring =
+        "format: 0\nevents:\n"
+        "  - {id: evt:call, preset: script, source: switch:call, title: Call,\n"
+        "     effects: [{lua: \"evt.SetActorTarget(ActorIndex(\\\"monster:lacey\\\"), 0)\"}]}\n";
+    const std::vector<std::pair<std::string, std::string>> &tables = PlacedTables;
+    const BuiltPlaced built = buildPlaced(rooms, objects, tables, CardText, wiring);
+    INFO(issueText(built));
+    REQUIRE(built.built);
+    REQUIRE(built.scene->initialState.actors.size() == 2);
+    CHECK(built.scene->initialState.actors[0].npcId == 0);
+    CHECK(built.scene->initialState.actors[1].npcId == 5320);
+    CHECK(built.lua.find("evt.SetActorTarget(1, 0)") != std::string::npos);
+    // A monster the project does not place.
+    std::string wrong = wiring;
+    wrong.replace(wrong.find("monster:lacey"), 13, "monster:stumpy");
+    CHECK(issueText(buildPlaced(rooms, objects, tables, CardText, wrong))
+        .find("names the placed monster monster:stumpy") != std::string::npos);
+}
+
+TEST_CASE("DD-13: a table top on four leg blocks rests on them; on two it still rests on nothing")
+{
+    const auto rooms = [](int legCount)
+    {
+        std::string text =
+            "rooms:\n"
+            "  - id: room:a\n"
+            "    outline: [[0, 0], [1024, 0], [1024, 1024], [0, 1024]]\n"
+            "    floor: 0\n"
+            "    ceiling: 384\n"
+            "    platforms:\n"
+            "      - {id: platform:top, at: [512, 512], size: [256, 128], base: 64, rise: 8}\n";
+        // Set in from the top's corners, as DD-13's (legs at the very corners touch its sides and say nothing).
+        const std::vector<std::string> legs = {"[424, 480]", "[600, 544]", "[600, 480]", "[424, 544]"};
+
+        for (int index = 0; index < legCount; ++index)
+        {
+            text += "      - {at: " + legs[size_t(index)] + ", size: [16, 16], rise: 64}\n";
+        }
+
+        return text;
+    };
+    const std::string objects = "format: 0\nstart: {room: room:a, at: [128, 128]}\n";
+    const auto restsOnNothing = [](const BuiltPlaced &built)
+    {
+        return std::count_if(built.warnings.begin(), built.warnings.end(), [](const std::string &warning)
+        {
+            return warning.find("rests on nothing") != std::string::npos;
+        });
+    };
+    const BuiltPlaced onFour = buildPlaced(rooms(4), objects, {});
+    INFO(issueText(onFour));
+    REQUIRE(onFour.built);
+    CHECK(restsOnNothing(onFour) == 0);
+    const BuiltPlaced onNone = buildPlaced(rooms(0), objects, {});
+    REQUIRE(onNone.built);
+    CHECK(restsOnNothing(onNone) == 1);
+    const BuiltPlaced onTwo = buildPlaced(rooms(2), objects, {});
+    REQUIRE(onTwo.built);
+    CHECK(restsOnNothing(onTwo) == 1);
+}
+
 TEST_CASE("indoor mist: atmosphere.yml's mist goes into the scene as the game reads it, and a bad one is refused")
 {
     const std::string rooms =
@@ -9116,24 +10132,34 @@ TEST_CASE("an exit's screen, and leaving the map from any event")
     const std::string objects =
         "format: 0\nstart: {room: room:a, at: [128, 128]}\n"
         "exits:\n  - {id: exit:out, room: room:a, wall: south, to: exit:away}\n"
-        "switches:\n  - {id: switch:cart, room: room:a, wall: north}\n";
+        "switches:\n  - {id: switch:cart, room: room:a, wall: north}\n"
+        "  - {id: switch:throne, room: room:a, wall: east}\n  - {id: switch:cloud, room: room:a, wall: west}\n";
     const std::string wiring =
         "format: 0\nevents:\n"
         "  - {id: evt:out, preset: exit, source: exit:out}\n"
-        "  - {id: evt:cart, preset: script, source: switch:cart, title: Cart, effects: [{leave: exit:back}]}\n";
+        "  - {id: evt:cart, preset: script, source: switch:cart, title: Cart, effects: [{leave: exit:back}]}\n"
+        "  - {id: evt:throne, preset: script, source: switch:throne, title: Throne, effects: [{leave: exit:away}]}\n"
+        "  - {id: evt:cloud, preset: script, source: switch:cloud, title: Cloud, effects: [{leave: exit:up}]}\n";
     // The Mad Necromancer's Lab's exit: MoveToMap(..., 0, 0, 0, 1, "out06.odm").
     const std::string card = std::string(CardText)
         + "neighbours:\n"
           "  - {id: exit:away, to: out06.odm, kind: door, arrival: [-13071, 16397, 1057], direction: 270, "
           "screen: {picture: 1}}\n"
-          "  - {id: exit:back, to: oute3.odm, kind: door, arrival: [10, 20, 30], direction: 90}\n";
+          "  - {id: exit:back, to: oute3.odm, kind: door, arrival: [10, 20, 30], direction: 90, keep_height: true}\n"
+          "  - {id: exit:up, to: d05.blv, kind: door, arrival: [1, 2, 3], direction: 0}\n";
     const BuiltPlaced built = buildPlaced(rooms, objects, {}, card, wiring);
     INFO(issueText(built));
     REQUIRE(built.built);
     CHECK(built.lua.find("evt.MoveToMap(-13071, 16397, 1057, 1536, 0, 0, 0, 1, \"out06.odm\")")
         != std::string::npos);
-    // Without a screen, as before: 0 and 0; and the cart's click leaves by the second neighbour.
-    CHECK(built.lua.find("evt.MoveToMap(10, 20, 30, 512, 0, 0, 0, 0, \"oute3.odm\")") != std::string::npos);
+    // `leave` moves at once (decider D-24): no screen and no "leave the dungeon?" window, to an ODM or a BLV, even
+    // by a neighbour whose exit shows a screen.
+    // `keep_height`: the party arrives in the air at the arrival's height and falls (XD-07's throne throw).
+    CHECK(built.lua.find("evt.MoveToMap(10, 20, 30, 512, 0, 0, 0, 0, \"oute3.odm\", {direct = true, keepHeight = true})")
+        != std::string::npos);
+    CHECK(built.lua.find("evt.MoveToMap(-13071, 16397, 1057, 1536, 0, 0, 0, 0, \"out06.odm\", {direct = true})")
+        != std::string::npos);
+    CHECK(built.lua.find("evt.MoveToMap(1, 2, 3, 0, 0, 0, 0, 0, \"d05.blv\", {direct = true})") != std::string::npos);
     // A neighbour the project does not have, and a screen that is not a map.
     CHECK(issueText(buildPlaced(rooms, objects, {}, card, "format: 0\nevents:\n"
         "  - {id: evt:cart, preset: script, source: switch:cart, effects: [{leave: exit:nowhere}]}\n"))
@@ -9142,6 +10168,157 @@ TEST_CASE("an exit's screen, and leaving the map from any event")
         + "neighbours:\n  - {id: exit:away, to: out06.odm, arrival: [0, 0, 0], screen: {picture: -1}}\n";
     CHECK(!buildPlaced(rooms, objects, {}, badCard, "format: 0\nevents:\n"
         "  - {id: evt:out, preset: exit, source: exit:out}\n").built);
+}
+
+TEST_CASE("A5: an exit effect leaves through the game's window from any click (X9's gate)")
+{
+    const std::string rooms =
+        "rooms:\n  - {id: room:a, outline: [[0, 0], [1024, 0], [1024, 1024], [0, 1024]], floor: 0, ceiling: 384}\n";
+    const std::string objects =
+        "format: 0\nstart: {room: room:a, at: [128, 128]}\n"
+        "switches:\n  - {id: switch:gate, room: room:a, wall: north}\n";
+    const std::string wiring =
+        "format: 0\nevents:\n"
+        "  - {id: evt:gate, preset: script, source: switch:gate, title: Gate, effects: [{exit: exit:away}]}\n";
+    const std::string card = std::string(CardText)
+        + "neighbours:\n  - {id: exit:away, to: out06.odm, kind: door, arrival: [-13071, 16397, 1057], direction: 270}\n";
+    const BuiltPlaced built = buildPlaced(rooms, objects, {}, card, wiring);
+    INFO(issueText(built));
+    REQUIRE(built.built);
+    // As the exit preset writes it: no {direct = true}, so the game asks before an outdoor map.
+    CHECK(built.lua.find("evt.MoveToMap(-13071, 16397, 1057, 1536, 0, 0, 0, 0, \"out06.odm\")") != std::string::npos);
+    CHECK(built.lua.find("direct = true") == std::string::npos);
+    CHECK(issueText(buildPlaced(rooms, objects, {}, card, "format: 0\nevents:\n"
+        "  - {id: evt:gate, preset: script, source: switch:gate, effects: [{exit: exit:nowhere}]}\n"))
+        .find("exit:nowhere, which is not in project.yml neighbours") != std::string::npos);
+}
+
+#include "core/Audit.h"
+
+TEST_CASE("F16: an exit toward a dungeon shows the standard entrance window; `screen: none` moves directly")
+{
+    const std::string rooms =
+        "rooms:\n  - {id: room:a, outline: [[0, 0], [1024, 0], [1024, 1024], [0, 1024]], floor: 0, ceiling: 384}\n";
+    const std::string objects =
+        "format: 0\nstart: {room: room:a, at: [128, 128]}\n"
+        "exits:\n  - {id: exit:down, room: room:a, wall: south, to: exit:deeper}\n"
+        "  - {id: exit:chute, room: room:a, wall: north, to: exit:chute}\n"
+        "  - {id: exit:crypt, room: room:a, wall: east, to: exit:crypt}\n"
+        "switches:\n  - {id: switch:drop, room: room:a, wall: west}\n";
+    const std::string wiring =
+        "format: 0\nevents:\n"
+        "  - {id: evt:down, preset: exit, source: exit:down}\n"
+        "  - {id: evt:chute, preset: exit, source: exit:chute}\n"
+        "  - {id: evt:crypt, preset: exit, source: exit:crypt}\n"
+        "  - {id: evt:drop, preset: script, source: switch:drop, title: Drop, effects: [{leave: exit:deeper}]}\n";
+    const std::string card = std::string(CardText)
+        + "neighbours:\n"
+          "  - {id: exit:deeper, to: d05.blv, kind: door, arrival: [1, 2, 3]}\n"
+          "  - {id: exit:chute, to: d06.blv, kind: door, arrival: [4, 5, 6], screen: none}\n"
+          "  - {id: exit:crypt, to: d07.blv, kind: door, arrival: [7, 8, 9], screen: {text: 5001}}\n";
+    const BuiltPlaced built = buildPlaced(rooms, objects, {}, card, wiring);
+    INFO(issueText(built));
+    REQUIRE(built.built);
+    CHECK(built.lua.find("evt.MoveToMap(1, 2, 3, 0, 0, 0, 0, 1, \"d05.blv\")") != std::string::npos);
+    CHECK(built.lua.find("evt.MoveToMap(4, 5, 6, 0, 0, 0, 0, 0, \"d06.blv\", {direct = true})") != std::string::npos);
+    CHECK(built.lua.find("evt.MoveToMap(7, 8, 9, 0, 0, 0, 5001, 1, \"d07.blv\")") != std::string::npos);
+    // `leave` stays a direct move (decider D-24).
+    CHECK(built.lua.find("evt.MoveToMap(1, 2, 3, 0, 0, 0, 0, 0, \"d05.blv\", {direct = true})") != std::string::npos);
+}
+
+TEST_CASE("F16: the audit wants the entrance window into a dungeon, never a Yes/No of the map's own")
+{
+    OpenYAMM::Studio::LoadedMap map;
+    map.world = "xeen";
+    map.fileName = "xeen_x6.odm";
+    map.scriptText =
+        "RegisterEvent(1, \"Gate\", function()\n"
+        "    evt.MoveToMap(1, 2, 3, 0, 0, 0, 0, 1, \"xeen_xd20.blv\")\nend)\n"
+        "RegisterEvent(2, \"Hole\", function()\n"
+        "    evt.MoveToMap(1, 2, 3, 0, 0, 0, 0, 0, \"xeen_xd21.blv\")\nend)\n"
+        "RegisterEvent(3, \"Fall\", function()\n"
+        "    evt.MoveToMap(1, 2, 3, 0, 0, 0, 0, 0, \"xeen_xd21.blv\", {direct = true})\nend)\n"
+        "RegisterEvent(4, \"Warzone\", function(continueStep)\n"
+        "    if continueStep ~= 1 then\n"
+        "        AskChoiceWithAnswerSteps(eventId, 3, \"Enter the War Zone?\", {{Answer = \"Yes\", Step = 1}, "
+        "{Answer = \"No\", Step = 2}})\n        return\n    end\n"
+        "    evt.MoveToMap(1, 2, 3, 0, 0, 0, 0, 1, \"xeen_xd20.blv\")\nend)\n"
+        "RegisterEvent(5, \"Riddle\", function()\n"
+        "    if evt.AskQuestion(\"Say the word\", {\"Rosebud\"}) then\n"
+        "        evt.MoveToMap(1, 2, 3, 0, 0, 0, 0, 1, \"xeen_xd20.blv\")\n    end\nend)\n"
+        "RegisterEvent(6, \"Vale\", function()\n"
+        "    evt.MoveToMap(1, 2, 3, 0, 0, 0, 0, 0, \"xeen_x7.odm\")\nend)\n";
+    const std::vector<OpenYAMM::Studio::AuditFinding> findings = OpenYAMM::Studio::auditEntranceWindows(map);
+    std::vector<std::string> found;
+
+    for (const OpenYAMM::Studio::AuditFinding &finding : findings)
+    {
+        found.push_back(finding.code + " " + finding.message.substr(0, 7));
+    }
+
+    CHECK(found == std::vector<std::string>{"entrance.no_window event 2", "entrance.question event 4"});
+}
+
+TEST_CASE("D-89: a box room measures as no cave, and the audit holds a cave to the cave-shape targets")
+{
+    const std::string box =
+        "rooms:\n  - {id: room:a, outline: [[0, 0], [1024, 0], [1024, 1024], [0, 1024]], floor: 0, ceiling: 384}\n";
+    const BuiltPlaced built = buildPlaced(box, "format: 0\nstart: {room: room:a, at: [128, 128]}\n", {});
+    INFO(issueText(built));
+    REQUIRE(built.built);
+    const OpenYAMM::Studio::CaveShape shape = OpenYAMM::Studio::caveShapeOf(built.map);
+    CHECK(shape.floorUnevenShare == doctest::Approx(0.0));
+    CHECK(shape.ceilingSpread == doctest::Approx(0.0));
+    CHECK(shape.wallRoughShare == doctest::Approx(0.0));
+    REQUIRE_EQ(shape.rooms.size(), 1u);
+
+    OpenYAMM::Studio::LoadedMap map;
+    map.indoor = built.map;
+    CHECK(OpenYAMM::Studio::auditCaveShape(map, "cave").size() == 3);
+    CHECK(OpenYAMM::Studio::auditCaveShape(map, "castle").empty());
+
+    // An outline off the grid: its walls are rough.
+    const std::string bent =
+        "rooms:\n  - {id: room:a, outline: [[0, 0], [700, -130], [1100, 300], [900, 1000], [200, 1150]], floor: 0, "
+        "ceiling: 384}\n";
+    const BuiltPlaced cave = buildPlaced(bent, "format: 0\nstart: {room: room:a, at: [400, 400]}\n", {});
+    INFO(issueText(cave));
+    REQUIRE(cave.built);
+    // (Its second side runs 47 degrees, 2 off the grid: not rough.)
+    CHECK(OpenYAMM::Studio::caveShapeOf(cave.map).wallRoughShare > 0.6);
+}
+
+TEST_CASE("A7: every exit to a neighbour with a named arrival arrives with that arrival's facing")
+{
+    const std::string rooms =
+        "rooms:\n  - {id: room:a, outline: [[0, 0], [1024, 0], [1024, 1024], [0, 1024]], floor: 0, ceiling: 384}\n";
+    // XD-20's four exits to one neighbour: the first took the arrival's facing, the others faced east (0).
+    const std::string objects =
+        "format: 0\nstart: {room: room:a, at: [128, 128]}\n"
+        "exits:\n  - {id: exit:south, room: room:a, wall: south, to: exit:town}\n"
+        "  - {id: exit:north, room: room:a, wall: north, to: exit:town}\n"
+        "  - {id: exit:east, room: room:a, wall: east, to: exit:town}\n";
+    const std::string wiring =
+        "format: 0\nevents:\n"
+        "  - {id: evt:south, preset: exit, source: exit:south}\n"
+        "  - {id: evt:north, preset: exit, source: exit:north}\n"
+        "  - {id: evt:east, preset: exit, source: exit:east}\n";
+    const std::string card = std::string(CardText)
+        + "neighbours:\n  - {id: exit:town, to: oute3.odm, kind: door, arrival: \"entrance:testmap\"}\n";
+    const std::vector<std::pair<std::string, std::string>> installed = {{"../../worlds/mm6/maps/oute3.studio.yml",
+        "arrivals:\n  - {name: \"entrance:testmap\", at: [5, 6, 7], facing: 1024}\n"}};
+    const BuiltPlaced built = buildPlaced(rooms, objects, installed, card, wiring);
+    INFO(issueText(built));
+    REQUIRE(built.built);
+    const std::string move = "evt.MoveToMap(5, 6, 7, 1024, 0, 0, 0, 0, \"oute3.odm\")";
+    size_t count = 0;
+
+    for (size_t at = built.lua.find(move); at != std::string::npos; at = built.lua.find(move, at + 1))
+    {
+        ++count;
+    }
+
+    CHECK(count == 3);
 }
 
 TEST_CASE("once per character, a shake, a random item by level and kind")
@@ -9904,6 +11081,212 @@ TEST_CASE("a liquid surface carries the fluid bit and its flow; its texture with
     }));
 }
 
+TEST_CASE("a translucent surface puts its faces into the scene's translucent_faces: a paper screen, a glass block")
+{
+    // A door leaf of paper that breaks (XD-22's screens, D-25) and a glass block seen from both sides.
+    const std::string rooms =
+        "rooms:\n"
+        "  - id: room:a\n"
+        "    outline: [[0, 0], [512, 0], [512, 512], [0, 512]]\n"
+        "    floor: 0\n"
+        "    ceiling: 384\n"
+        "    platforms:\n"
+        "      - {id: platform:case, at: [200, 200], size: [64, 64], rise: 96, surface: {texture: glass, "
+        "size: [64, 64], translucent: {opacity: 0.5, tint: [1, 0.9, 0.8], two_sided: true}}}\n"
+        "  - {id: room:b, outline: [[576, 0], [1088, 0], [1088, 512], [576, 512]], floor: 0, ceiling: 384}\n"
+        "openings:\n"
+        "  - {id: open:ab, from: room:a, to: room:b, width: 128, height: 256}\n";
+    const std::string objects =
+        "format: 0\nstart: {room: room:a, at: [100, 400]}\n"
+        "doors:\n  - {id: door:screen, opening: open:ab, surface: {texture: paper, size: [128, 256], "
+        "translucent: 0.6}}\n"
+        "destructibles:\n  - {id: destructible:screen, of: door:screen, hp: 5, material: wood}\n";
+    const BuiltPlaced built = buildPlaced(rooms, objects, {});
+    INFO(issueText(built));
+    REQUIRE(built.built);
+    REQUIRE(built.scene);
+    REQUIRE(built.scene->translucentFaces.size() == 2);
+    std::set<uint16_t> paper;
+    std::set<uint16_t> glassTops;
+    size_t glass = 0;
+
+    for (size_t faceIndex = 0; faceIndex < built.map.faces.size(); ++faceIndex)
+    {
+        const OpenYAMM::Game::IndoorFace &face = built.map.faces[faceIndex];
+        paper.insert(face.textureName == "paper" ? static_cast<uint16_t>(faceIndex) : uint16_t(0xffff));
+        glass += face.textureName == "glass" ? 1 : 0;
+        glassTops.insert(face.textureName == "glass" ? static_cast<uint16_t>(faceIndex) : uint16_t(0xffff));
+    }
+
+    paper.erase(0xffff);
+    glassTops.erase(0xffff);
+    REQUIRE_FALSE(paper.empty());
+
+    for (const OpenYAMM::Game::IndoorSceneTranslucentFaces &entry : built.scene->translucentFaces)
+    {
+        const std::set<uint16_t> faces(entry.faceIds.begin(), entry.faceIds.end());
+
+        if (entry.translucency.twoSided)
+        {
+            // The block: each of its faces, at its opacity and tint.
+            CHECK(faces == glassTops);
+            CHECK(faces.size() == glass);
+            CHECK(entry.translucency.opacity == doctest::Approx(0.5));
+            CHECK(entry.translucency.tint[1] == doctest::Approx(0.9));
+        }
+        else
+        {
+            // Every face of the paper leaf, drawn from the side it looks to.
+            CHECK(faces == paper);
+            CHECK(entry.translucency.opacity == doctest::Approx(0.6));
+            CHECK(entry.translucency.tint[0] == doctest::Approx(1.0));
+        }
+    }
+
+    // The leaf still breaks as one destructible.
+    REQUIRE(built.scene->destructibles.size() == 1);
+    CHECK(built.map.faces[*paper.begin()].cogNumber == built.scene->destructibles[0].cog);
+}
+
+TEST_CASE("a touch event: the door's faces run it when walked into, and the scene runs touch faces")
+{
+    // XD-10's mirages (D-4): a door that a click or walking into it opens.
+    const std::string rooms =
+        "rooms:\n"
+        "  - {id: room:a, outline: [[0, 0], [512, 0], [512, 512], [0, 512]], floor: 0, ceiling: 384}\n"
+        "  - {id: room:b, outline: [[576, 0], [1088, 0], [1088, 512], [576, 512]], floor: 0, ceiling: 384}\n"
+        "openings:\n"
+        "  - {id: open:ab, from: room:a, to: room:b, width: 128, height: 256}\n";
+    const std::string objects =
+        "format: 0\nstart: {room: room:a, at: [100, 400]}\n"
+        "doors:\n  - {id: door:mirage, opening: open:ab, surface: {texture: rock, size: [128, 256]}}\n";
+    const std::string touchWiring = "format: 0\nevents:\n  - {id: evt:mirage, preset: door, source: door:mirage, "
+        "action: open, touch: true, text: The mirage dissipates with your touch.}\n";
+    const BuiltPlaced built = buildPlaced(rooms, objects, {}, CardText, touchWiring);
+    INFO(issueText(built));
+    REQUIRE(built.built);
+    REQUIRE(built.scene);
+    CHECK(built.scene->partyTouchFacesRun);
+    size_t rockFaces = 0;
+
+    for (const OpenYAMM::Game::IndoorFace &face : built.map.faces)
+    {
+        if (face.textureName != "rock")
+        {
+            continue;
+        }
+
+        ++rockFaces;
+        CHECK(face.cogTriggered != 0);
+        CHECK(OpenYAMM::Game::hasFaceAttribute(face.attributes, OpenYAMM::Game::FaceAttribute::TriggerByTouch));
+        CHECK(OpenYAMM::Game::hasFaceAttribute(face.attributes, OpenYAMM::Game::FaceAttribute::Clickable));
+        CHECK_FALSE(OpenYAMM::Game::hasFaceAttribute(face.attributes, OpenYAMM::Game::FaceAttribute::PressurePlate));
+    }
+
+    CHECK(rockFaces > 0);
+
+    // Without `touch` the door is clicked only, and the scene leaves touch faces alone.
+    const BuiltPlaced clicked = buildPlaced(rooms, objects, {}, CardText,
+        "format: 0\nevents:\n  - {id: evt:mirage, preset: door, source: door:mirage, action: open}\n");
+    REQUIRE(clicked.built);
+    CHECK_FALSE(clicked.scene->partyTouchFacesRun);
+
+    for (const OpenYAMM::Game::IndoorFace &face : clicked.map.faces)
+    {
+        const bool touched = face.textureName == "rock"
+            && OpenYAMM::Game::hasFaceAttribute(face.attributes, OpenYAMM::Game::FaceAttribute::TriggerByTouch);
+        CHECK_FALSE(touched);
+    }
+
+    // `touch` is a clicked event's: a step event is refused.
+    const BuiltPlaced refused = buildPlaced(rooms, objects, {}, CardText,
+        "format: 0\nevents:\n  - {id: evt:mirage, preset: switch, trigger: load, touch: true, opens: [door:mirage]}\n");
+    CHECK_FALSE(refused.built);
+    CHECK(issueText(refused).find("touch") != std::string::npos);
+}
+
+#include "core/Audit.h"
+
+TEST_CASE("light fixtures: a hung lamp at the ceiling, a torch on a wall, a candle on the floor; each wrong once")
+{
+    // Room a (0-512 by 0-512, floor 0, ceiling 384) opens east into room b through a doorway 256 wide.
+    const std::string rooms =
+        "rooms:\n"
+        "  - {id: room:a, outline: [[0, 0], [512, 0], [512, 512], [0, 512]], floor: 0, ceiling: 384}\n"
+        "  - {id: room:b, outline: [[576, 0], [1088, 0], [1088, 512], [576, 512]], floor: 0, ceiling: 384}\n"
+        "openings:\n"
+        "  - {id: open:ab, from: room:a, to: room:b, width: 256, height: 288}\n";
+    const std::vector<std::pair<std::string, std::string>> tables = {{"decoration_data.txt",
+        "Decoration Data\n"
+        "#\tInternalName\tHint\tType\tRadius\tHeight\tLightRadius\tLightRed\tLightGreen\tLightBlue\tSoundId\t"
+        "Flags\tSpriteId\n\n"
+        "1\tnull\tnull\t0\t8\t8\t0\t0\t0\t0\t0\t0\t0\n"
+        "2\ttorch01\ttorch\t0\t8\t52\t512\t0\t0\t0\t0\t0\t0\n"
+        "3\tchand\tchandelier\t0\t30\t100\t0\t0\t0\t0\t0\t0\t0\n"
+        "4\tcndl\tcandle\t0\t16\t40\t0\t0\t0\t0\t0\t0\t0\n"}};
+    const std::string objects =
+        "format: 0\nstart: {room: room:b, at: [800, 100]}\n"
+        "lights:\n"
+        "  - {id: light:good, room: room:a, at: [256, 256], height: 200, radius: 256}\n"
+        "  - {id: light:buried, room: room:a, at: [100, 100], height: 900, radius: 256}\n"
+        "decorations:\n"
+        "  - {id: deco:lamp, room: room:a, decoration: chand, at: [256, 256], height: 284, hangs: true}\n"
+        "  - {id: deco:fallen_lamp, room: room:a, decoration: chand, at: [100, 400]}\n"
+        "  - {id: deco:torch, room: room:a, decoration: torch01, wall: n, along: 0.3, height: 128}\n"
+        "  - {id: deco:free_torch, room: room:a, decoration: torch01, at: [300, 380], height: 128, hangs: true}\n"
+        "  - {id: deco:door_torch, room: room:b, decoration: torch01, at: [590, 256], height: 128, hangs: true}\n"
+        "  - {id: deco:candle, room: room:a, decoration: cndl, at: [100, 100]}\n"
+        "  - {id: deco:high_candle, room: room:a, decoration: cndl, at: [400, 100], height: 100}\n";
+    const BuiltPlaced built = buildPlaced(rooms, objects, tables);
+    INFO(issueText(built));
+    REQUIRE(built.built);
+    REQUIRE(built.map.entities.size() == 7);
+    LoadedMap map;
+    map.fileName = "testmap.blv";
+    map.indoor = built.map;
+    // The build hangs a chandelier from the ceiling by its kind: lay the fallen one on the floor by hand.
+    map.indoor->entities[1].z = 0;
+    LightFixtureData data;
+    data.decorationTableText = tables[0].second;
+    std::map<std::string, std::vector<std::string>> found;
+    std::string all;
+
+
+    for (const AuditFinding &finding : auditLightFixtures(map, data))
+    {
+        all += finding.code + ": " + finding.message + "\n";
+
+        if (finding.severity != "info")
+        {
+            found[finding.code].push_back(finding.severity + " " + finding.message.substr(0, finding.message.find(
+                ' ', finding.message.find(' ') + 1)));
+        }
+    }
+
+    INFO(all);
+    // Entities in objects.yml order: 0 lamp, 1 fallen lamp, 2 torch, 3 free torch, 4 door torch (in the doorway's
+    // mouth, also far from a wall), 5 candle, 6 high.
+    CHECK(found["lights.ceiling_on_floor"] == std::vector<std::string>{"error decoration 1"});
+    CHECK(found["lights.wall_missing"] == std::vector<std::string>{"error decoration 3", "error decoration 4"});
+    CHECK(found["lights.in_doorway"] == std::vector<std::string>{"error decoration 4"});
+    CHECK(found["lights.floating"] == std::vector<std::string>{"error decoration 6"});
+    CHECK(found["lights.light_in_solid"] == std::vector<std::string>{"error light 1"});
+    CHECK(found["lights.ceiling_gap"].empty());
+    CHECK(found["lights.in_solid"].empty());
+    CHECK(found["lights.wall_height"].empty());
+
+    // The fixture list wins over the hint: a candle listed as free is never floating.
+    data.fixtureTexts = {"fixtures:\n  cndl: free\n"};
+    found.clear();
+
+    for (const AuditFinding &finding : auditLightFixtures(map, data))
+    {
+        found[finding.code].push_back(finding.message);
+    }
+
+    CHECK(found["lights.floating"].empty());
+}
+
 TEST_CASE("a switch plate lies on a block's sloping top in the top's plane, as Goblinwatch's console has them")
 {
     // A console 64 square whose top rises from 96 at the west to 160 at the east (45 degrees), and a level block.
@@ -10064,4 +11447,124 @@ TEST_CASE("the reveal before a shut leaf standing 2 back from its wall's face ta
     }
 
     CHECK(fronts == 1);
+}
+
+namespace
+{
+// An outdoor model face looking south (y falls toward its front) from x0 to x1 at y, 0 to 256 high, its picture's
+// texels running u0 to u1 across.
+void addSouthFace(OpenYAMM::Game::OutdoorBModel &model, double x0, double x1, double y, double u0, double u1,
+    const std::string &texture, uint16_t event)
+{
+    const uint16_t first = static_cast<uint16_t>(model.vertices.size());
+
+    for (const std::array<double, 2> &corner : std::vector<std::array<double, 2>>{{x0, 0.0}, {x1, 0.0}, {x1, 256.0},
+             {x0, 256.0}})
+    {
+        OpenYAMM::Game::OutdoorBModelVertex vertex;
+        vertex.x = static_cast<int>(corner[0]);
+        vertex.y = static_cast<int>(y);
+        vertex.z = static_cast<int>(corner[1]);
+        model.vertices.push_back(vertex);
+    }
+
+    OpenYAMM::Game::OutdoorBModelFace face;
+    face.vertexIndices = {first, static_cast<uint16_t>(first + 1), static_cast<uint16_t>(first + 2),
+        static_cast<uint16_t>(first + 3)};
+    face.textureUs = {static_cast<int16_t>(u0), static_cast<int16_t>(u1), static_cast<int16_t>(u1),
+        static_cast<int16_t>(u0)};
+    face.textureVs = {256, 256, 0, 0};
+    face.textureName = texture;
+    face.cogTriggeredNumber = event;
+    model.faces.push_back(face);
+}
+
+std::vector<std::string> outdoorDoorCodes(
+    const std::vector<OpenYAMM::Game::OutdoorBModel> &models, const std::string &world)
+{
+    LoadedMap map;
+    map.world = world;
+    map.outdoor.emplace();
+    map.outdoor->bmodels = models;
+    TextureFitData data;
+    data.classTexts = {"textures:\n  wingl: {class: feature, door: wing, size: [128, 256], twin: wingr}\n"
+        "  bigdoor: {class: feature, door: single, size: [256, 256]}\n"};
+    std::vector<std::string> codes;
+
+    for (const AuditFinding &finding : auditDoorTextures(map, data))
+    {
+        codes.push_back(finding.code + " " + finding.severity);
+    }
+
+    return codes;
+}
+}
+
+TEST_CASE("F2 door rules in the audit: a lone wing, a part of a picture, a narrow pair, a door off its steps")
+{
+    OpenYAMM::Game::OutdoorBModel lone;
+    lone.name = "building:a";
+    addSouthFace(lone, 0, 128, 0, 0, 128, "wingl", 5);
+    CHECK(outdoorDoorCodes({lone}, "xeen") == std::vector<std::string>{"doors.lone_wing error"});
+    // The shipped maps: the same rule a warning.
+    CHECK(outdoorDoorCodes({lone}, "mm8") == std::vector<std::string>{"doors.lone_wing warning"});
+    // A pair of 128 leaves, the second mirrored: nothing to say.
+    OpenYAMM::Game::OutdoorBModel pair;
+    pair.name = "building:b";
+    addSouthFace(pair, 0, 128, 0, 0, 128, "wingl", 5);
+    addSouthFace(pair, 128, 256, 0, 128, 0, "wingl", 5);
+    CHECK(outdoorDoorCodes({pair}, "xeen").empty());
+    // Squeezed into one bay: 64 leaves.
+    OpenYAMM::Game::OutdoorBModel squeezed;
+    squeezed.name = "building:c";
+    addSouthFace(squeezed, 0, 64, 0, 0, 128, "wingl", 5);
+    addSouthFace(squeezed, 64, 128, 0, 128, 0, "wingl", 5);
+    CHECK(outdoorDoorCodes({squeezed}, "xeen") == std::vector<std::string>{"doors.narrow_pair error"});
+    // D-91 §3: a 256-wide door picture split half and half over a pair (the blast door before): a part of it.
+    OpenYAMM::Game::OutdoorBModel split;
+    split.name = "building:d";
+    addSouthFace(split, 0, 256, 0, 0, 128, "bigdoor", 5);
+    addSouthFace(split, 256, 512, 0, 128, 0, "bigdoor", 5);
+    CHECK(outdoorDoorCodes({split}, "xeen")
+        == std::vector<std::string>{"doors.part_picture error", "doors.part_picture error"});
+    // Whole on each leaf: right.
+    OpenYAMM::Game::OutdoorBModel whole;
+    whole.name = "building:e";
+    addSouthFace(whole, 0, 256, 0, 0, 256, "bigdoor", 5);
+    addSouthFace(whole, 256, 512, 0, 256, 0, "bigdoor", 5);
+    CHECK(outdoorDoorCodes({whole}, "xeen").empty());
+    // Steps before the door (south of it, y below 0), their middle 128 east of the door's.
+    OpenYAMM::Game::OutdoorBModel steps;
+    steps.name = "thing:e_steps";
+
+    for (const std::array<int, 2> &corner : std::vector<std::array<int, 2>>{{128, -96}, {512, -96}, {512, -16},
+             {128, -16}})
+    {
+        OpenYAMM::Game::OutdoorBModelVertex vertex;
+        vertex.x = corner[0];
+        vertex.y = corner[1];
+        steps.vertices.push_back(vertex);
+    }
+
+    CHECK(outdoorDoorCodes({whole, steps}, "xeen") == std::vector<std::string>{"doors.off_steps error"});
+}
+
+TEST_CASE("D-91 in the audit: a cave mouth that leads nowhere and is no shelter or blocked")
+{
+    Project project;
+    ProjectFile sketch;
+    sketch.text = "structures:\n"
+        "  - {id: thing:den, kind: cave_mouth, at: [50, 50]}\n"
+        "  - {id: thing:hall, kind: cave_mouth, at: [60, 50], into: {map: d.blv, at: [0, 0, 0]}}\n"
+        "  - {id: thing:camp, kind: cave_mouth, at: [70, 50], form: shelter}\n"
+        "  - {id: thing:adit, kind: cave_mouth, at: [80, 50], form: blocked}\n";
+    sketch.document = YAML::Load(sketch.text);
+    project.files["sketch.yml"] = sketch;
+    const DressingFacts facts = projectDressingFacts(project);
+    CHECK(facts.blindMouths == std::vector<std::string>{"thing:den"});
+    const std::vector<AuditFinding> findings = auditBlindMouths(facts.blindMouths);
+    REQUIRE(findings.size() == 1);
+    CHECK(findings[0].code == "caves.blind_mouth");
+    CHECK(findings[0].severity == "error");
+    CHECK(studioFileDressingFacts(YAML::Load("blind_mouths: [\"thing:den\"]")).blindMouths == facts.blindMouths);
 }

@@ -18,6 +18,8 @@ constexpr int Cells = OutdoorNodeCount;
 const char *SketchFile = "sketch.yml";
 // How many places are tried for each thing to place before the area is given up as full.
 constexpr int TriesPerThing = 60;
+// How much the ground under a scattered decoration that stands on walkable ground may vary (ScatterOptions).
+constexpr double LevelSpread = 48.0;
 
 
 
@@ -164,6 +166,10 @@ struct ScatterOptions
     double edgeKeep = 1.0;
     // `on: water`: on open water instead of land (buoys, sea rocks).
     bool onWater = false;
+    // A decoration on ground one can walk (not `steep`): the game's ground under its radius (cells) varies by no
+    // more than `LevelSpread`, so it does not hang over a drop or float on one side (F6-R3, 2026-11-22: radius-52
+    // bone piles on ground that dropped 49 to 57 under them). Trees, plants and natural rocks are not judged.
+    double levelRadius = 0.0;
 };
 
 class Placer
@@ -198,6 +204,29 @@ public:
                     - *std::min_element(corners, corners + 4)) * OutdoorHeightStep > OutdoorCellSize ? 1 : 0;
             }
         }
+    }
+
+    // Whether the game's ground within `radius` cells of a place varies by no more than `LevelSpread` (the middle
+    // and eight points round it).
+    bool level(double x, double y, double radius) const
+    {
+        if (radius <= 0.0)
+        {
+            return true;
+        }
+
+        double lowest = m_lowered.groundHeightAt(x, y);
+        double highest = lowest;
+
+        for (int point = 0; point < 8; ++point)
+        {
+            const double angle = point * 0.7853981633974483;
+            const double height = m_lowered.groundHeightAt(x + radius * oy::cos(angle), y + radius * oy::sin(angle));
+            lowest = std::min(lowest, height);
+            highest = std::max(highest, height);
+        }
+
+        return highest - lowest <= LevelSpread;
     }
 
     // Whether a thing can stand at a place, in sketch cells: on the terrain, on land, off the roads, clear of the
@@ -239,7 +268,7 @@ public:
     // Up to `count` places in the area in clumps: round each of `centres`, within `reach` cells of it, thinning
     // toward the rim; each at least `spacing` from the others of this call.
     std::vector<Point2> placeRound(const Area &area, const std::vector<Point2> &centres, double reach, size_t count,
-        double spacing, bool walkable, uint32_t entry) const
+        double spacing, bool walkable, uint32_t entry, double levelRadius = 0.0) const
     {
         std::vector<Point2> placed;
 
@@ -253,7 +282,7 @@ public:
             const double x = std::round((centre[0] + distance * oy::cos(angle)) * 16.0) / 16.0;
             const double y = std::round((centre[1] + distance * oy::sin(angle)) * 16.0) / 16.0;
 
-            if (!area.holds(x, y) || !free(x, y, walkable))
+            if (!area.holds(x, y) || !free(x, y, walkable) || (walkable && !level(x, y, levelRadius)))
             {
                 continue;
             }
@@ -289,7 +318,8 @@ public:
             const double x = std::round((box[0] + (box[2] - box[0]) * tryChance(entry, attempt, 0)) * 16.0) / 16.0;
             const double y = std::round((box[1] + (box[3] - box[1]) * tryChance(entry, attempt, 1)) * 16.0) / 16.0;
 
-            if (!area.holds(x, y) || !(options.onWater ? onWater(x, y) : free(x, y, walkable)))
+            if (!area.holds(x, y) || !(options.onWater ? onWater(x, y) : free(x, y, walkable))
+                || (walkable && !options.onWater && !level(x, y, options.levelRadius)))
             {
                 continue;
             }
@@ -346,8 +376,9 @@ private:
     std::vector<uint8_t> m_steep;
 };
 
-// The decorations of decoration_data.txt by internal name (lower case): the number an ODM stores, the row's less 1.
-std::map<std::string, int> decorationIds(const std::string &table)
+// The decorations of decoration_data.txt by internal name (lower case): the number an ODM stores, the row's less 1;
+// with `pRadii` also each one's radius (the Radius column, map units).
+std::map<std::string, int> decorationIds(const std::string &table, std::map<std::string, double> *pRadii = nullptr)
 {
     std::map<std::string, int> ids;
     std::istringstream stream(table);
@@ -375,6 +406,43 @@ std::map<std::string, int> decorationIds(const std::string &table)
         if (!name.empty() && !ids.contains(name))
         {
             ids[name] = number - 1;
+
+            if (pRadii != nullptr)
+            {
+                // # InternalName Hint Type Radius. Trees, plants and natural rocks grow and lie on slopes (as
+                // tools/xeen/check_props_support.py judges them): radius 0, so the level rule passes them.
+                std::istringstream fields(line);
+                std::string field;
+                std::string hint;
+                double radius = 0.0;
+
+                for (int column = 0; column <= 4 && std::getline(fields, field, '\t'); ++column)
+                {
+                    if (column == 2)
+                    {
+                        hint = field;
+                    }
+                    else if (column == 4)
+                    {
+                        std::from_chars(field.data(), field.data() + field.size(), radius);
+                    }
+                }
+
+                std::string words = name + " " + hint;
+                std::transform(words.begin(), words.end(), words.begin(), [](unsigned char character)
+                {
+                    return static_cast<char>(std::tolower(character));
+                });
+
+                for (const char *pWord : {"tree", "rock", "boulder", "basalt", "stalagmite", "crag", "plant", "bush",
+                         "flower", "fern", "shrub", "grass", "reed", "mushroom", "weed", "cactus", "vine", "lily",
+                         "stump", "log"})
+                {
+                    radius = words.find(pWord) != std::string::npos ? 0.0 : radius;
+                }
+
+                (*pRadii)[name] = radius;
+            }
         }
     }
 
@@ -677,7 +745,7 @@ bool placeOutdoorThings(
             for (const Point2 &point : lying)
             {
                 OutdoorPlacedSpawn spawn = {id, static_cast<int>(level), worldX(point[0]), worldY(point[1]),
-                    static_cast<int>(std::lround(lowered.storedHeightAt(point[0], point[1])))};
+                    static_cast<int>(std::lround(lowered.groundHeightAt(point[0], point[1])))};
                 spawn.type = 2;
                 places.spawns.push_back(spawn);
             }
@@ -731,7 +799,7 @@ bool placeOutdoorThings(
         for (const Point2 &point : found)
         {
             places.spawns.push_back({id, static_cast<int>(slot), worldX(point[0]), worldY(point[1]),
-                static_cast<int>(std::lround(lowered.storedHeightAt(point[0], point[1])))});
+                static_cast<int>(std::lround(lowered.groundHeightAt(point[0], point[1])))});
         }
     }
 
@@ -760,7 +828,8 @@ bool placeOutdoorThings(
         return issues.size() == issuesBefore;
     }
 
-    const std::map<std::string, int> ids = decorationIds(decorationTable);
+    std::map<std::string, double> radii;
+    const std::map<std::string, int> ids = decorationIds(decorationTable, &radii);
     size_t shortDecorations = 0;
     size_t wanted = 0;
     std::map<std::string, uint32_t> repeats;
@@ -904,7 +973,7 @@ bool placeOutdoorThings(
                     ? std::round(lowest + (highest - lowest) * tryChance(seed, static_cast<uint32_t>(placeIndex), 6))
                     : 0.0;
                 OutdoorPlacedDecoration decoration = {kinds[kind].first, kindIds[kind], worldX(point[0]),
-                    worldY(point[1]), static_cast<int>(std::lround(lowered.storedHeightAt(point[0], point[1]) + lift)),
+                    worldY(point[1]), static_cast<int>(std::lround(lowered.groundHeightAt(point[0], point[1]) + lift)),
                     target};
                 decoration.entry = static_cast<int>(index);
                 places.decorations.push_back(decoration);
@@ -958,6 +1027,13 @@ bool placeOutdoorThings(
 
         ScatterOptions options;
         options.onWater = on == "water";
+
+        for (const std::pair<std::string, double> &kind : kinds)
+        {
+            const std::map<std::string, double>::const_iterator radius = radii.find(kind.first);
+            options.levelRadius = std::max(options.levelRadius,
+                radius == radii.end() ? 0.0 : radius->second / OutdoorCellSize);
+        }
         const std::string spacingGroup = textOf(node, "spacing_group");
         const YAML::Node closeShare = childOf(node, "close_share");
         const YAML::Node closeSpacing = childOf(node, "close_spacing");
@@ -1013,7 +1089,7 @@ bool placeOutdoorThings(
             }
 
             found = placer.placeRound(area, centres, reach, static_cast<size_t>(count), std::max(spacing, 0.0),
-                offSteep, seed);
+                offSteep, seed, options.levelRadius);
         }
         else
         {

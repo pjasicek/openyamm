@@ -156,9 +156,9 @@ TEST_CASE("a world's completion qbit earns its certificate once, and the last wo
     Party party = certifiedParty();
     CHECK(recordNewCompletions(party, certificates, TenthDayNoon, 1000).empty());
 
-    party.setQuestBit(EnrothQBit, true);
+    party.campaign().setQuestBit(EnrothQBit, true);
     CHECK_EQ(recordNewCompletions(party, certificates, TenthDayNoon, 1000), std::vector<std::string>{"mm6"});
-    const WorldCompletionRecord *pEnroth = party.findWorldCompletion("mm6");
+    const WorldCompletionRecord *pEnroth = party.campaign().findWorldCompletion("mm6");
     REQUIRE(pEnroth != nullptr);
     CHECK(pEnroth->timed);
     CHECK_EQ(pEnroth->gameMinutes, doctest::Approx(TenthDayNoon));
@@ -168,35 +168,35 @@ TEST_CASE("a world's completion qbit earns its certificate once, and the last wo
     CHECK(recordNewCompletions(party, certificates, TenthDayNoon + 60.0f, 1060).empty());
 
     // A cleared and set again qbit earns nothing more.
-    party.setQuestBit(EnrothQBit, false);
-    party.setQuestBit(EnrothQBit, true);
+    party.campaign().setQuestBit(EnrothQBit, false);
+    party.campaign().setQuestBit(EnrothQBit, true);
     CHECK(recordNewCompletions(party, certificates, TenthDayNoon + 120.0f, 1120).empty());
 
-    party.setQuestBit(AntagarichQBit, true);
-    party.setQuestBit(JadameQBit, true);
+    party.campaign().setQuestBit(AntagarichQBit, true);
+    party.campaign().setQuestBit(JadameQBit, true);
     CHECK_EQ(recordNewCompletions(party, certificates, TenthDayNoon * 2.0f, 2000),
         std::vector<std::string>{"mm7", "mm8", GrandCertificateId});
-    CHECK_EQ(party.worldCompletions().size(), 4u);
+    CHECK_EQ(party.campaign().worldCompletions().size(), 4u);
 }
 
 TEST_CASE("a save from before the completion records certifies only the stories finished after it")
 {
     const std::vector<CompletionCertificateDefinition> certificates = threeWorldCertificates();
     Party party = certifiedParty();
-    party.setQuestBit(JadameQBit, true);
+    party.campaign().setQuestBit(JadameQBit, true);
     Party::Snapshot snapshot = party.snapshot();
-    snapshot.worldCompletionsUntracked = true;
+    snapshot.campaign.worldCompletionsUntracked = true;
     party.restoreSnapshot(snapshot);
 
     CHECK(recordNewCompletions(party, certificates, TenthDayNoon, 1000).empty());
-    const WorldCompletionRecord *pJadame = party.findWorldCompletion("mm8");
+    const WorldCompletionRecord *pJadame = party.campaign().findWorldCompletion("mm8");
     REQUIRE(pJadame != nullptr);
     CHECK_FALSE(pJadame->timed);
-    CHECK_FALSE(party.worldCompletionsUntracked());
+    CHECK_FALSE(party.campaign().worldCompletionsUntracked());
 
-    party.setQuestBit(EnrothQBit, true);
+    party.campaign().setQuestBit(EnrothQBit, true);
     CHECK_EQ(recordNewCompletions(party, certificates, TenthDayNoon, 1000), std::vector<std::string>{"mm6"});
-    party.setQuestBit(AntagarichQBit, true);
+    party.campaign().setQuestBit(AntagarichQBit, true);
     CHECK_EQ(recordNewCompletions(party, certificates, TenthDayNoon, 1000),
         std::vector<std::string>{"mm7", GrandCertificateId});
 
@@ -211,8 +211,8 @@ TEST_CASE("a completion certificate shows the party, the variant of the path tak
 {
     const std::vector<CompletionCertificateDefinition> certificates = threeWorldCertificates();
     Party party = certifiedParty();
-    party.setQuestBit(AntagarichQBit, true);
-    party.setQuestBit(DarkPathQBit, true);
+    party.campaign().setQuestBit(AntagarichQBit, true);
+    party.campaign().setQuestBit(DarkPathQBit, true);
     // 1 year, 2 months and 3 days after the start.
     const float played = 9.0f * 60.0f + float((336 + 56 + 3) * 24 * 60) + 30.0f;
     recordNewCompletions(party, certificates, played, 1000);
@@ -234,7 +234,7 @@ TEST_CASE("an original game's certificate words its lines as the original did")
     certificates[2].headline = "Congratulations!";
     certificates[2].layout.declared = true;
     Party party = certifiedParty();
-    party.setQuestBit(JadameQBit, true);
+    party.campaign().setQuestBit(JadameQBit, true);
     recordNewCompletions(party, certificates, TenthDayNoon, 1000);
 
     const CompletionCertificate certificate = buildCompletionCertificate(certificates[2], certificates, party);
@@ -269,11 +269,11 @@ TEST_CASE("completion records survive a save round trip")
     record.gameMinutes = TenthDayNoon;
     record.score = 4321;
     record.completedAtUnixSeconds = 1793000000;
-    party.addWorldCompletion(record);
+    party.campaign().addWorldCompletion(record);
     WorldCompletionRecord untimed;
     untimed.certificateId = "mm8";
     untimed.timed = false;
-    party.addWorldCompletion(untimed);
+    party.campaign().addWorldCompletion(untimed);
 
     GameSaveData saveData = {};
     saveData.mapFileName = "completion_roundtrip.odm";
@@ -286,12 +286,12 @@ TEST_CASE("completion records survive a save round trip")
     std::filesystem::remove(savePath);
 
     REQUIRE(loaded.has_value());
-    REQUIRE_EQ(loaded->party.worldCompletions.size(), 2u);
-    CHECK_EQ(loaded->party.worldCompletions[0].certificateId, "mm6");
-    CHECK_EQ(loaded->party.worldCompletions[0].gameMinutes, doctest::Approx(TenthDayNoon));
-    CHECK_EQ(loaded->party.worldCompletions[0].score, 4321u);
-    CHECK_EQ(loaded->party.worldCompletions[0].completedAtUnixSeconds, 1793000000);
-    CHECK(loaded->party.worldCompletions[0].timed);
-    CHECK_FALSE(loaded->party.worldCompletions[1].timed);
-    CHECK_FALSE(loaded->party.worldCompletionsUntracked);
+    REQUIRE_EQ(loaded->party.campaign.worldCompletions.size(), 2u);
+    CHECK_EQ(loaded->party.campaign.worldCompletions[0].certificateId, "mm6");
+    CHECK_EQ(loaded->party.campaign.worldCompletions[0].gameMinutes, doctest::Approx(TenthDayNoon));
+    CHECK_EQ(loaded->party.campaign.worldCompletions[0].score, 4321u);
+    CHECK_EQ(loaded->party.campaign.worldCompletions[0].completedAtUnixSeconds, 1793000000);
+    CHECK(loaded->party.campaign.worldCompletions[0].timed);
+    CHECK_FALSE(loaded->party.campaign.worldCompletions[1].timed);
+    CHECK_FALSE(loaded->party.campaign.worldCompletionsUntracked);
 }

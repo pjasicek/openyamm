@@ -994,14 +994,20 @@ class Lowerer
 {
 public:
     Lowerer(const Project &project, LoweredOutdoorMap &lowered, std::vector<ProjectIssue> &issues,
-        OutdoorLandCache *pLand)
-        : m_project(project)
+        OutdoorLandCache *pLand, const std::string &styleWorld = std::string())
+        : m_styleWorld(styleWorld)
+        , m_project(project)
         , m_lowered(lowered)
         , m_issues(issues)
         , m_plan(project.document("plan.yml"))
         , m_sketch(project.document(SketchFile))
         , m_pLand(pLand)
     {
+    }
+
+    void useDoorPictures(const OutdoorDoorPictures *pDoorPictures)
+    {
+        m_pDoorPictures = pDoorPictures;
     }
 
     bool run()
@@ -1011,6 +1017,7 @@ public:
         m_lowered = {};
         m_lowered.mapStem = textOf(card, "id");
         m_lowered.world = textOf(card, "world");
+        m_lowered.styleWorld = m_styleWorld.empty() ? m_lowered.world : m_styleWorld;
         std::transform(m_lowered.mapStem.begin(), m_lowered.mapStem.end(), m_lowered.mapStem.begin(),
             [](unsigned char character)
             {
@@ -1048,9 +1055,11 @@ public:
         const std::vector<std::string> readWarnings = m_lowered.warnings;
         const bool landReadClean = m_issues.size() == issuesBeforeLand;
         m_lowered.roads = rasterizeOutdoorRoads(m_project, m_issues, m_lowered.warnings);
-        m_lowered.buildings = readOutdoorBuildings(m_project, m_lowered.world, m_issues, m_lowered.warnings);
-        m_lowered.caves = readOutdoorCaves(m_project, m_lowered.world, m_issues);
-        m_lowered.falls = readOutdoorFalls(m_project, m_lowered.world, m_issues);
+        m_lowered.doorPictures = m_pDoorPictures != nullptr ? *m_pDoorPictures : OutdoorDoorPictures();
+        m_lowered.buildings = readOutdoorBuildings(m_project, m_lowered.styleWorld, m_issues, m_lowered.warnings,
+            &m_lowered.doorPictures);
+        m_lowered.caves = readOutdoorCaves(m_project, m_lowered.styleWorld, m_issues);
+        m_lowered.falls = readOutdoorFalls(m_project, m_lowered.styleWorld, m_issues);
 
         if (m_issues.size() != issuesBefore)
         {
@@ -1282,9 +1291,11 @@ private:
         // What the land made of the map so far (the structures' fields are read again).
         const std::string stem = m_lowered.mapStem;
         const std::string world = m_lowered.world;
+        const std::string styleWorld = m_lowered.styleWorld;
         m_lowered = state.lowered;
         m_lowered.mapStem = stem;
         m_lowered.world = world;
+        m_lowered.styleWorld = styleWorld;
         m_lowered.roads.clear();
         m_lowered.buildings.clear();
         m_lowered.caves.clear();
@@ -4016,6 +4027,7 @@ private:
             "arrival or both) with a point of the same id in sketch.yml `points`", "project"});
     }
 
+    const std::string m_styleWorld;
     const Project &m_project;
     LoweredOutdoorMap &m_lowered;
     std::vector<ProjectIssue> &m_issues;
@@ -4045,6 +4057,8 @@ private:
     std::vector<std::vector<Point2>> m_patches;
     bool m_handMade = false;
     OutdoorLandCache *m_pLand = nullptr;
+    // The asset root's door pictures (lowerOutdoorProject); none: no wing door is paired.
+    const OutdoorDoorPictures *m_pDoorPictures = nullptr;
     std::vector<PeakField> m_peaks;
     std::vector<RoughArea> m_rough;
     std::vector<WaterShape> m_water;
@@ -4092,6 +4106,31 @@ double LoweredOutdoorMap::storedHeightAt(double x, double y) const
     const double north = at(x0, y0) * (1.0 - shareX) + at(x0 + 1, y0) * shareX;
     const double south = at(x0, y0 + 1) * (1.0 - shareX) + at(x0 + 1, y0 + 1) * shareX;
     return north * (1.0 - shareY) + south * shareY;
+}
+
+double LoweredOutdoorMap::groundHeightAt(double x, double y) const
+{
+    if (samples.size() != NodeTotal)
+    {
+        return 0.0;
+    }
+
+    const double clampedX = std::clamp(x, 0.0, static_cast<double>(Nodes - 1));
+    const double clampedY = std::clamp(y, 0.0, static_cast<double>(Nodes - 1));
+    const int x0 = std::min(static_cast<int>(std::floor(clampedX)), Nodes - 2);
+    const int y0 = std::min(static_cast<int>(std::floor(clampedY)), Nodes - 2);
+    const double shareX = clampedX - x0;
+    const double shareY = clampedY - y0;
+    const auto at = [this](int nodeX, int nodeY)
+    {
+        return samples[nodeIndex(nodeX, nodeY)] * OutdoorHeightStep;
+    };
+    const double northWest = at(x0, y0);
+    const double northEast = at(x0 + 1, y0);
+    const double southWest = at(x0, y0 + 1);
+    const double southEast = at(x0 + 1, y0 + 1);
+    return shareX >= shareY ? northWest + shareX * (northEast - northWest) + shareY * (southEast - northEast)
+                            : northWest + shareY * (southWest - northWest) + shareX * (southEast - southWest);
 }
 
 bool outdoorNodeOnLine(const std::vector<std::array<double, 2>> &line, double width, int x, int y, size_t &segment,
@@ -4186,9 +4225,10 @@ bool lowerOutdoorLandOnly(const Project &project)
 }
 
 bool lowerOutdoorProject(const Project &project, LoweredOutdoorMap &lowered, std::vector<ProjectIssue> &issues,
-    OutdoorLandCache *pLand)
+    OutdoorLandCache *pLand, const std::string &styleWorld, const OutdoorDoorPictures *pDoorPictures)
 {
-    Lowerer lowerer(project, lowered, issues, pLand);
+    Lowerer lowerer(project, lowered, issues, pLand, styleWorld);
+    lowerer.useDoorPictures(pDoorPictures);
     return lowerer.run() && layOutdoorGround(project, lowered, issues);
 }
 }

@@ -23,6 +23,10 @@ public:
         AppMode mode);
 
     AppMode mode() const override;
+    bool holdsCoopWorld() const override
+    {
+        return true;
+    }
     bool shouldClose() const;
     const CompletionCertificate &certificate() const;
     // Once, after the certificate has been drawn: the part of the frame it covers, to be saved as an image.

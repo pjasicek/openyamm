@@ -80,6 +80,15 @@ struct PartySpellCastRequest
     bool quickCast = false;
     std::optional<size_t> targetActorIndex;
     std::optional<size_t> targetCharacterIndex;
+    // The party targetCharacterIndex names a member of, when it is another player's (a co-op session); null for the
+    // caster's own. It serves the spells on one character: heals, cures, revivals and the one-character buffs.
+    Party *pTargetParty = nullptr;
+    // The session's player whose character targetCharacterIndex names, as the casting game chose it (the crosshair
+    // on that player's body, or the one near who needs the spell most); PlayerCommands finds pTargetParty by it.
+    std::optional<PlayerId> targetPlayer;
+    // The other players' parties in reach of the caster's aid (a co-op session; GameSession::aidReach): a party buff
+    // and the party-wide form of a character buff reach them too, each for the normal duration.
+    std::vector<Party *> aidParties;
     std::optional<size_t> targetItemMemberIndex;
     std::optional<uint8_t> targetInventoryGridX;
     std::optional<uint8_t> targetInventoryGridY;
@@ -170,8 +179,11 @@ struct PartySpellDescriptor
 class PartySpellSystem
 {
 public:
-    // The refusal of a spell cast where the map forbids casting (MM7's Shoals, OY-350), the original's text.
+    // The refusal of a spell cast where the map forbids casting: under water (MM7's Shoals, OY-350) the original's
+    // text, elsewhere (Xeen's sealed towers) a text of its own.
     static constexpr const char *UnderwaterText = Engine::trNoop("You can't do that while underwater").data();
+    static constexpr const char *NoSpellsHereText = Engine::trNoop("Spells do not work here").data();
+    static const char *spellcastingRefusalText(const IGameplayWorldRuntime &worldRuntime);
 
     static std::optional<PartySpellDescriptor> describeSpell(uint32_t spellId);
     // The party buff the spell gives in the party's world (describeSpell's, but MM9's Fleet Foot for Fly's slot there).

@@ -273,14 +273,14 @@ TEST_CASE("arena master offers four difficulties and awards a completed fight ex
             }
             mapData.actors.back().hp = 1;
             CHECK(Game::interactWithArena(harness.worldRuntime(), world.npc));
-            CHECK_EQ(harness.party().eventVariableValue(winVariable), 0);
+            CHECK_EQ(harness.party().campaign().eventVariableValue(winVariable), 0);
             mapData.actors.back().hp = 0;
             Game::MapDeltaActor summon = {};
             summon.hp = 50;
             summon.ally = 999;
             mapData.actors.push_back(summon);
             CHECK_FALSE(Game::interactWithArena(harness.worldRuntime(), world.npc));
-            CHECK_EQ(harness.party().eventVariableValue(winVariable), 1);
+            CHECK_EQ(harness.party().campaign().eventVariableValue(winVariable), 1);
             const std::array<int, 4> rewards = {1000, 2000, 4000, 10000};
             CHECK_EQ(harness.party().gold(), goldBefore + rewards[difficulty - 1]);
             for (size_t member = 0; member < harness.party().members().size(); ++member)
@@ -288,7 +288,7 @@ TEST_CASE("arena master offers four difficulties and awards a completed fight ex
                 CHECK(harness.party().hasAward(member, 45 + difficulty));
             }
             CHECK_FALSE(Game::interactWithArena(harness.worldRuntime(), world.npc));
-            CHECK_EQ(harness.party().eventVariableValue(winVariable), 1);
+            CHECK_EQ(harness.party().campaign().eventVariableValue(winVariable), 1);
             CHECK_EQ(harness.party().gold(), goldBefore + rewards[difficulty - 1]);
         }
     }

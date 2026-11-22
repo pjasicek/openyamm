@@ -170,6 +170,13 @@ void applySurfaceFaceBits(
 
     for (const GlbNode &node : nodes)
     {
+        // A decoration's, light's or spawn's marker becomes an entity, not faces: its quad takes the floor's surface
+        // (a liquid floor's bits too) and is never in the compiled map.
+        if (node.name.starts_with("DECOR_") || node.name.starts_with("LIGHT_") || node.name.starts_with("SPAWN_"))
+        {
+            continue;
+        }
+
         for (const GlbFace &face : node.faces)
         {
             if (face.attributes == 0)
@@ -251,6 +258,79 @@ void applySurfaceFaceBits(
             + "): give that surface `liquid` (water, liquid or lava), or a floor a `floors` entry; a wall the "
             "liquid only runs down (a fall) takes `flow: down` alone");
     }
+}
+
+// The compiled faces of surfaces laid `translucent` (GlbFace::translucency), found by texture and corners as the face
+// bits above, grouped by their translucency: the scene's `translucent_faces`.
+std::map<GlbFaceTranslucency, std::vector<uint16_t>> findTranslucentFaces(
+    const std::vector<GlbNode> &nodes,
+    const Game::IndoorMapData &map,
+    std::vector<std::string> &warnings)
+{
+    using Corners = std::vector<std::array<long, 3>>;
+    const auto lower = [](std::string text)
+    {
+        std::transform(text.begin(), text.end(), text.begin(), [](unsigned char letter)
+        {
+            return static_cast<char>(std::tolower(letter));
+        });
+        return text;
+    };
+    std::map<std::pair<std::string, Corners>, GlbFaceTranslucency> wanted;
+
+    for (const GlbNode &node : nodes)
+    {
+        for (const GlbFace &face : node.faces)
+        {
+            if (!face.translucency)
+            {
+                continue;
+            }
+
+            Corners corners;
+
+            for (const std::array<float, 3> &position : face.positions)
+            {
+                corners.push_back({std::lround(position[0]), std::lround(position[1]), std::lround(position[2])});
+            }
+
+            std::sort(corners.begin(), corners.end());
+            wanted[{lower(face.material), corners}] = *face.translucency;
+        }
+    }
+
+    std::map<GlbFaceTranslucency, std::vector<uint16_t>> groups;
+    std::set<std::pair<std::string, Corners>> found;
+
+    for (size_t faceIndex = 0; faceIndex < map.faces.size() && !wanted.empty(); ++faceIndex)
+    {
+        const Game::IndoorFace &face = map.faces[faceIndex];
+        Corners corners;
+
+        for (const uint16_t vertex : face.vertexIndices)
+        {
+            const Game::IndoorVertex &point = map.vertices[vertex];
+            corners.push_back({point.x, point.y, point.z});
+        }
+
+        std::sort(corners.begin(), corners.end());
+        const auto entry = wanted.find({lower(face.textureName), corners});
+
+        if (entry != wanted.end() && !face.isPortal)
+        {
+            groups[entry->second].push_back(static_cast<uint16_t>(faceIndex));
+            found.insert(entry->first);
+        }
+    }
+
+    if (found.size() < wanted.size())
+    {
+        warnings.push_back("translucent: " + std::to_string(wanted.size() - found.size()) + " of "
+            + std::to_string(wanted.size()) + " faces with `translucent` on their surface were not found in the "
+            "compiled map and draw opaque");
+    }
+
+    return groups;
 }
 
 // Makes the texture of every sliding part ride with it, where the project put it. The engine draws a face that
@@ -452,6 +532,7 @@ std::string writeSceneText(
     const Project &project,
     const LoweredIndoorMap &lowered,
     const Editor::IndoorSourceGeometryCompileResult &compiled,
+    const std::map<GlbFaceTranslucency, std::vector<uint16_t>> &translucentFaces,
     YAML::Node &sceneOut)
 {
     YAML::Node scene(YAML::NodeType::Map);
@@ -475,11 +556,52 @@ std::string writeSceneText(
     environment["fog"]["strong_distance"] = lowered.fogStrongDistance;
     scene["environment"] = environment;
 
+    // Faces run by walking into them (wiring `touch: true`): the game runs no touch face without this (MM8's chests
+    // carry the bit, which its engine ignored).
+    if (lowered.touchFaces)
+    {
+        scene["party_movement"]["touch_faces"] = "run";
+    }
+
     // project.yml rules.no_spells (S8g): no spell works on the map, as in MM7's Shoals (the scene's
     // runtime_restrictions; the other restrictions keep the game's defaults).
     if (textOf(childOf(project.document("project.yml"), "rules"), "no_spells", "") == "true")
     {
         scene["runtime_restrictions"]["allow_spellcasting"] = false;
+    }
+
+    // objects.yml `arena` (XD-20): the scene's `arena` block and the restrictions of MM7's arena (7d05_1.scene.yml):
+    // no saving and no Lloyd's Beacon there, and the arena's fights refilled on every visit.
+    if (lowered.arena)
+    {
+        const auto point = [](const std::array<double, 3> &at)
+        {
+            YAML::Node node(YAML::NodeType::Sequence);
+            node.SetStyle(YAML::EmitterStyle::Flow);
+
+            for (const double value : at)
+            {
+                node.push_back(static_cast<int>(std::lround(value)));
+            }
+
+            return node;
+        };
+
+        scene["runtime_restrictions"]["allow_save_game"] = false;
+        scene["runtime_restrictions"]["allow_lloyds_beacon"] = false;
+        scene["runtime_restrictions"]["arena"] = true;
+        YAML::Node arena(YAML::NodeType::Map);
+        arena["minimum_monster_id"] = lowered.arena->minimumMonsterId;
+        arena["maximum_monster_id"] = lowered.arena->maximumMonsterId;
+        arena["party_position"] = point(lowered.arena->party.position);
+        arena["party_direction_degrees"] = lowered.arena->party.directionDegrees;
+
+        for (const std::array<double, 3> &mark : lowered.arena->marks)
+        {
+            arena["monster_positions"].push_back(point(mark));
+        }
+
+        scene["arena"] = arena;
     }
 
     // Ground mist and fog volumes as atmosphere.yml gives them, the scene's `mist` block as the game reads it
@@ -514,6 +636,18 @@ std::string writeSceneText(
     state["visible_outlines"]["bitset_hex"] = textNode(std::string(1750, '0'));
     state["face_attribute_overrides"] = YAML::Node(YAML::NodeType::Sequence);
     state["decoration_flags"] = YAML::Node(YAML::NodeType::Sequence);
+
+    // Decorations hidden at the start (`hidden: true`): the map state's copy of the BLV entity's flags.
+    for (size_t entityIndex = 0; entityIndex < lowered.metadata.entities.size(); ++entityIndex)
+    {
+        if (const uint16_t flags = lowered.metadata.entities[entityIndex].aiAttributes; flags != 0)
+        {
+            YAML::Node flag(YAML::NodeType::Map);
+            flag["entity_index"] = entityIndex;
+            flag["flag"] = flags;
+            state["decoration_flags"].push_back(flag);
+        }
+    }
     YAML::Node actors(YAML::NodeType::Sequence);
 
     // Placed monsters, as a shipped map's scene holds its actors. The sprites are left to the game, which takes
@@ -620,31 +754,38 @@ std::string writeSceneText(
         node["y_offsets"] = sequenceOf(door.yOffsets);
         node["z_offsets"] = sequenceOf(door.zOffsets);
 
+        // The compiler stores a sliding leaf in its open pose (slid away by its travel); a rotating mover's stored
+        // pose is the closed one, so the slide is taken back out of the offsets.
+        const auto closedPose = [&door](const std::vector<int16_t> &offsets, int32_t direction)
+        {
+            std::vector<int> closed;
+
+            for (const int16_t offset : offsets)
+            {
+                closed.push_back(static_cast<int>(
+                    std::lround(offset + direction / 65536.0 * static_cast<double>(door.moveLength))));
+            }
+
+            return closed;
+        };
+
         // A hinged leaf is the engine's rotating mover (devdocs/INDOOR_ROTATING_MOVERS_AND_LADDERS.md): no slide,
         // the travel in tenths of a degree, and the hinge line.
         for (const LoweredDoor &loweredDoor : lowered.doors)
         {
-            if (!loweredDoor.hinged || loweredDoor.doorId != static_cast<int>(door.doorId))
+            // The second leaf of a hinged pair turns about its own jamb.
+            const bool secondLeaf = loweredDoor.secondDoorId != 0
+                && loweredDoor.secondDoorId == static_cast<int>(door.doorId);
+
+            if (!loweredDoor.hinged || (loweredDoor.doorId != static_cast<int>(door.doorId) && !secondLeaf))
             {
                 continue;
             }
 
-            const int travel = static_cast<int>(std::lround(std::abs(loweredDoor.openDegrees) * 10.0));
+            const std::array<double, 3> &pivot = secondLeaf ? loweredDoor.secondPivot : loweredDoor.pivot;
+            const double openDegrees = secondLeaf ? loweredDoor.secondOpenDegrees : loweredDoor.openDegrees;
+            const int travel = static_cast<int>(std::lround(std::abs(openDegrees) * 10.0));
             const int speed = static_cast<int>(std::lround(loweredDoor.turnSpeed * 10.0));
-            // The compiler stores a sliding leaf in its open pose (slid away by its travel); a rotating mover's
-            // stored pose is the closed one, so the slide is taken back out of the offsets.
-            const auto closedPose = [&door](const std::vector<int16_t> &offsets, int32_t direction)
-            {
-                std::vector<int> closed;
-
-                for (const int16_t offset : offsets)
-                {
-                    closed.push_back(static_cast<int>(
-                        std::lround(offset + direction / 65536.0 * static_cast<double>(door.moveLength))));
-                }
-
-                return closed;
-            };
             node["x_offsets"] = sequenceOf(closedPose(door.xOffsets, door.directionX));
             node["y_offsets"] = sequenceOf(closedPose(door.yOffsets, door.directionY));
             node["z_offsets"] = sequenceOf(closedPose(door.zOffsets, door.directionZ));
@@ -653,12 +794,15 @@ std::string writeSceneText(
             node["open_speed"] = speed;
             node["close_speed"] = speed;
             YAML::Node rotation(YAML::NodeType::Map);
-            rotation["pivot"].push_back(loweredDoor.pivot[0]);
-            rotation["pivot"].push_back(loweredDoor.pivot[1]);
-            rotation["pivot"].push_back(loweredDoor.pivot[2]);
-            rotation["axis"] = sequenceOf(std::vector<int>{0, 0, 1});
-            rotation["open_degrees"] = loweredDoor.openDegrees;
-            rotation["open_away"] = true;
+            rotation["pivot"].push_back(pivot[0]);
+            rotation["pivot"].push_back(pivot[1]);
+            rotation["pivot"].push_back(pivot[2]);
+            // A trapdoor turns about its level hinge line, the same way for whoever opens it.
+            rotation["axis"].push_back(loweredDoor.axis[0]);
+            rotation["axis"].push_back(loweredDoor.axis[1]);
+            rotation["axis"].push_back(loweredDoor.axis[2]);
+            rotation["open_degrees"] = openDegrees;
+            rotation["open_away"] = !loweredDoor.hatch;
             node["mover"]["rotation"] = rotation;
             node["mover"]["easing"] = "sine";
             node["mover"]["bodies"] = "reverse";
@@ -773,9 +917,28 @@ std::string writeSceneText(
                 node["mover"]["auto_close_seconds"] = mover.autoReturnSeconds;
             }
 
+            // A mover that turns (`turn`): the rotating mover, its start the closed pose, its end the open one.
+            if (mover.turning)
+            {
+                node["x_offsets"] = sequenceOf(closedPose(door.xOffsets, door.directionX));
+                node["y_offsets"] = sequenceOf(closedPose(door.yOffsets, door.directionY));
+                node["z_offsets"] = sequenceOf(closedPose(door.zOffsets, door.directionZ));
+                node["direction"] = sequenceOf(std::vector<int>{0, 0, 0});
+                node["move_length"] = static_cast<int>(std::lround(std::abs(mover.degrees) * 10.0));
+                node["open_speed"] = static_cast<int>(std::lround(mover.turnSpeed * 10.0));
+                node["close_speed"] = static_cast<int>(std::lround(mover.turnSpeed * 10.0));
+                YAML::Node rotation(YAML::NodeType::Map);
+                rotation["pivot"] = sequenceOf(std::vector<double>(mover.pivot.begin(), mover.pivot.end()));
+                rotation["axis"] = sequenceOf(std::vector<double>(mover.axis.begin(), mover.axis.end()));
+                rotation["open_degrees"] = mover.degrees;
+                rotation["open_away"] = false;
+                node["mover"]["rotation"] = rotation;
+                node["mover"]["easing"] = "sine";
+            }
+
             // The game carries what stands on a part that moves up or down. One that slides level carries only
             // when its record asks for it; a block that stretches does not move under what stands on it.
-            if (!mover.stretch && door.directionZ == 0)
+            if (!mover.stretch && !mover.turning && door.directionZ == 0)
             {
                 node["mover"]["carry"] = true;
             }
@@ -890,6 +1053,11 @@ std::string writeSceneText(
 
         node["start_on"] = sound.startOn;
 
+        if (!sound.pan)
+        {
+            node["pan"] = false;
+        }
+
         // (Only when set: earlier builds' scenes keep their bytes.)
         for (const std::pair<const char *, bool> &hours : {std::pair<const char *, bool>{"day_only", sound.dayOnly},
                  {"night_only", sound.nightOnly}})
@@ -1001,7 +1169,31 @@ std::string writeSceneText(
             node["current"] = numbers({(*water.current)[0], (*water.current)[1], (*water.current)[2]});
         }
 
+        if (water.fog.IsDefined() && water.fog.IsMap())
+        {
+            node["fog"] = YAML::Clone(water.fog);
+        }
+
         scene["water_volumes"].push_back(node);
+    }
+
+    // Faces laid with a `translucent` surface, one entry per translucency.
+    for (const auto &[translucency, faces] : translucentFaces)
+    {
+        YAML::Node node(YAML::NodeType::Map);
+        YAML::Node faceList(YAML::NodeType::Sequence);
+        faceList.SetStyle(YAML::EmitterStyle::Flow);
+
+        for (const uint16_t face : faces)
+        {
+            faceList.push_back(static_cast<int>(face));
+        }
+
+        node["faces"] = faceList;
+        node["opacity"] = numbers({translucency.opacity})[0];
+        node["tint"] = numbers({translucency.tint[0], translucency.tint[1], translucency.tint[2]});
+        node["two_sided"] = translucency.twoSided;
+        scene["translucent_faces"].push_back(node);
     }
 
     sceneOut = scene;
@@ -1017,12 +1209,17 @@ std::string writeLuaText(const Project &project, const LoweredIndoorMap &lowered
     lua << "SetMapMetadata({onLoad = {";
     bool first = true;
 
-    for (const LoweredEvent &event : lowered.events)
+    // The build's own event that makes the peaceful groups peaceful runs first: the project's load events may change
+    // a group (an event that turns one hostile once a quest says so, as D1 does outdoors).
+    for (const bool peaceful : {true, false})
     {
-        if (event.trigger == "load")
+        for (const LoweredEvent &event : lowered.events)
         {
-            lua << (first ? "" : ", ") << event.eventId;
-            first = false;
+            if (event.trigger == "load" && (event.id == "evt:studio_peaceful_groups") == peaceful)
+            {
+                lua << (first ? "" : ", ") << event.eventId;
+                first = false;
+            }
         }
     }
 
@@ -1104,20 +1301,95 @@ std::string writeLuaText(const Project &project, const LoweredIndoorMap &lowered
     {
         const std::string title = event.title.empty() ? "nil" : jsonQuote(event.title);
         lua << "\n-- " << event.id << "\n";
-        lua << "RegisterEvent(" << event.eventId << ", " << title << ", function("
-            << (event.continues ? "continueStep" : "") << ")\n";
+        // A handler that continues a question, or whose script reads continueStep (a `lua` effect continuing a
+        // dialogue it opened, such as Xeen's mirrors), takes it.
+        const bool continues = event.continues || std::any_of(event.body.begin(), event.body.end(),
+            [](const std::string &line) { return line.find("continueStep") != std::string::npos; });
+        // A damage hook (`trigger: monster_damage`): registered on load as the map's MonsterDamage hook, given the
+        // hit as `hook` (evt.GetHookContext()); with `monsters` it acts on those monster ids only.
+        const bool damageHook = event.trigger == "monster_damage";
+
+        if (damageHook)
+        {
+            lua << "RegisterMonsterDamageHook(" << event.eventId << ", " << title << ", function(hook)\n";
+
+            if (!event.hookMonsters.empty())
+            {
+                lua << "    local monsters = {";
+
+                for (size_t index = 0; index < event.hookMonsters.size(); ++index)
+                {
+                    lua << (index == 0 ? "" : ", ") << "[" << event.hookMonsters[index] << "] = true";
+                }
+
+                lua << "}\n    if not monsters[hook.monsterId] then return end\n";
+            }
+
+            if (!event.hookActors.empty())
+            {
+                lua << "    local actors = {";
+
+                for (size_t index = 0; index < event.hookActors.size(); ++index)
+                {
+                    lua << (index == 0 ? "" : ", ") << "[" << event.hookActors[index] << "] = true";
+                }
+
+                lua << "}\n    if not actors[hook.actorIndex] then return end\n";
+            }
+        }
+        else
+        {
+            lua << "RegisterEvent(" << event.eventId << ", " << title << ", function("
+                << (continues ? "continueStep" : "") << ")\n";
+        }
+
+        // A `lua` effect that names eventId gets the handler's own number (Xeen.useMirror(id, eventId, continueStep)).
+        if (std::any_of(event.body.begin(), event.body.end(),
+                [](const std::string &line) { return line.find("eventId") != std::string::npos; }))
+        {
+            lua << "    local eventId = " << event.eventId << "\n";
+        }
 
         for (const std::string &line : event.body)
         {
             lua << "    " << line << "\n";
         }
 
-        lua << "end, " << title << ")\n";
+        lua << (damageHook ? std::string("end)\n") : "end, " + title + ")\n");
     }
 
     return lua.str();
 }
 
+}
+
+void writeNamedArrivals(JsonWriter &writer, const std::vector<MapArrival> &arrivals)
+{
+    writer.key("named_arrivals");
+    writer.beginArray();
+
+    for (const MapArrival &arrival : arrivals)
+    {
+        writer.beginObject();
+        writer.field("name", arrival.name);
+        writer.key("at");
+        writer.beginArray();
+
+        for (const int value : arrival.at)
+        {
+            writer.value(value);
+        }
+
+        writer.endArray();
+        writer.field("facing", arrival.facing);
+        writer.endObject();
+    }
+
+    writer.endArray();
+}
+
+namespace
+{
 void writeBuildJson(JsonWriter &writer, const BuildResult &result)
 {
     writer.beginObject();
@@ -1169,6 +1441,7 @@ void writeBuildJson(JsonWriter &writer, const BuildResult &result)
     }
 
     writer.endObject();
+    writeNamedArrivals(writer, result.arrivals);
     writer.key("warnings");
     writer.beginArray();
 
@@ -1572,8 +1845,8 @@ std::string dataTable(const BuildOptions &options, const char *pFileName)
 }
 
 // The tables the lowering looks names up in: the options' kept ones, or read from the asset root (each empty without
-// one).
-LoweringOptions loweringOptionsOf(const BuildOptions &options)
+// one), with the rows and relations of the project's world (addWorldTableRows).
+LoweringOptions loweringOptionsOf(const BuildOptions &options, const std::string &world = {})
 {
     if (options.lowering)
     {
@@ -1600,6 +1873,7 @@ LoweringOptions loweringOptionsOf(const BuildOptions &options)
         // The 3D models dungeons draw decorations with (their heights, where a hanging one's top is).
         readTextFile(
             options.assetRoot / "engine" / "models" / "indoor_decorations.yml", lowering.indoorModelBindingsText);
+        addWorldTableRows(options.assetRoot, world, lowering);
     }
 
     return lowering;
@@ -1661,8 +1935,7 @@ bool buildOverlay(const Project &project, const BuildOptions &options, BuildResu
     std::optional<AssetSession> session;
     LoadedMap map;
     std::optional<std::string> baseScene;
-    LoweringOptions loweringOptions = loweringOptionsOf(options);
-    addWorldTableRows(options.assetRoot, textOf(card, "world", ""), loweringOptions);
+    LoweringOptions loweringOptions = loweringOptionsOf(options, textOf(card, "world", ""));
 
     if (!options.assetRoot.empty())
     {
@@ -2360,7 +2633,8 @@ void validateProjectParts(
         if (pViews != nullptr && textOf(card, "kind", "") == "indoor" && !childOf(card, "base").IsDefined()
             && project.has("rooms.yml"))
         {
-            pViews->indoor = lowerSkipping(project, loweringOptionsOf(options), issues, issuesBefore, *pViews);
+            pViews->indoor = lowerSkipping(project, loweringOptionsOf(options, textOf(card, "world", "")), issues,
+                issuesBefore, *pViews);
         }
         else if (pViews != nullptr && textOf(card, "kind", "") == "outdoor" && !childOf(card, "base").IsDefined()
             && project.has("sketch.yml"))
@@ -2420,8 +2694,8 @@ void validateProjectParts(
         // (With the asset root's tables: an overlay may add monsters and items, S8a.)
         LoweredIndoorMap lowered;
         const size_t before = issues.size();
-        LoweringOptions overlayOptions = loweringOptionsOf(options);
-        addWorldTableRows(options.assetRoot, textOf(project.document("project.yml"), "world", ""), overlayOptions);
+        LoweringOptions overlayOptions =
+            loweringOptionsOf(options, textOf(project.document("project.yml"), "world", ""));
 
         if (lowerOverlayProject(project, overlayOptions, lowered, issues) && issues.size() == before)
         {
@@ -2432,7 +2706,8 @@ void validateProjectParts(
     else if (kind == "indoor" && project.has("rooms.yml"))
     {
         std::shared_ptr<LoweredIndoorMap> lowered = std::make_shared<LoweredIndoorMap>();
-        const LoweringOptions loweringOptions = loweringOptionsOf(options);
+        const LoweringOptions loweringOptions =
+            loweringOptionsOf(options, textOf(project.document("project.yml"), "world", ""));
         const size_t before = issues.size();
 
         const bool loweredWell = lowerIndoorProject(project, loweringOptions, *lowered, issues)
@@ -2513,7 +2788,7 @@ bool buildProject(const Project &project, const BuildOptions &options, BuildResu
     }
 
     LoweredIndoorMap lowered;
-    const LoweringOptions loweringOptions = loweringOptionsOf(options);
+    const LoweringOptions loweringOptions = loweringOptionsOf(options, textOf(card, "world", ""));
 
     if (!lowerIndoorProject(project, loweringOptions, lowered, result.issues) || !result.issues.empty())
     {
@@ -2553,6 +2828,8 @@ bool buildProject(const Project &project, const BuildOptions &options, BuildResu
     std::vector<std::string> liquidWarnings;
     applySurfaceFaceBits(lowered.nodes, compiled.indoorGeometry,
         readLiquidTextures(loweringOptions.liquidTableText, textOf(card, "world", "")), liquidWarnings);
+    const std::map<GlbFaceTranslucency, std::vector<uint16_t>> translucentFaces =
+        findTranslucentFaces(lowered.nodes, compiled.indoorGeometry, liquidWarnings);
 
     // Lights that start dark (objects.yml lights[].on: false): the map holds them switched off (the engine's
     // "disabled" bit of a BLV light, 0x08) until evt.SetLight names them by their id. The compiler has no word
@@ -2591,6 +2868,34 @@ bool buildProject(const Project &project, const BuildOptions &options, BuildResu
     result.events = lowered.events.size();
     result.chests = lowered.chests.size();
 
+    // The named arrivals in the game's units (a facing of 2048 a turn).
+    const auto arrivalOf = [](const std::string &name, const LoweredStart &start)
+    {
+        MapArrival arrival;
+        arrival.name = name;
+
+        for (size_t axis = 0; axis < 3; ++axis)
+        {
+            arrival.at[axis] = static_cast<int>(std::lround(start.position[axis]));
+        }
+
+        arrival.facing = static_cast<int>(std::lround(start.directionDegrees * 2048.0 / 360.0)) % 2048;
+        arrival.facing += arrival.facing < 0 ? 2048 : 0;
+        return arrival;
+    };
+
+    result.arrivals.clear();
+
+    if (lowered.start)
+    {
+        result.arrivals.push_back(arrivalOf("start", *lowered.start));
+    }
+
+    for (const std::pair<std::string, LoweredStart> &arrival : lowered.arrivals)
+    {
+        result.arrivals.push_back(arrivalOf(arrival.first, arrival.second));
+    }
+
     // The build must have produced what the project describes.
     std::set<int> boundEvents;
 
@@ -2616,6 +2921,7 @@ bool buildProject(const Project &project, const BuildOptions &options, BuildResu
     for (const LoweredEvent &event : lowered.events)
     {
         if (event.trigger != "timer" && event.trigger != "load" && event.trigger != "leave" && event.trigger != "call"
+            && event.trigger != "monster_damage"
             && !boundEvents.contains(event.eventId))
         {
             result.issues.push_back({"wiring.yml", "",
@@ -2670,7 +2976,7 @@ bool buildProject(const Project &project, const BuildOptions &options, BuildResu
     }
 
     YAML::Node sceneNode;
-    std::string sceneText = writeSceneText(project, lowered, compiled, sceneNode);
+    std::string sceneText = writeSceneText(project, lowered, compiled, translucentFaces, sceneNode);
 
     if (ground)
     {
@@ -2864,7 +3170,7 @@ YAML::Node sceneActorNode(const LoweredMonster &monster, int actorIndex)
     }
 
     node["name"] = textNode(monster.displayName);
-    node["npc_id"] = 0;
+    node["npc_id"] = monster.npc;
     node["attributes"] = monster.attributes;
     node["hp"] = monster.hitPoints;
     node["hostility_type"] = 0;
@@ -2879,6 +3185,11 @@ YAML::Node sceneActorNode(const LoweredMonster &monster, int actorIndex)
     if (monster.immobile)
     {
         node["immobile"] = true;
+    }
+
+    if (monster.leash > 0)
+    {
+        node["leash_radius"] = monster.leash;
     }
 
     node["sprite_ids"] = sequenceOf(std::vector<int>{0, 0, 0, 0});

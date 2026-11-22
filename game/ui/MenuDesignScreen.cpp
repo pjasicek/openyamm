@@ -404,14 +404,24 @@ void MenuDesignScreen::label(const std::string &id, const std::string &text, uin
     rect.y += offsetY * designScale();
     rect.x += offsetX * designScale();
     rect.width = std::max(1.0f, rect.width - offsetX * designScale());
-    const float padding = pElement->textPadX * designScale();
+    labelIn(id, rect, text, color);
+}
+
+void MenuDesignScreen::labelIn(const std::string &id, Rect rect, const std::string &text, uint32_t color, float scale)
+{
+    const UiLayoutManager::LayoutElement *pElement = m_designLayouts.findElement(id);
+    if (pElement == nullptr || pElement->fontName.empty())
+    {
+        return;
+    }
+    const float padding = pElement->textPadX * designScale() * scale;
     rect.x += padding;
     rect.width = std::max(1.0f, rect.width - padding * 2);
-    const float size = fontHeight(pElement->fontName) * pElement->textScale;
+    const float size = fontHeight(pElement->fontName) * pElement->textScale * scale;
     if (pElement->textAlignX == UiLayoutManager::TextAlignX::Right)
     {
         const float width =
-            measureTextWidth(pElement->fontName, text, pElement->textScale * designScale());
+            measureTextWidth(pElement->fontName, text, pElement->textScale * scale * designScale());
         rect.x += std::max(0.0f, rect.width - width);
         rect.width = std::min(rect.width, width);
     }

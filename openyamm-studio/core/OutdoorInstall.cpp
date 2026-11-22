@@ -124,6 +124,13 @@ std::vector<OutdoorTravelEdge> outdoorTravelEdges(const Project &project)
         edge.arrivalSide = sideOf(arrival) != nullptr ? arrival : std::string(pSide->pOpposite);
         edge.days = childOf(neighbour, "days").IsDefined() ? neighbour["days"].as<int>(0) : 0;
         edge.oneWay = textOf(neighbour, "one_way") == "true" || textOf(neighbour, "listed_only") == "true";
+        const YAML::Node span = childOf(neighbour, "span");
+
+        if (span.IsDefined() && span.IsSequence() && span.size() == 2)
+        {
+            edge.span = std::make_pair(span[0].as<int>(0), span[1].as<int>(0));
+        }
+
         edges.push_back(edge);
     }
 
@@ -211,6 +218,11 @@ bool upsertOutdoorTravelRows(
 
     for (const OutdoorTravelEdge &edge : edges)
     {
+        if (edge.span)
+        {
+            continue;
+        }
+
         const Side &side = *sideOf(edge.side);
         const Side &arrival = *sideOf(edge.arrivalSide);
         own[side.column] = edge.map;
@@ -225,7 +237,7 @@ bool upsertOutdoorTravelRows(
     {
         std::vector<std::string> *pRow = rowOf(edge.map);
 
-        if (edge.oneWay || pRow == nullptr)
+        if (edge.oneWay || edge.span || pRow == nullptr)
         {
             continue;
         }

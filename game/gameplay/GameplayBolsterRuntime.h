@@ -23,6 +23,8 @@ struct GameplayBolsterRuntimeContext
     const MergedBolsterMonsterTable *pBolsterMonsterTable = nullptr;
     const Party *pParty = nullptr;
     bool bolsterMonstersEnabled = false;
+    // The number of players the map's monsters are sized for (MonsterRules::playerHealthFactor).
+    size_t playerCount = 1;
     // What the ruleset resolved for this actor before: a reload or re-resolve keeps its rolls (bosses).
     const ActorRulesetFacts *pExistingFacts = nullptr;
 };

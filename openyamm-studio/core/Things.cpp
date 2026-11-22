@@ -374,7 +374,7 @@ std::vector<InteractiveThing> listInteractiveThings(
         }
 
         thing.safeToUse = thing.kind != "chest" && thing.kind != "exit" && thing.kind != "teleport"
-            && !effectStarts("AskQuestion") && !effectStarts("MoveToMap");
+            && !effectStarts("AskQuestion") && !effectStarts("AskChoice") && !effectStarts("MoveToMap");
 
         // What it changes: the faces of the doors it moves and of the textures it sets.
         for (const std::string &effect : thing.effects)

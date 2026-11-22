@@ -3,6 +3,8 @@
 #include "game/maps/MapIdentity.h"
 #include "game/tables/MergedBaseTables.h"
 
+#include <yaml-cpp/yaml.h>
+
 #include <algorithm>
 #include <cctype>
 #include <iostream>
@@ -552,6 +554,44 @@ const std::optional<MapEdgeTransition> *MapStatsEntry::edgeTransition(MapBoundar
     return &northTransition;
 }
 
+const std::optional<MapEdgeTransition> *MapStatsEntry::edgeTransitionAt(
+    MapBoundaryEdge edge, float x, float y, uint32_t &sourceId) const
+{
+    const float along = edge == MapBoundaryEdge::North || edge == MapBoundaryEdge::South ? x : y;
+
+    for (size_t index = 0; index < edgeSpans.size(); ++index)
+    {
+        const MapEdgeSpan &span = edgeSpans[index];
+
+        if (span.edge == edge && along >= float(span.from) && along < float(span.to))
+        {
+            sourceId = uint32_t(edge) + 4 * uint32_t(index + 1);
+            return &span.transition;
+        }
+    }
+
+    sourceId = uint32_t(edge);
+    return edgeTransition(edge);
+}
+
+const std::optional<MapEdgeTransition> *MapStatsEntry::mapTransitionAtSource(uint32_t sourceId) const
+{
+    const MapBoundaryEdge edge = mapTransitionSourceEdge(sourceId);
+
+    if (sourceId < 4)
+    {
+        return edgeTransition(edge);
+    }
+
+    const size_t index = sourceId / 4 - 1;
+    return index < edgeSpans.size() && edgeSpans[index].edge == edge ? &edgeSpans[index].transition : nullptr;
+}
+
+MapBoundaryEdge mapTransitionSourceEdge(uint32_t sourceId)
+{
+    return static_cast<MapBoundaryEdge>(sourceId % 4);
+}
+
 std::optional<MapEdgeTransition> *MapStatsEntry::edgeTransition(MapBoundaryEdge edge)
 {
     switch (edge)
@@ -881,6 +921,134 @@ bool MapStats::applyMergedOutdoorTravels(const MergedOutdoorTravelTable &outdoor
         {
             return false;
         }
+    }
+
+    return true;
+}
+
+bool MapStats::applyEdgeSpans(const std::string &worldId, const std::string &yamlText, std::string &errorMessage)
+{
+    YAML::Node root;
+
+    try
+    {
+        root = YAML::Load(yamlText);
+    }
+    catch (const YAML::Exception &exception)
+    {
+        errorMessage = exception.what();
+        return false;
+    }
+
+    const YAML::Node spans = root["edge_spans"];
+
+    if (!spans || !spans.IsSequence())
+    {
+        errorMessage = "no edge_spans list";
+        return false;
+    }
+
+    for (const YAML::Node &node : spans)
+    {
+        const std::string mapName = node["map"].as<std::string>("");
+        const std::string label = "span of " + (mapName.empty() ? std::string("(no map)") : mapName) + ": ";
+        MapStatsEntry *pEntry = findMutableByFileName(mapName);
+
+        if (pEntry == nullptr || pEntry->worldId != normalizeWorldId(worldId))
+        {
+            errorMessage = label + "not a map of world " + worldId;
+            return false;
+        }
+
+        const std::string edgeName = lowercaseCopy(node["edge"].as<std::string>(""));
+        std::optional<MapBoundaryEdge> edge;
+
+        if (edgeName == "north")
+        {
+            edge = MapBoundaryEdge::North;
+        }
+        else if (edgeName == "south")
+        {
+            edge = MapBoundaryEdge::South;
+        }
+        else if (edgeName == "east")
+        {
+            edge = MapBoundaryEdge::East;
+        }
+        else if (edgeName == "west")
+        {
+            edge = MapBoundaryEdge::West;
+        }
+
+        if (!edge)
+        {
+            errorMessage = label + "edge '" + edgeName + "' is not north, south, east or west";
+            return false;
+        }
+
+        MapEdgeSpan span = {};
+        span.edge = *edge;
+        MapEdgeTransition transition = {};
+
+        try
+        {
+            span.from = node["from"].as<int>();
+            span.to = node["to"].as<int>();
+            transition.destinationMapFileName = node["to_map"].as<std::string>();
+            transition.travelDays = node["days"].as<int>(0);
+
+            if (const YAML::Node at = node["at"])
+            {
+                if (!at.IsSequence() || at.size() != 3)
+                {
+                    errorMessage = label + "at is not [x, y, z]";
+                    return false;
+                }
+
+                transition.useMapStartPosition = false;
+                transition.arrivalX = at[0].as<int>();
+                transition.arrivalY = at[1].as<int>();
+                transition.arrivalZ = at[2].as<int>();
+            }
+
+            if (const YAML::Node facing = node["facing"])
+            {
+                // MM units, as evt.MoveToMap's: 2048 a full turn.
+                transition.directionDegrees = ((facing.as<int>() % 2048 + 2048) % 2048) * 360 / 2048;
+            }
+        }
+        catch (const YAML::Exception &exception)
+        {
+            errorMessage = label + exception.what();
+            return false;
+        }
+
+        transition.arrivalSide = parseMergedOutdoorTravelSide(node["side"].as<std::string>(""));
+        const MapStatsEntry *pDestination = findByFileName(transition.destinationMapFileName);
+
+        if (span.from >= span.to || pDestination == nullptr || transition.travelDays < 0
+            || (transition.useMapStartPosition && !transition.arrivalSide))
+        {
+            errorMessage = label + (span.from >= span.to ? "from is not below to"
+                : pDestination == nullptr ? "to_map " + transition.destinationMapFileName + " is no known map"
+                : transition.travelDays < 0 ? "days below 0"
+                : "neither at nor a side (up, down, left, right)");
+            return false;
+        }
+
+        transition.destinationMapFileName = pDestination->fileName;
+
+        for (const MapEdgeSpan &other : pEntry->edgeSpans)
+        {
+            if (other.edge == span.edge && span.from < other.to && other.from < span.to)
+            {
+                errorMessage = label + edgeName + " spans overlap";
+                return false;
+            }
+        }
+
+        span.transition = std::move(transition);
+        pEntry->edgeSpans.push_back(std::move(span));
     }
 
     return true;

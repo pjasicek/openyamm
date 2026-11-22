@@ -80,6 +80,13 @@ struct ItemContentEffect
     int meleeRecoveryReductionTicks = 0;
 };
 
+// An effect flag Slaying<Kind> (SlayingDemon, SlayingUndead, SlayingDragon, SlayingOgre, SlayingElemental, SlayingElf,
+// SlayingTitan): the weapon does double damage to monsters of that kind (MonsterKind bits), as the slaying
+// enchantments. 0 for any other flag.
+uint32_t itemSlayingKindFlag(const std::string &flag);
+// The kinds an effect's Slaying flags name.
+uint32_t itemSlayingKindFlags(const ItemContentEffect &effect);
+
 struct ItemSetBonusDefinition
 {
     std::string setId;
@@ -215,6 +222,13 @@ public:
     // The item pool a world's shops stock equipment from (ItemGenerator::shopPoolAllows): its own package when it has
     // items, else the merged MM6-MM8 base, "engine". An empty world id has no pool.
     std::string lootPoolForWorld(const std::string &worldId) const;
+    // Every pool the world draws equipment from: its own, then those of the worlds it names as dependencies in
+    // world.yml (Xeen's MM6-MM8: the merged base). Its shops always keep to them, and so does the random loot of a
+    // world with more than one (Xeen, whatever "MM9 loot in MM6-MM8" says); that setting is only for the worlds whose
+    // own pool is the merged base, MM6-MM8 (ItemGenerator::generateRandomInventoryItem). Empty for an empty world id.
+    std::vector<std::string> lootPoolsForWorld(const std::string &worldId) const;
+    // The mounted worlds' world.yml dependencies that are worlds (not the engine package), by world id.
+    void setWorldDependencies(std::unordered_map<std::string, std::vector<std::string>> dependenciesByWorld);
     // Worlds whose random artifacts come only from level-7 chest slots (world.yml chestArtifactsOnly).
     void setChestArtifactsOnlyWorlds(std::unordered_set<std::string> worldIds);
     bool chestArtifactsOnly(const std::string &worldId) const;
@@ -254,6 +268,8 @@ private:
     // Lower-case world ids.
     std::unordered_set<std::string> m_chestArtifactsOnlyWorlds;
     std::unordered_set<std::string> m_groundGoldByItemTierWorlds;
+    // Lower-case world id: the lower-case world ids it depends on.
+    std::unordered_map<std::string, std::vector<std::string>> m_worldDependencies;
     std::vector<ItemModelBinding> m_groundModels;
     // By item id: index into m_groundModels, or -1 for the placeholder.
     std::vector<int32_t> m_groundModelIndexByItemId;

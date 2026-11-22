@@ -8,6 +8,8 @@
 #include "game/render/SkyPresets.h"
 #include "game/tables/CharacterInspectTable.h"
 #include "game/tables/FaceAnimationTable.h"
+#include "game/tables/HouseTable.h"
+#include "game/tables/MapStats.h"
 #include "game/tables/PortraitEnums.h"
 #include "game/tables/PortraitFrameTable.h"
 #include "game/tables/SpeechReactionTable.h"
@@ -289,6 +291,31 @@ TEST_CASE("merged base engine tables load without changing active MM8 runtime ta
           == chedian.availableClassIds.end());
     CHECK(std::find(chedian.availableRaceIds.begin(), chedian.availableRaceIds.end(), 6u)
           == chedian.availableRaceIds.end());
+    // The new-game cards: Enroth, Antagarich, Jadame, Chedian by order (2-5: a mounted Xeen's card is 1); Between
+    // time has none.
+    CHECK(chedian.hasCard);
+    CHECK_EQ(chedian.cardOrder, 5u);
+    CHECK_EQ(chedian.cardTitle, "Chedian");
+    CHECK_EQ(chedian.cardPicture, "hud_x2/menus/omenu_continent_chedian.png");
+    CHECK_EQ(characterSelectionTable.continents()[2].cardCaption, "Begin in New Sorpigal");
+    CHECK_FALSE(characterSelectionTable.continents()[3].hasCard);
+
+    // A world's continent with its card; a card needs a title and a picture.
+    std::string worldContinentError;
+    CHECK(characterSelectionTable.appendNewGameContinentsFromYaml(
+        "new_game_continents:\n"
+        "  - {id: 6, key: xeen, name: Cloudside, available_class_ids: [0], available_race_ids: [0],\n"
+        "     card: {order: 5, title: Xeen, subtitle: Clouds of Xeen, caption: Begin in Vertigo,\n"
+        "            picture: worlds/xeen/ui/hud_x2/menus/omenu_continent_xeen.png}}\n",
+        6, 7, worldContinentError));
+    REQUIRE_EQ(characterSelectionTable.continents().size(), 6u);
+    CHECK_EQ(characterSelectionTable.continents()[5].cardOrder, 5u);
+    CHECK_EQ(characterSelectionTable.continents()[5].cardSubtitle, "Clouds of Xeen");
+    CHECK_FALSE(characterSelectionTable.appendNewGameContinentsFromYaml(
+        "new_game_continents:\n"
+        "  - {id: 7, key: darkside, name: Darkside, available_class_ids: [0], available_race_ids: [0],\n"
+        "     card: {order: 6, title: Darkside}}\n",
+        6, 7, worldContinentError));
 
     REQUIRE_EQ(raceSkillTable.overrideCount(), 19u);
     CHECK_EQ(raceSkillTable.overrides()[0].race, "Human");
@@ -447,7 +474,10 @@ TEST_CASE("merged base engine tables load without changing active MM8 runtime ta
     CHECK_EQ(overlayTable.entries()[0].id, 1020u);
 
     CHECK_GT(townPortalSwitchTable.groups().size(), 2u);
-    CHECK_EQ(townPortalSwitchTable.groups()[0].topicId, 300u);
+    // The continents' pages in the order the worlds came out: Enroth, Antagarich, Jadame, then Chedian.
+    CHECK_EQ(townPortalSwitchTable.groups()[0].name, "TPEnroth");
+    CHECK_EQ(townPortalSwitchTable.groups()[0].continentId, 3u);
+    CHECK_EQ(townPortalSwitchTable.groups()[0].label, "Enroth");
     const auto antagarichTownPortalGroup = std::find_if(
         townPortalSwitchTable.groups().begin(),
         townPortalSwitchTable.groups().end(),
@@ -488,30 +518,98 @@ TEST_CASE("merged base engine tables load without changing active MM8 runtime ta
     CHECK_EQ(jadameTownPortalGroup->destinations[5].description, "Daggerwound islands");
     CHECK_EQ(jadameTownPortalGroup->destinations[5].qbitIndex, 306u);
 
-    const auto dimensionDoorGroup = std::find_if(
-        townPortalSwitchTable.groups().begin(),
-        townPortalSwitchTable.groups().end(),
+    // Dimension Door's doors: Enroth, Antagarich, Jadame, Chedian on the four-door screen, the new-game screen's order
+    // (the user, 2026-11-22); Jadame lands in Ravenshore once Dadeross's letter is delivered (QBit 4), else at Dagger
+    // Wound's start.
+    CHECK(std::none_of(townPortalSwitchTable.groups().begin(), townPortalSwitchTable.groups().end(),
         [](const OpenYAMM::Game::MergedTownPortalSwitchGroup &group)
         {
-            return group.name == "TPGlobal";
-        });
-    REQUIRE(dimensionDoorGroup != townPortalSwitchTable.groups().end());
-    CHECK_EQ(dimensionDoorGroup->topicId, 309u);
-    REQUIRE_EQ(dimensionDoorGroup->destinations.size(), 7u);
-    CHECK_EQ(dimensionDoorGroup->destinations[0].description, "Jadame");
-    CHECK_EQ(dimensionDoorGroup->destinations[0].iconName, "TPJadame4");
-    CHECK_EQ(dimensionDoorGroup->destinations[2].description, "Antagarich");
-    CHECK_EQ(dimensionDoorGroup->destinations[2].iconName, "TPAntagarich4");
-    CHECK_EQ(dimensionDoorGroup->destinations[4].description, "Enroth");
-    CHECK_EQ(dimensionDoorGroup->destinations[4].iconName, "TPEnroth4");
-    CHECK_EQ(dimensionDoorGroup->destinations[6].description, "Chedian");
-    CHECK_EQ(dimensionDoorGroup->destinations[6].iconName, "TPChedian4");
+            return group.continentId == 0;
+        }));
+    OpenYAMM::Game::MergedDimensionDoorTable doorTable;
+    std::string doorError;
+    REQUIRE_MESSAGE(doorTable.loadFromYaml(loadDataTableText("dimension_doors.yml"), doorError), doorError);
+    REQUIRE_EQ(doorTable.doors().size(), 4u);
+    CHECK_EQ(doorTable.doors()[0].key, "enroth");
+    CHECK_EQ(doorTable.doors()[1].key, "antagarich");
+    CHECK_EQ(doorTable.doors()[2].key, "jadame");
+    CHECK_EQ(doorTable.doors()[3].key, "chedian");
+    // Each door's place is its continent's new-game card order, so the doors stand as the cards do.
+    for (const OpenYAMM::Game::MergedDimensionDoor &door : doorTable.doors())
+    {
+        const auto continent = std::find_if(characterSelectionTable.continents().begin(),
+            characterSelectionTable.continents().end(),
+            [&door](const OpenYAMM::Game::MergedCharacterSelectionContinent &candidate)
+            {
+                return candidate.key == door.key;
+            });
+        REQUIRE_MESSAGE(continent != characterSelectionTable.continents().end(), door.key);
+        CHECK_MESSAGE(continent->hasCard, door.key);
+        CHECK_MESSAGE(continent->cardOrder == door.place, door.key);
+    }
+    REQUIRE(doorTable.screen() != nullptr);
+    CHECK_EQ(doorTable.screen()->places.size(), 4u);
+    CHECK_EQ(doorTable.screen()->places[2].picture[0], 337);
+    // No names under the portals (the user removed them on 2026-11-22; the hovered door's name is on the status line).
+    for (const OpenYAMM::Game::MergedDimensionDoorPlace &place : doorTable.screen()->places)
+    {
+        CHECK_FALSE(place.label.has_value());
+    }
+    const OpenYAMM::Game::MergedDimensionDoor &jadameDoor = doorTable.doors()[2];
+    CHECK_EQ(jadameDoor.pictures.at(4), "ui/gameplay/dimensional_travel/tpjadame4");
+    const auto noQBits = [](uint32_t) { return false; };
+    const auto letterDelivered = [](uint32_t qbit) { return qbit == 4; };
+    CHECK_EQ(OpenYAMM::Game::chooseDimensionDoorLanding(jadameDoor, noQBits)->mapFileName, "out01.odm");
+    CHECK_FALSE(OpenYAMM::Game::chooseDimensionDoorLanding(jadameDoor, noQBits)->position.has_value());
+    CHECK_EQ(OpenYAMM::Game::chooseDimensionDoorLanding(jadameDoor, letterDelivered)->mapFileName, "out02.odm");
+
+    // A world's fifth door: without a five-door screen the doors beyond the four places are not shown; with one, that
+    // screen is shown. Its place is a rank, not a slot: Xeen's 1 (its card's order) puts it before the engine's doors.
+    // A taken place or key, or landings that do not end unconditionally, are refused.
+    REQUIRE_MESSAGE(doorTable.appendFromYaml(
+        "doors:\n"
+        "  - {key: xeen, label: Xeen, place: 1, pictures: {5: tpxeen5},\n"
+        "     landings: [{map: xeen_x1.odm, at: [1, 2, 3], direction: 90}]}\n",
+        doorError), doorError);
+    CHECK_EQ(doorTable.screen()->places.size(), 4u);
+    REQUIRE_EQ(doorTable.doors().size(), 5u);
+    CHECK_EQ(doorTable.doors()[0].key, "xeen");
+    CHECK_EQ(doorTable.doors()[1].key, "enroth");
+    CHECK_EQ(doorTable.doors()[4].key, "chedian");
+    REQUIRE_MESSAGE(doorTable.appendFromYaml(
+        "screens:\n"
+        "  - backdrop: tpglobal5\n"
+        "    places: [{picture: [0, 0, 1, 1], hover: [0, 0, 128, 480]}, {picture: [0, 0, 1, 1], hover: [0, 0, 1, 1]},\n"
+        "             {picture: [0, 0, 1, 1], hover: [0, 0, 1, 1]}, {picture: [0, 0, 1, 1], hover: [0, 0, 1, 1]},\n"
+        "             {picture: [0, 0, 1, 1], hover: [512, 0, 128, 480], label: [512, 240, 128, 18]}]\n",
+        doorError), doorError);
+    CHECK_EQ(doorTable.screen()->backdrop, "tpglobal5");
+    CHECK_FALSE(doorTable.screen()->places[0].label.has_value());
+    // A place may still name its door at all times (no screen does since 2026-11-22).
+    REQUIRE(doorTable.screen()->places[4].label.has_value());
+    CHECK_EQ((*doorTable.screen()->places[4].label)[1], 240);
+    CHECK_EQ(doorTable.doors().front().key, "xeen");
+    CHECK_FALSE(doorTable.appendFromYaml(
+        "screens: [{backdrop: tpglobal6, places: [{picture: [0, 0, 1, 1], hover: [0, 0, 1, 1], label: [0, 0]}]}]\n",
+        doorError));
+    CHECK_FALSE(doorTable.appendFromYaml(
+        "doors: [{key: other, place: 5, pictures: {5: x}, landings: [{map: xeen_x1.odm}]}]\n", doorError));
+    CHECK_FALSE(doorTable.appendFromYaml(
+        "doors: [{key: other, place: 6, pictures: {6: x}, landings: [{qbit: 3, map: xeen_x1.odm}]}]\n", doorError));
+    // The world gives the engine's doors their pictures on its five-door screen; a count they have stays theirs.
+    REQUIRE_MESSAGE(doorTable.appendFromYaml("doors: [{key: jadame, pictures: {5: tpjadame5}}]\n", doorError),
+        doorError);
+    CHECK_EQ(doorTable.doors()[3].pictures.at(5), "tpjadame5");
+    CHECK_EQ(doorTable.doors()[3].pictures.at(4), "ui/gameplay/dimensional_travel/tpjadame4");
+    CHECK_FALSE(doorTable.appendFromYaml("doors: [{key: enroth, pictures: {4: other}}]\n", doorError));
 
     CHECK_GE(transportIndexTable.entries().size(), 20u);
     CHECK_EQ(transportIndexTable.entries()[0].houseEventId, 54u);
 
     CHECK_GT(transportLocationTable.entries().size(), 20u);
     CHECK_EQ(transportLocationTable.entries()[0].mapName, "Out03.odm");
+    // The engine's rows have no Name: their routes keep the map's name.
+    CHECK(transportLocationTable.entries()[0].name.empty());
 }
 
 TEST_CASE("race skill rules apply additive effective caps without changing class caps")
@@ -940,4 +1038,73 @@ TEST_CASE("merged character presentation-only reactions have no speech sounds")
         CHECK(pReaction->soundTypes.empty());
         CHECK(pReaction->faceAnimationId.has_value());
     }
+}
+
+TEST_CASE("house rules fall back to a house's transport_index row and its house_data training cap")
+{
+    // house_data columns: id, type index, type, map, picture, name, proprietor, title, picture id, state, rep, per,
+    // val, A, B, C, notes, notes 2 (the original's Max Lvl), open, closed, exit picture, exit map, restriction, text.
+    const auto houseRow = [](const std::string &id, const std::string &typeIndex, const std::string &type,
+                              const std::string &mapId, const std::string &maxLevel)
+    {
+        return std::vector<std::string>{id, typeIndex, type, mapId, "house", "House " + id, "Owner", "Title", "0",
+            "0", "0", "0", "1", "1", "", "", "", maxLevel, "6", "18", "0", "0", "0", "0"};
+    };
+    OpenYAMM::Game::HouseTable houseTable;
+    REQUIRE(houseTable.loadFromRows({
+        {"#", "#", "Type"},
+        houseRow("4016", "0", "Stables", "9101", ""),
+        houseRow("40", "2", "Stables", "2", ""),
+        houseRow("4015", "0", "Training", "9130", "10"),
+        houseRow("4057", "3", "Training", "9136", "50"),
+        houseRow("4058", "0", "Training", "9137", "No Max")}));
+
+    OpenYAMM::Game::MergedHouseRuleTable houseRules;
+    REQUIRE(houseRules.loadFromRows({{"header"}, {"Stables"}, {"2", "0", "-1"}, {"Training halls"}, {"3", "25"}}));
+    OpenYAMM::Game::MergedTransportIndexTable transportIndex;
+    REQUIRE(transportIndex.loadFromRows({{"2D Event", "1", "2", "3"}, {"4016", "401", "-1", "401"},
+        {"40", "401", "-1", "-1"}}));
+    OpenYAMM::Game::MergedTransportLocationTable transportLocations;
+    REQUIRE(transportLocations.loadFromRows({{"#", "Map"},
+        {"0", "out03.odm", "x", "-", "-", "-", "-", "x", "-", "2", "1", "2", "3", "0", "0"},
+        {"401", "xeen_x2.odm", "x", "x", "x", "x", "x", "x", "x", "1", "100", "200", "300", "512", "119001"}}));
+    const OpenYAMM::Game::MapStats mapStats;
+    REQUIRE(houseTable.applyHouseRules(houseRules, transportIndex, transportLocations, mapStats));
+
+    // No Stables row for map 9101: the house's own transport_index row, each location once.
+    const OpenYAMM::Game::HouseEntry *pWorldStable = houseTable.get(4016);
+    REQUIRE(pWorldStable != nullptr);
+    REQUIRE(pWorldStable->transportRoutes.size() == 1);
+    CHECK(pWorldStable->transportRoutes[0].mapFileName == "xeen_x2.odm");
+    CHECK(pWorldStable->transportRoutes[0].travelDays == 1);
+    CHECK(pWorldStable->transportRoutes[0].requiredQBit == 119001);
+    CHECK(pWorldStable->transportRoutes[0].x == 100);
+
+    // A Stables row applies: it wins over the house's transport_index row.
+    const OpenYAMM::Game::HouseEntry *pEngineStable = houseTable.get(40);
+    REQUIRE(pEngineStable != nullptr);
+    REQUIRE(pEngineStable->transportRoutes.size() == 1);
+    CHECK(pEngineStable->transportRoutes[0].mapFileName == "out03.odm");
+
+    // Training: the house_data cap without a rule row, the rule row over it, no cap from text.
+    CHECK(houseTable.get(4015)->trainingMaxLevel == 10);
+    CHECK(houseTable.get(4057)->trainingMaxLevel == 25);
+    CHECK(houseTable.get(4058)->trainingMaxLevel == 0);
+}
+
+TEST_CASE("a transport location's optional Name column names the route's place")
+{
+    // Xeen's two routes into D4 (the Isle of Lost Souls and Lakeside); a row without the column keeps the map's name.
+    OpenYAMM::Game::MergedTransportLocationTable table;
+    const std::vector<std::vector<std::string>> rows = {
+        {"#", "Map", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday", "DaysCount", "X",
+         "Y", "Z", "Direction", "QBit", "Name"},
+        {"420", "xeen_d4.odm", "x", "x", "x", "x", "x", "x", "x", "1", "4096", "-4096", "1120", "512", "0",
+         " the Isle of Lost Souls "},
+        {"421", "xeen_d4.odm", "x", "x", "x", "x", "x", "x", "x", "1", "4608", "-9216", "1120", "0", "0"},
+    };
+    REQUIRE(table.loadFromRows(rows));
+    REQUIRE_EQ(table.entries().size(), 2u);
+    CHECK_EQ(table.entries()[0].name, "the Isle of Lost Souls");
+    CHECK(table.entries()[1].name.empty());
 }

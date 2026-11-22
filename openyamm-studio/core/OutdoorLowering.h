@@ -44,6 +44,9 @@ struct LoweredOutdoorMap
 {
     std::string mapStem;
     std::string world;
+    // The world whose kits, roofs, ground tile sets and default textures the map takes (studioStyleWorld): the
+    // project's own, or for a world without them (Xeen) its base.
+    std::string styleWorld;
     // Per node, row by row from north to south, each row from west to east (index y * 128 + x), map units against
     // the plan's datum. Under water this is the bed: OutdoorWaterBedDepth below the surface.
     std::vector<double> ground;
@@ -67,6 +70,9 @@ struct LoweredOutdoorMap
     std::vector<OutdoorRoadRun> roads;
     // The buildings to raise, each with its floor's height; the ground under its plot is level at it.
     std::vector<OutdoorBuildingPlan> buildings;
+    // The texture classes' door pictures the build read from its asset root (empty without one): a wing door
+    // becomes a pair, a leaf shows its picture at its own width (F2, D-91); doorways read them too.
+    OutdoorDoorPictures doorPictures;
     // The cave mouths and hatches (`structures` of those kinds), each with its floor: the land under them is set to
     // their shells (core/OutdoorWaysIn).
     std::vector<OutdoorCavePlan> caves;
@@ -89,6 +95,11 @@ struct LoweredOutdoorMap
 
     // The stored height at a place in sketch cells, map units (between the samples: weighed by distance).
     double storedHeightAt(double x, double y) const;
+    // The game's ground at a place in sketch cells: each cell two flat triangles split from its north-west to its
+    // south-east corner (game/outdoor `outdoorNativeTerrainHeight`), what the party and things stand on. Things
+    // stood on the land (decorations, actors, spawn points, chests and crates) use it; structures keep
+    // `storedHeightAt`.
+    double groundHeightAt(double x, double y) const;
 };
 
 // Whether the node (x, y) lies on a line drawn `width` nodes across, in sketch cells (heights.ridges, ground
@@ -123,7 +134,9 @@ std::string outdoorLandKey(const Project &project);
 bool lowerOutdoorLandOnly(const Project &project);
 
 // False when the sketch cannot be lowered; the reasons are added to `issues`. With `pLand` the land is kept there
-// and taken from there.
+// and taken from there. `styleWorld` (studioStyleWorld) is the world whose kits and defaults the map takes; empty:
+// the project's own. `pDoorPictures`: the asset root's door pictures (readOutdoorDoorPictures), kept in `lowered`.
 bool lowerOutdoorProject(const Project &project, LoweredOutdoorMap &lowered, std::vector<ProjectIssue> &issues,
-    OutdoorLandCache *pLand = nullptr);
+    OutdoorLandCache *pLand = nullptr, const std::string &styleWorld = std::string(),
+    const OutdoorDoorPictures *pDoorPictures = nullptr);
 }

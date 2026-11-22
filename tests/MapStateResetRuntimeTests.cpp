@@ -16,7 +16,7 @@ TEST_CASE("a map's state is stamped with its layout, and resetting it keeps the 
     session.bindDataRepository(&data);
     Party party;
     party.addGold(1234);
-    party.setQuestBit(10001, true);
+    party.campaign().setQuestBit(10001, true);
 
     session.setCurrentMapLayoutIdentity(11);
     session.captureOutdoorRuntimeState(
@@ -53,5 +53,5 @@ TEST_CASE("a map's state is stamped with its layout, and resetting it keeps the 
 
     REQUIRE(session.partyState().has_value());
     CHECK_EQ(session.partyState()->gold(), 1234);
-    CHECK(session.partyState()->hasQuestBit(10001));
+    CHECK(session.partyState()->campaign().hasQuestBit(10001));
 }

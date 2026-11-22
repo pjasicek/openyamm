@@ -59,7 +59,10 @@ ModelInstanceHandle ModelInstanceSystem::create(
     slot.outlineColorAbgr = 0;
     slot.hitFlash = 0.0f;
     slot.emissionMultiplier = 1.0f;
+    slot.regionRecolor.reset();
     slot.burn.reset();
+    // A recycled slot may have held a shielded model.
+    slot.shieldShell.reset();
     slot.materialVariant = 0;
     slot.nodeMarkersVisible = false;
     slot.attachments.clear();
@@ -267,6 +270,17 @@ bool ModelInstanceSystem::setEmissionMultiplier(ModelInstanceHandle handle, floa
     return true;
 }
 
+bool ModelInstanceSystem::setRegionRecolor(ModelInstanceHandle handle, const std::array<float, 3> *pSrgbColor)
+{
+    Slot *pSlot = find(handle);
+    if (pSlot == nullptr)
+    {
+        return false;
+    }
+    pSlot->regionRecolor = pSrgbColor != nullptr ? std::optional<std::array<float, 3>>(*pSrgbColor) : std::nullopt;
+    return true;
+}
+
 bool ModelInstanceSystem::setBurn(ModelInstanceHandle handle, const ModelBurn *pBurn)
 {
     Slot *pSlot = find(handle);
@@ -405,6 +419,12 @@ float ModelInstanceSystem::emissionMultiplier(ModelInstanceHandle handle) const
 {
     const Slot *pSlot = find(handle);
     return pSlot != nullptr ? pSlot->emissionMultiplier : 1.0f;
+}
+
+const std::array<float, 3> *ModelInstanceSystem::regionRecolor(ModelInstanceHandle handle) const
+{
+    const Slot *pSlot = find(handle);
+    return pSlot != nullptr && pSlot->regionRecolor ? &*pSlot->regionRecolor : nullptr;
 }
 
 const ModelBurn *ModelInstanceSystem::burn(ModelInstanceHandle handle) const

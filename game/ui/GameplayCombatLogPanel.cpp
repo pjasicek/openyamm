@@ -38,6 +38,7 @@ constexpr uint32_t UpColor = 0xff9ad9a8u;
 constexpr uint32_t PanelColor = 0xdb0e0e07u;
 constexpr uint32_t BorderColor = 0xff5f818cu;
 constexpr uint32_t OpenLineColor = 0x1f7ab0c9u;
+constexpr size_t MaxChatLines = 3;
 constexpr uint32_t RuleColor = 0xff6396acu;
 constexpr uint32_t ChipColor = 0xcc16170du;
 constexpr uint32_t ChipOnColor = 0xcc1a2a2bu;
@@ -261,6 +262,12 @@ std::vector<Segment> templateSegments(std::string_view pattern, std::initializer
 // always this; a hit's row is the compact HitRow, and its sentence heads the details a click opens.
 std::vector<Segment> hitSegments(const CombatLogEntry &entry)
 {
+    // What a player said, under its name: the words as they were typed.
+    if (entry.kind == CombatLogKind::Chat)
+    {
+        return {{entry.attacker + ":", SpellColor}, {" " + entry.target, PartyColor}};
+    }
+
     // "Filtered: Uncommon Longsword -> 312 gold", the rarity in its colour.
     if (entry.kind == CombatLogKind::Loot)
     {
@@ -559,6 +566,11 @@ void GameplayCombatLogPanel::toggle()
     m_open = !m_open;
 }
 
+void GameplayCombatLogPanel::setOpen(bool open)
+{
+    m_open = open;
+}
+
 void GameplayCombatLogPanel::scroll(int lines, const CombatLog &log)
 {
     const size_t count = size_t(std::count_if(log.entries().begin(), log.entries().end(),
@@ -580,20 +592,28 @@ void GameplayCombatLogPanel::setFilter(CombatLogFilter filter)
 
 bool GameplayCombatLogPanel::shows(const CombatLogEntry &entry) const
 {
-    // Loot lines show under All only.
+    if (m_chatOnly)
+    {
+        return entry.kind == CombatLogKind::Chat;
+    }
+
+    // Loot lines show under All only; what was said under All and under its own chip.
     return m_filter == CombatLogFilter::All
         || (m_filter == CombatLogFilter::Dealt && entry.kind == CombatLogKind::Dealt)
-        || (m_filter == CombatLogFilter::Taken && entry.kind == CombatLogKind::Taken);
+        || (m_filter == CombatLogFilter::Taken && entry.kind == CombatLogKind::Taken)
+        || (m_filter == CombatLogFilter::Chat && entry.kind == CombatLogKind::Chat);
 }
 
 void GameplayCombatLogPanel::render(GameplayScreenRuntime &context, int width, int height)
 {
     m_drawn = false;
 
-    if (!m_open || !context.combatLogShown())
+    if (!m_open || !context.combatLogPanelShown())
     {
         return;
     }
+
+    m_chatOnly = !context.combatLogShown();
 
     const std::optional<GameplayResolvedHudLayoutElement> panel =
         context.resolveHudLayoutElement("CombatLogPanel", width, height, 0, 0);
@@ -636,8 +656,8 @@ void GameplayCombatLogPanel::render(GameplayScreenRuntime &context, int width, i
 
     m_drawn = true;
     const CombatLog &log = context.combatLog();
-    const CacheKey key{log.revision(), m_scroll, m_openEntry, m_filter, placed.x, placed.y, placed.width,
-        placed.height, placed.scale};
+    const CacheKey key{log.revision(), m_scroll, m_openEntry, m_filter, m_chatOnly, placed.x, placed.y,
+        placed.width, placed.height, placed.scale};
 
     if (m_cacheKey != key)
     {
@@ -731,15 +751,28 @@ void GameplayCombatLogPanel::layOut(GameplayScreenRuntime &context, const Combat
     const GameplayResolvedHudLayoutElement scrollbar{panel.x + panel.width - 9 * scale, area.y, 6 * scale,
         area.height, scale};
     m_textFilter = lineStyle.pFont->smooth ? TextureFilterProfile::SmoothText : TextureFilterProfile::Text;
-    appendText(m_textQuads, titleStyle, Engine::tr("Combat log"), panel.x + 6 * scale,
+    appendText(m_textQuads, titleStyle, m_chatOnly ? Engine::tr("Chat") : Engine::tr("Combat log"),
+        panel.x + 6 * scale,
         panel.y + 2 * scale + (headerHeight - 2 * scale - titleStyle.lineHeight) / 2, 0xffa8d1e6u);
 
     // The filter chips, laid out leftwards from the panel's right edge.
-    const std::array<std::pair<std::string, CombatLogFilter>, 3> chips = {{
-        {Engine::tr("Taken"), CombatLogFilter::Taken},
-        {Engine::tr("Dealt"), CombatLogFilter::Dealt},
-        {Engine::tr("All"), CombatLogFilter::All},
-    }};
+    // The Chat chip only once a player said something (a co-op session).
+    const bool anyChat = std::any_of(log.entries().begin(), log.entries().end(),
+        [](const CombatLogEntry &entry) { return entry.kind == CombatLogKind::Chat; });
+    std::vector<std::pair<std::string, CombatLogFilter>> chips;
+
+    if (anyChat && !m_chatOnly)
+    {
+        chips.emplace_back(Engine::tr("Chat"), CombatLogFilter::Chat);
+    }
+
+    // A panel that is only the chat has nothing to filter.
+    if (!m_chatOnly)
+    {
+        chips.emplace_back(Engine::tr("Taken"), CombatLogFilter::Taken);
+        chips.emplace_back(Engine::tr("Dealt"), CombatLogFilter::Dealt);
+        chips.emplace_back(Engine::tr("All"), CombatLogFilter::All);
+    }
     const float hairline = std::max(1.0f, std::round(scale * 0.5f));
     float chipRight = panel.x + panel.width - 5 * scale;
 
@@ -799,11 +832,19 @@ void GameplayCombatLogPanel::layOut(GameplayScreenRuntime &context, const Combat
     {
         Block block;
         block.pEntry = shown[index];
-        const bool loot = block.pEntry->kind == CombatLogKind::Loot;
+        // A loot line and a line of chat are sentences that wrap; neither opens.
+        const bool loot = block.pEntry->kind == CombatLogKind::Loot || block.pEntry->kind == CombatLogKind::Chat;
 
         if (loot)
         {
             block.lines = wrapSegments(lineStyle, hitSegments(*block.pEntry), area.width - 4 * scale);
+
+            // What a player said takes three lines at most.
+            if (block.pEntry->kind == CombatLogKind::Chat && block.lines.size() > MaxChatLines)
+            {
+                block.lines.resize(MaxChatLines);
+                block.lines.back().push_back({"...", BodyColor});
+            }
         }
         else
         {
@@ -846,7 +887,7 @@ void GameplayCombatLogPanel::layOut(GameplayScreenRuntime &context, const Combat
         const CombatLogEntry &entry = *block.pEntry;
         const GameplayResolvedHudLayoutElement row{area.x, y, area.width, block.height, scale};
 
-        if (entry.id == m_openEntry && entry.kind != CombatLogKind::Loot)
+        if (entry.id == m_openEntry && entry.kind != CombatLogKind::Loot && entry.kind != CombatLogKind::Chat)
         {
             m_fills.push_back({row, OpenLineColor});
         }

@@ -106,6 +106,8 @@ private:
     std::vector<std::string> targetIds(const YAML::Node &value) const;
     void visibility(const YAML::Node &value, const std::string &path, const std::string &key, bool show,
         const std::string &indent, std::vector<std::string> &body);
+    std::string expandThingCalls(const std::string &lua, const std::string &path);
+    void ask(const YAML::Node &question, const std::string &path, std::vector<std::string> &body);
     bool knownDecoration(const std::string &name);
 
     const Project &m_project;
@@ -118,6 +120,8 @@ private:
     std::set<int> m_shownGroups;
     std::set<int> m_hiddenGroups;
     bool m_decorationsLoaded = false;
+    // Where the lines of the handler being lowered that a `question` gates begin (after `once` and the lock).
+    size_t m_actionStart = 0;
     std::set<std::string> m_decorationNames;
 };
 }

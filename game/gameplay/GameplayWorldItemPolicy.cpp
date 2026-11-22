@@ -20,14 +20,14 @@ bool worldItemPolicyAvailable(const MapWorldItemSource &source, const Party &par
         source.requiredQBits.end(),
         [&party](uint32_t qbit)
         {
-            return party.hasQuestBit(qbit);
+            return party.campaign().hasQuestBit(qbit);
         });
     const bool hasForbiddenQBit = std::any_of(
         source.forbiddenQBits.begin(),
         source.forbiddenQBits.end(),
         [&party](uint32_t qbit)
         {
-            return party.hasQuestBit(qbit);
+            return party.campaign().hasQuestBit(qbit);
         });
     return hasRequiredQBits && !hasForbiddenQBit;
 }
@@ -39,7 +39,7 @@ bool worldItemPickupAllowed(const MapWorldItemSource &source, const Party &party
         source.pickupQBits.end(),
         [&party](uint32_t qbit)
         {
-            return party.hasQuestBit(qbit);
+            return party.campaign().hasQuestBit(qbit);
         });
 }
 

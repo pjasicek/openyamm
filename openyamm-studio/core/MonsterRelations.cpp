@@ -72,6 +72,102 @@ int relationClass(int monster)
 }
 }
 
+WorldMonsterRelations readWorldMonsterRelations(const std::string &yamlText)
+{
+    WorldMonsterRelations result;
+
+    if (yamlText.empty())
+    {
+        return result;
+    }
+
+    try
+    {
+        const YAML::Node root = YAML::Load(yamlText);
+        const auto names = [](const YAML::Node &node)
+        {
+            return node.IsSequence() ? node.as<std::vector<std::string>>()
+                                     : std::vector<std::string>{node.as<std::string>("")};
+        };
+
+        for (const auto &entry : root["factions"])
+        {
+            for (const YAML::Node &item : entry.second["monsters"])
+            {
+                // 10065, or a range "10065-10069".
+                const std::string text = item.as<std::string>();
+                const size_t dash = text.find('-', 1);
+                const int first = std::stoi(text.substr(0, dash));
+                const int last = dash == std::string::npos ? first : std::stoi(text.substr(dash + 1));
+
+                for (int monster = first; monster <= last && last - first <= 2000; ++monster)
+                {
+                    result.factionOf[monster] = entry.first.as<std::string>();
+                }
+            }
+        }
+
+        static const std::map<std::string, int> RelationNames = {{"friendly", 0}, {"neutral", 0}, {"close", 1},
+            {"short", 2}, {"medium", 3}, {"long", 4}, {"hostile", 4}};
+
+        for (const YAML::Node &node : root["relations"])
+        {
+            if (node["after_qbit"] || !node["from"] || !node["to"] || !node["relation"])
+            {
+                continue;
+            }
+
+            WorldMonsterRelations::Rule rule;
+            rule.from = names(node["from"]);
+            const std::string target = node["to"].IsScalar() ? node["to"].as<std::string>() : "";
+            rule.party = target == "party";
+            rule.any = target == "any";
+            rule.to = rule.party || rule.any ? std::vector<std::string>{} : names(node["to"]);
+            const std::string relation = node["relation"].as<std::string>();
+            const auto named = RelationNames.find(relation);
+            rule.relation = named != RelationNames.end() ? named->second : std::clamp(std::stoi(relation), 0, 4);
+            result.rules.push_back(std::move(rule));
+        }
+    }
+    catch (const std::exception &)
+    {
+        // The game refuses a relations.yml that does not parse; the check then has none.
+        return {};
+    }
+
+    return result;
+}
+
+std::optional<int> WorldMonsterRelations::relation(int of, int toward) const
+{
+    const auto from = factionOf.find(of);
+
+    if (from == factionOf.end())
+    {
+        return std::nullopt;
+    }
+
+    const auto target = toward == 0 ? factionOf.end() : factionOf.find(toward);
+    std::optional<int> found;
+
+    for (const Rule &rule : rules)
+    {
+        if (std::find(rule.from.begin(), rule.from.end(), from->second) == rule.from.end())
+        {
+            continue;
+        }
+
+        if (toward == 0 ? rule.party
+                        : rule.any || (target != factionOf.end()
+                                       && std::find(rule.to.begin(), rule.to.end(), target->second) != rule.to.end()))
+        {
+            found = rule.relation;
+        }
+    }
+
+    return found;
+}
+
 std::vector<MonsterRelationRow> readMonsterRelations(
     const YAML::Node &relations,
     const std::string &file,
@@ -221,6 +317,22 @@ std::vector<std::string> monsterRelationLines(const std::vector<MonsterRelationR
     {
         lines.push_back("evt.SetMonsterRelation(" + luaSide(row.of) + ", " + luaSide(row.toward) + ", "
             + std::to_string(row.relation) + ")");
+    }
+
+    return lines;
+}
+
+std::vector<std::string> peacefulGroupsBody(const std::vector<int> &groups)
+{
+    std::vector<std::string> lines = {
+        "if evt.GetMapVar(\"studio_peaceful_groups\", 0) ~= 0 then",
+        "    return",
+        "end",
+        "evt.SetMapVar(\"studio_peaceful_groups\", 1)"};
+
+    for (const int group : groups)
+    {
+        lines.push_back("evt.SetMonGroupBit(" + std::to_string(group) + ", MonsterBits.Hostile, 0)");
     }
 
     return lines;
@@ -428,6 +540,13 @@ std::vector<std::string> monsterHostilityWarnings(
             member.hostile = false;
             member.said = true;
         }
+        else if (const std::optional<int> worldRelation = member.said ? std::nullopt
+                     : monsters.world.relation(member.monster, 0))
+        {
+            // The world's relations.yml says it.
+            member.hostile = *worldRelation > 0;
+            member.said = true;
+        }
         else if (!member.said)
         {
             member.hostile = tableRelation(relationClass(member.monster), 0) > 0;
@@ -541,7 +660,7 @@ std::vector<std::string> monsterHostilityWarnings(
             return 0;
         }
 
-        if (actor.group != 0 && actor.group == target.group)
+        if ((actor.group != 0 && actor.group == target.group) || monsters.world.relation(actor.monster, target.monster))
         {
             return 0;
         }

@@ -260,6 +260,12 @@ std::vector<MonsterModifierInfo> buildCatalogue()
                 number("back_off_distance", 384.0f, 32.0f, 2048.0f, "how far it backpedals from a rush"),
                 number("back_off_cooldown_seconds", 5.0f, 0.0f, 60.0f, "time from one back-off to the next"),
             }},
+        {"wander",
+            "It wanders at most radius from where it was placed, whatever its row's movement type says (a grazing "
+            "unicorn kept to its well); 0 keeps it standing.",
+            {
+                number("radius", 1024.0f, 0.0f, 8192.0f, "how far from its place it wanders (our units)"),
+            }},
         {"mm9_ai",
             "MM9's AI profile of the monster row, generated from MONSTERS.txt and its script "
             "(devdocs/mm9_rework/monster_ai/PROFILE.md). Distances and speeds in our units (MM9's x 2.56).",
@@ -779,6 +785,10 @@ bool applyModifier(const ParsedModifier &parsed, const std::string &line, Monste
             return false;
         }
         set.reposition = reposition;
+    }
+    else if (name == "wander")
+    {
+        set.wanderRadius = parsed.numberOf("radius");
     }
     else if (name == "sounds")
     {

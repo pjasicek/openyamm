@@ -1233,6 +1233,7 @@ IndoorLightingRuntime::StaticLightCache IndoorLightingRuntime::buildStaticCache(
             light.sectorId = billboard.sectorId;
             light.kind = IndoorRenderLightKind::Decoration;
             light.runtimeOverrideKey = billboard.spriteOverrideKey();
+            light.decorationStartsHidden = billboard.startsHidden;
 
             if (billboard.entityIndex < mapData.entities.size()
                 && billboard.entityIndex < decorationDecorVarIndices.size())
@@ -1544,11 +1545,22 @@ IndoorLightingFrame IndoorLightingRuntime::buildFrame(const IndoorLightingFrameI
                     return;
                 }
 
-                if (source.kind == IndoorRenderLightKind::Decoration && input.pEventRuntimeState != nullptr)
+                if (source.kind == IndoorRenderLightKind::Decoration)
                 {
-                    const auto iterator = input.pEventRuntimeState->spriteOverrides.find(source.runtimeOverrideKey);
+                    bool hidden = source.decorationStartsHidden;
 
-                    if (iterator != input.pEventRuntimeState->spriteOverrides.end() && iterator->second.hidden)
+                    if (input.pEventRuntimeState != nullptr)
+                    {
+                        const auto iterator =
+                            input.pEventRuntimeState->spriteOverrides.find(source.runtimeOverrideKey);
+
+                        if (iterator != input.pEventRuntimeState->spriteOverrides.end())
+                        {
+                            hidden = iterator->second.hidden;
+                        }
+                    }
+
+                    if (hidden)
                     {
                         return;
                     }

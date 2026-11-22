@@ -25,6 +25,9 @@ uniform vec4 u_skyClouds[8];
 // opacity; [2] half width, fragments, light count, light radius (radians); [3] light colour, brightness; [4..11] lights.
 // All zero, and skipped, unless a preset has an orbit_ring.
 uniform vec4 u_skyOrbit[12];
+// The theme's rim glow (packSkyRimUniform): [0] horizon direction of its middle (x, y), half width, height (radians);
+// [1] colour times strength, depth below the horizon (radians). Zero colour: none.
+uniform vec4 u_skyRim[2];
 
 #define SKY_PI 3.14159265
 
@@ -189,6 +192,31 @@ vec3 orbitLights(vec3 direction)
     return u_skyOrbit[3].rgb * u_skyOrbit[3].w * glow;
 }
 
+// A glow along part of the horizon, fixed in world direction: brightest at the horizon in its middle, fading up to
+// its height, along to its edges and a little below the horizon (over the void, where nothing covers it).
+vec3 rimGlow(vec3 direction)
+{
+    vec2 level = direction.xy / max(length(direction.xy), 0.0001);
+    float along = acos(clamp(dot(level, u_skyRim[0].xy), -1.0, 1.0)) / u_skyRim[0].z;
+
+    if (along >= 1.0)
+    {
+        return vec3_splat(0.0);
+    }
+
+    float elevation = asin(clamp(direction.z, -1.0, 1.0));
+    float rise = elevation >= 0.0 ? elevation / u_skyRim[0].w : -elevation / max(u_skyRim[1].w, 0.0001);
+
+    if (rise >= 1.0)
+    {
+        return vec3_splat(0.0);
+    }
+
+    float across = 1.0 - smoothstep(0.0, 1.0, along);
+    float upward = 1.0 - smoothstep(0.0, 1.0, rise);
+    return u_skyRim[1].rgb * across * upward * upward;
+}
+
 // The world's fog colour at the horizon below this direction (fog mode), or the flat fog colour (flat mode).
 vec3 belowHorizonFog(vec3 direction, float belowMode)
 {
@@ -220,10 +248,18 @@ void main()
 
     // Well below the horizon only the fog colour remains (the blend below is complete there), and most of these
     // pixels are covered by terrain anyway: skip the sky layers.
+    bool rimLit = max(u_skyRim[1].r, max(u_skyRim[1].g, u_skyRim[1].b)) > 0.0001;
+
     if (fogBelowHorizon && direction.z <= -0.012)
     {
-        gl_FragColor = vec4(mistApplySky(belowHorizonFog(direction, belowMode), direction)
-            + skyDither(gl_FragCoord.xy), 1.0);
+        vec3 below = belowHorizonFog(direction, belowMode);
+
+        if (rimLit)
+        {
+            below = skyLinearToDisplay(pow(below, vec3_splat(2.2)) + rimGlow(direction));
+        }
+
+        gl_FragColor = vec4(mistApplySky(below, direction) + skyDither(gl_FragCoord.xy), 1.0);
         return;
     }
 
@@ -274,6 +310,10 @@ void main()
         color += u_skyParams[0].rgb * sunStrength * (sunDisc * 6.0 + pow(sunFacing, 1800.0) * 0.6);
     }
 
+    // The rim glow sits behind the cloud banks and clouds.
+    vec3 rim = rimLit && direction.z >= 0.0 ? rimGlow(direction) : vec3_splat(0.0);
+    color += rim;
+
     // Distant cloud banks around the horizon; luminance shapes the cloud, alpha its coverage.
     float ringHeight = max(u_skyParams[5].y, 0.001);
 
@@ -285,6 +325,8 @@ void main()
         vec3 ringColor = mix(u_skyParams[4].rgb, u_skyParams[3].rgb, ring.r);
         // The lowest banks sit in the horizon haze.
         ringColor = mix(ringColor, u_skyFog[1].rgb, 0.2 + 0.6 * ringV * ringV * ringV);
+        // The glow behind them lights the banks, so its base is not cut off from its part below the horizon.
+        ringColor += rim;
         color = mix(color, ringColor, ring.a * u_skyParams[5].x);
     }
 
@@ -328,6 +370,12 @@ void main()
     if (fogBelowHorizon && direction.z < 0.004)
     {
         display = mix(display, belowHorizonFog(direction, belowMode), 1.0 - smoothstep(-0.012, 0.004, direction.z));
+    }
+
+    // Below the horizon the glow shows over the fog colour (the void beyond the land's edge).
+    if (rimLit && direction.z < 0.0)
+    {
+        display = skyLinearToDisplay(pow(display, vec3_splat(2.2)) + rimGlow(direction));
     }
 
     gl_FragColor = vec4(mistApplySky(display, direction) + skyDither(gl_FragCoord.xy), 1.0);

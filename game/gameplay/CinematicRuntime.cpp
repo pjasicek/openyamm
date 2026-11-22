@@ -220,6 +220,7 @@ void CinematicRuntime::start(const CinematicDefinition &definition, uint16_t don
     m_ending = false;
     m_moves.clear();
     m_fadeFrom = m_fadeTo = m_fadeAmount = 0.0f;
+    m_fadeColorRgb = {0, 0, 0};
     m_fadeSeconds = 0.0f;
     m_letterboxFrom = m_letterboxTo = m_letterboxAmount = 0.0f;
     m_letterboxSeconds = 0.0f;
@@ -378,6 +379,11 @@ float CinematicRuntime::fadeAmount() const
     return m_fadeAmount;
 }
 
+std::array<uint8_t, 3> CinematicRuntime::fadeColorRgb() const
+{
+    return m_fadeColorRgb;
+}
+
 const std::string &CinematicRuntime::subtitle() const
 {
     return m_subtitle;
@@ -403,6 +409,7 @@ void CinematicRuntime::runCue(const CinematicCue &cue, ICinematicWorld &world)
             m_fadeTo = cue.kind == CinematicCueKind::FadeOut ? 1.0f : 0.0f;
             m_fadeStartSeconds = cue.atSeconds;
             m_fadeSeconds = cue.seconds;
+            m_fadeColorRgb = cue.colorRgb;
             break;
         case CinematicCueKind::Letterbox:
             m_letterboxFrom = m_letterboxAmount;

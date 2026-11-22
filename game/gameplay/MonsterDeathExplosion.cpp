@@ -46,6 +46,29 @@ std::optional<PendingMonsterDeathExplosion> monsterDeathExplosionFor(
     return pending;
 }
 
+std::optional<int> monsterDeathExplosionDamageAt(
+    const ISceneEventContext &scene,
+    const PendingMonsterDeathExplosion &pending,
+    float x,
+    float y,
+    float footZ,
+    float eyeZ,
+    std::mt19937 &rng)
+{
+    const GameplayWorldPoint &point = pending.point;
+    // A party is hit within the radius plus 32 of its middle, with nothing in the way of its eyes (0x4376fc).
+    const float distance = std::hypot(x - point.x, y - point.y, (footZ + eyeZ) * 0.5f - point.z);
+
+    if (distance >= MonsterDeathExplosionRadius + 32.0f
+        || !scene.hasLineOfSight(point.x, point.y, point.z, x, y, eyeZ))
+    {
+        return std::nullopt;
+    }
+
+    return GameMechanics::rollMonsterAttackDamage(
+        pending.partyDamage.diceRolls, pending.partyDamage.diceSides, pending.partyDamage.bonus, rng);
+}
+
 MonsterDeathExplosion resolveMonsterDeathExplosion(
     const IGameplayWorldRuntime &world,
     const ISceneEventContext &scene,
@@ -55,21 +78,14 @@ MonsterDeathExplosion resolveMonsterDeathExplosion(
 {
     MonsterDeathExplosion explosion = {};
     const GameplayWorldPoint &point = pending.point;
-    // The party is hit within the radius plus 32 of its middle, with nothing in the way of its eyes (0x4376fc).
-    const float partyMiddleZ = (world.partyFootZ() + world.partyEyeZ()) * 0.5f;
-    const float partyDistance =
-        std::hypot(world.partyX() - point.x, world.partyY() - point.y, partyMiddleZ - point.z);
+    const std::optional<int> partyDamage = monsterDeathExplosionDamageAt(
+        scene, pending, world.partyX(), world.partyY(), world.partyFootZ(), world.partyEyeZ(), rng);
+    explosion.partyDamageType = pending.partyDamageType;
 
-    if (partyDistance < MonsterDeathExplosionRadius + 32.0f
-        && scene.hasLineOfSight(point.x, point.y, point.z, world.partyX(), world.partyY(), world.partyEyeZ()))
+    if (partyDamage)
     {
         explosion.hitsParty = true;
-        explosion.partyDamage = GameMechanics::rollMonsterAttackDamage(
-            pending.partyDamage.diceRolls,
-            pending.partyDamage.diceSides,
-            pending.partyDamage.bonus,
-            rng);
-        explosion.partyDamageType = pending.partyDamageType;
+        explosion.partyDamage = *partyDamage;
     }
 
     const MonsterTable *pMonsterTable = world.monsterTable();

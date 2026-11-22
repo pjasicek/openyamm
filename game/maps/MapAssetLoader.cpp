@@ -51,6 +51,7 @@
 #include <memory>
 #include <stdexcept>
 #include <optional>
+#include <sstream>
 #include <string>
 #include <string_view>
 #include <thread>
@@ -336,6 +337,7 @@ OutdoorWeatherProfile buildOutdoorWeatherProfile(
     profile.smallFogChance = environment.weather.smallFogChance;
     profile.averageFogChance = environment.weather.averageFogChance;
     profile.denseFogChance = environment.weather.denseFogChance;
+    profile.sceneAshChancePercent = environment.weather.ashChance;
     profile.smallFog = environment.weather.smallFog;
     profile.averageFog = environment.weather.averageFog;
     profile.denseFog = environment.weather.denseFog;
@@ -1412,8 +1414,10 @@ struct BitmapLoadCache
     MapAssetLoadSharedCache *pSharedCache = nullptr;
     bool retainBinaryFiles = true;
     bool retainDecodedPixels = true;
-    // Face textures read their surface material maps (MapCompanionLoadOptions::surfaceMaterials).
+    // Face textures read their surface material maps (MapCompanionLoadOptions::surfaceMaterials), or the glowing ones
+    // their normal maps alone (surfaceGlowWorlds).
     bool surfaceMaterials = false;
+    std::vector<std::string> surfaceGlowWorlds;
     std::unordered_map<std::string, std::unordered_map<std::string, std::string>> directoryAssetPathsByPath;
     std::unordered_map<std::string, std::optional<std::string>> bitmapPathByKey;
     std::unordered_map<std::string, std::optional<std::vector<uint8_t>>> binaryFilesByPath;
@@ -1861,20 +1865,47 @@ std::shared_ptr<const Engine::CookedTexture> decodeSurfaceMaterialMap(const Engi
 // The surface material maps of a cooked surface texture (tools/surface_materials.py): <stem>_n.oytex and
 // <stem>_d.oytex in the surface_materials folder of the same scale tier beside its textures folder. Safe on any
 // thread.
-void loadSurfaceMaterialMaps(const Engine::AssetFileSystem &assetFileSystem, const std::string &texturePath,
-    OutdoorBitmapTexture &texture)
+// The surface material folder beside a cooked texture's tier folder (textures_x4 -> surface_materials_x4); empty for
+// a texture outside a textures folder.
+std::string surfaceMaterialFolder(const std::string &texturePath)
 {
     const std::filesystem::path path(texturePath);
     const std::string folder = path.parent_path().filename().string();
-    if (!folder.starts_with("textures") || texture.cookedTexture == nullptr)
+    if (!folder.starts_with("textures"))
+    {
+        return {};
+    }
+    return (path.parent_path().parent_path() / ("surface_materials" + folder.substr(8))).generic_string();
+}
+
+// normalOnly: the glow-only load (MapCompanionLoadOptions::surfaceGlowWorlds), which never reads the detail map.
+void loadSurfaceMaterialMaps(const Engine::AssetFileSystem &assetFileSystem, const std::string &texturePath,
+    OutdoorBitmapTexture &texture, bool normalOnly)
+{
+    const std::filesystem::path path(texturePath);
+    const std::string materialFolder = surfaceMaterialFolder(texturePath);
+    if (materialFolder.empty() || texture.cookedTexture == nullptr)
     {
         return;
     }
-    const std::string materialFolder =
-        (path.parent_path().parent_path() / ("surface_materials" + folder.substr(8))).generic_string();
     const std::string stem = path.stem().string();
+    // The merged folders find a texture and its maps in the same order of worlds; the maps count only from the folder
+    // beside the texture's own (a world's texture of the same name as another world's, without maps of its own, takes
+    // none of the other's).
+    const std::optional<Engine::AssetFileInfo> textureFile = assetFileSystem.fileInfo(texturePath);
+    const std::optional<Engine::AssetFileInfo> normalFile =
+        assetFileSystem.fileInfo(materialFolder + "/" + stem + "_n.oytex");
+    if (textureFile && normalFile && !textureFile->archived && !normalFile->archived
+        && textureFile->source.parent_path() != normalFile->source.parent_path())
+    {
+        return;
+    }
     texture.materialNormal =
         decodeSurfaceMaterialMap(assetFileSystem, materialFolder + "/" + stem + "_n.oytex", *texture.cookedTexture);
+    if (normalOnly)
+    {
+        return;
+    }
     texture.materialDetail =
         decodeSurfaceMaterialMap(assetFileSystem, materialFolder + "/" + stem + "_d.oytex", *texture.cookedTexture);
     if ((texture.materialNormal == nullptr) != (texture.materialDetail == nullptr))
@@ -2207,6 +2238,7 @@ std::optional<DecorationBillboardSet> buildDecorationBillboardSet(
         billboard.facing = entity.facing;
         billboard.eventIdPrimary = entity.eventIdPrimary;
         billboard.eventIdSecondary = entity.eventIdSecondary;
+        billboard.startsHidden = (entity.aiAttributes & LevelDecorationInvisible) != 0;
         billboard.name = entity.name;
         billboardSet.billboards.push_back(std::move(billboard));
 
@@ -3078,7 +3110,8 @@ void appendMapDeltaActors(
     std::vector<BitmapTextureRequest> &textureRequests,
     const MonsterTable &monsterTable,
     const MapDeltaData &mapDeltaData,
-    const OutdoorMapData *pOutdoorMapData
+    const OutdoorMapData *pOutdoorMapData,
+    const ActorNpcNameTables &actorNpcNames
 )
 {
     for (size_t actorIndex = 0; actorIndex < mapDeltaData.actors.size(); ++actorIndex)
@@ -3089,7 +3122,7 @@ void appendMapDeltaActors(
         const MonsterTable::MonsterDisplayNameEntry *pDisplayEntry =
             monsterTable.findDisplayEntryById(actor.monsterInfoId);
         const MonsterEntry *pMonsterEntry = nullptr;
-        std::string resolvedActorName = resolveMapDeltaActorName(monsterTable, actor);
+        std::string resolvedActorName = resolveMapDeltaActorName(monsterTable, actor, actorNpcNames);
 
         if (pDisplayEntry != nullptr)
         {
@@ -3318,7 +3351,8 @@ std::optional<ActorPreviewBillboardSet> buildActorPreviewBillboardSet(
     bool decodeAllTextures = true,
     const MapLoadProgressPump &progressPump = {},
     MapAssetLoadSharedCache *pSharedCache = nullptr,
-    std::shared_ptr<const ActorModelManifest> pActorModels = {}
+    std::shared_ptr<const ActorModelManifest> pActorModels = {},
+    const ActorNpcNameTables &actorNpcNames = {}
 )
 {
     ActorPreviewBillboardSet billboardSet = {};
@@ -3386,7 +3420,8 @@ std::optional<ActorPreviewBillboardSet> buildActorPreviewBillboardSet(
 
     if (mapDeltaData)
     {
-        appendMapDeltaActors(billboardSet, textureRequests, monsterTable, *mapDeltaData, pOutdoorMapData);
+        appendMapDeltaActors(
+            billboardSet, textureRequests, monsterTable, *mapDeltaData, pOutdoorMapData, actorNpcNames);
     }
 
     appendSpawnActors(billboardSet, textureRequests, map, monsterTable, spawns, pOutdoorMapData);
@@ -3719,6 +3754,8 @@ std::vector<OutdoorBitmapTexture> loadFaceTextures(
         const std::optional<std::vector<uint8_t>> *pCachedBytes = nullptr;
         std::optional<std::vector<uint8_t>> readBytes;
         std::optional<OutdoorBitmapTexture> texture;
+        // On its folder's glow list (BitmapLoadCache::surfaceGlowWorlds): the normal map alone is read.
+        bool glowOnly = false;
     };
     std::vector<CookedSlot> cookedSlots(textureNames.size());
     for (size_t index = 0; index < textureNames.size(); ++index)
@@ -3741,6 +3778,40 @@ std::vector<OutdoorBitmapTexture> loadFaceTextures(
         }
     }
     const bool surfaceMaterials = bitmapLoadCache.surfaceMaterials;
+    if (!surfaceMaterials && !bitmapLoadCache.surfaceGlowWorlds.empty())
+    {
+        // The glowing stems of each material folder, from every mounted world's list there (a texture borrowed from
+        // another world finds its own world's list; loadSurfaceMaterialMaps takes maps only from beside it).
+        std::unordered_map<std::string, std::unordered_set<std::string>> glowingByFolder;
+        for (CookedSlot &slot : cookedSlots)
+        {
+            if (!slot.path)
+            {
+                continue;
+            }
+            const std::string folder = surfaceMaterialFolder(*slot.path);
+            if (folder.empty())
+            {
+                continue;
+            }
+            auto [folderIt, inserted] = glowingByFolder.try_emplace(folder);
+            if (inserted)
+            {
+                for (const std::string &worldId : bitmapLoadCache.surfaceGlowWorlds)
+                {
+                    if (const std::optional<std::string> text =
+                            assetFileSystem.readTextFile(folder + "/glow_" + worldId + ".txt"))
+                    {
+                        for (std::string &stem : parseSurfaceGlowList(*text))
+                        {
+                            folderIt->second.insert(std::move(stem));
+                        }
+                    }
+                }
+            }
+            slot.glowOnly = folderIt->second.contains(toLowerCopy(std::filesystem::path(*slot.path).stem().string()));
+        }
+    }
     Engine::parallelFor(cookedSlots.size(), [&assetFileSystem, &textureNames, &cookedSlots, surfaceMaterials](
         size_t index)
     {
@@ -3755,9 +3826,9 @@ std::vector<OutdoorBitmapTexture> loadFaceTextures(
         }
         slot.texture = decodeCookedSurfaceTexture(textureNames[index], *slot.path,
             slot.pCachedBytes != nullptr ? *slot.pCachedBytes : slot.readBytes);
-        if (surfaceMaterials)
+        if (surfaceMaterials || slot.glowOnly)
         {
-            loadSurfaceMaterialMaps(assetFileSystem, *slot.path, *slot.texture);
+            loadSurfaceMaterialMaps(assetFileSystem, *slot.path, *slot.texture, !surfaceMaterials);
         }
     });
 
@@ -4078,13 +4149,47 @@ bool hasSurfaceMaterialMaps(const std::vector<OutdoorBitmapTexture> &textures)
     });
 }
 
+bool hasSurfaceGlowOnlyMaps(const std::vector<OutdoorBitmapTexture> &textures)
+{
+    return std::any_of(textures.begin(), textures.end(), [](const OutdoorBitmapTexture &texture)
+    {
+        return texture.materialNormal != nullptr && texture.materialDetail == nullptr;
+    });
+}
+
+std::vector<std::string> parseSurfaceGlowList(const std::string &text)
+{
+    std::vector<std::string> stems;
+    std::istringstream stream(text);
+    std::string line;
+    while (std::getline(stream, line))
+    {
+        const size_t comment = line.find('#');
+        if (comment != std::string::npos)
+        {
+            line.resize(comment);
+        }
+        const size_t first = line.find_first_not_of(" \t\r");
+        if (first == std::string::npos)
+        {
+            continue;
+        }
+        const size_t last = line.find_last_not_of(" \t\r");
+        stems.push_back(toLowerCopy(line.substr(first, last - first + 1)));
+    }
+    return stems;
+}
+
 std::optional<OutdoorBitmapTexture> loadSurfaceTexture(
     const Engine::AssetFileSystem &assetFileSystem,
-    const std::string &textureName)
+    const std::string &textureName,
+    const MapCompanionLoadOptions &materialOptions)
 {
     BitmapLoadCache bitmapLoadCache = {};
     bitmapLoadCache.retainBinaryFiles = false;
     bitmapLoadCache.retainDecodedPixels = false;
+    bitmapLoadCache.surfaceMaterials = materialOptions.surfaceMaterials;
+    bitmapLoadCache.surfaceGlowWorlds = materialOptions.surfaceGlowWorlds;
     std::vector<OutdoorBitmapTexture> textures =
         loadFaceTextures(assetFileSystem, {toLowerCopy(textureName)}, {}, bitmapLoadCache, {});
 
@@ -4293,6 +4398,7 @@ std::optional<MapAssetInfo> MapAssetLoader::load(
 {
     BitmapLoadCache bitmapLoadCache = {};
     bitmapLoadCache.surfaceMaterials = companionLoadOptions.surfaceMaterials;
+    bitmapLoadCache.surfaceGlowWorlds = companionLoadOptions.surfaceGlowWorlds;
     if (pSharedCache != nullptr)
     {
         pSharedCache->beginLoad(assetFileSystem.contentGeneration());
@@ -4712,7 +4818,8 @@ std::optional<MapAssetInfo> MapAssetLoader::load(
                         purpose != MapLoadPurpose::FullGameplay,
                         progressPump,
                         pSharedCache,
-                        pActorModels
+                        pActorModels,
+                        companionLoadOptions.actorNpcNames
                     );
                 logStageComplete("outdoor actor previews built");
             }
@@ -5024,7 +5131,8 @@ std::optional<MapAssetInfo> MapAssetLoader::load(
                         true,
                         progressPump,
                         pSharedCache,
-                        pActorModels
+                        pActorModels,
+                        companionLoadOptions.actorNpcNames
                     );
                 logStageComplete("indoor actor previews built");
             }

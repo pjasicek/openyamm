@@ -2,10 +2,12 @@
 
 #include "game/gameplay/GameMechanics.h"
 #include "game/gameplay/GameplayRuntimeInterfaces.h"
+#include "game/gameplay/PlayerId.h"
 #include "game/party/Party.h"
 #include "game/tables/PortraitEnums.h"
 
 #include <cstdint>
+#include <functional>
 #include <memory>
 #include <optional>
 #include <string>
@@ -31,6 +33,8 @@ public:
     struct CombatEvent
     {
         CombatEventType type = CombatEventType::MonsterMeleeImpact;
+        // The player whose party the event is about: the one a monster hit, or the one whose member hit a monster.
+        PlayerId player = LocalPlayer;
         uint32_t sourceId = 0;
         uint32_t sourcePartyMemberIndex = 0;
         uint32_t targetActorId = 0;
@@ -146,6 +150,16 @@ public:
     const std::vector<CombatEvent> &pendingCombatEvents() const;
     void clearPendingCombatEvents();
     void handleAndClearPendingCombatEvents(PendingCombatEventContext &context);
+    // The same for a game of several players' parties: each player's events are handled with that player's party
+    // (partyOf; a player it does not know has its events dropped), in the order the players first appear. Only the
+    // local player's are shown on this game's screen (pLocalRuntime).
+    void handleAndClearPendingCombatEvents(
+        const std::function<Party *(PlayerId)> &partyOf,
+        IGameplayWorldRuntime *pWorldRuntime,
+        GameplayScreenRuntime *pLocalRuntime);
+    // The player the events recorded from now on are about (CombatEvent::player); the recorder sets it back to
+    // LocalPlayer when it is done.
+    void setRecordingPlayer(PlayerId player);
 
 private:
     static CombatEvent buildMonsterMeleeImpactEvent(
@@ -180,6 +194,9 @@ private:
         PendingCombatEventContext &context,
         const std::vector<CombatEvent> &events);
 
+    void queueCombatEvent(CombatEvent event);
+
+    PlayerId m_recordingPlayer = LocalPlayer;
     std::vector<CombatEvent> m_pendingCombatEvents;
 };
 } // namespace OpenYAMM::Game

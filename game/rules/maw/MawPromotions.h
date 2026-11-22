@@ -21,6 +21,9 @@ struct MawPromotionKind
     // MM9 (Chedian, MAW's fourth continent): the done keys (QBit 90000 + key) of the MM9 promotion quests closest to
     // the kind's line; any one.
     std::vector<uint32_t> mm9;
+    // The World of Xeen (MAW's fifth world): the quest bits that open the line's Xeen tier-2 or racial promotion; any
+    // one.
+    std::vector<uint32_t> xeen;
     // MAW's own kinds: the first-tier bits of the line they borrow, which promote step 0 to step 1.
     std::vector<uint32_t> mid;
 };
@@ -32,8 +35,8 @@ struct MawPromotionData
     bool loadFromYaml(const std::string &text, std::string &errorMessage);
 };
 
-// How many worlds have completed the kind's promotion (0-4): any MM6 bit, any MM7 bit, MM8's bit or its alternative,
-// any MM9 bit.
+// How many worlds have completed the kind's promotion (0-5): any MM6 bit, any MM7 bit, MM8's bit or its alternative,
+// any MM9 bit, any Xeen bit.
 int mawPromotionWorlds(
     const MawPromotionKind &kind,
     const std::function<bool(uint32_t)> &hasQuestBit,

@@ -114,7 +114,8 @@ std::string mawComposeTrainerHint(const MawTrainerHintInfo &info)
 
         if (entry.continent && entry.continent != info.currentContinent)
         {
-            const std::string continent = Engine::localize(trainerContinentName(*entry.continent));
+            const std::string continent =
+                trainer.continentName.empty() ? std::string() : Engine::localize(trainer.continentName);
 
             if (!continent.empty())
             {
@@ -207,6 +208,11 @@ std::optional<MawTrainerHintInfo> mawExplainTrainerHint(
     info.unknownTrainers = known.empty() && !teachers.empty();
     info.trainers = pickTrainers(known, query.currentMap, query.currentContinent, MaxTrainers, query.neighbours,
         query.referenceMap);
+
+    for (PickedTrainer &trainer : *info.trainers)
+    {
+        trainer.continentName = trainer.entry.continent ? directory.continentName(*trainer.entry.continent) : "";
+    }
     info.kind = reachable ? MawTrainerHintKind::Trainers : MawTrainerHintKind::Promotion;
     return info;
 }
@@ -253,7 +259,9 @@ std::string mawTrainerHintText(
     if (pCurrentMap != nullptr)
     {
         query.currentMap = uint32_t(pCurrentMap->id);
-        query.currentContinent = pCurrentMap->mergedContinentId;
+        // Xeen's Darkside is Xeen's continent, as its teachers' are (TrainerDirectory::cardContinent).
+        query.currentContinent =
+            directory.cardContinent(pCurrentMap->mergedContinentId).value_or(pCurrentMap->mergedContinentId);
     }
 
     if (pReferenceMap != nullptr)
@@ -262,7 +270,7 @@ std::string mawTrainerHintText(
     }
 
     query.neighbours = directory.links().neighbours(query.currentMap, query.referenceMap,
-        [&party](uint32_t qbit) { return party.hasQuestBit(qbit); });
+        [&party](uint32_t qbit) { return party.campaign().hasQuestBit(qbit); });
     query.known = [&party](const TrainerEntry &entry) { return trainerKnown(entry, party); };
     const std::optional<MawTrainerHintInfo> info = mawExplainTrainerHint(directory, query);
     return info ? mawFillText(mawComposeTrainerHint(*info), {}) : std::string();

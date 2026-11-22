@@ -45,3 +45,14 @@ add_executable(openyamm_levelgen_inspect_save levelgen_inspect_save_main.cpp)
 target_include_directories(openyamm_levelgen_inspect_save PRIVATE
     ${CMAKE_SOURCE_DIR} ${OPENYAMM_BGFX_FETCH_SOURCE_DIR}/3rdparty)
 target_link_libraries(openyamm_levelgen_inspect_save PRIVATE openyamm_game openyamm_engine yaml-cpp::yaml-cpp)
+
+# The co-op lobby service (tools/lobby_server_main.cpp): the engine's rendezvous server alone, with the network
+# library and nothing else of the game, so that it builds and runs on a small server.
+add_executable(openyamm_lobby_server
+    lobby_server_main.cpp
+    ${CMAKE_SOURCE_DIR}/engine/net/ByteStream.cpp
+    ${CMAKE_SOURCE_DIR}/engine/net/EnetTransport.cpp
+    ${CMAKE_SOURCE_DIR}/engine/net/RendezvousProtocol.cpp
+    ${CMAKE_SOURCE_DIR}/engine/net/RendezvousServer.cpp)
+target_include_directories(openyamm_lobby_server PRIVATE ${CMAKE_SOURCE_DIR})
+target_link_libraries(openyamm_lobby_server PRIVATE openyamm_enet)

@@ -1562,7 +1562,7 @@
                         "required": [
                           "texture"
                         ],
-                        "description": "A liquid face: water takes the fluid bit; lava the fluid bit in MM6 (Hermit's Isle's pools) and the burning bit in MM7 and MM8 (the Plane of Fire's streams), as the shipped maps; its picture moving 62.5 texels a second the `flow` way (Hermit's Isle's lava temple baaS, the Plane of Fire's lava streams ElemFhouse2, Ravenshore's fountain block).",
+                        "description": "A liquid face: water takes the fluid bit; lava the fluid bit in MM6 (Hermit's Isle's pools) and the burning bit in MM7 and MM8 (the Plane of Fire's streams), as the shipped maps; its picture moving 62.5 texels a second the `flow` way (Hermit's Isle's lava temple baaS, the Plane of Fire's lava streams ElemFhouse2, Ravenshore's fountain block). Building parts: {texture, fit: true, size: [width, height]} lays the picture (its size in texels) once over each bay of the role, stretched to the bay (a window bay 192 wide shows its 128-wide window once, not 1.5 times); the rows above the lowest show such a bay as plain wall unless `upper_walls` names the role (no window or frieze repeated up a wall taller than one row).",
                         "properties": {
                           "texture": {
                             "type": "string"
@@ -1580,6 +1580,20 @@
                               "left",
                               "right"
                             ]
+                          },
+                          "fit": {
+                            "type": "boolean",
+                            "description": "Building parts: lay the picture once over each bay (with `size`)."
+                          },
+                          "size": {
+                            "type": "array",
+                            "items": {
+                              "type": "number",
+                              "minimum": 8
+                            },
+                            "minItems": 2,
+                            "maxItems": 2,
+                            "description": "With `fit`: the picture's size in texels [width, height]."
                           }
                         }
                       }
@@ -1793,6 +1807,12 @@
                 },
                 "lua_before": {
                   "$ref": "#/$defs/building/properties/lua_before",
+                  "x-kinds": [
+                    "house"
+                  ]
+                },
+                "question": {
+                  "$ref": "#/$defs/building/properties/question",
                   "x-kinds": [
                     "house"
                   ]
@@ -2317,6 +2337,9 @@
                 "description": "Done when the `condition` does not hold, before `locked_text`.",
                 "x-widget": "effects"
               },
+              "question": {
+                "$ref": "#/$defs/building/properties/question"
+              },
               "effects": {
                 "type": "array",
                 "items": {
@@ -2613,7 +2636,7 @@
             }
           },
           "line": {
-            "description": "Wall, bridge, stairs: the centre line, points [x, y] in cells, fractions allowed. Stairs: two points, the foot then the top. Walkway: [x, y] (the deck `height` over the land there) or [x, y, z] (its top at z, map units). Arch: its two feet. Arcade: its two ends, the front on the left of the way.",
+            "description": "Wall, bridge, stairs: the centre line, points [x, y] in cells, fractions allowed. Stairs: two points, the foot then the top. Walkway: [x, y] (the deck `height` over the land there) or [x, y, z] (its top at z, map units). Arch: its two feet. Arcade: its two ends, the front on the left of the way. Barrier: the line it stands along (`closed` for a ring).",
             "type": "array",
             "items": {
               "anyOf": [
@@ -2649,6 +2672,7 @@
             "x-kinds": [
               "wall",
               "fence",
+              "barrier",
               "waterfall",
               "bridge",
               "stairs",
@@ -2663,15 +2687,16 @@
             }
           },
           "closed": {
-            "description": "Wall: the line is a ring (the last point joins the first).",
+            "description": "Wall: the line is a ring (the last point joins the first). Barrier: a ring.",
             "type": "boolean",
             "x-kinds": [
               "wall",
-              "fence"
+              "fence",
+              "barrier"
             ]
           },
           "turn": {
-            "description": "Degrees clockwise seen from above. 0 when left out. Model (S8g): the models taken turn about their middle, their faces' pictures with them.",
+            "description": "Degrees clockwise seen from above. 0 when left out. Model (S8g): the models taken turn about their middle, their faces' pictures with them. Decoration: the decoration turned about its foot (a 3D model, a sand-fall that pours one way; a sprite picks its view by it), written into the map as its facing.",
             "type": "number",
             "minimum": -180,
             "maximum": 180,
@@ -2712,9 +2737,10 @@
             "x-kinds": "all"
           },
           "raise": {
-            "description": "How far above the land it stands, map units. 0 when left out (a bridge's deck: 16, clear of the bank). Model: how far it is moved up from the height it has in its own map. Below zero the thing stands in the land (Harmondale's chest in the fort's pit, `raise: -24` under a `holes` entry): the build warns, as it is buried unless a pit or hole is over it.",
+            "description": "How far above the land it stands, map units. 0 when left out (a bridge's deck: 16, clear of the bank). Model: how far it is moved up from the height it has in its own map. Below zero the thing stands in the land (Harmondale's chest in the fort's pit, `raise: -24` under a `holes` entry): the build warns, as it is buried unless a pit or hole is over it. Wall: the whole wall (foot, top, batter and gates) stands that much higher than the land (on a deck or a terrace's rim).",
             "type": "number",
             "x-kinds": [
+              "wall",
               "bridge",
               "fountain",
               "obelisk",
@@ -2729,7 +2755,7 @@
             "x-unit": "map"
           },
           "height": {
-            "description": "Wall: its height above the highest ground under it (384 when left out); its top is level. Bridge: instead of resting on the land, the deck lies level at this height above the plan's datum (a pier over water). Well, fountain: the ring wall's height (96, 64). Obelisk: 1024. Sign: 224. Platform: 32. Doorway: the door's height (256). Hatch: a wedge's back over its front (192), a pit's rim (64). Culvert: the mouth's height to the top of its head (384). Portal: none. Arch: the beam's top over the land at the middle (512). Walkway: the deck's top over the land at points given without a height (256). Deck: its top over the land at its first point when no `level` (96). Tent: the ridge (320). Arcade: its top over the land at its first end (512).",
+            "description": "Wall: its height above the highest ground under it (384 when left out); its top is level. Bridge: instead of resting on the land, the deck lies level at this height above the plan's datum (a pier over water). Well, fountain: the ring wall's height (96, 64). Obelisk: 1024. Sign: 224. Platform: 32. Doorway: the door's height (256). Hatch: a wedge's back over its front (192), a pit's rim (64). Culvert: the mouth's height to the top of its head (384). Portal: none. Arch: the beam's top over the land at the middle (512). Walkway: the deck's top over the land at points given without a height (256). Deck: its top over the land at its first point when no `level` (96). Tent: the ridge (320). Arcade: its top over the land at its first end (512). Barrier: the top of its faces over the land (512 when left out).",
             "type": "number",
             "x-kinds": [
               "wall",
@@ -2747,7 +2773,8 @@
               "walkway",
               "deck",
               "tent",
-              "arcade"
+              "arcade",
+              "barrier"
             ],
             "x-unit": "map"
           },
@@ -3201,8 +3228,13 @@
             ],
             "properties": {
               "map": {
-                "description": "An outdoor map of the project's world, by file name (out02.odm).",
+                "description": "An outdoor map of the project's world (or of `world`), by file name (out02.odm).",
                 "type": "string"
+              },
+              "world": {
+                "description": "The world whose map it is, when not the project's own (a Xeen map taking Erathia's ship: `world: mm7`, `map: 7out03.odm`). The textures go with the models as from any map.",
+                "type": "string",
+                "pattern": "^[a-z0-9_]+$"
               },
               "models": {
                 "description": "The models to take: a model's name in that map (every model of that name: the five pieces of a ship share one) or its number from 0, as `oymap export <map>` lists its `bmodels`.",
@@ -3250,7 +3282,7 @@
                   "required": [
                     "texture"
                   ],
-                  "description": "A liquid face: water takes the fluid bit; lava the fluid bit in MM6 (Hermit's Isle's pools) and the burning bit in MM7 and MM8 (the Plane of Fire's streams), as the shipped maps; its picture moving 62.5 texels a second the `flow` way (Hermit's Isle's lava temple baaS, the Plane of Fire's lava streams ElemFhouse2, Ravenshore's fountain block).",
+                  "description": "A liquid face: water takes the fluid bit; lava the fluid bit in MM6 (Hermit's Isle's pools) and the burning bit in MM7 and MM8 (the Plane of Fire's streams), as the shipped maps; its picture moving 62.5 texels a second the `flow` way (Hermit's Isle's lava temple baaS, the Plane of Fire's lava streams ElemFhouse2, Ravenshore's fountain block). Building parts: {texture, fit: true, size: [width, height]} lays the picture (its size in texels) once over each bay of the role, stretched to the bay (a window bay 192 wide shows its 128-wide window once, not 1.5 times); the rows above the lowest show such a bay as plain wall unless `upper_walls` names the role (no window or frieze repeated up a wall taller than one row).",
                   "properties": {
                     "texture": {
                       "type": "string"
@@ -3268,6 +3300,20 @@
                         "left",
                         "right"
                       ]
+                    },
+                    "fit": {
+                      "type": "boolean",
+                      "description": "Building parts: lay the picture once over each bay (with `size`)."
+                    },
+                    "size": {
+                      "type": "array",
+                      "items": {
+                        "type": "number",
+                        "minimum": 8
+                      },
+                      "minItems": 2,
+                      "maxItems": 2,
+                      "description": "With `fit`: the picture's size in texels [width, height]."
                     }
                   }
                 }
@@ -3556,6 +3602,25 @@
               "model"
             ]
           },
+          "chest_kind": {
+            "description": "A chest: the shipped chest it is built as (core/ChestKinds; the faces of MM7's 7out01 chest_N for 7gt002). Left out: the style world's (mm8 gt002, mm7 and Xeen 7gt002, mm6 ch1). Its front (the sloping lid's picture) looks north before `turn`.",
+            "type": "string",
+            "enum": [
+              "ch1",
+              "ch2",
+              "ch3",
+              "ch4",
+              "ch5",
+              "7gt002",
+              "gt002",
+              "ch001",
+              "ch002",
+              "ch003",
+              "ch004",
+              "ch005",
+              "ch006"
+            ]
+          },
           "chest": {
             "description": "A click opens a chest of the map with these contents (chests and crates have one without saying so: three things of treasure level 1).",
             "type": "object",
@@ -3616,7 +3681,7 @@
             ]
           },
           "condition": {
-            "description": "What must hold for a click on the thing (or, for a building, its own door) to do what it does (the lock), in the words of an indoor project's wiring: {qbit: 59}, {item: 610}, {not: {qbit: 695}}, {any: [{item: 661}, {map_var: vault_open}]}, {award: 41}, {gold: {below: 200}}, {stat: {name: DisarmTrapSkill, at_least: 4}}, {season: winter}, {kills: {group: 51}}, {lua: \"<one Lua expression>\"}; several keys must all hold; `consume: true` beside one `item` takes that item when the condition holds. A handler's order is: `once`, the condition (when it fails: `else_effects`, `locked_text`, and no more), the house, map or chest, `effects`, `lua`.",
+            "description": "What must hold for a click on the thing (or, for a building, its own door) to do what it does (the lock), in the words of an indoor project's wiring: {qbit: 59}, {item: 610}, {not: {qbit: 695}}, {any: [{item: 661}, {map_var: vault_open}]}, {award: 41}, {player_bit: 11280} (the bit of the member who clicks), {gold: {below: 200}}, {stat: {name: DisarmTrapSkill, at_least: 4}}, {season: winter}, {kills: {group: 51}}, {lua: \"<one Lua expression>\"}; several keys must all hold; `consume: true` beside one `item` takes that item when the condition holds. A handler's order is: `once`, the condition (when it fails: `else_effects`, `locked_text`, and no more), the house, map or chest, `effects`, `lua`.",
             "$ref": "common.schema.json#/$defs/condition",
             "x-kinds": "all"
           },
@@ -3629,7 +3694,7 @@
             "x-kinds": "all"
           },
           "effects": {
-            "description": "What a click does besides, in order; each step is one key, as in an indoor project's wiring: {text: \"...\"} (a line in the status bar), {gold: 100} or {gold: -5}, {add: {var: MightBonus, value: 25}}, {subtract: {...}}, {set: {...}} (`var` is a selector of the game's scripts such as Gold, HP, MightBonus, or {map_var: n}, or {map_var: <a name>}: the build gives a name a number of its own and keeps it in ids.lock.yml; `oymap script-reference` lists the selectors), {autonote: n}, {qbit: n}, {clear_qbit: n}, {give_item: n}, {take_item: n} (numbers, or names declared in project.yml `qbits` and `items`), {teleport: {to: [x, y, z], direction: 90, map: out03.odm}} (map units; `map` left out: within this map), {damage: {amount: 25, kind: fire, who: all}}, {cast: {spell: 6, from: [x, y, z], to: [x, y, z], mastery: master, level: 10}}, {summon: {slot: 1, at: [x, y, z], count: 10, group: 51}}, {lua: \"...\"}; and what changes the map: {show: <id>} and {hide: <id>} (a structure by its `id`, a plot's building as building:castle or building:houses#2, or a list of them: a decoration is drawn or not, a model's faces are there or not), {set_sprite: {of: thing:fruit_tree, to: tree37}} (a decoration structure takes the picture of another decoration of the table: a picked tree, a lit fire), {set_texture: {of: building:castle, from: chb1, to: chb1dl}} (the faces of a model that have one texture get another), {show_actors: 51} and {hide_actors: 51} (the `actors` of a group).",
+            "description": "What a click does besides, in order; each step is one key, as in an indoor project's wiring: {text: \"...\"} (a line in the status bar), {gold: 100} or {gold: -5}, {add: {var: MightBonus, value: 25}}, {subtract: {...}}, {set: {...}} (`var` is a selector of the game's scripts such as Gold, HP, MightBonus, or {map_var: n}, or {map_var: <a name>}: the build gives a name a number of its own and keeps it in ids.lock.yml; `oymap script-reference` lists the selectors), {autonote: n}, {qbit: n}, {clear_qbit: n}, {give_item: n}, {take_item: n}, {player_bit: n} and {clear_player_bit: n} (the bit of the member who clicks) (numbers, or names declared in project.yml `qbits` and `items`), {teleport: {to: [x, y, z], direction: 90, map: out03.odm}} (map units; `map` left out: within this map), {damage: {amount: 25, kind: fire, who: all}}, {cast: {spell: 6, from: [x, y, z], to: [x, y, z], mastery: master, level: 10}}, {summon: {slot: 1, at: [x, y, z], count: 10, group: 51}}, {lua: \"...\"} (in any Lua, `ShowThing(\"thing:x\")` and `HideThing(\"thing:x\")` are the calls {show} and {hide} write, as statements); and what changes the map: {show: <id>} and {hide: <id>} (a structure by its `id`, a plot's building as building:castle or building:houses#2, or a list of them: a decoration is drawn or not, a model's faces are there or not), {set_sprite: {of: thing:fruit_tree, to: tree37}} (a decoration structure takes the picture of another decoration of the table: a picked tree, a lit fire), {set_texture: {of: building:castle, from: chb1, to: chb1dl}} (the faces of a model that have one texture get another), {show_actors: 51} and {hide_actors: 51} (the `actors` of a group).",
             "type": "array",
             "items": {
               "type": "object",
@@ -3651,6 +3716,10 @@
           },
           "lua_before": {
             "$ref": "#/$defs/building/properties/lua_before",
+            "x-kinds": "all"
+          },
+          "question": {
+            "$ref": "#/$defs/building/properties/question",
             "x-kinds": "all"
           },
           "hint_shared": {
@@ -3767,6 +3836,11 @@
           },
           "hidden": {
             "$ref": "#/$defs/building/properties/hidden",
+            "x-kinds": "all"
+          },
+          "translucent": {
+            "description": "Its faces are drawn see-through: blended over what lies behind them by their texture's own alpha (a force-field curtain, a pane), still solid (they collide and block clicks as before). The build lists them in the scene's `bmodel_faces.translucent_faces` (devdocs/INDOOR_TRANSLUCENT_FACES.md, Outdoor). Texels at alpha 0.1 or below are cut out; give the texture a graded alpha. No opacity number outdoors: the texture's alpha is the opacity.",
+            "type": "boolean",
             "x-kinds": "all"
           },
           "invisible": {
@@ -3924,13 +3998,16 @@
             ]
           },
           "form": {
-            "description": "Hatch: wedge (the default) or pit.",
+            "description": "Hatch: wedge (the default) or pit. Cave mouth (D-91), for a mouth with no `into`: shelter (a shallow open overhang, `mouth.depth` 160, its back and tunnel in the shell's rock or `textures.door`, the floor the land: put a light and its contents under it) or blocked (rubble in the shell's rock or `textures.door` fills the mouth at its face; give it a click line). A cave mouth with no `into` and no form is a dark way in that leads nowhere: the build warns and the audit says `caves.blind_mouth` (error).",
             "enum": [
               "wedge",
-              "pit"
+              "pit",
+              "shelter",
+              "blocked"
             ],
             "x-kinds": [
               "building",
+              "cave_mouth",
               "hatch"
             ]
           },
@@ -3945,6 +4022,16 @@
               "doorway",
               "culvert",
               "arcade"
+            ]
+          },
+          "leaves": {
+            "description": "Doorway: 2 for a double door: the door's picture once on each half, stretched over it, the right half's mirrored (a castle gate whose `door` is one wing, chb1dl: devdocs/xeen/formats/DOORS.md). 1 when left out. A door picture the texture classes know is laid at its own width (a 256-wide door whole), else 128 texels across.",
+            "enum": [
+              1,
+              2
+            ],
+            "x-kinds": [
+              "doorway"
             ]
           },
           "outline": {
@@ -5120,6 +5207,19 @@
             "description": "They are not there until an event shows their group with the effect {show_actors: <group>} (an ambush, a rescued lord): the entry needs a `group` of its own.",
             "type": "boolean"
           },
+          "leash": {
+            "description": "A home radius in game units: each one holds its place and fights within this distance of where it was placed (the scene's leash_radius); a swimmer never swims beyond it. 0 or left out: none.",
+            "type": "number",
+            "minimum": 0,
+            "maximum": 32768,
+            "x-unit": "map"
+          },
+          "carries": {
+            "description": "The number of an item the monster carries (a row of items.txt): the game leaves it in its corpse, or drops it where it dies (a quest item a monster holds, F15). Every member of a `count` carries one.",
+            "type": "integer",
+            "minimum": 1,
+            "x-unit": "index"
+          },
           "notes": {
             "$ref": "common.schema.json#/$defs/notes"
           }
@@ -5142,13 +5242,200 @@
             [
               "at",
               "count",
-              "spread"
+              "spread",
+              "leash"
             ]
           ],
           [
             "Notes",
             [
               "notes"
+            ]
+          ]
+        ]
+      },
+      "x-key": "id"
+    },
+    "items": {
+      "description": "Items that lie on the ground from the start, for the party to pick up (D-90's bare finds: a key on a rain barrel's lid, a skull among the rocks): sprite objects of the scene's starting state, as the shipped outdoor maps hold them (MM7 out11 has 63) and as objects.yml `items` indoors. For things in a box use a chest. The build needs --assets for the item tables. Example: {id: item:warehouse_key, item: 12001, at: [62.15, 59.65], height: 72}.",
+      "type": "array",
+      "x-sort": "id",
+      "items": {
+        "type": "object",
+        "x-flow": true,
+        "required": [
+          "id",
+          "item",
+          "at"
+        ],
+        "properties": {
+          "id": {
+            "$ref": "common.schema.json#/$defs/id",
+            "x-id-kinds": [
+              "item"
+            ]
+          },
+          "item": {
+            "description": "Which item: its number in items.txt (the engine's or the world's rows), or its name in the table's Name column where only one row has that name (else the build lists the rows and wants the number).",
+            "type": [
+              "integer",
+              "string"
+            ],
+            "x-unit": "index",
+            "x-labels": [
+              "item number",
+              "item name"
+            ]
+          },
+          "at": {
+            "description": "Where it lies, [x, y] in cells; fractions allowed.",
+            "$ref": "#/$defs/point"
+          },
+          "height": {
+            "description": "How far above the game's ground at `at` it lies, in game units: 0 (left out) on the ground; the height of what it lies on (a barrel's lid, a table, a ledge of a structure) otherwise.",
+            "type": "number",
+            "minimum": 0,
+            "maximum": 2048,
+            "x-unit": "map"
+          },
+          "gold": {
+            "description": "For a heap of gold (an item whose items.txt Equip Stat is Gold): the amount the party picks up, 1 or more; required for a heap, refused on any other item.",
+            "type": "integer",
+            "minimum": 1,
+            "x-unit": "gold"
+          },
+          "notes": {
+            "$ref": "common.schema.json#/$defs/notes"
+          }
+        },
+        "additionalProperties": false
+      },
+      "x-key": "id"
+    },
+    "sounds": {
+      "description": "Sounds placed in the map (the scene's ambient sounds, E9): a bed of wind, sea or birds over the land, a waterfall, X6's sand-falls. Each is heard within `radius` (game units) of its place, at full volume within `inner_radius`. `sound` is a file of the world's sounds (worlds/<world>/audio or engine/audio, with or without `.wav`; with an asset root the build refuses a name that is not there). Each sound gets a number in ids.lock.yml `sounds`; a script switches a sound by the map variable `AmbientSound<number>` (1 on, 2 off). Example: {id: sound:surf, at: [40, 88], sound: ambient/waves.wav, radius: 6000, inner_radius: 2500, volume: 0.6}.",
+      "type": "array",
+      "x-sort": "id",
+      "items": {
+        "type": "object",
+        "required": [
+          "id",
+          "at",
+          "sound",
+          "radius"
+        ],
+        "x-flow": true,
+        "properties": {
+          "id": {
+            "$ref": "common.schema.json#/$defs/id",
+            "x-id-kinds": [
+              "sound"
+            ]
+          },
+          "at": {
+            "description": "Where the sound is, [x, y] in cells; fractions allowed.",
+            "$ref": "#/$defs/point"
+          },
+          "height": {
+            "description": "Above the ground at its place. Default 64.",
+            "type": "number",
+            "x-unit": "map"
+          },
+          "sound": {
+            "description": "The sound file's name among the world's sounds (worlds/<world>/audio), with or without `.wav`.",
+            "type": "string",
+            "minLength": 1
+          },
+          "radius": {
+            "description": "How far the sound is heard.",
+            "type": "number",
+            "exclusiveMinimum": 0,
+            "x-unit": "map"
+          },
+          "inner_radius": {
+            "description": "Within this distance the sound has its full volume. Default: a quarter of `radius`.",
+            "type": "number",
+            "minimum": 0,
+            "x-unit": "map"
+          },
+          "volume": {
+            "description": "0 to 1. Default 1.",
+            "type": "number",
+            "minimum": 0,
+            "maximum": 1,
+            "x-unit": "ratio"
+          },
+          "loop": {
+            "description": "Default true. false: played once each time the party comes within reach.",
+            "type": "boolean"
+          },
+          "wait": {
+            "description": "[shortest, longest] seconds: the sound plays once, then waits a random time between the two before it plays again (drips, creaks).",
+            "type": "array",
+            "items": {
+              "type": "number",
+              "minimum": 0
+            },
+            "minItems": 2,
+            "maxItems": 2,
+            "x-flow": true,
+            "x-unit": "seconds",
+            "x-geom": false
+          },
+          "on": {
+            "description": "false: silent until a script switches it on, by setting the map variable named `AmbientSound<number>` (the sound's number in ids.lock.yml `sounds`) to 1 from a handler's `lua`; 2 switches it off. Default true.",
+            "type": "boolean"
+          },
+          "notes": {
+            "$ref": "common.schema.json#/$defs/notes"
+          },
+          "day_only": {
+            "description": "Heard only in the world's day hours (birds).",
+            "type": "boolean"
+          },
+          "night_only": {
+            "description": "Heard only outside the world's day hours (crickets, owls).",
+            "type": "boolean"
+          },
+          "pan": {
+            "description": "false: heard centred, its distance falloff kept, not from one side (a bed under the whole map, a sound overhead; D-48). Default true. A world whose rules say pan: false (MM9) plays every sound centred.",
+            "type": "boolean"
+          }
+        },
+        "additionalProperties": false,
+        "x-groups": [
+          [
+            "Sound",
+            [
+              "id",
+              "sound",
+              "notes"
+            ]
+          ],
+          [
+            "Place",
+            [
+              "at",
+              "height"
+            ]
+          ],
+          [
+            "Hearing",
+            [
+              "radius",
+              "inner_radius",
+              "volume"
+            ]
+          ],
+          [
+            "Playing",
+            [
+              "loop",
+              "wait",
+              "on",
+              "day_only",
+              "night_only",
+              "pan"
             ]
           ]
         ]
@@ -6038,7 +6325,7 @@
                 "required": [
                   "texture"
                 ],
-                "description": "A liquid face: water takes the fluid bit; lava the fluid bit in MM6 (Hermit's Isle's pools) and the burning bit in MM7 and MM8 (the Plane of Fire's streams), as the shipped maps; its picture moving 62.5 texels a second the `flow` way (Hermit's Isle's lava temple baaS, the Plane of Fire's lava streams ElemFhouse2, Ravenshore's fountain block).",
+                "description": "A liquid face: water takes the fluid bit; lava the fluid bit in MM6 (Hermit's Isle's pools) and the burning bit in MM7 and MM8 (the Plane of Fire's streams), as the shipped maps; its picture moving 62.5 texels a second the `flow` way (Hermit's Isle's lava temple baaS, the Plane of Fire's lava streams ElemFhouse2, Ravenshore's fountain block). Building parts: {texture, fit: true, size: [width, height]} lays the picture (its size in texels) once over each bay of the role, stretched to the bay (a window bay 192 wide shows its 128-wide window once, not 1.5 times); the rows above the lowest show such a bay as plain wall unless `upper_walls` names the role (no window or frieze repeated up a wall taller than one row).",
                 "properties": {
                   "texture": {
                     "type": "string"
@@ -6056,6 +6343,20 @@
                       "left",
                       "right"
                     ]
+                  },
+                  "fit": {
+                    "type": "boolean",
+                    "description": "Building parts: lay the picture once over each bay (with `size`)."
+                  },
+                  "size": {
+                    "type": "array",
+                    "items": {
+                      "type": "number",
+                      "minimum": 8
+                    },
+                    "minItems": 2,
+                    "maxItems": 2,
+                    "description": "With `fit`: the picture's size in texels [width, height]."
                   }
                 }
               }
@@ -6307,6 +6608,9 @@
           },
           "x-kinds": "all",
           "x-widget": "effects"
+        },
+        "question": {
+          "$ref": "#/$defs/building/properties/question"
         },
         "effects": {
           "description": "What a click on the part does besides, in order; each step is one key, as in an indoor project's wiring: {text: \"...\"} (a line in the status bar), {gold: 100} or {gold: -5}, {add: {var: MightBonus, value: 25}}, {subtract: {...}}, {set: {...}} (`var` is a selector of the game's scripts such as Gold, HP, MightBonus, or {map_var: n}, or {map_var: <a name>}: the build gives a name a number of its own and keeps it in ids.lock.yml; `oymap script-reference` lists the selectors), {autonote: n}, {qbit: n}, {clear_qbit: n}, {give_item: n}, {take_item: n} (numbers, or names declared in project.yml `qbits` and `items`), {teleport: {to: [x, y, z], direction: 90, map: out03.odm}} (map units; `map` left out: within this map), {damage: {amount: 25, kind: fire, who: all}}, {cast: {spell: 6, from: [x, y, z], to: [x, y, z], mastery: master, level: 10}}, {summon: {slot: 1, at: [x, y, z], count: 10, group: 51}}, {lua: \"...\"}; and what changes the map: {show: <id>} and {hide: <id>} (a structure by its `id`, a plot's building as building:castle or building:houses#2, or a list of them: a decoration is drawn or not, a model's faces are there or not), {set_sprite: {of: thing:fruit_tree, to: tree37}} (a decoration structure takes the picture of another decoration of the table: a picked tree, a lit fire), {set_texture: {of: building:castle, from: chb1, to: chb1dl}} (the faces of a model that have one texture get another), {show_actors: 51} and {hide_actors: 51} (the `actors` of a group).",
@@ -6875,7 +7179,7 @@
         },
         "into": {
           "type": "object",
-          "description": "Instead of `house`: the door leads into another map (a dungeon, a castle's interior).",
+          "description": "Instead of `house`: the door leads into another map (a dungeon, a castle's interior). The game asks \"leave?\" only when the party leaves a dungeon (BLV) for an outdoor map; from an outdoor map the move is immediate (D-72).",
           "x-flow": true,
           "required": [
             "map"
@@ -6898,33 +7202,50 @@
                 "space": "other_map"
               }
             },
+            "arrival": {
+              "description": "Instead of `at`: a named arrival of that map (D-4), `start` or one of its plan.yml entrances of kind arrival or both (`entrance:south_mouth`), looked up in the installed map's <stem>.studio.yml (written by `oymap install`). Its facing too, unless `facing` is given. While the map is not installed the build warns and the party arrives at its start; an installed map without that arrival is an error.",
+              "type": "string"
+            },
             "facing": {
               "description": "The way the party faces on arrival, in the game's angle units: 2048 a turn, 0 east, 512 north.",
               "type": "integer",
               "x-unit": "angle2048"
             },
             "screen": {
-              "description": "The screen shown before the map loads, as the original's ways into a map have it: `house` is the row of the house table whose \"Enter ...?\" text and picture it shows (Ravenshore's cove 351, den 353, Alvar's house 354, crystal 355), `picture` its picture (1 when left out). Without it the party goes straight in (or the game's own question when leaving a dungeon).",
-              "type": "object",
+              "description": "The entrance window the game shows before the map loads (MM6-MM8's: the map's name, a picture, \"Do you wish to enter X?\" or a line of trans.txt, OK and Close): the seventh and eighth numbers of evt.MoveToMap. Left out: the standard window into a dungeon (a .blv: picture 1), none into an outdoor map. `none`: a direct move, no window. `{text, picture}`: the trans.txt row whose line replaces the question (a world's own rows: its data_tables/english/trans.txt) and the picture (1 when left out). Feedback F16, 2026-11-22.",
               "x-flow": true,
-              "required": [
-                "house"
-              ],
-              "properties": {
-                "house": {
-                  "description": "The house row whose text the screen shows.",
-                  "type": "integer",
-                  "minimum": 1,
-                  "x-unit": "index"
+              "oneOf": [
+                {
+                  "type": "string",
+                  "enum": [
+                    "none"
+                  ]
                 },
-                "picture": {
-                  "description": "The picture, 1 when left out.",
-                  "type": "integer",
-                  "minimum": 0,
-                  "x-unit": "index"
+                {
+                  "type": "object",
+                  "properties": {
+                    "text": {
+                      "description": "The trans.txt row whose line the window shows; 0: \"Do you wish to enter X?\".",
+                      "type": "integer",
+                      "minimum": 0,
+                      "x-unit": "index"
+                    },
+                    "house": {
+                      "description": "The older name of `text` (the shipped scripts call the number the house).",
+                      "type": "integer",
+                      "minimum": 0,
+                      "x-unit": "index"
+                    },
+                    "picture": {
+                      "description": "The picture, 1 when left out (1: the dungeon entrance's).",
+                      "type": "integer",
+                      "minimum": 0,
+                      "x-unit": "index"
+                    }
+                  },
+                  "additionalProperties": false
                 }
-              },
-              "additionalProperties": false
+              ]
             }
           },
           "additionalProperties": false
@@ -7173,7 +7494,7 @@
                   "x-unit": "count"
                 },
                 "leaves": {
-                  "description": "2: two leaves side by side, the second the first's picture mirrored (a double door). 1 when left out.",
+                  "description": "2: two leaves side by side, the second the first's picture mirrored (a double door); on a wall whose bays are not listed the door's bay is 256 wide where the door is (F2). Each leaf shows its picture once at the picture's own width when the texture classes know it (a 256-wide door whole on each leaf; else 128, a wing). Left out: 2 when the door's picture is one wing of a double door (texture_classes.yml `door: wing`; the left of the twins shown, the second leaf mirrored), else 1; `leaves: 1` keeps a wing alone.",
                   "type": "integer",
                   "minimum": 1,
                   "maximum": 2,
@@ -7332,7 +7653,7 @@
               },
               "into": {
                 "type": "object",
-                "description": "Instead of `house`: the door leads into another map (a dungeon, a castle's interior).",
+                "description": "Instead of `house`: the door leads into another map (a dungeon, a castle's interior). The game asks \"leave?\" only when the party leaves a dungeon (BLV) for an outdoor map; from an outdoor map the move is immediate (D-72).",
                 "x-flow": true,
                 "required": [
                   "map"
@@ -7355,33 +7676,50 @@
                       "space": "other_map"
                     }
                   },
+                  "arrival": {
+                    "description": "Instead of `at`: a named arrival of that map (D-4), as a building's `into.arrival`.",
+                    "type": "string"
+                  },
                   "facing": {
                     "description": "The way the party faces on arrival, in the game's angle units: 2048 a turn, 0 east, 512 north.",
                     "type": "integer",
                     "x-unit": "angle2048"
                   },
                   "screen": {
-                    "description": "The screen shown before the map loads, as the original's ways into a map have it: `house` is the row of the house table whose \"Enter ...?\" text and picture it shows (Ravenshore's cove 351, den 353, Alvar's house 354, crystal 355), `picture` its picture (1 when left out). Without it the party goes straight in (or the game's own question when leaving a dungeon).",
-                    "type": "object",
+                    "description": "The entrance window the game shows before the map loads (MM6-MM8's: the map's name, a picture, \"Do you wish to enter X?\" or a line of trans.txt, OK and Close): the seventh and eighth numbers of evt.MoveToMap. Left out: the standard window into a dungeon (a .blv: picture 1), none into an outdoor map. `none`: a direct move, no window. `{text, picture}`: the trans.txt row whose line replaces the question (a world's own rows: its data_tables/english/trans.txt) and the picture (1 when left out). Feedback F16, 2026-11-22.",
                     "x-flow": true,
-                    "required": [
-                      "house"
-                    ],
-                    "properties": {
-                      "house": {
-                        "description": "The house row whose text the screen shows.",
-                        "type": "integer",
-                        "minimum": 1,
-                        "x-unit": "index"
+                    "oneOf": [
+                      {
+                        "type": "string",
+                        "enum": [
+                          "none"
+                        ]
                       },
-                      "picture": {
-                        "description": "The picture, 1 when left out.",
-                        "type": "integer",
-                        "minimum": 0,
-                        "x-unit": "index"
+                      {
+                        "type": "object",
+                        "properties": {
+                          "text": {
+                            "description": "The trans.txt row whose line the window shows; 0: \"Do you wish to enter X?\".",
+                            "type": "integer",
+                            "minimum": 0,
+                            "x-unit": "index"
+                          },
+                          "house": {
+                            "description": "The older name of `text` (the shipped scripts call the number the house).",
+                            "type": "integer",
+                            "minimum": 0,
+                            "x-unit": "index"
+                          },
+                          "picture": {
+                            "description": "The picture, 1 when left out (1: the dungeon entrance's).",
+                            "type": "integer",
+                            "minimum": 0,
+                            "x-unit": "index"
+                          }
+                        },
+                        "additionalProperties": false
                       }
-                    },
-                    "additionalProperties": false
+                    ]
                   }
                 },
                 "additionalProperties": false
@@ -7429,6 +7767,9 @@
               "lua_before": {
                 "description": "Lines of Lua run once the `condition` holds (and after `once`) and before the house, the map or the chest opens: what the original does first (Ravenshore's Hostel plays its film and takes the four Hearts before it enters). The lines of `lua` run after.",
                 "type": "string"
+              },
+              "question": {
+                "$ref": "#/$defs/building/properties/question"
               },
               "notes": {
                 "$ref": "common.schema.json#/$defs/notes"
@@ -7483,7 +7824,7 @@
                 "x-unit": "count"
               },
               "leaves": {
-                "description": "2: two leaves side by side, the second the first's picture mirrored (a double door). 1 when left out.",
+                "description": "2: two leaves side by side, the second the first's picture mirrored (a double door); on a wall whose bays are not listed the door's bay is 256 wide where the door is (F2). Each leaf shows its picture once at the picture's own width when the texture classes know it (a 256-wide door whole on each leaf; else 128, a wing). Left out: 2 when the door's picture is one wing of a double door (texture_classes.yml `door: wing`; the left of the twins shown, the second leaf mirrored), else 1; `leaves: 1` keeps a wing alone.",
                 "type": "integer",
                 "minimum": 1,
                 "maximum": 2,
@@ -7608,6 +7949,46 @@
         "lua_before": {
           "description": "Lines of Lua run once the `condition` holds (and after `once`) and before the house, the map or the chest opens: what the original does first (Ravenshore's Hostel plays its film and takes the four Hearts before it enters). The lines of `lua` run after.",
           "type": "string"
+        },
+        "question": {
+          "description": "A question asked before what the click does (as an indoor wiring's): {ask: \"Climb in (Yes/No)?\", answers: [Yes, Y]}, the answers that count as right, matched without regard to case; `message` a message window shown with it, `wrong_text` a status line on any other answer. `once` and the `condition` are checked first; the rest (the house, map or chest, effects and Lua) runs only on a right answer.",
+          "type": "object",
+          "required": [
+            "ask",
+            "answers"
+          ],
+          "properties": {
+            "ask": {
+              "type": "string",
+              "description": "The question in the status bar: \"Drink (Yes/No)?\"."
+            },
+            "answers": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "minItems": 1,
+              "description": "The answers that count as right, matched without regard to case: [Yes, Y]."
+            },
+            "message": {
+              "type": "string",
+              "description": "A message window shown with the question (the thing's story)."
+            },
+            "wrong_text": {
+              "type": "string",
+              "description": "A status line on any other answer."
+            },
+            "wrong_effects": {
+              "type": "array",
+              "description": "Effects run on any other answer, after `wrong_text`, in order: the same steps as the click's `effects`.",
+              "items": {
+                "type": "object",
+                "minProperties": 1,
+                "maxProperties": 1
+              }
+            }
+          },
+          "additionalProperties": false
         },
         "hidden": {
           "description": "It is not there until an event shows it with the effect {show: <its id>}: a model's faces start invisible and without touch, a decoration is not drawn (Castle Harmondale's upgrade towers, a ship that docks later). The build warns when nothing shows it.",
@@ -7804,6 +8185,7 @@
         "structures",
         "scatter",
         "actors",
+        "items",
         "relations",
         "events"
       ]

@@ -1303,7 +1303,9 @@ GameplayDialogController::Context OutdoorInteractionController::createGameplayDi
         eventRuntimeState,
         screenRuntime.activeEventDialog(),
         screenRuntime.eventDialogSelectionIndex(),
-        view.m_pOutdoorPartyRuntime != nullptr ? &view.m_pOutdoorPartyRuntime->party() : nullptr,
+        // The world's party: the player's own, or in a co-op host's game the player's the host acts for
+        // (a house's lessons, healing and training are that player's, not the host's).
+        view.m_pOutdoorWorldRuntime != nullptr ? view.m_pOutdoorWorldRuntime->party() : nullptr,
         view.m_pOutdoorWorldRuntime,
         view.m_pOutdoorSceneRuntime != nullptr ? &view.m_pOutdoorSceneRuntime->globalEventProgram() : nullptr,
         &view.data().houseTable(),
@@ -1351,7 +1353,7 @@ void OutdoorInteractionController::executeActiveDialogAction(OutdoorGameView &vi
         ? std::optional<EventDialogAction>(
             screenRuntime.activeEventDialog().actions[screenRuntime.eventDialogSelectionIndex()])
         : std::nullopt;
-    Party *pParty = view.m_pOutdoorPartyRuntime != nullptr ? &view.m_pOutdoorPartyRuntime->party() : nullptr;
+    Party *pParty = view.m_pOutdoorWorldRuntime != nullptr ? view.m_pOutdoorWorldRuntime->party() : nullptr;
     const int initialGold = pParty != nullptr ? pParty->gold() : 0;
     screenRuntime.executeActiveDialogAction(
         [&view](EventRuntimeState &eventRuntimeState)
@@ -1432,15 +1434,8 @@ void OutdoorInteractionController::presentPendingEventDialog(
 
 void OutdoorInteractionController::closeActiveEventDialog(OutdoorGameView &view)
 {
-    EventRuntimeState *pEventRuntimeState =
-        view.m_pOutdoorWorldRuntime != nullptr ? view.m_pOutdoorWorldRuntime->eventRuntimeState() : nullptr;
-
-    if (pEventRuntimeState != nullptr)
-    {
-        pEventRuntimeState->grantedItems.clear();
-        pEventRuntimeState->grantedItemIds.clear();
-    }
-
+    // The items the dialogue gave were handed over after each choice; what is left waits for room
+    // (GameplayHeldItemController::applyGrantedEventItemsToHeldInventory) and must not be dropped here.
     const uint32_t hostHouseId = view.m_gameSession.gameplayScreenRuntime().closeActiveEventDialog();
 
     if (hostHouseId != 0 && view.m_flipOnExitEnabled)
@@ -2823,8 +2818,11 @@ void OutdoorInteractionController::applyGrantedEventItemsToHeldInventory(Outdoor
     EventRuntimeState *pEventRuntimeState =
         view.m_pOutdoorWorldRuntime != nullptr ? view.m_pOutdoorWorldRuntime->eventRuntimeState() : nullptr;
 
+    const Party *pParty = view.m_gameSession.gameplayScreenRuntime().party();
+
     if (pEventRuntimeState == nullptr
-        || (pEventRuntimeState->grantedItems.empty() && pEventRuntimeState->grantedItemIds.empty())
+        || (pEventRuntimeState->grantedItems.empty() && pEventRuntimeState->grantedItemIds.empty()
+            && (pParty == nullptr || pParty->waitingGivenItems().empty()))
         || view.m_pOutdoorPartyRuntime == nullptr)
     {
         return;
@@ -4695,7 +4693,7 @@ bool OutdoorInteractionController::tryActivateActorInspectEvent(OutdoorGameView 
                 }
 
                 GameplayCorpseAutoLootResult lootResult =
-                    autoLootActiveCorpseView(*view.m_pOutdoorWorldRuntime, view.m_pOutdoorPartyRuntime->party(),
+                    autoLootActiveCorpseView(*view.m_pOutdoorWorldRuntime, (*view.m_pOutdoorWorldRuntime->party()),
                                              &view.data().itemTable(), &view.heldInventoryItem());
 
                 if (!lootResult.statusText.empty())
@@ -4778,6 +4776,8 @@ bool OutdoorInteractionController::tryActivateActorInspectEvent(OutdoorGameView 
         pResolvedActorState != nullptr ? pResolvedActorState->displayName : inspectHit.name;
     const uint32_t resolvedActorGroup =
         pResolvedActorState != nullptr ? pResolvedActorState->group : inspectHit.actorGroup;
+    // The actor's own NPC (the scene's npc_id), as indoors: a hit built without picking carries none.
+    const int resolvedNpcId = pResolvedActorState != nullptr ? pResolvedActorState->npcId : inspectHit.npcId;
 
     GAMEPLAY_DEBUG_TRACE(
         "outdoor_actor_activation"
@@ -4878,7 +4878,7 @@ bool OutdoorInteractionController::tryActivateActorInspectEvent(OutdoorGameView 
             });
     }
 
-    if (inspectHit.kind == "actor" && inspectHit.npcId > 0)
+    if (inspectHit.kind == "actor" && resolvedNpcId > 0)
     {
         if (inspectHitTargetsLivingHostileActor(view, inspectHit))
         {
@@ -4898,8 +4898,8 @@ bool OutdoorInteractionController::tryActivateActorInspectEvent(OutdoorGameView 
         GameplayDialogController::Context context =
             createGameplayDialogContext(view, *pEventRuntimeState, "activate_actor_npc_dialog");
         const GameplayDialogController::Result result = view.m_gameSession.gameplayDialogController().openNpcDialogue(
-            context, static_cast<uint32_t>(inspectHit.npcId), 0, resolvedRuntimeActorIndex32);
-        pEventRuntimeState->lastActivationResult = "npc " + std::to_string(inspectHit.npcId) + " engaged";
+            context, static_cast<uint32_t>(resolvedNpcId), 0, resolvedRuntimeActorIndex32);
+        pEventRuntimeState->lastActivationResult = "npc " + std::to_string(resolvedNpcId) + " engaged";
 
         if (result.shouldOpenPendingEventDialog)
         {
@@ -5041,8 +5041,12 @@ bool OutdoorInteractionController::tryActivateWorldItemInspectEvent(
 
         EventRuntimeState *pEventRuntimeState = view.m_pOutdoorWorldRuntime->eventRuntimeState();
         const FoundGold foundGold = resolveFoundGold(
-            std::max<uint32_t>(1u, worldItem.goldAmount), pEventRuntimeState, &view.m_pOutdoorPartyRuntime->party());
-        view.m_pOutdoorPartyRuntime->party().addGold(static_cast<int>(foundGold.partyAmount), GoldReason::LootGround);
+            std::max<uint32_t>(1u, worldItem.goldAmount), pEventRuntimeState, view.m_pOutdoorWorldRuntime->party());
+        creditFoundGold(
+            (*view.m_pOutdoorWorldRuntime->party()),
+            static_cast<int>(foundGold.partyAmount),
+            GoldReason::LootGround,
+            pEventRuntimeState);
         view.setStatusBarEvent(foundGoldStatusText(foundGold));
 
         if (pEventRuntimeState != nullptr)
@@ -5053,7 +5057,7 @@ bool OutdoorInteractionController::tryActivateWorldItemInspectEvent(
         return true;
     }
 
-    Party &party = view.m_pOutdoorPartyRuntime->party();
+    Party &party = (*view.m_pOutdoorWorldRuntime->party());
 
     if (const std::optional<StoredPickup> stored = storePickedUpItem(party, pWorldItem->item, &view.data().itemTable()))
     {
@@ -5065,7 +5069,7 @@ bool OutdoorInteractionController::tryActivateWorldItemInspectEvent(
             return false;
         }
 
-        view.m_pOutdoorPartyRuntime->party().requestSound(SoundId::Gold);
+        (*view.m_pOutdoorWorldRuntime->party()).requestSound(SoundId::Gold);
         GAMEPLAY_DEBUG_TRACE(
             "item_received destination=inventory source=world_item item_id="
             + std::to_string(pWorldItem->item.objectDescriptionId)
@@ -5098,14 +5102,14 @@ bool OutdoorInteractionController::tryActivateWorldItemInspectEvent(
         }
 
         GameplayHeldItemController::setHeldInventoryItem(heldInventoryItem, worldItem.item);
-        view.m_pOutdoorPartyRuntime->party().requestSound(SoundId::Gold);
+        (*view.m_pOutdoorWorldRuntime->party()).requestSound(SoundId::Gold);
         GAMEPLAY_DEBUG_TRACE(
             "item_received destination=held source=world_item item_id="
             + std::to_string(worldItem.item.objectDescriptionId)
             + gameplayDebugTraceItemSummary(worldItem.item.objectDescriptionId, &view.data().itemTable())
             + " world_item_index=" + std::to_string(inspectHit.bModelIndex));
         view.m_gameSession.gameplayScreenRuntime().playSpeechReaction(
-            view.m_pOutdoorPartyRuntime->party().activeMemberIndex(),
+            (*view.m_pOutdoorWorldRuntime->party()).activeMemberIndex(),
             SpeechId::FoundItem,
             true);
         view.setStatusBarEvent(formatFoundItemStatusText(0, itemName));
@@ -5395,7 +5399,7 @@ bool OutdoorInteractionController::canActivateActorInspectEvent(
             && !inspectHitTargetsLivingHostileActor(view, inspectHit);
     }
 
-    if (inspectHit.npcId > 0)
+    if ((pResolvedActorState != nullptr ? pResolvedActorState->npcId : inspectHit.npcId) > 0)
     {
         return !inspectHitTargetsLivingHostileActor(view, inspectHit);
     }

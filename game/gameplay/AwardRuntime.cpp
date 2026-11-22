@@ -25,13 +25,13 @@ bool isAwardVisible(const AwardDisplayEntry &entry,
         return character.awards.contains(entry.stateId);
 
     case AwardStateKind::PartyQBit:
-        return party.hasQuestBit(entry.stateId);
+        return party.campaign().hasQuestBit(entry.stateId);
 
     case AwardStateKind::PartyAutonote:
         return isAutonoteUnlocked && isAutonoteUnlocked(entry.stateId);
 
     case AwardStateKind::PartyArcomageWin:
-        return party.hasArcomageWinAt(entry.stateId);
+        return party.campaign().hasArcomageWinAt(entry.stateId);
     }
 
     return false;
@@ -66,25 +66,29 @@ uint32_t awardCounterValue(uint32_t awardId, const Party &party)
         return party.arcomageLossCount();
     case 43:
         return static_cast<uint32_t>(
-            std::max<int32_t>(0, party.eventVariableValue(static_cast<uint16_t>(EvtVariable::NumDeaths))));
+            std::max<int32_t>(0, party.campaign().eventVariableValue(static_cast<uint16_t>(EvtVariable::NumDeaths))));
     case 44:
         return static_cast<uint32_t>(
-            std::max<int32_t>(0, party.eventVariableValue(static_cast<uint16_t>(EvtVariable::NumBounties))));
+            std::max<int32_t>(0, party.campaign().eventVariableValue(static_cast<uint16_t>(EvtVariable::NumBounties))));
     case 45:
         return static_cast<uint32_t>(
-            std::max<int32_t>(0, party.eventVariableValue(static_cast<uint16_t>(EvtVariable::PrisonTerms))));
+            std::max<int32_t>(0, party.campaign().eventVariableValue(static_cast<uint16_t>(EvtVariable::PrisonTerms))));
     case 46:
         return static_cast<uint32_t>(
-            std::max<int32_t>(0, party.eventVariableValue(static_cast<uint16_t>(EvtVariable::ArenaWinsPage))));
+            std::max<int32_t>(
+                0, party.campaign().eventVariableValue(static_cast<uint16_t>(EvtVariable::ArenaWinsPage))));
     case 47:
         return static_cast<uint32_t>(
-            std::max<int32_t>(0, party.eventVariableValue(static_cast<uint16_t>(EvtVariable::ArenaWinsSquire))));
+            std::max<int32_t>(
+                0, party.campaign().eventVariableValue(static_cast<uint16_t>(EvtVariable::ArenaWinsSquire))));
     case 48:
         return static_cast<uint32_t>(
-            std::max<int32_t>(0, party.eventVariableValue(static_cast<uint16_t>(EvtVariable::ArenaWinsKnight))));
+            std::max<int32_t>(
+                0, party.campaign().eventVariableValue(static_cast<uint16_t>(EvtVariable::ArenaWinsKnight))));
     case 49:
         return static_cast<uint32_t>(
-            std::max<int32_t>(0, party.eventVariableValue(static_cast<uint16_t>(EvtVariable::ArenaWinsLord))));
+            std::max<int32_t>(
+                0, party.campaign().eventVariableValue(static_cast<uint16_t>(EvtVariable::ArenaWinsLord))));
     default:
         return 0;
     }

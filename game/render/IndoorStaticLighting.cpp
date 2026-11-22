@@ -42,6 +42,13 @@ std::optional<BakedStaticLightSource> bakedStaticLightSourceForDecoration(
 {
     const DecorationEntry *decoration = billboardSet.decorationTable.get(billboard.decorationId);
     if (decoration == nullptr || billboard.litByMapLight) return std::nullopt;
+    // A decoration the map hides until an event shows it is dark until then.
+    if (!includeInactiveSources && billboard.startsHidden
+        && (pEventRuntimeState == nullptr
+            || !pEventRuntimeState->spriteOverrides.contains(billboard.spriteOverrideKey())))
+    {
+        return std::nullopt;
+    }
     decoration = runtimeDecorationEntry(
         billboardSet.decorationTable, *decoration, billboard.spriteOverrideKey(),
         includeInactiveSources ? nullptr : pEventRuntimeState);

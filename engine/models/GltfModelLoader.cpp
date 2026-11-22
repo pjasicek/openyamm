@@ -271,6 +271,51 @@ bool buildHierarchy(ModelAsset &asset, std::string &error)
     return true;
 }
 
+// A cooked model texture its own package leaves out (`<package>/models/textures/<file>.oytex`, package `engine` or
+// `worlds/<id>`): the packager drops one that the engine or another world ships byte for byte (cooked names are a key
+// of the source image and its sampling, so every copy is the same texture). The engine's copy, then each other
+// mounted world's, the first found; its path becomes the image's, so the renderer's cache shares one texture. Only on
+// a miss at model load.
+std::unique_ptr<AssetReadStream> openSharedModelTexture(const AssetFileSystem &fileSystem, std::string &sourcePath)
+{
+    const std::string_view path = sourcePath;
+    const size_t marker = path.find("/models/textures/");
+    if (marker == std::string_view::npos || !path.ends_with(".oytex"))
+    {
+        return nullptr;
+    }
+    const std::string_view package = path.substr(0, marker);
+    const std::string_view file = path.substr(marker + std::string_view("/models/textures/").size());
+    const bool world = package.starts_with("worlds/") && package.find('/', 7) == std::string_view::npos;
+    if ((package != "engine" && !world) || file.empty() || file.find('/') != std::string_view::npos)
+    {
+        return nullptr;
+    }
+    std::vector<std::string> candidates;
+    if (package != "engine")
+    {
+        candidates.push_back("engine/models/textures/" + std::string(file));
+    }
+    for (const std::string &worldId : fileSystem.enumerate("worlds"))
+    {
+        const std::string candidatePackage = "worlds/" + worldId;
+        if (candidatePackage != package)
+        {
+            candidates.push_back(candidatePackage + "/models/textures/" + std::string(file));
+        }
+    }
+    for (const std::string &candidate : candidates)
+    {
+        std::unique_ptr<AssetReadStream> pStream = fileSystem.openReadStream(candidate);
+        if (pStream != nullptr && pStream->isOpen())
+        {
+            sourcePath = candidate;
+            return pStream;
+        }
+    }
+    return nullptr;
+}
+
 bool loadImages(
     const AssetFileSystem *pAssetFileSystem,
     const std::string &virtualPath,
@@ -317,8 +362,14 @@ bool loadImages(
             std::unique_ptr<AssetReadStream> pStream = pAssetFileSystem->openReadStream(image.sourcePath);
             if (pStream == nullptr || !pStream->isOpen())
             {
-                error = "model image was not found: " + image.sourcePath;
-                return false;
+                std::string sharedPath = image.sourcePath;
+                pStream = openSharedModelTexture(*pAssetFileSystem, sharedPath);
+                if (pStream == nullptr)
+                {
+                    error = "model image was not found: " + image.sourcePath;
+                    return false;
+                }
+                image.sourcePath = sharedPath;
             }
             // Only the signature is read here; the renderer reads the rest when it uploads the texture.
             std::vector<uint8_t> signature(8);

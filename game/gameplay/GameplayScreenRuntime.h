@@ -4,6 +4,7 @@
 #include "game/render/CombatActorHealthBarPolicy.h"
 #include "game/tables/ChestTable.h"
 #include "game/events/EventDialogContent.h"
+#include "game/coop/CoopBodies.h"
 #include "game/gameplay/CombatLog.h"
 #include "game/gameplay/GameplayDialogUiFlow.h"
 #include "game/ui/GameplayCombatLogPanel.h"
@@ -32,6 +33,7 @@
 namespace OpenYAMM::Game
 {
 class GameSession;
+class PlayerCommands;
 class PlaythroughStatistics;
 class GameAudioSystem;
 class GameplayFxService;
@@ -246,7 +248,9 @@ public:
     void toggleCharacterInventoryScreen();
     void closeCharacterScreen();
     uint32_t closeActiveEventDialog();
-    void closeActiveDialogForMapMove();
+    // keepEventDialog: a move inside the map keeps an event's message window (and the messages it has yet to show);
+    // a dialogue whose choice asked for the move (a house exit, a boat to the same map) is still closed.
+    void closeActiveDialogForMapMove(bool keepEventDialog = false);
     void handleDialogueCloseRequest();
     void closeRestOverlay();
     void completeRestAction(bool closeRestScreenAfterCompletion);
@@ -310,8 +314,22 @@ public:
     // Executes an action offered by a popup over the active dialogue (a trip chosen in a stable's schedule) the way
     // a clicked topic is executed.
     void executeDialogAction(const EventDialogAction &action);
+    // Answers the prompt this game shows for another player's travel proposal (GameSession::travelPromptSerial) and
+    // closes it.
+    // `choiceCode`: a GameSession::TravelChoice (the session's header is not this one's to include).
+    void answerTravelPrompt(uint8_t choiceCode);
+    // Why the party cannot rest where it stands (the rest screen's reasons); none when it can.
+    std::optional<std::string> restRestrictionStatus() const;
+    // The host's game: the rest every player agreed to. Each player's place and food are checked first; then the
+    // host's rest screen runs it, and every player's character is rested when it ends.
+    void startAgreedRest(bool heal, float minutes);
+    // With other players in the game: asks them and closes the rest screen. False when the party plays alone.
+    bool proposeRestToOthers(bool heal, float minutes);
     void refreshHouseBankInputDialog();
     void confirmHouseBankInput();
+    // Back from the bank's question for an amount to the bank's own choices (also a co-op guest's game, when the
+    // host has handled the amount it sent).
+    void returnToHouseBankMainDialogShared();
     void closeInventoryNestedOverlay();
     void closeSpellbookOverlay(const std::string &statusText = "");
     void openUtilitySpellOverlay(
@@ -326,6 +344,8 @@ public:
     // The held item into the active member's pack, else the next member's with room (as a pickup goes).
     bool tryStowHeldInventoryItemInParty();
     GameplayItemService &itemService() const;
+    // The session's entry for what the player does to the world (attack, cast, activate, use a held item).
+    PlayerCommands &playerCommands() const;
     GameplayFxService &fxService() const;
     GameplaySpellService &spellService() const;
     TurnBasedCombatRuntime &turnBasedCombatRuntime() const;
@@ -375,6 +395,9 @@ public:
     // Whether the combat log's button and panel show and the log records: the combat_log setting On, or Auto in a
     // ruleset other than Standard in a world that shows it (world.yml combatLog; MM9 does not).
     bool combatLogShown() const;
+    // Whether the log's button and docked panel are there: while the log is shown, and in a co-op session, where
+    // the panel is the players' chat (alone, when the log itself is not shown: GameplayCombatLogPanel).
+    bool combatLogPanelShown() const;
     GameplayUiRuntime &gameplayUiRuntime() const;
     SharedUiBootstrapResult initializeSharedUiRuntime(const SharedUiBootstrapConfig &config);
     void bindAssetFileSystem(const Engine::AssetFileSystem *pAssetFileSystem);
@@ -623,7 +646,14 @@ public:
         // The last casting palm on screen (FirstPersonViewModel::Output::castHandScreen): the active member's spell
         // missiles start there (PartySpellCastRequest::handScreenPoint). None without arms.
         std::optional<std::array<float, 2>> castHandScreen;
+        // Counts the spells this game's player cast, whatever asked for them (the spellbook, a quick key, an Attack
+        // order, the Upkeep key): the other players' games show the cast on this character's body (CoopSession). The
+        // arms do not read it; they have their own counts above.
+        uint32_t castSerial = 0;
     };
+    // A co-op session's other players and pointed-at places, for the HUD (GameSession::coopHudPlayers).
+    const std::vector<CoopHudPlayer> &coopHudPlayers() const;
+    const std::vector<CoopHudPing> &coopHudPings() const;
     ViewModelLink &viewModelLink()
     {
         return m_viewModelLink;
@@ -637,6 +667,10 @@ public:
     {
         ++m_viewModelLink.actionSerial;
         m_viewModelLink.action = action;
+    }
+    void noteSpellCast()
+    {
+        ++m_viewModelLink.castSerial;
     }
 
 private:
@@ -660,11 +694,12 @@ private:
     void updatePortraitAnimation(Character &member, size_t memberIndex, uint32_t deltaTicks);
     void playPortraitExpression(size_t memberIndex, PortraitId portraitId, std::optional<uint32_t> durationTicks);
     GameplayDialogController::Context buildDialogContext(EventRuntimeState &eventRuntimeState);
-    void returnToHouseBankMainDialogShared();
     void leaveHouseEntryAudio(bool playDoorSound);
 
     mutable CombatActorHealthBarRuntime m_enemyHealthBars;
     GameSession &m_session;
+    // Set while startAgreedRest starts the rest the players agreed to, which is not asked again.
+    bool m_startingAgreedRest = false;
     GameAudioSystem *m_pAudioSystem = nullptr;
     uint32_t m_activeHouseAudioHostId = 0;
     GameSettings *m_pSettings = nullptr;

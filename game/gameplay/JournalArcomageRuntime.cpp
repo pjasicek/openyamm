@@ -1,6 +1,7 @@
 #include "game/gameplay/JournalArcomageRuntime.h"
 #include "engine/Localization.h"
 
+#include "game/gameplay/TrainerDirectory.h"
 #include "game/party/Party.h"
 #include "game/tables/HouseTable.h"
 #include "game/tables/MapStats.h"
@@ -13,20 +14,6 @@ namespace OpenYAMM::Game
 {
 namespace
 {
-std::string continentName(uint32_t continentId)
-{
-    switch (continentId)
-    {
-        case 1:
-            return Engine::localize("Jadame");
-        case 2:
-            return Engine::localize("Antagarich");
-        case 3:
-            return Engine::localize("Enroth");
-        default:
-            return Engine::localize("Elsewhere");
-    }
-}
 
 struct ArcomageTavern
 {
@@ -39,9 +26,25 @@ struct ArcomageTavern
 } // namespace
 
 std::vector<std::string> buildArcomageTavernTexts(const HouseTable &houseTable, const MapStats &mapStats,
-    const Party &party)
+    const TrainerDirectory *pDirectory, const Party &party)
 {
-    std::map<uint32_t, std::vector<ArcomageTavern>> tavernsByContinent;
+    // By the continent's card rank (the new-game cards' order); taverns of no card's continent last, as Elsewhere.
+    static const std::vector<TrainerContinent> NoContinents;
+    const std::vector<TrainerContinent> &continents = pDirectory != nullptr ? pDirectory->continents() : NoContinents;
+    const auto rankOf = [&](uint32_t continentId)
+    {
+        const std::optional<uint32_t> card =
+            pDirectory != nullptr ? pDirectory->cardContinent(continentId) : std::nullopt;
+        size_t rank = 0;
+
+        while (rank < continents.size() && (!card || continents[rank].id != *card))
+        {
+            ++rank;
+        }
+
+        return rank;
+    };
+    std::map<size_t, std::vector<ArcomageTavern>> tavernsByContinent;
 
     for (const auto &[houseId, house] : houseTable.entries())
     {
@@ -54,15 +57,18 @@ std::vector<std::string> buildArcomageTavernTexts(const HouseTable &houseTable, 
         ArcomageTavern tavern;
         tavern.town = pMap != nullptr ? Engine::localize(pMap->name) : std::string();
         tavern.name = Engine::localize(house.name);
-        tavern.won = party.hasArcomageWinAt(houseId);
+        tavern.won = party.campaign().hasArcomageWinAt(houseId);
         tavern.countsForChampion = Party::arcomageTavernCountsForChampion(houseId);
-        tavernsByContinent[pMap != nullptr ? pMap->mergedContinentId : 0].push_back(std::move(tavern));
+        tavernsByContinent[pMap != nullptr ? rankOf(pMap->mergedContinentId) : continents.size()].push_back(
+            std::move(tavern));
     }
 
     std::vector<std::string> texts;
 
-    for (auto &[continentId, taverns] : tavernsByContinent)
+    for (auto &[rank, taverns] : tavernsByContinent)
     {
+        const std::string continentName =
+            Engine::localize(rank < continents.size() ? continents[rank].name : std::string("Elsewhere"));
         std::sort(taverns.begin(), taverns.end(), [](const ArcomageTavern &left, const ArcomageTavern &right)
             {
                 return std::tie(left.town, left.name) < std::tie(right.town, right.name);
@@ -72,7 +78,7 @@ std::vector<std::string> buildArcomageTavernTexts(const HouseTable &houseTable, 
         const size_t countedCount = size_t(std::count_if(taverns.begin(), taverns.end(),
             [](const ArcomageTavern &tavern) { return tavern.countsForChampion; }));
         texts.push_back(Engine::tr("{continent}: {won} of {total} taverns won.",
-                                   {{"continent", continentName(continentId)},
+                                   {{"continent", continentName},
                                     {"won", wonCount},
                                     {"total", countedCount}}));
 

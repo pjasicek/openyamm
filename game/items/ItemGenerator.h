@@ -66,10 +66,10 @@ public:
     // A Special item (ItemRarity::Special) gets the enchantment its row names (ItemDefinition::specialItem...), as MM7
     // gives its special items theirs when they are made; an item that has an enchantment already keeps it.
     static void assignSpecialItemEnchants(InventoryItem &item, const ItemDefinition &itemDefinition);
-    // Whether a shop of a world drawing from `worldPool` (ItemTable::lootPoolForWorld) may stock the item: weapons,
-    // armour, jewellery, artifacts and relics only from the world's own pool, everything else from anywhere. Random
-    // loot rolls from every world's items (devdocs/LOOT_POOL.md). An empty pool allows everything.
-    static bool shopPoolAllows(const ItemDefinition &entry, const std::string &worldPool);
+    // Whether a shop of a world drawing from `worldPools` (ItemTable::lootPoolsForWorld) may stock the item: weapons,
+    // armour, jewellery, artifacts and relics only from those pools, everything else from anywhere. Random loot keeps
+    // to them on maps that draw on the merged MM6-MM8 base (devdocs/LOOT_POOL.md). No pools allow everything.
+    static bool shopPoolAllows(const ItemDefinition &entry, const std::vector<std::string> &worldPools);
     static std::optional<uint32_t> chooseRandomBaseItem(
         const ItemTable &itemTable,
         int treasureLevel,

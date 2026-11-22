@@ -849,7 +849,7 @@ InventoryItemUseResult makeFailure(
 
 float InventoryItemUseRuntime::potionDurationSeconds(const Party &party, const PotionEffectTable &effects, int power)
 {
-    const float soloSeconds = party.soloRun() ? effects.soloDurationSeconds() : 0.0f;
+    const float soloSeconds = party.soloRun() && !party.worldShared() ? effects.soloDurationSeconds() : 0.0f;
 
     if (effects.timedSecondsPerPower() > 0)
     {
@@ -1048,7 +1048,9 @@ InventoryItemUseResult InventoryItemUseRuntime::useItemOnMember(
 
             if (context.spellcastingForbidden)
             {
-                return makeFailure(result.action, Engine::tr("You can not do that while you are underwater!"));
+                return makeFailure(result.action,
+                    context.underwater ? Engine::tr("You can not do that while you are underwater!")
+                                       : Engine::tr("Spells do not work here"));
             }
 
             if (pTargetMember->recoverySecondsRemaining > 0.0f)

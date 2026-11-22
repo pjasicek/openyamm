@@ -25,9 +25,34 @@ public:
         float screenHeight = 0.0f;
         // The actor the attack that casts the spell was aimed at; an actor-targeted quick cast prefers it.
         std::optional<size_t> preferredActorIndex;
-        // The member a cast on a member goes to, already chosen (an upkeep cast: PartySpellSystem::upkeepNeed).
+        // The member a cast on a member goes to, already chosen (an upkeep cast: PartySpellSystem::upkeepNeed), and
+        // the session's player it is a member of when it is another player's character (coopCharacterTarget).
         std::optional<size_t> characterTargetIndex;
+        std::optional<PlayerId> characterTargetPlayer;
     };
+
+    // Whom a spell on a character goes to in a co-op session, where every player has one character. Nothing
+    // outside one (the callers' own rules stand).
+    // - `explicitCast` (the spellbook, a spell's key): the player whose body the view is pointed at within reach;
+    //   else whoever within reach needs the spell most, the caster included; else the caster.
+    // - otherwise (an Attack order, the Upkeep key): whoever within reach needs it most, the caster included;
+    //   nothing when nobody does.
+    // Needing it: the dead for the raisings, the stoned for Stone to Flesh, the condition a cure cures, a wound
+    // for a heal; among several, the lowest share of hit points. Reach is GameSession::aidReach (5120) with a clear line between the two.
+    struct CoopCharacterTarget
+    {
+        size_t memberIndex = 0;
+        // None: the caster's own party.
+        std::optional<PlayerId> player;
+    };
+    std::optional<CoopCharacterTarget> coopCharacterTarget(
+        GameplayScreenRuntime &runtime,
+        size_t casterMemberIndex,
+        uint32_t spellId,
+        bool explicitCast) const;
+    // The lowest share of hit points among the other players' characters within reach that a heal can still
+    // help; 1 when there are none.
+    float coopLowestOtherHealthShare() const;
 
     enum class QuickSpellStartDisposition
     {

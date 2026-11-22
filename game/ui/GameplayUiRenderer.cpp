@@ -639,6 +639,205 @@ void renderMm9HirelingRail(
     }
 }
 
+// The other players of a co-op session at the right screen edge, under the minimap: the hirelings' rail and its
+// slots, one a player after the hirelings' own, each the player's face in the party's rim with its health arc on
+// the left and its name beside the rail. Greyed while the player is down or its game is loading the map. No room
+// is left when the party has three hirelings.
+void renderCoopPlayersRail(GameplayScreenRuntime &context, int width, int height)
+{
+    const std::vector<CoopHudPlayer> &players = context.coopHudPlayers();
+    const Party *pParty = context.partyReadOnly();
+
+    if (players.empty() || pParty == nullptr)
+    {
+        return;
+    }
+
+    const size_t firstSlot = std::min(pParty->hirelings().size(), Party::MaxMm9Hirelings);
+    const size_t count = std::min(players.size(), Party::MaxMm9Hirelings - firstSlot);
+    const auto slotId = [firstSlot](size_t index) { return "Mm9Hireling" + std::to_string(firstSlot + index + 1); };
+    const std::optional<GameplayResolvedHudLayoutElement> rail =
+        context.resolveHudLayoutElement("Mm9HirelingRail", width, height, 0, 0);
+    const std::optional<GameplayResolvedHudLayoutElement> first =
+        count > 0 ? context.resolveHudLayoutElement(slotId(0), width, height, 0, 0) : std::nullopt;
+    const std::optional<GameplayResolvedHudLayoutElement> last =
+        count > 0 ? context.resolveHudLayoutElement(slotId(count - 1), width, height, 0, 0) : std::nullopt;
+
+    if (!rail || !first || !last)
+    {
+        return;
+    }
+
+    // The players' own panel: from above their first slot to under their last.
+    const float band = 8.0f * rail->scale;
+    GameplayUiSkin::renderPanel(context,
+        {rail->x, first->y - band, rail->width + 0.5f * rail->scale, last->y + last->height - first->y + 2.0f * band,
+            rail->scale},
+        false, 0.75f);
+
+    constexpr float PortraitScale = 34.0f / 47.52f;
+    constexpr const char *NameFont = GameplayUiSkin::CombatFontName;
+    constexpr uint32_t NameColor = 0xffc8f0ffu;
+    constexpr uint32_t DownColor = 0xff6060e0u;
+    GameplayUiRuntime &uiRuntime = context.gameplayUiRuntime();
+    using GameplayUiSkin::ArcMaterial;
+
+    for (size_t i = 0; i < count; ++i)
+    {
+        const CoopHudPlayer &player = players[i];
+        const std::string id = slotId(i);
+        const std::optional<GameplayResolvedHudLayoutElement> face =
+            context.resolveHudLayoutElement(id + "Face", width, height, 0, 0);
+        const std::optional<GameplayHudTextureHandle> portrait = uiRuntime.ensureHudTextureLoaded(
+            player.portraitTextureName);
+
+        if (portrait && face)
+        {
+            const bgfx::TextureHandle texture = player.down || player.loadingMap
+                ? uiRuntime.ensureHudTextureColorModulated(*portrait, 0xff888888u)
+                : portrait->textureHandle;
+            uiRuntime.submitHudTexturedEllipse(texture, face->x, face->y, face->width, face->height);
+        }
+
+        const UiLayoutManager::LayoutElement *pRimLayout = context.findHudLayoutElement(id + "Rim");
+        const std::optional<GameplayResolvedHudLayoutElement> rim =
+            context.resolveHudLayoutElement(id + "Rim", width, height, 0, 0);
+
+        if (pRimLayout != nullptr && pRimLayout->meterArc && rim)
+        {
+            const UiLayoutManager::MeterArc &arc = *pRimLayout->meterArc;
+            GameplayUiSkin::renderArc(context, *rim, 2.8f * PortraitScale, arc.startDegrees, arc.sweepDegrees,
+                ArcMaterial::Track);
+            GameplayUiSkin::renderArc(context, *rim, arc.strokeWidth, arc.startDegrees, arc.sweepDegrees,
+                ArcMaterial::NormalRim);
+        }
+
+        const UiLayoutManager::LayoutElement *pHealthLayout = context.findHudLayoutElement(id + "Health");
+        const std::optional<GameplayResolvedHudLayoutElement> healthRect =
+            context.resolveHudLayoutElement(id + "Health", width, height, 0, 0);
+
+        if (pHealthLayout != nullptr && pHealthLayout->meterArc && healthRect)
+        {
+            const UiLayoutManager::MeterArc &arc = *pHealthLayout->meterArc;
+            GameplayUiSkin::renderArc(context, *healthRect, arc.strokeWidth + 1.7f * PortraitScale,
+                arc.startDegrees, arc.sweepDegrees, ArcMaterial::TrackEdge);
+            GameplayUiSkin::renderArc(context, *healthRect, arc.strokeWidth + 0.5f * PortraitScale,
+                arc.startDegrees, arc.sweepDegrees, ArcMaterial::Track);
+
+            if (player.healthShare > 0.0f)
+            {
+                const GameplayUiSkin::HealthBand healthBand = GameplayUiSkin::healthBand(player.healthShare);
+                GameplayUiSkin::renderArc(context, *healthRect, arc.strokeWidth, arc.startDegrees, arc.sweepDegrees,
+                    healthBand == GameplayUiSkin::HealthBand::High ? ArcMaterial::HealthHigh
+                        : healthBand == GameplayUiSkin::HealthBand::Middle ? ArcMaterial::HealthMiddle
+                        : ArcMaterial::HealthLow, 0, player.healthShare);
+            }
+        }
+
+        // Its spell points on the other side of the face, the health arc mirrored, as on the party's portraits.
+        if (pHealthLayout != nullptr && pHealthLayout->meterArc && healthRect && player.spellPointShare)
+        {
+            const UiLayoutManager::MeterArc &arc = *pHealthLayout->meterArc;
+            const float start = 180.0f - arc.startDegrees;
+            const float sweep = -arc.sweepDegrees;
+            GameplayUiSkin::renderArc(context, *healthRect, arc.strokeWidth + 1.7f * PortraitScale, start, sweep,
+                ArcMaterial::TrackEdge);
+            GameplayUiSkin::renderArc(context, *healthRect, arc.strokeWidth + 0.5f * PortraitScale, start, sweep,
+                ArcMaterial::Track);
+
+            if (*player.spellPointShare > 0.0f)
+            {
+                GameplayUiSkin::renderArc(context, *healthRect, arc.strokeWidth, start, sweep, ArcMaterial::Mana, 0,
+                    *player.spellPointShare);
+            }
+        }
+
+        const std::optional<GameplayResolvedHudLayoutElement> slot =
+            context.resolveHudLayoutElement(id, width, height, 0, 0);
+        // A player with a party: its other members as small faces in a row to the left of the rail, the nearest to
+        // the first member first, each the slot's own face and health arc at MateScale. The name stands left of them.
+        constexpr float MateScale = 0.66f;
+        constexpr float MateStep = 40.0f;
+        float namesRight = rail->x - 4.0f * rail->scale;
+        // Over a full screen (a conversation, the travel vote) only the rail itself is drawn: what stands left of
+        // it would lie on the screen's frame.
+        const bool plainGameplay = context.currentHudScreenState() == GameplayHudScreenState::Gameplay;
+
+        if (plainGameplay && slot && face && healthRect && pHealthLayout != nullptr && pHealthLayout->meterArc)
+        {
+            const UiLayoutManager::MeterArc &arc = *pHealthLayout->meterArc;
+            const float step = MateStep * MateScale * slot->scale;
+            const float top = slot->y + slot->height * (1.0f - MateScale) * 0.5f;
+
+            for (size_t mateIndex = 0; mateIndex < player.mates.size(); ++mateIndex)
+            {
+                const CoopHudPlayer::Mate &mate = player.mates[mateIndex];
+                const float left = rail->x - 2.0f * rail->scale - step * float(mateIndex + 1);
+                // An element of the slot, as it lies in the small copy of the slot at (left, top).
+                const auto small = [&](const GameplayResolvedHudLayoutElement &element)
+                {
+                    GameplayResolvedHudLayoutElement copy = element;
+                    copy.x = left + (element.x - healthRect->x) * MateScale;
+                    copy.y = top + (element.y - slot->y) * MateScale;
+                    copy.width = element.width * MateScale;
+                    copy.height = element.height * MateScale;
+                    copy.scale = element.scale * MateScale;
+                    return copy;
+                };
+                const GameplayResolvedHudLayoutElement mateFace = small(*face);
+                const GameplayResolvedHudLayoutElement mateHealth = small(*healthRect);
+                const std::optional<GameplayHudTextureHandle> matePortrait =
+                    uiRuntime.ensureHudTextureLoaded(mate.portraitTextureName);
+
+                if (matePortrait)
+                {
+                    const bgfx::TextureHandle texture = mate.down || player.loadingMap
+                        ? uiRuntime.ensureHudTextureColorModulated(*matePortrait, 0xff888888u)
+                        : matePortrait->textureHandle;
+                    uiRuntime.submitHudTexturedEllipse(texture, mateFace.x, mateFace.y, mateFace.width,
+                        mateFace.height);
+                }
+
+                GameplayUiSkin::renderArc(context, mateHealth, arc.strokeWidth + 0.5f * PortraitScale,
+                    arc.startDegrees, arc.sweepDegrees, ArcMaterial::Track);
+
+                if (mate.healthShare > 0.0f)
+                {
+                    const GameplayUiSkin::HealthBand mateBand = GameplayUiSkin::healthBand(mate.healthShare);
+                    GameplayUiSkin::renderArc(context, mateHealth, arc.strokeWidth, arc.startDegrees,
+                        arc.sweepDegrees,
+                        mateBand == GameplayUiSkin::HealthBand::High ? ArcMaterial::HealthHigh
+                            : mateBand == GameplayUiSkin::HealthBand::Middle ? ArcMaterial::HealthMiddle
+                            : ArcMaterial::HealthLow, 0, mate.healthShare);
+                }
+
+                namesRight = std::min(namesRight, left - 2.0f * rail->scale);
+            }
+        }
+
+        // The name to the left of the rail (and of the party's small faces), level with the face; under it what
+        // ails the character.
+        if (plainGameplay && slot && !player.name.empty())
+        {
+            const float scale = 0.5f * rail->scale;
+            const float nameWidth = context.measureHudTextWidth(NameFont, player.name) * scale;
+            const float lineHeight = float(context.hudFontHeight(NameFont)) * scale;
+            const float nameY = slot->y + (slot->height - lineHeight) * 0.5f
+                - (player.condition.empty() ? 0.0f : lineHeight * 0.45f);
+            context.renderHudTextLine(NameFont, player.down ? DownColor : NameColor, player.name,
+                namesRight - nameWidth, nameY, scale);
+
+            if (!player.condition.empty())
+            {
+                const float conditionScale = scale * 0.85f;
+                const float conditionWidth = context.measureHudTextWidth(NameFont, player.condition) * conditionScale;
+                context.renderHudTextLine(NameFont, DownColor, player.condition,
+                    namesRight - conditionWidth, nameY + lineHeight * 0.95f, conditionScale);
+            }
+        }
+    }
+}
+
 } // namespace
 
 void GameplayUiRenderer::renderGameplayHudArt(GameplayScreenRuntime &context, int width, int height)
@@ -991,6 +1190,11 @@ void GameplayUiRenderer::renderGameplayHudArt(GameplayScreenRuntime &context, in
     else if (!party.hirelings().empty() && !partyFrameHidden)
     {
         renderMm9HirelingRail(context, width, height, selected, showSelection, nearestHostile, engagementRange);
+    }
+
+    if (!partyFrameHidden)
+    {
+        renderCoopPlayersRail(context, width, height);
     }
 
     GameplayMinimapState minimapState = {};
@@ -1422,6 +1626,47 @@ void GameplayUiRenderer::renderGameplayHudArt(GameplayScreenRuntime &context, in
                 minimapScissorHeight);
         }
 
+        // A co-op session's other players (always shown, not only to Wizard Eye) and the places pointed at, which
+        // blink until they fade.
+        const auto submitCoopMark = [&](float worldX, float worldY, uint32_t colorAbgr, float size)
+        {
+            const std::optional<GameplayHudPaletteColor> color =
+                context.gameplayUiRuntime().ensureHudPaletteColor(colorAbgr);
+            const GameplayMinimapPoint mark = gameplayMinimapWorldToUv(minimapState, worldX, worldY);
+            const float centerX =
+                minimapOverlay.x + ((mark.x - minimapState.u0) / minimapState.uSpan) * minimapOverlay.width;
+            const float centerY =
+                minimapOverlay.y + ((mark.y - minimapState.v0) / minimapState.vSpan) * minimapOverlay.height;
+            const float centerDx = centerX - minimapOverlay.x - minimapOverlay.width * 0.5f;
+            const float centerDy = centerY - minimapOverlay.y - minimapOverlay.height * 0.5f;
+            const float radius = minimapOverlay.width * 0.5f - markerMargin - size * 0.5f;
+
+            if (!color || centerDx * centerDx + centerDy * centerDy > radius * radius)
+            {
+                return;
+            }
+
+            submitPaletteQuadClipped(queuedHudQuads, *color, centerX - size * 0.5f, centerY - size * 0.5f, size,
+                minimapScissorX, minimapScissorY, minimapScissorWidth, minimapScissorHeight);
+        };
+
+        for (const CoopHudPlayer &player : context.coopHudPlayers())
+        {
+            if (!player.loadingMap)
+            {
+                submitCoopMark(player.x, player.y, player.down ? 0xff6060e0u : 0xffffe060u, markerSize * 1.5f);
+            }
+        }
+
+        for (const CoopHudPing &ping : context.coopHudPings())
+        {
+            // Twice a second on, twice off.
+            if (std::fmod(ping.ageSeconds, 0.5f) < 0.3f)
+            {
+                submitCoopMark(ping.x, ping.y, 0xff60e0ffu, markerSize * 2.0f);
+            }
+        }
+
         const int arrowIndex = outdoorMinimapArrowIndex(
             gameplayMinimapDisplayYaw(minimapState, context.gameplayCameraYawRadians()));
         const std::optional<GameplayHudTextureHandle> arrowTexture =
@@ -1529,8 +1774,9 @@ void GameplayUiRenderer::renderGameplayHudArt(GameplayScreenRuntime &context, in
                 GameplayFormationBuilder::renderButton(context, width, height);
             }
 
-            // The combat log's button and docked panel, while it is shown (GameplayScreenRuntime::combatLogShown).
-            if (context.combatLogShown())
+            // The combat log's button and docked panel, while it is shown or is the players' chat
+            // (GameplayScreenRuntime::combatLogPanelShown).
+            if (context.combatLogPanelShown())
             {
                 // The followers' tab frame with a sword (CombatLogToggleIcon).
                 flushQueuedHudQuads();

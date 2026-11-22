@@ -551,6 +551,7 @@ TEST_CASE("S6 D, W, L, C: the test map's destructibles, water, ladder, sounds an
     CHECK(scene["water_volumes"][0]["pieces"][0]["bottom"].as<int>() == -192);
     CHECK(scene["water_volumes"][0]["pieces"][0]["top"].as<int>() == -16);
     CHECK(scene["water_volumes"][0]["pieces"][0]["polygon"].size() == 4);
+    CHECK_FALSE(scene["water_volumes"][0]["fog"]);
     // A night sound; a ladder that is taken only from the ground.
     CHECK(scene["ambient_sounds"][0]["night_only"].as<bool>());
     CHECK_FALSE(scene["ladders"][0]["grab_in_air"]);
@@ -585,6 +586,34 @@ TEST_CASE("S6 D, W, L, C: the test map's destructibles, water, ladder, sounds an
     CHECK(wiredLua.find("evt.SetDestructibleDamage(2, false)") != std::string::npos);
     CHECK(wiredLua.find("evt.DamageDestructible(1, 7)") != std::string::npos);
     CHECK(wiredLua.find("evt.IsDestructibleDestroyed(1)") != std::string::npos);
+
+    // The pool's own fog under water (A6, P4) goes into its volume as given; one the game refuses is said.
+    const std::filesystem::path fogged = breakwaterCopy("fogged", {{"objects.yml", {"tint: [0.1, 0.4, 0.6]}",
+        "tint: [0.1, 0.4, 0.6], fog: {color_rgb: [20, 70, 80], near_distance: 64, far_distance: 1200, sky: 1}}"}}});
+    BuildResult foggedResult;
+    REQUIRE_MESSAGE(buildCopy(fogged, foggedResult), issueText(foggedResult.issues));
+    const YAML::Node foggedScene = YAML::LoadFile((fogged / "build" / "studio06.scene.yml").string());
+    REQUIRE(foggedScene["water_volumes"][0]["fog"]);
+    CHECK(foggedScene["water_volumes"][0]["fog"]["color_rgb"][1].as<int>() == 70);
+    CHECK(foggedScene["water_volumes"][0]["fog"]["far_distance"].as<int>() == 1200);
+    const std::filesystem::path badFog = breakwaterCopy("badfog", {{"objects.yml", {"tint: [0.1, 0.4, 0.6]}",
+        "tint: [0.1, 0.4, 0.6], fog: {color_rgb: [20, 70, 80], near_distance: 900, far_distance: 100}}"}}});
+    BuildResult badFogResult;
+    CHECK_FALSE(buildCopy(badFog, badFogResult));
+    CHECK(issueText(badFogResult.issues).find("water[0].fog: the game refuses this fog") != std::string::npos);
+
+    // A barrel, a light and a sound in a room with a liquid floor: their markers take the floor's surface and are no
+    // faces of the compiled map, so they are no missing liquid faces (A6, P1 and P2's false warning).
+    const std::filesystem::path liquidYard = breakwaterCopy("liquidyard", {{"rooms.yml",
+        {"    floor: {texture: oflr, size: [128, 128]}\n    ceiling: {texture: d2ceil4, size: [256, 256], sky: true}",
+            "    floor: {texture: oflr, size: [128, 128], liquid: water}\n"
+            "    ceiling: {texture: d2ceil4, size: [256, 256], sky: true}"}}});
+    BuildResult liquidResult;
+    REQUIRE_MESSAGE(buildCopy(liquidYard, liquidResult), issueText(liquidResult.issues));
+    for (const std::string &warning : liquidResult.warnings)
+    {
+        CHECK_MESSAGE(!warning.starts_with("liquid and flow"), warning);
+    }
 
     // A build without cinematics leaves no file of them behind.
     const std::filesystem::path plain = breakwaterCopy("plain", {{"wiring.yml", {"      - cinematic: {id: "

@@ -33,11 +33,15 @@ class MenuInputTour
         float x = 0;
         float y = 0;
         float seconds = 0;
+        // wait_until: seconds of the wall clock since 1970.
+        double epochSeconds = 0;
     };
     std::vector<Step> m_steps;
     std::filesystem::path m_output;
     size_t m_index = 0;
     uint64_t m_nextTicks = 0;
+    // The wall-clock moment a wait_until step waits for; 0 when none does.
+    double m_waitUntilEpochSeconds = 0.0;
     uint64_t m_lastInputTicks = 0;
     bool m_loaded = false;
     bool m_exit = false;

@@ -712,7 +712,7 @@ TEST_CASE("a chest-artifacts-only world rolls no artifact at level six and refil
     {
         if (OpenYAMM::Game::ItemRuntime::isUniquelyGeneratedRareItem(entry))
         {
-            party.markArtifactItemFound(entry.itemId);
+            party.campaign().markArtifactItemFound(entry.itemId);
         }
     }
 

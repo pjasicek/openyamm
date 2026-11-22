@@ -4,6 +4,7 @@
 #include "game/gameplay/CinematicRuntime.h"
 
 #include <algorithm>
+#include <array>
 #include <cmath>
 #include <map>
 #include <string>
@@ -230,6 +231,45 @@ TEST_CASE("A cinematic moves its camera, runs its cues in time and ends one upda
     CHECK_FALSE(runtime.active());
     CHECK_FALSE(runtime.cameraView().has_value());
     CHECK(world.events == std::vector<uint16_t>{501, 502, 900});
+}
+
+TEST_CASE("D-56: a fade cue takes an optional colour (black by default), and only a fade cue takes one")
+{
+    const CinematicLibrary library = parse(R"(  white:
+    shots:
+      - {duration: 3, position: [0, 0, 100], look_at: [100, 0, 100]}
+    cues:
+      - {at: 0, fade: in, seconds: 1}
+      - {at: 1.5, fade: out, seconds: 1, color: [255, 255, 255]}
+)");
+    const CinematicDefinition &white = *library.find("white");
+    // The fades among the cues (the implicit letterbox adds its own).
+    std::vector<const CinematicCue *> fades;
+    for (const CinematicCue &cue : white.cues)
+    {
+        if (cue.kind == CinematicCueKind::FadeIn || cue.kind == CinematicCueKind::FadeOut)
+        {
+            fades.push_back(&cue);
+        }
+    }
+    REQUIRE(fades.size() == 2);
+    CHECK(fades[0]->colorRgb == std::array<uint8_t, 3>{0, 0, 0});
+    CHECK(fades[1]->colorRgb == std::array<uint8_t, 3>{255, 255, 255});
+    FakeCinematicWorld world;
+    CinematicRuntime runtime;
+    runtime.start(white, 0, world);
+    CHECK(runtime.fadeColorRgb() == std::array<uint8_t, 3>{0, 0, 0});
+    runtime.update(1.25f, world);
+    runtime.update(0.75f, world);
+    CHECK(runtime.fadeColorRgb() == std::array<uint8_t, 3>{255, 255, 255});
+    CHECK(runtime.fadeAmount() == doctest::Approx(0.5f));
+
+    const std::string shot = "  bad:\n    shots:\n      - {duration: 1, position: [0, 0, 0], look_at: [1, 0, 0]}\n";
+    CHECK(parseError(shot + "    cues:\n      - {at: 0, sound: x, color: [1, 2, 3]}\n").find("fade cue only")
+        != std::string::npos);
+    CHECK(parseError(shot + "    cues:\n      - {at: 0, fade: out, color: [1, 2]}\n").find("[r, g, b]")
+        != std::string::npos);
+    CHECK_FALSE(parseError(shot + "    cues:\n      - {at: 0, fade: out, color: [1, 2, 300]}\n").empty());
 }
 
 TEST_CASE("Skipping a cinematic runs its remaining events and places its actors, but drops its presentation")

@@ -9,6 +9,8 @@
 #include <charconv>
 #include <iostream>
 
+#include <yaml-cpp/yaml.h>
+
 namespace OpenYAMM::Game
 {
 namespace
@@ -108,6 +110,57 @@ uint16_t parseUnsigned16(const std::string &value)
     return static_cast<uint16_t>(parsedValue);
 }
 
+bool hasOwnTerrainTileset(const std::string &worldId)
+{
+    return worldId == "mm6" || worldId == "mm7" || worldId == DefaultWorldId;
+}
+
+// The world whose terrain tiles the maps of worldId use: MM6, MM7 and MM8 their own; another world the one its
+// world.yml names in terrainTileset (Xeen's maps are built on MM7's), MM8's when it names none.
+std::string terrainTilesetWorldId(const Engine::AssetFileSystem &assetFileSystem, const std::string &worldId)
+{
+    const std::string normalizedWorldId = normalizeWorldId(worldId);
+
+    if (hasOwnTerrainTileset(normalizedWorldId))
+    {
+        return normalizedWorldId;
+    }
+
+    const std::string manifestPath = "worlds/" + normalizedWorldId + "/world.yml";
+    const std::optional<std::string> manifestText = assetFileSystem.readTextFile(manifestPath);
+
+    if (!manifestText)
+    {
+        return DefaultWorldId;
+    }
+
+    try
+    {
+        const YAML::Node tilesetNode = YAML::Load(*manifestText)["terrainTileset"];
+
+        if (!tilesetNode)
+        {
+            return DefaultWorldId;
+        }
+
+        const std::string tilesetWorldId =
+            tilesetNode.IsScalar() ? normalizeWorldId(tilesetNode.as<std::string>()) : std::string();
+
+        if (hasOwnTerrainTileset(tilesetWorldId))
+        {
+            return tilesetWorldId;
+        }
+
+        std::cerr << manifestPath << ": terrainTileset must be mm6, mm7 or mm8\n";
+    }
+    catch (const YAML::Exception &exception)
+    {
+        std::cerr << "Could not read " << manifestPath << ": " << exception.what() << '\n';
+    }
+
+    return DefaultWorldId;
+}
+
 std::string terrainTileDataFileNameForWorld(const std::string &worldId)
 {
     const std::string normalizedWorldId = normalizeWorldId(worldId);
@@ -141,9 +194,11 @@ std::optional<std::vector<TerrainTileDescriptor>> loadTerrainTileDescriptors(
     const Engine::AssetFileSystem &assetFileSystem,
     const OutdoorMapData &outdoorMapData)
 {
-    const std::string worldId = !outdoorMapData.worldId.empty()
-        ? outdoorMapData.worldId
-        : inferWorldIdFromMapFileName(outdoorMapData.fileName, assetFileSystem.getActiveWorldId());
+    const std::string worldId = terrainTilesetWorldId(
+        assetFileSystem,
+        !outdoorMapData.worldId.empty()
+            ? outdoorMapData.worldId
+            : inferWorldIdFromMapFileName(outdoorMapData.fileName, assetFileSystem.getActiveWorldId()));
     const std::string fileName = terrainTileDataFileNameForWorld(worldId);
     const std::string engineTablePath = "engine/data_tables/" + fileName;
     const bool remapDirectTilesByMasterTile = normalizeWorldId(worldId) == DefaultWorldId;

@@ -48,9 +48,11 @@ TEST_CASE("scenario loader accepts the keys the runner reads and recorded annota
         "- setup_shortcut: {kind: set_qbit, id: 5, reason: a note}\n"
         "- press_action: {action: cancel_dialog, expect: {dialogue_canceled: {kind: house}}}\n"
         "- note: free text\n"
-        "- trace_observation: {event: anything, fields: {whatever: 1}}\n");
+        "- trace_observation: {event: anything, fields: {whatever: 1}}\n"
+        "- clear_hostiles: {radius: 1500, height: 900, min: 1}\n"
+        "- walk_to: {to: [1, 2, 3], clear_hostiles: 1500, clear_height: 900}\n");
     CHECK(result.errors.empty());
-    CHECK(result.document.steps.size() == 9);
+    CHECK(result.document.steps.size() == 11);
 }
 
 TEST_CASE("scenario loader rejects an unknown step, step key or assert key, naming the file, step and key")

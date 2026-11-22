@@ -22,7 +22,7 @@ class MawMonsterRules : public MonsterRules
 public:
     explicit MawMonsterRules(MawRules &rules);
 
-    GameplayMonsterBolsterResult resolveMonster(
+    GameplayMonsterBolsterResult resolveMonsterByRules(
         const GameplayBolsterRuntimeContext &context,
         const MonsterTable::MonsterStatsEntry &stats,
         const MonsterEntry *pMonsterEntry) const override;

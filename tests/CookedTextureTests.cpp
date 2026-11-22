@@ -328,6 +328,33 @@ TEST_CASE("World surface lookup prefers the cooked file within each scale tier")
     std::filesystem::remove_all(root);
 }
 
+TEST_CASE("A borrowed surface texture resolves to its own world's folder, where its material maps lie")
+{
+    // A6 (D4's hkm3elw): a Xeen map lays an MM7 texture; its surface material maps sit in MM7's
+    // surface_materials_x4 beside the textures_x4 the lookup found.
+    const std::filesystem::path root = temporaryRoot();
+    const std::vector<uint8_t> placeholder = {1};
+    writeBytes(root / "assets_dev/worlds/mm7/textures_x4/wall.oytex", placeholder);
+    writeBytes(root / "assets_dev/worlds/mm7/surface_materials_x4/wall_n.oytex", placeholder);
+    writeBytes(root / "assets_dev/worlds/xeen/textures_x4/own.oytex", placeholder);
+    std::filesystem::create_directories(root / "assets_dev/worlds/xeen/maps");
+    Engine::AssetFileSystem assets;
+    Engine::AssetScaleProfile profile;
+    profile.textures = Engine::AssetScaleTier::X4;
+    REQUIRE(assets.initialize(root, root / "assets_dev", Engine::AssetScaleTier::X1, profile, "xeen"));
+    Engine::DirectoryAssetPathCache directories;
+    Engine::AssetPathLookupCache paths;
+    const std::optional<std::string> path =
+        Engine::findCookedOrImageAssetPath(assets, "Data/bitmaps", "wall", directories, paths);
+    REQUIRE(path);
+    const std::filesystem::path found(*path);
+    const std::string material =
+        (found.parent_path().parent_path() / "surface_materials_x4" / "wall_n.oytex").generic_string();
+    CHECK(assets.readBinaryFile(material).has_value());
+    assets.shutdown();
+    std::filesystem::remove_all(root);
+}
+
 TEST_CASE("Cooked texture statistics record alpha use and the mean colour")
 {
     // BGRA: an opaque texel, a keyed texel, then a partly transparent one.
@@ -427,6 +454,77 @@ TEST_CASE("glTF loader reads cooked textures by URI and rejects unknown image by
         const Engine::ModelLoadResult rejected = Engine::GltfModelLoader().load(assets, "engine/models/cooked.gltf");
         CHECK_FALSE(rejected);
         CHECK(rejected.error.find("neither a PNG nor a cooked texture") != std::string::npos);
+        assets.shutdown();
+    }
+    std::filesystem::remove_all(root);
+}
+
+TEST_CASE("glTF loader reads a cooked texture its package leaves out from the engine's or another world's copy")
+{
+    // Lane P (2026-11-22): the packager leaves out a world's model textures that the engine or another world ships.
+    const std::filesystem::path root = temporaryRoot();
+    std::vector<uint8_t> buffer;
+    for (float value : {0.0f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f, 1.0f,
+             0.0f, 0.0f, 1.0f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f, 1.0f})
+    {
+        const uint8_t *pBytes = reinterpret_cast<const uint8_t *>(&value);
+        buffer.insert(buffer.end(), pBytes, pBytes + 4);
+    }
+    for (uint16_t index : {uint16_t(0), uint16_t(1), uint16_t(2), uint16_t(0)})
+    {
+        const uint8_t *pBytes = reinterpret_cast<const uint8_t *>(&index);
+        buffer.insert(buffer.end(), pBytes, pBytes + 2);
+    }
+    const std::string json = R"({
+  "asset": {"version": "2.0"},
+  "scene": 0, "scenes": [{"nodes": [0]}], "nodes": [{"mesh": 0}],
+  "meshes": [{"primitives": [{"attributes": {"POSITION": 0, "NORMAL": 1, "TEXCOORD_0": 2}, "indices": 3,
+    "material": 0}]}],
+  "materials": [{"pbrMetallicRoughness": {"baseColorTexture": {"index": 0}}}],
+  "textures": [{"source": 0}],
+  "images": [{"uri": "textures/k.oytex"}],
+  "buffers": [{"uri": "m.bin", "byteLength": 104}],
+  "bufferViews": [{"buffer": 0, "byteOffset": 0, "byteLength": 36}, {"buffer": 0, "byteOffset": 36, "byteLength": 36},
+    {"buffer": 0, "byteOffset": 72, "byteLength": 24}, {"buffer": 0, "byteOffset": 96, "byteLength": 6}],
+  "accessors": [
+    {"bufferView": 0, "componentType": 5126, "count": 3, "type": "VEC3", "min": [0, 0, 0], "max": [1, 1, 0]},
+    {"bufferView": 1, "componentType": 5126, "count": 3, "type": "VEC3"},
+    {"bufferView": 2, "componentType": 5126, "count": 3, "type": "VEC2"},
+    {"bufferView": 3, "componentType": 5123, "count": 3, "type": "SCALAR"}]
+})";
+    const std::filesystem::path models = root / "assets_dev/worlds/a/models";
+    writeBytes(models / "m.bin", buffer);
+    writeBytes(models / "m.gltf", std::vector<uint8_t>(json.begin(), json.end()));
+    std::filesystem::create_directories(root / "assets_dev/worlds/a/maps");
+    const std::vector<uint8_t> cooked = Engine::encodeCookedTexture(sampleTexture());
+    {
+        // Missing everywhere: today's error.
+        Engine::AssetFileSystem assets;
+        REQUIRE(assets.initialize(root, root / "assets_dev", Engine::AssetScaleTier::X1, "a"));
+        const Engine::ModelLoadResult missing = Engine::GltfModelLoader().load(assets, "worlds/a/models/m.gltf");
+        CHECK_FALSE(missing);
+        CHECK(missing.error.find("model image was not found: worlds/a/models/textures/k.oytex") != std::string::npos);
+        assets.shutdown();
+    }
+    writeBytes(root / "assets_dev/worlds/b/models/textures/k.oytex", cooked);
+    {
+        // Another world's copy.
+        Engine::AssetFileSystem assets;
+        REQUIRE(assets.initialize(root, root / "assets_dev", Engine::AssetScaleTier::X1, "a"));
+        const Engine::ModelLoadResult loaded = Engine::GltfModelLoader().load(assets, "worlds/a/models/m.gltf");
+        REQUIRE_MESSAGE(loaded, loaded.error);
+        CHECK_EQ(loaded.asset->images[0].sourcePath, "worlds/b/models/textures/k.oytex");
+        assets.shutdown();
+    }
+    writeBytes(root / "assets_dev/engine/models/textures/k.oytex", cooked);
+    {
+        // The engine's copy first.
+        Engine::AssetFileSystem assets;
+        REQUIRE(assets.initialize(root, root / "assets_dev", Engine::AssetScaleTier::X1, "a"));
+        const Engine::ModelLoadResult loaded = Engine::GltfModelLoader().load(assets, "worlds/a/models/m.gltf");
+        REQUIRE_MESSAGE(loaded, loaded.error);
+        CHECK_EQ(loaded.asset->images[0].sourcePath, "engine/models/textures/k.oytex");
+        CHECK(loaded.asset->images[0].cooked);
         assets.shutdown();
     }
     std::filesystem::remove_all(root);

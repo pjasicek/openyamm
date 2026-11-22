@@ -398,7 +398,8 @@ MawMonsterFamily mawMonsterFamily(const MonsterTable *pMonsterTable, int monster
 bool mawArenaMap(const std::string &mapFileName)
 {
     const std::string file = lowerCopy(mapFileName);
-    return file == "d42.blv" || file == "7d05.blv" || file == "zarena.blv" || file == "thearena.blv";
+    return file == "d42.blv" || file == "7d05.blv" || file == "zarena.blv" || file == "thearena.blv"
+        || file == "xeen_xd20.blv";
 }
 
 std::vector<const MonsterTable::MonsterStatsEntry *> mawArenaFamilies(const MonsterTable &monsterTable)

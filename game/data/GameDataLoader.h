@@ -54,6 +54,7 @@
 #include "game/tables/TransitionTable.h"
 
 #include <cstddef>
+#include <cstdint>
 #include <functional>
 #include <memory>
 #include <optional>
@@ -209,6 +210,7 @@ public:
     const MergedOutdoorTravelTable &getMergedOutdoorTravelTable() const;
     const MergedOverlayTable &getMergedOverlayTable() const;
     const MergedTownPortalSwitchTable &getMergedTownPortalSwitchTable() const;
+    const MergedDimensionDoorTable &getMergedDimensionDoorTable() const;
     const MergedTransportIndexTable &getMergedTransportIndexTable() const;
     const MergedTransportLocationTable &getMergedTransportLocationTable() const;
 
@@ -242,12 +244,13 @@ private:
     bool loadChestTable(const Engine::AssetFileSystem &assetFileSystem);
     bool loadHouseTable(const Engine::AssetFileSystem &assetFileSystem);
     bool loadAwardTable(const Engine::AssetFileSystem &assetFileSystem);
+    bool loadWorldAwardTextOverrides(const Engine::AssetFileSystem &assetFileSystem, const WorldManifest &manifest);
     bool loadJournalTables(const Engine::AssetFileSystem &assetFileSystem);
     bool loadClassMultiplierTable(const Engine::AssetFileSystem &assetFileSystem);
     bool loadClassSkillTable(const Engine::AssetFileSystem &assetFileSystem);
     bool loadNpcDialogTable(const Engine::AssetFileSystem &assetFileSystem);
-    bool loadMm9MapTransitionTable(const Engine::AssetFileSystem &assetFileSystem);
-    bool loadMm9TeacherScheduleTable(const Engine::AssetFileSystem &assetFileSystem);
+    bool loadMm9MapTransitionTable(const Engine::AssetFileSystem &assetFileSystem, const WorldManifest &manifest);
+    bool loadMm9TeacherScheduleTable(const Engine::AssetFileSystem &assetFileSystem, const WorldManifest &manifest);
     bool loadMm9RudeDialogueTable(const Engine::AssetFileSystem &assetFileSystem);
     bool loadRulesetMm9DialogueRows(const Engine::AssetFileSystem &assetFileSystem);
     bool addRulesetMm9DialogueRows(const Engine::AssetFileSystem &assetFileSystem, Mm9RudeDialogueTable &table) const;
@@ -257,8 +260,8 @@ private:
     std::shared_ptr<Mm9SkillTrainerTable> readMm9SkillTrainerTable(
         const Engine::AssetFileSystem &assetFileSystem,
         const Mm9RudeDialogueTable &dialogue);
-    bool loadMm9HirelingTable(const Engine::AssetFileSystem &assetFileSystem);
-    bool loadMm9TransportRouteTable(const Engine::AssetFileSystem &assetFileSystem);
+    bool loadMm9HirelingTable(const Engine::AssetFileSystem &assetFileSystem, const WorldManifest &manifest);
+    bool loadMm9TransportRouteTable(const Engine::AssetFileSystem &assetFileSystem, const WorldManifest &manifest);
     bool loadMm9QuestInteractionTable(const Engine::AssetFileSystem &assetFileSystem);
     bool loadRosterTable(const Engine::AssetFileSystem &assetFileSystem);
     bool loadCharacterDollTable(const Engine::AssetFileSystem &assetFileSystem);
@@ -291,6 +294,24 @@ private:
         const Engine::AssetFileSystem &assetFileSystem,
         const std::string &virtualPath
     ) const;
+    // The world.yml manifests of the mounted worlds, read once per load; null when one cannot be read.
+    const std::vector<WorldManifest> *mountedWorldManifests(const Engine::AssetFileSystem &assetFileSystem);
+    // Adds the rows the mounted worlds contribute to tableName (world.yml tableContributions, mode append) after rows:
+    // each row's id in idColumn lies in its world's range of the contribution's idDomain and is new. A row that leaves
+    // worldIdColumn empty gets its world's id there. Nothing contributed leaves rows untouched.
+    bool appendWorldTableRows(
+        const Engine::AssetFileSystem &assetFileSystem,
+        const std::string &tableName,
+        size_t idColumn,
+        std::vector<std::vector<std::string>> &rows,
+        size_t worldIdColumn = SIZE_MAX);
+    // The same for a table keyed by a map file name in keyColumn (outdoor_travels, map_navigation, house_exits): a
+    // row's map must have a map_stats row in its world's range of the contribution's idDomain and no row yet.
+    bool appendWorldMapKeyedTableRows(
+        const Engine::AssetFileSystem &assetFileSystem,
+        const std::string &tableName,
+        size_t keyColumn,
+        std::vector<std::vector<std::string>> &rows);
     bool loadPotionEffects(const Engine::AssetFileSystem &assetFileSystem);
     // The solo run's talents (data_tables/talents.yml), bound for the rules and screens (soloTalentTable()).
     bool loadSoloTalents(const Engine::AssetFileSystem &assetFileSystem);
@@ -309,6 +330,7 @@ private:
     std::vector<LoadedTableSummary> m_loadedTables;
     std::string m_activeWorldId = "mm8";
     RulesetDefinition m_activeRuleset = standardRulesetDefinition();
+    std::optional<std::vector<WorldManifest>> m_mountedWorldManifests;
     std::vector<NamedModManifest> m_namedMods;
     mutable std::set<std::string> m_appliedRulesetContributions;
     bool m_actorModelsEnabled = false;
@@ -404,6 +426,7 @@ private:
     MergedOutdoorTravelTable m_mergedOutdoorTravelTable;
     MergedOverlayTable m_mergedOverlayTable;
     MergedTownPortalSwitchTable m_mergedTownPortalSwitchTable;
+    MergedDimensionDoorTable m_mergedDimensionDoorTable;
     MergedTransportIndexTable m_mergedTransportIndexTable;
     MergedTransportLocationTable m_mergedTransportLocationTable;
     MapAssetLoadSharedCache m_mapAssetLoadSharedCache;

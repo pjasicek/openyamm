@@ -346,7 +346,7 @@ bool mm9TransportRouteConditionsSatisfied(const Mm9TransportRoute &route, const 
     for (int32_t rawKey : route.requiredRawKeys)
     {
         const std::optional<uint32_t> qbit = mm9QBitForRawQuestKey(rawKey);
-        if (!qbit.has_value() || !party.hasQuestBit(*qbit))
+        if (!qbit.has_value() || !party.campaign().hasQuestBit(*qbit))
         {
             return false;
         }
@@ -354,7 +354,7 @@ bool mm9TransportRouteConditionsSatisfied(const Mm9TransportRoute &route, const 
     for (int32_t rawKey : route.forbiddenRawKeys)
     {
         const std::optional<uint32_t> qbit = mm9QBitForRawQuestKey(rawKey);
-        if (!qbit.has_value() || party.hasQuestBit(*qbit))
+        if (!qbit.has_value() || party.campaign().hasQuestBit(*qbit))
         {
             return false;
         }

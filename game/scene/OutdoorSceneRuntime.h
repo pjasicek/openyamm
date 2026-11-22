@@ -92,6 +92,8 @@ private:
     std::string m_mapFileName;
     MapStatsEntry m_mapEntry;
     OutdoorPartyRuntime *m_pPartyRuntime = nullptr;
+    Party &eventParty();
+
     OutdoorWorldRuntime *m_pWorldRuntime = nullptr;
     std::optional<ScriptedEventProgram> m_localEventProgram;
     std::optional<ScriptedEventProgram> m_globalEventProgram;

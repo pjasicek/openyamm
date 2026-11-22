@@ -152,6 +152,45 @@ TEST_CASE("a Lua error in an event handler is logged once with its map and event
     CHECK_EQ(runtimeState.statusMessages.front(), "fine");
 }
 
+TEST_CASE("a world's common scripts hide an engine teacher topic until their qbit (Xeen's Grandmaster offers)")
+{
+    // A world's events/common scripts are prepended to the global script (GameDataLoader), whose RegisterCanShowTopic
+    // handlers the dialogue asks for every topic, teacher topics included. Xeen's generated xeen_quests.lua hides the
+    // engine's Perception and Armsmaster Grandmaster topics (389, 407) at Kalindra's Gem and Errol until m26.stage4.
+    const std::filesystem::path common =
+        std::filesystem::path(OPENYAMM_SOURCE_DIR) / "assets_dev/worlds/xeen/events/common";
+
+    if (!std::filesystem::is_regular_file(common / "xeen_quests.lua"))
+    {
+        MESSAGE("skipped: the Xeen world is not in assets_dev");
+        return;
+    }
+
+    std::string source = eventSupportText();
+
+    for (const char *pName : {"xeen_common.lua", "xeen_quests.lua"})
+    {
+        std::ifstream stream(common / pName);
+        REQUIRE(stream.good());
+        source += "\n\n" + std::string(std::istreambuf_iterator<char>(stream), std::istreambuf_iterator<char>());
+    }
+
+    std::string error;
+    const std::optional<ScriptedEventProgram> program =
+        ScriptedEventProgram::loadFromLuaText(source, "@xeen_common_test.lua", ScriptedEventScope::Global, error);
+    REQUIRE_MESSAGE(program.has_value(), error.c_str());
+    EventRuntime eventRuntime = {};
+    EventRuntimeState runtimeState = {};
+    CHECK_FALSE(eventRuntime.canShowTopic(program, 389, runtimeState, nullptr, nullptr));
+    CHECK_FALSE(eventRuntime.canShowTopic(program, 407, runtimeState, nullptr, nullptr));
+    // Their Master topics (388, 406) are not gated.
+    CHECK(eventRuntime.canShowTopic(program, 388, runtimeState, nullptr, nullptr));
+    // m26.stage4 is qbit 111522 (xeen_quests.lua).
+    runtimeState.variables[111522] = 1;
+    CHECK(eventRuntime.canShowTopic(program, 389, runtimeState, nullptr, nullptr));
+    CHECK(eventRuntime.canShowTopic(program, 407, runtimeState, nullptr, nullptr));
+}
+
 TEST_CASE("evt.StatusText keeps its text on the status bar for the seconds it gives, else 2 seconds")
 {
     const std::string source = eventSupportText() + "\n"
@@ -922,6 +961,48 @@ TEST_CASE("a handler that runs another one from inside keeps its own context aft
     CHECK_EQ(runtimeState.namedMapVars.at("Inner"), 1);
     CHECK_EQ(runtimeState.namedMapVars.at("AfterKill"), 7);
     REQUIRE(runtimeState.actorGroupAllyOverrides.contains(2));
+}
+
+TEST_CASE("an event adds and takes magical age; a member immune to aging gains none (D-27, the Jewel of Ages)")
+{
+    // MM6's burial niches add five years, DD-09's black barrel one; Subtract takes years off as the originals do.
+    const std::string source = eventSupportText() + "\n"
+        "RegisterGlobalEvent(9030, \"Old bones\", function()\n"
+        "    evt.ForPlayer(Players.All)\n"
+        "    AddValue(Age, 5)\n"
+        "end)\n"
+        "RegisterGlobalEvent(9031, \"Youth\", function()\n"
+        "    evt.ForPlayer(Players.All)\n"
+        "    SubtractValue(Age, 2)\n"
+        "end)\n"
+        "RegisterGlobalEvent(9032, \"Renewed\", function()\n"
+        "    evt.ForPlayer(Players.All)\n"
+        "    SetValue(Age, 0)\n"
+        "end)\n";
+    std::string error;
+    const std::optional<ScriptedEventProgram> program =
+        ScriptedEventProgram::loadFromLuaText(source, "@age_test.lua", ScriptedEventScope::Global, error);
+    REQUIRE_MESSAGE(program.has_value(), error.c_str());
+    Party party = {};
+    PartySeed seed = {};
+    seed.members.resize(2);
+    party.seed(seed);
+    party.member(1)->agingImmune = true;
+    EventRuntime eventRuntime = {};
+    EventRuntimeState runtimeState = {};
+
+    REQUIRE(eventRuntime.executeEventById(std::nullopt, program, 9030, runtimeState, &party));
+    CHECK_EQ(party.member(0)->ageModifier, 5);
+    CHECK_EQ(party.member(1)->ageModifier, 0);
+
+    REQUIRE(eventRuntime.executeEventById(std::nullopt, program, 9031, runtimeState, &party));
+    CHECK_EQ(party.member(0)->ageModifier, 3);
+    CHECK_EQ(party.member(1)->ageModifier, -2);
+
+    // Setting it to 0 takes all magical age away (Xeen's Fountain of Youth, Q-C1: xeen_common's Xeen.renewAges).
+    REQUIRE(eventRuntime.executeEventById(std::nullopt, program, 9032, runtimeState, &party));
+    CHECK_EQ(party.member(0)->ageModifier, 0);
+    CHECK_EQ(party.member(1)->ageModifier, 0);
 }
 
 TEST_CASE("an event that gives experience and shows no text of its own says how much (OY-489)")

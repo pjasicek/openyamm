@@ -168,8 +168,8 @@ TEST_CASE("MMerge bounty hunt reward applies gold total bounty award and reputat
     applyBountyHuntClaimResult(worldRuntime, &party, claim);
 
     CHECK_EQ(party.gold(), 1200);
-    CHECK_EQ(party.eventVariableValue(static_cast<uint16_t>(EvtVariable::NumBounties)), 1200);
-    CHECK_EQ(party.eventVariableValue(static_cast<uint16_t>(EvtVariable::ArenaWinsPage)), 0);
+    CHECK_EQ(party.campaign().eventVariableValue(static_cast<uint16_t>(EvtVariable::NumBounties)), 1200);
+    CHECK_EQ(party.campaign().eventVariableValue(static_cast<uint16_t>(EvtVariable::ArenaWinsPage)), 0);
     CHECK(party.hasAward(44));
     CHECK_EQ(worldRuntime.currentLocationReputation(), -1);
 }
@@ -684,7 +684,7 @@ TEST_CASE("MMerge shop stealing integrates with stock and reputation")
     CHECK_EQ(worldRuntime.currentLocationReputation(), 1);
 
     // The stolen item leaves the shelf, so the slot cannot be stolen from again.
-    const Party::HouseStockState *pStockState = party.houseStockState(pHouseEntry->id);
+    const CampaignState::HouseStockState *pStockState = party.campaign().houseStockState(pHouseEntry->id);
     REQUIRE(pStockState != nullptr);
     REQUIRE(slotIndex < pStockState->standardStock.size());
     CHECK_EQ(pStockState->standardStock[slotIndex].objectDescriptionId, 0u);

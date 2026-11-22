@@ -751,6 +751,9 @@ private:
     // Baked bmodel faces with surface material maps: 2D and array, without and with mesh-shadow receivers. Loaded
     // only for a map whose textures came with their maps (m_surfaceMaterialMaps).
     bool m_surfaceMaterialMaps = false;
+    // Those maps are normal maps alone, loaded for their glow (D-55, MapCompanionLoadOptions::surfaceGlowWorlds): the
+    // same handles hold the glow variants of the ordinary programs (fs_outdoor_bmodel_baked*_glow).
+    bool m_surfaceGlowOnly = false;
     bgfx::ProgramHandle m_outdoorBModelMaterialProgramHandle = BGFX_INVALID_HANDLE;
     bgfx::ProgramHandle m_outdoorBModelMaterialArrayProgramHandle = BGFX_INVALID_HANDLE;
     bgfx::ProgramHandle m_outdoorBModelMaterialShadowProgramHandle = BGFX_INVALID_HANDLE;
@@ -849,6 +852,8 @@ private:
     uint32_t m_entityMarkerVertexCount;
     uint32_t m_spawnMarkerVertexCount;
     std::vector<TexturedBModelBatch> m_texturedBModelBatches;
+    // A batch has `translucent` (a classic map's scene `translucent_faces`): the BModels draw a second pass.
+    bool m_hasTranslucentBModelBatches = false;
     std::vector<BModelTextureAnimationHandle> m_bmodelTextureAnimations;
     // Textures an event swapped in (evt.SetTexture) that could not be loaded; not tried again.
     std::unordered_set<std::string> m_missingSwapTextureNames;
@@ -942,6 +947,8 @@ private:
     uint64_t m_renderFrameIndex = 0;
     WorldFxSystem m_worldFxSystem;
     MistWisps m_mistWisps;
+    // The map script's share of the mist (evt.SetMist), faded; drawn from the const sky surroundings.
+    mutable MistScriptFade m_mistScriptFade;
     std::vector<std::vector<size_t>> m_decorationBillboardGridCells;
     std::vector<InteractiveDecorationBinding> m_interactiveDecorationBindings;
     std::vector<KeyboardInteractionBillboardCandidate> m_keyboardInteractionBillboardCandidates;

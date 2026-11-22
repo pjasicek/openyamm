@@ -2354,6 +2354,10 @@ void checkAudit(const YAML::Node &params, JsonWriter &writer)
     request.reach = flag(params, "reach", false);
     request.strict = flag(params, "strict", false);
     request.solve = flag(params, "solve", false);
+    request.dressing = flag(params, "dressing", false);
+    request.lights = flag(params, "lights", false);
+    request.doors = flag(params, "doors", false);
+    request.textures = flag(params, "textures", false);
     request.original = params["original"] ? params["original"].Scalar() : std::string();
     size_t errors = 0;
     ReadFailure failure;

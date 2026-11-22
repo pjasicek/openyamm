@@ -284,3 +284,19 @@ TEST_CASE("mist wisps: they stand only where the mist is, near the eye, and keep
     none.update(MapMist{}, eye, 0.0f, {1.0f, 1.0f, 1.0f}, empty);
     CHECK(empty.particleCount() == 0);
 }
+
+TEST_CASE("a script's mist share fades from the share shown and holds")
+{
+    OpenYAMM::Game::MistScriptFade fade;
+    // No call yet: the mist as authored.
+    CHECK(fade.amount(0, 1.0f, 0.0f, 3.0f) == doctest::Approx(1.0f));
+    // Lifted over ten seconds from t = 10, then held.
+    CHECK(fade.amount(1, 0.0f, 10.0f, 10.0f) == doctest::Approx(1.0f));
+    CHECK(fade.amount(1, 0.0f, 10.0f, 15.0f) == doctest::Approx(0.5f));
+    CHECK(fade.amount(1, 0.0f, 10.0f, 30.0f) == doctest::Approx(0.0f));
+    // A new call fades from what is shown; seconds 0 sets it at once.
+    CHECK(fade.amount(2, 1.0f, 0.0f, 31.0f) == doctest::Approx(1.0f));
+    CHECK(fade.amount(3, 0.0f, 4.0f, 40.0f) == doctest::Approx(1.0f));
+    CHECK(fade.amount(4, 1.0f, 4.0f, 42.0f) == doctest::Approx(0.5f));
+    CHECK(fade.amount(4, 1.0f, 4.0f, 44.0f) == doctest::Approx(0.75f));
+}

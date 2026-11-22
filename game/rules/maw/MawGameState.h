@@ -1,5 +1,7 @@
 #pragma once
 
+#include "game/party/PartyRulesetState.h"
+
 #include <array>
 #include <cstdint>
 #include <optional>
@@ -73,12 +75,14 @@ struct MawMapVisit
 
 // What a MAW game remembers besides the party and the maps (devdocs/maw/data/exp_curve.yml banked_levels,
 // monster_scaling.yml level): the levels banked on each continent, which drive monster levels, and the dungeons that
-// were completed or reset. Saved with MAW games only.
+// were completed or reset. Saved with MAW games only. What is a party's own (its auras, the food held back from it,
+// its deaths) is the party's ruleset state (PartyRulesetState, Party::rulesetState).
 struct MawGameState
 {
-    // MAW's four continents: Jadame (MM8), Antagarich (MM7), Enroth (MM6) and Chedian (MM9), map table continents 1,
-    // 2, 3 and 5. Levels are fractional.
-    static constexpr size_t ContinentCount = 4;
+    // MAW's continents: Jadame (MM8), Antagarich (MM7), Enroth (MM6) and Chedian (MM9), map table continents 1, 2, 3
+    // and 5, and the World of Xeen, both its faces (continents 6 and 7) one bank (devdocs/maw/XEEN_SUPPORT.md). Levels
+    // are fractional.
+    static constexpr size_t ContinentCount = 5;
 
     std::array<double, ContinentCount> continentLevels = {};
     // All bank experience so far and the MAW-curve level it amounts to; a gain moves the difference into the bank of
@@ -107,15 +111,6 @@ struct MawGameState
     std::unordered_map<uint32_t, int> legendaryAffixDrops;
     // What each crafting material's drop roll (by item id) has failed since it last succeeded (craftPityCounters).
     std::unordered_map<uint32_t, double> craftingPity;
-    // The buff auras the party holds (CLASSES_SPELLS_SPEC.md §3): spell id to the holding member's index, or
-    // FixedAuraHolder for an aura from a scroll, a pedestal or a temple.
-    std::unordered_map<uint32_t, uint32_t> auraHolders;
-    // Where each fixed aura came from: the lowercase map file of its scroll or pedestal, which entering another
-    // outdoor map ends, or empty for a temple's, which leaving the map ends (SP:2693-2730).
-    std::unordered_map<uint32_t, std::string> fixedAuraMaps;
-    // A solo run's scroll auras: the game minute each ends, on any map (the user, 2026-11-16). A fixed aura listed
-    // here ends only then.
-    std::unordered_map<uint32_t, double> fixedAuraEndMinutes;
     // The open rift by its map's lowercase file name (one at most; saves before rifts were instances may hold more
     // until loaded), the quest, and what the map kill drop has failed since it last dropped (vars.mapDropFailures).
     std::unordered_map<std::string, MawDimensionRun> dimensionRuns;
@@ -125,8 +120,6 @@ struct MawGameState
     std::unordered_map<std::string, int> mapsDropped;
     // The unique items a shop bought, by item id: each sells once a game (SpecialItems.SellOnce).
     std::unordered_map<uint32_t, int> soldUniqueItems;
-    // Road to Insanity: the food a dungeon's cap held back, returned on the next outdoor map (vars.refundFood).
-    int32_t heldFood = 0;
     // Beyond Madness: bosses rolled since the last Broodlord and Omnipotent one (vars.broodlordPityCounter,
     // vars.omnipotentPityCounter).
     double broodlordPity = 0;
@@ -139,19 +132,16 @@ struct MawGameState
     // The barrels and cauldrons that raised a stat, by lowercase map file name: decor var index to the state they were
     // left in (empty). They stay so through refills and resets (vars.usedBarrels, zzMaw-Maps.lua:240-283).
     std::unordered_map<std::string, std::unordered_map<uint8_t, uint8_t>> usedStatDecorations;
-    // Beyond Madness's death count as of the save, so a save moved to another installation (whose death ledger has no
-    // line for the run) keeps its count (vars.MadnessDeathCounter, zzMaw-Monsters.lua:2385-2400).
-    int32_t madnessDeaths = 0;
 
-    // The holder of an aura no party member holds (MAW's string holders: Temple, scroll or pedestal).
-    static constexpr uint32_t FixedAuraHolder = 0xFFFFFFFFu;
+    // The holder of an aura no party member holds (PartyRulesetState::auraHolders).
+    static constexpr uint32_t FixedAuraHolder = PartyRulesetState::FixedAuraHolder;
 
-    // The bank index of a continent id from the map table (1, 2, 3 or 5); none for any other id.
+    // The bank index of a continent id from the map table (1, 2, 3, 5, or Xeen's 6 and 7); none for any other id.
     static std::optional<size_t> continentIndex(uint32_t continentId);
 
     void addBankedExperience(double experience, uint32_t continentId);
     double totalLevel() const;
-    // The levels banked on this continent (0 for an id that is none of the four).
+    // The levels banked on this continent (0 for an id that is none of the banks').
     double levelOn(uint32_t continentId) const;
     // The levels banked on every continent except this one (MAW getPartyLevel).
     double levelOutside(uint32_t continentId) const;

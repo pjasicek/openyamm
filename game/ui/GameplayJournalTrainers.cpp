@@ -202,6 +202,29 @@ struct FinderModel
     std::vector<std::vector<size_t>> pages;
 };
 
+const TrainerDirectory *journalDirectory(const GameplayScreenRuntime &context)
+{
+    const Party *pParty = context.partyReadOnly();
+    return pParty != nullptr ? pParty->trainerDirectory() : nullptr;
+}
+
+// The journal's continent tabs: the new-game cards' continents in the cards' order (TrainerDirectory::continents).
+const std::vector<TrainerContinent> &journalContinents(const GameplayScreenRuntime &context)
+{
+    static const std::vector<TrainerContinent> None;
+    const TrainerDirectory *pDirectory = journalDirectory(context);
+    return pDirectory != nullptr ? pDirectory->continents() : None;
+}
+
+// The card continent of the party's map (Xeen's for its Darkside), else 0.
+uint32_t currentCardContinent(const GameplayScreenRuntime &context)
+{
+    const MapStatsEntry *pMap = context.mapStats().findByFileName(context.currentMapFileName());
+    const TrainerDirectory *pDirectory = journalDirectory(context);
+    return pMap != nullptr && pDirectory != nullptr ? pDirectory->cardContinent(pMap->mergedContinentId).value_or(0)
+                                                    : 0;
+}
+
 uint32_t shownContinent(const GameplayScreenRuntime &context, const GameplayUiController::JournalScreenState &journal)
 {
     if (journal.trainerContinent != 0)
@@ -209,11 +232,15 @@ uint32_t shownContinent(const GameplayScreenRuntime &context, const GameplayUiCo
         return journal.trainerContinent;
     }
 
-    const MapStatsEntry *pMap = context.mapStats().findByFileName(context.currentMapFileName());
-    const uint32_t continent = pMap != nullptr ? pMap->mergedContinentId : 0;
-    return std::find(TrainerContinents.begin(), TrainerContinents.end(), continent) != TrainerContinents.end()
-        ? continent
-        : TrainerContinents.front();
+    const uint32_t continent = currentCardContinent(context);
+    const std::vector<TrainerContinent> &continents = journalContinents(context);
+    return continent != 0 || continents.empty() ? continent : continents.front().id;
+}
+
+std::string continentTabName(const GameplayScreenRuntime &context, uint32_t continent)
+{
+    const TrainerDirectory *pDirectory = journalDirectory(context);
+    return pDirectory != nullptr ? pDirectory->continentName(continent) : std::string();
 }
 
 // Where the list says the trainer is: the outdoor map with the door, or the dungeon or castle.
@@ -477,7 +504,7 @@ private:
     const GameplayResolvedHudLayoutElement &m_page;
 };
 
-Rect tabRect(const GameplayResolvedHudLayoutElement &page, size_t index, size_t count = TrainerContinents.size())
+Rect tabRect(const GameplayResolvedHudLayoutElement &page, size_t index, size_t count)
 {
     const float width = (ContentWidth - float(count - 1) * TabGap) / float(count);
     return pageRect(page, ContentLeft + index * (width + TabGap), TabTop, width, TabHeight);
@@ -530,7 +557,7 @@ FinderModel buildModel(
 {
     FinderModel model;
     model.continent = shownContinent(context, journal);
-    model.continentName = Engine::localizeKnown(trainerContinentName(model.continent));
+    model.continentName = Engine::localizeKnown(continentTabName(context, model.continent));
     const Party *pParty = context.partyReadOnly();
 
     if (pParty == nullptr || pParty->trainerDirectory() == nullptr)
@@ -876,18 +903,21 @@ std::string journalOwner(const GameplayScreenRuntime &context,
         return "Shared";
     if (continent == 0)
     {
-        const MapStatsEntry *map = context.mapStats().findByFileName(context.currentMapFileName());
-        continent = map != nullptr ? map->mergedContinentId : 4;
+        continent = currentCardContinent(context);
     }
-    const std::string name = trainerContinentName(continent);
+    const std::string name = continent == JournalSharedOwner ? std::string() : continentTabName(context, continent);
     return name.empty() ? "Shared" : name;
 }
 
-uint32_t journalOwnerTargetAt(const GameplayResolvedHudLayoutElement &page, float x, float y)
+uint32_t journalOwnerTargetAt(const GameplayScreenRuntime &context, const GameplayResolvedHudLayoutElement &page,
+    float x, float y)
 {
-    for (size_t i = 0; i < 5; ++i)
-        if (tabRect(page, i, 5).contains(x, y))
-            return i < TrainerContinents.size() ? TrainerContinents[i] : 4;
+    // The continents' tabs, then Shared.
+    const std::vector<TrainerContinent> &continents = journalContinents(context);
+    const size_t count = continents.size() + 1;
+    for (size_t i = 0; i < count; ++i)
+        if (tabRect(page, i, count).contains(x, y))
+            return i < continents.size() ? continents[i].id : JournalSharedOwner;
     return 0;
 }
 
@@ -896,10 +926,12 @@ void renderJournalOwners(GameplayScreenRuntime &context, const GameplayUiControl
 {
     Painter paint(context, page);
     const std::string selected = journalOwner(context, journal);
-    for (size_t i = 0; i < 5; ++i)
+    const std::vector<TrainerContinent> &continents = journalContinents(context);
+    const size_t count = continents.size() + 1;
+    for (size_t i = 0; i < count; ++i)
     {
-        const std::string name = i < TrainerContinents.size() ? trainerContinentName(TrainerContinents[i]) : "Shared";
-        const Rect tab = tabRect(page, i, 5);
+        const std::string name = i < continents.size() ? continents[i].name : "Shared";
+        const Rect tab = tabRect(page, i, count);
         paint.button(tab, name == "Shared" ? Engine::tr("Shared") : Engine::localizeKnown(name),
             name == selected, tab.contains(x, y), false);
     }
@@ -951,14 +983,18 @@ JournalTrainerTarget journalTrainerTargetAt(
                                             : JournalTrainerTarget{};
     }
 
-    for (size_t index = 0; index < TrainerContinents.size(); ++index)
+    const size_t continentCount = journalContinents(context).size();
+    for (size_t index = 0; index < continentCount; ++index)
     {
-        if (tabRect(page, index).contains(x, y))
+        if (tabRect(page, index, continentCount).contains(x, y))
         {
             return {JournalTrainerTargetKind::Continent, index};
         }
+    }
 
-        if (index < 3 && toggleRect(page, index).contains(x, y))
+    for (size_t index = 0; index < 3; ++index)
+    {
+        if (toggleRect(page, index).contains(x, y))
         {
             return {JournalTrainerTargetKind::Mastery, index};
         }
@@ -1000,7 +1036,10 @@ void activateJournalTrainerTarget(
     switch (target.kind)
     {
         case JournalTrainerTargetKind::Continent:
-            journal.trainerContinent = TrainerContinents[std::min(target.index, TrainerContinents.size() - 1)];
+            if (const std::vector<TrainerContinent> &continents = journalContinents(context); !continents.empty())
+            {
+                journal.trainerContinent = continents[std::min(target.index, continents.size() - 1)].id;
+            }
             journal.trainerPage = 0;
             break;
         case JournalTrainerTargetKind::Mastery:
@@ -1125,12 +1164,13 @@ void renderJournalTrainers(
     const Party *pParty = context.partyReadOnly();
 
     // The continents, a seal on those whose ledger the party has.
-    for (size_t index = 0; index < TrainerContinents.size(); ++index)
+    const std::vector<TrainerContinent> &continents = journalContinents(context);
+    for (size_t index = 0; index < continents.size(); ++index)
     {
-        const uint32_t continent = TrainerContinents[index];
-        const Rect tab = tabRect(page, index);
+        const uint32_t continent = continents[index].id;
+        const Rect tab = tabRect(page, index, continents.size());
         const bool hovered = tab.contains(pointerX, pointerY);
-        paint.button(tab, Engine::localizeKnown(trainerContinentName(continent)), continent == model.continent, hovered,
+        paint.button(tab, Engine::localizeKnown(continents[index].name), continent == model.continent, hovered,
             hovered && leftHeld);
 
         if (pParty != nullptr && pParty->hasTeacherLedger(continent))

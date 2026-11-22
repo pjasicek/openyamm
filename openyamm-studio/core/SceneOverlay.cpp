@@ -136,9 +136,9 @@ const std::map<std::string, std::set<std::string>> &changeWordsByKind()
 {
     static const std::map<std::string, std::set<std::string>> words = {
         {"light", {"color", "intensity", "radius", "frequency", "radius_frequency", "phase", "on"}},
-        {"sound", {"sound", "sound_radius", "inner_radius", "volume", "loop", "wait", "on"}},
+        {"sound", {"sound", "sound_radius", "inner_radius", "volume", "loop", "wait", "on", "pan"}},
         {"destructible", {"hp", "damage", "trigger_only", "sound", "destroyed_event", "damaged_event"}},
-        {"water", {"tint", "current"}},
+        {"water", {"tint", "current", "fog"}},
         {"ladder", {"offset", "facing", "width", "reach", "exit", "grab_at_top", "grab_in_air"}},
     };
     return words;
@@ -510,6 +510,11 @@ private:
                 entry["loop"] = boolOf(change, "loop", true);
             }
 
+            if (childOf(change, "pan").IsDefined())
+            {
+                entry["pan"] = boolOf(change, "pan", true);
+            }
+
             if (const YAML::Node wait = childOf(change, "wait"); wait.IsDefined() && wait.size() == 2)
             {
                 entry["wait"] = numbers({scalarNumber(wait[0], 0.0), scalarNumber(wait[1], 0.0)});
@@ -559,6 +564,12 @@ private:
                     entry[pWord] = numbers({scalarNumber(value[0], 0.0), scalarNumber(value[1], 0.0),
                         scalarNumber(value[2], 0.0)});
                 }
+            }
+
+            // The volume's own fog under water (the scene block as given; the game's parser reads it back).
+            if (const YAML::Node fog = childOf(change, "fog"); fog.IsDefined() && fog.IsMap())
+            {
+                entry["fog"] = YAML::Clone(fog);
             }
         }
         else if (kind == "ladder")
@@ -714,6 +725,11 @@ private:
                 {
                     entry[pWord] = true;
                 }
+            }
+
+            if (!boolOf(node, "pan", true))
+            {
+                entry["pan"] = false;
             }
 
             entry["start_on"] = boolOf(node, "on", true);
@@ -901,6 +917,11 @@ private:
                     entry[pWord] = numbers({scalarNumber(value[0], 0.0), scalarNumber(value[1], 0.0),
                         scalarNumber(value[2], 0.0)});
                 }
+            }
+
+            if (const YAML::Node fog = childOf(node, "fog"); fog.IsDefined() && fog.IsMap())
+            {
+                entry["fog"] = YAML::Clone(fog);
             }
 
             target.push_back(entry);
@@ -1275,8 +1296,11 @@ void addWorldTableRows(const std::filesystem::path &assetRoot, const std::string
         {
             const std::string table = textOf(contribution, "table", "");
             std::string *pText = table == "monster_data" ? &options.monsterTableText
+                : table == "decorations" ? &options.decorationTableText
                 : table == "monster_descriptors" ? &options.monsterDescriptorTableText
-                : table == "items" ? &options.itemTableText : nullptr;
+                : table == "items" ? &options.itemTableText
+                : table == "map_stats" ? &options.mapStatsTableText
+                : table == "place_mon" ? &options.uniqueNameTableText : nullptr;
             std::string rows;
 
             if (pText != nullptr && textOf(contribution, "mode", "") == "append"
@@ -1291,6 +1315,10 @@ void addWorldTableRows(const std::filesystem::path &assetRoot, const std::string
     {
         // A manifest that does not parse adds nothing (the game refuses the world).
     }
+
+    // The world's monster factions and their relations (worlds/<world>/relations.yml), which the game consults before
+    // hostile.txt.
+    added = readTextFile(assetRoot / "worlds" / world / "relations.yml", options.worldRelationsText) || added;
 
     if (added)
     {

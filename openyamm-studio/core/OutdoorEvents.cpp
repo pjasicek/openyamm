@@ -8,6 +8,7 @@
 #include <algorithm>
 #include <charconv>
 #include <cmath>
+#include <regex>
 #include <sstream>
 
 // What the handlers of the shipped outdoor maps test and do beside entering a house, leaving for a map and opening
@@ -637,6 +638,21 @@ std::string OutdoorEventWords::condition(const YAML::Node &condition, const std:
             terms.push_back("evt.CheckMonstersKilled(" + (grouped ? "ActorKillCheck.Group, " + wholeText(group)
                 : std::string("ActorKillCheck.Any, 0")) + ", " + wholeText(atLeast) + ", false)");
         }
+        else if (key == "player_bit")
+        {
+            // The bit of the member who uses the thing, as indoors: {player_bit: 11280} holds when that member has
+            // it, {not: {player_bit: 11280}} once per character.
+            double bit = 0.0;
+
+            if (!numberOfNode(value, bit) || bit < 0.0 || bit > 65535.0 || bit != std::floor(bit))
+            {
+                add(path + ".player_bit", "player_bit is the number of a character's bit (the shipped maps use 1 to "
+                    "99; a world's own from its range)");
+                continue;
+            }
+
+            terms.push_back("IsPlayerBitSet(PlayerBit(" + wholeText(bit) + "))");
+        }
         else if (key == "lua")
         {
             const std::string expression = value.IsScalar() ? value.Scalar() : std::string();
@@ -654,8 +670,8 @@ std::string OutdoorEventWords::condition(const YAML::Node &condition, const std:
         else
         {
             add(path + "." + key, "the build has no test for a `" + key + "` condition (it has item, qbit, "
-                "map_var, gold, stat, award, autonote, season, kills, lua, not, any, all): say the test as a Lua "
-                "expression with the condition's `lua` key", "unsupported");
+                "map_var, gold, stat, award, autonote, player_bit, season, kills, lua, not, any, all): say the test "
+                "as a Lua expression with the condition's `lua` key", "unsupported");
         }
     }
 
@@ -897,14 +913,38 @@ void OutdoorEventWords::effects(const YAML::Node &effects, const std::string &pa
 
             const int direction = static_cast<int>(std::lround(numberOr(value, "direction", 0.0) * 2048.0 / 360.0));
             const std::string map = textOf(value, "map");
+            // To another map: its entrance window (readMoveScreen), the standard one into a dungeon.
+            MoveScreen screen;
+            std::string screenError;
+
+            if (!map.empty() && !readMoveScreen(childOf(value, "screen"), map, screen, screenError))
+            {
+                add(at + ".screen", screenError);
+                continue;
+            }
+
             body.push_back(indent + "evt.MoveToMap(" + std::to_string(to[0].as<int>(0)) + ", "
                 + std::to_string(to[1].as<int>(0)) + ", " + std::to_string(to[2].as<int>(0)) + ", "
-                + std::to_string(direction) + ", 0, 0, 0, 0" + (map.empty() ? std::string() : ", " + luaQuote(map))
-                + ")");
+                + std::to_string(direction) + ", 0, 0, " + std::to_string(screen.text) + ", "
+                + std::to_string(screen.picture) + (map.empty() ? std::string() : ", " + luaQuote(map))
+                + moveScreenOptions(screen) + ")");
         }
         else if (key == "lua" && value.IsScalar())
         {
-            body.push_back(indent + value.Scalar());
+            body.push_back(indent + expandThingCalls(value.Scalar(), at + ".lua"));
+        }
+        else if (key == "player_bit" || key == "clear_player_bit")
+        {
+            // The bit of the member who used the thing (once per character: a spring's +2 Endurance).
+            if (!isNumber || number < 0.0 || number > 65535.0 || number != std::floor(number))
+            {
+                add(at + "." + key, key + " is the number of a character's bit (the shipped maps use 1 to 99; a "
+                    "world's own from its range)");
+                continue;
+            }
+
+            body.push_back(indent + (key == "player_bit" ? "SetPlayerBit(" : "ClearPlayerBit(") + "PlayerBit("
+                + whole + "))");
         }
         else if (key == "damage")
         {
@@ -1054,8 +1094,8 @@ void OutdoorEventWords::effects(const YAML::Node &effects, const std::string &pa
         else
         {
             add(at, "the effect `" + key + "` is not one an outdoor structure has: text, gold, add, subtract, "
-                "set, autonote, qbit, clear_qbit, give_item, take_item, teleport, damage, cast, summon, show, hide, "
-                "set_sprite, set_texture, show_actors, hide_actors or lua");
+                "set, autonote, qbit, clear_qbit, player_bit, clear_player_bit, give_item, take_item, teleport, "
+                "damage, cast, summon, show, hide, set_sprite, set_texture, show_actors, hide_actors or lua");
         }
     }
 }
@@ -1074,6 +1114,7 @@ void OutdoorEventWords::lock(const YAML::Node &node, const std::string &path, co
     }
 
     const YAML::Node lockNode = childOf(node, "condition");
+    m_actionStart = body.size();
 
     if (lockNode.IsDefined())
     {
@@ -1087,6 +1128,7 @@ void OutdoorEventWords::lock(const YAML::Node &node, const std::string &path, co
 
         body.push_back("    return");
         body.push_back("end");
+        m_actionStart = body.size();
 
         if (textOf(lockNode, "consume") == "true")
         {
@@ -1126,7 +1168,7 @@ void OutdoorEventWords::lock(const YAML::Node &node, const std::string &path, co
 
         while (std::getline(lines, line))
         {
-            body.push_back(line);
+            body.push_back(expandThingCalls(line, path + ".lua_before"));
         }
     }
 }
@@ -1143,9 +1185,98 @@ void OutdoorEventWords::actions(const YAML::Node &node, const std::string &path,
 
         while (std::getline(lines, line))
         {
-            body.push_back(line);
+            body.push_back(expandThingCalls(line, path + ".lua"));
         }
     }
+
+    if (const YAML::Node question = childOf(node, "question"); question.IsDefined())
+    {
+        ask(question, path + ".question", body);
+    }
+}
+
+// `ShowThing("thing:coffin_open")` and `HideThing("thing:coffin_closed")` in a handler's Lua: the calls `{show}` and
+// `{hide}` write for that structure, so a branch of the Lua changes what is drawn at once. Statements only.
+std::string OutdoorEventWords::expandThingCalls(const std::string &lua, const std::string &path)
+{
+    static const std::regex call("(Show|Hide)Thing\\(\\s*\"([^\"]+)\"\\s*\\)");
+    std::string expanded;
+    size_t last = 0;
+
+    for (std::sregex_iterator match(lua.begin(), lua.end(), call), end; match != end; ++match)
+    {
+        const bool show = (*match)[1].str() == "Show";
+        std::vector<std::string> calls;
+        visibility(YAML::Node((*match)[2].str()), path, show ? "show" : "hide", show, "", calls);
+        expanded += lua.substr(last, static_cast<size_t>(match->position()) - last);
+
+        for (const std::string &line : calls)
+        {
+            expanded += (&line == &calls.front() ? "" : " ") + line;
+        }
+
+        last = static_cast<size_t>(match->position() + match->length());
+    }
+
+    return expanded + lua.substr(last);
+}
+
+// A `question` before what the handler does (as an indoor wiring's): the lines after `once` and the lock run only on
+// one of the `answers`; the game runs the handler again with the step AskQuestion names for the answer.
+void OutdoorEventWords::ask(const YAML::Node &question, const std::string &path, std::vector<std::string> &body)
+{
+    const std::string asked = question.IsMap() ? textOf(question, "ask") : std::string();
+    const YAML::Node answers = question.IsMap() ? childOf(question, "answers") : YAML::Node();
+
+    if (asked.empty() || !answers.IsDefined() || !answers.IsSequence() || answers.size() == 0)
+    {
+        add(path, "question is {ask: \"Climb in (Yes/No)?\", answers: [Yes, Y]} (the answers that count as right, "
+            "matched without regard to case), with `message` (a message window shown with it), `wrong_text` (a "
+            "status line on any other answer) and `wrong_effects` (effects run on any other answer) if wanted");
+        return;
+    }
+
+    constexpr int WrongStep = 1;
+    constexpr int RightStep = 2;
+    std::string answerList;
+
+    for (size_t index = 0; index < answers.size(); ++index)
+    {
+        noteRead(answers[index]);
+        answerList += (answerList.empty() ? "" : ", ") + luaQuote(answers[index].Scalar());
+    }
+
+    const size_t actionStart = std::min(m_actionStart, body.size());
+    std::vector<std::string> lines = {"if continueStep == " + std::to_string(RightStep) + " then"};
+
+    for (size_t line = actionStart; line < body.size(); ++line)
+    {
+        lines.push_back("    " + body[line]);
+    }
+
+    lines.push_back("    return");
+    lines.push_back("end");
+    lines.push_back("if continueStep ~= nil then");
+
+    if (const std::string wrong = textOf(question, "wrong_text"); !wrong.empty())
+    {
+        lines.push_back("    " + statusLine(wrong));
+    }
+
+    // `wrong_effects`: the effect words run on any other answer.
+    effects(childOf(question, "wrong_effects"), path + ".wrong_effects", "    ", lines);
+    lines.push_back("    return");
+    lines.push_back("end");
+    lines.insert(lines.end(), body.begin(), body.begin() + static_cast<std::ptrdiff_t>(actionStart));
+
+    if (const std::string message = textOf(question, "message"); !message.empty())
+    {
+        lines.push_back("evt.SetMessage(" + luaQuote(message) + ")");
+    }
+
+    lines.push_back("evt.AskQuestion(eventId, " + std::to_string(WrongStep) + ", 0, " + std::to_string(RightStep)
+        + ", " + luaQuote(asked) + ", {" + answerList + "})");
+    body = std::move(lines);
 }
 
 void OutdoorEventWords::applyToModel(const std::string &id, Game::OutdoorBModel &model)

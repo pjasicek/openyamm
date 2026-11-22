@@ -23,6 +23,7 @@
 #include "game/gameplay/HouseInteraction.h"
 #include "game/gameplay/GameplaySaveLoadUiSupport.h"
 #include "game/gameplay/GameplaySpellService.h"
+#include "game/gameplay/PlayerCommands.h"
 #include "game/items/InventoryItemUseRuntime.h"
 #include "game/party/SpellIds.h"
 #include "game/party/SpellSchool.h"
@@ -563,6 +564,21 @@ void GameplayScreenRuntime::presentPendingEventDialog(
         return;
     }
 
+    // The host opens a dialogue for another player (PlayerCommands): it is presented here on that player's own
+    // screens, which the host keeps, and noted as it stands now, for that player's game to present the same way.
+    if (GameSession::GuestPlayer *pActingGuest = m_session.actingGuestPlayer();
+        pActingGuest != nullptr && pEventRuntimeState->pendingDialogueContext)
+    {
+        pActingGuest->outcome.dialogueClosed = false;
+        pActingGuest->outcome.dialogue = GameSession::GuestPlayer::Outcome::Dialogue{
+            .context = *pEventRuntimeState->pendingDialogueContext,
+            .dialogueState = pEventRuntimeState->dialogueState,
+            .messages = pEventRuntimeState->messages,
+            .previousMessageCount = previousMessageCount,
+            .allowNpcFallbackContent = allowNpcFallbackContent,
+        };
+    }
+
     GameplayDialogController::Context context = contextBuilder
         ? contextBuilder(*pEventRuntimeState)
         : buildDialogContext(*pEventRuntimeState);
@@ -582,6 +598,14 @@ uint32_t GameplayScreenRuntime::closeActiveEventDialog()
     EventRuntimeState *pEventRuntimeState =
         worldRuntime() != nullptr ? worldRuntime()->eventRuntimeState() : nullptr;
     const uint32_t hostHouseId = pEventRuntimeState != nullptr ? pEventRuntimeState->dialogueState.hostHouseId : 0;
+
+    // Another player's dialogue, closed by what the host did for that player: its game closes its own.
+    if (GameSession::GuestPlayer *pActingGuest = m_session.actingGuestPlayer(); pActingGuest != nullptr)
+    {
+        pActingGuest->outcome.dialogue.reset();
+        pActingGuest->outcome.dialogueClosed = true;
+    }
+
     GameplayDialogUiFlowState state = dialogUiFlowState();
     ::OpenYAMM::Game::closeActiveEventDialog(
         state,
@@ -589,7 +613,7 @@ uint32_t GameplayScreenRuntime::closeActiveEventDialog()
     return hostHouseId;
 }
 
-void GameplayScreenRuntime::closeActiveDialogForMapMove()
+void GameplayScreenRuntime::closeActiveDialogForMapMove(bool keepEventDialog)
 {
     DialogueCloseCallback closeDialog = std::move(m_pendingMapMoveDialogClose);
     m_pendingMapMoveDialogClose = {};
@@ -597,7 +621,7 @@ void GameplayScreenRuntime::closeActiveDialogForMapMove()
     {
         closeDialog();
     }
-    else
+    else if (!keepEventDialog)
     {
         closeActiveEventDialog();
     }
@@ -1003,7 +1027,7 @@ const MonsterProjectileTable *GameplayScreenRuntime::monsterProjectileTable() co
 
 GameplayUiController::CharacterScreenState &GameplayScreenRuntime::characterScreen() const
 {
-    return m_session.gameplayScreenState().characterScreen();
+    return m_session.gameplayUiController().characterScreen();
 }
 
 GameplayUiController::HeldInventoryItemState &GameplayScreenRuntime::heldInventoryItem() const
@@ -1053,7 +1077,7 @@ GameplayUiController::LootSummaryOverlayState &GameplayScreenRuntime::lootSummar
 
 GameplayUiController::SpellbookState &GameplayScreenRuntime::spellbook() const
 {
-    return m_session.gameplayScreenState().spellbook();
+    return m_session.gameplayUiController().spellbook();
 }
 
 GameplayUiController::UtilitySpellOverlayState &GameplayScreenRuntime::utilitySpellOverlay() const
@@ -1063,12 +1087,12 @@ GameplayUiController::UtilitySpellOverlayState &GameplayScreenRuntime::utilitySp
 
 GameplayUiController::InventoryNestedOverlayState &GameplayScreenRuntime::inventoryNestedOverlay() const
 {
-    return m_session.gameplayScreenState().inventoryNestedOverlay();
+    return m_session.gameplayUiController().inventoryNestedOverlay();
 }
 
 GameplayUiController::HouseShopOverlayState &GameplayScreenRuntime::houseShopOverlay() const
 {
-    return m_session.gameplayScreenState().houseShopOverlay();
+    return m_session.gameplayUiController().houseShopOverlay();
 }
 
 GameplayUiController::TransportScheduleState &GameplayScreenRuntime::transportSchedule() const
@@ -1078,62 +1102,62 @@ GameplayUiController::TransportScheduleState &GameplayScreenRuntime::transportSc
 
 GameplayUiController::HouseShopVisitState &GameplayScreenRuntime::houseShopVisit() const
 {
-    return m_session.gameplayScreenState().houseShopVisit();
+    return m_session.gameplayUiController().houseShopVisit();
 }
 
 GameplayUiController::HouseBankState &GameplayScreenRuntime::houseBankState() const
 {
-    return m_session.gameplayScreenState().houseBankState();
+    return m_session.gameplayUiController().houseBankState();
 }
 
 GameplayUiController::JournalScreenState &GameplayScreenRuntime::journalScreenState() const
 {
-    return m_session.gameplayScreenState().journalScreen();
+    return m_session.gameplayUiController().journalScreen();
 }
 
 GameplayUiController::RestScreenState &GameplayScreenRuntime::restScreenState() const
 {
-    return m_session.gameplayScreenState().restScreen();
+    return m_session.gameplayUiController().restScreen();
 }
 
 GameplayUiController::MenuScreenState &GameplayScreenRuntime::menuScreenState() const
 {
-    return m_session.gameplayScreenState().menuScreen();
+    return m_session.gameplayUiController().menuScreen();
 }
 
 GameplayUiController::ControlsScreenState &GameplayScreenRuntime::controlsScreenState() const
 {
-    return m_session.gameplayScreenState().controlsScreen();
+    return m_session.gameplayUiController().controlsScreen();
 }
 
 GameplayUiController::KeyboardScreenState &GameplayScreenRuntime::keyboardScreenState() const
 {
-    return m_session.gameplayScreenState().keyboardScreen();
+    return m_session.gameplayUiController().keyboardScreen();
 }
 
 GameplayUiController::VideoOptionsScreenState &GameplayScreenRuntime::videoOptionsScreenState() const
 {
-    return m_session.gameplayScreenState().videoOptionsScreen();
+    return m_session.gameplayUiController().videoOptionsScreen();
 }
 
 GameplayUiController::SaveGameScreenState &GameplayScreenRuntime::saveGameScreenState() const
 {
-    return m_session.gameplayScreenState().saveGameScreen();
+    return m_session.gameplayUiController().saveGameScreen();
 }
 
 GameplayUiController::LoadGameScreenState &GameplayScreenRuntime::loadGameScreenState() const
 {
-    return m_session.gameplayScreenState().loadGameScreen();
+    return m_session.gameplayUiController().loadGameScreen();
 }
 
 GameplayUiController::QuickReferenceScreenState &GameplayScreenRuntime::quickReferenceScreenState() const
 {
-    return m_session.gameplayScreenState().quickReferenceScreen();
+    return m_session.gameplayUiController().quickReferenceScreen();
 }
 
 const GameplayUiController::CharacterScreenState &GameplayScreenRuntime::characterScreenReadOnly() const
 {
-    return m_session.gameplayScreenState().characterScreen();
+    return m_session.gameplayUiController().characterScreen();
 }
 
 const GameplayUiController::ItemInspectOverlayState &GameplayScreenRuntime::itemInspectOverlayReadOnly() const
@@ -1178,7 +1202,7 @@ const GameplayUiController::LootSummaryOverlayState &GameplayScreenRuntime::loot
 
 const GameplayUiController::SpellbookState &GameplayScreenRuntime::spellbookReadOnly() const
 {
-    return m_session.gameplayScreenState().spellbook();
+    return m_session.gameplayUiController().spellbook();
 }
 
 const GameplayUiController::UtilitySpellOverlayState &GameplayScreenRuntime::utilitySpellOverlayReadOnly() const
@@ -1188,12 +1212,12 @@ const GameplayUiController::UtilitySpellOverlayState &GameplayScreenRuntime::uti
 
 const GameplayUiController::JournalScreenState &GameplayScreenRuntime::journalScreenStateReadOnly() const
 {
-    return m_session.gameplayScreenState().journalScreen();
+    return m_session.gameplayUiController().journalScreen();
 }
 
 const GameplayUiController::QuickReferenceScreenState &GameplayScreenRuntime::quickReferenceScreenStateReadOnly() const
 {
-    return m_session.gameplayScreenState().quickReferenceScreen();
+    return m_session.gameplayUiController().quickReferenceScreen();
 }
 
 const AwardTable *GameplayScreenRuntime::awardTable() const
@@ -1204,7 +1228,7 @@ const AwardTable *GameplayScreenRuntime::awardTable() const
 bool GameplayScreenRuntime::isAutonoteUnlocked(uint32_t autonoteId) const
 {
     const Party *pParty = partyReadOnly();
-    return pParty != nullptr && pParty->hasAutonote(autonoteId);
+    return pParty != nullptr && pParty->campaign().hasAutonote(autonoteId);
 }
 
 const JournalQuestTable *GameplayScreenRuntime::journalQuestTable() const
@@ -1513,6 +1537,30 @@ void GameplayScreenRuntime::openRestOverlay(bool enforceWorldRestrictions)
         return;
     }
 
+    // Another player asked to rest: this player's Rest key is its agreement.
+    if (const std::optional<GameSession::RestProposal> &proposal = m_session.restProposal();
+        proposal && !m_startingAgreedRest)
+    {
+        IPlayerCommandRemote *pRemote = m_session.playerCommands().remote();
+        const PlayerId ownPlayer = pRemote != nullptr ? pRemote->ownPlayer() : LocalPlayer;
+
+        if (proposal->proposer != ownPlayer)
+        {
+            if (pRemote != nullptr)
+            {
+                pRemote->restVote(true);
+            }
+            else
+            {
+                m_session.answerRestProposal(LocalPlayer, true);
+            }
+
+            setStatusBarEvent(Engine::tr("You agreed to rest."));
+        }
+
+        return;
+    }
+
     if (turnBasedCombatRuntime().active())
     {
         setStatusBarEvent(Engine::tr("You can't rest in turn-based mode!"));
@@ -1590,7 +1638,18 @@ void GameplayScreenRuntime::beginRestAction(
             return;
         }
 
+        // With other players in the game a rest in the field is asked of them first: the host starts it when all
+        // have agreed (startAgreedRest), and nothing is paid before.
+        if (!m_startingAgreedRest && proposeRestToOthers(true, minutes))
+        {
+            return;
+        }
+
         currentParty.addFood(-foodRequired);
+    }
+    else if (consumeFood && !m_startingAgreedRest && proposeRestToOthers(false, minutes))
+    {
+        return;
     }
 
     // The party sleeps from the start of a heal, so dawns passed during it do not count as days without rest.
@@ -1636,6 +1695,85 @@ void GameplayScreenRuntime::beginRestAction(
     }
 }
 
+bool GameplayScreenRuntime::proposeRestToOthers(bool heal, float minutes)
+{
+    IPlayerCommandRemote *pRemote = m_session.playerCommands().remote();
+
+    if (pRemote == nullptr && (!m_session.coopSession() || m_session.guestPlayers().empty()))
+    {
+        return false;
+    }
+
+    if (pRemote != nullptr)
+    {
+        pRemote->proposeRest(heal, minutes);
+    }
+    else
+    {
+        m_session.proposeRest(heal, minutes, LocalPlayer);
+    }
+
+    closeRestOverlay();
+    setStatusBarEvent(Engine::tr("You asked the others to rest."), 4.0f);
+    return true;
+}
+
+std::optional<std::string> GameplayScreenRuntime::restRestrictionStatus() const
+{
+    return restWorldRestrictionStatusText(worldRuntime());
+}
+
+void GameplayScreenRuntime::startAgreedRest(bool heal, float minutes)
+{
+    PlayerCommands &commands = m_session.playerCommands();
+    std::vector<PlayerId> players = {LocalPlayer};
+
+    for (const std::unique_ptr<GameSession::GuestPlayer> &pGuest : m_session.guestPlayers())
+    {
+        players.push_back(pGuest->id);
+    }
+
+    // One player who cannot rest where it stands keeps everyone up, and nobody pays.
+    for (PlayerId player : players)
+    {
+        if (const std::optional<std::string> refusal = commands.restRefusal(player, heal))
+        {
+            const std::string text = Engine::tr("The rest is off: {reason}", {{"reason", *refusal}});
+            setStatusBarEvent(text, 4.0f);
+
+            for (const std::unique_ptr<GameSession::GuestPlayer> &pGuest : m_session.guestPlayers())
+            {
+                pGuest->outcome.statusTexts.emplace_back(text, 4.0f);
+            }
+
+            return;
+        }
+    }
+
+    if (heal)
+    {
+        const int foodRequired = restFoodRequired();
+
+        for (const std::unique_ptr<GameSession::GuestPlayer> &pGuest : m_session.guestPlayers())
+        {
+            pGuest->party.addFood(-foodRequired);
+            pGuest->party.clearDaysWithoutRest();
+        }
+    }
+
+    for (const std::unique_ptr<GameSession::GuestPlayer> &pGuest : m_session.guestPlayers())
+    {
+        pGuest->outcome.statusTexts.emplace_back(
+            heal ? Engine::tr("The party rests.") : Engine::tr("The party waits."), 4.0f);
+    }
+
+    m_startingAgreedRest = true;
+    openRestOverlay(false);
+    beginRestAction(heal ? GameplayUiController::RestMode::Heal : GameplayUiController::RestMode::Wait, minutes, true,
+        false);
+    m_startingAgreedRest = false;
+}
+
 void GameplayScreenRuntime::startRestAction(GameplayUiController::RestMode mode, float minutes)
 {
     beginRestAction(mode, minutes, true, false);
@@ -1645,6 +1783,20 @@ void GameplayScreenRuntime::startInnRest(uint32_t houseId)
 {
     if (worldRuntime() == nullptr)
     {
+        return;
+    }
+
+    // With other players in the world the clock is everyone's: a room rests its guest at once and no time passes
+    // ("Time"; a rest that passes the night is the players' vote, startAgreedRest).
+    if (worldRuntime()->sharedWithOtherPlayers())
+    {
+        if (Party *pParty = party())
+        {
+            pParty->clearDaysWithoutRest();
+            pParty->restAndHealAll();
+        }
+
+        setStatusBarEvent(Engine::tr("You are rested."));
         return;
     }
 
@@ -1661,7 +1813,7 @@ void GameplayScreenRuntime::openSpellbookOverlay()
     // In MM7's Shoals the spellbook stays shut, as in the original (OY-350).
     if (worldRuntime() != nullptr && !worldRuntime()->allowsSpellcasting())
     {
-        setStatusBarEvent(Engine::tr(PartySpellSystem::UnderwaterText));
+        setStatusBarEvent(Engine::tr(PartySpellSystem::spellcastingRefusalText(*worldRuntime())));
         return;
     }
 
@@ -1773,6 +1925,20 @@ void GameplayScreenRuntime::closeCharacterScreen()
 
 void GameplayScreenRuntime::handleDialogueCloseRequest()
 {
+    // The travel vote's window is answered by its buttons: closing it answers nothing, and it stays. The window is
+    // this game's own player's: a command the host carries out for a guest closes that guest's dialogue.
+    if (m_session.travelPromptSerial() != 0 && m_session.actingGuestPlayer() == nullptr)
+    {
+        setStatusBarEvent(Engine::tr("Choose an answer: the other players are waiting"), 3.0f);
+        return;
+    }
+
+    // A co-op guest's game closes its own screens here and tells the host, which keeps this player's screens too.
+    if (IPlayerCommandRemote *pRemote = m_session.playerCommands().remote(); pRemote != nullptr)
+    {
+        pRemote->dialogueClose();
+    }
+
     if (transportSchedule().active)
     {
         closeTransportSchedule();
@@ -1955,6 +2121,16 @@ void GameplayScreenRuntime::openHirelingDialogue(uint32_t rudeId)
     }
 }
 
+const std::vector<CoopHudPlayer> &GameplayScreenRuntime::coopHudPlayers() const
+{
+    return m_session.coopHudPlayers();
+}
+
+const std::vector<CoopHudPing> &GameplayScreenRuntime::coopHudPings() const
+{
+    return m_session.coopHudPings();
+}
+
 bool GameplayScreenRuntime::combatLogShown() const
 {
     if (m_pSettings == nullptr)
@@ -1974,6 +2150,11 @@ bool GameplayScreenRuntime::combatLogShown() const
 
     // The user (2026-11-06): hidden in the Standard ruleset and in the MM9 world unless switched on.
     return !m_session.ruleset().isStandard() && m_session.worldCombatLog();
+}
+
+bool GameplayScreenRuntime::combatLogPanelShown() const
+{
+    return combatLogShown() || m_session.coopSession();
 }
 
 void GameplayScreenRuntime::closeRestOverlay()
@@ -2045,6 +2226,15 @@ void GameplayScreenRuntime::completeRestAction(bool closeRestScreenAfterCompleti
     if (completedMode == GameplayUiController::RestMode::Heal && party() != nullptr)
     {
         party()->restAndHealAll();
+
+        // A rest in the field is every player's (startAgreedRest); a room at an inn is its guest's alone.
+        if (!completedInnRest && m_session.actingGuestPlayer() == nullptr)
+        {
+            for (const std::unique_ptr<GameSession::GuestPlayer> &pGuest : m_session.guestPlayers())
+            {
+                pGuest->party.restAndHealAll();
+            }
+        }
     }
 
     if (closeRestScreenAfterCompletion || completedMode == GameplayUiController::RestMode::Heal)
@@ -2528,6 +2718,80 @@ void GameplayScreenRuntime::executeActiveDialogAction()
     sceneAdapter().executeActiveDialogAction();
 }
 
+void GameplayScreenRuntime::answerTravelPrompt(uint8_t choiceCode)
+{
+    using TravelChoice = GameSession::TravelChoice;
+    const TravelChoice choice = TravelChoice(choiceCode);
+    const std::optional<GameSession::TravelProposal> &proposal = m_session.travelProposal();
+    const uint32_t serial = m_session.travelPromptSerial();
+    IPlayerCommandRemote *pRemote = m_session.playerCommands().remote();
+
+    // A proposal that is still the one asked about: the answer goes to the host, or is given here in the host's own
+    // game.
+    if (proposal && proposal->serial == serial)
+    {
+        switch (choice)
+        {
+            case TravelChoice::WithParty:
+            case TravelChoice::Travel:
+            case TravelChoice::Stay:
+            case TravelChoice::Cancel:
+            {
+                // The proposer's yes puts the trip to the others; a voter's agrees to it.
+                const bool yes = choice == TravelChoice::Travel || choice == TravelChoice::WithParty;
+
+                if (pRemote != nullptr)
+                {
+                    pRemote->travelVote(yes);
+                }
+                else
+                {
+                    m_session.answerTravelProposal(LocalPlayer, yes);
+                }
+
+                break;
+            }
+
+            case TravelChoice::GoAlone:
+                if (pRemote != nullptr)
+                {
+                    pRemote->stepOutToTravel(proposal->move);
+                }
+
+                break;
+
+            case TravelChoice::DropOut:
+                if (pRemote != nullptr)
+                {
+                    pRemote->stepOutOfSession();
+                }
+
+                break;
+
+            case TravelChoice::Force:
+                m_session.forceTravelProposal();
+                break;
+
+            case TravelChoice::None:
+            case TravelChoice::Ok:
+                break;
+        }
+    }
+
+    // The window is not shown again for this answer while it is on its way.
+    m_session.noteTravelPromptAnswer(serial, choice);
+    m_session.setTravelPromptSerial(0);
+
+    EventRuntimeState *pEventRuntimeState = worldRuntime() != nullptr ? worldRuntime()->eventRuntimeState() : nullptr;
+
+    if (pEventRuntimeState != nullptr)
+    {
+        pEventRuntimeState->pendingDialogueContext.reset();
+    }
+
+    closeActiveEventDialog();
+}
+
 void GameplayScreenRuntime::executeDialogAction(const EventDialogAction &action)
 {
     m_dialogActionOverride = action;
@@ -2556,6 +2820,64 @@ void GameplayScreenRuntime::executeActiveDialogAction(
 
     GameplayDialogController::Context context = contextBuilder(*pEventRuntimeState);
     context.actionOverride = m_dialogActionOverride;
+
+    // The dialogue is this game's window of the travel vote: its buttons are the player's answer. Not
+    // while the host carries out a guest's choice, which is made in that guest's own dialogue.
+    if (m_session.travelPromptSerial() != 0 && m_session.actingGuestPlayer() == nullptr)
+    {
+        const EventDialogContent &dialog = activeEventDialog();
+        const size_t selectionIndex = eventDialogSelectionIndex();
+        const std::optional<EventDialogAction> chosen = m_dialogActionOverride ? m_dialogActionOverride
+            : selectionIndex < dialog.actions.size() ? std::optional<EventDialogAction>(dialog.actions[selectionIndex])
+            : std::nullopt;
+        const std::vector<GameSession::TravelChoice> &choices = m_session.travelPromptChoices();
+
+        // The window's buttons are its choices, in their order.
+        if (chosen && chosen->kind == EventDialogActionKind::EventChoice && chosen->id < choices.size())
+        {
+            answerTravelPrompt(uint8_t(choices[chosen->id]));
+        }
+
+        return;
+    }
+
+    // A co-op guest's game: the host does what the choice does, for this player, and says what to show then.
+    if (IPlayerCommandRemote *pRemote = m_session.playerCommands().remote(); pRemote != nullptr)
+    {
+        const EventDialogContent &dialog = activeEventDialog();
+        const size_t selectionIndex = eventDialogSelectionIndex();
+
+        // The question at the map's edge is this game's own: its party walked into the edge, and the host has no
+        // dialogue of it. OK is this player's proposal to the others; anything else only closes the question.
+        if (pEventRuntimeState->pendingDialogueContext && pEventRuntimeState->pendingDialogueContext->boundaryTravel
+            && pEventRuntimeState->pendingDialogueContext->transitionMapMove)
+        {
+            const EventDialogActionKind chosen = m_dialogActionOverride ? m_dialogActionOverride->kind
+                : selectionIndex < dialog.actions.size() ? dialog.actions[selectionIndex].kind
+                : EventDialogActionKind::None;
+
+            if (chosen == EventDialogActionKind::MapTransitionConfirm)
+            {
+                pRemote->proposeTravel(*pEventRuntimeState->pendingDialogueContext->transitionMapMove);
+            }
+
+            pEventRuntimeState->pendingDialogueContext.reset();
+            closeActiveEventDialog();
+            return;
+        }
+
+        if (m_dialogActionOverride)
+        {
+            pRemote->dialogueAction(selectionIndex, *m_dialogActionOverride, true);
+        }
+        else if (selectionIndex < dialog.actions.size())
+        {
+            pRemote->dialogueAction(selectionIndex, dialog.actions[selectionIndex], false);
+        }
+
+        return;
+    }
+
     const GameplayDialogController::Result result =
         m_session.gameplayDialogController().executeActiveDialogAction(context);
 
@@ -2568,8 +2890,20 @@ void GameplayScreenRuntime::executeActiveDialogAction(
     if (mapMovePending)
     {
         // Present the departure dialogue for the transition's final frame.
-        // The map-move handler closes it after retaining the loading background.
-        m_pendingMapMoveDialogClose = result.shouldCloseActiveDialog ? closeActiveDialog : DialogueCloseCallback{};
+        // The map-move handler closes it after retaining the loading background. A move the dialogue's choice asked
+        // for closes the dialogue even within the map (a boat to the same map's isle), unlike an event's message
+        // window over a move inside the map.
+        if (result.shouldCloseActiveDialog && closeActiveDialog)
+        {
+            m_pendingMapMoveDialogClose = closeActiveDialog;
+        }
+        else
+        {
+            m_pendingMapMoveDialogClose = [this]()
+            {
+                closeActiveEventDialog();
+            };
+        }
         m_session.setPendingMapMove(std::move(*pEventRuntimeState->pendingMapMove));
         pEventRuntimeState->pendingMapMove.reset();
     }
@@ -2616,6 +2950,16 @@ void GameplayScreenRuntime::refreshHouseBankInputDialog()
 
 void GameplayScreenRuntime::confirmHouseBankInput()
 {
+    // A co-op guest's game: the bank is the host's to keep, and the amount typed here is sent to it. The question
+    // closes when the host's game says it did.
+    if (IPlayerCommandRemote *pRemote = m_session.playerCommands().remote(); pRemote != nullptr)
+    {
+        const int amount = houseBankState().inputText.empty() ? 0 : std::atoi(houseBankState().inputText.c_str());
+        pRemote->houseBankAmount(uint32_t(std::max(0, amount)));
+        houseBankState().inputText.clear();
+        return;
+    }
+
     GameplayDialogUiFlowState state = dialogUiFlowState();
     EventRuntimeState *pEventRuntimeState = worldRuntime() != nullptr ? worldRuntime()->eventRuntimeState() : nullptr;
 
@@ -2768,6 +3112,11 @@ GameplayItemService &GameplayScreenRuntime::itemService() const
     return m_session.gameplayItemService();
 }
 
+PlayerCommands &GameplayScreenRuntime::playerCommands() const
+{
+    return m_session.playerCommands();
+}
+
 GameplayFxService &GameplayScreenRuntime::fxService() const
 {
     return m_session.gameplayFxService();
@@ -2793,6 +3142,14 @@ bool GameplayScreenRuntime::toggleTurnBasedMode()
     }
 
     const bool wasTurnBasedActive = turnBasedCombatRuntime().active();
+
+    // A co-op session has no turn-based combat: its players share one clock.
+    if (!wasTurnBasedActive && m_session.coopSession())
+    {
+        setStatusBarEvent(Engine::tr("Turn-based mode is not available in a co-op game."));
+        return false;
+    }
+
     std::vector<float> attackRecoverySeconds;
 
     if (!wasTurnBasedActive)
@@ -3792,6 +4149,17 @@ void GameplayScreenRuntime::updateHouseDialoguePresentation(float deltaSeconds)
         {
             m_pAudioSystem->pauseBackgroundMusic();
             m_pAudioSystem->playCommonSound(SoundId::Enter, GameAudioSystem::PlaybackGroup::HouseDoor);
+
+            // The house's own entering sound (house_animations' Enter Sound: Xeen's fortune tellers' chime), beside
+            // the door and the greeting.
+            if (!pHostHouseEntry->enterSoundName.empty()
+                && !m_pAudioSystem->playSoundByName(
+                    pHostHouseEntry->enterSoundName, GameAudioSystem::PlaybackGroup::Ui, SoundScope::World))
+            {
+                m_pAudioSystem->playSoundByName(
+                    pHostHouseEntry->enterSoundName, GameAudioSystem::PlaybackGroup::Ui, SoundScope::Engine);
+            }
+
             const std::optional<uint32_t> greetingSoundId =
                 deriveHouseSoundId(
                     *pHostHouseEntry,
@@ -4135,7 +4503,7 @@ std::optional<float> GameplayScreenRuntime::minimapTabShift(
 
     const Party *pParty = partyReadOnly();
     const std::array<bool, 3> shown = {pParty != nullptr && pParty->npcFollowersActive(),
-        pParty != nullptr && pParty->formationTargetingActive(), combatLogShown()};
+        pParty != nullptr && pParty->formationTargetingActive(), combatLogPanelShown()};
     const std::optional<ResolvedHudLayoutElement> own =
         uiRuntime().resolveHudLayoutElement(layoutId, screenWidth, screenHeight, 0, 0);
     const std::optional<ResolvedHudLayoutElement> edge =

@@ -4,6 +4,7 @@
 #include "game/events/EvtEnums.h"
 #include "game/events/ScriptedEventProgram.h"
 #include "game/gameplay/NpcFollowerTypes.h"
+#include "game/gameplay/TravelRuntime.h"
 #include "game/maps/MapDeltaData.h"
 #include "game/events/MechanismAudioProfile.h"
 #include "game/party/Party.h"
@@ -169,6 +170,9 @@ struct EventRuntimeState
         bool useFullscreenLoading = false;
         // Travel time, food or fare were already spent, so the travel autosave belongs to the arrival map.
         bool travelTimeApplied = false;
+        // What the trip costs while it is not paid yet: in a world shared with other players the move waits for
+        // their agreement, and every party pays as it sets off (TravelCost). Not saved.
+        std::optional<TravelCost> unpaidCost;
         // The item that leads there (ItemRules::planTravelItem): it is used for good as the party sets off, after
         // the autosave of the map being left, so that save holds the item unused. Until then it stays where it is, in
         // the player's hand or back in a bag.
@@ -177,6 +181,9 @@ struct EventRuntimeState
         // (evt.MoveToMap's options keepHeight: falling off Celeste into the Bracada Desert sky, OY Celeste fall).
         // Not saved: a move pending in a save lands on the ground.
         bool keepHeight = false;
+        // A script moves the party without asking it (evt.MoveToMap with no leave dialogue: a trap, a teleporter, a
+        // story event). In a co-op session it skips the players' vote and takes everyone ("Map travel"). Not saved.
+        bool forced = false;
         std::string traceSourceKind;
         uint32_t traceSourceId = 0;
         uint32_t traceActionId = 0;
@@ -205,6 +212,17 @@ struct EventRuntimeState
         std::optional<PendingMapMove> transitionMapMove;
         // Walking off an outdoor map edge (sourceId holds the MapBoundaryEdge); transitionMapMove is the arrival.
         bool boundaryTravel = false;
+        // A question the game asks its player by itself, not a script's (a co-op travel vote): its lines and one
+        // button per choice, shown as an event's choice box (kind MapEvent). The choice comes back as an
+        // EventChoice with the button's place in the list. Texts are in the interface language already.
+        struct OwnQuestion
+        {
+            std::vector<std::string> lines;
+            std::vector<std::string> choices;
+            // The map a question about a trip leads to: its travel icon heads the window, as a transition's does.
+            std::string travelMapFile;
+        };
+        std::optional<OwnQuestion> ownQuestion;
         // An MM9 exit's days on the road (Mm9MapTransition::travelDays), stated in the dialogue.
         int transitionTravelDays = 0;
         uint32_t transitionTextId = 0;
@@ -613,6 +631,11 @@ struct EventRuntimeState
         // MonsterDamage, MonsterKilled: the party dealt the hit or the killing blow (its weapons, missiles and spells,
         // damage it reflects), not another monster, a trap or an area effect.
         bool byParty = false;
+        // MonsterDamage indoors (E11): how the hit came, "melee", "missile", "spell" or "other" (a trap, a monster, a
+        // reflected hit), and the striking member's weapon (the main hand's for a blow, the bow's for an arrow; 0 for
+        // a spell, a hireling's blow or none).
+        std::string attackKind;
+        uint32_t weaponItemId = 0;
         uint32_t houseId = 0;
         uint32_t houseServiceType = 0;
         uint32_t menuId = 0;
@@ -708,6 +731,16 @@ struct EventRuntimeState
         uint32_t revision = 0;
     };
     ScriptedFog scriptedFog;
+    // evt.SetMist(amount [, seconds]): a map script's share of the scene's mist (devdocs/MIST.md "From Lua"), 0..1,
+    // faded from the share shown over `seconds`; each call raises `revision`. Not saved: the map's Lua sets it again
+    // on load.
+    struct ScriptedMist
+    {
+        float amount = 1.0f;
+        float seconds = 0.0f;
+        uint32_t revision = 0;
+    };
+    ScriptedMist scriptedMist;
     std::optional<int32_t> outdoorFogWeakDistanceOverride;
     std::optional<int32_t> outdoorFogStrongDistanceOverride;
     std::unordered_map<uint32_t, uint32_t> actorSetMasks;
@@ -765,6 +798,10 @@ struct EventRuntimeState
     // The experience each member got from the running handler (not saved): a handler that shows no status text of its
     // own ends with "+N experience" (OY-489).
     int64_t handlerExperienceAward = 0;
+    // The parties of a co-op session's players, the acting one among them (not saved; the session sets it while it
+    // has other players and it is empty otherwise). What an event gives as a reward (experience, gold, an award)
+    // goes to every one of them: quest rewards are for everyone in the session.
+    std::vector<Party *> coopParties;
     std::vector<uint32_t> openedChestIds;
     std::vector<OpenedChestRequest> openedChestRequests;
     bool activeEventOpenedByTelekinesis = false;
@@ -832,6 +869,12 @@ struct EventRuntimeBindingReport
 };
 
 void clearTransientEventRuntimeState(EventRuntimeState &runtimeState);
+// Gives runtimeState the transient state of source: what clearTransientEventRuntimeState clears. A co-op guest's
+// replica takes the map's state from its host and keeps its own conversation and requests this way.
+void keepTransientEventRuntimeState(EventRuntimeState &runtimeState, const EventRuntimeState &source);
+// Exchanges the transient state of two states. While the host of a co-op session does something for another player,
+// the map's state holds that player's conversation and requests in place of the local player's (PlayerCommands).
+void swapTransientEventRuntimeState(EventRuntimeState &first, EventRuntimeState &second);
 // How long status message index stays on the status bar: the seconds evt.StatusText gave it, else
 // DefaultStatusMessageSeconds.
 constexpr float DefaultStatusMessageSeconds = 2.0f;

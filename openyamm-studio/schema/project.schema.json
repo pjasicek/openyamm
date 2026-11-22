@@ -429,6 +429,27 @@
             ],
             "x-kinds": "all"
           },
+          "span": {
+            "description": "For map edges: the stretch of `side` this neighbour covers, [from, to] in game units along it (x for north and south, y for east and west; -32768 to 32768), when one side leads to two maps (Xeen's X4 south edge: [-32768, 0] to X3, [0, 32768] to X2). The rest of the side leads to its neighbour without a span. A span is no row of the travel table (one map per side): the world's `edge_spans` table holds it (`map, edge, from, to, to_map, side, days, at, facing`), with `arrival` and `direction` as its arrival.",
+            "type": "array",
+            "items": {
+              "type": "integer",
+              "minimum": -32768,
+              "maximum": 32768
+            },
+            "minItems": 2,
+            "maxItems": 2,
+            "x-flow": true,
+            "x-unit": "map",
+            "x-kinds": [
+              "edge"
+            ]
+          },
+          "keep_height": {
+            "description": "The party arrives at the arrival's height and falls from there (a throw out of a window: XD-07's throne), instead of standing on the ground under it. An exit into an outdoor map only (`evt.MoveToMap`'s `keepHeight`).",
+            "type": "boolean",
+            "x-kinds": "all"
+          },
           "arrival_side": {
             "description": "Until the target map has anchors: the side of it the party arrives on.",
             "enum": [
@@ -477,23 +498,40 @@
             "x-kinds": "all"
           },
           "screen": {
-            "description": "The screen shown before the map loads, the shipped scripts' seventh and eighth numbers of evt.MoveToMap: `house` the row of the house table whose text it shows (default 0), `picture` its picture (default 1). The MM8 dungeons' exits show {picture: 1} (the Mad Necromancer's Lab, the Abandoned Temple); left out, 0 and 0 (MM6 and MM7's dungeons): the game's own question.",
-            "type": "object",
+            "description": "The entrance window the game shows before the map loads (MM6-MM8's: the map's name, a picture, \"Do you wish to enter X?\" or a line of trans.txt, OK and Close): the seventh and eighth numbers of evt.MoveToMap. Left out: the standard window into a dungeon (a .blv: picture 1), none toward an outdoor map (the game asks to leave the dungeon itself); a `leave` effect always moves directly. `none`: a direct move, no window. `{text, picture}`: the trans.txt row whose line replaces the question (a world's own rows: its data_tables/english/trans.txt) and the picture (1 when left out). Feedback F16, 2026-11-22.",
             "x-flow": true,
-            "properties": {
-              "house": {
-                "type": "integer",
-                "minimum": 0,
-                "x-unit": "index"
+            "oneOf": [
+              {
+                "type": "string",
+                "enum": [
+                  "none"
+                ]
               },
-              "picture": {
-                "type": "integer",
-                "minimum": 0,
-                "x-unit": "index"
+              {
+                "type": "object",
+                "properties": {
+                  "text": {
+                    "description": "The trans.txt row whose line the window shows; 0: \"Do you wish to enter X?\".",
+                    "type": "integer",
+                    "minimum": 0,
+                    "x-unit": "index"
+                  },
+                  "house": {
+                    "description": "The older name of `text` (the shipped scripts call the number the house).",
+                    "type": "integer",
+                    "minimum": 0,
+                    "x-unit": "index"
+                  },
+                  "picture": {
+                    "description": "The picture, 1 when left out (1: the dungeon entrance's).",
+                    "type": "integer",
+                    "minimum": 0,
+                    "x-unit": "index"
+                  }
+                },
+                "additionalProperties": false
               }
-            },
-            "additionalProperties": false,
-            "x-kinds": "all"
+            ]
           },
           "notes": {
             "$ref": "common.schema.json#/$defs/notes",
@@ -529,6 +567,7 @@
             "Way",
             [
               "side",
+              "span",
               "approach",
               "screened",
               "one_way",
@@ -666,6 +705,38 @@
     "notes": {
       "$ref": "common.schema.json#/$defs/notes"
     },
+    "identity": {
+      "description": "What the map is meant to read as (decision D-89, the dungeon-identity design): `shape` (cave, mine, tower, temple, castle, sewer, ship, hall), `family` (the shipped BLV its kit and textures come from) and `seen` (three things the party must see). `oymap install` copies `shape` into the map's <stem>.studio.yml, and `oymap audit` holds a cave or a mine to the cave-shape targets (oymap metrics `cave_shape`; README \"Cave shape\").",
+      "type": "object",
+      "properties": {
+        "shape": {
+          "description": "The kind of place.",
+          "type": "string",
+          "enum": [
+            "cave",
+            "mine",
+            "tower",
+            "temple",
+            "castle",
+            "sewer",
+            "ship",
+            "hall"
+          ]
+        },
+        "family": {
+          "description": "The assigned shipped BLV (d17.blv, 7d07.blv, 6d05.blv).",
+          "type": "string"
+        },
+        "seen": {
+          "description": "Three things the party must see that carry the name.",
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "additionalProperties": false
+    },
     "edited_by_hand": {
       "description": "The hand-edit mark (S5 2.8): written by the core at the first change a person makes through the studio, or by \"Protect this project\" (oymap protect). From then on agents change the project through operations, never by running a generator again (a generator run would erase the hand edits). Only a person clears it.",
       "type": "object",
@@ -702,6 +773,7 @@
         "map_code",
         "new",
         "base",
+        "identity",
         "notes"
       ]
     ],

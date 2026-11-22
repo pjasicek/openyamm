@@ -225,6 +225,13 @@ uint64_t AudioSystem::playClip(const std::string &virtualPath, const PlaybackOpt
     instance.pitch = std::clamp(options.pitch, 0.125f, 8.0f);
     instance.innerRadius = options.innerRadius;
     instance.outerRadius = options.outerRadius;
+    instance.frameOffset = std::clamp(double(options.startFraction), 0.0, 1.0) * double(instance.pClip->frameCount);
+
+    if (instance.frameOffset >= double(instance.pClip->frameCount))
+    {
+        instance.frameOffset = 0.0;
+    }
+
     m_playingInstances.push_back(std::move(instance));
     return m_playingInstances.back().instanceId;
 }

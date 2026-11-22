@@ -30,6 +30,13 @@ struct MergedCharacterSelectionContinent
     std::vector<uint32_t> availableClassIds;
     std::vector<uint32_t> availableRaceIds;
     std::vector<std::string> portraitExceptions;
+    // The new-game screen's card (`card:`); a continent without one gets no card. Cards go left to right by order.
+    bool hasCard = false;
+    uint32_t cardOrder = 0;
+    std::string cardTitle;
+    std::string cardSubtitle;
+    std::string cardCaption;
+    std::string cardPicture;
 };
 
 struct MergedTeacherTopicEntry
@@ -359,7 +366,53 @@ struct MergedTownPortalSwitchGroup
 {
     std::string name;
     uint32_t topicId = 0;
+    // The "@" row's label and continent: a group with a continent is that continent's page of the Town Portal screen
+    // (its button says the label); one without is no page. Dimension Door has its own table (dimension_doors.yml).
+    std::string label;
+    uint32_t continentId = 0;
     std::vector<MergedTownPortalDestination> destinations;
+};
+
+// Dimension Door's screen (the spell and the towns' dimensional travel pedestals), dimension_doors.yml and the mounted
+// worlds' contributions: one door per continent, left to right.
+struct MergedDimensionDoorLanding
+{
+    // The party lands here while it has this QBit (0: always); a door's first such landing wins.
+    uint32_t qbit = 0;
+    std::string mapFileName;
+    // No position: the map's start.
+    std::optional<std::array<int32_t, 3>> position;
+    std::optional<int32_t> directionDegrees;
+};
+
+struct MergedDimensionDoor
+{
+    std::string key;
+    // English; localized where it is drawn.
+    std::string label;
+    // The door's rank left to right, its continent's new-game card order (`card.order`): the doors take the screen's
+    // places in this order, so a world's door may come before the engine's. Unique, not a slot.
+    uint32_t place = 0;
+    // The lit door's picture on each screen, by the screen's door count.
+    std::unordered_map<uint32_t, std::string> pictures;
+    // The last one has no QBit.
+    std::vector<MergedDimensionDoorLanding> landings;
+};
+
+struct MergedDimensionDoorPlace
+{
+    // Where the lit door is drawn and the area the pointer lights it in: x, y, width, height on the 640x480 screen.
+    std::array<int32_t, 4> picture = {};
+    std::array<int32_t, 4> hover = {};
+    // Where the door's name is printed (under the portal), the same way; no rect: no name.
+    std::optional<std::array<int32_t, 4>> label;
+};
+
+struct MergedDimensionDoorScreen
+{
+    std::string backdrop;
+    // Left to right; as many as the screen has doors.
+    std::vector<MergedDimensionDoorPlace> places;
 };
 
 struct MergedTransportIndexEntry
@@ -379,6 +432,9 @@ struct MergedTransportLocationEntry
     int32_t z = 0;
     int32_t direction = 0;
     uint32_t qbit = 0;
+    // The optional 16th column "Name": the place a route's button names; empty, the map's map_stats name (a world's
+    // two routes into one map: Xeen's Isle of Lost Souls and Lakeside, both on D4).
+    std::string name;
 };
 
 class MergedClassExtraTable
@@ -396,6 +452,13 @@ class MergedCharacterSelectionTable
 public:
     bool loadFromRows(const std::vector<std::vector<std::string>> &rows);
     bool loadFromYaml(const std::string &yamlText, std::string &errorMessage);
+    // A world's own new-game continents (a YAML file of `new_game_continents` entries, as in the engine table): each
+    // id within [firstId, lastId] and new, each key new.
+    bool appendNewGameContinentsFromYaml(
+        const std::string &yamlText,
+        uint32_t firstId,
+        uint32_t lastId,
+        std::string &errorMessage);
     const std::vector<std::string> *allowedClassesForRaceId(uint32_t raceId) const;
     const std::vector<MergedCharacterSelectionContinent> &continents() const;
     std::optional<std::string> raceNameForId(uint32_t raceId) const;
@@ -728,6 +791,42 @@ public:
 private:
     std::vector<MergedTownPortalSwitchGroup> m_groups;
 };
+
+class MergedDimensionDoorTable
+{
+public:
+    // The engine's file: `screens` and `doors`.
+    bool loadFromYaml(const std::string &yamlText, std::string &errorMessage);
+    // A world's: more doors (new keys and places; a place before the engine's moves those right) and screens (new
+    // door counts).
+    bool appendFromYaml(const std::string &yamlText, std::string &errorMessage);
+    // By place: the n-th door is drawn at the screen's n-th place.
+    const std::vector<MergedDimensionDoor> &doors() const;
+    // The screen with the fewest places that has one for every door; when none has, the one with the most (the
+    // doors beyond its places are not shown). Null without screens.
+    const MergedDimensionDoorScreen *screen() const;
+
+private:
+    bool append(const std::string &yamlText, std::string &errorMessage);
+
+    std::vector<MergedDimensionDoor> m_doors;
+    std::vector<MergedDimensionDoorScreen> m_screens;
+};
+
+// The landing for a party that has the QBits hasQBit says it has: the door's first whose QBit it has, else its last.
+template <typename HasQBit>
+const MergedDimensionDoorLanding *chooseDimensionDoorLanding(const MergedDimensionDoor &door, HasQBit hasQBit)
+{
+    for (const MergedDimensionDoorLanding &landing : door.landings)
+    {
+        if (landing.qbit == 0 || hasQBit(landing.qbit))
+        {
+            return &landing;
+        }
+    }
+
+    return nullptr;
+}
 
 class MergedTransportIndexTable
 {

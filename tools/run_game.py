@@ -47,7 +47,9 @@ def parse_args():
     parser.add_argument('--yaw-radians', type=finite_number)
     parser.add_argument('--pitch-degrees', type=finite_number)
     parser.add_argument('--settings', type=Path, default=ROOT / 'settings.ini', help='Settings to copy')
-    parser.add_argument('--binary', type=Path, default=ROOT / 'build/game/openyamm', help='Executable to test')
+    parser.add_argument('--binary', type=Path,
+                        default=Path(os.environ.get('OPENYAMM_GAME_BINARY') or ROOT / 'build/game/openyamm'),
+                        help='Executable to test (default $OPENYAMM_GAME_BINARY, else build/game/openyamm)')
     parser.add_argument('--assets', type=Path, help='Asset root override (otherwise resolved from copied settings)')
     parser.add_argument('--extra-mount', type=Path,
                         help='A development folder read in front of the asset root (the game\'s --extra-mount), such as '

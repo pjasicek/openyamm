@@ -13,6 +13,8 @@ spacing, wild-land density and road ends at the map edge belong to OUTDOOR_REBUI
 
     town_feel.py --shipped [--json]     every shipped town of the rule set, one table
     --start                             judge a start or early map by the five shipped start maps' ranges
+    --small                             judge a small town (9 services or fewer): its size figures by the thirteen
+                                        towns and four small ones, no lower bound on spread or magic shop to alchemist
     town_feel.py --project <folder> [--assets <root>] [--report-json]
                                         a built outdoor project (its build/<stem>.odm and scene, from `oymap build`;
                                         the interactive things through oymap's private build of the project)
@@ -53,6 +55,11 @@ SHIPPED = [
     ("mm7", "7out13.odm", "Tatalia (Tatalia town)", (-4500, -20500, 13500, -4000)),
     ("mm7", "7out04.odm", "Tularean Forest (Pierpont)", None),
     ("mm7", "7out06.odm", "Bracada (Celeste approach; not a town, left out of the ranges)", None),
+    # Small towns, left out of the main ranges (decision D-20): only --small's size figures take them in.
+    ("mm7", "7out05.odm", "Deyja (small town; --small only)", None),
+    ("mm7", "out10.odm", "Mount Nighon (small town; --small only)", None),
+    ("mm6", "outa2.odm", "Paradise Valley (small town; --small only)", None),
+    ("mm6", "outb1.odm", "Kriegspire (small town; --small only)", None),
     ("mm8", "out02.odm", "Ravenshore", None),
     ("mm8", "out03.odm", "Alvar", None),
     ("mm8", "out06.odm", "Shadowspire", None),
@@ -99,9 +106,17 @@ def table_rows(path):
         return [line.rstrip("\n").split("\t") for line in handle]
 
 
-def house_types(assets):
+def world_table_rows(assets, world, name):
+    """An engine table's rows, then the world's own rows of it (worlds/<world>/data_tables/<name>, the rows a world
+    package adds: Xeen's houses, monsters and maps), as the game composes them."""
+    rows = table_rows(assets / "engine/data_tables" / name)
+    own = assets / "worlds" / (world or "") / "data_tables" / name
+    return rows + table_rows(own) if world and own.is_file() else rows
+
+
+def house_types(assets, world=None):
     types = {}
-    for row in table_rows(assets / "engine/data_tables/house_data.txt")[2:]:
+    for row in world_table_rows(assets, world, "house_data.txt")[2:]:
         if len(row) > 5 and row[0].strip().isdigit():
             types[int(row[0])] = (row[2].strip(), row[5].strip())
     return types
@@ -115,9 +130,9 @@ def decoration_hints(assets):
     return hints
 
 
-def monster_names(assets):
+def monster_names(assets, world=None):
     names = {}
-    for row in table_rows(assets / "engine/data_tables/monster_data.txt"):
+    for row in world_table_rows(assets, world, "monster_data.txt"):
         if len(row) > 2 and row[0].strip().isdigit():
             names[int(row[0])] = (row[1], row[2])
     return names
@@ -146,9 +161,9 @@ def monster_by_picture(monsters, picture):
     return None
 
 
-def spawn_counts(assets, map_name):
+def spawn_counts(assets, map_name, world=None):
     """Per map monster slot M1-M3: mean group size from map_stats ('#' dice such as ' 2-5') and its picture name."""
-    for row in table_rows(assets / "engine/data_tables/map_stats.txt"):
+    for row in world_table_rows(assets, world, "map_stats.txt"):
         if len(row) > 28 and row[2].strip().lower() == map_name.lower():
             slots = []
             for column, name_column in ((19, 16), (23, 20), (27, 24)):
@@ -642,9 +657,9 @@ def measure(map_arg, world, assets, town_box=None, project=None):
     # the asset root, where a project's map is not installed).
     things_target = ([str(project)] if project else [str(path), "--world", world])
     things = oymap(["things"] + things_target + ["--assets", str(assets), "--json"])["things"]
-    houses = house_types(assets)
+    houses = house_types(assets, world)
     hints = decoration_hints(assets)
-    monsters = monster_names(assets)
+    monsters = monster_names(assets, world)
     scene_path = path.with_name(path.stem + ".scene.yml")
     environment = {}
     if scene_path.exists():
@@ -919,7 +934,7 @@ def measure(map_arg, world, assets, town_box=None, project=None):
         xs = [hostile[i]["x"] for i in members]
         ys = [hostile[i]["y"] for i in members]
         groups.append({"x": sum(xs) / len(xs), "y": sum(ys) / len(ys), "size": len(members), "kind": "actors"})
-    slots = spawn_counts(assets, path.name)
+    slots = spawn_counts(assets, path.name, world)
     slot_hostile = []
     for mean, picture in slots:
         monster_id = monster_by_picture(monsters, picture) if picture else None
@@ -1041,6 +1056,10 @@ def measure(map_arg, world, assets, town_box=None, project=None):
                     grown = True
         sx, sy = np.mean(service_points, axis=0)
         pairs = sorted((math.dist(buildings[i][0], (sx, sy)), buildings[i][1]) for i in town_cluster)
+    else:
+        pairs = []
+    # A town of stalls (D3's Crossroads: a ring of market stalls, no house-sized model near its doors) has no spread.
+    if pairs:
         weights = np.cumsum([w for _, w in pairs]) / sum(w for _, w in pairs)
 
         def at(q):
@@ -1138,8 +1157,8 @@ def measure(map_arg, world, assets, town_box=None, project=None):
 
 # ---------------------------------------------------------------- rules
 
-def load_rules(start=False):
-    ranges = dict(SHIPPED_RANGES, **(START_RANGES if start else {}))
+def load_rules(start=False, small=False):
+    ranges = dict(SHIPPED_RANGES, **(START_RANGES if start else {}), **(SMALL_RANGES if small else {}))
     return [(key, label, ranges[key][0], ranges[key][1]) for key, label in RULE_LABELS if key in ranges]
 
 
@@ -1226,7 +1245,7 @@ RULE_LABELS = [
 ]
 
 # Min and max over the thirteen shipped towns of SHIPPED (Bracada's Celeste approach left out: three houses round a
-# stable, no town), from `town_feel.py --shipped --json` on 2026-11-13; the monster figures and the town spread
+# stable, no town; the four small towns too, SMALL_RANGES), from `town_feel.py --shipped --json` on 2026-11-13; the monster figures and the town spread
 # again on 2026-11-14 (spawn indices read as the game reads them). Regenerate after a change to the measures.
 SHIPPED_RANGES = {
     "main_wall_share": (0.39, 1.0),
@@ -1330,6 +1349,25 @@ START_RANGES = {
     "town_outer_share": (0.03, 0.29),
 }
 
+# --small (decision D-20, 2026-11-20): a town of nine services or fewer (Xeen's Nightshadow) is judged on its size
+# figures by the thirteen towns and the four small towns the main ranges leave out (Deyja 7out05, Mount Nighon out10,
+# Paradise Valley outa2, Kriegspire outb1; measured 2026-11-20: services 5-7, residences 6-16, nearest service
+# 854-1891, tavern rank 0-0.94, built share 0.15-0.32, farthest service 3203-5585, service pairs 1526-5169, core
+# radius 2360-4141), and the spread and magic shop to alchemist have no lower bound.
+SMALL_RANGES = {
+    "service_count": (5, 25),
+    "residence_count": (6, 56),
+    "service_nearest_median": (854, 2424),
+    "tavern_edge_rank": (0.0, 0.94),
+    "town_built_share": (0.15, 0.37),
+    "farthest_service": (3203, 16598),
+    "service_pair_median": (1526, 8789),
+    "town_core_radius": (2360, 6552),
+    "town_spread_p90": (None, 13228),
+    "town_farthest_house": (None, 17027),
+    "magic_alchemist_dist": (None, 5677),
+}
+
 
 def report(name, figures, rules):
     print(f"== {name}")
@@ -1353,7 +1391,7 @@ def report(name, figures, rules):
     return outside
 
 
-def report_json(name, figures, rules, start):
+def report_json(name, figures, rules, start, small=False):
     """The figures with each rule's range and verdict, as the studio's town feel job reports them."""
     checked = []
     outside = 0
@@ -1364,7 +1402,7 @@ def report_json(name, figures, rules, start):
         checked.append({"key": key, "label": label, "low": low, "high": high,
                         "value": value if isinstance(value, (int, float)) else None,
                         "verdict": "n/a" if value is None else "out" if out else "ok"})
-    return {"map": name, "start": start, "town_box": [round(v) for v in figures.get("town_box") or []],
+    return {"map": name, "start": start, "small": small, "town_box": [round(v) for v in figures.get("town_box") or []],
             "houses_in_town": figures.get("houses_in_town"), "rules": checked, "outside": outside,
             "figures": json.loads(json.dumps(figures, default=str))}
 
@@ -1391,11 +1429,12 @@ def main():
     parser.add_argument("--json", action="store_true")
     parser.add_argument("--shipped", action="store_true", help="measure every shipped town")
     parser.add_argument("--start", action="store_true", help="a start or early map: the start maps' ranges")
+    parser.add_argument("--small", action="store_true", help="a small town: the small towns' size ranges")
     parser.add_argument("--project", help="a built outdoor project folder instead of a map")
     parser.add_argument("--report-json", action="store_true", help="figures, ranges and verdicts as JSON")
     args = parser.parse_args()
     assets = Path(args.assets).resolve()
-    rules = load_rules(args.start)
+    rules = load_rules(args.start, args.small)
     if args.shipped:
         results = {}
         for world, map_name, title, box in SHIPPED:
@@ -1416,7 +1455,7 @@ def main():
     box = tuple(float(v) for v in args.town.split(",")) if args.town else None
     figures = measure(args.map, args.world, assets, box, project)
     if args.report_json:
-        print(json.dumps(report_json(Path(args.map).name, figures, rules, args.start), indent=1))
+        print(json.dumps(report_json(Path(args.map).name, figures, rules, args.start, args.small), indent=1))
     elif args.json:
         print(json.dumps(figures, indent=1, default=str))
     else:

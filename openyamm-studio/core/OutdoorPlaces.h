@@ -31,6 +31,9 @@ struct OutdoorPlacedDecoration
     // entry's `event`, filled by the build), 0 for none.
     int entry = -1;
     int event = 0;
+    // The way it is turned, in degrees counter-clockwise seen from above as the ODM stores it (0: as drawn); a
+    // structure's `turn` (degrees clockwise) sets it.
+    int facing = 0;
 };
 
 struct OutdoorPlacedSpawn

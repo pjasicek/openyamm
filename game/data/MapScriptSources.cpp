@@ -3,6 +3,8 @@
 #include "game/StringUtils.h"
 #include "game/maps/MapIdentity.h"
 
+#include <algorithm>
+
 namespace OpenYAMM::Game
 {
 std::optional<std::string> readFirstExistingText(
@@ -255,19 +257,39 @@ std::vector<std::string> buildLuaSupportPathCandidates()
     };
 }
 
-std::vector<std::string> buildLuaWorldCommonPathCandidates(const std::string &worldId)
+std::vector<std::string> buildLuaWorldCommonPathCandidates(
+    const Engine::AssetFileSystem &assetFileSystem,
+    const std::string &worldId)
 {
-    std::vector<std::string> candidates = {
-        "events/common/world_common.lua",
-        "events/common/common.lua",
-    };
+    const std::string normalizedWorldId = normalizeWorldId(worldId);
 
-    if (!worldId.empty())
+    if (normalizedWorldId.empty())
     {
-        const std::string normalizedWorldId = normalizeWorldId(worldId);
-        candidates.push_back("events/common/" + normalizedWorldId + "_common.lua");
+        return {};
     }
 
+    const std::string directory = "worlds/" + normalizedWorldId + "/events/common/";
+    const std::string ownPrefix = normalizedWorldId + "_";
+    const std::string ownCommon = ownPrefix + "common.lua";
+    std::vector<std::string> candidates = {
+        directory + "world_common.lua",
+        directory + "common.lua",
+        directory + ownCommon,
+    };
+    std::vector<std::string> ownScripts;
+
+    for (const std::string &entry : assetFileSystem.enumerate(directory.substr(0, directory.size() - 1)))
+    {
+        const std::string name = toLowerCopy(entry);
+
+        if (name.starts_with(ownPrefix) && name.ends_with(".lua") && name != ownCommon)
+        {
+            ownScripts.push_back(directory + entry);
+        }
+    }
+
+    std::sort(ownScripts.begin(), ownScripts.end());
+    candidates.insert(candidates.end(), ownScripts.begin(), ownScripts.end());
     return candidates;
 }
 
